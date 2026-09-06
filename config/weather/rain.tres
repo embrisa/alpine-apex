@@ -1,0 +1,19 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/presentation/weather_preset.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+label = "Rain"
+cloud_coverage = 0.96
+rain = 0.9
+spindrift = 0.0
+wind_velocity = Vector3(8,0,3)
+sky_top = Color(0.3255,0.4039,0.4941,1)
+sky_horizon = Color(0.6196,0.6863,0.749,1)
+cloud_color = Color(0.5882,0.6588,0.7373,1)
+sun_color = Color(0.8196,0.8627,0.9255,1)
+sun_energy = 0.40
+ambient_energy = 0.46
+fog_color = Color(0.6196,0.6824,0.749,1)
+fog_density = 0.00024

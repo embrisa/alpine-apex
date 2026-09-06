@@ -1,0 +1,1016 @@
+{
+  "schema_version": 1,
+  "units": "metres",
+  "runtime_up_axis": "Y",
+  "sources": "See docs/GRAPHICS.md and art_source/meshy/credit_ledger.json",
+  "assets": [
+    {
+      "path": "assets/graphics/models/binding.glb",
+      "triangles": 324,
+      "bytes": 24840,
+      "sha256": "147c0cceaeecc0473b72a310da6ec73c62b0888ea1a9ec8185527d8cc90f0666"
+    },
+    {
+      "path": "assets/graphics/models/birch_1_lod0.glb",
+      "triangles": 11999,
+      "bytes": 584696,
+      "sha256": "c7e5e64e7f7886a42bc75f78b305e3cac075083f69d3d65e054bdc54f555edf8"
+    },
+    {
+      "path": "assets/graphics/models/birch_1_lod1.glb",
+      "triangles": 4500,
+      "bytes": 261900,
+      "sha256": "5aa6b752dd0abc29f71453e040d483e78e37620fe61d58e065c42d2973a6cb5a"
+    },
+    {
+      "path": "assets/graphics/models/birch_1_lod2.glb",
+      "triangles": 2,
+      "bytes": 1264,
+      "sha256": "28f1d7c5a80293cc4780c4702d779296ffee60bc05cef36ec2240895aa143aa1"
+    },
+    {
+      "path": "assets/graphics/models/birch_2_lod0.glb",
+      "triangles": 11999,
+      "bytes": 584696,
+      "sha256": "8666cf44b3efba2c5f2e5bd884b1f63f8a52472ed668d43c49faad15aab34c8b"
+    },
+    {
+      "path": "assets/graphics/models/birch_2_lod1.glb",
+      "triangles": 4500,
+      "bytes": 261900,
+      "sha256": "746a445695dfe8a42d022c448085db15cbc6beefe5bea14a3f386d1c0b3b294e"
+    },
+    {
+      "path": "assets/graphics/models/birch_2_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "68acd865476709bdd61ff943390d0de0821127a2149176db7bde60b643656eab"
+    },
+    {
+      "path": "assets/graphics/models/birch_3_lod0.glb",
+      "triangles": 11999,
+      "bytes": 584696,
+      "sha256": "07fdb26a9303478dcc7f530b5a577ba9710a1a522b53847b5e678f261af89fcd"
+    },
+    {
+      "path": "assets/graphics/models/birch_3_lod1.glb",
+      "triangles": 4500,
+      "bytes": 261900,
+      "sha256": "fb02e1876615cb244667dd6b84f65e07ed76f42d132e434f0d0e3f7ba7e41df2"
+    },
+    {
+      "path": "assets/graphics/models/birch_3_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "1b4a93798527f46a0dfea3a2f1af465e4558a8f084d1e9d61025004a025882c7"
+    },
+    {
+      "path": "assets/graphics/models/birch_4_lod0.glb",
+      "triangles": 11999,
+      "bytes": 584692,
+      "sha256": "27a7f1de3c708b6451c8d841f2fe1c8b05152fec923e0d1a862238942b8c9238"
+    },
+    {
+      "path": "assets/graphics/models/birch_4_lod1.glb",
+      "triangles": 4500,
+      "bytes": 261900,
+      "sha256": "de3434fdb184a2be8bb824d30438b472777bc50a5344fc1ccadc83dc893c4720"
+    },
+    {
+      "path": "assets/graphics/models/birch_4_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "59fc7ae654814c8851180ec70fdc4c4ca3b60b5bd4aff0272a69eefc18e009aa"
+    },
+    {
+      "path": "assets/graphics/models/boot.glb",
+      "triangles": 540,
+      "bytes": 38820,
+      "sha256": "4fdf5d22c15e9a882ebffefd07d5550f1290edb07af3a8f6776f13f14450a66c"
+    },
+    {
+      "path": "assets/graphics/models/boulder_1.glb",
+      "triangles": 320,
+      "bytes": 9684,
+      "sha256": "f6956c1fc81f20e2b8b7c95de0c5a108ca74a162852d14b850e26f63512424b6"
+    },
+    {
+      "path": "assets/graphics/models/boulder_2.glb",
+      "triangles": 320,
+      "bytes": 9692,
+      "sha256": "5e05050205f3a3dd4c11c828c92dbe6b1dd7d8b9fd7151ebee73af3a9088b275"
+    },
+    {
+      "path": "assets/graphics/models/boulder_3.glb",
+      "triangles": 320,
+      "bytes": 9688,
+      "sha256": "08bb4d974e03bf478ffbf50cfb45ec634ab9586c068d5f48f66b0efbd0410636"
+    },
+    {
+      "path": "assets/graphics/models/fir_1_lod0.glb",
+      "triangles": 13999,
+      "bytes": 774996,
+      "sha256": "1a135c6b7cb1e2cb8d01bba53c784d54d87b11371bc77ca07d502847d7bdca88"
+    },
+    {
+      "path": "assets/graphics/models/fir_1_lod1.glb",
+      "triangles": 6773,
+      "bytes": 370776,
+      "sha256": "e5ec0fa53606d60f8c1b8c7eb050594eecc1c166c94f975c35226343d3f7ebd8"
+    },
+    {
+      "path": "assets/graphics/models/fir_1_lod2.glb",
+      "triangles": 2,
+      "bytes": 1260,
+      "sha256": "7b182095015f3614d30e612b467ab152cbb0a8fd16cc44ad6aa197a702274663"
+    },
+    {
+      "path": "assets/graphics/models/fir_2_lod0.glb",
+      "triangles": 13999,
+      "bytes": 774996,
+      "sha256": "e116e89e5507273a3ee58369709f0e8cd5e24df9eb693b87ed71cc90531edec2"
+    },
+    {
+      "path": "assets/graphics/models/fir_2_lod1.glb",
+      "triangles": 6773,
+      "bytes": 370772,
+      "sha256": "189f34683ca9340507f10c794d9c240b52a16d98316748d49bafbd4de60433fd"
+    },
+    {
+      "path": "assets/graphics/models/fir_2_lod2.glb",
+      "triangles": 2,
+      "bytes": 1264,
+      "sha256": "2c7d58f239bec1b0f7c2c0af23d69deefcc05d41ea3cf0c6e99d9f641b5ab477"
+    },
+    {
+      "path": "assets/graphics/models/fir_3_lod0.glb",
+      "triangles": 13999,
+      "bytes": 774996,
+      "sha256": "149724540a0737d245016401d68f6d47da871b272a5496356833845a2a8e5203"
+    },
+    {
+      "path": "assets/graphics/models/fir_3_lod1.glb",
+      "triangles": 6773,
+      "bytes": 370776,
+      "sha256": "07abe185990aa4dbd1637957fbc80b4b48d5a463935b2a75cf603b3e0a646235"
+    },
+    {
+      "path": "assets/graphics/models/fir_3_lod2.glb",
+      "triangles": 2,
+      "bytes": 1264,
+      "sha256": "b26b6dfa6d570288f8627b21d9c59cd1aa04f64f90986fe985361d864ff4461d"
+    },
+    {
+      "path": "assets/graphics/models/fir_4_lod0.glb",
+      "triangles": 13999,
+      "bytes": 774996,
+      "sha256": "b2b4bd2d72da3ec21b92e06cef174bf99739121f0afdaf15b680743c585fe61d"
+    },
+    {
+      "path": "assets/graphics/models/fir_4_lod1.glb",
+      "triangles": 6773,
+      "bytes": 370772,
+      "sha256": "58aaada050fb646860c907c3ab7b0731aa2003b9406239bc6788062160477f27"
+    },
+    {
+      "path": "assets/graphics/models/fir_4_lod2.glb",
+      "triangles": 2,
+      "bytes": 1264,
+      "sha256": "c88e5b0a9ca651b5e3d8dc5b794bc26379d85bdd7f4c8f7c8a04846f078a901a"
+    },
+    {
+      "path": "assets/graphics/models/hollow_snag_1_lod0.glb",
+      "triangles": 5999,
+      "bytes": 230492,
+      "sha256": "c88972a41adfc5f773812ee12215c8571f9bafc639d1aa0dbab270a533b54f0f"
+    },
+    {
+      "path": "assets/graphics/models/hollow_snag_1_lod1.glb",
+      "triangles": 1800,
+      "bytes": 94252,
+      "sha256": "34b69d490fd52317171cb255252d8f5c5c8017bb0b24c3fe29ca7fc893e2f870"
+    },
+    {
+      "path": "assets/graphics/models/hollow_snag_1_lod2.glb",
+      "triangles": 2,
+      "bytes": 1276,
+      "sha256": "2f3a81782224f4f893d638aad16568e33c3c583b1670706ab4d593de1e3bdb92"
+    },
+    {
+      "path": "assets/graphics/models/hollow_snag_2_lod0.glb",
+      "triangles": 5999,
+      "bytes": 230492,
+      "sha256": "1fc17add1e0c9f4682642a09e938aaa470628a466580de58b08a958e8a974dab"
+    },
+    {
+      "path": "assets/graphics/models/hollow_snag_2_lod1.glb",
+      "triangles": 1800,
+      "bytes": 94252,
+      "sha256": "25bc428b2f495e2fd4d7d7b7e09888e546e2c61fe5c6bc93decd265898fb1603"
+    },
+    {
+      "path": "assets/graphics/models/hollow_snag_2_lod2.glb",
+      "triangles": 2,
+      "bytes": 1280,
+      "sha256": "327a8557d6a84590c638c2d799bc43b508f89972ccdac107b3297ae7c34859fc"
+    },
+    {
+      "path": "assets/graphics/models/hollow_snag_3_lod0.glb",
+      "triangles": 5999,
+      "bytes": 230492,
+      "sha256": "d224c561c0b9120705820f08f7b1d23656ca343a49a4880e33e2a8be72c1a1cf"
+    },
+    {
+      "path": "assets/graphics/models/hollow_snag_3_lod1.glb",
+      "triangles": 1800,
+      "bytes": 94252,
+      "sha256": "c4b88af0bcfad2ebcb1abeaf89ed739447c294b7b5947d21438e660fe0df5b06"
+    },
+    {
+      "path": "assets/graphics/models/hollow_snag_3_lod2.glb",
+      "triangles": 2,
+      "bytes": 1280,
+      "sha256": "87622546c43256f70d5ac84bd80b1089bd1067dfadcf3330a1e54a41167897c5"
+    },
+    {
+      "path": "assets/graphics/models/hollow_snag_4_lod0.glb",
+      "triangles": 5999,
+      "bytes": 230492,
+      "sha256": "e955178a5359766c4e3f67e8004c875923d5dee38afe385c77801a12ba09b55c"
+    },
+    {
+      "path": "assets/graphics/models/hollow_snag_4_lod1.glb",
+      "triangles": 1800,
+      "bytes": 94252,
+      "sha256": "d1ca4b06d1f431a23c9f056d69240a1271e82e52130a220e25c06535c0b5d178"
+    },
+    {
+      "path": "assets/graphics/models/hollow_snag_4_lod2.glb",
+      "triangles": 2,
+      "bytes": 1280,
+      "sha256": "8626fca2049b738a21410a5c762bae380656850ca96e7efc60dbd65e85f23d40"
+    },
+    {
+      "path": "assets/graphics/models/larch_1_lod0.glb",
+      "triangles": 18340,
+      "bytes": 997748,
+      "sha256": "81f1a41ec737ab67d939d6f482bb2ed4a2687638fc51442b8d5e161afe8d9b71"
+    },
+    {
+      "path": "assets/graphics/models/larch_1_lod1.glb",
+      "triangles": 18340,
+      "bytes": 997748,
+      "sha256": "18ff943663f26c38febbe4de69e62aac98d7ff50108b458196ca8b1adb80728c"
+    },
+    {
+      "path": "assets/graphics/models/larch_1_lod2.glb",
+      "triangles": 2,
+      "bytes": 1264,
+      "sha256": "8111fff299a1590c9e25a9a66cb1e00f1e4cbe35a9cca6a9aa2c86ef9ee73754"
+    },
+    {
+      "path": "assets/graphics/models/larch_2_lod0.glb",
+      "triangles": 18340,
+      "bytes": 997748,
+      "sha256": "dc331c751fdf2811c75b91ab1b2dcad0bcb46f0e714f159bba5b5d48ffeea40f"
+    },
+    {
+      "path": "assets/graphics/models/larch_2_lod1.glb",
+      "triangles": 18340,
+      "bytes": 997748,
+      "sha256": "fc128a0a35291c43c2f01860aeb07c5f196e49dfaa21ba9e906d80a9659e4dba"
+    },
+    {
+      "path": "assets/graphics/models/larch_2_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "3629020bf07ba5cec885678038885fbfabb2bf0025235d36c1654e771228b923"
+    },
+    {
+      "path": "assets/graphics/models/larch_3_lod0.glb",
+      "triangles": 18340,
+      "bytes": 997748,
+      "sha256": "20aba60559f2b4f7a8acabbc00c9337935836288c9a0fc7c934184f9adb84d88"
+    },
+    {
+      "path": "assets/graphics/models/larch_3_lod1.glb",
+      "triangles": 18340,
+      "bytes": 997748,
+      "sha256": "af3843b96429d87882d25f8e0ddff89fab2344afb14805375f7f45471d66e179"
+    },
+    {
+      "path": "assets/graphics/models/larch_3_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "e235fc6fe6fea4a7f3780f76f4142da134c13e625b5146d507a1a65d532a593e"
+    },
+    {
+      "path": "assets/graphics/models/larch_4_lod0.glb",
+      "triangles": 18340,
+      "bytes": 997748,
+      "sha256": "353538b1e645729ccc3bbcddb0161c83efa7d35e8a17a0ab9507ef8df821d2c7"
+    },
+    {
+      "path": "assets/graphics/models/larch_4_lod1.glb",
+      "triangles": 18340,
+      "bytes": 997748,
+      "sha256": "896c546b41b4b80509b37ac5f26bc6ad85118c0b2000b0e03c847f14c403b96c"
+    },
+    {
+      "path": "assets/graphics/models/larch_4_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "895ebe70ca03e420db4e9586c56cab70193c51ac83cbc242d577fe5df9c21433"
+    },
+    {
+      "path": "assets/graphics/models/pine_1_lod0.glb",
+      "triangles": 14000,
+      "bytes": 591800,
+      "sha256": "192ed3ee9ae15143579205ee4f0fc6117f94c70f6e80391baa7f49cb00b60c7e"
+    },
+    {
+      "path": "assets/graphics/models/pine_1_lod1.glb",
+      "triangles": 4500,
+      "bytes": 251468,
+      "sha256": "d0fd0daad5736417a89dadbd466f506a8f1758736efef859f155dde052fb5b32"
+    },
+    {
+      "path": "assets/graphics/models/pine_1_lod2.glb",
+      "triangles": 2,
+      "bytes": 1264,
+      "sha256": "2b3e77b469f6539d7cb679a7db88c6479f6af73e728aefaff77d211a391274af"
+    },
+    {
+      "path": "assets/graphics/models/pine_2_lod0.glb",
+      "triangles": 14000,
+      "bytes": 591804,
+      "sha256": "744bc048a4034a971bc0154cbc11fd1ceaa543e33341edb9fd47b5027cdfc4de"
+    },
+    {
+      "path": "assets/graphics/models/pine_2_lod1.glb",
+      "triangles": 4500,
+      "bytes": 251468,
+      "sha256": "db5f1cb83700ce9d7205e8dc194d967f4bcee43f7c5a43aa810223bd1fdad3ae"
+    },
+    {
+      "path": "assets/graphics/models/pine_2_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "1fbac6305497bc843bab0b88192e1d836aa7da1a69af57c735784833407f2caf"
+    },
+    {
+      "path": "assets/graphics/models/pine_3_lod0.glb",
+      "triangles": 14000,
+      "bytes": 591804,
+      "sha256": "196468de5ab45f23dabf9518e05ea2a6e24b175b15b54f00e3dfd0fdc0bb2fc9"
+    },
+    {
+      "path": "assets/graphics/models/pine_3_lod1.glb",
+      "triangles": 4500,
+      "bytes": 251468,
+      "sha256": "eb1c83ed8a9f8c4cbc131b67443b81efee34c704f6c45d84953874a9a70c1c08"
+    },
+    {
+      "path": "assets/graphics/models/pine_3_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "44a86a9e2723299e62c71bc80bf7d83262913c5b2c7b48acf0d668265ef5bfac"
+    },
+    {
+      "path": "assets/graphics/models/pine_4_lod0.glb",
+      "triangles": 14000,
+      "bytes": 591804,
+      "sha256": "5531fca7ddf199f8a4ff2f589d1902b2adbbcc5cc8278053143b1c74f9fe8383"
+    },
+    {
+      "path": "assets/graphics/models/pine_4_lod1.glb",
+      "triangles": 4500,
+      "bytes": 251468,
+      "sha256": "a613a7f522dd00f6b54bb264ddba36558534672829d703f5e0823c372e71f71f"
+    },
+    {
+      "path": "assets/graphics/models/pine_4_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "7d439956a1d7b64d998e270abc9bdd37162866ce971f6743ecf5e8c7a0c617c8"
+    },
+    {
+      "path": "assets/graphics/models/pole.glb",
+      "triangles": 100,
+      "bytes": 8676,
+      "sha256": "92631ce0fcd93f975fe751182c9da80867141d0aa71d340ee8ffe6d7a8f58bcb"
+    },
+    {
+      "path": "assets/graphics/models/ridge_1.glb",
+      "triangles": 9600,
+      "bytes": 217156,
+      "sha256": "1c5ceddf3ee72c12966df884c0fea28df24eedb23ca1a62227cf6a693b1207ce"
+    },
+    {
+      "path": "assets/graphics/models/ridge_2.glb",
+      "triangles": 9600,
+      "bytes": 217164,
+      "sha256": "dce2e77a13aa12850f1ee21bd5a8df4a504a427ff0ae562138c9faf3464954b8"
+    },
+    {
+      "path": "assets/graphics/models/ridge_3.glb",
+      "triangles": 9600,
+      "bytes": 217164,
+      "sha256": "36cfb4eac66401e569dc5bc432ba2ad498ec1381d021c9aa90adecd8b3a71a44"
+    },
+    {
+      "path": "assets/graphics/models/rock_boulder_1.glb",
+      "triangles": 320,
+      "bytes": 9692,
+      "sha256": "c2e795b08d2e65f70e79640d6f89c799fdadd3716e181a6e7a7bae14af72ac2e"
+    },
+    {
+      "path": "assets/graphics/models/rock_boulder_2.glb",
+      "triangles": 320,
+      "bytes": 9700,
+      "sha256": "b5de45e3be6ace61e5e90af926aef799a0522a8a359ad0a9cf88a5dc1a7f90d9"
+    },
+    {
+      "path": "assets/graphics/models/rock_gneiss_1.glb",
+      "triangles": 1100,
+      "bytes": 20920,
+      "sha256": "ed15da3da3c2d2d952d1a68ef45955fd377aac80452fe219e62b917e2a950330"
+    },
+    {
+      "path": "assets/graphics/models/rock_gneiss_2.glb",
+      "triangles": 1100,
+      "bytes": 20920,
+      "sha256": "ea6c85f04b01a398866c946a278f48493e9f6c24128e94d3fc56b7cb4d6e0dc5"
+    },
+    {
+      "path": "assets/graphics/models/rock_gneiss_3.glb",
+      "triangles": 1100,
+      "bytes": 20920,
+      "sha256": "040567c01b92360739e7effe168b771262c68f6246de020de24e0e384b4ee794"
+    },
+    {
+      "path": "assets/graphics/models/rock_gneiss_4.glb",
+      "triangles": 1100,
+      "bytes": 20920,
+      "sha256": "e3db2c446326d351483a89dd9c0ee9ee30b161dc1747cde4e014ba99b8e8bdbd"
+    },
+    {
+      "path": "assets/graphics/models/rock_granite_1.glb",
+      "triangles": 1099,
+      "bytes": 20364,
+      "sha256": "ba1c2eaf87fa0c232cfbf159e721dab502d8c2f3c03fef87e626d8a3654a75d2"
+    },
+    {
+      "path": "assets/graphics/models/rock_granite_2.glb",
+      "triangles": 1099,
+      "bytes": 20364,
+      "sha256": "a398cf07a2b774b0adc30b1720cdbd6b598b56f6fde45984ee1ec6004d2eb6da"
+    },
+    {
+      "path": "assets/graphics/models/rock_granite_3.glb",
+      "triangles": 1099,
+      "bytes": 20364,
+      "sha256": "33ae8207aaf6af7d184736400bf4ba0b1c27106d27e95f2a11c56373baf8f26e"
+    },
+    {
+      "path": "assets/graphics/models/rock_granite_4.glb",
+      "triangles": 1099,
+      "bytes": 20364,
+      "sha256": "0488536d1d26bdafd7660a2f269713a4f2eb2317a3daf81dcbd73f56a87a7292"
+    },
+    {
+      "path": "assets/graphics/models/rock_limestone_1.glb",
+      "triangles": 1100,
+      "bytes": 20876,
+      "sha256": "86b914610c53b08ea4bd071b19bd84d5105fdc33d2274d6164fb9df72857159a"
+    },
+    {
+      "path": "assets/graphics/models/rock_limestone_2.glb",
+      "triangles": 1100,
+      "bytes": 20876,
+      "sha256": "a4202a978d6ad3d2f5497a71f8caa48a6e16219f073d07ef4cd97ff74f8020e1"
+    },
+    {
+      "path": "assets/graphics/models/rock_limestone_3.glb",
+      "triangles": 1100,
+      "bytes": 20872,
+      "sha256": "b7bf74d86fbabb25579972c437761062a66f506dad354c526f4907a94ec6927d"
+    },
+    {
+      "path": "assets/graphics/models/rock_limestone_4.glb",
+      "triangles": 1100,
+      "bytes": 20876,
+      "sha256": "1736f2fa5b8e924833fd284dad57489d728fbddecfe4c438d4f50b7439c07bec"
+    },
+    {
+      "path": "assets/graphics/models/rock_outcrop_1.glb",
+      "triangles": 1100,
+      "bytes": 17416,
+      "sha256": "8fd195f9566957921935546a0b8652551ff7c0c431cc818c98eaba28ccbcf880"
+    },
+    {
+      "path": "assets/graphics/models/rock_outcrop_2.glb",
+      "triangles": 1100,
+      "bytes": 17416,
+      "sha256": "a6a407c3a31c032a8db774b624f7bd77dde0869f07aaff06a64e8716bca388c0"
+    },
+    {
+      "path": "assets/graphics/models/rock_outcrop_3.glb",
+      "triangles": 1100,
+      "bytes": 17416,
+      "sha256": "c8edd261622a46d5dfa6977710850fdc089bab9ceb9bd68a2a21ffddbccd4438"
+    },
+    {
+      "path": "assets/graphics/models/rock_outcrop_4.glb",
+      "triangles": 1100,
+      "bytes": 17416,
+      "sha256": "5fb51fcb451383e0876ada91cab7e02e3c8852282a7ef4f964719b319024b764"
+    },
+    {
+      "path": "assets/graphics/models/rock_slate_1.glb",
+      "triangles": 1100,
+      "bytes": 20872,
+      "sha256": "ff928af0fe231b13caba14c9c39f5f03e0dbea197ce10e3ab8f9842f30e45403"
+    },
+    {
+      "path": "assets/graphics/models/rock_slate_2.glb",
+      "triangles": 1100,
+      "bytes": 20868,
+      "sha256": "d96bc1de0c0f3ec1100c2c0a62490e9cea780bea001a2a216be4c3594be4e0a1"
+    },
+    {
+      "path": "assets/graphics/models/rock_slate_3.glb",
+      "triangles": 1100,
+      "bytes": 20872,
+      "sha256": "fa2144903a9e9cafde6d734a6766d641987260e976fd273075fc1e8ddc5f885f"
+    },
+    {
+      "path": "assets/graphics/models/rock_slate_4.glb",
+      "triangles": 1100,
+      "bytes": 20872,
+      "sha256": "6259b0b2913f950404f5fde8f305b7d7aed374e03fa7425b0e28312fd951c8eb"
+    },
+    {
+      "path": "assets/graphics/models/rock_split_rock_1.glb",
+      "triangles": 1100,
+      "bytes": 19720,
+      "sha256": "01f59595883e5fcde309458469712f6f0e60e6018131542adb8580e74921061d"
+    },
+    {
+      "path": "assets/graphics/models/rock_split_rock_2.glb",
+      "triangles": 1100,
+      "bytes": 19724,
+      "sha256": "60d66f6df53bb3d4e0a345c34adf19883ed0103a43bbac1fb53f246868e3ce4f"
+    },
+    {
+      "path": "assets/graphics/models/rock_split_rock_3.glb",
+      "triangles": 1100,
+      "bytes": 19724,
+      "sha256": "488b378dd6000694dbce461bf16d174c7198947b2e2aed09d3646e79207d02cf"
+    },
+    {
+      "path": "assets/graphics/models/rock_split_rock_4.glb",
+      "triangles": 1100,
+      "bytes": 19724,
+      "sha256": "49308c110cd8844ed3c55eb4f74dbb10b161d23379ff8bb6dc758b1aa39e57cd"
+    },
+    {
+      "path": "assets/graphics/models/rowan_1_lod0.glb",
+      "triangles": 18339,
+      "bytes": 960432,
+      "sha256": "faeab23090d153abc1f216749d5a9c71639e103735227e2b9fbe9f050e5340d7"
+    },
+    {
+      "path": "assets/graphics/models/rowan_1_lod1.glb",
+      "triangles": 18339,
+      "bytes": 960432,
+      "sha256": "c3d60637ab1fb9e5458167d9820595f624588069738eb49185c1fcbfef9cd6ce"
+    },
+    {
+      "path": "assets/graphics/models/rowan_1_lod2.glb",
+      "triangles": 2,
+      "bytes": 1264,
+      "sha256": "aba620289ef298d6eb6d58683e1694fb5732ddfc02d1241428799fceeec5e3a4"
+    },
+    {
+      "path": "assets/graphics/models/rowan_2_lod0.glb",
+      "triangles": 18339,
+      "bytes": 960436,
+      "sha256": "eaa3807cce9fab50642a9dc3c7b0e27e66318288f69e4a109e3b23f16e9709c3"
+    },
+    {
+      "path": "assets/graphics/models/rowan_2_lod1.glb",
+      "triangles": 18339,
+      "bytes": 960436,
+      "sha256": "0c755ed189552dd12b1adc8f842a954ded0872fda615e139a1cb47c6692d54bf"
+    },
+    {
+      "path": "assets/graphics/models/rowan_2_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "49d29d70fcb89eaeaa097dbf7df0be5e3d444094a73ab37ac092fd4d1508e08f"
+    },
+    {
+      "path": "assets/graphics/models/rowan_3_lod0.glb",
+      "triangles": 18339,
+      "bytes": 960432,
+      "sha256": "f583ca78a46fc697a5738acf0ab5188beac4fac137a5f0f20c4e210885248ef5"
+    },
+    {
+      "path": "assets/graphics/models/rowan_3_lod1.glb",
+      "triangles": 18339,
+      "bytes": 960432,
+      "sha256": "427987d48bfcf827c91a01149da1621b88c027438b1f6e31d7cae0f0bdb43e95"
+    },
+    {
+      "path": "assets/graphics/models/rowan_3_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "d9d3c63b5917236eba496a4e9e8ce789c583c6ba33c5b819709c5bf0cf2bb38f"
+    },
+    {
+      "path": "assets/graphics/models/rowan_4_lod0.glb",
+      "triangles": 18339,
+      "bytes": 960432,
+      "sha256": "df0b4a987578d531d56822e1759d4a4d1deb38301a0b35633f920f8aa650c82f"
+    },
+    {
+      "path": "assets/graphics/models/rowan_4_lod1.glb",
+      "triangles": 18339,
+      "bytes": 960432,
+      "sha256": "4a28627197b42e7cebcef34c2c007f9dc0c9d067bb2d5f31acbf0f9e11a0e60b"
+    },
+    {
+      "path": "assets/graphics/models/rowan_4_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "26188b71efad650c01af8ea3fc1175faf35bd42b68fa818ea9a2999ecfbd75bb"
+    },
+    {
+      "path": "assets/graphics/models/scots_pine_1_lod0.glb",
+      "triangles": 13999,
+      "bytes": 747332,
+      "sha256": "91195f260e2292589d1697fad5977ac87237603ab06db0370eea22f616cb2fc9"
+    },
+    {
+      "path": "assets/graphics/models/scots_pine_1_lod1.glb",
+      "triangles": 11307,
+      "bytes": 597288,
+      "sha256": "e86bb27af697655704c26bbeae74e3f312a7346caec881bcefa76ca73e1df160"
+    },
+    {
+      "path": "assets/graphics/models/scots_pine_1_lod2.glb",
+      "triangles": 2,
+      "bytes": 1276,
+      "sha256": "c01bb1c20bbcb77da22ed812dd714de6b30321a73210e65cc919f95af745041e"
+    },
+    {
+      "path": "assets/graphics/models/scots_pine_2_lod0.glb",
+      "triangles": 13999,
+      "bytes": 747332,
+      "sha256": "9f8c78fd00243991eb002641acde1b38b197e2f2b214c4f2bed0ccdd4d49e722"
+    },
+    {
+      "path": "assets/graphics/models/scots_pine_2_lod1.glb",
+      "triangles": 11307,
+      "bytes": 597292,
+      "sha256": "a1b76c4f5e998c8a8568ce6cb00dfa2eaa0b99c965c20e151c5ecc61666842de"
+    },
+    {
+      "path": "assets/graphics/models/scots_pine_2_lod2.glb",
+      "triangles": 2,
+      "bytes": 1280,
+      "sha256": "99ec3064bf83173b5121a5e1d8b6e3875f8cf7ebe2d54609315f01c2bf1e318d"
+    },
+    {
+      "path": "assets/graphics/models/scots_pine_3_lod0.glb",
+      "triangles": 13999,
+      "bytes": 747328,
+      "sha256": "f17ba6429d92bb393d788a8ca6cf5c521c45579003e9e176663c894d37e8d180"
+    },
+    {
+      "path": "assets/graphics/models/scots_pine_3_lod1.glb",
+      "triangles": 11307,
+      "bytes": 597288,
+      "sha256": "5f5662c779dd45ebc58e3ae56ec1f9f900d705fe45d3e4ed7fe41006348ce014"
+    },
+    {
+      "path": "assets/graphics/models/scots_pine_3_lod2.glb",
+      "triangles": 2,
+      "bytes": 1280,
+      "sha256": "ff11d5b89d03db12f06f1bac8bd79eaa04b2cb8f1a9e9fa222b8b8d620259afb"
+    },
+    {
+      "path": "assets/graphics/models/scots_pine_4_lod0.glb",
+      "triangles": 13999,
+      "bytes": 747332,
+      "sha256": "845b757acacf01d0f0ea9fa604c316d19e9d62605c66191cfbe59c393e232fad"
+    },
+    {
+      "path": "assets/graphics/models/scots_pine_4_lod1.glb",
+      "triangles": 11307,
+      "bytes": 597288,
+      "sha256": "1066e0e09aa3dfb4b5c856d036f584714708ddf9147aa56ee0378579695bd80d"
+    },
+    {
+      "path": "assets/graphics/models/scots_pine_4_lod2.glb",
+      "triangles": 2,
+      "bytes": 1280,
+      "sha256": "50b367019d1092522639c6b903df4b0940227a562a0d32603fa511111808daed"
+    },
+    {
+      "path": "assets/graphics/models/scrub_1.glb",
+      "triangles": 224,
+      "bytes": 11284,
+      "sha256": "009649f8c050741ec1844d0a4324a471d2ad41111cf291f38103c3979be88ff9"
+    },
+    {
+      "path": "assets/graphics/models/scrub_2.glb",
+      "triangles": 224,
+      "bytes": 11292,
+      "sha256": "ec5850d77889077a847af8cd2d874ace1260657e1cc59da1a89567982cb80459"
+    },
+    {
+      "path": "assets/graphics/models/ski.glb",
+      "triangles": 72,
+      "bytes": 8444,
+      "sha256": "69bd7adf2e28253f5cb095ba4523a74ee1f8f8e27b62b8aaadbea723e2bf7fa1"
+    },
+    {
+      "path": "assets/graphics/models/skier.glb",
+      "triangles": 40358,
+      "bytes": 24868084,
+      "sha256": "9adc865c45e7a153f81b83a6208adff4b07e66fd1b0a0e2e105f54be3f2d045f"
+    },
+    {
+      "path": "assets/graphics/models/snag_1_lod0.glb",
+      "triangles": 5998,
+      "bytes": 205672,
+      "sha256": "346520810bc274cb3a255b2219d73356d466234f0a818a6fe231d8dfb896ff63"
+    },
+    {
+      "path": "assets/graphics/models/snag_1_lod1.glb",
+      "triangles": 1800,
+      "bytes": 82400,
+      "sha256": "9955a0cdd48a98eaf297328ca569422c158535a9421b1fe2bfdda82dd34be33f"
+    },
+    {
+      "path": "assets/graphics/models/snag_1_lod2.glb",
+      "triangles": 2,
+      "bytes": 1264,
+      "sha256": "f6ae207bfd2a5379ca0a36a8a28b4ba23db266c78d8c64a668eb1094e62fdaa1"
+    },
+    {
+      "path": "assets/graphics/models/snag_2_lod0.glb",
+      "triangles": 5998,
+      "bytes": 205672,
+      "sha256": "a2b95737bb6b338299706435f99157381d85188a408da396c265f0fc2c56f7cb"
+    },
+    {
+      "path": "assets/graphics/models/snag_2_lod1.glb",
+      "triangles": 1800,
+      "bytes": 82396,
+      "sha256": "9404ba96e2593d3690ddee8c063d949b6df7698035d507baa4bfbca617e59343"
+    },
+    {
+      "path": "assets/graphics/models/snag_2_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "eea0868c1567d91238b4d520302e2c939776b8aa0a6db796e7fe6b981f92d8ba"
+    },
+    {
+      "path": "assets/graphics/models/snag_3_lod0.glb",
+      "triangles": 5998,
+      "bytes": 205672,
+      "sha256": "e4e5f20619a4acfd67c06c0f9669e315c4255d455c85560c272ffbbc4eb8e137"
+    },
+    {
+      "path": "assets/graphics/models/snag_3_lod1.glb",
+      "triangles": 1800,
+      "bytes": 82400,
+      "sha256": "c6209bf370c1be557c90c5ff7b3ebd8daf5ed1c30deba31f2efa9910b12e6a8a"
+    },
+    {
+      "path": "assets/graphics/models/snag_3_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "6850f122690b074b61f47b47ceaeed1ae6cf53d0c3652958af354bb85a83a70a"
+    },
+    {
+      "path": "assets/graphics/models/snag_4_lod0.glb",
+      "triangles": 5998,
+      "bytes": 205672,
+      "sha256": "eef8eaa303b85cc68bd642e1d57250e751b8c0e93f54ed8664b67b16283c49db"
+    },
+    {
+      "path": "assets/graphics/models/snag_4_lod1.glb",
+      "triangles": 1800,
+      "bytes": 82400,
+      "sha256": "d76826cfd10e42af766c9f69bdbe4eb4bf13b6cdd8007cb23a15dfa39d079199"
+    },
+    {
+      "path": "assets/graphics/models/snag_4_lod2.glb",
+      "triangles": 2,
+      "bytes": 1268,
+      "sha256": "9cc2fb7dff6e444a35fbe3c54f4f202750737b3e2febc6096e8a383ca21116d4"
+    },
+    {
+      "path": "assets/graphics/models/split_snag_1_lod0.glb",
+      "triangles": 6000,
+      "bytes": 219232,
+      "sha256": "8d2090c0d12db45783a90924c651ec7ad724752c29dd298ed68d36e4385e21bc"
+    },
+    {
+      "path": "assets/graphics/models/split_snag_1_lod1.glb",
+      "triangles": 1800,
+      "bytes": 88236,
+      "sha256": "7bb020c0e543891644e51b69e4354fb6fe20b45a8f4780b630efa5cd29ac8f92"
+    },
+    {
+      "path": "assets/graphics/models/split_snag_1_lod2.glb",
+      "triangles": 2,
+      "bytes": 1276,
+      "sha256": "3c007a70da7b06016d30eb2fdbe9ce3c3060e0e85b2e5d9323a2ad7ade08b808"
+    },
+    {
+      "path": "assets/graphics/models/split_snag_2_lod0.glb",
+      "triangles": 6000,
+      "bytes": 219228,
+      "sha256": "d7a5e06193d8bacb0609416e45816338bdb7e46d0c9449b140f42677a8e920cb"
+    },
+    {
+      "path": "assets/graphics/models/split_snag_2_lod1.glb",
+      "triangles": 1800,
+      "bytes": 88232,
+      "sha256": "a4663369e77cb9d820e791febef1f0b7ddafcfd29b8e157c5f9fefb44f600222"
+    },
+    {
+      "path": "assets/graphics/models/split_snag_2_lod2.glb",
+      "triangles": 2,
+      "bytes": 1280,
+      "sha256": "db6f770221aafb45d33ddca4f781608ff77786913cdfdb6c3cafe5ac6300a379"
+    },
+    {
+      "path": "assets/graphics/models/split_snag_3_lod0.glb",
+      "triangles": 6000,
+      "bytes": 219228,
+      "sha256": "5ab5f4076df88fb223f0daf4e42466bece4c47902f4b8fd08e83c7772a72bc4e"
+    },
+    {
+      "path": "assets/graphics/models/split_snag_3_lod1.glb",
+      "triangles": 1800,
+      "bytes": 88236,
+      "sha256": "fdedae46945d4f53e6e4618941c23a9d97a9d1a68bff9425637cdb9f20784a23"
+    },
+    {
+      "path": "assets/graphics/models/split_snag_3_lod2.glb",
+      "triangles": 2,
+      "bytes": 1280,
+      "sha256": "448c05a1d5914039e8779f0882dc9a7708256ef4a7dca3b205a1ad9a330fe397"
+    },
+    {
+      "path": "assets/graphics/models/split_snag_4_lod0.glb",
+      "triangles": 6000,
+      "bytes": 219232,
+      "sha256": "b1f49d2c5df49d07064d45a2103b13aeab75aa8e523c5de18834c6f8161c3687"
+    },
+    {
+      "path": "assets/graphics/models/split_snag_4_lod1.glb",
+      "triangles": 1800,
+      "bytes": 88232,
+      "sha256": "4311801cc8a7bed4dbd7c356c6f7134a42433d431b169a2f055a2c76236626c1"
+    },
+    {
+      "path": "assets/graphics/models/split_snag_4_lod2.glb",
+      "triangles": 2,
+      "bytes": 1280,
+      "sha256": "5c5964a48ec62a29c3788981055303b9cde83bfef12171a9215f66232ee8bc57"
+    },
+    {
+      "path": "assets/graphics/models/spruce_1_lod0.glb",
+      "triangles": 17996,
+      "bytes": 1273456,
+      "sha256": "fb23bde00aced89a3b914d5252abe4d9254328ccf3d340dda1f75307dd4327ac"
+    },
+    {
+      "path": "assets/graphics/models/spruce_1_lod1.glb",
+      "triangles": 6496,
+      "bytes": 528516,
+      "sha256": "dd0e43621d1192142d44d2a06590ccae0aca3639506944ac6c59fbb4ac1f4688"
+    },
+    {
+      "path": "assets/graphics/models/spruce_1_lod2.glb",
+      "triangles": 2,
+      "bytes": 1272,
+      "sha256": "bc3a99aaef7d03605f72fc2a246378966935211140e25ac0489ef28d845596fa"
+    },
+    {
+      "path": "assets/graphics/models/spruce_2_lod0.glb",
+      "triangles": 17997,
+      "bytes": 1272924,
+      "sha256": "2715197a418a6dae723f05e0f226a68e59a1634fb4a6c8b24d9352dbb8939164"
+    },
+    {
+      "path": "assets/graphics/models/spruce_2_lod1.glb",
+      "triangles": 6496,
+      "bytes": 527940,
+      "sha256": "dea194aa223277c2608ede55c12ae14464e3e982ecf89ad44ce47d1f91e13192"
+    },
+    {
+      "path": "assets/graphics/models/spruce_2_lod2.glb",
+      "triangles": 2,
+      "bytes": 1272,
+      "sha256": "bc9a797cd885a5d743682fcf7a4dee97c10706cfd0903732b9f744d7aec38720"
+    },
+    {
+      "path": "assets/graphics/models/spruce_3_lod0.glb",
+      "triangles": 17997,
+      "bytes": 1274968,
+      "sha256": "b2174a0c8f7d776e4e139391f88a5f9f4546aaaeae9328190fa203a6f6f8be03"
+    },
+    {
+      "path": "assets/graphics/models/spruce_3_lod1.glb",
+      "triangles": 6496,
+      "bytes": 529188,
+      "sha256": "37fcba6bd4b9863c97eb7fc634caafb1a2447b53d5a6c9b6dfeaa93fa7399054"
+    },
+    {
+      "path": "assets/graphics/models/spruce_3_lod2.glb",
+      "triangles": 2,
+      "bytes": 1272,
+      "sha256": "c3204911e700976b46fcca1de26fc8f505c8ab4c7939c780fc902b7bef7207cf"
+    },
+    {
+      "path": "assets/graphics/models/wind_pine_1_lod0.glb",
+      "triangles": 13999,
+      "bytes": 578720,
+      "sha256": "924f3a3a9136af90836a9cf87c69ca54234775fa1aa4e8a525d0a532a6acaa78"
+    },
+    {
+      "path": "assets/graphics/models/wind_pine_1_lod1.glb",
+      "triangles": 4499,
+      "bytes": 245552,
+      "sha256": "f33c7e399a10b79e72261f4e2e70a8fbb3793b6ec6ff257df1a46ac62845d748"
+    },
+    {
+      "path": "assets/graphics/models/wind_pine_1_lod2.glb",
+      "triangles": 2,
+      "bytes": 1272,
+      "sha256": "18e25966dda9eaa66d58cfec58c08631897940d4182aff624045d05909708462"
+    },
+    {
+      "path": "assets/graphics/models/wind_pine_2_lod0.glb",
+      "triangles": 13999,
+      "bytes": 578720,
+      "sha256": "6901cb5a76c53f97a3ae9f8d7b49dc514eadf4bce80c92a321c88eb9e57c3edc"
+    },
+    {
+      "path": "assets/graphics/models/wind_pine_2_lod1.glb",
+      "triangles": 4499,
+      "bytes": 245552,
+      "sha256": "659861d490a0351602e6317939006921ab82d0f746dcd8f398868cb2efe7733e"
+    },
+    {
+      "path": "assets/graphics/models/wind_pine_2_lod2.glb",
+      "triangles": 2,
+      "bytes": 1276,
+      "sha256": "1aeac28665db7476b48c65c3b5b94371a3990d0e097e5ab32745562e382d435a"
+    },
+    {
+      "path": "assets/graphics/models/wind_pine_3_lod0.glb",
+      "triangles": 13999,
+      "bytes": 578720,
+      "sha256": "552bed0fe1b793e0001738cb0fff402c7450d84bc684b6a85e2adc4d15510d16"
+    },
+    {
+      "path": "assets/graphics/models/wind_pine_3_lod1.glb",
+      "triangles": 4499,
+      "bytes": 245552,
+      "sha256": "9037752473ffc71e21d7a41cc1e8096997f34b0406d440bce035cb6cece61f81"
+    },
+    {
+      "path": "assets/graphics/models/wind_pine_3_lod2.glb",
+      "triangles": 2,
+      "bytes": 1276,
+      "sha256": "83dad9cc72b37bb8bbf24bf554ea9c03a750e42636dc2b658518b58c734c0214"
+    },
+    {
+      "path": "assets/graphics/models/wind_pine_4_lod0.glb",
+      "triangles": 13999,
+      "bytes": 578720,
+      "sha256": "37d1a6c84820e8de0818a081de94b39335f515b9aa3e17efdda69c7ff9acf527"
+    },
+    {
+      "path": "assets/graphics/models/wind_pine_4_lod1.glb",
+      "triangles": 4499,
+      "bytes": 245552,
+      "sha256": "261ac482c81688f71838e80740a8176a6358a43ff6572fd07f585ed2a893fb9b"
+    },
+    {
+      "path": "assets/graphics/models/wind_pine_4_lod2.glb",
+      "triangles": 2,
+      "bytes": 1276,
+      "sha256": "de08cebbaa18a5fcd08e2cd6630832e869cb988ff43ddb93a3d04920500eb918"
+    }
+  ]
+}

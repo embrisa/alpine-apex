@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Spruce_1_LOD0",
+    "triangles": 17996,
+    "dimensions": [
+      5.111137866973877,
+      6.241629600524902,
+      10.5
+    ],
+    "roundtrip_verified": true
+  },
+  {
+    "name": "Spruce_1_LOD1",
+    "triangles": 6496,
+    "dimensions": [
+      5.055582046508789,
+      6.220490455627441,
+      10.5
+    ],
+    "roundtrip_verified": true
+  },
+  {
+    "name": "Spruce_1_LOD2",
+    "triangles": 2869,
+    "dimensions": [
+      5.055582046508789,
+      5.921720504760742,
+      10.5
+    ],
+    "roundtrip_verified": true
+  },
+  {
+    "name": "Spruce_2_LOD0",
+    "triangles": 17997,
+    "dimensions": [
+      6.147383689880371,
+      6.180261611938477,
+      10.5
+    ],
+    "roundtrip_verified": true
+  },
+  {
+    "name": "Spruce_2_LOD1",
+    "triangles": 6496,
+    "dimensions": [
+      6.133066654205322,
+      6.180261611938477,
+      10.5
+    ],
+    "roundtrip_verified": true
+  },
+  {
+    "name": "Spruce_2_LOD2",
+    "triangles": 2871,
+    "dimensions": [
+      5.534285068511963,
+      6.180261611938477,
+      10.5
+    ],
+    "roundtrip_verified": true
+  },
+  {
+    "name": "Spruce_3_LOD0",
+    "triangles": 17997,
+    "dimensions": [
+      6.431910514831543,
+      5.627786636352539,
+      10.5
+    ],
+    "roundtrip_verified": true
+  },
+  {
+    "name": "Spruce_3_LOD1",
+    "triangles": 6496,
+    "dimensions": [
+      6.377335548400879,
+      5.624833106994629,
+      10.5
+    ],
+    "roundtrip_verified": true
+  },
+  {
+    "name": "Spruce_3_LOD2",
+    "triangles": 2881,
+    "dimensions": [
+      6.063296318054199,
+      5.624833106994629,
+      10.5
+    ],
+    "roundtrip_verified": true
+  }
+]

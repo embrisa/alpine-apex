@@ -1,0 +1,19 @@
+#!/bin/sh
+# Local convenience wrapper; GODOT_BIN can select another Godot installation.
+set -eu
+ALPINE_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+if [ -n "${GODOT_BIN:-}" ]; then
+    ALPINE_ENGINE=$GODOT_BIN
+elif command -v godot >/dev/null 2>&1; then
+    ALPINE_ENGINE=$(command -v godot)
+elif command -v godot4 >/dev/null 2>&1; then
+    ALPINE_ENGINE=$(command -v godot4)
+elif [ -x /Applications/Godot.app/Contents/MacOS/Godot ]; then
+    ALPINE_ENGINE=/Applications/Godot.app/Contents/MacOS/Godot
+elif [ -x "$ALPINE_ROOT/.tools/Godot.app/Contents/MacOS/Godot" ]; then
+    ALPINE_ENGINE="$ALPINE_ROOT/.tools/Godot.app/Contents/MacOS/Godot"
+else
+    echo 'Godot 4.7+ was not found. Set GODOT_BIN or open project.godot in Godot.' >&2
+    exit 1
+fi
+exec "$ALPINE_ENGINE" --path "$ALPINE_ROOT" "$@"

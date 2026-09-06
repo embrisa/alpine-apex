@@ -1,0 +1,33 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Metal 4.0 - Forward+ - Using Device #0: Apple - Apple M4 (Apple9)
+
+[MCPRuntimeServer] port: scanning 6570-6585 (default)
+[MCPRuntimeServer] listening on 127.0.0.1:6570
+[MCPRegistry] runtime port 6570 registered for /users/philippe.tillheden/alpine-apex
+ALPINE APEX | terrain 1454.4 ms | 196608 triangles | 1280 obstacles | 120 Hz
+PASS: Verified character rig is loaded
+PASS: Graphics switching preserves simulation, course geometry, obstacles and records
+PASS: Repeated quality changes do not accumulate material registrations
+PASS: Scenery consumes every existing obstacle without generating collisions
+PASS: Every tree and rock family appears, with exactly one visual per obstacle
+PASS: New standing tree LODs retain the shared collision-height envelope
+PASS: All new distant tree variants use bounded two-triangle silhouettes
+PASS: Graphics and weather quality remain independent
+PASS: Balanced applies its bounded shadow budget
+PASS: Paused foliage has no presentation-time drift
+PASS: Tuck, carving and compression keep every joint finite and unscaled
+PASS: Limb targets preserve anatomical segment lengths through skiing poses
+PASS: First person hides the body and retains real ski equipment
+PASS: Restart retains graphics quality and stays unranked in tests
+PASS: Restart clears the bounded track ring
+PASS: A three-metre render step produces four continuous paired ski segments
+PASS: Every imprint corner follows the actual contact heightfield
+PASS: Stationary rendering cannot stamp extra snow
+PASS: An airborne gap and landing never bridge a floating track
+PASS: Teleporting breaks track history without a stretched imprint
+PASS: Inactive play freezes impressions and breaks contact history
+PASS: Long tracks wrap within the fixed 800-instance allocation
+PASS: Powder and ice grains share the existing 380-particle budget
+PASS: Pause freezes both particle layers and stops snow emission
+PASS: Restart hides all prior imprints, including a wrapped ring
+GRAPHICS_RESULTS {"checks":25,"failures":[]}

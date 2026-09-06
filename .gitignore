@@ -1,0 +1,24 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+.tools/
+.DS_Store
+builds/
+
+# Generated playtest captures, logs, and snapshots
+artifacts/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+
+# Blender autosave backups
+*.blend1
+*.blend2
+
+# Intermediate art QA/export directories; keep the primary source assets
+art_source/**/qa/
+art_source/**/qa_*/
+art_source/**/*_qa/
+art_source/**/previous/

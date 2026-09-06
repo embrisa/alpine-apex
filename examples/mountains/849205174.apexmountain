@@ -1,0 +1,15 @@
+{
+  "format": "alpine-apex-mountain",
+  "mountain": {
+    "engine": "4.7.2-stable (official)",
+    "generator": "alpine-drainage",
+    "height_sha256": "0ed82c22719010fd77995ed3a6f97933ceb631b1b5ee853b5976e3167a14f0a6",
+    "obstacle_sha256": "c57948415fda4626b30bc3c5e37ca1023bc717657b3b01137e3b419876e301f6",
+    "scenery_seed": 849205174,
+    "scenery_version": 2,
+    "seed": 849205174,
+    "version": 1
+  },
+  "name": "Twin Bowls",
+  "schema": 1.0
+}

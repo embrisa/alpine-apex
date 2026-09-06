@@ -1,0 +1,26 @@
+[
+  {
+    "asset": "rock_boulder_1",
+    "triangles": 320,
+    "dimensions": [
+      2.4619641304016113,
+      2.5573716163635254,
+      2.3499999046325684
+    ],
+    "bytes": 9692,
+    "sha256": "c2e795b08d2e65f70e79640d6f89c799fdadd3716e181a6e7a7bae14af72ac2e",
+    "roundtrip_verified": true
+  },
+  {
+    "asset": "rock_boulder_2",
+    "triangles": 320,
+    "dimensions": [
+      2.586639881134033,
+      2.6050782203674316,
+      2.3499999046325684
+    ],
+    "bytes": 9700,
+    "sha256": "b5de45e3be6ace61e5e90af926aef799a0522a8a359ad0a9cf88a5dc1a7f90d9",
+    "roundtrip_verified": true
+  }
+]

@@ -1,0 +1,265 @@
+/Users/philippe.tillheden/alpine-apex/scripts/art/build_scenery_variants.py:26: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat.use_nodes = True
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+23:19:52 | INFO: Starting glTF 2.0 export
+23:19:52 | INFO: Extracting primitive: fir_1_lod0
+23:19:52 | INFO: Primitives created: 3
+23:19:52 | INFO: Finished glTF 2.0 export in 0.039808034896850586 s
+
+23:19:52 | INFO: Starting glTF 2.0 export
+23:19:52 | INFO: Extracting primitive: fir_1_lod1
+23:19:52 | INFO: Primitives created: 3
+23:19:52 | INFO: Finished glTF 2.0 export in 0.015584945678710938 s
+
+23:19:53 | INFO: Starting glTF 2.0 export
+23:19:53 | INFO: Extracting primitive: fir_2_lod0
+23:19:53 | INFO: Primitives created: 3
+23:19:53 | INFO: Finished glTF 2.0 export in 0.0452423095703125 s
+
+23:19:53 | INFO: Starting glTF 2.0 export
+23:19:53 | INFO: Extracting primitive: fir_2_lod1
+23:19:53 | INFO: Primitives created: 3
+23:19:53 | INFO: Finished glTF 2.0 export in 0.014890909194946289 s
+
+23:19:53 | INFO: Starting glTF 2.0 export
+23:19:53 | INFO: Extracting primitive: pine_1_lod0
+23:19:53 | INFO: Primitives created: 3
+23:19:53 | INFO: Finished glTF 2.0 export in 0.015370368957519531 s
+
+23:19:53 | INFO: Starting glTF 2.0 export
+23:19:53 | INFO: Extracting primitive: pine_1_lod1
+23:19:53 | INFO: Primitives created: 3
+23:19:53 | INFO: Finished glTF 2.0 export in 0.011113882064819336 s
+
+23:19:53 | INFO: Starting glTF 2.0 export
+23:19:53 | INFO: Extracting primitive: pine_2_lod0
+23:19:53 | INFO: Primitives created: 3
+23:19:53 | INFO: Finished glTF 2.0 export in 0.013058900833129883 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: pine_2_lod1
+23:19:54 | INFO: Primitives created: 3
+23:19:54 | INFO: Finished glTF 2.0 export in 0.009357929229736328 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: larch_1_lod0
+23:19:54 | INFO: Primitives created: 2
+23:19:54 | INFO: Finished glTF 2.0 export in 0.016203641891479492 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: larch_1_lod1
+23:19:54 | INFO: Primitives created: 2
+23:19:54 | INFO: Finished glTF 2.0 export in 0.009746789932250977 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: larch_2_lod0
+23:19:54 | INFO: Primitives created: 2
+23:19:54 | INFO: Finished glTF 2.0 export in 0.016192197799682617 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: larch_2_lod1
+23:19:54 | INFO: Primitives created: 2
+23:19:54 | INFO: Finished glTF 2.0 export in 0.009884119033813477 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: snag_1_lod0
+23:19:54 | INFO: Primitives created: 2
+23:19:54 | INFO: Finished glTF 2.0 export in 0.003587961196899414 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: snag_1_lod1
+23:19:54 | INFO: Primitives created: 2
+23:19:54 | INFO: Finished glTF 2.0 export in 0.0032830238342285156 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: snag_2_lod0
+23:19:54 | INFO: Primitives created: 2
+23:19:54 | INFO: Finished glTF 2.0 export in 0.0037910938262939453 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: snag_2_lod1
+23:19:54 | INFO: Primitives created: 2
+23:19:54 | INFO: Finished glTF 2.0 export in 0.0036363601684570312 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: granite_1
+23:19:54 | INFO: Primitives created: 1
+23:19:54 | INFO: Finished glTF 2.0 export in 0.0019860267639160156 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: granite_2
+23:19:54 | INFO: Primitives created: 1
+23:19:54 | INFO: Finished glTF 2.0 export in 0.00545811653137207 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: slate_1
+23:19:54 | INFO: Primitives created: 1
+23:19:54 | INFO: Finished glTF 2.0 export in 0.0022819042205810547 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: slate_2
+23:19:54 | INFO: Primitives created: 1
+23:19:54 | INFO: Finished glTF 2.0 export in 0.002516031265258789 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: Icosphere
+23:19:54 | INFO: Primitives created: 1
+23:19:54 | INFO: Finished glTF 2.0 export in 0.0026040077209472656 s
+
+23:19:54 | INFO: Starting glTF 2.0 export
+23:19:54 | INFO: Extracting primitive: Icosphere.001
+23:19:54 | INFO: Primitives created: 1
+23:19:54 | INFO: Finished glTF 2.0 export in 0.0025479793548583984 s
+00:04.751  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_fir_1.png'
+/Users/philippe.tillheden/alpine-apex/scripts/art/build_scenery_variants.py:26: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat.use_nodes = True
+
+Info: Packed 3 file(s)
+Info: Saved as "scenery_variants.blend"
+23:19:56 | INFO: Starting glTF 2.0 export
+23:19:56 | INFO: Extracting primitive: fir_1_lod2
+23:19:56 | INFO: Primitives created: 1
+23:19:56 | INFO: Finished glTF 2.0 export in 0.0026178359985351562 s
+00:05.538  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_fir_2.png'
+
+23:19:57 | INFO: Starting glTF 2.0 export
+23:19:57 | INFO: Extracting primitive: fir_2_lod2
+23:19:57 | INFO: Primitives created: 1
+23:19:57 | INFO: Finished glTF 2.0 export in 0.002064943313598633 s
+00:06.295  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_pine_1.png'
+
+23:19:58 | INFO: Starting glTF 2.0 export
+23:19:58 | INFO: Extracting primitive: pine_1_lod2
+23:19:58 | INFO: Primitives created: 1
+23:19:58 | INFO: Finished glTF 2.0 export in 0.0040628910064697266 s
+00:07.059  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_pine_2.png'
+
+23:19:58 | INFO: Starting glTF 2.0 export
+23:19:58 | INFO: Extracting primitive: pine_2_lod2
+23:19:58 | INFO: Primitives created: 1
+23:19:58 | INFO: Finished glTF 2.0 export in 0.0025701522827148438 s
+00:07.900  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_larch_1.png'
+
+23:19:59 | INFO: Starting glTF 2.0 export
+23:19:59 | INFO: Extracting primitive: larch_1_lod2
+23:19:59 | INFO: Primitives created: 1
+23:19:59 | INFO: Finished glTF 2.0 export in 0.0024771690368652344 s
+00:08.638  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_larch_2.png'
+
+23:20:00 | INFO: Starting glTF 2.0 export
+23:20:00 | INFO: Extracting primitive: larch_2_lod2
+23:20:00 | INFO: Primitives created: 1
+23:20:00 | INFO: Finished glTF 2.0 export in 0.0021572113037109375 s
+00:09.240  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_snag_1.png'
+
+23:20:00 | INFO: Starting glTF 2.0 export
+23:20:00 | INFO: Extracting primitive: snag_1_lod2
+23:20:00 | INFO: Primitives created: 1
+23:20:00 | INFO: Finished glTF 2.0 export in 0.0019979476928710938 s
+00:09.841  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_snag_2.png'
+
+23:20:01 | INFO: Starting glTF 2.0 export
+23:20:01 | INFO: Extracting primitive: snag_2_lod2
+23:20:01 | INFO: Primitives created: 1
+23:20:01 | INFO: Finished glTF 2.0 export in 0.002213001251220703 s
+
+23:20:01 | INFO: Data are loaded, start creating Blender stuff
+23:20:01 | INFO: Blender create Mesh node fir_1_lod0
+23:20:01 | INFO: glTF import finished in 0.08s
+23:20:01 | INFO: Data are loaded, start creating Blender stuff
+23:20:01 | INFO: Blender create Mesh node fir_1_lod1
+23:20:01 | INFO: glTF import finished in 0.04s
+23:20:01 | INFO: Data are loaded, start creating Blender stuff
+23:20:01 | INFO: Blender create Mesh node fir_2_lod0
+23:20:01 | INFO: glTF import finished in 0.08s
+23:20:01 | INFO: Data are loaded, start creating Blender stuff
+23:20:01 | INFO: Blender create Mesh node fir_2_lod1
+23:20:02 | INFO: glTF import finished in 0.04s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node pine_1_lod0
+23:20:02 | INFO: glTF import finished in 0.04s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node pine_1_lod1
+23:20:02 | INFO: glTF import finished in 0.02s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node pine_2_lod0
+23:20:02 | INFO: glTF import finished in 0.04s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node pine_2_lod1
+23:20:02 | INFO: glTF import finished in 0.02s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node larch_1_lod0
+23:20:02 | INFO: glTF import finished in 0.04s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node larch_1_lod1
+23:20:02 | INFO: glTF import finished in 0.02s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node larch_2_lod0
+23:20:02 | INFO: glTF import finished in 0.04s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node larch_2_lod1
+23:20:02 | INFO: glTF import finished in 0.02s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node snag_1_lod0
+23:20:02 | INFO: glTF import finished in 0.00s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node snag_1_lod1
+23:20:02 | INFO: glTF import finished in 0.00s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node snag_2_lod0
+23:20:02 | INFO: glTF import finished in 0.00s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node snag_2_lod1
+23:20:02 | INFO: glTF import finished in 0.00s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node granite_1
+23:20:02 | INFO: glTF import finished in 0.00s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node granite_2
+23:20:02 | INFO: glTF import finished in 0.00s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node slate_1
+23:20:02 | INFO: glTF import finished in 0.00s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node slate_2
+23:20:02 | INFO: glTF import finished in 0.00s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node Icosphere
+23:20:02 | INFO: glTF import finished in 0.00s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node Icosphere.001
+23:20:02 | INFO: glTF import finished in 0.03s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node fir_1_lod2
+23:20:02 | INFO: glTF import finished in 0.00s
+23:20:02 | INFO: Data are loaded, start creating Blender stuff
+23:20:02 | INFO: Blender create Mesh node fir_2_lod2
+23:20:02 | INFO: glTF import finished in 0.00s
+23:20:03 | INFO: Data are loaded, start creating Blender stuff
+23:20:03 | INFO: Blender create Mesh node pine_1_lod2
+23:20:03 | INFO: glTF import finished in 0.00s
+23:20:03 | INFO: Data are loaded, start creating Blender stuff
+23:20:03 | INFO: Blender create Mesh node pine_2_lod2
+23:20:03 | INFO: glTF import finished in 0.00s
+23:20:03 | INFO: Data are loaded, start creating Blender stuff
+23:20:03 | INFO: Blender create Mesh node larch_1_lod2
+23:20:03 | INFO: glTF import finished in 0.00s
+23:20:03 | INFO: Data are loaded, start creating Blender stuff
+23:20:03 | INFO: Blender create Mesh node larch_2_lod2
+23:20:03 | INFO: glTF import finished in 0.00s
+23:20:03 | INFO: Data are loaded, start creating Blender stuff
+23:20:03 | INFO: Blender create Mesh node snag_1_lod2
+23:20:03 | INFO: glTF import finished in 0.00s
+23:20:03 | INFO: Data are loaded, start creating Blender stuff
+23:20:03 | INFO: Blender create Mesh node snag_2_lod2
+23:20:03 | INFO: glTF import finished in 0.00s
+SCENERY_VARIANTS_COMPLETE 30 verified exports
+Blender 5.2.0 LTS (hash fbe6228777e7 built 2026-07-14 01:31:22)
+
+Blender quit

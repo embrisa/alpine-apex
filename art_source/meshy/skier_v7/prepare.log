@@ -1,0 +1,45 @@
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+00:54:01 | INFO: Data are loaded, start creating Blender stuff
+00:54:01 | INFO: Blender create Mesh node char1
+00:54:01 | INFO: glTF import finished in 0.18s
+Info: Applied modifier was not first, result may not be as expected
+Info: Packed 4 file(s)
+Info: Saved as "skier_v7.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+00:54:02 | INFO: Starting glTF 2.0 export
+00:54:02 | INFO: Extracting primitive: char1
+00:54:03 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+00:54:03 | INFO: Primitives created: 1
+00:54:03 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+00:54:03 | INFO: Finished glTF 2.0 export in 0.7953541278839111 s
+
+00:54:03 | INFO: Starting glTF 2.0 export
+00:54:03 | INFO: Extracting primitive: char1.001
+00:54:03 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+00:54:03 | INFO: Primitives created: 1
+00:54:03 | INFO: Finished glTF 2.0 export in 0.1494889259338379 s
+
+00:54:03 | INFO: Starting glTF 2.0 export
+00:54:03 | INFO: Extracting primitive: char1.002
+00:54:03 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+00:54:03 | INFO: Primitives created: 1
+00:54:03 | INFO: Finished glTF 2.0 export in 0.14531302452087402 s
+
+00:54:03 | INFO: Data are loaded, start creating Blender stuff
+00:54:03 | INFO: Blender create Mesh node char1
+00:54:03 | INFO: glTF import finished in 0.11s
+00:54:03 | INFO: Data are loaded, start creating Blender stuff
+00:54:03 | INFO: Blender create Mesh node char1.001
+00:54:03 | INFO: glTF import finished in 0.01s
+00:54:03 | INFO: Data are loaded, start creating Blender stuff
+00:54:03 | INFO: Blender create Mesh node char1.002
+00:54:03 | INFO: glTF import finished in 0.01s
+SKIER_V7_EXPORT {"source_task": "01a073b6-b9b8-76f2-ac92-96e2960859cb", "rig_task": "01a073ba-ad56-70e1-9e35-1fa17fe1b2f2", "bones": 24, "body_triangles": 36950, "boots_triangles": 5171, "bind_height_m": 1.61, "exports": [{"path": "assets/graphics/models/skier_v7.glb", "triangles": 36950, "dimensions_m": [1.7783644199371338, 0.3423998951911926, 1.6100823879241943], "roundtrip_verified": true, "pbr_verified": true}, {"path": "assets/graphics/models/skier_v7_boot_left.glb", "triangles": 2644, "dimensions_m": [0.1583321988582611, 0.31330031156539917, 0.18996648490428925], "roundtrip_verified": true, "pbr_verified": true}, {"path": "assets/graphics/models/skier_v7_boot_right.glb", "triangles": 2527, "dimensions_m": [0.1584574431180954, 0.3129781484603882, 0.1897004246711731], "roundtrip_verified": true, "pbr_verified": true}]}
+Blender 5.2.0 LTS (hash fbe6228777e7 built 2026-07-14 01:31:22)
+
+Blender quit

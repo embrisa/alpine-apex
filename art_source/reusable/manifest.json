@@ -1,0 +1,177 @@
+{
+  "units": "metres",
+  "up_axis": "Y in GLB, Z in Blender",
+  "dimensions_basis": "Blender X/Y/Z after reimport",
+  "note": "Standalone PBR. Godot applies additional snow/exposure and foliage-tint shaders. Skier/equipment GLBs in assets/graphics/models are already standalone.",
+  "assets": [
+    {
+      "path": "art_source/reusable/boulder1.glb",
+      "triangles": 320,
+      "roundtrip_verified": true,
+      "materials": [
+        "Rock"
+      ],
+      "dimensions_m": [
+        2.637946128845215,
+        2.398601531982422,
+        1.7816243171691895
+      ],
+      "embedded_images": 1,
+      "sha256": "0b2f6e1fd72e1031c4ee1b98b1131b83b9788cf462311bea8251a17c192e162b"
+    },
+    {
+      "path": "art_source/reusable/boulder2.glb",
+      "triangles": 320,
+      "roundtrip_verified": true,
+      "materials": [
+        "Rock"
+      ],
+      "dimensions_m": [
+        2.6551246643066406,
+        2.3724589347839355,
+        1.7546316385269165
+      ],
+      "embedded_images": 1,
+      "sha256": "f65b61d8acee76c81bf5c9c4cf8b898928591e8c36cb3fd703a92b8068e11904"
+    },
+    {
+      "path": "art_source/reusable/boulder3.glb",
+      "triangles": 320,
+      "roundtrip_verified": true,
+      "materials": [
+        "Rock"
+      ],
+      "dimensions_m": [
+        2.6460561752319336,
+        2.386476993560791,
+        1.8454521894454956
+      ],
+      "embedded_images": 1,
+      "sha256": "1f855399c11a22425c16a3913ccb69dc15642e3ce156d3ad7eb13dc25bedddd7"
+    },
+    {
+      "path": "art_source/reusable/scrub_1.glb",
+      "triangles": 224,
+      "roundtrip_verified": true,
+      "materials": [
+        "Bark",
+        "Needles",
+        "Snow"
+      ],
+      "dimensions_m": [
+        1.0461974143981934,
+        0.9250919222831726,
+        0.2813911736011505
+      ],
+      "embedded_images": 2,
+      "sha256": "fbd6bffad581ac66350ec123084e4edbb6d4f1072c8e9325fc5eaa8d167cfda8"
+    },
+    {
+      "path": "art_source/reusable/scrub_2.glb",
+      "triangles": 224,
+      "roundtrip_verified": true,
+      "materials": [
+        "Bark",
+        "Needles",
+        "Snow"
+      ],
+      "dimensions_m": [
+        0.9906250238418579,
+        1.1105003356933594,
+        0.2819822132587433
+      ],
+      "embedded_images": 2,
+      "sha256": "91d7b1da56d4efbbb4dc17bf1e322c0256ca2c3ca778fce75f7724ca93f63520"
+    },
+    {
+      "path": "art_source/reusable/spruce_1_lod0.glb",
+      "triangles": 17996,
+      "roundtrip_verified": true,
+      "materials": [
+        "Spruce PBR"
+      ],
+      "dimensions_m": [
+        5.111137866973877,
+        6.241629600524902,
+        10.5
+      ],
+      "embedded_images": 3,
+      "sha256": "d1e3784ff200e188a7b02fd011e8dd66d991696b49dc67a57ba8018d2afb1fa8"
+    },
+    {
+      "path": "art_source/reusable/spruce_1_lod1.glb",
+      "triangles": 6496,
+      "roundtrip_verified": true,
+      "materials": [
+        "Spruce PBR"
+      ],
+      "dimensions_m": [
+        5.055582046508789,
+        6.220490455627441,
+        10.5
+      ],
+      "embedded_images": 3,
+      "sha256": "62587c1667189a89ef19f9e552b1fcec9028b1be4ae7cfb11d128268af9b5ee3"
+    },
+    {
+      "path": "art_source/reusable/spruce_2_lod0.glb",
+      "triangles": 17997,
+      "roundtrip_verified": true,
+      "materials": [
+        "Spruce PBR"
+      ],
+      "dimensions_m": [
+        6.147383689880371,
+        6.180261611938477,
+        10.5
+      ],
+      "embedded_images": 3,
+      "sha256": "abbbb0ac77e39e4075f52c3c47ac50ed4ede83cdb6284d84fabc3edca46a5c0f"
+    },
+    {
+      "path": "art_source/reusable/spruce_2_lod1.glb",
+      "triangles": 6496,
+      "roundtrip_verified": true,
+      "materials": [
+        "Spruce PBR"
+      ],
+      "dimensions_m": [
+        6.133066654205322,
+        6.180261611938477,
+        10.5
+      ],
+      "embedded_images": 3,
+      "sha256": "bbca58f8b27bea32f98cc831ccea801b3131f95e731c4f9e8d1c57445daf82bc"
+    },
+    {
+      "path": "art_source/reusable/spruce_3_lod0.glb",
+      "triangles": 17997,
+      "roundtrip_verified": true,
+      "materials": [
+        "Spruce PBR"
+      ],
+      "dimensions_m": [
+        6.431910514831543,
+        5.627786636352539,
+        10.5
+      ],
+      "embedded_images": 3,
+      "sha256": "ff396e7ddc656a1c3619a38299d5866f536f5478d38f01275a9741c13ed0415a"
+    },
+    {
+      "path": "art_source/reusable/spruce_3_lod1.glb",
+      "triangles": 6496,
+      "roundtrip_verified": true,
+      "materials": [
+        "Spruce PBR"
+      ],
+      "dimensions_m": [
+        6.377335548400879,
+        5.624833106994629,
+        10.5
+      ],
+      "embedded_images": 3,
+      "sha256": "538d3d32d5a0ecb3d6f3d91294028970d95c53df1d824edb5245f3e813f9e8eb"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "source_task": "01a073b6-b9b8-76f2-ac92-96e2960859cb",
+  "rig_task": "01a073ba-ad56-70e1-9e35-1fa17fe1b2f2",
+  "bones": 24,
+  "body_triangles": 35900,
+  "boots_triangles": 5171,
+  "bind_height_m": 1.61,
+  "exports": [
+    {
+      "path": "assets/graphics/models/skier_v7.glb",
+      "triangles": 35900,
+      "dimensions_m": [
+        1.599529504776001,
+        0.3423998951911926,
+        1.6100823879241943
+      ],
+      "roundtrip_verified": true,
+      "pbr_verified": true
+    },
+    {
+      "path": "assets/graphics/models/skier_v7_boot_left.glb",
+      "triangles": 2644,
+      "dimensions_m": [
+        0.1583321988582611,
+        0.31330031156539917,
+        0.18996648490428925
+      ],
+      "roundtrip_verified": true,
+      "pbr_verified": true
+    },
+    {
+      "path": "assets/graphics/models/skier_v7_boot_right.glb",
+      "triangles": 2527,
+      "dimensions_m": [
+        0.1584574431180954,
+        0.3129781484603882,
+        0.1897004246711731
+      ],
+      "roundtrip_verified": true,
+      "pbr_verified": true
+    }
+  ]
+}

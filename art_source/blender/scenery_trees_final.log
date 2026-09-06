@@ -1,0 +1,641 @@
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+23:41:36 | INFO: Data are loaded, start creating Blender stuff
+23:41:36 | INFO: Blender create Mesh node 0
+23:41:37 | INFO: glTF import finished in 0.25s
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+23:41:41 | INFO: Starting glTF 2.0 export
+23:41:41 | INFO: Extracting primitive: Mesh_0.003
+23:41:41 | INFO: Primitives created: 1
+23:41:41 | INFO: Finished glTF 2.0 export in 0.012392997741699219 s
+
+23:41:41 | INFO: Starting glTF 2.0 export
+23:41:41 | INFO: Extracting primitive: Mesh_0.004
+23:41:41 | INFO: Primitives created: 1
+23:41:41 | INFO: Finished glTF 2.0 export in 0.0048902034759521484 s
+
+23:41:42 | INFO: Starting glTF 2.0 export
+23:41:42 | INFO: Extracting primitive: Mesh_0.005
+23:41:42 | INFO: Primitives created: 1
+23:41:42 | INFO: Finished glTF 2.0 export in 0.008791208267211914 s
+
+23:41:42 | INFO: Starting glTF 2.0 export
+23:41:42 | INFO: Extracting primitive: Mesh_0.006
+23:41:42 | INFO: Primitives created: 1
+23:41:42 | INFO: Finished glTF 2.0 export in 0.004674196243286133 s
+
+23:41:42 | INFO: Starting glTF 2.0 export
+23:41:42 | INFO: Extracting primitive: Mesh_0.007
+23:41:42 | INFO: Primitives created: 1
+23:41:42 | INFO: Finished glTF 2.0 export in 0.00890803337097168 s
+
+23:41:42 | INFO: Starting glTF 2.0 export
+23:41:42 | INFO: Extracting primitive: Mesh_0.008
+23:41:42 | INFO: Primitives created: 1
+23:41:42 | INFO: Finished glTF 2.0 export in 0.004937887191772461 s
+
+23:41:42 | INFO: Starting glTF 2.0 export
+23:41:42 | INFO: Extracting primitive: Mesh_0.009
+23:41:42 | INFO: Primitives created: 1
+23:41:42 | INFO: Finished glTF 2.0 export in 0.008910179138183594 s
+
+23:41:42 | INFO: Starting glTF 2.0 export
+23:41:42 | INFO: Extracting primitive: Mesh_0.010
+23:41:42 | INFO: Primitives created: 1
+23:41:42 | INFO: Finished glTF 2.0 export in 0.004764080047607422 s
+00:06.099  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_birch_1.png'
+
+Info: No new files have been packed
+Info: Saved as "birch_family.blend"
+23:41:42 | INFO: Starting glTF 2.0 export
+23:41:42 | INFO: Extracting primitive: Far card
+23:41:42 | INFO: Primitives created: 1
+23:41:42 | INFO: Finished glTF 2.0 export in 0.0018832683563232422 s
+00:06.718  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_birch_2.png'
+
+23:41:43 | INFO: Starting glTF 2.0 export
+23:41:43 | INFO: Extracting primitive: Far card.001
+23:41:43 | INFO: Primitives created: 1
+23:41:43 | INFO: Finished glTF 2.0 export in 0.001967191696166992 s
+00:07.334  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_birch_3.png'
+
+23:41:43 | INFO: Starting glTF 2.0 export
+23:41:43 | INFO: Extracting primitive: Far card.002
+23:41:43 | INFO: Primitives created: 1
+23:41:43 | INFO: Finished glTF 2.0 export in 0.002950906753540039 s
+00:07.977  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_birch_4.png'
+
+23:41:44 | INFO: Starting glTF 2.0 export
+23:41:44 | INFO: Extracting primitive: Far card.003
+23:41:44 | INFO: Primitives created: 1
+23:41:44 | INFO: Finished glTF 2.0 export in 0.002068042755126953 s
+
+23:41:44 | INFO: Data are loaded, start creating Blender stuff
+23:41:44 | INFO: Blender create Mesh node 0
+23:41:44 | INFO: glTF import finished in 0.45s
+23:41:53 | INFO: Starting glTF 2.0 export
+23:41:53 | INFO: Extracting primitive: Mesh_0.003
+23:41:53 | INFO: Primitives created: 1
+23:41:53 | INFO: Finished glTF 2.0 export in 0.012124300003051758 s
+
+23:41:53 | INFO: Starting glTF 2.0 export
+23:41:53 | INFO: Extracting primitive: Mesh_0.004
+23:41:53 | INFO: Primitives created: 1
+23:41:53 | INFO: Finished glTF 2.0 export in 0.0134429931640625 s
+
+23:41:53 | INFO: Starting glTF 2.0 export
+23:41:53 | INFO: Extracting primitive: Mesh_0.005
+23:41:53 | INFO: Primitives created: 1
+23:41:53 | INFO: Finished glTF 2.0 export in 0.012407779693603516 s
+
+23:41:53 | INFO: Starting glTF 2.0 export
+23:41:53 | INFO: Extracting primitive: Mesh_0.006
+23:41:53 | INFO: Primitives created: 1
+23:41:53 | INFO: Finished glTF 2.0 export in 0.012018918991088867 s
+
+23:41:53 | INFO: Starting glTF 2.0 export
+23:41:53 | INFO: Extracting primitive: Mesh_0.007
+23:41:53 | INFO: Primitives created: 1
+23:41:53 | INFO: Finished glTF 2.0 export in 0.012930154800415039 s
+
+23:41:53 | INFO: Starting glTF 2.0 export
+23:41:53 | INFO: Extracting primitive: Mesh_0.008
+23:41:53 | INFO: Primitives created: 1
+23:41:53 | INFO: Finished glTF 2.0 export in 0.012417793273925781 s
+
+23:41:54 | INFO: Starting glTF 2.0 export
+23:41:54 | INFO: Extracting primitive: Mesh_0.009
+23:41:54 | INFO: Primitives created: 1
+23:41:54 | INFO: Finished glTF 2.0 export in 0.013171911239624023 s
+
+23:41:54 | INFO: Starting glTF 2.0 export
+23:41:54 | INFO: Extracting primitive: Mesh_0.010
+23:41:54 | INFO: Primitives created: 1
+23:41:54 | INFO: Finished glTF 2.0 export in 0.011797904968261719 s
+00:18.285  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_rowan_1.png'
+
+Info: No new files have been packed
+Info: Saved as "rowan_family.blend"
+23:41:54 | INFO: Starting glTF 2.0 export
+23:41:54 | INFO: Extracting primitive: Far card
+23:41:54 | INFO: Primitives created: 1
+23:41:54 | INFO: Finished glTF 2.0 export in 0.0021810531616210938 s
+00:18.927  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_rowan_2.png'
+
+23:41:55 | INFO: Starting glTF 2.0 export
+23:41:55 | INFO: Extracting primitive: Far card.001
+23:41:55 | INFO: Primitives created: 1
+23:41:55 | INFO: Finished glTF 2.0 export in 0.0019829273223876953 s
+00:19.553  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_rowan_3.png'
+
+23:41:56 | INFO: Starting glTF 2.0 export
+23:41:56 | INFO: Extracting primitive: Far card.002
+23:41:56 | INFO: Primitives created: 1
+23:41:56 | INFO: Finished glTF 2.0 export in 0.0021889209747314453 s
+00:20.244  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_rowan_4.png'
+
+23:41:56 | INFO: Starting glTF 2.0 export
+23:41:56 | INFO: Extracting primitive: Far card.003
+23:41:56 | INFO: Primitives created: 1
+23:41:56 | INFO: Finished glTF 2.0 export in 0.0019371509552001953 s
+
+23:41:56 | INFO: Data are loaded, start creating Blender stuff
+23:41:56 | INFO: Blender create Mesh node 0
+23:41:58 | INFO: glTF import finished in 1.57s
+23:42:30 | INFO: Starting glTF 2.0 export
+23:42:30 | INFO: Extracting primitive: Mesh_0.003
+23:42:30 | INFO: Primitives created: 1
+23:42:30 | INFO: Finished glTF 2.0 export in 0.010496854782104492 s
+
+23:42:30 | INFO: Starting glTF 2.0 export
+23:42:30 | INFO: Extracting primitive: Mesh_0.004
+23:42:30 | INFO: Primitives created: 1
+23:42:30 | INFO: Finished glTF 2.0 export in 0.008993148803710938 s
+
+23:42:30 | INFO: Starting glTF 2.0 export
+23:42:30 | INFO: Extracting primitive: Mesh_0.005
+23:42:30 | INFO: Primitives created: 1
+23:42:30 | INFO: Finished glTF 2.0 export in 0.009969949722290039 s
+
+23:42:30 | INFO: Starting glTF 2.0 export
+23:42:30 | INFO: Extracting primitive: Mesh_0.006
+23:42:30 | INFO: Primitives created: 1
+23:42:30 | INFO: Finished glTF 2.0 export in 0.008313894271850586 s
+
+23:42:30 | INFO: Starting glTF 2.0 export
+23:42:30 | INFO: Extracting primitive: Mesh_0.007
+23:42:30 | INFO: Primitives created: 1
+23:42:30 | INFO: Finished glTF 2.0 export in 0.00997018814086914 s
+
+23:42:30 | INFO: Starting glTF 2.0 export
+23:42:30 | INFO: Extracting primitive: Mesh_0.008
+23:42:30 | INFO: Primitives created: 1
+23:42:30 | INFO: Finished glTF 2.0 export in 0.008522987365722656 s
+
+23:42:30 | INFO: Starting glTF 2.0 export
+23:42:30 | INFO: Extracting primitive: Mesh_0.009
+23:42:30 | INFO: Primitives created: 1
+23:42:30 | INFO: Finished glTF 2.0 export in 0.010343074798583984 s
+
+23:42:30 | INFO: Starting glTF 2.0 export
+23:42:30 | INFO: Extracting primitive: Mesh_0.010
+23:42:30 | INFO: Primitives created: 1
+23:42:30 | INFO: Finished glTF 2.0 export in 0.008884191513061523 s
+00:54.654  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_scots_pine_1.png'
+
+Info: No new files have been packed
+Info: Saved as "scots_pine_family.blend"
+23:42:31 | INFO: Starting glTF 2.0 export
+23:42:31 | INFO: Extracting primitive: Far card
+23:42:31 | INFO: Primitives created: 1
+23:42:31 | INFO: Finished glTF 2.0 export in 0.0028641223907470703 s
+00:55.312  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_scots_pine_2.png'
+
+23:42:31 | INFO: Starting glTF 2.0 export
+23:42:31 | INFO: Extracting primitive: Far card.001
+23:42:31 | INFO: Primitives created: 1
+23:42:31 | INFO: Finished glTF 2.0 export in 0.0019979476928710938 s
+00:56.028  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_scots_pine_3.png'
+
+23:42:32 | INFO: Starting glTF 2.0 export
+23:42:32 | INFO: Extracting primitive: Far card.002
+23:42:32 | INFO: Primitives created: 1
+23:42:32 | INFO: Finished glTF 2.0 export in 0.0018239021301269531 s
+00:56.723  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_scots_pine_4.png'
+
+23:42:33 | INFO: Starting glTF 2.0 export
+23:42:33 | INFO: Extracting primitive: Far card.003
+23:42:33 | INFO: Primitives created: 1
+23:42:33 | INFO: Finished glTF 2.0 export in 0.0020601749420166016 s
+
+23:42:33 | INFO: Data are loaded, start creating Blender stuff
+23:42:33 | INFO: Blender create Mesh node 0
+23:42:33 | INFO: glTF import finished in 0.53s
+23:42:44 | INFO: Starting glTF 2.0 export
+23:42:44 | INFO: Extracting primitive: Mesh_0.003
+23:42:44 | INFO: Primitives created: 1
+23:42:44 | INFO: Finished glTF 2.0 export in 0.009955883026123047 s
+
+23:42:44 | INFO: Starting glTF 2.0 export
+23:42:44 | INFO: Extracting primitive: Mesh_0.004
+23:42:44 | INFO: Primitives created: 1
+23:42:44 | INFO: Finished glTF 2.0 export in 0.004720926284790039 s
+
+23:42:44 | INFO: Starting glTF 2.0 export
+23:42:44 | INFO: Extracting primitive: Mesh_0.005
+23:42:44 | INFO: Primitives created: 1
+23:42:44 | INFO: Finished glTF 2.0 export in 0.009479761123657227 s
+
+23:42:44 | INFO: Starting glTF 2.0 export
+23:42:44 | INFO: Extracting primitive: Mesh_0.006
+23:42:44 | INFO: Primitives created: 1
+23:42:44 | INFO: Finished glTF 2.0 export in 0.0043413639068603516 s
+
+23:42:44 | INFO: Starting glTF 2.0 export
+23:42:44 | INFO: Extracting primitive: Mesh_0.007
+23:42:44 | INFO: Primitives created: 1
+23:42:44 | INFO: Finished glTF 2.0 export in 0.010910987854003906 s
+
+23:42:44 | INFO: Starting glTF 2.0 export
+23:42:44 | INFO: Extracting primitive: Mesh_0.008
+23:42:44 | INFO: Primitives created: 1
+23:42:44 | INFO: Finished glTF 2.0 export in 0.005212068557739258 s
+
+23:42:44 | INFO: Starting glTF 2.0 export
+23:42:44 | INFO: Extracting primitive: Mesh_0.009
+23:42:44 | INFO: Primitives created: 1
+23:42:44 | INFO: Finished glTF 2.0 export in 0.009582042694091797 s
+
+23:42:44 | INFO: Starting glTF 2.0 export
+23:42:44 | INFO: Extracting primitive: Mesh_0.010
+23:42:44 | INFO: Primitives created: 1
+23:42:44 | INFO: Finished glTF 2.0 export in 0.004450082778930664 s
+01:08.508  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_wind_pine_1.png'
+
+Info: No new files have been packed
+Info: Saved as "wind_pine_family.blend"
+23:42:45 | INFO: Starting glTF 2.0 export
+23:42:45 | INFO: Extracting primitive: Far card
+23:42:45 | INFO: Primitives created: 1
+23:42:45 | INFO: Finished glTF 2.0 export in 0.0020890235900878906 s
+01:09.114  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_wind_pine_2.png'
+
+23:42:45 | INFO: Starting glTF 2.0 export
+23:42:45 | INFO: Extracting primitive: Far card.001
+23:42:45 | INFO: Primitives created: 1
+23:42:45 | INFO: Finished glTF 2.0 export in 0.0021610260009765625 s
+01:09.708  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_wind_pine_3.png'
+
+23:42:46 | INFO: Starting glTF 2.0 export
+23:42:46 | INFO: Extracting primitive: Far card.002
+23:42:46 | INFO: Primitives created: 1
+23:42:46 | INFO: Finished glTF 2.0 export in 0.0019059181213378906 s
+01:10.321  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_wind_pine_4.png'
+
+23:42:46 | INFO: Starting glTF 2.0 export
+23:42:46 | INFO: Extracting primitive: Far card.003
+23:42:46 | INFO: Primitives created: 1
+23:42:46 | INFO: Finished glTF 2.0 export in 0.0017228126525878906 s
+
+23:42:46 | INFO: Data are loaded, start creating Blender stuff
+23:42:46 | INFO: Blender create Mesh node 0
+23:42:47 | INFO: glTF import finished in 0.21s
+23:42:51 | INFO: Starting glTF 2.0 export
+23:42:51 | INFO: Extracting primitive: Mesh_0.003
+23:42:51 | INFO: Primitives created: 1
+23:42:51 | INFO: Finished glTF 2.0 export in 0.0053708553314208984 s
+
+23:42:51 | INFO: Starting glTF 2.0 export
+23:42:51 | INFO: Extracting primitive: Mesh_0.004
+23:42:51 | INFO: Primitives created: 1
+23:42:51 | INFO: Finished glTF 2.0 export in 0.0029299259185791016 s
+
+23:42:51 | INFO: Starting glTF 2.0 export
+23:42:51 | INFO: Extracting primitive: Mesh_0.005
+23:42:51 | INFO: Primitives created: 1
+23:42:51 | INFO: Finished glTF 2.0 export in 0.005010128021240234 s
+
+23:42:51 | INFO: Starting glTF 2.0 export
+23:42:51 | INFO: Extracting primitive: Mesh_0.006
+23:42:51 | INFO: Primitives created: 1
+23:42:51 | INFO: Finished glTF 2.0 export in 0.0031201839447021484 s
+
+23:42:51 | INFO: Starting glTF 2.0 export
+23:42:51 | INFO: Extracting primitive: Mesh_0.007
+23:42:51 | INFO: Primitives created: 1
+23:42:51 | INFO: Finished glTF 2.0 export in 0.004971027374267578 s
+
+23:42:51 | INFO: Starting glTF 2.0 export
+23:42:51 | INFO: Extracting primitive: Mesh_0.008
+23:42:51 | INFO: Primitives created: 1
+23:42:51 | INFO: Finished glTF 2.0 export in 0.0027379989624023438 s
+
+23:42:51 | INFO: Starting glTF 2.0 export
+23:42:51 | INFO: Extracting primitive: Mesh_0.009
+23:42:51 | INFO: Primitives created: 1
+23:42:51 | INFO: Finished glTF 2.0 export in 0.006195783615112305 s
+
+23:42:51 | INFO: Starting glTF 2.0 export
+23:42:51 | INFO: Extracting primitive: Mesh_0.010
+23:42:51 | INFO: Primitives created: 1
+23:42:51 | INFO: Finished glTF 2.0 export in 0.003185749053955078 s
+01:15.510  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_split_snag_1.png'
+
+Info: No new files have been packed
+Info: Saved as "split_snag_family.blend"
+23:42:52 | INFO: Starting glTF 2.0 export
+23:42:52 | INFO: Extracting primitive: Far card
+23:42:52 | INFO: Primitives created: 1
+23:42:52 | INFO: Finished glTF 2.0 export in 0.002023935317993164 s
+01:16.158  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_split_snag_2.png'
+
+23:42:52 | INFO: Starting glTF 2.0 export
+23:42:52 | INFO: Extracting primitive: Far card.001
+23:42:52 | INFO: Primitives created: 1
+23:42:52 | INFO: Finished glTF 2.0 export in 0.001753091812133789 s
+01:16.780  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_split_snag_3.png'
+
+23:42:53 | INFO: Starting glTF 2.0 export
+23:42:53 | INFO: Extracting primitive: Far card.002
+23:42:53 | INFO: Primitives created: 1
+23:42:53 | INFO: Finished glTF 2.0 export in 0.002185821533203125 s
+01:17.396  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_split_snag_4.png'
+
+23:42:53 | INFO: Starting glTF 2.0 export
+23:42:53 | INFO: Extracting primitive: Far card.003
+23:42:53 | INFO: Primitives created: 1
+23:42:53 | INFO: Finished glTF 2.0 export in 0.0019762516021728516 s
+
+23:42:53 | INFO: Data are loaded, start creating Blender stuff
+23:42:53 | INFO: Blender create Mesh node 0
+23:42:54 | INFO: glTF import finished in 0.26s
+23:42:58 | INFO: Starting glTF 2.0 export
+23:42:58 | INFO: Extracting primitive: Mesh_0.003
+23:42:58 | INFO: Primitives created: 1
+23:42:58 | INFO: Finished glTF 2.0 export in 0.005120992660522461 s
+
+23:42:58 | INFO: Starting glTF 2.0 export
+23:42:58 | INFO: Extracting primitive: Mesh_0.004
+23:42:58 | INFO: Primitives created: 1
+23:42:59 | INFO: Finished glTF 2.0 export in 0.0032618045806884766 s
+
+23:42:59 | INFO: Starting glTF 2.0 export
+23:42:59 | INFO: Extracting primitive: Mesh_0.005
+23:42:59 | INFO: Primitives created: 1
+23:42:59 | INFO: Finished glTF 2.0 export in 0.0050580501556396484 s
+
+23:42:59 | INFO: Starting glTF 2.0 export
+23:42:59 | INFO: Extracting primitive: Mesh_0.006
+23:42:59 | INFO: Primitives created: 1
+23:42:59 | INFO: Finished glTF 2.0 export in 0.0032529830932617188 s
+
+23:42:59 | INFO: Starting glTF 2.0 export
+23:42:59 | INFO: Extracting primitive: Mesh_0.007
+23:42:59 | INFO: Primitives created: 1
+23:42:59 | INFO: Finished glTF 2.0 export in 0.004817962646484375 s
+
+23:42:59 | INFO: Starting glTF 2.0 export
+23:42:59 | INFO: Extracting primitive: Mesh_0.008
+23:42:59 | INFO: Primitives created: 1
+23:42:59 | INFO: Finished glTF 2.0 export in 0.0031709671020507812 s
+
+23:42:59 | INFO: Starting glTF 2.0 export
+23:42:59 | INFO: Extracting primitive: Mesh_0.009
+23:42:59 | INFO: Primitives created: 1
+23:42:59 | INFO: Finished glTF 2.0 export in 0.005112171173095703 s
+
+23:42:59 | INFO: Starting glTF 2.0 export
+23:42:59 | INFO: Extracting primitive: Mesh_0.010
+23:42:59 | INFO: Primitives created: 1
+23:42:59 | INFO: Finished glTF 2.0 export in 0.0027701854705810547 s
+01:23.233  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_hollow_snag_1.png'
+
+Info: No new files have been packed
+Info: Saved as "hollow_snag_family.blend"
+23:42:59 | INFO: Starting glTF 2.0 export
+23:42:59 | INFO: Extracting primitive: Far card
+23:42:59 | INFO: Primitives created: 1
+23:42:59 | INFO: Finished glTF 2.0 export in 0.0017240047454833984 s
+01:23.855  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_hollow_snag_2.png'
+
+23:43:00 | INFO: Starting glTF 2.0 export
+23:43:00 | INFO: Extracting primitive: Far card.001
+23:43:00 | INFO: Primitives created: 1
+23:43:00 | INFO: Finished glTF 2.0 export in 0.002070188522338867 s
+01:24.474  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_hollow_snag_3.png'
+
+23:43:00 | INFO: Starting glTF 2.0 export
+23:43:00 | INFO: Extracting primitive: Far card.002
+23:43:00 | INFO: Primitives created: 1
+23:43:00 | INFO: Finished glTF 2.0 export in 0.0021550655364990234 s
+01:25.123  render           | Saved: '/Users/philippe.tillheden/alpine-apex/assets/graphics/textures/impostor_hollow_snag_4.png'
+
+23:43:01 | INFO: Starting glTF 2.0 export
+23:43:01 | INFO: Extracting primitive: Far card.003
+23:43:01 | INFO: Primitives created: 1
+23:43:01 | INFO: Finished glTF 2.0 export in 0.0018460750579833984 s
+
+23:43:01 | INFO: Data are loaded, start creating Blender stuff
+23:43:01 | INFO: Blender create Mesh node Mesh_0.003
+23:43:01 | INFO: glTF import finished in 0.02s
+23:43:01 | INFO: Data are loaded, start creating Blender stuff
+23:43:01 | INFO: Blender create Mesh node Mesh_0.004
+23:43:01 | INFO: glTF import finished in 0.01s
+23:43:01 | INFO: Data are loaded, start creating Blender stuff
+23:43:01 | INFO: Blender create Mesh node Mesh_0.005
+23:43:01 | INFO: glTF import finished in 0.02s
+23:43:01 | INFO: Data are loaded, start creating Blender stuff
+23:43:01 | INFO: Blender create Mesh node Mesh_0.006
+23:43:01 | INFO: glTF import finished in 0.01s
+23:43:01 | INFO: Data are loaded, start creating Blender stuff
+23:43:01 | INFO: Blender create Mesh node Mesh_0.007
+23:43:01 | INFO: glTF import finished in 0.02s
+23:43:01 | INFO: Data are loaded, start creating Blender stuff
+23:43:01 | INFO: Blender create Mesh node Mesh_0.008
+23:43:01 | INFO: glTF import finished in 0.01s
+23:43:01 | INFO: Data are loaded, start creating Blender stuff
+23:43:01 | INFO: Blender create Mesh node Mesh_0.009
+23:43:01 | INFO: glTF import finished in 0.02s
+23:43:01 | INFO: Data are loaded, start creating Blender stuff
+23:43:01 | INFO: Blender create Mesh node Mesh_0.010
+23:43:02 | INFO: glTF import finished in 0.01s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Far card
+23:43:02 | INFO: glTF import finished in 0.00s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Far card.001
+23:43:02 | INFO: glTF import finished in 0.00s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Far card.002
+23:43:02 | INFO: glTF import finished in 0.00s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Far card.003
+23:43:02 | INFO: glTF import finished in 0.00s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Mesh_0.003
+23:43:02 | INFO: glTF import finished in 0.03s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Mesh_0.004
+23:43:02 | INFO: glTF import finished in 0.03s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Mesh_0.005
+23:43:02 | INFO: glTF import finished in 0.03s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Mesh_0.006
+23:43:02 | INFO: glTF import finished in 0.03s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Mesh_0.007
+23:43:02 | INFO: glTF import finished in 0.03s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Mesh_0.008
+23:43:02 | INFO: glTF import finished in 0.03s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Mesh_0.009
+23:43:02 | INFO: glTF import finished in 0.03s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Mesh_0.010
+23:43:02 | INFO: glTF import finished in 0.03s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Far card
+23:43:02 | INFO: glTF import finished in 0.00s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Far card.001
+23:43:02 | INFO: glTF import finished in 0.00s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Far card.002
+23:43:02 | INFO: glTF import finished in 0.00s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Far card.003
+23:43:02 | INFO: glTF import finished in 0.00s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Mesh_0.003
+23:43:02 | INFO: glTF import finished in 0.03s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Mesh_0.004
+23:43:02 | INFO: glTF import finished in 0.02s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Mesh_0.005
+23:43:02 | INFO: glTF import finished in 0.03s
+23:43:02 | INFO: Data are loaded, start creating Blender stuff
+23:43:02 | INFO: Blender create Mesh node Mesh_0.006
+23:43:03 | INFO: glTF import finished in 0.02s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.007
+23:43:03 | INFO: glTF import finished in 0.02s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.008
+23:43:03 | INFO: glTF import finished in 0.02s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.009
+23:43:03 | INFO: glTF import finished in 0.02s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.010
+23:43:03 | INFO: glTF import finished in 0.02s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Far card
+23:43:03 | INFO: glTF import finished in 0.00s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Far card.001
+23:43:03 | INFO: glTF import finished in 0.00s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Far card.002
+23:43:03 | INFO: glTF import finished in 0.00s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Far card.003
+23:43:03 | INFO: glTF import finished in 0.00s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.003
+23:43:03 | INFO: glTF import finished in 0.02s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.004
+23:43:03 | INFO: glTF import finished in 0.01s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.005
+23:43:03 | INFO: glTF import finished in 0.02s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.006
+23:43:03 | INFO: glTF import finished in 0.01s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.007
+23:43:03 | INFO: glTF import finished in 0.02s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.008
+23:43:03 | INFO: glTF import finished in 0.01s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.009
+23:43:03 | INFO: glTF import finished in 0.02s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.010
+23:43:03 | INFO: glTF import finished in 0.01s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Far card
+23:43:03 | INFO: glTF import finished in 0.00s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Far card.001
+23:43:03 | INFO: glTF import finished in 0.00s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Far card.002
+23:43:03 | INFO: glTF import finished in 0.00s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Far card.003
+23:43:03 | INFO: glTF import finished in 0.00s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.003
+23:43:03 | INFO: glTF import finished in 0.01s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.004
+23:43:03 | INFO: glTF import finished in 0.00s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.005
+23:43:03 | INFO: glTF import finished in 0.01s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.006
+23:43:03 | INFO: glTF import finished in 0.00s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.007
+23:43:03 | INFO: glTF import finished in 0.01s
+23:43:03 | INFO: Data are loaded, start creating Blender stuff
+23:43:03 | INFO: Blender create Mesh node Mesh_0.008
+23:43:03 | INFO: glTF import finished in 0.00s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Mesh_0.009
+23:43:04 | INFO: glTF import finished in 0.01s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Mesh_0.010
+23:43:04 | INFO: glTF import finished in 0.00s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Far card
+23:43:04 | INFO: glTF import finished in 0.00s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Far card.001
+23:43:04 | INFO: glTF import finished in 0.00s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Far card.002
+23:43:04 | INFO: glTF import finished in 0.00s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Far card.003
+23:43:04 | INFO: glTF import finished in 0.00s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Mesh_0.003
+23:43:04 | INFO: glTF import finished in 0.01s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Mesh_0.004
+23:43:04 | INFO: glTF import finished in 0.00s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Mesh_0.005
+23:43:04 | INFO: glTF import finished in 0.01s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Mesh_0.006
+23:43:04 | INFO: glTF import finished in 0.00s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Mesh_0.007
+23:43:04 | INFO: glTF import finished in 0.01s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Mesh_0.008
+23:43:04 | INFO: glTF import finished in 0.00s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Mesh_0.009
+23:43:04 | INFO: glTF import finished in 0.01s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Mesh_0.010
+23:43:04 | INFO: glTF import finished in 0.00s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Far card
+23:43:04 | INFO: glTF import finished in 0.00s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Far card.001
+23:43:04 | INFO: glTF import finished in 0.00s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Far card.002
+23:43:04 | INFO: glTF import finished in 0.00s
+23:43:04 | INFO: Data are loaded, start creating Blender stuff
+23:43:04 | INFO: Blender create Mesh node Far card.003
+23:43:04 | INFO: glTF import finished in 0.00s
+SCENERY_MODELS_COMPLETE 72 verified exports
+Blender 5.2.0 LTS (hash fbe6228777e7 built 2026-07-14 01:31:22)
+
+Blender quit

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="SkiTuning" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/ski_tuning.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+
+rider_mass = 80.0
+half_stance = 0.22
+ski_length = 1.8
+ski_width = 0.11
+leg_extension = 0.28
+balance_stiffness = 1500.0
+balance_damping = 700.0
+balance_max_torque = 600.0

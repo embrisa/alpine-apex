@@ -1,0 +1,68 @@
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+00:39:44 | INFO: Data are loaded, start creating Blender stuff
+00:39:44 | INFO: Blender create Mesh node mesh
+00:39:44 | INFO: glTF import finished in 0.09s
+/Users/philippe.tillheden/.codex/skills/meshy-blender-game-assets/scripts/qa_glb_in_blender.py:46: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  material.use_nodes = True
+/Users/philippe.tillheden/.codex/skills/meshy-blender-game-assets/scripts/qa_glb_in_blender.py:85: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  world.use_nodes = True
+00:02.861  render           | Saved: '/Users/philippe.tillheden/alpine-apex/art_source/meshy/skier_v7/qa/candidate-raw.png'
+00:04.643  render           | Saved: '/Users/philippe.tillheden/alpine-apex/art_source/meshy/skier_v7/qa/candidate-game.png'
+Info: Saved as "candidate-raw.blend"
+Info: Saved as "candidate-game.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+00:39:48 | INFO: Starting glTF 2.0 export
+00:39:48 | INFO: Extracting primitive: mesh
+00:39:48 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+00:39:48 | INFO: Primitives created: 1
+00:39:48 | INFO: Finished glTF 2.0 export in 0.042634010314941406 s
+
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+00:39:48 | INFO: Data are loaded, start creating Blender stuff
+00:39:48 | INFO: Blender create Mesh node mesh
+00:39:49 | INFO: glTF import finished in 0.06s
+{
+  "source": "/Users/philippe.tillheden/alpine-apex/art_source/meshy/skier_v7/candidate.glb",
+  "raw": {
+    "mesh_objects": 1,
+    "vertices": 54523,
+    "polygons": 61260,
+    "materials": [
+      "material"
+    ]
+  },
+  "dimensions": [
+    1.9005,
+    0.3982,
+    1.9023
+  ],
+  "raw_blend": "/Users/philippe.tillheden/alpine-apex/art_source/meshy/skier_v7/qa/candidate-raw.blend",
+  "raw_render": "/Users/philippe.tillheden/alpine-apex/art_source/meshy/skier_v7/qa/candidate-raw.png",
+  "optimized": {
+    "mesh_objects": 1,
+    "vertices": 44632,
+    "polygons": 42881,
+    "materials": [
+      "material"
+    ]
+  },
+  "optimized_blend": "/Users/philippe.tillheden/alpine-apex/art_source/meshy/skier_v7/qa/candidate-game.blend",
+  "optimized_glb": "/Users/philippe.tillheden/alpine-apex/art_source/meshy/skier_v7/qa/candidate-game.glb",
+  "optimized_render": "/Users/philippe.tillheden/alpine-apex/art_source/meshy/skier_v7/qa/candidate-game.png",
+  "roundtrip": {
+    "mesh_objects": 1,
+    "vertices": 44607,
+    "polygons": 42881,
+    "materials": [
+      "material"
+    ]
+  },
+  "stats": "/Users/philippe.tillheden/alpine-apex/art_source/meshy/skier_v7/qa/candidate-qa.json"
+}
+Blender 5.2.0 LTS (hash fbe6228777e7 built 2026-07-14 01:31:22)
+
+Blender quit

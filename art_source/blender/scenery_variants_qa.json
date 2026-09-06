@@ -1,0 +1,422 @@
+[
+  {
+    "asset": "fir_1_lod0",
+    "family": "fir",
+    "lod": 0,
+    "triangles": 53684,
+    "dimensions": [
+      7.0234174728393555,
+      6.681646347045898,
+      10.741324424743652
+    ],
+    "roundtrip_verified": true,
+    "bytes": 2338804,
+    "sha256": "9da42ad301143f0ed8862df89fa3865de59a592fc5059d3dce88b943263ef665"
+  },
+  {
+    "asset": "fir_1_lod1",
+    "family": "fir",
+    "lod": 1,
+    "triangles": 26390,
+    "dimensions": [
+      6.835507392883301,
+      6.187959671020508,
+      10.741357803344727
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1086572,
+    "sha256": "9be10bc1b7c9b1bf1a3569774570b13c0cf80c0fcbbdc8506cca1516d4cb4986"
+  },
+  {
+    "asset": "fir_2_lod0",
+    "family": "fir",
+    "lod": 0,
+    "triangles": 53684,
+    "dimensions": [
+      6.521049499511719,
+      6.403108596801758,
+      10.74169635772705
+    ],
+    "roundtrip_verified": true,
+    "bytes": 2338800,
+    "sha256": "09f343eee5638838f8fb56bae64a362f6a8db55a864a61c269e72d644006cebe"
+  },
+  {
+    "asset": "fir_2_lod1",
+    "family": "fir",
+    "lod": 1,
+    "triangles": 26390,
+    "dimensions": [
+      6.021867275238037,
+      6.469028472900391,
+      10.741739273071289
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1086576,
+    "sha256": "8f9647bbb8e46414c34ac7399f2460662722366d1499eb98a98c1368f08f3760"
+  },
+  {
+    "asset": "pine_1_lod0",
+    "family": "pine",
+    "lod": 0,
+    "triangles": 24788,
+    "dimensions": [
+      8.522781372070312,
+      8.10816764831543,
+      11.328531265258789
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1081752,
+    "sha256": "0bcdaa06ebe7acfe03a3b1566ef0c26ac488fced1f5ab51d16549b5fd01598b5"
+  },
+  {
+    "asset": "pine_1_lod1",
+    "family": "pine",
+    "lod": 1,
+    "triangles": 13078,
+    "dimensions": [
+      8.186927795410156,
+      8.846362113952637,
+      11.269888877868652
+    ],
+    "roundtrip_verified": true,
+    "bytes": 539744,
+    "sha256": "59283cfdb4f2b704e78a8350d4740d750778a911610753754879e3d004385b0d"
+  },
+  {
+    "asset": "pine_2_lod0",
+    "family": "pine",
+    "lod": 0,
+    "triangles": 23876,
+    "dimensions": [
+      8.682469367980957,
+      9.177961349487305,
+      11.116966247558594
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1043004,
+    "sha256": "e2672357aba66d53c09f31adb682432ca3886855b9a9d6abbfcc5d4d55ca98da"
+  },
+  {
+    "asset": "pine_2_lod1",
+    "family": "pine",
+    "lod": 1,
+    "triangles": 12454,
+    "dimensions": [
+      8.863882064819336,
+      9.273428916931152,
+      11.281417846679688
+    ],
+    "roundtrip_verified": true,
+    "bytes": 514104,
+    "sha256": "3d7af165178aa52226e36373e27f9d0af90decf95eabfc83c45e7bbe58ca7028"
+  },
+  {
+    "asset": "larch_1_lod0",
+    "family": "larch",
+    "lod": 0,
+    "triangles": 33860,
+    "dimensions": [
+      6.763480186462402,
+      7.670405387878418,
+      10.750689506530762
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1221668,
+    "sha256": "5442e5df4b5965ed01df841c18c6457bee81ad241ec7b1bd0cc5e7ee924ddd09"
+  },
+  {
+    "asset": "larch_1_lod1",
+    "family": "larch",
+    "lod": 1,
+    "triangles": 14742,
+    "dimensions": [
+      6.6776275634765625,
+      7.614450454711914,
+      10.750958442687988
+    ],
+    "roundtrip_verified": true,
+    "bytes": 528776,
+    "sha256": "b17a26b54256ea419720738fd863347d39eb1416297ff09fa17f5032899c7afc"
+  },
+  {
+    "asset": "larch_2_lod0",
+    "family": "larch",
+    "lod": 0,
+    "triangles": 33860,
+    "dimensions": [
+      7.141496658325195,
+      6.794316291809082,
+      10.749688148498535
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1221664,
+    "sha256": "64a53510a40df6bc69a41933c0134f0d40692c7010cd8b646097af93919e7566"
+  },
+  {
+    "asset": "larch_2_lod1",
+    "family": "larch",
+    "lod": 1,
+    "triangles": 14742,
+    "dimensions": [
+      6.982945919036865,
+      6.711063385009766,
+      10.749931335449219
+    ],
+    "roundtrip_verified": true,
+    "bytes": 528776,
+    "sha256": "6d740e60b0380fe77704ce4b2f678c82b3979631ad9195da4973cf254878e0a9"
+  },
+  {
+    "asset": "snag_1_lod0",
+    "family": "snag",
+    "lod": 0,
+    "triangles": 728,
+    "dimensions": [
+      2.2347989082336426,
+      2.371079921722412,
+      11.14428997039795
+    ],
+    "roundtrip_verified": true,
+    "bytes": 32320,
+    "sha256": "b91e157353944ae6c349881c37037e66a79d0ce14da1bb271f223fd4aa798ece"
+  },
+  {
+    "asset": "snag_1_lod1",
+    "family": "snag",
+    "lod": 1,
+    "triangles": 488,
+    "dimensions": [
+      2.2374796867370605,
+      2.3722472190856934,
+      11.144309043884277
+    ],
+    "roundtrip_verified": true,
+    "bytes": 23196,
+    "sha256": "6fb89030d94dd4030dcd70107094e6eac3e2caf8fa0a86b9d778432cc12b042c"
+  },
+  {
+    "asset": "snag_2_lod0",
+    "family": "snag",
+    "lod": 0,
+    "triangles": 728,
+    "dimensions": [
+      2.508319616317749,
+      1.665347933769226,
+      11.162829399108887
+    ],
+    "roundtrip_verified": true,
+    "bytes": 32320,
+    "sha256": "32d39195494a9877c9f608dbab744f13c28c6a55064b0c703a14580e108fec8c"
+  },
+  {
+    "asset": "snag_2_lod1",
+    "family": "snag",
+    "lod": 1,
+    "triangles": 488,
+    "dimensions": [
+      2.5094943046569824,
+      1.6632788181304932,
+      11.162848472595215
+    ],
+    "roundtrip_verified": true,
+    "bytes": 23196,
+    "sha256": "f550d384634d80095be1c91a6cbf2884e07310fb38bcbb112b707f952e379555"
+  },
+  {
+    "asset": "rock_granite_1",
+    "family": "granite",
+    "lod": null,
+    "triangles": 294,
+    "dimensions": [
+      2.511871099472046,
+      2.446143388748169,
+      2.3499999046325684
+    ],
+    "roundtrip_verified": true,
+    "bytes": 18192,
+    "sha256": "88796ab7e8e3eeaf7f11be409aa1aa580a33b10ca2e5f77796b1a171a3029f7a"
+  },
+  {
+    "asset": "rock_granite_2",
+    "family": "granite",
+    "lod": null,
+    "triangles": 276,
+    "dimensions": [
+      2.525874614715576,
+      2.3721718788146973,
+      2.3499999046325684
+    ],
+    "roundtrip_verified": true,
+    "bytes": 16884,
+    "sha256": "779796db362753890639f0e8c6e2e89420f8bc9f971bab895ee09e2bb6528a9c"
+  },
+  {
+    "asset": "rock_slate_1",
+    "family": "slate",
+    "lod": null,
+    "triangles": 216,
+    "dimensions": [
+      2.5871710777282715,
+      1.7214974164962769,
+      2.3499999046325684
+    ],
+    "roundtrip_verified": true,
+    "bytes": 15944,
+    "sha256": "dc391d384b5fbf0500207499da3431f14eac03bc6318ce95517ea3e9f4fc957d"
+  },
+  {
+    "asset": "rock_slate_2",
+    "family": "slate",
+    "lod": null,
+    "triangles": 216,
+    "dimensions": [
+      2.475396156311035,
+      1.7024459838867188,
+      2.3499999046325684
+    ],
+    "roundtrip_verified": true,
+    "bytes": 15944,
+    "sha256": "d7a47e8aa4ee897f0c461720134d235488a1251ca9b2b4e74f6adbed17c60401"
+  },
+  {
+    "asset": "rock_boulder_1",
+    "family": "boulder",
+    "lod": null,
+    "triangles": 320,
+    "dimensions": [
+      2.5577645301818848,
+      2.5801970958709717,
+      2.3499999046325684
+    ],
+    "roundtrip_verified": true,
+    "bytes": 9692,
+    "sha256": "f8d283bcdb12a770e1ec9c6ad960402e14e47b4e900e4f4630c140394b8c79c6"
+  },
+  {
+    "asset": "rock_boulder_2",
+    "family": "boulder",
+    "lod": null,
+    "triangles": 320,
+    "dimensions": [
+      2.571455478668213,
+      2.588388204574585,
+      2.3499999046325684
+    ],
+    "roundtrip_verified": true,
+    "bytes": 9696,
+    "sha256": "b8ee21c387b8ea95422e11d22d4ec079dbcc11172389c7bf0143e81d8c9e3fe5"
+  },
+  {
+    "asset": "fir_1_lod2",
+    "family": "fir",
+    "lod": 2,
+    "triangles": 2,
+    "dimensions": [
+      11.5,
+      0.0,
+      11.5
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1264,
+    "sha256": "3802d1f8251c8cd3e124f46c8d87492af35cc76a82d2da3145cb322ce339570b"
+  },
+  {
+    "asset": "fir_2_lod2",
+    "family": "fir",
+    "lod": 2,
+    "triangles": 2,
+    "dimensions": [
+      11.5,
+      0.0,
+      11.5
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1264,
+    "sha256": "63c2fb28c85b7d081a1f0d68c593a55b2476df3b293c97e8f1b6db4807070d35"
+  },
+  {
+    "asset": "pine_1_lod2",
+    "family": "pine",
+    "lod": 2,
+    "triangles": 2,
+    "dimensions": [
+      11.5,
+      0.0,
+      11.5
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1264,
+    "sha256": "27c17f06eace45a3f955bfaf680c4ec5087c86df769b848d7b1fd0074ff27918"
+  },
+  {
+    "asset": "pine_2_lod2",
+    "family": "pine",
+    "lod": 2,
+    "triangles": 2,
+    "dimensions": [
+      11.5,
+      0.0,
+      11.5
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1264,
+    "sha256": "8ee21e7dae98be27dea05edb910fe5ef95aa02e191423a9e80f28d861149fba3"
+  },
+  {
+    "asset": "larch_1_lod2",
+    "family": "larch",
+    "lod": 2,
+    "triangles": 2,
+    "dimensions": [
+      11.5,
+      0.0,
+      11.5
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1268,
+    "sha256": "06a09ef1fbc86d9aca2e13661f406fa8604e15152f6f5bea2012c8b287214f11"
+  },
+  {
+    "asset": "larch_2_lod2",
+    "family": "larch",
+    "lod": 2,
+    "triangles": 2,
+    "dimensions": [
+      11.5,
+      0.0,
+      11.5
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1268,
+    "sha256": "00234fe3315590277aba18e568d30413f1a75f13b183f7fb1c7e0687b9377d00"
+  },
+  {
+    "asset": "snag_1_lod2",
+    "family": "snag",
+    "lod": 2,
+    "triangles": 2,
+    "dimensions": [
+      11.5,
+      0.0,
+      11.5
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1264,
+    "sha256": "7e45bbe503e56fc40b1bff8c9dc7b78223b844aa247b1b8192f0c96daa6a807c"
+  },
+  {
+    "asset": "snag_2_lod2",
+    "family": "snag",
+    "lod": 2,
+    "triangles": 2,
+    "dimensions": [
+      11.5,
+      0.0,
+      11.5
+    ],
+    "roundtrip_verified": true,
+    "bytes": 1264,
+    "sha256": "0b1312d0e66749d04de3adaeb7679967e78e9ea5df25f2e3e0502c08b6fad2eb"
+  }
+]

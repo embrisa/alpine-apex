@@ -1,0 +1,227 @@
+{
+  "budget_credits": 1000,
+  "spent_credits": 420,
+  "remaining_allowance": 580,
+  "starting_balance": 4425,
+  "ending_balance": 4005,
+  "operations": [
+    {
+      "family": "fir",
+      "stage": "preview",
+      "task_id": "01a07371-ee03-741f-81fa-fed5ae4feacb",
+      "prompt": "Realistic alpine silver fir tree for a downhill skiing game, isolated complete single mature tree. Tall narrow spire silhouette, straight central trunk, densely layered irregular horizontal boughs, short deep green needles, sparse broken patches of winter snow on upper branch surfaces. Natural asymmetric branching, visible lower brown trunk, 11 metres tall. Detailed volumetric foliage, no flat billboard planes. No ground slab, no pot, no scenery, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "fir",
+      "stage": "refine",
+      "task_id": "01a07373-ec58-77be-8ce6-1e4c780f5099",
+      "preview_task_id": "01a07371-ee03-741f-81fa-fed5ae4feacb",
+      "texture_prompt": "Realistic alpine silver fir: deep dark evergreen needles with fine needle texture, desaturated blue-green shadowed boughs, grey-brown fissured bark. Broken light deposits of powder snow only on upward branch surfaces. Natural subdued PBR albedo, no painted highlights or shadows, matte rough foliage, no ornaments.",
+      "consumed_credits": 10,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "pine",
+      "stage": "preview",
+      "task_id": "01a07371-f319-702b-94e6-ac8dcbad2439",
+      "prompt": "Realistic mature Swiss stone pine, isolated single complete alpine tree for a skiing game. Broad irregular rounded multi-lobed crown, visibly separate dense needle boughs, open gaps, stout straight brown trunk and twisting upper branches, long dark blue-green needles. Sparse snow clumps on upper boughs. Distinct wide wind-shaped silhouette, lower third of trunk bare. 11 metres tall. No ground base, no pot, no rocks, no other trees, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "pine",
+      "stage": "refine",
+      "task_id": "01a07373-f1ea-77e5-9704-aa17e70f94bd",
+      "preview_task_id": "01a07371-f319-702b-94e6-ac8dcbad2439",
+      "texture_prompt": "Realistic Swiss stone pine with dark blue-green needle clusters, weathered warm brown and grey fissured bark on trunk and branches, broken thin powder snow deposits on top of boughs. Natural alpine winter color, matte needle surfaces, no baked sunlight or shadows, no ornaments.",
+      "consumed_credits": 10,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "larch",
+      "stage": "preview",
+      "task_id": "01a07371-f918-755f-be80-099b69d80e0b",
+      "prompt": "Realistic European larch tree in winter, isolated single complete tree for an alpine skiing game. All needles shed: bare fine ramifying branches, tall straight tapering trunk, irregular airy conical crown, horizontal main boughs and gracefully drooping fine twigs. Sparse traces of snow atop thick limbs, deeply fissured grey brown bark, tiny seed cones. 11 metres tall. No foliage, no leaves, no ground base, no scenery, no pot, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "larch",
+      "stage": "refine",
+      "task_id": "01a07373-f57c-7270-b957-aaaae9ea0651",
+      "preview_task_id": "01a07371-f918-755f-be80-099b69d80e0b",
+      "texture_prompt": "Winter European larch with no needles or leaves. Rough grey-brown fissured bark, reddish brown finer twigs, pale thin traces of snow atop larger branches, tiny dark cones. Natural weathering, matte PBR textures, no baked directional shadows, no green foliage.",
+      "consumed_credits": 10,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "snag",
+      "stage": "preview",
+      "task_id": "01a07371-fe43-77ee-abbc-c5aff41ab398",
+      "prompt": "Realistic isolated standing broken alpine conifer snag for a skiing game. Tall weathered dead trunk snapped at the crown with jagged pointed splintered wood at the top. Several uneven snapped side limbs, one longer torn limb hanging down. Thick bark peeling away in strips, exposed pale raw wood at fracture, narrow upright 10 metre remnant trunk with rough root flare. No foliage, no green needles, no ground base, no surrounding props, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "snag",
+      "stage": "refine",
+      "task_id": "01a07373-f918-74d0-9a58-a26bfbec3258",
+      "preview_task_id": "01a07371-fe43-77ee-abbc-c5aff41ab398",
+      "texture_prompt": "Weathered dead alpine conifer snag. Deeply fissured silver grey and umber bark peeling in strips, fresh light ochre fibrous wood on broken top and snapped branch ends, dark weathered cracks, tiny traces of white snow on ledges. Matte rough wood, no green foliage, no painted sunlight or shadow.",
+      "consumed_credits": 10,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "granite",
+      "stage": "preview",
+      "task_id": "01a07375-bb25-75d7-917e-d62d9e967ca8",
+      "prompt": "Photorealistic isolated alpine granite boulder for a skiing game. One broad irregular solid rock, asymmetric squat mass, large weather-worn planar fracture faces, diagonal cracks, chipped corners and rounded weathered edges, uneven sloping top. Natural glacial erratic about 3 metres wide and 2 metres tall. Interesting recognizable silhouette from all directions. No ground slab, no plants, no other objects, no snow, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "slate",
+      "stage": "preview",
+      "task_id": "01a07375-bfe4-76c4-b486-902f86eafb43",
+      "prompt": "Photorealistic isolated alpine schist rock outcrop for a skiing game. Single broad low irregular rock mass with tilted layered stone strata, diagonal jagged fracture face and projecting broken slabs, weathered chipped edges. Organic asymmetric outline, uneven top and sloping shoulder. 3 metres wide and 2 metres tall. Geological irregularity, not a regular stack or tower. No ground base, no vegetation, no other props, no snow, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "birch",
+      "stage": "preview",
+      "task_id": "01a0737b-bf25-750e-b296-1122777a315f",
+      "prompt": "Realistic isolated single silver birch tree in deepest winter for a skiing game. Completely leafless, branching white trunk with black bark scars, trunk forks above one third height into an airy irregular spreading network of delicate dark reddish twigs, slightly drooping tips. 11 metres tall. Bare branch silhouette, NO leaves and NO foliage clumps. No snow, no ground disk, no base, no pot, no other objects, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "birch",
+      "stage": "refine",
+      "task_id": "01a0737e-30b4-7332-aa09-0a1f071904bc",
+      "preview_task_id": "01a0737b-bf25-750e-b296-1122777a315f",
+      "texture_prompt": "Realistic leafless silver birch in winter: chalk white papery bark with characteristic black horizontal scars and peeling curls, dark reddish brown fine twigs. No leaves, no green foliage, no painted snow clumps. Matte natural PBR bark, no baked lighting or shadows.",
+      "consumed_credits": 10,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "rowan",
+      "stage": "preview",
+      "task_id": "01a0737b-c452-7660-9a89-f3275f2a7343",
+      "prompt": "Realistic isolated single mountain rowan tree in deepest winter for an alpine game. Completely bare rounded spreading irregular crown of stout ascending branches and many fine branching twigs. Single centered grey brown trunk, modest fork above chest height. Only tiny sparse berry clusters at tips, absolutely no leaves or foliage clumps. 10 metres tall. No snow, no ground disk, no base, no rocks, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "rowan",
+      "stage": "refine",
+      "task_id": "01a0737e-34a6-73f8-a5e3-020166465e28",
+      "preview_task_id": "01a0737b-c452-7660-9a89-f3275f2a7343",
+      "texture_prompt": "Realistic completely bare mountain rowan in winter: cool grey brown smooth trunk with fine vertical fissures, dark umber fine twigs, a few tiny dark red berry clusters. No leaves, no green foliage, no painted snow clumps. Matte natural PBR surface without baked lighting.",
+      "consumed_credits": 10,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "scots_pine",
+      "stage": "preview",
+      "task_id": "01a0737b-c981-702d-ad88-1abff5e3e1ab",
+      "prompt": "Realistic isolated mature Scots pine for an alpine skiing game. Tall straight trunk with warm orange reddish upper bark and deeply fissured dark lower bark. Wide flat-topped irregular umbrella crown concentrated in the upper third, densely clustered long evergreen needles, open gaps between curved heavy boughs, windswept asymmetric outline. Single central trunk, 12 metres tall. No snow, no ground disk, no base, no other objects, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "scots_pine",
+      "stage": "refine",
+      "task_id": "01a0737e-3853-7487-a8d3-6513c67dccdd",
+      "preview_task_id": "01a0737b-c981-702d-ad88-1abff5e3e1ab",
+      "texture_prompt": "Realistic Scots pine: dark desaturated forest green and blue green needles with detailed needle texture, warm rusty orange flaky bark on upper trunk, grey brown deep fissures at base. No snow, no white needle clumps, no ornaments. Matte natural PBR albedo, no baked lighting.",
+      "consumed_credits": 10,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "wind_pine",
+      "stage": "preview",
+      "task_id": "01a0737b-ce4f-7249-89e7-27b9d7b66970",
+      "prompt": "Realistic isolated wind-battered alpine pine tree for a skiing game. Distinct asymmetric flag-shaped crown: most of the green needle branches extend to one side after years of wind. Straight centered lower trunk, crooked twisting upper leader, sparse broken dead branches on windward side, thick exposed brown bark. Tall upright tree, 11 metres. No snow, no ground disk, no base, no surrounding scenery, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "wind_pine",
+      "stage": "refine",
+      "task_id": "01a0737e-3d84-74e4-a229-0f8dd5e6213b",
+      "preview_task_id": "01a0737b-ce4f-7249-89e7-27b9d7b66970",
+      "texture_prompt": "Realistic wind-battered alpine pine, dark deep green needles with natural olive variations and desaturated grey-green exposed tips, weathered dark brown fissured bark, pale grey dead branches on windward side. No snow, no white clumps, no ornaments. Matte natural PBR albedo with no baked shadows.",
+      "consumed_credits": 10,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "split_snag",
+      "stage": "preview",
+      "task_id": "01a0737b-d517-7609-b065-bed0ecb8c95a",
+      "prompt": "Realistic isolated lightning-split dead alpine tree for a skiing game. Tall single centered trunk splits above halfway into two jagged broken upright spars of different heights. Torn pointed splinters at both tops, long vertical crack exposing heartwood, several thick truncated side branches, bark stripped on one side, weathered dark bark on the other. 10 metre standing remnant. No foliage, no leaves, no ground disk, no base, no other objects, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "split_snag",
+      "stage": "refine",
+      "task_id": "01a0737e-431c-7453-abb7-fa4193ce931e",
+      "preview_task_id": "01a0737b-d517-7609-b065-bed0ecb8c95a",
+      "texture_prompt": "Realistic lightning-split dead tree. Charred charcoal brown bark along the central lightning scar, weathered grey bark elsewhere, exposed pale tan splintered fibrous wood at both jagged broken tops, warm raw heartwood inside vertical crack. No foliage, no snow, matte natural PBR wood with no baked lighting.",
+      "consumed_credits": 10,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "hollow_snag",
+      "stage": "preview",
+      "task_id": "01a0737b-d9ec-714b-bd16-53e2fffe5139",
+      "prompt": "Realistic isolated ancient hollow dead tree for an alpine game. Tall thick upright trunk, open narrow hollow wound on the front above the base, deeply grooved peeling grey bark, few heavy broken branches extending upward, uneven jagged crown fracture. Aged twisted silhouette, single centered base, standing remnant 10 metres tall. No foliage, no leaves, no ground disk, no base slab, no surrounding props, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "hollow_snag",
+      "stage": "refine",
+      "task_id": "01a0737e-47bb-75ae-a3a2-7c891d490152",
+      "preview_task_id": "01a0737b-d9ec-714b-bd16-53e2fffe5139",
+      "texture_prompt": "Realistic ancient hollow dead alpine tree: silver grey deeply grooved bark with umber recesses, dark decayed interior cavity, weathered pale tan broken wood on snapped limbs and crown, peeling rough bark edges. No leaves or green foliage, no snow, matte rough wood with no baked shadows.",
+      "consumed_credits": 10,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "limestone",
+      "stage": "preview",
+      "task_id": "01a0737b-df86-7415-b976-c6121848d12a",
+      "prompt": "Realistic isolated alpine limestone rock for a skiing game. One asymmetric broad block, sharp broken diagonal faces, deep erosion fissures and pockets, sloping irregular crown with a pointed corner, chalky weathered surfaces. Natural massive stone 3 metres wide and 2 metres tall. Distinct jagged silhouette, no regular symmetry. No ground slab, no plants, no snow, no surrounding props, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "gneiss",
+      "stage": "preview",
+      "task_id": "01a0737b-e532-70f1-ae3c-2b68ef55ddb6",
+      "prompt": "Realistic isolated alpine gneiss boulder for a skiing game. Broad asymmetric rounded weathered mass cleaved by a deep diagonal fissure, wavy banded metamorphic strata, one projecting angular shoulder, irregular worn surfaces and chipped corners. One contiguous solid stone 3 metres wide and 2 metres high. No symmetry, no ground base, no plants, no snow, no other objects, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "split_rock",
+      "stage": "preview",
+      "task_id": "01a0737b-e9e8-72ee-b73a-ab7b212f6a25",
+      "prompt": "Realistic isolated massive split alpine boulder for a skiing game. Two uneven interlocking rock lobes joined at their broad bottom, deep open V-shaped cleft through the upper half, one taller jagged half and one low rounded shoulder, irregular fractured granite faces. One contiguous rock object, 3 metres wide and 2 metres tall. No ground base, no plants, no snow, no surrounding props, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    },
+    {
+      "family": "outcrop",
+      "stage": "preview",
+      "task_id": "01a0737b-ef1b-7507-bc13-143e0f0912b3",
+      "prompt": "Realistic isolated jagged alpine rock outcrop for a skiing game. One broad low asymmetric rock with several uneven triangular fins projecting from a common solid mass, strongly tilted stone bedding, sharp flaked fracture edges and weathered irregular surfaces. 3 metres wide and 2 metres tall. Natural geology, not crystal cluster. No ground slab, no plants, no snow, no surrounding props, no text.",
+      "consumed_credits": 20,
+      "status": "SUCCEEDED"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+skier Node3D [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]
+Armature Node3D [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]
+Skeleton3D Skeleton3D [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]
+BONE 0 Hips p=-1 rest=(-0.004731, 0.894455, -0.150139)
+BONE 1 LeftUpLeg p=0 rest=(0.103239, 0.801783, -0.145822)
+BONE 2 LeftLeg p=1 rest=(0.145757, 0.431093, -0.128554)
+BONE 3 LeftFoot p=2 rest=(0.17464, 0.087534, -0.128376)
+BONE 4 LeftToeBase p=3 rest=(0.22282, 0.039751, 0.016969)
+BONE 5 RightUpLeg p=0 rest=(-0.115862, 0.801057, -0.145259)
+BONE 6 RightLeg p=5 rest=(-0.159274, 0.427467, -0.125741)
+BONE 7 RightFoot p=6 rest=(-0.175912, 0.091263, -0.128688)
+BONE 8 RightToeBase p=7 rest=(-0.224117, 0.041577, 0.016582)
+BONE 9 Spine02 p=0 rest=(-0.003943, 1.035444, -0.149947)
+BONE 10 Spine01 p=9 rest=(-0.003154, 1.176432, -0.149755)
+BONE 11 Spine p=10 rest=(-0.002366, 1.31742, -0.149563)
+BONE 12 LeftShoulder p=11 rest=(0.030232, 1.355656, -0.141341)
+BONE 13 LeftArm p=12 rest=(0.160624, 1.355656, -0.133118)
+BONE 14 LeftForeArm p=13 rest=(0.344583, 1.180185, -0.095322)
+BONE 15 LeftHand p=14 rest=(0.521789, 1.177029, 0.118708)
+BONE 16 neck p=11 rest=(-0.000887, 1.430691, -0.149409)
+BONE 17 Head p=16 rest=(0.0, 1.498691, -0.149317)
+BONE 18 head_end p=17 rest=(0.002732, 1.704302, -0.124051)
+BONE 19 headfront p=17 rest=(0.0, 1.498691, -0.030218)
+BONE 20 RightShoulder p=11 rest=(-0.034285, 1.353725, -0.140367)
+BONE 21 RightArm p=20 rest=(-0.161965, 1.353724, -0.13117)
+BONE 22 RightForeArm p=21 rest=(-0.350924, 1.176845, -0.088827)
+BONE 23 RightHand p=22 rest=(-0.524153, 1.177513, 0.123887)
+char1 MeshInstance3D [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.0, 0.0)]
+[MCPRuntimeServer] port: scanning 6570-6585 (default)
+[MCPRuntimeServer] listening on 127.0.0.1:6570
+[MCPRegistry] runtime port 6570 registered for /users/philippe.tillheden/alpine-apex

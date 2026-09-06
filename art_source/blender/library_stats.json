@@ -1,0 +1,283 @@
+[
+  {
+    "asset": "spruce_1_lod0",
+    "triangles": 9640,
+    "dimensions": [
+      6.501096725463867,
+      5.730563163757324,
+      10.300103187561035
+    ],
+    "materials": [
+      "Bark",
+      "Needles",
+      "Snow"
+    ]
+  },
+  {
+    "asset": "spruce_1_lod1",
+    "triangles": 4222,
+    "dimensions": [
+      6.835991859436035,
+      5.589747428894043,
+      10.300098419189453
+    ],
+    "materials": [
+      "Bark",
+      "Needles",
+      "Snow"
+    ]
+  },
+  {
+    "asset": "spruce_1_lod2",
+    "triangles": 1422,
+    "dimensions": [
+      6.797651290893555,
+      6.859856605529785,
+      10.300098419189453
+    ],
+    "materials": [
+      "Bark",
+      "Needles",
+      "Snow"
+    ]
+  },
+  {
+    "asset": "spruce_2_lod0",
+    "triangles": 9640,
+    "dimensions": [
+      6.702286720275879,
+      6.509264945983887,
+      10.800098419189453
+    ],
+    "materials": [
+      "Bark",
+      "Needles",
+      "Snow"
+    ]
+  },
+  {
+    "asset": "spruce_2_lod1",
+    "triangles": 4222,
+    "dimensions": [
+      6.5426435470581055,
+      6.540178298950195,
+      10.800093650817871
+    ],
+    "materials": [
+      "Bark",
+      "Needles",
+      "Snow"
+    ]
+  },
+  {
+    "asset": "spruce_2_lod2",
+    "triangles": 1422,
+    "dimensions": [
+      6.716193199157715,
+      6.44756555557251,
+      10.800093650817871
+    ],
+    "materials": [
+      "Bark",
+      "Needles",
+      "Snow"
+    ]
+  },
+  {
+    "asset": "spruce_3_lod0",
+    "triangles": 9640,
+    "dimensions": [
+      6.207401275634766,
+      6.545588493347168,
+      9.900165557861328
+    ],
+    "materials": [
+      "Bark",
+      "Needles",
+      "Snow"
+    ]
+  },
+  {
+    "asset": "spruce_3_lod1",
+    "triangles": 4222,
+    "dimensions": [
+      6.4980244636535645,
+      6.617968559265137,
+      9.90015697479248
+    ],
+    "materials": [
+      "Bark",
+      "Needles",
+      "Snow"
+    ]
+  },
+  {
+    "asset": "spruce_3_lod2",
+    "triangles": 1422,
+    "dimensions": [
+      6.210320472717285,
+      7.098424911499023,
+      9.90015697479248
+    ],
+    "materials": [
+      "Bark",
+      "Needles",
+      "Snow"
+    ]
+  },
+  {
+    "asset": "scrub_1",
+    "triangles": 224,
+    "dimensions": [
+      1.0461974143981934,
+      0.9250919222831726,
+      0.2813911736011505
+    ],
+    "materials": [
+      "Bark",
+      "Needles",
+      "Snow"
+    ]
+  },
+  {
+    "asset": "scrub_2",
+    "triangles": 224,
+    "dimensions": [
+      0.9906250238418579,
+      1.1105003356933594,
+      0.2819822132587433
+    ],
+    "materials": [
+      "Bark",
+      "Needles",
+      "Snow"
+    ]
+  },
+  {
+    "asset": "boulder_1",
+    "triangles": 320,
+    "dimensions": [
+      2.637946128845215,
+      2.398601531982422,
+      1.7816243171691895
+    ],
+    "materials": [
+      "Rock"
+    ]
+  },
+  {
+    "asset": "boulder_2",
+    "triangles": 320,
+    "dimensions": [
+      2.6551246643066406,
+      2.3724589347839355,
+      1.7546316385269165
+    ],
+    "materials": [
+      "Rock"
+    ]
+  },
+  {
+    "asset": "boulder_3",
+    "triangles": 320,
+    "dimensions": [
+      2.6460561752319336,
+      2.386476993560791,
+      1.8454521894454956
+    ],
+    "materials": [
+      "Rock"
+    ]
+  },
+  {
+    "asset": "ridge_1",
+    "triangles": 9600,
+    "dimensions": [
+      3000.0,
+      1700.0,
+      958.6647338867188
+    ],
+    "materials": [
+      "Rock"
+    ]
+  },
+  {
+    "asset": "ridge_2",
+    "triangles": 9600,
+    "dimensions": [
+      3000.0,
+      1700.0,
+      946.1998901367188
+    ],
+    "materials": [
+      "Rock"
+    ]
+  },
+  {
+    "asset": "ridge_3",
+    "triangles": 9600,
+    "dimensions": [
+      3000.0,
+      1700.0,
+      994.070068359375
+    ],
+    "materials": [
+      "Rock"
+    ]
+  },
+  {
+    "asset": "ski",
+    "triangles": 72,
+    "dimensions": [
+      0.1459999978542328,
+      2.1700000762939453,
+      0.25699999928474426
+    ],
+    "materials": [
+      "EquipmentGraphite",
+      "EquipmentMetal",
+      "EquipmentLime",
+      "EquipmentOrange"
+    ]
+  },
+  {
+    "asset": "binding",
+    "triangles": 324,
+    "dimensions": [
+      0.14000000059604645,
+      0.4300000071525574,
+      0.16749998927116394
+    ],
+    "materials": [
+      "EquipmentMetal",
+      "EquipmentGraphite"
+    ]
+  },
+  {
+    "asset": "boot",
+    "triangles": 540,
+    "dimensions": [
+      0.15000000596046448,
+      0.3149999976158142,
+      0.3700000047683716
+    ],
+    "materials": [
+      "EquipmentGraphite",
+      "EquipmentMetal",
+      "EquipmentOrange"
+    ]
+  },
+  {
+    "asset": "pole",
+    "triangles": 100,
+    "dimensions": [
+      0.10999999940395355,
+      0.10999999940395355,
+      1.1949999332427979
+    ],
+    "materials": [
+      "EquipmentMetal",
+      "EquipmentGraphite"
+    ]
+  }
+]

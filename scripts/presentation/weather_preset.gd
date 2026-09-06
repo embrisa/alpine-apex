@@ -1,0 +1,17 @@
+extends Resource
+## Presentation values only. Wind is in world-space metres per second.
+@export var label: String = "Clear"
+@export_range(0,1) var cloud_coverage: float = 0.2
+@export_range(0,1) var snow: float = 0.0
+@export_range(0,1) var rain: float = 0.0
+@export_range(0,1) var spindrift: float = 0.12
+@export var wind_velocity: Vector3 = Vector3(3,0,1)
+@export var sky_top: Color = Color("456b91")
+@export var sky_horizon: Color = Color("d7cfc5")
+@export var cloud_color: Color = Color("e7edf3")
+@export var sun_color: Color = Color("ffe1bb")
+@export var sun_energy: float = 1.25
+@export var ambient_color: Color = Color("abc5e1")
+@export var ambient_energy: float = 0.32
+@export var fog_color: Color = Color("aab8cb")
+@export var fog_density: float = 0.00012

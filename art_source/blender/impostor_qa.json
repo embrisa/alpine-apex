@@ -1,0 +1,8 @@
+{
+  "variants": 3,
+  "triangles_per_tree": 2,
+  "quad_size_m": 11,
+  "base_offset_m": -0.25,
+  "roundtrip_verified": true,
+  "shading": "Albedo-only bake; runtime cloud/daylight/fog"
+}

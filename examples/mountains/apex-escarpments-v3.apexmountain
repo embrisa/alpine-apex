@@ -1,0 +1,15 @@
+{
+	"format": "alpine-apex-mountain",
+	"mountain": {
+		"engine": "4.7.2-stable (official)",
+		"generator": "alpine-drainage",
+		"height_sha256": "a63348d8ceefaa1380d04fa6f13b0408a5df5d9e56bf068c7ac5168d559d0eb7",
+		"obstacle_sha256": "04b32758eaf3f0f43664bc68bea2fc6bd5785726b527749235fb41c88a84e890",
+		"scenery_seed": 849205174.0,
+		"scenery_version": 2.0,
+		"seed": 849205174.0,
+		"version": 3.0
+	},
+	"name": "Apex Escarpments",
+	"schema": 1.0
+}

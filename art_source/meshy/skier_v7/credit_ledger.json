@@ -1,0 +1,31 @@
+{
+  "authorized_budget": 1000,
+  "opening_balance": 4005,
+  "operations": [
+    {
+      "task_id": "01a073b6-b9b8-76f2-ac92-96e2960859cb",
+      "type": "image-to-3d",
+      "ai_model": "meshy-7",
+      "ultra_mode": true,
+      "texture_resolution": "4k",
+      "enable_pbr": true,
+      "target_polycount": 60000,
+      "reference": "reference.png",
+      "expected_credits": 35,
+      "status": "SUCCEEDED",
+      "consumed_credits": 35
+    },
+    {
+      "task_id": "01a073ba-ad56-70e1-9e35-1fa17fe1b2f2",
+      "type": "rigging",
+      "input_task_id": "01a073b6-b9b8-76f2-ac92-96e2960859cb",
+      "height_meters": 1.78,
+      "expected_credits": 5,
+      "status": "SUCCEEDED",
+      "consumed_credits": 5
+    }
+  ],
+  "total_credits": 40,
+  "closing_balance": 3965,
+  "remaining_authorized_budget": 960
+}

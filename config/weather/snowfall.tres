@@ -1,0 +1,19 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/presentation/weather_preset.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+label = "Snowfall"
+cloud_coverage = 0.92
+snow = 0.85
+spindrift = 0.55
+wind_velocity = Vector3(6,0,-2)
+sky_top = Color(0.4431,0.5098,0.5922,1)
+sky_horizon = Color(0.6941,0.7608,0.8275,1)
+cloud_color = Color(0.7098,0.7765,0.8431,1)
+sun_color = Color(0.8353,0.898,0.949,1)
+sun_energy = 0.48
+ambient_energy = 0.48
+fog_color = Color(0.7059,0.7765,0.8392,1)
+fog_density = 0.00032

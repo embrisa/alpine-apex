@@ -1,0 +1,107 @@
+[
+  {
+    "asset": "spruce_1_lod0",
+    "triangles": 9640,
+    "verified": true
+  },
+  {
+    "asset": "spruce_1_lod1",
+    "triangles": 4222,
+    "verified": true
+  },
+  {
+    "asset": "spruce_1_lod2",
+    "triangles": 1422,
+    "verified": true
+  },
+  {
+    "asset": "spruce_2_lod0",
+    "triangles": 9640,
+    "verified": true
+  },
+  {
+    "asset": "spruce_2_lod1",
+    "triangles": 4222,
+    "verified": true
+  },
+  {
+    "asset": "spruce_2_lod2",
+    "triangles": 1422,
+    "verified": true
+  },
+  {
+    "asset": "spruce_3_lod0",
+    "triangles": 9640,
+    "verified": true
+  },
+  {
+    "asset": "spruce_3_lod1",
+    "triangles": 4222,
+    "verified": true
+  },
+  {
+    "asset": "spruce_3_lod2",
+    "triangles": 1422,
+    "verified": true
+  },
+  {
+    "asset": "scrub_1",
+    "triangles": 224,
+    "verified": true
+  },
+  {
+    "asset": "scrub_2",
+    "triangles": 224,
+    "verified": true
+  },
+  {
+    "asset": "boulder_1",
+    "triangles": 320,
+    "verified": true
+  },
+  {
+    "asset": "boulder_2",
+    "triangles": 320,
+    "verified": true
+  },
+  {
+    "asset": "boulder_3",
+    "triangles": 320,
+    "verified": true
+  },
+  {
+    "asset": "ridge_1",
+    "triangles": 9600,
+    "verified": true
+  },
+  {
+    "asset": "ridge_2",
+    "triangles": 9600,
+    "verified": true
+  },
+  {
+    "asset": "ridge_3",
+    "triangles": 9600,
+    "verified": true
+  },
+  {
+    "asset": "ski",
+    "triangles": 72,
+    "verified": true
+  },
+  {
+    "asset": "binding",
+    "triangles": 324,
+    "verified": true
+  },
+  {
+    "asset": "boot",
+    "triangles": 540,
+    "verified": true
+  },
+  {
+    "asset": "pole",
+    "triangles": 100,
+    "verified": true
+  }
+]

@@ -1,0 +1,14 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[MCPRuntimeServer] port: scanning 6570-6585 (default)
+[MCPRuntimeServer] listening on 127.0.0.1:6571
+[MCPRegistry] runtime port 6571 registered for /users/philippe.tillheden/alpine-apex
+PASS: Hands ease into a substantially different tuck reach instead of snapping
+PASS: Deep tuck keeps the back below 32 degrees of forward pitch with less than 9 degrees of lumbar bend
+PASS: Zero presentation time freezes arm and pole follow-through
+PASS: Arm settling agrees at 30, 60 and 144 render FPS
+PASS: Carving produces independent inside and outside arm reach
+PASS: Turns, airborne recovery and landings retain finite anatomical arm lengths
+PASS: Restart clears trailing arm velocity and restores the initial stance
+PASS: Arm presentation cannot advance or steer the ski simulation
+SKIER_MOTION_RESULTS {"checks":8,"failures":[]}

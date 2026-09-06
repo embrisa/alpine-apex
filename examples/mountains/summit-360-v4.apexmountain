@@ -1,0 +1,15 @@
+{
+	"format": "alpine-apex-mountain",
+	"mountain": {
+		"engine": "4.7.2-stable (official)",
+		"generator": "alpine-drainage",
+		"height_sha256": "5fae684348b894f276549e57c420b6318d5e508be169348df81431c13060b3c9",
+		"obstacle_sha256": "547e534a054990f7df0f6ea2f19417c0dca408077a2184b3f384b94dbfe09e3e",
+		"scenery_seed": 849205174,
+		"scenery_version": 2,
+		"seed": 849205174,
+		"version": 4
+	},
+	"name": "Summit 360",
+	"schema": 1
+}

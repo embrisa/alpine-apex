@@ -1,0 +1,18 @@
+[
+  {
+    "source": "art_source/blender/alpine_library.blend",
+    "packed_images": 3
+  },
+  {
+    "source": "art_source/blender/skier.blend",
+    "packed_images": 5
+  },
+  {
+    "source": "art_source/blender/spruce_library.blend",
+    "packed_images": 4
+  },
+  {
+    "source": "art_source/blender/spruce_impostor_bake.blend",
+    "packed_images": 4
+  }
+]

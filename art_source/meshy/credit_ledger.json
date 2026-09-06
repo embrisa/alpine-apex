@@ -1,0 +1,119 @@
+{
+  "budget_credits": 1000,
+  "initial_balance": 4550,
+  "reserved_credits": 0,
+  "operations": [
+    {
+      "candidate": 1,
+      "operation": "text_to_3d",
+      "estimated_credits": 20,
+      "task_id": "01a072f2-1d83-72a6-a759-0bc75e7ade17",
+      "prompt": "Realistic athletic adult alpine skier character for a high-speed third-person game. Full body standing in symmetrical T-pose, straight separated legs and arms extended horizontally. Fitted burnt-orange technical shell jacket with fabric folds and seams, charcoal ski trousers, black gloves, dark ski helmet, amber goggles, compact dark backpack. Human proportions, practical streamlined clothing, clearly separated limbs and hands. No skis, poles, ground, text, logos, scenery or loose straps.",
+      "status": "SUCCEEDED",
+      "consumed_credits": 20,
+      "authorized_remaining_before_submission": 1000,
+      "cumulative_spent_credits": 20,
+      "authorized_remaining_after_completion": 980
+    },
+    {
+      "candidate": 2,
+      "operation": "text_to_3d",
+      "estimated_credits": 20,
+      "task_id": "01a072f2-2325-7740-8efa-66ad8bcbe9c9",
+      "prompt": "Photoreal game character, adult mountain freeride skier in precise symmetrical T-pose. Lean athletic build, realistic anatomy, straight spaced legs. Rich rust-orange insulated shell jacket, articulated dark navy snow pants, black mittens and simple dark footwear. Matte charcoal helmet with close-fitting amber goggles, compact black hydration backpack. Detailed stitched panels, zippers and natural cloth folds, clean silhouette. No equipment held, skis, poles, base, text or logos.",
+      "status": "SUCCEEDED",
+      "consumed_credits": 20,
+      "authorized_remaining_before_submission": 980,
+      "cumulative_spent_credits": 40,
+      "authorized_remaining_after_completion": 960
+    },
+    {
+      "candidate": 3,
+      "operation": "text_to_3d",
+      "estimated_credits": 20,
+      "task_id": "01a072f2-2926-751d-b45e-278a0a85fa2a",
+      "prompt": "Grounded realistic downhill athlete, full-body adult human character in clean T-pose, arms straight horizontal, feet spaced apart. Bright alpine orange slim technical ski jacket with dark shoulder panels, fitted charcoal pants, compact slate backpack, black helmet, reflective bronze snow goggles, black gloves and dark footwear. Accurate human proportions, defined shoulders, knees and elbows, subtle fabric detail. Isolated single character. No skis, poles, pedestal, text or logos.",
+      "status": "SUCCEEDED",
+      "consumed_credits": 20,
+      "authorized_remaining_before_submission": 960,
+      "cumulative_spent_credits": 60,
+      "authorized_remaining_after_completion": 940
+    },
+    {
+      "candidate": 1,
+      "operation": "refine",
+      "estimated_credits": 10,
+      "task_id": "01a072f4-51a7-759c-ab81-ce2b886d95c3",
+      "parent_task_id": "01a072f2-1d83-72a6-a759-0bc75e7ade17",
+      "status": "SUCCEEDED",
+      "consumed_credits": 10,
+      "authorized_remaining_before_submission": 940,
+      "cumulative_spent_credits": 70,
+      "authorized_remaining_after_completion": 930
+    },
+    {
+      "candidate": 2,
+      "operation": "refine",
+      "estimated_credits": 10,
+      "task_id": "01a072f4-5775-74cf-85e0-42e991316a48",
+      "parent_task_id": "01a072f2-2325-7740-8efa-66ad8bcbe9c9",
+      "status": "SUCCEEDED",
+      "consumed_credits": 10,
+      "authorized_remaining_before_submission": 930,
+      "cumulative_spent_credits": 80,
+      "authorized_remaining_after_completion": 920
+    },
+    {
+      "candidate": 3,
+      "operation": "refine",
+      "estimated_credits": 10,
+      "task_id": "01a072f4-5949-73a3-928f-5f281d8d0f73",
+      "parent_task_id": "01a072f2-2926-751d-b45e-278a0a85fa2a",
+      "status": "SUCCEEDED",
+      "consumed_credits": 10,
+      "authorized_remaining_before_submission": 920,
+      "cumulative_spent_credits": 90,
+      "authorized_remaining_after_completion": 910
+    },
+    {
+      "candidate": 2,
+      "operation": "rig",
+      "estimated_credits": 5,
+      "task_id": "01a072fc-d6ef-772e-b221-668afcb39bf5",
+      "parent_task_id": "01a072f4-5775-74cf-85e0-42e991316a48",
+      "status": "SUCCEEDED",
+      "consumed_credits": 5,
+      "authorized_remaining_before_submission": 910,
+      "cumulative_spent_credits": 95,
+      "authorized_remaining_after_completion": 905
+    },
+    {
+      "asset": "spruce",
+      "operation": "text_to_3d",
+      "estimated_credits": 20,
+      "task_id": "01a07315-834f-72c4-83e2-f62ab4cc0c19",
+      "status": "SUCCEEDED",
+      "prompt": "Photoreal mature Norway spruce tree, 10 metres tall, alpine winter. One slender brown trunk with dense irregular drooping branches, fine dark evergreen needles visible between soft rounded pillows of settled white snow. Natural asymmetric crown, realistic botanical branching, broken layered silhouette with gaps, thick branch sprays, tapered top. Snow rests on upper boughs, dark needles underneath. Detailed game environment asset, entire tree isolated. No ground, base, pedestal, scenery, text, decorations, or extra trees.",
+      "consumed_credits": 20,
+      "authorized_remaining_before_submission": 905,
+      "cumulative_spent_credits": 115,
+      "authorized_remaining_after_completion": 885
+    },
+    {
+      "asset": "spruce",
+      "operation": "refine",
+      "estimated_credits": 10,
+      "task_id": "01a07318-3f4b-7343-93b5-0f0037c22c0d",
+      "parent_task_id": "01a07315-834f-72c4-83e2-f62ab4cc0c19",
+      "status": "SUCCEEDED",
+      "consumed_credits": 10,
+      "authorized_remaining_before_submission": 885,
+      "cumulative_spent_credits": 125,
+      "authorized_remaining_after_completion": 875
+    }
+  ],
+  "spent_credits": 125,
+  "remaining_authorized_credits": 875,
+  "current_balance": 4425,
+  "submitted_credits": 125
+}
