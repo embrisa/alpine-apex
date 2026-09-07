@@ -6,6 +6,8 @@ var game
 var store = Store.new()
 var panel: PanelContainer
 var generation_worker: Thread
+var tabs: TabContainer
+var all_buttons: Array[Button] = []
 var seed_input: LineEdit
 var name_input: LineEdit
 var status: Label
@@ -27,24 +29,22 @@ func build(owner_game) -> void:
 	var hud = game.hud
 	panel = hud._panel()
 	panel.name = "MountainLibrary"
-	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	panel.offset_left = 44
-	panel.offset_right = -44
-	panel.offset_top = 137
-	panel.offset_bottom = -64
+	var shell = hud._window(panel,1260)
+	shell.add_child(hud._label("FIND YOUR NEXT MOUNTAIN.",28,hud.WHITE))
 	var row = HBoxContainer.new()
-	row.add_theme_constant_override("separation",28)
-	panel.add_child(row)
-	var scroll = ScrollContainer.new()
-	scroll.custom_minimum_size.x = 440
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	row.add_child(scroll)
-	var col = VBoxContainer.new()
-	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	col.add_theme_constant_override("separation",7)
-	scroll.add_child(col)
-	col.add_child(hud._label("MAKE YOUR MOUNTAIN.",27,hud.WHITE))
-	col.add_child(hud._label("One seed. A mountain of decisions.",15,hud.MUTED))
+	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	row.add_theme_constant_override("separation",24)
+	shell.add_child(row)
+	var left = VBoxContainer.new()
+	left.custom_minimum_size.x = 445
+	left.add_theme_constant_override("separation",10)
+	row.add_child(left)
+	tabs = hud._tabs(left)
+	var col = hud._tab(tabs,"Create")
+	col.add_theme_constant_override("separation",10)
+	var saved_page = hud._tab(tabs,"Saved")
+	var share = hud._tab(tabs,"Share")
+	hud._note(col,"One seed. A mountain of decisions.")
 	col.add_child(hud._label("MOUNTAIN SEED",11,hud.LIME,true))
 	seed_input = LineEdit.new()
 	seed_input.placeholder_text = "849205174"
@@ -57,38 +57,22 @@ func build(owner_game) -> void:
 	_button(generate_row,"GENERATE SEED",generate_seed)
 	_button(generate_row,"↻ RANDOM MOUNTAIN",generate_random,true)
 	_button(col,"TECHNICAL SHOWCASE  ·  SOUTH FACE",generate_showcase)
-	col.add_child(hud._label("MOUNTAIN NAME",11,hud.LIME,true))
-	name_input = LineEdit.new()
-	name_input.placeholder_text = "Name this mountain"
-	name_input.max_length = 60
-	name_input.custom_minimum_size.y = 38
-	name_input.text_changed.connect(func(value):
-		if draft: draft.title = value.strip_edges()
-	)
-	col.add_child(name_input)
-	summary = hud._label("",12,hud.MUTED,true)
-	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	col.add_child(summary)
-	var ski_row = HBoxContainer.new()
-	col.add_child(ski_row)
-	_button(ski_row,"SKI THIS MOUNTAIN  ↗",ski_selected,true,true)
-	_button(ski_row,"SAVE LOCALLY",save_draft,false,true)
-	var share_row = HBoxContainer.new()
-	col.add_child(share_row)
-	_button(share_row,"COPY SEED",copy_seed,false,true)
-	_button(share_row,"EXPORT FILE",export_file,false,true)
-	_button(share_row,"IMPORT FILE",func(): import_dialog.popup_centered_ratio(.72))
-	col.add_child(hud._label("SAVED MOUNTAINS  /  SELECT TO PREVIEW",11,hud.LIME,true))
+	hud._note(saved_page,"Select a saved mountain to reconstruct its preview.")
 	list = ItemList.new()
-	list.custom_minimum_size.y = 90
+	list.custom_minimum_size.y = 200
 	list.item_selected.connect(load_selected)
-	col.add_child(list)
-	status = hud._label("",13,hud.LIME)
+	saved_page.add_child(list)
+	hud._note(share,"Share the seed or a compact mountain file. Terrain is reconstructed from the same versioned recipe.")
+	_button(share,"COPY SEED",copy_seed,false,true)
+	_button(share,"EXPORT MOUNTAIN FILE",export_file,false,true)
+	_button(share,"IMPORT MOUNTAIN FILE",func(): import_dialog.popup_centered_ratio(.72))
+	status = hud._label("",14,hud.LIME)
 	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	status.custom_minimum_size.y = 38
-	col.add_child(status)
+	shell.add_child(status)
 	var back_row = HBoxContainer.new()
-	col.add_child(back_row)
+	back_row.add_theme_constant_override("separation",12)
+	shell.add_child(back_row)
 	_button(back_row,"BACK / ESC",close)
 	_button(back_row,"ORIGINAL TEST FACE",func(): close(); game.start_run(true))
 	var right = VBoxContainer.new()
@@ -98,11 +82,27 @@ func build(owner_game) -> void:
 	right.add_child(hud._label("READ THE TERRAIN. CHOOSE YOUR LINE.",14,hud.WHITE))
 	preview = preload("res://scripts/ui/mountain_preview.gd").new()
 	preview.font = hud.normal_font
-	preview.custom_minimum_size = Vector2(480,350)
+	preview.custom_minimum_size = Vector2(400,180)
 	preview.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	right.add_child(preview)
-	var legend = hud._label("SNOW  ·  AMBER: STEEP  ·  DARK: ROCK  ·  GREEN: TREES\nOptional cliffs and snow takeoffs · Open shoulders to ski around.\nCreate your own race from the pause menu after loading.",12,hud.MUTED)
-	right.add_child(legend)
+	hud._note(right,"SNOW · AMBER: STEEP · DARK: ROCK · GREEN: TREES")
+	left.add_child(hud._label("MOUNTAIN NAME",11,hud.LIME,true))
+	name_input = LineEdit.new()
+	name_input.placeholder_text = "Name this mountain"
+	name_input.max_length = 60
+	name_input.custom_minimum_size.y = 40
+	name_input.text_changed.connect(func(value):
+		if draft: draft.title = value.strip_edges()
+	)
+	left.add_child(name_input)
+	summary = hud._label("Generate or select a mountain to see its details.",12,hud.MUTED,true)
+	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	left.add_child(summary)
+	var ski_row = HBoxContainer.new()
+	ski_row.add_theme_constant_override("separation",12)
+	left.add_child(ski_row)
+	_button(ski_row,"SKI THIS MOUNTAIN  ↗",ski_selected,true,true)
+	_button(ski_row,"SAVE LOCALLY",save_draft,false,true)
 	export_dialog = _file_dialog(FileDialog.FILE_MODE_SAVE_FILE)
 	export_dialog.file_selected.connect(func(path):
 		if draft: status.text = _result(Store.write_file(path,draft),"Exported a compact mountain file. Send it to a friend.")
@@ -119,6 +119,7 @@ func _button(parent, caption: String, callback: Callable, primary: bool = false,
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.pressed.connect(callback)
 	parent.add_child(button)
+	all_buttons.append(button)
 	if needs_draft: actions.append(button)
 	return button
 
@@ -152,10 +153,11 @@ func open() -> void:
 	elif not draft:
 		seed_input.text = "849205174"
 		await generate_seed()
-	seed_input.grab_focus()
+	tabs.get_tab_bar().grab_focus()
 
 func close() -> void:
-	if busy: return
+	if busy or not panel.visible: return
+	game.hud.feedback.play()
 	panel.hide()
 	for i in instrument_visibility.size(): game.hud.hud_controls[i].visible = instrument_visibility[i]
 	instrument_visibility.clear()
@@ -167,24 +169,21 @@ func generate_seed() -> void:
 	if not parsed.has("seed"):
 		status.text = parsed.error
 		return
-	busy = true
-	status.text = "Shaping the mountain, summit and downhill faces…"
-	_refresh_actions()
-	await get_tree().process_frame
+	await _begin_work("Shaping your mountain", "Generating the summit, ridges and downhill faces…")
 	var field = await _background(Definition.generate.bind(parsed.seed,parsed.version))
 	if field==null:
-		busy = false
-		_refresh_actions()
+		_end_work(false)
 		status.text = "That mountain could not be generated. Your preview is unchanged."
 		return
+	game.loading.stage("Drawing the terrain preview…")
+	await game.loading.draw_frame()
 	_set_draft(Definition.from_field(field,"Technical Showcase" if parsed.version>=5 else ""),field)
-	busy = false
-	_refresh_actions()
+	_end_work(true)
 	status.text = "Ready to explore. Save it to keep it in your library."
 
 func generate_showcase() -> void:
 	if busy: return
-	seed_input.text = "Mountain Seed: 849205174 / v6"
+	seed_input.text = "Mountain Seed: 849205174 / v7"
 	await generate_seed()
 
 func generate_random() -> void:
@@ -209,13 +208,15 @@ func _set_draft(mountain, field) -> void:
 func _refresh_actions() -> void:
 	seed_input.editable = not busy
 	name_input.editable = not busy
-	for button in actions: button.disabled = draft==null or busy
+	for button in all_buttons: button.disabled = busy or (button in actions and draft==null)
+	list.mouse_filter = Control.MOUSE_FILTER_IGNORE if busy else Control.MOUSE_FILTER_STOP
+	for i in tabs.get_tab_count(): tabs.set_tab_disabled(i,busy)
 
 func refresh_saved() -> void:
 	saved = store.load_all()
 	list.clear()
 	for mountain in saved: list.add_item("%s  ·  %d / v%d" % [mountain.title,mountain.seed_value,mountain.generator_version])
-	status.text = store.warning
+	status.text = store.warning if not store.warning.is_empty() else ("No saved mountains yet. Generate one, give it a name and save it here." if saved.is_empty() else "%d saved mountains" % saved.size())
 
 func save_draft() -> void:
 	if not draft or busy: return
@@ -230,14 +231,12 @@ func save_draft() -> void:
 
 func load_selected(index: int) -> void:
 	if busy or index<0 or index>=saved.size(): return
-	busy = true
-	_refresh_actions()
-	status.text = "Reconstructing saved mountain…"
-	await get_tree().process_frame
+	await _begin_work("Opening saved mountain", "Reconstructing the terrain from its saved recipe…")
 	var result = await _background(saved[index].reconstruct)
+	game.loading.stage("Drawing the saved mountain preview…")
+	await game.loading.draw_frame()
 	if result.has("field"): _set_draft(saved[index],result.field)
-	busy = false
-	_refresh_actions()
+	_end_work(result.has("field"))
 	status.text = _result(result.error,"Loaded from your library. Ready to ski.")
 
 func copy_seed() -> void:
@@ -261,18 +260,16 @@ func import_file(path: String) -> void:
 	if not parsed.has("mountain"):
 		status.text = parsed.error
 		return
-	busy = true
-	_refresh_actions()
-	status.text = "Checking the mountain file…"
-	await get_tree().process_frame
+	await _begin_work("Importing mountain", "Checking the recipe and reconstructing its terrain…")
 	var result = await _background(parsed.mountain.reconstruct)
+	game.loading.stage("Checking the imported terrain and drawing its preview…")
+	await game.loading.draw_frame()
 	var error: String = result.error
 	if result.has("field"):
 		_set_draft(parsed.mountain,result.field)
 		error = store.save(parsed.mountain)
 		if error.is_empty(): refresh_saved()
-	busy = false
-	_refresh_actions()
+	_end_work(error.is_empty())
 	status.text = _result(error,"Imported and saved locally. Ready to ski.")
 
 func ski_selected() -> void:
@@ -283,6 +280,20 @@ func ski_selected() -> void:
 		status.text = error
 		return
 	game.load_mountain(draft,draft_field)
+
+func _begin_work(caption: String, message: String) -> void:
+	busy = true
+	_refresh_actions()
+	status.text = message
+	game.loading.reduced_motion = game.hud.feedback.reduced_motion
+	game.loading.begin(caption,message)
+	await game.loading.draw_frame()
+
+func _end_work(success: bool) -> void:
+	busy = false
+	_refresh_actions()
+	game.loading.finish()
+	game.hud.feedback.play("ready" if success else "error")
 
 func _result(error: String, success: String) -> String:
 	return success if error.is_empty() else error

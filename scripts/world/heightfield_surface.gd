@@ -59,28 +59,60 @@ func contact_normal(x: float, z: float) -> Vector3:
 	return Vector3(-dx,4.0,-dz).normalized()
 
 func sweep_obstacle(from: Vector3, to: Vector3) -> String:
+	return sweep_obstacle_contact(from,to).get("reason","")
+
+func sweep_obstacle_contact(from: Vector3, to: Vector3) -> Dictionary:
+	# Earliest intersection of the swept rider with each cylindrical envelope.
+	# The vertical interval includes the rider's 1.6 m height. Geometry and
+	# obstacle indexing remain the same; callers can now measure closing speed.
 	if not ski_bounds().has_point(Vector2(to.x,to.z)):
-		return boundary_message
-	var a = Vector2(from.x, from.z)
-	var b = Vector2(to.x, to.z)
-	var delta = b - a
-	var denom = maxf(delta.length_squared(), 0.000001)
+		return {"reason":boundary_message,"boundary":true}
+	var a = Vector2(from.x,from.z)
+	var b = Vector2(to.x,to.z)
+	var delta = b-a
+	var length_squared = delta.length_squared()
+	var dy = to.y-from.y
 	var checked: Dictionary = {}
-	for gz in range(floori((minf(a.y, b.y) - 0.4) / SPATIAL_CELL), floori((maxf(a.y, b.y) + 0.4) / SPATIAL_CELL) + 1):
-		for gx in range(floori((minf(a.x, b.x) - 0.4) / SPATIAL_CELL), floori((maxf(a.x, b.x) + 0.4) / SPATIAL_CELL) + 1):
-			for idx in obstacle_grid.get(Vector2i(gx, gz), []):
-				if checked.has(idx):
-					continue
+	var closest: Dictionary = {}
+	var earliest = INF
+	for gz in range(floori((minf(a.y,b.y)-.4)/SPATIAL_CELL),floori((maxf(a.y,b.y)+.4)/SPATIAL_CELL)+1):
+		for gx in range(floori((minf(a.x,b.x)-.4)/SPATIAL_CELL),floori((maxf(a.x,b.x)+.4)/SPATIAL_CELL)+1):
+			for idx in obstacle_grid.get(Vector2i(gx,gz),[]):
+				if checked.has(idx): continue
 				checked[idx] = true
 				var ob = obstacles[idx]
-				var p: Vector3 = ob.position
-				var t = clampf((Vector2(p.x, p.z) - a).dot(delta) / denom, 0.0, 1.0)
-				var nearest = a + delta * t
-				if nearest.distance_squared_to(Vector2(p.x, p.z)) < pow(ob.radius + 0.35, 2.0):
-					var h = lerpf(from.y, to.y, t)
-					if h < p.y + ob.height and h + 1.6 > p.y:
-						return "TREE IMPACT" if ob.tree else "ROCK IMPACT"
-	return ""
+				var center: Vector3 = ob.position
+				var offset = a-Vector2(center.x,center.z)
+				var radius: float = ob.radius+.35
+				var c = offset.length_squared()-radius*radius
+				var enter = 0.0
+				var leave = 1.0
+				if length_squared<.000001:
+					if c>=0.0: continue
+				else:
+					var along = offset.dot(delta)
+					var discriminant = along*along-length_squared*c
+					if discriminant<=0.0: continue
+					enter = maxf(0.0,(-along-sqrt(discriminant))/length_squared)
+					leave = minf(1.0,(-along+sqrt(discriminant))/length_squared)
+				var vertical_enter = 0.0
+				var vertical_leave = 1.0
+				if absf(dy)<.000001:
+					if from.y>=center.y+ob.height or from.y+1.6<=center.y: continue
+				else:
+					var first: float = (center.y-1.6-from.y)/dy
+					var second: float = (center.y+ob.height-from.y)/dy
+					vertical_enter = maxf(0.0,minf(first,second))
+					vertical_leave = minf(1.0,maxf(first,second))
+				var fraction = maxf(enter,vertical_enter)
+				if fraction>minf(leave,vertical_leave) or fraction>=earliest: continue
+				var point = from.lerp(to,fraction)
+				var normal = Vector3(point.x-center.x,0.0,point.z-center.z).normalized()
+				if vertical_enter>enter: normal = Vector3.DOWN if dy>0 else Vector3.UP
+				if normal.length_squared()<.5: normal = -(to-from).normalized() if from!=to else Vector3.RIGHT
+				earliest = fraction
+				closest = {"reason":"TREE IMPACT" if ob.tree else "ROCK IMPACT","id":idx,"fraction":fraction,"position":point,"normal":normal,"boundary":false}
+	return closest
 
 func add_obstacle(obstacle: Dictionary) -> void:
 	var idx = obstacles.size()

@@ -163,7 +163,7 @@ func run() -> void:
 	check(showcase_buttons.size()==1,"The mountain library exposes one Technical Showcase entry")
 	showcase_buttons[0].pressed.emit()
 	while showcase_library.busy: await process_frame
-	check(showcase_library.draft.generator_version==6 and showcase_library.name_input.text=="Technical Showcase" and "south" in showcase_library.summary.text.to_lower(),"Showcase button generates the named south face with clear entry guidance")
+	check(showcase_library.draft.generator_version==7 and showcase_library.name_input.text=="Technical Showcase" and "south" in showcase_library.summary.text.to_lower(),"Showcase button generates the named south face with clear entry guidance")
 	var showcase_hash = showcase_library.draft_field.height_checksum
 	showcase_library.seed_input.text = "42 / v6"
 	await showcase_library.generate_seed()
@@ -176,7 +176,7 @@ func run() -> void:
 	await scene_changed
 	game = current_scene
 	game.set_physics_process(false)
-	check(game.field.GENERATOR_VERSION==6 and game.summit_ready and not game.session.eligible,"Showcase loads at the original summit as unranked free skiing")
+	check(game.field.GENERATOR_VERSION==7 and game.summit_ready and not game.session.eligible,"Showcase loads at the original summit as unranked free skiing")
 	check(game.world.scenery.obstacle_count==game.field.obstacles.size(),"Showcase renderer includes every physical obstacle")
 	var physical_before = [game.field.height_checksum,game.field.obstacle_checksum,game.field.obstacles.duplicate(true)]
 	for level in [2,1,0]: game.set_graphics_quality(level)

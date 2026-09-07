@@ -43,7 +43,8 @@ func sample() -> RiderInput:
 	frame.steer = Input.get_axis("steer_left", "steer_right")
 	frame.tuck = Input.get_action_strength("tuck")
 	frame.brake = Input.get_action_strength("brake")
-	frame.jump = Input.is_action_just_pressed("jump")
+	frame.jump = Input.is_action_just_released("jump")
+	frame.jump_held = Input.is_action_pressed("jump")
 	return frame
 
 func device_label() -> String:

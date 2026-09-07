@@ -11,6 +11,7 @@ var focus_point = Vector3.ZERO
 var survey_height: float = 240.0
 var panel: PanelContainer
 var library: VBoxContainer
+var library_tabs: TabContainer
 var editor: VBoxContainer
 var list: ItemList
 var details: Label
@@ -60,7 +61,7 @@ func _build_ui() -> void:
 	panel.add_theme_stylebox_override("panel",hud._style(Color(0.035,0.095,0.13,0.94),Color(0.55,0.69,0.73,0.2),20))
 	panel.set_anchors_and_offsets_preset(Control.PRESET_LEFT_WIDE)
 	panel.offset_left = 28
-	panel.offset_right = 424
+	panel.offset_right = 528
 	panel.offset_top = 135
 	panel.offset_bottom = -60
 	var scroll = ScrollContainer.new()
@@ -79,16 +80,20 @@ func _build_ui() -> void:
 	var create = hud._button("+  CREATE IN THE WORLD",true)
 	create.pressed.connect(begin_creation)
 	library.add_child(create)
+	library_tabs = hud._tabs(library)
+	library_tabs.custom_minimum_size.y = 310
+	var saved_page = hud._tab(library_tabs,"Saved races")
+	var import_page = hud._tab(library_tabs,"Import & share")
 	list = ItemList.new()
 	list.custom_minimum_size = Vector2(324,80)
 	list.item_selected.connect(select_race)
-	library.add_child(list)
+	saved_page.add_child(list)
 	details = hud._label("",12,hud.MUTED,true)
 	details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	details.custom_minimum_size.y = 75
-	library.add_child(details)
+	saved_page.add_child(details)
 	var actions = HBoxContainer.new()
-	library.add_child(actions)
+	saved_page.add_child(actions)
 	race_button = hud._button("RACE IT",true)
 	race_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	race_button.pressed.connect(play_selected)
@@ -101,16 +106,17 @@ func _build_ui() -> void:
 	code_input.placeholder_text = "Paste a shared race code here"
 	code_input.custom_minimum_size = Vector2(324,55)
 	code_input.wrap_mode = TextEdit.LINE_WRAPPING_BOUNDARY
-	library.add_child(code_input)
+	hud._note(import_page,"Paste a shared race code to add it to your library. Select a saved race to copy its code.")
+	import_page.add_child(code_input)
 	var import_button = hud._button("IMPORT RACE CODE")
 	import_button.custom_minimum_size.y = 38
-	import_button.pressed.connect(func(): import_text(code_input.text))
-	library.add_child(import_button)
+	import_button.pressed.connect(import_from_ui)
+	import_page.add_child(import_button)
 	benchmark_button = hud._button("RACE THE ORIGINAL TEST FACE")
 	benchmark_button.custom_minimum_size.y = 34
 	benchmark_button.add_theme_font_size_override("font_size",13)
 	benchmark_button.pressed.connect(func(): close(); game.start_run(true))
-	library.add_child(benchmark_button)
+	saved_page.add_child(benchmark_button)
 	editor = VBoxContainer.new()
 	editor.add_theme_constant_override("separation",12)
 	col.add_child(editor)
@@ -172,6 +178,7 @@ func open_library() -> void:
 
 func _refresh_library(select_id: String = "") -> void:
 	mode = "library"
+	library_tabs.current_tab = 0
 	library.visible = true
 	editor.visible = false
 	benchmark_button.visible = game.session.race != null or game.current_mountain != null
@@ -267,13 +274,32 @@ func save_draft() -> void:
 	_refresh_library(result.race.identity())
 	status.text = "Saved locally. Race it, or copy the code to share."
 
-func import_text(text_value: String) -> bool:
+func import_from_ui() -> void:
+	if game.loading.busy: return
+	var text_value = code_input.text
+	var decoded = Race.decode(text_value.strip_edges())
+	if not decoded.has("race"):
+		status.text = decoded.error
+		game.hud.feedback.play("error")
+		return
+	game.loading.reduced_motion = game.hud.feedback.reduced_motion
+	game.loading.begin("Importing shared race", "Checking the race's mountain and endpoints…")
+	await game.loading.draw_frame()
+	var rebuilt = {"field":game.field}
+	if not matches_world(decoded.race):
+		rebuilt = await game.loading.run_data(Race.reconstruct_surface.bind(decoded.race.mountain))
+	var success = import_text(text_value,rebuilt)
+	game.loading.finish()
+	game.hud.feedback.play("ready" if success else "error")
+
+func import_text(text_value: String, prepared_surface: Dictionary = {}) -> bool:
 	var result = Race.decode(text_value.strip_edges())
 	if not result.has("race"):
 		status.text = result.error
 		return false
 	var race = result.race
-	var rebuilt = {"field":game.field} if matches_world(race) else Race.reconstruct_surface(race.mountain)
+	var rebuilt = prepared_surface
+	if rebuilt.is_empty(): rebuilt = {"field":game.field} if matches_world(race) else Race.reconstruct_surface(race.mountain)
 	if not rebuilt.has("field"):
 		status.text = rebuilt.error
 		return false

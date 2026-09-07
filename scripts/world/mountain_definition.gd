@@ -6,7 +6,8 @@ const LegacyTerrain = preload("res://scripts/world/generators/drainage_v1.gd")
 const TerrainV2 = preload("res://scripts/world/generators/drainage_v2.gd")
 const TerrainV3 = preload("res://scripts/world/generators/drainage_v3.gd")
 const ShowcaseV5 = preload("res://scripts/world/generators/technical_showcase_v5.gd")
-const Showcase = preload("res://scripts/world/generators/technical_showcase_v6.gd")
+const ShowcaseV6 = preload("res://scripts/world/generators/technical_showcase_v6.gd")
+const Showcase = preload("res://scripts/world/generators/technical_showcase_v7.gd")
 const Scenery = preload("res://scripts/world/mountain_data.gd")
 const SCHEMA = 1
 const MAX_BYTES = 4096
@@ -33,10 +34,10 @@ static func parse_seed(value: String) -> Dictionary:
 		return {"error":"Enter a whole seed from 0 to 2147483647."}
 	var version = Terrain.GENERATOR_VERSION
 	if parts.size()>1:
-		if parts.size()!=2 or not parts[1] in ["1","2","3","4","5","6"]:
+		if parts.size()!=2 or not parts[1] in ["1","2","3","4","5","6","7"]:
 			return {"error":"That mountain seed uses an unsupported generator version."}
 		version = int(parts[1])
-	if version in [5,6] and int(trimmed)!=Showcase.SHOWCASE_SEED:
+	if version in [5,6,7] and int(trimmed)!=Showcase.SHOWCASE_SEED:
 		return {"error":"Technical Showcase supports only seed 849205174."}
 	return {"seed":int(trimmed),"version":version,"error":""}
 
@@ -49,6 +50,8 @@ static func generate(seed_number: int, version: int = Terrain.GENERATOR_VERSION)
 		5:
 			if seed_number==Showcase.SHOWCASE_SEED: return ShowcaseV5.new(seed_number)
 		6:
+			if seed_number==Showcase.SHOWCASE_SEED: return ShowcaseV6.new(seed_number)
+		7:
 			if seed_number==Showcase.SHOWCASE_SEED: return Showcase.new(seed_number)
 	return null
 
@@ -76,13 +79,13 @@ static func reference_error(value: Variant) -> String:
 	if not value is Dictionary or value.size()!=8: return "The mountain reference is incomplete."
 	for key in ["generator","version","seed","scenery_seed","scenery_version","engine","height_sha256","obstacle_sha256"]:
 		if not value.has(key): return "The mountain reference is incomplete."
-	if value.generator!=Terrain.GENERATOR_ID or (not (value.version is int or value.version is float) or (value.version!=1 and value.version!=2 and value.version!=3 and value.version!=4 and value.version!=5 and value.version!=6)) or value.scenery_version!=Scenery.GENERATOR_VERSION or value.engine!=Engine.get_version_info().string:
+	if value.generator!=Terrain.GENERATOR_ID or (not (value.version is int or value.version is float) or (value.version!=1 and value.version!=2 and value.version!=3 and value.version!=4 and value.version!=5 and value.version!=6 and value.version!=7)) or value.scenery_version!=Scenery.GENERATOR_VERSION or value.engine!=Engine.get_version_info().string:
 		return "This mountain requires a different generator or Godot version."
 	for key in ["seed","scenery_seed"]:
 		var seed = value[key]
 		if not (seed is int or seed is float) or not is_finite(float(seed)) or seed!=floor(float(seed)) or seed<0 or seed>MAX_SEED:
 			return "Mountain seeds must be whole numbers from 0 to 2147483647."
-	if value.version in [5,6] and value.seed!=Showcase.SHOWCASE_SEED:
+	if value.version in [5,6,7] and value.seed!=Showcase.SHOWCASE_SEED:
 		return "Technical Showcase supports only seed 849205174."
 	if value.seed!=value.scenery_seed: return "This mountain's scenery seed does not match."
 	for key in ["height_sha256","obstacle_sha256"]:

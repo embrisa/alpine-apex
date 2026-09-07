@@ -1,0 +1,822 @@
+{
+  "source": "Blender authored",
+  "assets": [
+    {
+      "asset": "pc_spruce_1_lod0",
+      "path": "assets/graphics/models/pc_spruce_1_lod0.glb",
+      "bytes": 2748684,
+      "triangles": 26954,
+      "dimensions_m": [
+        5.483072757720947,
+        4.838170528411865,
+        10.501471519470215
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "e6f00b892edddb1bb8ae6e2a6f60c557479a6bccde98f5184b2430d1078be9da",
+      "family": "spruce",
+      "lod": 0,
+      "silhouette": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_spruce_1_lod1",
+      "path": "assets/graphics/models/pc_spruce_1_lod1.glb",
+      "bytes": 1132724,
+      "triangles": 11134,
+      "dimensions_m": [
+        5.483072757720947,
+        4.838170528411865,
+        10.501293182373047
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "50d3a3537389ad104db9eb6362bb208b617d61427e00b9d880c5a2346ef4d749",
+      "family": "spruce",
+      "lod": 1,
+      "silhouette": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_spruce_2_lod0",
+      "path": "assets/graphics/models/pc_spruce_2_lod0.glb",
+      "bytes": 2735532,
+      "triangles": 26814,
+      "dimensions_m": [
+        5.4344706535339355,
+        5.802146911621094,
+        10.501471519470215
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "31c0bc2b1f1abffeb80f362ce3f1e39a12682407cf32d997d653940a3dc8fd47",
+      "family": "spruce",
+      "lod": 0,
+      "silhouette": 2,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_spruce_2_lod1",
+      "path": "assets/graphics/models/pc_spruce_2_lod1.glb",
+      "bytes": 1126148,
+      "triangles": 11064,
+      "dimensions_m": [
+        5.4344706535339355,
+        5.802146911621094,
+        10.501293182373047
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "40c944aec7ed5a4571cf40b323e32ddf8ec8a188ccf9636e0e14ca803d7d100b",
+      "family": "spruce",
+      "lod": 1,
+      "silhouette": 2,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_spruce_3_lod0",
+      "path": "assets/graphics/models/pc_spruce_3_lod0.glb",
+      "bytes": 3015416,
+      "triangles": 28004,
+      "dimensions_m": [
+        5.537967681884766,
+        5.257469177246094,
+        10.501471519470215
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "990c400779b584165716b549e78bde353b91d0ccdd14a9962589dce5f57987e5",
+      "family": "spruce",
+      "lod": 0,
+      "silhouette": 3,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_spruce_3_lod1",
+      "path": "assets/graphics/models/pc_spruce_3_lod1.glb",
+      "bytes": 1182080,
+      "triangles": 11659,
+      "dimensions_m": [
+        5.537967681884766,
+        5.257469177246094,
+        10.501293182373047
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "a865434929eb63b3af2ab8e348bf284a90038588a0911d7fb75d8f0d1452b390",
+      "family": "spruce",
+      "lod": 1,
+      "silhouette": 3,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_fir_1_lod0",
+      "path": "assets/graphics/models/pc_fir_1_lod0.glb",
+      "bytes": 2952408,
+      "triangles": 27374,
+      "dimensions_m": [
+        5.285297393798828,
+        4.652327060699463,
+        10.501471519470215
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "58488fa68e6fbe7f862c8edc3736e340ac84ca0a709f99ab811bee486306de43",
+      "family": "fir",
+      "lod": 0,
+      "silhouette": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_fir_1_lod1",
+      "path": "assets/graphics/models/pc_fir_1_lod1.glb",
+      "bytes": 1152464,
+      "triangles": 11344,
+      "dimensions_m": [
+        5.285297393798828,
+        4.652327060699463,
+        10.501293182373047
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "322d691011e7a8ae14fca70baf7cec9b168253132ec6fc129086af0be7a17d64",
+      "family": "fir",
+      "lod": 1,
+      "silhouette": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_fir_2_lod0",
+      "path": "assets/graphics/models/pc_fir_2_lod0.glb",
+      "bytes": 2973408,
+      "triangles": 27584,
+      "dimensions_m": [
+        4.92205810546875,
+        5.120160102844238,
+        10.501471519470215
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "cf9440d4b7cb90f5fb864a0f0bf9012195bb60c79f9d100ff21fb040d94c8f83",
+      "family": "fir",
+      "lod": 0,
+      "silhouette": 2,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_fir_2_lod1",
+      "path": "assets/graphics/models/pc_fir_2_lod1.glb",
+      "bytes": 1162332,
+      "triangles": 11449,
+      "dimensions_m": [
+        4.92205810546875,
+        5.120160102844238,
+        10.501293182373047
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "3640f9e43facc7a1242d8ef1cd5d37dca32e2e40392a8c1406f62382d94934b3",
+      "family": "fir",
+      "lod": 1,
+      "silhouette": 2,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_fir_3_lod0",
+      "path": "assets/graphics/models/pc_fir_3_lod0.glb",
+      "bytes": 2966408,
+      "triangles": 27514,
+      "dimensions_m": [
+        4.500327110290527,
+        5.669792175292969,
+        10.501471519470215
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "d543a2af83776d6acbb970f948428e93136842d38282c2a697383557653fef32",
+      "family": "fir",
+      "lod": 0,
+      "silhouette": 3,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_fir_3_lod1",
+      "path": "assets/graphics/models/pc_fir_3_lod1.glb",
+      "bytes": 1159044,
+      "triangles": 11414,
+      "dimensions_m": [
+        4.500327110290527,
+        5.669792175292969,
+        10.501293182373047
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "4c2e2ab21e8a8bab43542244c0bbd1e696f77e457e7cb0be516de2e5e49dbb05",
+      "family": "fir",
+      "lod": 1,
+      "silhouette": 3,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_pine_1_lod0",
+      "path": "assets/graphics/models/pc_pine_1_lod0.glb",
+      "bytes": 1693880,
+      "triangles": 16580,
+      "dimensions_m": [
+        4.972142219543457,
+        5.276492118835449,
+        10.681041717529297
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "2c5e0d9ac87b4301cbc4c66fdf9fb75c5beceb0df1aa5e1133eecb649056d3af",
+      "family": "pine",
+      "lod": 0,
+      "silhouette": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_pine_1_lod1",
+      "path": "assets/graphics/models/pc_pine_1_lod1.glb",
+      "bytes": 695684,
+      "triangles": 6821,
+      "dimensions_m": [
+        4.972142219543457,
+        5.276492118835449,
+        10.715935707092285
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "68127d1adc4428ec4df8dc22b86dbf7e45d590e02ff764a10424c0eec32b5ec9",
+      "family": "pine",
+      "lod": 1,
+      "silhouette": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_pine_2_lod0",
+      "path": "assets/graphics/models/pc_pine_2_lod0.glb",
+      "bytes": 1726784,
+      "triangles": 16930,
+      "dimensions_m": [
+        4.66751766204834,
+        5.1181640625,
+        10.713851928710938
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "d19e6e3e72a496fac7fb0a5371c5114ac17a37cd8cd63cbc2553375026fcbca9",
+      "family": "pine",
+      "lod": 0,
+      "silhouette": 2,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_pine_2_lod1",
+      "path": "assets/graphics/models/pc_pine_2_lod1.glb",
+      "bytes": 712136,
+      "triangles": 6996,
+      "dimensions_m": [
+        4.66751766204834,
+        5.1181640625,
+        10.741124153137207
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "11b3d5b99b27c1a145a3449e791d42193e7b6d75e71e53cdd9fd344dd9c33851",
+      "family": "pine",
+      "lod": 1,
+      "silhouette": 2,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_pine_3_lod0",
+      "path": "assets/graphics/models/pc_pine_3_lod0.glb",
+      "bytes": 1707044,
+      "triangles": 16720,
+      "dimensions_m": [
+        4.9171037673950195,
+        4.888357162475586,
+        10.677806854248047
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "d9fcbca35633042ebcd9e7df3e78624663a89c83b8c924e9e68efcc885c85b1d",
+      "family": "pine",
+      "lod": 0,
+      "silhouette": 3,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_pine_3_lod1",
+      "path": "assets/graphics/models/pc_pine_3_lod1.glb",
+      "bytes": 702268,
+      "triangles": 6891,
+      "dimensions_m": [
+        4.9171037673950195,
+        4.888357162475586,
+        10.744461059570312
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Conifer"
+      ],
+      "sha256": "b60b5003a19885c24bdfa473ba92b7276a55aa39eb6ecee49da204341b0b8784",
+      "family": "pine",
+      "lod": 1,
+      "silhouette": 3,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_rock_buttress_1",
+      "path": "assets/graphics/models/pc_rock_buttress_1.glb",
+      "bytes": 8656,
+      "triangles": 81,
+      "dimensions_m": [
+        2.3254008293151855,
+        2.284198522567749,
+        2.2300000190734863
+      ],
+      "surfaces": 1,
+      "materials": [
+        "Rock.PC"
+      ],
+      "sha256": "c8e8b6300371a974d10258fb3ac5cf7be77ff2cfd14eb387fbe5578f28e4f321",
+      "family": "buttress",
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_rock_buttress_2",
+      "path": "assets/graphics/models/pc_rock_buttress_2.glb",
+      "bytes": 8656,
+      "triangles": 81,
+      "dimensions_m": [
+        2.3371663093566895,
+        2.2824249267578125,
+        2.2300000190734863
+      ],
+      "surfaces": 1,
+      "materials": [
+        "Rock.PC"
+      ],
+      "sha256": "2e972268b46c0bd92450ad649d38111f619d0a4b625e876e494de44bc0af8393",
+      "family": "buttress",
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_rock_ledge_1",
+      "path": "assets/graphics/models/pc_rock_ledge_1.glb",
+      "bytes": 11744,
+      "triangles": 117,
+      "dimensions_m": [
+        2.3768653869628906,
+        2.238229751586914,
+        2.2300000190734863
+      ],
+      "surfaces": 1,
+      "materials": [
+        "Rock.PC"
+      ],
+      "sha256": "3fd0fef32fe2ed22ddb1c66c539942ef3d49e9e4d1aa73006130b183a71499e8",
+      "family": "ledge",
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_rock_ledge_2",
+      "path": "assets/graphics/models/pc_rock_ledge_2.glb",
+      "bytes": 11748,
+      "triangles": 117,
+      "dimensions_m": [
+        2.1583657264709473,
+        2.1716179847717285,
+        2.2300000190734863
+      ],
+      "surfaces": 1,
+      "materials": [
+        "Rock.PC"
+      ],
+      "sha256": "d3d3cc933f346ed4e8b96289ab212c774e78b0279d97c34bd93fd61b5473049e",
+      "family": "ledge",
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_rock_boulder_1",
+      "path": "assets/graphics/models/pc_rock_boulder_1.glb",
+      "bytes": 8656,
+      "triangles": 81,
+      "dimensions_m": [
+        2.3490982055664062,
+        2.1346778869628906,
+        2.2300000190734863
+      ],
+      "surfaces": 1,
+      "materials": [
+        "Rock.PC"
+      ],
+      "sha256": "ab75d6097c218b60b3f001db639bbc89363230d067199b3ca63169397464d813",
+      "family": "boulder",
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_rock_boulder_2",
+      "path": "assets/graphics/models/pc_rock_boulder_2.glb",
+      "bytes": 8656,
+      "triangles": 81,
+      "dimensions_m": [
+        2.4618473052978516,
+        2.4362235069274902,
+        2.2300000190734863
+      ],
+      "surfaces": 1,
+      "materials": [
+        "Rock.PC"
+      ],
+      "sha256": "94c5d54446675043531723f341dbfa04a2676925027d1930b8f03165f06eccbd",
+      "family": "boulder",
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_spruce_1_lod2",
+      "path": "assets/graphics/models/pc_spruce_1_lod2.glb",
+      "bytes": 1392,
+      "triangles": 2,
+      "dimensions_m": [
+        11.0,
+        0.0,
+        11.0
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Impostor_spruce_1"
+      ],
+      "sha256": "60e348c68f9654e00eec1655b86b38e361245ae81a0a39e944f61aa7506f394c",
+      "family": "spruce",
+      "lod": 2,
+      "views": 8,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_spruce_2_lod2",
+      "path": "assets/graphics/models/pc_spruce_2_lod2.glb",
+      "bytes": 1392,
+      "triangles": 2,
+      "dimensions_m": [
+        11.0,
+        0.0,
+        11.0
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Impostor_spruce_2"
+      ],
+      "sha256": "6066e3f0814d2120ede2ec860ff6c22bb590b429c6f2ee566a68d21643278f49",
+      "family": "spruce",
+      "lod": 2,
+      "views": 8,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_spruce_3_lod2",
+      "path": "assets/graphics/models/pc_spruce_3_lod2.glb",
+      "bytes": 1392,
+      "triangles": 2,
+      "dimensions_m": [
+        11.0,
+        0.0,
+        11.0
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Impostor_spruce_3"
+      ],
+      "sha256": "778d2659b6208054b8180d941f8f010c7e47bfa9b5b7843be3a96fd5d83f9099",
+      "family": "spruce",
+      "lod": 2,
+      "views": 8,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_fir_1_lod2",
+      "path": "assets/graphics/models/pc_fir_1_lod2.glb",
+      "bytes": 1384,
+      "triangles": 2,
+      "dimensions_m": [
+        11.0,
+        0.0,
+        11.0
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Impostor_fir_1"
+      ],
+      "sha256": "96485fb662c548390f9e9fb208f656f103f86bbbc66ee39949c5908624bed33b",
+      "family": "fir",
+      "lod": 2,
+      "views": 8,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_fir_2_lod2",
+      "path": "assets/graphics/models/pc_fir_2_lod2.glb",
+      "bytes": 1384,
+      "triangles": 2,
+      "dimensions_m": [
+        11.0,
+        0.0,
+        11.0
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Impostor_fir_2"
+      ],
+      "sha256": "b5895e8cd0acece83c93b9adb51f5fb0ab3bbd3a5365f378db792a58ad25dfb9",
+      "family": "fir",
+      "lod": 2,
+      "views": 8,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_fir_3_lod2",
+      "path": "assets/graphics/models/pc_fir_3_lod2.glb",
+      "bytes": 1384,
+      "triangles": 2,
+      "dimensions_m": [
+        11.0,
+        0.0,
+        11.0
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Impostor_fir_3"
+      ],
+      "sha256": "5d42e705a19fa8f0fac35853bcf6ad2f9d9535bb545a4728565e0858ae6e450b",
+      "family": "fir",
+      "lod": 2,
+      "views": 8,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_pine_1_lod2",
+      "path": "assets/graphics/models/pc_pine_1_lod2.glb",
+      "bytes": 1384,
+      "triangles": 2,
+      "dimensions_m": [
+        11.0,
+        0.0,
+        11.0
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Impostor_pine_1"
+      ],
+      "sha256": "f651adf080b6492d8eaa438b6f9cd95d862555db9b82b75a5bb2ecbbe644f897",
+      "family": "pine",
+      "lod": 2,
+      "views": 8,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_pine_2_lod2",
+      "path": "assets/graphics/models/pc_pine_2_lod2.glb",
+      "bytes": 1384,
+      "triangles": 2,
+      "dimensions_m": [
+        11.0,
+        0.0,
+        11.0
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Impostor_pine_2"
+      ],
+      "sha256": "c76f88da340286b1ef56a1db74f0c9cc1e7da263531dbdff1216409cd97b1796",
+      "family": "pine",
+      "lod": 2,
+      "views": 8,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "pc_pine_3_lod2",
+      "path": "assets/graphics/models/pc_pine_3_lod2.glb",
+      "bytes": 1384,
+      "triangles": 2,
+      "dimensions_m": [
+        11.0,
+        0.0,
+        11.0
+      ],
+      "surfaces": 1,
+      "materials": [
+        "PC_Impostor_pine_3"
+      ],
+      "sha256": "ac161a3ad2cd1a1534fdad4199796a2f4dca9d6ebb36418e980fbacca5afbc40",
+      "family": "pine",
+      "lod": 2,
+      "views": 8,
+      "roundtrip_verified": true
+    }
+  ],
+  "atlases": [
+    {
+      "path": "assets/graphics/textures/pc_fir_1_atlas.png",
+      "sha256": "bed851efb7a15a892c345ad2b3b96f55c5795b5a91977317bae6893adc3b8613",
+      "bytes": 1516565,
+      "pixels": [
+        4096,
+        512
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_fir_1_atlas_low.png",
+      "sha256": "f69ca21daf02545df62cfa7ad465d73eaa241dcb686ba020281ed13b483b01a7",
+      "bytes": 419659,
+      "pixels": [
+        2048,
+        256
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_fir_2_atlas.png",
+      "sha256": "d040e1b6f176c4ba0b66f6ad1f3078381ba7d533ee9b91e3b04d2369b4f81dcb",
+      "bytes": 1487992,
+      "pixels": [
+        4096,
+        512
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_fir_2_atlas_low.png",
+      "sha256": "cf6761b186a099e18555cd00f911757b13dfe72e3c99d0a4d93cece6046f65e5",
+      "bytes": 410463,
+      "pixels": [
+        2048,
+        256
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_fir_3_atlas.png",
+      "sha256": "d7cd8953866fd825d3922f234d24ee85ba1bf18728c2de84cd71c32cca0b4a72",
+      "bytes": 1500026,
+      "pixels": [
+        4096,
+        512
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_fir_3_atlas_low.png",
+      "sha256": "0454b4c63071567a8d2a6cf9b75f46b674ff1212ba9ae69019b6d73c51ac37c2",
+      "bytes": 414019,
+      "pixels": [
+        2048,
+        256
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_pine_1_atlas.png",
+      "sha256": "87ee9a875d4c9c300f858032779b6e8c5e55d01ff33bc7ff2ebd5189f76ca583",
+      "bytes": 1526579,
+      "pixels": [
+        4096,
+        512
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_pine_1_atlas_low.png",
+      "sha256": "a31bec23aa6f4bc1af648bf9c37b04e3ab85dd5c3cad985004bfe515964c43d0",
+      "bytes": 419355,
+      "pixels": [
+        2048,
+        256
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_pine_2_atlas.png",
+      "sha256": "c2d59cae27b6b766682bf5031c2ca696a641a89e26f7c17c40b9d26f48be88be",
+      "bytes": 1537507,
+      "pixels": [
+        4096,
+        512
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_pine_2_atlas_low.png",
+      "sha256": "6e048156da33b19d412c7a42c6c27869390359f8fc85e17c791f9071daf883a2",
+      "bytes": 423518,
+      "pixels": [
+        2048,
+        256
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_pine_3_atlas.png",
+      "sha256": "a21aa9c4b6186c1418ac0a08626116ee49990fbf9b17a30e483170bf0cdb851b",
+      "bytes": 1507572,
+      "pixels": [
+        4096,
+        512
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_pine_3_atlas_low.png",
+      "sha256": "601618a3612e45921a3df54a162fe75920ca8a28c83031b73ca1748e42c17172",
+      "bytes": 414260,
+      "pixels": [
+        2048,
+        256
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_spruce_1_atlas.png",
+      "sha256": "f1f9268b9f86a130001f35a1f14b387009a1d2d3775b39fbe60bfa68aac58f09",
+      "bytes": 1609213,
+      "pixels": [
+        4096,
+        512
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_spruce_1_atlas_low.png",
+      "sha256": "cac03fa257d77c1ee5b7504419b2da69175fd9da282b717f87a86da0c8a57422",
+      "bytes": 447107,
+      "pixels": [
+        2048,
+        256
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_spruce_2_atlas.png",
+      "sha256": "f0e71014ab7a4247ef9a94e322e85f56b2b770cba9070d8ff83c4e4543d9c620",
+      "bytes": 1617956,
+      "pixels": [
+        4096,
+        512
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_spruce_2_atlas_low.png",
+      "sha256": "3b3f723c2f097154c058d426cfb043c8a853fd5c35800a5ff1fd556db841119c",
+      "bytes": 450369,
+      "pixels": [
+        2048,
+        256
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_spruce_3_atlas.png",
+      "sha256": "0075d6003c15decac5710a7b821f22784030f2a7823fc8bc00b4eb81cce042e0",
+      "bytes": 1637367,
+      "pixels": [
+        4096,
+        512
+      ]
+    },
+    {
+      "path": "assets/graphics/textures/pc_spruce_3_atlas_low.png",
+      "sha256": "7b8a4b7104d335cc8e3294b46cf9670fc6573a835a328d6709dcf0dc00a67ee6",
+      "bytes": 459810,
+      "pixels": [
+        2048,
+        256
+      ]
+    }
+  ],
+  "sources": [
+    "art_source/blender/pc_environment/pc_environment.blend",
+    "art_source/pc_texture_sources.json"
+  ],
+  "mesh_budget": "One surface per tree; three geometry LODs, eight-angle albedo-only far atlas"
+}

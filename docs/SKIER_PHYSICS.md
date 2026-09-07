@@ -1,9 +1,33 @@
-# Physics-driven skier, model v9
+# Physics-driven skier, model v12
 
 Normal skiing now has two independently evaluated ski supports coupled to an
 articulated balance controller. The simulation emits the final pelvis, spine,
 head, leg and arm joints. Rendering interpolates the completed 120 Hz states;
 it cannot advance hands, steer the rider or create snow contact.
+
+## Impact reserve and supported recovery — model v12
+
+The current model removes scalar balance damage and automatic body-tip deaths.
+Rough landings and obstacle contacts deplete a visible impact reserve according
+to severity; smooth supported riding restores it after a delay. Empty reserve
+causes an impact fall. A bounded pose assist returns an excessively tipped rider
+toward the requested stance. Steering and skidding still use the existing force
+model and cannot drain the bar. [Rules, units and validation](IMPACT_RECOVERY.md).
+
+Earlier sections below describe their original versions; v12 supersedes their
+balance-death rules. Release-to-hop and the improved turn transfer are retained.
+
+## Release jumping and earlier turn transfer — model v11
+
+Hold the jump action to prepare and release to hop. A 75 ms simulation buffer
+accepts early landing requests, and the last supported ledge tick consumes a
+release before predictive takeoff can discard it. Turn reversals retain 15% of
+the yaw rate during weight transfer and request a modest 0.25 rad opposite bank
+through the existing pressure and torque constraints. Landing and recovery now
+have distinct HUD cues. [Full changes, measurements and validation](HANDLING_UPGRADE.md).
+
+Current benchmark identity is `laboratory-v3-physics-v12-default`; the versioned
+sections below document earlier changes and their original measurements.
 
 ## Tighter high-speed turns — model v9
 
@@ -284,7 +308,7 @@ No new Meshy operation was needed: the earlier total remains 40 of the authorise
 
 ## Replay identity
 
-Benchmark identity is `laboratory-v3-physics-v9-default`. Replay format v2 records
+The model v9 benchmark identity was `laboratory-v3-physics-v9-default`. Replay format v2 records
 fifteen joint positions plus each ski's position, normal, heading, edge and contact
 flag at 30 Hz, alongside 120 Hz inputs. Ghosts interpolate recorded articulation;
 they do not reconstruct the old decorative edge/tuck pose. Malformed and older

@@ -22,12 +22,22 @@ var weather_material: ShaderMaterial
 var cloud_offset = Vector2.ZERO
 const CloudLighting = preload("res://scripts/presentation/cloud_lighting.gd")
 var cloud_lighting = CloudLighting.new()
+const Atmosphere = preload("res://scripts/presentation/alpine_atmosphere.gd")
+var last_weather_state
 
-func build(field) -> void:
+func build(field, checkpoint: Callable = Callable(), data_worker: Callable = Callable()) -> void:
 	var start = Time.get_ticks_usec()
 	surface = field
+	# The full summit is 4300 m high. The old laboratory's fixed 2400 m layer
+	# collapsed the sky projection above it and disabled mountain cloud shadows.
+	cloud_lighting.height_m = maxf(2400.0,field.sample(0,0).height+1200.0)
 	mountain = preload("res://scripts/world/mountain_data.gd").new()
-	mountain.generate(field,field.seed_value+4187 if mountain_seed<0 else mountain_seed)
+	var generate_data = mountain.generate.bind(field,field.seed_value+4187 if mountain_seed<0 else mountain_seed)
+	if data_worker.is_valid():
+		await checkpoint.call("Preparing mountain scenery data…",-1.0)
+		await data_worker.call(generate_data)
+	else: generate_data.call()
+	if checkpoint.is_valid(): await checkpoint.call("Loading materials and mountain lighting…",-1.0)
 	assets = preload("res://scripts/presentation/alpine_assets.gd").new(cloud_lighting,quality)
 	assets.mountain = mountain
 	snow_material = assets.terrain_material()
@@ -38,8 +48,11 @@ func build(field) -> void:
 		snow_material.set_shader_parameter("feature_origin",field.MASK_ORIGIN)
 		snow_material.set_shader_parameter("feature_size",Vector2(field.MASK_SIZE))
 	_environment()
-	_terrain()
+	if checkpoint.is_valid(): await _terrain(checkpoint)
+	else: _terrain()
+	if checkpoint.is_valid(): await checkpoint.call("Building the distant peaks…",-1.0)
 	_vistas()
+	if checkpoint.is_valid(): await checkpoint.call("Placing trees, rocks and scenery…",-1.0)
 	_vegetation()
 	if field.GENERATOR_ID == "laboratory": _course_markers()
 	generation_ms = (Time.get_ticks_usec() - start) / 1000.0
@@ -69,7 +82,7 @@ func _environment() -> void:
 	env.sky = sky
 	# Retain the readable weather fill, with a restrained directional sky component.
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	env.ambient_light_sky_contribution = 0.25
+	env.ambient_light_sky_contribution = 0.42
 	# Small contact-scale occlusion; never multiply direct sun or material AO.
 	env.ssao_radius = 0.65
 	env.ssao_intensity = 1.2
@@ -80,7 +93,7 @@ func _environment() -> void:
 	env.ssao_ao_channel_affect = 0.0
 	# Local indirect detail only; keep rejection to limit light leaking.
 	env.ssil_radius = 2.0
-	env.ssil_intensity = 0.7
+	env.ssil_intensity = 0.55
 	env.ssil_sharpness = 0.9
 	env.ssil_normal_rejection = 1.0
 	# Four cascades bound camera-following GI work at racing speed.
@@ -94,6 +107,7 @@ func _environment() -> void:
 	env.ambient_light_color = Color("abc5e1")
 	env.ambient_light_energy = 0.32
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	Atmosphere.configure(env)
 	env.fog_enabled = true
 	env.fog_light_color = Color("aab8cb")
 	env.fog_light_energy = 0.75
@@ -123,6 +137,7 @@ func _environment() -> void:
 	cloud_lighting.register(weather_material)
 
 func update_weather(state, dt: float, animate: bool) -> void:
+	last_weather_state = state
 	assets.update_wind(state,dt,animate)
 	environment.sky = weather_sky if state.enabled else original_sky
 	sun.light_color = state.sun_color
@@ -137,7 +152,8 @@ func update_weather(state, dt: float, animate: bool) -> void:
 	environment.ambient_light_energy = state.ambient_energy
 	environment.fog_light_color = state.fog_color
 	environment.fog_density = state.fog_density
-	environment.fog_sky_affect = 0.25 if state.enabled else 1.0
+	environment.fog_sky_affect = 0.07 if state.enabled else 0.25
+	Atmosphere.apply(environment,sun,moon,weather_material,state,quality)
 	# Integrate displacement instead of multiplying time by changing wind:
 	# a gust or transition must not teleport the clouds.
 	if animate and state.enabled:
@@ -158,7 +174,7 @@ func update_weather(state, dt: float, animate: bool) -> void:
 	weather_material.set_shader_parameter("sun_glow_strength",smoothstep(0.0,0.16,state.sun_direction.y))
 	weather_material.set_shader_parameter("moon_glow_strength",smoothstep(0.01,0.20,-state.sun_direction.y))
 
-func _terrain() -> void:
+func _terrain(checkpoint: Callable = Callable()) -> void:
 	var chunk = 64 if surface.is_summit_mountain() else 32
 	var lods = {0.7:_terrain_lod_indices(chunk,4),3.0:_terrain_lod_indices(chunk,8)} if surface.is_summit_mountain() else {}
 	for cz in range(0, surface.NZ - 1, chunk):
@@ -201,6 +217,9 @@ func _terrain() -> void:
 			terrain_chunks.append(instance)
 			add_child(instance)
 			terrain_triangles += indices.size() / 3
+			if checkpoint.is_valid() and terrain_chunks.size()%8 == 0:
+				var total = ceili(float(surface.NX-1)/chunk)*ceili(float(surface.NZ-1)/chunk)
+				await checkpoint.call("Building terrain · %d / %d sections" % [terrain_chunks.size(),total],100.0*terrain_chunks.size()/total)
 
 func _vistas() -> void:
 	var backdrop = preload("res://scripts/world/alpine_backdrop.gd").new()
@@ -220,6 +239,9 @@ func apply_graphics(profile) -> void:
 	environment.ssao_enabled = profile.contact_shading
 	environment.ssil_enabled = profile.indirect_lighting
 	environment.sdfgi_enabled = profile.terrain_gi
+	Atmosphere.apply_quality(environment,profile)
+	if last_weather_state:
+		Atmosphere.apply(environment,sun,moon,weather_material,last_weather_state,profile)
 	assets.apply_quality(profile)
 	if scenery:
 		scenery.apply_quality(profile)

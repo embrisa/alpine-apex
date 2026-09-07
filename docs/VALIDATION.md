@@ -1,6 +1,16 @@
 # Validation
 
-Current policy (2026-09-06): target approximately 60 FPS on the user's MacBook at Low. Medium (currently Balanced) and High have no MacBook FPS requirement. Earlier 1440p/120 FPS and 4K/60 comparisons below are historical goals, not current MacBook acceptance criteria. The 120 Hz simulation is unchanged. See [graphics performance policy](GRAPHICS.md#performance-policy).
+## PC alpine environment and Technical Showcase v7 — 2026-09-07
+
+The PC upgrade passes **587 regression checks across 16 suites**, a separate **16-check native PC graphics run**, and **33 independent Blender GLB reimports**. The final native checks explicitly inspect all 18 conifer near/mid masks and geometry budgets, exact 3840x2160 output, 4K maps, FSR2 antialiasing, preference persistence and unchanged ranked identity. Archived v1-v6 generators remain unchanged; v7 recipes and race references reconstruct the fixed seed 849205174. Tests and benchmark descents remain unranked. Concurrent model-v11 input/handling work is preserved.
+
+At **4K output / 75% FSR2 / High / 120 FPS cap**, with **WoW Classic running throughout**, the final clear western descent averages **112.7 FPS**, p95/p99 **13.037/16.526 ms**, slowest-1% **50.8 FPS**. The snowfall eastern descent averages **114.8 FPS**, p95/p99 **12.354/15.298 ms**, slowest-1% **52.8 FPS**. Forest averages are **94.3 / 107.0 FPS**. Both finish without a crash after 369.83 / 367.48 seconds; startup and 120 warmup frames are excluded, with no captures during measurement. Scripts, shaders, resource settings and manifests stayed unchanged during each run.
+
+**Performance acceptance is partial:** full-descent average and p99 targets pass, p95 does not; the western forest also misses p99. These are co-running PC measurements, not isolated GPU results. Matched fixed-camera v6 before/after captures and separate 4K v7 clear/snowfall, dawn/dusk/night and sampled motion views were reviewed. Continuous temporal-artifact perception and **user skiing acceptance remain pending**. The PC policy replaces the historical MacBook requirement; prior measurements below remain historical records.
+
+See [the complete implementation and acceptance report](PC_ENVIRONMENT_IMPLEMENTATION.md), [matched capture review](../artifacts/pc_environment/review/index.html), [benchmark JSON](../artifacts/pc_environment/final_report.json) and [CSV](../artifacts/pc_environment/final_benchmarks.csv) for source hashes, CPU/GPU timings, memory, setup and reproduction commands.
+
+Historical policy (2026-09-06, superseded by the PC policy above): approximately 60 FPS on the user's MacBook at Low, with Balanced and High free to prioritize fidelity. The older 1440p/120 FPS and 4K/60 comparisons below are also historical goals. The 120 Hz simulation remains independent. See [current graphics performance policy](GRAPHICS.md#performance-policy).
 
 ## Terrain surface variation and darker rock — 2026-09-05
 

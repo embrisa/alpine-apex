@@ -31,7 +31,7 @@ The adjoining 8.192 km decorative landscape is centred around the summit. Its an
 
 Library generation and reconstruction run on an owned worker thread so controls and the busy state continue rendering. Terrain data, RNG and noise are local to that job; no scene Nodes cross threads. Closing the scene joins an outstanding worker. Preview sampling is bounded independently of physical grid size. World mesh/asset construction still occurs synchronously when loading the mountain. Typical observed example data generation was about 6 s and world construction about 5 s on the development machine; this is not a streaming world.
 
-The Low target remains approximately 60 FPS on the user's MacBook, separately from the 120 Hz ski solver. Measurements must name actual resolution, weather, device and capture overhead. Headless tests do not establish visual feel or hardware performance.
+The current target is 4K output at 90-120 FPS on the Ryzen 5 5600X / RX 9070 PC, separately from the 120 Hz ski solver. Earlier MacBook results below describe the former policy. Measurements must name actual resolution, weather, device and capture overhead. Headless tests do not establish visual feel or hardware performance.
 
 ## Compatibility and storage
 
@@ -201,3 +201,11 @@ fingerprints are in `artifacts/technical_showcase_v6/native_-1_snowfall.json`.
 Clear and snowfall survey/chase/first-person captures are in the same directory.
 Player evaluation of repeated attempts remains open; none of these metrics
 claims that the revised face is fun.
+
+## Technical Showcase v7: PC alpine treatment
+
+The Technical Showcase button selects **849205174 / v7**. `examples/mountains/technical-showcase-v7.apexmountain` is the portable recipe. Bare seeds and Random Mountain remain v4. Old v1-v6 recipes keep their generator and physical fingerprints.
+
+v7 keeps the v6 south-face arrangement: broken ridges, both banked drainages, interrupted cliff bands, rough apron, optional drop and dense lower stands. Angular buttress profiles and ledges are baked into the authoritative 4 m surface. Sheltered shoulders retain snow while exposed faces read as rock. Materials and asset geometry carry detail smaller than the grid. No shader displacement changes skiable height.
+
+The pinned v7 height SHA-256 is `9f303aab12a3a3bc97b115b4040013303b04f562c2bb5a2486214602b822b560`; obstacle SHA-256 is `afeb8a384c013515344980dc3f913bc24bcfecffb18332ed7ce93f6ad199025a`. There are 7,947 physical obstacles and 46 terrain spines. Cosmetic asset selection is independently versioned. See `PC_ENVIRONMENT_IMPLEMENTATION.md` for measured acceptance and remaining limitations.

@@ -1,0 +1,83 @@
+[
+  {
+    "asset": "snow_02",
+    "channel": "Diffuse",
+    "path": "assets/graphics/textures/snow_albedo_high.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/snow_02/snow_02_diff_4k.jpg",
+    "sha256": "c4cc87be8833cb73ab154b32da60228e11ae20f91b5057f146d1ffe001b2edc4",
+    "license": "CC0-1.0",
+    "resolution": 4096
+  },
+  {
+    "asset": "snow_02",
+    "channel": "nor_gl",
+    "path": "assets/graphics/textures/snow_normal_high.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/snow_02/snow_02_nor_gl_4k.jpg",
+    "sha256": "e3760b3a0b3e15663f587fab42b0ab0ae713cfa9e66abefc9651a6dcb882893d",
+    "license": "CC0-1.0",
+    "resolution": 4096
+  },
+  {
+    "asset": "snow_02",
+    "channel": "arm",
+    "path": "assets/graphics/textures/snow_orm_high.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/snow_02/snow_02_arm_4k.jpg",
+    "sha256": "4542421d7c97411c31517c70a7ac2c283e7746137f5f48584b09efe6433f8886",
+    "license": "CC0-1.0",
+    "resolution": 4096
+  },
+  {
+    "asset": "rock_face_03",
+    "channel": "Diffuse",
+    "path": "assets/graphics/textures/rock_albedo_high.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/rock_face_03/rock_face_03_diff_4k.jpg",
+    "sha256": "83148536c125cee3a2e2fc1368c8851ad4c87aef8b8bb35c5129d82d223effb3",
+    "license": "CC0-1.0",
+    "resolution": 4096
+  },
+  {
+    "asset": "rock_face_03",
+    "channel": "nor_gl",
+    "path": "assets/graphics/textures/rock_normal_high.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/rock_face_03/rock_face_03_nor_gl_4k.jpg",
+    "sha256": "b479761c4d48511f3c0bb8a27d948082c6d88ab584e38ff3791ca395d27a16ea",
+    "license": "CC0-1.0",
+    "resolution": 4096
+  },
+  {
+    "asset": "rock_face_03",
+    "channel": "arm",
+    "path": "assets/graphics/textures/rock_orm_high.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/rock_face_03/rock_face_03_arm_4k.jpg",
+    "sha256": "d2dc47e1f11e049aabe559925c6b209a79cce2705c2b29046be95047ddeb3abc",
+    "license": "CC0-1.0",
+    "resolution": 4096
+  },
+  {
+    "asset": "bark_brown_02",
+    "channel": "Diffuse",
+    "path": "assets/graphics/textures/bark_albedo_high.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/bark_brown_02/bark_brown_02_diff_4k.jpg",
+    "sha256": "6c8a25592af62af9630091d5153f5dbabe3a8e8863dc03724a3027a7b3036c39",
+    "license": "CC0-1.0",
+    "resolution": 4096
+  },
+  {
+    "asset": "bark_brown_02",
+    "channel": "nor_gl",
+    "path": "assets/graphics/textures/bark_normal_high.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/bark_brown_02/bark_brown_02_nor_gl_4k.jpg",
+    "sha256": "f42d78f47337c438645cb69231e8bed28966c8fae24777a47ff8d4da1de5b652",
+    "license": "CC0-1.0",
+    "resolution": 4096
+  },
+  {
+    "asset": "bark_brown_02",
+    "channel": "arm",
+    "path": "assets/graphics/textures/bark_orm_high.jpg",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/bark_brown_02/bark_brown_02_arm_4k.jpg",
+    "sha256": "92d71c187b1f87dd034d130867c5ab08973afafafeb1be513bf675357edce3ff",
+    "license": "CC0-1.0",
+    "resolution": 4096
+  }
+]

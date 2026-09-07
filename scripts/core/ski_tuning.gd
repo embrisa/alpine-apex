@@ -21,14 +21,24 @@ extends Resource
 @export_range(0.3, 3.0) var steering_sensitivity: float = 1.35
 @export var high_speed_steering_reduction: float = 0.032
 @export var edge_response: float = 14.0
+# Begin changing ski yaw while transferring weight; pressure and cuff limits still apply.
+@export_range(0.0, 1.0) var turn_transfer_yaw_fraction: float = 0.15
+@export_range(0.0, 0.85) var turn_transfer_bank: float = 0.25 # rad, requested bank only
 @export var braking_deceleration: float = 8.2
 
 @export_group("Contact and impacts")
-@export var jump_impulse: float = 3.2
+@export var jump_impulse: float = 3.2 # m/s along supported snow normal
+@export_range(0.0, 0.15) var jump_buffer_time: float = 0.075 # s; release just before landing
 @export var landing_tolerance: float = 10.5
 @export var landing_absorption: float = 0.25
-@export var balance_recovery: float = 0.65
-@export var lateral_recovery_distance: float = 5.0
+# Original Alpine Apex warning/recovery tuning; not decoded Steep constants.
+@export var obstacle_impact_reference: float = 7.0 # normal closing speed, m/s
+@export var impact_soft_ratio: float = 0.55 # below this fraction of reference: no damage
+@export var impact_reference_damage: float = 0.35 # reserve spent at reference severity
+@export var impact_max_damage: float = 0.75 # one impact cannot empty a full reserve
+@export var impact_contact_grace: float = 0.30 # s, group ski/terrain contacts into one hit
+@export var impact_recovery_delay: float = 1.25 # s without a rough impact before recovery
+@export var impact_recovery_time: float = 6.0 # supported seconds to restore a full bar
 @export var minimum_load: float = 0.0 # m/s²; unilateral support cannot be tensile
 
 @export_group("Articulated rider and separate skis")

@@ -1,7 +1,7 @@
 extends Node3D
 ## Art batches use the existing obstacle list verbatim. No physics bodies here.
 ## Cosmetic selection only: separate from course / replay generation identity.
-const SCENERY_VERSION = 3
+const SCENERY_VERSION = 4
 const TREE_FAMILIES = ["spruce","fir","pine","larch","birch","rowan","scots_pine","wind_pine","snag","split_snag","hollow_snag"]
 const ROCK_FAMILIES = ["rock_granite","rock_slate","rock_boulder","rock_limestone","rock_gneiss","rock_split_rock","rock_outcrop"]
 var assets
@@ -33,6 +33,11 @@ func build(field, library, profile) -> void:
 		var variant_count = 3 if family=="spruce" else (2 if family=="rock_boulder" else 4)
 		var variant = 1+posmod(hash("%s_%d_%d_%d" % [family,floori(ob.position.x/cell),floori(ob.position.z/cell),field.seed_value]),variant_count)
 		var asset_id = "%s_%d" % [family,variant]
+		if ob.tree and family in ["spruce","fir","pine"]:
+			asset_id = "pc_%s_%d" % [family,1+(variant-1)%3]
+		elif not ob.tree:
+			var kind = "buttress" if family in ["rock_outcrop","rock_split_rock"] else ("ledge" if family in ["rock_slate","rock_gneiss","rock_limestone"] else "boulder")
+			asset_id = "pc_rock_%s_%d" % [kind,1+(variant-1)%2]
 		family_counts[family] = family_counts.get(family,0)+1
 		var key = "%d_%d_%s" % [floori(ob.position.x/cell),floori(ob.position.z/cell),asset_id]
 		if not groups.has(key):
@@ -45,6 +50,8 @@ func build(field, library, profile) -> void:
 		if group.tree:
 			for lod in range(3):
 				_batch(assets.mesh("%s_lod%d" % [group.asset,lod]),group.transforms,lod)
+			if group.asset.begins_with("pc_"):
+				_batch(assets.mesh("%s_lod1" % group.asset),group.transforms,5)
 		else:
 			_batch(assets.mesh(group.asset),group.transforms,3)
 	# Small scrub is scenery, kept out of the corridor and away from trunk centers.
@@ -98,6 +105,19 @@ func _batch(mesh: Mesh, transforms: Array, lod: int) -> void:
 	# Far cards turn in their shader; include their rotated width in culling bounds.
 	instance.extra_cull_margin = 10.0 if lod==2 else .2
 	instance.set_meta("art_lod",lod)
+	var material = mesh.surface_get_material(0)
+	var pc_tree = (lod<3 or lod==5) and material is ShaderMaterial and "pc_" in material.shader.resource_path
+	instance.set_meta("pc_tree",pc_tree)
+	if pc_tree:
+		# One identical conservative AABB for all three LODs gives the engine
+		# and shader exactly the same centre, including the tilted slope.
+		var bounds = AABB(transforms[0].origin,Vector3.ZERO)
+		for transform_value in transforms: bounds = bounds.expand(transform_value.origin)
+		bounds.position -= Vector3(10,.5,10)
+		bounds.size += Vector3(20,19,20)
+		instance.custom_aabb = bounds
+		instance.extra_cull_margin = 0.0
+		instance.set_instance_shader_parameter("pc_lod_center",bounds.get_center())
 	add_child(instance)
 	batches.append(instance)
 
@@ -105,11 +125,24 @@ func apply_quality(profile) -> void:
 	quality = profile
 	for instance in batches:
 		var lod: int = instance.get_meta("art_lod")
-		instance.visibility_range_begin = [0.0,profile.tree_near_m,profile.tree_mid_m,0.0,0.0][lod]
-		instance.visibility_range_end = [profile.tree_near_m,profile.tree_mid_m,profile.tree_far_m,profile.tree_far_m,profile.scrub_distance_m][lod]
+		instance.visibility_range_begin = [0.0,profile.tree_near_m,profile.tree_mid_m,0.0,0.0,0.0][lod]
+		instance.visibility_range_end = [profile.tree_near_m,profile.tree_mid_m,profile.tree_far_m,profile.tree_far_m,profile.scrub_distance_m,minf(160,profile.shadow_distance_m)][lod]
 		# Small hysteresis prevents threshold flicker without alpha-blended forests.
-		instance.visibility_range_begin_margin = 5.0 if lod in [1,2] else 0.0
-		instance.visibility_range_end_margin = 5.0
+		instance.visibility_range_begin_margin = 12.0 if lod in [1,2] else 0.0
+		instance.visibility_range_end_margin = 12.0
+		if instance.get_meta("pc_tree",false):
+			var begin = instance.visibility_range_begin
+			var end = instance.visibility_range_end
+			instance.set_instance_shader_parameter("pc_lod_ranges",Vector4(begin,end,10.0,float(lod)))
+			# The shader owns the transition; broad culling bounds retain both
+			# opaque meshes while their complementary coverage changes.
+			instance.visibility_range_begin = maxf(0.0,begin-11.0) if begin>0 else 0.0
+			instance.visibility_range_end = end+11.0
+			instance.visibility_range_begin_margin = 0.0
+			instance.visibility_range_end_margin = 0.0
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if lod in [0,1,3] else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		if instance.get_meta("pc_tree",false):
+			# One stable mid-detail shadow silhouette, independent of visible LOD.
+			instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY if lod==5 else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		if lod==4:
 			instance.multimesh.visible_instance_count = maxi(0,roundi(instance.multimesh.instance_count*profile.scrub_density))

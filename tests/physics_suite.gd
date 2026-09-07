@@ -103,7 +103,7 @@ func run() -> void:
 	var broadside = make_sim(slope,100)
 	broadside.heading = PI/2
 	advance(broadside,slope,1)
-	check(broadside.crashed and broadside.crash_reason=="LOST EDGE","An unrecovered broadside slide can still lose an edge")
+	check(not broadside.crashed and broadside.impacts.reserve==1.0,"Broadside skidding cannot cause a balance death or spend impact reserve")
 	var uphill = make_sim(slope,100,PI)
 	advance(uphill,slope,2)
 	check(uphill.speed_kmh()<65,"Uphill movement rapidly spends momentum")
@@ -184,7 +184,7 @@ func _air_tests(slope) -> void:
 	impact.position.y = 0.1
 	impact.velocity = Vector3(0,-20,0)
 	advance(impact,slope,0.1)
-	check(impact.crashed and impact.crash_reason=="HARD LANDING","Excessive normal landing speed causes a physical crash")
+	check(not impact.crashed and impact.impacts.reserve<1.0,"First hard landing spends impact reserve instead of automatically crashing")
 	var crest_surface = Crest.new()
 	var crest = make_sim(crest_surface,150)
 	advance(crest,crest_surface,1.5)
@@ -311,13 +311,13 @@ func _speed_calibration() -> void:
 	check(careful.balance>.95 and extreme.balance>.95 and not extreme.crashed,"Brief 12-degree heading errors are recoverable at 90 and 200 km/h")
 	careful = make_sim(flat,90)
 	extreme = make_sim(flat,200)
-	# Larger errors still carry a speed-dependent recovery cost.
+	# Larger heading errors spend momentum, not an impact reserve.
 	careful.heading = deg_to_rad(20)
 	extreme.heading = deg_to_rad(20)
 	advance(careful,flat,0.4)
 	advance(extreme,flat,0.4)
-	metrics.slip_recovery_balance = {"90_kmh":careful.balance,"200_kmh":extreme.balance}
-	check(careful.balance>0.95 and extreme.balance<careful.balance-0.10,"Same heading error consumes substantially more balance at 200 than 90 km/h")
+	metrics.slip_impact_reserve = {"90_kmh":careful.impacts.reserve,"200_kmh":extreme.impacts.reserve}
+	check(not careful.crashed and not extreme.crashed and careful.impacts.reserve==1.0 and extreme.impacts.reserve==1.0,"Heading errors at 90 and 200 km/h do not spend impact reserve")
 	var tucked_turn = make_sim(TestPlane.new(),120)
 	advance(tucked_turn,TestPlane.new(),2,tuck)
 	tuck.steer = 0.8

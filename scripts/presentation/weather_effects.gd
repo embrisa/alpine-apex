@@ -11,6 +11,7 @@ var initialized: bool = false
 var camera_velocity = Vector3.ZERO
 var stretch: float = 0.0
 var reset_count: int = 0
+var lighting = preload("res://scripts/presentation/cloud_lighting.gd").new()
 
 func _ready() -> void:
 	for kind in [0,1]:
@@ -53,6 +54,7 @@ func _prepare_draw(particle: GPUParticles3D, kind: int) -> void:
 	var material = ShaderMaterial.new()
 	material.shader = preload("res://assets/weather_particle_draw.gdshader")
 	material.set_shader_parameter("kind",kind)
+	lighting.register(material)
 	quad.material = material
 	particle.draw_pass_1 = quad
 	particle.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF

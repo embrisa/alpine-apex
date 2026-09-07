@@ -27,7 +27,7 @@ func run() -> void:
 	check(not game.active and game.hud.menu.visible,"Project opens at the start screen")
 	var dial_rect: Rect2 = game.hud.speed_dial.get_global_rect()
 	check(dial_rect.position.x>=0 and dial_rect.position.y>=0 and root.get_visible_rect().encloses(dial_rect),"Speed dial stays fully inside the viewport")
-	check(game.session.course_id=="laboratory-v3-physics-v10-default","Changed terrain and handling use a new benchmark identity")
+	check(game.session.course_id=="laboratory-v3-physics-v12-default","Changed terrain and handling use a new benchmark identity")
 	key(KEY_F2)
 	check(not game.active and game.hud.tuning_panel.visible,"Workbench pauses from the title screen")
 	var workbench_rect: Rect2 = game.hud.tuning_panel.get_global_rect()
@@ -101,6 +101,11 @@ func run() -> void:
 	await physics_frame
 	check(game.sim.grounded,"Holding jump while restarting does not trigger an unwanted hop")
 	Input.action_release("jump")
+	await physics_frame
+	await physics_frame
+	check(game.sim.grounded,"Releasing a button held through restart is also suppressed")
+	await _jump_release_checks()
+	_feedback_checks()
 	game.active = false
 	game.queue_free()
 	await process_frame
@@ -109,6 +114,87 @@ func run() -> void:
 	file.store_string(JSON.stringify(output,"\t"))
 	print("RUNTIME_RESULTS ",JSON.stringify(output))
 	quit(0 if failures.is_empty() else 1)
+
+func _jump_release_checks() -> void:
+	game.set_physics_process(false)
+	game.start_speed_lab(0)
+	await process_frame
+	await process_frame
+	game._physics_process(1.0/120.0) # Observe neutral before arming.
+	Input.action_press("jump")
+	game._physics_process(1.0/120.0)
+	check(game.intent.jump_held and not game.intent.jump and game.sim.grounded,"Pressing jump shows readiness without hopping")
+	await process_frame
+	await process_frame
+	game._physics_process(1.0/120.0)
+	check(game.sim.grounded and game.sim.total_airtime==0.0,"Holding jump does not auto-repeat")
+	Input.action_release("jump")
+	game._physics_process(1.0/120.0)
+	check(game.intent.jump and not game.intent.jump_held and not game.sim.grounded,"Releasing jump launches the prepared hop")
+	await process_frame
+	await process_frame
+	game._physics_process(1.0/120.0)
+	check(not game.intent.jump and game.sim.jump_buffer_remaining==0.0,"Release event lasts one sampled tick")
+	for action in ["pause","workbench","focus"]:
+		game.start_speed_lab(0)
+		await process_frame
+		await process_frame
+		game._physics_process(1.0/120.0)
+		Input.action_press("jump")
+		game._physics_process(1.0/120.0)
+		if action=="pause": key(KEY_ESCAPE)
+		elif action=="workbench": key(KEY_F2)
+		else: game._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+		check(not game.active and not game.jump_armed,"Leaving play disarms prepared jump: "+action)
+		if action=="workbench": game.close_workbench()
+		else: game.resume()
+		Input.action_release("jump")
+		game._physics_process(1.0/120.0)
+		check(game.sim.grounded and not game.intent.jump,"Release held through inactive screen is ignored: "+action)
+	game.start_speed_lab(0)
+	await process_frame
+	await process_frame
+	game._physics_process(1.0/120.0)
+	game.sim.position.y += 1.0
+	game.sim.grounded = false
+	Input.action_press("jump")
+	game._physics_process(1.0/120.0)
+	Input.action_release("jump")
+	game._physics_process(1.0/120.0)
+	check(game.sim.jump_buffer_remaining>0.0,"Early air release reaches the simulation buffer")
+	key(KEY_ESCAPE)
+	check(game.sim.jump_buffer_remaining==0.0,"Pause cancels pending air release before it can survive into a landing")
+	game.resume()
+	check(game.sim.jump_buffer_remaining==0.0,"Resume does not restore a cancelled jump request")
+
+func _feedback_checks() -> void:
+	game.active = false
+	game.sim.reset(Vector3.ZERO)
+	game.intent = RiderInput.new()
+	game.sim.impacts.hit(10.5,10.5,"HARD LANDING",game.sim.tuning)
+	game.hud.update_hud(game.sim,game.session,game.intent,"Test",8.3,.1,.1,true)
+	check(game.hud.state_label.text.begins_with("HARD LANDING") and absf(game.hud.impact_bar.value-65.0)<.001,"Rough landing reduces the visible impact reserve by severity")
+	var paused_reserve: float = game.sim.impacts.reserve
+	game._physics_process(30.0)
+	game.hud.update_hud(game.sim,game.session,game.intent,"Test",8.3,.1,30.0,true)
+	check(game.sim.impacts.reserve==paused_reserve and game.sim.impacts.since_hit==0.0,"Pause and HUD rendering cannot refill the impact reserve")
+	game.sim.impacts.since_hit = 2.0
+	game.hud.update_hud(game.sim,game.session,game.intent,"Test",8.3,.1,.1,true)
+	check(game.hud.state_label.text.begins_with("RECOVERING"),"Smooth skiing after the delay gives a recovery cue")
+	game.sim.impacts.reserve = .20
+	game.hud.update_hud(game.sim,game.session,game.intent,"Test",8.3,.1,.1,true)
+	check(game.hud.state_label.text.begins_with("LOW IMPACT RESERVE"),"Low impact reserve gives a clear impact warning")
+	game.sim.impacts.reset()
+	game.sim.balance = 0.0
+	game.sim.balance_pressure = 2.0
+	game.intent.jump_held = true
+	game.hud.update_hud(game.sim,game.session,game.intent,"Test",8.3,.1,.1,true)
+	check(game.hud.state_label.text.begins_with("JUMP READY") and game.hud.impact_bar.value==100.0,"Retired balance values cannot affect the new bar or jump readiness")
+	game.sim.crash("IMPACT LIMIT / HARD LANDING")
+	game.hud.update_hud(game.sim,game.session,game.intent,"Test",8.3,.1,.1,true)
+	check(game.hud.state_label.text=="IMPACT LIMIT / HARD LANDING","Crash reason takes priority over jump readiness")
+	game.restart()
+	check(game.sim.impacts.reserve==1.0 and not game.sim.crashed,"Restart restores the full impact bar after a fall")
 
 func _speed_band_checks() -> void:
 	game.active = false

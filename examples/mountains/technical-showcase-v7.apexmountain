@@ -1,0 +1,15 @@
+{
+	"format": "alpine-apex-mountain",
+	"mountain": {
+		"engine": "4.7.2-stable (official)",
+		"generator": "alpine-drainage",
+		"height_sha256": "9f303aab12a3a3bc97b115b4040013303b04f562c2bb5a2486214602b822b560",
+		"obstacle_sha256": "afeb8a384c013515344980dc3f913bc24bcfecffb18332ed7ce93f6ad199025a",
+		"scenery_seed": 849205174,
+		"scenery_version": 2,
+		"seed": 849205174,
+		"version": 7
+	},
+	"name": "Technical Showcase",
+	"schema": 1
+}

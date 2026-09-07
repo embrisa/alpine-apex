@@ -1,0 +1,7 @@
+{
+  "authorized_ceiling": 1500,
+  "first_batch_ceiling": 300,
+  "spent": 0,
+  "jobs": [],
+  "note": "All current PC environment assets authored in Blender from local geometry and CC0 textures."
+}

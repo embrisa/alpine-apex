@@ -19,7 +19,7 @@ void fragment() {
  float radius=length(p);
  float puff=exp(-radius*radius*3.8)*(1.0-smoothstep(.65,1.0,radius));
  float grain=1.0-smoothstep(.35,.95,abs(p.x)+abs(p.y));
- ALBEDO=vec3(.91,.96,1.0);
+ ALBEDO=vec3(.97,.98,1.0);
  ALPHA=(kind==0 ? puff*.65 : grain)*COLOR.a*camera_fade;
  ROUGHNESS=kind==0 ? .86 : .28;
  SPECULAR=.5;

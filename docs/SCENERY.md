@@ -1,5 +1,20 @@
 # Scenery variation
 
+## PC alpine environment (2026-09-07)
+
+The active spruce, fir and pine families now each have three Blender-authored silhouettes. Six angular rocks replace runtime rock selections: two fractured buttresses, two layered ledges and two broken boulders. Original sources and legacy exports below remain archived. The showcase uses coherent conifer palettes in its existing stands and leaves the open glades and physical obstacle list intact.
+
+Each tree has one surface, explicit near/mid geometry and an eight-view, albedo-only directional impostor atlas. Vertex masks separate bark, fine needles, needle clusters and snow deposits. Analytic cutouts match between Blender atlas baking and runtime; near needles remain individual geometry. Crowns use bounded wind and 20 m opaque LOD dithering; region MultiMesh batching remains. High uses 95/280 m tree transitions and matching mid-detail shadow proxies to 160 m. Exact shared batch bounds avoid submitting invisible detailed LODs; the far shader crops empty atlas sides without changing silhouettes. High uses 4K scanned snow/rock/bark, with 2K and 1K surface derivatives on Balanced/Low. Atlases have 4096x512 and 2048x256 derivatives, mipmaps and VRAM compression.
+
+Editable source: `art_source/blender/pc_environment/pc_environment.blend`. Rebuild with `blender --background --python-exit-code 1 --python scripts/art/build_pc_environment.py`, then import with Godot, run `python scripts/art/configure_imports.py --pc-only`, and import again. The builder independently reimports all 33 GLBs and records triangles, dimensions in Blender XYZ, material surfaces and SHA-256 in `art_source/pc_environment_manifest.json`; runtime GLBs use Y up. The shared runtime manifest includes them too.
+
+Trees are 10.5 m tall before placement scale, with a 0.44 m base trunk fitted to the existing approximately 0.46 m collision radius. Branches remain visual; the existing 11 m cylindrical collision approximation is unchanged. Rock meshes stay within the original 1.35 m radius / 2 m height envelope and include a buried skirt. The terrain stays authoritative for contacts, tracks, surveys and crash geometry.
+
+Texture sources and hashes are in `art_source/pc_texture_sources.json`: Poly Haven snow_02, rock_face_03 and bark_brown_02, CC0. The PC Meshy ledger is separate: `art_source/pc_environment_credit_ledger.json`. This increment spent **0 / 1500 authorized credits**; no generation batches or purchases were needed. The optional [snowy spruce source pack](https://superhivemarket.com/products/low-poly-snowy-spruce-tree-pack) remains a potential time-saving source, not an acquired dependency.
+
+## Archived scenery library
+
+
 The visual library contains **43 tree shapes across 11 families** and **26 rock shapes across seven families**. Each consumes the original obstacle position, yaw and scale. Trees range from about 6.8 to 17.3 m in visible height; rock diameters reach approximately 2.2–8.9 m. Crown width, crown height distribution, branch twist, fracture shape and stone proportions distinguish the authored derivatives.
 
 | Tree family | Shapes | Visual role |
@@ -57,4 +72,4 @@ All 45 physics, 72 runtime and 15 graphics checks pass. All 146 new runtime GLBs
 
 At 1440×900 on the M4, the matched static Low/Balanced/High views all remain around 8.33 ms at the display's 120 FPS cap. Balanced draw calls rise from 421 to 602; total scenery batches rise from 1,197 to 2,165. The cap conceals GPU headroom, so these samples do not establish equal rendering cost.
 
-A complete screenshot-free Balanced/Legacy/Clear descent at **2560×1440** finishes without crashing in 55.703 simulation seconds, reaching 144.06 km/h. It measures **79.5 average FPS**, **54.2 FPS slowest-1% mean**, 625.6 mean draw calls and about 725 MiB reported peak video memory. World construction takes 1.18 s. The then-current 1440p/120 FPS target was unmet on this machine; the larger library adds rendering work. The current [MacBook performance policy](GRAPHICS.md#performance-policy) instead targets approximately 60 FPS on Low, with no MacBook FPS requirement for Balanced/High; this historical Balanced run does not validate Low. The report is `artifacts/weather_benchmark_scenery_expanded_1440p.json`; the combined evidence is `artifacts/scenery_variation/validation.json`.
+A complete screenshot-free Balanced/Legacy/Clear descent at **2560×1440** finishes without crashing in 55.703 simulation seconds, reaching 144.06 km/h. It measures **79.5 average FPS**, **54.2 FPS slowest-1% mean**, 625.6 mean draw calls and about 725 MiB reported peak video memory. World construction takes 1.18 s. The then-current 1440p/120 FPS target was unmet on this machine; the larger library adds rendering work. This historical Balanced run predates the [current PC policy](GRAPHICS.md#performance-policy) and does not establish PC or Low performance. The report is `artifacts/weather_benchmark_scenery_expanded_1440p.json`; the combined evidence is `artifacts/scenery_variation/validation.json`.

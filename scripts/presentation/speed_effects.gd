@@ -153,6 +153,6 @@ func update_effects(sim, field, position_value: Vector3, dt: float, active: bool
 		for pad in Input.get_connected_joypads():
 			if active:
 				var strength: float = sim.tuning.vibration_intensity
-				Input.start_joy_vibration(pad, minf(1.0,ratio*ratio*0.30+(sim.edge_load*0.28+slip*0.35)*float(sim.grounded))*strength, minf(1.0,sim.landing_force*0.10+sim.balance_pressure*0.12+float(sim.crashed))*strength,0.11)
+				Input.start_joy_vibration(pad, minf(1.0,ratio*ratio*0.30+(sim.edge_load*0.28+slip*0.35)*float(sim.grounded))*strength, minf(1.0,sim.landing_force*0.10+sim.impacts.dizziness*0.12+float(sim.crashed))*strength,0.11)
 			else:
 				Input.stop_joy_vibration(pad)

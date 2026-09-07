@@ -34,6 +34,7 @@ func run() -> void:
 	test_dir = "user://race_test_%d" % OS.get_process_id()
 	var benchmark_before = FileAccess.get_file_as_string("user://benchmark_v1.json") if FileAccess.file_exists("user://benchmark_v1.json") else ""
 	var field = Race.Terrain.new()
+	var benchmark_identity: String = Session.new().course_id
 	var race = fixture(field,849209361)
 	_contract_checks(race,field)
 	_timing_checks(race)
@@ -144,7 +145,7 @@ func run() -> void:
 	game = current_scene
 	game.set_physics_process(false)
 	game.session.eligible = false
-	check(game.field.seed_value==849205174 and game.session.race==null and game.session.course_id=="laboratory-v3-physics-v10-default","Returning to the benchmark restores its original terrain and identity")
+	check(game.field.seed_value==849205174 and game.session.race==null and game.session.course_id==benchmark_identity,"Returning to the benchmark restores its original terrain and current physics identity")
 	var benchmark_after = FileAccess.get_file_as_string("user://benchmark_v1.json") if FileAccess.file_exists("user://benchmark_v1.json") else ""
 	check(benchmark_before==benchmark_after,"Race tests do not change the user's benchmark record")
 	game.active = false

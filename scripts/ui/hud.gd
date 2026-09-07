@@ -13,6 +13,17 @@ signal weather_quality_requested(quality: int)
 signal time_of_day_requested(id: String)
 signal time_cycle_requested(enabled: bool)
 signal graphics_quality_requested(level: int)
+signal display_setting_requested(key: String, value: Variant)
+var display_controls: Dictionary = {}
+var menu_tabs: TabContainer
+var settings_tabs: TabContainer
+var tuning_tabs: TabContainer
+var audio_toggle: CheckButton
+var motion_toggle: CheckButton
+var feedback = preload("res://scripts/ui/interface_feedback.gd").new()
+signal workbench_requested
+signal audio_mute_requested(enabled: bool)
+signal motion_effects_requested(enabled: bool)
 signal mountains_requested
 signal races_requested
 signal competition_requested
@@ -38,7 +49,8 @@ var mountain_name: String = ""
 var mountain_seed_value: int = -1
 var conditions: Label
 var footer_controls: Label
-const SKI_CONTROLS = "A D / ← → STEER   W TUCK   S BRAKE   SPACE HOP   R RESTART   C CAMERA   G GHOST   F2 TUNE   F3 TELEMETRY   F4 RACES   F6 HISTORY   ESC PAUSE"
+const SKI_CONTROLS = "A / D  STEER     W  TUCK     S  BRAKE     SPACE  RELEASE HOP     R  RETRY     C  CAMERA     ESC  MENU & SETTINGS"
+const MENU_CONTROLS = "TAB / ARROWS  NAVIGATE     ENTER  SELECT     ESC  BACK     F2  WORKBENCH     F4  RACES     F6  HISTORY"
 var primary: Button
 var secondary: Button
 var debug_panel: PanelContainer
@@ -54,7 +66,8 @@ var fps_label: Label
 var progress: SlimBar
 var speed_dial: SpeedDial
 var band_label: Label
-var edge_bar: SlimBar
+var impact_bar: SlimBar
+var impact_label: Label
 var telemetry_timer: float = 0.0
 var menu_mode: String = "title"
 var normal_font: SystemFont
@@ -93,6 +106,10 @@ class SpeedDial:
 
 class SlimBar:
 	extends Control
+	var tint: Color = Color("c2e76b"):
+		set(v):
+			tint = v
+			queue_redraw()
 	var value: float = 0.0:
 		set(v):
 			value = v
@@ -100,9 +117,10 @@ class SlimBar:
 	var max_value: float = 100.0
 	func _draw() -> void:
 		draw_rect(Rect2(Vector2.ZERO,size),Color(1,1,1,0.20))
-		draw_rect(Rect2(Vector2.ZERO,Vector2(size.x*clampf(value/max_value,0,1),size.y)),Color("c2e76b"))
+		draw_rect(Rect2(Vector2.ZERO,Vector2(size.x*clampf(value/max_value,0,1),size.y)),tint)
 
 func _ready() -> void:
+	add_child(feedback)
 	normal_font = SystemFont.new()
 	normal_font.font_names = PackedStringArray(["Avenir Next", "Inter", "DejaVu Sans"])
 	mono_font = SystemFont.new()
@@ -110,6 +128,13 @@ func _ready() -> void:
 	var theme = Theme.new()
 	theme.default_font = normal_font
 	theme.default_font_size = 16
+	theme.set_stylebox("panel","TabContainer",_style(Color.TRANSPARENT,Color.TRANSPARENT,14))
+	theme.set_stylebox("tab_selected","TabContainer",_style(Color("29434b"),LIME,12))
+	theme.set_stylebox("tab_unselected","TabContainer",_style(Color("122a35"),Color.TRANSPARENT,12))
+	theme.set_stylebox("tab_hovered","TabContainer",_style(Color("29434b"),MUTED,12))
+	theme.set_color("font_selected_color","TabContainer",LIME)
+	theme.set_color("font_unselected_color","TabContainer",MUTED)
+	theme.set_font_size("font_size","TabContainer",15)
 	root.theme = theme
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -170,7 +195,53 @@ func _panel(parent: Control = root) -> PanelContainer:
 	var panel = PanelContainer.new()
 	panel.add_theme_stylebox_override("panel",_style(Color(0.035,0.095,0.13,0.94)))
 	parent.add_child(panel)
+	panel.visibility_changed.connect(func():
+		if panel.visible: feedback.reveal(panel)
+	)
 	return panel
+
+func _window(panel: PanelContainer, width: float = 900.0) -> VBoxContainer:
+	panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	panel.offset_left = -width/2.0
+	panel.offset_right = width/2.0
+	panel.anchor_top = 0.0
+	panel.anchor_bottom = 1.0
+	panel.offset_top = 140
+	panel.offset_bottom = -64
+	var column = VBoxContainer.new()
+	column.add_theme_constant_override("separation",16)
+	panel.add_child(column)
+	return column
+
+func _tabs(parent: Control) -> TabContainer:
+	var tabs = TabContainer.new()
+	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	tabs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tabs.tab_changed.connect(func(_index):
+		feedback.play()
+		var page = tabs.get_current_tab_control()
+		if page: feedback.reveal(page)
+	)
+	parent.add_child(tabs)
+	return tabs
+
+func _tab(tabs: TabContainer, caption: String) -> VBoxContainer:
+	var scroll = ScrollContainer.new()
+	scroll.name = caption
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.follow_focus = true
+	tabs.add_child(scroll)
+	var column = VBoxContainer.new()
+	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	column.add_theme_constant_override("separation",16)
+	scroll.add_child(column)
+	return column
+
+func _note(parent: Control, text: String) -> Label:
+	var label = _label(text,14,MUTED)
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	parent.add_child(label)
+	return label
 
 func _button(text_value: String, main_button: bool = false) -> Button:
 	var button = Button.new()
@@ -186,6 +257,11 @@ func _button(text_value: String, main_button: bool = false) -> Button:
 	button.add_theme_stylebox_override("hover",_style(Color("d8f291") if main_button else Color(0.25,0.38,0.44,0.9),LIME,14))
 	button.add_theme_stylebox_override("focus",_style(Color.TRANSPARENT,LIME,14))
 	button.add_theme_stylebox_override("pressed",_style(Color("d3ed93"),WHITE,14))
+	button.mouse_entered.connect(func():
+		if not button.disabled: feedback.play("hover")
+	)
+	button.focus_entered.connect(func(): feedback.play("hover"))
+	button.pressed.connect(func(): feedback.play())
 	return button
 
 func _build_header() -> void:
@@ -286,87 +362,90 @@ func _build_instruments() -> void:
 	state_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	root.add_child(state_label)
 	hud_controls.append(state_label)
-	edge_bar = SlimBar.new()
-	edge_bar.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
-	edge_bar.position = Vector2(-85,-73)
-	edge_bar.size = Vector2(170,3)
-	edge_bar.add_theme_font_size_override("font_size",1)
-	edge_bar.add_theme_stylebox_override("background",_style(Color(1,1,1,0.2),Color.TRANSPARENT,0))
-	edge_bar.add_theme_stylebox_override("fill",_style(LIME,Color.TRANSPARENT,0))
-	root.add_child(edge_bar)
-	hud_controls.append(edge_bar)
-	var balance_label = _label("B A L A N C E",9,MUTED)
-	balance_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
-	balance_label.position = Vector2(-85,-92)
-	balance_label.size.x = 170
-	balance_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	root.add_child(balance_label)
-	hud_controls.append(balance_label)
+	impact_bar = SlimBar.new()
+	impact_bar.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	impact_bar.position = Vector2(-85,-73)
+	impact_bar.size = Vector2(170,3)
+	root.add_child(impact_bar)
+	hud_controls.append(impact_bar)
+	impact_label = _label("IMPACT RESERVE",9,MUTED)
+	impact_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	impact_label.position = Vector2(-100,-92)
+	impact_label.size.x = 200
+	impact_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	root.add_child(impact_label)
+	hud_controls.append(impact_label)
 
 func _build_menu() -> void:
 	menu = _panel()
-	menu.position = Vector2(44,145)
-	menu.custom_minimum_size = Vector2(435,470)
+	menu.set_anchors_and_offsets_preset(Control.PRESET_LEFT_WIDE)
+	menu.offset_left = 44
+	menu.offset_right = 604
+	menu.offset_top = 145
+	menu.offset_bottom = -64
 	var column = VBoxContainer.new()
-	column.add_theme_constant_override("separation",11)
+	column.add_theme_constant_override("separation",14)
 	menu.add_child(column)
 	menu_location = _label("01  /  THE TEST FACE",11,LIME,true)
 	column.add_child(menu_location)
-	menu_title = _label("THE FALL\nLINE.",59,WHITE)
-	menu_title.add_theme_constant_override("line_spacing",-10)
+	menu_title = _label("THE FALL\nLINE.",52,WHITE)
+	menu_title.add_theme_constant_override("line_spacing",-8)
 	column.add_child(menu_title)
 	menu_description = _label("A clean line is a fast line.\nMake every edge count.",17,MUTED)
+	menu_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(menu_description)
 	menu_specs = _label("1.55 km     /     600 m VERTICAL\nONE START. ONE FINISH. YOUR LINE.",11,WHITE,true)
-	menu_specs.add_theme_constant_override("line_spacing",6)
 	column.add_child(menu_specs)
+	menu_tabs = _tabs(column)
+	menu_tabs.custom_minimum_size.y = 205
+	var ride = _tab(menu_tabs,"Ride")
 	primary = _button("DROP IN                         ↗",true)
 	primary.pressed.connect(_primary_pressed)
-	column.add_child(primary)
+	ride.add_child(primary)
 	secondary = _button("Free ski")
 	secondary.pressed.connect(func(): start_requested.emit(false))
-	var options = HBoxContainer.new()
-	column.add_child(options)
-	secondary.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	options.add_child(secondary)
-	weather_button = _button("Visual settings")
-	weather_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	weather_button.pressed.connect(func():
-		menu.visible = false
-		weather_panel.visible = true
-		weather_preset.grab_focus()
-	)
-	options.add_child(weather_button)
-	var mountains_button = _button("GENERATE / SAVED MOUNTAINS")
-	mountains_button.custom_minimum_size.y = 40
+	ride.add_child(secondary)
+	_note(ride,"Enter to drop in · Escape to pause · R to retry")
+	var explore = _tab(menu_tabs,"Explore")
+	var mountains_button = _button("MOUNTAINS  /  CREATE & LIBRARY",true)
 	mountains_button.pressed.connect(func(): mountains_requested.emit())
-	column.add_child(mountains_button)
-	var races_button = _button("CREATE / SHARED RACES")
-	races_button.custom_minimum_size.y = 40
+	explore.add_child(mountains_button)
+	var races_button = _button("RACES  /  CREATE & SHARE")
 	races_button.pressed.connect(func(): races_requested.emit())
-	column.add_child(races_button)
-	records_button = _button("PERSONAL BEST / RUN HISTORY")
-	records_button.custom_minimum_size.y = 40
+	explore.add_child(races_button)
+	records_button = _button("PERSONAL BEST & RUN HISTORY")
 	records_button.pressed.connect(func(): competition_requested.emit())
-	column.add_child(records_button)
-	column.add_child(_label("ENTER / ×  DROP IN     ·     R / △  RESTART",10,MUTED,true))
+	explore.add_child(records_button)
+	var tools = _tab(menu_tabs,"Tools")
+	weather_button = _button("SETTINGS & CONTROLS",true)
+	weather_button.pressed.connect(open_settings)
+	tools.add_child(weather_button)
+	var workbench = _button("PHYSICS WORKBENCH  /  F2")
+	workbench.pressed.connect(func(): workbench_requested.emit())
+	tools.add_child(workbench)
+	var quit_button = _button("QUIT GAME")
+	quit_button.pressed.connect(func(): quit_requested.emit())
+	tools.add_child(quit_button)
+
+func open_settings() -> void:
+	menu.hide()
+	weather_panel.show()
+	settings_tabs.get_tab_bar().grab_focus()
 
 func _build_weather() -> void:
 	weather_panel = _panel()
-	weather_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	weather_panel.offset_left = -240
-	weather_panel.offset_right = 240
-	weather_panel.offset_top = -350
-	weather_panel.offset_bottom = 350
-	var col = VBoxContainer.new()
-	col.add_theme_constant_override("separation",10)
-	var scroll = ScrollContainer.new()
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	weather_panel.add_child(scroll)
-	scroll.add_child(col)
-	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	col.add_child(_label("VISUAL SETTINGS",24,WHITE))
-	col.add_child(_label("Set the mood for your descent.",14,MUTED))
+	weather_panel.name = "SettingsWindow"
+	var shell = _window(weather_panel,980)
+	shell.add_child(_label("MAKE IT YOUR DESCENT.",28,WHITE))
+	_note(shell,"Display, mountain conditions, rider style and interface preferences.")
+	settings_tabs = _tabs(shell)
+	var display = _tab(settings_tabs,"Display")
+	var display_grid = GridContainer.new()
+	display_grid.columns = 2
+	display_grid.add_theme_constant_override("h_separation",24)
+	display_grid.add_theme_constant_override("v_separation",20)
+	display.add_child(display_grid)
+	var col = _tab(settings_tabs,"Weather")
 	col.add_child(_label("CONDITIONS",11,LIME,true))
 	weather_preset = OptionButton.new()
 	for label in ["Clear","Cloudy","Snowfall","Rain"]:
@@ -401,20 +480,102 @@ func _build_weather() -> void:
 	weather_quality.custom_minimum_size.y = 42
 	weather_quality.item_selected.connect(func(index): weather_quality_requested.emit(index))
 	col.add_child(weather_quality)
-	col.add_child(_label("GRAPHICS QUALITY",11,LIME,true))
+	var graphics_field = _settings_field(display_grid,"Graphics quality")
 	graphics_quality = OptionButton.new()
 	for label in ["Low","Balanced","High"]:
 		graphics_quality.add_item(label)
 	graphics_quality.custom_minimum_size.y = 42
 	graphics_quality.item_selected.connect(func(index): graphics_quality_requested.emit(index))
-	col.add_child(graphics_quality)
-	appearance_column = VBoxContainer.new()
-	col.add_child(appearance_column)
-	col.add_child(_label("V  motion effects    ·    M  mute audio",12,MUTED,true))
+	graphics_field.add_child(graphics_quality)
+	_display_option(display_grid,"display_mode",["Fullscreen · native display","Windowed"],["fullscreen","windowed"])
+	_display_option(display_grid,"upscaler",["FSR2 · temporal upscaling","Native resolution"],["fsr2","native"])
+	_display_option(display_grid,"render_scale",["75% · quality","66.7% · performance","100% · full resolution"],[.75,2.0/3.0,1.0])
+	_display_option(display_grid,"fps_limit",["120 FPS limit","90 FPS limit","144 FPS limit","Uncapped"],[120,90,144,0])
+	var gi = CheckButton.new()
+	gi.text = "Terrain GI"
+	gi.toggled.connect(func(value): display_setting_requested.emit("terrain_gi",value))
+	_settings_field(display_grid,"Indirect lighting · higher GPU cost").add_child(gi)
+	display_controls.terrain_gi = gi
+	_note(display,"Recommended: High · FSR2 at 75% · 120 FPS. Terrain GI is optional.")
+	appearance_column = _tab(settings_tabs,"Rider")
+	_build_interface_settings(_tab(settings_tabs,"Interface"))
+	var controls = _tab(settings_tabs,"Controls")
+	for entry in [
+		["STEER & SPEED","A / D or arrows · Left stick to steer\nW / Right trigger to tuck · S / Left trigger to brake"],
+		["HOP & RETRY","Hold Space / × to prepare, release to hop\nR / △ to restart · Enter to drop in"],
+		["VIEW & TOOLS","C / R1 changes camera · G toggles your PB ghost\nH toggles instruments · F3 opens telemetry\nF2 workbench · F4 races · F6 history"],
+		["COMFORT","V toggles motion effects · M mutes all game audio\nEscape / Options pauses or returns to the previous screen"]
+	]:
+		controls.add_child(_label(entry[0],12,LIME,true))
+		_note(controls,entry[1])
 	var close = _button("BACK / ESC",true)
 	close.pressed.connect(close_weather)
-	col.add_child(close)
+	shell.add_child(close)
 	weather_panel.visible = false
+
+func _build_interface_settings(col: VBoxContainer) -> void:
+	col.add_child(_label("SOUND & MOTION",14,LIME,true))
+	audio_toggle = CheckButton.new()
+	audio_toggle.text = "Mute all game audio"
+	audio_toggle.toggled.connect(func(value): audio_mute_requested.emit(value))
+	col.add_child(audio_toggle)
+	col.add_child(_label("Interface sound volume",16,WHITE))
+	var volume = HSlider.new()
+	volume.min_value = 0
+	volume.max_value = 1
+	volume.step = 0.05
+	volume.value = feedback.volume
+	volume.custom_minimum_size.y = 36
+	volume.value_changed.connect(func(value): feedback.volume = value; feedback.save())
+	volume.drag_ended.connect(func(_changed): feedback.play("ready"))
+	col.add_child(volume)
+	var preview_sound = _button("PREVIEW INTERFACE SOUND")
+	preview_sound.pressed.connect(func(): feedback.play("ready"))
+	col.add_child(preview_sound)
+	var reduced = CheckButton.new()
+	reduced.text = "Reduce interface motion"
+	reduced.button_pressed = feedback.reduced_motion
+	reduced.toggled.connect(func(value): feedback.reduced_motion = value; feedback.save())
+	col.add_child(reduced)
+	motion_toggle = CheckButton.new()
+	motion_toggle.text = "Skiing camera motion effects"
+	motion_toggle.button_pressed = true
+	motion_toggle.toggled.connect(func(value): motion_effects_requested.emit(value))
+	col.add_child(motion_toggle)
+	_note(col,"Short cues confirm button presses, tab changes and completed generation. Reduced motion removes fades and keeps the loading indicator still.")
+
+func sync_interface(muted: bool, motion: bool) -> void:
+	feedback.muted = muted
+	audio_toggle.set_pressed_no_signal(muted)
+	motion_toggle.set_pressed_no_signal(motion)
+
+func _settings_field(parent: Control, caption: String) -> VBoxContainer:
+	var column = VBoxContainer.new()
+	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	column.add_theme_constant_override("separation",10)
+	column.add_child(_label(caption.to_upper(),11,LIME,true))
+	parent.add_child(column)
+	return column
+
+func _display_option(parent: Control, key: String, labels: Array, values: Array) -> void:
+	var names = {"display_mode":"Window mode","upscaler":"Upscaling","render_scale":"Render scale","fps_limit":"Frame rate limit"}
+	var column = _settings_field(parent,names.get(key,key))
+	var control = OptionButton.new()
+	for label in labels: control.add_item(label)
+	control.custom_minimum_size.y = 42
+	control.set_meta("values",values)
+	control.item_selected.connect(func(index): display_setting_requested.emit(key,values[index]))
+	display_controls[key] = control
+	column.add_child(control)
+
+func sync_display(settings) -> void:
+	for key in display_controls:
+		var control = display_controls[key]
+		if control is CheckButton: control.set_pressed_no_signal(settings.get(key))
+		else:
+			var values: Array = control.get_meta("values")
+			control.select(maxi(0,values.find(settings.get(key))))
+	display_controls.render_scale.disabled = settings.upscaler=="native"
 
 func sync_weather(controller) -> void:
 	weather_preset.select(WEATHER_IDS.find(controller.selected_preset))
@@ -424,8 +585,10 @@ func sync_weather(controller) -> void:
 	time_cycle.set_pressed_no_signal(controller.daylight.automatic)
 
 func close_weather() -> void:
+	feedback.play()
 	weather_panel.visible = false
 	menu.visible = true
+	menu_tabs.current_tab = 2
 	weather_button.grab_focus()
 
 func _primary_pressed() -> void:
@@ -441,7 +604,8 @@ func show_menu(kind: String, detail: String = "") -> void:
 	menu.visible = true
 	weather_panel.visible = false
 	competition.panel.visible = false
-	weather_button.visible = kind in ["title","paused"]
+	weather_button.visible = true
+	menu_tabs.current_tab = 0
 	secondary.visible = kind == "title"
 	match kind:
 		"title":
@@ -479,8 +643,10 @@ func open_competition(session) -> void:
 	competition.ghost_toggle.grab_focus()
 
 func close_competition() -> void:
+	feedback.play()
 	competition.panel.visible = false
 	menu.visible = true
+	menu_tabs.current_tab = 1
 	records_button.grab_focus()
 
 func show_result(session, peak_kmh: float) -> void:
@@ -509,17 +675,15 @@ func _build_debug() -> void:
 func build_tuning(values) -> void:
 	tuning_resource = values
 	tuning_panel = _panel()
-	tuning_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	tuning_panel.offset_left = -265
-	tuning_panel.offset_right = 265
-	tuning_panel.offset_top = -365
-	tuning_panel.offset_bottom = 365
-	tuning_panel.custom_minimum_size = Vector2(530,655)
-	var col = VBoxContainer.new()
-	col.add_theme_constant_override("separation",11)
-	tuning_panel.add_child(col)
-	col.add_child(_label("PHYSICS WORKBENCH",23,WHITE))
-	col.add_child(_label("Live values · modified runs do not set personal bests",12,MUTED))
+	tuning_panel.name = "WorkbenchWindow"
+	var shell = _window(tuning_panel,900)
+	shell.add_child(_label("PHYSICS WORKBENCH",28,WHITE))
+	_note(shell,"Live tuning · modified physics and speed-lab runs do not set personal bests.")
+	tuning_tabs = _tabs(shell)
+	var handling = _tab(tuning_tabs,"Handling")
+	var forces = _tab(tuning_tabs,"Forces")
+	var comfort = _tab(tuning_tabs,"Camera")
+	var lab = _tab(tuning_tabs,"Speed lab")
 	for setting in [
 		["Gravity", "gravity_multiplier",0.4,1.6,0.05],
 		["Ski friction", "ski_friction",0.005,0.10,0.001],
@@ -528,7 +692,7 @@ func build_tuning(values) -> void:
 		["Skid drag", "skidding_friction",0.0,1.5,0.05],
 		["Air drag", "aerodynamic_drag",0.001,0.010,0.0002],
 		["Steering", "steering_sensitivity",0.4,2.5,0.05],
-		["Landing tolerance", "landing_tolerance",5.0,16.0,0.5],
+		["Landing severity (m/s)", "landing_tolerance",5.0,16.0,0.5],
 		["Camera response", "camera_response",3.0,16.0,0.5],
 		["Vibration", "vibration_intensity",0.0,1.0,0.1]
 	]:
@@ -537,6 +701,7 @@ func build_tuning(values) -> void:
 		label.custom_minimum_size.x = 138
 		row.add_child(label)
 		var slider = HSlider.new()
+		slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		slider.min_value = setting[2]
 		slider.max_value = setting[3]
 		slider.step = setting[4]
@@ -554,25 +719,30 @@ func build_tuning(values) -> void:
 			if setting[1] not in ["camera_response","vibration_intensity"]:
 				tuning_changed.emit()
 		)
-		col.add_child(row)
-	col.add_child(_label("SPEED LAB  /  START AT A KNOWN VELOCITY",11,LIME,true))
-	var buttons = HBoxContainer.new()
+		row.custom_minimum_size.y = 48
+		var target = comfort if setting[1] in ["camera_response","vibration_intensity"] else (forces if setting[1] in ["gravity_multiplier","ski_friction","skidding_friction","aerodynamic_drag"] else handling)
+		target.add_child(row)
+	lab.add_child(_label("SPEED LAB  /  START AT A KNOWN VELOCITY",11,LIME,true))
+	var buttons = GridContainer.new()
+	buttons.columns = 4
+	buttons.add_theme_constant_override("h_separation",12)
+	buttons.add_theme_constant_override("v_separation",12)
 	for speed in [30,60,90,120,150,165,200]:
-		var button = _button(str(speed))
+		var button = _button(str(speed)+" km/h")
 		button.add_theme_font_size_override("font_size",13)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.custom_minimum_size.y = 38
 		button.pressed.connect(func(): lab_speed_requested.emit(float(speed)))
 		buttons.add_child(button)
-	col.add_child(buttons)
+	lab.add_child(buttons)
+	_note(lab,"Start a fresh, unranked attempt at a known speed. Selecting a speed closes the workbench and begins skiing.")
 	var defaults = _button("Restore defaults & restart")
 	defaults.custom_minimum_size.y = 35
 	defaults.pressed.connect(restore_defaults)
-	col.add_child(defaults)
-	col.add_child(_label("Keyboard: A/D steer · W tuck · S brake · Space hop\nGamepad: left stick · R2 tuck · L2 brake · × hop\n△ restart · R1 camera · Options pause · Share telemetry\nV motion effects · M mute · H instruments · F2 close",12,MUTED))
+	shell.add_child(defaults)
 	var close = _button("CLOSE WORKBENCH / F2",true)
 	close.pressed.connect(func(): workbench_closed.emit())
-	col.add_child(close)
+	shell.add_child(close)
 	tuning_panel.visible = false
 
 func restore_defaults() -> void:
@@ -601,7 +771,6 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 	speed_dial.tint = Color("efa773") if band>=5 else WHITE
 	band_label.modulate = speed_dial.tint
 	speed_dial.queue_redraw()
-	edge_bar.value = sim.balance * 100.0
 	timer_label.text = Session.format_time(session.elapsed) if timed else "FREE SKI"
 	pb_label.text = "PERSONAL BEST  " + Session.format_time(session.personal_best)
 	split_label.text = ""
@@ -625,11 +794,32 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 		status = "SKIDDING / MOMENTUM LOSS"
 	elif maxf(absf(sim.skis[0].edge_angle),absf(sim.skis[1].edge_angle)) > 0.12:
 		status = "CARVING"
-	if sim.balance<0.70 and sim.grounded:
-		status = "LOSING EDGE  /  EASE THE TURN"
-	state_label.modulate = Color("efa773") if sim.balance<0.70 else WHITE
+	var reserve: float = sim.impacts.reserve
+	var recovering: bool = reserve<1.0 and sim.grounded and sim.impacts.since_hit>=sim.tuning.impact_recovery_delay
+	var tint = LIME
+	impact_label.text = "IMPACT RESERVE"
+	if sim.grounded and intent.jump_held:
+		status = "JUMP READY  /  RELEASE TO HOP"
+	elif sim.grounded and sim.time_since_landing<.15 and sim.landing_force>2.5:
+		status = "LANDING  /  ABSORBING IMPACT"
+	if reserve<1.0:
+		tint = Color("85d5ca") if recovering else Color("efa773")
+		if recovering:
+			status = "RECOVERING  /  KEEP YOUR LINE SMOOTH"
+		elif sim.impacts.since_hit<.55:
+			status = sim.impacts.last_reason+"  /  IMPACT ABSORBED"
+		else:
+			status = "IMPACT  /  FIND A SMOOTH LINE"
+		if reserve<=.30:
+			tint = Color("ee8b83")
+			status = "LOW IMPACT RESERVE  /  FIND SMOOTH SNOW"
 	if sim.crashed:
 		status = sim.crash_reason
+		tint = Color("ee8b83")
+	impact_bar.value = reserve*100.0
+	impact_bar.tint = tint
+	impact_label.add_theme_color_override("font_color",tint)
+	state_label.modulate = WHITE if reserve==1.0 and not sim.crashed else tint
 	state_label.text = status
 	mode_label.text = ("TIMED DESCENT" if timed else "FREE SKI") + ("  /  LAB VALUES" if not session.eligible else "  /  01")
 	if not mountain_name.is_empty() and not session.race:
@@ -646,7 +836,7 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 		return
 	telemetry_timer = 0.0
 	fps_label.text = "%d FPS  /  120 Hz PHYSICS" % Engine.get_frames_per_second()
-	debug_text.text = "SPEED         %7.2f km/h\nACCEL         %+7.2f m/s²\nSLOPE         %7.2f°\nSKI HEADING   %+7.2f°\nVEL HEADING   %+7.2f°\nSLIP ANGLE    %+7.2f°\nEDGE REQUEST  %+7.2f°\nEDGES R/L     %+5.1f / %+5.1f°\nCONTACT       %s\nNORMAL LOAD   %7.2f g\nFRICTION      %7.2f m/s²\nGRAVITY       %+7.2f m/s²\nBALANCE       %7.1f %%\nAIRTIME       %7.3f s\nCPU TICK      %7.3f ms\nFRAME         %7.2f ms\n%s" % [sim.speed_kmh(),sim.acceleration,sim.slope_angle,rad_to_deg(sim.heading),rad_to_deg(atan2(sim.velocity.x,sim.velocity.z)),rad_to_deg(sim.slip_angle),rad_to_deg(sim.edge_angle),rad_to_deg(sim.skis[0].edge_angle),rad_to_deg(sim.skis[1].edge_angle),"SNOW" if sim.grounded else "AIR",sim.normal_load/9.81,sim.friction_force,sim.gravity_contribution,sim.balance*100,sim.total_airtime,tick_ms,frame_ms,device.left(30)]
+	debug_text.text = "SPEED         %7.2f km/h\nACCEL         %+7.2f m/s²\nSLOPE         %7.2f°\nSKI HEADING   %+7.2f°\nVEL HEADING   %+7.2f°\nSLIP ANGLE    %+7.2f°\nEDGE REQUEST  %+7.2f°\nEDGES R/L     %+5.1f / %+5.1f°\nCONTACT       %s\nNORMAL LOAD   %7.2f g\nFRICTION      %7.2f m/s²\nGRAVITY       %+7.2f m/s²\nIMPACT RESERVE%7.1f %%\nIMPACT SPEED  %7.2f m/s\nAIRTIME       %7.3f s\nCPU TICK      %7.3f ms\nFRAME         %7.2f ms\n%s" % [sim.speed_kmh(),sim.acceleration,sim.slope_angle,rad_to_deg(sim.heading),rad_to_deg(atan2(sim.velocity.x,sim.velocity.z)),rad_to_deg(sim.slip_angle),rad_to_deg(sim.edge_angle),rad_to_deg(sim.skis[0].edge_angle),rad_to_deg(sim.skis[1].edge_angle),"SNOW" if sim.grounded else "AIR",sim.normal_load/9.81,sim.friction_force,sim.gravity_contribution,sim.impacts.reserve*100,sim.landing_force,sim.total_airtime,tick_ms,frame_ms,device.left(30)]
 
 func toggle_instruments() -> void:
 	for control in hud_controls:

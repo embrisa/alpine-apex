@@ -12,19 +12,13 @@ var notice: Label
 
 func build(hud) -> void:
 	panel = hud._panel()
-	panel.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
-	panel.offset_left = -660
-	panel.offset_right = -44
-	panel.offset_top = 150
-	panel.offset_bottom = -65
-	var scroll = ScrollContainer.new()
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	panel.add_child(scroll)
-	var col = VBoxContainer.new()
-	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	col.add_theme_constant_override("separation",14)
-	scroll.add_child(col)
-	col.add_child(hud._label("PERSONAL BEST / RUN HISTORY",21,hud.WHITE))
+	panel.name = "RecordsWindow"
+	var shell = hud._window(panel,980)
+	shell.add_child(hud._label("YOUR PERSONAL BEST",28,hud.WHITE))
+	var tabs = hud._tabs(shell)
+	var col = hud._tab(tabs,"Overview")
+	var split_page = hud._tab(tabs,"Splits")
+	var history_page = hud._tab(tabs,"Run history")
 	course = hud._label("",14,hud.MUTED)
 	course.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	col.add_child(course)
@@ -37,20 +31,20 @@ func build(hud) -> void:
 	ghost_info = hud._label("",13,hud.MUTED)
 	ghost_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(ghost_info)
-	col.add_child(hud._label("CUMULATIVE SPLITS  /  FREE ROUTE CHOICE",12,hud.LIME,true))
+	split_page.add_child(hud._label("CUMULATIVE SPLITS  /  FREE ROUTE CHOICE",12,hud.LIME,true))
 	splits = hud._label("",13,hud.WHITE,true)
 	splits.add_theme_constant_override("line_spacing",5)
-	col.add_child(splits)
-	col.add_child(hud._label("LAST 20 COMPLETED RUNS  /  LOCAL TIMES",12,hud.LIME,true))
+	split_page.add_child(splits)
+	history_page.add_child(hud._label("LAST 20 COMPLETED RUNS  /  LOCAL TIMES",12,hud.LIME,true))
 	history = hud._label("",12,hud.WHITE,true)
 	history.add_theme_constant_override("line_spacing",5)
-	col.add_child(history)
+	history_page.add_child(history)
 	notice = hud._label("",13,hud.MUTED)
 	notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	col.add_child(notice)
+	shell.add_child(notice)
 	var close = hud._button("BACK / ESC")
 	close.pressed.connect(func(): hud.close_competition())
-	col.add_child(close)
+	shell.add_child(close)
 	panel.visible = false
 
 func refresh(session, ghost_enabled: bool) -> void:

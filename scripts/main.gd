@@ -12,6 +12,13 @@ const HUD = preload("res://scripts/ui/hud.gd")
 const Weather = preload("res://scripts/presentation/weather_controller.gd")
 const WeatherEffects = preload("res://scripts/presentation/weather_effects.gd")
 const Graphics = preload("res://scripts/presentation/graphics_quality.gd")
+const PCGraphics = preload("res://scripts/presentation/pc_graphics_settings.gd")
+var display_settings = PCGraphics.new()
+var preferences_enabled: bool = false
+var initialized: bool = false
+var staged_loading: bool = false
+var loading
+var transitioning: bool = false
 const Race = preload("res://scripts/racing/race_definition.gd")
 const Workshop = preload("res://scripts/racing/race_workshop.gd")
 const Ghost = preload("res://scripts/presentation/personal_best_ghost.gd")
@@ -21,7 +28,7 @@ var current_mountain = null
 var mountain_library
 var workshop
 var ghost
-var graphics = Graphics.preset(1)
+var graphics = Graphics.preset(2)
 const terrain_renderer = "legacy"
 var mountain_seed: int = -1
 var benchmark_no_captures: bool = false
@@ -43,7 +50,16 @@ var effects
 var vectors
 var hud
 var intent = RiderInput.new()
-var active: bool = false
+var active: bool = false:
+	set(value):
+		if active != value:
+			# A menu, pause, finish or focus change cancels pending release input.
+			jump_armed = false
+			jump_prepared = false
+			intent.jump = false
+			intent.jump_held = false
+			if sim != null: sim.clear_input_buffer()
+		active = value
 var timed: bool = true
 var physics_modified: bool = false
 var summit_ready: bool = false
@@ -59,6 +75,7 @@ var screenshot_ticks: Array = [1,1200,2400,4200,6000]
 var render_frames: int = 0
 var last_frame_usec: int = 0
 var jump_armed: bool = false
+var jump_prepared: bool = false
 var workbench_return: String = "title"
 var speed_periphery: ColorRect
 var effect_time: float = 0.0
@@ -70,6 +87,16 @@ func _ready() -> void:
 	var values = preload("res://config/ski_default.tres").duplicate(true)
 	sim = Simulation.new(values)
 	field = Terrain.new()
+	preferences_enabled = not automated and "--autoplay" not in OS.get_cmdline_user_args() and "--script" not in OS.get_cmdline_args() and "-s" not in OS.get_cmdline_args() and DisplayServer.get_name()!="headless"
+	staged_loading = preferences_enabled or "--ui-staged-loading" in OS.get_cmdline_user_args()
+	loading = preload("res://scripts/ui/loading_overlay.gd").new()
+	add_child(loading)
+	if staged_loading:
+		loading.begin("Preparing your descent", "Opening the mountain…")
+		await loading.draw_frame()
+	if preferences_enabled: display_settings.load_preferences()
+	display_settings.apply_arguments(OS.get_cmdline_user_args())
+	graphics = Graphics.preset(display_settings.quality)
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--graphics-quality="):
 			var index = ["low","balanced","high"].find(arg.get_slice("=",1))
@@ -90,6 +117,7 @@ func _ready() -> void:
 	get_tree().remove_meta("world_reload_settings")
 	if not reload_settings.is_empty():
 		graphics = Graphics.preset(reload_settings.graphics)
+		display_settings.restore(reload_settings.get("display",display_settings.snapshot()))
 		sim.tuning = reload_settings.tuning
 		physics_modified = reload_settings.modified
 	if get_tree().has_meta("mountain_to_load"):
@@ -102,7 +130,10 @@ func _ready() -> void:
 		if arg.begins_with("--generated-seed=") and pending_mountain==null and not get_tree().has_meta("standard_to_load") and not get_tree().has_meta("race_to_load"):
 			var seed_result = MountainDefinition.parse_seed(arg.get_slice("=",1))
 			if seed_result.has("seed"):
-				field = MountainDefinition.generate(seed_result.seed,seed_result.version)
+				if staged_loading:
+					loading.stage("Generating the physical mountain…")
+					field = await loading.run_data(MountainDefinition.generate.bind(seed_result.seed,seed_result.version))
+				else: field = MountainDefinition.generate(seed_result.seed,seed_result.version)
 				current_mountain = MountainDefinition.from_field(field)
 				mountain_seed = field.seed_value
 			else: load_warning = seed_result.error
@@ -110,7 +141,11 @@ func _ready() -> void:
 		var parsed = Race.decode(get_tree().get_meta("race_to_load"))
 		get_tree().remove_meta("race_to_load")
 		if parsed.has("race"):
-			var rebuilt = Race.reconstruct_surface(parsed.race.mountain)
+			var rebuilt = get_tree().get_meta("prepared_race_surface",{})
+			get_tree().remove_meta("prepared_race_surface")
+			if rebuilt.is_empty():
+				if staged_loading: rebuilt = await loading.run_data(Race.reconstruct_surface.bind(parsed.race.mountain))
+				else: rebuilt = Race.reconstruct_surface(parsed.race.mountain)
 			if rebuilt.has("field"):
 				pending_race = parsed.race
 				field = rebuilt.field
@@ -118,11 +153,17 @@ func _ready() -> void:
 				current_mountain = MountainDefinition.from_field(field) if field.GENERATOR_ID=="alpine-drainage" else null
 			else: load_warning = rebuilt.error
 		else: load_warning = parsed.error
+	graphics.terrain_gi = display_settings.terrain_gi
+	display_settings.apply_viewport(get_viewport())
+	if preferences_enabled: display_settings.apply_display(get_window())
 	world = World.new()
 	world.quality = graphics
 	world.mountain_seed = mountain_seed
 	add_child(world)
-	world.build(field)
+	if staged_loading:
+		await world.build(field,_loading_checkpoint,loading.run_data)
+		await _loading_checkpoint("Preparing the rider, camera and interface…",-1.0)
+	else: world.build(field)
 	crash_collision = preload("res://scripts/world/crash_collision.gd").new()
 	crash_collision.world = world
 	add_child(crash_collision)
@@ -168,6 +209,7 @@ func _ready() -> void:
 	effects.lighting = world.cloud_lighting
 	add_child(effects)
 	weather_effects = WeatherEffects.new()
+	weather_effects.lighting = world.cloud_lighting
 	add_child(weather_effects)
 	vectors = Vectors.new()
 	add_child(vectors)
@@ -194,6 +236,9 @@ func _ready() -> void:
 	hud.tuning_changed.connect(func(): physics_modified = true; session.eligible = false)
 	hud.defaults_requested.connect(func(): physics_modified = false; restart())
 	hud.workbench_closed.connect(close_workbench)
+	hud.workbench_requested.connect(open_workbench)
+	hud.audio_mute_requested.connect(set_audio_muted)
+	hud.motion_effects_requested.connect(set_motion_effects)
 	hud.quit_requested.connect(quit_cleanly)
 	hud.weather_preset_requested.connect(weather.set_preset)
 	hud.weather_auto_requested.connect(weather.set_automatic)
@@ -202,6 +247,8 @@ func _ready() -> void:
 	hud.time_cycle_requested.connect(weather.set_time_cycle)
 	hud.graphics_quality_requested.connect(set_graphics_quality)
 	hud.graphics_quality.select(graphics.level)
+	hud.display_setting_requested.connect(set_display_setting)
+	hud.sync_display(display_settings)
 	weather.settings_changed.connect(func(): hud.sync_weather(weather))
 	hud.sync_weather(weather)
 	mountain_library = MountainLibrary.new()
@@ -221,6 +268,11 @@ func _ready() -> void:
 	if not reload_settings.is_empty():
 		camera.close_view = reload_settings.close_view
 		effects.muted = reload_settings.muted
+		camera.effects_enabled = reload_settings.get("motion_effects",true)
+	else: effects.muted = hud.feedback.muted
+	hud.sync_interface(effects.muted,camera.effects_enabled)
+	hud.feedback.enabled = true
+	initialized = true
 	if pending_race:
 		play_custom_race(pending_race)
 	elif pending_mountain:
@@ -230,9 +282,13 @@ func _ready() -> void:
 		get_tree().remove_meta("standard_to_load")
 		start_run(standard_timed)
 	if not load_warning.is_empty(): hud.toast(load_warning)
+	if staged_loading:
+		await _loading_checkpoint("Ready. Finding your fall line…",100.0)
+		loading.finish()
+		hud.feedback.play("ready")
 	print("ALPINE APEX | terrain %.1f ms | %d triangles | %d obstacles | 120 Hz" % [world.generation_ms,world.terrain_triangles,field.obstacles.size()])
 	if "--autoplay" in OS.get_cmdline_user_args():
-		get_window().size = benchmark_resolution
+		display_settings.apply_display(get_window(),benchmark_resolution)
 		get_window().unresizable = true
 		RenderingServer.viewport_set_measure_render_time(get_viewport().get_viewport_rid(),true)
 		automated = true
@@ -248,14 +304,21 @@ func _ready() -> void:
 		_capture_menu.call_deferred()
 
 func _physics_process(dt: float) -> void:
-	if sim == null or not active:
+	if not initialized or (loading and loading.busy) or sim == null or not active:
 		return
 	var tick_start = Time.get_ticks_usec()
 	previous_position = sim.position
 	intent = input_router.sample()
+	# A valid hold must begin after neutral has been observed in active play.
+	# Godot can expose a release edge on the following physics tick. Merely
+	# seeing neutral must never authorize that delayed edge from a menu hold.
+	if jump_armed and (intent.jump_held or Input.is_action_just_pressed("jump")):
+		jump_prepared = true
+	intent.jump = intent.jump and jump_prepared and not intent.jump_held
+	if intent.jump: jump_prepared = false
+	intent.jump_held = intent.jump_held and jump_prepared
 	if not Input.is_action_pressed("jump"):
 		jump_armed = true
-	intent.jump = intent.jump and jump_armed
 	if automated:
 		# Benchmark input is fixed even if someone types while its window is
 		# focused. Physical keyboard/gamepad input must not alter comparisons.
@@ -295,7 +358,7 @@ func _physics_process(dt: float) -> void:
 			_finish_automation.call_deferred()
 
 func _process(dt: float) -> void:
-	if sim == null:
+	if not initialized or (loading and loading.busy) or sim == null:
 		return
 	render_frames += 1
 	var now = Time.get_ticks_usec()
@@ -354,6 +417,8 @@ func _process(dt: float) -> void:
 	elif mountain_library and mountain_library.panel.visible:
 		hud.mode_label.text = "MOUNTAIN LIBRARY"
 		hud.footer_controls.text = "GENERATE A SEED   ·   EXPLORE THE TERRAIN   ·   SAVE AND SHARE   ·   ESC BACK"
+	elif hud.menu.visible or hud.weather_panel.visible or hud.competition.panel.visible or hud.tuning_panel.visible:
+		hud.footer_controls.text = hud.MENU_CONTROLS
 	elif summit_ready:
 		var bearing = posmod(roundi(180-rad_to_deg(sim.heading)),360)
 		var compass = ["N","NE","E","SE","S","SW","W","NW"][posmod(roundi(bearing/45.0),8)]
@@ -363,7 +428,7 @@ func _process(dt: float) -> void:
 		hud.footer_controls.text = hud.SKI_CONTROLS
 
 func _unhandled_input(event: InputEvent) -> void:
-	if automated:
+	if not initialized or transitioning or (loading and loading.busy) or automated:
 		return
 	if mountain_library and mountain_library.panel.visible:
 		if event.is_action_pressed("pause_run") and not mountain_library.export_dialog.visible and not mountain_library.import_dialog.visible:
@@ -403,7 +468,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		weather_effects.reset()
 		hud.toast("FIRST PERSON" if camera.close_view else "CHASE CAMERA")
 	elif event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_V:
-		camera.effects_enabled = not camera.effects_enabled
+		set_motion_effects(not camera.effects_enabled)
 		hud.toast("MOTION EFFECTS ON" if camera.effects_enabled else "MOTION EFFECTS OFF")
 	elif event.is_action_pressed("debug_overlay"):
 		hud.debug_panel.visible = not hud.debug_panel.visible
@@ -412,12 +477,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if hud.tuning_panel.visible:
 			close_workbench()
 		else:
-			workbench_return = "active" if active else hud.menu_mode
-			hud.tuning_panel.visible = true
-			active = false
-			hud.hide_menu()
+			open_workbench()
 	elif event.is_action_pressed("toggle_audio"):
-		effects.muted = not effects.muted
+		set_audio_muted(not effects.muted)
 		hud.toast("AUDIO MUTED" if effects.muted else "AUDIO ON")
 	elif event.is_action_pressed("toggle_hud"):
 		hud.toggle_instruments()
@@ -426,6 +488,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		hud.toast("PERSONAL-BEST GHOST ON" if ghost.enabled else "PERSONAL-BEST GHOST OFF")
 
 func start_run(is_timed: bool = true) -> void:
+	if transitioning: return
 	if current_mountain and not is_timed:
 		session.configure_free(current_mountain.identity(),field.finish_z,field.finish_z if field.is_summit_mountain() else 0.0)
 		workshop.show_race(null)
@@ -435,11 +498,18 @@ func start_run(is_timed: bool = true) -> void:
 	if field.GENERATOR_ID!="laboratory" or field.seed_value != 849205174:
 		active = false
 		effects.stop_audio()
+		transitioning = true
+		loading.reduced_motion = hud.feedback.reduced_motion
+		loading.begin("Returning to the test face", "Opening the original mountain…")
+		await loading.draw_frame()
 		get_tree().set_meta("standard_to_load",is_timed)
 		_remember_world_settings()
 		var reload_error = get_tree().reload_current_scene()
 		if reload_error != OK:
 			get_tree().remove_meta("standard_to_load")
+			get_tree().remove_meta("world_reload_settings")
+			transitioning = false
+			loading.finish()
 			hud.show_menu("paused")
 			hud.toast("Could not load the original test face. Please try again.")
 		return
@@ -464,6 +534,7 @@ func restart() -> void:
 	previous_position = sim.position
 	intent = RiderInput.new()
 	jump_armed = false
+	jump_prepared = false
 	camera.reset()
 	effects.reset()
 	weather_effects.reset()
@@ -486,14 +557,27 @@ func set_ghost_visible(enabled: bool) -> void:
 	hud.competition.ghost_toggle.set_pressed_no_signal(enabled)
 
 func play_custom_race(race) -> void:
-	var rebuilt = {"field":field} if workshop.matches_world(race) else Race.reconstruct_surface(race.mountain)
+	if transitioning: return
+	var same_world: bool = workshop.matches_world(race)
+	var rebuilt = {"field":field}
+	if not same_world:
+		transitioning = true
+		active = false
+		loading.reduced_motion = hud.feedback.reduced_motion
+		loading.begin("Loading race mountain", "Reconstructing the race's terrain…")
+		await loading.draw_frame()
+		rebuilt = await loading.run_data(Race.reconstruct_surface.bind(race.mountain))
 	if not rebuilt.has("field"):
+		transitioning = false
+		loading.finish()
 		workshop.status.text = rebuilt.error
 		hud.toast(rebuilt.error)
 		return
 	var target_field = rebuilt.field
 	var error: String = race.validate_surface(target_field)
 	if not error.is_empty():
+		transitioning = false
+		loading.finish()
 		workshop.status.text = error
 		hud.toast(error)
 		return
@@ -501,10 +585,15 @@ func play_custom_race(race) -> void:
 		active = false
 		effects.stop_audio()
 		get_tree().set_meta("race_to_load",race.share_text())
+		get_tree().set_meta("prepared_race_surface",rebuilt)
 		_remember_world_settings()
 		var reload_error = get_tree().reload_current_scene()
 		if reload_error != OK:
 			get_tree().remove_meta("race_to_load")
+			get_tree().remove_meta("prepared_race_surface")
+			get_tree().remove_meta("world_reload_settings")
+			transitioning = false
+			loading.finish()
 			workshop.status.text = "Could not load the race's mountain. Please try again."
 		return
 	session.configure(race)
@@ -530,6 +619,26 @@ func start_speed_lab(kmh: float) -> void:
 	var normal: Vector3 = field.sample(sim.position.x,sim.position.z).normal
 	sim.velocity = Vector3.DOWN.slide(normal).normalized() * kmh / 3.6
 	hud.toast("SPEED LAB  /  %d km/h  /  UNRANKED" % kmh)
+
+func open_workbench() -> void:
+	workbench_return = "active" if active else hud.menu_mode
+	active = false
+	hud.hide_menu()
+	hud.tuning_panel.show()
+	hud.tuning_tabs.get_tab_bar().grab_focus()
+
+func set_audio_muted(value: bool) -> void:
+	effects.muted = value
+	hud.sync_interface(value,camera.effects_enabled)
+	hud.feedback.save()
+
+func set_motion_effects(value: bool) -> void:
+	camera.effects_enabled = value
+	hud.sync_interface(effects.muted,value)
+
+func _loading_checkpoint(message: String, percent: float) -> void:
+	loading.stage(message,percent)
+	await loading.draw_frame()
 
 func close_workbench() -> void:
 	hud.tuning_panel.visible = false
@@ -591,6 +700,7 @@ func _finish_automation() -> void:
 	data.graphics_quality = graphics.label()
 	data.lighting = {"sdfgi":world.environment.sdfgi_enabled,"sdfgi_cascades":world.environment.sdfgi_cascades,"sdfgi_cell_m":world.environment.sdfgi_min_cell_size,"ssao":world.environment.ssao_enabled,"ssil":world.environment.ssil_enabled,"ssil_radius_m":world.environment.ssil_radius,"ssil_intensity":world.environment.ssil_intensity}
 	data.actual_render_pixels = [benchmark_actual_pixels.x,benchmark_actual_pixels.y]
+	data.display = display_settings.report(get_viewport(),benchmark_actual_pixels)
 	data.warmup_frames_excluded = 120
 	data.platform = OS.get_name()
 	data.graphics_driver = RenderingServer.get_current_rendering_driver_name()
@@ -632,29 +742,51 @@ func _timing_summary(samples: Array[float]) -> Dictionary:
 
 func set_graphics_quality(level: int) -> void:
 	graphics = Graphics.preset(level)
+	display_settings.quality = graphics.level
+	graphics.terrain_gi = display_settings.terrain_gi
 	world.apply_graphics(graphics)
 	if hud:
 		hud.graphics_quality.select(graphics.level)
+	if preferences_enabled: display_settings.save_preferences()
+
+func set_display_setting(key: String, value: Variant) -> void:
+	if key not in PCGraphics.KEYS: return
+	var values = display_settings.snapshot()
+	values[key] = value
+	display_settings.restore(values)
+	display_settings.apply_viewport(get_viewport())
+	if key=="display_mode": display_settings.apply_display(get_window())
+	graphics.terrain_gi = display_settings.terrain_gi
+	world.apply_graphics(graphics)
+	if hud: hud.sync_display(display_settings)
+	if preferences_enabled: display_settings.save_preferences()
 
 func load_mountain(definition, generated_field) -> void:
+	if transitioning: return
 	if generated_field.GENERATOR_ID!="alpine-drainage" or MountainDefinition.from_field(generated_field).identity()!=definition.identity():
 		mountain_library.status.text = "The preview does not match this mountain. Regenerate it first."
 		return
 	active = false
 	effects.stop_audio()
+	transitioning = true
+	loading.reduced_motion = hud.feedback.reduced_motion
+	loading.begin("Loading your mountain", "Preparing the terrain and scenery…")
+	await loading.draw_frame()
 	get_tree().set_meta("mountain_to_load",{"definition":definition,"field":generated_field})
 	_remember_world_settings()
 	var error = get_tree().reload_current_scene()
 	if error!=OK:
 		get_tree().remove_meta("mountain_to_load")
 		get_tree().remove_meta("world_reload_settings")
+		transitioning = false
+		loading.finish()
 		mountain_library.status.text = "Could not load the mountain. Your preview is still available."
 
 func _remember_world_settings() -> void:
-	get_tree().set_meta("world_reload_settings",{"graphics":graphics.level,"tuning":sim.tuning.duplicate(true),
+	get_tree().set_meta("world_reload_settings",{"graphics":graphics.level,"display":display_settings.snapshot(),"tuning":sim.tuning.duplicate(true),
 		"modified":physics_modified,"weather":weather.selected_preset,"weather_quality":weather.quality,
 		"weather_auto":weather.automatic,"hour":weather.daylight.hour,"time_cycle":weather.daylight.automatic,
-		"close_view":camera.close_view,"muted":effects.muted})
+		"close_view":camera.close_view,"muted":effects.muted,"motion_effects":camera.effects_enabled})
 
 func drop_from_summit() -> void:
 	if not summit_ready or not active: return

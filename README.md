@@ -15,7 +15,7 @@ Choose **Generate / Saved Mountains** to make a random mountain or enter a seed 
 | Steer / set edges | A / D or left / right | Left stick, analog |
 | Tuck / reduce air drag | W or up | R2 |
 | Brake | S or down | L2 |
-| Jump / hop | Space | South face button / × |
+| Jump / hop (hold, then release) | Space | South face button / A / × |
 | Instant restart | R | North face button / △ |
 | Chase / first-person camera | C | R1 |
 | Motion effects on/off | V | Keyboard |
@@ -28,11 +28,13 @@ Choose **Generate / Saved Mountains** to make a random mountain or enter a seed 
 | Mute | M | Keyboard for now |
 | Hide instruments | H | Keyboard for now |
 
-Steering rotates the skis; momentum follows through grip. **Tuck is not a throttle.** Holding a turn at high speed creates slip and dissipates speed. Braking trades acceleration for control. A hop removes snow contact; it is not a free boost. Loose snow adds pressure-dependent resistance: fast aligned skis plane more, while skidding and braking plough through it. Sculpted wind ridges and mounds break up the snow surface, while continuous ski grooves, powder spray and sunlit crystals make contact visible. The highest speeds require restraint with the steering input. Hard steering opens the tuck; holding tuck through a turn sacrifices edging leverage. Watch the balance bar: large sideways errors are much harder to recover at extreme speed.
+Steering rotates the skis; momentum follows through grip. **Tuck is not a throttle.** Holding a turn at high speed creates slip and dissipates speed. Braking trades acceleration for control. A hop removes snow contact; it is not a free boost. Loose snow adds pressure-dependent resistance: fast aligned skis plane more, while skidding and braking plough through it. Sculpted wind ridges and mounds break up the snow surface, while continuous ski grooves, powder spray and sunlit crystals make contact visible. The highest speeds require restraint with the steering input. Hard steering opens the tuck; holding tuck through a turn sacrifices edging leverage. Skidding costs speed, but steering errors and body lean no longer cause balance deaths.
 
-Skis now release naturally as snow falls away at a crest or cliff. In flight they retain takeoff pitch, and the rider flexes their knees; Space adds a small hop while supported. Land along the slope to reduce impact. [Jump model and limits](docs/SKIER_PHYSICS.md#airtime-and-landings--model-v10).
+Skis release naturally as snow falls away at a crest or cliff. In flight they retain takeoff pitch, and the rider flexes their knees. **Hold Space or the south controller button to prepare; release to hop.** Holding longer gives the same small hop. A release at the last supported moment works at a ledge; a release shortly before landing is remembered for 75 ms. Land along the slope to reduce impact. The **IMPACT RESERVE** bar drops with rough landings and collisions. It refills gradually after 1.25 seconds of smooth contact; reaching zero causes an impact fall. Soft hops do not drain it. [Impact bar, forgiveness and validation](docs/IMPACT_RECOVERY.md).
 
 Hard turns now build a deeper supported bank at speed, giving approximately **21–22% tighter established turns** in the 120–200 km/h entry tests. Release steering to recover alignment, or countersteer to transfer weight into the next turn. [Handling measurements and limits](docs/SKIER_PHYSICS.md#tighter-high-speed-turns--model-v9).
+
+The v11 turn-transfer improvement is retained: opposite grip starts about **14% sooner at 120 km/h** in the measured reversal fixture. Model v12 replaces balance deaths with impact reserve and supported pose recovery; earlier model records remain separate. [Current model](docs/IMPACT_RECOVERY.md) · [Turn measurements](docs/HANDLING_UPGRADE.md).
 
 The workbench exposes the main physics values and **30 / 60 / 90 / 120 / 150 / 165 / 200 km/h** entry-speed buttons. Modified-physics and speed-lab runs are excluded from personal bests. **Restore defaults & restart** restores standard handling and retries the current descent. Further equipment and camera parameters live in `config/ski_default.tres` and its `SkiTuning` resource script.
 
@@ -61,15 +63,15 @@ This includes the physics and graphics foundation, a first bounded mountain gene
 
 ## Graphics and mountains
 
-The upgraded descent includes PBR snow/rock textures, a 42k-triangle complete skier, modeled equipment, three spruce variants with baked distant silhouettes, and an 8.192 km seeded decorative mountain landscape. **Visual settings** exposes independent Low/Balanced/High graphics presets. Use `--graphics-quality=balanced` at launch. The performance target on the user's MacBook is a steady **approximately 60 FPS on Low**; Medium (currently **Balanced**) and High prioritize visual quality without a MacBook FPS requirement. See [graphics performance policy](docs/GRAPHICS.md#performance-policy).
+**Technical Showcase** now selects v7, seed `849205174`: angular ridges and cliff bands, sheltered snow and varied forest descent choices. Shared graphics include 4K snow/rock/bark maps, nine rebuilt conifers with directional impostors and six fractured rocks. **High is recommended** for the Ryzen 5 5600X / RX 9070 / 16 GB PC: 4K output, 75% FSR2, 120 FPS cap and optional SDFGI initially off. Low/Balanced/High remain available. Visual settings persist display mode, upscaler, scale and frame cap. The target is 90-120 FPS; the MacBook requirement is removed. See [measured acceptance and captures](docs/PC_ENVIRONMENT_IMPLEMENTATION.md) and [graphics performance policy](docs/GRAPHICS.md#performance-policy).
 
 The built-in terrain mesh renderer is the sole terrain path. Terrain3D was removed after the local comparison found no demonstrated benefit worth its integration complexity. `--mountain-seed=638201943` still changes the decorative mountain landscape without changing the benchmark. The decorative surroundings remain outside the bounded playable surface. `--generated-seed=849205174` opens a generated mountain; the main-menu library provides seed entry and persistence.
 
-See [graphics architecture, editable sources, rebuild commands and limitations](docs/GRAPHICS.md). The confirmed Meshy cost is **125 / 1,000 authorized credits**.
+See [graphics architecture, editable sources, rebuild commands and limitations](docs/GRAPHICS.md). The PC environment uses Blender and free sources, spending **0 / 1,500 authorized Meshy credits**. Earlier graphics and skier credit ledgers remain separate.
 
 ## Run and test from a terminal
 
-`./godotw` starts the game. The wrapper finds a Godot executable on PATH, in `/Applications`, or in the local ignored `.tools` folder. Set `GODOT_BIN` to choose another installation.
+On Windows, `./godotw.ps1` starts the game using the installed Godot console executable; `./scripts/test_pc_environment.ps1` runs the PC regression suites and `./scripts/benchmark_pc.ps1` measures a full showcase descent. Quote `'--'` before game arguments in PowerShell. On macOS/Linux, `./godotw` finds Godot on PATH, in `/Applications`, or in the ignored `.tools` folder. Set `GODOT_BIN` to choose another installation.
 
 ```sh
 ./godotw --headless --script tests/physics_suite.gd

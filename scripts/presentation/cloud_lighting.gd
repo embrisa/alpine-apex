@@ -3,12 +3,14 @@ extends RefCounted
 const SURFACE_SHADER = preload("res://assets/weather_lit.gdshader")
 var materials: Array[ShaderMaterial] = []
 var shadow_strength: float = 0.88
+var height_m: float = 2400.0
 var last_sun_direction = Vector3.ZERO
 var parameters = Vector4.ZERO
 
 func register(material: ShaderMaterial) -> ShaderMaterial:
 	if not materials.has(material):
 		materials.append(material)
+		material.set_shader_parameter("cloud_layer_height_m",height_m)
 	return material
 
 func material(color: Color, roughness: float = 0.65, vertex_color: bool = false, emission: bool = false) -> ShaderMaterial:

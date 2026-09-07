@@ -65,17 +65,17 @@ void fragment() {
   stone=vec3(.35); ro=vec3(.9,.85,0);
  }
  // Broad variation remains legible at speed without painting false obstacles.
- snow=mix(vec3(.92,.95,.98),snow,.34);
- snow*=.91+macro*.10+drift*.055;
+ snow=mix(vec3(.88,.92,.97),snow,.44);
+ snow*=.89+macro*.11+drift*.065;
  snow*=mix(vec3(.94,.97,1.0),vec3(1.0),environment.r);
  // Desaturate the warm source stone into dark charcoal / slate, retaining
  // mineral detail and broad differences between exposed faces.
  float stone_luminance=dot(stone,vec3(.2126,.7152,.0722));
  stone=mix(vec3(stone_luminance),stone,.22);
- stone*=mix(vec3(.25,.29,.35),vec3(.44,.46,.49),macro);
+ stone*=mix(vec3(.31,.35,.40),vec3(.51,.53,.55),macro);
  stone*=.90+breakup*.20;
  ALBEDO=mix(snow,stone,rock);
- ROUGHNESS=mix(clamp(so.g+(drift-.5)*.08,.64,.94),clamp(ro.g,.72,1.0),rock);
+ ROUGHNESS=mix(clamp(so.g-.045+(drift-.5)*.08,.60,.92),clamp(ro.g-.025,.70,1.0),rock);
  ROUGHNESS=clamp(ROUGHNESS-(1.0-environment.r)*.07,.58,1.0);
  AO=mix(mix(1.0,so.r,.2),mix(1.0,ro.r,.5),rock);
  SPECULAR=.35;

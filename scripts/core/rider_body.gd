@@ -47,6 +47,7 @@ var correction_torque = Vector2.ZERO # roll / pitch, N m
 var load_fractions = Vector2(.5,.5) # right / left
 var recovery = 0.0
 var tipped = false
+var recovering_pose = false
 var hands: Array[Vector3] = [Vector3(-.18,-.32,.20),Vector3(.18,-.32,.20)]
 var hand_velocities: Array[Vector3] = [Vector3.ZERO,Vector3.ZERO]
 var initialized = false
@@ -65,6 +66,7 @@ func reset() -> void:
 	support_margin = .22
 	recovery = 0.0
 	tipped = false
+	recovering_pose = false
 	initialized = false
 	joints.clear()
 	rotations.clear()
@@ -116,10 +118,11 @@ func step(dt: float, sim, intent, acceleration_world: Vector3) -> void:
 	var lean_support = maxf(normal_load,-gravity.y)
 	var lean_limit: float = lerpf(sim.tuning.maximum_body_lean,sim.tuning.high_speed_body_lean,smoothstep(30.0/3.6,60.0/3.6,sim.velocity.length()))
 	var goal_roll = clampf(-atan2(lean_force,lean_support),-lean_limit,lean_limit) if sim.grounded else roll
-	# During an edge change first bring the mass back over the feet; build the
-	# opposite bank once the skis can supply force in the new turn direction.
+	# During an edge change request a modest opposite bank through the same
+	# pressure-limited controller. This avoids lingering around neutral while
+	# waiting for the old turn force to disappear; it never assigns body roll.
 	if sim.grounded and intent.steer*sim.requested_lateral_acceleration>0.0:
-		goal_roll = intent.steer*.10
+		goal_roll = intent.steer*minf(sim.tuning.turn_transfer_bank,lean_limit)
 	var goal_pitch: float = -intent.brake*.45 if sim.grounded else pitch
 	var goal_height: float = .94-sim.effective_tuck*.22-clampf((sim.normal_load/9.81-1.0)*.035+sim.landing_force*.012,-.035,.11)
 	if not sim.grounded:
@@ -171,6 +174,18 @@ func step(dt: float, sim, intent, acceleration_world: Vector3) -> void:
 		angular_momentum = inertia*Vector2(roll_velocity,pitch_velocity)
 	roll += roll_velocity*dt
 	pitch += pitch_velocity*dt
+	# Supported self-righting assist bounds the articulated pose after a stumble.
+	# Remove outward angular speed, never redirect root velocity or add a snow force.
+	# Airborne angular momentum remains free; body tilt is not a death condition.
+	if has_support:
+		if absf(roll)>1.15 or absf(pitch)>.70: recovering_pose = true
+		if recovering_pose:
+			roll = move_toward(clampf(roll,-1.15,1.15),goal_roll,dt*2.0)
+			pitch = move_toward(clampf(pitch,-.70,.70),goal_pitch,dt*2.0)
+			if roll_velocity*(roll-goal_roll)>0.0: roll_velocity = 0.0
+			if pitch_velocity*(pitch-goal_pitch)>0.0: pitch_velocity = 0.0
+			if absf(roll-goal_roll)<.1 and absf(pitch-goal_pitch)<.1: recovering_pose = false
+		angular_momentum = inertia*Vector2(roll_velocity,pitch_velocity)
 	recovery = clampf(maxf(0.0,-support_margin-.10)*2.0+maxf(0.0,absf(roll)-.8)*3.0,0.0,2.0) if sim.grounded else 0.0
 	tipped = absf(roll)>1.25 or absf(pitch)>.85
 	_pose(sim,0.0)

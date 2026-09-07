@@ -1,5 +1,5 @@
 #define ALPINE_SNOW_SPARKLE
-uniform float snow_sparkle_strength : hint_range(0.0,6.0) = 3.0;
+uniform float snow_sparkle_strength : hint_range(0.0,6.0) = 4.2;
 varying float snow_glints;
 varying vec3 snow_facet_normal;
 #include "res://assets/cloud_light.gdshaderinc"

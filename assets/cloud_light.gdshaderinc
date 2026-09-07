@@ -21,6 +21,10 @@ void light() {
 	float fd90 = 0.5+2.0*ROUGHNESS*lh*lh;
 	float diffuse = (1.0+(fd90-1.0)*pow(1.0-nl,5.0))*(1.0+(fd90-1.0)*pow(1.0-nv,5.0));
 	DIFFUSE_LIGHT += LIGHT_COLOR * visibility * nl * diffuse * (1.0-METALLIC) / PI;
+#ifdef ALPINE_NEEDLE_TRANSMISSION
+	// Restrained needle transmission still obeys tree/terrain and cloud shadows.
+	DIFFUSE_LIGHT += LIGHT_COLOR*visibility*max(-dot(NORMAL,LIGHT),0.0)*needle_transmission/PI;
+#endif
 	float a2 = max(pow(ROUGHNESS,4.0),0.0001);
 	float denominator = nh*nh*(a2-1.0)+1.0;
 	float distribution = a2/(PI*denominator*denominator);

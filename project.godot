@@ -54,8 +54,7 @@ jolt_physics_3d/simulation/position_steps=12
 
 [rendering]
 
-global_illumination/gi/use_half_resolution=true
-
 rendering_device/driver.windows="d3d12"
 lights_and_shadows/directional_shadow/size=2048
+global_illumination/gi/use_half_resolution=true
 anti_aliasing/quality/msaa_3d=1

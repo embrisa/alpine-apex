@@ -1,14 +1,20 @@
 # Graphics and generated mountains
 
-The graphics upgrade adds textured snow and rock, a skinned skier with separate equipment, varied vegetation and boulders, graphics presets, and a seeded decorative mountain landscape. The expanded [scenery library](SCENERY.md) has 43 tree shapes across 11 families and 26 rock shapes across seven families. Ski physics remains an independent 120 Hz solver. The existing laboratory heightfield, collidable obstacle placement, benchmark identity and record rules are unchanged.
+The [golden sunlight update](GOLDEN_SUNLIGHT.md) warms the existing noon sun, coordinates filmic exposure and surface response, and adds High-only nearby shadowed shafts plus restrained highlight glow. It preserves the noon direction, terrain and PC defaults. Its fresh acceptance evidence is reported separately from the earlier PC environment measurements below.
+
+The PC graphics upgrade adds selective 4K snow, rock and bark, nine rebuilt conifers, six angular rocks, directional impostors and persistent rendering controls. Technical Showcase v7 uses the new treatment on a versioned south face; shared assets and lighting apply throughout the game. The earlier [scenery library](SCENERY.md) remains available, with spruce/fir/pine and rock selections now mapped to the PC assets. Ski physics remains an independent 120 Hz solver. Graphics preferences do not change record eligibility or physics identity. See [implementation and acceptance](PC_ENVIRONMENT_IMPLEMENTATION.md) for final captures, measurements and limitations.
 
 ## Performance policy
 
-As of 2026-09-06, the user's MacBook should target a steady **approximately 60 FPS on Low graphics quality**, corresponding to roughly **16.7 ms per rendered frame**. Medium (currently named **Balanced** in the UI and CLI) and High have **no MacBook FPS requirement** and may prioritize visual quality. Do not reject improvements to those tiers solely because they fall below 60 or 120 FPS on the MacBook.
+As of 2026-09-07, target **Ryzen 5 5600X / RX 9070 / 16 GB RAM**, **3840x2160 output** and **90-120 FPS**. Aim for steady-state p95 <= 11.1 ms and p99 <= 16.7 ms. Demanding sections may favor fidelity. The MacBook requirement is removed; older measurements below are historical evidence. The ski simulation remains independent at 120 Hz.
 
-This supersedes the earlier blanket MacBook 1440p/120 FPS target and its preferred 90 FPS 1% low. It is a target, not a demonstrated result or an FPS cap. The user has not specified a resolution for this revised target; record actual rendered resolution with every measurement rather than implying it applies at every resolution. Other platforms require their own measurements. The independent ski simulation stays at 120 Hz across all graphics tiers.
+**High is recommended:** 75% FSR2 (2880x1620 internal at 4K output), 120 FPS cap, SSAO and restrained SSIL, SDFGI initially off. Native rendering and exact two-thirds scale (2560x1440 internal) are available. No dynamic resolution is used. FSR2 supplies temporal antialiasing, so additional MSAA/TAA are disabled in that mode; native uses 2x MSAA. The HUD remains at output resolution. See [Godot resolution scaling](https://docs.godotengine.org/en/stable/tutorials/3d/resolution_scaling.html).
 
-Assess Low using rendered, unranked full descents, including forests and adverse weather. Record the MacBook model, backend, rendered resolution, graphics and independent weather quality, average FPS, p95/p99 frame times and slowest-1% mean FPS. Evaluate sustained pacing and spikes, not just average FPS. Historical Balanced/High measurements do not establish whether Low meets this target. More expensive lighting and effects can be evaluated for Medium/High while keeping Low within its budget.
+Visual Settings persists display mode, upscaler, render scale, frame cap, quality and the advanced terrain GI override in `user://graphics_v1.cfg`. Restart and mountain changes preserve them; they never enter recipes, physics tuning, replay identity or ranked eligibility. Automated/script runs use isolated defaults and never write this preference file. Windows benchmarks use an exact-size borderless/fullscreen window and verify the rendered image dimensions, fixing the earlier 3856x2176 result for a 3840x2160 request.
+
+Run `./scripts/benchmark_pc.ps1 -Label v7_high_clear -Side -1 -Weather clear` on Windows. It performs a screenshot-free complete descent after warmup, records actual output pixels and internal dimensions calculated from the viewport's active scale, CPU/GPU timings, frame percentiles, slowest-1% FPS, draw calls, engine video memory and process/system RAM. Generation/import costs are reported separately. Existing applications remain untouched and background presence is sampled. The user removed the WoW requirement for the golden sunlight comparison; earlier measurements with WoW running are historical, different workload conditions.
+
+Equivalent game arguments are `--display-mode=fullscreen|windowed`, `--upscaler=fsr2|native`, `--render-scale=0.75`, `--fps-limit=0|90|120|144`, `--terrain-gi=off|on`, `--graphics-quality=low|balanced|high` and benchmark `--benchmark-resolution=3840x2160`. Quote the user-argument separator in PowerShell: `./godotw.ps1 --script tests/technical_showcase_playtest.gd '--' --views --benchmark-label=review`.
 
 ## Terrain architecture
 
@@ -44,6 +50,19 @@ Run `./godotw --script tests/snow_playtest.gd`. Captures under `artifacts/snow_u
 
 ## Assets and editable sources
 
+Current PC environment assets:
+
+| Asset | Runtime detail | Editable source |
+|---|---|---|
+| Spruce, fir and pine | Three silhouettes each; 16,580-28,004 near / 6,821-11,659 mid triangles; one surface | `art_source/blender/pc_environment/pc_environment.blend` |
+| Directional conifer impostors | Eight views per tree, two triangles, 4096x512 atlas and 2048x256 derivative | Same Blender source and `scripts/art/build_pc_environment.py` |
+| Fractured rocks | Two buttresses, two ledges, two boulders fitted to the existing obstacle envelope | Same Blender source |
+| Scanned snow, rock and bark | CC0 4K High maps; existing 2K/1K derivatives; compression and mipmaps | `art_source/pc_texture_sources.json` |
+
+Dimensions, material masks, LODs and hashes are recorded in `art_source/pc_environment_manifest.json`. The PC ledger is separate from earlier allowances: **0 of 1500 credits spent**, first batch ceiling 300. No PC asset purchase or generation was required.
+
+Retained assets and earlier authoring history:
+
 | Asset | Runtime detail | Editable source |
 |---|---|---|
 | Skier | 36,950 body triangles, 24 bones | `art_source/blender/skier_v7.blend` |
@@ -73,23 +92,26 @@ Use **Visual settings → Graphics quality**, or `--graphics-quality=low|balance
 
 | Setting | Low | Balanced | High |
 |---|---:|---:|---:|
-| Environment texture size | 1K | 2K | 2K |
-| Near tree transition | 40 m | 70 m | 110 m |
-| Far-card transition | 135 m | 220 m | 330 m |
-| Tree visibility end | 700 m | 1,000 m | 1,250 m |
+| Snow, rock, bark texture size | 1K | 2K | 4K |
+| Other environment texture size | 1K | 2K | 2K |
+| Near tree transition | 40 m | 70 m | 95 m |
+| Far-card transition | 135 m | 220 m | 280 m |
+| Tree visibility end | 700 m | 1,000 m | 1,300 m |
 | Scrub distance | 45 m | 85 m | 130 m |
 | Scrub density | 45% | 100% | 100% |
 | Directional shadow range | 100 m | 170 m | 220 m |
-| Sky contribution to ambient | 25% | 25% | 25% |
+| Sky contribution to ambient | 42% | 42% | 42% |
 | Contact SSAO | Off | On | On |
 | Local indirect lighting (SSIL) | Off | Off | On |
-| Terrain indirect lighting (SDFGI) | Off | Off | On |
+| Terrain indirect lighting (SDFGI) | Optional, default off | Optional, default off | Optional, default off |
+| Nearby volumetric sun shafts | Off | Off | 120 m, shadowed, daylight/cloud gated |
+| HDR highlight glow | Off | On, daylight gated | On, daylight gated |
 
-Tree batches cover 128 m regions; switches happen per batch with 5 m hysteresis. Transition distances therefore describe batch bounds, not an exact per-tree radius. Some LOD popping remains. Far cards always face the camera and lose three-dimensional parallax. Neither decorative quality nor visibility changes obstacle collision. Snow tracks use a fixed 800-instance ring; spray and precipitation remain bounded.
+Tree batches cover 128 m regions. PC conifers use a 20 m opaque dither transition around each region centre; legacy families use 12 m hysteresis. Transition distances therefore describe batch bounds, not an exact per-tree radius. Some LOD popping remains. PC far cards blend eight directional atlas views and lose three-dimensional parallax. Neither decorative quality nor visibility changes obstacle collision. Snow tracks use a fixed 800-instance ring; spray and precipitation remain bounded.
 
 ## Ambient and contact lighting — first increment
 
-The world blends a 25% sky contribution with the existing weather/daylight ambient fill. This gives lighting some dependence on surface orientation while retaining readable shade and night snow. The existing sun/moon cascaded shadows, tone mapping and fog remain in use. Sky lighting uses the existing radiance map and its inexpensive cloud-free cubemap branch; it is an artistic outdoor approximation, not terrain-aware bounced GI.
+The world blends a 42% sky contribution with the existing weather/daylight ambient fill. This gives lighting some dependence on surface orientation while retaining readable shade and night snow. The existing sun/moon cascaded shadows, tone mapping and fog remain in use. Sky lighting uses the existing radiance map and its inexpensive cloud-free cubemap branch; it is an artistic outdoor approximation, not terrain-aware bounced GI.
 
 Balanced (Medium) and High enable restrained SSAO with a 0.65 m radius, 1.2 intensity/power and 0.35 detail. It affects indirect lighting only (`ssao_light_affect = 0`) and does not additionally multiply the material AO channel. Low disables SSAO. `graphics_quality.gd` owns the contact-shading switch, and `alpine_world.gd` applies it on startup and live quality changes. Graphics and weather quality remain independent. These environment controls follow the [Godot Environment API](https://docs.godotengine.org/en/stable/classes/class_environment.html).
 
@@ -99,7 +121,7 @@ Run `./godotw --script tests/ambient_lighting_playtest.gd` for matched before/af
 
 ## Local indirect lighting — second increment
 
-High adds SSIL for nearby indirect-light detail, with a 2 m radius, 0.7 intensity, 0.9 sharpness and normal rejection of 1.0. Low and Balanced keep it off. The existing `graphics_quality.gd` resource owns `indirect_lighting`; the world applies it alongside SSAO on startup and live tier changes. Existing sky fill, direct lights, SSAO, materials and weather values stay fixed for this comparison. No new lights, probes or geometry are added.
+High adds SSIL for nearby indirect-light detail, with a 2 m radius, 0.55 intensity, 0.9 sharpness and normal rejection of 1.0. Low and Balanced keep it off. The existing `graphics_quality.gd` resource owns `indirect_lighting`; the world applies it alongside SSAO on startup and live tier changes. Existing sky fill, direct lights, SSAO, materials and weather values stay fixed for this comparison. No new lights, probes or geometry are added.
 
 The effect is deliberately restrained. SSIL uses visible screen information, so it cannot provide mountain-scale bounce, off-screen light transport or terrain-aware skylight occlusion. Normal rejection limits leaking through surfaces; a short radius limits broad shading artifacts. The implementation follows [Godot's SSIL guidance](https://docs.godotengine.org/en/stable/tutorials/3d/environment_and_post_processing.html#screen-space-indirect-lighting-ssil), which describes SSIL as a complement to full GI. Screenshots are insufficient to rule out every temporal artifact during fast camera changes.
 
@@ -115,7 +137,7 @@ The benchmark report records actual SSAO/SSIL enablement, SSIL radius and intens
 
 ## Terrain indirect lighting — third increment
 
-High enables SDFGI on the fixed terrain meshes: four cascades, 1 m minimum cells, 100% vertical scale, 0.8 energy, 0.2 bounce feedback, sky reading and occlusion enabled. The GI buffer uses half resolution. These choices bound cascade work and avoid excessive feedback from bright snow. The effect remains optional through graphics quality; Low and Balanced disable it immediately. Sun and moon use dynamic GI bake mode so daylight and weather changes update their indirect contribution.
+The optional advanced terrain GI control enables SDFGI on the fixed terrain meshes: four cascades, 1 m minimum cells, 100% vertical scale, 0.8 energy, 0.2 bounce feedback, sky reading and occlusion enabled. The GI buffer uses half resolution. These choices bound cascade work and avoid excessive feedback from bright snow. The independent terrain GI override is initially off and remains unchanged when switching graphics quality. Sun and moon use dynamic GI bake mode so daylight and weather changes update their indirect contribution.
 
 The laboratory and decorative mountain meshes contribute static geometry. Fixed rock batches are marked static. The animated rider/equipment, changing track ribbons and wind-driven vegetation receive GI without being baked into it. Consequently, this pass does not claim accurate forest-canopy indirect occlusion or dynamic rider occlusion. SSAO and SSIL retain their nearby-detail roles. Decorative mountains still do not cast directional shadow maps.
 
@@ -158,7 +180,7 @@ The autoplay benchmark reads actual rendered pixel dimensions once before the ru
 
 The final measured results and visual findings are in [VALIDATION.md](VALIDATION.md). The evidence index is `artifacts/graphics_validation.json`; matching camera comparisons are `artifacts/graphics_before_after.png`. `scripts/art/build_graphics_report.py` reconstructs the historical 2026-09-05 report, including archived Terrain3D comparisons; it is not a current acceptance report. New lighting results are documented separately below in `VALIDATION.md`.
 
-The current MacBook target is approximately 60 FPS on Low, as defined in the [performance policy](#performance-policy); the historical measurements do not establish that target has been met. Windows, Linux, M2-class Macs and the specified PC GPUs require direct measurements. Shipping platform exports require direct validation.
+The current PC target is defined in the [performance policy](#performance-policy); historical MacBook measurements do not establish PC performance. The [final Windows RX 9070 measurements](PC_ENVIRONMENT_IMPLEMENTATION.md#performance-acceptance) establish results only for their stated workload and settings. Other devices and shipping platform exports require direct validation.
 
 The landscape is allocated at startup, with no streaming or background generation. Bounded playable generated basins, mountain libraries, race sharing and local PB ghosts are implemented. Cross-platform replay validation remains future work. See [MOUNTAINS.md](MOUNTAINS.md).
 

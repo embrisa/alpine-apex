@@ -18,7 +18,8 @@ func _init(clouds, profile) -> void:
 	quality = profile
 
 func texture(id: String, channel: String) -> Texture2D:
-	return load("res://assets/graphics/textures/%s_%s%s.jpg" % [id,channel,quality.texture_suffix])
+	var suffix: String = quality.surface_texture_suffix if id in ["snow","rock","bark"] else quality.texture_suffix
+	return load("res://assets/graphics/textures/%s_%s%s.jpg" % [id,channel,suffix])
 
 func terrain_material(bias: float = 0.0, scale_value: float = 0.075) -> ShaderMaterial:
 	var mat = ShaderMaterial.new()
@@ -62,7 +63,11 @@ func apply_quality(profile) -> void:
 		if named_materials.has(id):
 			named_materials[id].set_shader_parameter("albedo_texture",load("res://assets/graphics/textures/spruce_impostor_%d%s.png" % [i,quality.texture_suffix]))
 	for id in named_materials:
-		if id.begins_with("Impostor_"):
+		if id=="PC_Conifer":
+			named_materials[id].set_shader_parameter("bark_texture",texture("bark","albedo"))
+		elif id.begins_with("PC_Impostor_"):
+			named_materials[id].set_shader_parameter("albedo_texture",load("res://assets/graphics/textures/pc_%s_atlas%s.png" % [id.trim_prefix("PC_Impostor_"),quality.texture_suffix]))
+		elif id.begins_with("Impostor_"):
 			_set_impostor(named_materials[id],id)
 		elif id.begins_with("Tree_"):
 			_set_tree(named_materials[id],id.trim_prefix("Tree_"))
@@ -101,6 +106,18 @@ func _set_bark(mat: ShaderMaterial) -> void:
 
 func material_for(source: Material) -> ShaderMaterial:
 	var name_value = source.resource_name
+	if name_value.begins_with("PC_"):
+		var id = name_value.get_slice(".",0)
+		if not named_materials.has(id):
+			var mat = ShaderMaterial.new()
+			if id=="PC_Conifer":
+				mat.shader = preload("res://assets/graphics/pc_conifer.gdshader")
+				mat.set_shader_parameter("bark_texture",texture("bark","albedo"))
+			else:
+				mat.shader = preload("res://assets/graphics/pc_tree_impostor.gdshader")
+				mat.set_shader_parameter("albedo_texture",load("res://assets/graphics/textures/pc_%s_atlas%s.png" % [id.trim_prefix("PC_Impostor_"),quality.texture_suffix]))
+			named_materials[id] = lighting.register(mat)
+		return named_materials[id]
 	var skier_id = name_value.get_slice(".",0)
 	if skier_id.begins_with("SkierV7") and named_materials.has(skier_id): return named_materials[skier_id]
 	# Body and separately exported boots use the same verified texture atlas.
@@ -216,7 +233,7 @@ func update_wind(state, dt: float, animate: bool) -> void:
 	if animate:
 		wind_time += dt
 	for id in named_materials:
-		if id in ["Needles","Spruce"] or (id.begins_with("Tree_") and not id.ends_with("snag")):
+		if id in ["Needles","Spruce","PC_Conifer"] or (id.begins_with("Tree_") and not id.ends_with("snag")):
 			var wind = Vector2(state.wind_velocity.x,state.wind_velocity.z)
 			var mat: ShaderMaterial = named_materials[id]
 			mat.set_shader_parameter("wind_time",wind_time)

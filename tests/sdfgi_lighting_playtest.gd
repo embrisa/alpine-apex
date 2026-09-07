@@ -83,7 +83,7 @@ func run() -> void:
 	for level in [0,1,2,0]:
 		game.set_graphics_quality(level)
 		game.world.update_weather(game.weather.state,0.0,false)
-		if game.world.environment.sdfgi_enabled != (level==2):
+		if game.world.environment.sdfgi_enabled != game.display_settings.terrain_gi:
 			failures.append("SDFGI quality switching failed for tier %d" % level)
 	if game.session.eligible: failures.append("Lighting QA must remain unranked")
 	FileAccess.open(OUTPUT+"/results.json",FileAccess.WRITE).store_string(JSON.stringify({"captures":captures,"failures":failures},"\t"))

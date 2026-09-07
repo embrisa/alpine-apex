@@ -3,9 +3,11 @@ Run after Godot's first import, then import once more. No addon files are edited
 """
 from pathlib import Path
 import re
+import sys
 ROOT=Path(__file__).resolve().parents[2]
 for folder in ['textures','models']:
  for p in (ROOT/'assets/graphics'/folder).glob('*.import'):
+  if '--pc-only' in sys.argv and not (p.name.startswith('pc_') or '_high.' in p.name):continue
   s=p.read_text()
   if p.name.endswith('.glb.import'):
    s=re.sub(r'meshes/generate_lods=.*','meshes/generate_lods=false',s)

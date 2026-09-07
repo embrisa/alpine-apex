@@ -102,7 +102,7 @@ func run():
  sim.prime_contacts(plane)
  sim.body.roll = 1.4
  sim.step(1.0/120.0,Intent.new(),plane)
- check(sim.crashed and sim.crash_reason=="BODY BALANCE LOST","Unrecoverable body tipping triggers a physical crash")
+ check(not sim.crashed and sim.impacts.reserve==1.0,"Body tipping alone cannot cause a fall or spend impact reserve")
  var mats = skier.appearance.materials
  check(mats.Clothing!=null and mats.Helmet!=null and mats.Lens!=null and mats.Clothing!=mats.Helmet and mats.Helmet!=mats.Lens,"Clothing, helmet and lens have separate live material instances")
  var cloth_before = mats.Clothing.get_shader_parameter("surface_roughness")
