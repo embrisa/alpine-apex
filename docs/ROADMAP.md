@@ -3,7 +3,10 @@
 Alpine Apex already has six-face generated mountains, summit free skiing,
 mountain libraries and sharing, open-route race authoring, local personal bests
 and ghosts, weather, procedural audio, and an articulated skier. Current defaults
-are mountain v14 and the versioned custom ski solver. The laboratory remains a controlled test tool.
+are mountain v15 / seed 849205174 / Standard, physics model 28, replay v5
+and race schema 4, inspected on 2026-09-11. See [the source baseline](VALIDATION.md#current-identity-and-acceptance).
+Drop In starts summit free skiing; timed play uses custom races. The laboratory
+remains a controlled test tool.
 
 ## Improve the game within Godot
 
@@ -24,18 +27,25 @@ priorities below and continues alongside ordinary features.
 
 ## Finish acceptance of the current game
 
+The [current acceptance checklist](VALIDATION.md#current-acceptance-checklist)
+links the imported evidence tasks and the separate blocked user playtest.
+Completing an evidence task does not settle player acceptance.
+
 1. **Skiing feel.** Playtest turn initiation, sustained carving, reversals,
    tuck-to-turn transitions, jumps, switch skiing and forgiving clean landings.
    Test keyboard and actual controllers; verify dead zones, triggers and haptics.
 2. **Mountain routes.** Survey and ski all six faces and multiple seeds. Routes
-   should split, rejoin, narrow and open up while snow remains dominant. The v13
-   branching survey passes, but its test pilot still crashes/stalls on several
-   faces. One completed route is not mountain-wide skiing acceptance.
+   should split, rejoin, narrow and open up while snow remains dominant. The
+   historical [v13 branching survey](ALPINE_V13.md) passed, but its pilot
+   crashed/stalled on several faces. Current v15 six-face coverage needs its
+   own audit; one completed historical route is not mountain-wide acceptance.
 3. **PC performance.** Measure complete descents on the current mountain and
    dense forests on the target Ryzen 5 5600X / RX 9070 / 16 GB PC at 4K High.
    Frame p95/p99, rendering CPU/GPU cost, loading and memory need separate evidence.
-   Historical shared-load v13 runs missed the full frame-time gate; use the newer
-   [FPS procedure and results](FPS_OPTIMIZATION.md) for current investigation.
+   Historical shared-load v13 runs, the [2026-09-10 v14/model-26 comparison](FPS_OPTIMIZATION.md#2026-09-10-measured-comparison),
+   and [model-28 short-route timings](GROUNDED_SNOW_V28.md#rendered-evidence-and-performance)
+   leave the frame-time gate unmet. Use the [FPS procedure](FPS_OPTIMIZATION.md)
+   for a current complete-descent baseline; v15 generation savings are separate.
 4. **Presentation comfort.** Review continuous motion, knee/boot fitting, deep
    tuck, chase/first-person readability, live menu transitions and reduced motion.
    Listen to the natural/readable skiing, crash, wind and reaction mix in play.
