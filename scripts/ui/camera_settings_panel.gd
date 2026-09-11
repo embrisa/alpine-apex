@@ -281,5 +281,3 @@ func set_preview(enabled: bool, speed: float = 0.0) -> void:
 func camera_tab_visible() -> bool:
 	var page = hud.settings_tabs.get_current_tab_control()
 	return page!=null and page.name=="Camera"
-
-

@@ -103,7 +103,7 @@ An optional `--ui-baseline-hud=path/to/saved_hud.gd` argument accepts a saved pr
 HUD script for a comparison over the same paused mountain at 4K. Both HUD
 instances remain resident during that comparison; only one is visible at a time.
 
-### Angular styling acceptance â€” 2026-09-08
+### Angular styling acceptance — 2026-09-08
 
 - Automated: standalone interface review **80/80** and native integration
   **51/51**, with no engine errors in the final guarded runs. Hover, clipped-corner
@@ -156,7 +156,7 @@ hover/focus, activation, completion and error. A pool of three audio players kee
 playback bounded. Hover is rate-limited; UI construction does not trigger sounds.
 Panel and tab reveals fade in over 160 ms. No animation drives skier movement.
 
-Tools â†’ Settings â†’ Interface exposes UI volume, a preview sound, mute, reduced
+Tools → Settings → Interface exposes UI volume, a preview sound, mute, reduced
 interface motion and the existing skiing camera-effects toggle. M synchronizes
 skiing audio and UI mute; muting stops an active UI cue. Reduced motion skips fades
 and holds the unknown-progress indicator still. Volume, mute and reduced motion
@@ -205,7 +205,7 @@ reload path. This is cooperative loading, not streaming or asynchronous GPU
 upload: individual material/shader, backdrop and scenery operations can still
 pause the animation. Generation currently has no Cancel action.
 
-## Validation â€” 2026-09-07
+## Validation — 2026-09-07
 
 Commands below use the Windows `godotw.ps1` counterpart to `godotw`:
 
@@ -234,12 +234,12 @@ graphics/tuning retention and unchanged personal-best files.
 
 Rendered evidence: native Godot 4.7.2 / RX 9070 captures were inspected for menu,
 settings, workbench, race import, mountain preview and loading layout. Captures
-include actual 1440Ã—900, 1280Ã—720 and 3840Ã—2160 output. Logs, screenshots and JSON
+include actual 1440×900, 1280×720 and 3840×2160 output. Logs, screenshots and JSON
 reports are under `artifacts/ui_refresh/`; `interface_native.json` contains the
 final assertions and measurements.
 
 Performance evidence: the final short sample of the Display window over a paused
-v4 summit used High, 75% FSR2 (2880Ã—1620 internal / 3840Ã—2160 output), 120 FPS cap,
+v4 summit used High, 75% FSR2 (2880×1620 internal / 3840×2160 output), 120 FPS cap,
 GI off. After 120 warmup frames, 240 frames without screenshot overhead measured:
 
 | Metric | Final sample |
@@ -253,7 +253,7 @@ GI off. After 120 warmup frames, 240 frames without screenshot overhead measured
 
 This brief paused-view sample includes a p99 spike and is not an isolated skiing
 benchmark or a full-process memory measurement. Other editor/test processes were
-not stopped. It does not establish the 90â€“120 FPS target during downhill play.
+not stopped. It does not establish the 90–120 FPS target during downhill play.
 
 Human acceptance remains open for audio balance, controller navigation feel,
 transition comfort and repeated skiing/menu use. Automated assertions and native

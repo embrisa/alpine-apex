@@ -268,7 +268,7 @@ func _rate_checks() -> void:
 		update(1.5, hz)
 		results.append(Vector3(camera.fov, camera.look_yaw, carve))
 	for result in results:
-		check(absf(result.x - results[0].x) < 0.05 and absf(result.y - results[0].y) < 0.001 and absf(result.z - results[0].z) < 0.001, "Speed, look return and carve smoothing agree at 30Ã¢â‚¬â€œ240 Hz")
+		check(absf(result.x - results[0].x) < 0.05 and absf(result.y - results[0].y) < 0.001 and absf(result.z - results[0].z) < 0.001, "Speed, look return and carve smoothing agree at 30–240 Hz")
 
 func _stabilization_checks() -> void:
 	for close in [false,true]:
@@ -316,7 +316,7 @@ func _stabilization_checks() -> void:
 				translation = translation and Vector2(camera.position.x-sim.position.x,camera.position.z-sim.position.z).distance_to(horizontal)<0.001
 			check(bounded and translation,"Sustained descent bounds vertical lag and follows horizontal travel immediately")
 		for result in step_results:
-			check(absf(result-step_results[0])<0.0001,"Equal elapsed time gives the same vertical step at 30â€“240 Hz")
+			check(absf(result-step_results[0])<0.0001,"Equal elapsed time gives the same vertical step at 30–240 Hz")
 		_lifecycle_stabilization_checks(close)
 		var manual_results: Array = []
 		for strength in [0.0,100.0]:

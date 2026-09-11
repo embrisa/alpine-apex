@@ -159,7 +159,7 @@ The schema-v3 open-route race stores a versioned mountain reference (both physic
 
 ## Competitive loop
 
-Each timed attempt freezes its PB time, splits and replay reference at restart. Three unbounded first-passage split planes measure approach along the start-to-finish axis; they never gate completion or constrain route choice. The recorder keeps 120 Hz inputs and 30 Hz state samples, including the precise finish sample. Only an eligible new PB promotes its completed recorder. Playback interpolates snapshots using the playerâ€™s simulation-time interval and never advances a second solver. The lightweight cyan ghost has no contacts, tracks, audio or GI contribution. Pause freezes both timelines; R resets the complete attempt. See [COMPETITIVE_LOOP.md](COMPETITIVE_LOOP.md) for limits, persistence, UI and verification.
+Each timed attempt freezes its PB time, splits and replay reference at restart. Three unbounded first-passage split planes measure approach along the start-to-finish axis; they never gate completion or constrain route choice. The recorder keeps 120 Hz inputs and 30 Hz state samples, including the precise finish sample. Only an eligible new PB promotes its completed recorder. Playback interpolates snapshots using the player’s simulation-time interval and never advances a second solver. The lightweight cyan ghost has no contacts, tracks, audio or GI contribution. Pause freezes both timelines; R resets the complete attempt. See [COMPETITIVE_LOOP.md](COMPETITIVE_LOOP.md) for limits, persistence, UI and verification.
 
 ## Rendering and performance
 
@@ -167,7 +167,7 @@ Target the Ryzen 5 5600X / RX 9070 / 16 GB PC at 4K output and 90-120 FPS. High 
 
 The authoritative laboratory still has 96 chunks and 196,608 triangles. Presentation adds a separately seeded 8.192 km mountain heightfield plus snow, rock, vegetation and exposure masks. The existing laboratory samples are copied exactly into that field. The built-in chunk renderer displays the authoritative laboratory triangles and a coarse backdrop from the same generated mountain data. Terrain3D and its moving replacement patch have been removed; the solver's triangle sampling remains authoritative.
 
-Vegetation uses shared MultiMeshes in 128 m regions, 43 tree shapes across 11 families, 6â€“18k/1.8â€“6.5k-triangle near/mid meshes and matching two-triangle camera-facing far cards. Twenty-six rock shapes share the existing obstacle envelopes. One derivative per family per region bounds batch fragmentation. Cosmetic scenery version 3 uses a separate RNG; it does not alter physical obstacle generation or benchmark identity. Balanced transitions start at 70 and 220 m and end visibility at 1,000 m, with 5 m batch hysteresis. There are no per-tree Nodes or rigid bodies. Scrub uses a separate deterministic seed and remains outside the racing corridor. Quality changes affect appearance only. Asset families, rebuilds and limitations are detailed in [SCENERY.md](SCENERY.md). The complete Meshy 7 skier has 42,063 base triangles including separate equipment, a 24-bone rig and analytic limb targets driven by simulation state. Fixed-step damped hand targets and trailing poles respond to tuck, turning and terrain loads; the straighter crouch keeps pelvis and spine closely aligned. Arm motion cannot advance or steer the solver. See [SKIER.md](SKIER.md) for asset preparation, checks and limitations.
+Vegetation uses shared MultiMeshes in 128 m regions, 43 tree shapes across 11 families, 6–18k/1.8–6.5k-triangle near/mid meshes and matching two-triangle camera-facing far cards. Twenty-six rock shapes share the existing obstacle envelopes. One derivative per family per region bounds batch fragmentation. Cosmetic scenery version 3 uses a separate RNG; it does not alter physical obstacle generation or benchmark identity. Balanced transitions start at 70 and 220 m and end visibility at 1,000 m, with 5 m batch hysteresis. There are no per-tree Nodes or rigid bodies. Scrub uses a separate deterministic seed and remains outside the racing corridor. Quality changes affect appearance only. Asset families, rebuilds and limitations are detailed in [SCENERY.md](SCENERY.md). The complete Meshy 7 skier has 42,063 base triangles including separate equipment, a 24-bone rig and analytic limb targets driven by simulation state. Fixed-step damped hand targets and trailing poles respond to tuck, turning and terrain loads; the straighter crouch keeps pelvis and spine closely aligned. Arm motion cannot advance or steer the solver. See [SKIER.md](SKIER.md) for asset preparation, checks and limitations.
 
 The detailed terrain/data contract, asset provenance, quality budgets and rebuild process are in [GRAPHICS.md](GRAPHICS.md). The bounded generated basin is now playable; terrain streaming is not implemented. See [MOUNTAINS.md](MOUNTAINS.md) for the generator, portable contract, physical/render agreement and limitations.
 
@@ -179,7 +179,7 @@ The first ambient-lighting increment mixes 25% sky contribution with the weather
 
 ### Weather presentation
 
-`presentation/weather_controller.gd` owns the four configurable resources in `config/weather/`, the 180-second hold / 20-second blend cycle, and one shared `WeatherState`. The cycle is clear â†’ cloudy â†’ snowfall â†’ cloudy â†’ rain â†’ cloudy. The controller uses presentation time, advances the cycle only while skiing, and retains progression across restart. Title ambience animates without advancing the automatic cycle. Disabling automatic mode holds the current blend; explicitly selecting a preset begins a fresh hold. Selection and quality are application-session settings.
+`presentation/weather_controller.gd` owns the four configurable resources in `config/weather/`, the 180-second hold / 20-second blend cycle, and one shared `WeatherState`. The cycle is clear → cloudy → snowfall → cloudy → rain → cloudy. The controller uses presentation time, advances the cycle only while skiing, and retains progression across restart. Title ambience animates without advancing the automatic cycle. Disabling automatic mode holds the current blend; explicitly selecting a preset begins a fresh hold. Selection and quality are application-session settings.
 
 Main supplies presentation state and camera movement. The world consumes lighting, cloud, and fog values; weather effects consume wind and precipitation; the existing audio mixer consumes gust/rain values; the HUD displays actual weather. Weather never enters `SkiSimulation`, gameplay input sampling, terrain generation, timing, record eligibility, or course identity. The autoplay harness now uses only fixed tuck input and ignores gameplay hotkeys, preventing live keyboard/controller activity from contaminating benchmark comparisons. No benchmark version bump is needed for this cosmetic addition.
 
@@ -213,10 +213,10 @@ See [controller input and feedback](CONTROLLER_FEEDBACK.md).
 
 The `alpine-drainage-v4` generator bakes a 6.144 km square mountain at 4 m spacing, with a true highest-point spawn and radial ridges/bowls on all sides. Free-ski staging lets the player choose a heading, then selects a nearby summit rim with zero initial velocity; all subsequent motion uses the unchanged ski solver. Free progress/completion is radial. The race survey and picking cover the whole field, while authored races retain their own arbitrary-direction finishes.
 
-Archived v1â€“v3 implementations reconstruct existing mountains and races. Scene reloads preserve graphics/weather, camera-effects selection and physics modifications. Library generation/reconstruction use a worker thread with no Nodes; interactive world mesh construction yields to the loading view after each eight terrain sections. The built-in renderer keeps exact base meshes and uses edge-preserving distant LOD index buffers for v4. The laboratory remains byte-compatible with generator v3 and its existing physics model. [Full design, storage and validation contract](MOUNTAINS.md).
+Archived v1–v3 implementations reconstruct existing mountains and races. Scene reloads preserve graphics/weather, camera-effects selection and physics modifications. Library generation/reconstruction use a worker thread with no Nodes; interactive world mesh construction yields to the loading view after each eight terrain sections. The built-in renderer keeps exact base meshes and uses edge-preserving distant LOD index buffers for v4. The laboratory remains byte-compatible with generator v3 and its existing physics model. [Full design, storage and validation contract](MOUNTAINS.md).
 
 
-### Fixed technical face â€” generator v6
+### Fixed technical face — generator v6
 
 The opt-in Technical Showcase composes the unchanged v4 summit with a bounded
 south-face landform definition. Its final 4 m heightfield and standard obstacles
@@ -233,7 +233,7 @@ example seed is supported, and the default generator remains v4. See
 
 `world/generators/technical_showcase_v7.gd` is an independent versioned generator over the existing 4 m grid. It retains the v6 drainage/stand structure and adds faceted buttress profiles, physical ledges and sheltered snow exposure. v1-v6 implementations are unchanged. This archived release introduced v7 for Technical Showcase; the current v8 selection is described below. Ordinary generation remains v4. Shared races use the versioned mountain reference and fingerprints through the existing decoder.
 
-### Sculpted showcase snow â€” generator v8
+### Sculpted showcase snow — generator v8
 
 The archived v8 showcase uses seed 849205174. The independent v8 generator
 retains v7's landforms and adds the laboratory's physical wind ridges, scallops

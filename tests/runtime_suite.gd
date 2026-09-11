@@ -430,7 +430,7 @@ func _camera_settings_checks() -> void:
 	ui.controls.forest_visibility.value = 35
 	ui.controls.forest_visibility_size.value = 42
 	check(game.camera_settings.shared.forest_visibility==35 and game.camera_settings.shared.forest_visibility_size==42,"Shared foliage sliders remain independent")
-	check(ui.readouts.rest_tilt.text=="-52Â°" and ui.readouts.rest_distance.text=="4.50 m","Typed readouts display tilt and metres")
+	check(ui.readouts.rest_tilt.text=="-52°" and ui.readouts.rest_distance.text=="4.50 m","Typed readouts display tilt and metres")
 	check(game.camera_settings.profile("first_person").rest_fov==55,"Chase edits leave first-person profile untouched")
 	game.set_camera_preset("save","chase","Runtime custom","")
 	check(game.camera_settings.presets.chase.has("Runtime custom"),"Preset save travels through UI owner")
@@ -581,13 +581,13 @@ func _weather_checks() -> void:
 	check(independent,"All weather presentation updates leave simulation state, clock and benchmark eligibility untouched")
 	controller.set_preset("rain")
 	game._process(0.2)
-	check("RAIN" in game.hud.altitude_label.text and "Â°C" not in game.hud.altitude_label.text,"HUD shows actual weather without a fabricated temperature")
+	check("RAIN" in game.hud.altitude_label.text and "°C" not in game.hud.altitude_label.text,"HUD shows actual weather without a fabricated temperature")
 	controller.set_preset("clear")
 	controller.set_automatic(true)
 	controller.update_weather(180.0,true)
 	check(controller.state.label=="Clear" and is_equal_approx(controller.state.cloud_coverage,0.2),"Auto weather holds the preset for three minutes")
 	controller.update_weather(10.0,true)
-	check(controller.state.cloud_coverage>0.2 and controller.state.cloud_coverage<0.78 and "â†’" in controller.state.label,"Auto weather blends lighting and clouds gradually")
+	check(controller.state.cloud_coverage>0.2 and controller.state.cloud_coverage<0.78 and "→" in controller.state.label,"Auto weather blends lighting and clouds gradually")
 	var frozen = [controller.phase_seconds,controller.visual_time,controller.state.cloud_coverage]
 	controller.update_weather(60.0,false)
 	check(frozen==[controller.phase_seconds,controller.visual_time,controller.state.cloud_coverage],"Pause freezes the transition and weather animation clock")

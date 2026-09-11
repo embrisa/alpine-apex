@@ -15,6 +15,8 @@ func configure_comparison() -> void:
 		previous.queue_free()
 		game.camera.make_current()
 func prepare_comparison_trial(_index: int) -> void:
+	game.camera_settings.reset()
+	game.camera.effects_enabled = true
 	if matched:
 		game.camera_settings.apply_preset("chase","Stable")
 		game.camera.effects_enabled = false
@@ -24,4 +26,3 @@ func prepare_comparison_trial(_index: int) -> void:
 		game.camera.settings.chase_pitch_offset = -45.0+rad_to_deg(atan2(2.9,7.0))
 func comparison_metadata() -> Dictionary:
 	return {"camera_comparison":"fixed 60 degree lens, 3.5 m boom and height, -45 degree pitch, 75 percent stabilization; motion off" if matched else "Connected default","baseline_script":camera_baseline_path,"camera_source_sha256":FileAccess.get_sha256(camera_baseline_path if not camera_baseline_path.is_empty() else "res://scripts/presentation/chase_camera.gd")}
-

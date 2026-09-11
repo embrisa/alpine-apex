@@ -119,4 +119,3 @@ func camera_capture(label: String, evidence: String) -> void:
 	camera_frames.back()["settings"] = game.camera_settings.snapshot()
 	camera_frames.back()["preview"] = game.hud.camera_options.preview_active
 	if game.hud.camera_options.preview_active: camera_frames.back()["preview_speed"] = game.hud.camera_options.preview_speed.value
-
