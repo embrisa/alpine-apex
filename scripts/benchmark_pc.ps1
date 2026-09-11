@@ -73,13 +73,21 @@ $alpineStarted = [DateTime]::UtcNow
 function Get-AlpineSourceHashes {
     $alpineHashes = @{}
     foreach ($alpineFolder in @('scripts','config','assets','tests','scenes')) {
-        Get-ChildItem (Join-Path $alpineRoot $alpineFolder) -Recurse -File | Where-Object { $_.Extension -in @('.gd','.gdshader','.gdshaderinc','.tres','.tscn','.json') } | ForEach-Object { $alpineHashes[$_.FullName.Substring($alpineRoot.Length+1)] = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash }
+        Get-ChildItem (Join-Path $alpineRoot $alpineFolder) -Recurse -File | Where-Object { $_.Extension -in @('.gd','.gdshader','.gdshaderinc','.tres','.tscn','.json','.ps1','.cs') } | ForEach-Object { $alpineHashes[$_.FullName.Substring($alpineRoot.Length+1)] = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash }
     }
     $alpineHashes['project.godot'] = (Get-FileHash -LiteralPath (Join-Path $alpineRoot 'project.godot') -Algorithm SHA256).Hash
     $alpineHashes['main.tscn'] = (Get-FileHash -LiteralPath (Join-Path $alpineRoot 'main.tscn') -Algorithm SHA256).Hash
     return $alpineHashes
 }
 $alpineSourcesBefore = Get-AlpineSourceHashes
+$alpineEnvironment = @{
+    os = Get-CimInstance Win32_OperatingSystem | Select-Object Caption,Version,BuildNumber
+    video = @(Get-CimInstance Win32_VideoController | Select-Object Name,DriverVersion,DriverDate,CurrentHorizontalResolution,CurrentVerticalResolution)
+    logical_processors = [Environment]::ProcessorCount
+}
+$alpinePreviousCpu = @{}
+$alpinePreviousTelemetry = [DateTime]::UtcNow
+foreach ($alpineExisting in Get-Process) { $alpinePreviousCpu[$alpineExisting.Id] = $alpineExisting.CPU }
 if (-not ('AlpineValidationOutput' -as [type])) { Add-Type -Path (Join-Path $PSScriptRoot 'validation_output.cs') }
 $alpineStartInfo = [Diagnostics.ProcessStartInfo]::new()
 $alpineStartInfo.FileName = $alpineEngine
@@ -113,14 +121,31 @@ while (-not $alpineProcess.HasExited) {
     }
     $alpineWorker.Refresh()
     $alpineOS = Get-CimInstance Win32_OperatingSystem
-    $alpineGpuRows = @(Get-CimInstance Win32_PerfFormattedData_GPUPerformanceCounters_GPUProcessMemory -ErrorAction SilentlyContinue | Where-Object { $_.Name -like "pid_$($alpineWorker.Id)_*" })
+    $alpineAllGpuRows = @(Get-CimInstance Win32_PerfFormattedData_GPUPerformanceCounters_GPUProcessMemory -ErrorAction SilentlyContinue)
+    $alpineGpuRows = @($alpineAllGpuRows | Where-Object { $_.Name -like "pid_$($alpineWorker.Id)_*" })
     $alpineGpuMemory = $null
     if ($alpineGpuRows.Count -gt 0) {
         $alpineGpuMemory = @{dedicated_bytes=($alpineGpuRows | Measure-Object DedicatedUsage -Sum).Sum; shared_bytes=($alpineGpuRows | Measure-Object SharedUsage -Sum).Sum; source='Windows GPU process memory counters'}
     }
     $alpineWoW = @(Get-Process -Name Wow,WowClassic -ErrorAction SilentlyContinue)
     $alpineOtherEngines = @(Get-Process -Name Godot* -ErrorAction SilentlyContinue | Where-Object { $_.Id -ne $alpineWorker.Id -and $_.Id -ne $alpineProcess.Id -and $_.ProcessName -notlike '*console*' } | Select-Object Id,CPU,WorkingSet64)
-    $alpineSamples.Add(@{utc=[DateTime]::UtcNow.ToString('o'); engine_pid=$alpineWorker.Id; working_set_bytes=$alpineWorker.WorkingSet64; private_bytes=$alpineWorker.PrivateMemorySize64; gpu_memory=$alpineGpuMemory; system_free_bytes=[int64]$alpineOS.FreePhysicalMemory*1024; other_godot_processes=$alpineOtherEngines; wow_running=$alpineWoW.Count -gt 0; wow_working_set_bytes=($alpineWoW | Measure-Object WorkingSet64 -Sum).Sum})
+    # Record observed competing CPU work without closing the user's applications.
+    # CPU percentages are relative to the whole machine, not a single core.
+    $alpineTelemetryNow = [DateTime]::UtcNow
+    $alpineTelemetrySeconds = [Math]::Max(0.001,($alpineTelemetryNow-$alpinePreviousTelemetry).TotalSeconds)
+    $alpineCurrentCpu = @{}
+    $alpineBackground = @(foreach ($alpineExisting in Get-Process) {
+        $alpineCurrentCpu[$alpineExisting.Id] = $alpineExisting.CPU
+        if ($alpineExisting.Id -in @($alpineWorker.Id,$alpineProcess.Id,0)) { continue }
+        $alpineCpuDelta = if ($alpinePreviousCpu.ContainsKey($alpineExisting.Id)) { [Math]::Max(0,$alpineExisting.CPU-$alpinePreviousCpu[$alpineExisting.Id]) } else { 0 }
+        if ($alpineCpuDelta -ge 0.01 -or $alpineExisting.WorkingSet64 -ge 512MB) {
+            @{pid=$alpineExisting.Id; name=$alpineExisting.ProcessName; cpu_machine_percent=100*$alpineCpuDelta/$alpineTelemetrySeconds/[Environment]::ProcessorCount; working_set_bytes=$alpineExisting.WorkingSet64}
+        }
+    })
+    $alpineBackground = @($alpineBackground | Sort-Object { $_.cpu_machine_percent } -Descending | Select-Object -First 20)
+    $alpinePreviousCpu = $alpineCurrentCpu; $alpinePreviousTelemetry = $alpineTelemetryNow
+    $alpineOtherGpu = @($alpineAllGpuRows | Where-Object { $_.Name -notlike "pid_$($alpineWorker.Id)_*" -and ($_.DedicatedUsage -ge 64MB -or $_.SharedUsage -ge 64MB) } | Select-Object Name,DedicatedUsage,SharedUsage)
+    $alpineSamples.Add(@{utc=$alpineTelemetryNow.ToString('o'); engine_pid=$alpineWorker.Id; working_set_bytes=$alpineWorker.WorkingSet64; private_bytes=$alpineWorker.PrivateMemorySize64; gpu_memory=$alpineGpuMemory; system_free_bytes=[int64]$alpineOS.FreePhysicalMemory*1024; other_godot_processes=$alpineOtherEngines; background_processes=$alpineBackground; other_gpu_allocations=$alpineOtherGpu; wow_running=$alpineWoW.Count -gt 0; wow_working_set_bytes=($alpineWoW | Measure-Object WorkingSet64 -Sum).Sum})
 }
 $alpineProcess.WaitForExit()
 } catch {
@@ -138,6 +163,6 @@ $alpineExit = $alpineProcess.ExitCode
 if ($alpineFailure) { $alpineExit=1; Write-Output "BENCHMARK_ERROR $alpineFailure" }
 $alpineSources = Get-AlpineSourceHashes
 $alpineChangedSources = @(@($alpineSources.Keys)+@($alpineSourcesBefore.Keys) | Sort-Object -Unique | Where-Object { $alpineSources[$_] -ne $alpineSourcesBefore[$_] })
-@{started_utc=$alpineStarted.ToString('o'); ended_utc=[DateTime]::UtcNow.ToString('o'); exit_code=$alpineExit; project_root=$alpineRoot; engine_path=$alpineEngine; engine_sha256=(Get-FileHash -LiteralPath $alpineEngine).Hash; cpu=(Get-CimInstance Win32_Processor).Name; installed_ram_bytes=(Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory; background_policy='Existing apps left untouched. WoW is no longer required; actual presence is sampled.'; samples=$alpineSamples; source_sha256_before=$alpineSourcesBefore; source_sha256_after=$alpineSources; changed_sources=$alpineChangedSources} | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $alpineOutput 'system.json')
+@{started_utc=$alpineStarted.ToString('o'); ended_utc=[DateTime]::UtcNow.ToString('o'); exit_code=$alpineExit; project_root=$alpineRoot; engine_path=$alpineEngine; engine_sha256=(Get-FileHash -LiteralPath $alpineEngine).Hash; environment=$alpineEnvironment; cpu=(Get-CimInstance Win32_Processor).Name; installed_ram_bytes=(Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory; background_policy='Existing apps left untouched. Sample other engines, top 20 active/large processes, and other GPU allocations >=64 MiB every two seconds; GPU allocation is not utilization.'; samples=$alpineSamples; source_sha256_before=$alpineSourcesBefore; source_sha256_after=$alpineSources; changed_sources=$alpineChangedSources} | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $alpineOutput 'system.json')
 Write-Output "BENCHMARK_COMPLETE $Label exit=$alpineExit"
 exit $alpineExit

@@ -17,6 +17,8 @@ var draws = PackedFloat64Array()
 var sections: Dictionary = {}
 var peak_video = 0
 var peak_static = 0
+var unfocused_frames = 0
+var forest_coverage: Dictionary = {}
 var rows = []
 var failures = []
 func _initialize() -> void: call_deferred("run")
@@ -36,16 +38,26 @@ func run() -> void:
 	var preflight: String = Trace.preflight_error(decoded,version)
 	if not preflight.is_empty(): printerr(preflight); quit(2); return
 	trace = decoded
+	var physical_started = Time.get_ticks_usec()
 	field = preload("res://tests/validation_mountain.gd").load_standard() if version == 15 else Definition.generate(849205174,version)
 	if field == null: quit(2); return
+	var physical_seconds = (Time.get_ticks_usec()-physical_started)/1000000.0
 	if not Trace.matches(field,trace.identity) or not trace.result.finished or not trace.result.crash.is_empty():
 		printerr("Benchmark rejects stale or unsuccessful input traces"); quit(2); return
 	DirAccess.make_dir_recursive_absolute(output)
 	set_meta("mountain_to_load",{"definition":Definition.from_field(field,"Performance verification"),"field":field})
+	var scene_started = Time.get_ticks_usec()
 	game = load("res://main.tscn").instantiate(); game.automated = true
 	root.add_child(game); current_scene = game
 	while not game.initialized or (game.loading and game.loading.busy): await process_frame
 	game.set_physics_process(false)
+	var loading_report = {"scope":"one startup shared by all repetitions; excludes process launch, trace generation and trial warmups",
+		"physical_load_or_generation_seconds":physical_seconds,"physical_cache_hit":field.cache_hit if "cache_hit" in field else false,
+		"physical_stages_ms":field.generation_stages.duplicate(true) if "generation_stages" in field else {},
+		"scene_ready_seconds":(Time.get_ticks_usec()-scene_started)/1000000.0,
+		"scenery_cache_hit":game.world.preparation.cache_hit if game.world.preparation else false,
+		"scene_build_ms":game.world.build_timings.duplicate(),"job_stages_ms":game.generation_job.snapshot().timings_ms}
+	print("PERFORMANCE_LOADING ",JSON.stringify(loading_report))
 	await configure_comparison()
 	game.benchmark_input = input_at_tick
 	game.benchmark_no_captures = true
@@ -76,7 +88,9 @@ func run() -> void:
 		frames.clear(); gpu.clear(); cpu.clear(); draws.clear(); sections.clear()
 		game.frame_samples.clear(); game.draw_samples.clear(); game.gpu_samples.clear(); game.render_cpu_samples.clear()
 		game.frame_costs.reset(); previous_frame = 0; peak_video = 0; peak_static = 0
+		unfocused_frames = 0; forest_coverage.clear()
 		var start_status = game.display_settings.fsr_status()
+		var started_unix = Time.get_unix_time_from_system()
 		var started = Time.get_ticks_usec()
 		game.active = true; game.set_physics_process(true); recording = true
 		var last_progress = -1
@@ -88,6 +102,7 @@ func run() -> void:
 				print("PERFORMANCE_PROGRESS run=",repetition+1," tick=",game.sim.ticks," kmh=",snappedf(game.sim.speed_kmh(),.1))
 		recording = false; game.set_physics_process(false)
 		var elapsed = (Time.get_ticks_usec()-started)/1000000.0
+		var ended_unix = Time.get_unix_time_from_system()
 		var expected = Vector3(trace.result.position[0],trace.result.position[1],trace.result.position[2])
 		var exact = game.sim.position==expected and game.sim.ticks==trace.result.ticks
 		if not game.session.finished or game.sim.crashed or not exact: failures.append("Run %d did not reproduce the successful trace" % (repetition+1))
@@ -98,9 +113,11 @@ func run() -> void:
 		# median FPS, tails and later analyses never have to infer raw frames.
 		FileAccess.open(output+"/frame_samples_%d.json" % (repetition+1),FileAccess.WRITE).store_string(JSON.stringify({"frame_ms":frames,"gpu_ms":gpu,"render_cpu_ms":cpu,"draw_calls":draws,"sections":sections}))
 		var row = {"run":repetition+1,"finished":game.session.finished,"crash":game.sim.crash_reason,"exact_trace":exact,"ticks":game.sim.ticks,"wall_seconds":elapsed,"frame_ms":frame_stats(frames),"gpu_ms":Costs.stats(gpu),"render_cpu_ms":Costs.stats(cpu),"draw_calls":Costs.stats(draws),"cpu_scopes_us":game.frame_costs.report(),"sections":section_report,"peak_video_bytes":peak_video,"peak_engine_static_bytes":peak_static,"snow":game.effects.snow_budget(),"forest":game.world.scenery.density_forest.report(),"fsr_begin":start_status,"fsr_end":end_status}
+		row.merge({"started_unix_seconds":started_unix,"ended_unix_seconds":ended_unix,"unfocused_frames":unfocused_frames,"forest_coverage":forest_coverage.duplicate(true)})
 		row.merge(comparison_metadata())
 		rows.append(row)
 		var report = {"scope":"complete_production_descent","trace_sha256":FileAccess.get_sha256(path),"identity":Trace.identity(field),"actual_pixels":[pixels.x,pixels.y],"display":game.display_settings.report(root,pixels),"sdfgi":game.world.environment.sdfgi_enabled,"camera":game.camera_settings.snapshot(),"weather":weather,"device":RenderingServer.get_video_adapter_name(),"engine":Engine.get_version_info(),"capture_overhead_included":false,"warmup_frames":240,"unranked":not game.session.eligible,"rows":rows,"failures":failures}
+		report.merge({"loading":loading_report,"graphics_profile":game.graphics.snapshot(),"graphics_preset":game.graphics.preset_id,"renderer":RenderingServer.get_current_rendering_method(),"rendering_driver":RenderingServer.get_current_rendering_driver_name()})
 		FileAccess.open(output+"/production.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
 		print("PERFORMANCE_RESULT run=",repetition+1," ",JSON.stringify(row.frame_ms)," exact=",exact)
 		if not failures.is_empty(): break
@@ -131,6 +148,13 @@ func measure() -> void:
 		var section = "open" if radius<700 else ("powder" if radius<1300 else ("minerals" if radius<1900 else "forest"))
 		if not sections.has(section): sections[section] = PackedFloat64Array()
 		sections[section].append(ms)
+		if not game.application_focused: unfocused_frames += 1
+		var forest = game.world.scenery.density_forest
+		if not forest_coverage.has(section): forest_coverage[section] = {"frames_with_resident_regions":0,"max_resident_regions":0,"max_pending_regions":0}
+		var coverage: Dictionary = forest_coverage[section]
+		if not forest.resident.is_empty(): coverage.frames_with_resident_regions += 1
+		coverage.max_resident_regions = maxi(coverage.max_resident_regions,forest.resident.size())
+		coverage.max_pending_regions = maxi(coverage.max_pending_regions,forest.pending.size())
 		var rid = root.get_viewport_rid()
 		gpu.append(RenderingServer.viewport_get_measured_render_time_gpu(rid))
 		cpu.append(RenderingServer.viewport_get_measured_render_time_cpu(rid))
