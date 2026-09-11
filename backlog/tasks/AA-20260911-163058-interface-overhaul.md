@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-163058-interface-overhaul"
 title: "Overhaul the interface, controller menus, graphics settings and customizable HUD"
-status: in_progress
+status: done
 priority: P2
 depends_on: []
 created: "2026-09-11T16:30:58Z"
-updated: "2026-09-11T16:46:25Z"
+updated: "2026-09-11T18:48:40Z"
 source_thread: "01a0914b-c7d5-7ad1-bc28-5d0cd55be42d"
 ---
 
@@ -321,23 +321,23 @@ simulation time. UI/HUD must continue rendering at output resolution.
 
 ### Functional and automated
 
-- [ ] All scoped retained screens and dialogs use the common responsive hierarchy;
+- [x] All scoped retained screens and dialogs use the common responsive hierarchy;
   easy choices appear first and related advanced controls expand/collapse safely.
-- [ ] Controller events complete title -> settings -> advanced control -> Back ->
+- [x] Controller events complete title -> settings -> advanced control -> Back ->
   Drop In -> pause -> HUD edit -> resume -> restart/results/library flows. Cover
   dropdowns, scrolling, long lists, disabled/hidden controls, dialog/text entry,
   device changes, disconnect/reconnect, held sticks, focus loss and rapid navigation.
   Assert no gameplay action or survey movement leaks through menu interaction.
-- [ ] All ten presets have validated distinct effective configurations; every
+- [x] All ten presets have validated distinct effective configurations; every
   exposed graphics setting changes its actual consumer. Same-preset overrides
   update correctly. Custom/reset, capability gating, invalid input, save/load,
   output-change timeout/revert and domain independence are exercised.
-- [ ] Every registered HUD widget can be moved/scaled/faded/hidden/restored using
+- [x] Every registered HUD widget can be moved/scaled/faded/hidden/restored using
   controller and mouse; bounds, aspect-ratio changes, cancel/reset, contextual
   visibility and the temporary global toggle survive menu/reload/launch lifecycle.
-- [ ] Preserve the editor pre-work: no obsolete entry points/dependencies return;
+- [x] Preserve the editor pre-work: no obsolete entry points/dependencies return;
   useful production animation and diagnostic fixtures still work.
-- [ ] Run applicable existing suites and meaningful new behavior tests under
+- [x] Run applicable existing suites and meaningful new behavior tests under
   `scripts/run_guarded.ps1`, waiting for `artifacts/validation.lock` rather than
   terminating another workload. Required input/session regressions:
   `./godotw --headless --script tests/physics_suite.gd` and
@@ -350,39 +350,39 @@ simulation time. UI/HUD must continue rendering at output resolution.
 
 ### Rendered and listening evidence
 
-- [ ] Inspect native rendered screenshots at 1280x720, 1440x900, 1920x1080,
+- [x] Inspect native rendered screenshots at 1280x720, 1440x900, 1920x1080,
   3840x2160 and an ultrawide viewport: main/pause/results, settings basic/expanded,
   long lists/popups, display recovery, previews, loading and HUD editing/riding.
   Check clipping, spacing, focus visibility, contrast, safe areas and actual pixel
   sizes, including increased UI scale. Large screens must show a usefully larger
   workspace rather than the old fixed panel surrounded by unused space.
-- [ ] Inspect chronological interaction captures/video for focused controller
+- [x] Inspect chronological interaction captures/video for focused controller
   navigation, animated transitions, HUD editing, live settings, reduced motion
   and a short unranked descent. Validate native custom-DX12 display/FSR transitions,
   including frame generation on/off and the HUD at output resolution. Headless
   passes cannot establish this evidence.
-- [ ] Audition or capture actual navigation/confirm/back/adjust/error/success cues
+- [x] Audition or capture actual navigation/confirm/back/adjust/error/success cues
   and loading ambience, including fast repeated input, mute and volume changes.
   State explicitly if real output-device listening remains unperformed. Loading
   facts have source provenance and input tips match current production bindings.
 
 ### Performance and delivery
 
-- [ ] Compare matched before/after menu, settings-scroll/transition and riding-HUD
+- [x] Compare matched before/after menu, settings-scroll/transition and riding-HUD
   workloads on Ryzen 5 5600X / RX 9070 / 16 GB at 3840x2160. Record source/engine,
   current cache/recipe/seed, output/internal pixels, upscaler and actual settings,
   frame cap, frame-generation state, CPU/GPU times, p95/p99 and memory. Measure
   steady frames separately from screenshot overhead and costly setting application.
   Investigate material matched-setting regressions; do not hide them by lowering
   quality or counting generated frames as rendered FPS.
-- [ ] Measure all ten presets on a repeatable native workload; compare sustained
+- [x] Measure all ten presets on a repeatable native workload; compare sustained
   moving-route cases at least at 1, 7 and 10. Target 90-120 rendered FPS for the
   recommended configuration, p95 <= 11.1 ms and p99 <= 16.7 ms as specified by
   current graphics policy; report misses honestly. Ultra may miss that target
   by agreement, but must remain bounded, stable and explicitly measured. Use
   current validated v15 Standard cache generation for routine mountain checks;
   distinguish loading/rebuild cost from rendering cost.
-- [ ] Deliver the settings/preset/HUD inventory and updated subsystem docs,
+- [x] Deliver the settings/preset/HUD inventory and updated subsystem docs,
   verification evidence and a short user playtest checklist. Preserve the updated
   production-animation guidance and the completed editor removal.
   Run `./scripts/backlog.ps1 validate`, commit and push coherent validated
@@ -401,12 +401,67 @@ None.
 
 ## Completion record
 
-UI overhaul pending implementation. Record final behavior, effective preset/settings
-coverage, actual automated/rendered/performance/listening evidence,
-remaining user acceptance, maintained documentation and commit/push references.
-If blocked, record the specific blocker and unfinished work. Any independent
-follow-up idea belongs in `backlog/ideas/` for user selection, not an automatic
-expansion of this task. No implementation worker was launched during authoring.
+Implemented and pushed on `main`. Milestones: `264689a` (ten presets and
+separate recoverable display settings), `6f5ef8d` (responsive interface,
+controller navigation, HUD editor, retained screens and feedback), `8024088`
+(bounded nested-dialog registration and all-widget mouse coverage), and
+`9abd939` (final rail visibility, native validation tools and maintained evidence).
+
+All eight settings domains use the shared responsive hierarchy, with basic
+choices first, collapsible advanced groups, persistent page state and fixed
+Back/primary actions. Controller navigation, child dialogs and text entry own
+menu inputs; the selected category remains visible in a scrolled rail. Twelve
+coherent HUD widgets support position, scale, opacity, visibility, mouse/controller
+editing, reset, Apply/Cancel, context and the temporary global toggle. Display
+has exact native recovery and a real 15-second timeout. Graphics presets 1–10
+have distinct bounded consumers and Custom/group-reset behavior; frame generation
+remains explicit. Feedback includes six cues and reduced motion; loading retains
+honest progress/cancellation and seven source-documented game tips. Production
+animation, the removed editor boundary, 120 Hz simulation, authoritative terrain,
+race rules and replay/model identities are preserved.
+
+Verification: physics 56/56, runtime 192/192, retained screens 248/248, settings
+114/114, graphics overrides 64/64, HUD/mouse 84/84, final native controller/rail
+26/26, feedback/content 111/111, library 62/62, existing native interface 122/122,
+native PC graphics 16/16, native graphics 29/29 and FidelityFX settings 18/18.
+Controller input, rider lifecycle (51), camera profiles, camera and menu-camera
+(20) also pass. Six real staged-loading cancellation points release partial
+resources in 27.6–506.0 ms. Final editor import and backlog validation pass.
+
+Native evidence: 125-check matrix / 111 captures at all five requested output
+sizes, including 1.4 UI-scale request at 720p; 14 camera-preview captures;
+real display Keep/Revert/timeout and FG off/on/off; 26 chronological controller
+interaction frames with no simulation advance; full/reduced-motion unranked
+movement captures. Actual 48 kHz mixer capture covers all six cues, rapid input,
+volume/mute and loading ambience. Physical output-device listening has not been
+performed. Images were inspected for layout, contrast, focus and authoring/HUD
+interference; this is not a user visual-quality or controller-feel approval.
+
+Performance: the full native run completed 48 result rows, followed by 11 final
+paired rows. All ten presets have fixed summit/forest samples; 1/7/10 also have
+at least 30 seconds of real solver-driven movement with matching same-tick state.
+Maximum 6,144-history-plus-two-live GPU buffer/texture readbacks are bounded,
+finite and byte-stable. Full source/engine/device/cache/recipe identities,
+actual settings, rendered/GPU/CPU times, p95/p99 and memory are retained.
+
+**Performance acceptance remains open:** preset 7 averages 112.79 rendered FPS
+on the moving summit route (p95 12.400 ms) and 88.42 FPS in the moving snowy
+forest (p95 15.462 / p99 26.549 ms). These miss the sustained tail targets, and
+the forest also misses 90 FPS. Ultra misses allowed targets as documented.
+Stationary paired layouts show no material regression; isolated configurable-HUD
+updates add about .048 ms. The moving layout pair is 3.8% slower in mean frame
+time with improved tails, without establishing a causal UI regression. No
+quality reduction or generated-frame counting conceals those results.
+
+Maintained delivery: [interface/settings/HUD inventory and review checklist](../../docs/INTERFACE_OVERHAUL.md),
+[graphics preset contract](../../docs/GRAPHICS_PRESETS.md),
+[measured performance and protocol](../../docs/INTERFACE_PERFORMANCE.md),
+[structured evidence](../../docs/INTERFACE_PERFORMANCE_RESULTS.json), and
+[loading provenance](../../docs/LOADING_CONTENT.md). Raw captures/timings are
+under `artifacts/interface_overhaul/` and named guarded runs. The task is complete
+under its implementation/evidence criterion; spaciousness, real-controller
+comfort, listening quality and full-descent acceptance remain for the user and
+the existing acceptance tasks. Their status has not been changed by this work.
 
 Editor-removal pre-work completed and pushed to `origin/main` as `abc6254` on
 2026-09-11. Removed 31 editor-only files, menu/lifecycle hooks and active references.
