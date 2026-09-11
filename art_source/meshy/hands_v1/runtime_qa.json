@@ -1,0 +1,67 @@
+{
+  "non_glove_bytes_unchanged": true,
+  "nodes_and_bind_transforms_unchanged": true,
+  "non_glove_materials_unchanged": true,
+  "bones": 24,
+  "paired_glove_triangles": 5644,
+  "original_buffer_sha256": "dc87c5d4a8bb604d8c1eef66ef6b7a38654dec84f53c5e2a6fcdfece9e2166b4",
+  "base_glb_sha256": "0dd91818b6be7eae4126755cba8f8e259622814d8c6dc54867efd3657d78a4df",
+  "output_glb_sha256": "176cc9b1570191b4a4c9d22c2b73ac51446cd18dd1b991fc9770867a109bae39",
+  "source_triangles": 3082092,
+  "template_bounds_m": [
+    [
+      -0.024004751816391945,
+      -0.03863828629255295,
+      -0.035004567354917526
+    ],
+    [
+      0.12653851509094238,
+      0.051882192492485046,
+      0.054253045469522476
+    ]
+  ],
+  "template_topology": {
+    "boundary_edges": 0,
+    "nonmanifold_edges": 0,
+    "components_removed": 0
+  },
+  "fit": {
+    "outward": [
+      -0.9659258262890683,
+      0,
+      -0.25881904510252074
+    ],
+    "thumb_direction": [
+      -0.25881904510252074,
+      0,
+      0.9659258262890683
+    ],
+    "grip_source": [
+      -0.22,
+      -0.385,
+      -0.05
+    ],
+    "scale": [
+      0.08,
+      0.07,
+      0.055
+    ],
+    "grip_across_offset": 0.025
+  },
+  "roundtrip_verified": true,
+  "skin_weights_verified": true,
+  "texture_sizes": [
+    [
+      2048,
+      2048
+    ],
+    [
+      2048,
+      2048
+    ],
+    [
+      2048,
+      2048
+    ]
+  ]
+}

@@ -1,6 +1,6 @@
 extends RefCounted
 const Definition = preload("res://scripts/world/mountain_definition.gd")
-var directory: String = "user://mountains_v1"
+var directory: String = "user://mountains_v2"
 var warning: String = ""
 
 func save(mountain) -> String:

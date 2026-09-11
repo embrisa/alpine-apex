@@ -28,9 +28,11 @@ func fixture(field, seed_value: int):
 	race.mountain = Race.mountain_reference(field,seed_value)
 	race.start = point(field,0,25)
 	race.finish = point(field,0,240)
+	race.finish_heading=Race.Flavor.downhill_heading(field,race.finish)
 	return race
 
 func run() -> void:
+	set_meta("test_lab_fixture",true) # Explicit laboratory regression fixture.
 	test_dir = "user://race_test_%d" % OS.get_process_id()
 	var benchmark_before = FileAccess.get_file_as_string("user://benchmark_v1.json") if FileAccess.file_exists("user://benchmark_v1.json") else ""
 	var field = Race.Terrain.new()
@@ -49,9 +51,9 @@ func run() -> void:
 	game.workshop.store.directory = test_dir.path_join("library")
 	var workshop = game.workshop
 	workshop.open_library()
-	check(not game.active and workshop.panel.visible and workshop.survey.current,"Race library pauses skiing and enters the world survey")
+	check(not game.active and workshop.panel.visible,"Race library pauses skiing and opens the library")
 	workshop.begin_creation()
-	check(workshop.mode=="create" and workshop.save_button.disabled,"Create mode requires endpoints and a name")
+	check(workshop.mode=="create" and workshop.save_button.disabled and workshop.survey.current,"Create mode requires endpoints and a name")
 	var original_position: Vector3 = game.sim.position
 	var original_elapsed: float = game.session.elapsed
 	workshop.focus_point = point(field,0,150)
@@ -109,8 +111,11 @@ func run() -> void:
 	for i in range(6000):
 		game.intent = RiderInput.new()
 		game.intent.tuck = 1.0
+		# Test-driver steering targets the authored endpoint through normal input.
+		var target: Vector3=saved.finish-game.sim.position
+		game.intent.steer=clampf(wrapf(game.sim.heading-atan2(target.x,target.z),-PI,PI)*3,-.25,.25)
 		var before: Vector3 = game.sim.position
-		game.sim.step(1.0/120.0,game.intent,game.field)
+		game.sim.step(1.0/120.0,game.intent,game.world.ski_surface)
 		if game.sim.crashed: break
 		if game.session.step(1.0/120.0,before,game.sim.position): break
 	check(game.session.finished and not game.sim.crashed,"An authored open-route race can be completed with the real ski solver")
@@ -206,30 +211,31 @@ func _timing_checks(race) -> void:
 	session.eligible = false
 	var finish: Vector3 = race.finish
 	var timing_start = Time.get_ticks_usec()
-	for i in range(10000): session.finish_fraction(finish+Vector3.LEFT*20,finish+Vector3.RIGHT*20)
+	for i in range(10000): session.finish_fraction(finish+Vector3.FORWARD*20,finish+Vector3.BACK*20)
 	metrics.finish_query_mean_us = float(Time.get_ticks_usec()-timing_start)/10000.0
-	for direction in [Vector3.LEFT,Vector3.RIGHT,Vector3.FORWARD,Vector3.BACK,Vector3(1,0,1).normalized()]:
+	for direction in [Vector3.FORWARD,Vector3.BACK,Vector3(1,0,1).normalized()]:
 		session.reset()
 		session.eligible = false
-		check(session.step(1.0,finish-direction*20,finish+direction*20) and absf(session.elapsed-0.2)<0.00001,"Swept finish accepts arrival from "+str(direction))
+		check(session.step(1.0,finish-direction*20,finish+direction*20) and absf(session.elapsed-0.5)<0.00001,"Swept gate accepts arrival from "+str(direction))
 	session.reset()
 	session.eligible = false
-	check(not session.step(1.0,finish+Vector3(-30,0,13),finish+Vector3(30,0,13)),"Passing outside the finish radius does not complete the race")
-	check(not session.step(1.0,finish+Vector3(-30,17,0),finish+Vector3(30,17,0)),"Flying above the finite finish volume does not complete the race")
+	check(not session.step(1.0,finish+Vector3(6,0,-30),finish+Vector3(6,0,30)),"Passing beside the gate does not complete the race")
+	check(not session.step(1.0,finish+Vector3(0,8,-30),finish+Vector3(0,8,30)),"Flying above the gate does not complete the race")
 	session.reset()
 	session.eligible = false
-	check(session.step(1.0,finish+Vector3.UP*20,finish+Vector3.DOWN*20) and absf(session.elapsed-0.1)<0.00001,"Vertical entry respects the finish height and sub-tick timing")
-	check(not session.step(1.0,finish,finish) and absf(session.elapsed-0.1)<0.00001,"Finished race cannot record or advance twice")
+	check(not session.step(1.0,finish+Vector3.UP*20,finish+Vector3.DOWN*20),"Falling along the gate plane cannot finish")
+	check(session.step(1.0,finish+Vector3.FORWARD*20,finish+Vector3.BACK*20),"Passage through the opening finishes")
+	check(not session.step(1.0,finish,finish),"Finished race cannot record or advance twice")
 	session.reset()
-	session.step(1.0,finish+Vector3.LEFT*20,finish+Vector3.RIGHT*20)
+	session.step(1.0,finish+Vector3.FORWARD*20,finish+Vector3.BACK*20)
 	var fresh = Session.new()
 	fresh.record_directory = session.record_directory
 	fresh.configure(race)
-	check(absf(fresh.personal_best-0.2)<0.00001 and fresh.history.size()==1,"Custom race records persist in their isolated course file")
+	check(absf(fresh.personal_best-0.5)<0.00001 and fresh.history.size()==1,"Custom race records persist in their isolated course file")
 	fresh.reset()
 	fresh.eligible = false
-	fresh.step(0.1,finish+Vector3.LEFT*20,finish+Vector3.RIGHT*20)
-	check(absf(fresh.personal_best-0.2)<0.00001 and fresh.history.size()==1,"Unranked faster runs leave the saved custom best unchanged")
+	fresh.step(0.1,finish+Vector3.FORWARD*20,finish+Vector3.BACK*20)
+	check(absf(fresh.personal_best-0.5)<0.00001 and fresh.history.size()==1,"Unranked faster runs leave the saved custom best unchanged")
 
 func _cleanup(path: String) -> void:
 	for child in DirAccess.get_directories_at(path): _cleanup(path.path_join(child))

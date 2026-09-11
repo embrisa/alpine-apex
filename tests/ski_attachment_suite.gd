@@ -22,7 +22,7 @@ func foot_gap():
  for i in range(2):
   var id = "RightFoot" if i==0 else "LeftFoot"
   var foot = skier.skeleton.global_transform*skier.skeleton.get_bone_global_pose(skier.bone_ids[id])
-  var ankle = skier.skis[i].global_transform*Vector3(0,.095+skier._origin(id).y,-.15)
+  var ankle = skier.skis[i].get_child(1).global_transform*Vector3(0,skier._origin(id).y,0)
   gap = maxf(gap,foot.origin.distance_to(ankle))
  return gap
 func rendered():

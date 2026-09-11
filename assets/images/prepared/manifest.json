@@ -1,0 +1,62 @@
+{
+  "pipeline": "Byte-preserving JPEG packaging; AlpinePhoto shader grades and composes at native UI resolution",
+  "logo_source": "assets/images/branding/alpine_apex_ice.svg",
+  "logo_master_source": "assets/images/branding/alpine_apex.svg",
+  "logo_sha256": "8f40f94bad4dfec85651446758d245a0cf8ba813540894227c0d79c111f2148d",
+  "assets": [
+    {
+      "source": "assets/images/loading screens/p1.jfif",
+      "runtime": "assets/images/prepared/p1.jpg",
+      "sha256": "6a691faa5325e9ca736dd08a29127ce2aa0af366638a8dc30d26bb83697293e4",
+      "bytes": 984033
+    },
+    {
+      "source": "assets/images/loading screens/p2.jfif",
+      "runtime": "assets/images/prepared/p2.jpg",
+      "sha256": "7ee1880c9115c322f75214b98343eccd99911fe49a426fb23cfd9eefe92927a8",
+      "bytes": 325481
+    },
+    {
+      "source": "assets/images/loading screens/p3.jfif",
+      "runtime": "assets/images/prepared/p3.jpg",
+      "sha256": "f2b681a11481fcacc7376952f63f9285ec5956cfb074d89bc0c4cb362c5032bb",
+      "bytes": 534397
+    },
+    {
+      "source": "assets/images/loading screens/p4.jpg",
+      "runtime": "assets/images/prepared/p4.jpg",
+      "sha256": "ec1501045eb8b78903e6a511601219759a62364e56e01907ad322e76d1ace498",
+      "bytes": 1641406
+    },
+    {
+      "source": "assets/images/loading screens/p5.jpg",
+      "runtime": "assets/images/prepared/p5.jpg",
+      "sha256": "89e8f7025e799c1c8b99685e0e13ea4633ab512bfee11bdef89b83aeca6e2018",
+      "bytes": 1454974
+    },
+    {
+      "source": "assets/images/loading screens/p6.jpg",
+      "runtime": "assets/images/prepared/p6.jpg",
+      "sha256": "bf3ea45e21caf70a97e2298b033134603bfc119d55b558dfd8be9411056570c4",
+      "bytes": 597192
+    },
+    {
+      "source": "assets/images/loading screens/p7.jpg",
+      "runtime": "assets/images/prepared/p7.jpg",
+      "sha256": "d1e63effe24bed9ad45f38e01ae38cad66ae8ae45d9412e8b56d8bc4d9830831",
+      "bytes": 751065
+    },
+    {
+      "source": "assets/images/loading screens/p8.jpg",
+      "runtime": "assets/images/prepared/p8.jpg",
+      "sha256": "fd880e90c21b390ff226e0b61deb8290b1ee80aa2bfc182ac1e4b421784e3a91",
+      "bytes": 766267
+    },
+    {
+      "source": "assets/images/loading screens/p9.jpg",
+      "runtime": "assets/images/prepared/p9.jpg",
+      "sha256": "d826764f12410efc9b35cc1c30b8a99dec5bc755cdce8e93bb2052c3e32931d4",
+      "bytes": 1065369
+    }
+  ]
+}

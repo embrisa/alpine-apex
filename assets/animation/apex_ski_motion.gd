@@ -1,0 +1,90 @@
+extends RefCounted
+## Original Apex profiles. Edit art_source/animation/apex_ski_v17/motion_profiles.json.
+## Rebuild: python scripts/art/build_ski_motion.py
+const SOURCE_SHA256 = "133d257a5c97760ff27337a41748444a74b00f6cdf9bbbd2671bced618f731d1"
+const PROFILES = {
+	"neutral": {
+		"hip_drop_m": 0.006,
+		"chest_pitch_rad": 0.015,
+		"hand_height_m": 0.008
+	},
+	"tuck": {
+		"hip_drop_m": 0.065,
+		"pelvis_pitch_rad": 0.46,
+		"hand_width_m": 0.065
+	},
+	"carve_left": {
+		"pelvis_yaw_rad": -0.045,
+		"chest_yaw_rad": 0.2,
+		"hand_forward_m": 0.045,
+		"hand_height_m": -0.035
+	},
+	"carve_right": {
+		"pelvis_yaw_rad": 0.045,
+		"chest_yaw_rad": -0.2,
+		"hand_forward_m": -0.045,
+		"hand_height_m": 0.035
+	},
+	"edge_transfer": {
+		"hip_drop_m": 0.02,
+		"chest_pitch_rad": 0.065,
+		"hand_width_m": 0.025
+	},
+	"skid": {
+		"chest_yaw_rad": -0.13,
+		"hand_width_m": 0.07,
+		"chest_pitch_rad": 0.035
+	},
+	"prepare": {
+		"seconds": 0.2,
+		"hip_drop_m": 0.16,
+		"chest_pitch_rad": 0.5585053606381855
+	},
+	"powered_takeoff": {
+		"seconds": 0.22,
+		"hip_extension_m": 0.1,
+		"chest_pitch_rad": -0.12
+	},
+	"natural_departure": {
+		"power": 0.2,
+		"gather_delay_s": 0.08
+	},
+	"compact_flight": {
+		"hip_drop_m": 0.075,
+		"chest_pitch_rad": 0.12,
+		"hand_width_m": 0.06
+	},
+	"landing_open": {
+		"lookahead_s": 0.4,
+		"hip_extension_m": 0.045,
+		"chest_pitch_rad": -0.1,
+		"hand_forward_m": 0.065
+	},
+	"landing_small": {
+		"seconds": 0.25,
+		"hip_drop_m": 0.045
+	},
+	"landing_medium": {
+		"seconds": 0.5,
+		"hip_drop_m": 0.115
+	},
+	"landing_large": {
+		"seconds": 0.85,
+		"hip_drop_m": 0.2
+	},
+	"recovery": {
+		"chest_pitch_rad": 0.055,
+		"hand_width_m": 0.035,
+		"hand_height_m": -0.025
+	},
+	"safety_grab": {
+		"blend_in_s": 0.2,
+		"blend_out_s": 0.18,
+		"hip_drop_m": 0.22,
+		"chest_yaw_rad": -0.13,
+		"chest_pitch_rad": 0.6,
+		"hand_boot_x_m": -0.07,
+		"hand_boot_y_m": -0.015,
+		"hand_boot_z_m": 0.2
+	}
+}

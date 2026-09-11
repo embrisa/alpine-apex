@@ -1,0 +1,215 @@
+{
+  "revision": "cascadeur-20260910-r5",
+  "status": "correction_rendered_user_acceptance_pending",
+  "scope": "Isolated authored source through present_authored and the existing final writer; no simulation or gameplay fitting",
+  "prior_user_feedback": "../cascadeur-20260910-r4/user_feedback.json",
+  "source_cause": "R4 left torso orientation helpers, clavicle motion and elbow/forearm controls unresolved. Near-180-degree torso/neck twist collapsed the shoulders despite stable lengths.",
+  "change": "Rest-calibrated torso frames and explicit clavicle, shoulder, elbow-plane and forearm helper targets; 31 controls solved through Cascadeur on all 61 frames. Original skin and rigid equipment retained.",
+  "observations": [
+    "All 61 front-view samples retain connected, full shoulder silhouettes without the R4 clavicle collapse.",
+    "The large abrupt upper-body and elbow changes from R4 are absent in the chronological images and source rotation audit.",
+    "Selected oblique, overhead and side details retain connected elbow, wrist and glove chains.",
+    "The clip remains stiff and symmetric; body and arms read as a controlled blockout with little natural balance response."
+  ],
+  "worst_remaining_issue": "Stiff symmetric absorption and recovery, especially the recovery arm carry; motion quality is not accepted.",
+  "coverage": {
+    "rendered_frames": 61,
+    "views": [
+      "oblique",
+      "front",
+      "side"
+    ],
+    "all_front_frames_inspected": true,
+    "full_triptychs_inspected": [
+      0,
+      30,
+      44,
+      60
+    ],
+    "detail_frames_rendered": [
+      0,
+      12,
+      24,
+      30,
+      44,
+      60
+    ],
+    "detail_frames_inspected": [
+      0,
+      30,
+      44
+    ],
+    "camera_transforms_match_r4": true,
+    "continuous_human_video_review_claimed": false,
+    "browser_controls": {
+      "normal_and_half_speed": "Verified rate labels and advancing frames using the live browser accessibility state and screenshots",
+      "recovery_seek": "Frame 60 at 2.000 seconds, both rendered videos visible",
+      "front_and_three_view_toggle": "Verified by browser screenshots",
+      "video_dom_metrics": "Read-only DOM queries timed out; no readyState or exact playback-rate measurement claimed"
+    },
+    "clothing_audit": {
+      "frames": 61,
+      "handle_exclusion_m": 0.1,
+      "include_flight": false,
+      "intersections": [],
+      "passed": true,
+      "scenarios": [
+        "cascadeur_grounded"
+      ],
+      "selected_only": false,
+      "shaft_radius_m": 0.006
+    },
+    "independent_reviewer": null
+  },
+  "rotation_diagnostics": {
+    "scope": "All 61 exported samples. Pose and rotation diagnostics, not artistic acceptance.",
+    "revisions": {
+      "r4": {
+        "bones": {
+          "Spine01": {
+            "max_step_deg": 6.969792248134547,
+            "max_step_frame": 8,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 62.232761046573444
+          },
+          "Spine": {
+            "max_step_deg": 19.698202496044374,
+            "max_step_frame": 8,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 175.57431625843347
+          },
+          "neck": {
+            "max_step_deg": 28.260603407793884,
+            "max_step_frame": 18,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 178.75062318167505
+          },
+          "LeftShoulder": {
+            "max_step_deg": 9.308945293412428,
+            "max_step_frame": 20,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 93.30080503012286
+          },
+          "RightShoulder": {
+            "max_step_deg": 9.542453252032493,
+            "max_step_frame": 20,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 94.57671953172226
+          },
+          "LeftArm": {
+            "max_step_deg": 6.975678839410028,
+            "max_step_frame": 16,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 62.24267136424148
+          },
+          "RightArm": {
+            "max_step_deg": 6.850244182611941,
+            "max_step_frame": 18,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 61.09178447990981
+          },
+          "LeftForeArm": {
+            "max_step_deg": 6.567020210485955,
+            "max_step_frame": 16,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 96.65538317243022
+          },
+          "RightForeArm": {
+            "max_step_deg": 6.328634495685977,
+            "max_step_frame": 16,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 98.53258940026325
+          }
+        },
+        "shoulder_joint_width_m": {
+          "min": 0.03366313488592215,
+          "max": 0.22609422254770462
+        },
+        "max_source_to_final_basis_coefficient_error": 2.3504546360343175e-06
+      },
+      "r5": {
+        "bones": {
+          "Spine01": {
+            "max_step_deg": 0.3879308172219407,
+            "max_step_frame": 26,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 0.013953400065907574
+          },
+          "Spine": {
+            "max_step_deg": 0.3875226276804449,
+            "max_step_frame": 26,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 0.050480844373159875
+          },
+          "neck": {
+            "max_step_deg": 0.39117206200848526,
+            "max_step_frame": 27,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 0.1932964759049826
+          },
+          "LeftShoulder": {
+            "max_step_deg": 0.38841043465821856,
+            "max_step_frame": 26,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 4.034091799367276
+          },
+          "RightShoulder": {
+            "max_step_deg": 0.38814433304737633,
+            "max_step_frame": 26,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 3.599475051297051
+          },
+          "LeftArm": {
+            "max_step_deg": 1.2596228274114682,
+            "max_step_frame": 42,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 56.092503290818364
+          },
+          "RightArm": {
+            "max_step_deg": 1.31548802507294,
+            "max_step_frame": 43,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 54.94859863955644
+          },
+          "LeftForeArm": {
+            "max_step_deg": 1.1944527417388369,
+            "max_step_frame": 3,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 92.62302103224606
+          },
+          "RightForeArm": {
+            "max_step_deg": 1.7251979493048801,
+            "max_step_frame": 45,
+            "max_lateral_axis_deviation_from_forward_torso_deg": 93.80113660239442
+          }
+        },
+        "shoulder_joint_width_m": {
+          "min": 0.35296126422221125,
+          "max": 0.35324293302147036
+        },
+        "max_source_to_final_basis_coefficient_error": 2.3880390275048486e-06
+      }
+    }
+  },
+  "pose_transfer": {
+    "animation": "Animation",
+    "bones": 24,
+    "engine": {
+      "build": "custom_build",
+      "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+      "hex": 263938,
+      "major": 4,
+      "minor": 7,
+      "patch": 2,
+      "status": "stable",
+      "string": "4.7.2-stable (custom_build)",
+      "timestamp": 1786929518
+    },
+    "engine_path": "C:/Users/hp/Downloads/alpine-apex/.tools/godot-fsr/bin/godot.windows.template_debug.x86_64.exe",
+    "engine_sha256": "a18ddc9f3ee8fa1915a47d54c3e0d05ec4b10f8ee9deb15d7206b4e23d29bcc9",
+    "frames": 61,
+    "max_import_basis_axis_error": 9.73748456090107e-07,
+    "max_import_position_error_m": 9.67959113040706e-06,
+    "max_source_scale_vector_error": 3.03129327221541e-05,
+    "max_writer_basis_axis_error": 3.58185843651881e-06,
+    "max_writer_position_error_m": 2.21551749746141e-06,
+    "scope": "Isolated authored preview using present_authored and the shared final writer. No simulation or gameplay fitting."
+  },
+  "execution": {
+    "concurrent_with": "Existing v15 generation batch, explicitly authorized by the user",
+    "guard": "execution/guard.json",
+    "timing_scope": "Contended execution; not a performance baseline",
+    "initial_attempt": "Argument separator consumed by PowerShell. Quoted separator fixed it; failure logs preserved in execution/history."
+  },
+  "user_acceptance": "pending",
+  "numerical_artistic_grade": null,
+  "gameplay_acceptance": "not tested",
+  "adoption_decision": "No adoption established; retain Blender/Godot default",
+  "reliability_limits": [
+    "R5 save and re-export succeeded; R5 reopening was not separately verified.",
+    "R4 reopened with native material corruption and one MCP false timeout after a completed edit."
+  ]
+}

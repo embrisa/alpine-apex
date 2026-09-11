@@ -1,0 +1,30 @@
+{
+  "label": "explicit_joint_builder",
+  "started_unix": 1789052628.782041,
+  "seconds": 6.810274362564087,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "run_script",
+      "arguments": {
+        "code": "\"\"\"Use installed rig builder with verified ObjectIds, bypass QRT name resolution.\"\"\"\nimport json\nfrom pathlib import Path\nimport numpy as np\nimport pycsc\nfrom prototypes.rigs.qrt.biped import Biped,BipedData,BipedSettings\nfrom prototypes.qrt_prototypes.create import _process_qrt\nroot=Path('C:/Users/hp/Downloads/alpine-apex/artifacts/cascadeur_rig_20260910_r4')\nassert Path(app.current_scene().get_path_name()).parent==root\nscene=app.current_scene().domain_scene()\nmv=scene.model_viewer()\nids={mv.get_object_name(o):o for o in mv.get_objects() if mv.get_object_type_name(o)=='Joint'}\ntemplate=json.loads((root/'apex_joint_paths.qrigcasc').read_text())\nmapping={n['Bone name']:n['Joint name'] for d in template['Document'] for s in d['Sections'] for n in s['Names']}\nsettings=BipedSettings(create_layers=True,replace_existing=True,align_pelvis=True,spline_ik=True)\ndata=BipedData(settings,node_joints={field:ids[name] for field,name in mapping.items()})\npy_scene=pycsc.wrap(scene)\nBiped.add_qrt_json(py_scene,json.dumps(template))\nbuilder=Biped(json.dumps(template),py_scene,data,10.,10.,np.array([.2,.7,1.],dtype=np.float32))\nbuilder.run_rig_process(_process_qrt)\nbv=scene.behaviour_viewer()\nactual={mv.get_object_name(bv.get_behaviour_owner(bv.get_behaviour_reference(b,'joint'))) for b in bv.get_behaviours('TechnicalLinks')}\nprint('explicit generated joints',sorted(actual))\nassert set(mapping.values())==actual,('Generated joint set differs',actual)\nprint('explicit generated assignment', {str(n):builder.get_joint(n).name for n in data.node_joints})\n"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"ok\": true,\n  \"value\": \"\",\n  \"messages\": [\n    {\n      \"level\": \"Info\",\n      \"text\": \"explicit generated joints ['Head', 'Hips', 'LeftArm', 'LeftFoot', 'LeftForeArm', 'LeftHand', 'LeftLeg', 'LeftShoulder', 'LeftToeBase', 'LeftUpLeg', 'RightArm', 'RightFoot', 'RightForeArm', 'RightHand', 'RightLeg', 'RightShoulder', 'RightToeBase', 'RightUpLeg', 'Spine01', 'Spine02', 'neck']\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"explicit generated assignment {'pelvis': 'Hips', 'stomach': 'Spine02', 'chest': 'Spine01', 'neck': 'neck', 'head': 'Head', 'clavicle_l': 'LeftShoulder', 'arm_l': 'LeftArm', 'forearm_l': 'LeftForeArm', 'hand_l': 'LeftHand', 'clavicle_r': 'RightShoulder', 'arm_r': 'RightArm', 'forearm_r': 'RightForeArm', 'hand_r': 'RightHand', 'thigh_l': 'LeftUpLeg', 'calf_l': 'LeftLeg', 'foot_l': 'LeftFoot', 'toe_l': 'LeftToeBase', 'thigh_r': 'RightUpLeg', 'calf_r': 'RightLeg', 'foot_r': 'RightFoot', 'toe_r': 'RightToeBase'}\"\n    }\n  ]\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "transport_error": null
+}

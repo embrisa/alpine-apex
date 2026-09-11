@@ -94,10 +94,11 @@ func run():
  sim.body.roll_velocity = .3
  sim.body.pitch_velocity = .1
  var momentum: Vector2 = sim.body.inertia*Vector2(.3,.1)
+ sim.tuning.landing_assist_enabled = false
  intent = Intent.new()
  intent.tuck = 1
  for i in range(60): sim.step(1.0/120.0,intent,plane)
- check(sim.body.angular_momentum.distance_to(momentum)<.001 and sim.contact_count==0,"Airborne tuck conserves angular momentum and applies no ground torque")
+ check(sim.body.angular_momentum.distance_to(momentum)<.001 and sim.contact_count==0,"Unassisted airborne tuck within anatomical limits conserves momentum without ground torque")
  sim.reset(Vector3.ZERO)
  sim.prime_contacts(plane)
  sim.body.roll = 1.4

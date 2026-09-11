@@ -1,6 +1,6 @@
-# Competitive loop — Milestone 5
+# Personal bests and ghosts
 
-The benchmark and saved open-route races now support **race → inspect splits → refine the line → beat a personal best → retry → share the race**. This extends the existing world authoring, seed restoration and copy/paste race-sharing flow. The playable mountain remains the bounded seeded laboratory; general playable mountain generation is still Milestone 3.
+The benchmark and saved open-route races now support **race → inspect splits → refine the line → beat a personal best → retry → share the race**. This extends the existing world authoring, seed restoration and copy/paste race-sharing flow. The same loop runs on authored races across generated mountains; the laboratory remains an explicit fixture.
 
 ## Player flow
 
@@ -15,7 +15,7 @@ Free ski, crashes, abandoned attempts, modified-physics runs, speed-lab runs and
 
 ## Splits preserve open-route racing
 
-There are no checkpoint requirements. The three invisible split planes span the entire world, perpendicular to the horizontal axis from start to finish. Their offsets are 25%, 50% and 75% of the horizontal distance from the start to the near edge of the finish area. The benchmark uses its existing finish plane.
+There are no checkpoint requirements. The three invisible split planes span the entire world, perpendicular to the horizontal axis from start to finish. Their offsets are 25%, 50% and 75% of the horizontal distance from the start to the finish gate plane. The benchmark uses its existing finish plane.
 
 Each split records only the first forward passage, interpolated within the physics tick. Backtracking cannot overwrite it, several splits can be crossed in one tick, and no split changes finish eligibility. The planes do not constrain lateral position, altitude or the player's steering. Their percentages describe approach along this axis, not distance actually skied. An exploratory detour may cross a split early and lose time later; the finish time remains the competitive result.
 
@@ -38,9 +38,9 @@ The renderer uses twelve low-detail meshes with a shared translucent cyan materi
 New files sit beside the old records:
 
 - Benchmark: `user://benchmark_v1_competition_v2.apexrun`.
-- Custom races: `user://race_records_v1/<course-hash>_competition_v2.apexrun`.
+- Custom races: `user://race_records_v3/<course-hash>_competition_v2.apexrun`.
 
-The old JSON files remain untouched. If no valid schema-2 file is available, a valid schema-1 best and completed times are migrated in memory, then written in the new format on the next save. Unknown historical dates, speeds and splits stay unknown. A legacy PB has no invented ghost: beat it to record one.
+Custom race schema 3 uses a fresh directory and identity for collidable props and finite gate timing; earlier custom races are not migrated. The following legacy migration applies to the separate laboratory benchmark. The old JSON files remain untouched. If no valid schema-2 file is available, a valid schema-1 best and completed times are migrated in memory, then written in the new format on the next save. Unknown historical dates, speeds and splits stay unknown. A legacy PB has no invented ghost: beat it to record one.
 
 Replay schema **1** pins the course identity, engine version, ski model version, default tuning checksum and 120 Hz tick rate. A different race or mountain receives a different course identity through the existing race definition. Incompatible/malformed ghosts are rejected while valid stored times remain visible, with an explanation in the record view. JSON numeric normalization is deliberate; JSON's float representation must not make an otherwise compatible replay fail to load.
 

@@ -1,0 +1,201 @@
+{
+  "version": 1,
+  "source_model": "meshy-7",
+  "units": "metres",
+  "glb_up": "Y",
+  "glb_forward": "Z",
+  "physics_changed": false,
+  "source_textures": "4K",
+  "runtime_textures": "2K",
+  "coordinate_contract": "One mesh, baked transforms; ski binding at (0,.018,-.15), boot at (0,.095,-.15); pole grip at origin, shaft -Y",
+  "assets": [
+    {
+      "id": "pole_detailed_v1",
+      "source_triangles": 818778,
+      "triangles": 6000,
+      "bounds_blender_min": [
+        -0.11142880469560623,
+        -0.04390920698642731,
+        -1.1794483661651611
+      ],
+      "bounds_blender_max": [
+        0.043511226773262024,
+        0.04458869621157646,
+        0.015380035154521465
+      ],
+      "textures": [
+        {
+          "name": "base_color",
+          "size": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "name": "metallic_roughness",
+          "size": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "name": "normal",
+          "size": [
+            2048,
+            2048
+          ]
+        }
+      ],
+      "materials": [
+        "EquipmentV1Pole0"
+      ],
+      "roundtrip_verified": true,
+      "path": "assets\\graphics\\models\\pole_detailed_v1.glb",
+      "sha256": "69184bfa4f7311720a2e1c61de202cad35b4214f7a5e997a427cc694d00858c1",
+      "bytes": 13053400
+    },
+    {
+      "id": "ski_detailed_v1",
+      "source_triangles": 1300340,
+      "triangles": 6000,
+      "bounds_blender_min": [
+        -0.06810508668422699,
+        -1.1498197317123413,
+        -0.016362681984901428
+      ],
+      "bounds_blender_max": [
+        0.06832068413496017,
+        1.0197224617004395,
+        0.12483630329370499
+      ],
+      "textures": [
+        {
+          "name": "base_color",
+          "size": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "name": "metallic_roughness",
+          "size": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "name": "normal",
+          "size": [
+            2048,
+            2048
+          ]
+        }
+      ],
+      "materials": [
+        "EquipmentV1Ski0"
+      ],
+      "roundtrip_verified": true,
+      "path": "assets\\graphics\\models\\ski_detailed_v1.glb",
+      "sha256": "4e5596faf68b0322628d1ba064845d8ab376f869713a2cf5e47b6e234f930a47",
+      "bytes": 12202744,
+      "handedness": "right",
+      "instances": 1
+    },
+    {
+      "id": "binding_detailed_v1",
+      "source_triangles": 3075936,
+      "triangles": 12000,
+      "bounds_blender_min": [
+        -0.10738399624824524,
+        -0.2830897867679596,
+        -0.0097343809902668
+      ],
+      "bounds_blender_max": [
+        0.10699615627527237,
+        0.19256258010864258,
+        0.15277448296546936
+      ],
+      "textures": [
+        {
+          "name": "base_color",
+          "size": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "name": "metallic_roughness",
+          "size": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "name": "normal",
+          "size": [
+            2048,
+            2048
+          ]
+        }
+      ],
+      "materials": [
+        "EquipmentV1Binding0",
+        "EquipmentV1Riser"
+      ],
+      "roundtrip_verified": true,
+      "path": "assets\\graphics\\models\\binding_detailed_v1.glb",
+      "sha256": "af1d9ce09c8cb2f91d8f400cd7ab1b3a3a91d1786079acc809e5387cae478693",
+      "bytes": 14356504
+    },
+    {
+      "id": "ski_detailed_v1_left",
+      "source_triangles": 1300340,
+      "triangles": 6000,
+      "bounds_blender_min": [
+        -0.06832068413496017,
+        -1.1498197317123413,
+        -0.016362681984901428
+      ],
+      "bounds_blender_max": [
+        0.06810508668422699,
+        1.0197224617004395,
+        0.12483630329370499
+      ],
+      "textures": [
+        {
+          "name": "base_color",
+          "size": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "name": "metallic_roughness",
+          "size": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "name": "normal",
+          "size": [
+            2048,
+            2048
+          ]
+        }
+      ],
+      "materials": [
+        "EquipmentV1Ski0"
+      ],
+      "roundtrip_verified": true,
+      "path": "assets\\graphics\\models\\ski_detailed_v1_left.glb",
+      "sha256": "01056ef651166892ad57eb56993403d6d18b6ca2898fd697bbbf855554cff768",
+      "bytes": 12205436,
+      "mirror_of": "ski_detailed_v1",
+      "handedness": "left",
+      "instances": 1
+    }
+  ],
+  "paired_equipment_triangles": 48000,
+  "ski_pair": "Baked X mirror; shared runtime materials/textures; independent transforms"
+}

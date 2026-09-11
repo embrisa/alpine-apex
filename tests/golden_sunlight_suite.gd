@@ -16,6 +16,7 @@ func identity() -> Array:
 	return [game.session.eligible,game.session.course_id,game.physics_modified,game.sim.position,game.sim.velocity,game.session.elapsed,hash(game.field.heights),hash(game.field.obstacles)]
 
 func run() -> void:
+	set_meta("test_lab_fixture",true) # Explicit laboratory regression fixture.
 	game = load("res://main.tscn").instantiate()
 	game.automated = true
 	root.add_child(game)
@@ -38,12 +39,28 @@ func run() -> void:
 	check(env.volumetric_fog_gi_inject==0 and env.volumetric_fog_ambient_inject==0 and not env.sdfgi_enabled,"Shafts add no GI requirement and preserve optional SDFGI off")
 	check(env.glow_enabled and env.glow_bloom==0.0 and env.glow_hdr_threshold>1.0 and not root.use_hdr_2d,"HDR highlights glow without full-screen bloom or HDR HUD processing")
 	check(env.tonemap_mode==Environment.TONE_MAPPER_FILMIC and env.tonemap_white>1 and game.weather.state.sun_color.r>game.weather.state.sun_color.b,"Warm direct lighting uses filmic highlight headroom")
+	check(is_equal_approx(env.tonemap_exposure,1.15) and is_equal_approx(env.ssao_light_affect,.20) and env.ssao_ao_channel_affect==1.0,"Clear daylight reduces glare and enables the renderer's direct occlusion blend")
+	var hollow_texture = game.world.snow_material.get_shader_parameter("snow_hollows")
+	check(hollow_texture!=null and game.effects.snow_tracks.material.get_shader_parameter("snow_hollows")==hollow_texture,"Terrain and tracks share the world's single concavity texture")
 	var noon_energy: float = game.world.sun.light_volumetric_fog_energy
 	var same_light = [game.world.sun.light_energy,game.world.sun.light_color,env.tonemap_exposure,env.tonemap_white]
 	for level in [0,1,2,1,0,2]:
 		game.set_graphics_quality(level)
 		check(env.volumetric_fog_enabled==(level==2) and env.glow_enabled==(level>0),"Live quality %d applies shaft and glow switches immediately" % level)
 		check(same_light==[game.world.sun.light_energy,game.world.sun.light_color,env.tonemap_exposure,env.tonemap_white],"Quality %d retains the shared golden lighting" % level)
+		var profile = game.graphics
+		var snow_materials: Array = game.world.assets.surface_materials.duplicate()
+		snow_materials.append(game.world.scenery.powder_caps.material)
+		var bound = true
+		for material in snow_materials:
+			bound = bound and is_equal_approx(float(material.get_shader_parameter("snow_crystal_density")),profile.snow_crystal_density)
+			bound = bound and is_equal_approx(float(material.get_shader_parameter("snow_sheen_strength")),profile.snow_sheen)
+		var tracks: ShaderMaterial = game.effects.snow_tracks.material
+		bound = bound and is_equal_approx(float(tracks.get_shader_parameter("snow_sparkle_strength")),profile.snow_sparkle*.35)
+		bound = bound and is_equal_approx(float(tracks.get_shader_parameter("snow_sheen_strength")),profile.snow_sheen)
+		check(bound,"Quality %d updates terrain, powder, caps and track reflections together" % level)
+		check(game.world.snow_readability.builds==1 and game.world.snow_material.get_shader_parameter("snow_hollows")==hollow_texture and game.effects.snow_tracks.material.get_shader_parameter("snow_hollows")==hollow_texture,"Quality %d keeps the single prepared snow shape map" % level)
+		check(is_equal_approx(env.glow_intensity,profile.highlight_glow_intensity),"Clear noon applies quality %d highlight intensity immediately" % level)
 	game.weather.set_preset("cloudy")
 	apply()
 	check(game.world.sun.light_volumetric_fog_energy<noon_energy*.1 and game.world.sun.light_energy>0.65,"Cloudy keeps warm illuminated breaks with subdued rays")

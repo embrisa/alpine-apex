@@ -1,0 +1,615 @@
+{
+	"asset_count": 120,
+	"assets": [
+		{
+			"asset": "mineral_medium_sedimentary_01",
+			"lods": 4,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_small_rounded_01",
+			"lods": 5,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_rounded_02",
+			"lods": 6,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_rounded_03",
+			"lods": 4,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_rounded_04",
+			"lods": 5,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_fractured_01",
+			"lods": 5,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_fractured_02",
+			"lods": 3,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_fractured_03",
+			"lods": 4,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_fractured_04",
+			"lods": 4,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_sedimentary_01",
+			"lods": 5,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_sedimentary_02",
+			"lods": 5,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_sedimentary_03",
+			"lods": 5,
+			"triangles": 5958
+		},
+		{
+			"asset": "mineral_small_sedimentary_04",
+			"lods": 5,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_outcrop_01",
+			"lods": 3,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_outcrop_02",
+			"lods": 3,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_outcrop_03",
+			"lods": 3,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_outcrop_04",
+			"lods": 3,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_cliff_01",
+			"lods": 3,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_cliff_02",
+			"lods": 3,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_cliff_03",
+			"lods": 4,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_cliff_04",
+			"lods": 4,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_glacier_01",
+			"lods": 3,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_glacier_02",
+			"lods": 3,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_glacier_03",
+			"lods": 4,
+			"triangles": 5960
+		},
+		{
+			"asset": "mineral_small_glacier_04",
+			"lods": 3,
+			"triangles": 5958
+		},
+		{
+			"asset": "mineral_medium_rounded_01",
+			"lods": 5,
+			"triangles": 17959
+		},
+		{
+			"asset": "mineral_medium_rounded_02",
+			"lods": 5,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_rounded_03",
+			"lods": 4,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_rounded_04",
+			"lods": 4,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_fractured_01",
+			"lods": 5,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_fractured_02",
+			"lods": 4,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_fractured_03",
+			"lods": 4,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_fractured_04",
+			"lods": 4,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_sedimentary_02",
+			"lods": 3,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_sedimentary_03",
+			"lods": 5,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_sedimentary_04",
+			"lods": 4,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_outcrop_01",
+			"lods": 4,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_outcrop_02",
+			"lods": 3,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_outcrop_03",
+			"lods": 3,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_outcrop_04",
+			"lods": 5,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_cliff_01",
+			"lods": 3,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_cliff_02",
+			"lods": 4,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_cliff_03",
+			"lods": 3,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_cliff_04",
+			"lods": 3,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_glacier_01",
+			"lods": 3,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_glacier_02",
+			"lods": 3,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_glacier_03",
+			"lods": 3,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_medium_glacier_04",
+			"lods": 3,
+			"triangles": 17960
+		},
+		{
+			"asset": "mineral_large_rounded_01",
+			"lods": 5,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_rounded_02",
+			"lods": 4,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_rounded_03",
+			"lods": 4,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_rounded_04",
+			"lods": 4,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_fractured_01",
+			"lods": 3,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_fractured_02",
+			"lods": 4,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_fractured_03",
+			"lods": 5,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_fractured_04",
+			"lods": 5,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_sedimentary_01",
+			"lods": 3,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_sedimentary_02",
+			"lods": 3,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_sedimentary_03",
+			"lods": 3,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_sedimentary_04",
+			"lods": 2,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_outcrop_01",
+			"lods": 3,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_outcrop_02",
+			"lods": 4,
+			"triangles": 44959
+		},
+		{
+			"asset": "mineral_large_outcrop_03",
+			"lods": 4,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_outcrop_04",
+			"lods": 4,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_cliff_01",
+			"lods": 3,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_cliff_02",
+			"lods": 4,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_cliff_03",
+			"lods": 3,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_cliff_04",
+			"lods": 4,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_glacier_01",
+			"lods": 3,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_glacier_02",
+			"lods": 5,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_glacier_03",
+			"lods": 4,
+			"triangles": 44960
+		},
+		{
+			"asset": "mineral_large_glacier_04",
+			"lods": 3,
+			"triangles": 44958
+		},
+		{
+			"asset": "mineral_huge_boulders_erratic_01",
+			"lods": 4,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_erratic_02",
+			"lods": 4,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_erratic_03",
+			"lods": 3,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_erratic_04",
+			"lods": 2,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_block_01",
+			"lods": 4,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_block_02",
+			"lods": 4,
+			"triangles": 89959
+		},
+		{
+			"asset": "mineral_huge_boulders_block_03",
+			"lods": 3,
+			"triangles": 89958
+		},
+		{
+			"asset": "mineral_huge_boulders_block_04",
+			"lods": 3,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_split_01",
+			"lods": 3,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_split_02",
+			"lods": 3,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_split_03",
+			"lods": 3,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_split_04",
+			"lods": 3,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_dome_01",
+			"lods": 3,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_dome_02",
+			"lods": 5,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_dome_03",
+			"lods": 3,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_dome_04",
+			"lods": 3,
+			"triangles": 89958
+		},
+		{
+			"asset": "mineral_huge_boulders_overhang_01",
+			"lods": 4,
+			"triangles": 89959
+		},
+		{
+			"asset": "mineral_huge_boulders_overhang_02",
+			"lods": 4,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_overhang_03",
+			"lods": 3,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_overhang_04",
+			"lods": 3,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_monolith_01",
+			"lods": 4,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_monolith_02",
+			"lods": 4,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_monolith_03",
+			"lods": 4,
+			"triangles": 89960
+		},
+		{
+			"asset": "mineral_huge_boulders_monolith_04",
+			"lods": 2,
+			"triangles": 89959
+		},
+		{
+			"asset": "mineral_cliffs_wall_01",
+			"lods": 3,
+			"triangles": 119960
+		},
+		{
+			"asset": "mineral_cliffs_wall_02",
+			"lods": 3,
+			"triangles": 119960
+		},
+		{
+			"asset": "mineral_cliffs_wall_03",
+			"lods": 3,
+			"triangles": 119956
+		},
+		{
+			"asset": "mineral_cliffs_wall_04",
+			"lods": 3,
+			"triangles": 119959
+		},
+		{
+			"asset": "mineral_cliffs_layered_wall_01",
+			"lods": 3,
+			"triangles": 119960
+		},
+		{
+			"asset": "mineral_cliffs_layered_wall_02",
+			"lods": 3,
+			"triangles": 119959
+		},
+		{
+			"asset": "mineral_cliffs_layered_wall_03",
+			"lods": 3,
+			"triangles": 119960
+		},
+		{
+			"asset": "mineral_cliffs_layered_wall_04",
+			"lods": 3,
+			"triangles": 119960
+		},
+		{
+			"asset": "mineral_cliffs_corner_01",
+			"lods": 4,
+			"triangles": 119960
+		},
+		{
+			"asset": "mineral_cliffs_corner_02",
+			"lods": 3,
+			"triangles": 119960
+		},
+		{
+			"asset": "mineral_cliffs_corner_03",
+			"lods": 3,
+			"triangles": 119960
+		},
+		{
+			"asset": "mineral_cliffs_corner_04",
+			"lods": 3,
+			"triangles": 119958
+		},
+		{
+			"asset": "mineral_cliffs_recess_01",
+			"lods": 3,
+			"triangles": 119960
+		},
+		{
+			"asset": "mineral_cliffs_recess_02",
+			"lods": 3,
+			"triangles": 119960
+		},
+		{
+			"asset": "mineral_cliffs_recess_03",
+			"lods": 4,
+			"triangles": 119958
+		},
+		{
+			"asset": "mineral_cliffs_recess_04",
+			"lods": 3,
+			"triangles": 119959
+		},
+		{
+			"asset": "mineral_cliffs_overhang_wall_01",
+			"lods": 3,
+			"triangles": 119960
+		},
+		{
+			"asset": "mineral_cliffs_overhang_wall_02",
+			"lods": 3,
+			"triangles": 119959
+		},
+		{
+			"asset": "mineral_cliffs_overhang_wall_03",
+			"lods": 3,
+			"triangles": 119957
+		},
+		{
+			"asset": "mineral_cliffs_overhang_wall_04",
+			"lods": 3,
+			"triangles": 119960
+		},
+		{
+			"asset": "mineral_cliffs_buttress_01",
+			"lods": 3,
+			"triangles": 119959
+		},
+		{
+			"asset": "mineral_cliffs_buttress_02",
+			"lods": 4,
+			"triangles": 119959
+		},
+		{
+			"asset": "mineral_cliffs_buttress_03",
+			"lods": 3,
+			"triangles": 119960
+		},
+		{
+			"asset": "mineral_cliffs_buttress_04",
+			"lods": 4,
+			"triangles": 119960
+		}
+	],
+	"categories": {
+		"cliffs": 24,
+		"huge_boulders": 24,
+		"large": 24,
+		"medium": 24,
+		"small": 24
+	},
+	"failures": [],
+	"partial": false,
+	"passed": true
+}

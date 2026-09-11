@@ -1,5 +1,6 @@
 extends SceneTree
 ## Current-model regression measurements. No renderer or personal-best persistence.
+const Carving = preload("res://tests/arcade_carving_suite.gd")
 const Sim = preload("res://scripts/core/ski_simulation.gd")
 const TestPlane = preload("res://tests/physics_suite.gd").TestPlane
 const Ledge = preload("res://tests/jump_suite.gd").Ledge
@@ -20,18 +21,25 @@ func run() -> void:
 	_input_contract()
 	_rapid_reversals()
 	_recorded_requests()
+	var reference: Array = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/downhill_v14.json")).turns
 	for kmh in [60.0,120.0,160.0,200.0]:
 		for tuck in [0.0,1.0]:
-			var old = _reverse(kmh,tuck,1.0,true)
-			var next = _reverse(kmh,tuck,1.0,false)
-			var mirrored = _reverse(kmh,tuck,-1.0,false)
-			metrics.append({"entry_kmh":kmh,"tuck":tuck,"v10_transfer":old,"current":next,"mirror":mirrored})
+			var old: Dictionary = reference.filter(func(row): return row.kmh==kmh and row.tuck==tuck and row.steer==1.0 and row.reverse)[0]
+			var next = _reverse(kmh,tuck,1.0)
+			var mirrored = _reverse(kmh,tuck,-1.0)
+			metrics.append({"entry_kmh":kmh,"tuck":tuck,"v14_reference":old,"current":next,"mirror":mirrored})
 			var label = "%.0f km/h, tuck %.0f" % [kmh,tuck]
-			check(next.response>0 and next.response<=old.response-DT*2,"Earlier opposite grip: "+label)
+			check(next.response>0 and next.response<=old.response_s-DT*2,"Earlier opposite grip than captured v14: "+label)
 			check(not next.crashed and next.balance>.85 and next.slip<20.0,"Reversal retains balance and bounded slip: "+label)
-			# The measured skeleton is slightly asymmetric. Require timing within
-			# two ticks and exit speed within 0.5%, not mathematically identical limbs.
-			check(absf(next.response-mirrored.response)<=DT*2 and absf(next.exit_kmh-mirrored.exit_kmh)/next.exit_kmh<.005,"Mirrored reversal response: "+label)
+			# Compare speed after the same 45-degree excursion and return to the
+			# fall line. A fixed six seconds compares different uphill headings
+			# after tighter carving, which confounds gravitational speed loss.
+			var arc = Carving.measure(Sim,kmh,1.0,tuck,false,"matched_reversal")
+			var arc_mirror = Carving.measure(Sim,kmh,-1.0,tuck,false,"matched_reversal")
+			metrics[-1].matched_arc = arc
+			metrics[-1].matched_mirror = arc_mirror
+			check(roundi(absf(next.response-mirrored.response)/DT)<=2,"Mirrored reversal response within two ticks: "+label)
+			check(arc.return_speed_kmh>0 and arc_mirror.return_speed_kmh>0 and absf(arc.return_speed_kmh-arc_mirror.return_speed_kmh)/arc.return_speed_kmh<.01,"Mirrored reversal speed within 1% at matching headings: "+label)
 			check(next.speed_before_change<=kmh+.1 and next.exit_kmh<=old.exit_kmh+1.0,"Earlier turn does not provide a speed boost: "+label)
 	DirAccess.make_dir_recursive_absolute("res://artifacts/handling_upgrade")
 	var result = {"model":Sim.MODEL_VERSION,"checks":checks,"failures":failures,"reversals":metrics}
@@ -142,15 +150,13 @@ func _input_contract() -> void:
 	original.jump_held = true
 	check(original.copy().jump_held and not original.copy().jump,"Intent copy preserves readiness independently of the release event")
 
-func _reverse(kmh: float, tuck: float, direction: float, previous: bool) -> Dictionary:
+func _reverse(kmh: float, tuck: float, direction: float) -> Dictionary:
 	var sim = Sim.new()
-	if previous:
-		sim.tuning.turn_transfer_yaw_fraction = 0.0
-		sim.tuning.turn_transfer_bank = .10
 	var plane = TestPlane.new(.46)
 	sim.reset(Vector3.ZERO)
 	sim.prime_contacts(plane)
 	sim.velocity = sim.support_basis().z*kmh/3.6
+	sim.effective_tuck = tuck
 	var intent = RiderInput.new()
 	intent.tuck = tuck
 	var response = -1.0
@@ -204,15 +210,12 @@ func _recorded_requests() -> void:
 		sim.step(DT,intent,plane)
 		recording.record(DT,(tick+1)*DT,sim,intent,1.0 if tick==149 else -1.0)
 		var restored = RiderInput.new()
-		restored.steer = recording.inputs[tick*4]
-		restored.tuck = recording.inputs[tick*4+1]
-		restored.brake = recording.inputs[tick*4+2]
-		restored.jump = recording.inputs[tick*4+3]>0.5
+		restored = recording.input_at(tick)
 		playback.step(DT,restored,plane)
 		matches = matches and playback.position.is_equal_approx(sim.position) and playback.velocity.is_equal_approx(sim.velocity)
 	check(matches,"Recorded release commands reproduce every physics step without holding-state data")
-	check(identity.physics==12 and recording.inputs.size()==600,"Model v12 keeps the four-value recorded input format")
+	check(identity.physics==21 and recording.inputs.size()==150*7,"Model v21 retains steering, release and the three airborne input fields")
 	var data = recording.to_data()
 	check(Replay.decode(data,identity,recording.duration)!=null,"Release-based recording round-trips")
-	data.compatibility.physics = 11
-	check(Replay.decode(data,identity,recording.duration)==null,"Old physics model cannot load as a compatible v12 ghost")
+	data.compatibility.physics = 20
+	check(Replay.decode(data,identity,recording.duration)==null,"Previous physics model cannot load as a compatible v21 ghost")

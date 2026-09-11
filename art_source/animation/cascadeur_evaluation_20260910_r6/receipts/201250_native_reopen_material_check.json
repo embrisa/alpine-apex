@@ -1,0 +1,30 @@
+{
+  "label": "native_reopen_material_check",
+  "started_unix": 1789063967.269275,
+  "seconds": 3.281136989593506,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "run_script",
+      "arguments": {
+        "code": "from pathlib import Path; p=Path(app.current_scene().get_path_name()); assert p.name=='ready_compression_r6.casc'; scene=app.current_scene().domain_scene();scene.selector().select(set());scene.set_current_frame(30);app.current_scene().active_viewport().domain_viewport().set_mode_visualizers(csc.view.ViewportMode.View);params=csc.tools.RenderParameters();params.width=1280;params.height=960;params.samples=1;app.get_tools_manager().get_tool('RenderToFile').take_image(app.current_scene(),params,str(p.with_name('native_reopened_frame30.png')));print('Native material still saved')"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"ok\": true,\n  \"value\": \"\",\n  \"messages\": [\n    {\n      \"level\": \"Info\",\n      \"text\": \"Native material still saved\"\n    }\n  ]\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "transport_error": null
+}

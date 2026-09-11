@@ -10,7 +10,7 @@ var personal_best: float = -1.0
 var history: Array = []
 var eligible: bool = true
 var race = null
-var record_directory: String = "user://race_records_v1"
+var record_directory: String = "user://race_records_v3"
 var benchmark_path: String = "user://benchmark_v1.json"
 var previous_elapsed: float = 0.0
 var previous_best: float = -1.0
@@ -47,7 +47,7 @@ func reset() -> void:
 		split_origin = Vector2(race.start.x,race.start.z)
 		var delta = Vector2(race.finish.x,race.finish.z)-split_origin
 		split_axis = delta.normalized()
-		split_length = delta.length()-race.FINISH_RADIUS
+		split_length = delta.length()
 	else:
 		split_origin = Vector2(0,25)
 		split_axis = Vector2(0,1)
@@ -112,30 +112,7 @@ func result_text(peak_kmh: float) -> String:
 
 func finish_fraction(before: Vector3, after: Vector3) -> float:
 	if race:
-		# Intersect a finite cylinder from ANY direction, including an entire
-		# crossing in one tick. Combine the horizontal interval with the Y slab.
-		var offset: Vector3 = before-race.finish
-		var delta = after-before
-		var a = Vector2(delta.x,delta.z).length_squared()
-		var b = 2.0*Vector2(offset.x,offset.z).dot(Vector2(delta.x,delta.z))
-		var c = Vector2(offset.x,offset.z).length_squared()-race.FINISH_RADIUS*race.FINISH_RADIUS
-		var enter = 0.0
-		var leave = 1.0
-		if a < 0.00000001:
-			if c > 0.0: return -1.0
-		else:
-			var discriminant = b*b-4.0*a*c
-			if discriminant < 0.0: return -1.0
-			enter = maxf(enter,(-b-sqrt(discriminant))/(2.0*a))
-			leave = minf(leave,(-b+sqrt(discriminant))/(2.0*a))
-		if absf(delta.y)<0.00000001:
-			if absf(offset.y)>race.FINISH_HALF_HEIGHT: return -1.0
-		else:
-			var low: float = (-race.FINISH_HALF_HEIGHT-offset.y)/delta.y
-			var high: float = (race.FINISH_HALF_HEIGHT-offset.y)/delta.y
-			enter = maxf(enter,minf(low,high))
-			leave = minf(leave,maxf(low,high))
-		return enter if enter<=leave else -1.0
+		return race.finish_fraction(before,after)
 	var fraction = clampf((finish_z-before.z)/maxf(after.z-before.z,0.00001),0,1)
 	var crossing = before.lerp(after,fraction)
 	if before.z < finish_z and after.z >= finish_z and absf(crossing.x) <= 36.0:

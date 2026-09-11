@@ -12,16 +12,24 @@ func check(value: bool,label: String) -> void:
 	print("PASS: " if value else "FAIL: ",label)
 	if not value: failures.append(label)
 func run() -> void:
+	DirAccess.make_dir_recursive_absolute("res://artifacts/summit_mountain")
 	test_dir = "user://mountain_ui_test_%d" % Time.get_ticks_usec()
 	var record_path = "user://benchmark_v1_competition_v2.apexrun"
 	var record_before = FileAccess.get_sha256(record_path) if FileAccess.file_exists(record_path) else ""
 	game = load("res://main.tscn").instantiate()
 	root.add_child(game)
 	current_scene = game
+	await wait_until_ready()
 	game.set_physics_process(false)
 	game.set_graphics_quality(0)
 	game.effects.muted = true
 	await process_frame
+	check(game.current_mountain!=null and game.field.GENERATOR_VERSION==Definition.CURRENT_VERSION and game.field.seed_value==Definition.DEFAULT_SEED,"Normal startup opens the current default mountain")
+	check(not game.active and game.hud.menu.visible and not game.timed and not game.session.eligible,"Default startup waits at the menu with an unranked free-ski session")
+	game.hud.primary.pressed.emit()
+	check(game.active and game.summit_ready and not game.timed,"Drop In stages summit free skiing on the default mountain")
+	game.active = false
+	game.hud.show_menu("title")
 	await capture("title")
 	var library = game.mountain_library
 	library.store.directory = test_dir
@@ -41,25 +49,48 @@ func run() -> void:
 	check(library.saved.size()==1 and library.saved[0].title=="Bowl Run","Naming and saving through UI stores the local mountain")
 	await library.generate_random()
 	check(library.draft_field.height_checksum!=initial,"Random mountain changes the physical preview")
+	var random_seed = library.draft.seed_value
 	await library.load_selected(0)
 	check(library.draft_field.height_checksum==initial and library.name_input.text=="Bowl Run","Loading a saved mountain restores terrain and name")
 	var path = test_dir.path_join("export.apexmountain")
 	check(library.Store.write_file(path,library.draft).is_empty(),"Mountain file exports to a chosen path")
-	await library.generate_random()
+	# Revisit the generated seed through the public control before importing;
+	# random selection itself was already exercised above.
+	library.seed_input.text = str(random_seed)
+	await library.generate_seed()
 	await library.import_file(path)
 	check(library.draft_field.height_checksum==initial and library.draft.title=="Bowl Run","File import restores the mountain after another seed was selected")
 	await library.import_file("res://examples/mountains/849205174.apexmountain")
-	check(library.draft.generator_version==1 and library.draft_field.GENERATOR_VERSION==1 and "v1" in library.summary.text,"Old mountain files select the archived generator and display their actual version")
-	var legacy_hash = library.draft_field.height_checksum
-	library.seed_input.text = library.draft.seed_text()
-	await library.generate_seed()
-	check(library.draft_field.height_checksum==legacy_hash,"A shared versioned v1 seed reconstructs the old mountain through the UI")
+	check(library.draft_field.height_checksum==initial and not library.status.text.is_empty(),"Old mountain files are rejected and preserve the current draft")
+	check(library.preset_control.selected==1,"Standard is the default richness")
+	for index in 4:
+		library._preset_changed(index)
+		check(library.generation_settings()==library.Settings.preset(index),"Preset controls apply all four density factors")
+	library.settings_controls.tree_spacing.value = .5
+	check(library.preset_control.selected==4 and library.generation_settings().tree_spacing==.5,"Spacing selects Custom independently")
+	var precise = library.Settings.preset(); precise.snow_feature_density = 1.01
+	library._apply_settings(precise)
+	check(library.generation_settings()==precise,"Imported hundredth-precision settings remain editable without rounding")
+	library._preset_changed(4)
+	check(library.advanced_toggle.button_pressed and library.advanced_panel.visible,"Custom exposes the advanced controls consistently")
+	await capture("richness_custom")
+	library.advanced_toggle.button_pressed = false
+	library._apply_settings(library.Settings.preset())
+	var previous_draft = library.draft
+	var generate_control = library.all_buttons.filter(func(button): return button.text=="GENERATE SEED")[0]
+	for cancellation_stage in ["recipe","preview"]:
+		library.seed_input.text = "73810291" if cancellation_stage=="recipe" else "849205174"
+		generate_control.pressed.emit()
+		while library.busy and (not game.loading.worker_snapshot_active or library.generation_job.snapshot().stage!=cancellation_stage): await process_frame
+		var cancel_start = Time.get_ticks_usec(); game.loading.cancel_button.pressed.emit()
+		while library.busy: await process_frame
+		check(library.draft==previous_draft and library.draft_field.height_checksum==initial and not game.loading.overlay.visible and game.loading.worker==null,"Cancelling "+cancellation_stage+" retains the previous preview and joins the worker")
+		check(Time.get_ticks_usec()-cancel_start<2000000,"UI cancellation reaches a bounded checkpoint")
 	library.seed_input.text = "849205174"
 	await library.generate_seed()
-	check(library.draft_field.height_checksum==initial and library.draft.generator_version==4,"Re-entering a bare seed selects the new larger generator")
 	library.name_input.text = "Bowl Run"
 	library.save_draft()
-	check(library.saved.size()==2,"Old and new versions of the same seed coexist in the local library")
+	check(library.saved.size()==1,"Saving the same current recipe updates one entry")
 	# Verify the real controls open usable filesystem dialogs, including cancel.
 	library.export_file()
 	await process_frame
@@ -71,13 +102,14 @@ func run() -> void:
 	library.ski_selected()
 	await scene_changed
 	game = current_scene
+	await wait_until_ready()
 	game.set_physics_process(false)
 	game.session.eligible = false
 	check(game.current_mountain!=null and game.field.height_checksum==initial and game.active and not game.timed,"Ski button loads the preview as a free-ski session")
 	check(game.graphics.level==0 and game.weather.selected_preset=="snowfall" and game.physics_modified and is_equal_approx(game.sim.tuning.edge_grip,1.9),"Mountain changes preserve graphics, weather and modified tuning")
 	check(not game.session.eligible and game.session.reference_replay==null and game.session.course_id.begins_with("free-ski-"),"Generated free skiing cannot use benchmark personal bests or ghosts")
 	check(game.world.benchmark_markers.is_empty() and game.world.terrain_triangles==4718592,"Generated terrain uses the expanded 4 m mesh without a predefined marker corridor")
-	check(game.world.mountain.physics_authority=="alpine-drainage-v4","Scenery identifies the generated physical authority")
+	check(game.world.mountain.physics_authority=="alpine-drainage-v%d" % Definition.CURRENT_VERSION,"Scenery identifies the generated physical authority")
 	check(game.summit_ready and game.sim.position==game.field.spawn_point(),"Free skiing stages the player at the true highest summit")
 	var height_before = game.sim.position.y
 	for i in 120: game._physics_process(1.0/120.0)
@@ -101,7 +133,8 @@ func run() -> void:
 		game.sim.reset(Vector3(p.x,game.field.sample(p.x,p.y).height,p.y),atan2(p.x,p.y))
 		game.sim.prime_contacts(game.field)
 		game._physics_process(1.0/120.0)
-		check(not game.active and game.session.finished,"Reaching the base completes free skiing on side "+str(direction))
+		while game.returning_to_summit: await process_frame
+		check(game.summit_ready and game.sim.position==game.field.spawn_point() and not game.session.eligible,"Reaching the base returns to unranked summit free skiing on side "+str(direction))
 	game.restart()
 	game.set_physics_process(false)
 	game.weather.set_preset("clear")
@@ -142,32 +175,23 @@ func run() -> void:
 	game.session.eligible = false
 	check(game.timed and game.session.race!=null and game.session.course_id==race.record_identity(),"Generated race starts with its own compatible competitive identity")
 	game.active = false
-	game.start_run(true)
-	await scene_changed
-	game = current_scene
-	game.set_physics_process(false)
-	game.session.eligible = false
-	check(game.current_mountain==null and game.field.GENERATOR_ID=="laboratory" and game.field.seed_value==849205174,"Original test face returns to the laboratory even when the generated seed is identical")
-	# Import the generated race while another kind of mountain is loaded.
+	game.start_run(false)
+	check(game.current_mountain!=null and game.field.GENERATOR_VERSION==Definition.CURRENT_VERSION and game.session.race==null and game.summit_ready,"Returning from a race keeps the selected mountain and stages summit free skiing")
 	game.play_custom_race(race)
-	await scene_changed
-	game = current_scene
-	game.set_physics_process(false)
 	game.session.eligible = false
-	check(game.current_mountain!=null and game.field.height_checksum==initial and game.session.race.identity()==race.identity(),"Shared generated race reloads the correct terrain from the laboratory")
-	# The experimental face is opt-in and uses the same owned generation worker.
+	check(game.field.height_checksum==initial and game.session.race.identity()==race.identity(),"Shared race uses the selected v11 terrain")
 	var showcase_library = game.mountain_library
 	showcase_library.store.directory = test_dir
 	await showcase_library.open()
-	var showcase_buttons = showcase_library.panel.find_children("*","Button",true,false).filter(func(button): return button.text.begins_with("TECHNICAL SHOWCASE"))
-	check(showcase_buttons.size()==1,"The mountain library exposes one Technical Showcase entry")
+	var showcase_buttons = showcase_library.panel.find_children("*","Button",true,false).filter(func(button): return button.text.begins_with("DEFAULT MOUNTAIN"))
+	check(showcase_buttons.size()==1,"The library exposes one Default Mountain entry")
 	showcase_buttons[0].pressed.emit()
 	while showcase_library.busy: await process_frame
-	check(showcase_library.draft.generator_version==7 and showcase_library.name_input.text=="Technical Showcase" and "south" in showcase_library.summary.text.to_lower(),"Showcase button generates the named south face with clear entry guidance")
+	check(showcase_library.draft.generator_version==Definition.CURRENT_VERSION and showcase_library.name_input.text=="Default Mountain" and "six alpine faces" in showcase_library.summary.text.to_lower(),"Default button generates the named all-face mountain")
 	var showcase_hash = showcase_library.draft_field.height_checksum
 	showcase_library.seed_input.text = "42 / v6"
 	await showcase_library.generate_seed()
-	check(showcase_library.draft_field.height_checksum==showcase_hash and "only seed" in showcase_library.status.text,"Unsupported showcase seeds preserve the active preview")
+	check(showcase_library.draft_field.height_checksum==showcase_hash and "unsupported" in showcase_library.status.text,"Unsupported showcase seeds preserve the active preview")
 	var showcase_export = test_dir.path_join("showcase.apexmountain")
 	check(showcase_library.Store.write_file(showcase_export,showcase_library.draft).is_empty(),"Showcase exports through the existing portable recipe contract")
 	await showcase_library.import_file(showcase_export)
@@ -175,12 +199,16 @@ func run() -> void:
 	showcase_library.ski_selected()
 	await scene_changed
 	game = current_scene
+	await wait_until_ready()
 	game.set_physics_process(false)
-	check(game.field.GENERATOR_VERSION==7 and game.summit_ready and not game.session.eligible,"Showcase loads at the original summit as unranked free skiing")
-	check(game.world.scenery.obstacle_count==game.field.obstacles.size(),"Showcase renderer includes every physical obstacle")
-	var physical_before = [game.field.height_checksum,game.field.obstacle_checksum,game.field.obstacles.duplicate(true)]
-	for level in [2,1,0]: game.set_graphics_quality(level)
-	check(physical_before==[game.field.height_checksum,game.field.obstacle_checksum,game.field.obstacles],"Showcase quality changes preserve all physical obstacles and terrain")
+	check(game.field.GENERATOR_VERSION==Definition.CURRENT_VERSION and game.summit_ready and not game.session.eligible,"Showcase loads at the original summit as unranked free skiing")
+	check(game.world.scenery.obstacle_count==game.field.tree_data.size(),"Showcase renderer includes every physical obstacle")
+	var physical_before = [game.field.height_checksum,game.field.obstacle_checksum,game.field.tree_data.positions.duplicate()]
+	for level in [2,1,0]:
+		game.set_graphics_quality(level)
+		Engine.max_fps = 30
+		await process_frame
+	check(physical_before==[game.field.height_checksum,game.field.obstacle_checksum,game.field.tree_data.positions],"Showcase quality changes preserve all physical obstacles and terrain")
 	check(game.world.snow_material.get_shader_parameter("use_feature_exposure")==true,"Localized cliff and snow-gap exposure survives graphics changes")
 	game.drop_from_summit()
 	game.restart()
@@ -195,14 +223,24 @@ func run() -> void:
 	check(record_before==record_after,"Tests leave personal bests untouched")
 	game.active = false
 	game.effects.stop_audio()
+	var used_staged_loading: bool = game.staged_loading
 	game.queue_free()
 	await process_frame
 	_cleanup(test_dir)
 	DirAccess.make_dir_recursive_absolute("res://artifacts/summit_mountain")
-	var output = {"checks":checks,"failures":failures,"captures":captures}
+	var output = {"checks":checks,"failures":failures,"captures":captures,"staged_loading":used_staged_loading,"height_sha256":initial,"obstacle_sha256":physical_before[1]}
 	FileAccess.open("res://artifacts/summit_mountain/library_results.json",FileAccess.WRITE).store_string(JSON.stringify(output,"\t"))
 	print("MOUNTAIN_LIBRARY_RESULTS ",JSON.stringify(output))
 	quit(0 if failures.is_empty() else 1)
+
+func wait_until_ready() -> void:
+	# The final loading checkpoint still yields after initialized becomes true.
+	# Manual physics ticks are correctly ignored until that overlay finishes.
+	while not game.initialized or (game.loading and game.loading.busy):
+		Engine.max_fps = 30
+		await process_frame
+	Engine.max_fps = 30
+	game.set_physics_process(false)
 
 func capture(label: String) -> void:
 	if DisplayServer.get_name()=="headless": return

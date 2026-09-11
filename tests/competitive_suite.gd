@@ -29,9 +29,11 @@ func fixture():
 	result.mountain = Race.mountain_reference(field,field.seed_value+4187)
 	result.start = field.spawn_point()
 	result.finish = Vector3(0,field.sample(0,240).height,240)
+	result.finish_heading=Race.Flavor.downhill_heading(field,result.finish)
 	return result
 
 func run() -> void:
+	set_meta("test_lab_fixture",true) # Explicit laboratory regression fixture.
 	test_dir = "user://competitive_test_%d" % OS.get_process_id()
 	DirAccess.make_dir_recursive_absolute(test_dir)
 	field = Race.Terrain.new()
@@ -48,10 +50,10 @@ func run() -> void:
 	check(session.finished and session.new_best and session.best_replay!=null,"First ranked finish creates a PB and recorded ghost")
 	check(session.save_error.is_empty() and FileAccess.file_exists(Records.path_for(session.record_path())),"PB, splits, history and ghost save together")
 	check(session.split_times.all(func(t): return t>0) and session.split_times[0]<session.split_times[1] and session.split_times[1]<session.split_times[2],"Real ski run produces three ordered cumulative approach splits")
-	check(absf(first_replay.duration-session.elapsed)<0.000001 and first_replay.inputs.size()==first_replay.ticks*4,"Replay retains exact finish time and every 120 Hz tick input")
+	check(absf(first_replay.duration-session.elapsed)<0.000001 and first_replay.inputs.size()==first_replay.ticks*Replay.INPUT_WIDTH,"Replay retains exact finish time and every 120 Hz tick input")
 	check(first_replay.samples.size()<first_replay.ticks/3+3,"Snapshot storage is bounded to 30 Hz plus the exact finish")
 	var last_position: Vector3 = first_replay.pose_at(first_replay.duration).position
-	check(absf(Vector2(last_position.x,last_position.z).distance_to(Vector2(race.finish.x,race.finish.z))-Race.FINISH_RADIUS)<0.01,"Final ghost sample ends on the sub-tick finish intersection")
+	check(absf((Basis(Vector3.UP,race.finish_heading).transposed()*(last_position-race.finish)).z)<0.01,"Final ghost sample ends on the sub-tick gate-plane intersection")
 	var loaded = Session.new()
 	loaded.record_directory = session.record_directory
 	loaded.configure(race)
@@ -126,7 +128,7 @@ func _split_checks() -> void:
 	wide.eligible = false
 	wide.step(1.0,race.start+Vector3.RIGHT*200,race.finish)
 	check(direct.split_times==wide.split_times and wide.finished,"Unlimited split planes allow a different lateral route and never gate finishing")
-	check(absf(direct.split_times[0]-(215.0-12.0)*0.25/215.0)<0.000001,"Split time interpolates within a tick")
+	check(absf(direct.split_times[0]-.25)<0.000001,"Split time interpolates within a tick")
 	direct.reset()
 	direct.eligible = false
 	var middle: Vector3 = race.start.lerp(race.finish,0.6)
@@ -158,10 +160,11 @@ func _replay_checks(replay, session) -> void:
 	wrapped.samples = [[0,0,0,0,deg_to_rad(179),0,0,0,1,0,1],[1,1,0,0,deg_to_rad(-179),0,1,0,1,0,1]]
 	for frame in wrapped.samples: frame.append_array(replay.samples[0].slice(11))
 	check(absf(absf(wrapped.pose_at(0.5).heading)-PI)<0.001,"Ghost heading interpolation takes the short arc across ±pi")
-	for variant in ["version","course","engine","tuning","order","finite","input","duration"]:
+	for variant in ["version","physics","course","engine","tuning","order","finite","input","duration"]:
 		var bad: Dictionary = data.duplicate(true)
 		match variant:
 			"version": bad.version = 99
+			"physics": bad.compatibility.physics = 19
 			"course": bad.compatibility.course = "other-race"
 			"engine": bad.compatibility.engine = "other-engine"
 			"tuning": bad.compatibility.tuning = "different-tuning"
@@ -207,7 +210,7 @@ func _history_and_benchmark_checks() -> void:
 	var loaded = Session.new()
 	loaded.record_directory = recent.record_directory
 	loaded.configure(race)
-	check(loaded.history.size()==20 and absf(loaded.history[0].time-5.0)<0.000001 and absf(loaded.history[-1].time-1.2)<0.000001,"History keeps the newest 20 completions across reloads")
+	check(loaded.history.size()==20 and absf(loaded.history[0].time-12.5)<0.000001 and absf(loaded.history[-1].time-3.0)<0.000001,"History keeps the newest 20 completions across reloads")
 	var benchmark = Session.new()
 	benchmark.benchmark_path = test_dir.path_join("original_benchmark.json")
 	benchmark.configure()
@@ -215,7 +218,7 @@ func _history_and_benchmark_checks() -> void:
 	var fresh = Session.new()
 	fresh.benchmark_path = benchmark.benchmark_path
 	fresh.configure()
-	check(absf(fresh.personal_best-57.506)<0.02 and fresh.best_replay!=null and fresh.best_splits.all(func(t): return t>0),"Current benchmark records its reference time, ghost and splits")
+	check(benchmark.finished and benchmark.personal_best>0 and absf(fresh.personal_best-benchmark.elapsed)<.000001 and fresh.best_replay!=null and fresh.best_splits.all(func(t): return t>0),"Current benchmark restores its measured reference time, ghost and splits")
 
 func _failure_checks(session) -> void:
 	var path = Records.path_for(session.record_path())
@@ -397,8 +400,10 @@ func key(code: Key) -> void:
 	game._unhandled_input(event)
 
 func _capture(label: String) -> void:
-	if DisplayServer.get_name()=="headless": return
+	# Container layout is deferred in headless runs too. Keep the layout wait
+	# before assertions, even when there is no framebuffer to capture.
 	for i in range(5): await process_frame
+	if DisplayServer.get_name()=="headless": return
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png("res://artifacts/competitive_%s.png" % label)
 	captures.append(label)

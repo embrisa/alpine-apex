@@ -1,8 +1,9 @@
-#define ALPINE_SNOW_SPARKLE
-uniform float snow_sparkle_strength : hint_range(0.0,6.0) = 4.2;
-varying float snow_glints;
-varying vec3 snow_facet_normal;
+#include "res://assets/graphics/snow_crystals.gdshaderinc"
+#define ALPINE_SNOW_TRANSMISSION
+varying vec3 snow_transmission;
 #include "res://assets/cloud_light.gdshaderinc"
+#include "res://assets/graphics/snow_readability.gdshaderinc"
+#include "res://assets/graphics/powder_surface.gdshaderinc"
 uniform sampler2D snow_albedo : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
 // Relief/roughness may blur along the grazing footprint; albedo retains
 // anisotropy. This bounds the cost of three blended snow detail samples.
@@ -15,6 +16,7 @@ uniform float snow_scale = 0.23;
 uniform float rock_scale = 0.075;
 uniform float rock_bias = 0.0;
 uniform float detail_strength = 0.36;
+uniform bool snow_geometry_debug = false;
 uniform bool use_environment = false;
 uniform vec2 environment_origin = vec2(-4096,-2048);
 uniform float environment_extent = 8192.0;

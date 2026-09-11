@@ -2,29 +2,28 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clk0rbu4hprod"
-path.s3tc="res://.godot/imported/bark_normal_high.jpg-654ffe7e637ab36509c985e0f842e8aa.s3tc.ctex"
+uid="uid://cc1elwi0rvpv3"
+path="res://.godot/imported/bark_normal_high.jpg-654ffe7e637ab36509c985e0f842e8aa.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/graphics/textures/bark_normal_high.jpg"
-dest_files=["res://.godot/imported/bark_normal_high.jpg-654ffe7e637ab36509c985e0f842e8aa.s3tc.ctex"]
+dest_files=["res://.godot/imported/bark_normal_high.jpg-654ffe7e637ab36509c985e0f842e8aa.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
-compress/normal_map=1
+compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

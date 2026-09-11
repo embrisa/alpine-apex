@@ -1,0 +1,6 @@
+interface:
+  display_name: "Alpine Animation"
+  short_description: "Author and review convincing Alpine Apex animation"
+  default_prompt: "Use $alpine-animation to improve this animation using the existing rig, prior feedback and reproducible visual evidence."
+policy:
+  allow_implicit_invocation: true

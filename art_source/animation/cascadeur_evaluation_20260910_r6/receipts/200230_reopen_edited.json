@@ -1,0 +1,30 @@
+{
+  "label": "reopen_edited",
+  "started_unix": 1789063329.6918383,
+  "seconds": 20.678999662399292,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "run_script",
+      "arguments": {
+        "code": "from pathlib import Path; p=Path(app.current_scene().get_path_name()); assert p.name=='ready_compression_r6.casc' and p.parent.name=='cascadeur_evaluation_20260910_r6'; assert p.stat().st_size>200000000; app.get_scene_manager().remove_application_scene(app.current_scene()); print('load_started',app.get_data_source_manager().load_scene(str(p)))"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"ok\": true,\n  \"value\": \"\",\n  \"messages\": [\n    {\n      \"level\": \"Info\",\n      \"text\": \"Start loading of C:/Users/hp/Downloads/alpine-apex/art_source/animation/cascadeur_evaluation_20260910_r6/ready_compression_r6.casc\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"Loading is completed\\n\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"load_started True\"\n    }\n  ]\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "transport_error": null
+}

@@ -1,0 +1,107 @@
+{
+  "authorized_credits": 1000,
+  "starting_balance": 3925,
+  "estimated_credits": 105,
+  "status": "integrated_and_verified",
+  "tasks": {
+    "ski": {
+      "request": {
+        "file_path": "C:\\Users\\hp\\Downloads\\alpine-apex\\art_source\\meshy\\equipment_v1\\ski_reference.png",
+        "ai_model": "meshy-7",
+        "ultra_mode": true,
+        "should_texture": true,
+        "enable_pbr": true,
+        "texture_resolution": "4k",
+        "should_remesh": false,
+        "target_formats": [
+          "glb"
+        ],
+        "response_format": "json"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"task_id\": \"01a07bcb-c709-735e-9220-3fa295b115f7\",\n  \"status\": \"PENDING\",\n  \"message\": \"3D generation task created successfully. Task ID: 01a07bcb-c709-735e-9220-3fa295b115f7\",\n  \"estimated_time\": \"2-3 minutes\"\n}"
+          }
+        ],
+        "structuredContent": {
+          "task_id": "01a07bcb-c709-735e-9220-3fa295b115f7",
+          "status": "PENDING",
+          "message": "3D generation task created successfully. Task ID: 01a07bcb-c709-735e-9220-3fa295b115f7",
+          "estimated_time": "2-3 minutes"
+        }
+      },
+      "consumed_credits": 35,
+      "status": "SUCCEEDED"
+    },
+    "binding": {
+      "request": {
+        "file_path": "C:\\Users\\hp\\Downloads\\alpine-apex\\art_source\\meshy\\equipment_v1\\binding_reference.png",
+        "ai_model": "meshy-7",
+        "ultra_mode": true,
+        "should_texture": true,
+        "enable_pbr": true,
+        "texture_resolution": "4k",
+        "should_remesh": false,
+        "target_formats": [
+          "glb"
+        ],
+        "response_format": "json"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"task_id\": \"01a07bcb-cbab-75a2-abfa-e8b725033e5a\",\n  \"status\": \"PENDING\",\n  \"message\": \"3D generation task created successfully. Task ID: 01a07bcb-cbab-75a2-abfa-e8b725033e5a\",\n  \"estimated_time\": \"2-3 minutes\"\n}"
+          }
+        ],
+        "structuredContent": {
+          "task_id": "01a07bcb-cbab-75a2-abfa-e8b725033e5a",
+          "status": "PENDING",
+          "message": "3D generation task created successfully. Task ID: 01a07bcb-cbab-75a2-abfa-e8b725033e5a",
+          "estimated_time": "2-3 minutes"
+        }
+      },
+      "consumed_credits": 35,
+      "status": "SUCCEEDED"
+    },
+    "pole": {
+      "request": {
+        "file_path": "C:\\Users\\hp\\Downloads\\alpine-apex\\art_source\\meshy\\equipment_v1\\pole_reference.png",
+        "ai_model": "meshy-7",
+        "ultra_mode": true,
+        "should_texture": true,
+        "enable_pbr": true,
+        "texture_resolution": "4k",
+        "should_remesh": false,
+        "target_formats": [
+          "glb"
+        ],
+        "response_format": "json"
+      },
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"task_id\": \"01a07bcb-cf07-75af-a383-65b18ae6d80a\",\n  \"status\": \"PENDING\",\n  \"message\": \"3D generation task created successfully. Task ID: 01a07bcb-cf07-75af-a383-65b18ae6d80a\",\n  \"estimated_time\": \"2-3 minutes\"\n}"
+          }
+        ],
+        "structuredContent": {
+          "task_id": "01a07bcb-cf07-75af-a383-65b18ae6d80a",
+          "status": "PENDING",
+          "message": "3D generation task created successfully. Task ID: 01a07bcb-cf07-75af-a383-65b18ae6d80a",
+          "estimated_time": "2-3 minutes"
+        }
+      },
+      "consumed_credits": 35,
+      "status": "SUCCEEDED"
+    }
+  },
+  "consumed_credits": 105,
+  "remaining_authorized_credits": 895,
+  "ending_balance": 3820,
+  "mirrored_left_ski_additional_credits": 0,
+  "runtime_qa": "runtime_qa.json",
+  "validation": "../../../artifacts/equipment_v1/delivery_qa.json"
+}

@@ -13,6 +13,7 @@ func run() -> void:
 		quit(1)
 		return
 	root.size = Vector2i(1440,900)
+	DirAccess.make_dir_recursive_absolute(output)
 	Engine.max_fps = 60
 	game = load("res://main.tscn").instantiate()
 	game.automated = true
@@ -91,7 +92,23 @@ func run() -> void:
 	for material in game.world.assets.surface_materials: material.set_shader_parameter("snow_sparkle_strength",0.0)
 	await capture("sun_crystals_disabled")
 	var crystal_pixels = changed_pixels(sun_image,root.get_texture().get_image())
-	for material in game.world.assets.surface_materials: material.set_shader_parameter("snow_sparkle_strength",3.0)
+	var sun_center_pixels = changed_pixels(sun_image,root.get_texture().get_image(),true)
+	# A real shadow caster intercepts the sun ray without sitting between the
+	# camera and the snow. This checks Godot shadow attenuation, not an on/off flag.
+	var blocker = MeshInstance3D.new()
+	var box = BoxMesh.new()
+	box.size = Vector3(8,.3,8)
+	blocker.mesh = box
+	game.add_child(blocker)
+	blocker.position = snow_point+sun*5.0
+	for material in game.world.assets.surface_materials: material.set_shader_parameter("snow_sparkle_strength",game.graphics.snow_sparkle)
+	await capture("crystals_cast_shadow")
+	var shade_image = root.get_texture().get_image()
+	for material in game.world.assets.surface_materials: material.set_shader_parameter("snow_sparkle_strength",0.0)
+	await capture("crystals_cast_shadow_disabled")
+	var shade_center_pixels = changed_pixels(shade_image,root.get_texture().get_image(),true)
+	blocker.queue_free()
+	for material in game.world.assets.surface_materials: material.set_shader_parameter("snow_sparkle_strength",game.graphics.snow_sparkle)
 	# Raking view across the sculpted snow, including a plain material proof that
 	# the surface relief exists in geometry rather than only a normal map.
 	var drift_point = Vector3(0,game.field.sample(0,550).height,550)
@@ -119,19 +136,21 @@ func run() -> void:
 	for material in game.world.assets.surface_materials: material.set_shader_parameter("snow_sparkle_strength",0.0)
 	await capture("night_crystals_disabled")
 	var night_crystal_pixels = changed_pixels(night_image,root.get_texture().get_image())
-	var report = {"captures":captures,"renderer":game.world.terrain_renderer,"eligible":game.session.eligible,"crashed":game.sim.crashed,"snow_depth_m":game.sim.snow_depth,"penetration_m":game.sim.snow_penetration,"snow_drag_m_s2":game.sim.snow_drag,"track_instances":game.effects.snow_tracks.written,"sun_crystal_pixels":crystal_pixels,"night_crystal_pixels":night_crystal_pixels}
+	var report = {"captures":captures,"renderer":game.world.terrain_renderer,"eligible":game.session.eligible,"crashed":game.sim.crashed,"snow_depth_m":game.sim.snow_depth,"penetration_m":game.sim.snow_penetration,"snow_drag_m_s2":game.sim.snow_drag,"track_instances":game.effects.snow_tracks.written,"sun_crystal_pixels":crystal_pixels,"night_crystal_pixels":night_crystal_pixels,"sun_center_glints":sun_center_pixels,"shadow_center_glints":shade_center_pixels}
 	FileAccess.open(output+"/playtest_%s.json" % game.world.terrain_renderer,FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
 	print("SNOW_PLAYTEST ",JSON.stringify(report))
 	game.effects.stop_audio()
 	game.queue_free()
 	await process_frame
-	quit(0 if not report.crashed and not report.eligible and crystal_pixels>10 and night_crystal_pixels==0 else 1)
+	quit(0 if not report.crashed and not report.eligible and crystal_pixels>10 and night_crystal_pixels==0 and sun_center_pixels>0 and shade_center_pixels<maxi(2,int(sun_center_pixels*.20)) else 1)
 
-func changed_pixels(a: Image, b: Image) -> int:
+func changed_pixels(a: Image, b: Image, center_only: bool = false) -> int:
 	var changed = 0
 	# Sample every other pixel; ignore tiny quantization changes.
-	for y in range(0,a.get_height(),2):
-		for x in range(0,a.get_width(),2):
+	var margin_x = int(a.get_width()*.35) if center_only else 0
+	var margin_y = int(a.get_height()*.35) if center_only else 0
+	for y in range(margin_y,a.get_height()-margin_y,2):
+		for x in range(margin_x,a.get_width()-margin_x,2):
 			var delta = a.get_pixel(x,y)-b.get_pixel(x,y)
 			if maxf(absf(delta.r),maxf(absf(delta.g),absf(delta.b)))>0.025: changed += 1
 	return changed

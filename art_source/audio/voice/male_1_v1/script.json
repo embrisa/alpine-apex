@@ -1,0 +1,1262 @@
+{
+  "version": 1,
+  "voice": "Alpine Apex Male 1",
+  "voice_id": "V04rTlFwpnbuqHOMNQEj",
+  "model_id": "eleven_v3",
+  "groups": [
+    {
+      "id": "air_small",
+      "tag": "[effortful]",
+      "lines": [
+        {
+          "id": "voice_air_small_01",
+          "caption": "Hup!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_air_small_02",
+          "caption": "Whoa.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_air_small_03",
+          "caption": "Ooh!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_air_small_04",
+          "caption": "Okay!",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "air_big",
+      "tag": "[excited]",
+      "lines": [
+        {
+          "id": "voice_air_big_01",
+          "caption": "Whoa!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_air_big_02",
+          "caption": "Ohhh!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_air_big_03",
+          "caption": "Here we go!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_air_big_04",
+          "caption": "That's big!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_air_big_05",
+          "caption": "Come on!",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "air_huge",
+      "tag": "[shouting]",
+      "lines": [
+        {
+          "id": "voice_air_huge_01",
+          "caption": "WHOA!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_air_huge_02",
+          "caption": "Oh my God!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_air_huge_03",
+          "caption": "Ohhh, shit!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_air_huge_04",
+          "caption": "This is huge!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_air_huge_05",
+          "caption": "No way!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_air_huge_06",
+          "caption": "Holy shit!",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "land_clean",
+      "tag": "[relieved]",
+      "lines": [
+        {
+          "id": "voice_land_clean_01",
+          "caption": "Nice.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_land_clean_02",
+          "caption": "Yes!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_land_clean_03",
+          "caption": "Got it.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_land_clean_04",
+          "caption": "Smooth.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_land_clean_05",
+          "caption": "There we go.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_land_clean_06",
+          "caption": "Perfect.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_land_clean_07",
+          "caption": "That's it!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_land_clean_08",
+          "caption": "Woo!",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "land_big",
+      "tag": "[excited]",
+      "lines": [
+        {
+          "id": "voice_land_big_01",
+          "caption": "Yes!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_land_big_02",
+          "caption": "Got it!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_land_big_03",
+          "caption": "Come on!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_land_big_04",
+          "caption": "Ohhh, yes!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_land_big_05",
+          "caption": "Still here!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_land_big_06",
+          "caption": "Nailed it!",
+          "weight": 0.2,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "save",
+      "tag": "[strained]",
+      "lines": [
+        {
+          "id": "voice_save_01",
+          "caption": "Whoa!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_save_02",
+          "caption": "Easy!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_save_03",
+          "caption": "Hold it!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_save_04",
+          "caption": "Come on...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_save_05",
+          "caption": "Ahh!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_save_06",
+          "caption": "Okay, okay.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_save_07",
+          "caption": "Still up.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_save_08",
+          "caption": "That was close.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_save_09",
+          "caption": "Jesus.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_save_10",
+          "caption": "Whew.",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "impact_small",
+      "tag": "[grunts]",
+      "lines": [
+        {
+          "id": "voice_impact_small_01",
+          "caption": "Hnh!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_small_02",
+          "caption": "Ugh!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_small_03",
+          "caption": "Ah!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_small_04",
+          "caption": "Ngh!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_small_05",
+          "caption": "Huh!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_small_06",
+          "caption": "Oof!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_small_07",
+          "caption": "Mmgh!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_small_08",
+          "caption": "Ahh!",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "impact_hard",
+      "tag": "[strained]",
+      "lines": [
+        {
+          "id": "voice_impact_hard_01",
+          "caption": "UGH!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_hard_02",
+          "caption": "Agh!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_hard_03",
+          "caption": "Fuck!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_hard_04",
+          "caption": "Ahhh!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_hard_05",
+          "caption": "Jesus!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_hard_06",
+          "caption": "God!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_hard_07",
+          "caption": "Nghhh!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_hard_08",
+          "caption": "Shit!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_hard_09",
+          "caption": "Ah, fuck!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_impact_hard_10",
+          "caption": "Ugh...",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "crash_start",
+      "tag": "[panicked]",
+      "lines": [
+        {
+          "id": "voice_crash_start_01",
+          "caption": "Whoa—!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_start_02",
+          "caption": "Oh shit—!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_start_03",
+          "caption": "No, no, no—!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_start_04",
+          "caption": "Ahhh!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_start_05",
+          "caption": "Fuck!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_start_06",
+          "caption": "Ohhh God!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_start_07",
+          "caption": "Shit, shit—!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_start_08",
+          "caption": "NO—!",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "crash_after",
+      "tag": "[pained]",
+      "lines": [
+        {
+          "id": "voice_crash_after_01",
+          "caption": "Ugh...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_after_02",
+          "caption": "Fuck...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_after_03",
+          "caption": "Ahh, God...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_after_04",
+          "caption": "That hurt.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_after_05",
+          "caption": "Jesus Christ...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_after_06",
+          "caption": "I'm good...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_after_07",
+          "caption": "Give me a second...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_after_08",
+          "caption": "Okay... okay.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_after_09",
+          "caption": "Damn it.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_crash_after_10",
+          "caption": "Ugh... come on.",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "speed_high",
+      "tag": "[excited]",
+      "lines": [
+        {
+          "id": "voice_speed_high_01",
+          "caption": "Woo!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_speed_high_02",
+          "caption": "Yeah!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_speed_high_03",
+          "caption": "Ohhh, yeah!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_speed_high_04",
+          "caption": "Come on!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_speed_high_05",
+          "caption": "Let's go!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_speed_high_06",
+          "caption": "This is fast.",
+          "weight": 0.2,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "speed_extreme",
+      "tag": "[shouting]",
+      "lines": [
+        {
+          "id": "voice_speed_extreme_01",
+          "caption": "Holy shit!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_speed_extreme_02",
+          "caption": "Ohhh, God!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_speed_extreme_03",
+          "caption": "This is insane!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_speed_extreme_04",
+          "caption": "Jesus!",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "nearmiss",
+      "tag": "[startled]",
+      "lines": [
+        {
+          "id": "voice_nearmiss_01",
+          "caption": "Whoa!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_nearmiss_02",
+          "caption": "Shit!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_nearmiss_03",
+          "caption": "Jesus!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_nearmiss_04",
+          "caption": "Too close.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_nearmiss_05",
+          "caption": "Ohhh...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_nearmiss_06",
+          "caption": "Easy...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_nearmiss_07",
+          "caption": "Fuck me.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_nearmiss_08",
+          "caption": "Okay!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_nearmiss_09",
+          "caption": "Whew!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_nearmiss_10",
+          "caption": "That was close.",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "injured",
+      "tag": "[out of breath]",
+      "lines": [
+        {
+          "id": "voice_injured_01",
+          "caption": "Ahh...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_injured_02",
+          "caption": "Ugh...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_injured_03",
+          "caption": "Come on...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_injured_04",
+          "caption": "Keep going.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_injured_05",
+          "caption": "I'm fine...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_injured_06",
+          "caption": "Just keep moving.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_injured_07",
+          "caption": "Fuck...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_injured_08",
+          "caption": "Almost there.",
+          "weight": 1,
+          "min_race_progress": 0.85
+        },
+        {
+          "id": "voice_injured_09",
+          "caption": "Ngh...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_injured_10",
+          "caption": "Okay...",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "finish_normal",
+      "tag": "[relieved]",
+      "lines": [
+        {
+          "id": "voice_finish_normal_01",
+          "caption": "Whew.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_normal_02",
+          "caption": "Okay.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_normal_03",
+          "caption": "There we go.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_normal_04",
+          "caption": "Made it.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_normal_05",
+          "caption": "Not bad.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_normal_06",
+          "caption": "That was good.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_normal_07",
+          "caption": "I'll take it.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_normal_08",
+          "caption": "Yeah...",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "finish_good",
+      "tag": "[pleased]",
+      "lines": [
+        {
+          "id": "voice_finish_good_01",
+          "caption": "Yes!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_good_02",
+          "caption": "That's more like it.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_good_03",
+          "caption": "That felt good.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_good_04",
+          "caption": "Nice run.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_good_05",
+          "caption": "There we go!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_good_06",
+          "caption": "Yeah!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_good_07",
+          "caption": "That's the one.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_good_08",
+          "caption": "I'll take that.",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "finish_bad",
+      "tag": "[disappointed]",
+      "lines": [
+        {
+          "id": "voice_finish_bad_01",
+          "caption": "Damn.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_bad_02",
+          "caption": "Fuck.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_bad_03",
+          "caption": "Not good enough.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_bad_04",
+          "caption": "Again.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_bad_05",
+          "caption": "I can do better.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_bad_06",
+          "caption": "Too messy.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_bad_07",
+          "caption": "Lost too much time.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_finish_bad_08",
+          "caption": "Damn it.",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "pb",
+      "tag": "[excited]",
+      "lines": [
+        {
+          "id": "voice_pb_01",
+          "caption": "Yes!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_pb_02",
+          "caption": "That's a new best!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_pb_03",
+          "caption": "Yes! New personal best!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_pb_04",
+          "caption": "That's the one!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_pb_05",
+          "caption": "Finally!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_pb_06",
+          "caption": "Ohhh, yes!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_pb_07",
+          "caption": "I knew that was fast!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_pb_08",
+          "caption": "What a run!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_pb_09",
+          "caption": "Yes! Yes!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_pb_10",
+          "caption": "Let's go!",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "record",
+      "tag": "[excited]",
+      "lines": [
+        {
+          "id": "voice_record_01",
+          "caption": "No way!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_record_02",
+          "caption": "That's the record!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_record_03",
+          "caption": "Holy shit!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_record_04",
+          "caption": "YES!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_record_05",
+          "caption": "We got it!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_record_06",
+          "caption": "That's a new record!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_record_07",
+          "caption": "Oh my God!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_record_08",
+          "caption": "What a run!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_record_09",
+          "caption": "I can't believe that!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_record_10",
+          "caption": "That's insane!",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "win",
+      "tag": "[excited]",
+      "lines": [
+        {
+          "id": "voice_win_01",
+          "caption": "Yes!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_win_02",
+          "caption": "Come on!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_win_03",
+          "caption": "That's it!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_win_04",
+          "caption": "We got it!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_win_05",
+          "caption": "Hell yes!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_win_06",
+          "caption": "What a run!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_win_07",
+          "caption": "That's what I'm talking about!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_win_08",
+          "caption": "Let's go!",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "start",
+      "tag": "[focused]",
+      "lines": [
+        {
+          "id": "voice_start_01",
+          "caption": "Alright.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_start_02",
+          "caption": "Let's go.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_start_03",
+          "caption": "Here we go.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_start_04",
+          "caption": "Come on.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_start_05",
+          "caption": "Focus.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_start_06",
+          "caption": "Let's do this.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_start_07",
+          "caption": "Okay...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_start_08",
+          "caption": "Ready.",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "misc",
+      "tag": "[focused]",
+      "lines": [
+        {
+          "id": "voice_misc_01",
+          "caption": "Keep it clean.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_misc_02",
+          "caption": "Easy does it.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_misc_03",
+          "caption": "Stay focused.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_misc_04",
+          "caption": "Come on.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_misc_05",
+          "caption": "Find the line.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_misc_06",
+          "caption": "Smooth.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_misc_07",
+          "caption": "Keep moving.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_misc_08",
+          "caption": "That's it.",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "terrain_steep",
+      "tag": "[cautious]",
+      "lines": [
+        {
+          "id": "voice_terrain_steep_01",
+          "caption": "That's steep.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_terrain_steep_02",
+          "caption": "Okay...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_terrain_steep_03",
+          "caption": "Here we go.",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "terrain_cliff",
+      "tag": "[cautious]",
+      "lines": [
+        {
+          "id": "voice_terrain_cliff_01",
+          "caption": "Whoa...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_terrain_cliff_02",
+          "caption": "That's a drop.",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "terrain_tight",
+      "tag": "[focused]",
+      "lines": [
+        {
+          "id": "voice_terrain_tight_01",
+          "caption": "Easy...",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_terrain_tight_02",
+          "caption": "Thread it.",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_terrain_tight_03",
+          "caption": "Keep it tight.",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    },
+    {
+      "id": "terrain_open",
+      "tag": "[excited]",
+      "lines": [
+        {
+          "id": "voice_terrain_open_01",
+          "caption": "Let's go!",
+          "weight": 1,
+          "min_race_progress": 0
+        },
+        {
+          "id": "voice_terrain_open_02",
+          "caption": "Send it!",
+          "weight": 1,
+          "min_race_progress": 0
+        }
+      ]
+    }
+  ]
+}

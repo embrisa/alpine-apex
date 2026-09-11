@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Alpine Apex frozen pose evidence v1",
+  "type": "object",
+  "required": ["version", "revision", "evidenceId", "capture", "poses", "regions", "sequences", "sourceHashes", "traceHashes", "referenceHashes"],
+  "properties": {
+    "version": {"const": 1},
+    "revision": {"type": "string", "minLength": 1},
+    "evidenceId": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "capture": {"type": "object", "required": ["physics", "seed", "mountain_version", "capture_fps", "simulation_hz", "unranked"], "properties": {"capture_fps": {"const": 60}, "simulation_hz": {"const": 120}, "unranked": {"const": true}}},
+    "poses": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/pose"}},
+    "regions": {"type": "array", "minItems": 20, "maxItems": 20},
+    "sequences": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["id", "poses", "motion", "video", "referenceSheet"], "properties": {"poses": {"type": "array", "minItems": 3, "maxItems": 3}, "motion": {"$ref": "#/$defs/grade"}}}}
+  },
+  "$defs": {
+    "score": {"type": ["number", "null"], "minimum": 0, "maximum": 10, "multipleOf": 0.5},
+    "grade": {"type": "object", "required": ["score", "reason"], "properties": {"score": {"$ref": "#/$defs/score"}, "reason": {"type": "string", "minLength": 1}}},
+    "part": {"type": "object", "required": ["score", "observation", "adjustment", "origin", "confidence", "range", "region", "bones", "coupled_bones"], "properties": {"score": {"$ref": "#/$defs/score"}, "bones": {"type": "array", "minItems": 1}, "coupled_bones": {"type": "array", "minItems": 1}}},
+    "pose": {"type": "object", "required": ["id", "sequence", "frame", "tick", "time", "event", "clips", "overall", "parts", "matchStatus", "matchNote", "images", "sourceImages", "equipment", "frameEvidence"], "properties": {"id": {"type": "string"}, "frame": {"type": "integer", "minimum": 0}, "tick": {"type": "integer", "minimum": 0}, "matchStatus": {"enum": ["matched", "partial", "missing"]}, "overall": {"$ref": "#/$defs/grade"}, "parts": {"type": "object", "minProperties": 20, "maxProperties": 20, "additionalProperties": {"$ref": "#/$defs/part"}}, "event": {"type": "object", "required": ["name", "time", "relative_time", "tick"]}, "images": {"type": "array", "minItems": 3, "maxItems": 3}, "sourceImages": {"type": "array", "minItems": 3, "maxItems": 3}}}
+  }
+}

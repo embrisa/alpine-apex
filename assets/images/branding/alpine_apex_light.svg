@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="640" viewBox="0 0 1440 640" fill="none">
+  <title>Alpine Apex</title>
+  <desc>Hand-drawn alpine ridgeline, nested summit chevrons and custom geometric lettering. All artwork is editable vector paths.</desc>
+  <g id="mountain">
+    <path id="west-snow" fill="#EDF4F8" d="m208 424 144-92 56-88 78 50 102-86-80 122-58 36 17-51-59-42-38 84Z" />
+    <path id="summit-snow" fill="#EDF4F8" d="M720 24 816 174 858 202 932 304 1008 246 1104 360 1232 424 1116 400 1024 324 990 330 955 372 894 338 852 282 820 234 800 176 752 100Z" />
+    <path id="east-facet" fill="#EDF4F8" d="m1008 246 96 114 128 64-116-24-92-76 28 9Z" />
+    <path id="upper-chevron" fill="#EDF4F8" d="M512 410 720 136 928 410H877L720 202 563 410Z" />
+    <path id="lower-chevron" fill="#EDF4F8" d="M598 410 720 250 842 410H792L720 315 648 410Z" />
+  </g>
+  <g id="wordmark" transform="translate(89.25 474) scale(1.25) skewX(-12)" fill-rule="evenodd">
+    <g id="alpine" fill="#EDF4F8">
+      <path id="alpine-a" d="M0 100 56 0 112 100H84L56 48 28 100ZM41 100 56 73 71 100Z" />
+      <path id="alpine-l" transform="translate(122)" d="M0 0H25V78H86L72 100H0Z" />
+      <path id="alpine-p" transform="translate(214)" d="M0 100V0H75L96 21V46L75 68H24V100ZM24 20V48H66L74 40V28L66 20Z" />
+      <path id="alpine-i" transform="translate(320)" d="M0 0H28V86L14 100H0Z" />
+      <path id="alpine-n" transform="translate(358)" d="M0 100V0H24L76 58V14L90 0H100V100H76L24 42V100Z" />
+      <path id="alpine-e" transform="translate(468)" d="M0 0H90L76 22H25V39H78L65 59H25V78H90L76 100H0Z" />
+    </g>
+    <g id="apex" transform="translate(594)" fill="#EDF4F8">
+      <path id="apex-a" d="M0 100 56 0 112 100H84L56 48 28 100ZM41 100 56 73 71 100Z" />
+      <path id="apex-p" transform="translate(122)" d="M0 100V0H75L96 21V46L75 68H24V100ZM24 20V48H66L74 40V28L66 20Z" />
+      <path id="apex-e" transform="translate(228)" d="M0 0H90L76 22H25V39H78L65 59H25V78H90L76 100H0Z" />
+      <path id="apex-x" transform="translate(324)" d="M0 0H31L58 32 82 0H112L74 49 108 100H77L54 68 30 100H0L38 50Z" />
+    </g>
+  </g>
+</svg>

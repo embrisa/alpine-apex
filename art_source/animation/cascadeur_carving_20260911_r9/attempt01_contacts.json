@@ -1,0 +1,36 @@
+{
+	"base_model": 28,
+	"cases": [
+		{
+			"air_ticks": 0,
+			"crash": "",
+			"direction": -1.0,
+			"final_speed_mps": 12.3046903610229,
+			"max_contact_error_m": 0.000000475289208878849,
+			"max_sink_step_m": 0.0025,
+			"minimum_load_n": 0.742216657042511,
+			"peak_separation_m": 0.14216253532004,
+			"peak_sink_m": 0.170000416326815,
+			"probe_pure": true,
+			"repeatable": true
+		},
+		{
+			"air_ticks": 0,
+			"crash": "",
+			"direction": 1.0,
+			"final_speed_mps": 12.3132486343384,
+			"max_contact_error_m": 0.000000476446489372506,
+			"max_sink_step_m": 0.0025,
+			"minimum_load_n": 0.742224598409484,
+			"peak_separation_m": 0.141779039908926,
+			"peak_sink_m": 0.170000416326815,
+			"probe_pure": true,
+			"repeatable": true
+		}
+	],
+	"checks": 28,
+	"experiment": "cascadeur-r9-deep-pressure-v1",
+	"failures": [],
+	"flat_air_ticks": 0,
+	"flat_max_energy_increase_j_kg": 0.0
+}

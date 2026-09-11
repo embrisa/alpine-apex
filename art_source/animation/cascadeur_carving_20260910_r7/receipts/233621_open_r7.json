@@ -1,0 +1,30 @@
+{
+  "label": "open_r7",
+  "started_unix": 1789076162.382912,
+  "seconds": 19.456830263137817,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "run_script",
+      "arguments": {
+        "code": "assert app.get_data_source_manager().load_scene('C:/Users/hp/Downloads/alpine-apex/art_source/animation/cascadeur_carving_20260910_r7/carving_r7.casc'); print(app.current_scene().get_path_name())"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"ok\": true,\n  \"value\": \"\",\n  \"messages\": [\n    {\n      \"level\": \"Info\",\n      \"text\": \"Start loading of C:/Users/hp/Downloads/alpine-apex/art_source/animation/cascadeur_carving_20260910_r7/carving_r7.casc\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"Loading is completed\\n\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"C:/Users/hp/Downloads/alpine-apex/art_source/animation/cascadeur_carving_20260910_r7/carving_r7.casc\"\n    }\n  ]\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "transport_error": null
+}

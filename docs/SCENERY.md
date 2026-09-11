@@ -1,5 +1,13 @@
 # Scenery variation
 
+## Tree collection revision (2026-09-07)
+
+The active tree collection has 24 spruce, fir, pine, bare birch, dead and broken variants. Living conifers use curved sprays with baked needle color, normals and occlusion, authored middle geometry and static shadow proxies. A standalone gallery and six Blender Asset Browser libraries support reuse. See [Tree collection](TREE_COLLECTION.md) for controls, source generation, physics scope and validation. Earlier tree exports below remain available for comparison.
+
+## TreeDesigner spruce update (2026-09-07)
+
+The active spruce family now uses three TreeDesigner derivatives with fine needle cutouts, rounded snow deposits and contact-driven canopy springs. They retain the existing MultiMesh placement, solid trunk collisions and near/mid/far rendering budgets. See [TreeDesigner trees](TREEDESIGNER_TREES.md) for source hashes, generation, physics scope and validation. The PC fir and pine families described below remain active.
+
 ## PC alpine environment (2026-09-07)
 
 The active spruce, fir and pine families now each have three Blender-authored silhouettes. Six angular rocks replace runtime rock selections: two fractured buttresses, two layered ledges and two broken boulders. Original sources and legacy exports below remain archived. The showcase uses coherent conifer palettes in its existing stands and leaves the open glades and physical obstacle list intact.

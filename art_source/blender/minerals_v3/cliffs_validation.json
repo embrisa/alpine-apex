@@ -1,0 +1,151 @@
+{
+  "assets": [
+    {
+      "asset": "mineral_cliffs_wall_01",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_wall_02",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_wall_03",
+      "triangles": 119956,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_wall_04",
+      "triangles": 119959,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_layered_wall_01",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_layered_wall_02",
+      "triangles": 119959,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_layered_wall_03",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_layered_wall_04",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_corner_01",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_corner_02",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_corner_03",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_corner_04",
+      "triangles": 119958,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_recess_01",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_recess_02",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_recess_03",
+      "triangles": 119958,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_recess_04",
+      "triangles": 119959,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_overhang_wall_01",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_overhang_wall_02",
+      "triangles": 119959,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_overhang_wall_03",
+      "triangles": 119957,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_overhang_wall_04",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_buttress_01",
+      "triangles": 119959,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_buttress_02",
+      "triangles": 119959,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_buttress_03",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_buttress_04",
+      "triangles": 119960,
+      "roundtrip_verified": true
+    }
+  ],
+  "export_hashes": {
+    "mineral_cliffs_wall_01": "f438f57e2a8802a90f58254b366bd361e51e77d88d79f0bd28d2f2741020d9da",
+    "mineral_cliffs_wall_02": "80a63563ed0a54797f9c68c7a7ee6191e7b8dda436d4405df4380823d95d5019",
+    "mineral_cliffs_wall_03": "e6f4071b806edb0a529f6a2f7d5216dd79f89005365ed46200a23288e00a93b2",
+    "mineral_cliffs_wall_04": "49e4509cc6d01c50b006ff52adb12542d90c9474c2f6f67aa0c4ff322d2e8408",
+    "mineral_cliffs_layered_wall_01": "656aab65c212c0bcb793672623169bcba729973d7e5f320ce34508d95500ae80",
+    "mineral_cliffs_layered_wall_02": "e16e7525db4ef33dcc9b68876926539dacc4bbfdd295c68f8172a8643690a913",
+    "mineral_cliffs_layered_wall_03": "cdcf6b0e9e7cee4bc9f96d42bb84476704b09313326e16a449ea44450b243318",
+    "mineral_cliffs_layered_wall_04": "6b70630262aa171f3dfc92f7d0b7e5b0ae4f745478828fc27f3981e467fe703d",
+    "mineral_cliffs_corner_01": "1098339aec3c9d2fa7f1a3878afb1d31e9c42ddd31f76bb311f5d56a2ae246c0",
+    "mineral_cliffs_corner_02": "5393ed93946566eefeaf8c287420e8cf15d2ebabc836d2e317f9a6d7a429c973",
+    "mineral_cliffs_corner_03": "700a0b21c179bd5421eded572e06d9dfc5ee77513bd95cd36a5ed7980240d1a4",
+    "mineral_cliffs_corner_04": "f851faf463c13a21c74fb61c17d8c302d38c5a00cf2479a2ac53c4351d6f59ab",
+    "mineral_cliffs_recess_01": "10603ca7b824774e8c76588e15ae65c4665e15e4414aa6986ce5edf9f8164835",
+    "mineral_cliffs_recess_02": "07805e074fa575120a80ae93dc2727ad3c3d130993482cfcbd092e04dbf4ef0f",
+    "mineral_cliffs_recess_03": "a3e8ae6fe6fe5eec134f297001b0635e24731bf3de631e3bccecae59d4264553",
+    "mineral_cliffs_recess_04": "b4ae8d43f5a4dfa5dba19813d0df8f7218550f706dc0048aa8d868e155a55cbc",
+    "mineral_cliffs_overhang_wall_01": "b90b082eea80e47b8ec85dccfd3c36646c2d1e0d8e3cb169ab29b707c1d10862",
+    "mineral_cliffs_overhang_wall_02": "4f4bd630e1be25e32ade6c70146d4062e0f6fbeafbc7f4dfcaa6f62bdb495e11",
+    "mineral_cliffs_overhang_wall_03": "cd88ba6ff923e5f4c3f83c0aea666602f6014c50a481b548f88f854eb838de39",
+    "mineral_cliffs_overhang_wall_04": "0b8630b5fecdcdefd7358bb0c64c59f6b9fee17a74e8a7947f6a74728dd8fa09",
+    "mineral_cliffs_buttress_01": "304e41e9b2e90e5322b8c1ec2a72e140083b478484ed634997f62fbf48b6e578",
+    "mineral_cliffs_buttress_02": "df23cd94583c32dbbfc77d44e1bbaf32e35d4a3dd7df9f80ae2c88b1f2cf1a0d",
+    "mineral_cliffs_buttress_03": "cd2a944ab7dfb2079f511ae46b2b21ca941e7109e62be9fa88e80ce80ff23baa",
+    "mineral_cliffs_buttress_04": "f70d5011eaf7edca3632cdababf2a9dfb35ecfad5ac42f3eef214eb328ecadd0"
+  },
+  "blend_sha256": "8d69e4ba540dec9e7c4efbd4d872e8113266fb31fa11df7f4820f17d67176930"
+}

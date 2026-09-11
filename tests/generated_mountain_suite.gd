@@ -83,7 +83,7 @@ func run() -> void:
 		check(not Definition.parse_seed(invalid).has("seed"),"Reject invalid seed: "+invalid)
 	for invalid in ["{}","null","[]",code.repeat(20),code.replace('"schema": 1','"schema": 99'),code.replace('"version": 3','"version": 99'),code.replace('"Renamed Basin"','""')]:
 		check(not Definition.decode(invalid).has("mountain"),"Reject malformed, oversized or unsupported mountain recipe")
-	check(Definition.parse_seed("849205174").version==4,"Bare seeds select the current generator")
+	check(Definition.parse_seed("849205174").version==Definition.CURRENT_VERSION,"Bare seeds select the current generator")
 	var legacy_seed = Definition.parse_seed(Definition.from_field(legacy).seed_text())
 	check(Definition.generate(legacy_seed.seed,legacy_seed.version).heights==legacy.heights,"Copied seeds include a reconstructable legacy version")
 	check(not Definition.decode(code.replace('"version": 3','"version": 1')).mountain.reconstruct().has("field"),"Changing a recipe version without its fingerprints cannot load different terrain")

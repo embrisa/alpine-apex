@@ -48,10 +48,12 @@ func build(hud) -> void:
 	panel.visible = false
 
 func refresh(session, ghost_enabled: bool) -> void:
-	course.text = session.race.title if session.race else "The original test face"
+	var free_ski: bool = session.course_id.begins_with("free-ski-")
+	course.text = session.race.title if session.race else ("Free ski · create a race to record times" if free_ski else "Laboratory fixture")
 	best.text = Session.format_time(session.personal_best)
 	ghost_toggle.set_pressed_no_signal(ghost_enabled)
 	ghost_info.text = "Cyan ghost follows your best recorded line. It has no collision." if session.best_replay else "Set a new personal best to record a ghost. Older best times are retained."
+	if free_ski: ghost_info.text = "Free skiing has no personal best or ghost. Create or select a race on this mountain."
 	var has_attempt: bool = session.elapsed>0.0
 	var reference: Array = session.reference_splits if has_attempt else session.best_splits
 	splits.text = "APPROACH       THIS RUN        PB AT START      DIFFERENCE\n" if has_attempt else "APPROACH       PERSONAL BEST\n"

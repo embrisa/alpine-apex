@@ -1,0 +1,1539 @@
+{
+  "scope": "605 final poses per variant, actual solver bindings and fixed gloves. Source differences are expected gameplay changes, not transfer failures. Five-ray skinned clothing audit is separate.",
+  "production": {
+    "straight": {
+      "metrics": {
+        "max_binding_error_m": 1.1415428538797867e-05,
+        "max_fixed_grip_error_m": 4.042201735960699e-06,
+        "max_segment_error_m": 3.890267507578038e-07,
+        "max_requested_to_final_joint_m": 0.33064002729275677,
+        "max_cuff_forward_deg": 17.49425806644502,
+        "min_cuff_forward_deg": 16.697307443315786,
+        "max_cuff_side_deg": 3.3004344341923404,
+        "max_joint_rotation_step_deg": 0.15750343569798989,
+        "max_source_to_requested_joint_m": 0.3289036396371481,
+        "shoulder_width_m": [
+          0.3524033398613942,
+          0.35250977465131744
+        ],
+        "frames": 121,
+        "all_supported": true,
+        "attachments_and_lengths_pass": true,
+        "cuffs_pass": true
+      },
+      "selected": [
+        {
+          "frame": 15,
+          "tick": 180,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.29629074775086556,
+          "requested_to_final_m": 0.29855196176025117,
+          "pelvis_support_bias_m": 0.130410224199295,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7212348878383641
+        },
+        {
+          "frame": 30,
+          "tick": 240,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.3015280035731341,
+          "requested_to_final_m": 0.3037277158023276,
+          "pelvis_support_bias_m": 0.130845218896866,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.722348779439926
+        },
+        {
+          "frame": 51,
+          "tick": 324,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.3054517617254461,
+          "requested_to_final_m": 0.3081018587776554,
+          "pelvis_support_bias_m": 0.134637370705605,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7174536734819414
+        },
+        {
+          "frame": 69,
+          "tick": 396,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.30687960650574003,
+          "requested_to_final_m": 0.3095845271071408,
+          "pelvis_support_bias_m": 0.130774155259132,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7237150818109515
+        },
+        {
+          "frame": 81,
+          "tick": 444,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.31546245956051944,
+          "requested_to_final_m": 0.3179669229622863,
+          "pelvis_support_bias_m": 0.141651645302773,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.717859506607055
+        },
+        {
+          "frame": 96,
+          "tick": 504,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.3267680577566697,
+          "requested_to_final_m": 0.3285896146325693,
+          "pelvis_support_bias_m": 0.137717589735985,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.718529596924782
+        },
+        {
+          "frame": 120,
+          "tick": 600,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.30096151482741895,
+          "requested_to_final_m": 0.30302885314537453,
+          "pelvis_support_bias_m": 0.139966621994972,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7200003266334535
+        }
+      ]
+    },
+    "compression": {
+      "metrics": {
+        "max_binding_error_m": 1.1288968165411932e-05,
+        "max_fixed_grip_error_m": 3.836647507487859e-06,
+        "max_segment_error_m": 3.8928335305277173e-07,
+        "max_requested_to_final_joint_m": 0.3410782117895438,
+        "max_cuff_forward_deg": 20.034577835974314,
+        "min_cuff_forward_deg": 16.682201664244985,
+        "max_cuff_side_deg": 4.264743685235009,
+        "max_joint_rotation_step_deg": 3.6273746230023023,
+        "max_source_to_requested_joint_m": 0.3415966033566092,
+        "shoulder_width_m": [
+          0.35240325066422784,
+          0.35272068734734097
+        ],
+        "frames": 121,
+        "all_supported": true,
+        "attachments_and_lengths_pass": true,
+        "cuffs_pass": true
+      },
+      "selected": [
+        {
+          "frame": 15,
+          "tick": 180,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.29629074775086556,
+          "requested_to_final_m": 0.29855196176025117,
+          "pelvis_support_bias_m": 0.130410224199295,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7212348878383641
+        },
+        {
+          "frame": 30,
+          "tick": 240,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.2784964967780915,
+          "requested_to_final_m": 0.2811118075187313,
+          "pelvis_support_bias_m": 0.130862474441528,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7191794216632845
+        },
+        {
+          "frame": 51,
+          "tick": 324,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.30633436163973066,
+          "requested_to_final_m": 0.1319967671006867,
+          "pelvis_support_bias_m": 0.131824880838394,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.6281910985708236
+        },
+        {
+          "frame": 69,
+          "tick": 396,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.33457782908603023,
+          "requested_to_final_m": 0.13424144701471333,
+          "pelvis_support_bias_m": 0.134093880653381,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.6374999582767484
+        },
+        {
+          "frame": 81,
+          "tick": 444,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.202127101619046,
+          "requested_to_final_m": 0.2045665914553841,
+          "pelvis_support_bias_m": 0.133128389716148,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.6996769309043884
+        },
+        {
+          "frame": 96,
+          "tick": 504,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.33489285320186596,
+          "requested_to_final_m": 0.3362844806618909,
+          "pelvis_support_bias_m": 0.13560950756073,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7183663696050651
+        },
+        {
+          "frame": 120,
+          "tick": 600,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.30950839351738096,
+          "requested_to_final_m": 0.31115857085646875,
+          "pelvis_support_bias_m": 0.138975977897644,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7200003415346146
+        }
+      ]
+    },
+    "steering_left": {
+      "metrics": {
+        "max_binding_error_m": 1.3625541435408558e-05,
+        "max_fixed_grip_error_m": 4.078601009685108e-06,
+        "max_segment_error_m": 3.790156560268265e-07,
+        "max_requested_to_final_joint_m": 0.3614498697217477,
+        "max_cuff_forward_deg": 21.6834380822482,
+        "min_cuff_forward_deg": -0.05002239463407496,
+        "max_cuff_side_deg": 6.6434982253479085,
+        "max_joint_rotation_step_deg": 14.757134990565618,
+        "max_source_to_requested_joint_m": 0.5913984559209993,
+        "shoulder_width_m": [
+          0.34286085051205073,
+          0.35243530303459814
+        ],
+        "frames": 121,
+        "all_supported": true,
+        "attachments_and_lengths_pass": true,
+        "cuffs_pass": true
+      },
+      "selected": [
+        {
+          "frame": 15,
+          "tick": 180,
+          "steer_input": -0.12,
+          "physical_turn": -0.143507776504769,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 0.305006566865364,
+          "action_weights": [
+            0.694993436336517,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.20949644713838578,
+          "requested_to_final_m": 0.17402695204538465,
+          "pelvis_support_bias_m": 0.150649324059486,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.736477315425873
+        },
+        {
+          "frame": 30,
+          "tick": 240,
+          "steer_input": -0.12,
+          "physical_turn": -0.199763325877061,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 0.000756035691515051,
+          "action_weights": [
+            0.999243915081024,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.2908181016495331,
+          "requested_to_final_m": 0.22236695910395582,
+          "pelvis_support_bias_m": 0.189021274447441,
+          "pelvis_reach_fit_m": 0.0021799246314913,
+          "final_hip_above_mean_ankle_m": 0.7512476146221155
+        },
+        {
+          "frame": 51,
+          "tick": 324,
+          "steer_input": -0.65,
+          "physical_turn": -0.333027865897818,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.70007722934694e-07,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.24750722037398817,
+          "requested_to_final_m": 0.23169758433240592,
+          "pelvis_support_bias_m": 0.209145352244377,
+          "pelvis_reach_fit_m": 0.0106533505022526,
+          "final_hip_above_mean_ankle_m": 0.730029284954071
+        },
+        {
+          "frame": 69,
+          "tick": 396,
+          "steer_input": -0.65,
+          "physical_turn": -0.656550291928056,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.26925353257476e-10,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.4341237433596335,
+          "requested_to_final_m": 0.2940774371939583,
+          "pelvis_support_bias_m": 0.308706164360046,
+          "pelvis_reach_fit_m": 0.0338100828230381,
+          "final_hip_above_mean_ankle_m": 0.6642643809318549
+        },
+        {
+          "frame": 81,
+          "tick": 444,
+          "steer_input": 0.0,
+          "physical_turn": -0.790496216034544,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.04456355141654e-12,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.5759428201323687,
+          "requested_to_final_m": 0.3570945431609836,
+          "pelvis_support_bias_m": 0.356160163879395,
+          "pelvis_reach_fit_m": 0.0396683178842068,
+          "final_hip_above_mean_ankle_m": 0.6238384693861005
+        },
+        {
+          "frame": 96,
+          "tick": 504,
+          "steer_input": 0.0,
+          "physical_turn": -0.64554622676496,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 2.58921417674008e-15,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.5366682132562165,
+          "requested_to_final_m": 0.318914382782165,
+          "pelvis_support_bias_m": 0.298753440380096,
+          "pelvis_reach_fit_m": 0.0314201712608337,
+          "final_hip_above_mean_ankle_m": 0.6606640666723249
+        },
+        {
+          "frame": 120,
+          "tick": 600,
+          "steer_input": 0.0,
+          "physical_turn": -0.0872994004163468,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.7536420469481e-19,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.23347591539575915,
+          "requested_to_final_m": 0.17107463774723938,
+          "pelvis_support_bias_m": 0.167759776115417,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7528227120637894
+        }
+      ]
+    },
+    "steering_right": {
+      "metrics": {
+        "max_binding_error_m": 1.3158155690149642e-05,
+        "max_fixed_grip_error_m": 4.011662571610257e-06,
+        "max_segment_error_m": 4.0401989825911144e-07,
+        "max_requested_to_final_joint_m": 0.3071865147513577,
+        "max_cuff_forward_deg": 22.13329970743926,
+        "min_cuff_forward_deg": -0.04256460516908992,
+        "max_cuff_side_deg": 5.6723199861772375,
+        "max_joint_rotation_step_deg": 14.795780727330675,
+        "max_source_to_requested_joint_m": 0.5984734552543133,
+        "shoulder_width_m": [
+          0.34298545440177924,
+          0.35243530303459814
+        ],
+        "frames": 121,
+        "all_supported": true,
+        "attachments_and_lengths_pass": true,
+        "cuffs_pass": true
+      },
+      "selected": [
+        {
+          "frame": 15,
+          "tick": 180,
+          "steer_input": 0.12,
+          "physical_turn": 0.143508566912635,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 0.304714409644576,
+          "action_weights": [
+            0.695285558700562,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.2225436621611864,
+          "requested_to_final_m": 0.18755772784748362,
+          "pelvis_support_bias_m": 0.14144204556942,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7364564985036846
+        },
+        {
+          "frame": 30,
+          "tick": 240,
+          "steer_input": 0.12,
+          "physical_turn": 0.199763274912948,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 0.000755311506168094,
+          "action_weights": [
+            0.999244689941406,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.29949697979107487,
+          "requested_to_final_m": 0.21800496441361888,
+          "pelvis_support_bias_m": 0.161034792661667,
+          "pelvis_reach_fit_m": 0.00164089084137231,
+          "final_hip_above_mean_ankle_m": 0.7518520951271065
+        },
+        {
+          "frame": 51,
+          "tick": 324,
+          "steer_input": 0.65,
+          "physical_turn": 0.334264907467964,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.69844877313514e-07,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.2715804427600825,
+          "requested_to_final_m": 0.240167184206736,
+          "pelvis_support_bias_m": 0.200059205293655,
+          "pelvis_reach_fit_m": 0.0101892687380314,
+          "final_hip_above_mean_ankle_m": 0.730328723788262
+        },
+        {
+          "frame": 69,
+          "tick": 396,
+          "steer_input": 0.65,
+          "physical_turn": 0.653230071500908,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.26803775027747e-10,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.46170759966469543,
+          "requested_to_final_m": 0.2786601100256797,
+          "pelvis_support_bias_m": 0.287866920232773,
+          "pelvis_reach_fit_m": 0.0331633910536766,
+          "final_hip_above_mean_ankle_m": 0.665378838777542
+        },
+        {
+          "frame": 81,
+          "tick": 444,
+          "steer_input": 0.0,
+          "physical_turn": 0.785822854544681,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0435629933392e-12,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.5807502317363767,
+          "requested_to_final_m": 0.28913219903948284,
+          "pelvis_support_bias_m": 0.288415491580963,
+          "pelvis_reach_fit_m": 0.039009265601635,
+          "final_hip_above_mean_ankle_m": 0.6252856850624086
+        },
+        {
+          "frame": 96,
+          "tick": 504,
+          "steer_input": 0.0,
+          "physical_turn": 0.644479845978823,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 2.58673404122799e-15,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.5602143338729514,
+          "requested_to_final_m": 0.300082074775731,
+          "pelvis_support_bias_m": 0.267090886831284,
+          "pelvis_reach_fit_m": 0.0312649123370647,
+          "final_hip_above_mean_ankle_m": 0.6609681695699695
+        },
+        {
+          "frame": 120,
+          "tick": 600,
+          "steer_input": 0.0,
+          "physical_turn": 0.0921934744810084,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.7519622825025e-19,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.2636001213713734,
+          "requested_to_final_m": 0.17512044502075622,
+          "pelvis_support_bias_m": 0.157125249505043,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.752635255455971
+        }
+      ]
+    },
+    "tuck_overlap": {
+      "metrics": {
+        "max_binding_error_m": 1.1486588646274766e-05,
+        "max_fixed_grip_error_m": 4.347907698635298e-06,
+        "max_segment_error_m": 4.2918025086602363e-07,
+        "max_requested_to_final_joint_m": 0.35434284127892196,
+        "max_cuff_forward_deg": 22.133637944653152,
+        "min_cuff_forward_deg": 16.646458233824745,
+        "max_cuff_side_deg": 4.991306065476468,
+        "max_joint_rotation_step_deg": 9.635376547036355,
+        "max_source_to_requested_joint_m": 0.5605903982765017,
+        "shoulder_width_m": [
+          0.3524047461962589,
+          0.3527910213181335
+        ],
+        "frames": 121,
+        "all_supported": true,
+        "attachments_and_lengths_pass": true,
+        "cuffs_pass": true
+      },
+      "selected": [
+        {
+          "frame": 15,
+          "tick": 180,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.29629074775086556,
+          "requested_to_final_m": 0.29855196176025117,
+          "pelvis_support_bias_m": 0.130410224199295,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7212348878383641
+        },
+        {
+          "frame": 30,
+          "tick": 240,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.22553605879102626,
+          "requested_to_final_m": 0.1626202182381522,
+          "pelvis_support_bias_m": 0.144519731402397,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.6820413917303085
+        },
+        {
+          "frame": 51,
+          "tick": 324,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.4742722253763883,
+          "requested_to_final_m": 0.2221813609953699,
+          "pelvis_support_bias_m": 0.112283378839493,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.511198982596398
+        },
+        {
+          "frame": 69,
+          "tick": 396,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.5580876168516946,
+          "requested_to_final_m": 0.25109035076601616,
+          "pelvis_support_bias_m": 0.148039549589157,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.50255386531353
+        },
+        {
+          "frame": 81,
+          "tick": 444,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.4176576734095949,
+          "requested_to_final_m": 0.13515959278826908,
+          "pelvis_support_bias_m": 0.134860873222351,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.601231142878532
+        },
+        {
+          "frame": 96,
+          "tick": 504,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.3199997072935602,
+          "requested_to_final_m": 0.3207604859430401,
+          "pelvis_support_bias_m": 0.127117618918419,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7143532931804659
+        },
+        {
+          "frame": 120,
+          "tick": 600,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.32916488633920993,
+          "requested_to_final_m": 0.32995312693410106,
+          "pelvis_support_bias_m": 0.136729761958122,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.719999417662621
+        }
+      ]
+    }
+  },
+  "candidate": {
+    "straight": {
+      "metrics": {
+        "max_binding_error_m": 1.145221240777559e-05,
+        "max_fixed_grip_error_m": 3.97045588566348e-06,
+        "max_segment_error_m": 4.265226349886575e-07,
+        "max_requested_to_final_joint_m": 0.3295405114121598,
+        "max_cuff_forward_deg": 17.54180158305291,
+        "min_cuff_forward_deg": 16.631285388047434,
+        "max_cuff_side_deg": 3.3949097081789583,
+        "max_joint_rotation_step_deg": 0.3647694066811227,
+        "max_source_to_requested_joint_m": 0.3277892441965722,
+        "shoulder_width_m": [
+          0.35241831184889655,
+          0.3533924060874594
+        ],
+        "frames": 121,
+        "all_supported": true,
+        "attachments_and_lengths_pass": true,
+        "cuffs_pass": true
+      },
+      "selected": [
+        {
+          "frame": 15,
+          "tick": 180,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.648,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.17426210209407886,
+          "requested_to_final_m": 0.17642054210538174,
+          "pelvis_support_bias_m": 0.0964543372392654,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.721234992146492
+        },
+        {
+          "frame": 30,
+          "tick": 240,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.0637978066359346,
+          "requested_to_final_m": 0.0693645112647494,
+          "pelvis_support_bias_m": 0.0585965774953365,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.722348719835281
+        },
+        {
+          "frame": 51,
+          "tick": 324,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.06379195706564494,
+          "requested_to_final_m": 0.06935319348975583,
+          "pelvis_support_bias_m": 0.0661498010158539,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.717453643679619
+        },
+        {
+          "frame": 69,
+          "tick": 396,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.06379191736188831,
+          "requested_to_final_m": 0.06935313996439346,
+          "pelvis_support_bias_m": 0.0564525164663792,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7237152606248856
+        },
+        {
+          "frame": 81,
+          "tick": 444,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.06379192309970648,
+          "requested_to_final_m": 0.06934794607582824,
+          "pelvis_support_bias_m": 0.0655275955796242,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.717859551310539
+        },
+        {
+          "frame": 96,
+          "tick": 504,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.316081110585656,
+          "requested_to_final_m": 0.31796868019422053,
+          "pelvis_support_bias_m": 0.133299320936203,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7185294479131695
+        },
+        {
+          "frame": 120,
+          "tick": 600,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.3009615678262991,
+          "requested_to_final_m": 0.3030288911213997,
+          "pelvis_support_bias_m": 0.139966621994972,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7200003266334535
+        }
+      ]
+    },
+    "compression": {
+      "metrics": {
+        "max_binding_error_m": 1.1355157626705556e-05,
+        "max_fixed_grip_error_m": 3.938442204862078e-06,
+        "max_segment_error_m": 4.631266173338311e-07,
+        "max_requested_to_final_joint_m": 0.3401360902440395,
+        "max_cuff_forward_deg": 19.732601744957584,
+        "min_cuff_forward_deg": 16.631285388047434,
+        "max_cuff_side_deg": 3.4043115439415192,
+        "max_joint_rotation_step_deg": 3.500124674521236,
+        "max_source_to_requested_joint_m": 0.3388263942476122,
+        "shoulder_width_m": [
+          0.35241831184889655,
+          0.35342900276701633
+        ],
+        "frames": 121,
+        "all_supported": true,
+        "attachments_and_lengths_pass": true,
+        "cuffs_pass": true
+      },
+      "selected": [
+        {
+          "frame": 15,
+          "tick": 180,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.648,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.17426210209407886,
+          "requested_to_final_m": 0.17642054210538174,
+          "pelvis_support_bias_m": 0.0964543372392654,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.721234992146492
+        },
+        {
+          "frame": 30,
+          "tick": 240,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.0857947953100339,
+          "requested_to_final_m": 0.0626234784986503,
+          "pelvis_support_bias_m": 0.0626234635710716,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.719179570674896
+        },
+        {
+          "frame": 51,
+          "tick": 324,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.23832623482090767,
+          "requested_to_final_m": 0.1435229066013644,
+          "pelvis_support_bias_m": 0.0285077206790447,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.628191083669662
+        },
+        {
+          "frame": 69,
+          "tick": 396,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.28261332281565466,
+          "requested_to_final_m": 0.21204775163178533,
+          "pelvis_support_bias_m": 0.0800092369318008,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.6374999880790705
+        },
+        {
+          "frame": 81,
+          "tick": 444,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.14359201841926275,
+          "requested_to_final_m": 0.07477082014993568,
+          "pelvis_support_bias_m": 0.0745403468608856,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.699677050113678
+        },
+        {
+          "frame": 96,
+          "tick": 504,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.32380670904337006,
+          "requested_to_final_m": 0.3252625480453442,
+          "pelvis_support_bias_m": 0.131282851099968,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7183663398027426
+        },
+        {
+          "frame": 120,
+          "tick": 600,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.3095083226464621,
+          "requested_to_final_m": 0.3111584491835107,
+          "pelvis_support_bias_m": 0.138975977897644,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7200002819299696
+        }
+      ]
+    },
+    "steering_left": {
+      "metrics": {
+        "max_binding_error_m": 1.3625541435408558e-05,
+        "max_fixed_grip_error_m": 4.039385965437455e-06,
+        "max_segment_error_m": 3.976254143722713e-07,
+        "max_requested_to_final_joint_m": 0.360751784026881,
+        "max_cuff_forward_deg": 21.681763945307704,
+        "min_cuff_forward_deg": -0.05001948968926084,
+        "max_cuff_side_deg": 6.6434982253479085,
+        "max_joint_rotation_step_deg": 10.906003441600449,
+        "max_source_to_requested_joint_m": 0.5908322309194314,
+        "shoulder_width_m": [
+          0.342860816960957,
+          0.35316204199433543
+        ],
+        "frames": 121,
+        "all_supported": true,
+        "attachments_and_lengths_pass": true,
+        "cuffs_pass": true
+      },
+      "selected": [
+        {
+          "frame": 15,
+          "tick": 180,
+          "steer_input": -0.12,
+          "physical_turn": -0.143507776504769,
+          "candidate_slot_weight": 0.648,
+          "downhill_weight": 0.305006566865364,
+          "action_weights": [
+            0.694993436336517,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.1643941601551005,
+          "requested_to_final_m": 0.12131885002643818,
+          "pelvis_support_bias_m": 0.119193054735661,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7364740967750545
+        },
+        {
+          "frame": 30,
+          "tick": 240,
+          "steer_input": -0.12,
+          "physical_turn": -0.199763325877061,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 0.000756035691515051,
+          "action_weights": [
+            0.999243915081024,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.19820197352505434,
+          "requested_to_final_m": 0.1325163945763757,
+          "pelvis_support_bias_m": 0.133721128106117,
+          "pelvis_reach_fit_m": 0.00181517447344959,
+          "final_hip_above_mean_ankle_m": 0.751573085784912
+        },
+        {
+          "frame": 51,
+          "tick": 324,
+          "steer_input": -0.65,
+          "physical_turn": -0.333027865897818,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.70007722934694e-07,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.22395750785463608,
+          "requested_to_final_m": 0.2015212016459206,
+          "pelvis_support_bias_m": 0.194422662258148,
+          "pelvis_reach_fit_m": 0.0103533072397113,
+          "final_hip_above_mean_ankle_m": 0.7303080707788461
+        },
+        {
+          "frame": 69,
+          "tick": 396,
+          "steer_input": -0.65,
+          "physical_turn": -0.656550291928056,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.26925353257476e-10,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.4273711101228695,
+          "requested_to_final_m": 0.28822915608194166,
+          "pelvis_support_bias_m": 0.301689386367798,
+          "pelvis_reach_fit_m": 0.0337396413087845,
+          "final_hip_above_mean_ankle_m": 0.6643252521753314
+        },
+        {
+          "frame": 81,
+          "tick": 444,
+          "steer_input": 0.0,
+          "physical_turn": -0.790496216034544,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.04456355141654e-12,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.5752692147221465,
+          "requested_to_final_m": 0.3560983122610187,
+          "pelvis_support_bias_m": 0.354922562837601,
+          "pelvis_reach_fit_m": 0.0396593473851681,
+          "final_hip_above_mean_ankle_m": 0.6238459944725034
+        },
+        {
+          "frame": 96,
+          "tick": 504,
+          "steer_input": 0.0,
+          "physical_turn": -0.64554622676496,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 2.58921417674008e-15,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.5365472565533508,
+          "requested_to_final_m": 0.3184444638179755,
+          "pelvis_support_bias_m": 0.298402458429337,
+          "pelvis_reach_fit_m": 0.0314182825386524,
+          "final_hip_above_mean_ankle_m": 0.6606655269861226
+        },
+        {
+          "frame": 120,
+          "tick": 600,
+          "steer_input": 0.0,
+          "physical_turn": -0.0872994004163468,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.7536420469481e-19,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.23347591539575915,
+          "requested_to_final_m": 0.1710746373437157,
+          "pelvis_support_bias_m": 0.167759776115417,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7528227120637894
+        }
+      ]
+    },
+    "steering_right": {
+      "metrics": {
+        "max_binding_error_m": 1.328413258682071e-05,
+        "max_fixed_grip_error_m": 3.912606298370655e-06,
+        "max_segment_error_m": 3.906534453146371e-07,
+        "max_requested_to_final_joint_m": 0.30715922497356385,
+        "max_cuff_forward_deg": 22.133626873413775,
+        "min_cuff_forward_deg": -0.04256848932472849,
+        "max_cuff_side_deg": 5.768018077342562,
+        "max_joint_rotation_step_deg": 10.716754150641151,
+        "max_source_to_requested_joint_m": 0.5968118818475494,
+        "shoulder_width_m": [
+          0.3429854654536436,
+          0.3532193980354357
+        ],
+        "frames": 121,
+        "all_supported": true,
+        "attachments_and_lengths_pass": true,
+        "cuffs_pass": true
+      },
+      "selected": [
+        {
+          "frame": 15,
+          "tick": 180,
+          "steer_input": 0.12,
+          "physical_turn": 0.143508566912635,
+          "candidate_slot_weight": 0.648,
+          "downhill_weight": 0.304714409644576,
+          "action_weights": [
+            0.695285558700562,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.16901646436345816,
+          "requested_to_final_m": 0.11768986051521096,
+          "pelvis_support_bias_m": 0.112248733639717,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.736453235149384
+        },
+        {
+          "frame": 30,
+          "tick": 240,
+          "steer_input": 0.12,
+          "physical_turn": 0.199763274912948,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 0.000755311506168094,
+          "action_weights": [
+            0.999244689941406,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.17970803673694366,
+          "requested_to_final_m": 0.11876574170158678,
+          "pelvis_support_bias_m": 0.11708164960146,
+          "pelvis_reach_fit_m": 0.00199333019554615,
+          "final_hip_above_mean_ankle_m": 0.7515372633934019
+        },
+        {
+          "frame": 51,
+          "tick": 324,
+          "steer_input": 0.65,
+          "physical_turn": 0.334264907467964,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.69844877313514e-07,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.23745262556464808,
+          "requested_to_final_m": 0.20451504899067924,
+          "pelvis_support_bias_m": 0.191790550947189,
+          "pelvis_reach_fit_m": 0.0105026364326477,
+          "final_hip_above_mean_ankle_m": 0.730036586523056
+        },
+        {
+          "frame": 69,
+          "tick": 396,
+          "steer_input": 0.65,
+          "physical_turn": 0.653230071500908,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.26803775027747e-10,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.4490776862907999,
+          "requested_to_final_m": 0.2644741519380457,
+          "pelvis_support_bias_m": 0.285868108272552,
+          "pelvis_reach_fit_m": 0.0332423858344555,
+          "final_hip_above_mean_ankle_m": 0.6653102040290829
+        },
+        {
+          "frame": 81,
+          "tick": 444,
+          "steer_input": 0.0,
+          "physical_turn": 0.785822854544681,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.0435629933392e-12,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.5790012473422749,
+          "requested_to_final_m": 0.286245100434818,
+          "pelvis_support_bias_m": 0.288155436515808,
+          "pelvis_reach_fit_m": 0.0390200205147266,
+          "final_hip_above_mean_ankle_m": 0.6252767592668536
+        },
+        {
+          "frame": 96,
+          "tick": 504,
+          "steer_input": 0.0,
+          "physical_turn": 0.644479845978823,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 2.58673404122799e-15,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.5598950825156352,
+          "requested_to_final_m": 0.29963076219393636,
+          "pelvis_support_bias_m": 0.266939073801041,
+          "pelvis_reach_fit_m": 0.0312669947743416,
+          "final_hip_above_mean_ankle_m": 0.6609663814306259
+        },
+        {
+          "frame": 120,
+          "tick": 600,
+          "steer_input": 0.0,
+          "physical_turn": 0.0921934744810084,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.7519622825025e-19,
+          "action_weights": [
+            0.999999701976776,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.26360005902819084,
+          "requested_to_final_m": 0.17512041531584382,
+          "pelvis_support_bias_m": 0.157125249505043,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.7526353448629385
+        }
+      ]
+    },
+    "tuck_overlap": {
+      "metrics": {
+        "max_binding_error_m": 1.133283047813262e-05,
+        "max_fixed_grip_error_m": 3.89369171977411e-06,
+        "max_segment_error_m": 3.8548784059289076e-07,
+        "max_requested_to_final_joint_m": 0.41818772255957803,
+        "max_cuff_forward_deg": 21.682384306794102,
+        "min_cuff_forward_deg": 16.631285388047434,
+        "max_cuff_side_deg": 3.506742157220286,
+        "max_joint_rotation_step_deg": 9.96057443187472,
+        "max_source_to_requested_joint_m": 0.4938812322390158,
+        "shoulder_width_m": [
+          0.35241831184889655,
+          0.3534291643923255
+        ],
+        "frames": 121,
+        "all_supported": true,
+        "attachments_and_lengths_pass": true,
+        "cuffs_pass": true
+      },
+      "selected": [
+        {
+          "frame": 15,
+          "tick": 180,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.648,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.17426210209407886,
+          "requested_to_final_m": 0.17642054210538174,
+          "pelvis_support_bias_m": 0.0964543372392654,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.721234992146492
+        },
+        {
+          "frame": 30,
+          "tick": 240,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.1682083587596923,
+          "requested_to_final_m": 0.0979999553707254,
+          "pelvis_support_bias_m": 0.097625158727169,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.6820412725210185
+        },
+        {
+          "frame": 51,
+          "tick": 324,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.43189937237161313,
+          "requested_to_final_m": 0.3206410857089464,
+          "pelvis_support_bias_m": 0.110057160258293,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.5111991912126544
+        },
+        {
+          "frame": 69,
+          "tick": 396,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.4938812322390158,
+          "requested_to_final_m": 0.40777505160714134,
+          "pelvis_support_bias_m": 0.206350311636925,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.502553939819336
+        },
+        {
+          "frame": 81,
+          "tick": 444,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 1.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.34913453186175647,
+          "requested_to_final_m": 0.3104384694552222,
+          "pelvis_support_bias_m": 0.16713647544384,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.601231187582016
+        },
+        {
+          "frame": 96,
+          "tick": 504,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.3085709222065185,
+          "requested_to_final_m": 0.30941621257512836,
+          "pelvis_support_bias_m": 0.123399659991264,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.714353248476982
+        },
+        {
+          "frame": 120,
+          "tick": 600,
+          "steer_input": 0.0,
+          "physical_turn": 0.0,
+          "candidate_slot_weight": 0.0,
+          "downhill_weight": 1.0,
+          "action_weights": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_to_requested_m": 0.32916485259721984,
+          "requested_to_final_m": 0.3299530934274435,
+          "pelvis_support_bias_m": 0.136729761958122,
+          "pelvis_reach_fit_m": 0.0,
+          "final_hip_above_mean_ankle_m": 0.719999417662621
+        }
+      ]
+    }
+  },
+  "comparison": {
+    "straight": {
+      "matched_physics_equipment_camera": true,
+      "mismatches": [],
+      "max_final_joint_difference_m": 0.01131371515570872,
+      "worst_frame": 81,
+      "difference_at_source_peak_m": 0.010978295204490838,
+      "difference_at_exit_m": 0.000295740330979435
+    },
+    "compression": {
+      "matched_physics_equipment_camera": true,
+      "mismatches": [],
+      "max_final_joint_difference_m": 0.01585400152738885,
+      "worst_frame": 60,
+      "difference_at_source_peak_m": 0.013954142975463862,
+      "difference_at_exit_m": 0.00027792182427500414
+    },
+    "steering_left": {
+      "matched_physics_equipment_camera": true,
+      "mismatches": [],
+      "max_final_joint_difference_m": 0.21784684952244768,
+      "worst_frame": 42,
+      "difference_at_source_peak_m": 0.1691420939871638,
+      "difference_at_exit_m": 0.0011138822352787323
+    },
+    "steering_right": {
+      "matched_physics_equipment_camera": true,
+      "mismatches": [],
+      "max_final_joint_difference_m": 0.21587006139198,
+      "worst_frame": 42,
+      "difference_at_source_peak_m": 0.16998491261135557,
+      "difference_at_exit_m": 0.001161053344433494
+    },
+    "tuck_overlap": {
+      "matched_physics_equipment_camera": true,
+      "mismatches": [],
+      "max_final_joint_difference_m": 0.025515420220290064,
+      "worst_frame": 54,
+      "difference_at_source_peak_m": 0.025178999456857816,
+      "difference_at_exit_m": 0.00021353517057274985
+    }
+  }
+}

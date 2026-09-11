@@ -1,0 +1,30 @@
+{
+  "label": "save_r5",
+  "started_unix": 1789055524.6936984,
+  "seconds": 17.755855560302734,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "run_script",
+      "arguments": {
+        "code": "from pathlib import Path;p=Path(app.current_scene().get_path_name());assert p.name=='ready_compression_r5.casc' and p.parent.name=='cascadeur_rig_20260910_r5';app.current_scene().save(str(p));print('Saved oriented candidate')"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"ok\": true,\n  \"value\": \"\",\n  \"messages\": [\n    {\n      \"level\": \"Info\",\n      \"text\": \"Start saving to C:\\\\Users\\\\hp\\\\Downloads\\\\alpine-apex\\\\artifacts\\\\cascadeur_rig_20260910_r5\\\\ready_compression_r5.casc\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"Saving is completed\\n\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"Saved oriented candidate\"\n    }\n  ]\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "transport_error": null
+}

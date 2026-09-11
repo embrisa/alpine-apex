@@ -2,6 +2,9 @@ extends Node3D
 ## Authoring uses the existing rendered world; it never moves the ski solver.
 const Race = preload("res://scripts/racing/race_definition.gd")
 const Store = preload("res://scripts/racing/race_store.gd")
+const Beams = preload("res://scripts/presentation/race_beams.gd")
+# Navigation keeps its original high-visibility color independently of menu art.
+const START_COLOR = Beams.START_COLOR
 var game
 var store = Store.new()
 var mode: String = ""
@@ -34,26 +37,30 @@ var placing: String = "start"
 var markers: Node3D
 var cursor: MeshInstance3D
 var instrument_visibility: Array = []
+var zone_outline: MeshInstance3D
+var suggested_race
 
 func build(owner_game) -> void:
 	game = owner_game
 	survey = Camera3D.new()
 	survey.near = 0.2
-	survey.far = 8500.0
+	survey.far = 32000.0
 	survey.fov = 62.0
 	add_child(survey)
 	markers = Node3D.new()
 	add_child(markers)
+	_build_zone_outline()
 	cursor = MeshInstance3D.new()
 	var mesh = SphereMesh.new()
 	mesh.radius = 1.5
 	mesh.height = 3.0
 	cursor.mesh = mesh
-	cursor.material_override = _material(game.hud.LIME)
+	cursor.material_override = _material(START_COLOR)
 	cursor.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	cursor.visible = false
 	add_child(cursor)
 	_build_ui()
+	suggested_race=Race.suggested(game.field,game.world.mountain.seed_value)
 
 func _build_ui() -> void:
 	var hud = game.hud
@@ -112,10 +119,10 @@ func _build_ui() -> void:
 	import_button.custom_minimum_size.y = 38
 	import_button.pressed.connect(import_from_ui)
 	import_page.add_child(import_button)
-	benchmark_button = hud._button("RACE THE ORIGINAL TEST FACE")
+	benchmark_button = hud._button("FREE SKI CURRENT MOUNTAIN" if game.current_mountain else "RESTART LAB FIXTURE")
 	benchmark_button.custom_minimum_size.y = 34
 	benchmark_button.add_theme_font_size_override("font_size",13)
-	benchmark_button.pressed.connect(func(): close(); game.start_run(true))
+	benchmark_button.pressed.connect(func(): close(); game.start_run(game.current_mountain==null))
 	saved_page.add_child(benchmark_button)
 	editor = VBoxContainer.new()
 	editor.add_theme_constant_override("separation",12)
@@ -142,7 +149,7 @@ func _build_ui() -> void:
 	editor.add_child(here)
 	endpoint_label = hud._label("",12,hud.MUTED,true)
 	editor.add_child(endpoint_label)
-	editor.add_child(hud._label("Click snow to place the selected endpoint.\nWASD / arrows pan · scroll to zoom\nNo checkpoints. Arrive from any direction.",12,hud.WHITE))
+	editor.add_child(hud._label("Click snow to place the selected gate.\nWASD / arrows pan · scroll to zoom\nNo checkpoints. Ski through FINISH either way.",12,hud.WHITE))
 	save_button = hud._button("SAVE RACE",true)
 	save_button.pressed.connect(save_draft)
 	editor.add_child(save_button)
@@ -155,6 +162,8 @@ func _build_ui() -> void:
 	back.pressed.connect(back_pressed)
 	col.add_child(back)
 	panel.visible = false
+	# The library gets menu atmosphere; gate placement needs the live snow view.
+	hud.register_menu_background(library)
 
 func open_library() -> void:
 	if not mode.is_empty() or game.mountain_library.panel.visible: return
@@ -172,17 +181,18 @@ func open_library() -> void:
 	survey_height = 240.0
 	mode = "library"
 	panel.visible = true
-	survey.current = true
-	_update_survey()
 	_refresh_library()
 
 func _refresh_library(select_id: String = "") -> void:
 	mode = "library"
+	cursor.hide()
+	if zone_outline: zone_outline.hide()
 	library_tabs.current_tab = 0
 	library.visible = true
 	editor.visible = false
 	benchmark_button.visible = game.session.race != null or game.current_mountain != null
 	races = store.load_all()
+	if suggested_race and not races.any(func(r): return r.identity()==suggested_race.identity()): races.push_front(suggested_race)
 	list.clear()
 	selected = null
 	for race in races: list.add_item(race.title)
@@ -202,7 +212,7 @@ func _refresh_library(select_id: String = "") -> void:
 func select_race(index: int) -> void:
 	if index<0 or index>=races.size(): return
 	selected = races[index]
-	details.text = "MOUNTAIN  %d\nSTART   %s\nFINISH  %s\n12 m finish radius · open route" % [selected.mountain.seed,_coordinates(selected.start),_coordinates(selected.finish)]
+	details.text = "MOUNTAIN  %d\nSTART   %s\nFINISH  %s\nSki through the 10 m finish gate · open route" % [selected.mountain.seed,_coordinates(selected.start),_coordinates(selected.finish)]
 	race_button.disabled = false
 	share_button.disabled = false
 	if matches_world(selected):
@@ -216,6 +226,8 @@ func select_race(index: int) -> void:
 
 func begin_creation() -> void:
 	mode = "create"
+	survey.make_current()
+	_update_survey()
 	library.visible = false
 	editor.visible = true
 	draft = Race.new()
@@ -231,23 +243,24 @@ func begin_creation() -> void:
 func place_point(point: Vector3) -> bool:
 	if mode!="create": return false
 	var error = Race.point_error(point,game.field)
+	var yaw=Race.Flavor.downhill_heading(game.field,point)
+	if error.is_empty(): error=Race.gate_error(point,yaw,game.field)
 	if not error.is_empty():
 		status.text = error
 		return false
 	if placing=="start":
 		draft.start = point
+		draft.heading=yaw
 		has_start = true
 		placing = "finish"
 	else:
 		draft.finish = point
+		draft.finish_heading=yaw
 		has_finish = true
-	if has_start and has_finish:
-		var delta: Vector3 = draft.finish-draft.start
-		draft.heading = atan2(delta.x,delta.z)
 	_refresh_draft()
 	_clear_markers()
-	if has_start: _marker(draft.start,"START",game.hud.LIME,3.0)
-	if has_finish: _marker(draft.finish,"FINISH",Color("ffa96b"),Race.FINISH_RADIUS)
+	if has_start: _gate_marker(draft.start,"start_gate",draft.heading,false)
+	if has_finish: _gate_marker(draft.finish,"finish_gate",draft.finish_heading,false)
 	status.text = "Name and save your race, or reposition either endpoint." if has_start and has_finish else "Now choose a finish on any face. Pan with WASD / arrows."
 	return true
 
@@ -282,7 +295,7 @@ func import_from_ui() -> void:
 		status.text = decoded.error
 		game.hud.feedback.play("error")
 		return
-	game.loading.reduced_motion = game.hud.feedback.reduced_motion
+	game.loading.configure_feedback(game.hud.feedback)
 	game.loading.begin("Importing shared race", "Checking the race's mountain and endpoints…")
 	await game.loading.draw_frame()
 	var rebuilt = {"field":game.field}
@@ -335,6 +348,7 @@ func back_pressed() -> void:
 
 func close() -> void:
 	mode = ""
+	if zone_outline: zone_outline.hide()
 	panel.visible = false
 	cursor.visible = false
 	game.camera.current = true
@@ -348,7 +362,7 @@ func close() -> void:
 func handle_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_run"):
 		back_pressed()
-	elif event is InputEventMouseButton and event.pressed:
+	elif mode=="create" and event is InputEventMouseButton and event.pressed:
 		if event.button_index==MOUSE_BUTTON_WHEEL_UP:
 			survey_height = maxf(45.0,survey_height*0.82)
 		elif event.button_index==MOUSE_BUTTON_WHEEL_DOWN:
@@ -376,11 +390,19 @@ func update_survey(dt: float) -> void:
 			cursor.visible = true
 
 func _update_survey() -> void:
+	if zone_outline: zone_outline.visible = mode=="create"
 	var area: Rect2 = game.field.ski_bounds().grow(-25.0)
 	focus_point.x = clampf(focus_point.x,area.position.x,area.end.x)
 	focus_point.z = clampf(focus_point.z,area.position.y,area.end.y)
 	focus_point.y = game.field.sample(focus_point.x,focus_point.z).height
-	survey.far = maxf(8500.0,_survey_limit()*2.5)
+	var zone = Race.Zone.new(game.field)
+	if zone.enabled:
+		var offset = Vector2(focus_point.x,focus_point.z)-zone.center
+		offset = offset.limit_length(zone.radius_m-zone.ENDPOINT_MARGIN_M)
+		focus_point.x = zone.center.x+offset.x
+		focus_point.z = zone.center.y+offset.y
+		focus_point.y = game.field.sample(focus_point.x,focus_point.z).height
+	survey.far = maxf(32000.0,_survey_limit()*2.5)
 	survey.position = focus_point+Vector3(0,survey_height,-survey_height*0.60)
 	survey.look_at(focus_point)
 
@@ -399,6 +421,8 @@ func pick_snow(screen: Vector2) -> Variant:
 				else: high = mid
 			var hit = low.lerp(high,0.5)
 			hit.y = game.field.sample(hit.x,hit.z).height
+			if game.field.has_method("ray_geology") and not game.field.ray_geology(origin,hit).is_empty(): return null
+			if not Race.Zone.new(game.field).endpoint_error(hit).is_empty(): return null
 			return hit
 		previous = p
 	return null
@@ -407,54 +431,62 @@ func show_race(race) -> void:
 	_clear_markers()
 	game.world.set_benchmark_markers(race==null and mode.is_empty() and game.current_mountain==null)
 	if race:
-		_marker(race.start,"START",game.hud.LIME,3.0)
-		_marker(race.finish,"FINISH",Color("ffa96b"),Race.FINISH_RADIUS)
+		var solid=mode.is_empty() and game.session.race==race
+		_gate_marker(race.start,"start_gate",race.heading,solid)
+		_gate_marker(race.finish,"finish_gate",race.finish_heading,solid)
+
+func _gate_marker(point: Vector3, id: String, yaw: float, solid: bool) -> void:
+	var seated=Race.Flavor.gate_seat(game.field,point,yaw)
+	if seated.is_empty(): return
+	var prop=load("res://assets/graphics/flavor_v1/scenes/"+id+".tscn").instantiate()
+	prop.transform=seated.pose; prop.lighting=game.world.cloud_lighting
+	markers.add_child(prop); prop.add_foundations(seated.foundations)
+	prop.apply_quality(game.graphics.level)
+	prop.set_collision_enabled(solid)
+	if solid: prop.bind_surface(game.world.ski_surface)
+	var finish = id=="finish_gate"
+	var beams = Beams.new(); beams.name="FinishBeam" if finish else "StartBeam"
+	markers.add_child(beams)
+	beams.build(point,finish,game.field)
+	# A narrow stripe marks the exact timing plane on the authoritative snow.
+	var vertices=PackedVector3Array(); var basis=Basis(Vector3.UP,yaw)
+	for i in 10:
+		var a=-4.6+i*.92; var b=a+.92
+		for local in [Vector3(a,0,-.12),Vector3(b,0,-.12),Vector3(a,0,.12),Vector3(b,0,-.12),Vector3(b,0,.12),Vector3(a,0,.12)]:
+			var p=point+basis*local; p.y=game.field.sample(p.x,p.z).height+.04; vertices.append(p)
+	var arrays=[]; arrays.resize(Mesh.ARRAY_MAX); arrays[Mesh.ARRAY_VERTEX]=vertices
+	var stripe=MeshInstance3D.new(); stripe.mesh=ArrayMesh.new(); stripe.mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+	stripe.material_override=_material(Beams.marker_color(finish)); stripe.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	markers.add_child(stripe)
 
 func _clear_markers() -> void:
 	for child in markers.get_children():
 		markers.remove_child(child)
 		child.queue_free()
 
-func _marker(point: Vector3, caption: String, color: Color, radius: float) -> void:
+func _build_zone_outline() -> void:
+	var zone = Race.Zone.new(game.field)
+	if not zone.enabled: return
 	var vertices = PackedVector3Array()
-	for i in range(64):
-		var a = TAU*float(i)/64.0
-		var b = TAU*float(i+1)/64.0
-		for pair in [[a,radius-0.35],[b,radius-0.35],[a,radius+0.35],[a,radius+0.35],[b,radius-0.35],[b,radius+0.35]]:
-			var p = point+Vector3(cos(pair[0])*pair[1],0,sin(pair[0])*pair[1])
-			p.y = game.field.sample(p.x,p.z).height+0.16
-			vertices.append(p)
+	for i in 1024:
+		var a = TAU*float(i)/1024.0
+		var b = TAU*float(i+1)/1024.0
+		for pair in [[a,-4.0],[b,-4.0],[a,4.0],[a,4.0],[b,-4.0],[b,4.0]]:
+			var p = zone.center+Vector2.from_angle(pair[0])*(zone.radius_m+pair[1])
+			vertices.append(Vector3(p.x,game.field.sample(p.x,p.y).height+0.6,p.y))
 	var arrays = []
 	arrays.resize(Mesh.ARRAY_MAX)
 	arrays[Mesh.ARRAY_VERTEX] = vertices
-	var ring = MeshInstance3D.new()
 	var mesh = ArrayMesh.new()
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
-	ring.mesh = mesh
-	ring.material_override = _material(color)
-	ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	markers.add_child(ring)
-	var label = Label3D.new()
-	label.text = caption
-	label.position = point+Vector3.UP*8.0
-	label.font_size = 64
-	label.pixel_size = 0.0006
-	label.fixed_size = true
-	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-	label.modulate = color
-	label.no_depth_test = true
-	markers.add_child(label)
-	var post = MeshInstance3D.new()
-	var post_mesh = CylinderMesh.new()
-	post_mesh.top_radius = 0.20
-	post_mesh.bottom_radius = 0.20
-	post_mesh.height = 6.0
-	post.mesh = post_mesh
-	post.position = point+Vector3(radius,0,0)
-	post.position.y = game.field.sample(post.position.x,post.position.z).height+3.0
-	post.material_override = _material(color)
-	post.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	markers.add_child(post)
+	zone_outline = MeshInstance3D.new()
+	zone_outline.name = "SummitReturnBoundary"
+	zone_outline.mesh = mesh
+	zone_outline.material_override = _material(Color("c2e76b"))
+	zone_outline.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	zone_outline.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
+	add_child(zone_outline)
+	zone_outline.hide()
 
 func _material(color: Color) -> StandardMaterial3D:
 	var material = StandardMaterial3D.new()

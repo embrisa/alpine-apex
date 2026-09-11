@@ -1,0 +1,536 @@
+{
+  "generator": "TreeDesigner by Alexis Eginard; locally purchased library",
+  "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f",
+  "source": "TreeDesigner + 400 trees\\TreeDesigner.blend",
+  "blender": "5.2.1 LTS",
+  "assets": [
+    {
+      "asset": "td_spruce_1_lod0",
+      "path": "assets/graphics/models/td_spruce_1_lod0.glb",
+      "triangles": 19770,
+      "dimensions_m": [
+        5.712563514709473,
+        4.84914493560791,
+        10.552506446838379
+      ],
+      "bytes": 1623380,
+      "sha256": "dd6277ab1ed470615df6a00e35d4fdcb1cfc6235e2a736469d48c86138ae780a",
+      "lod": 0,
+      "variant": 1,
+      "surfaces": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "td_spruce_1_lod1",
+      "path": "assets/graphics/models/td_spruce_1_lod1.glb",
+      "triangles": 12675,
+      "dimensions_m": [
+        5.712563514709473,
+        4.84914493560791,
+        10.51636791229248
+      ],
+      "bytes": 1214396,
+      "sha256": "3e771b2cc6cc4b33c764ff55ff2a85aa6da734f8677f32f86fdaf26b54ede551",
+      "lod": 1,
+      "variant": 1,
+      "surfaces": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "td_spruce_2_lod0",
+      "path": "assets/graphics/models/td_spruce_2_lod0.glb",
+      "triangles": 18462,
+      "dimensions_m": [
+        4.568537712097168,
+        4.845485687255859,
+        10.568865776062012
+      ],
+      "bytes": 1523372,
+      "sha256": "966c53ddce9b0d5021dec276e164eb95e36a5829bf37f7c5bfc57e928f044071",
+      "lod": 0,
+      "variant": 2,
+      "surfaces": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "td_spruce_2_lod1",
+      "path": "assets/graphics/models/td_spruce_2_lod1.glb",
+      "triangles": 11921,
+      "dimensions_m": [
+        4.568537712097168,
+        4.845485687255859,
+        10.574166297912598
+      ],
+      "bytes": 1144192,
+      "sha256": "33debb8980f69f281e575a208ad4c43208a386a76bc50aada6f36a0e436776d5",
+      "lod": 1,
+      "variant": 2,
+      "surfaces": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "td_spruce_3_lod0",
+      "path": "assets/graphics/models/td_spruce_3_lod0.glb",
+      "triangles": 20762,
+      "dimensions_m": [
+        5.758458137512207,
+        5.1226911544799805,
+        10.565256118774414
+      ],
+      "bytes": 1722888,
+      "sha256": "a1530af7ecac97fbfa74f93a2a69826c23a7a87259f6479f746ba0bfa2f158fd",
+      "lod": 0,
+      "variant": 3,
+      "surfaces": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "td_spruce_3_lod1",
+      "path": "assets/graphics/models/td_spruce_3_lod1.glb",
+      "triangles": 13865,
+      "dimensions_m": [
+        5.758458137512207,
+        5.1226911544799805,
+        10.57303237915039
+      ],
+      "bytes": 1334516,
+      "sha256": "a33d3e1a4218b640aafd80b2348979c387aba805b3cb1087dbc78f4e2474346f",
+      "lod": 1,
+      "variant": 3,
+      "surfaces": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "td_spruce_1_lod2",
+      "path": "assets/graphics/models/td_spruce_1_lod2.glb",
+      "triangles": 2,
+      "dimensions_m": [
+        11.0,
+        0.0,
+        11.0
+      ],
+      "bytes": 1560,
+      "sha256": "7b3a462f5a4baaf76d3a74cce8d51ecd84c4a89e67fccf82f67357668ebac7fa",
+      "lod": 2,
+      "variant": 1,
+      "surfaces": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "td_spruce_2_lod2",
+      "path": "assets/graphics/models/td_spruce_2_lod2.glb",
+      "triangles": 2,
+      "dimensions_m": [
+        11.0,
+        0.0,
+        11.0
+      ],
+      "bytes": 1560,
+      "sha256": "5620931749220f3f48b7d74d047ce87d7eb864c25f3f087abc76cc654b1dd46a",
+      "lod": 2,
+      "variant": 2,
+      "surfaces": 1,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "td_spruce_3_lod2",
+      "path": "assets/graphics/models/td_spruce_3_lod2.glb",
+      "triangles": 2,
+      "dimensions_m": [
+        11.0,
+        0.0,
+        11.0
+      ],
+      "bytes": 1560,
+      "sha256": "485c9fb26c111dee01c43a69aee8f72a218299bbde795ff062fc54fb43cc33d7",
+      "lod": 2,
+      "variant": 3,
+      "surfaces": 1,
+      "roundtrip_verified": true
+    }
+  ],
+  "variants": {
+    "1": {
+      "seed": 103,
+      "preset": "SpruceTree_LowPoly.001",
+      "settings": {
+        "Socket_47": 103,
+        "Socket_40": 110,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 10,
+        "Socket_50": 5,
+        "Socket_57": 5,
+        "Socket_33": 0.64,
+        "Socket_68": 1.65,
+        "Socket_65": 0.8,
+        "Socket_106": 0.28
+      },
+      "branches": [
+        {
+          "center": [
+            -0.9875974655151367,
+            2.841365098953247,
+            0.5297465324401855
+          ],
+          "radius": 1.7526495919615934,
+          "pivot_y": 0.9
+        },
+        {
+          "center": [
+            0.9313066005706787,
+            2.9619507789611816,
+            0.6117078065872192
+          ],
+          "radius": 1.7599478970164018,
+          "pivot_y": 0.9
+        },
+        {
+          "center": [
+            0.6194988489151001,
+            2.98030424118042,
+            -0.795708179473877
+          ],
+          "radius": 2.1048647026450333,
+          "pivot_y": 0.9
+        },
+        {
+          "center": [
+            -0.8685758113861084,
+            2.6058623790740967,
+            -0.7835509181022644
+          ],
+          "radius": 1.929067392004125,
+          "pivot_y": 0.9
+        },
+        {
+          "center": [
+            -0.3710140585899353,
+            5.4748406410217285,
+            0.31208720803260803
+          ],
+          "radius": 2.0022221763595245,
+          "pivot_y": 4.3
+        },
+        {
+          "center": [
+            0.36819666624069214,
+            5.255738735198975,
+            0.38921698927879333
+          ],
+          "radius": 2.0344011915955615,
+          "pivot_y": 4.3
+        },
+        {
+          "center": [
+            0.3575555384159088,
+            5.492527961730957,
+            -0.4382893145084381
+          ],
+          "radius": 2.0020398246785747,
+          "pivot_y": 4.3
+        },
+        {
+          "center": [
+            -0.3940058648586273,
+            5.175689697265625,
+            -0.4731401205062866
+          ],
+          "radius": 2.1923410730275585,
+          "pivot_y": 4.3
+        },
+        {
+          "center": [
+            -0.1355137676000595,
+            8.325393676757812,
+            0.12500859797000885
+          ],
+          "radius": 2.0946013855601255,
+          "pivot_y": 7.7
+        },
+        {
+          "center": [
+            0.1471080332994461,
+            8.160852432250977,
+            0.1348249316215515
+          ],
+          "radius": 1.3090214361347556,
+          "pivot_y": 7.7
+        },
+        {
+          "center": [
+            0.12901169061660767,
+            8.096503257751465,
+            -0.10283555090427399
+          ],
+          "radius": 2.0604289908722264,
+          "pivot_y": 7.7
+        },
+        {
+          "center": [
+            -0.1612766683101654,
+            8.09676456451416,
+            -0.18057015538215637
+          ],
+          "radius": 2.2,
+          "pivot_y": 7.7
+        }
+      ]
+    },
+    "2": {
+      "seed": 271,
+      "preset": "SpruceTree_LowPoly.001",
+      "settings": {
+        "Socket_47": 271,
+        "Socket_40": 278,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 10,
+        "Socket_50": 5,
+        "Socket_57": 5,
+        "Socket_33": 0.64,
+        "Socket_68": 1.65,
+        "Socket_65": 0.8,
+        "Socket_106": 0.28
+      },
+      "branches": [
+        {
+          "center": [
+            -0.7344534397125244,
+            2.5252888202667236,
+            0.6111656427383423
+          ],
+          "radius": 2.0552811979636516,
+          "pivot_y": 0.9
+        },
+        {
+          "center": [
+            0.7413281798362732,
+            2.499643564224243,
+            0.5525323152542114
+          ],
+          "radius": 1.6500688272989703,
+          "pivot_y": 0.9
+        },
+        {
+          "center": [
+            0.7089688181877136,
+            2.3489389419555664,
+            -0.6563478708267212
+          ],
+          "radius": 1.6472953007616442,
+          "pivot_y": 0.9
+        },
+        {
+          "center": [
+            -0.7136355638504028,
+            2.2445497512817383,
+            -0.8470776081085205
+          ],
+          "radius": 1.7989474328452084,
+          "pivot_y": 0.9
+        },
+        {
+          "center": [
+            -0.24284158647060394,
+            5.544139862060547,
+            0.36648938059806824
+          ],
+          "radius": 1.7851422515921296,
+          "pivot_y": 4.3
+        },
+        {
+          "center": [
+            0.3524352014064789,
+            5.329136371612549,
+            0.23009927570819855
+          ],
+          "radius": 1.9639863988620925,
+          "pivot_y": 4.3
+        },
+        {
+          "center": [
+            0.3428962826728821,
+            5.383732318878174,
+            -0.25929898023605347
+          ],
+          "radius": 1.93993483589571,
+          "pivot_y": 4.3
+        },
+        {
+          "center": [
+            -0.3055838346481323,
+            5.415066242218018,
+            -0.34008175134658813
+          ],
+          "radius": 1.8856385062748366,
+          "pivot_y": 4.3
+        },
+        {
+          "center": [
+            -0.08533089607954025,
+            8.196837425231934,
+            0.08790858834981918
+          ],
+          "radius": 1.8271208450241212,
+          "pivot_y": 7.7
+        },
+        {
+          "center": [
+            0.09815452247858047,
+            8.124832153320312,
+            0.11567628383636475
+          ],
+          "radius": 2.2,
+          "pivot_y": 7.7
+        },
+        {
+          "center": [
+            0.10863702744245529,
+            8.157987594604492,
+            -0.06394138932228088
+          ],
+          "radius": 2.2,
+          "pivot_y": 7.7
+        },
+        {
+          "center": [
+            -0.09865662455558777,
+            8.102686882019043,
+            -0.06770316511392593
+          ],
+          "radius": 1.6164430163180779,
+          "pivot_y": 7.7
+        }
+      ]
+    },
+    "3": {
+      "seed": 619,
+      "preset": "SpruceTree_LowPoly.001",
+      "settings": {
+        "Socket_47": 619,
+        "Socket_40": 626,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 10,
+        "Socket_50": 5,
+        "Socket_57": 5,
+        "Socket_33": 0.64,
+        "Socket_68": 1.65,
+        "Socket_65": 0.8,
+        "Socket_106": 0.28
+      },
+      "branches": [
+        {
+          "center": [
+            -0.9166123270988464,
+            2.571359634399414,
+            0.7554681301116943
+          ],
+          "radius": 1.9617091860399416,
+          "pivot_y": 0.9
+        },
+        {
+          "center": [
+            0.8265172839164734,
+            2.546187400817871,
+            0.7527408599853516
+          ],
+          "radius": 2.0204639973966945,
+          "pivot_y": 0.9
+        },
+        {
+          "center": [
+            0.9305651783943176,
+            2.4528896808624268,
+            -0.8469293117523193
+          ],
+          "radius": 1.8332217482363213,
+          "pivot_y": 0.9
+        },
+        {
+          "center": [
+            -0.9935312271118164,
+            2.3611631393432617,
+            -0.7226066589355469
+          ],
+          "radius": 1.7863611770247114,
+          "pivot_y": 0.9
+        },
+        {
+          "center": [
+            -0.47287577390670776,
+            5.102100372314453,
+            0.3911496698856354
+          ],
+          "radius": 2.2,
+          "pivot_y": 4.3
+        },
+        {
+          "center": [
+            0.4046584367752075,
+            5.201287746429443,
+            0.43769657611846924
+          ],
+          "radius": 2.1228173192352933,
+          "pivot_y": 4.3
+        },
+        {
+          "center": [
+            0.3919292390346527,
+            5.2942118644714355,
+            -0.41505569219589233
+          ],
+          "radius": 2.005711700971832,
+          "pivot_y": 4.3
+        },
+        {
+          "center": [
+            -0.38211262226104736,
+            4.955374717712402,
+            -0.4740038812160492
+          ],
+          "radius": 2.2,
+          "pivot_y": 4.3
+        },
+        {
+          "center": [
+            -0.12612128257751465,
+            8.159049987792969,
+            0.12133484333753586
+          ],
+          "radius": 1.717890563851472,
+          "pivot_y": 7.7
+        },
+        {
+          "center": [
+            0.16428007185459137,
+            8.348788261413574,
+            0.10926512628793716
+          ],
+          "radius": 2.0336960940175337,
+          "pivot_y": 7.7
+        },
+        {
+          "center": [
+            0.12747490406036377,
+            8.450508117675781,
+            -0.09181401878595352
+          ],
+          "radius": 1.9936143003100937,
+          "pivot_y": 7.7
+        },
+        {
+          "center": [
+            -0.14166918396949768,
+            8.210158348083496,
+            -0.12473054975271225
+          ],
+          "radius": 1.8707009049428502,
+          "pivot_y": 7.7
+        }
+      ]
+    }
+  },
+  "motion": "12 canopy clusters per tree; fixed-step angular springs; solid trunk collision unchanged"
+}

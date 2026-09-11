@@ -1,0 +1,37 @@
+{
+  "scope": "A 2 cm pelvis edit after reopen on a separately saved probe, frame 30",
+  "max_segment_change_m": 9.68853311013873e-05,
+  "neck_segment_change_m": 1.2244468222497029e-05,
+  "foot_joint_change_m": {
+    "LeftFoot": 0.0,
+    "RightFoot": 0.0,
+    "LeftToeBase": 0.0,
+    "RightToeBase": 0.0
+  },
+  "mcp_result": "Server idle-event timeout although captures and saved probe completed; do not retry the mutation blindly",
+  "segments": {
+    "LeftToeBase": 0.0,
+    "LeftFoot": 6.693527723200532e-07,
+    "LeftLeg": 3.7664370039491857e-07,
+    "RightToeBase": 0.0,
+    "RightFoot": 3.7673329317255977e-07,
+    "RightLeg": 4.6932362440799125e-09,
+    "LeftHand": 4.755604132711255e-09,
+    "LeftForeArm": 7.462679929570726e-08,
+    "LeftArm": 1.5953166352944415e-06,
+    "head_end": 5.8306091260673654e-08,
+    "headfront": 1.079394429392977e-08,
+    "Head": 5.915246910140337e-06,
+    "RightHand": 7.114758560078371e-09,
+    "RightForeArm": 2.9159906655973344e-08,
+    "RightArm": 1.3762826120422567e-06,
+    "LeftShoulder": 2.7526215151771338e-05,
+    "neck": 1.2244468222497029e-05,
+    "RightShoulder": 9.68853311013873e-05,
+    "Spine": 7.104310855154949e-07,
+    "Spine01": 2.721396487104233e-06,
+    "LeftUpLeg": 5.5026399332969156e-05,
+    "RightUpLeg": 5.6783457681536254e-05,
+    "Spine02": 9.801601791370462e-06
+  }
+}

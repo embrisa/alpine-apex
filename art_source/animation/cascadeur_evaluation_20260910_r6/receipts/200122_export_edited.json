@@ -1,0 +1,30 @@
+{
+  "label": "export_edited",
+  "started_unix": 1789063280.703151,
+  "seconds": 1.845526933670044,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "run_script",
+      "arguments": {
+        "code": "output_name='ready_compression_r6_animation.glb'; exec(open('C:/Users/hp/Downloads/alpine-apex/art_source/animation/cascadeur_evaluation_20260910_r6/export_animation.py').read())"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"ok\": true,\n  \"value\": \"\",\n  \"messages\": [\n    {\n      \"level\": \"Success\",\n      \"text\": \"GLB/GLTF: Export: Success\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"Exported C:\\\\Users\\\\hp\\\\Downloads\\\\alpine-apex\\\\art_source\\\\animation\\\\cascadeur_evaluation_20260910_r6\\\\ready_compression_r6_animation.glb 83956\"\n    }\n  ]\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "transport_error": null
+}

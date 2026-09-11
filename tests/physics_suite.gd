@@ -121,7 +121,7 @@ func run() -> void:
 	var cross_surface = CrossSlope.new()
 	var cross_sim = make_sim(cross_surface,100)
 	advance(cross_sim,cross_surface,2)
-	check(absf(cross_sim.ski_forward.x)<0.0001,"Cross-slope contact preserves the selected horizontal ski heading")
+	check(absf(angle_difference(cross_sim.heading,atan2(cross_sim.ski_forward.x,cross_sim.ski_forward.z)))<0.0001,"Cross-slope contact preserves the handling axis azimuth, including neutral alignment")
 	_energy_test()
 	_snow_tests()
 	_air_tests(slope)

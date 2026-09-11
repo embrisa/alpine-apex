@@ -1,4 +1,13 @@
 void fragment() {
+#ifdef ALPINE_OFFMAP
+ vec3 distant_color=offmap_color(world_pos,normalize(world_n),offmap_masks,length(VERTEX));
+ if(offmap_blend>.999) {
+  ALBEDO=distant_color; ROUGHNESS=1.0; SPECULAR=0.0;
+  snow_transmission=vec3(0); snow_glints=0.0; snow_large_glints=0.0; snow_sheen=0.0;
+  snow_facet_normal=vec3(0,1,0); snow_large_facet_normal=vec3(0,1,0);
+ } else {
+#endif
+ if(powder_patch_enabled && !powder_local_surface && all(lessThan(abs(world_pos.xz-powder_center),vec2(powder_extent*.5)))) discard;
  vec3 n=normalize(world_n);
  // Drop negligible projections before renormalizing to bound triplanar work.
  vec3 w=max(pow(abs(n),vec3(5.0))-vec3(.015),vec3(0));
@@ -17,6 +26,7 @@ void fragment() {
  // Flat shoulders keep snow; this is a material mask, never terrain displacement.
  vec2 outside=max(abs(world_pos.xz-vec2(0,832))-vec2(384,1024),vec2(0));
  float mountain=smoothstep(64.0,320.0,length(outside));
+ float mineral_ice=0.0;
  float rock=1.0-smoothstep(.66,.90,n.y-rock_bias-mountain*.12+(macro-.5)*.21+(breakup-.5)*.09);
  vec4 environment = vec4(1.0-rock,rock,0.0,0.5);
  if(use_environment) {
@@ -31,8 +41,10 @@ void fragment() {
   if(all(greaterThanEqual(pixel,vec2(0))) && all(lessThanEqual(pixel,feature_size-vec2(1)))) {
    vec4 feature=texture(feature_exposure,(pixel+vec2(.5))/feature_size);
    rock=mix(rock,feature.r,feature.a);
+   mineral_ice=feature.g;
   }
  }
+ if(contact_material_enabled) rock=smoothstep(.42,.58,contact_rock(world_pos.xz));
  // Compute derivatives before material branches; tile boundaries never affect LOD.
  vec3 dx=dFdx(world_pos); vec3 dy=dFdy(world_pos);
  vec3 snow=vec3(.92,.95,.98);
@@ -65,9 +77,11 @@ void fragment() {
   stone=vec3(.35); ro=vec3(.9,.85,0);
  }
  // Broad variation remains legible at speed without painting false obstacles.
- snow=mix(vec3(.88,.92,.97),snow,.44);
- snow*=.89+macro*.11+drift*.065;
+ snow=mix(vec3(.94,.965,.99),snow,.28);
+ snow*=.94+macro*.045+drift*.035;
  snow*=mix(vec3(.94,.97,1.0),vec3(1.0),environment.r);
+ // Real terrain hollows remain legible beneath sunlight and broad reflection.
+ snow*=snow_shape_tint(world_pos.xz,distance_m);
  // Desaturate the warm source stone into dark charcoal / slate, retaining
  // mineral detail and broad differences between exposed faces.
  float stone_luminance=dot(stone,vec3(.2126,.7152,.0722));
@@ -75,10 +89,17 @@ void fragment() {
  stone*=mix(vec3(.31,.35,.40),vec3(.51,.53,.55),macro);
  stone*=.90+breakup*.20;
  ALBEDO=mix(snow,stone,rock);
+ ALBEDO=mix(ALBEDO,mix(vec3(.16,.36,.43),snow,.22+drift*.16),mineral_ice);
+ // Subsurface fill remains modest; contact shadows and rounded geometry carry
+ // the depth, while sunlight keeps fresh deposits bright and cold.
+ snow_transmission=vec3(.08,.12,.17)*(1.0-rock);
+ if(powder_local_surface) ALBEDO=mix(ALBEDO,vec3(.69,.79,.88),powder_compaction*.20*(1.0-rock));
  ROUGHNESS=mix(clamp(so.g-.045+(drift-.5)*.08,.60,.92),clamp(ro.g-.025,.70,1.0),rock);
  ROUGHNESS=clamp(ROUGHNESS-(1.0-environment.r)*.07,.58,1.0);
  AO=mix(mix(1.0,so.r,.2),mix(1.0,ro.r,.5),rock);
+ ROUGHNESS=mix(ROUGHNESS,.40,mineral_ice);
  SPECULAR=.35;
+ if(powder_local_surface) ROUGHNESS=mix(ROUGHNESS,.66,powder_compaction*(1.0-rock));
  vec3 bump=mix(vec3(sn.x,0,sn.y),rock_bump,rock);
  // Low, wind-shaped relief in the lighting normal, never the collision mesh.
  // Metre-scale ripples sit beneath the scanned grains and disappear at distance.
@@ -86,18 +107,36 @@ void fragment() {
  float ripple_phase=world_pos.x*.95+world_pos.z*2.6+drift*5.0;
  float ripple=sin(ripple_phase)*.065+sin(ripple_phase*2.17+macro*8.0)*.023;
  vec3 relief=vec3(.34,0,.94)*ripple*close_snow;
- vec3 final_n=normalize(n+(bump-n*dot(bump,n))*detail*mix(1.65,1.0,rock)+relief-n*dot(relief,n));
+ vec3 final_n=normalize(n+(bump-n*dot(bump,n))*detail*mix(.72,1.0,rock)+relief-n*dot(relief,n));
  AO*=1.0-close_snow*(.5+.5*cos(ripple_phase))*.045;
  NORMAL=normalize((VIEW_MATRIX*vec4(final_n,0.0)).xyz);
  // World-locked crystal facets. Filter subpixel grains instead of animating
  // noise: shimmer comes from the view/sun angle and obeys real/cloud shadows.
- vec2 crystal_uv=world_pos.xz*18.0;
- vec2 cell=floor(crystal_uv);
- vec2 random=terrain_hash(cell+vec2(317.3,91.7)).xy;
- vec2 crystal=fract(crystal_uv)-(.2+random*.6);
- float footprint=max(length(dFdx(crystal_uv)),length(dFdy(crystal_uv)));
- float grain=1.0-smoothstep(.035,.16+min(footprint,.35)*.35,length(crystal));
- snow_glints=grain*smoothstep(.62,.85,random.x)*(1.0-smoothstep(.25,1.1,footprint))*close_snow;
- vec3 facet=vec3((random.x-.5)*1.6,0,(random.y-.5)*1.6);
- snow_facet_normal=normalize((VIEW_MATRIX*vec4(normalize(final_n+facet-n*dot(facet,n)),0)).xyz);
+ float wind_pack=smoothstep(.45,.9,environment.a);
+ float density=mix(1.0,.55,wind_pack)*mix(.85,1.0,drift);
+ vec4 crystals=sample_crystals(world_pos,final_n,density,distance_m);
+ snow_glints=crystals.w*close_snow;
+ snow_facet_normal=normalize((VIEW_MATRIX*vec4(crystals.xyz,0)).xyz);
+ vec4 large_crystals=sample_large_crystals(world_pos,final_n,density,distance_m);
+ snow_large_glints=large_crystals.w*(1.0-rock)*(1.0-mineral_ice);
+ snow_large_facet_normal=normalize((VIEW_MATRIX*vec4(large_crystals.xyz,0)).xyz);
+ snow_sheen=(1.0-rock)*(1.0-mineral_ice)*mix(.80,1.0,wind_pack);
+ if(powder_local_surface) snow_sheen*=mix(1.0,1.20,powder_compaction);
+ // Fine clumps add roughness rather than painting grey dots onto bright snow.
+ float grain_filter=1.0-smoothstep(.025,.09,max(length(dx),length(dy)));
+ float clumps=value_noise(world_pos.xz*19.0);
+ ROUGHNESS=clamp(ROUGHNESS+(clumps-.5)*.10*close_snow*grain_filter-wind_pack*.035*(1.0-rock),.58,1.0);
+ if(snow_geometry_debug) {
+  ALBEDO=vec3(.45,.50,.56); ROUGHNESS=.9; SPECULAR=0.0;
+  NORMAL=normalize((VIEW_MATRIX*vec4(n,0)).xyz); snow_glints=0.0; snow_transmission=vec3(0);
+  snow_large_glints=0.0; snow_sheen=0.0;
+ }
+#ifdef ALPINE_OFFMAP
+ ALBEDO=mix(ALBEDO,distant_color,offmap_blend);
+ ROUGHNESS=mix(ROUGHNESS,1.0,offmap_blend);
+ SPECULAR*=1.0-offmap_blend;
+ snow_transmission*=1.0-offmap_blend; snow_glints*=1.0-offmap_blend;
+ snow_large_glints*=1.0-offmap_blend; snow_sheen*=1.0-offmap_blend;
+ }
+#endif
 }

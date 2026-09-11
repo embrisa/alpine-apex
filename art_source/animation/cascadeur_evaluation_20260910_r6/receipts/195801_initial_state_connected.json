@@ -1,0 +1,30 @@
+{
+  "label": "initial_state_connected",
+  "started_unix": 1789063078.8359487,
+  "seconds": 3.1278045177459717,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "run_script",
+      "arguments": {
+        "code": "print('scenes', [(s.name(),s.get_path_name()) for s in app.get_scene_manager().scenes()]); print('active',app.current_scene().name(),app.current_scene().get_path_name()); print('export_available',app.is_export_available()); print('frames',app.current_scene().domain_scene().data_viewer().get_animation_size())"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"ok\": true,\n  \"value\": \"\",\n  \"messages\": [\n    {\n      \"level\": \"Info\",\n      \"text\": \"scenes [('ready_compression_baked.casc', 'C:/Users/hp/Downloads/alpine-apex/artifacts/cascadeur_rig_20260910_r4/ready_compression_baked.casc')]\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"active ready_compression_baked.casc C:/Users/hp/Downloads/alpine-apex/artifacts/cascadeur_rig_20260910_r4/ready_compression_baked.casc\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"export_available True\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"frames 61\"\n    }\n  ]\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "transport_error": null
+}

@@ -1,4 +1,5 @@
 extends Node3D
+const AudioContactBone = preload("res://scripts/presentation/audio_contact_bone.gd")
 ## Crash-only Jolt skeleton. Normal skiing remains in the deterministic solver.
 const LINKS = [
  ["Hips","Spine02",12.0,.12,35.0,18.0],
@@ -38,7 +39,7 @@ func build(skier) -> void:
 		var end: Vector3 = visual._origin(link[1]) if not link[1].is_empty() else rest.origin+Vector3(.07 if id.begins_with("Left") else -.07,0,0)
 		var length_value = maxf(rest.origin.distance_to(end),link[3]*2.0)
 		var shape_basis = Basis(Quaternion(Vector3.UP,(end-rest.origin).normalized()))
-		var body = PhysicalBone3D.new()
+		var body = AudioContactBone.new()
 		body.name = "Physical"+id
 		simulator.add_child(body)
 		body.bone_name = id
@@ -61,6 +62,7 @@ func build(skier) -> void:
 		collider.shape = capsule
 		body.add_child(collider)
 		PhysicsServer3D.body_set_enable_continuous_collision_detection(body.get_rid(),true)
+		PhysicsServer3D.body_set_max_contacts_reported(body.get_rid(),AudioContactBone.CAPACITY)
 		bodies[id] = body
 	# Internal skeleton collisions are excluded; limbs cannot explode from the
 	# unavoidable overlap at joint capsules. Terrain/obstacle collision remains.
@@ -69,6 +71,7 @@ func build(skier) -> void:
 
 func start(sim) -> void:
 	if running: return
+	for bone in bodies.values(): bone.clear_audio_contacts()
 	visual.pose(sim)
 	visual.skeleton.force_update_all_bone_transforms()
 	equipment_offsets.clear()
@@ -99,7 +102,10 @@ func start(sim) -> void:
 		bodies[id].mass = link[2]*sim.tuning.rider_mass/80.0
 		bodies[id].global_transform = visual.skeleton.global_transform*visual.desired[visual.bone_ids[id]]*bodies[id].body_offset
 	for link in LINKS: _configure_joint(link)
-	var omega: Vector3 = visual.basis*Vector3(sim.body.pitch_velocity,0,sim.body.roll_velocity)
+	# Angular velocities belong to the physical handling frame, even when the
+	# composed skeleton faces backward. Facing must not reverse world momentum.
+	var omega: Vector3 = sim.body.pose_frame.basis*Vector3(sim.body.pitch_velocity,0,sim.body.roll_velocity)
+	if sim.get("air_control")!=null: omega += sim.air_control.angular_velocity
 	var center = Vector3.ZERO
 	var total_mass = 0.0
 	for id in bodies:
@@ -131,6 +137,7 @@ func update_equipment() -> void:
 
 func set_frozen(value: bool) -> void:
 	if not running or frozen==value: return
+	for bone in bodies.values(): bone.clear_audio_contacts()
 	frozen = value
 	for id in bodies:
 		var body: PhysicalBone3D = bodies[id]
@@ -144,6 +151,7 @@ func set_frozen(value: bool) -> void:
 
 func stop() -> void:
 	if frozen: set_frozen(false)
+	for bone in bodies.values(): bone.clear_audio_contacts()
 	for id in bodies: bodies[id].joint_type = PhysicalBone3D.JOINT_TYPE_NONE
 	simulator.physical_bones_stop_simulation()
 	running = false
@@ -178,7 +186,7 @@ func _configure_joint(link: Array) -> void:
 		body.joint_type = PhysicalBone3D.JOINT_TYPE_HINGE
 		body.set("joint_constraints/angular_limit_enabled",true)
 		body.set("joint_constraints/angular_limit_lower",-flex)
-		body.set("joint_constraints/angular_limit_upper",32.0-flex)
+		body.set("joint_constraints/angular_limit_upper",24.0-flex)
 	elif id.ends_with("Leg") and not id.ends_with("UpLeg") or id.ends_with("ForeArm"):
 		var upper = prefix+("UpLeg" if id.ends_with("Leg") else "Arm")
 		var lower = prefix+("Foot" if id.ends_with("Leg") else "Hand")

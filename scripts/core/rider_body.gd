@@ -43,6 +43,7 @@ var height_velocity = 0.0
 var cop = Vector2.ZERO # lateral / fore-aft, metres in support coordinates
 var requested_cop = Vector2.ZERO
 var support_margin = .22
+var pressure_reserve = .12
 var correction_torque = Vector2.ZERO # roll / pitch, N m
 var load_fractions = Vector2(.5,.5) # right / left
 var recovery = 0.0
@@ -51,8 +52,12 @@ var recovering_pose = false
 var hands: Array[Vector3] = [Vector3(-.18,-.32,.20),Vector3(.18,-.32,.20)]
 var hand_velocities: Array[Vector3] = [Vector3.ZERO,Vector3.ZERO]
 var initialized = false
+var _carve_recovery_envelope = false
+var _carve_transfer_shift = 0.0
 
 func reset() -> void:
+	_carve_recovery_envelope = false
+	_carve_transfer_shift = 0.0
 	angular_momentum = Vector2.ZERO
 	roll = 0.0
 	pitch = 0.0
@@ -78,9 +83,21 @@ func reset() -> void:
 	hand_velocities = [Vector3.ZERO,Vector3.ZERO]
 
 func step(dt: float, sim, intent, acceleration_world: Vector3) -> void:
+	# A supported pelvis transfer changes actual fitted COM, never root velocity.
+	var shift_goal: float = -intent.steer*sim.tuning.arcade_transfer_shift_m*sim.carve_blend if sim.grounded and roll*intent.steer<0.0 else 0.0
+	_carve_transfer_shift = move_toward(_carve_transfer_shift,shift_goal,dt*sim.tuning.arcade_transfer_shift_speed)
+	pressure_reserve = sim.tuning.transfer_pressure_reserve if roll*intent.steer<0.0 else lerpf(.12,sim.tuning.bank_pressure_reserve,smoothstep(.05,.5,absf(intent.steer)))
+	# Keep pressure for initiating the bank, then make the established support
+	# available to carve. The actual footprint still bounds every reaction.
+	if roll*intent.steer>=0.0:
+		var established = smoothstep(sim.tuning.arcade_bank_start,sim.tuning.arcade_bank_full,absf(roll))
+		var building = smoothstep(sim.tuning.arcade_build_start,sim.tuning.arcade_build_full,absf(roll))
+		var carve_reserve = lerpf(sim.tuning.arcade_initiation_reserve,sim.tuning.arcade_build_reserve,building)
+		carve_reserve = lerpf(carve_reserve,sim.tuning.arcade_pressure_reserve,established)
+		pressure_reserve = lerpf(pressure_reserve,carve_reserve,sim.carve_blend)
 	var frame: Basis = sim.support_basis()
 	var has_support: bool = sim.grounded or not sim.landing_support_positions.is_empty()
-	if initialized:
+	if initialized and (has_support or not sim.air_control.orientation_flight):
 		# Roll/pitch live in the moving support frame. Preserve the existing
 		# world lean when terrain/heading rotates that frame; otherwise every
 		# bank change instantly rotates the mass and injects a false tip.
@@ -101,30 +118,37 @@ func step(dt: float, sim, intent, acceleration_world: Vector3) -> void:
 	# Air drag acts on the body, not through the ski support footprint.
 	var gravity: Vector3 = inverse*(sim.gravity_vector+sim.air_acceleration)
 	# Balance must use the reaction that changed velocity THIS tick, including
-	# landing support. sim.normal_load is the next contact's curvature estimate;
+	# landing support. sim.normal_load is the next contact's support estimate;
 	# using it here pairs a landing/braking impulse with near-zero support.
 	var normal_load: float = maxf(acceleration.y-gravity.y,.1)
-	var anticipated: float = -intent.steer*sim.tuning.steering_sensitivity*sim.velocity.length()/(1.0+sim.velocity.length()*sim.tuning.high_speed_steering_reduction)
+	var anticipated: float = sim.turn_demand*sim.velocity.length()
 	# requested_lateral_acceleration already describes the ski reaction, with
 	# gravity excluded. Subtracting cross-slope gravity again drives excessive
 	# bank as support unloads, even after a tiny steering input is released.
 	# Anticipation also needs support. Do not demand a full bank from a tiny
 	# steering correction while the skis are almost weightless over a crest.
-	anticipated = clampf(anticipated,-normal_load,normal_load)
-	var lean_force: float = lerpf(sim.requested_lateral_acceleration,anticipated,.2)
+	var lean_limit: float = lerpf(sim.tuning.maximum_body_lean,sim.tuning.high_speed_body_lean,smoothstep(30.0/3.6,60.0/3.6,sim.velocity.length()))
+	lean_limit = lerpf(lean_limit,sim.tuning.arcade_body_lean,sim.carve_blend)
+	var anticipated_limit: float = normal_load*tan(lean_limit)
+	anticipated = clampf(anticipated,-anticipated_limit,anticipated_limit)
+	var anticipation_blend: float = lerpf(.2,sim.tuning.turn_anticipation,smoothstep(.05,.5,absf(intent.steer)))
+	anticipation_blend = lerpf(anticipation_blend,sim.tuning.arcade_anticipation,sim.carve_blend)
+	var lean_force: float = lerpf(sim.requested_lateral_acceleration,anticipated,anticipation_blend)
 	# Retract the target bank as the skis unload. Dividing steering demand by
 	# a vanishing reaction instead asked for maximum lean just before takeoff,
 	# when the feet no longer had the torque to stop that angular motion.
 	var lean_support = maxf(normal_load,-gravity.y)
-	var lean_limit: float = lerpf(sim.tuning.maximum_body_lean,sim.tuning.high_speed_body_lean,smoothstep(30.0/3.6,60.0/3.6,sim.velocity.length()))
-	var goal_roll = clampf(-atan2(lean_force,lean_support),-lean_limit,lean_limit) if sim.grounded else roll
+	var goal_roll = clampf(-atan2(lean_force,lean_support),-lean_limit,lean_limit) if sim.grounded else clampf(roll,-1.15,1.15)
 	# During an edge change request a modest opposite bank through the same
 	# pressure-limited controller. This avoids lingering around neutral while
 	# waiting for the old turn force to disappear; it never assigns body roll.
 	if sim.grounded and intent.steer*sim.requested_lateral_acceleration>0.0:
 		goal_roll = intent.steer*minf(sim.tuning.turn_transfer_bank,lean_limit)
-	var goal_pitch: float = -intent.brake*.45 if sim.grounded else pitch
+	var goal_pitch: float = -intent.brake*.45 if sim.grounded else clampf(pitch,-.70,.70)
 	var goal_height: float = .94-sim.effective_tuck*.22-clampf((sim.normal_load/9.81-1.0)*.035+sim.landing_force*.012,-.035,.11)
+	# Transition from tuck to turning stance without stacking both crouches.
+	goal_height -= sim.carve_blend*sim.tuning.arcade_carve_crouch*(1.0-sim.effective_tuck)
+	goal_height -= sim.snow_control_blend*sim.tuning.snow_control_crouch*(1.0-sim.effective_tuck)
 	if not sim.grounded:
 		# Bring the knees up after release instead of extending rigidly into
 		# the missing support. This changes the articulated pose/inertia only.
@@ -148,7 +172,8 @@ func step(dt: float, sim, intent, acceleration_world: Vector3) -> void:
 		var support_force: float = sim.tuning.rider_mass*normal_load
 		var fx: float = sim.tuning.rider_mass*(acceleration.x-gravity.x)
 		var fz: float = sim.tuning.rider_mass*(acceleration.z-gravity.z)
-		var roll_torque: float = clampf((goal_roll-roll)*sim.tuning.balance_stiffness-roll_velocity*sim.tuning.balance_damping,-sim.tuning.balance_max_torque,sim.tuning.balance_max_torque)
+		var roll_damping: float = lerpf(sim.tuning.balance_recovery_damping,sim.tuning.balance_damping,smoothstep(.05,.5,absf(intent.steer)))
+		var roll_torque: float = clampf((goal_roll-roll)*sim.tuning.balance_stiffness-roll_velocity*roll_damping,-sim.tuning.balance_max_torque,sim.tuning.balance_max_torque)
 		var pitch_torque: float = clampf((goal_pitch-pitch)*sim.tuning.balance_stiffness-pitch_velocity*sim.tuning.balance_damping,-sim.tuning.balance_max_torque,sim.tuning.balance_max_torque)
 		requested_cop = Vector2(com.x+(roll_torque-com.y*fx)/support_force,com.z-(pitch_torque+com.y*fz)/support_force)
 		var length_limit: float = sim.tuning.ski_length*.40
@@ -174,13 +199,27 @@ func step(dt: float, sim, intent, acceleration_world: Vector3) -> void:
 		angular_momentum = inertia*Vector2(roll_velocity,pitch_velocity)
 	roll += roll_velocity*dt
 	pitch += pitch_velocity*dt
+	if not has_support:
+		# This model articulates above attached boots; it has no whole-rider flip
+		# degree of freedom. Unbounded angles orbit the torso around the cuffs.
+		roll = clampf(roll,-1.15,1.15)
+		pitch = clampf(pitch,-.70,.70)
+		if absf(roll)>=1.15 and roll_velocity*roll>0.0: roll_velocity = 0.0
+		if absf(pitch)>=.70 and pitch_velocity*pitch>0.0: pitch_velocity = 0.0
+
+		angular_momentum = inertia*Vector2(roll_velocity,pitch_velocity)
 	# Supported self-righting assist bounds the articulated pose after a stumble.
 	# Remove outward angular speed, never redirect root velocity or add a snow force.
-	# Airborne angular momentum remains free; body tilt is not a death condition.
+	# Flight has anatomical limits and explicit neutral-input help; tilt is not health.
 	if has_support:
-		if absf(roll)>1.15 or absf(pitch)>.70: recovering_pose = true
+		# Retain the larger envelope through release until the bank settles.
+		# Pure rock/neutral riding never opts into a snow-carving recovery limit.
+		if sim.carve_blend>0.0: _carve_recovery_envelope = true
+		elif absf(roll)<=1.15: _carve_recovery_envelope = false
+		var roll_limit: float = sim.tuning.arcade_roll_limit if _carve_recovery_envelope else 1.15
+		if absf(roll)>roll_limit or absf(pitch)>.70: recovering_pose = true
 		if recovering_pose:
-			roll = move_toward(clampf(roll,-1.15,1.15),goal_roll,dt*2.0)
+			roll = move_toward(clampf(roll,-roll_limit,roll_limit),goal_roll,dt*2.0)
 			pitch = move_toward(clampf(pitch,-.70,.70),goal_pitch,dt*2.0)
 			if roll_velocity*(roll-goal_roll)>0.0: roll_velocity = 0.0
 			if pitch_velocity*(pitch-goal_pitch)>0.0: pitch_velocity = 0.0
@@ -212,6 +251,7 @@ func _pose(sim, dt: float) -> void:
 		var prefix = "Right" if i==0 else "Left"
 		ankles.append(frame.transposed()*(sim.skis[i].position-sim.position+sim.skis[i].orientation.y*(.110+REST[prefix+"Foot"].y)))
 		boots.append(frame.transposed()*sim.skis[i].orientation)
+	hips.x += _carve_transfer_shift
 	hips = fit_hips(hips,pelvis_basis,ankles,boots)
 	joints.Hips = hips
 	rotations.Hips = pelvis_basis
@@ -310,7 +350,7 @@ static func joint(a: Vector3,b: Vector3,first: float,second: float,hint: Vector3
 func available_lateral(direction: float, load: float, tuning) -> float:
 	# Reserve part of the support width for changing lean. Edge force builds as
 	# the rider actually banks, rather than applying full grip to an upright COM.
-	return maxf(0.0,(tuning.half_stance+tuning.ski_width*.5-.12+direction*com.x)*maxf(load,0.0)/maxf(com.y,.4))
+	return maxf(0.0,(tuning.half_stance+tuning.ski_width*.5-pressure_reserve+direction*com.x)*maxf(load,0.0)/maxf(com.y,.4))
 
 func available_braking(direction: float, load: float, tuning) -> float:
 	return maxf(0.0,(tuning.ski_length*.40-.06-direction*com.z)*maxf(load,0.0)/maxf(com.y,.4))

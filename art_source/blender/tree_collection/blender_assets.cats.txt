@@ -1,0 +1,9 @@
+# Blender Asset Catalog Definition File
+VERSION 1
+
+9a322b07-a745-50f3-b251-27e26afba407:Trees/spruce:spruce
+7871615b-88d3-5f26-8c6b-372479a95358:Trees/fir:fir
+29f21884-f1cc-5271-a856-cba9b0ff16d0:Trees/pine:pine
+1c0f725c-674a-54f6-83ea-9c8ae74e60eb:Trees/birch:birch
+0adfd5ed-8348-586a-b0f6-6d8f4556b7a1:Trees/dead:dead
+23d0b44c-0387-5655-a047-35b3d4ee5327:Trees/broken:broken

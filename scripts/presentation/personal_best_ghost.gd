@@ -61,11 +61,7 @@ func update_ghost(replay, time: float, rider_position: Vector3, show_in_world: b
 	visible = true
 	material.albedo_color.a = 0.46*smoothstep(1.2,4.0,distance)
 	position = pose.position
-	var up: Vector3 = pose.normal if pose.grounded else Vector3.UP
-	var forward = Vector3(sin(pose.heading),0,cos(pose.heading))
-	forward.y = -(up.x*forward.x+up.z*forward.z)/maxf(up.y,0.1)
-	forward = forward.normalized()
-	basis = Basis(up.cross(forward).normalized(),up,forward)
+	basis = pose.basis
 	var joints: Dictionary = pose.joints
 	var hips: Vector3 = joints.Hips
 	var chest: Vector3 = joints.Spine
@@ -79,10 +75,7 @@ func update_ghost(replay, time: float, rider_position: Vector3, show_in_world: b
 		_segment(limbs[i*4+2],joints[prefix+"Arm"],joints[prefix+"ForeArm"])
 		_segment(limbs[i*4+3],joints[prefix+"ForeArm"],joints[prefix+"Hand"])
 		var ski: Dictionary = pose.skis[i]
-		var forward_ski = Vector3(sin(ski.heading),0,cos(ski.heading))
-		forward_ski.y = -(ski.normal.x*forward_ski.x+ski.normal.z*forward_ski.z)/maxf(ski.normal.y,.05)
-		forward_ski = forward_ski.normalized()
-		var ski_basis = Basis(ski.normal.cross(forward_ski).normalized(),ski.normal,forward_ski)*Basis(Vector3.BACK,-ski.edge)
+		var ski_basis: Basis = ski.basis
 		skis[i].global_transform = Transform3D(ski_basis,position+ski.offset+ski_basis*Vector3(0,.015,.15))
 
 func _segment(node: MeshInstance3D, a: Vector3, b: Vector3) -> void:

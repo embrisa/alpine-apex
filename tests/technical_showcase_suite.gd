@@ -19,7 +19,7 @@ func run() -> void:
 	metrics.trees = field.obstacles.filter(func(ob): return ob.tree).size()
 	metrics.height_sha256 = field.height_checksum
 	metrics.obstacle_sha256 = field.obstacle_checksum
-	check(Definition.parse_seed("849205174").version==4,"Bare seeds retain v4")
+	check(Definition.parse_seed("849205174").version==10,"Bare seeds select the current v10 massif")
 	check(Definition.parse_seed("42 / v5").has("error") and not Definition.parse_seed("42 / v5").has("seed") and Definition.generate(42,5)==null,"Unsupported showcase seeds fail without generating a different mountain")
 	var recipe = Definition.from_field(field,"Technical Showcase")
 	var invalid_reference = recipe.to_reference()

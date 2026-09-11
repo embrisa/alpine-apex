@@ -1,0 +1,15 @@
+{
+	"format": "alpine-apex-mountain",
+	"mountain": {
+		"engine": "4.7.2-stable (official)",
+		"generator": "alpine-drainage",
+		"height_sha256": "272e3210c85c78684fdd7a07194a0e196460c57620158b4d6263257ee48bccf2",
+		"obstacle_sha256": "06b79834016e70c68e99da47d526889332ec3f190024c07f06b86ede2b6cecdf",
+		"scenery_seed": 849205174,
+		"scenery_version": 2,
+		"seed": 849205174,
+		"version": 10
+	},
+	"name": "Default Mountain",
+	"schema": 1
+}

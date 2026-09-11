@@ -1,0 +1,30 @@
+{
+  "label": "solve_oriented_controls",
+  "started_unix": 1789055483.9047377,
+  "seconds": 5.0443854331970215,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "run_script",
+      "arguments": {
+        "code": "\"\"\"Solve explicit point/orientation controls; preserve R4 and exported anatomy.\"\"\"\nimport json\nfrom pathlib import Path\nimport numpy as np\nroot=Path('C:/Users/hp/Downloads/alpine-apex/artifacts/cascadeur_rig_20260910_r5')\nassert Path(app.current_scene().get_path_name())==root/'ready_compression_r5.casc'\nscene=app.current_scene().domain_scene()\nmv,bv=scene.model_viewer(),scene.behaviour_viewer()\nids={mv.get_object_name(o):o for o in mv.get_objects() if mv.get_object_type_name(o)=='Point'}\ninputs=json.loads((root/'control_targets.json').read_text())['samples']\ndef modify(model,update,su,session):\n    for frame,sample in enumerate(inputs):\n        changed=set()\n        for n,v in sample.items():\n            d=bv.get_behaviour_data(bv.get_behaviour_by_name(ids[n],'Transform'),'global_position')\n            model.data_editor().set_data_value(d,frame,np.array(v,dtype=np.float32));changed.add(d)\n        su.generate_update();su.run_update(changed,frame)\n    session.set_current_frame(30)\nassert scene.modify_update_with_session('Constrain torso orientation and anatomical arm planes',modify)\nselected={o for o in mv.get_objects() if mv.get_object_type_name(o)=='Joint' or mv.get_object_name(o)=='Armature'}\nscene.selector().select(selected)\nopts=csc.glb.ExportOptions();opts.include_animation=True;opts.for_selected_objects=True;opts.for_selected_interval=False\nopts.scale_factor=.01;opts.fps=30;opts.throw_exception=True\ncsc.glb.process_export(scene,str(root/'ready_compression_r5_animation.glb'),opts)\nprint('Solved and exported R5. Save separately after inspecting this result.')\n"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"ok\": true,\n  \"value\": \"\",\n  \"messages\": [\n    {\n      \"level\": \"Success\",\n      \"text\": \"GLB/GLTF: Export: Success\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"Solved and exported R5. Save separately after inspecting this result.\"\n    }\n  ]\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "transport_error": null
+}

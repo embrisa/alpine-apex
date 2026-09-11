@@ -1,0 +1,3452 @@
+{
+  "version": "mineral-library-v3-detail",
+  "source_sha256": "f644a0d1b7505dbcd43687cba12630e39e6f7eac7f221ad067c9accf3df1687f",
+  "categories": {
+    "small": [
+      0.35,
+      0.6,
+      0.9,
+      1.2
+    ],
+    "medium": [
+      2,
+      3.2,
+      4.8,
+      6.5
+    ],
+    "large": [
+      10,
+      16,
+      24,
+      36
+    ],
+    "huge_boulders": [
+      40,
+      55,
+      75,
+      100
+    ],
+    "cliffs": [
+      60,
+      100,
+      150,
+      220
+    ]
+  },
+  "category_families": {
+    "small": [
+      "rounded",
+      "fractured",
+      "sedimentary",
+      "outcrop",
+      "cliff",
+      "glacier"
+    ],
+    "medium": [
+      "rounded",
+      "fractured",
+      "sedimentary",
+      "outcrop",
+      "cliff",
+      "glacier"
+    ],
+    "large": [
+      "rounded",
+      "fractured",
+      "sedimentary",
+      "outcrop",
+      "cliff",
+      "glacier"
+    ],
+    "huge_boulders": [
+      "erratic",
+      "block",
+      "split",
+      "dome",
+      "overhang",
+      "monolith"
+    ],
+    "cliffs": [
+      "wall",
+      "layered_wall",
+      "corner",
+      "recess",
+      "overhang_wall",
+      "buttress"
+    ]
+  },
+  "triangle_budgets": {
+    "small": 6000,
+    "medium": 18000,
+    "large": 45000,
+    "huge_boulders": 90000,
+    "cliffs": 120000
+  },
+  "surface_default": "bare rock; frost on glacier assets",
+  "collision": "Visual surfaces with intersecting shells; no gameplay collision",
+  "assets": [
+    {
+      "asset": "mineral_medium_sedimentary_01",
+      "category": "medium",
+      "family": "sedimentary",
+      "variant": 1,
+      "seed": 932700,
+      "dimensions_blender_xyz_m": [
+        2.0,
+        1.4378260374069214,
+        0.9715287089347839
+      ],
+      "dimensions_godot_xyz_m": [
+        2.0,
+        0.9715287089347839,
+        1.4378260374069214
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 143360,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_sedimentary_01.glb",
+      "sha256": "35ceecda8d7ebd5d0ff16fd3efb914c4c68825f995419feffd9c0b9ba748ddac",
+      "bytes": 32548764,
+      "elapsed_seconds": 18.9
+    },
+    {
+      "asset": "mineral_small_rounded_01",
+      "category": "small",
+      "family": "rounded",
+      "variant": 1,
+      "seed": 920700,
+      "dimensions_blender_xyz_m": [
+        0.3500000238418579,
+        0.27457135915756226,
+        0.19422490894794464
+      ],
+      "dimensions_godot_xyz_m": [
+        0.3500000238418579,
+        0.19422490894794464,
+        0.27457135915756226
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 177152,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_rounded_01.glb",
+      "sha256": "be4de970220aebc89ff8a08a2d0184cca66c083f2868c247d259f3eae9d3e5c6",
+      "bytes": 9130980,
+      "elapsed_seconds": 8.6
+    },
+    {
+      "asset": "mineral_small_rounded_02",
+      "category": "small",
+      "family": "rounded",
+      "variant": 2,
+      "seed": 920783,
+      "dimensions_blender_xyz_m": [
+        0.6000000834465027,
+        0.4559546709060669,
+        0.5621069669723511
+      ],
+      "dimensions_godot_xyz_m": [
+        0.6000000834465027,
+        0.5621069669723511,
+        0.4559546709060669
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 74752,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_rounded_02.glb",
+      "sha256": "14a08252f23b41c4d3964a7b403dc57aa4e2ce757cfdf68d423935494f6282f9",
+      "bytes": 8700216,
+      "elapsed_seconds": 5.2
+    },
+    {
+      "asset": "mineral_small_rounded_03",
+      "category": "small",
+      "family": "rounded",
+      "variant": 3,
+      "seed": 920866,
+      "dimensions_blender_xyz_m": [
+        0.8999999761581421,
+        0.880966305732727,
+        0.46445557475090027
+      ],
+      "dimensions_godot_xyz_m": [
+        0.8999999761581421,
+        0.46445557475090027,
+        0.880966305732727
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 139264,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_rounded_03.glb",
+      "sha256": "edadb73165d8c71c35e59a18b7f79c2dfc42e44baba3fb97ba050cf1a37550c8",
+      "bytes": 8466752,
+      "elapsed_seconds": 6.5
+    },
+    {
+      "asset": "mineral_small_rounded_04",
+      "category": "small",
+      "family": "rounded",
+      "variant": 4,
+      "seed": 920949,
+      "dimensions_blender_xyz_m": [
+        1.0151128768920898,
+        1.1105315685272217,
+        1.2000001668930054
+      ],
+      "dimensions_godot_xyz_m": [
+        1.0151128768920898,
+        1.2000001668930054,
+        1.1105315685272217
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 126976,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_rounded_04.glb",
+      "sha256": "d7bf471cfe294f9e9180036d0c01ca250312a3acc164e346aa237c8b38fdf7cc",
+      "bytes": 9684856,
+      "elapsed_seconds": 6.5
+    },
+    {
+      "asset": "mineral_small_fractured_01",
+      "category": "small",
+      "family": "fractured",
+      "variant": 1,
+      "seed": 921700,
+      "dimensions_blender_xyz_m": [
+        0.3500000238418579,
+        0.28227055072784424,
+        0.29889026284217834
+      ],
+      "dimensions_godot_xyz_m": [
+        0.3500000238418579,
+        0.29889026284217834,
+        0.28227055072784424
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 259072,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_fractured_01.glb",
+      "sha256": "92b4b8783573900eb42916db86a07b64f2cbef32e349665786d0cae1402a7db8",
+      "bytes": 9986704,
+      "elapsed_seconds": 10.0
+    },
+    {
+      "asset": "mineral_small_fractured_02",
+      "category": "small",
+      "family": "fractured",
+      "variant": 2,
+      "seed": 921783,
+      "dimensions_blender_xyz_m": [
+        0.6000000238418579,
+        0.36645498871803284,
+        0.36170950531959534
+      ],
+      "dimensions_godot_xyz_m": [
+        0.6000000238418579,
+        0.36170950531959534,
+        0.36645498871803284
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 386048,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_fractured_02.glb",
+      "sha256": "301901012d5a5ac87ffada16517c74b0b41ac29f29688cc583504f2b4519c8c8",
+      "bytes": 10917572,
+      "elapsed_seconds": 12.1
+    },
+    {
+      "asset": "mineral_small_fractured_03",
+      "category": "small",
+      "family": "fractured",
+      "variant": 3,
+      "seed": 921866,
+      "dimensions_blender_xyz_m": [
+        0.9000000357627869,
+        0.6262103319168091,
+        0.6781447529792786
+      ],
+      "dimensions_godot_xyz_m": [
+        0.9000000357627869,
+        0.6781447529792786,
+        0.6262103319168091
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 257024,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_fractured_03.glb",
+      "sha256": "bd4a802919ff9ffae6d5424b081440b811d31db1f85f7b2be1690938151e071a",
+      "bytes": 9814472,
+      "elapsed_seconds": 8.7
+    },
+    {
+      "asset": "mineral_small_fractured_04",
+      "category": "small",
+      "family": "fractured",
+      "variant": 4,
+      "seed": 921949,
+      "dimensions_blender_xyz_m": [
+        1.2000000476837158,
+        0.7216123342514038,
+        0.6727403402328491
+      ],
+      "dimensions_godot_xyz_m": [
+        1.2000000476837158,
+        0.6727403402328491,
+        0.7216123342514038
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 319488,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_fractured_04.glb",
+      "sha256": "6ae36bc4ffdc88a68595a12596eb5596e179f0708298b8bba07a8c4e14907f58",
+      "bytes": 10049248,
+      "elapsed_seconds": 10.3
+    },
+    {
+      "asset": "mineral_small_sedimentary_01",
+      "category": "small",
+      "family": "sedimentary",
+      "variant": 1,
+      "seed": 922700,
+      "dimensions_blender_xyz_m": [
+        0.3500000238418579,
+        0.2518341541290283,
+        0.17175090312957764
+      ],
+      "dimensions_godot_xyz_m": [
+        0.3500000238418579,
+        0.17175090312957764,
+        0.2518341541290283
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 155648,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_sedimentary_01.glb",
+      "sha256": "0a36a1ab498c4e48a2ddca0d23aa06bc4de316870c843b238b78369e543abada",
+      "bytes": 8858852,
+      "elapsed_seconds": 6.7
+    },
+    {
+      "asset": "mineral_small_sedimentary_02",
+      "category": "small",
+      "family": "sedimentary",
+      "variant": 2,
+      "seed": 922783,
+      "dimensions_blender_xyz_m": [
+        0.6000000238418579,
+        0.48399829864501953,
+        0.32314741611480713
+      ],
+      "dimensions_godot_xyz_m": [
+        0.6000000238418579,
+        0.32314741611480713,
+        0.48399829864501953
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 135168,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_sedimentary_02.glb",
+      "sha256": "28b02f9d1506ec0470d206e5866b9b746e1083ca57d6df5c748178c37a9c6a80",
+      "bytes": 10762824,
+      "elapsed_seconds": 6.8
+    },
+    {
+      "asset": "mineral_small_sedimentary_03",
+      "category": "small",
+      "family": "sedimentary",
+      "variant": 3,
+      "seed": 922866,
+      "dimensions_blender_xyz_m": [
+        0.8999999761581421,
+        0.7736186385154724,
+        0.4990105628967285
+      ],
+      "dimensions_godot_xyz_m": [
+        0.8999999761581421,
+        0.4990105628967285,
+        0.7736186385154724
+      ],
+      "triangles": 5958,
+      "high_source_triangles": 156672,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_sedimentary_03.glb",
+      "sha256": "ee69407e321ca05397e86edf8882f07f49f3ecfe70d3fe9f474ae0aaa261bc33",
+      "bytes": 10097480,
+      "elapsed_seconds": 6.6
+    },
+    {
+      "asset": "mineral_small_sedimentary_04",
+      "category": "small",
+      "family": "sedimentary",
+      "variant": 4,
+      "seed": 922949,
+      "dimensions_blender_xyz_m": [
+        1.165696144104004,
+        1.2000000476837158,
+        0.685437798500061
+      ],
+      "dimensions_godot_xyz_m": [
+        1.165696144104004,
+        0.685437798500061,
+        1.2000000476837158
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 174080,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_sedimentary_04.glb",
+      "sha256": "677fed753b1f60b8d7ed580ead678459a4584134262daf81d22c55ef942ce07b",
+      "bytes": 9800396,
+      "elapsed_seconds": 7.3
+    },
+    {
+      "asset": "mineral_small_outcrop_01",
+      "category": "small",
+      "family": "outcrop",
+      "variant": 1,
+      "seed": 923700,
+      "dimensions_blender_xyz_m": [
+        0.23798701167106628,
+        0.21729335188865662,
+        0.3499999940395355
+      ],
+      "dimensions_godot_xyz_m": [
+        0.23798701167106628,
+        0.3499999940395355,
+        0.21729335188865662
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 385024,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_outcrop_01.glb",
+      "sha256": "d9512bf8e1b0f27d0ca51873e05b0298c69add1701473899585df088c3b93ff9",
+      "bytes": 10685004,
+      "elapsed_seconds": 12.1
+    },
+    {
+      "asset": "mineral_small_outcrop_02",
+      "category": "small",
+      "family": "outcrop",
+      "variant": 2,
+      "seed": 923783,
+      "dimensions_blender_xyz_m": [
+        0.3833049535751343,
+        0.4044535458087921,
+        0.6000000238418579
+      ],
+      "dimensions_godot_xyz_m": [
+        0.3833049535751343,
+        0.6000000238418579,
+        0.4044535458087921
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 513024,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_outcrop_02.glb",
+      "sha256": "e7a777680f67d66e29b3dcf1e3b1b7f314c4fc8f9ad18faa66e9bcadc3300522",
+      "bytes": 10871436,
+      "elapsed_seconds": 14.4
+    },
+    {
+      "asset": "mineral_small_outcrop_03",
+      "category": "small",
+      "family": "outcrop",
+      "variant": 3,
+      "seed": 923866,
+      "dimensions_blender_xyz_m": [
+        0.5703127980232239,
+        0.5479024648666382,
+        0.8999999761581421
+      ],
+      "dimensions_godot_xyz_m": [
+        0.5703127980232239,
+        0.8999999761581421,
+        0.5479024648666382
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 692224,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_outcrop_03.glb",
+      "sha256": "5927a37bda46f0599455b6166cb4dc36284eca110d3c93ce573485a25a4d0f3e",
+      "bytes": 11191732,
+      "elapsed_seconds": 18.3
+    },
+    {
+      "asset": "mineral_small_outcrop_04",
+      "category": "small",
+      "family": "outcrop",
+      "variant": 4,
+      "seed": 923949,
+      "dimensions_blender_xyz_m": [
+        0.8445454835891724,
+        0.7935957908630371,
+        1.2000000476837158
+      ],
+      "dimensions_godot_xyz_m": [
+        0.8445454835891724,
+        1.2000000476837158,
+        0.7935957908630371
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 762880,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_outcrop_04.glb",
+      "sha256": "9dc760fb22807cd069c7aaaf9fb4898162a50cc038c752b26cb26509a6234be1",
+      "bytes": 11332932,
+      "elapsed_seconds": 19.6
+    },
+    {
+      "asset": "mineral_small_cliff_01",
+      "category": "small",
+      "family": "cliff",
+      "variant": 1,
+      "seed": 924700,
+      "dimensions_blender_xyz_m": [
+        0.3500000238418579,
+        0.17463520169258118,
+        0.2769002616405487
+      ],
+      "dimensions_godot_xyz_m": [
+        0.3500000238418579,
+        0.2769002616405487,
+        0.17463520169258118
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 648192,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_cliff_01.glb",
+      "sha256": "38b399ec2bcbafbb1ac2fb1480c00353c1496a7d5c8f42bd9d3ae03fc34f5eee",
+      "bytes": 11364808,
+      "elapsed_seconds": 18.3
+    },
+    {
+      "asset": "mineral_small_cliff_02",
+      "category": "small",
+      "family": "cliff",
+      "variant": 2,
+      "seed": 924783,
+      "dimensions_blender_xyz_m": [
+        0.6000000834465027,
+        0.24465101957321167,
+        0.37238815426826477
+      ],
+      "dimensions_godot_xyz_m": [
+        0.6000000834465027,
+        0.37238815426826477,
+        0.24465101957321167
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 634880,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_cliff_02.glb",
+      "sha256": "160ee81562c74adc0ee3b3e7fd97ff8362ce42a48771b214b9dffe8079a43f3e",
+      "bytes": 11216020,
+      "elapsed_seconds": 17.5
+    },
+    {
+      "asset": "mineral_small_cliff_03",
+      "category": "small",
+      "family": "cliff",
+      "variant": 3,
+      "seed": 924866,
+      "dimensions_blender_xyz_m": [
+        0.8999999761581421,
+        0.31761375069618225,
+        0.49720361828804016
+      ],
+      "dimensions_godot_xyz_m": [
+        0.8999999761581421,
+        0.49720361828804016,
+        0.31761375069618225
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 831488,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_cliff_03.glb",
+      "sha256": "d7b6d8f042f9197f27457fcd86c6fa36c5ffd0ef81194748c0a84856b9af194d",
+      "bytes": 11362324,
+      "elapsed_seconds": 22.6
+    },
+    {
+      "asset": "mineral_small_cliff_04",
+      "category": "small",
+      "family": "cliff",
+      "variant": 4,
+      "seed": 924949,
+      "dimensions_blender_xyz_m": [
+        1.2000000476837158,
+        0.34170687198638916,
+        0.5732988715171814
+      ],
+      "dimensions_godot_xyz_m": [
+        1.2000000476837158,
+        0.5732988715171814,
+        0.34170687198638916
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 1094656,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_cliff_04.glb",
+      "sha256": "f59c5c7f620920b622bcb4628a7d4c617a6e1c3dff3be395f1b65b7b1eacd8a1",
+      "bytes": 11522184,
+      "elapsed_seconds": 28.4
+    },
+    {
+      "asset": "mineral_small_glacier_01",
+      "category": "small",
+      "family": "glacier",
+      "variant": 1,
+      "seed": 925700,
+      "dimensions_blender_xyz_m": [
+        0.34999996423721313,
+        0.2563764154911041,
+        0.23792223632335663
+      ],
+      "dimensions_godot_xyz_m": [
+        0.34999996423721313,
+        0.23792223632335663,
+        0.2563764154911041
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 858112,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_glacier_01.glb",
+      "sha256": "6d2ad773454c3962ef2c42f1d0ac21e40dd863ec562cb1072edc803b49428ed7",
+      "bytes": 6113316,
+      "elapsed_seconds": 22.3
+    },
+    {
+      "asset": "mineral_small_glacier_02",
+      "category": "small",
+      "family": "glacier",
+      "variant": 2,
+      "seed": 925783,
+      "dimensions_blender_xyz_m": [
+        0.6000000238418579,
+        0.4427570700645447,
+        0.41241392493247986
+      ],
+      "dimensions_godot_xyz_m": [
+        0.6000000238418579,
+        0.41241392493247986,
+        0.4427570700645447
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 916480,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_glacier_02.glb",
+      "sha256": "f8ab9e4c691c00a092308619b6c39cb8102938b8c3b4deb3c91ecb336eb9f4a1",
+      "bytes": 6545588,
+      "elapsed_seconds": 24.4
+    },
+    {
+      "asset": "mineral_small_glacier_03",
+      "category": "small",
+      "family": "glacier",
+      "variant": 3,
+      "seed": 925866,
+      "dimensions_blender_xyz_m": [
+        0.9000000357627869,
+        0.6999639868736267,
+        0.7177677750587463
+      ],
+      "dimensions_godot_xyz_m": [
+        0.9000000357627869,
+        0.7177677750587463,
+        0.6999639868736267
+      ],
+      "triangles": 5960,
+      "high_source_triangles": 1091584,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_glacier_03.glb",
+      "sha256": "9180f0a2fa4e4b342bc0aa443849137dcfe16f020b7a7525c7ffa05a866d7299",
+      "bytes": 6404092,
+      "elapsed_seconds": 39.1
+    },
+    {
+      "asset": "mineral_small_glacier_04",
+      "category": "small",
+      "family": "glacier",
+      "variant": 4,
+      "seed": 925949,
+      "dimensions_blender_xyz_m": [
+        1.2000000476837158,
+        1.0027961730957031,
+        1.0189017057418823
+      ],
+      "dimensions_godot_xyz_m": [
+        1.2000000476837158,
+        1.0189017057418823,
+        1.0027961730957031
+      ],
+      "triangles": 5958,
+      "high_source_triangles": 1326080,
+      "texture_sizes": {
+        "albedo": 1024,
+        "normal": 2048,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/small/mineral_small_glacier_04.glb",
+      "sha256": "ab118474bdafa1c8fa9aa5610dfff448deff9f9d530df35d524913c1493b9a68",
+      "bytes": 6528808,
+      "elapsed_seconds": 37.3
+    },
+    {
+      "asset": "mineral_medium_rounded_01",
+      "category": "medium",
+      "family": "rounded",
+      "variant": 1,
+      "seed": 930700,
+      "dimensions_blender_xyz_m": [
+        1.9999998807907104,
+        1.5691428184509277,
+        1.1242284774780273
+      ],
+      "dimensions_godot_xyz_m": [
+        1.9999998807907104,
+        1.1242284774780273,
+        1.5691428184509277
+      ],
+      "triangles": 17959,
+      "high_source_triangles": 123904,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_rounded_01.glb",
+      "sha256": "88e90911a38bb9a7ddef3c56fbda16a75457c80536d002ac38f284fa59e31690",
+      "bytes": 32444436,
+      "elapsed_seconds": 17.0
+    },
+    {
+      "asset": "mineral_medium_rounded_02",
+      "category": "medium",
+      "family": "rounded",
+      "variant": 2,
+      "seed": 930783,
+      "dimensions_blender_xyz_m": [
+        2.8343265056610107,
+        3.0092732906341553,
+        3.200000047683716
+      ],
+      "dimensions_godot_xyz_m": [
+        2.8343265056610107,
+        3.200000047683716,
+        3.0092732906341553
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 97280,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_rounded_02.glb",
+      "sha256": "0ddfed884f011baa8e30cd9d0e48c33e68b93d50cf32fe73be4a668d312e9b69",
+      "bytes": 31751424,
+      "elapsed_seconds": 15.6
+    },
+    {
+      "asset": "mineral_medium_rounded_03",
+      "category": "medium",
+      "family": "rounded",
+      "variant": 3,
+      "seed": 930866,
+      "dimensions_blender_xyz_m": [
+        4.676204204559326,
+        4.799999713897705,
+        2.4379241466522217
+      ],
+      "dimensions_godot_xyz_m": [
+        4.676204204559326,
+        2.4379241466522217,
+        4.799999713897705
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 122880,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_rounded_03.glb",
+      "sha256": "16801fec672ea8e5c277277b1962322e665a761a5f1671cdce302f27e18b5e60",
+      "bytes": 29038084,
+      "elapsed_seconds": 14.8
+    },
+    {
+      "asset": "mineral_medium_rounded_04",
+      "category": "medium",
+      "family": "rounded",
+      "variant": 4,
+      "seed": 930949,
+      "dimensions_blender_xyz_m": [
+        5.313664436340332,
+        5.70989990234375,
+        6.5
+      ],
+      "dimensions_godot_xyz_m": [
+        5.313664436340332,
+        6.5,
+        5.70989990234375
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 183296,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_rounded_04.glb",
+      "sha256": "1e1d0b96a6518197e0b208b8fbc7f7a0d973e98c6c0562de3825d447bf8f84be",
+      "bytes": 34032736,
+      "elapsed_seconds": 16.1
+    },
+    {
+      "asset": "mineral_medium_fractured_01",
+      "category": "medium",
+      "family": "fractured",
+      "variant": 1,
+      "seed": 931700,
+      "dimensions_blender_xyz_m": [
+        2.0,
+        1.5951905250549316,
+        1.3414911031723022
+      ],
+      "dimensions_godot_xyz_m": [
+        2.0,
+        1.3414911031723022,
+        1.5951905250549316
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 285696,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_fractured_01.glb",
+      "sha256": "d55f68091e074e3c4392be80b7a5f34a3cf0a2ab8bfb3ae804ccaee6ffae1b22",
+      "bytes": 35982268,
+      "elapsed_seconds": 18.9
+    },
+    {
+      "asset": "mineral_medium_fractured_02",
+      "category": "medium",
+      "family": "fractured",
+      "variant": 2,
+      "seed": 931783,
+      "dimensions_blender_xyz_m": [
+        3.1999998092651367,
+        1.814839482307434,
+        2.068436622619629
+      ],
+      "dimensions_godot_xyz_m": [
+        3.1999998092651367,
+        2.068436622619629,
+        1.814839482307434
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 378880,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_fractured_02.glb",
+      "sha256": "21c235e7b79ee797aafed573c18f4085cd8cc8c811e5578a3aee4e7a3ec809b3",
+      "bytes": 36517788,
+      "elapsed_seconds": 21.0
+    },
+    {
+      "asset": "mineral_medium_fractured_03",
+      "category": "medium",
+      "family": "fractured",
+      "variant": 3,
+      "seed": 931866,
+      "dimensions_blender_xyz_m": [
+        4.800000190734863,
+        3.7173471450805664,
+        3.957672595977783
+      ],
+      "dimensions_godot_xyz_m": [
+        4.800000190734863,
+        3.957672595977783,
+        3.7173471450805664
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 274432,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_fractured_03.glb",
+      "sha256": "7bb1ed6dc9cfd0cd02443e4e359a8d1c43aa0510f1e9abe47981e9f63f3cc024",
+      "bytes": 36565856,
+      "elapsed_seconds": 20.0
+    },
+    {
+      "asset": "mineral_medium_fractured_04",
+      "category": "medium",
+      "family": "fractured",
+      "variant": 4,
+      "seed": 931949,
+      "dimensions_blender_xyz_m": [
+        6.5,
+        3.7978296279907227,
+        4.435473918914795
+      ],
+      "dimensions_godot_xyz_m": [
+        6.5,
+        4.435473918914795,
+        3.7978296279907227
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 424960,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_fractured_04.glb",
+      "sha256": "cdc987f2737721ff2dfd1dd846a0db37983968e365e397151f178becfebbad1d",
+      "bytes": 35713992,
+      "elapsed_seconds": 31.5
+    },
+    {
+      "asset": "mineral_medium_sedimentary_02",
+      "category": "medium",
+      "family": "sedimentary",
+      "variant": 2,
+      "seed": 932783,
+      "dimensions_blender_xyz_m": [
+        3.200000286102295,
+        2.635200023651123,
+        1.6583877801895142
+      ],
+      "dimensions_godot_xyz_m": [
+        3.200000286102295,
+        1.6583877801895142,
+        2.635200023651123
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 140288,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_sedimentary_02.glb",
+      "sha256": "a620b8b8ae9e46d186ec79e75b73722381e3b75132d07ca0311483af50e57334",
+      "bytes": 35516076,
+      "elapsed_seconds": 16.1
+    },
+    {
+      "asset": "mineral_medium_sedimentary_03",
+      "category": "medium",
+      "family": "sedimentary",
+      "variant": 3,
+      "seed": 932866,
+      "dimensions_blender_xyz_m": [
+        4.800000190734863,
+        3.84153151512146,
+        2.554016351699829
+      ],
+      "dimensions_godot_xyz_m": [
+        4.800000190734863,
+        2.554016351699829,
+        3.84153151512146
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 128000,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_sedimentary_03.glb",
+      "sha256": "aafae29541beb1e1f06bcd0f20ef8b4622ee1a8bbb050150d343a982fbf3f7ca",
+      "bytes": 37588572,
+      "elapsed_seconds": 17.5
+    },
+    {
+      "asset": "mineral_medium_sedimentary_04",
+      "category": "medium",
+      "family": "sedimentary",
+      "variant": 4,
+      "seed": 932949,
+      "dimensions_blender_xyz_m": [
+        6.5,
+        3.766284942626953,
+        3.807415246963501
+      ],
+      "dimensions_godot_xyz_m": [
+        6.5,
+        3.807415246963501,
+        3.766284942626953
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 89088,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_sedimentary_04.glb",
+      "sha256": "17667fd267a1388ca60bab2d2312adc67c733ad04c354f835743b494622585c4",
+      "bytes": 32433896,
+      "elapsed_seconds": 15.5
+    },
+    {
+      "asset": "mineral_medium_outcrop_01",
+      "category": "medium",
+      "family": "outcrop",
+      "variant": 1,
+      "seed": 933700,
+      "dimensions_blender_xyz_m": [
+        0.9443604946136475,
+        1.1929434537887573,
+        2.0
+      ],
+      "dimensions_godot_xyz_m": [
+        0.9443604946136475,
+        2.0,
+        1.1929434537887573
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 363520,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_outcrop_01.glb",
+      "sha256": "0bf0b2542597cf1b01cfd0c28276720159f3f71d7b518e67b58f2ad854efd1b5",
+      "bytes": 34888912,
+      "elapsed_seconds": 24.4
+    },
+    {
+      "asset": "mineral_medium_outcrop_02",
+      "category": "medium",
+      "family": "outcrop",
+      "variant": 2,
+      "seed": 933783,
+      "dimensions_blender_xyz_m": [
+        2.1056320667266846,
+        1.6909312009811401,
+        3.200000047683716
+      ],
+      "dimensions_godot_xyz_m": [
+        2.1056320667266846,
+        3.200000047683716,
+        1.6909312009811401
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 504832,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_outcrop_02.glb",
+      "sha256": "c8ab6ce30387a0e48dcc80c04341d49e3abb1a9fbc54cfae342c04d9d74f6d69",
+      "bytes": 35821172,
+      "elapsed_seconds": 25.7
+    },
+    {
+      "asset": "mineral_medium_outcrop_03",
+      "category": "medium",
+      "family": "outcrop",
+      "variant": 3,
+      "seed": 933866,
+      "dimensions_blender_xyz_m": [
+        3.0419468879699707,
+        3.1151533126831055,
+        4.800000190734863
+      ],
+      "dimensions_godot_xyz_m": [
+        3.0419468879699707,
+        4.800000190734863,
+        3.1151533126831055
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 709632,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_outcrop_03.glb",
+      "sha256": "88d49f8b373a38d7df3b476346ffefbab17a85705b6fed8e7a9ed18a0c2af006",
+      "bytes": 36881304,
+      "elapsed_seconds": 30.1
+    },
+    {
+      "asset": "mineral_medium_outcrop_04",
+      "category": "medium",
+      "family": "outcrop",
+      "variant": 4,
+      "seed": 933949,
+      "dimensions_blender_xyz_m": [
+        4.384335517883301,
+        4.527787208557129,
+        6.499999523162842
+      ],
+      "dimensions_godot_xyz_m": [
+        4.384335517883301,
+        6.499999523162842,
+        4.527787208557129
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 803840,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_outcrop_04.glb",
+      "sha256": "65a01f8df91efd90e92be77a77c5efe6b2c56e3f1dd205018539de8535a8849b",
+      "bytes": 35641848,
+      "elapsed_seconds": 67.5
+    },
+    {
+      "asset": "mineral_medium_cliff_01",
+      "category": "medium",
+      "family": "cliff",
+      "variant": 1,
+      "seed": 934700,
+      "dimensions_blender_xyz_m": [
+        2.0,
+        0.9936121702194214,
+        1.6456719636917114
+      ],
+      "dimensions_godot_xyz_m": [
+        2.0,
+        1.6456719636917114,
+        0.9936121702194214
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 653312,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_cliff_01.glb",
+      "sha256": "77e3c875c92dd09bf2acd3d3b99f1b515d6e94a26781dbdab9e83e3a7210c08f",
+      "bytes": 37328332,
+      "elapsed_seconds": 31.5
+    },
+    {
+      "asset": "mineral_medium_cliff_02",
+      "category": "medium",
+      "family": "cliff",
+      "variant": 2,
+      "seed": 934783,
+      "dimensions_blender_xyz_m": [
+        3.1999998092651367,
+        1.2966104745864868,
+        1.944037914276123
+      ],
+      "dimensions_godot_xyz_m": [
+        3.1999998092651367,
+        1.944037914276123,
+        1.2966104745864868
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 712704,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_cliff_02.glb",
+      "sha256": "5771f92c5bce3a7fc461f1ff2986a054dd24993cebb3647a7202df6007a626d1",
+      "bytes": 37009936,
+      "elapsed_seconds": 34.2
+    },
+    {
+      "asset": "mineral_medium_cliff_03",
+      "category": "medium",
+      "family": "cliff",
+      "variant": 3,
+      "seed": 934866,
+      "dimensions_blender_xyz_m": [
+        4.800000190734863,
+        1.6299183368682861,
+        2.5694594383239746
+      ],
+      "dimensions_godot_xyz_m": [
+        4.800000190734863,
+        2.5694594383239746,
+        1.6299183368682861
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 902144,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_cliff_03.glb",
+      "sha256": "d26f43a6dcc3fafd8a5ff61c28af4530c5889ede3483caa2916dde09f1fe9de2",
+      "bytes": 37688236,
+      "elapsed_seconds": 39.2
+    },
+    {
+      "asset": "mineral_medium_cliff_04",
+      "category": "medium",
+      "family": "cliff",
+      "variant": 4,
+      "seed": 934949,
+      "dimensions_blender_xyz_m": [
+        6.499999523162842,
+        1.8935229778289795,
+        3.174906015396118
+      ],
+      "dimensions_godot_xyz_m": [
+        6.499999523162842,
+        3.174906015396118,
+        1.8935229778289795
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 958464,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_cliff_04.glb",
+      "sha256": "8c459a3122cde5d40da6cc1753f566dbdaa0ac183cac9cef87e2087e2b5c8535",
+      "bytes": 38156680,
+      "elapsed_seconds": 34.1
+    },
+    {
+      "asset": "mineral_medium_glacier_01",
+      "category": "medium",
+      "family": "glacier",
+      "variant": 1,
+      "seed": 935700,
+      "dimensions_blender_xyz_m": [
+        1.9999998807907104,
+        1.466764211654663,
+        1.452300786972046
+      ],
+      "dimensions_godot_xyz_m": [
+        1.9999998807907104,
+        1.452300786972046,
+        1.466764211654663
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 892928,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_glacier_01.glb",
+      "sha256": "95ed3534764306f97ba0a13a63ece92e8ef1b521499cfedef51a32938264fdb4",
+      "bytes": 18904692,
+      "elapsed_seconds": 34.9
+    },
+    {
+      "asset": "mineral_medium_glacier_02",
+      "category": "medium",
+      "family": "glacier",
+      "variant": 2,
+      "seed": 935783,
+      "dimensions_blender_xyz_m": [
+        3.1999998092651367,
+        2.3364415168762207,
+        2.3130440711975098
+      ],
+      "dimensions_godot_xyz_m": [
+        3.1999998092651367,
+        2.3130440711975098,
+        2.3364415168762207
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 879616,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_glacier_02.glb",
+      "sha256": "0606e2a7bd7da2f0de09a3c247b27980cd429f0f0850b17f9be8808cace0e7c8",
+      "bytes": 18879664,
+      "elapsed_seconds": 35.3
+    },
+    {
+      "asset": "mineral_medium_glacier_03",
+      "category": "medium",
+      "family": "glacier",
+      "variant": 3,
+      "seed": 935866,
+      "dimensions_blender_xyz_m": [
+        4.800000190734863,
+        3.901883125305176,
+        3.6298604011535645
+      ],
+      "dimensions_godot_xyz_m": [
+        4.800000190734863,
+        3.6298604011535645,
+        3.901883125305176
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 1186816,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_glacier_03.glb",
+      "sha256": "f3152c017aaa0fd728e176c7054c8ca172526af09b0f40e662bbfcde4f9d6efc",
+      "bytes": 19849936,
+      "elapsed_seconds": 41.0
+    },
+    {
+      "asset": "mineral_medium_glacier_04",
+      "category": "medium",
+      "family": "glacier",
+      "variant": 4,
+      "seed": 935949,
+      "dimensions_blender_xyz_m": [
+        6.499999046325684,
+        5.402177333831787,
+        5.48513650894165
+      ],
+      "dimensions_godot_xyz_m": [
+        6.499999046325684,
+        5.48513650894165,
+        5.402177333831787
+      ],
+      "triangles": 17960,
+      "high_source_triangles": 1291264,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/medium/mineral_medium_glacier_04.glb",
+      "sha256": "2f395558f8aed27a351af1495d943ea70cb4095c1b2e37a05537c8d76499f3e4",
+      "bytes": 20461352,
+      "elapsed_seconds": 50.4
+    },
+    {
+      "asset": "mineral_large_rounded_01",
+      "category": "large",
+      "family": "rounded",
+      "variant": 1,
+      "seed": 940700,
+      "dimensions_blender_xyz_m": [
+        9.999998092651367,
+        7.814913749694824,
+        5.91208028793335
+      ],
+      "dimensions_godot_xyz_m": [
+        9.999998092651367,
+        5.91208028793335,
+        7.814913749694824
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 151552,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_rounded_01.glb",
+      "sha256": "6bb555754f619a6518c2bb71a5c35ffc0537193c424cba741907681e6d5dc0cb",
+      "bytes": 35592880,
+      "elapsed_seconds": 15.8
+    },
+    {
+      "asset": "mineral_large_rounded_02",
+      "category": "large",
+      "family": "rounded",
+      "variant": 2,
+      "seed": 940783,
+      "dimensions_blender_xyz_m": [
+        15.183391571044922,
+        16.0,
+        14.770798683166504
+      ],
+      "dimensions_godot_xyz_m": [
+        15.183391571044922,
+        14.770798683166504,
+        16.0
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 126976,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_rounded_02.glb",
+      "sha256": "7d72ccd3ad923398154d6834270590c494deb5a5352592f982a5eeb9ab634438",
+      "bytes": 31838236,
+      "elapsed_seconds": 14.2
+    },
+    {
+      "asset": "mineral_large_rounded_03",
+      "category": "large",
+      "family": "rounded",
+      "variant": 3,
+      "seed": 940866,
+      "dimensions_blender_xyz_m": [
+        23.999996185302734,
+        22.793773651123047,
+        12.324711799621582
+      ],
+      "dimensions_godot_xyz_m": [
+        23.999996185302734,
+        12.324711799621582,
+        22.793773651123047
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 136192,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_rounded_03.glb",
+      "sha256": "879dc00d1f09b511807792be62e76de2a4ff9b1d938b99aa84196aa40ee891cf",
+      "bytes": 33354400,
+      "elapsed_seconds": 16.2
+    },
+    {
+      "asset": "mineral_large_rounded_04",
+      "category": "large",
+      "family": "rounded",
+      "variant": 4,
+      "seed": 940949,
+      "dimensions_blender_xyz_m": [
+        29.752948760986328,
+        32.436832427978516,
+        36.0
+      ],
+      "dimensions_godot_xyz_m": [
+        29.752948760986328,
+        36.0,
+        32.436832427978516
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 120832,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_rounded_04.glb",
+      "sha256": "9cc33301751af98aa3f63f9f7f68b5ca41c44fc8febaa8edfc253fe29c868cfc",
+      "bytes": 29551620,
+      "elapsed_seconds": 14.9
+    },
+    {
+      "asset": "mineral_large_fractured_01",
+      "category": "large",
+      "family": "fractured",
+      "variant": 1,
+      "seed": 941700,
+      "dimensions_blender_xyz_m": [
+        10.0,
+        7.371484756469727,
+        8.027992248535156
+      ],
+      "dimensions_godot_xyz_m": [
+        10.0,
+        8.027992248535156,
+        7.371484756469727
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 227328,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_fractured_01.glb",
+      "sha256": "b0032b7c975747a2a2c8a5d1a95afcf7bd386449758ecc2abf7dbd31b05102e7",
+      "bytes": 36287668,
+      "elapsed_seconds": 17.6
+    },
+    {
+      "asset": "mineral_large_fractured_02",
+      "category": "large",
+      "family": "fractured",
+      "variant": 2,
+      "seed": 941783,
+      "dimensions_blender_xyz_m": [
+        16.0,
+        7.798541069030762,
+        9.656744003295898
+      ],
+      "dimensions_godot_xyz_m": [
+        16.0,
+        9.656744003295898,
+        7.798541069030762
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 360448,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_fractured_02.glb",
+      "sha256": "5e259d4d0e69dabb34c1b4afcb246b3dc4455833dd60c26ecacea1a7b1b032c8",
+      "bytes": 36316432,
+      "elapsed_seconds": 20.7
+    },
+    {
+      "asset": "mineral_large_fractured_03",
+      "category": "large",
+      "family": "fractured",
+      "variant": 3,
+      "seed": 941866,
+      "dimensions_blender_xyz_m": [
+        24.0,
+        18.600536346435547,
+        21.09078598022461
+      ],
+      "dimensions_godot_xyz_m": [
+        24.0,
+        21.09078598022461,
+        18.600536346435547
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 359424,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_fractured_03.glb",
+      "sha256": "646554b92d6416834dca7d2d246ab3bd46759168db950866e133424333e89020",
+      "bytes": 38970788,
+      "elapsed_seconds": 18.8
+    },
+    {
+      "asset": "mineral_large_fractured_04",
+      "category": "large",
+      "family": "fractured",
+      "variant": 4,
+      "seed": 941949,
+      "dimensions_blender_xyz_m": [
+        36.0,
+        20.74721908569336,
+        21.091888427734375
+      ],
+      "dimensions_godot_xyz_m": [
+        36.0,
+        21.091888427734375,
+        20.74721908569336
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 421888,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_fractured_04.glb",
+      "sha256": "4e015b8ed71264fa6a97408c6b765e21039b517d39c15f75bd8924e20f55f51a",
+      "bytes": 37218276,
+      "elapsed_seconds": 20.8
+    },
+    {
+      "asset": "mineral_large_sedimentary_01",
+      "category": "large",
+      "family": "sedimentary",
+      "variant": 1,
+      "seed": 942700,
+      "dimensions_blender_xyz_m": [
+        10.0,
+        7.187590599060059,
+        4.800557613372803
+      ],
+      "dimensions_godot_xyz_m": [
+        10.0,
+        4.800557613372803,
+        7.187590599060059
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 121856,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_sedimentary_01.glb",
+      "sha256": "463e65c7b635729edfe619ff984d41a03436da58298b01fb2a3415821e1fd169",
+      "bytes": 35531920,
+      "elapsed_seconds": 14.1
+    },
+    {
+      "asset": "mineral_large_sedimentary_02",
+      "category": "large",
+      "family": "sedimentary",
+      "variant": 2,
+      "seed": 942783,
+      "dimensions_blender_xyz_m": [
+        16.0,
+        12.876442909240723,
+        8.592854499816895
+      ],
+      "dimensions_godot_xyz_m": [
+        16.0,
+        8.592854499816895,
+        12.876442909240723
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 121856,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_sedimentary_02.glb",
+      "sha256": "a696a6cd46f71d2dee6fdad7d84b13df24e3c1b9a1a923c098949c7e71912b4e",
+      "bytes": 33392064,
+      "elapsed_seconds": 14.7
+    },
+    {
+      "asset": "mineral_large_sedimentary_03",
+      "category": "large",
+      "family": "sedimentary",
+      "variant": 3,
+      "seed": 942866,
+      "dimensions_blender_xyz_m": [
+        23.999998092651367,
+        22.0537109375,
+        14.005290985107422
+      ],
+      "dimensions_godot_xyz_m": [
+        23.999998092651367,
+        14.005290985107422,
+        22.0537109375
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 140288,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_sedimentary_03.glb",
+      "sha256": "a42abffc6a5779906e1a842df534766f8fb6dbaa681d97b28a62707f72db8a92",
+      "bytes": 37130100,
+      "elapsed_seconds": 18.5
+    },
+    {
+      "asset": "mineral_large_sedimentary_04",
+      "category": "large",
+      "family": "sedimentary",
+      "variant": 4,
+      "seed": 942949,
+      "dimensions_blender_xyz_m": [
+        36.0,
+        32.81822967529297,
+        20.089719772338867
+      ],
+      "dimensions_godot_xyz_m": [
+        36.0,
+        20.089719772338867,
+        32.81822967529297
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 104448,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_sedimentary_04.glb",
+      "sha256": "30a29384a9b2fd271204780ea77ce59f5522250e7063aa7edb3a94131b4f1bea",
+      "bytes": 30780888,
+      "elapsed_seconds": 14.0
+    },
+    {
+      "asset": "mineral_large_outcrop_01",
+      "category": "large",
+      "family": "outcrop",
+      "variant": 1,
+      "seed": 943700,
+      "dimensions_blender_xyz_m": [
+        7.068792819976807,
+        5.624084949493408,
+        10.0
+      ],
+      "dimensions_godot_xyz_m": [
+        7.068792819976807,
+        10.0,
+        5.624084949493408
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 472064,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_outcrop_01.glb",
+      "sha256": "bc2dfde144cf713bca2e74333a0f92b44382d31c41249776c80ae495ff1f6861",
+      "bytes": 35588444,
+      "elapsed_seconds": 20.1
+    },
+    {
+      "asset": "mineral_large_outcrop_02",
+      "category": "large",
+      "family": "outcrop",
+      "variant": 2,
+      "seed": 943783,
+      "dimensions_blender_xyz_m": [
+        9.551443099975586,
+        11.829513549804688,
+        16.0
+      ],
+      "dimensions_godot_xyz_m": [
+        9.551443099975586,
+        16.0,
+        11.829513549804688
+      ],
+      "triangles": 44959,
+      "high_source_triangles": 550912,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_outcrop_02.glb",
+      "sha256": "72f6db33ea8c285806646627278af8170c8d1dda4f81ca7bb7ebb44fbe620b4a",
+      "bytes": 36663016,
+      "elapsed_seconds": 22.8
+    },
+    {
+      "asset": "mineral_large_outcrop_03",
+      "category": "large",
+      "family": "outcrop",
+      "variant": 3,
+      "seed": 943866,
+      "dimensions_blender_xyz_m": [
+        17.114404678344727,
+        16.45516586303711,
+        24.0
+      ],
+      "dimensions_godot_xyz_m": [
+        17.114404678344727,
+        24.0,
+        16.45516586303711
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 714752,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_outcrop_03.glb",
+      "sha256": "2c6e812f97260993815b442811020d4982605e39b043ae4246326d45a7a24f44",
+      "bytes": 37250160,
+      "elapsed_seconds": 25.5
+    },
+    {
+      "asset": "mineral_large_outcrop_04",
+      "category": "large",
+      "family": "outcrop",
+      "variant": 4,
+      "seed": 943949,
+      "dimensions_blender_xyz_m": [
+        26.51443099975586,
+        21.577743530273438,
+        36.0
+      ],
+      "dimensions_godot_xyz_m": [
+        26.51443099975586,
+        36.0,
+        21.577743530273438
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 866304,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_outcrop_04.glb",
+      "sha256": "5b97e2dc74fc9637a72ddfa43227f9a8a95f53b7be09ab881225066e38a59fe3",
+      "bytes": 36956664,
+      "elapsed_seconds": 28.9
+    },
+    {
+      "asset": "mineral_large_cliff_01",
+      "category": "large",
+      "family": "cliff",
+      "variant": 1,
+      "seed": 944700,
+      "dimensions_blender_xyz_m": [
+        10.0,
+        4.931395530700684,
+        7.892129421234131
+      ],
+      "dimensions_godot_xyz_m": [
+        10.0,
+        7.892129421234131,
+        4.931395530700684
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 615424,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_cliff_01.glb",
+      "sha256": "d8354f47060b70d22113eb4d32586480489bacf15cb2c29bec07d51ecdcafdf9",
+      "bytes": 37694840,
+      "elapsed_seconds": 25.4
+    },
+    {
+      "asset": "mineral_large_cliff_02",
+      "category": "large",
+      "family": "cliff",
+      "variant": 2,
+      "seed": 944783,
+      "dimensions_blender_xyz_m": [
+        16.0,
+        6.765070915222168,
+        9.937664031982422
+      ],
+      "dimensions_godot_xyz_m": [
+        16.0,
+        9.937664031982422,
+        6.765070915222168
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 845824,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_cliff_02.glb",
+      "sha256": "351ce4c0ffd31bb1f2e8f30401b67ac96df4605b7b570c25c09d26c95c0ac83b",
+      "bytes": 37978252,
+      "elapsed_seconds": 29.9
+    },
+    {
+      "asset": "mineral_large_cliff_03",
+      "category": "large",
+      "family": "cliff",
+      "variant": 3,
+      "seed": 944866,
+      "dimensions_blender_xyz_m": [
+        24.0,
+        8.179328918457031,
+        13.31398868560791
+      ],
+      "dimensions_godot_xyz_m": [
+        24.0,
+        13.31398868560791,
+        8.179328918457031
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 969728,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_cliff_03.glb",
+      "sha256": "68a581130d6bc176e27886445f370148506719e73ba5a9f8e88bc31fce93a138",
+      "bytes": 38127188,
+      "elapsed_seconds": 29.1
+    },
+    {
+      "asset": "mineral_large_cliff_04",
+      "category": "large",
+      "family": "cliff",
+      "variant": 4,
+      "seed": 944949,
+      "dimensions_blender_xyz_m": [
+        35.999996185302734,
+        10.379962921142578,
+        17.70070457458496
+      ],
+      "dimensions_godot_xyz_m": [
+        35.999996185302734,
+        17.70070457458496,
+        10.379962921142578
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 1161216,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_cliff_04.glb",
+      "sha256": "a99e8b745d27c69c0bb980304e011c004ee1748b268fe6dbb0af0f044001fd38",
+      "bytes": 38738932,
+      "elapsed_seconds": 32.3
+    },
+    {
+      "asset": "mineral_large_glacier_01",
+      "category": "large",
+      "family": "glacier",
+      "variant": 1,
+      "seed": 945700,
+      "dimensions_blender_xyz_m": [
+        10.0,
+        7.344227313995361,
+        7.146374702453613
+      ],
+      "dimensions_godot_xyz_m": [
+        10.0,
+        7.146374702453613,
+        7.344227313995361
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 837632,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_glacier_01.glb",
+      "sha256": "ac99d0cd3f321d48f62572df46c3694a5d8a67215627fb24eadcc28b1c01831d",
+      "bytes": 20374380,
+      "elapsed_seconds": 28.0
+    },
+    {
+      "asset": "mineral_large_glacier_02",
+      "category": "large",
+      "family": "glacier",
+      "variant": 2,
+      "seed": 945783,
+      "dimensions_blender_xyz_m": [
+        16.0,
+        11.735862731933594,
+        12.378345489501953
+      ],
+      "dimensions_godot_xyz_m": [
+        16.0,
+        12.378345489501953,
+        11.735862731933594
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 908288,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_glacier_02.glb",
+      "sha256": "70fc94b69bef0f765602537aa3e4ccec5a879f627f73e2c84fa41f0ba811bb67",
+      "bytes": 20243044,
+      "elapsed_seconds": 27.4
+    },
+    {
+      "asset": "mineral_large_glacier_03",
+      "category": "large",
+      "family": "glacier",
+      "variant": 3,
+      "seed": 945866,
+      "dimensions_blender_xyz_m": [
+        24.0,
+        20.142650604248047,
+        19.94676971435547
+      ],
+      "dimensions_godot_xyz_m": [
+        24.0,
+        19.94676971435547,
+        20.142650604248047
+      ],
+      "triangles": 44960,
+      "high_source_triangles": 1000448,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_glacier_03.glb",
+      "sha256": "8b81990b8bb3cad52fa99d8b2a78485113aa1eeb343e38c4cb7063a1338879ec",
+      "bytes": 19281492,
+      "elapsed_seconds": 30.9
+    },
+    {
+      "asset": "mineral_large_glacier_04",
+      "category": "large",
+      "family": "glacier",
+      "variant": 4,
+      "seed": 945949,
+      "dimensions_blender_xyz_m": [
+        36.0,
+        29.01377296447754,
+        28.536943435668945
+      ],
+      "dimensions_godot_xyz_m": [
+        36.0,
+        28.536943435668945,
+        29.01377296447754
+      ],
+      "triangles": 44958,
+      "high_source_triangles": 1178624,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/large/mineral_large_glacier_04.glb",
+      "sha256": "9d8bc5e6f6a4530eec7c0020c852eb886a4682b11951a4cc25cf9cde5896fd8f",
+      "bytes": 20517140,
+      "elapsed_seconds": 32.9
+    },
+    {
+      "asset": "mineral_huge_boulders_erratic_01",
+      "category": "huge_boulders",
+      "family": "erratic",
+      "variant": 1,
+      "seed": 950700,
+      "dimensions_blender_xyz_m": [
+        40.000003814697266,
+        32.893280029296875,
+        27.1126651763916
+      ],
+      "dimensions_godot_xyz_m": [
+        40.000003814697266,
+        27.1126651763916,
+        32.893280029296875
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 96256,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_erratic_01.glb",
+      "sha256": "7c6e269b87acdd8d0e8682043921050a89445ed58a762a8ea8c133e5b3ca55b5",
+      "bytes": 34965812,
+      "elapsed_seconds": 14.5
+    },
+    {
+      "asset": "mineral_huge_boulders_erratic_02",
+      "category": "huge_boulders",
+      "family": "erratic",
+      "variant": 2,
+      "seed": 950783,
+      "dimensions_blender_xyz_m": [
+        54.999996185302734,
+        42.716094970703125,
+        51.78920364379883
+      ],
+      "dimensions_godot_xyz_m": [
+        54.999996185302734,
+        51.78920364379883,
+        42.716094970703125
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 139264,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_erratic_02.glb",
+      "sha256": "406fe385e6598eebc3331e107cc520d726b4162437900e6a4e9925e393c76770",
+      "bytes": 37210620,
+      "elapsed_seconds": 13.7
+    },
+    {
+      "asset": "mineral_huge_boulders_erratic_03",
+      "category": "huge_boulders",
+      "family": "erratic",
+      "variant": 3,
+      "seed": 950866,
+      "dimensions_blender_xyz_m": [
+        75.0,
+        73.68880462646484,
+        46.24052810668945
+      ],
+      "dimensions_godot_xyz_m": [
+        75.0,
+        46.24052810668945,
+        73.68880462646484
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 149504,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_erratic_03.glb",
+      "sha256": "b65a83afae8d5b43d35b3e35fa313704da318ba5317d3880a46b765fe1029ca7",
+      "bytes": 36967256,
+      "elapsed_seconds": 13.0
+    },
+    {
+      "asset": "mineral_huge_boulders_erratic_04",
+      "category": "huge_boulders",
+      "family": "erratic",
+      "variant": 4,
+      "seed": 950949,
+      "dimensions_blender_xyz_m": [
+        97.35646057128906,
+        97.62339782714844,
+        100.0
+      ],
+      "dimensions_godot_xyz_m": [
+        97.35646057128906,
+        100.0,
+        97.62339782714844
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 163840,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_erratic_04.glb",
+      "sha256": "5b131e3e93d556d6a8058f6c0f914e431c53539d467e992df455ac968f5ed1fa",
+      "bytes": 34872376,
+      "elapsed_seconds": 13.8
+    },
+    {
+      "asset": "mineral_huge_boulders_block_01",
+      "category": "huge_boulders",
+      "family": "block",
+      "variant": 1,
+      "seed": 951700,
+      "dimensions_blender_xyz_m": [
+        40.0,
+        27.76324462890625,
+        37.5556640625
+      ],
+      "dimensions_godot_xyz_m": [
+        40.0,
+        37.5556640625,
+        27.76324462890625
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 315392,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_block_01.glb",
+      "sha256": "c3e4a4c1ed97acc26c85632dd35cf3a1241bc19bee52cd6a4ccfebb92cf21612",
+      "bytes": 38932876,
+      "elapsed_seconds": 20.9
+    },
+    {
+      "asset": "mineral_huge_boulders_block_02",
+      "category": "huge_boulders",
+      "family": "block",
+      "variant": 2,
+      "seed": 951783,
+      "dimensions_blender_xyz_m": [
+        52.060977935791016,
+        42.743812561035156,
+        55.0
+      ],
+      "dimensions_godot_xyz_m": [
+        52.060977935791016,
+        55.0,
+        42.743812561035156
+      ],
+      "triangles": 89959,
+      "high_source_triangles": 253952,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_block_02.glb",
+      "sha256": "57bca83682dfdb0962719abfcfc6a5a9dd1d38bdfcd6cb0b81751540b0c29244",
+      "bytes": 36340444,
+      "elapsed_seconds": 35.7
+    },
+    {
+      "asset": "mineral_huge_boulders_block_03",
+      "category": "huge_boulders",
+      "family": "block",
+      "variant": 3,
+      "seed": 951866,
+      "dimensions_blender_xyz_m": [
+        74.99999237060547,
+        62.338443756103516,
+        70.64205932617188
+      ],
+      "dimensions_godot_xyz_m": [
+        74.99999237060547,
+        70.64205932617188,
+        62.338443756103516
+      ],
+      "triangles": 89958,
+      "high_source_triangles": 292864,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_block_03.glb",
+      "sha256": "5360a4a17b1b232ffcc5211a3f73aa53c5a84c7ff9d6ba0d6d7419ed1ce8cfb8",
+      "bytes": 36410592,
+      "elapsed_seconds": 16.9
+    },
+    {
+      "asset": "mineral_huge_boulders_block_04",
+      "category": "huge_boulders",
+      "family": "block",
+      "variant": 4,
+      "seed": 951949,
+      "dimensions_blender_xyz_m": [
+        97.70973205566406,
+        97.43527221679688,
+        100.0
+      ],
+      "dimensions_godot_xyz_m": [
+        97.70973205566406,
+        100.0,
+        97.43527221679688
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 263168,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_block_04.glb",
+      "sha256": "082400b63ec4f24aa528105b4069773ddf8f39153be47e6dd2395fc36c664b43",
+      "bytes": 35125356,
+      "elapsed_seconds": 16.4
+    },
+    {
+      "asset": "mineral_huge_boulders_split_01",
+      "category": "huge_boulders",
+      "family": "split",
+      "variant": 1,
+      "seed": 952700,
+      "dimensions_blender_xyz_m": [
+        40.0,
+        26.076208114624023,
+        30.079448699951172
+      ],
+      "dimensions_godot_xyz_m": [
+        40.0,
+        30.079448699951172,
+        26.076208114624023
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 222208,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_split_01.glb",
+      "sha256": "b50b469eaf8559af9de41e0412a3f0881302f907856a1534f4b9d209ccc3b5a2",
+      "bytes": 35649372,
+      "elapsed_seconds": 17.0
+    },
+    {
+      "asset": "mineral_huge_boulders_split_02",
+      "category": "huge_boulders",
+      "family": "split",
+      "variant": 2,
+      "seed": 952783,
+      "dimensions_blender_xyz_m": [
+        55.0,
+        36.060791015625,
+        42.37294387817383
+      ],
+      "dimensions_godot_xyz_m": [
+        55.0,
+        42.37294387817383,
+        36.060791015625
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 247808,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_split_02.glb",
+      "sha256": "1d381fe07c26eeb106d0d267a4f63fc4ff0a66f36369f666012d64486eaaa57c",
+      "bytes": 35670096,
+      "elapsed_seconds": 16.8
+    },
+    {
+      "asset": "mineral_huge_boulders_split_03",
+      "category": "huge_boulders",
+      "family": "split",
+      "variant": 3,
+      "seed": 952866,
+      "dimensions_blender_xyz_m": [
+        75.0,
+        49.57837677001953,
+        58.47602844238281
+      ],
+      "dimensions_godot_xyz_m": [
+        75.0,
+        58.47602844238281,
+        49.57837677001953
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 228352,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_split_03.glb",
+      "sha256": "1a5d97d445a35029fb80fbfc85ab01dff063451fad07404b6d5aed6b821e756e",
+      "bytes": 35560196,
+      "elapsed_seconds": 16.6
+    },
+    {
+      "asset": "mineral_huge_boulders_split_04",
+      "category": "huge_boulders",
+      "family": "split",
+      "variant": 4,
+      "seed": 952949,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        66.25985717773438,
+        75.0260238647461
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        75.0260238647461,
+        66.25985717773438
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 251904,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_split_04.glb",
+      "sha256": "09bb027c676c287195753754ecbef2981240e6770d1460451123d3a7362e4894",
+      "bytes": 36094636,
+      "elapsed_seconds": 19.0
+    },
+    {
+      "asset": "mineral_huge_boulders_dome_01",
+      "category": "huge_boulders",
+      "family": "dome",
+      "variant": 1,
+      "seed": 953700,
+      "dimensions_blender_xyz_m": [
+        40.0,
+        29.600563049316406,
+        15.999154090881348
+      ],
+      "dimensions_godot_xyz_m": [
+        40.0,
+        15.999154090881348,
+        29.600563049316406
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 144384,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_dome_01.glb",
+      "sha256": "7b1da5d4bfeefbf5df21d07706442e1b95d781b60487b7636033f82c4de98082",
+      "bytes": 35996964,
+      "elapsed_seconds": 25.3
+    },
+    {
+      "asset": "mineral_huge_boulders_dome_02",
+      "category": "huge_boulders",
+      "family": "dome",
+      "variant": 2,
+      "seed": 953783,
+      "dimensions_blender_xyz_m": [
+        55.0,
+        42.89999771118164,
+        24.200000762939453
+      ],
+      "dimensions_godot_xyz_m": [
+        55.0,
+        24.200000762939453,
+        42.89999771118164
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 97280,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_dome_02.glb",
+      "sha256": "5c9ed6bb7d8b952d47f104e32f2b3d5cc223f5e5aa304dcc69bd7a2229647e5b",
+      "bytes": 35489608,
+      "elapsed_seconds": 54.0
+    },
+    {
+      "asset": "mineral_huge_boulders_dome_03",
+      "category": "huge_boulders",
+      "family": "dome",
+      "variant": 3,
+      "seed": 953866,
+      "dimensions_blender_xyz_m": [
+        75.0,
+        61.5,
+        36.0
+      ],
+      "dimensions_godot_xyz_m": [
+        75.0,
+        36.0,
+        61.5
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 132096,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_dome_03.glb",
+      "sha256": "22410e442189def9b07eeeecaa653bf8c8e1d0b3b76abad4db6d34ed07f8f2bb",
+      "bytes": 37292956,
+      "elapsed_seconds": 28.8
+    },
+    {
+      "asset": "mineral_huge_boulders_dome_04",
+      "category": "huge_boulders",
+      "family": "dome",
+      "variant": 4,
+      "seed": 953949,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        86.0,
+        51.9953727722168
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        51.9953727722168,
+        86.0
+      ],
+      "triangles": 89958,
+      "high_source_triangles": 152576,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_dome_04.glb",
+      "sha256": "29321499295a97cfccd992f8b8a6124ec3704e0e134c90279ee99660eb966ebd",
+      "bytes": 37248872,
+      "elapsed_seconds": 17.2
+    },
+    {
+      "asset": "mineral_huge_boulders_overhang_01",
+      "category": "huge_boulders",
+      "family": "overhang",
+      "variant": 1,
+      "seed": 954700,
+      "dimensions_blender_xyz_m": [
+        39.999996185302734,
+        33.20378494262695,
+        38.59925842285156
+      ],
+      "dimensions_godot_xyz_m": [
+        39.999996185302734,
+        38.59925842285156,
+        33.20378494262695
+      ],
+      "triangles": 89959,
+      "high_source_triangles": 271360,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_overhang_01.glb",
+      "sha256": "feb494d6c9af09f11a699df34548f09000658b0cd3660d410d771ecf51c7266a",
+      "bytes": 39419180,
+      "elapsed_seconds": 20.3
+    },
+    {
+      "asset": "mineral_huge_boulders_overhang_02",
+      "category": "huge_boulders",
+      "family": "overhang",
+      "variant": 2,
+      "seed": 954783,
+      "dimensions_blender_xyz_m": [
+        55.0,
+        48.23910140991211,
+        49.31319046020508
+      ],
+      "dimensions_godot_xyz_m": [
+        55.0,
+        49.31319046020508,
+        48.23910140991211
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 317440,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_overhang_02.glb",
+      "sha256": "aea2959d5e0c9b91cd73c2368ded0cdc9e9c4886ca4161926f33a6c345480918",
+      "bytes": 37854160,
+      "elapsed_seconds": 19.0
+    },
+    {
+      "asset": "mineral_huge_boulders_overhang_03",
+      "category": "huge_boulders",
+      "family": "overhang",
+      "variant": 3,
+      "seed": 954866,
+      "dimensions_blender_xyz_m": [
+        73.09786987304688,
+        75.0,
+        68.623291015625
+      ],
+      "dimensions_godot_xyz_m": [
+        73.09786987304688,
+        68.623291015625,
+        75.0
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 265216,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_overhang_03.glb",
+      "sha256": "3854184b31c024dcbdf4278636c3a7f5522ac7961883c3a5276d46ac3cc6a08a",
+      "bytes": 37501104,
+      "elapsed_seconds": 17.4
+    },
+    {
+      "asset": "mineral_huge_boulders_overhang_04",
+      "category": "huge_boulders",
+      "family": "overhang",
+      "variant": 4,
+      "seed": 954949,
+      "dimensions_blender_xyz_m": [
+        92.47061157226562,
+        100.00000762939453,
+        87.10086059570312
+      ],
+      "dimensions_godot_xyz_m": [
+        92.47061157226562,
+        87.10086059570312,
+        100.00000762939453
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 234496,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_overhang_04.glb",
+      "sha256": "f16a60ffd44e101ed0b1b468c821e84e91a29f6fd0dc8af84f5727f0ffc2c2e8",
+      "bytes": 36496172,
+      "elapsed_seconds": 17.3
+    },
+    {
+      "asset": "mineral_huge_boulders_monolith_01",
+      "category": "huge_boulders",
+      "family": "monolith",
+      "variant": 1,
+      "seed": 955700,
+      "dimensions_blender_xyz_m": [
+        22.28962516784668,
+        21.067094802856445,
+        40.0
+      ],
+      "dimensions_godot_xyz_m": [
+        22.28962516784668,
+        40.0,
+        21.067094802856445
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 322560,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_monolith_01.glb",
+      "sha256": "babbe3159788d875aaf179e168b2d3d926236ccf3d9e05d849ad40bb3218dca3",
+      "bytes": 38331204,
+      "elapsed_seconds": 18.8
+    },
+    {
+      "asset": "mineral_huge_boulders_monolith_02",
+      "category": "huge_boulders",
+      "family": "monolith",
+      "variant": 2,
+      "seed": 955783,
+      "dimensions_blender_xyz_m": [
+        29.498746871948242,
+        31.295312881469727,
+        55.000003814697266
+      ],
+      "dimensions_godot_xyz_m": [
+        29.498746871948242,
+        55.000003814697266,
+        31.295312881469727
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 229376,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_monolith_02.glb",
+      "sha256": "ef48caefd139931717c5f5af2f7bd28da5c6677d3d11285c2a589f0ac7255256",
+      "bytes": 35023560,
+      "elapsed_seconds": 17.1
+    },
+    {
+      "asset": "mineral_huge_boulders_monolith_03",
+      "category": "huge_boulders",
+      "family": "monolith",
+      "variant": 3,
+      "seed": 955866,
+      "dimensions_blender_xyz_m": [
+        42.20301818847656,
+        41.617862701416016,
+        75.0
+      ],
+      "dimensions_godot_xyz_m": [
+        42.20301818847656,
+        75.0,
+        41.617862701416016
+      ],
+      "triangles": 89960,
+      "high_source_triangles": 250880,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_monolith_03.glb",
+      "sha256": "b050291dbef4da59f74fd45fb85ffb403332af589f1d61ec0e0777a27a187e40",
+      "bytes": 37228420,
+      "elapsed_seconds": 18.3
+    },
+    {
+      "asset": "mineral_huge_boulders_monolith_04",
+      "category": "huge_boulders",
+      "family": "monolith",
+      "variant": 4,
+      "seed": 955949,
+      "dimensions_blender_xyz_m": [
+        58.470821380615234,
+        57.538089752197266,
+        100.0
+      ],
+      "dimensions_godot_xyz_m": [
+        58.470821380615234,
+        100.0,
+        57.538089752197266
+      ],
+      "triangles": 89959,
+      "high_source_triangles": 256000,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/huge_boulders/mineral_huge_boulders_monolith_04.glb",
+      "sha256": "cb8f228e71ea5770f82affe1a2146acb0444c5e3dade3dd8153ed2771477fe61",
+      "bytes": 31146472,
+      "elapsed_seconds": 16.1
+    },
+    {
+      "asset": "mineral_cliffs_wall_01",
+      "category": "cliffs",
+      "family": "wall",
+      "variant": 1,
+      "seed": 960700,
+      "dimensions_blender_xyz_m": [
+        60.0,
+        22.519311904907227,
+        27.912084579467773
+      ],
+      "dimensions_godot_xyz_m": [
+        60.0,
+        27.912084579467773,
+        22.519311904907227
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 836608,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_wall_01.glb",
+      "sha256": "f438f57e2a8802a90f58254b366bd361e51e77d88d79f0bd28d2f2741020d9da",
+      "bytes": 37865632,
+      "elapsed_seconds": 24.6
+    },
+    {
+      "asset": "mineral_cliffs_wall_02",
+      "category": "cliffs",
+      "family": "wall",
+      "variant": 2,
+      "seed": 960783,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        37.787899017333984,
+        52.653385162353516
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        52.653385162353516,
+        37.787899017333984
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 757760,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_wall_02.glb",
+      "sha256": "80a63563ed0a54797f9c68c7a7ee6191e7b8dda436d4405df4380823d95d5019",
+      "bytes": 36793064,
+      "elapsed_seconds": 21.7
+    },
+    {
+      "asset": "mineral_cliffs_wall_03",
+      "category": "cliffs",
+      "family": "wall",
+      "variant": 3,
+      "seed": 960866,
+      "dimensions_blender_xyz_m": [
+        150.00001525878906,
+        56.52363586425781,
+        88.59049224853516
+      ],
+      "dimensions_godot_xyz_m": [
+        150.00001525878906,
+        88.59049224853516,
+        56.52363586425781
+      ],
+      "triangles": 119956,
+      "high_source_triangles": 793600,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_wall_03.glb",
+      "sha256": "e6f4071b806edb0a529f6a2f7d5216dd79f89005365ed46200a23288e00a93b2",
+      "bytes": 38139216,
+      "elapsed_seconds": 21.5
+    },
+    {
+      "asset": "mineral_cliffs_wall_04",
+      "category": "cliffs",
+      "family": "wall",
+      "variant": 4,
+      "seed": 960949,
+      "dimensions_blender_xyz_m": [
+        220.0,
+        83.79698944091797,
+        143.3267059326172
+      ],
+      "dimensions_godot_xyz_m": [
+        220.0,
+        143.3267059326172,
+        83.79698944091797
+      ],
+      "triangles": 119959,
+      "high_source_triangles": 788480,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_wall_04.glb",
+      "sha256": "49e4509cc6d01c50b006ff52adb12542d90c9474c2f6f67aa0c4ff322d2e8408",
+      "bytes": 38519264,
+      "elapsed_seconds": 21.2
+    },
+    {
+      "asset": "mineral_cliffs_layered_wall_01",
+      "category": "cliffs",
+      "family": "layered_wall",
+      "variant": 1,
+      "seed": 961700,
+      "dimensions_blender_xyz_m": [
+        60.0,
+        23.832197189331055,
+        28.911977767944336
+      ],
+      "dimensions_godot_xyz_m": [
+        60.0,
+        28.911977767944336,
+        23.832197189331055
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 865280,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_layered_wall_01.glb",
+      "sha256": "656aab65c212c0bcb793672623169bcba729973d7e5f320ce34508d95500ae80",
+      "bytes": 37999004,
+      "elapsed_seconds": 21.1
+    },
+    {
+      "asset": "mineral_cliffs_layered_wall_02",
+      "category": "cliffs",
+      "family": "layered_wall",
+      "variant": 2,
+      "seed": 961783,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        39.90362548828125,
+        55.00597381591797
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        55.00597381591797,
+        39.90362548828125
+      ],
+      "triangles": 119959,
+      "high_source_triangles": 1132544,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_layered_wall_02.glb",
+      "sha256": "e16e7525db4ef33dcc9b68876926539dacc4bbfdd295c68f8172a8643690a913",
+      "bytes": 39745700,
+      "elapsed_seconds": 29.7
+    },
+    {
+      "asset": "mineral_cliffs_layered_wall_03",
+      "category": "cliffs",
+      "family": "layered_wall",
+      "variant": 3,
+      "seed": 961866,
+      "dimensions_blender_xyz_m": [
+        150.0,
+        59.68122100830078,
+        91.6541748046875
+      ],
+      "dimensions_godot_xyz_m": [
+        150.0,
+        91.6541748046875,
+        59.68122100830078
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 1187840,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_layered_wall_03.glb",
+      "sha256": "cdcf6b0e9e7cee4bc9f96d42bb84476704b09313326e16a449ea44450b243318",
+      "bytes": 42107580,
+      "elapsed_seconds": 32.7
+    },
+    {
+      "asset": "mineral_cliffs_layered_wall_04",
+      "category": "cliffs",
+      "family": "layered_wall",
+      "variant": 4,
+      "seed": 961949,
+      "dimensions_blender_xyz_m": [
+        220.0,
+        86.54489135742188,
+        149.6016082763672
+      ],
+      "dimensions_godot_xyz_m": [
+        220.0,
+        149.6016082763672,
+        86.54489135742188
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 1189888,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_layered_wall_04.glb",
+      "sha256": "6b70630262aa171f3dfc92f7d0b7e5b0ae4f745478828fc27f3981e467fe703d",
+      "bytes": 38968200,
+      "elapsed_seconds": 38.2
+    },
+    {
+      "asset": "mineral_cliffs_corner_01",
+      "category": "cliffs",
+      "family": "corner",
+      "variant": 1,
+      "seed": 962700,
+      "dimensions_blender_xyz_m": [
+        60.0,
+        44.605262756347656,
+        27.63125228881836
+      ],
+      "dimensions_godot_xyz_m": [
+        60.0,
+        27.63125228881836,
+        44.605262756347656
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 330752,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_corner_01.glb",
+      "sha256": "1098339aec3c9d2fa7f1a3878afb1d31e9c42ddd31f76bb311f5d56a2ae246c0",
+      "bytes": 38623780,
+      "elapsed_seconds": 20.1
+    },
+    {
+      "asset": "mineral_cliffs_corner_02",
+      "category": "cliffs",
+      "family": "corner",
+      "variant": 2,
+      "seed": 962783,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        74.34540557861328,
+        52.19757843017578
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        52.19757843017578,
+        74.34540557861328
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 423936,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_corner_02.glb",
+      "sha256": "5393ed93946566eefeaf8c287420e8cf15d2ebabc836d2e317f9a6d7a429c973",
+      "bytes": 37337864,
+      "elapsed_seconds": 19.8
+    },
+    {
+      "asset": "mineral_cliffs_corner_03",
+      "category": "cliffs",
+      "family": "corner",
+      "variant": 3,
+      "seed": 962866,
+      "dimensions_blender_xyz_m": [
+        150.0,
+        111.54202270507812,
+        87.52547454833984
+      ],
+      "dimensions_godot_xyz_m": [
+        150.0,
+        87.52547454833984,
+        111.54202270507812
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 415744,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_corner_03.glb",
+      "sha256": "700a0b21c179bd5421eded572e06d9dfc5ee77513bd95cd36a5ed7980240d1a4",
+      "bytes": 36899768,
+      "elapsed_seconds": 17.8
+    },
+    {
+      "asset": "mineral_cliffs_corner_04",
+      "category": "cliffs",
+      "family": "corner",
+      "variant": 4,
+      "seed": 962949,
+      "dimensions_blender_xyz_m": [
+        220.0,
+        163.5428466796875,
+        141.82254028320312
+      ],
+      "dimensions_godot_xyz_m": [
+        220.0,
+        141.82254028320312,
+        163.5428466796875
+      ],
+      "triangles": 119958,
+      "high_source_triangles": 514048,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_corner_04.glb",
+      "sha256": "f851faf463c13a21c74fb61c17d8c302d38c5a00cf2479a2ac53c4351d6f59ab",
+      "bytes": 37906152,
+      "elapsed_seconds": 17.1
+    },
+    {
+      "asset": "mineral_cliffs_recess_01",
+      "category": "cliffs",
+      "family": "recess",
+      "variant": 1,
+      "seed": 963700,
+      "dimensions_blender_xyz_m": [
+        59.999996185302734,
+        27.8731746673584,
+        25.484378814697266
+      ],
+      "dimensions_godot_xyz_m": [
+        59.999996185302734,
+        25.484378814697266,
+        27.8731746673584
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 482304,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_recess_01.glb",
+      "sha256": "10603ca7b824774e8c76588e15ae65c4665e15e4414aa6986ce5edf9f8164835",
+      "bytes": 36742412,
+      "elapsed_seconds": 16.0
+    },
+    {
+      "asset": "mineral_cliffs_recess_02",
+      "category": "cliffs",
+      "family": "recess",
+      "variant": 2,
+      "seed": 963783,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        45.970943450927734,
+        48.22691345214844
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        48.22691345214844,
+        45.970943450927734
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 577536,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_recess_02.glb",
+      "sha256": "07805e074fa575120a80ae93dc2727ad3c3d130993482cfcbd092e04dbf4ef0f",
+      "bytes": 38978384,
+      "elapsed_seconds": 24.5
+    },
+    {
+      "asset": "mineral_cliffs_recess_03",
+      "category": "cliffs",
+      "family": "recess",
+      "variant": 3,
+      "seed": 963866,
+      "dimensions_blender_xyz_m": [
+        150.0,
+        69.68638610839844,
+        81.08101654052734
+      ],
+      "dimensions_godot_xyz_m": [
+        150.0,
+        81.08101654052734,
+        69.68638610839844
+      ],
+      "triangles": 119958,
+      "high_source_triangles": 582656,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_recess_03.glb",
+      "sha256": "a3e8ae6fe6fe5eec134f297001b0635e24731bf3de631e3bccecae59d4264553",
+      "bytes": 41409972,
+      "elapsed_seconds": 29.9
+    },
+    {
+      "asset": "mineral_cliffs_recess_04",
+      "category": "cliffs",
+      "family": "recess",
+      "variant": 4,
+      "seed": 963949,
+      "dimensions_blender_xyz_m": [
+        220.0,
+        103.2601547241211,
+        132.6940155029297
+      ],
+      "dimensions_godot_xyz_m": [
+        220.0,
+        132.6940155029297,
+        103.2601547241211
+      ],
+      "triangles": 119959,
+      "high_source_triangles": 618496,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_recess_04.glb",
+      "sha256": "b4ae8d43f5a4dfa5dba19813d0df8f7218550f706dc0048aa8d868e155a55cbc",
+      "bytes": 38513504,
+      "elapsed_seconds": 18.4
+    },
+    {
+      "asset": "mineral_cliffs_overhang_wall_01",
+      "category": "cliffs",
+      "family": "overhang_wall",
+      "variant": 1,
+      "seed": 964700,
+      "dimensions_blender_xyz_m": [
+        60.0,
+        29.00482177734375,
+        27.72559928894043
+      ],
+      "dimensions_godot_xyz_m": [
+        60.0,
+        27.72559928894043,
+        29.00482177734375
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 336896,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_overhang_wall_01.glb",
+      "sha256": "b90b082eea80e47b8ec85dccfd3c36646c2d1e0d8e3cb169ab29b707c1d10862",
+      "bytes": 36990932,
+      "elapsed_seconds": 14.7
+    },
+    {
+      "asset": "mineral_cliffs_overhang_wall_02",
+      "category": "cliffs",
+      "family": "overhang_wall",
+      "variant": 2,
+      "seed": 964783,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        48.78227233886719,
+        53.06835174560547
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        53.06835174560547,
+        48.78227233886719
+      ],
+      "triangles": 119959,
+      "high_source_triangles": 344064,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_overhang_wall_02.glb",
+      "sha256": "4f4bd630e1be25e32ade6c70146d4062e0f6fbeafbc7f4dfcaa6f62bdb495e11",
+      "bytes": 36429252,
+      "elapsed_seconds": 14.2
+    },
+    {
+      "asset": "mineral_cliffs_overhang_wall_03",
+      "category": "cliffs",
+      "family": "overhang_wall",
+      "variant": 3,
+      "seed": 964866,
+      "dimensions_blender_xyz_m": [
+        150.0,
+        73.36583709716797,
+        88.6761474609375
+      ],
+      "dimensions_godot_xyz_m": [
+        150.0,
+        88.6761474609375,
+        73.36583709716797
+      ],
+      "triangles": 119957,
+      "high_source_triangles": 432128,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_overhang_wall_03.glb",
+      "sha256": "cd88ba6ff923e5f4c3f83c0aea666602f6014c50a481b548f88f854eb838de39",
+      "bytes": 38314980,
+      "elapsed_seconds": 15.2
+    },
+    {
+      "asset": "mineral_cliffs_overhang_wall_04",
+      "category": "cliffs",
+      "family": "overhang_wall",
+      "variant": 4,
+      "seed": 964949,
+      "dimensions_blender_xyz_m": [
+        220.0,
+        105.94427490234375,
+        141.74295043945312
+      ],
+      "dimensions_godot_xyz_m": [
+        220.0,
+        141.74295043945312,
+        105.94427490234375
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 354304,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_overhang_wall_04.glb",
+      "sha256": "0b8630b5fecdcdefd7358bb0c64c59f6b9fee17a74e8a7947f6a74728dd8fa09",
+      "bytes": 35862052,
+      "elapsed_seconds": 15.1
+    },
+    {
+      "asset": "mineral_cliffs_buttress_01",
+      "category": "cliffs",
+      "family": "buttress",
+      "variant": 1,
+      "seed": 965700,
+      "dimensions_blender_xyz_m": [
+        59.999996185302734,
+        31.741579055786133,
+        28.7615966796875
+      ],
+      "dimensions_godot_xyz_m": [
+        59.999996185302734,
+        28.7615966796875,
+        31.741579055786133
+      ],
+      "triangles": 119959,
+      "high_source_triangles": 778240,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_buttress_01.glb",
+      "sha256": "304e41e9b2e90e5322b8c1ec2a72e140083b478484ed634997f62fbf48b6e578",
+      "bytes": 39412572,
+      "elapsed_seconds": 19.7
+    },
+    {
+      "asset": "mineral_cliffs_buttress_02",
+      "category": "cliffs",
+      "family": "buttress",
+      "variant": 2,
+      "seed": 965783,
+      "dimensions_blender_xyz_m": [
+        99.99999237060547,
+        47.20575714111328,
+        47.691524505615234
+      ],
+      "dimensions_godot_xyz_m": [
+        99.99999237060547,
+        47.691524505615234,
+        47.20575714111328
+      ],
+      "triangles": 119959,
+      "high_source_triangles": 773120,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_buttress_02.glb",
+      "sha256": "df23cd94583c32dbbfc77d44e1bbaf32e35d4a3dd7df9f80ae2c88b1f2cf1a0d",
+      "bytes": 40475932,
+      "elapsed_seconds": 19.8
+    },
+    {
+      "asset": "mineral_cliffs_buttress_03",
+      "category": "cliffs",
+      "family": "buttress",
+      "variant": 3,
+      "seed": 965866,
+      "dimensions_blender_xyz_m": [
+        149.99998474121094,
+        78.71439361572266,
+        88.37545013427734
+      ],
+      "dimensions_godot_xyz_m": [
+        149.99998474121094,
+        88.37545013427734,
+        78.71439361572266
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 574464,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_buttress_03.glb",
+      "sha256": "cd2a944ab7dfb2079f511ae46b2b21ca941e7109e62be9fa88e80ce80ff23baa",
+      "bytes": 38311996,
+      "elapsed_seconds": 16.6
+    },
+    {
+      "asset": "mineral_cliffs_buttress_04",
+      "category": "cliffs",
+      "family": "buttress",
+      "variant": 4,
+      "seed": 965949,
+      "dimensions_blender_xyz_m": [
+        220.0,
+        104.86140441894531,
+        127.03351593017578
+      ],
+      "dimensions_godot_xyz_m": [
+        220.0,
+        127.03351593017578,
+        104.86140441894531
+      ],
+      "triangles": 119960,
+      "high_source_triangles": 878592,
+      "texture_sizes": {
+        "albedo": 2048,
+        "normal": 4096,
+        "roughness": 1024
+      },
+      "path": "assets/graphics/minerals_v3/cliffs/mineral_cliffs_buttress_04.glb",
+      "sha256": "f70d5011eaf7edca3632cdababf2a9dfb35ecfad5ac42f3eef214eb328ecadd0",
+      "bytes": 40208348,
+      "elapsed_seconds": 21.8
+    }
+  ],
+  "asset_count": 120,
+  "source_preserved": true,
+  "v2_exports_preserved": true
+}

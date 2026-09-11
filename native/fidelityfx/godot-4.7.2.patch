@@ -1,0 +1,208 @@
+diff --git a/drivers/d3d12/rendering_device_driver_d3d12.cpp b/drivers/d3d12/rendering_device_driver_d3d12.cpp
+index 5afb1b7..4f3c623 100644
+--- a/drivers/d3d12/rendering_device_driver_d3d12.cpp
++++ b/drivers/d3d12/rendering_device_driver_d3d12.cpp
+@@ -29,6 +29,7 @@
+ /**************************************************************************/
+ 
+ #include "rendering_device_driver_d3d12.h"
++#include "modules/alpine_fsr/alpine_fsr.h"
+ 
+ #include "core/config/engine.h"
+ #include "core/config/project_settings.h"
+@@ -524,7 +525,7 @@ void RenderingDeviceDriverD3D12::_debug_message_func(D3D12_MESSAGE_CATEGORY p_ca
+ 			print_verbose(error_message);
+ 			break;
+ 		case D3D12_MESSAGE_SEVERITY_INFO:
+-			print_line(error_message);
++			print_verbose(error_message);
+ 			break;
+ 		case D3D12_MESSAGE_SEVERITY_WARNING:
+ 			WARN_PRINT(error_message);
+@@ -2503,6 +2504,7 @@ Error RenderingDeviceDriverD3D12::command_queue_execute_and_present(CommandQueue
+ 	bool any_present_failed = false;
+ 	for (uint32_t i = 0; i < p_swap_chains.size(); i++) {
+ 		SwapChain *swap_chain = (SwapChain *)(p_swap_chains[i].id);
++		AlpineFSR::before_present(swap_chain->alpine_context);
+ 		res = swap_chain->d3d_swap_chain->Present(swap_chain->sync_interval, swap_chain->present_flags);
+ 		if (!SUCCEEDED(res)) {
+ 			print_verbose(vformat("D3D12: Presenting swapchain failed with error 0x%08ux.", (uint64_t)res));
+@@ -2675,6 +2677,7 @@ void RenderingDeviceDriverD3D12::_swap_chain_release(SwapChain *p_swap_chain) {
+ 		p_swap_chain->render_pass = RenderPassID();
+ 	}
+ 
++	AlpineFSR::release_swapchain(p_swap_chain->alpine_context);
+ 	p_swap_chain->d3d_swap_chain.Reset();
+ }
+ 
+@@ -2795,6 +2798,7 @@ Error RenderingDeviceDriverD3D12::swap_chain_resize(CommandQueueID p_cmd_queue,
+ 	DXGI_SWAP_CHAIN_DESC1 swap_chain_desc = {};
+ 	if (swap_chain->d3d_swap_chain != nullptr) {
+ 		_swap_chain_release_buffers(swap_chain);
++		AlpineFSR::resized_swapchain(swap_chain->alpine_context);
+ 		res = swap_chain->d3d_swap_chain->ResizeBuffers(p_desired_framebuffer_count, surface->width, surface->height, DXGI_FORMAT_UNKNOWN, creation_flags);
+ 		ERR_FAIL_COND_V(!SUCCEEDED(res), ERR_UNAVAILABLE);
+ 	} else {
+@@ -2820,7 +2824,13 @@ Error RenderingDeviceDriverD3D12::swap_chain_resize(CommandQueueID p_cmd_queue,
+ 		swap_chain_desc.Height = surface->height;
+ 
+ 		ComPtr<IDXGISwapChain1> swap_chain_1;
+-		if (create_for_composition) {
++		void *alpine_swap = nullptr;
++		if (!create_for_composition) {
++			swap_chain->alpine_context = AlpineFSR::create_swapchain(context_driver->dxgi_factory_get(), command_queue->d3d_queue.Get(), surface->hwnd, &swap_chain_desc, &alpine_swap);
++		}
++		if (alpine_swap) {
++			res = static_cast<IDXGISwapChain4 *>(alpine_swap)->QueryInterface(IID_PPV_ARGS(swap_chain_1.GetAddressOf()));
++		} else if (create_for_composition) {
+ 			res = context_driver->dxgi_factory_get()->CreateSwapChainForComposition(command_queue->d3d_queue.Get(), &swap_chain_desc, nullptr, swap_chain_1.GetAddressOf());
+ 			if (!SUCCEEDED(res)) {
+ 				WARN_PRINT_ONCE("Window transparency is not supported without DirectComposition on D3D12.");
+@@ -5732,6 +5742,21 @@ void RenderingDeviceDriverD3D12::set_object_name(ObjectType p_type, ID p_driver_
+ 	}
+ }
+ 
++ID3D12GraphicsCommandList *RenderingDeviceDriverD3D12::alpine_external_begin(CommandBufferID command) {
++    auto *info = (CommandBufferInfo *)command.id;
++    _resource_transitions_flush(info);
++    return info->cmd_list.Get();
++}
++void RenderingDeviceDriverD3D12::alpine_external_end(CommandBufferID command) {
++    auto *info = (CommandBufferInfo *)command.id;
++    info->graphics_pso = nullptr;
++    info->compute_pso = nullptr;
++    info->graphics_root_signature_crc = 0;
++    info->compute_root_signature_crc = 0;
++    info->descriptor_heaps_set = false;
++    info->pending_dyn_params = true;
++}
++
+ uint64_t RenderingDeviceDriverD3D12::get_resource_native_handle(DriverResource p_type, ID p_driver_id) {
+ 	switch (p_type) {
+ 		case DRIVER_RESOURCE_LOGICAL_DEVICE: {
+diff --git a/drivers/d3d12/rendering_device_driver_d3d12.h b/drivers/d3d12/rendering_device_driver_d3d12.h
+index 14b3c41..507d888 100644
+--- a/drivers/d3d12/rendering_device_driver_d3d12.h
++++ b/drivers/d3d12/rendering_device_driver_d3d12.h
+@@ -41,9 +41,8 @@
+ #include <drivers/d3d12/godot_d3dx12.h>
+ #include <wrl/client.h>
+ 
+-#ifdef DEV_ENABLED
+-#define CUSTOM_INFO_QUEUE_ENABLED 0
+-#endif
++// Surface validation messages in test logs instead of debugger-only output.
++#define CUSTOM_INFO_QUEUE_ENABLED 1
+ 
+ class RenderingContextDriverD3D12;
+ 
+@@ -514,6 +513,8 @@ private:
+ 	};
+ 
+ public:
++	ID3D12GraphicsCommandList *alpine_external_begin(CommandBufferID command);
++	void alpine_external_end(CommandBufferID command);
+ 	virtual CommandBufferID command_buffer_create(CommandPoolID p_cmd_pool) override final;
+ 	virtual bool command_buffer_begin(CommandBufferID p_cmd_buffer) override final;
+ 	virtual bool command_buffer_begin_secondary(CommandBufferID p_cmd_buffer, RenderPassID p_render_pass, uint32_t p_subpass, FramebufferID p_framebuffer) override final;
+@@ -527,6 +528,7 @@ private:
+ 
+ 	struct SwapChain {
+ 		Microsoft::WRL::ComPtr<IDXGISwapChain3> d3d_swap_chain;
++		void *alpine_context = nullptr;
+ 		RenderingContextDriver::SurfaceID surface = RenderingContextDriver::SurfaceID();
+ 		UINT present_flags = 0;
+ 		UINT sync_interval = 1;
+diff --git a/servers/rendering/renderer_rd/effects/fsr2.cpp b/servers/rendering/renderer_rd/effects/fsr2.cpp
+index 207bb29..9bdee59 100644
+--- a/servers/rendering/renderer_rd/effects/fsr2.cpp
++++ b/servers/rendering/renderer_rd/effects/fsr2.cpp
+@@ -29,6 +29,7 @@
+ /**************************************************************************/
+ 
+ #include "fsr2.h"
++#include "modules/alpine_fsr/alpine_fsr.h"
+ 
+ #include "servers/rendering/renderer_rd/storage_rd/material_storage.h"
+ #include "servers/rendering/renderer_rd/uniform_set_cache_rd.h"
+@@ -510,6 +511,7 @@ static FfxResource get_resource_rd(RID *p_rid, const wchar_t *p_name) {
+ }
+ 
+ FSR2Context::~FSR2Context() {
++	AlpineFSR::release(alpine_fsr_context);
+ 	ffxFsr2ContextDestroy(&fsr_context);
+ }
+ 
+diff --git a/servers/rendering/renderer_rd/effects/fsr2.h b/servers/rendering/renderer_rd/effects/fsr2.h
+index 5c1d1fc..283315a 100644
+--- a/servers/rendering/renderer_rd/effects/fsr2.h
++++ b/servers/rendering/renderer_rd/effects/fsr2.h
+@@ -117,6 +117,7 @@ public:
+ 		FfxDevice device = nullptr;
+ 	};
+ 
++	void *alpine_fsr_context = nullptr;
+ 	Scratch scratch;
+ 	FfxFsr2Context fsr_context;
+ 	FfxFsr2ContextDescription fsr_desc;
+@@ -170,6 +171,7 @@ public:
+ 		float sharpness = 0.0f;
+ 		bool reset_accumulation = false;
+ 		Projection reprojection;
++		Transform3D alpine_camera_transform;
+ 	};
+ 
+ 	FSR2Effect();
+diff --git a/servers/rendering/renderer_rd/forward_clustered/render_forward_clustered.cpp b/servers/rendering/renderer_rd/forward_clustered/render_forward_clustered.cpp
+index 370d3b6..79a22e9 100644
+--- a/servers/rendering/renderer_rd/forward_clustered/render_forward_clustered.cpp
++++ b/servers/rendering/renderer_rd/forward_clustered/render_forward_clustered.cpp
+@@ -29,6 +29,7 @@
+ /**************************************************************************/
+ 
+ #include "render_forward_clustered.h"
++#include "modules/alpine_fsr/alpine_fsr.h"
+ 
+ #include "core/config/project_settings.h"
+ #include "servers/rendering/renderer_rd/environment/fog.h"
+@@ -2490,7 +2491,8 @@ void RenderForwardClustered::_render_scene(RenderDataRD *p_render_data, const Co
+ 				params.fovy = fovy;
+ 				params.jitter = jitter;
+ 				params.delta_time = float(time_step);
+-				params.reset_accumulation = false; // FIXME: The engine does not provide a way to reset the accumulation.
++				params.reset_accumulation = p_render_data->scene_data->prev_cam_transform.origin.distance_to(p_render_data->scene_data->cam_transform.origin) > 10.0f ||
++					p_render_data->scene_data->prev_cam_transform.basis.get_column(2).dot(p_render_data->scene_data->cam_transform.basis.get_column(2)) < 0.707f;
+ 
+ 				Projection correction;
+ 				correction.set_depth_correction(true, true, false);
+@@ -2501,7 +2503,9 @@ void RenderForwardClustered::_render_scene(RenderDataRD *p_render_data, const Co
+ 				const Transform3D &cur_transform = p_render_data->scene_data->cam_transform;
+ 				params.reprojection = (correction * prev_proj) * prev_transform.affine_inverse() * cur_transform * (correction * cur_proj).inverse();
+ 
+-				fsr2_effect->upscale(params);
++				params.alpine_camera_transform = p_render_data->scene_data->cam_transform;
++				AlpineFSR::cache_frame(params);
++				if (!AlpineFSR::upscale(params)) { fsr2_effect->upscale(params); }
+ 			}
+ 
+ 			RD::get_singleton()->draw_command_end_label();
+@@ -2548,6 +2552,7 @@ void RenderForwardClustered::_render_scene(RenderDataRD *p_render_data, const Co
+ 		RENDER_TIMESTAMP("Tonemap");
+ 
+ 		_render_buffers_post_process_and_tonemap(p_render_data);
++		AlpineFSR::finish_frame(rb->get_render_target());
+ 	}
+ 
+ 	if (rb_data.is_valid()) {
+diff --git a/servers/rendering/rendering_device.h b/servers/rendering/rendering_device.h
+index 38c4b14..1a54054 100644
+--- a/servers/rendering/rendering_device.h
++++ b/servers/rendering/rendering_device.h
+@@ -1921,6 +1921,7 @@ public:
+ 	void swap_buffers(bool p_present);
+ 
+ 	uint32_t get_frame_delay() const;
++	void alpine_flush_and_stall() { _flush_and_stall_for_all_frames(); }
+ 
+ 	void submit();
+ 	void sync();

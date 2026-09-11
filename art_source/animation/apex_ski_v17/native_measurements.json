@@ -1,0 +1,444 @@
+{
+  "source_sha256": "08ab38051bf9f8bad0ebcf610c8edc1026ea99641690d5521a7eb5615903517c",
+  "source": "C:\\Users\\hp\\Documents\\Codex\\Reports\\Steep-Animations-2026-09-08\\exports\\Steep_ID01_Female_Core_Motion.glb",
+  "source_rig_bones": 72,
+  "anatomical_mapping": {
+    "Hips": "Hips",
+    "Spine": "Spine02",
+    "Spine1": "Spine01",
+    "Spine2": "Spine",
+    "Neck": "neck",
+    "Head": "Head",
+    "LeftUpLeg": "LeftUpLeg",
+    "LeftLeg": "LeftLeg",
+    "LeftFoot": "LeftFoot",
+    "LeftShoulder": "LeftShoulder",
+    "LeftArm": "LeftArm",
+    "LeftForeArm": "LeftForeArm",
+    "LeftHand": "LeftHand",
+    "RightUpLeg": "RightUpLeg",
+    "RightLeg": "RightLeg",
+    "RightFoot": "RightFoot",
+    "RightShoulder": "RightShoulder",
+    "RightArm": "RightArm",
+    "RightForeArm": "RightForeArm",
+    "RightHand": "RightHand"
+  },
+  "unmapped_apex": [
+    "LeftToeBase",
+    "RightToeBase"
+  ],
+  "rest_leg_source_units": 0.8442859649664111,
+  "axes": "GLB root converts source Z-up to glTF Y-up; vertical measurements use world Y. Twist uses anatomical lateral landmarks, not local Euler channels.",
+  "limitations": "62 animated source bones. Extra neck, fingers and unknown bones excluded. Apex toes remain boot constrained. 61 samples per clip are stored-source times, not runtime timing. Measurements inform original scalar profiles; no extracted tracks ship.",
+  "clips": {
+    "ID01_PS00_female_NAV_MED_FWD": {
+      "stored_duration_s": 6.866666793823242,
+      "metrics": {
+        "hip_above_ankles_leg_lengths": {
+          "min": 0.8867182267226645,
+          "max": 0.9000713881461823,
+          "mean": 0.8923148593727441
+        },
+        "pelvis_chest_twist_deg": {
+          "min": 3.801938055736583,
+          "max": 5.393336211273744,
+          "mean": 4.585951353283404
+        },
+        "spine_curve_deg": {
+          "min": 7.835307733200359,
+          "max": 11.192155067336035,
+          "mean": 9.504134246429418
+        },
+        "left_knee_flex_deg": {
+          "min": 47.557824458109366,
+          "max": 50.24572666848462,
+          "mean": 49.179315103665076
+        },
+        "left_hand_below_chest_leg_lengths": {
+          "min": 0.43407566507971945,
+          "max": 0.4698897318494083,
+          "mean": 0.4530842214621902
+        },
+        "left_hand_chest_distance_leg_lengths": {
+          "min": 0.5544420369965768,
+          "max": 0.5797326618519555,
+          "mean": 0.5670286310871206
+        },
+        "right_knee_flex_deg": {
+          "min": 43.38539764120247,
+          "max": 46.18778308816948,
+          "mean": 44.95788100091756
+        },
+        "right_hand_below_chest_leg_lengths": {
+          "min": 0.4308194379212405,
+          "max": 0.46851188289828344,
+          "mean": 0.4598885363147369
+        },
+        "right_hand_chest_distance_leg_lengths": {
+          "min": 0.5636424358314842,
+          "max": 0.5906907468755134,
+          "mean": 0.5728529182105911
+        }
+      },
+      "max_hip_extension_source_s": 5.2644445419311525
+    },
+    "ID01_PS00_female_NAV_MED_LEFT": {
+      "stored_duration_s": 2.0,
+      "metrics": {
+        "hip_above_ankles_leg_lengths": {
+          "min": 0.37681729889321514,
+          "max": 0.41561590814126814,
+          "mean": 0.3956494422252052
+        },
+        "pelvis_chest_twist_deg": {
+          "min": -33.87994141903758,
+          "max": -31.843888737778713,
+          "mean": -32.87944181337599
+        },
+        "spine_curve_deg": {
+          "min": 49.243999663843354,
+          "max": 49.56167970546317,
+          "mean": 49.393660200757026
+        },
+        "left_knee_flex_deg": {
+          "min": 103.2039634556217,
+          "max": 114.36347408287703,
+          "mean": 109.05464105647496
+        },
+        "left_hand_below_chest_leg_lengths": {
+          "min": 0.3883620520233491,
+          "max": 0.4395055054028961,
+          "mean": 0.41247603308643743
+        },
+        "left_hand_chest_distance_leg_lengths": {
+          "min": 0.7597932446995984,
+          "max": 0.772507457203192,
+          "mean": 0.7658389920585631
+        },
+        "right_knee_flex_deg": {
+          "min": 33.9562027906623,
+          "max": 47.55538943584375,
+          "mean": 41.26400261660909
+        },
+        "right_hand_below_chest_leg_lengths": {
+          "min": 0.0875267278730602,
+          "max": 0.12216508453003934,
+          "mean": 0.10393895093404384
+        },
+        "right_hand_chest_distance_leg_lengths": {
+          "min": 0.7013514681623831,
+          "max": 0.7309656081799409,
+          "mean": 0.7160779694075419
+        }
+      },
+      "max_hip_extension_source_s": 1.3666666666666667
+    },
+    "ID01_PS00_female_NAV_MED_RIGHT": {
+      "stored_duration_s": 2.0,
+      "metrics": {
+        "hip_above_ankles_leg_lengths": {
+          "min": 0.3510852784734784,
+          "max": 0.390093281548675,
+          "mean": 0.3699535787285605
+        },
+        "pelvis_chest_twist_deg": {
+          "min": 29.82059998041921,
+          "max": 32.080375419628844,
+          "mean": 30.953123977564143
+        },
+        "spine_curve_deg": {
+          "min": 49.244003427819095,
+          "max": 49.561680024098905,
+          "mean": 49.3936620226665
+        },
+        "left_knee_flex_deg": {
+          "min": 36.85662667849854,
+          "max": 41.01310521289753,
+          "mean": 38.71782788348612
+        },
+        "left_hand_below_chest_leg_lengths": {
+          "min": 0.09712373522502096,
+          "max": 0.14216690119987363,
+          "mean": 0.12137747628398518
+        },
+        "left_hand_chest_distance_leg_lengths": {
+          "min": 0.729011701725912,
+          "max": 0.7437624205811003,
+          "mean": 0.7366816603171795
+        },
+        "right_knee_flex_deg": {
+          "min": 104.25284462573937,
+          "max": 110.05760216654986,
+          "mean": 107.28004205306003
+        },
+        "right_hand_below_chest_leg_lengths": {
+          "min": 0.38806400126477814,
+          "max": 0.4280711273026418,
+          "mean": 0.4094961147355331
+        },
+        "right_hand_chest_distance_leg_lengths": {
+          "min": 0.7564804130649649,
+          "max": 0.766728719047134,
+          "mean": 0.7608173566175372
+        }
+      },
+      "max_hip_extension_source_s": 1.2666666666666666
+    },
+    "ID01_PS00_female_OLLIE_BACKFLIP_TO_AIR": {
+      "stored_duration_s": 0.5,
+      "metrics": {
+        "hip_above_ankles_leg_lengths": {
+          "min": 0.33507050048346376,
+          "max": 0.9642902009511681,
+          "mean": 0.75115978550783
+        },
+        "pelvis_chest_twist_deg": {
+          "min": -0.3696017387717274,
+          "max": 2.9717050253052752,
+          "mean": 1.7876167667351426
+        },
+        "spine_curve_deg": {
+          "min": 0.3081467189506086,
+          "max": 7.7381233371098554,
+          "mean": 4.136775070390933
+        },
+        "left_knee_flex_deg": {
+          "min": 24.671433737493174,
+          "max": 88.93580068234706,
+          "mean": 48.261385753566664
+        },
+        "left_hand_below_chest_leg_lengths": {
+          "min": 0.24335072480424208,
+          "max": 0.4400432338050024,
+          "mean": 0.3952657985115417
+        },
+        "left_hand_chest_distance_leg_lengths": {
+          "min": 0.49057799914305344,
+          "max": 0.6543665613577088,
+          "mean": 0.6141655501151336
+        },
+        "right_knee_flex_deg": {
+          "min": 26.38909607100942,
+          "max": 93.49611695031632,
+          "mean": 44.32964777751315
+        },
+        "right_hand_below_chest_leg_lengths": {
+          "min": 0.1860213209076467,
+          "max": 0.4338342242350117,
+          "mean": 0.37748860889234476
+        },
+        "right_hand_chest_distance_leg_lengths": {
+          "min": 0.49487334432503993,
+          "max": 0.6604540485933047,
+          "mean": 0.6103226654550892
+        }
+      },
+      "max_hip_extension_source_s": 0.18333333333333332
+    },
+    "ID01_PS00_female_AIR_BACKFLIP_LONG": {
+      "stored_duration_s": 1.3333333730697632,
+      "metrics": {
+        "hip_above_ankles_leg_lengths": {
+          "min": 0.5652686142360055,
+          "max": 0.5848078861964625,
+          "mean": 0.5754720527336172
+        },
+        "pelvis_chest_twist_deg": {
+          "min": 2.5946952867649844,
+          "max": 2.9215484405959375,
+          "mean": 2.7671806553493177
+        },
+        "spine_curve_deg": {
+          "min": 6.476966086166753,
+          "max": 8.340387274056217,
+          "mean": 7.34719496115769
+        },
+        "left_knee_flex_deg": {
+          "min": 93.02038046033383,
+          "max": 95.24651650170593,
+          "mean": 94.24049920515813
+        },
+        "left_hand_below_chest_leg_lengths": {
+          "min": 0.4129144967774368,
+          "max": 0.41652565151675625,
+          "mean": 0.41480446416546746
+        },
+        "left_hand_chest_distance_leg_lengths": {
+          "min": 0.6375426801950386,
+          "max": 0.6441389701399378,
+          "mean": 0.6407202688900397
+        },
+        "right_knee_flex_deg": {
+          "min": 42.17857799408432,
+          "max": 45.455488815130394,
+          "mean": 44.315323574816325
+        },
+        "right_hand_below_chest_leg_lengths": {
+          "min": 0.37306774190335973,
+          "max": 0.3899258177721562,
+          "mean": 0.3816487934881176
+        },
+        "right_hand_chest_distance_leg_lengths": {
+          "min": 0.6250928716915826,
+          "max": 0.6393201916432513,
+          "mean": 0.6325916285337878
+        }
+      },
+      "max_hip_extension_source_s": 1.266666704416275
+    },
+    "ID01_PS00_female_AIR_TO_LAND_BACKFLIP": {
+      "stored_duration_s": 0.5,
+      "metrics": {
+        "hip_above_ankles_leg_lengths": {
+          "min": 0.6306414297009214,
+          "max": 0.9310240886989357,
+          "mean": 0.7164563762702827
+        },
+        "pelvis_chest_twist_deg": {
+          "min": 2.468861470972561,
+          "max": 8.107860794664823,
+          "mean": 5.076032955238954
+        },
+        "spine_curve_deg": {
+          "min": 0.8004742878804498,
+          "max": 26.449938571563035,
+          "mean": 15.523860781655834
+        },
+        "left_knee_flex_deg": {
+          "min": 25.555025505369684,
+          "max": 103.74136459034577,
+          "mean": 74.4910387898456
+        },
+        "left_hand_below_chest_leg_lengths": {
+          "min": 0.08825723272146649,
+          "max": 0.4167379556643602,
+          "mean": 0.2659978441370876
+        },
+        "left_hand_chest_distance_leg_lengths": {
+          "min": 0.47584710671722924,
+          "max": 0.649532861034573,
+          "mean": 0.5925683710188336
+        },
+        "right_knee_flex_deg": {
+          "min": 38.40354421085132,
+          "max": 93.81698972737432,
+          "mean": 67.80472124846547
+        },
+        "right_hand_below_chest_leg_lengths": {
+          "min": 0.1276552192577012,
+          "max": 0.41023439980549375,
+          "mean": 0.2961762625262238
+        },
+        "right_hand_chest_distance_leg_lengths": {
+          "min": 0.49245850878440056,
+          "max": 0.6574820213428999,
+          "mean": 0.6094913522839656
+        }
+      },
+      "max_hip_extension_source_s": 0.45
+    },
+    "ID01_PS00_female_GRAB_SAFETY": {
+      "stored_duration_s": 2.200000047683716,
+      "metrics": {
+        "hip_above_ankles_leg_lengths": {
+          "min": 0.266746307793133,
+          "max": 0.8383025858244842,
+          "mean": 0.3414197433675579
+        },
+        "pelvis_chest_twist_deg": {
+          "min": -23.53942203849949,
+          "max": 3.60719284168614,
+          "mean": -19.788855041002055
+        },
+        "spine_curve_deg": {
+          "min": 31.020647435689078,
+          "max": 42.604716083327105,
+          "mean": 39.40816446297879
+        },
+        "left_knee_flex_deg": {
+          "min": 61.99204922526131,
+          "max": 117.6362693319364,
+          "mean": 85.85407245714681
+        },
+        "left_hand_below_chest_leg_lengths": {
+          "min": -0.409649149880268,
+          "max": 0.5273597180106868,
+          "mean": -0.20924408517324272
+        },
+        "left_hand_chest_distance_leg_lengths": {
+          "min": 0.5151849396582215,
+          "max": 0.7747703816223335,
+          "mean": 0.7048595477126792
+        },
+        "right_knee_flex_deg": {
+          "min": 64.88865106001482,
+          "max": 125.14137774940376,
+          "mean": 117.30029405346264
+        },
+        "right_hand_below_chest_leg_lengths": {
+          "min": 0.24130838806931929,
+          "max": 0.501008468838315,
+          "mean": 0.4302432297538993
+        },
+        "right_hand_chest_distance_leg_lengths": {
+          "min": 0.4452614561254255,
+          "max": 0.84579354925308,
+          "mean": 0.7766480233816235
+        }
+      },
+      "max_hip_extension_source_s": 0.0
+    },
+    "ID01_PS00_female_AIR_TO_LAND_BACKFLIP_SPINLEFT_PANIC": {
+      "stored_duration_s": 0.5,
+      "metrics": {
+        "hip_above_ankles_leg_lengths": {
+          "min": 0.32762739251177947,
+          "max": 0.8858037607508922,
+          "mean": 0.6126085933634235
+        },
+        "pelvis_chest_twist_deg": {
+          "min": 6.825102624930968,
+          "max": 31.78078967689899,
+          "mean": 18.991336979888082
+        },
+        "spine_curve_deg": {
+          "min": 0.9643806556594008,
+          "max": 22.632175876361583,
+          "mean": 13.502179090015598
+        },
+        "left_knee_flex_deg": {
+          "min": 46.48751222596397,
+          "max": 96.7687815324568,
+          "mean": 82.73146535675339
+        },
+        "left_hand_below_chest_leg_lengths": {
+          "min": -0.21791482834563008,
+          "max": 0.06907497263207617,
+          "mean": -0.025756285348973056
+        },
+        "left_hand_chest_distance_leg_lengths": {
+          "min": 0.47713623230941815,
+          "max": 0.7547073447154388,
+          "mean": 0.6266891548202901
+        },
+        "right_knee_flex_deg": {
+          "min": 41.09495406656367,
+          "max": 102.48491545794109,
+          "mean": 80.34518584912524
+        },
+        "right_hand_below_chest_leg_lengths": {
+          "min": -0.6382790915578848,
+          "max": -0.5414056629468609,
+          "mean": -0.5932917268737612
+        },
+        "right_hand_chest_distance_leg_lengths": {
+          "min": 0.7065447735955983,
+          "max": 0.8037477637817577,
+          "mean": 0.743194999150396
+        }
+      },
+      "max_hip_extension_source_s": 0.5
+    }
+  }
+}

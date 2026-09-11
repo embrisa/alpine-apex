@@ -1,0 +1,11 @@
+{
+  "max_reopen_position_delta_m": 6.955730087688725e-07,
+  "max_reopen_matrix_coefficient_delta": 2.3827629049844035e-06,
+  "foot_drift_m": {
+    "LeftFoot": 4.922901762887607e-07,
+    "RightFoot": 4.4402007679179543e-07,
+    "LeftToeBase": 5.806379985019584e-07,
+    "RightToeBase": 5.04424670840876e-07
+  },
+  "segment_length_variation_m": 5.41823348140652e-05
+}

@@ -1,5 +1,12 @@
 # Meshy 7 skier
 
+## Current runtime motion
+
+The 24-bone character uses [full-curve motion](STEEP_MOTION_GAMEPLAY.md) with
+[connected articulation and deep tuck](SKIER_ANATOMY.md). The custom physical
+frame owns movement, contacts and manual airborne rotation. Cosmetic poses do
+not change physical mass, grip or movement. The solver source owns the current physics version; replay is v4.
+
 The active character is `assets/graphics/models/skier_v7.glb`, generated from
 `art_source/meshy/skier_v7/reference.png` using explicit `meshy-7`, Ultra geometry,
 4K albedo and PBR maps. The previous `skier.glb` and original Blender sources remain
@@ -8,10 +15,14 @@ with packed textures. The separate boot GLBs are also self-contained.
 
 ## Runtime preparation
 
-The generated mesh had 61,260 triangles. The prepared body has 35,900 triangles,
-and both boots together have 5,171. With the existing skis, bindings and poles,
-the complete rider is **42,063 triangles**, versus 43,113 before the grip/material pass. These are
-base mesh counts; Godot also generates automatic LODs. The larger albedo has a memory cost. See the measured model-v5 result in [rider physics validation](SKIER_PHYSICS.md#validation).
+The generated mesh had 61,260 triangles. The prepared body has 38,272 triangles
+after the [hand-only replacement](SKIER_HANDS.md) (previously 35,900),
+and both boots together have 5,171. The [detailed Meshy 7 equipment](EQUIPMENT.md)
+adds 48,000 triangles for both skis, bindings and poles. The earlier equipment
+totaled 992, giving the historical complete-rider count of 42,063. These are
+base mesh counts; Godot also generates automatic LODs. See the equipment page
+for current asset/performance checks and the historical model-v5 result in
+[rider physics validation](SKIER_PHYSICS.md#identity-and-validation).
 
 The preparation script preserves the 24-bone skin, restores source PBR maps,
 removes the rig viewer's emissive albedo, smooths normals and reduces geometry.
@@ -40,10 +51,10 @@ IK preserves segment lengths and a shared pelvis prevents detached hip targets.
 Full tuck retains approximately 30 degrees of torso pitch relative to the stance
 and about 8 degrees between pelvis and torso. Crouching comes from hips and knees.
 
-`scripts/art/skier_details.py` replaces the generated open hands with closed
-insulated gloves: four curved fingers, a crossing thumb and wrist cuffs. Each
-handle lies on a fixed grip axis through the fingers; wrist orientation follows
-the shaft. Fingers are fixed grip geometry, not independently animated digits.
+The [connected Meshy 7 gloves](SKIER_HANDS.md) replace the earlier separate
+finger tubes with four joined fingers, one thumb and fitted wrist cuffs.
+Each handle retains its existing grip axis; wrist orientation follows the
+shaft. Fingers remain fixed grip geometry, not independently animated digits.
 
 Crashes transfer the solved pose and momentum to a fifteen-body Jolt skeleton
 with knee/elbow hinges and bounded torso, neck, shoulder, hip and ankle joints.
@@ -60,7 +71,7 @@ for crash lifecycle, validation and explicit approximations.
 ```
 
 The current articulation/material suite passes 19 checks; the native graphics
-suite passes 25. See [rider physics validation](SKIER_PHYSICS.md#validation) for
+suite passes 25. See [rider physics validation](SKIER_PHYSICS.md#identity-and-validation) for
 physics, runtime, competition and crash checks and the measured Low result.
 
 The original advanced-rider inspection is in `artifacts/advanced_rider/visual/`, including
@@ -79,5 +90,5 @@ authorized 1,000 credits**. Balance changed from 4,005 to 3,965. The ledger and
 round-trip results are saved alongside the raw source under `art_source/meshy/skier_v7/`.
 
 The turning-anatomy correction and close rear-view inspection are documented in
-[the model-v6 notes](SKIER_PHYSICS.md#turning-anatomy--model-v6), with evidence in
+[the model-v6 notes](SKIER_ANATOMY.md), with evidence in
 `artifacts/turn_anatomy/`.

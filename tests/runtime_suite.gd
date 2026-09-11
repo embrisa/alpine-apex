@@ -21,13 +21,14 @@ func key(code: Key) -> void:
 	game._unhandled_input(event)
 
 func run() -> void:
+	set_meta("test_lab_fixture",true) # Explicit laboratory regression fixture.
 	game = load("res://main.tscn").instantiate()
 	root.add_child(game)
 	await process_frame
 	check(not game.active and game.hud.menu.visible,"Project opens at the start screen")
 	var dial_rect: Rect2 = game.hud.speed_dial.get_global_rect()
 	check(dial_rect.position.x>=0 and dial_rect.position.y>=0 and root.get_visible_rect().encloses(dial_rect),"Speed dial stays fully inside the viewport")
-	check(game.session.course_id=="laboratory-v3-physics-v12-default","Changed terrain and handling use a new benchmark identity")
+	check(game.session.course_id=="laboratory-v3-physics-v28-default","Grounded snow uses its new benchmark identity")
 	key(KEY_F2)
 	check(not game.active and game.hud.tuning_panel.visible,"Workbench pauses from the title screen")
 	var workbench_rect: Rect2 = game.hud.tuning_panel.get_global_rect()
@@ -65,6 +66,12 @@ func run() -> void:
 	check(game.vectors.visible and game.hud.debug_panel.visible,"Telemetry toggle enables instruments and world arrows")
 	key(KEY_M)
 	check(game.effects.muted,"Audio can be muted independently")
+	check(not game.effects.wind.audible,"Mute also disables procedural wind")
+	var original_wind_mode: int = game.effects.wind.mode
+	key(KEY_F7)
+	check(game.effects.wind.mode!=original_wind_mode and game.hud.wind_mode.selected==game.effects.wind.mode,"F7 compares wind and synchronizes settings")
+	key(KEY_F7)
+	check(game.effects.wind.mode==original_wind_mode,"F7 restores the previous wind mode")
 	key(KEY_C)
 	check(game.camera.close_view,"Camera toggle changes view mode")
 	key(KEY_V)
@@ -92,6 +99,8 @@ func run() -> void:
 	_lighting_checks()
 	_speed_band_checks()
 	_input_checks()
+	_camera_input_checks()
+	_camera_settings_checks()
 	_screen_direction_checks()
 	# Test release semantics so holding the start/jump button cannot make the
 	# first simulation step hop unintentionally.
@@ -105,7 +114,11 @@ func run() -> void:
 	await physics_frame
 	check(game.sim.grounded,"Releasing a button held through restart is also suppressed")
 	await _jump_release_checks()
+	await _controller_runtime_checks()
+	_haptic_lifecycle_checks()
 	_feedback_checks()
+	_impact_warning_checks()
+	await _impact_warning_reload_checks()
 	game.active = false
 	game.queue_free()
 	await process_frame
@@ -167,13 +180,88 @@ func _jump_release_checks() -> void:
 	game.resume()
 	check(game.sim.jump_buffer_remaining==0.0,"Resume does not restore a cancelled jump request")
 
+class ControllerSummit extends "res://scripts/world/test_slope.gd":
+	func launch_point(_heading: float) -> Vector3: return spawn_point()
+
+func _controller_runtime_checks() -> void:
+	var pad = preload("res://tests/controller_input_suite.gd")
+	game.set_physics_process(false); game.set_process(false)
+	game.application_focused = true
+	game.start_speed_lab(0)
+	await process_frame; await process_frame
+	game._physics_process(1.0/120.0)
+	pad.axis(JOY_AXIS_TRIGGER_RIGHT,1.0)
+	game._physics_process(1.0/120.0)
+	check(game.intent.jump_held and game.sim.grounded,"Physical R2 mapping prepares without jumping")
+	await process_frame; await process_frame
+	pad.axis(JOY_AXIS_TRIGGER_RIGHT,0.0)
+	game._physics_process(1.0/120.0)
+	check(game.intent.jump and game.sim.jump_executed,"Physical R2 release executes one hop")
+	for transition in ["restart","disconnect"]:
+		game.start_speed_lab(0)
+		await process_frame; await process_frame
+		game._physics_process(1.0/120.0)
+		pad.axis(JOY_AXIS_TRIGGER_RIGHT,1.0)
+		game._physics_process(1.0/120.0)
+		if transition=="restart": game.restart()
+		else: game._controller_connection_changed(0,false)
+		pad.axis(JOY_AXIS_TRIGGER_RIGHT,0.0)
+		game._physics_process(1.0/120.0)
+		check(not game.intent.jump and game.sim.grounded,"R2 held through "+transition+" cannot jump on release")
+	# A small summit fixture exercises production input/drop lifecycle without a bake.
+	var saved_field = game.field
+	game.field = ControllerSummit.new()
+	for control in ["forward","confirm"]:
+		game.start_speed_lab(0)
+		game.summit_ready = true; game.summit_drop_armed = true
+		await process_frame; await process_frame
+		game._physics_process(1.0/120.0)
+		pad.axis(JOY_AXIS_TRIGGER_RIGHT,1.0)
+		game._physics_process(1.0/120.0)
+		check(game.summit_ready,"R2 alone does not drop from the summit: "+control)
+		pad.axis(JOY_AXIS_TRIGGER_RIGHT,0.0)
+		game._physics_process(1.0/120.0)
+		if control=="forward":
+			pad.axis(JOY_AXIS_LEFT_Y,-1.0)
+			game._physics_process(1.0/120.0)
+			pad.axis(JOY_AXIS_LEFT_Y,0.0)
+		else:
+			root.gui_release_focus()
+			pad.button(JOY_BUTTON_A,true)
+			pad.button(JOY_BUTTON_A,false)
+		check(not game.summit_ready and not game.sim.jump_executed,"Summit "+control+" drops without an unintended hop")
+	game.field = saved_field
+	game.summit_ready = false
+	game.restart()
+
+func _haptic_lifecycle_checks() -> void:
+	game.effects.haptic_hardware_enabled = false
+	game.start_speed_lab(0)
+	game.effects.muted = true
+	game._physics_process(1.0/120.0)
+	check(game.effects.haptics.last_tick==game.sim.ticks,"Muted audio still samples haptics on completed simulation ticks")
+	for transition in ["pause","focus","restart","disconnect","zero"]:
+		game.start_speed_lab(0)
+		game.effects.haptics.pending_impact = 10.0
+		game.effects.update_haptics(0.0,true,false,.5)
+		check(game.effects.haptic_output.y>0.0,"Arm a real output envelope before "+transition)
+		if transition=="pause": game.active = false
+		elif transition=="focus": game._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+		elif transition=="restart": game.restart()
+		elif transition=="disconnect": game._controller_connection_changed(0,false)
+		else: game.hud.tuning_sliders.vibration_intensity.value = 0.0
+		check(game.effects.haptic_output==Vector3.ZERO and game.effects.haptics.pending_impact==0.0,"Lifecycle immediately stops haptics: "+transition)
+	game.hud.tuning_sliders.vibration_intensity.value = .5
+	game.application_focused = true
+	game.restart()
+
 func _feedback_checks() -> void:
 	game.active = false
 	game.sim.reset(Vector3.ZERO)
 	game.intent = RiderInput.new()
 	game.sim.impacts.hit(10.5,10.5,"HARD LANDING",game.sim.tuning)
 	game.hud.update_hud(game.sim,game.session,game.intent,"Test",8.3,.1,.1,true)
-	check(game.hud.state_label.text.begins_with("HARD LANDING") and absf(game.hud.impact_bar.value-65.0)<.001,"Rough landing reduces the visible impact reserve by severity")
+	check(game.hud.state_label.text.begins_with("HARD LANDING") and absf(game.hud.impact_bar.value-70.0)<.001,"Rough landing reduces the visible impact reserve by severity")
 	var paused_reserve: float = game.sim.impacts.reserve
 	game._physics_process(30.0)
 	game.hud.update_hud(game.sim,game.session,game.intent,"Test",8.3,.1,30.0,true)
@@ -195,6 +283,83 @@ func _feedback_checks() -> void:
 	check(game.hud.state_label.text=="IMPACT LIMIT / HARD LANDING","Crash reason takes priority over jump readiness")
 	game.restart()
 	check(game.sim.impacts.reserve==1.0 and not game.sim.crashed,"Restart restores the full impact bar after a fall")
+
+func _impact_warning_checks() -> void:
+	game.set_process(false)
+	game.set_physics_process(false)
+	for condition in ["stationary","airborne","rock"]:
+		game.start_speed_lab(0)
+		game.application_focused = true
+		game.camera.effects_enabled = false
+		game.sim.impacts.reserve = 0.1
+		game.sim.grounded = condition!="airborne"
+		game.sim.rock_contact = 1.0 if condition=="rock" else 0.0
+		var position: Vector3 = game.sim.position
+		var velocity: Vector3 = game.sim.velocity
+		var eligible: bool = game.session.eligible
+		var elapsed: float = game.session.elapsed
+		game._update_screen_effects(1.0)
+		check(game.speed_periphery.visible and game.impact_warning.strength>0.5,"Warning builds visibly within a second without speed effects: "+condition)
+		check(game.impact_warning.pulse==0.65 and game.speed_periphery.material.get_shader_parameter("intensity")==0.0,"V off keeps steady warning and disables speed sampling")
+		check(game.sim.position==position and game.sim.velocity==velocity and game.sim.impacts.reserve==0.1 and game.session.eligible==eligible and game.session.elapsed==elapsed,"Warning observation leaves skiing, reserve and race state unchanged")
+	game.camera.effects_enabled = true
+	game.hud.feedback.reduced_motion = true
+	game._update_screen_effects(0.1)
+	check(game.speed_periphery.visible and game.impact_warning.pulse==0.65,"Reduced interface motion suppresses warning pulsing")
+	game.hud.feedback.reduced_motion = false
+	game._update_screen_effects(0.1)
+	check(game.impact_warning.phase>0.0,"Normal motion permits the warning pulse")
+	for transition in ["pause","crash","results","loading","focus","reload","summit_return","restart"]:
+		game.restart()
+		game.application_focused = true
+		game.sim.impacts.reserve = 0.1
+		game._update_screen_effects(1.0)
+		if transition=="pause": game.active = false
+		elif transition=="crash": game.sim.crash("IMPACT LIMIT / HARD LANDING")
+		elif transition=="results": game.active = false; game.hud.show_menu("finished")
+		elif transition=="loading": game.loading.busy = true
+		elif transition=="focus": game._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+		elif transition=="reload": game.transitioning = true
+		elif transition=="summit_return": game.returning_to_summit = true
+		else: game.restart()
+		if transition!="restart": game._update_screen_effects(0.1)
+		check(not game.speed_periphery.visible and game.impact_warning.strength==0.0 and game.impact_warning.phase==0.0,"Screen warning clears for "+transition)
+		game.loading.busy = false
+		game.transitioning = false
+		game.returning_to_summit = false
+	game.restart()
+	game.application_focused = true
+	game.camera.effects_enabled = false
+	game.sim.impacts.reserve = 0.1
+	game._update_screen_effects(1.0)
+	game.active = false
+	game.resume()
+	game._update_screen_effects(1.0/120.0)
+	check(game.impact_warning.strength>0.0 and game.impact_warning.strength<0.05,"Resume fades from current reserve instead of restoring a stale pulse")
+	game.restart()
+	game._update_screen_effects(0.1)
+	check(not game.speed_periphery.visible,"A healthy restart needs no screen pass with speed effects off")
+
+func _impact_warning_reload_checks() -> void:
+	# Exercise the real scene reload using the inexpensive laboratory fixture.
+	current_scene = game
+	game.sim.impacts.reserve = 0.1
+	game.application_focused = true
+	game.hud.feedback.reduced_motion = true
+	game._update_screen_effects(1.0)
+	var old_warning = game.impact_warning
+	check(old_warning.strength>0.5,"Arm warning before actual scene reload")
+	game._remember_world_settings()
+	var error = reload_current_scene()
+	check(error==OK,"World scene reload dispatch succeeds")
+	if error!=OK: return
+	await scene_changed
+	game = current_scene
+	while not game.initialized or game.loading.busy: await process_frame
+	game.set_process(false)
+	game.set_physics_process(false)
+	check(game.impact_warning!=old_warning and game.impact_warning.strength==0.0 and not game.speed_periphery.visible,"Scene reload creates a clean warning controller and hidden screen pass")
+	check(game.hud.feedback.reduced_motion and not game.camera.effects_enabled,"Scene reload retains steady-warning comfort preferences")
 
 func _speed_band_checks() -> void:
 	game.active = false
@@ -236,7 +401,7 @@ func _input_checks() -> void:
 	for action in ["steer_right","tuck","brake"]:
 		Input.action_release(action)
 	var correct = true
-	for item in [["steer_left",JOY_AXIS_LEFT_X,-1.0],["steer_right",JOY_AXIS_LEFT_X,1.0],["tuck",JOY_AXIS_TRIGGER_RIGHT,1.0],["brake",JOY_AXIS_TRIGGER_LEFT,1.0]]:
+	for item in [["steer_left",JOY_AXIS_LEFT_X,-1.0],["steer_right",JOY_AXIS_LEFT_X,1.0],["tuck",JOY_AXIS_LEFT_Y,-1.0],["brake",JOY_AXIS_TRIGGER_LEFT,1.0],["jump",JOY_AXIS_TRIGGER_RIGHT,1.0]]:
 		var found = false
 		for event in InputMap.action_get_events(item[0]):
 			if event is InputEventJoypadMotion and event.axis==item[1] and event.axis_value==item[2]:
@@ -247,6 +412,127 @@ func _input_checks() -> void:
 	a.physical_keycode = KEY_A
 	a.pressed = true
 	check(a.is_action_pressed("steer_left"),"Keyboard physical A maps to left steering")
+
+func _camera_settings_checks() -> void:
+	game.automated = false
+	game.restart()
+	game.active = false
+	game.hud.show_menu("paused")
+	game.hud.open_settings()
+	game._sync_camera_controls()
+	var before = [game.sim.position,game.sim.velocity,game.sim.heading,game.session.elapsed,game.session.eligible,game.physics_modified]
+	game.hud.camera_setting_controls.rest_distance.value = 4.5
+	game.hud.camera_setting_controls.fast_distance.value = 9.5
+	game.hud.camera_setting_controls.rest_height.value = 5.5
+	game.hud.camera_setting_controls.fast_height.value = 11.5
+	game.hud.camera_setting_controls.vertical_smoothing.value = 70.0
+	game.hud.camera_setting_controls.forest_visibility.value = 35.0
+	check(game.camera_settings.forest_visibility==35.0 and game.hud.camera_setting_readouts.forest_visibility.text=="35%","Forest visibility slider reaches local presentation settings")
+	var lens_tilt = {"rest_fov":85.0,"fast_fov":65.0,"chase_pitch_offset":12.0,"first_person_pitch_offset":-8.0}
+	for key in lens_tilt: game.hud.camera_setting_controls[key].value = lens_tilt[key]
+	for key in lens_tilt: check(game.camera_settings.get(key)==lens_tilt[key],"Lens/tilt slider reaches the live camera: " + key)
+	check(game.hud.camera_setting_readouts.rest_fov.text=="85°" and game.hud.camera_setting_readouts.fast_fov.text=="65°" and game.hud.camera_setting_readouts.chase_pitch_offset.text=="+12°" and game.hud.camera_setting_readouts.first_person_pitch_offset.text=="-8°","FoV and tilt display degrees and tilt direction")
+	check(game.camera.settings == game.camera_settings and game.camera_settings.rest_distance == 4.5 and game.camera_settings.fast_distance == 9.5, "Settings sliders update the live camera preferences")
+	check(game.camera_settings.rest_height == 5.5 and game.camera_settings.fast_height == 11.5 and game.camera_settings.vertical_smoothing == 70.0,"Height and stabilization controls reach the live camera")
+	check(game.hud.camera_setting_readouts.rest_height.text == "5.50 m" and game.hud.camera_setting_readouts.vertical_smoothing.text == "70%","Camera controls display metres and percentages correctly")
+	check(game.hud.camera_setting_readouts.rest_distance.text == "4.50 m" and not game.camera_controls_active, "Distance readouts update while settings retain cursor control")
+	check(before == [game.sim.position,game.sim.velocity,game.sim.heading,game.session.elapsed,game.session.eligible,game.physics_modified], "Camera menu changes preserve solver, replay eligibility and physics tuning")
+	game._remember_world_settings()
+	check(get_meta("world_reload_settings").camera == game.camera_settings.snapshot(), "Mountain reload carries all camera preferences")
+	remove_meta("world_reload_settings")
+	game.restart()
+	check(game.camera_settings.rest_distance == 4.5 and game.camera_settings.fast_distance == 9.5, "Restart retains configured camera distances")
+	check(game.camera_settings.rest_height == 5.5 and game.camera_settings.fast_height == 11.5 and game.camera_settings.vertical_smoothing == 70.0,"Restart retains configured heights and smoothing")
+	check(game.camera_settings.forest_visibility==35.0,"Restart retains forest visibility preference")
+	for key in lens_tilt: check(game.camera_settings.get(key)==lens_tilt[key],"Restart retains lens/tilt: " + key)
+	game.hud.camera_reset_button.pressed.emit()
+	check(game.camera_settings.snapshot() == game.CameraSettings.DEFAULTS and game.hud.camera_setting_controls.rest_height.value == 6.0 and game.hud.camera_setting_controls.vertical_smoothing.value == 50.0, "Camera reset button restores all defaults and synchronizes sliders")
+	for key in game.CameraSettings.DEFAULTS:
+		check(game.hud.camera_setting_controls[key].value == game.CameraSettings.DEFAULTS[key],"Reset synchronizes camera slider: " + key)
+	game.automated = true
+	game.hud.camera_setting_requested.emit("rest_distance",12.0)
+	game.hud.camera_setting_requested.emit("rest_height",12.0)
+	game.hud.camera_setting_requested.emit("vertical_smoothing",0.0)
+	for key in lens_tilt: game.hud.camera_setting_requested.emit(key,lens_tilt[key])
+	check(not game.preferences_enabled and game.camera_settings.snapshot() == game.CameraSettings.DEFAULTS, "Automated runs ignore preference loading and all live camera changes")
+	game.automated = false
+	game.hud.close_weather()
+	game.restart()
+
+func _camera_input_checks() -> void:
+	game.set_physics_process(false)
+	game.set_process(false)
+	game.restart()
+	game._sync_camera_controls()
+	check(game.camera_controls_active, "Active skiing enables camera controls")
+	game._process(0.016) # Observe a neutral stick after restart.
+	var snapshot = [game.sim.position,game.sim.velocity,game.sim.heading,game.session.elapsed,game.session.eligible]
+	var motion = InputEventMouseMotion.new()
+	motion.screen_relative = Vector2(400, 100)
+	game.discard_camera_mouse_motion = false
+	game._unhandled_input(motion)
+	game._process(0.016)
+	check(game.camera.look_yaw < -0.6 and game.camera.look_pitch < 0.0, "Mouse motion reaches independent camera look")
+	check(snapshot == [game.sim.position,game.sim.velocity,game.sim.heading,game.session.elapsed,game.session.eligible], "Mouse look preserves skier state, timing and record eligibility")
+	Input.action_press("look_right",1.0)
+	game._process(0.016)
+	check(game.camera.look_yaw < -0.7 and game.input_router.sample().steer == 0.0, "Right stick looks independently of steering")
+	key(KEY_ESCAPE)
+	check(not game.camera_controls_active and game.camera.pending_mouse.is_zero_approx() and game.camera.pending_stick.is_zero_approx(), "Pause releases camera controls and pending motion")
+	game._unhandled_input(motion)
+	check(game.camera.pending_mouse.is_zero_approx(), "Menu mouse motion cannot leak into look")
+	key(KEY_ESCAPE)
+	var yaw: float = game.camera.look_yaw
+	game._process(0.016)
+	check(game.camera.look_yaw == yaw and not game.camera_stick_armed, "Stick held through pause must return to neutral")
+	Input.action_release("look_right")
+	game._process(0.016)
+	check(game.camera_stick_armed, "Neutral rearms camera stick after pause")
+	for panel in [game.hud.tuning_panel,game.hud.weather_panel,game.hud.competition.panel,game.mountain_library.panel]:
+		panel.visible = true
+		game._sync_camera_controls()
+		check(not game.camera_controls_active, "Visible UI panel releases look controls: " + panel.name)
+		panel.visible = false
+		game._sync_camera_controls()
+	game.workshop.mode = "create"
+	game._sync_camera_controls()
+	check(not game.camera_controls_active, "Race authoring retains cursor control")
+	game.workshop.mode = ""
+	game._sync_camera_controls()
+	game._notification(Node.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	check(not game.camera_controls_active and not game.active, "Focus loss releases camera and pauses")
+	game._notification(Node.NOTIFICATION_APPLICATION_FOCUS_IN)
+	check(not game.camera_controls_active, "Focus return does not silently recapture the mouse")
+	game.resume()
+	game.camera.add_mouse_look(Vector2(100, 0))
+	game.automated = true
+	game._sync_camera_controls()
+	game._unhandled_input(motion)
+	Input.action_press("look_right", 1.0)
+	yaw = game.camera.look_yaw
+	game._process(0.016)
+	check(not game.camera_controls_active and game.camera.pending_mouse.is_zero_approx() and game.camera.look_yaw == yaw, "Autoplay ignores live mouse and right-stick input")
+	Input.action_release("look_right")
+	game.automated = false
+	game._sync_camera_controls()
+	key(KEY_C)
+	check(game.camera.look_yaw == 0.0 and not game.camera_stick_armed, "Camera switch resets look and requires neutral stick")
+	game.camera.look_yaw = 1.0
+	game.camera.carve_blend = 1.0
+	game.restart()
+	check(game.camera.look_yaw == 0.0 and game.camera.carve_blend == 0.0, "Restart clears free look and carving")
+	game.summit_ready = true
+	game.camera.add_mouse_look(Vector2(900, 0))
+	snapshot = [game.sim.position,game.sim.heading]
+	game._process(0.016)
+	check(game.camera.look_yaw < -1.5 and snapshot == [game.sim.position,game.sim.heading], "Summit view accepts look without choosing another descent heading")
+	game.summit_ready = false
+	game.sim.crash("CAMERA TEST")
+	game._sync_camera_controls()
+	check(not game.camera_controls_active, "Crash releases camera controls")
+	game.restart()
+	game.set_process(true)
+	game.set_physics_process(true)
 
 func _weather_checks() -> void:
 	var controller = game.weather

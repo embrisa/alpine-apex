@@ -12,7 +12,7 @@ uniform float snow_coverage : hint_range(0.0,1.0) = 0.72;
 varying vec3 tree_world_normal;
 varying flat float lod_coverage;
 void vertex() {
- lod_coverage=pc_lod_coverage(MAIN_CAM_INV_VIEW_MATRIX[3].xyz);
+ lod_coverage=pc_lod_coverage(MAIN_CAM_INV_VIEW_MATRIX[3].xyz,MODEL_MATRIX[3].xyz,MODEL_MATRIX);
  vec3 p=(MODEL_MATRIX*vec4(VERTEX,1)).xyz;
  float close=1.0-smoothstep(90.0,180.0,length((VIEW_MATRIX*vec4(p,1)).xyz));
  float crown=pow(clamp((VERTEX.y-1.8)/8.7,0.0,1.0),2.0);

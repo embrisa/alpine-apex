@@ -1,0 +1,426 @@
+{
+	"bones": 24,
+	"builders": {
+		"scripts/art/export_ski_motion.gd": "6ba07393cae3768c8b1b95c12182a1b595e4e17a90ab15a30193a35aed28568b",
+		"scripts/art/recover_ski_motion.py": "7605b4a532a5a2d1f74293d5ed31b3529ad096b02a36555315fbba6f681714fd",
+		"scripts/art/retarget_ski_research.py": "a8f13902d8c99888467f85cd85bcf96b60f15022379a8defc0b7190d2fcc4b32"
+	},
+	"bytes": 2473209,
+	"clips": [
+		{
+			"duration_s": 2.33333325386047,
+			"frames": 141,
+			"name": "Research_AIR",
+			"source_local_step_degrees": 3.66821072347647
+		},
+		{
+			"duration_s": 1.33333337306976,
+			"frames": 81,
+			"name": "Research_AIR_BACKFLIP_LONG",
+			"source_local_step_degrees": 0.60780700829521
+		},
+		{
+			"duration_s": 1.33333337306976,
+			"frames": 81,
+			"name": "Research_AIR_FRONTFLIP_LONG",
+			"source_local_step_degrees": 0.323851311742465
+		},
+		{
+			"duration_s": 1.33333337306976,
+			"frames": 81,
+			"name": "Research_AIR_LONG",
+			"source_local_step_degrees": 1.48990310115732
+		},
+		{
+			"duration_s": 1.33333337306976,
+			"frames": 81,
+			"name": "Research_AIR_SPINLEFT_LONG",
+			"source_local_step_degrees": 0.868631068604517
+		},
+		{
+			"duration_s": 1.33333337306976,
+			"frames": 81,
+			"name": "Research_AIR_SPINRIGHT_LONG",
+			"source_local_step_degrees": 0.870431357059344
+		},
+		{
+			"duration_s": 0.5,
+			"frames": 31,
+			"name": "Research_AIR_TO_LAND",
+			"source_local_step_degrees": 5.72697061196994
+		},
+		{
+			"duration_s": 0.5,
+			"frames": 31,
+			"name": "Research_AIR_TO_LAND_BACKFLIP",
+			"source_local_step_degrees": 11.2917344764358
+		},
+		{
+			"duration_s": 0.5,
+			"frames": 31,
+			"name": "Research_AIR_TO_LAND_BACKFLIP_SPINLEFT_PANIC",
+			"source_local_step_degrees": 5.72970781027983
+		},
+		{
+			"duration_s": 2.33333325386047,
+			"frames": 141,
+			"name": "Research_GRAB_MUTE",
+			"source_local_step_degrees": 10.1713853770678
+		},
+		{
+			"duration_s": 2.20000004768372,
+			"frames": 133,
+			"name": "Research_GRAB_SAFETY",
+			"source_local_step_degrees": 12.4923451287407
+		},
+		{
+			"duration_s": 0.933333337306976,
+			"frames": 57,
+			"name": "Research_LANDING_TO_FWD_MED_P01_01",
+			"source_local_step_degrees": 11.2513390301371
+		},
+		{
+			"duration_s": 0.933333337306976,
+			"frames": 57,
+			"name": "Research_LANDING_TO_FWD_MED_P01_01_SWITCH_HEAD_LEFT",
+			"source_local_step_degrees": 12.7705455638245
+		},
+		{
+			"duration_s": 0.933333337306976,
+			"frames": 57,
+			"name": "Research_LANDING_TO_FWD_MED_P03_01",
+			"source_local_step_degrees": 11.0294799717431
+		},
+		{
+			"duration_s": 3.0,
+			"frames": 181,
+			"name": "Research_NAV_DRIFT_LEFT_FWD_10",
+			"source_local_step_degrees": 8.43707996471746
+		},
+		{
+			"duration_s": 3.0,
+			"frames": 181,
+			"name": "Research_NAV_DRIFT_LEFT_FWD_90",
+			"source_local_step_degrees": 8.02927754390632
+		},
+		{
+			"duration_s": 4.63333320617676,
+			"frames": 279,
+			"name": "Research_NAV_FAST_FWD",
+			"source_local_step_degrees": 1.17102803579246
+		},
+		{
+			"duration_s": 2.0,
+			"frames": 121,
+			"name": "Research_NAV_FAST_FWD_SPEED",
+			"source_local_step_degrees": 0.833686913676233
+		},
+		{
+			"duration_s": 2.0,
+			"frames": 121,
+			"name": "Research_NAV_FAST_LEFT_SPEED",
+			"source_local_step_degrees": 0.600030837925151
+		},
+		{
+			"duration_s": 2.0,
+			"frames": 121,
+			"name": "Research_NAV_FAST_RIGHT_SPEED",
+			"source_local_step_degrees": 0.602634047133425
+		},
+		{
+			"duration_s": 2.66666674613953,
+			"frames": 161,
+			"name": "Research_NAV_FWD_SOFT_COLLISION_01",
+			"source_local_step_degrees": 8.61139749139359
+		},
+		{
+			"duration_s": 6.86666679382324,
+			"frames": 413,
+			"name": "Research_NAV_MED_FWD",
+			"source_local_step_degrees": 0.60393146291061
+		},
+		{
+			"duration_s": 2.0,
+			"frames": 121,
+			"name": "Research_NAV_MED_LEFT",
+			"source_local_step_degrees": 2.1615696034278
+		},
+		{
+			"duration_s": 2.0,
+			"frames": 121,
+			"name": "Research_NAV_MED_RIGHT",
+			"source_local_step_degrees": 3.29253409742649
+		},
+		{
+			"duration_s": 3.20000004768372,
+			"frames": 193,
+			"name": "Research_NAV_MED_TURNS_SWITCH",
+			"source_local_step_degrees": 4.82953668899634
+		},
+		{
+			"duration_s": 2.0,
+			"frames": 121,
+			"name": "Research_NAV_OLLIE_FWD",
+			"source_local_step_degrees": 1.02259030932492
+		},
+		{
+			"duration_s": 2.0,
+			"frames": 121,
+			"name": "Research_NAV_OLLIE_FWD_SWITCH_HEAD_LEFT",
+			"source_local_step_degrees": 0.356082707631491
+		},
+		{
+			"duration_s": 4.63333320617676,
+			"frames": 279,
+			"name": "Research_NAV_SLOW_FWD",
+			"source_local_step_degrees": 0.197823502642807
+		},
+		{
+			"duration_s": 2.0,
+			"frames": 121,
+			"name": "Research_NAV_SLOW_LEFT",
+			"source_local_step_degrees": 0.301315983030081
+		},
+		{
+			"duration_s": 2.0,
+			"frames": 121,
+			"name": "Research_NAV_SLOW_RIGHT",
+			"source_local_step_degrees": 0.429783463664117
+		},
+		{
+			"duration_s": 0.5,
+			"frames": 31,
+			"name": "Research_OLLIE_BACKFLIP_TO_AIR",
+			"source_local_step_degrees": 15.8338691848759
+		},
+		{
+			"duration_s": 0.766666650772095,
+			"frames": 47,
+			"name": "Research_OLLIE_HIGH_TO_AIR",
+			"source_local_step_degrees": 14.1912829677951
+		},
+		{
+			"duration_s": 0.766666650772095,
+			"frames": 47,
+			"name": "Research_OLLIE_HIGH_TO_AIR_SWITCH_HEAD_LEFT",
+			"source_local_step_degrees": 14.3767593160277
+		}
+	],
+	"format_version": 1,
+	"joint_comparisons": 95640,
+	"limitations": [
+		"Local retarget prototype; Steep evaluated graph and target timing are not recovered.",
+		"Gloves have fixed fingers; pole grip calibration and full grasp deformation remain limited."
+	],
+	"local_frame": "Parent-relative rotation deltas in Apex model axes, plus support-relative landmarks. Reconstruct with invariant target rest links.",
+	"mapping": {
+		"Head": "Head",
+		"Hips": "Hips",
+		"LeftArm": "LeftArm",
+		"LeftFoot": "LeftFoot",
+		"LeftForeArm": "LeftForeArm",
+		"LeftHand": "LeftHand",
+		"LeftLeg": "LeftLeg",
+		"LeftShoulder": "LeftShoulder",
+		"LeftUpLeg": "LeftUpLeg",
+		"RightArm": "RightArm",
+		"RightFoot": "RightFoot",
+		"RightForeArm": "RightForeArm",
+		"RightHand": "RightHand",
+		"RightLeg": "RightLeg",
+		"RightShoulder": "RightShoulder",
+		"RightUpLeg": "RightUpLeg",
+		"Spine": "Spine2",
+		"Spine01": "Spine1",
+		"Spine02": "Spine",
+		"neck": "Neck"
+	},
+	"max_fk_reconstruction_m": 0.00000761690580475261,
+	"max_segment_drift_m": 0.0000025331974029541,
+	"output": "res://assets/animation/steep_ski_motion.res",
+	"output_sha256": "94e9795933228171dffb2c52e7ece9534a959e6996abaf30a2f80bf26c862fe4",
+	"recovery": {
+		"clips": [
+			"NAV_MED_FWD",
+			"NAV_MED_LEFT",
+			"NAV_MED_RIGHT",
+			"OLLIE_BACKFLIP_TO_AIR",
+			"AIR_BACKFLIP_LONG",
+			"AIR_TO_LAND_BACKFLIP",
+			"GRAB_SAFETY",
+			"AIR_TO_LAND_BACKFLIP_SPINLEFT_PANIC",
+			"NAV_SLOW_FWD",
+			"NAV_SLOW_LEFT",
+			"NAV_SLOW_RIGHT",
+			"NAV_FAST_FWD",
+			"NAV_FAST_FWD_SPEED",
+			"NAV_FAST_LEFT_SPEED",
+			"NAV_FAST_RIGHT_SPEED",
+			"NAV_OLLIE_FWD",
+			"OLLIE_HIGH_TO_AIR",
+			"AIR",
+			"AIR_LONG",
+			"AIR_TO_LAND",
+			"LANDING_TO_FWD_MED_P01_01",
+			"LANDING_TO_FWD_MED_P03_01",
+			"NAV_DRIFT_LEFT_FWD_10",
+			"NAV_DRIFT_LEFT_FWD_90",
+			"NAV_MED_TURNS_SWITCH",
+			"NAV_OLLIE_FWD_SWITCH_HEAD_LEFT",
+			"OLLIE_HIGH_TO_AIR_SWITCH_HEAD_LEFT",
+			"LANDING_TO_FWD_MED_P01_01_SWITCH_HEAD_LEFT",
+			"AIR_SPINLEFT_LONG",
+			"AIR_SPINRIGHT_LONG",
+			"AIR_FRONTFLIP_LONG",
+			"GRAB_MUTE",
+			"NAV_FWD_SOFT_COLLISION_01"
+		],
+		"corrected_timestamps": 739.0,
+		"decoder_files": {
+			"Program.cs": "907ea5d5b5adcccf02c905f1befa22a00447ccfad5b09939aae34ee305de43fc",
+			"build_glb.py": "c84476ad72bdcfe00ad5fec144a7c6d9e7ec86513193d291e44464f4f829bc0d",
+			"decode_times.py": "9917273c15fd0cb44395d727f09ec72652f409f93dc8a6fe039699efbb7034e6",
+			"probe_tracks.py": "cbaf8e9ce1c2c7159231423db9e64b584707580a263113850a10771d4226d976"
+		},
+		"original_resources": [
+			{
+				"file": "6823_-_ID01_PS00_female_NAV_MED_FWD.Animation",
+				"sha256": "17054f69fd51eabd4f6af24b7f9ce1c448171042026e18d1c68ad2ad12efa092"
+			},
+			{
+				"file": "6825_-_ID01_PS00_female_NAV_MED_LEFT.Animation",
+				"sha256": "afb1de500697280abeb99a3ed058284f03969d3328e5dd460e2e001d95e1289d"
+			},
+			{
+				"file": "6826_-_ID01_PS00_female_NAV_MED_RIGHT.Animation",
+				"sha256": "69214978994fae0e7fe739b750e41be595c36ec8877150c1f48de528de484b37"
+			},
+			{
+				"file": "6798_-_ID01_PS00_female_OLLIE_BACKFLIP_TO_AIR.Animation",
+				"sha256": "08e558c1b0100c85d4a722e9f4629fcf77dc98e3dd3c1e698cc76ebcb5ced438"
+			},
+			{
+				"file": "6593_-_ID01_PS00_female_AIR_BACKFLIP_LONG.Animation",
+				"sha256": "095f5b6a70a98b54d87f14edd7b2ae18b32243984a5474135d1f594480dbfaf1"
+			},
+			{
+				"file": "6641_-_ID01_PS00_female_AIR_TO_LAND_BACKFLIP.Animation",
+				"sha256": "eb0fb4ea700038b42a271a88ad2fee7933b4c7dfc23747fb69890fb2467f2760"
+			},
+			{
+				"file": "6558_-_ID01_PS00_female_GRAB_SAFETY.Animation",
+				"sha256": "6358fc6beffe364dc50af85e2c61ba6cb56849d8e63759ede7c0c5b51720f522"
+			},
+			{
+				"file": "6643_-_ID01_PS00_female_AIR_TO_LAND_BACKFLIP_SPINLEFT_PANIC.Animation",
+				"sha256": "2da78d7cae0b7c5f00ffd3d24fc89fced0d63008b2469bf60c6c94ba7ac94ab3"
+			},
+			{
+				"file": "6833_-_ID01_PS00_female_NAV_SLOW_FWD.Animation",
+				"sha256": "98475efdcfc5c816befc844181c437406f2033a6af355eea3e412f2e0937288b"
+			},
+			{
+				"file": "6836_-_ID01_PS00_female_NAV_SLOW_LEFT.Animation",
+				"sha256": "baedc914aab407d77f3010ef6f4fbcc68b563e60bbb9e56d566f4a8af036832d"
+			},
+			{
+				"file": "6837_-_ID01_PS00_female_NAV_SLOW_RIGHT.Animation",
+				"sha256": "f3bf063cce78e0ea43881148386fbd517a4bf1cf27f8668e8f1e012ffa64dd42"
+			},
+			{
+				"file": "6812_-_ID01_PS00_female_NAV_FAST_FWD.Animation",
+				"sha256": "434c271b4756ed72a55e826a1d0f1f57c1a65dbb5e0c09f21951c6525bd3649c"
+			},
+			{
+				"file": "6813_-_ID01_PS00_female_NAV_FAST_FWD_SPEED.Animation",
+				"sha256": "91f852126056a658072a3747c9266632d487f9302478e1952e6e9278accb697d"
+			},
+			{
+				"file": "6815_-_ID01_PS00_female_NAV_FAST_LEFT_SPEED.Animation",
+				"sha256": "bab2bf8dd4d8e2518dcb77a2008aa569d15f406fed370f9e7101b5f22b2f5c6c"
+			},
+			{
+				"file": "6816_-_ID01_PS00_female_NAV_FAST_RIGHT_SPEED.Animation",
+				"sha256": "fe28e61d3c5a55c066bcbadd12e1871f8561d53b2d1ca7c8f232eea9ad4c2c2b"
+			},
+			{
+				"file": "6788_-_ID01_PS00_female_NAV_OLLIE_FWD.Animation",
+				"sha256": "d65ead26c58864966499e5b48e7cd5f76722e4ae9edcad6c2b0abf5a06da0df8"
+			},
+			{
+				"file": "6802_-_ID01_PS00_female_OLLIE_HIGH_TO_AIR.Animation",
+				"sha256": "a9e646ff96f5f5c62c6cad84ed87e3acb987e918ca939dc7fd65cea732a0e93c"
+			},
+			{
+				"file": "6591_-_ID01_PS00_female_AIR.Animation",
+				"sha256": "aaa492b29c93621040adb2a4c055d6bd2330d0a214bf66373050449beb1a97df"
+			},
+			{
+				"file": "6606_-_ID01_PS00_female_AIR_LONG.Animation",
+				"sha256": "32db58daab88e8df51a1d745a50ab84c3c7b01823c1d6c6f518280fa6153ca3c"
+			},
+			{
+				"file": "6640_-_ID01_PS00_female_AIR_TO_LAND.Animation",
+				"sha256": "d0df320780bc861f4505b0e2a00d55bc29bae8b6a15a2c36b678a950bdb9f00f"
+			},
+			{
+				"file": "7078_-_ID01_PS00_female_LANDING_TO_FWD_MED_P01_01.Animation",
+				"sha256": "8db85433d7591390e0338d22b4afae44e652a62bc568fb20c9323a3ef4a9fdc7"
+			},
+			{
+				"file": "7080_-_ID01_PS00_female_LANDING_TO_FWD_MED_P03_01.Animation",
+				"sha256": "e179e3ee786c22fe5611ec86a591689b586d4e9ef2d662dff26fdffde05a636f"
+			},
+			{
+				"file": "7231_-_ID01_PS00_female_NAV_DRIFT_LEFT_FWD_10.Animation",
+				"sha256": "e2a7b19e3853de017c5301fda4de9cf5a44033f6def615e381f680d457e2a853"
+			},
+			{
+				"file": "7232_-_ID01_PS00_female_NAV_DRIFT_LEFT_FWD_90.Animation",
+				"sha256": "445cb296bda8302251278b9c92bf2665f1bad0147b91e0689305fdc01dfbfae0"
+			},
+			{
+				"file": "6850_-_ID01_PS00_female_NAV_MED_TURNS_SWITCH.Animation",
+				"sha256": "d3e595de09d5dd475aec3d55bfbf1e214c64a33a4e01051fcb8a4e1dde69a234"
+			},
+			{
+				"file": "8119_-_ID01_PS00_female_NAV_OLLIE_FWD_SWITCH_HEAD_LEFT.Animation",
+				"sha256": "aa51271d71e3093c416c4d727aee34d32d392830b40a3178b3956661be083882"
+			},
+			{
+				"file": "6810_-_ID01_PS00_female_OLLIE_HIGH_TO_AIR_SWITCH_HEAD_LEFT.Animation",
+				"sha256": "608f7012c89416ef7019912d52bcd954f109fc8504edf45d678f564b249fb9b9"
+			},
+			{
+				"file": "7082_-_ID01_PS00_female_LANDING_TO_FWD_MED_P01_01_SWITCH_HEAD_LEFT.Animation",
+				"sha256": "5f1586a1a5a0db2defbf11b03729246dd4dd12684bda363b004ddf9a57c037f0"
+			},
+			{
+				"file": "6637_-_ID01_PS00_female_AIR_SPINLEFT_LONG.Animation",
+				"sha256": "24b651ea88499dea3b1276a68df6b4a2ff3439ec48eb7be2e9c7137c005f8c9a"
+			},
+			{
+				"file": "6639_-_ID01_PS00_female_AIR_SPINRIGHT_LONG.Animation",
+				"sha256": "8fcda465dda13841844923a36999c6b6ee6a392923b9ed078bbfef32d0f6ca18"
+			},
+			{
+				"file": "6599_-_ID01_PS00_female_AIR_FRONTFLIP_LONG.Animation",
+				"sha256": "d86bb4e1cd20f211a72f827e12936fb2315f60f60fc8bf75d45c1a0e6b094465"
+			},
+			{
+				"file": "6570_-_ID01_PS00_female_GRAB_MUTE.Animation",
+				"sha256": "795888a5b43ef5f2c758768391a9f365d7372c9f941f83d30d09aaf4b3494cf2"
+			},
+			{
+				"file": "7375_-_ID01_PS00_female_NAV_FWD_SOFT_COLLISION_01.Animation",
+				"sha256": "be7db74b58435d28659afd24a8f9cdd18ae7bd914f62891dc35c8f6f24daebec"
+			}
+		],
+		"scope": "Local core-body prototype. Names select candidates; gameplay roles are Apex mappings, not recovered Steep graph timing."
+	},
+	"retarget_sha256": "5b48bdd3616356d52f2401845115917e031a9efd247ced32d6c0df40d14c45f3",
+	"source_sha256": "b4c9b2e96cc32c3c93c095a0034037a5681d03733440950fe84e7010e50f174a",
+	"support_frame": "Mean calibrated left/right sole rotation, mean ankle origin. Store body in this frame; discard equipment/world motion at runtime.",
+	"target_sha256": "0dd91818b6be7eae4126755cba8f8e259622814d8c6dc54867efd3657d78a4df",
+	"timebase_hz": 60
+}

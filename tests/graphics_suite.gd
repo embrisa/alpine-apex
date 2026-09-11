@@ -8,6 +8,7 @@ func check(value: bool, label: String) -> void:
 func _initialize() -> void:
 	call_deferred("run")
 func run() -> void:
+	set_meta("test_lab_fixture",true) # Explicit laboratory regression fixture.
 	var game = load("res://main.tscn").instantiate()
 	game.automated = true
 	root.add_child(game)
@@ -131,14 +132,41 @@ func _snow_effect_checks(game) -> void:
 	stamps.update_contact(sim,field,endpoint,false)
 	check(stamps.written==count and not stamps.last_position.is_finite(),"Inactive play freezes impressions and breaks contact history")
 	stamps.reset()
-	for step in range(410):
+	for step in range(stamps.capacity):
 		var p = Vector3(0,0,500.0+step)
 		p.y = field.sample(p.x,p.z).height
 		stamps.update_contact(sim,field,p,true)
-	check(stamps.written==800 and stamps.tracks.instance_count==800,"Long tracks wrap within the fixed 800-instance allocation")
+	check(stamps.written==stamps.capacity and stamps.tracks.instance_count==game.graphics.snow_track_capacity,"Long tracks wrap within the selected fixed allocation")
 	var particles = 0
-	for spray in game.effects.sprays: particles += spray.amount
-	check(particles==380,"Powder and ice grains share the existing 380-particle budget")
+	for spray in game.effects.sprays:
+		if spray.visible: particles += spray.amount
+	check(particles==736,"Balanced allocates 736 GPU powder, grain and mist particles")
+	game.set_graphics_quality(0)
+	check(stamps.written==800 and stamps.capacity==800 and game.effects.snow_budget().gpu_particles==320,"Low retains the newest tracks and bounds spray to 320 particles")
+	game.set_graphics_quality(2)
+	check(stamps.written==800 and stamps.capacity==4096 and game.effects.snow_budget().gpu_particles==1536,"High extends track history without clearing it and caps particles at 1536")
+	game.set_graphics_quality(1)
+	var surface_snapshot = field.heights.duplicate()
+	sim.reset(Vector3(0,field.sample(0,500).height,500))
+	sim.prime_contacts(field)
+	sim.velocity = sim.ski_forward*40.0
+	for ski in sim.skis:
+		ski.grounded = true
+		ski.load_n = sim.tuning.rider_mass*9.81*.5
+		ski.slip_angle = .7
+		ski.edge_angle = .6
+		ski.grip_n = ski.load_n*.7
+		ski.snow_depth = .24
+		ski.penetration = .08
+	var weather_state = preload("res://scripts/presentation/weather_state.gd").new()
+	weather_state.enabled = true
+	weather_state.wind_velocity = Vector3(12,0,-4)
+	game.effects.update_effects(sim,field,sim.position,.016,true,weather_state)
+	var follows_wind = true
+	for spray in game.effects.sprays:
+		follows_wind = follows_wind and spray.emitting and spray.process_material.get_shader_parameter("wind_velocity")==weather_state.wind_velocity and not spray.local_coords
+	check(follows_wind,"All three GPU layers use world-space weather wind and loaded ski emission")
+	check(surface_snapshot==field.heights,"Track deformation leaves authoritative contact heights unchanged")
 	game.effects.update_effects(sim,field,sim.position,.016,false)
 	var frozen = true
 	for spray in game.effects.sprays: frozen = frozen and spray.speed_scale==0.0 and not spray.emitting

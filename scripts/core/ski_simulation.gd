@@ -1,23 +1,52 @@
 class_name SkiSimulation
 extends RefCounted
-const MODEL_VERSION = 12
+const MODEL_VERSION = 28
+const TerrainMaterial = preload("res://scripts/core/terrain_material.gd")
 const Contact = preload("res://scripts/core/ski_contact.gd")
 const Body = preload("res://scripts/core/rider_body.gd")
 const ImpactRecovery = preload("res://scripts/core/impact_recovery.gd")
 ## Two unilateral ski contacts coupled to an articulated rider balance model.
-## Heading is ski orientation; velocity is never assigned from heading or input.
+## Heading is the travel-oriented ski axis; facing_heading includes visual switch.
+## Velocity is never assigned from heading or input.
 ## The surface provides sample(x,z) -> {height, normal}, sweep_obstacle(from,to),
-## and optionally snow_depth_at(x,z) -> loose-layer depth in metres.
+## optionally snow_depth_at(x,z) -> loose-layer depth in metres,
+## and rock_fraction_at(x,z) -> fixed terrain material coverage in [0,1].
 var tuning: SkiTuning
 var skis: Array = [Contact.new(-1.0),Contact.new(1.0)]
 var body = Body.new()
 var impacts = ImpactRecovery.new()
+var landing_assist = preload("res://scripts/core/landing_assist.gd").new()
+var air_control = preload("res://scripts/core/air_rotation.gd").new()
+var snow_contact_assist = preload("res://scripts/core/snow_contact_assist.gd").new()
+var motion = preload("res://scripts/core/rider_motion_state.gd").new()
+var facing_pose = preload("res://scripts/core/rider_facing_pose.gd").new()
+# Handling yaw describes the travel-oriented ski axis. The half turn is visual.
+var facing_backward = false
+var facing_heading: float:
+	get: return wrapf(heading+(PI if facing_backward else 0.0),-PI,PI)
+var landing_assist_strength: float:
+	get: return landing_assist.strength
+var predicted_landing_time: float:
+	get: return landing_assist.time_to_contact if landing_assist.valid else -1.0
+var predicted_landing_normal: Vector3:
+	get: return landing_assist.contact_normal
 var contacts_initialized = false
 var contact_count = 0
 var support_height = 0.0
 var force_acceleration = Vector3.ZERO
 var air_acceleration = Vector3.ZERO
 var requested_lateral_acceleration = 0.0
+var turn_demand = 0.0 # rad/s, shared travel-oriented yaw and bank request
+## Completed input-to-ski steering diagnostics, rad/s and unitless factors.
+var steering_requested_yaw = 0.0
+var steering_applied_yaw = 0.0
+var steering_transfer_factor = 1.0
+var steering_slip_factor = 1.0
+var steering_stall_age = 0.0 # s, continuous blocked request; not a general input delay
+var carve_blend = 0.0 # Current supported snow command; no shared tuning mutation.
+var snow_control_blend = 0.0 # supported high-input snow stance; no airborne authority
+var support_offset_m = 0.0 # signed root height above the shared ski support
+var takeoff_reason = "" # diagnostic, retained until the next release/reset
 var position: Vector3 = Vector3.ZERO
 var velocity: Vector3 = Vector3.ZERO
 var heading: float = 0.0
@@ -38,11 +67,16 @@ var friction_force: float = 0.0
 var snow_depth: float = 0.0
 var snow_penetration: float = 0.0
 var snow_drag: float = 0.0
+var rock_contact: float = 0.0 # Fraction of current support load carried by rock.
+var rock_wear_rate: float = 0.0 # Reserve fraction/s, completed contact tick.
 var gravity_contribution: float = 0.0
 ## Decaying normal impact speed in m/s, retained name for existing presentation.
 var landing_force: float = 0.0
 var time_since_landing: float = 60.0 # s, capped; distinguishes impact from recovery feedback
+var landing_episode_age: float = 60.0 # s since first touchdown; recontacts cannot extend it
+var landing_episode_fit: float = 0.0 # weakest pre-touchdown fit in this contact episode
 var effective_tuck: float = 0.0
+var tuck_steering_time: float = 0.0 # s of sustained steering beyond the correction window
 var edge_load: float = 0.0
 var lateral_acceleration: float = 0.0
 var balance_pressure: float = 0.0 # Retired diagnostic; no pressure damage.
@@ -56,14 +90,27 @@ var flight_heading = 0.0
 var flight_initialized = false
 var landing_support_positions: Array[Vector3] = []
 var jump_buffer_remaining: float = 0.0
+var _jump_executed = false
+var jump_executed: bool:
+	get: return _jump_executed # Completed-tick telemetry, never an input/force.
+var _obstacle_contact: Dictionary = {}
+var obstacle_contact: Dictionary:
+	get: return _obstacle_contact.duplicate() # Completed tick, no mutable solver alias.
 
 func _init(values: SkiTuning = null) -> void:
 	tuning = values if values != null else SkiTuning.new()
 
 func reset(spawn: Vector3, yaw: float = 0.0) -> void:
+	air_control.reset()
+	snow_contact_assist.reset()
+	motion.reset()
+	_obstacle_contact.clear()
+	_jump_executed = false
 	position = spawn
 	velocity = Vector3.ZERO
 	heading = yaw
+	facing_backward = false
+	facing_pose.initialized = false
 	edge_angle = 0.0
 	grounded = true
 	crashed = false
@@ -76,11 +123,16 @@ func reset(spawn: Vector3, yaw: float = 0.0) -> void:
 	slip_angle = 0.0
 	landing_force = 0.0
 	time_since_landing = 60.0
+	landing_episode_age = 60.0
+	landing_episode_fit = 0.0
 	effective_tuck = 0.0
+	tuck_steering_time = 0.0
 	edge_load = 0.0
 	lateral_acceleration = 0.0
 	balance_pressure = 0.0
 	friction_force = 0.0
+	rock_contact = 0.0
+	rock_wear_rate = 0.0
 	snow_depth = 0.0
 	snow_penetration = 0.0
 	snow_drag = 0.0
@@ -97,14 +149,30 @@ func reset(spawn: Vector3, yaw: float = 0.0) -> void:
 	force_acceleration = Vector3.ZERO
 	air_acceleration = Vector3.ZERO
 	requested_lateral_acceleration = 0.0
+	turn_demand = 0.0
+	steering_requested_yaw = 0.0; steering_applied_yaw = 0.0
+	steering_transfer_factor = 1.0; steering_slip_factor = 1.0
+	steering_stall_age = 0.0
+	carve_blend = 0.0
+	snow_control_blend = 0.0
+	support_offset_m = 0.0
+	takeoff_reason = ""
 	for ski in skis: ski.reset(spawn,yaw,tuning.half_stance)
 
 func step(dt: float, intent: RiderInput, surface) -> void:
+	_jump_executed = false
+	_obstacle_contact.clear()
 	if crashed:
 		return
 	ticks += 1
+	var rebased_spawn = _orient_travel_axis()
+	if rebased_spawn and contacts_initialized:
+		# Prime the same physical rest pose in the canonical travel frame. A
+		# reversed spawn's old slope-relative preload is not angular momentum.
+		body.reset()
+		_update_contacts(surface,dt,false)
+		body.step(dt,self,preload("res://scripts/core/rider_input.gd").new(),Vector3.ZERO)
 	balance = 1.0
-	impacts.step(dt,grounded and normal_load>0.0,tuning)
 	# A release may wait briefly for support, but cannot create an air impulse.
 	if intent.jump:
 		jump_buffer_remaining = tuning.jump_buffer_time
@@ -118,6 +186,7 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 		ski.previous_position = ski.position
 		ski.previous_orientation = ski.orientation
 		ski.landing_speed = 0.0
+		ski.crush.begin_tick(surface,ski.position,velocity,ski.grounded and grounded,tuning)
 	var n: Vector3 = _contact_normal(surface,position.x,position.z)
 	surface_normal = n
 	gravity_vector = Vector3.DOWN * 9.81 * tuning.gravity_multiplier
@@ -126,10 +195,23 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 	slope_angle = rad_to_deg(acos(clampf(n.y, -1.0, 1.0)))
 	landing_force = move_toward(landing_force, 0.0, dt * 12.0)
 	time_since_landing = minf(60.0,time_since_landing+dt)
-	# Opening the stance to turn/brake sacrifices the deepest aerodynamic tuck.
-	# A tuck reduces available edging leverage; it is never a throttle.
-	var tuck_target = clampf(intent.tuck, 0.0, 1.0) * (1.0 - 0.75 * smoothstep(0.12, 0.85, absf(intent.steer))) * (1.0 - clampf(intent.brake, 0.0, 1.0))
-	effective_tuck = lerpf(effective_tuck, tuck_target, 1.0 - exp(-tuning.tuck_response * dt))
+	landing_episode_age = minf(60.0,landing_episode_age+dt)
+	# Forward requests tuck. Tiny corrections and short taps retain it, while
+	# sustained steering automatically opens the stance without reducing control.
+	# Float32 replay inputs must make the same boundary decision as live input.
+	var steering_outside_tuck = absf(intent.steer)>tuning.tuck_correction_window+.000001
+	if steering_outside_tuck and intent.tuck>0.0:
+		tuck_steering_time = minf(1.0,tuck_steering_time+dt)
+	else:
+		tuck_steering_time = 0.0
+	var turning = tuck_steering_time>tuning.tuck_steering_window+.000001
+	var tuck_target = clampf(intent.tuck,0.0,1.0)*(1.0-clampf(intent.brake,0.0,1.0))
+	if steering_outside_tuck:
+		# The grace window retains an existing tuck; it cannot start a new
+		# crouch when forward and steering are pressed together.
+		tuck_target = 0.0 if turning else minf(tuck_target,effective_tuck)
+	var tuck_rate = tuning.tuck_open_response if tuck_target<effective_tuck else tuning.tuck_response
+	effective_tuck = lerpf(effective_tuck, tuck_target, 1.0 - exp(-tuck_rate * dt))
 	edge_load = 0.0
 	lateral_acceleration = 0.0
 	requested_lateral_acceleration = 0.0
@@ -137,24 +219,68 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 	snow_depth = 0.0
 	snow_penetration = 0.0
 	snow_drag = 0.0
+	var steering = signf(intent.steer)*pow(clampf(absf(intent.steer),0,1),tuning.steering_input_exponent)
+	carve_blend = tuning.carving_blend(intent.steer,old_speed)*(1.0-rock_contact) if grounded else 0.0
+	var carving_strength = tuning.carving_strength*lerpf(1.0,tuning.arcade_carving_ratio,carve_blend)
+	var edge_grip = tuning.edge_grip*lerpf(1.0,tuning.arcade_grip_ratio,carve_blend)
 	var steer_rate = tuning.steering_sensitivity / (1.0 + old_speed * tuning.high_speed_steering_reduction)
-	if grounded and old_speed>3.0:
-		# Transfer body weight before driving the skis through an edge change.
-		# The balance controller still receives the player's full steering intent.
-		if body.roll*intent.steer<0.0:
-			steer_rate *= lerpf(tuning.turn_transfer_yaw_fraction,1.0,1.0-smoothstep(.03,.30,absf(body.roll)))
+	steer_rate *= lerpf(1.0,tuning.arcade_yaw_ratio,carve_blend)
+	# Supported high-speed snow stance improves pressure response through the
+	# physical COM/inertia. Small corrections and flight keep their own stance.
+	var loaded_depth = 0.0
+	for ski in skis:
+		if ski.grounded and ski.material_kind==TerrainMaterial.Kind.SNOW: loaded_depth = maxf(loaded_depth,ski.snow_depth)
+	snow_control_blend = carve_blend*smoothstep(60.0/3.6,120.0/3.6,old_speed)*smoothstep(0.0,.12,loaded_depth)
+	# Read actual support at this tick's start; the air controller owns flight.
+	steer_rate *= lerpf(1.0,tuning.rock_steering_ratio,rock_contact if grounded else 0.0)
+	turn_demand = -steering*steer_rate
+	steering_requested_yaw = turn_demand
+	steering_transfer_factor = 1.0; steering_slip_factor = 1.0
+	if not grounded or old_speed<=1.5 or absf(intent.steer)<.001: steering_stall_age = 0.0
+	if grounded and old_speed>1.5:
 		var travel_heading = atan2(velocity.x,velocity.z)
-		var heading_slip = wrapf(travel_heading-heading,-PI,PI)
-		# Ease further yaw into excessive slip; countersteering remains available.
-		# Only equipment yaw is limited. Snow forces still turn the trajectory.
+		var heading_slip = wrapf(travel_heading-heading,-PI*.5,PI*.5)
+		var skid_weight = smoothstep(deg_to_rad(8.0),deg_to_rad(18.0),absf(heading_slip))*smoothstep(1.5,5.0,old_speed)
+		var raw_skid_factor = 1.0-skid_weight if heading_slip*intent.steer>0.0 else 1.0
+		steering_stall_age = steering_stall_age+dt if raw_skid_factor<.05 and absf(intent.steer)>.001 else 0.0
+		# Ordinary edge regulation is unchanged. A real skid, or a continuously
+		# blocked command, releases the old edge restriction instead of waiting
+		# indefinitely for travel velocity to align with the immobile skis.
+		var skid_release = maxf(smoothstep(deg_to_rad(18.0),deg_to_rad(30.0),absf(heading_slip)),smoothstep(.12,.25,steering_stall_age))
+		# Transfer body weight before driving the skis through an edge change.
+		# Keep the old supporting edge while pressure moves the COM across the
+		# skis. Removing that reaction early topples the still-banked rider.
+		if body.roll*intent.steer<0.0:
+			var transfer_yaw = lerpf(tuning.turn_transfer_yaw_fraction,tuning.high_speed_transfer_yaw_fraction,smoothstep(60.0/3.6,120.0/3.6,old_speed))
+			var carve_transfer = tuning.carving_transfer_yaw(old_speed)
+			transfer_yaw = lerpf(transfer_yaw,carve_transfer,carve_blend)
+			var release_bank = lerpf(.30,tuning.arcade_transfer_release_bank,carve_blend)
+			var finish_bank = lerpf(.03,tuning.arcade_transfer_finish_bank,carve_blend)
+			steering_transfer_factor = lerpf(transfer_yaw,1.0,1.0-smoothstep(finish_bank,release_bank,absf(body.roll)))
+			# A sliding edge cannot justify waiting for a complete carve transfer.
+			# Retain manual ski rotation while actual grip/pressure recover.
+			steering_transfer_factor = lerpf(steering_transfer_factor,maxf(steering_transfer_factor,tuning.skid_steering_authority),skid_release)
+		# Never veto manual yaw at a skid threshold. The old zero at 18 degrees
+		# could lock the skis for seconds while anticipation kept demanding bank.
+		# Softly reduce deeper-skid yaw; countersteering stays available. Do not
+		# multiply two restrictions into another effective steering lock.
 		if heading_slip*intent.steer>0.0:
-			steer_rate *= 1.0-smoothstep(deg_to_rad(8.0),deg_to_rad(18.0),absf(heading_slip))*smoothstep(3.0,12.0,old_speed)
+			steering_slip_factor = lerpf(raw_skid_factor,maxf(raw_skid_factor,tuning.skid_steering_authority),skid_release)
+		steer_rate *= lerpf(steering_transfer_factor*steering_slip_factor,minf(steering_transfer_factor,steering_slip_factor),skid_release)
 	# Air steering can orient the equipment but cannot steer the centre of mass.
-	# Positive intent means rider-right. With forward=(sin(yaw),0,cos(yaw)),
-	# rider-right is forward.cross(UP), so right turns DECREASE yaw.
-	heading = wrapf(heading - intent.steer * steer_rate * dt * (1.0 if grounded else 0.42), -PI, PI)
-	edge_angle = lerpf(edge_angle, -intent.steer * deg_to_rad(tuning.maximum_edge_angle), 1.0 - exp(-tuning.edge_response * lerpf(1.0, 0.70, effective_tuck) * dt))
+	# Positive intent means travel-right, including switch. With the handling
+	# forward=(sin(yaw),0,cos(yaw)), right turns DECREASE yaw.
+	steering_applied_yaw = -steering*steer_rate if grounded else 0.0
+	if grounded: heading = wrapf(heading + steering_applied_yaw * dt, -PI, PI)
+	# Grounded neutral yaw precedes contact/motor evaluation. The existing snow
+	# reactions, never an assigned velocity, respond to the new equipment axis.
+	var alignment_counted = grounded
+	if alignment_counted: landing_assist.step(dt,self,intent,surface)
+	edge_angle = lerpf(edge_angle, -intent.steer * deg_to_rad(tuning.maximum_edge_angle), 1.0 - exp(-tuning.edge_response * lerpf(1.0, tuning.tuck_edge_response_ratio, effective_tuck) * dt))
 	var takeoff_frame = support_basis()
+	# One bounded dissipative correction, while the preceding completed tick
+	# still owns real support. Neither contact probe may integrate this again.
+	velocity += snow_contact_assist.advance(dt,self,surface,intent.jump or jump_buffer_remaining>0.000001)
 	_update_contacts(surface,dt)
 	n = surface_normal
 	# Consume before predictive contact/next-height release wins this tick. The
@@ -163,17 +289,20 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 	if (intent.jump or jump_buffer_remaining>0.000001) and (supported_at_start or supported_now):
 		if supported_now: takeoff_frame = support_basis()
 		velocity += takeoff_frame.y*tuning.jump_impulse
+		_jump_executed = true
 		clear_input_buffer()
-		_begin_flight(takeoff_frame)
+		_begin_flight(takeoff_frame,"hop")
 	jump_buffer_remaining = maxf(0.0,jump_buffer_remaining-dt)
 	if grounded:
-		# Check the actual next height as well as the filtered support normal.
-		# A ledge can fall away inside the normal stencil. Snow cannot pull the
-		# rider down to it; retain incoming momentum and start a ballistic step.
+		# A real drop beyond leg reach starts flight with incoming momentum.
+		# Small height changes are handled by compression, never a root snap.
 		var ballistic = position+velocity*dt+gravity_vector*dt*dt
-		var resting_offset = position.y-_support_sample(surface,position).height
-		if ballistic.y-_support_sample(surface,ballistic).height-resting_offset>.025:
-			_begin_flight(support_basis())
+		if ballistic.y-_support_sample(surface,ballistic).height>tuning.leg_extension:
+			_begin_flight(support_basis(),"reach")
+	if not grounded:
+		landing_assist.step(dt,self,intent,surface,alignment_counted)
+		air_control.step(dt,self,intent)
+	for ski in skis: ski.complete_snow_work(dt,tuning.rider_mass)
 	downhill = gravity_vector.slide(n)
 	fall_line = downhill.normalized()
 	ski_forward = support_basis().z
@@ -181,42 +310,59 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 	var forward_speed = velocity.dot(ski_forward)
 	var side_speed = velocity.dot(side)
 	slip_angle = atan2(side_speed, maxf(absf(forward_speed), 0.01))
+	rock_wear_rate = tuning.rock_reserve_drain*rock_contact*smoothstep(.5,3.0,old_speed) if grounded else 0.0
+	impacts.step(dt,grounded and normal_load>0.0 and rock_contact==0.0,tuning)
+	var rock_exhausted = impacts.abrade(dt,rock_wear_rate)
 	if grounded:
+		var normal_speed = velocity.dot(n)
 		velocity = velocity.slide(n)
 		var edge = absf(edge_angle) / deg_to_rad(tuning.maximum_edge_angle)
 		var grip_limit = 0.0
 		var grip_limits: Array[float] = []
-		requested_lateral_acceleration = -signf(side_speed)*minf(absf(side_speed)*tuning.carving_strength,normal_load*tuning.edge_grip*lerpf(.42,1.0,edge))
+		var snow_holds: Array[float] = []
+		var snow_engagements: Array[float] = []
+		requested_lateral_acceleration = -signf(side_speed)*minf(absf(side_speed)*carving_strength,normal_load*edge_grip*lerpf(.42,1.0,edge))
 		var balance_grip: float = body.available_lateral(signf(requested_lateral_acceleration),normal_load,tuning)
+		balance_grip *= lerpf(1.0,tuning.rock_grip_ratio,rock_contact)
 		for ski in skis:
 			grip_limits.append(0.0)
+			snow_holds.append(0.0)
+			snow_engagements.append(0.0)
 			if not ski.grounded: continue
 			var ski_side: Vector3 = ski.normal.cross(ski.forward).normalized()
 			var sideways: float = velocity.dot(ski_side)
 			var ski_edge: float = absf(ski.edge_angle)/deg_to_rad(tuning.maximum_edge_angle)
-			var limit: float = ski.normal_acceleration*tuning.edge_grip*lerpf(.42,1.0,ski_edge)*lerpf(1.0,tuning.tuck_grip_ratio,effective_tuck)
+			var ski_grip: float = tuning.edge_grip if ski.material_kind==TerrainMaterial.Kind.ROCK else edge_grip
+			var limit: float = ski.normal_acceleration*ski_grip*lerpf(.42,1.0,ski_edge)*lerpf(1.0,tuning.tuck_grip_ratio,effective_tuck)
+			if ski.material_kind==TerrainMaterial.Kind.SNOW:
+				var pressure: float = clampf(ski.normal_acceleration*contact_count/9.81,0.0,4.0)
+				var planing = .20+.70/(1.0+pow(old_speed/12.0,2.0))
+				ski.penetration = minf(ski.snow_depth,ski.snow_depth*planing*sqrt(pressure)+ski.compression_m*.35)
+				# Embedded ski sides displace snow even with a flat base. This
+				# passive resistance is not an edge-balancing force: the old COM
+				# cap made 20 cm powder slide exactly like 2 cm packed snow.
+				var engagement = smoothstep(.04,.16,ski.snow_depth)*smoothstep(.005,.035,ski.penetration)
+				snow_engagements[snow_engagements.size()-1] = engagement
+				snow_holds[snow_holds.size()-1] = ski.normal_acceleration*tuning.snow_edge_cutting*engagement*(tuning.edge_grip/1.6)
+			if ski.material_kind==TerrainMaterial.Kind.ROCK: limit *= tuning.rock_grip_ratio
 			grip_limits[grip_limits.size()-1] = limit
 			ski.slip_angle = atan2(sideways,maxf(absf(velocity.dot(ski.forward)),.01))
 			grip_limit += limit
-		edge_load = clampf(absf(side_speed)*tuning.carving_strength/maxf(grip_limit,.01),0.0,1.0)
+		edge_load = clampf(absf(side_speed)*carving_strength/maxf(grip_limit,.01),0.0,1.0)
 		# Slip costs speed through snow work; it never drains a health meter.
-		var skid_drag = tuning.skidding_friction * absf(sin(slip_angle)) * maxf(normal_load, 0.0)
+		var skid_drag = lerpf(tuning.skidding_friction,tuning.rock_skidding_friction,rock_contact) * absf(sin(slip_angle)) * maxf(normal_load, 0.0)
 		# Optional equipment-neutral surface contract. Legacy/ideal planes have
 		# no loose layer. Planing reduces penetration with speed; load and
 		# sideways displacement increase passive snow work, never propulsion.
 		if surface.has_method("snow_depth_at"):
 			for ski in skis:
-				if not ski.grounded: continue
-				ski.snow_depth = clampf(surface.snow_depth_at(ski.position.x,ski.position.z),0.0,.35)
-				var pressure: float = clampf(ski.normal_acceleration*contact_count/9.81,0.0,4.0)
-				var planing = .20+.70/(1.0+pow(old_speed/12.0,2.0))
-				ski.penetration = minf(ski.snow_depth,ski.snow_depth*planing*sqrt(pressure))
+				if not ski.grounded or ski.material_kind==TerrainMaterial.Kind.ROCK: continue
 				var cutting = .09+2.0*absf(sin(ski.slip_angle))+clampf(intent.brake,0.0,1.0)
 				ski.snow_drag = minf(6.0/maxi(contact_count,1),ski.penetration*ski.normal_acceleration*tuning.snow_ploughing*cutting)*smoothstep(0.0,1.0,old_speed)
 				snow_drag += ski.snow_drag
 				snow_depth += ski.snow_depth/maxi(contact_count,1)
 				snow_penetration += ski.penetration/maxi(contact_count,1)
-		friction_force = tuning.ski_friction * maxf(normal_load, 0.0) * (1.0 + edge * edge * 0.4) + tuning.snow_resistance + snow_drag + skid_drag + intent.brake * tuning.braking_deceleration
+		friction_force = lerpf(tuning.ski_friction*(1.0+edge*edge*.4),tuning.rock_friction,rock_contact)*maxf(normal_load,0.0) + lerpf(tuning.snow_resistance,tuning.rock_resistance,rock_contact) + snow_drag + skid_drag + intent.brake*tuning.braking_deceleration
 		friction_force = minf(friction_force,body.available_braking(signf(velocity.dot(ski_forward)),normal_load,tuning))
 		# Edge grip and sliding/braking resistance act through the SAME feet.
 		# Apply resistance first, leaving at least half the lateral capacity
@@ -235,11 +381,23 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 			var ski_side: Vector3 = ski.normal.cross(ski.forward).normalized()
 			var sideways: float = velocity.dot(ski_side)
 			var share: float = ski.normal_acceleration/maxf(normal_load,.001)
-			var demand: float = absf(lateral_before.dot(ski_side))*tuning.carving_strength*share
-			var applied: float = minf(minf(demand,minf(grip_limits[i],balance_grip*share)),absf(sideways)/dt)
+			var ski_carving: float = tuning.carving_strength if ski.material_kind==TerrainMaterial.Kind.ROCK else carving_strength
+			ski_carving = lerpf(ski_carving,maxf(ski_carving,tuning.snow_lateral_response*tuning.carving_strength/9.0),snow_engagements[i])
+			var demand: float = absf(lateral_before.dot(ski_side))*ski_carving*share
+			if ski.material_kind==TerrainMaterial.Kind.ROCK: demand *= tuning.rock_grip_ratio
+			# The balance loop receives the resulting acceleration and responds
+			# through its normal pressure controller. Snow cannot propel, snap
+			# velocity onto a heading, or exert any unsupported lateral force.
+			var capacity = minf(grip_limits[i],balance_grip*share)+snow_holds[i]
+			var applied: float = minf(minf(demand,capacity),absf(sideways)/dt)
 			velocity -= ski_side*signf(sideways)*applied*dt
 			ski.grip_n = applied*tuning.rider_mass
+			ski.complete_traction(applied,grip_limits[i]+snow_holds[i])
 		lateral_acceleration = (velocity-lateral_before).dot(side)/dt
+		velocity += n*normal_speed
+		# Full gravity and the actual unilateral reaction advance normal motion.
+		# Snow friction above operates only in the tangent plane.
+		velocity += n*(gravity_vector.dot(n)+normal_load)*dt
 		# Static braking can hold on the test slope. Gravity is otherwise the
 		# only source of downhill acceleration; tuck only changes air drag.
 		if not (intent.brake > 0.8 and velocity.length() < 0.2 and downhill.length() < tuning.braking_deceleration):
@@ -260,10 +418,24 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 	position += velocity * dt
 	var next_ground = _support_sample(surface,position)
 	if grounded:
-		position.y = next_ground.height
-		# A passive surface cannot add kinetic energy when its normal changes.
-		velocity = velocity.slide(_contact_normal(surface,position.x,position.z))
-	elif position.y <= next_ground.height:
+		# Only the hard compression stop constrains position. It removes inward
+		# momentum and reports a real bottom-out impact through the usual reserve.
+		if position.y<next_ground.max_height-tuning.leg_extension:
+			var struck: Vector3 = surface.sample(position.x,position.z).normal
+			var closing = maxf(0.0,-velocity.dot(struck))
+			position.y = next_ground.max_height-tuning.leg_extension
+			if closing>0.0: velocity = velocity.slide(struck)
+			landing_force = maxf(landing_force,closing)
+			var exhausted: bool
+			if landing_episode_age<tuning.impact_contact_grace:
+				# The compression stop is still part of the landing. Grounded
+				# support has already aligned its frame, so retain touchdown fit.
+				var tolerance = tuning.landing_tolerance*(1.0+effective_tuck*tuning.landing_absorption)
+				exhausted = impacts.landing_hit(closing,0.0,tolerance,landing_episode_fit,"BOTTOM OUT",tuning)
+			else:
+				exhausted = impacts.hit(closing,tuning.landing_tolerance,"BOTTOM OUT",tuning)
+			if exhausted: crash("IMPACT LIMIT / BOTTOM OUT")
+	elif position.y <= next_ground.height and velocity.dot(next_ground.normal)<0.0:
 		# The short segment is swept against the heightfield to locate impact.
 		var lo = 0.0
 		var hi = 1.0
@@ -289,8 +461,15 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 		# A glancing brush cannot deliver a large edge-catch impulse. Scale the
 		# alignment penalty by the normal impact it can actually transmit; the
 		# old speed-only penalty repeatedly punished tiny terrain recontacts.
-		var bad_alignment = minf(impact,absf(sin(slip_angle))*velocity.length()*.16)
-		if impacts.hit(impact+bad_alignment,tolerance,"HARD LANDING",tuning):
+		var landing_axis = support_basis().z.slide(contact.normal).normalized()
+		var bad_alignment = minf(impact,absf(velocity.dot(contact.normal.cross(landing_axis)))*.16)
+		var fit = _landing_fit(support_basis(),contact.normal,velocity)
+		if landing_episode_age>=tuning.impact_contact_grace:
+			landing_episode_age = 0.0
+			landing_episode_fit = fit
+		else:
+			landing_episode_fit = minf(landing_episode_fit,fit)
+		if impacts.landing_hit(impact,bad_alignment,tolerance,landing_episode_fit,"HARD LANDING",tuning):
 			crash("IMPACT LIMIT / HARD LANDING")
 		else:
 			# Retain the footprint that delivered the impulse even if a convex
@@ -306,22 +485,35 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 			grounded = true
 			flight_initialized = false
 			airtime = 0.0
-			# Spend the rest of the tick after impact. Discarding it makes early
-			# grazing contacts at a crest repeatedly consume an entire tick and
-			# pins the skier to the lip. Never snap across a falling ledge here.
+			# Spend the unconsumed tick without teleporting to the next height.
 			var remaining = dt*(1.0-hi)
 			var end = position+velocity*remaining
 			var end_ground = _support_sample(surface,end)
-			if end.y-end_ground.height>.025:
-				_begin_flight(support_basis())
-				# Gravity and drag have already been integrated once this tick.
-				position = end
-			else:
-				position = end
-				position.y = end_ground.height
+			if end.y-end_ground.height>tuning.leg_extension:
+				_begin_flight(support_basis(),"landing reach")
+			position = end
 	_resolve_obstacle(surface,old_position)
 	_update_contacts(surface,dt,false)
+	# Touchdown/soft recatch can change the support frame after the translation
+	# stop was sampled. Close that same hard constraint against the completed
+	# ski footprint before body/pose capture; this never extends support reach.
+	if grounded:
+		var floor_height = -INF
+		for ski in skis:
+			if ski.grounded: floor_height = maxf(floor_height,ski.height_reference-tuning.leg_extension)
+		if position.y<floor_height-.00025:
+			var struck: Vector3 = surface.sample(position.x,position.z).normal
+			var closing = maxf(0.0,-velocity.dot(struck))
+			position.y = floor_height
+			if closing>0.0: velocity = velocity.slide(struck)
+			landing_force = maxf(landing_force,closing)
+			if landing_episode_age<tuning.impact_contact_grace:
+				if impacts.landing_hit(closing,0.0,tuning.landing_tolerance*(1.0+effective_tuck*tuning.landing_absorption),landing_episode_fit,"BOTTOM OUT",tuning): crash("IMPACT LIMIT / BOTTOM OUT")
+			elif impacts.hit(closing,tuning.landing_tolerance,"BOTTOM OUT",tuning): crash("IMPACT LIMIT / BOTTOM OUT")
+			_update_contacts(surface,dt,false)
 	for i in range(2):
+		var ski = skis[i]
+		ski.crush.complete_tick(surface,ski.position,dt,ski.grounded)
 		if skis[i].grounded and not previous_support[i]:
 			skis[i].landing_speed = maxf(0.0,-old_velocity.dot(skis[i].normal))
 	# body.step applies this tick's landing reaction through the actual support
@@ -329,9 +521,14 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 	# would count that impulse twice and tip an otherwise aligned landing.
 	force_acceleration = (velocity-old_velocity)/dt
 	body.step(dt,self,intent,force_acceleration)
+	if rock_exhausted and not crashed: crash("IMPACT LIMIT / ROCK WEAR")
 	# Articulated body tilt and sideways slip cannot cause a fall.
 	peak_speed = maxf(peak_speed, velocity.length())
 	acceleration = (velocity.length() - old_speed) / dt
+	if crashed: landing_assist.reset()
+	elif grounded: landing_assist.clear_prediction()
+	facing_pose.capture(self)
+	motion.capture(self,dt)
 
 func _resolve_obstacle(surface, from: Vector3) -> void:
 	if crashed: return
@@ -347,6 +544,8 @@ func _resolve_obstacle(surface, from: Vector3) -> void:
 		return
 	var normal: Vector3 = hit.normal
 	var closing = maxf(0.0,-velocity.dot(normal))
+	if closing>0.0:
+		_obstacle_contact = {"normal":normal,"closing_speed_mps":closing,"reason":reason}
 	position = hit.position+normal*.02
 	if impacts.hit(closing,tuning.obstacle_impact_reference,reason,tuning):
 		crash("IMPACT LIMIT / "+reason)
@@ -357,6 +556,34 @@ func _resolve_obstacle(surface, from: Vector3) -> void:
 
 func clear_input_buffer() -> void:
 	jump_buffer_remaining = 0.0
+	landing_assist.reset()
+
+func _orient_travel_axis() -> bool:
+	# Flight owns a full quaternion. Reversing its yaw axis at 90 degrees
+	# during a spin/flip would exchange the legs and cancel the rotation.
+	if not grounded: return false
+	# The ski line has no preferred tip. Rebase only once clearly travelling
+	# toward its other end; the band also retains direction at rest/broadside.
+	var forward = Vector3(sin(heading),0,cos(heading))
+	var motion = Vector3(velocity.x,0,velocity.z)
+	if motion.dot(forward)>=-maxf(1.0,motion.length()*.12): return false
+	var old_frame = support_basis()
+	heading = wrapf(heading+PI,-PI,PI)
+	facing_backward = not facing_backward
+	edge_angle = -edge_angle
+	if flight_initialized:
+		flight_frame = old_frame*Basis(Vector3.UP,PI)
+		flight_heading = heading
+	skis.reverse()
+	for i in range(2):
+		var ski = skis[i]
+		ski.side = -1.0 if i==0 else 1.0
+		ski.heading = wrapf(ski.heading+PI,-PI,PI)
+		ski.edge_angle = -ski.edge_angle
+		ski.orientation *= Basis(Vector3.UP,PI)
+	body.load_fractions = Vector2(body.load_fractions.y,body.load_fractions.x)
+	# Before the first moving tick this is spawn setup, not a turn impulse.
+	return ticks==1 and body.initialized
 
 func crash(reason: String) -> void:
 	clear_input_buffer()
@@ -367,40 +594,76 @@ func speed_kmh() -> float:
 	return velocity.length() * 3.6
 
 func _contact_normal(surface,x: float,z: float) -> Vector3:
+	if grounded and (skis[0].crush.yielding or skis[1].crush.yielding):
+		return (skis[0].crush.sample(surface,x,z).normal+skis[1].crush.sample(surface,x,z).normal).normalized()
 	if surface.has_method("contact_normal"):
 		return surface.contact_normal(x,z)
 	return surface.sample(x,z).normal
 
 func support_basis() -> Basis:
 	if not grounded and flight_initialized:
-		# Equipment yaw is allowed in flight. Pitch/roll never track terrain
-		# metres below the skis, and orientation never redirects velocity.
-		return Basis(Vector3.UP,angle_difference(flight_heading,heading))*flight_frame
+		# Manual rotation and optional help integrate this retained frame once
+		# per tick. Remote terrain cannot tilt it through the support sampler.
+		return flight_frame
 	var n = surface_normal
 	var f = Vector3(sin(heading),-(n.x*sin(heading)+n.z*cos(heading))/maxf(n.y,.05),cos(heading)).normalized()
 	return Basis(n.cross(f).normalized(),n,f)
 
-func _begin_flight(frame: Basis) -> void:
+func _landing_fit(frame: Basis, normal: Vector3, incoming: Vector3) -> float:
+	# Only the physical equipment frame and struck triangle participate.
+	# Cosmetic posture, flight height and absolute travel speed add no damage.
+	if not frame.is_finite() or frame.determinant()<=.000001 or normal.length_squared()<.000001:
+		return 0.0
+	var n = normal.normalized()
+	var up_dot = frame.y.normalized().dot(n)
+	if up_dot<=0.0: return 0.0
+	var axis = frame.z.slide(n)
+	if axis.length_squared()<.000001: return 0.0
+	var tilt = acos(clampf(up_dot,-1.0,1.0))
+	var fit = 1.0-smoothstep(tuning.landing_tilt_full,tuning.landing_tilt_none,tilt)
+	var travel = incoming.slide(n)
+	if travel.length_squared()>=pow(tuning.landing_travel_min_speed,2):
+		# Either tip may lead: visual switch/facing cannot change absorption.
+		var angle = acos(clampf(absf(axis.normalized().dot(travel.normalized())),0.0,1.0))
+		fit *= 1.0-smoothstep(tuning.landing_travel_full,tuning.landing_travel_none,angle)
+	return fit
+
+func _begin_flight(frame: Basis, reason: String = "unsupported") -> void:
+	snow_contact_assist.reset(reason)
+	carve_blend = 0.0
+	snow_control_blend = 0.0
+	if grounded or not flight_initialized: air_control.reset()
+	if grounded or not flight_initialized: takeoff_reason = reason
 	flight_frame = frame
 	flight_heading = heading
 	flight_initialized = true
 	grounded = false
 	contact_count = 0
 	normal_load = 0.0
+	rock_contact = 0.0
 	for ski in skis:
+		ski.crush.reset()
 		ski.grounded = false
 		ski.load_n = 0.0
 		ski.normal_acceleration = 0.0
+		ski.grip_n = 0.0
 
 func _support_sample(surface, root: Vector3) -> Dictionary:
+	var sampled_normal = _contact_normal(surface,root.x,root.z)
 	var frame = support_basis()
+	if grounded:
+		# Sample the footprint in the frame that _update_contacts will use at
+		# this location. Using the previous normal let cross-slope frame rotation
+		# move the hard stop by centimetres beyond the 28 cm geometric limit.
+		var f = Vector3(sin(heading),-(sampled_normal.x*sin(heading)+sampled_normal.z*cos(heading))/maxf(sampled_normal.y,.05),cos(heading)).normalized()
+		frame = Basis(sampled_normal.cross(f).normalized(),sampled_normal,f)
 	var heights: Array[float] = []
 	for ski in skis:
 		var offset: Vector3 = frame.x*ski.side*tuning.half_stance
-		heights.append(float(surface.sample(root.x+offset.x,root.z+offset.z).height)-offset.y)
+		heights.append(ski.crush.height_at(surface,root.x+offset.x,root.z+offset.z)-offset.y)
 	var high = maxf(heights[0],heights[1])
 	var low = minf(heights[0],heights[1])
-	return {"height":(high+low)*.5 if grounded and high-low<=tuning.leg_extension else high,"normal":_contact_normal(surface,root.x,root.z)}
+	return {"height":(high+low)*.5 if grounded and high-low<=tuning.leg_extension else high,"max_height":high,"normal":sampled_normal}
 
 func _update_contacts(surface, dt: float, advance_motors: bool = true) -> void:
 	# The shared reference frame describes terrain geometry, not pressure.
@@ -433,9 +696,17 @@ func _update_contacts(surface, dt: float, advance_motors: bool = true) -> void:
 			# Bound cuff rotation even during a fast reversal or recovery. This
 			# applies to the physical contact, not only to its rendered mesh.
 			ski.edge_angle = move_toward(ski.edge_angle,edge_response_value,3.0*dt)
-		ski.probe(surface,position,frame,velocity,gravity_vector,dt,tuning.half_stance)
-		var touching: bool = grounded and position.y-ski.height_reference<=tuning.leg_extension+.015
-		var carrying: bool = touching and ski.gross_load>=maxf(0.0,tuning.minimum_load)
+		ski.probe(surface,position,frame,velocity,gravity_vector,dt,tuning.half_stance,tuning.support_stiffness,tuning.support_damping,tuning.support_damping_limit,tuning)
+		# A momentary suspension unload must not latch full flight until the
+		# rider root touches snow. Descending skis can regain a real positive
+		# reaction inside existing leg reach, only just after an unloaded edge.
+		# Ordinary yaw still carries the rider, but must not turn small steering
+		# corrections over ripples into jumps. Deliberate pitch/tricks keep flight.
+		var recatch: bool = (not was_grounded and takeoff_reason=="unloaded"
+			and airtime<=tuning.support_recatch_time and not air_control.trick_flight and not air_control.tilt_flight
+			and ski.normal_speed_ms<=0.0 and ski.normal_speed_ms>=-tuning.support_recatch_speed)
+		var touching: bool = (was_grounded or recatch) and ski.clearance_m<=tuning.leg_extension
+		var carrying: bool = touching and ski.gross_load>maxf(0.0,tuning.minimum_load)
 		supported.append(carrying)
 		if carrying:
 			contact_count += 1
@@ -449,13 +720,24 @@ func _update_contacts(surface, dt: float, advance_motors: bool = true) -> void:
 		if supported[i]:
 			support_height += skis[i].height_reference/contact_count
 	if was_grounded and contact_count==0:
-		_begin_flight(frame)
+		_begin_flight(frame,"reach" if minf(skis[0].clearance_m,skis[1].clearance_m)>tuning.leg_extension else "unloaded")
 	else:
 		grounded = contact_count>0
+		if grounded and not was_grounded:
+			flight_initialized = false
+			airtime = 0.0
 	contacts_initialized = true
+	rock_contact = 0.0
+	for ski in skis:
+		if ski.grounded and ski.material_kind==TerrainMaterial.Kind.ROCK:
+			rock_contact += ski.normal_acceleration/maxf(normal_load,.001)
+	rock_contact = clampf(rock_contact,0.0,1.0)
+	support_offset_m = position.y-_support_sample(surface,position).height
 
 func prime_contacts(surface) -> void:
+	snow_contact_assist.reset("primed")
 	# Explicit initialization used by restart/tools, never called from rendering.
+	for ski in skis: ski.clear_snow_response()
 	surface_normal = _contact_normal(surface,position.x,position.z)
 	gravity_vector = Vector3.DOWN*9.81*tuning.gravity_multiplier
 	_update_contacts(surface,1.0/120.0)
@@ -471,3 +753,4 @@ func reset_pose_history() -> void:
 	for ski in skis:
 		ski.previous_position = ski.position
 		ski.previous_orientation = ski.orientation
+	facing_pose.capture(self,true)

@@ -87,13 +87,13 @@ func particle_budget() -> int:
 		total += particle.amount
 	return total
 
-func update_weather(state, camera: Camera3D, rider_position: Vector3, field, dt: float, active: bool, title: bool, motion: float, quality_value: int) -> void:
+func update_weather(state, camera: Camera3D, rider_position: Vector3, field, dt: float, active: bool, title: bool, motion: float, quality_value: int, first_person: bool = false) -> void:
 	set_quality(quality_value)
-	if initialized and (previous_close != camera.close_view or previous_camera.distance_to(camera.global_position)>12.0):
+	if initialized and (previous_close != first_person or previous_camera.distance_to(camera.global_position)>12.0):
 		reset()
-	camera_velocity = (camera.global_position-previous_camera)/maxf(dt,0.0001) if initialized and active else Vector3.ZERO
+	camera_velocity = (camera.global_position-previous_camera)/maxf(dt,0.0001) if initialized and (active or title) else Vector3.ZERO
 	previous_camera = camera.global_position
-	previous_close = camera.close_view
+	previous_close = first_person
 	initialized = true
 	stretch = motion if active and state.enabled else 0.0
 	var animate: bool = active or title

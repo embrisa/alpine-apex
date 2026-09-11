@@ -1,0 +1,932 @@
+{
+  "version": 1,
+  "units": "metres",
+  "purpose": "Reusable flavor library; no automatic mountain scattering or race-rule changes",
+  "lod_distances_m": [
+    45,
+    120,
+    450
+  ],
+  "assets": [
+    {
+      "id": "start_gate",
+      "label": "Start gate",
+      "family": "gates",
+      "source_url": "Blender-authored for Alpine Apex",
+      "license": "Project-authored",
+      "source_blend": "art_source/blender/flavor_v1/start_gate.blend",
+      "dimensions_m": [
+        12.869999885559082,
+        5.589976787567139,
+        1.7999999523162842
+      ],
+      "origin": "bottom_center",
+      "models": [
+        {
+          "path": "assets/graphics/flavor_v1/models/start_gate_lod0.glb",
+          "triangles": 6876,
+          "sha256": "185caf3e0cf69c6ab810ae9649f15ec5dfc40ff7fcd49fe74912c7ed62abf9b6",
+          "bytes": 5871472,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/start_gate_lod1.glb",
+          "triangles": 2750,
+          "sha256": "8d07ecb631b93d9ad77cb1a1cd8dfd65b2cd260279f3340d3598c05711287bd4",
+          "bytes": 5841116,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/start_gate_lod2.glb",
+          "triangles": 824,
+          "sha256": "f27c58da71222ea3a2e7c910b007e98095e9a76324ef8eb52796aeb337d63363",
+          "bytes": 5674000,
+          "roundtrip_verified": true
+        }
+      ],
+      "colliders": [
+        {
+          "center": [
+            -5.6,
+            0.25,
+            0
+          ],
+          "size": [
+            1.2,
+            0.5,
+            1.8
+          ]
+        },
+        {
+          "center": [
+            -5.6,
+            2.5,
+            0
+          ],
+          "size": [
+            0.72,
+            4.0,
+            0.76
+          ]
+        },
+        {
+          "center": [
+            5.6,
+            0.25,
+            0
+          ],
+          "size": [
+            1.2,
+            0.5,
+            1.8
+          ]
+        },
+        {
+          "center": [
+            5.6,
+            2.5,
+            0
+          ],
+          "size": [
+            0.72,
+            4.0,
+            0.76
+          ]
+        },
+        {
+          "center": [
+            0,
+            4.875,
+            0
+          ],
+          "size": [
+            12.4,
+            0.75,
+            0.9
+          ]
+        },
+        {
+          "center": [
+            0,
+            5.34,
+            0
+          ],
+          "size": [
+            12.8,
+            0.4,
+            1.7
+          ]
+        }
+      ],
+      "snow_amount": 0,
+      "clearance_m": {
+        "width": 10.0,
+        "height": 4.5
+      },
+      "materials": [
+        {
+          "name": "Granite feet",
+          "albedo": null,
+          "normal": null,
+          "orm": null
+        },
+        {
+          "name": "Larch timber",
+          "albedo": "res://assets/graphics/flavor_v1/textures/070ebc4c56a6729ca73a791f.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/1c4882afd62de8da66b6e073.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/2ae743f48f75297122966739.png"
+        },
+        {
+          "name": "Forged fittings",
+          "albedo": null,
+          "normal": null,
+          "orm": null
+        },
+        {
+          "name": "Roof powder",
+          "albedo": null,
+          "normal": null,
+          "orm": null
+        },
+        {
+          "name": "Start green",
+          "albedo": null,
+          "normal": null,
+          "orm": null
+        },
+        {
+          "name": "Ivory lettering",
+          "albedo": null,
+          "normal": null,
+          "orm": null
+        }
+      ]
+    },
+    {
+      "id": "finish_gate",
+      "label": "Finish gate",
+      "family": "gates",
+      "source_url": "Blender-authored for Alpine Apex",
+      "license": "Project-authored",
+      "source_blend": "art_source/blender/flavor_v1/finish_gate.blend",
+      "dimensions_m": [
+        12.869999885559082,
+        5.589976787567139,
+        1.7999999523162842
+      ],
+      "origin": "bottom_center",
+      "models": [
+        {
+          "path": "assets/graphics/flavor_v1/models/finish_gate_lod0.glb",
+          "triangles": 5988,
+          "sha256": "8b0433d5e334eddd73330b283e90e9082411da3946ca7ba8c90757e96a9f6896",
+          "bytes": 5849256,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/finish_gate_lod1.glb",
+          "triangles": 2394,
+          "sha256": "c6482dbb47deca843564d02546d03d3da8efa9e52d5162414ca4a0228a177495",
+          "bytes": 5808904,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/finish_gate_lod2.glb",
+          "triangles": 718,
+          "sha256": "db3868d32e5ff1fb56b9a1c90ef893fea63821f6060402e9e57a5c6e77bb2416",
+          "bytes": 5664924,
+          "roundtrip_verified": true
+        }
+      ],
+      "colliders": [
+        {
+          "center": [
+            -5.6,
+            0.25,
+            0
+          ],
+          "size": [
+            1.2,
+            0.5,
+            1.8
+          ]
+        },
+        {
+          "center": [
+            -5.6,
+            2.5,
+            0
+          ],
+          "size": [
+            0.72,
+            4.0,
+            0.76
+          ]
+        },
+        {
+          "center": [
+            5.6,
+            0.25,
+            0
+          ],
+          "size": [
+            1.2,
+            0.5,
+            1.8
+          ]
+        },
+        {
+          "center": [
+            5.6,
+            2.5,
+            0
+          ],
+          "size": [
+            0.72,
+            4.0,
+            0.76
+          ]
+        },
+        {
+          "center": [
+            0,
+            4.875,
+            0
+          ],
+          "size": [
+            12.4,
+            0.75,
+            0.9
+          ]
+        },
+        {
+          "center": [
+            0,
+            5.34,
+            0
+          ],
+          "size": [
+            12.8,
+            0.4,
+            1.7
+          ]
+        }
+      ],
+      "snow_amount": 0,
+      "clearance_m": {
+        "width": 10.0,
+        "height": 4.5
+      },
+      "materials": [
+        {
+          "name": "Granite feet",
+          "albedo": null,
+          "normal": null,
+          "orm": null
+        },
+        {
+          "name": "Larch timber",
+          "albedo": "res://assets/graphics/flavor_v1/textures/070ebc4c56a6729ca73a791f.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/1c4882afd62de8da66b6e073.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/2ae743f48f75297122966739.png"
+        },
+        {
+          "name": "Forged fittings",
+          "albedo": null,
+          "normal": null,
+          "orm": null
+        },
+        {
+          "name": "Roof powder",
+          "albedo": null,
+          "normal": null,
+          "orm": null
+        },
+        {
+          "name": "Finish vermilion",
+          "albedo": null,
+          "normal": null,
+          "orm": null
+        },
+        {
+          "name": "Ivory lettering",
+          "albedo": null,
+          "normal": null,
+          "orm": null
+        }
+      ]
+    },
+    {
+      "id": "garden_gnome",
+      "label": "Summit guardian",
+      "family": "discoveries",
+      "source_url": "https://polyhaven.com/a/garden_gnome",
+      "license": "CC0-1.0",
+      "source_blend": "art_source/blender/flavor_v1/garden_gnome.blend",
+      "dimensions_m": [
+        0.27994056046009064,
+        0.6499909703306912,
+        0.2275233119726181
+      ],
+      "origin": "bottom_center",
+      "models": [
+        {
+          "path": "assets/graphics/flavor_v1/models/garden_gnome_lod0.glb",
+          "triangles": 12000,
+          "sha256": "169411d33ba328f47ad10cc59069a64445f09ec24e665225c6872a957a1a5b46",
+          "bytes": 5778056,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/garden_gnome_lod1.glb",
+          "triangles": 4800,
+          "sha256": "48071764056dc6774ed657b0af66c7164e8db3a9e552d3b614e1f798f8bd768d",
+          "bytes": 5608584,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/garden_gnome_lod2.glb",
+          "triangles": 1440,
+          "sha256": "0f928a95d4b559fd2be90057ec401b08ce3b2fe1b1bc6356b9cc0f070fbece24",
+          "bytes": 5527108,
+          "roundtrip_verified": true
+        }
+      ],
+      "colliders": [
+        {
+          "center": [
+            0,
+            0.3249954851653456,
+            0
+          ],
+          "size": [
+            0.27994056046009064,
+            0.6499909703306912,
+            0.2275233119726181
+          ]
+        }
+      ],
+      "snow_amount": 0.7,
+      "materials": [
+        {
+          "name": "garden_gnome_01",
+          "albedo": "res://assets/graphics/flavor_v1/textures/e180b76bca101c31527c1a7d.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/8546438bca11cde10f317103.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/5cfe74c5182e49cf26d6e2e2.jpg"
+        }
+      ]
+    },
+    {
+      "id": "wet_floor_sign",
+      "label": "Caution: mountain",
+      "family": "discoveries",
+      "source_url": "https://polyhaven.com/a/WetFloorSign_01",
+      "license": "CC0-1.0",
+      "source_blend": "art_source/blender/flavor_v1/wet_floor_sign.blend",
+      "dimensions_m": [
+        0.30980464816093445,
+        0.6500000357627869,
+        0.37015846371650696
+      ],
+      "origin": "bottom_center",
+      "models": [
+        {
+          "path": "assets/graphics/flavor_v1/models/wet_floor_sign_lod0.glb",
+          "triangles": 228,
+          "sha256": "d19ee79ffb652ea80471557ce4e0051059ec00894c0f796710fcb09308768e97",
+          "bytes": 769736,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/wet_floor_sign_lod1.glb",
+          "triangles": 100,
+          "sha256": "bb55bb6faa06616eee18b582fa6e4bb7a57425a47ce2e0b0fce35daa46695767",
+          "bytes": 766744,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/wet_floor_sign_lod2.glb",
+          "triangles": 100,
+          "sha256": "b1271fe8645126224e6bed5e418ca5b68470ec623b7474c903a2141c57cc5715",
+          "bytes": 766744,
+          "roundtrip_verified": true
+        }
+      ],
+      "colliders": [
+        {
+          "center": [
+            0,
+            0.32500001788139343,
+            0
+          ],
+          "size": [
+            0.30980464816093445,
+            0.6500000357627869,
+            0.37015846371650696
+          ]
+        }
+      ],
+      "snow_amount": 0.7,
+      "materials": [
+        {
+          "name": "WetFloorSign_01",
+          "albedo": "res://assets/graphics/flavor_v1/textures/f2cc0de3faa39fa922c878ec.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/9f1d068237273aae2a76b4b1.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/dfe8b7eaa199845ba5e0049d.jpg"
+        }
+      ]
+    },
+    {
+      "id": "summit_armchair",
+      "label": "The best seat",
+      "family": "discoveries",
+      "source_url": "https://polyhaven.com/a/ArmChair_01",
+      "license": "CC0-1.0",
+      "source_blend": "art_source/blender/flavor_v1/summit_armchair.blend",
+      "dimensions_m": [
+        0.8762414455413818,
+        1.100000023841858,
+        0.7908610701560974
+      ],
+      "origin": "bottom_center",
+      "models": [
+        {
+          "path": "assets/graphics/flavor_v1/models/summit_armchair_lod0.glb",
+          "triangles": 5626,
+          "sha256": "0c16114c83454f0d9decb1468d86a6663ffa9adde31261fa3289b2fc9e9fda22",
+          "bytes": 2804404,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/summit_armchair_lod1.glb",
+          "triangles": 2249,
+          "sha256": "952bb87c33489ba71d2fcd7454074ccac066d3c15b0ac662f212a7079634c080",
+          "bytes": 2718032,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/summit_armchair_lod2.glb",
+          "triangles": 674,
+          "sha256": "6d1d5cc6237916b6af262347cd0c835eeb691ac73b9128b85e2f03124388cc15",
+          "bytes": 2675728,
+          "roundtrip_verified": true
+        }
+      ],
+      "colliders": [
+        {
+          "center": [
+            0,
+            0.550000011920929,
+            0
+          ],
+          "size": [
+            0.8762414455413818,
+            1.100000023841858,
+            0.7908610701560974
+          ]
+        }
+      ],
+      "snow_amount": 0.7,
+      "materials": [
+        {
+          "name": "Armchair_01",
+          "albedo": "res://assets/graphics/flavor_v1/textures/d45d6f6328a924b5099deb7e.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/0bce11bc21a3259e13429e65.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/9f5011595cfc5ba523ac385b.jpg"
+        }
+      ]
+    },
+    {
+      "id": "picnic_table",
+      "label": "Lookout picnic table",
+      "family": "camp",
+      "source_url": "https://polyhaven.com/a/wooden_picnic_table",
+      "license": "CC0-1.0",
+      "source_blend": "art_source/blender/flavor_v1/picnic_table.blend",
+      "dimensions_m": [
+        2.403233289718628,
+        0.800000011920929,
+        3.2411608695983887
+      ],
+      "origin": "bottom_center",
+      "models": [
+        {
+          "path": "assets/graphics/flavor_v1/models/picnic_table_lod0.glb",
+          "triangles": 10210,
+          "sha256": "ade454c6dcea857a4e21caf2224523282f0b2146a63e3ea74a88ed10a96638ae",
+          "bytes": 17643812,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/picnic_table_lod1.glb",
+          "triangles": 4083,
+          "sha256": "e5689e0b258180fc3239ebea60d5cee56bee3ffcbfc45aa48d69406e40129273",
+          "bytes": 17488224,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/picnic_table_lod2.glb",
+          "triangles": 1225,
+          "sha256": "bc751780cdfbc842f3aeeb564a12544917d2abd56545c2e16818a2b00747dbbe",
+          "bytes": 17413652,
+          "roundtrip_verified": true
+        }
+      ],
+      "colliders": [
+        {
+          "center": [
+            0,
+            0.4000000059604645,
+            0
+          ],
+          "size": [
+            2.403233289718628,
+            0.800000011920929,
+            3.2411608695983887
+          ]
+        }
+      ],
+      "snow_amount": 0.7,
+      "materials": [
+        {
+          "name": "wooden_picnic_table_bottom",
+          "albedo": "res://assets/graphics/flavor_v1/textures/3f6ab082adbc93d58d0fcb89.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/2b5f79431ebdfc7a94f54be6.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/a7d8573dc60ed977f2069d34.jpg"
+        },
+        {
+          "name": "wooden_picnic_table_table",
+          "albedo": "res://assets/graphics/flavor_v1/textures/34440cd1c2618716d3f585ee.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/9aff708208707c2017c7422f.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/a095db06707a2101ac3fe3ba.jpg"
+        }
+      ]
+    },
+    {
+      "id": "stone_fire_pit",
+      "label": "Expedition fire pit",
+      "family": "camp",
+      "source_url": "https://polyhaven.com/a/stone_fire_pit",
+      "license": "CC0-1.0",
+      "source_blend": "art_source/blender/flavor_v1/stone_fire_pit.blend",
+      "dimensions_m": [
+        1.6785463094711304,
+        0.44999998807907104,
+        1.6608606576919556
+      ],
+      "origin": "bottom_center",
+      "models": [
+        {
+          "path": "assets/graphics/flavor_v1/models/stone_fire_pit_lod0.glb",
+          "triangles": 3887,
+          "sha256": "049f192ab3f3d03213295cec72bb07bc8b84ae8d251fb57402162f261202b782",
+          "bytes": 9616084,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/stone_fire_pit_lod1.glb",
+          "triangles": 1554,
+          "sha256": "b681e3ca5eca3cd463dff022c28eb0e430fd880ca6d6aed1e4c6ceccf5a91d5e",
+          "bytes": 9562196,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/stone_fire_pit_lod2.glb",
+          "triangles": 466,
+          "sha256": "b3f4cb0d11b07121aa9ebed1a5cdf78dbc81b5a2f7e0a0e68603dd375dfd4569",
+          "bytes": 9535116,
+          "roundtrip_verified": true
+        }
+      ],
+      "colliders": [
+        {
+          "center": [
+            0,
+            0.22499999403953552,
+            0
+          ],
+          "size": [
+            1.6785463094711304,
+            0.44999998807907104,
+            1.6608606576919556
+          ]
+        }
+      ],
+      "snow_amount": 0.7,
+      "materials": [
+        {
+          "name": "stone_fire_pit",
+          "albedo": "res://assets/graphics/flavor_v1/textures/79a4a9a09d1654077fd07b35.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/abb35b4c48a221f5ca5a4ca4.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/e710477110468a6f154ca8a1.jpg"
+        }
+      ]
+    },
+    {
+      "id": "expedition_radio",
+      "label": "Lost expedition radio",
+      "family": "camp",
+      "source_url": "https://polyhaven.com/a/vintage_radio_transceiver",
+      "license": "CC0-1.0",
+      "source_blend": "art_source/blender/flavor_v1/expedition_radio.blend",
+      "dimensions_m": [
+        0.8589952886104584,
+        0.650000034505985,
+        0.6181581914424896
+      ],
+      "origin": "bottom_center",
+      "models": [
+        {
+          "path": "assets/graphics/flavor_v1/models/expedition_radio_lod0.glb",
+          "triangles": 15999,
+          "sha256": "f4949ed5f0fb71c6bc37f67aa30087be654298cf1c770c2fb483965310b28419",
+          "bytes": 17382604,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/expedition_radio_lod1.glb",
+          "triangles": 6398,
+          "sha256": "02e59ea356179258d3acb6077057a7f57ddea7564b68c777a9a4d7eb7ba710fa",
+          "bytes": 17007864,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/expedition_radio_lod2.glb",
+          "triangles": 1915,
+          "sha256": "493e38517c122bdb540f2f6456b175f0c38ceec6ea4b5e10b8ba693f09106d7a",
+          "bytes": 16728352,
+          "roundtrip_verified": true
+        }
+      ],
+      "colliders": [
+        {
+          "center": [
+            0,
+            0.3250000172529925,
+            0
+          ],
+          "size": [
+            0.8589952886104584,
+            0.650000034505985,
+            0.6181581914424896
+          ]
+        }
+      ],
+      "snow_amount": 0.7,
+      "materials": [
+        {
+          "name": "vintage_radio_transceiver",
+          "albedo": "res://assets/graphics/flavor_v1/textures/87f03f8ce4b48d78083609a9.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/0847075bff7d68574dcf6598.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/3b301d0a23ccc10711e88380.jpg"
+        },
+        {
+          "name": "vintage_radio_transceiver_accessories",
+          "albedo": "res://assets/graphics/flavor_v1/textures/67124a78e7de97188ddee5f4.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/fb0a8dc541d9b6337405354d.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/f9c03b0960f0e0723327ff9f.jpg"
+        }
+      ]
+    },
+    {
+      "id": "supply_crate",
+      "label": "Buried supplies",
+      "family": "camp",
+      "source_url": "https://polyhaven.com/a/wooden_crate_01",
+      "license": "CC0-1.0",
+      "source_blend": "art_source/blender/flavor_v1/supply_crate.blend",
+      "dimensions_m": [
+        1.770372748374939,
+        0.75,
+        0.8772861957550049
+      ],
+      "origin": "bottom_center",
+      "models": [
+        {
+          "path": "assets/graphics/flavor_v1/models/supply_crate_lod0.glb",
+          "triangles": 6576,
+          "sha256": "59d3e3ea2ffa4c3ea64487406e47ac2a695011289a31b27ec1f12bb2fda1bc44",
+          "bytes": 8283768,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/supply_crate_lod1.glb",
+          "triangles": 2630,
+          "sha256": "b0f554b638b91824b076c5e5b88f46f158a1aaec1fe288f293299abac3580420",
+          "bytes": 8176088,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/supply_crate_lod2.glb",
+          "triangles": 788,
+          "sha256": "c2b5df90a44d1f223943077095ffac61824ce05fdcc680cc845ce864f0e1a5e7",
+          "bytes": 8125096,
+          "roundtrip_verified": true
+        }
+      ],
+      "colliders": [
+        {
+          "center": [
+            0,
+            0.375,
+            0
+          ],
+          "size": [
+            1.770372748374939,
+            0.75,
+            0.8772861957550049
+          ]
+        }
+      ],
+      "snow_amount": 0.7,
+      "materials": [
+        {
+          "name": "wooden_crate_01",
+          "albedo": "res://assets/graphics/flavor_v1/textures/0ba1a7745837c7b5495b6a90.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/d163fac0801aa15a6153a8b1.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/00568882a62e4870a3ca9bba.jpg"
+        }
+      ]
+    },
+    {
+      "id": "giant_rubber_duck",
+      "label": "The powder duck",
+      "family": "discoveries",
+      "source_url": "https://polyhaven.com/a/rubber_duck_toy",
+      "license": "CC0-1.0",
+      "source_blend": "art_source/blender/flavor_v1/giant_rubber_duck.blend",
+      "dimensions_m": [
+        0.9347097873687744,
+        1.25,
+        1.313389539718628
+      ],
+      "origin": "bottom_center",
+      "models": [
+        {
+          "path": "assets/graphics/flavor_v1/models/giant_rubber_duck_lod0.glb",
+          "triangles": 4288,
+          "sha256": "107baa7c935cd3a6b584830b3759fff452f2cdb306fcfa8c8aef0ecea5294f14",
+          "bytes": 2167192,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/giant_rubber_duck_lod1.glb",
+          "triangles": 1714,
+          "sha256": "11862f30cdacb31657c6255ef488370af560a832ff91f20a4c428cf1377569fc",
+          "bytes": 2105812,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/giant_rubber_duck_lod2.glb",
+          "triangles": 514,
+          "sha256": "ecd8bfb0a9d239b59895fd69c3c9a3298342f541abb13df12c065f9b0e3baf03",
+          "bytes": 2076572,
+          "roundtrip_verified": true
+        }
+      ],
+      "colliders": [
+        {
+          "center": [
+            0,
+            0.625,
+            0
+          ],
+          "size": [
+            0.9347097873687744,
+            1.25,
+            1.313389539718628
+          ]
+        }
+      ],
+      "snow_amount": 0.7,
+      "materials": [
+        {
+          "name": "rubber_duck_toy",
+          "albedo": "res://assets/graphics/flavor_v1/textures/6abc199fd0249ff906ddb977.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/2c2cdbaa3a46a1d3f577d510.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/87cd18f544e579fb9a5bb420.jpg"
+        }
+      ]
+    },
+    {
+      "id": "alpine_refuge",
+      "label": "Little alpine refuge",
+      "family": "structures",
+      "source_url": "Meshy 7 / see art_source/flavor_v1/credit_ledger.json",
+      "license": "Meshy-generated; account terms apply",
+      "source_blend": "art_source/blender/flavor_v1/alpine_refuge.blend",
+      "dimensions_m": [
+        4.2601847648620605,
+        4.599999904632568,
+        4.3226728439331055
+      ],
+      "origin": "bottom_center",
+      "models": [
+        {
+          "path": "assets/graphics/flavor_v1/models/alpine_refuge_lod0.glb",
+          "triangles": 19355,
+          "sha256": "d4ddc40a7ad72c97a9645bf40b2f2d4773804e39e74e4efcd3cd824efec14fb4",
+          "bytes": 10737400,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/alpine_refuge_lod1.glb",
+          "triangles": 7715,
+          "sha256": "68dc1cfff13b4f587a1f19cd2f358519ae35ece20888eae82af86281c79bdd64",
+          "bytes": 10155608,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/alpine_refuge_lod2.glb",
+          "triangles": 2289,
+          "sha256": "1b1177b2e827ee13ff140eec144ecfcf97f7f9955a07b49b6235cd37af012e8c",
+          "bytes": 9833668,
+          "roundtrip_verified": true
+        }
+      ],
+      "colliders": [
+        {
+          "center": [
+            0,
+            2.299999952316284,
+            0
+          ],
+          "size": [
+            4.2601847648620605,
+            4.599999904632568,
+            4.3226728439331055
+          ]
+        }
+      ],
+      "snow_amount": 0,
+      "materials": [
+        {
+          "name": "material",
+          "albedo": "res://assets/graphics/flavor_v1/textures/92f93efd8a80521c31fdf5c7.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/9eea87b947920f808d20b664.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/605257b3e7bcda130efabd0e.jpg"
+        }
+      ]
+    },
+    {
+      "id": "marmot_monument",
+      "label": "Marmot of the summit",
+      "family": "discoveries",
+      "source_url": "Meshy 7 / see art_source/flavor_v1/credit_ledger.json",
+      "license": "Meshy-generated; account terms apply",
+      "source_blend": "art_source/blender/flavor_v1/marmot_monument.blend",
+      "dimensions_m": [
+        0.7289110422134399,
+        1.5999999046325684,
+        0.6546486020088196
+      ],
+      "origin": "bottom_center",
+      "models": [
+        {
+          "path": "assets/graphics/flavor_v1/models/marmot_monument_lod0.glb",
+          "triangles": 16620,
+          "sha256": "2f74e4d93410a50c30146028fd1f60f2705b679b6eca7e35ca4b0605f7130d30",
+          "bytes": 10159652,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/marmot_monument_lod1.glb",
+          "triangles": 6648,
+          "sha256": "d2840c9dd28984abecf4718fa16be721dc6062674d675c8f009457a50094edf1",
+          "bytes": 9863800,
+          "roundtrip_verified": true
+        },
+        {
+          "path": "assets/graphics/flavor_v1/models/marmot_monument_lod2.glb",
+          "triangles": 1994,
+          "sha256": "e17c4044fb99bf7025a9ce1b5aefac39c1fbc9e495568faef9134f16c0b5cf7a",
+          "bytes": 9706084,
+          "roundtrip_verified": true
+        }
+      ],
+      "colliders": [
+        {
+          "center": [
+            0,
+            0.7999999523162842,
+            0
+          ],
+          "size": [
+            0.7289110422134399,
+            1.5999999046325684,
+            0.6546486020088196
+          ]
+        }
+      ],
+      "snow_amount": 0,
+      "materials": [
+        {
+          "name": "material",
+          "albedo": "res://assets/graphics/flavor_v1/textures/74543f072689217be4b3473f.jpg",
+          "normal": "res://assets/graphics/flavor_v1/textures/e5ce21595d67a13f5c9b7a02.jpg",
+          "orm": "res://assets/graphics/flavor_v1/textures/1255387430b8e63fd7aad272.jpg"
+        }
+      ]
+    }
+  ]
+}

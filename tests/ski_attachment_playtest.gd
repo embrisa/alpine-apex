@@ -74,7 +74,7 @@ func _measure_skeleton():
  for i in range(2):
   var id = "RightFoot" if i==0 else "LeftFoot"
   var foot = game.skier.skeleton.global_transform*game.skier.skeleton.get_bone_global_pose(game.skier.bone_ids[id])
-  var boot = game.skier.skis[i].global_transform*Vector3(0,.095+game.sim.Body.REST[id].y,-.15)
+  var boot = game.skier.skis[i].get_child(1).global_transform*Vector3(0,game.sim.Body.REST[id].y,0)
   max_gap = maxf(max_gap,foot.origin.distance_to(boot))
   if game.active: max_moving_gap = maxf(max_moving_gap,foot.origin.distance_to(boot))
 func _capture():

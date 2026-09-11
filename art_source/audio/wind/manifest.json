@@ -1,0 +1,23 @@
+{
+  "id": "wind_forest_01",
+  "title": "Forest wind 01",
+  "original_filename": "forest_wind.wav",
+  "provenance": "Supplied by the user from Downloads; retain the lossless master for future reuse.",
+  "master": "art_source/audio/wind/wind_forest_01.wav",
+  "master_sha256": "f772b858f7f78431b04ea0151cea1dadaab2a036cbd0da12673cc8e4d1bda01e",
+  "runtime": "assets/audio/ambience/wind/wind_forest_01.ogg",
+  "runtime_sha256": "31788e0a892e18e5a761fb4b71ac149ac7ed467a6bd2857de997f9765fc91fae",
+  "channels": 2,
+  "sample_rate": 48000,
+  "duration_seconds": 139.52,
+  "source_peak_dbfs": -30.19680979198875,
+  "source_rms_dbfs": -58.20250382160257,
+  "constant_gain_db": 24.19680979198875,
+  "target_peak_dbfs": -6.0,
+  "loop_offset_seconds": 0.25,
+  "seam_overlap_seconds": 0.25,
+  "encoding": "Stereo Vorbis quality 7, original 48 kHz; full duration; no dynamic compression or EQ",
+  "loading_volume_db": -12.0,
+  "master_bytes": 26801822,
+  "runtime_bytes": 3542661
+}

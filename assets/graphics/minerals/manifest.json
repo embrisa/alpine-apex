@@ -1,0 +1,3460 @@
+{
+  "version": "mineral-library-v2",
+  "source": "rock_generator.blend",
+  "source_sha256": "f644a0d1b7505dbcd43687cba12630e39e6f7eac7f221ad067c9accf3df1687f",
+  "blender_version": "5.2.1 LTS",
+  "size_definition": "Longest bounding-box dimension in metres",
+  "categories": {
+    "small": [
+      0.35,
+      0.6,
+      0.9,
+      1.2
+    ],
+    "medium": [
+      2.0,
+      3.2,
+      4.8,
+      6.5
+    ],
+    "large": [
+      10.0,
+      16.0,
+      24.0,
+      36.0
+    ],
+    "huge_boulders": [
+      40.0,
+      55.0,
+      75.0,
+      100.0
+    ],
+    "cliffs": [
+      60.0,
+      100.0,
+      150.0,
+      220.0
+    ]
+  },
+  "category_families": {
+    "small": [
+      "rounded",
+      "fractured",
+      "sedimentary",
+      "outcrop",
+      "cliff",
+      "glacier"
+    ],
+    "medium": [
+      "rounded",
+      "fractured",
+      "sedimentary",
+      "outcrop",
+      "cliff",
+      "glacier"
+    ],
+    "large": [
+      "rounded",
+      "fractured",
+      "sedimentary",
+      "outcrop",
+      "cliff",
+      "glacier"
+    ],
+    "huge_boulders": [
+      "erratic",
+      "block",
+      "split",
+      "dome",
+      "overhang",
+      "monolith"
+    ],
+    "cliffs": [
+      "wall",
+      "layered_wall",
+      "corner",
+      "recess",
+      "overhang_wall",
+      "buttress"
+    ]
+  },
+  "triangle_budgets": {
+    "small": 1600,
+    "medium": 4500,
+    "large": 10000,
+    "huge_boulders": 18000,
+    "cliffs": 24000
+  },
+  "asset_count": 120,
+  "source_preserved": true,
+  "collision": "Visual assets only; no skiing/contact changes",
+  "lod_policy": "Godot importer generates mesh LODs; one surface per asset",
+  "elapsed_seconds": 207.89,
+  "generated_categories": [
+    "huge_boulders",
+    "cliffs"
+  ],
+  "preserved_asset_count": 72,
+  "assets": [
+    {
+      "asset": "mineral_small_rounded_01",
+      "category": "small",
+      "family": "rounded",
+      "variant": 1,
+      "seed": 920700,
+      "dimensions_blender_xyz_m": [
+        0.3500000238418579,
+        0.2755885422229767,
+        0.1962660253047943
+      ],
+      "dimensions_godot_xyz_m": [
+        0.3500000238418579,
+        0.1962660253047943,
+        0.2755885422229767
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_rounded_01.glb",
+      "sha256": "ad266a3e27b20279b27c1726d35a547a1a29e06498c6e4e7008b36d1037d9549",
+      "bytes": 955684,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 774,
+      "triangles": 1556,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_rounded_02",
+      "category": "small",
+      "family": "rounded",
+      "variant": 2,
+      "seed": 920783,
+      "dimensions_blender_xyz_m": [
+        0.5272188186645508,
+        0.6000000238418579,
+        0.5590591430664062
+      ],
+      "dimensions_godot_xyz_m": [
+        0.5272188186645508,
+        0.5590591430664062,
+        0.6000000238418579
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_rounded_02.glb",
+      "sha256": "0ce2faca22f619f3d0fa538e8396dc4a753f0b3e685539dfb9b4f0efb8d266a2",
+      "bytes": 973032,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 779,
+      "triangles": 1554,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_rounded_03",
+      "category": "small",
+      "family": "rounded",
+      "variant": 3,
+      "seed": 920866,
+      "dimensions_blender_xyz_m": [
+        0.8873285055160522,
+        0.9000000357627869,
+        0.48137620091438293
+      ],
+      "dimensions_godot_xyz_m": [
+        0.8873285055160522,
+        0.48137620091438293,
+        0.9000000357627869
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_rounded_03.glb",
+      "sha256": "4e396b0355f2a333997db8b4a8820a5622451448ca5ebf1f4d0cf5417b5f076f",
+      "bytes": 958056,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 781,
+      "triangles": 1558,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_rounded_04",
+      "category": "small",
+      "family": "rounded",
+      "variant": 4,
+      "seed": 920949,
+      "dimensions_blender_xyz_m": [
+        0.923188328742981,
+        1.0219993591308594,
+        1.2000000476837158
+      ],
+      "dimensions_godot_xyz_m": [
+        0.923188328742981,
+        1.2000000476837158,
+        1.0219993591308594
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_rounded_04.glb",
+      "sha256": "05729b19fc1d1551d7d857848858a777eb692dc1d8077af5132552df53c861e6",
+      "bytes": 962120,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 765,
+      "triangles": 1522,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_fractured_01",
+      "category": "small",
+      "family": "fractured",
+      "variant": 1,
+      "seed": 921700,
+      "dimensions_blender_xyz_m": [
+        0.3499999940395355,
+        0.2833622097969055,
+        0.3124769926071167
+      ],
+      "dimensions_godot_xyz_m": [
+        0.3499999940395355,
+        0.3124769926071167,
+        0.2833622097969055
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_fractured_01.glb",
+      "sha256": "2ee8c43fd000ded6e43e88c90e6b5f440d3d3853b5e81081ca9da805e87fb000",
+      "bytes": 976748,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 779,
+      "triangles": 1558,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_fractured_02",
+      "category": "small",
+      "family": "fractured",
+      "variant": 2,
+      "seed": 921783,
+      "dimensions_blender_xyz_m": [
+        0.5999999642372131,
+        0.3747390806674957,
+        0.3657020926475525
+      ],
+      "dimensions_godot_xyz_m": [
+        0.5999999642372131,
+        0.3657020926475525,
+        0.3747390806674957
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_fractured_02.glb",
+      "sha256": "06af60d3ac57c4d66d92fe9005d8c43d07490331d7fdc1b4eda2f46bd967dadb",
+      "bytes": 978792,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 776,
+      "triangles": 1552,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_fractured_03",
+      "category": "small",
+      "family": "fractured",
+      "variant": 3,
+      "seed": 921866,
+      "dimensions_blender_xyz_m": [
+        0.9000000953674316,
+        0.6646403074264526,
+        0.7073944807052612
+      ],
+      "dimensions_godot_xyz_m": [
+        0.9000000953674316,
+        0.7073944807052612,
+        0.6646403074264526
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_fractured_03.glb",
+      "sha256": "c23b2de54991c83131c1b9c7cd304fed8a061f7cd4ab318cae8b435d8f82f58f",
+      "bytes": 977672,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 765,
+      "triangles": 1546,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_fractured_04",
+      "category": "small",
+      "family": "fractured",
+      "variant": 4,
+      "seed": 921949,
+      "dimensions_blender_xyz_m": [
+        1.1999998092651367,
+        0.6910375952720642,
+        0.6466602683067322
+      ],
+      "dimensions_godot_xyz_m": [
+        1.1999998092651367,
+        0.6466602683067322,
+        0.6910375952720642
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_fractured_04.glb",
+      "sha256": "515fcf0e24fb138d3143a681097dd107daa117fa4e6fd68ff79cd11524d8ba6a",
+      "bytes": 971896,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 775,
+      "triangles": 1550,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_sedimentary_01",
+      "category": "small",
+      "family": "sedimentary",
+      "variant": 1,
+      "seed": 922700,
+      "dimensions_blender_xyz_m": [
+        0.3500000238418579,
+        0.28412100672721863,
+        0.17150016129016876
+      ],
+      "dimensions_godot_xyz_m": [
+        0.3500000238418579,
+        0.17150016129016876,
+        0.28412100672721863
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_sedimentary_01.glb",
+      "sha256": "4a2b40ed349f4bf46cbd6c1fe8faba71c26274d1978dd3bad082beadc0744b6e",
+      "bytes": 983008,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 780,
+      "triangles": 1560,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_sedimentary_02",
+      "category": "small",
+      "family": "sedimentary",
+      "variant": 2,
+      "seed": 922783,
+      "dimensions_blender_xyz_m": [
+        0.6000000238418579,
+        0.456981360912323,
+        0.36790892481803894
+      ],
+      "dimensions_godot_xyz_m": [
+        0.6000000238418579,
+        0.36790892481803894,
+        0.456981360912323
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_sedimentary_02.glb",
+      "sha256": "62649de0f74d0940e88f29b511f63355544ed9c081c54bcb7262978a1b0e6c4b",
+      "bytes": 981324,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 770,
+      "triangles": 1540,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_sedimentary_03",
+      "category": "small",
+      "family": "sedimentary",
+      "variant": 3,
+      "seed": 922866,
+      "dimensions_blender_xyz_m": [
+        0.8999999165534973,
+        0.7178740501403809,
+        0.600062370300293
+      ],
+      "dimensions_godot_xyz_m": [
+        0.8999999165534973,
+        0.600062370300293,
+        0.7178740501403809
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_sedimentary_03.glb",
+      "sha256": "e78c9b571df5f7e4d9e3b0ce668590d2dfc2a6ae23135a51a55673dc0738202e",
+      "bytes": 984920,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 767,
+      "triangles": 1546,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_sedimentary_04",
+      "category": "small",
+      "family": "sedimentary",
+      "variant": 4,
+      "seed": 922949,
+      "dimensions_blender_xyz_m": [
+        1.2000000476837158,
+        0.8900812864303589,
+        1.0239410400390625
+      ],
+      "dimensions_godot_xyz_m": [
+        1.2000000476837158,
+        1.0239410400390625,
+        0.8900812864303589
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_sedimentary_04.glb",
+      "sha256": "51ceefef0df0723c86b6a570c4be2f5677dc55f61d81f75a52b8c22cc930a658",
+      "bytes": 988672,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 759,
+      "triangles": 1538,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_outcrop_01",
+      "category": "small",
+      "family": "outcrop",
+      "variant": 1,
+      "seed": 923700,
+      "dimensions_blender_xyz_m": [
+        0.24095822870731354,
+        0.22961999475955963,
+        0.3500000238418579
+      ],
+      "dimensions_godot_xyz_m": [
+        0.24095822870731354,
+        0.3500000238418579,
+        0.22961999475955963
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_outcrop_01.glb",
+      "sha256": "90a106c6067dda68d33b06a288d079d2fd24c1d606f1fc4e2a278420ef396c24",
+      "bytes": 975716,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 777,
+      "triangles": 1554,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_outcrop_02",
+      "category": "small",
+      "family": "outcrop",
+      "variant": 2,
+      "seed": 923783,
+      "dimensions_blender_xyz_m": [
+        0.37295591831207275,
+        0.3727029860019684,
+        0.5999999642372131
+      ],
+      "dimensions_godot_xyz_m": [
+        0.37295591831207275,
+        0.5999999642372131,
+        0.3727029860019684
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_outcrop_02.glb",
+      "sha256": "7a8464811d971193415c18875e618e9d9ed53985d8a7f6df647e60620eb09f9e",
+      "bytes": 981856,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 781,
+      "triangles": 1558,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_outcrop_03",
+      "category": "small",
+      "family": "outcrop",
+      "variant": 3,
+      "seed": 923866,
+      "dimensions_blender_xyz_m": [
+        0.5686283111572266,
+        0.5649662613868713,
+        0.9000000357627869
+      ],
+      "dimensions_godot_xyz_m": [
+        0.5686283111572266,
+        0.9000000357627869,
+        0.5649662613868713
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_outcrop_03.glb",
+      "sha256": "d493c8bad3de434dbdb0c3300b6f4c2d3272675957849c22a4a53697f71169b9",
+      "bytes": 978460,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 768,
+      "triangles": 1552,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_outcrop_04",
+      "category": "small",
+      "family": "outcrop",
+      "variant": 4,
+      "seed": 923949,
+      "dimensions_blender_xyz_m": [
+        0.8380772471427917,
+        0.7967842817306519,
+        1.1999999284744263
+      ],
+      "dimensions_godot_xyz_m": [
+        0.8380772471427917,
+        1.1999999284744263,
+        0.7967842817306519
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_outcrop_04.glb",
+      "sha256": "2d01a2888f3ede1f43d26caff238eb711e5696f5fd8a653e69ea7c7636c6df0b",
+      "bytes": 978724,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 776,
+      "triangles": 1556,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_cliff_01",
+      "category": "small",
+      "family": "cliff",
+      "variant": 1,
+      "seed": 924700,
+      "dimensions_blender_xyz_m": [
+        0.3499999940395355,
+        0.1680900752544403,
+        0.27233436703681946
+      ],
+      "dimensions_godot_xyz_m": [
+        0.3499999940395355,
+        0.27233436703681946,
+        0.1680900752544403
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_cliff_01.glb",
+      "sha256": "9ea743e4ef809e82a961fedf24ee36014afb63156f20c036275a7e9fdc20037c",
+      "bytes": 980704,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 778,
+      "triangles": 1560,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_cliff_02",
+      "category": "small",
+      "family": "cliff",
+      "variant": 2,
+      "seed": 924783,
+      "dimensions_blender_xyz_m": [
+        0.6000000238418579,
+        0.23102962970733643,
+        0.3674046993255615
+      ],
+      "dimensions_godot_xyz_m": [
+        0.6000000238418579,
+        0.3674046993255615,
+        0.23102962970733643
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_cliff_02.glb",
+      "sha256": "a1aed7ddfa625db12c9c40fb28b20ace69219b36d7532ca40ffc20b5b936ee0e",
+      "bytes": 986708,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 775,
+      "triangles": 1554,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_cliff_03",
+      "category": "small",
+      "family": "cliff",
+      "variant": 3,
+      "seed": 924866,
+      "dimensions_blender_xyz_m": [
+        0.9000000953674316,
+        0.3073011040687561,
+        0.5005777478218079
+      ],
+      "dimensions_godot_xyz_m": [
+        0.9000000953674316,
+        0.5005777478218079,
+        0.3073011040687561
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_cliff_03.glb",
+      "sha256": "9cd5940832b311afcc66d9fda8d69e8150886bc0a8a1a414e8caed0fe084a693",
+      "bytes": 975300,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 778,
+      "triangles": 1560,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_cliff_04",
+      "category": "small",
+      "family": "cliff",
+      "variant": 4,
+      "seed": 924949,
+      "dimensions_blender_xyz_m": [
+        1.2000000476837158,
+        0.31912606954574585,
+        0.5619741082191467
+      ],
+      "dimensions_godot_xyz_m": [
+        1.2000000476837158,
+        0.5619741082191467,
+        0.31912606954574585
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_cliff_04.glb",
+      "sha256": "6dec7603989409d7f0c8eaccc5d47ce7d8d7366128d51f20062f9776d9a34dc0",
+      "bytes": 978100,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 780,
+      "triangles": 1560,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_glacier_01",
+      "category": "small",
+      "family": "glacier",
+      "variant": 1,
+      "seed": 925700,
+      "dimensions_blender_xyz_m": [
+        0.3500000238418579,
+        0.25575727224349976,
+        0.2514876425266266
+      ],
+      "dimensions_godot_xyz_m": [
+        0.3500000238418579,
+        0.2514876425266266,
+        0.25575727224349976
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_glacier_01.glb",
+      "sha256": "5707e7def8cbbb2aae5ee0d5b19eafcb2f41a2bff550f8b90c9eb805228a8641",
+      "bytes": 75904,
+      "material_surfaces": 1,
+      "embedded_textures": 0,
+      "vertices": 772,
+      "triangles": 1540,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_glacier_02",
+      "category": "small",
+      "family": "glacier",
+      "variant": 2,
+      "seed": 925783,
+      "dimensions_blender_xyz_m": [
+        0.6000000238418579,
+        0.4379641115665436,
+        0.41547146439552307
+      ],
+      "dimensions_godot_xyz_m": [
+        0.6000000238418579,
+        0.41547146439552307,
+        0.4379641115665436
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_glacier_02.glb",
+      "sha256": "f21efd941c5cb5c632051f36c11c2ceae80d0bfeb0ed49b6aab8b670e15346ea",
+      "bytes": 83004,
+      "material_surfaces": 1,
+      "embedded_textures": 0,
+      "vertices": 777,
+      "triangles": 1550,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_glacier_03",
+      "category": "small",
+      "family": "glacier",
+      "variant": 3,
+      "seed": 925866,
+      "dimensions_blender_xyz_m": [
+        0.9000000357627869,
+        0.7417758107185364,
+        0.7448084354400635
+      ],
+      "dimensions_godot_xyz_m": [
+        0.9000000357627869,
+        0.7448084354400635,
+        0.7417758107185364
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_glacier_03.glb",
+      "sha256": "599367c7fb70af8e8f4e7437c13a27dd7a1f1fa3d86c23668cb01b35026da542",
+      "bytes": 90068,
+      "material_surfaces": 1,
+      "embedded_textures": 0,
+      "vertices": 774,
+      "triangles": 1548,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_small_glacier_04",
+      "category": "small",
+      "family": "glacier",
+      "variant": 4,
+      "seed": 925949,
+      "dimensions_blender_xyz_m": [
+        1.2000000476837158,
+        1.025651216506958,
+        1.076767086982727
+      ],
+      "dimensions_godot_xyz_m": [
+        1.2000000476837158,
+        1.076767086982727,
+        1.025651216506958
+      ],
+      "path": "assets/graphics/minerals/small/mineral_small_glacier_04.glb",
+      "sha256": "65a491f8fb70d532ed485410317aa9e1db8cdaa3a3681bd77609158c643eef2b",
+      "bytes": 87208,
+      "material_surfaces": 1,
+      "embedded_textures": 0,
+      "vertices": 774,
+      "triangles": 1552,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_rounded_01",
+      "category": "medium",
+      "family": "rounded",
+      "variant": 1,
+      "seed": 930700,
+      "dimensions_blender_xyz_m": [
+        2.0,
+        1.5827620029449463,
+        1.1149230003356934
+      ],
+      "dimensions_godot_xyz_m": [
+        2.0,
+        1.1149230003356934,
+        1.5827620029449463
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_rounded_01.glb",
+      "sha256": "561c2d47d32839e0787d07f6c3467f7e5187ddd35ec807c0c90d83c74b474645",
+      "bytes": 1055252,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2228,
+      "triangles": 4452,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_rounded_02",
+      "category": "medium",
+      "family": "rounded",
+      "variant": 2,
+      "seed": 930783,
+      "dimensions_blender_xyz_m": [
+        2.7511816024780273,
+        3.1999998092651367,
+        2.9477572441101074
+      ],
+      "dimensions_godot_xyz_m": [
+        2.7511816024780273,
+        2.9477572441101074,
+        3.1999998092651367
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_rounded_02.glb",
+      "sha256": "a68a2c341b97db8868727f750652268dc04b779cb1507531f803acfefb219c4f",
+      "bytes": 1063104,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2219,
+      "triangles": 4438,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_rounded_03",
+      "category": "medium",
+      "family": "rounded",
+      "variant": 3,
+      "seed": 930866,
+      "dimensions_blender_xyz_m": [
+        4.679603576660156,
+        4.800000190734863,
+        2.552793264389038
+      ],
+      "dimensions_godot_xyz_m": [
+        4.679603576660156,
+        2.552793264389038,
+        4.800000190734863
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_rounded_03.glb",
+      "sha256": "0fea5ab7489566eaaa4f4c80c6530e56bb5a056968cf45fb4a78595a678d2e94",
+      "bytes": 1049552,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2232,
+      "triangles": 4460,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_rounded_04",
+      "category": "medium",
+      "family": "rounded",
+      "variant": 4,
+      "seed": 930949,
+      "dimensions_blender_xyz_m": [
+        4.925875186920166,
+        5.517210960388184,
+        6.5
+      ],
+      "dimensions_godot_xyz_m": [
+        4.925875186920166,
+        6.5,
+        5.517210960388184
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_rounded_04.glb",
+      "sha256": "7a01f097704a05d990a3d3f56cc00114476b5d53f301405e404e9fcc0dd6670f",
+      "bytes": 1045024,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2226,
+      "triangles": 4448,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_fractured_01",
+      "category": "medium",
+      "family": "fractured",
+      "variant": 1,
+      "seed": 931700,
+      "dimensions_blender_xyz_m": [
+        2.0,
+        1.6980900764465332,
+        1.3619637489318848
+      ],
+      "dimensions_godot_xyz_m": [
+        2.0,
+        1.3619637489318848,
+        1.6980900764465332
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_fractured_01.glb",
+      "sha256": "4578fb4261222f12b3c38f10abab9d48ed7a785ac674ecf31586446f02fa31fd",
+      "bytes": 1076348,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2230,
+      "triangles": 4460,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_fractured_02",
+      "category": "medium",
+      "family": "fractured",
+      "variant": 2,
+      "seed": 931783,
+      "dimensions_blender_xyz_m": [
+        3.200000047683716,
+        1.830800175666809,
+        2.1027047634124756
+      ],
+      "dimensions_godot_xyz_m": [
+        3.200000047683716,
+        2.1027047634124756,
+        1.830800175666809
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_fractured_02.glb",
+      "sha256": "2b995c78896b8ff88856f29c30c6e575a768362b61302fed8945655ace4d43b1",
+      "bytes": 1095032,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2225,
+      "triangles": 4458,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_fractured_03",
+      "category": "medium",
+      "family": "fractured",
+      "variant": 3,
+      "seed": 931866,
+      "dimensions_blender_xyz_m": [
+        4.800000190734863,
+        3.9247472286224365,
+        4.157977104187012
+      ],
+      "dimensions_godot_xyz_m": [
+        4.800000190734863,
+        4.157977104187012,
+        3.9247472286224365
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_fractured_03.glb",
+      "sha256": "1c6b812ecba2ede395e2ed093410b7afce6defa7fa0ff41d2d539f7b7d965955",
+      "bytes": 1097900,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2230,
+      "triangles": 4456,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_fractured_04",
+      "category": "medium",
+      "family": "fractured",
+      "variant": 4,
+      "seed": 931949,
+      "dimensions_blender_xyz_m": [
+        6.5,
+        4.060845375061035,
+        4.481674671173096
+      ],
+      "dimensions_godot_xyz_m": [
+        6.5,
+        4.481674671173096,
+        4.060845375061035
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_fractured_04.glb",
+      "sha256": "bfea2b60b0a990144b2c5c3b26630a40a744a6384fb52df0b48f2b344473aecb",
+      "bytes": 1073124,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2230,
+      "triangles": 4456,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_sedimentary_01",
+      "category": "medium",
+      "family": "sedimentary",
+      "variant": 1,
+      "seed": 932700,
+      "dimensions_blender_xyz_m": [
+        2.0,
+        1.5086957216262817,
+        0.9071334600448608
+      ],
+      "dimensions_godot_xyz_m": [
+        2.0,
+        0.9071334600448608,
+        1.5086957216262817
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_sedimentary_01.glb",
+      "sha256": "d186ba8f48f057aabf9c60cea8a3948fa1730446000cfcf9f18f8878d5c14797",
+      "bytes": 1091388,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2226,
+      "triangles": 4452,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_sedimentary_02",
+      "category": "medium",
+      "family": "sedimentary",
+      "variant": 2,
+      "seed": 932783,
+      "dimensions_blender_xyz_m": [
+        3.200000047683716,
+        2.2730860710144043,
+        1.8386207818984985
+      ],
+      "dimensions_godot_xyz_m": [
+        3.200000047683716,
+        1.8386207818984985,
+        2.2730860710144043
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_sedimentary_02.glb",
+      "sha256": "adb866650d889c225dde75d7d10fffd8e0055a974bae8a40a4f687ed54f059b6",
+      "bytes": 1100908,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2226,
+      "triangles": 4456,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_sedimentary_03",
+      "category": "medium",
+      "family": "sedimentary",
+      "variant": 3,
+      "seed": 932866,
+      "dimensions_blender_xyz_m": [
+        4.800000190734863,
+        3.2551770210266113,
+        3.3377997875213623
+      ],
+      "dimensions_godot_xyz_m": [
+        4.800000190734863,
+        3.3377997875213623,
+        3.2551770210266113
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_sedimentary_03.glb",
+      "sha256": "5f3fa4c5883bbafd16d17299ce832645386dae417c2a4f31a6fa20c7df1b3276",
+      "bytes": 1104480,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2229,
+      "triangles": 4458,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_sedimentary_04",
+      "category": "medium",
+      "family": "sedimentary",
+      "variant": 4,
+      "seed": 932949,
+      "dimensions_blender_xyz_m": [
+        6.5,
+        5.122814178466797,
+        5.695408344268799
+      ],
+      "dimensions_godot_xyz_m": [
+        6.5,
+        5.695408344268799,
+        5.122814178466797
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_sedimentary_04.glb",
+      "sha256": "c93dac74022a5a85a6d9228812cf331d962bbc6ea14f2472b57c4c1f3c13bd33",
+      "bytes": 1111556,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2232,
+      "triangles": 4460,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_outcrop_01",
+      "category": "medium",
+      "family": "outcrop",
+      "variant": 1,
+      "seed": 933700,
+      "dimensions_blender_xyz_m": [
+        1.1499059200286865,
+        1.1629118919372559,
+        2.0
+      ],
+      "dimensions_godot_xyz_m": [
+        1.1499059200286865,
+        2.0,
+        1.1629118919372559
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_outcrop_01.glb",
+      "sha256": "7c6b45533c9f2102cad9102d6706d8be4c6c23e9bc97cc36e15cb63e8e524f19",
+      "bytes": 1090116,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2226,
+      "triangles": 4456,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_outcrop_02",
+      "category": "medium",
+      "family": "outcrop",
+      "variant": 2,
+      "seed": 933783,
+      "dimensions_blender_xyz_m": [
+        2.1885428428649902,
+        1.7048617601394653,
+        3.1999998092651367
+      ],
+      "dimensions_godot_xyz_m": [
+        2.1885428428649902,
+        3.1999998092651367,
+        1.7048617601394653
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_outcrop_02.glb",
+      "sha256": "06f407139b145ad9e36f298b199b061c299d3a6c77dbcfe3202c0f352475b5b1",
+      "bytes": 1098272,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2225,
+      "triangles": 4446,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_outcrop_03",
+      "category": "medium",
+      "family": "outcrop",
+      "variant": 3,
+      "seed": 933866,
+      "dimensions_blender_xyz_m": [
+        3.1324658393859863,
+        3.040119171142578,
+        4.799999713897705
+      ],
+      "dimensions_godot_xyz_m": [
+        3.1324658393859863,
+        4.799999713897705,
+        3.040119171142578
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_outcrop_03.glb",
+      "sha256": "eda0f043954d2990c84f319d78f0b59c15c925d6c84080737fcba8798d918f76",
+      "bytes": 1117084,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2226,
+      "triangles": 4448,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_outcrop_04",
+      "category": "medium",
+      "family": "outcrop",
+      "variant": 4,
+      "seed": 933949,
+      "dimensions_blender_xyz_m": [
+        4.281578540802002,
+        4.303282737731934,
+        6.5
+      ],
+      "dimensions_godot_xyz_m": [
+        4.281578540802002,
+        6.5,
+        4.303282737731934
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_outcrop_04.glb",
+      "sha256": "1a7249f28aaa077d92cce650aa867e9ddadc207ce0d8851c3aa17747733a60ad",
+      "bytes": 1099024,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2227,
+      "triangles": 4454,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_cliff_01",
+      "category": "medium",
+      "family": "cliff",
+      "variant": 1,
+      "seed": 934700,
+      "dimensions_blender_xyz_m": [
+        2.0,
+        0.9645435810089111,
+        1.6442245244979858
+      ],
+      "dimensions_godot_xyz_m": [
+        2.0,
+        1.6442245244979858,
+        0.9645435810089111
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_cliff_01.glb",
+      "sha256": "229720ed3c41d9c70b5ba8c692ca646dd59f000f8ee61d22b9fd7f2dcd3f9318",
+      "bytes": 1083052,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2232,
+      "triangles": 4460,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_cliff_02",
+      "category": "medium",
+      "family": "cliff",
+      "variant": 2,
+      "seed": 934783,
+      "dimensions_blender_xyz_m": [
+        3.200000047683716,
+        1.145885705947876,
+        1.8919132947921753
+      ],
+      "dimensions_godot_xyz_m": [
+        3.200000047683716,
+        1.8919132947921753,
+        1.145885705947876
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_cliff_02.glb",
+      "sha256": "ae78f23adbb81649149019d49471896243a9e0b9704050a6b8ba20ae6120ffc1",
+      "bytes": 1065864,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2230,
+      "triangles": 4460,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_cliff_03",
+      "category": "medium",
+      "family": "cliff",
+      "variant": 3,
+      "seed": 934866,
+      "dimensions_blender_xyz_m": [
+        4.799999237060547,
+        1.5507614612579346,
+        2.5373482704162598
+      ],
+      "dimensions_godot_xyz_m": [
+        4.799999237060547,
+        2.5373482704162598,
+        1.5507614612579346
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_cliff_03.glb",
+      "sha256": "3f7347e150ad199f189b695a8871ae1535ef45831762fd558d1a194970488c8b",
+      "bytes": 1065868,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2230,
+      "triangles": 4460,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_cliff_04",
+      "category": "medium",
+      "family": "cliff",
+      "variant": 4,
+      "seed": 934949,
+      "dimensions_blender_xyz_m": [
+        6.5,
+        1.7476893663406372,
+        3.174060106277466
+      ],
+      "dimensions_godot_xyz_m": [
+        6.5,
+        3.174060106277466,
+        1.7476893663406372
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_cliff_04.glb",
+      "sha256": "c28ad0d76c6c854ad70524cc1646727deeb2c59dc6a48db17f58f49770861597",
+      "bytes": 1093320,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 2230,
+      "triangles": 4460,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_glacier_01",
+      "category": "medium",
+      "family": "glacier",
+      "variant": 1,
+      "seed": 935700,
+      "dimensions_blender_xyz_m": [
+        2.0,
+        1.4919813871383667,
+        1.4762712717056274
+      ],
+      "dimensions_godot_xyz_m": [
+        2.0,
+        1.4762712717056274,
+        1.4919813871383667
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_glacier_01.glb",
+      "sha256": "ee0799f14f098f55a4f83eaac0cf13f713d0eb1e35ef2b02d53e714ea9af2e29",
+      "bytes": 200740,
+      "material_surfaces": 1,
+      "embedded_textures": 0,
+      "vertices": 2180,
+      "triangles": 4388,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_glacier_02",
+      "category": "medium",
+      "family": "glacier",
+      "variant": 2,
+      "seed": 935783,
+      "dimensions_blender_xyz_m": [
+        3.200000047683716,
+        2.273735284805298,
+        2.5013086795806885
+      ],
+      "dimensions_godot_xyz_m": [
+        3.200000047683716,
+        2.5013086795806885,
+        2.273735284805298
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_glacier_02.glb",
+      "sha256": "bdac4c5f2187b3e0eff1cba1c648ac9aae905344ab95586d83d3c2fcaef77300",
+      "bytes": 198292,
+      "material_surfaces": 1,
+      "embedded_textures": 0,
+      "vertices": 2219,
+      "triangles": 4458,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_glacier_03",
+      "category": "medium",
+      "family": "glacier",
+      "variant": 3,
+      "seed": 935866,
+      "dimensions_blender_xyz_m": [
+        4.800000190734863,
+        3.811312675476074,
+        3.6538655757904053
+      ],
+      "dimensions_godot_xyz_m": [
+        4.800000190734863,
+        3.6538655757904053,
+        3.811312675476074
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_glacier_03.glb",
+      "sha256": "5bdef089c32041c1eb9c066a4ccde7329c62d9a709309dc073a33efeac172323",
+      "bytes": 213324,
+      "material_surfaces": 1,
+      "embedded_textures": 0,
+      "vertices": 2214,
+      "triangles": 4436,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_glacier_04",
+      "category": "medium",
+      "family": "glacier",
+      "variant": 4,
+      "seed": 935949,
+      "dimensions_blender_xyz_m": [
+        6.5,
+        5.541533470153809,
+        5.865532875061035
+      ],
+      "dimensions_godot_xyz_m": [
+        6.5,
+        5.865532875061035,
+        5.541533470153809
+      ],
+      "path": "assets/graphics/minerals/medium/mineral_medium_glacier_04.glb",
+      "sha256": "1e65de9abb391a0e9cf2d313cabbf94fe808002a19d854f7eb0c5801d2016ab6",
+      "bytes": 197336,
+      "material_surfaces": 1,
+      "embedded_textures": 0,
+      "vertices": 2230,
+      "triangles": 4456,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_rounded_01",
+      "category": "large",
+      "family": "rounded",
+      "variant": 1,
+      "seed": 940700,
+      "dimensions_blender_xyz_m": [
+        10.0,
+        7.947329521179199,
+        5.773207187652588
+      ],
+      "dimensions_godot_xyz_m": [
+        10.0,
+        5.773207187652588,
+        7.947329521179199
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_rounded_01.glb",
+      "sha256": "1067ed06ef33333e9a0220cabe466ec91e9ec0bcac9534cb9e39d633cda05768",
+      "bytes": 1202296,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4982,
+      "triangles": 9960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_rounded_02",
+      "category": "large",
+      "family": "rounded",
+      "variant": 2,
+      "seed": 940783,
+      "dimensions_blender_xyz_m": [
+        14.205175399780273,
+        16.0,
+        15.134530067443848
+      ],
+      "dimensions_godot_xyz_m": [
+        14.205175399780273,
+        15.134530067443848,
+        16.0
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_rounded_02.glb",
+      "sha256": "817318bc90bf43ce88f9d07c2cf06647c0cbb62a3ac8cba784501b1569668799",
+      "bytes": 1253352,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4965,
+      "triangles": 9926,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_rounded_03",
+      "category": "large",
+      "family": "rounded",
+      "variant": 3,
+      "seed": 940866,
+      "dimensions_blender_xyz_m": [
+        23.540313720703125,
+        24.0,
+        12.621360778808594
+      ],
+      "dimensions_godot_xyz_m": [
+        23.540313720703125,
+        12.621360778808594,
+        24.0
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_rounded_03.glb",
+      "sha256": "1793d03ece4d900f50daca7cac2aede4e3c98dcf10ef7d02aec8194604384174",
+      "bytes": 1210736,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4982,
+      "triangles": 9960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_rounded_04",
+      "category": "large",
+      "family": "rounded",
+      "variant": 4,
+      "seed": 940949,
+      "dimensions_blender_xyz_m": [
+        27.44732666015625,
+        30.40420913696289,
+        36.0
+      ],
+      "dimensions_godot_xyz_m": [
+        27.44732666015625,
+        36.0,
+        30.40420913696289
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_rounded_04.glb",
+      "sha256": "51dcbeb43eb39fcb99f19a0471d2a9c711b9e44129d2668d113a792c9142134b",
+      "bytes": 1228580,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4969,
+      "triangles": 9934,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_fractured_01",
+      "category": "large",
+      "family": "fractured",
+      "variant": 1,
+      "seed": 941700,
+      "dimensions_blender_xyz_m": [
+        10.0,
+        7.732179641723633,
+        8.369197845458984
+      ],
+      "dimensions_godot_xyz_m": [
+        10.0,
+        8.369197845458984,
+        7.732179641723633
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_fractured_01.glb",
+      "sha256": "4207da70436501d1ba64db55983697aea3456a1bb16adbf00e1d0d65e10b99e0",
+      "bytes": 1277364,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4973,
+      "triangles": 9950,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_fractured_02",
+      "category": "large",
+      "family": "fractured",
+      "variant": 2,
+      "seed": 941783,
+      "dimensions_blender_xyz_m": [
+        15.999999046325684,
+        7.986904144287109,
+        9.63327407836914
+      ],
+      "dimensions_godot_xyz_m": [
+        15.999999046325684,
+        9.63327407836914,
+        7.986904144287109
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_fractured_02.glb",
+      "sha256": "ef672bf73e8f69a9dee08b721dbedc67781e782377f78d94cf58a7eaad47ba22",
+      "bytes": 1267416,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4967,
+      "triangles": 9930,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_fractured_03",
+      "category": "large",
+      "family": "fractured",
+      "variant": 3,
+      "seed": 941866,
+      "dimensions_blender_xyz_m": [
+        24.0,
+        19.151321411132812,
+        21.31245994567871
+      ],
+      "dimensions_godot_xyz_m": [
+        24.0,
+        21.31245994567871,
+        19.151321411132812
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_fractured_03.glb",
+      "sha256": "9fba4ff7d4436daf915d5791dc97745fe0b372715f495b71137b4d4bcac5d143",
+      "bytes": 1242528,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4982,
+      "triangles": 9960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_fractured_04",
+      "category": "large",
+      "family": "fractured",
+      "variant": 4,
+      "seed": 941949,
+      "dimensions_blender_xyz_m": [
+        36.0,
+        20.577917098999023,
+        22.463415145874023
+      ],
+      "dimensions_godot_xyz_m": [
+        36.0,
+        22.463415145874023,
+        20.577917098999023
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_fractured_04.glb",
+      "sha256": "2801d2624b7fa8387091ae63fe210671d7a6170e959283f5de3ccd2bff11ebab",
+      "bytes": 1256424,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4982,
+      "triangles": 9960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_sedimentary_01",
+      "category": "large",
+      "family": "sedimentary",
+      "variant": 1,
+      "seed": 942700,
+      "dimensions_blender_xyz_m": [
+        10.0,
+        7.5998101234436035,
+        5.081502437591553
+      ],
+      "dimensions_godot_xyz_m": [
+        10.0,
+        5.081502437591553,
+        7.5998101234436035
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_sedimentary_01.glb",
+      "sha256": "8edcf62b64b7d231b2651d376e5eb2275275b591df522fc1c106d6cb251d1b2d",
+      "bytes": 1280216,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4982,
+      "triangles": 9960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_sedimentary_02",
+      "category": "large",
+      "family": "sedimentary",
+      "variant": 2,
+      "seed": 942783,
+      "dimensions_blender_xyz_m": [
+        16.0,
+        12.640522003173828,
+        9.286429405212402
+      ],
+      "dimensions_godot_xyz_m": [
+        16.0,
+        9.286429405212402,
+        12.640522003173828
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_sedimentary_02.glb",
+      "sha256": "5798c0babc2da982c81be5e565b3daaded4528a5ae09ee28b5a48dd8cdf1fb6b",
+      "bytes": 1292268,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4978,
+      "triangles": 9960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_sedimentary_03",
+      "category": "large",
+      "family": "sedimentary",
+      "variant": 3,
+      "seed": 942866,
+      "dimensions_blender_xyz_m": [
+        24.0,
+        17.684650421142578,
+        16.655067443847656
+      ],
+      "dimensions_godot_xyz_m": [
+        24.0,
+        16.655067443847656,
+        17.684650421142578
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_sedimentary_03.glb",
+      "sha256": "1ab1581e489d8cc81204f6269f4cc9f5796b5e4168f165f673f76750c3ae77e2",
+      "bytes": 1330844,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4962,
+      "triangles": 9928,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_sedimentary_04",
+      "category": "large",
+      "family": "sedimentary",
+      "variant": 4,
+      "seed": 942949,
+      "dimensions_blender_xyz_m": [
+        36.0,
+        27.071767807006836,
+        28.448225021362305
+      ],
+      "dimensions_godot_xyz_m": [
+        36.0,
+        28.448225021362305,
+        27.071767807006836
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_sedimentary_04.glb",
+      "sha256": "a08ee76aa402eba52c5cf82d65b272ec27bbaa82f5e22d925cf91d6242d0e7e6",
+      "bytes": 1320860,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4978,
+      "triangles": 9960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_outcrop_01",
+      "category": "large",
+      "family": "outcrop",
+      "variant": 1,
+      "seed": 943700,
+      "dimensions_blender_xyz_m": [
+        6.681498050689697,
+        6.380383491516113,
+        10.0
+      ],
+      "dimensions_godot_xyz_m": [
+        6.681498050689697,
+        10.0,
+        6.380383491516113
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_outcrop_01.glb",
+      "sha256": "c490482c888cc7887837ed93e9c9cb79f2b1b6cd2c0ded296f0eb0ef7793f105",
+      "bytes": 1279484,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4981,
+      "triangles": 9958,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_outcrop_02",
+      "category": "large",
+      "family": "outcrop",
+      "variant": 2,
+      "seed": 943783,
+      "dimensions_blender_xyz_m": [
+        9.528970718383789,
+        11.281126022338867,
+        16.0
+      ],
+      "dimensions_godot_xyz_m": [
+        9.528970718383789,
+        16.0,
+        11.281126022338867
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_outcrop_02.glb",
+      "sha256": "cd718863b67120619955fb8d24d7af31428ae68da88456879ec00261411deb67",
+      "bytes": 1282336,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4974,
+      "triangles": 9960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_outcrop_03",
+      "category": "large",
+      "family": "outcrop",
+      "variant": 3,
+      "seed": 943866,
+      "dimensions_blender_xyz_m": [
+        16.123188018798828,
+        15.292418479919434,
+        24.0
+      ],
+      "dimensions_godot_xyz_m": [
+        16.123188018798828,
+        24.0,
+        15.292418479919434
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_outcrop_03.glb",
+      "sha256": "acd03caff9186f56263381b14e9abef047ff5eb9935bee86ade5b27bc4c9d05e",
+      "bytes": 1361288,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4971,
+      "triangles": 9958,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_outcrop_04",
+      "category": "large",
+      "family": "outcrop",
+      "variant": 4,
+      "seed": 943949,
+      "dimensions_blender_xyz_m": [
+        24.230655670166016,
+        23.20924186706543,
+        36.0
+      ],
+      "dimensions_godot_xyz_m": [
+        24.230655670166016,
+        36.0,
+        23.20924186706543
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_outcrop_04.glb",
+      "sha256": "33a968602ecdfd3b53fc281433900c92ba88efb63a70836dc3605af7a7cda282",
+      "bytes": 1278536,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4980,
+      "triangles": 9960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_cliff_01",
+      "category": "large",
+      "family": "cliff",
+      "variant": 1,
+      "seed": 944700,
+      "dimensions_blender_xyz_m": [
+        10.0,
+        4.633391380310059,
+        7.874394416809082
+      ],
+      "dimensions_godot_xyz_m": [
+        10.0,
+        7.874394416809082,
+        4.633391380310059
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_cliff_01.glb",
+      "sha256": "33c5944a1a8dd580aee68b5e0ffc817114ece2d8aac76cf9e73263cbb46acde0",
+      "bytes": 1255528,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4980,
+      "triangles": 9960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_cliff_02",
+      "category": "large",
+      "family": "cliff",
+      "variant": 2,
+      "seed": 944783,
+      "dimensions_blender_xyz_m": [
+        15.999999046325684,
+        6.425403594970703,
+        9.819662094116211
+      ],
+      "dimensions_godot_xyz_m": [
+        15.999999046325684,
+        9.819662094116211,
+        6.425403594970703
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_cliff_02.glb",
+      "sha256": "8adfbea9ebb759d22cac29e34309515a2774ce0f1305253a66f533d556015210",
+      "bytes": 1282332,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4969,
+      "triangles": 9938,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_cliff_03",
+      "category": "large",
+      "family": "cliff",
+      "variant": 3,
+      "seed": 944866,
+      "dimensions_blender_xyz_m": [
+        24.0,
+        7.650906562805176,
+        13.066327095031738
+      ],
+      "dimensions_godot_xyz_m": [
+        24.0,
+        13.066327095031738,
+        7.650906562805176
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_cliff_03.glb",
+      "sha256": "5bb743b29802489a73a1b46720cca734cba0723928cfd7bb25e04013f882f09a",
+      "bytes": 1253992,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4980,
+      "triangles": 9960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_cliff_04",
+      "category": "large",
+      "family": "cliff",
+      "variant": 4,
+      "seed": 944949,
+      "dimensions_blender_xyz_m": [
+        36.0,
+        10.18950080871582,
+        17.87643814086914
+      ],
+      "dimensions_godot_xyz_m": [
+        36.0,
+        17.87643814086914,
+        10.18950080871582
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_cliff_04.glb",
+      "sha256": "6e257891c19b8bd43e3c8a1e242d0749534e67a6fe49eadb16cd5ece756897cf",
+      "bytes": 1279468,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 4982,
+      "triangles": 9960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_glacier_01",
+      "category": "large",
+      "family": "glacier",
+      "variant": 1,
+      "seed": 945700,
+      "dimensions_blender_xyz_m": [
+        10.0,
+        7.204322814941406,
+        7.204388618469238
+      ],
+      "dimensions_godot_xyz_m": [
+        10.0,
+        7.204388618469238,
+        7.204322814941406
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_glacier_01.glb",
+      "sha256": "58ca76ba125cde7dc5393a7acea386efe1c01d09d63b3c7fbbdbfcc238fc9883",
+      "bytes": 400088,
+      "material_surfaces": 1,
+      "embedded_textures": 0,
+      "vertices": 4976,
+      "triangles": 9956,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_glacier_02",
+      "category": "large",
+      "family": "glacier",
+      "variant": 2,
+      "seed": 945783,
+      "dimensions_blender_xyz_m": [
+        16.0,
+        12.677413940429688,
+        13.620386123657227
+      ],
+      "dimensions_godot_xyz_m": [
+        16.0,
+        13.620386123657227,
+        12.677413940429688
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_glacier_02.glb",
+      "sha256": "7cc57963fc41bbdbe0511bc7795d1f03aa0a62a9a4e9c5008b31d6b2e2e9546e",
+      "bytes": 357020,
+      "material_surfaces": 1,
+      "embedded_textures": 0,
+      "vertices": 4983,
+      "triangles": 9958,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_glacier_03",
+      "category": "large",
+      "family": "glacier",
+      "variant": 3,
+      "seed": 945866,
+      "dimensions_blender_xyz_m": [
+        24.0,
+        22.595186233520508,
+        23.95615005493164
+      ],
+      "dimensions_godot_xyz_m": [
+        24.0,
+        23.95615005493164,
+        22.595186233520508
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_glacier_03.glb",
+      "sha256": "8778ce9aa33354b5257af8a221d872a7cd9f68df1176e915d3e8b16ebda58e58",
+      "bytes": 381464,
+      "material_surfaces": 1,
+      "embedded_textures": 0,
+      "vertices": 4968,
+      "triangles": 9932,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_large_glacier_04",
+      "category": "large",
+      "family": "glacier",
+      "variant": 4,
+      "seed": 945949,
+      "dimensions_blender_xyz_m": [
+        36.0,
+        31.140079498291016,
+        30.355134963989258
+      ],
+      "dimensions_godot_xyz_m": [
+        36.0,
+        30.355134963989258,
+        31.140079498291016
+      ],
+      "path": "assets/graphics/minerals/large/mineral_large_glacier_04.glb",
+      "sha256": "d6ae940c376732a58580aff15441b88d2dd97cf2e8524e93f52e801226ae2149",
+      "bytes": 367528,
+      "material_surfaces": 1,
+      "embedded_textures": 0,
+      "vertices": 4982,
+      "triangles": 9960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_erratic_01",
+      "category": "huge_boulders",
+      "family": "erratic",
+      "variant": 1,
+      "seed": 950700,
+      "dimensions_blender_xyz_m": [
+        40.0,
+        32.30678176879883,
+        26.069501876831055
+      ],
+      "dimensions_godot_xyz_m": [
+        40.0,
+        26.069501876831055,
+        32.30678176879883
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_erratic_01.glb",
+      "sha256": "7bbac747b59b5e65f30782fb2f4ce5371880300dbeb68689b8655bc84960ead3",
+      "bytes": 1479928,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8963,
+      "triangles": 17918,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_erratic_02",
+      "category": "huge_boulders",
+      "family": "erratic",
+      "variant": 2,
+      "seed": 950783,
+      "dimensions_blender_xyz_m": [
+        55.0,
+        43.37720489501953,
+        51.004398345947266
+      ],
+      "dimensions_godot_xyz_m": [
+        55.0,
+        51.004398345947266,
+        43.37720489501953
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_erratic_02.glb",
+      "sha256": "6186a2c678e632faeb2d1e203e57c29a096ab3139091e5c5391eaeff017ad898",
+      "bytes": 1458924,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8982,
+      "triangles": 17960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_erratic_03",
+      "category": "huge_boulders",
+      "family": "erratic",
+      "variant": 3,
+      "seed": 950866,
+      "dimensions_blender_xyz_m": [
+        75.0,
+        72.05374145507812,
+        48.14302444458008
+      ],
+      "dimensions_godot_xyz_m": [
+        75.0,
+        48.14302444458008,
+        72.05374145507812
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_erratic_03.glb",
+      "sha256": "3d1ba7c36108f377e626e0d222bf2db0b4b25958b2698d6404beb397ea15b3ed",
+      "bytes": 1498928,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8978,
+      "triangles": 17952,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_erratic_04",
+      "category": "huge_boulders",
+      "family": "erratic",
+      "variant": 4,
+      "seed": 950949,
+      "dimensions_blender_xyz_m": [
+        95.0123291015625,
+        91.21912384033203,
+        100.0
+      ],
+      "dimensions_godot_xyz_m": [
+        95.0123291015625,
+        100.0,
+        91.21912384033203
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_erratic_04.glb",
+      "sha256": "71fff7357890425ae6338881ac83fa5e26ac8efcc1b05a00af3e6630cd116fbf",
+      "bytes": 1569868,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8944,
+      "triangles": 17888,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_block_01",
+      "category": "huge_boulders",
+      "family": "block",
+      "variant": 1,
+      "seed": 951700,
+      "dimensions_blender_xyz_m": [
+        40.0,
+        27.996246337890625,
+        37.90842056274414
+      ],
+      "dimensions_godot_xyz_m": [
+        40.0,
+        37.90842056274414,
+        27.996246337890625
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_block_01.glb",
+      "sha256": "1b75d7c205baa80b46248bf5f00bc5404e1abb3ac2058b7020f3b7bc6aa5e458",
+      "bytes": 1533964,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8968,
+      "triangles": 17948,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_block_02",
+      "category": "huge_boulders",
+      "family": "block",
+      "variant": 2,
+      "seed": 951783,
+      "dimensions_blender_xyz_m": [
+        52.17374038696289,
+        42.873504638671875,
+        55.0
+      ],
+      "dimensions_godot_xyz_m": [
+        52.17374038696289,
+        55.0,
+        42.873504638671875
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_block_02.glb",
+      "sha256": "e4411953bdf1c221694031cb655d22fff60cbef6b3a6f277b7eb486b10365b78",
+      "bytes": 1522508,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8980,
+      "triangles": 17956,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_block_03",
+      "category": "huge_boulders",
+      "family": "block",
+      "variant": 3,
+      "seed": 951866,
+      "dimensions_blender_xyz_m": [
+        75.0,
+        60.22227478027344,
+        70.39445495605469
+      ],
+      "dimensions_godot_xyz_m": [
+        75.0,
+        70.39445495605469,
+        60.22227478027344
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_block_03.glb",
+      "sha256": "b5d1c9cf5776a5b089c50e642bb5cc30d3a5b84a2fa2815583344e79394b3fb5",
+      "bytes": 1560940,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8956,
+      "triangles": 17908,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_block_04",
+      "category": "huge_boulders",
+      "family": "block",
+      "variant": 4,
+      "seed": 951949,
+      "dimensions_blender_xyz_m": [
+        94.16724395751953,
+        99.2642822265625,
+        100.0
+      ],
+      "dimensions_godot_xyz_m": [
+        94.16724395751953,
+        100.0,
+        99.2642822265625
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_block_04.glb",
+      "sha256": "d64deb523f42b429965aa1ae3211261d9166c7cb4d535fec42d526594208c06c",
+      "bytes": 1525696,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8969,
+      "triangles": 17934,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_split_01",
+      "category": "huge_boulders",
+      "family": "split",
+      "variant": 1,
+      "seed": 952700,
+      "dimensions_blender_xyz_m": [
+        40.00000762939453,
+        26.349018096923828,
+        32.08352279663086
+      ],
+      "dimensions_godot_xyz_m": [
+        40.00000762939453,
+        32.08352279663086,
+        26.349018096923828
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_split_01.glb",
+      "sha256": "e3939fa89e939700cc323529bd88e8e183380674e5fa8bb6c070d42902cccb00",
+      "bytes": 1527188,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8980,
+      "triangles": 17960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_split_02",
+      "category": "huge_boulders",
+      "family": "split",
+      "variant": 2,
+      "seed": 952783,
+      "dimensions_blender_xyz_m": [
+        55.0,
+        38.99030303955078,
+        44.72803497314453
+      ],
+      "dimensions_godot_xyz_m": [
+        55.0,
+        44.72803497314453,
+        38.99030303955078
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_split_02.glb",
+      "sha256": "d59111027fb9b51101d52da07138ac6c81c083bf817b74d351e25345cde2a8e7",
+      "bytes": 1603016,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8955,
+      "triangles": 17934,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_split_03",
+      "category": "huge_boulders",
+      "family": "split",
+      "variant": 3,
+      "seed": 952866,
+      "dimensions_blender_xyz_m": [
+        75.0,
+        51.04093933105469,
+        59.91008758544922
+      ],
+      "dimensions_godot_xyz_m": [
+        75.0,
+        59.91008758544922,
+        51.04093933105469
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_split_03.glb",
+      "sha256": "bfb868cd092cf75d9eb336899ca338ea308856b11a332dbfcaee2d19c3ba96cb",
+      "bytes": 1592516,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8960,
+      "triangles": 17924,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_split_04",
+      "category": "huge_boulders",
+      "family": "split",
+      "variant": 4,
+      "seed": 952949,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        69.31407165527344,
+        81.95076751708984
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        81.95076751708984,
+        69.31407165527344
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_split_04.glb",
+      "sha256": "d7f76063581bc04ab8087ce1cdfe581337557515cdd7d957f6cd4e85b8a0db8d",
+      "bytes": 1537336,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8981,
+      "triangles": 17954,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_dome_01",
+      "category": "huge_boulders",
+      "family": "dome",
+      "variant": 1,
+      "seed": 953700,
+      "dimensions_blender_xyz_m": [
+        40.0,
+        29.63287925720215,
+        16.0352840423584
+      ],
+      "dimensions_godot_xyz_m": [
+        40.0,
+        16.0352840423584,
+        29.63287925720215
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_dome_01.glb",
+      "sha256": "39fe162f9b5508f1bd163072a9e50d72c2dde0ee3ae39336ced23a6dfce56200",
+      "bytes": 1424364,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8962,
+      "triangles": 17920,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_dome_02",
+      "category": "huge_boulders",
+      "family": "dome",
+      "variant": 2,
+      "seed": 953783,
+      "dimensions_blender_xyz_m": [
+        55.0,
+        42.955413818359375,
+        24.2226619720459
+      ],
+      "dimensions_godot_xyz_m": [
+        55.0,
+        24.2226619720459,
+        42.955413818359375
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_dome_02.glb",
+      "sha256": "1de3e802c2baa03b8b503d0fba769ff8c9bef54017879c29dbfc772a4b5e06fd",
+      "bytes": 1450020,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8967,
+      "triangles": 17918,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_dome_03",
+      "category": "huge_boulders",
+      "family": "dome",
+      "variant": 3,
+      "seed": 953866,
+      "dimensions_blender_xyz_m": [
+        75.0,
+        61.46531677246094,
+        35.984920501708984
+      ],
+      "dimensions_godot_xyz_m": [
+        75.0,
+        35.984920501708984,
+        61.46531677246094
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_dome_03.glb",
+      "sha256": "7b7d81232a6e9a2eebc4873eb5ec9be76f760d1b7955ce31997b77908a205f82",
+      "bytes": 1481028,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8941,
+      "triangles": 17886,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_dome_04",
+      "category": "huge_boulders",
+      "family": "dome",
+      "variant": 4,
+      "seed": 953949,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        86.00175476074219,
+        52.04926300048828
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        52.04926300048828,
+        86.00175476074219
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_dome_04.glb",
+      "sha256": "4b39fc812fa168896078c9c69ac066a3ebdae76f28bb6141d7a48662077b865f",
+      "bytes": 1478760,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8965,
+      "triangles": 17926,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_overhang_01",
+      "category": "huge_boulders",
+      "family": "overhang",
+      "variant": 1,
+      "seed": 954700,
+      "dimensions_blender_xyz_m": [
+        40.0,
+        32.65069580078125,
+        37.97769546508789
+      ],
+      "dimensions_godot_xyz_m": [
+        40.0,
+        37.97769546508789,
+        32.65069580078125
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_overhang_01.glb",
+      "sha256": "b98dfd00351fa6f5d34da72dfc61e17793002746845f15fb1bd0231fb8b8b34d",
+      "bytes": 1494604,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8980,
+      "triangles": 17960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_overhang_02",
+      "category": "huge_boulders",
+      "family": "overhang",
+      "variant": 2,
+      "seed": 954783,
+      "dimensions_blender_xyz_m": [
+        55.0,
+        50.563297271728516,
+        51.012916564941406
+      ],
+      "dimensions_godot_xyz_m": [
+        55.0,
+        51.012916564941406,
+        50.563297271728516
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_overhang_02.glb",
+      "sha256": "bfad2dcbff2536234831c3a23e982098895892936a72e646300434cb21c2c13b",
+      "bytes": 1550376,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8981,
+      "triangles": 17958,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_overhang_03",
+      "category": "huge_boulders",
+      "family": "overhang",
+      "variant": 3,
+      "seed": 954866,
+      "dimensions_blender_xyz_m": [
+        73.4448471069336,
+        75.0,
+        66.34772491455078
+      ],
+      "dimensions_godot_xyz_m": [
+        73.4448471069336,
+        66.34772491455078,
+        75.0
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_overhang_03.glb",
+      "sha256": "731948369027080ee4e01f76460bc9a450b63d684105cf34d0ba5657495976c6",
+      "bytes": 1519792,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8972,
+      "triangles": 17944,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_overhang_04",
+      "category": "huge_boulders",
+      "family": "overhang",
+      "variant": 4,
+      "seed": 954949,
+      "dimensions_blender_xyz_m": [
+        93.44679260253906,
+        100.0,
+        88.22601318359375
+      ],
+      "dimensions_godot_xyz_m": [
+        93.44679260253906,
+        88.22601318359375,
+        100.0
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_overhang_04.glb",
+      "sha256": "19ace44bdb0507ea6769eac0806689b8f6e41485d9c6b80eea3a8c72e5237f01",
+      "bytes": 1533668,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8970,
+      "triangles": 17944,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_monolith_01",
+      "category": "huge_boulders",
+      "family": "monolith",
+      "variant": 1,
+      "seed": 955700,
+      "dimensions_blender_xyz_m": [
+        20.81554412841797,
+        21.258298873901367,
+        40.0
+      ],
+      "dimensions_godot_xyz_m": [
+        20.81554412841797,
+        40.0,
+        21.258298873901367
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_monolith_01.glb",
+      "sha256": "5c6adc68899d5f3e793903531a8226be48ec621ea185a76c92bebebd573c54a5",
+      "bytes": 1516548,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8975,
+      "triangles": 17954,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_monolith_02",
+      "category": "huge_boulders",
+      "family": "monolith",
+      "variant": 2,
+      "seed": 955783,
+      "dimensions_blender_xyz_m": [
+        29.03652000427246,
+        29.005712509155273,
+        55.0
+      ],
+      "dimensions_godot_xyz_m": [
+        29.03652000427246,
+        55.0,
+        29.005712509155273
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_monolith_02.glb",
+      "sha256": "3c2646f1466318e1cfac08b1ff6a843c1323f82aaea8d85983efb746311e3437",
+      "bytes": 1576532,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8947,
+      "triangles": 17958,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_monolith_03",
+      "category": "huge_boulders",
+      "family": "monolith",
+      "variant": 3,
+      "seed": 955866,
+      "dimensions_blender_xyz_m": [
+        40.27427673339844,
+        39.82861328125,
+        75.0
+      ],
+      "dimensions_godot_xyz_m": [
+        40.27427673339844,
+        75.0,
+        39.82861328125
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_monolith_03.glb",
+      "sha256": "80d4fdd560848c96d3fac357e4a645a0c861b2b5b3246c214fc76fe7849d0a60",
+      "bytes": 1520172,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8956,
+      "triangles": 17912,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_monolith_04",
+      "category": "huge_boulders",
+      "family": "monolith",
+      "variant": 4,
+      "seed": 955949,
+      "dimensions_blender_xyz_m": [
+        58.9221076965332,
+        58.84070587158203,
+        100.0
+      ],
+      "dimensions_godot_xyz_m": [
+        58.9221076965332,
+        100.0,
+        58.84070587158203
+      ],
+      "path": "assets/graphics/minerals/huge_boulders/mineral_huge_boulders_monolith_04.glb",
+      "sha256": "8cbd2cc507bb0511d60024a6a61ae79ec613a17cf9fa1fd8c69d251c4eea6bf5",
+      "bytes": 1525780,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 8982,
+      "triangles": 17960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_wall_01",
+      "category": "cliffs",
+      "family": "wall",
+      "variant": 1,
+      "seed": 960700,
+      "dimensions_blender_xyz_m": [
+        60.0,
+        22.4139404296875,
+        28.683147430419922
+      ],
+      "dimensions_godot_xyz_m": [
+        60.0,
+        28.683147430419922,
+        22.4139404296875
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_wall_01.glb",
+      "sha256": "d04168ff01337806845ff4c2d89de5ef09b41c85ecbb6d98a9ae1b1740b8f027",
+      "bytes": 1707884,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11982,
+      "triangles": 23960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_wall_02",
+      "category": "cliffs",
+      "family": "wall",
+      "variant": 2,
+      "seed": 960783,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        36.88080596923828,
+        56.00801467895508
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        56.00801467895508,
+        36.88080596923828
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_wall_02.glb",
+      "sha256": "e3ed97f32d523c8d9e3c3fff482e4b8dc6992a9c0e9fa7f9f6a947fa52be0f9d",
+      "bytes": 1735696,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11955,
+      "triangles": 23906,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_wall_03",
+      "category": "cliffs",
+      "family": "wall",
+      "variant": 3,
+      "seed": 960866,
+      "dimensions_blender_xyz_m": [
+        150.0,
+        57.612342834472656,
+        92.72188568115234
+      ],
+      "dimensions_godot_xyz_m": [
+        150.0,
+        92.72188568115234,
+        57.612342834472656
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_wall_03.glb",
+      "sha256": "ef8ba7d630fa0731dff5b35612d8f18e1ab01647d53b65f7ceee8cc0a725090f",
+      "bytes": 1737444,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11978,
+      "triangles": 23960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_wall_04",
+      "category": "cliffs",
+      "family": "wall",
+      "variant": 4,
+      "seed": 960949,
+      "dimensions_blender_xyz_m": [
+        220.0,
+        80.61030578613281,
+        148.77218627929688
+      ],
+      "dimensions_godot_xyz_m": [
+        220.0,
+        148.77218627929688,
+        80.61030578613281
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_wall_04.glb",
+      "sha256": "1e5ae5f97d1a28be69631f41387abea7d78d1919113eaaf47b9a18ecc0797d4e",
+      "bytes": 1754528,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11980,
+      "triangles": 23960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_layered_wall_01",
+      "category": "cliffs",
+      "family": "layered_wall",
+      "variant": 1,
+      "seed": 961700,
+      "dimensions_blender_xyz_m": [
+        60.0,
+        23.79574966430664,
+        29.956497192382812
+      ],
+      "dimensions_godot_xyz_m": [
+        60.0,
+        29.956497192382812,
+        23.79574966430664
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_layered_wall_01.glb",
+      "sha256": "3b1981a00aa067dd9313757bd027633860afa8674cc459c3eb5959eddeb8498f",
+      "bytes": 1778680,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11977,
+      "triangles": 23954,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_layered_wall_02",
+      "category": "cliffs",
+      "family": "layered_wall",
+      "variant": 2,
+      "seed": 961783,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        39.738121032714844,
+        57.10902786254883
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        57.10902786254883,
+        39.738121032714844
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_layered_wall_02.glb",
+      "sha256": "963ce12996ea767bf166e7339ae4f2aecfc39bbd120d52217ddc7011bce15c87",
+      "bytes": 1751236,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11984,
+      "triangles": 23960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_layered_wall_03",
+      "category": "cliffs",
+      "family": "layered_wall",
+      "variant": 3,
+      "seed": 961866,
+      "dimensions_blender_xyz_m": [
+        150.0,
+        58.7337646484375,
+        97.69437408447266
+      ],
+      "dimensions_godot_xyz_m": [
+        150.0,
+        97.69437408447266,
+        58.7337646484375
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_layered_wall_03.glb",
+      "sha256": "aef84f315e21fffa5b9e8a84b2037c3042c333d4417fafd66b65cd8e05c2e9b4",
+      "bytes": 1707236,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11982,
+      "triangles": 23960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_layered_wall_04",
+      "category": "cliffs",
+      "family": "layered_wall",
+      "variant": 4,
+      "seed": 961949,
+      "dimensions_blender_xyz_m": [
+        220.00001525878906,
+        81.22846984863281,
+        157.91831970214844
+      ],
+      "dimensions_godot_xyz_m": [
+        220.00001525878906,
+        157.91831970214844,
+        81.22846984863281
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_layered_wall_04.glb",
+      "sha256": "6603b097c0fada1b1d9a20ed5acdff3247d724d2d70a70e5bd434fddad0837dc",
+      "bytes": 1782092,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11982,
+      "triangles": 23960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_corner_01",
+      "category": "cliffs",
+      "family": "corner",
+      "variant": 1,
+      "seed": 962700,
+      "dimensions_blender_xyz_m": [
+        59.99999237060547,
+        44.586368560791016,
+        28.422435760498047
+      ],
+      "dimensions_godot_xyz_m": [
+        59.99999237060547,
+        28.422435760498047,
+        44.586368560791016
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_corner_01.glb",
+      "sha256": "a36a02d75ba06dd901b8b439788bbc897a9b8a07117de335d49abbfabd459221",
+      "bytes": 1695804,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11978,
+      "triangles": 23960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_corner_02",
+      "category": "cliffs",
+      "family": "corner",
+      "variant": 2,
+      "seed": 962783,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        79.03396606445312,
+        55.93889236450195
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        55.93889236450195,
+        79.03396606445312
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_corner_02.glb",
+      "sha256": "1f286e39949d5f6d7da2eceee99b1e860df33e958a525065c7b605a39042c338",
+      "bytes": 1717092,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11963,
+      "triangles": 23934,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_corner_03",
+      "category": "cliffs",
+      "family": "corner",
+      "variant": 3,
+      "seed": 962866,
+      "dimensions_blender_xyz_m": [
+        150.0,
+        117.94227600097656,
+        95.07323455810547
+      ],
+      "dimensions_godot_xyz_m": [
+        150.0,
+        95.07323455810547,
+        117.94227600097656
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_corner_03.glb",
+      "sha256": "21ce41c5ec21e06280127ab0e846e5a1e35d7fee9a359a043f734bc145ca5aef",
+      "bytes": 1683984,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11982,
+      "triangles": 23960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_corner_04",
+      "category": "cliffs",
+      "family": "corner",
+      "variant": 4,
+      "seed": 962949,
+      "dimensions_blender_xyz_m": [
+        220.00001525878906,
+        159.03321838378906,
+        143.9079132080078
+      ],
+      "dimensions_godot_xyz_m": [
+        220.00001525878906,
+        143.9079132080078,
+        159.03321838378906
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_corner_04.glb",
+      "sha256": "fc5f7db419cf264bd5c5c63fb29e6deff5ff7380a9431cabce3de928c16b7fc7",
+      "bytes": 1669828,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11980,
+      "triangles": 23960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_recess_01",
+      "category": "cliffs",
+      "family": "recess",
+      "variant": 1,
+      "seed": 963700,
+      "dimensions_blender_xyz_m": [
+        60.000003814697266,
+        28.347444534301758,
+        26.561670303344727
+      ],
+      "dimensions_godot_xyz_m": [
+        60.000003814697266,
+        26.561670303344727,
+        28.347444534301758
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_recess_01.glb",
+      "sha256": "bcf18fd327501e41835430f10d4c5c7e195d29aec0e9fb1ba5672768b7066ed3",
+      "bytes": 1707976,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11979,
+      "triangles": 23958,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_recess_02",
+      "category": "cliffs",
+      "family": "recess",
+      "variant": 2,
+      "seed": 963783,
+      "dimensions_blender_xyz_m": [
+        100.00001525878906,
+        45.72055435180664,
+        47.992042541503906
+      ],
+      "dimensions_godot_xyz_m": [
+        100.00001525878906,
+        47.992042541503906,
+        45.72055435180664
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_recess_02.glb",
+      "sha256": "fddafa88266df66f9459a7c78156cf54c7452ade58c314190262a97485605584",
+      "bytes": 1697600,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11982,
+      "triangles": 23960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_recess_03",
+      "category": "cliffs",
+      "family": "recess",
+      "variant": 3,
+      "seed": 963866,
+      "dimensions_blender_xyz_m": [
+        150.0,
+        70.73318481445312,
+        80.23907470703125
+      ],
+      "dimensions_godot_xyz_m": [
+        150.0,
+        80.23907470703125,
+        70.73318481445312
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_recess_03.glb",
+      "sha256": "ea44d5f4c77e245186bef68899f0702ed4b5d3f74796327577a9e6ddd3b83fc2",
+      "bytes": 1681716,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11939,
+      "triangles": 23878,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_recess_04",
+      "category": "cliffs",
+      "family": "recess",
+      "variant": 4,
+      "seed": 963949,
+      "dimensions_blender_xyz_m": [
+        220.0,
+        99.22459411621094,
+        131.1691436767578
+      ],
+      "dimensions_godot_xyz_m": [
+        220.0,
+        131.1691436767578,
+        99.22459411621094
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_recess_04.glb",
+      "sha256": "53e05c68cb496be278951990366e839498f42923c30fc7de278871c82e270197",
+      "bytes": 1703936,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11977,
+      "triangles": 23958,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_overhang_wall_01",
+      "category": "cliffs",
+      "family": "overhang_wall",
+      "variant": 1,
+      "seed": 964700,
+      "dimensions_blender_xyz_m": [
+        60.0,
+        29.768163681030273,
+        29.544605255126953
+      ],
+      "dimensions_godot_xyz_m": [
+        60.0,
+        29.544605255126953,
+        29.768163681030273
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_overhang_wall_01.glb",
+      "sha256": "f92955a8f8fb75769f72acbac5ab8bfa35a5fa663655ce82aafb111e01986619",
+      "bytes": 1684848,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11952,
+      "triangles": 23908,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_overhang_wall_02",
+      "category": "cliffs",
+      "family": "overhang_wall",
+      "variant": 2,
+      "seed": 964783,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        48.19175720214844,
+        54.016868591308594
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        54.016868591308594,
+        48.19175720214844
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_overhang_wall_02.glb",
+      "sha256": "f43f67acf5ae0c8bf14709fb04ea2ee6524a0c05ae43763e6fbe33fe73a4aad3",
+      "bytes": 1689948,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11975,
+      "triangles": 23942,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_overhang_wall_03",
+      "category": "cliffs",
+      "family": "overhang_wall",
+      "variant": 3,
+      "seed": 964866,
+      "dimensions_blender_xyz_m": [
+        150.0,
+        72.90910339355469,
+        91.02568054199219
+      ],
+      "dimensions_godot_xyz_m": [
+        150.0,
+        91.02568054199219,
+        72.90910339355469
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_overhang_wall_03.glb",
+      "sha256": "a6591301f45d1d1d4265103ca41359aea8d0316656fa43671662e09283453e4f",
+      "bytes": 1695848,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11976,
+      "triangles": 23948,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_overhang_wall_04",
+      "category": "cliffs",
+      "family": "overhang_wall",
+      "variant": 4,
+      "seed": 964949,
+      "dimensions_blender_xyz_m": [
+        220.0,
+        110.28604125976562,
+        149.23062133789062
+      ],
+      "dimensions_godot_xyz_m": [
+        220.0,
+        149.23062133789062,
+        110.28604125976562
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_overhang_wall_04.glb",
+      "sha256": "d606a636c30d090557be4ab4a24f21c59cfc1c6d29cad4a743bbc555535ed65b",
+      "bytes": 1714584,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11958,
+      "triangles": 23924,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_buttress_01",
+      "category": "cliffs",
+      "family": "buttress",
+      "variant": 1,
+      "seed": 965700,
+      "dimensions_blender_xyz_m": [
+        60.000003814697266,
+        31.00847816467285,
+        29.355499267578125
+      ],
+      "dimensions_godot_xyz_m": [
+        60.000003814697266,
+        29.355499267578125,
+        31.00847816467285
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_buttress_01.glb",
+      "sha256": "16d2a8d02a46be8ed24a18933ddc0a49d79870680e52261b95691c005cd8d029",
+      "bytes": 1706052,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11968,
+      "triangles": 23936,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_buttress_02",
+      "category": "cliffs",
+      "family": "buttress",
+      "variant": 2,
+      "seed": 965783,
+      "dimensions_blender_xyz_m": [
+        100.0,
+        43.791046142578125,
+        47.57044982910156
+      ],
+      "dimensions_godot_xyz_m": [
+        100.0,
+        47.57044982910156,
+        43.791046142578125
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_buttress_02.glb",
+      "sha256": "9f9168a3fb5c8238671b888e01fc5f1436789d8f400a4f6dd003f0f2d11cabe6",
+      "bytes": 1670260,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11982,
+      "triangles": 23960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_buttress_03",
+      "category": "cliffs",
+      "family": "buttress",
+      "variant": 3,
+      "seed": 965866,
+      "dimensions_blender_xyz_m": [
+        150.0,
+        80.95675659179688,
+        97.66841125488281
+      ],
+      "dimensions_godot_xyz_m": [
+        150.0,
+        97.66841125488281,
+        80.95675659179688
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_buttress_03.glb",
+      "sha256": "23cf640ca0e6c8eb35bdf1569dd5e1d523740e4c89ea37b6e29e2a48db56dcc8",
+      "bytes": 1731592,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11982,
+      "triangles": 23960,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_cliffs_buttress_04",
+      "category": "cliffs",
+      "family": "buttress",
+      "variant": 4,
+      "seed": 965949,
+      "dimensions_blender_xyz_m": [
+        220.0,
+        107.91875457763672,
+        130.44134521484375
+      ],
+      "dimensions_godot_xyz_m": [
+        220.0,
+        130.44134521484375,
+        107.91875457763672
+      ],
+      "path": "assets/graphics/minerals/cliffs/mineral_cliffs_buttress_04.glb",
+      "sha256": "62990efc2c1aad5ced202a110bf877c5cd9a8ed2850da12e0f30b9305b92dfd2",
+      "bytes": 1716280,
+      "material_surfaces": 1,
+      "embedded_textures": 2,
+      "vertices": 11981,
+      "triangles": 23954,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "degenerate_faces": 0,
+      "blender_roundtrip_verified": true
+    }
+  ]
+}

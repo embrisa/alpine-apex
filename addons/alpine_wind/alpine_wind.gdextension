@@ -1,0 +1,7 @@
+[configuration]
+entry_symbol = "alpine_wind_init"
+compatibility_minimum = "4.5"
+reloadable = false
+
+[libraries]
+windows.x86_64 = "res://addons/alpine_wind/bin/alpine_wind.windows.x86_64.dll"

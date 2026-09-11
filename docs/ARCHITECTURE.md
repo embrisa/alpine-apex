@@ -1,10 +1,71 @@
 # Architecture and decisions
 
+## Current contracts
+
+[V15 generation](GENERATION_V15.md) owns canonical richness settings, packed
+populations, deterministic bounded jobs and physical/scenery preparation caches.
+
+Default Mountain is **seed 849205174 / generator v15, Standard richness**. Normal skiing is
+the versioned custom solver at **120 Hz**, with **replay v5** and **race schema 4**.
+Read `MODEL_VERSION` in `scripts/core/ski_simulation.gd` for the active physics identity.
+
+- [Ski physics](SKIER_PHYSICS.md) owns two-ski support, body forces, flight and
+  input. [Current carving](ARCADE_CARVING_V20.md) coordinates yaw, bank, grip and
+  pressure through actual support; no root-motion or racing-line attractor.
+  [Auto tuck and contact v21](TUCK_CONTACT_V21.md) retains steering authority with
+  forward held and absorbs small bumps through bounded passive suspension.
+  [Skid steering v22](SKID_RESPONSE_V22.md) releases sustained equipment-yaw
+  suppression while preserving ordinary carving and physical support.
+  [Thick snow v24](PLANTED_SNOW.md) adds load-limited embedded-ski resistance
+  during turns and weight transfer. Snowy faces normally have deep cover;
+  physical snow shapes and contact remain on the same 4 m surface.
+- [Impact reserve](IMPACT_RECOVERY.md) absorbs clean slope-matched landings and
+  groups rough contacts. Steering/body lean alone cannot cause balance deaths.
+- [Full-curve motion](STEEP_MOTION_GAMEPLAY.md) reads completed physical state;
+  [anatomical fitting](SKIER_ANATOMY.md) and rigid bindings remain constraints.
+  The character has one final skeleton writer and no cosmetic force feedback.
+- [Reviewed downhill poses](DOWNHILL_POSE_REVIEW_R2.md) refine ready stance,
+  tuck and jump preparation. Model 25 narrows actual ski centers to 0.38 m;
+  animation targets retain presentation-only ownership.
+  [Small banks v26](SNOW_CRUSHING.md) yield beneath supported skis at speed,
+  within local loose depth and a 30 cm cap; the 28 cm leg suspension is separate.
+- [V14 snow](PLANTED_SNOW.md) builds on [v13 placement](ALPINE_V13.md),
+  the [v12 landforms](ALPINE_V12.md) and
+  [mineral fitting](GEOLOGY_V11.md). Terrain, contact, tracks, survey and crashes
+  share the authoritative 4 m support surface. Local powder relief is cosmetic.
+- [Arcade air v27](ARCADE_AIR_V27.md) adds bounded ordinary pitch, fast manual
+  flips/spins and release braking, with recorded air-tilt intent in replay v5.
+- [Grounded snow v28](GROUNDED_SNOW_V28.md) softens rebound, absorbs small banks
+  from ordinary speeds and adds bounded dissipative snow retention within leg
+  reach. Sharp breaks and pending jumps release; flight remains independent.
+- Optional assistance must hand over gradually and preserve manual authority.
+  New snowboard support requires a separate movement/equipment model.
+
 ## Scope and identity
 
 Alpine Apex is a high-speed downhill racing game. Preserve momentum, find a better line, and control extreme velocity. The mountain serves that loop. The prototype avoids world streaming, progression and multiplayer. Player-generated summit mountains, archived drainage basins and the laboratory share the in-world open-route race authoring and text-sharing flow; general course rules and streaming remain future work.
 
 The user-created Godot 4.7 project, Forward+ renderer, Jolt configuration, and MCP toolkit are preserved. Normal skiing uses a Node-independent, articulated support/balance solver. A crash hands its final pose and momentum to a fifteen-body Jolt ragdoll. The independent ski simulation remains at 120 Hz; Jolt uses 32 velocity and 12 position iterations for stable crash joints.
+
+### Godot development direction
+
+Godot remains the engine and editor. [Engine and performance strategy](ENGINE_STRATEGY.md)
+guides incremental improvements to generation, loading, simulation and rendering:
+efficient data and algorithms, native C++ components, lower-level engine APIs and
+focused Godot patches are available when measurements justify them. The existing
+native audio and FidelityFX integration are examples. A full replacement runtime
+is outside the current roadmap. Keep the solver and terrain contracts explicit;
+Node independence alone does not remove their current Godot type/runtime dependencies.
+
+### Future social and competitive direction
+
+[Future social play and competition](ONLINE_COMPETITION.md) records the design
+boundaries to preserve for friend ghosts, shared challenges and eventual group
+play. Keep movement local and responsive, solo play available offline, and race
+rules/results independent of platform services. This is guidance for ordinary
+feature work; dedicated movement servers remain a distant option contingent on
+player demand and funding. Current local eligibility and snapshot ghosts do not
+establish trusted online results or authoritative replay validation.
 
 ## Module boundaries
 
@@ -27,61 +88,57 @@ The user-created Godot 4.7 project, Forward+ renderer, Jolt configuration, and M
 
 Future snowboarding can replace the movement model and equipment pose while retaining rider intent, surface, session and presentation infrastructure. It does not require ski simulation inheritance.
 
-## Ski model
+## Ski model and terrain contact
 
-Model v12 couples constrained root translation to **two ski contacts and a reduced articulated balance controller**. Each ski has its own terrain normal, support/release state, load, edge/yaw response, penetration and friction. Fifteen segment masses determine COM and inertia; bounded pressure under the skis controls body roll/pitch and load transfer, and limits the force the rider can sustain. The solver emits the whole-body IK pose. Model v6 bounds physical edging by body bank and boot angular rate, solves knees in the cuff flexion plane, and transports lean when the support frame changes. See [the rider model](SKIER_PHYSICS.md) for equations, tests and limitations. HUD friction remains m/s² and normal load remains multiples of g; per-ski `load_n` and `grip_n` are Newtons.
+The Node-independent custom solver owns two ski contacts, constrained root
+motion, supported body response and airborne rotation. Each ski has its own
+terrain normal, load, support/release state, yaw/edge response, slip, penetration
+and friction. The physical segment model determines COM and inertia; cosmetic
+joint fitting does not feed back into it. See [ski physics](SKIER_PHYSICS.md).
 
-1. Input changes the skis' horizontal heading at a speed-dependent angular rate. Steering intent is negative for rider-left and positive for rider-right. With forward `(sin(heading), 0, cos(heading))`, rider-right is `forward.cross(UP)`, so positive steering decreases heading and targets a negative edge angle (model v3 correction). It never sets velocity. The tangent's vertical component is solved from the surface normal so a cross-slope does not silently change the player's selected horizontal azimuth.
-2. Gravity projected onto the contact plane provides slope acceleration. Alignment and terrain determine how much gravity acts along the velocity. There is no racing-line attraction or speed cap.
-3. Model v7 eases equipment yaw into excessive slip (8–18° at speed) and lets the body transfer weight during reversals. Velocity remains force driven. Lateral grip opposes sideways velocity. Edge angle raises available lateral grip; the impulse is capped by estimated normal load and by the impulse needed to remove slip. Sliding resistance and edge grip share one lateral body-support budget; resistance is applied first with up to half the budget, then edge grip uses the remainder. This prevents their combined force from tipping the rider after each force passed its own check. Grip never adds kinetic energy. Gradual carving dissipates little; abrupt direction changes create slip and lose speed.
-4. Surface friction, edge-dependent resistance, skidding friction, braking and quadratic aerodynamic drag dissipate momentum. Model v2 uses upright drag 0.0058 1/m and a deep-tuck ratio of 0.43. Effective tuck settles over time; turning and braking open the stance. A deep tuck reduces grip leverage to 76% and slows edge engagement, so maintaining speed has a control cost. Tucking changes resistance, not gravity or propulsion.
-5. Estimated normal acceleration is `-velocity · d(normal)/dt`. The support force is that acceleration minus gravity's normal component. A negative required support releases the skier because snow cannot pull the skier downward.
-6. In the air, gravity and aerodynamic drag act on velocity. Input may orient the equipment but cannot redirect its trajectory. Landing uses a swept heightfield intersection and the velocity component into the surface. Rough landing severity, including bounded alignment cost, spends impact reserve. Surviving landings remove inward momentum and retain tangential travel.
-7. Rocks and tree trunks use swept cylinder intersections with vertical overlap and spatial hashing. The earliest contact supplies position and normal, so a surviving impact stops inward motion and a glancing collision can slide past. A normalized impact reserve depletes by actual impact severity and recovers after a smooth-contact delay. It is not affected by steering, slip or body torque; scalar balance depletion and automatic body-tip deaths were removed in v12. Extreme supported body lean invokes an explicit pose-recovery assist. World-boundary failures remain separate.
+Use metres, seconds and radians, and label diagnostic units. Gravity, drag,
+passive grip and braking determine travel. Tuck reduces air drag. Input requests
+turning through yaw, bank, pressure and actual normal reaction; no input or
+animation directly assigns travel velocity or attracts the rider to a line.
 
-**Airtime nuance:** gravity still accelerates a skier while airborne, and horizontal momentum receives less snow drag. It would be physically incorrect to turn gravity off in the air. There is no airborne *slope-contact acceleration* or lateral grip. The tests enforce that separation. Terrain and landing penalties must make excessive airtime costly; this remains an explicit tuning target rather than a claim that flight is always slower.
+[Jump controls](JUMP_CONTROL.md) own release-to-hop, ledge/buffer behavior and
+manual airborne rotation. Prediction supplies read-only information for optional
+assistance and cosmetic readiness. Help must hand over gradually while preserving
+explicit control. [Impact recovery](IMPACT_RECOVERY.md) groups rough contacts and
+absorbs clean slope-matched landings automatically. Rock abrasion remains its own
+[material-response contract](ROCK_TERRAIN.md). Steering/lean alone do not kill balance.
 
-Model v10 retains a separate takeoff frame while airborne: yaw may orient the equipment, but terrain below the flight cannot pitch the skis. A ballistic next-height check prevents downward snapping across ledges, and support cannot carry a negative load. Swept landing uses the struck triangle normal and advances the unconsumed part of the tick instead of sticking to a lip. The articulated body supplies landing torque once through its actual support footprint; airborne knee flexion changes pose/inertia, never trajectory. See [jump validation](SKIER_PHYSICS.md#airtime-and-landings--model-v10).
+### Shared support and snow
 
-Model v8 separates the shared geometric support frame from boot pressure, removes duplicate cross-slope gravity from desired lean, and retracts target bank as support unloads. Body torque uses the completed tick's reaction, including landing support. Landing alignment penalties are bounded by normal impact speed, so grazing terrain cannot create repeated hard edge-catch penalties. Crash cuffs retain flexion hinges and rigid bindings; mass-centred angular handoff preserves total incoming linear momentum. See [high-speed balance](SKIER_PHYSICS.md#high-speed-balance-and-boot-support--model-v8) for reproduction, validation and transient crash-joint limitations.
+Collision heights use the same triangle diagonal and barycentric interpolation
+as the rendered 4 m support grid. Normal filtering and compliant support belong
+to the physical contact model. Terrain fitting, survey, tracks and crash geometry
+must agree on that surface; no camera-dependent or parallel terrain authority.
 
-Model v9 increases the target bank limit smoothly from 0.85 rad at 30 km/h to 0.98 rad at 60 km/h. Hard turns can build greater lateral support while retaining the existing pressure, torque, cuff-rate and slip limits. The limit changes requested lean only; contact forces still redirect momentum. See [tighter high-speed turns](SKIER_PHYSICS.md#tighter-high-speed-turns--model-v9) for measured radii, speed costs and recovery coverage.
+Loose-snow depth is seeded physical data. Contact can use depth, penetration,
+load and slip to model resistance. [Snow presentation](SNOW.md) reads completed
+per-ski response, while [powder relief](POWDER_VOLUME.md) supplies cosmetic nearby
+impressions. Weather, visual track history and particle motion cannot alter grip,
+excavate physical terrain or create accumulated compaction.
 
-Model v11 consumes a release-to-hop command before a same-tick predicted takeoff can discard it, or buffers an early landing release for 75 ms until support returns. Main-game lifecycle transitions cancel preparation and pending requests. Turn transfers retain a small amount of yaw and request a modest opposite bank through the existing support controller. Landing age and balance trend distinguish impact absorption, recovery and ongoing instability on the HUD. See [v11 handling and release controls](HANDLING_UPGRADE.md) for timing, compatibility, regression checks and native captures.
-
-Model v12 follows the requested Steep-inspired impact bar: rough contacts spend reserve, smooth supported riding refills it after a delay, and an impact fall occurs when it reaches zero. `core/impact_recovery.gd` owns damage grouping and recovery independently of the turn/pose controller. The balance HUD is replaced by impact reserve; old balance fields survive only as inert diagnostic compatibility. [Current impact model and validation](IMPACT_RECOVERY.md).
-
-### Loose snow — model v4
-
-The optional surface method `snow_depth_at(x,z)` supplies a static loose-layer depth in metres; surfaces without it retain packed-plane behavior. The laboratory samples a separate offset of its seeded smooth noise to produce 3.5–17.5 cm loose deposits over the sculpted snow surface. Depth never uses the camera, weather clock, track history or a preferred racing line.
-
-The solver estimates penetration from depth, normal pressure and a speed-dependent planing factor. Penetration is bounded by layer depth; faster aligned skis penetrate less. Ploughing adds passive resistance proportional to penetration, support load and sideways slip/braking, capped at 6 m/s² and integrated with the existing non-reversing friction impulse. Straight gliding has a small resistance coefficient so the launch apron remains useful. Airborne snow depth, penetration and drag telemetry clear to zero. Telemetry is metres and m/s², not a second collision surface or a physical suspension displacement.
-
-This originally changed the benchmark identity to `laboratory-v3-physics-v4-default`; model v12 now uses `laboratory-v3-physics-v12-default`. Old model records are not compared. The snow remains an approximation: no independently flexing skis, accumulated compaction, terrain excavation, particle collision or weather-driven accumulation. Visual imprints never feed back into the solver.
-
-### Sculpted snow — laboratory generator v3
-
-`snow_relief_at(x,z)` adds actual heightfield undulations: warped wind ridges, smaller scallops and irregular mounds. Main ridges have a 1.15 m amplitude, scallops 0.18 m, and the seeded mound field is scaled by 0.70 m. Variation develops smoothly after the starting apron. The ridges vary more across the slope and more slowly along it, keeping downward curvature within the high-speed contact budget. They are independent of the chosen racing line.
-
-The resulting heights are baked into the same 4 m triangle grid read by contact, obstacle placement and the physical mesh renderer and backdrop. Vertex count and terrain draw batches stay unchanged. The decorative mountain generator is now v2 and copies the changed laboratory exactly, recording `laboratory-v3` as its physics authority. Tracks sample the new surface. This is physical terrain relief, in addition to the fine normal-map grains and optical ski grooves. Sub-metre snow clumps remain shading detail at this grid resolution; this is not a deformable volume.
-
-### Contact approximation and risks
-
-Collision heights use the same triangle diagonal and barycentric interpolation as the rendered 4 m grid. Support normals use a four-metre finite-difference stencil: a coarse-grid suspension approximation that prevents a triangle seam from behaving like a sharp physical crest. This is not a literal four-metre ski, nor a complete suspension model.
-
-Velocity projection onto a changing contact plane is passive and can lose energy. It does not model a perfect energy-preserving curved constraint. Contact loads and landing tolerance are deliberately inspectable. Validate energy, contact duration, stability and route times before making terrain rougher or refining grid resolution.
-
-Model v5 adds per-ski load distribution, body roll/pitch angular momentum, compressing leg IK and crash ragdolls. It does not simulate distributed pressure along a flexible ski, active propulsion by pumping, torsional ski flex or deformable snow. Tuck provides a small landing tolerance benefit but does not fake adhesion to convex terrain.
-
-### Speed calibration, model/generator v2
-
-The authored launch apron is approximately 10°, blending smoothly into the 25° race face over z=80–340 m. The height profile integrates the pitch transition to avoid a contact discontinuity. The clear obstacle corridor narrows from 36 to 15 m half-width; all added proximity comes from the same seeded, collidable trees and rocks. The normal stencil and contact solver remain shared with the rendered heightfield.
-
-The intended bands are 0–30 maneuvering, 30–60 ordinary skiing, 60–90 fast, 90–120 racing, 120–150 elite downhill, 150–165 extreme racing, 165–200 extreme terrain, and 200+ exceptional speed. These are HUD/design descriptions; they do not clamp velocity. On ideal planar pitches, 90 s tucked runs settle around 86 km/h at 10°, 142 at 25°, 167 at 35°, and 202 at 55°. The last is an exceptional synthetic test pitch, not a claim of a playable speed-skiing mountain in this laboratory.
+Velocity projection onto changing contact planes is passive and may lose energy.
+The model does not simulate flexible-ski pressure distribution, torsional ski
+flex, weather-driven accumulation or propulsion by pumping. Validate energy,
+contact duration, stability and route times when changing contact or terrain.
+The laboratory is a controlled fixture; its old timing measurements and tuning
+versions are not the current default mountain or model identity.
 
 ## Timing and determinism
 
-Godot dispatches `_physics_process` at 120 Hz. The renderer interpolates the previous and current completed positions and cannot change the solver's time step. Input is sampled per physics tick; accumulated OS input is disabled. Body and hand poses interpolate the authoritative tick states; camera smoothing remains render-time presentation. Translational camera follow is immediate so high speed cannot make the camera recede indefinitely. Maximum catch-up steps are bounded at 24; under severe overload the engine can slow simulated time rather than silently discard meaningful input history.
+The [athletic skier animation layer](SKIER_ANIMATION.md) consumes completed
+120 Hz physics and input states into separate previous/current cosmetic targets.
+Rendering interpolates those targets with the same fraction as the physical
+pose, then closes limbs against rigid bindings and pole grips. Successful-hop
+telemetry and existing landing contacts trigger anticipation, extension and
+absorption. The composed skeleton seeds crashes but never feeds back into ski
+forces, physical mass properties, or recorded PB/ghost poses.
+
+Godot dispatches `_physics_process` at 120 Hz. The renderer interpolates the previous and current completed positions and cannot change the solver's time step. Input is sampled per physics tick; accumulated OS input is disabled. Body and hand poses interpolate the authoritative tick states; camera smoothing remains render-time presentation. Horizontal camera follow is immediate so high speed cannot make the camera recede indefinitely. Automatic camera elevation uses optional render-time damping, with added vertical lag bounded to 1.5 m in chase and 0.2 m in first person. Riding pitch depends on nominal chase framing or a fixed first-person angle, independently of terrain, vertical movement and contact transitions. Manual look remains separate, and collision clearance takes priority for position without rotating the view. See [camera settings](CAMERA.md). Maximum catch-up steps are bounded at 24; under severe overload the engine can slow simulated time rather than silently discard meaningful input history.
 
 Godot documents the latency tradeoff of interpolation and high tick rates in [its interpolation introduction](https://docs.godotengine.org/en/stable/tutorials/physics/interpolation/physics_interpolation_introduction.html). Our interpolation introduces up to one 120 Hz tick (~8.33 ms), not a display-frame-dependent physics rate. Root translation, support rotation, body joints and both skis use one explicit render fraction. Rendered ankles share the rigid bindings, with leg IK closing the interpolated chains. Inactive sessions hold the completed tick; resume clears pose/contact history without advancing physics. See [ski attachment](SKIER_PHYSICS.md#ski-attachment-and-render-timing).
 
@@ -93,7 +150,12 @@ Legacy local record schema v1 contains course identity, best time and the last 2
 
 ## In-world race authoring
 
-The schema-v1 open-route race stores a versioned mountain reference (both physical and scenery seeds), a name, start position/heading and finite finish area. The ski integrator remains independent. `RunSession` intersects the swept rider segment with the finish cylinder from any direction; no checkpoints or predefined racing line are required. The workshop pauses the rider while selecting positions on the rendered triangulated snow. Sharing uses portable JSON text, and importing another mountain rebuilds the complete world before racing. Custom PB identities include the definition, mountain, movement version and tuning checksum; the benchmark record stays separate. See [RACES.md](RACES.md) for lifecycle, bounds, persistence, sharing and limitations.
+Current races use schema **3** and [shared summit-return rules](WILDERNESS.md).
+Generated summit free skiing and races share a 2,850 m disk. Main resolves swept
+finish/exit order before record writes and owns the cancellable return lifecycle.
+The survey alone draws the zone outline. New race/record libraries use v2.
+
+The schema-v3 open-route race stores a versioned mountain reference (both physical and scenery seeds), a name, start and finish positions/headings, finite gate dimensions and prop layout version. The ski integrator remains independent. `RunSession` intersects the swept rider segment with the finish arch plane from either direction; no checkpoints or predefined racing line are required. Main compares this fraction with the shared zone exit before saving any result. The workshop pauses the rider while selecting positions on the rendered triangulated snow. Sharing uses portable JSON text, and importing another mountain rebuilds the complete world before racing. Custom PB identities include the definition, mountain, prop layout, zone rules, movement version and tuning checksum; the benchmark record stays separate. See [RACES.md](RACES.md) for lifecycle, bounds, persistence, sharing and limitations.
 
 ## Competitive loop
 
@@ -101,7 +163,7 @@ Each timed attempt freezes its PB time, splits and replay reference at restart. 
 
 ## Rendering and performance
 
-Target the Ryzen 5 5600X / RX 9070 / 16 GB PC at 4K output and 90-120 FPS. High starts at 75% FSR2 and a 120 FPS cap, with optional SDFGI initially off. Aim for p95 <= 11.1 ms and p99 <= 16.7 ms after warmup; demanding sections may favor fidelity. The MacBook requirement is removed, and the independent solver remains 120 Hz. Resolution and full-descent measurement guidance are defined in [GRAPHICS.md](GRAPHICS.md#performance-policy); measured results and incomplete acceptance items are in [the PC report](PC_ENVIRONMENT_IMPLEMENTATION.md).
+Target the Ryzen 5 5600X / RX 9070 / 16 GB PC at 4K output and 90-120 FPS. High starts at 75% FSR2 and a 120 FPS cap, with optional SDFGI initially off. Aim for p95 <= 11.1 ms and p99 <= 16.7 ms after warmup; demanding sections may favor fidelity. The MacBook requirement is removed, and the independent solver remains 120 Hz. Resolution and full-descent measurement guidance are defined in [GRAPHICS.md](GRAPHICS.md#performance-policy); measured results and incomplete acceptance items are in [the PC report](VALIDATION.md).
 
 The authoritative laboratory still has 96 chunks and 196,608 triangles. Presentation adds a separately seeded 8.192 km mountain heightfield plus snow, rock, vegetation and exposure masks. The existing laboratory samples are copied exactly into that field. The built-in chunk renderer displays the authoritative laboratory triangles and a coarse backdrop from the same generated mountain data. Terrain3D and its moving replacement patch have been removed; the solver's triangle sampling remains authoritative.
 
@@ -109,9 +171,9 @@ Vegetation uses shared MultiMeshes in 128 m regions, 43 tree shapes across 11 fa
 
 The detailed terrain/data contract, asset provenance, quality budgets and rebuild process are in [GRAPHICS.md](GRAPHICS.md). The bounded generated basin is now playable; terrain streaming is not implemented. See [MOUNTAINS.md](MOUNTAINS.md) for the generator, portable contract, physical/render agreement and limitations.
 
-Four spray emitters share the existing 380-particle ceiling: 110 powder puffs and 80 ballistic grains per ski. Their emission and size follow speed, penetration, ploughing, slip, edge load and impact, with shared sun/cloud lighting. Pause freezes the particles. Tracks use an 800-instance ring buffer of paired, 0.70 m distance-sampled ribbons (about 280 m of paired travel). Four sampled corner heights conform each ribbon to the contact terrain; shaded grooves and irregular raised lips provide depth without excavating that terrain. Airborne intervals, inactivity and teleports break contact history; restart clears the ring. Imprints fade between 100 and 180 m from the camera. Wind/ski audio uses precomputed short PCM loops, avoiding GDScript sample synthesis in the frame loop. HUD telemetry updates at 10 Hz; the speed and timer instruments remain immediate. A compact arc instrument labels all eight speed bands, with a separate balance indicator. It displays the full velocity magnitude in km/h, including while airborne.
+Four spray emitters share the existing 380-particle ceiling: 110 powder puffs and 80 ballistic grains per ski. Their emission and size follow speed, penetration, ploughing, slip, edge load and impact, with shared sun/cloud lighting. Pause freezes the particles. Tracks use an 800-instance ring buffer of paired, 0.70 m distance-sampled ribbons (about 280 m of paired travel). Four sampled corner heights conform each ribbon to the contact terrain; shaded grooves and irregular raised lips provide depth without excavating that terrain. Airborne intervals, inactivity and teleports break contact history; restart clears the ring. Imprints fade between 100 and 180 m from the camera. Rain retains its PCM loop. [Procedural skiing and crash audio](SKIING_AUDIO.md) reads completed per-ski state, a shared environment survey and bounded read-only Jolt contact reports; Original mode retains the ski loops. [Procedural skiing wind](WIND_DSP.md) synthesizes continuous shaped noise in a native audio callback, with head-relative airflow and an F7 comparison against the original loop; it never synthesizes samples in the GDScript frame loop. HUD telemetry updates at 10 Hz; the speed and timer instruments remain immediate. A compact arc instrument labels all eight speed bands, with a separate balance indicator. It displays the full velocity magnitude in km/h, including while airborne.
 
-The chase boom is lower and closer to keep local snow in view. C toggles first person using the same ski geometry with the rider body hidden. Camera bank follows measured lateral acceleration; compression follows normal load and landing speed. Travel-based chatter is small, bounded, and absent in flight. Dynamic FOV and a five-sample peripheral screen blur build progressively; the center remains clear. V disables FOV modulation, bank, compression, chatter and peripheral blur. Audio uses separate wind, running-ski and edge-scrape layers, with contact/landing/edge-load mixing. Haptic output is bounded and cleared on pause/exit, but requires hardware assessment.
+The chase boom defaults to 3 m behind / 6 m above at rest and 7 m / 8 m at 200 km/h, preferring 2 m snow clearance with a final 1 m floor. Optical pitch derives from nominal distance/height and bounded anticipation, independently of terrain displacement. Both riding views share configurable vertical FoV endpoints (50–120°, default 72°/110°); equal endpoints fix the lens and descending endpoints narrow it with speed. Independent third-/first-person tilt offsets (±30°, default zero) add to automatic aim before manual look and the final ±80° limit. Supported hard carving briefly subtracts up to 0.6 m of distance and 0.25 m of height, with a slower release; final terrain probes preserve clearance. Mouse/right-stick look is presentation-only and works in both riding views and the summit overview without entering RiderInput or replay data. Main owns cursor capture and clears pending look at lifecycle transitions. Settings → Camera edits FoV, distance/height endpoints, per-view tilt and vertical smoothing through presentation/camera_settings.gd; all nine values save in camera_v1.cfg and survive scene reloads. Automated runs use defaults and ignore live menu edits. C/R1 switches views; middle mouse/R3 recenters to configured tilt; moving idle look returns after 0.8 seconds. V disables automatic speed framing, carving, bank, compression, chatter and peripheral blur, using resting FoV/distance/height while retaining tilt, vertical smoothing and free look. Menu, summit, crash and survey framing do not use the new lens/tilt preferences. Audio uses separate wind, running-ski and edge-scrape layers, with contact/landing/edge-load mixing. Haptic output is bounded and cleared on pause/exit, but requires hardware assessment. See [camera controls, tuning, and validation](CAMERA.md).
 
 The first ambient-lighting increment mixes 25% sky contribution with the weather ambient fill. Balanced/High enable contact-scale SSAO; Low keeps it disabled. The second increment adds short-range SSIL to High only; Low and Balanced keep SSIL disabled. High also enables four-cascade SDFGI over fixed terrain and rocks, using a half-resolution GI buffer. Rider, tracks and wind-driven vegetation receive GI without contributing stale moving geometry. Low and Balanced keep SDFGI disabled. The existing graphics resource owns that presentation switch, applied by the world on startup and quality changes. See [GRAPHICS.md](GRAPHICS.md#ambient-and-contact-lighting--first-increment) for settings and limitations.
 
@@ -139,7 +201,15 @@ Large transparent particles, long-range vegetation shadows and terrain expansion
 
 Godot's [controller documentation](https://docs.godotengine.org/en/stable/tutorials/inputs/controllers_gamepads_joysticks.html) describes the SDL-backed standard input model. PlayStation names appear only in user-facing guidance; simulation input is controller-model independent. Trigger/stick mapping is tested at the action layer. Physical devices, trigger calibration and vibration still need hardware playtests.
 
+Left-stick forward now requests analog tuck; R2/RT holds jump preparation and
+releases one hop. A separate completed-tick observer drives finite impact
+vibration and faint, spaced rock taps independently of audio mute. The existing
+auto-tuck solver, input recording layout and physics identity are retained.
+See [controller input and feedback](CONTROLLER_FEEDBACK.md).
+
 ## Player-generated mountains
+
+**Current default: v11.** Normal startup and random/bare seeds use the [geology environment](GEOLOGY_V11.md): one authoritative 4 m grid, six seeded face descriptions, immutable parallel baking passes, full-mountain exposure and a disposable source-validated bake cache. The default seed is 849205174; Drop In starts summit free skiing and timed play uses custom races. Archived descriptions below document earlier generator versions.
 
 The `alpine-drainage-v4` generator bakes a 6.144 km square mountain at 4 m spacing, with a true highest-point spawn and radial ridges/bowls on all sides. Free-ski staging lets the player choose a heading, then selects a nearby summit rim with zero initial velocity; all subsequent motion uses the unchanged ski solver. Free progress/completion is radial. The race survey and picking cover the whole field, while authored races retain their own arbitrary-direction finishes.
 
@@ -155,10 +225,47 @@ races. A localized terrain-resolution exposure mask describes the same crags and
 snow gaps to rendering and preview; it does not change friction. Seeded forest
 stands use the existing spatial index and regional MultiMeshes. Only the fixed
 example seed is supported, and the default generator remains v4. See
-[MOUNTAINS.md](MOUNTAINS.md#technical-showcase--fixed-south-face-v6).
+[MOUNTAINS.md](MOUNTAINS.md#terrain-and-session-boundaries).
 
 ### PC display and showcase v7
 
 `presentation/pc_graphics_settings.gd` owns persistent display preferences separately from physics, weather and recipes. Main restores them before world construction and carries the complete snapshot through mountain reloads. Script/autoplay runs do not load or save player display preferences. Only the 3D viewport scales; UI remains at output resolution.
 
-`world/generators/technical_showcase_v7.gd` is an independent versioned generator over the existing 4 m grid. It retains the v6 drainage/stand structure and adds faceted buttress profiles, physical ledges and sheltered snow exposure. v1-v6 implementations are unchanged. The library selects v7 only for Technical Showcase; ordinary generation remains v4. Shared races use the versioned mountain reference and fingerprints through the existing decoder.
+`world/generators/technical_showcase_v7.gd` is an independent versioned generator over the existing 4 m grid. It retains the v6 drainage/stand structure and adds faceted buttress profiles, physical ledges and sheltered snow exposure. v1-v6 implementations are unchanged. This archived release introduced v7 for Technical Showcase; the current v8 selection is described below. Ordinary generation remains v4. Shared races use the versioned mountain reference and fingerprints through the existing decoder.
+
+### Sculpted showcase snow — generator v8
+
+The archived v8 showcase uses seed 849205174. The independent v8 generator
+retains v7's landforms and adds the laboratory's physical wind ridges, scallops
+and mounds after drainage, before obstacle placement and final exposure. A
+separate seeded snow-noise instance preserves the original landform/depth noise.
+All relief weights read the pre-sculpt grid; the changed heights commit together.
+Geometric snow exposure, slope and smooth feature boundaries control coverage.
+The summit and authored drop approach/landing retain their earlier geometry.
+The final 4 m surface remains shared by mesh, contact, tracks, survey and crashes;
+there is no shader displacement or rider-dependent relief. Archived v1-v7 and
+ordinary random v4 generation remain unchanged. Versioned mountain references
+separate v8 races and records without a schema or solver change. See
+[snow formations and acceptance](SNOW.md).
+
+### Accumulated powder and local surface - showcase v9
+
+Technical Showcase now selects v9 with 32 baked banks and 17-31 cm loose depth
+in two powder regions. It preserves v1-v8 and uses the existing model v12 contact
+and passive snow resistance. [Powder volume](POWDER_VOLUME.md) documents the
+separate physical identity, shared collision surface, and bounded presentation.
+
+High integrates a 32 m local mesh with GPU-computed signed grooves, raised lips
+and small untouched crowns. An immutable height texture and exact triangle
+diagonal retain the 4 m support surface. Only visual loose-layer detail is
+displaced; it never writes back to contact, load or friction. The retained track
+ring rebuilds nearby detail without a GPU readback. Render-only ski burial shares
+the rigid boot/ankle frame and closes the articulated legs through existing IK.
+
+### Mountain discoveries and gate collision
+
+`world/flavor_layout.gd` creates immutable, seed-derived placement data for v10 and v11 mountains. `world/mountain_flavor.gd` seats reusable assets and their foundations, shares the cloud lighting pipeline, and announces each discovery site once per loaded mountain. `world.ski_surface` delegates terrain queries unchanged and spatially indexes frozen oriented prop boxes; the Node-independent solver still runs at 120 Hz. Godot static bodies provide the same solids to crash ragdolls. Distance detail changes presentation only. Active custom races register two arches; survey previews do not participate in collision. See [FLAVOR_INTEGRATION.md](FLAVOR_INTEGRATION.md).
+
+### Mineral geology v11
+
+The current generated mountain adds deterministic, terrain-fitted v3 mineral formations. The field owns frozen convex proxies and continuous rider-envelope sweeps; nearby Jolt bodies share those proxies. Ski support, tracks and survey snow picking retain the authoritative 4 m grid. Local foundation changes and mineral collision identity belong to generator v11, with an independent cache and preserved v10 reconstruction. Rendering quality affects only detail. See [geology implementation and validation](GEOLOGY_V11.md).

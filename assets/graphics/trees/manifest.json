@@ -1,0 +1,4717 @@
+{
+  "version": 3,
+  "source": "TreeDesigner + 400 trees\\TreeDesigner.blend",
+  "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f",
+  "families": {
+    "spruce": {
+      "label": "Alpine spruce",
+      "heights": [
+        6,
+        10.5,
+        14,
+        18
+      ],
+      "radius": 0.25,
+      "leaf": 1.25
+    },
+    "fir": {
+      "label": "Silver fir",
+      "heights": [
+        7,
+        11,
+        15,
+        20
+      ],
+      "radius": 0.22,
+      "leaf": 1.1
+    },
+    "pine": {
+      "label": "Mountain pine",
+      "heights": [
+        6,
+        10,
+        13,
+        16
+      ],
+      "radius": 0.34,
+      "leaf": 1.0
+    },
+    "birch": {
+      "label": "Winter birch",
+      "heights": [
+        6,
+        10,
+        14,
+        17
+      ],
+      "radius": 0.27,
+      "leaf": 0
+    },
+    "dead": {
+      "label": "Dead snags",
+      "heights": [
+        5,
+        8,
+        12,
+        16
+      ],
+      "radius": 0.22,
+      "leaf": 0
+    },
+    "broken": {
+      "label": "Broken crowns",
+      "heights": [
+        4,
+        7,
+        10.5,
+        14
+      ],
+      "radius": 0.24,
+      "leaf": 0
+    }
+  },
+  "assets": [
+    {
+      "id": "forest_spruce_01",
+      "family": "spruce",
+      "variant": 1,
+      "height_m": 6.038,
+      "nominal_height_m": 6,
+      "seed": 1380,
+      "preset": "SpruceTree_LowPoly.001",
+      "settings": {
+        "Socket_47": 1380,
+        "Socket_40": 1391,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 1.25,
+        "Socket_68": 0.75,
+        "Socket_37": 78.0,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_spruce_01_lod0.glb",
+          "sha256": "10f8a4ce9cb3df8a7b13c579b5d66cc6d73def6663c92d5c01f139e7a363a5a4",
+          "triangles": 21316,
+          "bytes": 1501104,
+          "dimensions_blender_xyz_m": [
+            3.3008620738983154,
+            3.4430274963378906,
+            6.037674427032471
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_spruce_01_lod1.glb",
+          "sha256": "a5a3b05466df4eeae97202704c56a94ce67f6c365e69ed3ed562835fb4374047",
+          "triangles": 5965,
+          "bytes": 601884,
+          "dimensions_blender_xyz_m": [
+            3.353343963623047,
+            3.4761157035827637,
+            6.038538455963135
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_spruce_01_lod2.glb",
+          "sha256": "772eaa02dc8b420f34fb07473daa746d69a8ff104be7acb6f67553e4d994fb4d",
+          "triangles": 2,
+          "bytes": 1644,
+          "dimensions_blender_xyz_m": [
+            6.71999979019165,
+            0.0,
+            6.720000267028809
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.3271634578704834,
+            1.6342484951019287,
+            0.38221055269241333
+          ],
+          "radius": 1.26,
+          "pivot_y": 0.16
+        },
+        {
+          "center": [
+            0.3115842044353485,
+            1.4169813394546509,
+            0.3120477497577667
+          ],
+          "radius": 1.26,
+          "pivot_y": 0.16
+        },
+        {
+          "center": [
+            0.2604217827320099,
+            1.4510345458984375,
+            -0.42729419469833374
+          ],
+          "radius": 1.26,
+          "pivot_y": 0.16
+        },
+        {
+          "center": [
+            -0.36736661195755005,
+            1.4890958070755005,
+            -0.4184245467185974
+          ],
+          "radius": 1.26,
+          "pivot_y": 0.16
+        },
+        {
+          "center": [
+            -0.14802215993404388,
+            2.957672119140625,
+            0.1864372342824936
+          ],
+          "radius": 1.2247272659819022,
+          "pivot_y": 2.16
+        },
+        {
+          "center": [
+            0.11615491658449173,
+            2.9767887592315674,
+            0.12257689237594604
+          ],
+          "radius": 1.0994632549330179,
+          "pivot_y": 2.16
+        },
+        {
+          "center": [
+            0.10038484632968903,
+            3.022143602371216,
+            -0.18352311849594116
+          ],
+          "radius": 1.118130552251119,
+          "pivot_y": 2.16
+        },
+        {
+          "center": [
+            -0.11127910017967224,
+            3.0011932849884033,
+            -0.14272837340831757
+          ],
+          "radius": 1.0471213952874288,
+          "pivot_y": 2.16
+        },
+        {
+          "center": [
+            -0.011626651510596275,
+            4.702119827270508,
+            0.018049117177724838
+          ],
+          "radius": 1.1063922085473539,
+          "pivot_y": 4.16
+        },
+        {
+          "center": [
+            0.026160981506109238,
+            4.655024528503418,
+            0.013546819798648357
+          ],
+          "radius": 1.2118978613533549,
+          "pivot_y": 4.16
+        },
+        {
+          "center": [
+            0.03482487425208092,
+            4.729309558868408,
+            -0.02363278530538082
+          ],
+          "radius": 1.0965824878939925,
+          "pivot_y": 4.16
+        },
+        {
+          "center": [
+            -0.027929246425628662,
+            4.717552661895752,
+            -0.027179664000868797
+          ],
+          "radius": 1.151803572161469,
+          "pivot_y": 4.16
+        }
+      ],
+      "shoot_count": 350,
+      "woody_components": 383,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_spruce_01.blend",
+      "atlas_complete": true,
+      "shadow": {
+        "path": "assets/graphics/trees/models/forest_spruce_01_shadow.glb",
+        "sha256": "39b102d41f78310c1de430f7059608a36746576ff90d9705031dae6433cebed7",
+        "triangles": 1455,
+        "bytes": 112444,
+        "dimensions_blender_xyz_m": [
+          2.847062587738037,
+          3.039706230163574,
+          5.89278507232666
+        ]
+      },
+      "foliage_revision": 3,
+      "crown_center": [
+        -0.01672077178955078,
+        3.3660404682159424,
+        0.0533679723739624
+      ],
+      "crown_radius": 2.9972380550473274,
+      "foliage_atlas": "assets/graphics/trees/textures/foliage_color.res",
+      "foliage_normal_ao": "assets/graphics/trees/textures/foliage_normal_ao.res",
+      "build_sha256": "f71035c8996d6fe456b3a8182ea478aaa189bd792a0aa7aa0304301384fad868",
+      "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f",
+      "normalization_bounds": {
+        "min": [
+          -1.487791895866394,
+          -0.03767451271414757,
+          -1.49180269241333
+        ],
+        "max": [
+          1.502020239830017,
+          6,
+          1.5286530256271362
+        ]
+      },
+      "build_identity": "118038ebf9b2d1d5278881fbd84b69370bb3079a3ed9ce6b0d5d29faff85328b"
+    },
+    {
+      "id": "forest_spruce_02",
+      "family": "spruce",
+      "variant": 2,
+      "height_m": 10.567,
+      "nominal_height_m": 10.5,
+      "seed": 1453,
+      "preset": "SpruceTree_LowPoly.003",
+      "settings": {
+        "Socket_47": 1453,
+        "Socket_40": 1464,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 1.25,
+        "Socket_68": 0.75,
+        "Socket_37": 93.60000000000001,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_spruce_02_lod0.glb",
+          "sha256": "c955118f13ef9a21b2e4e488c555ead3b153a0ff17a1575eed7155b9239dd408",
+          "triangles": 21315,
+          "bytes": 1580544,
+          "dimensions_blender_xyz_m": [
+            6.226359844207764,
+            6.308152198791504,
+            10.567048072814941
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_spruce_02_lod1.glb",
+          "sha256": "3ec7bff0d1c6da8a57eb78a78a2aa1c9a99cfe4376e3a06e9a1c8d54d14c4c33",
+          "triangles": 5965,
+          "bytes": 606200,
+          "dimensions_blender_xyz_m": [
+            6.391852378845215,
+            6.450676441192627,
+            10.567048072814941
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_spruce_02_lod2.glb",
+          "sha256": "4b1e5d284a922d331f0b03b438e2686dd450db5f817127399e0ef73b2829fdce",
+          "triangles": 2,
+          "bytes": 1644,
+          "dimensions_blender_xyz_m": [
+            11.760000228881836,
+            0.0,
+            11.760000228881836
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.6282848119735718,
+            2.765474319458008,
+            0.6858357787132263
+          ],
+          "radius": 2.205,
+          "pivot_y": 0.27999999999999997
+        },
+        {
+          "center": [
+            0.8368986248970032,
+            2.4532582759857178,
+            0.7654915452003479
+          ],
+          "radius": 2.205,
+          "pivot_y": 0.27999999999999997
+        },
+        {
+          "center": [
+            0.4973810613155365,
+            2.6954753398895264,
+            -0.7594894170761108
+          ],
+          "radius": 2.205,
+          "pivot_y": 0.27999999999999997
+        },
+        {
+          "center": [
+            -0.6227494478225708,
+            2.1073055267333984,
+            -0.6774212121963501
+          ],
+          "radius": 2.033705826029311,
+          "pivot_y": 0.27999999999999997
+        },
+        {
+          "center": [
+            -0.23565205931663513,
+            5.2865824699401855,
+            0.247184157371521
+          ],
+          "radius": 2.205,
+          "pivot_y": 3.78
+        },
+        {
+          "center": [
+            0.20780594646930695,
+            5.678584575653076,
+            0.22828444838523865
+          ],
+          "radius": 2.205,
+          "pivot_y": 3.78
+        },
+        {
+          "center": [
+            0.3488019108772278,
+            4.884756088256836,
+            -0.2318868488073349
+          ],
+          "radius": 2.1509256702063424,
+          "pivot_y": 3.78
+        },
+        {
+          "center": [
+            -0.24112413823604584,
+            5.337349891662598,
+            -0.2470734566450119
+          ],
+          "radius": 2.0407800127771463,
+          "pivot_y": 3.78
+        },
+        {
+          "center": [
+            -0.021831102669239044,
+            8.081600189208984,
+            0.013091971166431904
+          ],
+          "radius": 1.6922652183569018,
+          "pivot_y": 7.28
+        },
+        {
+          "center": [
+            0.037073276937007904,
+            8.618521690368652,
+            0.013325014151632786
+          ],
+          "radius": 1.633114947432437,
+          "pivot_y": 7.28
+        },
+        {
+          "center": [
+            0.019119683653116226,
+            8.339286804199219,
+            -0.030641240999102592
+          ],
+          "radius": 1.7242125893314753,
+          "pivot_y": 7.28
+        },
+        {
+          "center": [
+            -0.03156489133834839,
+            8.172840118408203,
+            -0.03264094516634941
+          ],
+          "radius": 1.7645096105784732,
+          "pivot_y": 7.28
+        }
+      ],
+      "shoot_count": 350,
+      "woody_components": 529,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_spruce_02.blend",
+      "atlas_complete": true,
+      "normalization_bounds": {
+        "min": [
+          -2.9477877616882324,
+          -0.06704849004745483,
+          -2.8427064418792725
+        ],
+        "max": [
+          2.680711269378662,
+          10.5,
+          2.6551401615142822
+        ]
+      },
+      "shadow": {
+        "path": "assets/graphics/trees/models/forest_spruce_02_shadow.glb",
+        "sha256": "b784a31fe47d98d5be38b2b263fa99c653e54302722b69e632100a9ab6032cbb",
+        "triangles": 1456,
+        "bytes": 111196,
+        "dimensions_blender_xyz_m": [
+          5.499826431274414,
+          5.575319290161133,
+          10.115013122558594
+        ]
+      },
+      "foliage_revision": 3,
+      "crown_center": [
+        -0.07741475105285645,
+        5.827880859375,
+        -0.05277132987976074
+      ],
+      "crown_radius": 5.352037238900963,
+      "foliage_atlas": "assets/graphics/trees/textures/foliage_color.res",
+      "foliage_normal_ao": "assets/graphics/trees/textures/foliage_normal_ao.res",
+      "build_sha256": "f71035c8996d6fe456b3a8182ea478aaa189bd792a0aa7aa0304301384fad868",
+      "build_identity": "118038ebf9b2d1d5278881fbd84b69370bb3079a3ed9ce6b0d5d29faff85328b",
+      "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f"
+    },
+    {
+      "id": "forest_spruce_03",
+      "family": "spruce",
+      "variant": 3,
+      "height_m": 14.186,
+      "nominal_height_m": 14,
+      "seed": 1526,
+      "preset": "SpruceTree_LowPoly.006",
+      "settings": {
+        "Socket_47": 1526,
+        "Socket_40": 1537,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 1.25,
+        "Socket_68": 0.75,
+        "Socket_37": 78.0,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_spruce_03_lod0.glb",
+          "sha256": "b6d9e6e47eab5ba48683ee2dce61e75dbdacf15a17337e8697b9e8d92d9e9b9d",
+          "triangles": 21315,
+          "bytes": 1490800,
+          "dimensions_blender_xyz_m": [
+            8.17521858215332,
+            7.795748710632324,
+            14.185990333557129
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_spruce_03_lod1.glb",
+          "sha256": "ada7bd273462588c4a13f96768117196dec29427e5063f70c5858b9373894910",
+          "triangles": 5966,
+          "bytes": 600220,
+          "dimensions_blender_xyz_m": [
+            8.466276168823242,
+            8.060952186584473,
+            14.185990333557129
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_spruce_03_lod2.glb",
+          "sha256": "ed40110657cf27260dd98943092d541dbfd6cbd1406dbe767ffc52a2a60cd669",
+          "triangles": 2,
+          "bytes": 1640,
+          "dimensions_blender_xyz_m": [
+            15.680000305175781,
+            0.0,
+            15.680000305175781
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -1.2093185186386108,
+            3.1615805625915527,
+            0.6367136836051941
+          ],
+          "radius": 2.94,
+          "pivot_y": 0.37333333333333335
+        },
+        {
+          "center": [
+            0.8215206265449524,
+            3.1787400245666504,
+            0.8137460350990295
+          ],
+          "radius": 2.94,
+          "pivot_y": 0.37333333333333335
+        },
+        {
+          "center": [
+            0.6522016525268555,
+            3.5451765060424805,
+            -0.7599917054176331
+          ],
+          "radius": 2.94,
+          "pivot_y": 0.37333333333333335
+        },
+        {
+          "center": [
+            -0.6797404885292053,
+            3.215406894683838,
+            -0.642141580581665
+          ],
+          "radius": 2.94,
+          "pivot_y": 0.37333333333333335
+        },
+        {
+          "center": [
+            -0.2607489228248596,
+            6.863846778869629,
+            0.21705248951911926
+          ],
+          "radius": 2.4802770195098613,
+          "pivot_y": 5.04
+        },
+        {
+          "center": [
+            0.17634595930576324,
+            7.096655368804932,
+            0.24247851967811584
+          ],
+          "radius": 2.416785687959736,
+          "pivot_y": 5.04
+        },
+        {
+          "center": [
+            0.2727152705192566,
+            7.313045978546143,
+            -0.20979651808738708
+          ],
+          "radius": 2.706089281978175,
+          "pivot_y": 5.04
+        },
+        {
+          "center": [
+            -0.15782320499420166,
+            7.158361911773682,
+            -0.2877058982849121
+          ],
+          "radius": 2.94,
+          "pivot_y": 5.04
+        },
+        {
+          "center": [
+            -0.018099654465913773,
+            11.306897163391113,
+            0.020771589130163193
+          ],
+          "radius": 2.3540416381789977,
+          "pivot_y": 9.706666666666667
+        },
+        {
+          "center": [
+            0.013833633624017239,
+            10.993894577026367,
+            0.02354373410344124
+          ],
+          "radius": 2.9166644628952425,
+          "pivot_y": 9.706666666666667
+        },
+        {
+          "center": [
+            0.008567798882722855,
+            11.486594200134277,
+            -0.007175628561526537
+          ],
+          "radius": 2.340642283614998,
+          "pivot_y": 9.706666666666667
+        },
+        {
+          "center": [
+            -0.02207215502858162,
+            11.170836448669434,
+            -0.019933748990297318
+          ],
+          "radius": 2.490118801979766,
+          "pivot_y": 9.706666666666667
+        }
+      ],
+      "shoot_count": 350,
+      "woody_components": 383,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_spruce_03.blend",
+      "atlas_complete": true,
+      "normalization_bounds": {
+        "min": [
+          -3.4728827476501465,
+          -0.06700051575899124,
+          -3.5650858879089355
+        ],
+        "max": [
+          3.7247979640960693,
+          14.118989944458008,
+          3.3143129348754883
+        ]
+      },
+      "shadow": {
+        "path": "assets/graphics/trees/models/forest_spruce_03_shadow.glb",
+        "sha256": "0341927ebb802d9866a5bd30bd2c318bd890123f76a8ea7d0a71fc8a5cd992e4",
+        "triangles": 1456,
+        "bytes": 112640,
+        "dimensions_blender_xyz_m": [
+          7.627403259277344,
+          6.5171332359313965,
+          14.033647537231445
+        ]
+      },
+      "foliage_revision": 3,
+      "crown_center": [
+        0.04449629783630371,
+        7.858720302581787,
+        -0.2123028039932251
+      ],
+      "crown_radius": 7.003305736015605,
+      "foliage_atlas": "assets/graphics/trees/textures/foliage_color.res",
+      "foliage_normal_ao": "assets/graphics/trees/textures/foliage_normal_ao.res",
+      "build_sha256": "f71035c8996d6fe456b3a8182ea478aaa189bd792a0aa7aa0304301384fad868",
+      "build_identity": "118038ebf9b2d1d5278881fbd84b69370bb3079a3ed9ce6b0d5d29faff85328b",
+      "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f"
+    },
+    {
+      "id": "forest_spruce_04",
+      "family": "spruce",
+      "variant": 4,
+      "height_m": 18.477,
+      "nominal_height_m": 18,
+      "seed": 1599,
+      "preset": "SpruceTree_LowPoly.010",
+      "settings": {
+        "Socket_47": 1599,
+        "Socket_40": 1610,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 1.25,
+        "Socket_68": 0.75,
+        "Socket_37": 85.8,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_spruce_04_lod0.glb",
+          "sha256": "484642fa13b85fefe4f3ffb23329d1feff1f7608cfdbb50b446d80a5e5a1ae50",
+          "triangles": 21316,
+          "bytes": 1519360,
+          "dimensions_blender_xyz_m": [
+            10.155052185058594,
+            10.372085571289062,
+            18.47723960876465
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_spruce_04_lod1.glb",
+          "sha256": "e44dc6161e734cc84800950c2ce16012544437ef6856fb5ac2c0ff34c35ac452",
+          "triangles": 5965,
+          "bytes": 597716,
+          "dimensions_blender_xyz_m": [
+            10.486977577209473,
+            10.633089065551758,
+            18.47723960876465
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_spruce_04_lod2.glb",
+          "sha256": "4f327cfafbb59a4c4872589eefcc1a3266017b2aa5b1b1df3ef3b8471759b7c2",
+          "triangles": 2,
+          "bytes": 1644,
+          "dimensions_blender_xyz_m": [
+            20.15999984741211,
+            0.0,
+            20.15999984741211
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -1.4705086946487427,
+            4.629997253417969,
+            0.8661827445030212
+          ],
+          "radius": 3.78,
+          "pivot_y": 0.48
+        },
+        {
+          "center": [
+            1.0190777778625488,
+            4.749499797821045,
+            1.273085117340088
+          ],
+          "radius": 3.78,
+          "pivot_y": 0.48
+        },
+        {
+          "center": [
+            1.1076228618621826,
+            4.4859209060668945,
+            -1.4149081707000732
+          ],
+          "radius": 3.78,
+          "pivot_y": 0.48
+        },
+        {
+          "center": [
+            -0.790346086025238,
+            4.990976810455322,
+            -1.3381749391555786
+          ],
+          "radius": 3.78,
+          "pivot_y": 0.48
+        },
+        {
+          "center": [
+            -0.3683220148086548,
+            9.195784568786621,
+            0.3001699149608612
+          ],
+          "radius": 3.78,
+          "pivot_y": 6.48
+        },
+        {
+          "center": [
+            0.24150368571281433,
+            9.294800758361816,
+            0.5076063275337219
+          ],
+          "radius": 3.78,
+          "pivot_y": 6.48
+        },
+        {
+          "center": [
+            0.5839890837669373,
+            8.618476867675781,
+            -0.47614333033561707
+          ],
+          "radius": 3.6070904236116985,
+          "pivot_y": 6.48
+        },
+        {
+          "center": [
+            -0.33383461833000183,
+            8.748222351074219,
+            -0.6399362087249756
+          ],
+          "radius": 3.587349408009552,
+          "pivot_y": 6.48
+        },
+        {
+          "center": [
+            -0.02773689292371273,
+            14.590306282043457,
+            0.018930286169052124
+          ],
+          "radius": 2.94358960865739,
+          "pivot_y": 12.479999999999999
+        },
+        {
+          "center": [
+            0.03808964788913727,
+            14.719738960266113,
+            0.04140949621796608
+          ],
+          "radius": 2.8448719414298544,
+          "pivot_y": 12.479999999999999
+        },
+        {
+          "center": [
+            0.017201757058501244,
+            14.960188865661621,
+            -0.021272052079439163
+          ],
+          "radius": 3.0399342516742816,
+          "pivot_y": 12.479999999999999
+        },
+        {
+          "center": [
+            -0.02256113290786743,
+            14.747727394104004,
+            -0.03154611587524414
+          ],
+          "radius": 2.956308674157001,
+          "pivot_y": 12.479999999999999
+        }
+      ],
+      "shoot_count": 350,
+      "woody_components": 450,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_spruce_04.blend",
+      "atlas_complete": true,
+      "normalization_bounds": {
+        "min": [
+          -4.690847396850586,
+          -0.14481531083583832,
+          -5.175068378448486
+        ],
+        "max": [
+          4.314076900482178,
+          18.33242416381836,
+          4.126859188079834
+        ]
+      },
+      "shadow": {
+        "path": "assets/graphics/trees/models/forest_spruce_04_shadow.glb",
+        "sha256": "b3e94c05770d02ae4436926f273dea4676008e97baa23c39abb77306cfd8587a",
+        "triangles": 1455,
+        "bytes": 111384,
+        "dimensions_blender_xyz_m": [
+          9.3739013671875,
+          10.052616119384766,
+          18.11098289489746
+        ]
+      },
+      "foliage_revision": 3,
+      "crown_center": [
+        -0.29053783416748047,
+        10.472061157226562,
+        -0.35606861114501953
+      ],
+      "crown_radius": 9.122303342155226,
+      "foliage_atlas": "assets/graphics/trees/textures/foliage_color.res",
+      "foliage_normal_ao": "assets/graphics/trees/textures/foliage_normal_ao.res",
+      "build_sha256": "f71035c8996d6fe456b3a8182ea478aaa189bd792a0aa7aa0304301384fad868",
+      "build_identity": "118038ebf9b2d1d5278881fbd84b69370bb3079a3ed9ce6b0d5d29faff85328b",
+      "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f"
+    },
+    {
+      "id": "forest_fir_01",
+      "family": "fir",
+      "variant": 1,
+      "height_m": 7.038,
+      "nominal_height_m": 7,
+      "seed": 1691,
+      "preset": "SpruceTree_LowPoly.001",
+      "settings": {
+        "Socket_47": 1691,
+        "Socket_40": 1702,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 1.1,
+        "Socket_68": 0.75,
+        "Socket_37": 78.0,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48,
+        "Socket_39": -0.12,
+        "Socket_43": 0.45
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_fir_01_lod0.glb",
+          "sha256": "f00b24d9ebff0d2eaa0c94362adb8a9ca2fd4d4a272508c79f824609484bf9cd",
+          "triangles": 21316,
+          "bytes": 1479692,
+          "dimensions_blender_xyz_m": [
+            3.688581943511963,
+            3.7361245155334473,
+            7.037730693817139
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_fir_01_lod1.glb",
+          "sha256": "4a14e6eda7c234f06d95b9d036f26c3a3c3df48f4b0537e3c45311c5b0626c39",
+          "triangles": 5966,
+          "bytes": 587812,
+          "dimensions_blender_xyz_m": [
+            3.82537841796875,
+            3.819436550140381,
+            7.03858757019043
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_fir_01_lod2.glb",
+          "sha256": "e7792bc0b099c17c4735e867736edf70e3fe7418f5302425b82aff0bd28e835a",
+          "triangles": 2,
+          "bytes": 1636,
+          "dimensions_blender_xyz_m": [
+            7.840000152587891,
+            0.0,
+            7.840000152587891
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.4724748432636261,
+            2.0624608993530273,
+            0.1847640722990036
+          ],
+          "radius": 1.47,
+          "pivot_y": 0.18666666666666668
+        },
+        {
+          "center": [
+            0.6344923377037048,
+            1.84657883644104,
+            0.33151155710220337
+          ],
+          "radius": 1.47,
+          "pivot_y": 0.18666666666666668
+        },
+        {
+          "center": [
+            0.09353421628475189,
+            1.7177079916000366,
+            -0.6064103841781616
+          ],
+          "radius": 1.47,
+          "pivot_y": 0.18666666666666668
+        },
+        {
+          "center": [
+            -0.3348858654499054,
+            1.9805824756622314,
+            -0.3471471667289734
+          ],
+          "radius": 1.47,
+          "pivot_y": 0.18666666666666668
+        },
+        {
+          "center": [
+            -0.22703394293785095,
+            3.463672637939453,
+            0.3413040339946747
+          ],
+          "radius": 1.47,
+          "pivot_y": 2.52
+        },
+        {
+          "center": [
+            0.178282231092453,
+            3.5356616973876953,
+            0.26311689615249634
+          ],
+          "radius": 1.47,
+          "pivot_y": 2.52
+        },
+        {
+          "center": [
+            0.28443992137908936,
+            3.299492597579956,
+            -0.13923661410808563
+          ],
+          "radius": 1.3971678681765842,
+          "pivot_y": 2.52
+        },
+        {
+          "center": [
+            -0.3456634283065796,
+            3.0694148540496826,
+            -0.3482462763786316
+          ],
+          "radius": 1.47,
+          "pivot_y": 2.52
+        },
+        {
+          "center": [
+            -0.022524219006299973,
+            5.655844211578369,
+            0.028317196294665337
+          ],
+          "radius": 1.1925323825373058,
+          "pivot_y": 4.8533333333333335
+        },
+        {
+          "center": [
+            0.03124338388442993,
+            5.592990875244141,
+            0.022590408101677895
+          ],
+          "radius": 1.184174610665219,
+          "pivot_y": 4.8533333333333335
+        },
+        {
+          "center": [
+            0.03391050174832344,
+            5.483072757720947,
+            -0.014820759184658527
+          ],
+          "radius": 1.4233669231451622,
+          "pivot_y": 4.8533333333333335
+        },
+        {
+          "center": [
+            -0.05915544182062149,
+            5.357966899871826,
+            -0.054498422890901566
+          ],
+          "radius": 1.4208096855013557,
+          "pivot_y": 4.8533333333333335
+        }
+      ],
+      "shoot_count": 350,
+      "woody_components": 383,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_fir_01.blend",
+      "atlas_complete": true,
+      "normalization_bounds": {
+        "min": [
+          -1.6318646669387817,
+          -0.03773092105984688,
+          -1.7524455785751343
+        ],
+        "max": [
+          1.6979602575302124,
+          7,
+          1.4597022533416748
+        ]
+      },
+      "shadow": {
+        "path": "assets/graphics/trees/models/forest_fir_01_shadow.glb",
+        "sha256": "d0231e9a2f44741223fd7d47ec63550bf196aab5437b5f699e55b1681d0c6614",
+        "triangles": 1455,
+        "bytes": 109364,
+        "dimensions_blender_xyz_m": [
+          3.5460991859436035,
+          3.129659652709961,
+          6.8624749183654785
+        ]
+      },
+      "foliage_revision": 3,
+      "crown_center": [
+        -0.02373117208480835,
+        4.03797721862793,
+        -0.15931940078735352
+      ],
+      "crown_radius": 3.2831325398606728,
+      "foliage_atlas": "assets/graphics/trees/textures/foliage_color.res",
+      "foliage_normal_ao": "assets/graphics/trees/textures/foliage_normal_ao.res",
+      "build_sha256": "f71035c8996d6fe456b3a8182ea478aaa189bd792a0aa7aa0304301384fad868",
+      "build_identity": "118038ebf9b2d1d5278881fbd84b69370bb3079a3ed9ce6b0d5d29faff85328b",
+      "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f"
+    },
+    {
+      "id": "forest_fir_02",
+      "family": "fir",
+      "variant": 2,
+      "height_m": 11.199,
+      "nominal_height_m": 11,
+      "seed": 1764,
+      "preset": "SpruceTree_LowPoly.003",
+      "settings": {
+        "Socket_47": 1764,
+        "Socket_40": 1775,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 1.1,
+        "Socket_68": 0.75,
+        "Socket_37": 93.60000000000001,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48,
+        "Socket_39": -0.12,
+        "Socket_43": 0.45
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_fir_02_lod0.glb",
+          "sha256": "301c77b8301c7e15f1475aa45b6bb488353f178598261380fc03202375e7569b",
+          "triangles": 21315,
+          "bytes": 1556508,
+          "dimensions_blender_xyz_m": [
+            6.275351524353027,
+            5.801064491271973,
+            11.199342727661133
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_fir_02_lod1.glb",
+          "sha256": "29183d1ef7f52c04e491c6c1b90a5c9b29bf51419458e11d1ed238c7e5ef783c",
+          "triangles": 5966,
+          "bytes": 594788,
+          "dimensions_blender_xyz_m": [
+            6.47215461730957,
+            5.99618673324585,
+            11.199342727661133
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_fir_02_lod2.glb",
+          "sha256": "f290f4429acb2c6fd80e4ac8da697a89f07ac0257a053ee3dd615ae0cb6c595e",
+          "triangles": 2,
+          "bytes": 1632,
+          "dimensions_blender_xyz_m": [
+            12.319999694824219,
+            0.0,
+            12.319999694824219
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.7365218997001648,
+            2.9347147941589355,
+            0.6635507941246033
+          ],
+          "radius": 2.31,
+          "pivot_y": 0.29333333333333333
+        },
+        {
+          "center": [
+            0.5896982550621033,
+            2.9793853759765625,
+            0.7410368919372559
+          ],
+          "radius": 2.31,
+          "pivot_y": 0.29333333333333333
+        },
+        {
+          "center": [
+            0.7620337009429932,
+            3.1891684532165527,
+            -0.4403633773326874
+          ],
+          "radius": 2.31,
+          "pivot_y": 0.29333333333333333
+        },
+        {
+          "center": [
+            -0.7967891097068787,
+            2.99650239944458,
+            -0.5284675359725952
+          ],
+          "radius": 2.31,
+          "pivot_y": 0.29333333333333333
+        },
+        {
+          "center": [
+            -0.32796382904052734,
+            5.841800689697266,
+            0.3028086721897125
+          ],
+          "radius": 2.31,
+          "pivot_y": 3.9600000000000004
+        },
+        {
+          "center": [
+            0.3818756937980652,
+            5.580300807952881,
+            0.3464130759239197
+          ],
+          "radius": 2.31,
+          "pivot_y": 3.9600000000000004
+        },
+        {
+          "center": [
+            0.4788535535335541,
+            5.277634143829346,
+            -0.45972347259521484
+          ],
+          "radius": 2.2592293509766828,
+          "pivot_y": 3.9600000000000004
+        },
+        {
+          "center": [
+            -0.4415615200996399,
+            5.2754902839660645,
+            -0.37903454899787903
+          ],
+          "radius": 2.1369041418234556,
+          "pivot_y": 3.9600000000000004
+        },
+        {
+          "center": [
+            -0.03817884251475334,
+            8.594775199890137,
+            0.0417976938188076
+          ],
+          "radius": 1.6318659780357982,
+          "pivot_y": 7.626666666666668
+        },
+        {
+          "center": [
+            0.03378738835453987,
+            9.02883529663086,
+            0.04736543074250221
+          ],
+          "radius": 1.7493633164369942,
+          "pivot_y": 7.626666666666668
+        },
+        {
+          "center": [
+            0.024841541424393654,
+            8.703280448913574,
+            -0.02208867482841015
+          ],
+          "radius": 2.297847453702195,
+          "pivot_y": 7.626666666666668
+        },
+        {
+          "center": [
+            -0.0442860908806324,
+            8.546184539794922,
+            -0.018323099240660667
+          ],
+          "radius": 1.8219290968299653,
+          "pivot_y": 7.626666666666668
+        }
+      ],
+      "shoot_count": 350,
+      "woody_components": 529,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_fir_02.blend",
+      "atlas_complete": true,
+      "normalization_bounds": {
+        "min": [
+          -2.7711284160614014,
+          -0.07956524193286896,
+          -2.373776435852051
+        ],
+        "max": [
+          2.7959954738616943,
+          11.11977767944336,
+          2.824415445327759
+        ]
+      },
+      "shadow": {
+        "path": "assets/graphics/trees/models/forest_fir_02_shadow.glb",
+        "sha256": "25578c74152db1277d9f4532afc8100051690d9ec675edf08455a268581fc978",
+        "triangles": 1456,
+        "bytes": 111624,
+        "dimensions_blender_xyz_m": [
+          5.392317771911621,
+          5.037360191345215,
+          11.199342727661133
+        ]
+      },
+      "foliage_revision": 3,
+      "crown_center": [
+        -0.04899942874908447,
+        6.354555606842041,
+        0.14724254608154297
+      ],
+      "crown_radius": 4.998044835724141,
+      "foliage_atlas": "assets/graphics/trees/textures/foliage_color.res",
+      "foliage_normal_ao": "assets/graphics/trees/textures/foliage_normal_ao.res",
+      "build_sha256": "f71035c8996d6fe456b3a8182ea478aaa189bd792a0aa7aa0304301384fad868",
+      "build_identity": "118038ebf9b2d1d5278881fbd84b69370bb3079a3ed9ce6b0d5d29faff85328b",
+      "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f"
+    },
+    {
+      "id": "forest_fir_03",
+      "family": "fir",
+      "variant": 3,
+      "height_m": 15.342,
+      "nominal_height_m": 15,
+      "seed": 1837,
+      "preset": "SpruceTree_LowPoly.006",
+      "settings": {
+        "Socket_47": 1837,
+        "Socket_40": 1848,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 1.1,
+        "Socket_68": 0.75,
+        "Socket_37": 78.0,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48,
+        "Socket_39": -0.12,
+        "Socket_43": 0.45
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_fir_03_lod0.glb",
+          "sha256": "bac8fd03a38f2e2a3ea5f4730091cb56567f90877f863f68c2bd981aadc3925c",
+          "triangles": 21316,
+          "bytes": 1448700,
+          "dimensions_blender_xyz_m": [
+            7.655284881591797,
+            8.199522972106934,
+            15.341645240783691
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_fir_03_lod1.glb",
+          "sha256": "101dcab33e01769d7828e5337fe2542ed1de807e68b0522780bcb58cc105fd4b",
+          "triangles": 5965,
+          "bytes": 590032,
+          "dimensions_blender_xyz_m": [
+            7.909168720245361,
+            8.445096969604492,
+            15.341645240783691
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_fir_03_lod2.glb",
+          "sha256": "1ba5645f3fd2a1cafd47ff30b754617ffb462efc9d15741975e7292c3c2efafe",
+          "triangles": 2,
+          "bytes": 1632,
+          "dimensions_blender_xyz_m": [
+            16.799999237060547,
+            0.0,
+            16.799999237060547
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.4272465109825134,
+            3.8485143184661865,
+            1.1445029973983765
+          ],
+          "radius": 3.15,
+          "pivot_y": 0.39999999999999997
+        },
+        {
+          "center": [
+            0.6908086538314819,
+            3.5250778198242188,
+            0.9326179027557373
+          ],
+          "radius": 3.15,
+          "pivot_y": 0.39999999999999997
+        },
+        {
+          "center": [
+            0.22587785124778748,
+            4.173445701599121,
+            -0.9238914847373962
+          ],
+          "radius": 3.15,
+          "pivot_y": 0.39999999999999997
+        },
+        {
+          "center": [
+            -0.7841341495513916,
+            4.081624984741211,
+            -0.8505279421806335
+          ],
+          "radius": 3.15,
+          "pivot_y": 0.39999999999999997
+        },
+        {
+          "center": [
+            -0.3524676263332367,
+            7.879877090454102,
+            0.37227925658226013
+          ],
+          "radius": 3.15,
+          "pivot_y": 5.400000000000001
+        },
+        {
+          "center": [
+            0.4443056285381317,
+            7.0408501625061035,
+            0.5214005708694458
+          ],
+          "radius": 3.009436882131477,
+          "pivot_y": 5.400000000000001
+        },
+        {
+          "center": [
+            0.4431270658969879,
+            7.712355136871338,
+            -0.34886500239372253
+          ],
+          "radius": 2.9974626363286014,
+          "pivot_y": 5.400000000000001
+        },
+        {
+          "center": [
+            -0.6499645113945007,
+            7.1702799797058105,
+            -0.44444331526756287
+          ],
+          "radius": 2.9092730647708005,
+          "pivot_y": 5.400000000000001
+        },
+        {
+          "center": [
+            -0.05972904711961746,
+            11.641743659973145,
+            0.04430686682462692
+          ],
+          "radius": 3.15,
+          "pivot_y": 10.4
+        },
+        {
+          "center": [
+            0.03403604030609131,
+            11.98326301574707,
+            0.03643059730529785
+          ],
+          "radius": 2.53767129181723,
+          "pivot_y": 10.4
+        },
+        {
+          "center": [
+            0.05018306523561478,
+            12.033917427062988,
+            -0.02220235951244831
+          ],
+          "radius": 2.8083035142060955,
+          "pivot_y": 10.4
+        },
+        {
+          "center": [
+            -0.04120095819234848,
+            11.900264739990234,
+            -0.05119146779179573
+          ],
+          "radius": 2.7415307624414127,
+          "pivot_y": 10.4
+        }
+      ],
+      "shoot_count": 350,
+      "woody_components": 383,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_fir_03.blend",
+      "atlas_complete": true,
+      "normalization_bounds": {
+        "min": [
+          -3.0547657012939453,
+          -0.10252603888511658,
+          -3.5030081272125244
+        ],
+        "max": [
+          3.4922680854797363,
+          15.239119529724121,
+          3.8532967567443848
+        ]
+      },
+      "shadow": {
+        "path": "assets/graphics/trees/models/forest_fir_03_shadow.glb",
+        "sha256": "09d4c419c9496ba55220942f9cfb9fb5e57f08c7bbb05f7be18bacbcc4e4602d",
+        "triangles": 1456,
+        "bytes": 110616,
+        "dimensions_blender_xyz_m": [
+          7.114631175994873,
+          7.3675994873046875,
+          15.341645240783691
+        ]
+      },
+      "foliage_revision": 3,
+      "crown_center": [
+        0.13218379020690918,
+        8.559443473815918,
+        0.21518635749816895
+      ],
+      "crown_radius": 7.181644795540809,
+      "foliage_atlas": "assets/graphics/trees/textures/foliage_color.res",
+      "foliage_normal_ao": "assets/graphics/trees/textures/foliage_normal_ao.res",
+      "build_sha256": "f71035c8996d6fe456b3a8182ea478aaa189bd792a0aa7aa0304301384fad868",
+      "build_identity": "118038ebf9b2d1d5278881fbd84b69370bb3079a3ed9ce6b0d5d29faff85328b",
+      "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f"
+    },
+    {
+      "id": "forest_fir_04",
+      "family": "fir",
+      "variant": 4,
+      "height_m": 20.548,
+      "nominal_height_m": 20,
+      "seed": 1910,
+      "preset": "SpruceTree_LowPoly.010",
+      "settings": {
+        "Socket_47": 1910,
+        "Socket_40": 1921,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 1.1,
+        "Socket_68": 0.75,
+        "Socket_37": 85.8,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48,
+        "Socket_39": -0.12,
+        "Socket_43": 0.45
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_fir_04_lod0.glb",
+          "sha256": "848a3af14c33e2c6f28cb62b7d035e1f6e899337404fcdc8cc0016243b3fcb51",
+          "triangles": 21172,
+          "bytes": 1468764,
+          "dimensions_blender_xyz_m": [
+            10.049616813659668,
+            10.184158325195312,
+            20.548131942749023
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_fir_04_lod1.glb",
+          "sha256": "808337ccea1532a26af09cd524063b52e4367804940f42d9874387f9278327f9",
+          "triangles": 5912,
+          "bytes": 579008,
+          "dimensions_blender_xyz_m": [
+            10.610795974731445,
+            10.47818374633789,
+            20.548131942749023
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_fir_04_lod2.glb",
+          "sha256": "b4eb51c5985ac98a3ad323bf687efd703c5b48d18b5c1c05a7be682d856c3b8b",
+          "triangles": 2,
+          "bytes": 1636,
+          "dimensions_blender_xyz_m": [
+            22.399999618530273,
+            0.0,
+            22.400001525878906
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -1.0248584747314453,
+            5.4875922203063965,
+            1.600443959236145
+          ],
+          "radius": 4.2,
+          "pivot_y": 0.5333333333333333
+        },
+        {
+          "center": [
+            0.42322805523872375,
+            5.6429524421691895,
+            0.5051518082618713
+          ],
+          "radius": 4.2,
+          "pivot_y": 0.5333333333333333
+        },
+        {
+          "center": [
+            1.6513136625289917,
+            5.41238260269165,
+            -0.6236171126365662
+          ],
+          "radius": 4.2,
+          "pivot_y": 0.5333333333333333
+        },
+        {
+          "center": [
+            -1.1583250761032104,
+            5.747161865234375,
+            -1.2372629642486572
+          ],
+          "radius": 4.2,
+          "pivot_y": 0.5333333333333333
+        },
+        {
+          "center": [
+            -0.751202404499054,
+            9.292282104492188,
+            0.7937498092651367
+          ],
+          "radius": 4.158889405689065,
+          "pivot_y": 7.2
+        },
+        {
+          "center": [
+            0.7284186482429504,
+            9.889464378356934,
+            0.5901789665222168
+          ],
+          "radius": 3.542187996903407,
+          "pivot_y": 7.2
+        },
+        {
+          "center": [
+            0.49997222423553467,
+            10.789072036743164,
+            -0.30830392241477966
+          ],
+          "radius": 4.2,
+          "pivot_y": 7.2
+        },
+        {
+          "center": [
+            -0.5792675018310547,
+            10.506139755249023,
+            -0.6630054116249084
+          ],
+          "radius": 4.2,
+          "pivot_y": 7.2
+        },
+        {
+          "center": [
+            -0.08263207972049713,
+            15.592400550842285,
+            0.11969994753599167
+          ],
+          "radius": 4.2,
+          "pivot_y": 13.866666666666667
+        },
+        {
+          "center": [
+            0.08081547915935516,
+            15.946544647216797,
+            0.05896153301000595
+          ],
+          "radius": 3.4135687882518395,
+          "pivot_y": 13.866666666666667
+        },
+        {
+          "center": [
+            0.07383577525615692,
+            15.546348571777344,
+            -0.10539765655994415
+          ],
+          "radius": 3.8144430452400155,
+          "pivot_y": 13.866666666666667
+        },
+        {
+          "center": [
+            -0.08158480376005173,
+            15.582521438598633,
+            -0.09459598362445831
+          ],
+          "radius": 3.778151825993205,
+          "pivot_y": 13.866666666666667
+        }
+      ],
+      "shoot_count": 345,
+      "woody_components": 450,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_fir_04.blend",
+      "atlas_complete": true,
+      "normalization_bounds": {
+        "min": [
+          -4.0932841300964355,
+          -0.19676387310028076,
+          -3.9570860862731934
+        ],
+        "max": [
+          4.663957118988037,
+          20.351367950439453,
+          5.238595962524414
+        ]
+      },
+      "shadow": {
+        "path": "assets/graphics/trees/models/forest_fir_04_shadow.glb",
+        "sha256": "77c2fe3e619bed27b4c9c21ca3fb580ad86a82903b35c0c16e5f3e46f3de1a31",
+        "triangles": 1440,
+        "bytes": 109316,
+        "dimensions_blender_xyz_m": [
+          9.300958633422852,
+          9.874095916748047,
+          19.93389320373535
+        ]
+      },
+      "foliage_revision": 3,
+      "crown_center": [
+        0.4061460494995117,
+        11.728401184082031,
+        0.566798210144043
+      ],
+      "crown_radius": 9.217344092800895,
+      "foliage_atlas": "assets/graphics/trees/textures/foliage_color.res",
+      "foliage_normal_ao": "assets/graphics/trees/textures/foliage_normal_ao.res",
+      "build_sha256": "f71035c8996d6fe456b3a8182ea478aaa189bd792a0aa7aa0304301384fad868",
+      "build_identity": "118038ebf9b2d1d5278881fbd84b69370bb3079a3ed9ce6b0d5d29faff85328b",
+      "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f"
+    },
+    {
+      "id": "forest_pine_01",
+      "family": "pine",
+      "variant": 1,
+      "height_m": 6.138,
+      "nominal_height_m": 6,
+      "seed": 2002,
+      "preset": "SpruceTree_LowPoly.001",
+      "settings": {
+        "Socket_47": 2002,
+        "Socket_40": 2013,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 1.0,
+        "Socket_68": 0.75,
+        "Socket_37": 78.0,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48,
+        "Socket_39": 0.15,
+        "Socket_43": 0.6,
+        "Socket_41": 12.0
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_pine_01_lod0.glb",
+          "sha256": "92906e41c5e49c1109f4597e14ff1ee546ac872c3be704591a8663c4be401438",
+          "triangles": 21315,
+          "bytes": 1460652,
+          "dimensions_blender_xyz_m": [
+            4.684893608093262,
+            4.708769798278809,
+            6.137598991394043
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_pine_01_lod1.glb",
+          "sha256": "c788e37309c0553fe444ceffeb3fcf4a016698a96e9f433e30e836d26b4b9ecb",
+          "triangles": 5966,
+          "bytes": 593736,
+          "dimensions_blender_xyz_m": [
+            4.718919277191162,
+            4.791851043701172,
+            6.138294696807861
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_pine_01_lod2.glb",
+          "sha256": "83f81caa89ec314f2af3cb538a6e8c1990f2e99d0040dbbac056af6ed5194558",
+          "triangles": 2,
+          "bytes": 1636,
+          "dimensions_blender_xyz_m": [
+            6.71999979019165,
+            0.0,
+            6.720000267028809
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.767706573009491,
+            1.6350290775299072,
+            0.21645036339759827
+          ],
+          "radius": 1.26,
+          "pivot_y": 0.16
+        },
+        {
+          "center": [
+            0.41223210096359253,
+            1.663097620010376,
+            0.8801334500312805
+          ],
+          "radius": 1.26,
+          "pivot_y": 0.16
+        },
+        {
+          "center": [
+            0.8275668025016785,
+            1.561079502105713,
+            -0.10568994283676147
+          ],
+          "radius": 1.26,
+          "pivot_y": 0.16
+        },
+        {
+          "center": [
+            -0.33972615003585815,
+            1.6643855571746826,
+            -0.5823003649711609
+          ],
+          "radius": 1.26,
+          "pivot_y": 0.16
+        },
+        {
+          "center": [
+            -0.7463300228118896,
+            2.8750481605529785,
+            0.3785138726234436
+          ],
+          "radius": 1.26,
+          "pivot_y": 2.16
+        },
+        {
+          "center": [
+            0.3782458007335663,
+            2.9249556064605713,
+            0.5384411811828613
+          ],
+          "radius": 1.2582721196242097,
+          "pivot_y": 2.16
+        },
+        {
+          "center": [
+            0.34433719515800476,
+            2.915132999420166,
+            -0.4930381178855896
+          ],
+          "radius": 1.26,
+          "pivot_y": 2.16
+        },
+        {
+          "center": [
+            -0.5610517263412476,
+            2.938333511352539,
+            -0.42651861906051636
+          ],
+          "radius": 1.26,
+          "pivot_y": 2.16
+        },
+        {
+          "center": [
+            -0.4277310073375702,
+            4.694241046905518,
+            0.05772877857089043
+          ],
+          "radius": 1.1521332461633913,
+          "pivot_y": 4.16
+        },
+        {
+          "center": [
+            0.10234016925096512,
+            4.579329490661621,
+            0.1798664927482605
+          ],
+          "radius": 0.24038819006063866,
+          "pivot_y": 4.16
+        },
+        {
+          "center": [
+            0.23711149394512177,
+            4.181178092956543,
+            -0.1135832741856575
+          ],
+          "radius": 0.6839322177583368,
+          "pivot_y": 4.16
+        },
+        {
+          "center": [
+            -0.5027819275856018,
+            4.91312837600708,
+            -0.03870491683483124
+          ],
+          "radius": 1.0928057682003456,
+          "pivot_y": 4.16
+        }
+      ],
+      "shoot_count": 350,
+      "woody_components": 383,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_pine_01.blend",
+      "atlas_complete": true,
+      "normalization_bounds": {
+        "min": [
+          -2.4724349975585938,
+          -0.038482777774333954,
+          -2.2224631309509277
+        ],
+        "max": [
+          1.7398532629013062,
+          6.099116325378418,
+          2.0577430725097656
+        ]
+      },
+      "shadow": {
+        "path": "assets/graphics/trees/models/forest_pine_01_shadow.glb",
+        "sha256": "a45f053073f03e90fe802554a907049c0479101eea10d34a16893a742bc28656",
+        "triangles": 1455,
+        "bytes": 111620,
+        "dimensions_blender_xyz_m": [
+          4.290361404418945,
+          4.5959792137146,
+          5.9315032958984375
+        ]
+      },
+      "foliage_revision": 3,
+      "crown_center": [
+        -0.3880184292793274,
+        3.5571517944335938,
+        -0.08787059783935547
+      ],
+      "crown_radius": 2.9724865337352337,
+      "foliage_atlas": "assets/graphics/trees/textures/foliage_color.res",
+      "foliage_normal_ao": "assets/graphics/trees/textures/foliage_normal_ao.res",
+      "build_sha256": "f71035c8996d6fe456b3a8182ea478aaa189bd792a0aa7aa0304301384fad868",
+      "build_identity": "118038ebf9b2d1d5278881fbd84b69370bb3079a3ed9ce6b0d5d29faff85328b",
+      "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f"
+    },
+    {
+      "id": "forest_pine_02",
+      "family": "pine",
+      "variant": 2,
+      "height_m": 10.09,
+      "nominal_height_m": 10,
+      "seed": 2075,
+      "preset": "SpruceTree_LowPoly.003",
+      "settings": {
+        "Socket_47": 2075,
+        "Socket_40": 2086,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 1.0,
+        "Socket_68": 0.75,
+        "Socket_37": 93.60000000000001,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48,
+        "Socket_39": 0.15,
+        "Socket_43": 0.6,
+        "Socket_41": 12.0
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_pine_02_lod0.glb",
+          "sha256": "cc27c3c9e72f6791ef9c1d3dad7cbab154c8fc2f59d523b0edd8aba399dca7dd",
+          "triangles": 21315,
+          "bytes": 1496156,
+          "dimensions_blender_xyz_m": [
+            6.906336784362793,
+            7.751705169677734,
+            10.090385437011719
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_pine_02_lod1.glb",
+          "sha256": "7ce914a5d2ca657f3822f75d2e050ced34953acd0ecb926a4d54afc744360d45",
+          "triangles": 5965,
+          "bytes": 588916,
+          "dimensions_blender_xyz_m": [
+            7.0645856857299805,
+            7.985978126525879,
+            10.090385437011719
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_pine_02_lod2.glb",
+          "sha256": "2aa45cd76305a7e1dc799546e60fe9651a8a33560a6ecfae22c49d9d9b589798",
+          "triangles": 2,
+          "bytes": 1636,
+          "dimensions_blender_xyz_m": [
+            11.199999809265137,
+            0.0,
+            11.200000762939453
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.7889330387115479,
+            2.737217426300049,
+            0.7811135053634644
+          ],
+          "radius": 2.1,
+          "pivot_y": 0.26666666666666666
+        },
+        {
+          "center": [
+            0.5636219382286072,
+            2.764768123626709,
+            1.3065457344055176
+          ],
+          "radius": 2.1,
+          "pivot_y": 0.26666666666666666
+        },
+        {
+          "center": [
+            0.560624897480011,
+            2.9591221809387207,
+            -1.0211633443832397
+          ],
+          "radius": 2.1,
+          "pivot_y": 0.26666666666666666
+        },
+        {
+          "center": [
+            -0.5411885380744934,
+            2.676708698272705,
+            -1.2324140071868896
+          ],
+          "radius": 2.1,
+          "pivot_y": 0.26666666666666666
+        },
+        {
+          "center": [
+            -0.7914068698883057,
+            5.13739013671875,
+            0.5588124394416809
+          ],
+          "radius": 2.1,
+          "pivot_y": 3.6
+        },
+        {
+          "center": [
+            0.5596693158149719,
+            4.525569438934326,
+            1.1306596994400024
+          ],
+          "radius": 2.1,
+          "pivot_y": 3.6
+        },
+        {
+          "center": [
+            0.5583735108375549,
+            4.834590911865234,
+            -1.0763201713562012
+          ],
+          "radius": 2.1,
+          "pivot_y": 3.6
+        },
+        {
+          "center": [
+            -0.7847707271575928,
+            5.09398078918457,
+            -0.59949791431427
+          ],
+          "radius": 2.1,
+          "pivot_y": 3.6
+        },
+        {
+          "center": [
+            -0.29083123803138733,
+            8.193684577941895,
+            0.09723536670207977
+          ],
+          "radius": 2.062148535762722,
+          "pivot_y": 6.933333333333334
+        },
+        {
+          "center": [
+            0.17885161936283112,
+            7.278634071350098,
+            0.33531221747398376
+          ],
+          "radius": 0.937854498408143,
+          "pivot_y": 6.933333333333334
+        },
+        {
+          "center": [
+            0.518398106098175,
+            7.284367561340332,
+            -0.125681534409523
+          ],
+          "radius": 0.7264998903940904,
+          "pivot_y": 6.933333333333334
+        },
+        {
+          "center": [
+            -0.2973260283470154,
+            8.148573875427246,
+            -0.08691547811031342
+          ],
+          "radius": 1.9010576467408506,
+          "pivot_y": 6.933333333333334
+        }
+      ],
+      "shoot_count": 350,
+      "woody_components": 529,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_pine_02.blend",
+      "atlas_complete": true,
+      "normalization_bounds": {
+        "min": [
+          -3.189685583114624,
+          -0.09038510173559189,
+          -3.560433864593506
+        ],
+        "max": [
+          2.820906639099121,
+          10,
+          3.4216349124908447
+        ]
+      },
+      "shadow": {
+        "path": "assets/graphics/trees/models/forest_pine_02_shadow.glb",
+        "sha256": "5c7a5b21e5a6bd633a588de260e0f0104cf098963600f87aada9bca504de17bc",
+        "triangles": 1456,
+        "bytes": 111436,
+        "dimensions_blender_xyz_m": [
+          5.460064888000488,
+          7.352895736694336,
+          9.63964557647705
+        ]
+      },
+      "foliage_revision": 3,
+      "crown_center": [
+        -0.17842614650726318,
+        5.650314807891846,
+        -0.04549551010131836
+      ],
+      "crown_radius": 4.797288932709504,
+      "foliage_atlas": "assets/graphics/trees/textures/foliage_color.res",
+      "foliage_normal_ao": "assets/graphics/trees/textures/foliage_normal_ao.res",
+      "build_sha256": "f71035c8996d6fe456b3a8182ea478aaa189bd792a0aa7aa0304301384fad868",
+      "build_identity": "118038ebf9b2d1d5278881fbd84b69370bb3079a3ed9ce6b0d5d29faff85328b",
+      "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f"
+    },
+    {
+      "id": "forest_pine_03",
+      "family": "pine",
+      "variant": 3,
+      "height_m": 13.087,
+      "nominal_height_m": 13,
+      "seed": 2148,
+      "preset": "SpruceTree_LowPoly.006",
+      "settings": {
+        "Socket_47": 2148,
+        "Socket_40": 2159,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 1.0,
+        "Socket_68": 0.75,
+        "Socket_37": 78.0,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48,
+        "Socket_39": 0.15,
+        "Socket_43": 0.6,
+        "Socket_41": 12.0
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_pine_03_lod0.glb",
+          "sha256": "e99dbb62a253d51d55e3397f55f203a2ed71598467692dcdaf989e8e307ca19e",
+          "triangles": 21316,
+          "bytes": 1426896,
+          "dimensions_blender_xyz_m": [
+            9.275540351867676,
+            9.694685935974121,
+            13.087143898010254
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_pine_03_lod1.glb",
+          "sha256": "17f6d5633343d8a9c392105a0377e041e47c1b98714e9ff09d3672762f2bb041",
+          "triangles": 5965,
+          "bytes": 585604,
+          "dimensions_blender_xyz_m": [
+            9.497306823730469,
+            9.88864517211914,
+            13.087143898010254
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_pine_03_lod2.glb",
+          "sha256": "bc50294d2003fcb886d0124d38b39b328997f402f985079f3799d2d676d328d0",
+          "triangles": 2,
+          "bytes": 1636,
+          "dimensions_blender_xyz_m": [
+            14.5600004196167,
+            0.0,
+            14.559999465942383
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.33379560708999634,
+            3.2321178913116455,
+            2.183622121810913
+          ],
+          "radius": 2.73,
+          "pivot_y": 0.3466666666666667
+        },
+        {
+          "center": [
+            1.5132194757461548,
+            3.4895243644714355,
+            0.7273164987564087
+          ],
+          "radius": 2.73,
+          "pivot_y": 0.3466666666666667
+        },
+        {
+          "center": [
+            0.4876139163970947,
+            3.6910202503204346,
+            -1.1666494607925415
+          ],
+          "radius": 2.73,
+          "pivot_y": 0.3466666666666667
+        },
+        {
+          "center": [
+            -0.5425567626953125,
+            3.799389123916626,
+            -1.4547282457351685
+          ],
+          "radius": 2.73,
+          "pivot_y": 0.3466666666666667
+        },
+        {
+          "center": [
+            -1.3810681104660034,
+            5.745331764221191,
+            0.8711849451065063
+          ],
+          "radius": 2.73,
+          "pivot_y": 4.680000000000001
+        },
+        {
+          "center": [
+            0.8376567959785461,
+            6.530973434448242,
+            0.6163792610168457
+          ],
+          "radius": 2.73,
+          "pivot_y": 4.680000000000001
+        },
+        {
+          "center": [
+            0.8853400945663452,
+            6.577256679534912,
+            -0.643894612789154
+          ],
+          "radius": 2.73,
+          "pivot_y": 4.680000000000001
+        },
+        {
+          "center": [
+            -1.0092452764511108,
+            6.372577667236328,
+            -0.6046947836875916
+          ],
+          "radius": 2.73,
+          "pivot_y": 4.680000000000001
+        },
+        {
+          "center": [
+            -0.056472379714250565,
+            9.113633155822754,
+            0.9158194065093994
+          ],
+          "radius": 0.9508017526919083,
+          "pivot_y": 9.013333333333334
+        },
+        {
+          "center": [
+            0.4004760682582855,
+            10.439165115356445,
+            0.04550361633300781
+          ],
+          "radius": 2.147126322125644,
+          "pivot_y": 9.013333333333334
+        },
+        {
+          "center": [
+            0.38137632608413696,
+            10.306867599487305,
+            -0.10630307346582413
+          ],
+          "radius": 2.313774671183777,
+          "pivot_y": 9.013333333333334
+        },
+        {
+          "center": [
+            -0.31263577938079834,
+            9.236845970153809,
+            -0.2570653557777405
+          ],
+          "radius": 1.0806714124117647,
+          "pivot_y": 9.013333333333334
+        }
+      ],
+      "shoot_count": 350,
+      "woody_components": 383,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_pine_03.blend",
+      "atlas_complete": true,
+      "normalization_bounds": {
+        "min": [
+          -3.465108871459961,
+          -0.08714430779218674,
+          -3.9960248470306396
+        ],
+        "max": [
+          4.755558967590332,
+          13,
+          4.761773109436035
+        ]
+      },
+      "shadow": {
+        "path": "assets/graphics/trees/models/forest_pine_03_shadow.glb",
+        "sha256": "c6f29e9323f1ce3821c23ae1a81470d9c2f6ded90b0a52583464e6e8e9142280",
+        "triangles": 1455,
+        "bytes": 112920,
+        "dimensions_blender_xyz_m": [
+          9.005334854125977,
+          8.280193328857422,
+          12.962448120117188
+        ]
+      },
+      "foliage_revision": 3,
+      "crown_center": [
+        0.6749036312103271,
+        7.439447402954102,
+        0.42464470863342285
+      ],
+      "crown_radius": 6.487109258126514,
+      "foliage_atlas": "assets/graphics/trees/textures/foliage_color.res",
+      "foliage_normal_ao": "assets/graphics/trees/textures/foliage_normal_ao.res",
+      "build_sha256": "f71035c8996d6fe456b3a8182ea478aaa189bd792a0aa7aa0304301384fad868",
+      "build_identity": "118038ebf9b2d1d5278881fbd84b69370bb3079a3ed9ce6b0d5d29faff85328b",
+      "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f"
+    },
+    {
+      "id": "forest_pine_04",
+      "family": "pine",
+      "variant": 4,
+      "height_m": 16.401,
+      "nominal_height_m": 16,
+      "seed": 2221,
+      "preset": "SpruceTree_LowPoly.010",
+      "settings": {
+        "Socket_47": 2221,
+        "Socket_40": 2232,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 1.0,
+        "Socket_68": 0.75,
+        "Socket_37": 85.8,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48,
+        "Socket_39": 0.15,
+        "Socket_43": 0.6,
+        "Socket_41": 12.0
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_pine_04_lod0.glb",
+          "sha256": "9290aa76483d7f46feeb52dfe33048be13e8b563e5bcf081a24fa6309ae39e52",
+          "triangles": 21315,
+          "bytes": 1486328,
+          "dimensions_blender_xyz_m": [
+            11.513189315795898,
+            12.511089324951172,
+            16.40081787109375
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_pine_04_lod1.glb",
+          "sha256": "e1ea8a0e18c32b2696bf75a3681dc5e619e01d2653a4ed2fb53f2ce32c9eaf86",
+          "triangles": 5965,
+          "bytes": 588980,
+          "dimensions_blender_xyz_m": [
+            11.757885932922363,
+            12.745956420898438,
+            16.40081787109375
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_pine_04_lod2.glb",
+          "sha256": "74e866bce8ae5e02d0d9e75e1a58e3fd9b742237d4779df71c2c466699d58a52",
+          "triangles": 2,
+          "bytes": 1636,
+          "dimensions_blender_xyz_m": [
+            17.920000076293945,
+            0.0,
+            17.919998168945312
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -1.3593984842300415,
+            4.315371990203857,
+            1.8058714866638184
+          ],
+          "radius": 3.36,
+          "pivot_y": 0.4266666666666667
+        },
+        {
+          "center": [
+            1.6794919967651367,
+            4.179385185241699,
+            1.356512188911438
+          ],
+          "radius": 3.36,
+          "pivot_y": 0.4266666666666667
+        },
+        {
+          "center": [
+            1.3757424354553223,
+            4.318995475769043,
+            -1.6134048700332642
+          ],
+          "radius": 3.36,
+          "pivot_y": 0.4266666666666667
+        },
+        {
+          "center": [
+            -1.347374439239502,
+            4.1093525886535645,
+            -1.5492398738861084
+          ],
+          "radius": 3.36,
+          "pivot_y": 0.4266666666666667
+        },
+        {
+          "center": [
+            -0.9233507513999939,
+            7.288475513458252,
+            1.2563258409500122
+          ],
+          "radius": 3.3496130736138747,
+          "pivot_y": 5.760000000000001
+        },
+        {
+          "center": [
+            1.8814480304718018,
+            8.217318534851074,
+            0.6482483148574829
+          ],
+          "radius": 3.36,
+          "pivot_y": 5.760000000000001
+        },
+        {
+          "center": [
+            1.409077763557434,
+            7.733528137207031,
+            -0.985495388507843
+          ],
+          "radius": 3.36,
+          "pivot_y": 5.760000000000001
+        },
+        {
+          "center": [
+            -0.9097886085510254,
+            7.424375057220459,
+            -1.0518114566802979
+          ],
+          "radius": 3.36,
+          "pivot_y": 5.760000000000001
+        },
+        {
+          "center": [
+            -0.13445398211479187,
+            11.573282241821289,
+            0.5928170680999756
+          ],
+          "radius": 0.17980255131381764,
+          "pivot_y": 11.093333333333334
+        },
+        {
+          "center": [
+            1.2800358533859253,
+            12.537816047668457,
+            0.17207074165344238
+          ],
+          "radius": 3.36,
+          "pivot_y": 11.093333333333334
+        },
+        {
+          "center": [
+            1.2579529285430908,
+            12.76054859161377,
+            -0.11078237742185593
+          ],
+          "radius": 2.860135278686197,
+          "pivot_y": 11.093333333333334
+        },
+        {
+          "center": [
+            -0.11715932935476303,
+            11.950702667236328,
+            -0.33371099829673767
+          ],
+          "radius": 0.0,
+          "pivot_y": 11.093333333333334
+        }
+      ],
+      "shoot_count": 350,
+      "woody_components": 450,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_pine_04.blend",
+      "atlas_complete": true,
+      "normalization_bounds": {
+        "min": [
+          -4.884474277496338,
+          -0.1289023607969284,
+          -6.2617387771606445
+        ],
+        "max": [
+          6.122992515563965,
+          16.271915435791016,
+          5.408458232879639
+        ]
+      },
+      "shadow": {
+        "path": "assets/graphics/trees/models/forest_pine_04_shadow.glb",
+        "sha256": "fe4be8827131779d60f94c680da0ab3c33111281ec305a596c5eeff88333e23e",
+        "triangles": 1455,
+        "bytes": 111764,
+        "dimensions_blender_xyz_m": [
+          11.214678764343262,
+          12.200039863586426,
+          16.367713928222656
+        ]
+      },
+      "foliage_revision": 3,
+      "crown_center": [
+        0.6769719123840332,
+        9.33095932006836,
+        -0.5266573429107666
+      ],
+      "crown_radius": 7.9545179320144115,
+      "foliage_atlas": "assets/graphics/trees/textures/foliage_color.res",
+      "foliage_normal_ao": "assets/graphics/trees/textures/foliage_normal_ao.res",
+      "build_sha256": "f71035c8996d6fe456b3a8182ea478aaa189bd792a0aa7aa0304301384fad868",
+      "build_identity": "118038ebf9b2d1d5278881fbd84b69370bb3079a3ed9ce6b0d5d29faff85328b",
+      "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f"
+    },
+    {
+      "id": "forest_birch_01",
+      "family": "birch",
+      "variant": 1,
+      "height_m": 6.042,
+      "nominal_height_m": 6,
+      "seed": 2313,
+      "preset": "BirchTree_LowPoly.032",
+      "settings": {
+        "Socket_47": 2313,
+        "Socket_40": 2324,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 0.2,
+        "Socket_68": 0.75,
+        "Socket_37": 10.8,
+        "Socket_107": 0.85,
+        "Socket_46": 0.75
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_birch_01_lod0.glb",
+          "sha256": "e9b4f0f12cb7f925e519274067e23e315ae828ded7f8512d231c5e0fb0260f96",
+          "triangles": 8136,
+          "bytes": 377864,
+          "dimensions_blender_xyz_m": [
+            2.4989006519317627,
+            2.6710314750671387,
+            6.041871070861816
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_birch_01_lod1.glb",
+          "sha256": "c64cd4e5320f2e41d60c02598bd1fed8955c93ac9c1ebd6f39b1d65e8c0d9798",
+          "triangles": 2683,
+          "bytes": 201360,
+          "dimensions_blender_xyz_m": [
+            2.373061180114746,
+            2.5619680881500244,
+            5.8244805335998535
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_birch_01_lod2.glb",
+          "sha256": "7c5bb520254c5d81a815e58820f7deab2c998b3d6b134174f98eb812de2e9783",
+          "triangles": 2,
+          "bytes": 1640,
+          "dimensions_blender_xyz_m": [
+            6.71999979019165,
+            0.0,
+            6.720000267028809
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.04375125467777252,
+            1.2183051109313965,
+            0.04465944692492485
+          ],
+          "radius": 1.1136861507490783,
+          "pivot_y": 0.16
+        },
+        {
+          "center": [
+            0.0756751000881195,
+            1.4641308784484863,
+            0.11196225881576538
+          ],
+          "radius": 1.26,
+          "pivot_y": 0.16
+        },
+        {
+          "center": [
+            0.21380315721035004,
+            1.5652453899383545,
+            -0.25557228922843933
+          ],
+          "radius": 1.26,
+          "pivot_y": 0.16
+        },
+        {
+          "center": [
+            -0.0448516421020031,
+            1.1415784358978271,
+            -0.04688772186636925
+          ],
+          "radius": 1.036171490838758,
+          "pivot_y": 0.16
+        },
+        {
+          "center": [
+            -0.40891334414482117,
+            3.394545316696167,
+            0.1924964040517807
+          ],
+          "radius": 1.26,
+          "pivot_y": 2.16
+        },
+        {
+          "center": [
+            0.46115440130233765,
+            2.8716137409210205,
+            0.5071836113929749
+          ],
+          "radius": 1.26,
+          "pivot_y": 2.16
+        },
+        {
+          "center": [
+            0.42170894145965576,
+            2.921982526779175,
+            -0.5806450247764587
+          ],
+          "radius": 1.26,
+          "pivot_y": 2.16
+        },
+        {
+          "center": [
+            -0.23612716794013977,
+            3.3909168243408203,
+            -0.3760603666305542
+          ],
+          "radius": 1.26,
+          "pivot_y": 2.16
+        },
+        {
+          "center": [
+            -0.18345971405506134,
+            4.4091691970825195,
+            0.21845032274723053
+          ],
+          "radius": 0.9471364867286767,
+          "pivot_y": 4.16
+        },
+        {
+          "center": [
+            0.24921630322933197,
+            4.601703643798828,
+            0.10700463503599167
+          ],
+          "radius": 1.26,
+          "pivot_y": 4.16
+        },
+        {
+          "center": [
+            0.07405851781368256,
+            4.632172584533691,
+            -0.058528199791908264
+          ],
+          "radius": 0.734708958640581,
+          "pivot_y": 4.16
+        },
+        {
+          "center": [
+            -0.06562752276659012,
+            4.783098220825195,
+            -0.12347136437892914
+          ],
+          "radius": 0.9149995890609974,
+          "pivot_y": 4.16
+        }
+      ],
+      "shoot_count": 0,
+      "woody_components": 119,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_birch_01.blend",
+      "atlas_complete": true
+    },
+    {
+      "id": "forest_birch_02",
+      "family": "birch",
+      "variant": 2,
+      "height_m": 10.07,
+      "nominal_height_m": 10,
+      "seed": 2386,
+      "preset": "BirchTree_LowPoly.032",
+      "settings": {
+        "Socket_47": 2386,
+        "Socket_40": 2397,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 0.2,
+        "Socket_68": 0.75,
+        "Socket_37": 10.8,
+        "Socket_107": 0.85,
+        "Socket_46": 0.75
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_birch_02_lod0.glb",
+          "sha256": "bb2e02e0b30ae86e33385e8d93c35761e804643c7ff0b8ba3a61a1fcbb5f8e29",
+          "triangles": 9012,
+          "bytes": 404484,
+          "dimensions_blender_xyz_m": [
+            4.508665084838867,
+            5.06138801574707,
+            10.069785118103027
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_birch_02_lod1.glb",
+          "sha256": "98aedece96dd95a5bb61d39ca2124a2d941a5de9b3b92cfce91d7182d64d7291",
+          "triangles": 2972,
+          "bytes": 218736,
+          "dimensions_blender_xyz_m": [
+            3.9341201782226562,
+            4.536900520324707,
+            9.708028793334961
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_birch_02_lod2.glb",
+          "sha256": "bf03579c89f0173c309f179975139ec9e00002e0af208e3e412855f8b61bbdcb",
+          "triangles": 2,
+          "bytes": 1640,
+          "dimensions_blender_xyz_m": [
+            11.199999809265137,
+            0.0,
+            11.200000762939453
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.07904257625341415,
+            2.133192777633667,
+            0.06700912863016129
+          ],
+          "radius": 1.959151106802564,
+          "pivot_y": 0.26666666666666666
+        },
+        {
+          "center": [
+            0.7767539024353027,
+            2.739449977874756,
+            1.0939068794250488
+          ],
+          "radius": 2.1,
+          "pivot_y": 0.26666666666666666
+        },
+        {
+          "center": [
+            0.7095208764076233,
+            2.8123347759246826,
+            -1.1417418718338013
+          ],
+          "radius": 2.1,
+          "pivot_y": 0.26666666666666666
+        },
+        {
+          "center": [
+            -0.07391329109668732,
+            2.054474353790283,
+            -0.07217105478048325
+          ],
+          "radius": 1.878593452059147,
+          "pivot_y": 0.26666666666666666
+        },
+        {
+          "center": [
+            -0.616388201713562,
+            5.434281826019287,
+            0.4863024950027466
+          ],
+          "radius": 2.1,
+          "pivot_y": 3.6
+        },
+        {
+          "center": [
+            0.6873899102210999,
+            5.015324115753174,
+            0.8006309270858765
+          ],
+          "radius": 2.1,
+          "pivot_y": 3.6
+        },
+        {
+          "center": [
+            0.7520855665206909,
+            4.588266372680664,
+            -1.1507130861282349
+          ],
+          "radius": 2.1,
+          "pivot_y": 3.6
+        },
+        {
+          "center": [
+            -0.43210917711257935,
+            5.607850074768066,
+            -0.5885825157165527
+          ],
+          "radius": 2.1,
+          "pivot_y": 3.6
+        },
+        {
+          "center": [
+            -0.5552660822868347,
+            6.894128799438477,
+            0.5146132707595825
+          ],
+          "radius": 0.771644891868258,
+          "pivot_y": 6.933333333333334
+        },
+        {
+          "center": [
+            0.4855373203754425,
+            7.916895389556885,
+            0.1729613095521927
+          ],
+          "radius": 1.8552968291266698,
+          "pivot_y": 6.933333333333334
+        },
+        {
+          "center": [
+            0.06326907128095627,
+            7.607736587524414,
+            -0.23267030715942383
+          ],
+          "radius": 0.868068989142931,
+          "pivot_y": 6.933333333333334
+        },
+        {
+          "center": [
+            -0.09729291498661041,
+            7.751457214355469,
+            -0.22069427371025085
+          ],
+          "radius": 1.4696880202451656,
+          "pivot_y": 6.933333333333334
+        }
+      ],
+      "shoot_count": 0,
+      "woody_components": 119,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_birch_02.blend",
+      "atlas_complete": true
+    },
+    {
+      "id": "forest_birch_03",
+      "family": "birch",
+      "variant": 3,
+      "height_m": 14.124,
+      "nominal_height_m": 14,
+      "seed": 2459,
+      "preset": "BirchTree_LowPoly.033",
+      "settings": {
+        "Socket_47": 2459,
+        "Socket_40": 2470,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 0.2,
+        "Socket_68": 0.75,
+        "Socket_37": 10.8,
+        "Socket_107": 0.85,
+        "Socket_46": 0.75
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_birch_03_lod0.glb",
+          "sha256": "68f34abac65a630e8185d0acb0f982afcafe4a70c3c4fb7def6c4b6f3011ebf0",
+          "triangles": 8736,
+          "bytes": 394524,
+          "dimensions_blender_xyz_m": [
+            5.695468902587891,
+            6.477296829223633,
+            14.124110221862793
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_birch_03_lod1.glb",
+          "sha256": "ba2d4499793cc3f69f4337ee532ede8a8bc132f95d0d0faac09aa0e2c6d533e8",
+          "triangles": 2882,
+          "bytes": 219688,
+          "dimensions_blender_xyz_m": [
+            5.322765827178955,
+            5.813577175140381,
+            13.627073287963867
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_birch_03_lod2.glb",
+          "sha256": "2ef36a45fcf584862800f3affbf8bcef41e58210050c8fca5d243f7bc7cc8495",
+          "triangles": 2,
+          "bytes": 1640,
+          "dimensions_blender_xyz_m": [
+            15.680000305175781,
+            0.0,
+            15.680000305175781
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.09691598266363144,
+            2.8246846199035645,
+            0.09302396327257156
+          ],
+          "radius": 2.605870823705642,
+          "pivot_y": 0.37333333333333335
+        },
+        {
+          "center": [
+            0.3356705605983734,
+            3.5332260131835938,
+            0.5589132308959961
+          ],
+          "radius": 2.94,
+          "pivot_y": 0.37333333333333335
+        },
+        {
+          "center": [
+            0.37211546301841736,
+            3.380035161972046,
+            -0.4740574061870575
+          ],
+          "radius": 2.94,
+          "pivot_y": 0.37333333333333335
+        },
+        {
+          "center": [
+            -0.09238550066947937,
+            2.7665657997131348,
+            -0.09003011137247086
+          ],
+          "radius": 2.5457556738340528,
+          "pivot_y": 0.37333333333333335
+        },
+        {
+          "center": [
+            -1.1266148090362549,
+            7.714369297027588,
+            0.5379067659378052
+          ],
+          "radius": 2.94,
+          "pivot_y": 5.04
+        },
+        {
+          "center": [
+            1.0537794828414917,
+            7.224890232086182,
+            1.3644485473632812
+          ],
+          "radius": 2.8200225998094637,
+          "pivot_y": 5.04
+        },
+        {
+          "center": [
+            0.90122389793396,
+            7.201173782348633,
+            -1.7110236883163452
+          ],
+          "radius": 2.94,
+          "pivot_y": 5.04
+        },
+        {
+          "center": [
+            -0.5725672245025635,
+            8.037555694580078,
+            -0.9674304723739624
+          ],
+          "radius": 2.94,
+          "pivot_y": 5.04
+        },
+        {
+          "center": [
+            -0.34798747301101685,
+            10.444096565246582,
+            0.37516558170318604
+          ],
+          "radius": 1.5696989445513103,
+          "pivot_y": 9.706666666666667
+        },
+        {
+          "center": [
+            0.6000859141349792,
+            10.579047203063965,
+            0.35343819856643677
+          ],
+          "radius": 2.94,
+          "pivot_y": 9.706666666666667
+        },
+        {
+          "center": [
+            0.4617307186126709,
+            10.259027481079102,
+            -0.6935206055641174
+          ],
+          "radius": 1.6806611892835228,
+          "pivot_y": 9.706666666666667
+        },
+        {
+          "center": [
+            -0.24930590391159058,
+            10.40995979309082,
+            -0.732860803604126
+          ],
+          "radius": 2.059539535133327,
+          "pivot_y": 9.706666666666667
+        }
+      ],
+      "shoot_count": 0,
+      "woody_components": 119,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_birch_03.blend",
+      "atlas_complete": true
+    },
+    {
+      "id": "forest_birch_04",
+      "family": "birch",
+      "variant": 4,
+      "height_m": 17.209,
+      "nominal_height_m": 17,
+      "seed": 2532,
+      "preset": "BirchTree_LowPoly.034",
+      "settings": {
+        "Socket_47": 2532,
+        "Socket_40": 2543,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 0.2,
+        "Socket_68": 0.75,
+        "Socket_37": 10.8,
+        "Socket_107": 0.85,
+        "Socket_46": 0.75
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_birch_04_lod0.glb",
+          "sha256": "d4dae04ab5df5305464243a24f98c0d70ee18409c70a77c042c2ae3b57fd72d6",
+          "triangles": 7812,
+          "bytes": 371264,
+          "dimensions_blender_xyz_m": [
+            5.5641632080078125,
+            7.078741073608398,
+            17.209056854248047
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_birch_04_lod1.glb",
+          "sha256": "3d9cdf669e6c19b1ed470da8bfc261cf4fafc70c3247ea67f10bdf1716facea0",
+          "triangles": 2577,
+          "bytes": 204516,
+          "dimensions_blender_xyz_m": [
+            5.171993255615234,
+            6.058441162109375,
+            16.91509246826172
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_birch_04_lod2.glb",
+          "sha256": "738cc21cc3ddcfb44857e1dc560b7d2035ae851038573f1b068721970cff8528",
+          "triangles": 2,
+          "bytes": 1640,
+          "dimensions_blender_xyz_m": [
+            19.040000915527344,
+            0.0,
+            19.040000915527344
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.1622372418642044,
+            2.7033541202545166,
+            0.16550864279270172
+          ],
+          "radius": 2.5141829719571342,
+          "pivot_y": 0.45333333333333337
+        },
+        {
+          "center": [
+            0.1659737080335617,
+            2.699099540710449,
+            0.16709266602993011
+          ],
+          "radius": 2.5101372275795226,
+          "pivot_y": 0.45333333333333337
+        },
+        {
+          "center": [
+            1.0527396202087402,
+            4.807658672332764,
+            -1.5984113216400146
+          ],
+          "radius": 3.57,
+          "pivot_y": 0.45333333333333337
+        },
+        {
+          "center": [
+            -0.1530722975730896,
+            2.724057197570801,
+            -0.16033856570720673
+          ],
+          "radius": 2.5310587429012963,
+          "pivot_y": 0.45333333333333337
+        },
+        {
+          "center": [
+            -0.8035882711410522,
+            10.053168296813965,
+            0.35479873418807983
+          ],
+          "radius": 3.57,
+          "pivot_y": 6.12
+        },
+        {
+          "center": [
+            0.9689961671829224,
+            9.521051406860352,
+            1.1041985750198364
+          ],
+          "radius": 3.57,
+          "pivot_y": 6.12
+        },
+        {
+          "center": [
+            1.0136617422103882,
+            8.745229721069336,
+            -1.9124433994293213
+          ],
+          "radius": 3.57,
+          "pivot_y": 6.12
+        },
+        {
+          "center": [
+            -0.6887527704238892,
+            9.232194900512695,
+            -1.2053804397583008
+          ],
+          "radius": 3.57,
+          "pivot_y": 6.12
+        },
+        {
+          "center": [
+            -0.8521355390548706,
+            12.813246726989746,
+            0.6457393765449524
+          ],
+          "radius": 3.1624699953035478,
+          "pivot_y": 11.786666666666667
+        },
+        {
+          "center": [
+            0.844470739364624,
+            13.164730072021484,
+            0.5138759016990662
+          ],
+          "radius": 3.4442123550987676,
+          "pivot_y": 11.786666666666667
+        },
+        {
+          "center": [
+            0.48067450523376465,
+            12.808439254760742,
+            -1.020427942276001
+          ],
+          "radius": 3.2278230527745375,
+          "pivot_y": 11.786666666666667
+        },
+        {
+          "center": [
+            -0.2285066395998001,
+            13.408390045166016,
+            -0.7354394197463989
+          ],
+          "radius": 3.0635836615673333,
+          "pivot_y": 11.786666666666667
+        }
+      ],
+      "shoot_count": 0,
+      "woody_components": 119,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_birch_04.blend",
+      "atlas_complete": true
+    },
+    {
+      "id": "forest_dead_01",
+      "family": "dead",
+      "variant": 1,
+      "height_m": 5.031,
+      "nominal_height_m": 5,
+      "seed": 2624,
+      "preset": "SpruceTree_LowPoly.001",
+      "settings": {
+        "Socket_47": 2624,
+        "Socket_40": 2635,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 0.2,
+        "Socket_68": 0.75,
+        "Socket_37": 40.0,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_dead_01_lod0.glb",
+          "sha256": "cff0aea2d438aed50dc3b43ed323734719598eef6679bbdfa0d4adb6fc3d73af",
+          "triangles": 2490,
+          "bytes": 104896,
+          "dimensions_blender_xyz_m": [
+            1.9711580276489258,
+            1.7078380584716797,
+            5.031273365020752
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_dead_01_lod1.glb",
+          "sha256": "60e3cfa01d0d4ef901c31b27ea5ede30e6dcbf4ac450e07cde0efecd47ddf1e1",
+          "triangles": 821,
+          "bytes": 64996,
+          "dimensions_blender_xyz_m": [
+            1.4454925060272217,
+            1.5785753726959229,
+            4.994394779205322
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_dead_01_lod2.glb",
+          "sha256": "a9ef3eaa5cf2133fa6ac2d58962dd4f8375b123bedc7d28af37981bd30a6650d",
+          "triangles": 2,
+          "bytes": 1636,
+          "dimensions_blender_xyz_m": [
+            5.599999904632568,
+            0.0,
+            5.600000381469727
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.3121320307254791,
+            1.3650002479553223,
+            0.06757462024688721
+          ],
+          "radius": 1.05,
+          "pivot_y": 0.13333333333333333
+        },
+        {
+          "center": [
+            0.32624170184135437,
+            1.1299238204956055,
+            0.15186810493469238
+          ],
+          "radius": 1.05,
+          "pivot_y": 0.13333333333333333
+        },
+        {
+          "center": [
+            0.28348636627197266,
+            1.3304593563079834,
+            -0.1491461545228958
+          ],
+          "radius": 1.05,
+          "pivot_y": 0.13333333333333333
+        },
+        {
+          "center": [
+            -0.2484666109085083,
+            1.1378111839294434,
+            -0.22919707000255585
+          ],
+          "radius": 1.05,
+          "pivot_y": 0.13333333333333333
+        },
+        {
+          "center": [
+            -0.18742512166500092,
+            1.849441409111023,
+            0.2849408686161041
+          ],
+          "radius": 0.2598605578522468,
+          "pivot_y": 1.8
+        },
+        {
+          "center": [
+            0.2352799028158188,
+            2.0630483627319336,
+            0.06489720195531845
+          ],
+          "radius": 1.05,
+          "pivot_y": 1.8
+        },
+        {
+          "center": [
+            0.15972188115119934,
+            2.145508050918579,
+            -0.09912226349115372
+          ],
+          "radius": 1.05,
+          "pivot_y": 1.8
+        },
+        {
+          "center": [
+            0.0,
+            2.5,
+            -0.0
+          ],
+          "radius": 0.1,
+          "pivot_y": 1.8
+        },
+        {
+          "center": [
+            0.0,
+            4.166666507720947,
+            -0.0
+          ],
+          "radius": 0.1,
+          "pivot_y": 3.466666666666667
+        },
+        {
+          "center": [
+            0.15520495176315308,
+            4.155749320983887,
+            0.007053099572658539
+          ],
+          "radius": 0.7143462532881378,
+          "pivot_y": 3.466666666666667
+        },
+        {
+          "center": [
+            0.15520495176315308,
+            4.155749320983887,
+            -0.00705309771001339
+          ],
+          "radius": 0.7143462532908433,
+          "pivot_y": 3.466666666666667
+        },
+        {
+          "center": [
+            0.0,
+            4.166666507720947,
+            -0.0
+          ],
+          "radius": 0.1,
+          "pivot_y": 3.466666666666667
+        }
+      ],
+      "shoot_count": 0,
+      "woody_components": 14,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_dead_01.blend",
+      "atlas_complete": true
+    },
+    {
+      "id": "forest_dead_02",
+      "family": "dead",
+      "variant": 2,
+      "height_m": 8.051,
+      "nominal_height_m": 8,
+      "seed": 2697,
+      "preset": "SpruceTree_LowPoly.003",
+      "settings": {
+        "Socket_47": 2697,
+        "Socket_40": 2708,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 0.2,
+        "Socket_68": 0.75,
+        "Socket_37": 48.0,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_dead_02_lod0.glb",
+          "sha256": "6c2f5108c2d4b054899d26ac44a16b6ba3664d7d1db5f4707969e02b6337caf8",
+          "triangles": 3438,
+          "bytes": 144236,
+          "dimensions_blender_xyz_m": [
+            2.698798656463623,
+            2.813002586364746,
+            8.050810813903809
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_dead_02_lod1.glb",
+          "sha256": "f7716b3b37a2e7e15e763d97bb561f91f9091afbadadd34bd7ac8f9695b4ca4b",
+          "triangles": 1133,
+          "bytes": 84900,
+          "dimensions_blender_xyz_m": [
+            2.6233692169189453,
+            2.6785855293273926,
+            8.050810813903809
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_dead_02_lod2.glb",
+          "sha256": "68f58d3693b509b426fe7a75f920b5ac3f515515fa7784f9e35bab39bf09cb11",
+          "triangles": 2,
+          "bytes": 1636,
+          "dimensions_blender_xyz_m": [
+            8.960000038146973,
+            0.0,
+            8.959999084472656
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.24657954275608063,
+            2.1375396251678467,
+            0.8091402649879456
+          ],
+          "radius": 1.68,
+          "pivot_y": 0.21333333333333335
+        },
+        {
+          "center": [
+            0.5409875512123108,
+            1.8946177959442139,
+            0.25856274366378784
+          ],
+          "radius": 1.68,
+          "pivot_y": 0.21333333333333335
+        },
+        {
+          "center": [
+            0.6267152428627014,
+            1.8576022386550903,
+            -0.3092817962169647
+          ],
+          "radius": 1.68,
+          "pivot_y": 0.21333333333333335
+        },
+        {
+          "center": [
+            -0.0859854593873024,
+            0.5731268525123596,
+            -0.0933024063706398
+          ],
+          "radius": 0.7255891295102272,
+          "pivot_y": 0.21333333333333335
+        },
+        {
+          "center": [
+            -0.3820030689239502,
+            3.4860329627990723,
+            0.1282610148191452
+          ],
+          "radius": 1.0866334628791954,
+          "pivot_y": 2.8800000000000003
+        },
+        {
+          "center": [
+            0.3500577211380005,
+            3.777338743209839,
+            0.11183718591928482
+          ],
+          "radius": 1.3634809310891187,
+          "pivot_y": 2.8800000000000003
+        },
+        {
+          "center": [
+            0.22148483991622925,
+            3.5407538414001465,
+            -0.25034382939338684
+          ],
+          "radius": 1.6127903055047206,
+          "pivot_y": 2.8800000000000003
+        },
+        {
+          "center": [
+            -0.13510487973690033,
+            3.8726236820220947,
+            -0.45814284682273865
+          ],
+          "radius": 0.22138981047155445,
+          "pivot_y": 2.8800000000000003
+        },
+        {
+          "center": [
+            0.0,
+            6.666666507720947,
+            -0.0
+          ],
+          "radius": 0.1,
+          "pivot_y": 5.546666666666667
+        },
+        {
+          "center": [
+            0.24749362468719482,
+            6.7954630851745605,
+            0.01081034541130066
+          ],
+          "radius": 1.2804040008472326,
+          "pivot_y": 5.546666666666667
+        },
+        {
+          "center": [
+            0.2551783621311188,
+            6.476541519165039,
+            -0.013115492649376392
+          ],
+          "radius": 0.9615366990872247,
+          "pivot_y": 5.546666666666667
+        },
+        {
+          "center": [
+            0.0,
+            6.666666507720947,
+            -0.0
+          ],
+          "radius": 0.1,
+          "pivot_y": 5.546666666666667
+        }
+      ],
+      "shoot_count": 0,
+      "woody_components": 20,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_dead_02.blend",
+      "atlas_complete": true
+    },
+    {
+      "id": "forest_dead_03",
+      "family": "dead",
+      "variant": 3,
+      "height_m": 12.057,
+      "nominal_height_m": 12,
+      "seed": 2770,
+      "preset": "SpruceTree_LowPoly.006",
+      "settings": {
+        "Socket_47": 2770,
+        "Socket_40": 2781,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 0.2,
+        "Socket_68": 0.75,
+        "Socket_37": 40.0,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_dead_03_lod0.glb",
+          "sha256": "be582a4fc4366baa4e84af7371566bfe5a3924372590169c5890f4e7e5bcfd03",
+          "triangles": 4338,
+          "bytes": 189572,
+          "dimensions_blender_xyz_m": [
+            4.085337162017822,
+            4.127383708953857,
+            12.05701732635498
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_dead_03_lod1.glb",
+          "sha256": "dd6d03729c371f6bd58acd17a68d3670ca1afc74cbf8dca3725dce42ff5b9228",
+          "triangles": 1431,
+          "bytes": 115508,
+          "dimensions_blender_xyz_m": [
+            4.027932167053223,
+            4.135095119476318,
+            12.00713062286377
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_dead_03_lod2.glb",
+          "sha256": "73c5aef1958e6c1c3e39efc434b873f748e89ba118c7f90f684bd393e5af09fd",
+          "triangles": 2,
+          "bytes": 1636,
+          "dimensions_blender_xyz_m": [
+            13.4399995803833,
+            0.0,
+            13.440000534057617
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.8422629833221436,
+            2.954519510269165,
+            0.5339803099632263
+          ],
+          "radius": 2.52,
+          "pivot_y": 0.32
+        },
+        {
+          "center": [
+            0.2627948224544525,
+            2.666567802429199,
+            0.49134963750839233
+          ],
+          "radius": 2.471506168449666,
+          "pivot_y": 0.32
+        },
+        {
+          "center": [
+            0.4484601616859436,
+            3.174119710922241,
+            -0.3843282163143158
+          ],
+          "radius": 2.52,
+          "pivot_y": 0.32
+        },
+        {
+          "center": [
+            -0.9356917142868042,
+            2.6432645320892334,
+            -0.06429290771484375
+          ],
+          "radius": 2.52,
+          "pivot_y": 0.32
+        },
+        {
+          "center": [
+            -0.42990705370903015,
+            4.060091972351074,
+            1.0765398740768433
+          ],
+          "radius": 0.7606033760472822,
+          "pivot_y": 4.32
+        },
+        {
+          "center": [
+            0.5817192792892456,
+            6.099518775939941,
+            0.1312052607536316
+          ],
+          "radius": 2.1216884467825463,
+          "pivot_y": 4.32
+        },
+        {
+          "center": [
+            0.4352353513240814,
+            6.271501064300537,
+            -0.12349950522184372
+          ],
+          "radius": 2.304450393861626,
+          "pivot_y": 4.32
+        },
+        {
+          "center": [
+            -0.24283215403556824,
+            5.980568885803223,
+            -0.6883519291877747
+          ],
+          "radius": 0.37931006091423103,
+          "pivot_y": 4.32
+        },
+        {
+          "center": [
+            0.0,
+            10.0,
+            -0.0
+          ],
+          "radius": 0.1,
+          "pivot_y": 8.32
+        },
+        {
+          "center": [
+            0.39396581053733826,
+            9.082685470581055,
+            0.017495684325695038
+          ],
+          "radius": 2.52,
+          "pivot_y": 8.32
+        },
+        {
+          "center": [
+            0.44372105598449707,
+            8.96693229675293,
+            -0.14730899035930634
+          ],
+          "radius": 2.52,
+          "pivot_y": 8.32
+        },
+        {
+          "center": [
+            0.0,
+            10.0,
+            -0.0
+          ],
+          "radius": 0.1,
+          "pivot_y": 8.32
+        }
+      ],
+      "shoot_count": 0,
+      "woody_components": 26,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_dead_03.blend",
+      "atlas_complete": true
+    },
+    {
+      "id": "forest_dead_04",
+      "family": "dead",
+      "variant": 4,
+      "height_m": 16.123,
+      "nominal_height_m": 16,
+      "seed": 2843,
+      "preset": "SpruceTree_LowPoly.010",
+      "settings": {
+        "Socket_47": 2843,
+        "Socket_40": 2854,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 0.2,
+        "Socket_68": 0.75,
+        "Socket_37": 44.0,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_dead_04_lod0.glb",
+          "sha256": "3662a6de17d36f60fb8a0e965af1b70d5eb1761898488ea13c32de9f4b694c88",
+          "triangles": 3468,
+          "bytes": 146960,
+          "dimensions_blender_xyz_m": [
+            4.595334053039551,
+            6.024474143981934,
+            16.12339210510254
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_dead_04_lod1.glb",
+          "sha256": "4833aa9855138cdd94cfb8c1e9ee219b8a7746ec267a2399adbb9b405442b508",
+          "triangles": 1144,
+          "bytes": 86328,
+          "dimensions_blender_xyz_m": [
+            4.324645042419434,
+            6.021674633026123,
+            16.09044075012207
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_dead_04_lod2.glb",
+          "sha256": "5d77f65c39c08ab980eee423771ed06b1ac4de93345d2fc6ae0d4d1e6eba74b1",
+          "triangles": 2,
+          "bytes": 1636,
+          "dimensions_blender_xyz_m": [
+            17.920000076293945,
+            0.0,
+            17.919998168945312
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.900565505027771,
+            2.957437515258789,
+            1.2299846410751343
+          ],
+          "radius": 2.938134794431914,
+          "pivot_y": 0.4266666666666667
+        },
+        {
+          "center": [
+            0.6856660842895508,
+            4.21742582321167,
+            0.7227578163146973
+          ],
+          "radius": 3.36,
+          "pivot_y": 0.4266666666666667
+        },
+        {
+          "center": [
+            0.22141656279563904,
+            3.6865618228912354,
+            -0.4968678951263428
+          ],
+          "radius": 3.36,
+          "pivot_y": 0.4266666666666667
+        },
+        {
+          "center": [
+            -0.6739665865898132,
+            3.476933240890503,
+            -1.5887012481689453
+          ],
+          "radius": 3.36,
+          "pivot_y": 0.4266666666666667
+        },
+        {
+          "center": [
+            -0.7727557420730591,
+            6.718695640563965,
+            0.4507506787776947
+          ],
+          "radius": 1.395735287662745,
+          "pivot_y": 5.760000000000001
+        },
+        {
+          "center": [
+            0.7093247175216675,
+            7.478641986846924,
+            0.42046910524368286
+          ],
+          "radius": 2.8035922133295843,
+          "pivot_y": 5.760000000000001
+        },
+        {
+          "center": [
+            0.6476573348045349,
+            7.829348087310791,
+            -0.3559734523296356
+          ],
+          "radius": 2.757992361703642,
+          "pivot_y": 5.760000000000001
+        },
+        {
+          "center": [
+            -1.198424220085144,
+            5.407440662384033,
+            -0.045075424015522
+          ],
+          "radius": 1.0200961413415874,
+          "pivot_y": 5.760000000000001
+        },
+        {
+          "center": [
+            0.0,
+            13.333333015441895,
+            -0.0
+          ],
+          "radius": 0.1,
+          "pivot_y": 11.093333333333334
+        },
+        {
+          "center": [
+            0.4967477023601532,
+            13.294487953186035,
+            0.025290673598647118
+          ],
+          "radius": 2.2888612623612414,
+          "pivot_y": 11.093333333333334
+        },
+        {
+          "center": [
+            0.4967477023601532,
+            13.294487953186035,
+            -0.02529069036245346
+          ],
+          "radius": 2.2888612624470706,
+          "pivot_y": 11.093333333333334
+        },
+        {
+          "center": [
+            0.0,
+            13.333333015441895,
+            -0.0
+          ],
+          "radius": 0.1,
+          "pivot_y": 11.093333333333334
+        }
+      ],
+      "shoot_count": 0,
+      "woody_components": 21,
+      "fracture_ring_vertices": 0,
+      "source_blend": "art_source/blender/tree_collection/forest_dead_04.blend",
+      "atlas_complete": true
+    },
+    {
+      "id": "forest_broken_01",
+      "family": "broken",
+      "variant": 1,
+      "height_m": 3.945,
+      "nominal_height_m": 4,
+      "seed": 2935,
+      "preset": "SpruceTree_LowPoly.001",
+      "settings": {
+        "Socket_47": 2935,
+        "Socket_40": 2946,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 0.2,
+        "Socket_68": 0.75,
+        "Socket_37": 32.0,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_broken_01_lod0.glb",
+          "sha256": "f787239ac4558064c2a421a6c3efffaec7edaebea735ee77df2a7edca7171825",
+          "triangles": 804,
+          "bytes": 38532,
+          "dimensions_blender_xyz_m": [
+            0.9839789867401123,
+            1.5813212394714355,
+            3.9447927474975586
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_broken_01_lod1.glb",
+          "sha256": "ee1c500c5689060b255a515449f649519b3b3fcfb0fc0678d2302bf0e02c2338",
+          "triangles": 272,
+          "bytes": 24304,
+          "dimensions_blender_xyz_m": [
+            0.729368269443512,
+            1.4470535516738892,
+            3.9448399543762207
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_broken_01_lod2.glb",
+          "sha256": "655371874589259c2089b5568e814fda48c93e9c647809b7b5e727c831949f82",
+          "triangles": 2,
+          "bytes": 1644,
+          "dimensions_blender_xyz_m": [
+            4.480000019073486,
+            0.0,
+            4.479999542236328
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.08085832744836807,
+            0.49928855895996094,
+            0.08268925547599792
+          ],
+          "radius": 0.2908191307564571,
+          "pivot_y": 0.10666666666666667
+        },
+        {
+          "center": [
+            0.08015695214271545,
+            0.49928855895996094,
+            0.08288893848657608
+          ],
+          "radius": 0.2907672971060436,
+          "pivot_y": 0.10666666666666667
+        },
+        {
+          "center": [
+            0.07579916715621948,
+            0.49928855895996094,
+            -0.07591088861227036
+          ],
+          "radius": 0.2884352049853802,
+          "pivot_y": 0.10666666666666667
+        },
+        {
+          "center": [
+            -0.07791976630687714,
+            0.49928855895996094,
+            -0.07664528489112854
+          ],
+          "radius": 0.2891422839021804,
+          "pivot_y": 0.10666666666666667
+        },
+        {
+          "center": [
+            -0.033357810229063034,
+            2.1953799724578857,
+            0.03591812774538994
+          ],
+          "radius": 0.84,
+          "pivot_y": 1.4400000000000002
+        },
+        {
+          "center": [
+            0.12090765684843063,
+            2.1743295192718506,
+            0.3899143636226654
+          ],
+          "radius": 0.84,
+          "pivot_y": 1.4400000000000002
+        },
+        {
+          "center": [
+            0.03778717294335365,
+            2.1707420349121094,
+            -0.03810291737318039
+          ],
+          "radius": 0.8289651783301569,
+          "pivot_y": 1.4400000000000002
+        },
+        {
+          "center": [
+            -0.03704329952597618,
+            2.1674375534057617,
+            -0.03596794977784157
+          ],
+          "radius": 0.8257957179169422,
+          "pivot_y": 1.4400000000000002
+        },
+        {
+          "center": [
+            -0.19730499386787415,
+            2.9054925441741943,
+            0.23056617379188538
+          ],
+          "radius": 0.7344137090261422,
+          "pivot_y": 2.7733333333333334
+        },
+        {
+          "center": [
+            0.031935226172208786,
+            3.130337715148926,
+            0.034649502485990524
+          ],
+          "radius": 0.4688132194080283,
+          "pivot_y": 2.7733333333333334
+        },
+        {
+          "center": [
+            0.03223900869488716,
+            3.094796657562256,
+            -0.03228093311190605
+          ],
+          "radius": 0.5041308384069993,
+          "pivot_y": 2.7733333333333334
+        },
+        {
+          "center": [
+            -0.1464206576347351,
+            2.940237522125244,
+            -0.2885979115962982
+          ],
+          "radius": 0.714237943330686,
+          "pivot_y": 2.7733333333333334
+        }
+      ],
+      "shoot_count": 0,
+      "woody_components": 5,
+      "fracture_ring_vertices": 24,
+      "source_blend": "art_source/blender/tree_collection/forest_broken_01.blend",
+      "atlas_complete": true
+    },
+    {
+      "id": "forest_broken_02",
+      "family": "broken",
+      "variant": 2,
+      "height_m": 7.045,
+      "nominal_height_m": 7,
+      "seed": 3008,
+      "preset": "SpruceTree_LowPoly.003",
+      "settings": {
+        "Socket_47": 3008,
+        "Socket_40": 3019,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 0.2,
+        "Socket_68": 0.75,
+        "Socket_37": 38.4,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_broken_02_lod0.glb",
+          "sha256": "eb4881d8b5599d59ec462da12d8db11d91e4d4019d745e827c75467a76115065",
+          "triangles": 1542,
+          "bytes": 69364,
+          "dimensions_blender_xyz_m": [
+            2.8098678588867188,
+            2.759591579437256,
+            7.044872283935547
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_broken_02_lod1.glb",
+          "sha256": "6a59b0833e05661e13aa4957ecfab24cd7fa3fc935d992cbcfe9e9abee025938",
+          "triangles": 516,
+          "bytes": 42232,
+          "dimensions_blender_xyz_m": [
+            2.742192268371582,
+            2.7561049461364746,
+            7.044872283935547
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_broken_02_lod2.glb",
+          "sha256": "ee864ab45dff5b6bff067114b4618a5876b4b8b3846dce051fb3d3e64379066d",
+          "triangles": 2,
+          "bytes": 1644,
+          "dimensions_blender_xyz_m": [
+            7.840000152587891,
+            0.0,
+            7.840000152587891
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.1053151935338974,
+            1.1778172254562378,
+            0.10794488340616226
+          ],
+          "radius": 0.8951983789530108,
+          "pivot_y": 0.18666666666666668
+        },
+        {
+          "center": [
+            0.10441853106021881,
+            1.1778172254562378,
+            0.10830197483301163
+          ],
+          "radius": 0.895265509133057,
+          "pivot_y": 0.18666666666666668
+        },
+        {
+          "center": [
+            0.09833095222711563,
+            1.1778172254562378,
+            -0.09854751080274582
+          ],
+          "radius": 0.892301814964501,
+          "pivot_y": 0.18666666666666668
+        },
+        {
+          "center": [
+            -0.10139606893062592,
+            1.1778172254562378,
+            -0.0995979756116867
+          ],
+          "radius": 0.8932295081189627,
+          "pivot_y": 0.18666666666666668
+        },
+        {
+          "center": [
+            -0.0351119302213192,
+            3.7277719974517822,
+            0.03603557497262955
+          ],
+          "radius": 0.7797952636598611,
+          "pivot_y": 2.52
+        },
+        {
+          "center": [
+            0.5190229415893555,
+            3.6295766830444336,
+            0.34976351261138916
+          ],
+          "radius": 1.47,
+          "pivot_y": 2.52
+        },
+        {
+          "center": [
+            0.3875364363193512,
+            4.114316463470459,
+            -0.40645459294319153
+          ],
+          "radius": 1.2535251174857394,
+          "pivot_y": 2.52
+        },
+        {
+          "center": [
+            -0.5619320869445801,
+            3.6249706745147705,
+            -0.47869908809661865
+          ],
+          "radius": 1.2124751511220004,
+          "pivot_y": 2.52
+        },
+        {
+          "center": [
+            -0.32668882608413696,
+            5.0721001625061035,
+            0.3822880983352661
+          ],
+          "radius": 1.47,
+          "pivot_y": 4.8533333333333335
+        },
+        {
+          "center": [
+            0.14115123450756073,
+            4.985875129699707,
+            0.04306742921471596
+          ],
+          "radius": 1.47,
+          "pivot_y": 4.8533333333333335
+        },
+        {
+          "center": [
+            0.4047858715057373,
+            5.029325008392334,
+            -0.1764710247516632
+          ],
+          "radius": 1.47,
+          "pivot_y": 4.8533333333333335
+        },
+        {
+          "center": [
+            -0.38474318385124207,
+            5.0599284172058105,
+            -0.16895566880702972
+          ],
+          "radius": 1.47,
+          "pivot_y": 4.8533333333333335
+        }
+      ],
+      "shoot_count": 0,
+      "woody_components": 10,
+      "fracture_ring_vertices": 24,
+      "source_blend": "art_source/blender/tree_collection/forest_broken_02.blend",
+      "atlas_complete": true
+    },
+    {
+      "id": "forest_broken_03",
+      "family": "broken",
+      "variant": 3,
+      "height_m": 10.36,
+      "nominal_height_m": 10.5,
+      "seed": 3081,
+      "preset": "SpruceTree_LowPoly.006",
+      "settings": {
+        "Socket_47": 3081,
+        "Socket_40": 3092,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 0.2,
+        "Socket_68": 0.75,
+        "Socket_37": 32.0,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_broken_03_lod0.glb",
+          "sha256": "7c8db5a6b88670f6f84e12117f3d7366a0fe255793214c7523cbcfb24b96fdbf",
+          "triangles": 1638,
+          "bytes": 73352,
+          "dimensions_blender_xyz_m": [
+            4.051236629486084,
+            4.751015663146973,
+            10.360398292541504
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_broken_03_lod1.glb",
+          "sha256": "94cd307bd198080f50d237c125a5d33537b3c48c9ef636306b7d1e4e29e0b7ad",
+          "triangles": 547,
+          "bytes": 46112,
+          "dimensions_blender_xyz_m": [
+            4.023078918457031,
+            4.750741004943848,
+            10.360398292541504
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_broken_03_lod2.glb",
+          "sha256": "477194fd853a26f73716809da7ef19d9d08318c6af75f1a9f69635e5ae9ff717",
+          "triangles": 2,
+          "bytes": 1644,
+          "dimensions_blender_xyz_m": [
+            11.760000228881836,
+            0.0,
+            11.760000228881836
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.21468867361545563,
+            1.626200556755066,
+            0.2188730537891388
+          ],
+          "radius": 1.2225334460770019,
+          "pivot_y": 0.27999999999999997
+        },
+        {
+          "center": [
+            0.21385322511196136,
+            1.626200556755066,
+            0.2201610952615738
+          ],
+          "radius": 1.222841086218618,
+          "pivot_y": 0.27999999999999997
+        },
+        {
+          "center": [
+            0.20456752181053162,
+            1.626200556755066,
+            -0.20588676631450653
+          ],
+          "radius": 1.216237974624444,
+          "pivot_y": 0.27999999999999997
+        },
+        {
+          "center": [
+            -0.21066780388355255,
+            1.626200556755066,
+            -0.20789283514022827
+          ],
+          "radius": 1.2183426373351158,
+          "pivot_y": 0.27999999999999997
+        },
+        {
+          "center": [
+            -0.710911214351654,
+            5.473319053649902,
+            0.5233136415481567
+          ],
+          "radius": 1.7079828379371702,
+          "pivot_y": 3.78
+        },
+        {
+          "center": [
+            0.47077056765556335,
+            5.820880889892578,
+            0.6616818308830261
+          ],
+          "radius": 1.9101740567132104,
+          "pivot_y": 3.78
+        },
+        {
+          "center": [
+            0.05742180347442627,
+            5.4404401779174805,
+            -0.07494121044874191
+          ],
+          "radius": 1.4774215074577508,
+          "pivot_y": 3.78
+        },
+        {
+          "center": [
+            -0.3180947005748749,
+            5.175527095794678,
+            -0.8833844661712646
+          ],
+          "radius": 1.9699917029947958,
+          "pivot_y": 3.78
+        },
+        {
+          "center": [
+            -0.10185474902391434,
+            8.164036750793457,
+            0.0550786592066288
+          ],
+          "radius": 1.8555689327900766,
+          "pivot_y": 7.28
+        },
+        {
+          "center": [
+            0.08191559463739395,
+            8.216662406921387,
+            0.06464457511901855
+          ],
+          "radius": 1.8020156580873237,
+          "pivot_y": 7.28
+        },
+        {
+          "center": [
+            0.7185961008071899,
+            7.644741535186768,
+            -0.07227455079555511
+          ],
+          "radius": 2.205,
+          "pivot_y": 7.28
+        },
+        {
+          "center": [
+            -0.8587348461151123,
+            7.550690650939941,
+            -0.07517869770526886
+          ],
+          "radius": 2.205,
+          "pivot_y": 7.28
+        }
+      ],
+      "shoot_count": 0,
+      "woody_components": 10,
+      "fracture_ring_vertices": 24,
+      "source_blend": "art_source/blender/tree_collection/forest_broken_03.blend",
+      "atlas_complete": true
+    },
+    {
+      "id": "forest_broken_04",
+      "family": "broken",
+      "variant": 4,
+      "height_m": 14.05,
+      "nominal_height_m": 14,
+      "seed": 3154,
+      "preset": "SpruceTree_LowPoly.010",
+      "settings": {
+        "Socket_47": 3154,
+        "Socket_40": 3165,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 12,
+        "Socket_50": 6,
+        "Socket_57": 14,
+        "Socket_24": 22,
+        "Socket_7": 0.7,
+        "Socket_65": 0.2,
+        "Socket_68": 0.75,
+        "Socket_37": 35.2,
+        "Socket_107": 0.34,
+        "Socket_46": 0.48
+      },
+      "models": [
+        {
+          "path": "assets/graphics/trees/models/forest_broken_04_lod0.glb",
+          "sha256": "fb6a5ffc33f3ac23f83fa1c442f3771f33f64c33cf04e930df96f359f4753035",
+          "triangles": 1872,
+          "bytes": 82868,
+          "dimensions_blender_xyz_m": [
+            5.631708145141602,
+            5.9236159324646,
+            14.050497055053711
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_broken_04_lod1.glb",
+          "sha256": "d7ec1c15e4ab2220d64101dbca708b1705c2a811e7d39d9eb5a3bf843e27b7b5",
+          "triangles": 624,
+          "bytes": 50080,
+          "dimensions_blender_xyz_m": [
+            5.631560325622559,
+            5.923361301422119,
+            14.050497055053711
+          ]
+        },
+        {
+          "path": "assets/graphics/trees/models/forest_broken_04_lod2.glb",
+          "sha256": "d9e5af421ef636bde31dc5d89d1d7a043ebceb449f7d9384e163d174f9ebe0ec",
+          "triangles": 2,
+          "bytes": 1640,
+          "dimensions_blender_xyz_m": [
+            15.680000305175781,
+            0.0,
+            15.680000305175781
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "center": [
+            -0.3073604106903076,
+            1.8734910488128662,
+            0.3175536096096039
+          ],
+          "radius": 1.509078988055093,
+          "pivot_y": 0.37333333333333335
+        },
+        {
+          "center": [
+            0.3036675453186035,
+            1.8734910488128662,
+            0.3180334270000458
+          ],
+          "radius": 1.509444306196153,
+          "pivot_y": 0.37333333333333335
+        },
+        {
+          "center": [
+            0.28019559383392334,
+            1.8734910488128662,
+            -0.278712660074234
+          ],
+          "radius": 1.4912430154614065,
+          "pivot_y": 0.37333333333333335
+        },
+        {
+          "center": [
+            -0.2888888120651245,
+            1.8734910488128662,
+            -0.2817894518375397
+          ],
+          "radius": 1.4962506124866477,
+          "pivot_y": 0.37333333333333335
+        },
+        {
+          "center": [
+            -0.7674128413200378,
+            6.3980889320373535,
+            1.1679141521453857
+          ],
+          "radius": 2.94,
+          "pivot_y": 5.04
+        },
+        {
+          "center": [
+            1.1622215509414673,
+            7.529410362243652,
+            0.4928276240825653
+          ],
+          "radius": 2.938724062414516,
+          "pivot_y": 5.04
+        },
+        {
+          "center": [
+            0.44320032000541687,
+            8.412075996398926,
+            -0.8793501257896423
+          ],
+          "radius": 2.94,
+          "pivot_y": 5.04
+        },
+        {
+          "center": [
+            -0.3932274580001831,
+            8.017861366271973,
+            -0.8535385727882385
+          ],
+          "radius": 2.94,
+          "pivot_y": 5.04
+        },
+        {
+          "center": [
+            -0.5735453963279724,
+            10.225777626037598,
+            0.669516384601593
+          ],
+          "radius": 2.038754724974218,
+          "pivot_y": 9.706666666666667
+        },
+        {
+          "center": [
+            0.08585716038942337,
+            11.044065475463867,
+            1.1103814840316772
+          ],
+          "radius": 1.9226100058159796,
+          "pivot_y": 9.706666666666667
+        },
+        {
+          "center": [
+            0.15128742158412933,
+            11.21358585357666,
+            -1.001729965209961
+          ],
+          "radius": 2.0323093499181444,
+          "pivot_y": 9.706666666666667
+        },
+        {
+          "center": [
+            -0.05590910464525223,
+            10.81543254852295,
+            -0.05952119827270508
+          ],
+          "radius": 1.3676678230385393,
+          "pivot_y": 9.706666666666667
+        }
+      ],
+      "shoot_count": 0,
+      "woody_components": 11,
+      "fracture_ring_vertices": 24,
+      "source_blend": "art_source/blender/tree_collection/forest_broken_04.blend",
+      "atlas_complete": true
+    }
+  ],
+  "needle_geometry": "Curved needle sprays with baked albedo, normal, occlusion and coverage-preserving mipmaps",
+  "blender": "5.2.1 LTS"
+}

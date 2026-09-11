@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Alpine Apex independent pose feedback v1",
+  "type": "object",
+  "required": ["version", "evidenceId", "reviewer", "records"],
+  "properties": {
+    "version": {"const": 1},
+    "evidenceId": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "reviewer": {"const": "user"},
+    "updatedAt": {"type": ["string", "null"]},
+    "records": {
+      "type": "object",
+      "description": "Keys are poseId.overall, poseId.regionId or sequenceId.motion. Runtime validation also verifies membership in the exact capture's evidence keys.",
+      "additionalProperties": {"$ref": "#/$defs/record"}
+    }
+  },
+  "$defs": {
+    "record": {
+      "type": "object",
+      "required": ["status", "score", "comment"],
+      "properties": {
+        "status": {"enum": ["unrated", "scored", "unjudgeable"]},
+        "score": {"type": ["number", "null"], "minimum": 0, "maximum": 10, "multipleOf": 0.5},
+        "comment": {"type": "string", "maxLength": 12000}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"const": "scored"}}}, "then": {"properties": {"score": {"type": "number"}}}, "else": {"properties": {"score": {"type": "null"}}}}
+      ]
+    }
+  }
+}

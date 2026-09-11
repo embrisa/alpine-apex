@@ -1,0 +1,15 @@
+{
+  "recorded_utc": "2026-09-09T13:49:00.469560+00:00",
+  "sha256": {
+    "assets/graphics/models/skier_v7.glb": "176cc9b1570191b4a4c9d22c2b73ac51446cd18dd1b991fc9770867a109bae39",
+    "art_source/blender/skier_v7.blend": "a0e92eed4c95b9d93f2745ae8d5499f83c4f09624352cf83e7a39cc942dc8467",
+    "art_source/blender/skier_glove_v1.blend": "6fb27590a2fc61ed4c6d11facab96bc191c51a0bfe05b4b936845f120686f94f"
+  },
+  "body_triangles": 38272,
+  "glove_triangles": 5644,
+  "material_identifier": "SkierV7Gloves",
+  "mesh_generation_credits": 35,
+  "unused_authorized_credits": 465,
+  "originals": "art_source/meshy/hands_v1/baseline",
+  "asset_qa": "art_source/meshy/hands_v1/runtime_qa.json"
+}

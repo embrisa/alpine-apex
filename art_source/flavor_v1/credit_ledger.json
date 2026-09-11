@@ -1,0 +1,64 @@
+{
+  "planned_ceiling": 60,
+  "starting_balance": 3820,
+  "authorization": "User requested image-to-Meshy7 assets and instructed extension of the library; bounded batch of 2 textured models, 30 credits each.",
+  "tasks": [
+    {
+      "asset_id": "alpine_refuge",
+      "request": {
+        "file_path": "C:\\Users\\hp\\Downloads\\alpine-apex\\art_source\\flavor_v1\\references\\alpine_refuge.png",
+        "ai_model": "meshy-7",
+        "should_texture": true,
+        "enable_pbr": true,
+        "texture_resolution": "2k",
+        "should_remesh": true,
+        "target_polycount": 20000,
+        "topology": "triangle",
+        "target_formats": [
+          "glb"
+        ],
+        "origin_at": "bottom",
+        "remove_lighting": true,
+        "response_format": "json"
+      },
+      "result": {
+        "task_id": "01a07bf2-cb68-7108-8575-4e1285971ef2",
+        "status": "PENDING",
+        "message": "3D generation task created successfully. Task ID: 01a07bf2-cb68-7108-8575-4e1285971ef2",
+        "estimated_time": "2-3 minutes"
+      },
+      "status": "SUCCEEDED",
+      "consumed_credits": 30
+    },
+    {
+      "asset_id": "marmot_monument",
+      "request": {
+        "file_path": "C:\\Users\\hp\\Downloads\\alpine-apex\\art_source\\flavor_v1\\references\\marmot_monument.png",
+        "ai_model": "meshy-7",
+        "should_texture": true,
+        "enable_pbr": true,
+        "texture_resolution": "2k",
+        "should_remesh": true,
+        "target_polycount": 16000,
+        "topology": "triangle",
+        "target_formats": [
+          "glb"
+        ],
+        "origin_at": "bottom",
+        "remove_lighting": true,
+        "response_format": "json"
+      },
+      "result": {
+        "task_id": "01a07bf5-b10b-766b-adf6-87491c653152",
+        "status": "PENDING",
+        "message": "3D generation task created successfully. Task ID: 01a07bf5-b10b-766b-adf6-87491c653152",
+        "estimated_time": "2-3 minutes"
+      },
+      "status": "SUCCEEDED",
+      "consumed_credits": 30
+    }
+  ],
+  "consumed_credits": 60,
+  "status": "generation_complete",
+  "ending_balance": 3760
+}

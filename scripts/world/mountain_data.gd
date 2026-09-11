@@ -17,7 +17,7 @@ var physics_authority: String
 var noise = FastNoiseLite.new()
 var detail = FastNoiseLite.new()
 
-func generate(field, mountain_seed: int) -> void:
+func generate(field, mountain_seed: int, job = null) -> void:
 	var begin = Time.get_ticks_usec()
 	if field.is_summit_mountain(): ORIGIN = Vector2(-4096,-4096)
 	seed_value = mountain_seed
@@ -31,6 +31,7 @@ func generate(field, mountain_seed: int) -> void:
 	var heights = PackedFloat32Array()
 	heights.resize(COARSE_SIZE*COARSE_SIZE)
 	for z in range(COARSE_SIZE):
+		if job and job.is_cancelled(): return
 		for x in range(COARSE_SIZE):
 			var p = ORIGIN+Vector2(x,z)*32.0
 			heights[z*COARSE_SIZE+x] = _landform(p,field)
@@ -43,6 +44,7 @@ func generate(field, mountain_seed: int) -> void:
 	var apron = 192 if generated else 64
 	var bounds: Rect2 = field.bounds()
 	for z in range(int(bounds.position.y)-apron,int(bounds.end.y)+1+apron,4):
+		if job and job.is_cancelled(): return
 		for x in range(int(bounds.position.x)-apron,int(bounds.end.x)+1+apron,4):
 			var gx = int((x-ORIGIN.x)/CELL)
 			var gz = int((z-ORIGIN.y)/CELL)
@@ -60,6 +62,7 @@ func generate(field, mountain_seed: int) -> void:
 	# They describe appearance only; they do not change friction or collidable obstacles.
 	environment_image = Image.create(COARSE_SIZE,COARSE_SIZE,false,Image.FORMAT_RGBA8)
 	for z in range(COARSE_SIZE):
+		if job and job.is_cancelled(): return
 		for x in range(COARSE_SIZE):
 			var p = ORIGIN+Vector2(x,z)*32.0
 			var h = sample_height(p)

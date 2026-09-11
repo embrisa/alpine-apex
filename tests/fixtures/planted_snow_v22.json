@@ -1,0 +1,653 @@
+{
+  "cache_hit": true,
+  "fixtures": [
+    {
+      "band": 0.0,
+      "baseline": {
+        "airtime_s": 3.83333333333332,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 149.896389770508,
+        "foot_error_m": 0.00012205727398395,
+        "impact_events": 2.0,
+        "launches": 3.0,
+        "mean_slip_rad": 0.106057331012861,
+        "min_load_n": 0.0,
+        "peak_load_n": 1355.9916884861,
+        "reach_m": 0.279019574634731,
+        "reasons": {
+          "unloaded": 3.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.0,
+        "short_events": 0.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 0.0,
+      "heading": -0.00361907482147217,
+      "input": "ripple",
+      "kmh": 160.0,
+      "name": "face_0_band_0",
+      "origin": [
+        -142.025756835938,
+        3975.71119888499,
+        559.489685058594
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 1.0,
+      "baseline": {
+        "airtime_s": 4.87500000000003,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 136.50910949707,
+        "foot_error_m": 0.0001220628619194,
+        "impact_events": 1.0,
+        "launches": 2.0,
+        "mean_slip_rad": 0.106705100191608,
+        "min_load_n": 0.0,
+        "peak_load_n": 1489.65064612721,
+        "reach_m": 0.278664901852608,
+        "reasons": {
+          "unloaded": 2.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.0,
+        "short_events": 0.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 0.0,
+      "heading": 0.216380925178528,
+      "input": "ripple",
+      "kmh": 120.0,
+      "name": "face_0_band_1",
+      "origin": [
+        -299.268585205078,
+        3563.82755002752,
+        1178.92468261719
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 2.0,
+      "baseline": {
+        "airtime_s": 0.591666666666667,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 1.09943811893463,
+        "foot_error_m": 0.00012195855379104,
+        "impact_events": 1.0,
+        "launches": 1.0,
+        "mean_slip_rad": 0.287285440046925,
+        "min_load_n": 0.0,
+        "peak_load_n": 1312.36322849323,
+        "reach_m": 0.297402158379555,
+        "reasons": {
+          "unloaded": 1.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.0,
+        "short_events": 0.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 0.0,
+      "heading": -0.00361907482147217,
+      "input": "glide",
+      "kmh": 120.0,
+      "name": "face_0_band_2",
+      "origin": [
+        828.4306640625,
+        2627.15874433517,
+        2093.01196289063
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 0.0,
+      "baseline": {
+        "airtime_s": 5.71666666666674,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 141.642951965332,
+        "foot_error_m": 0.00012002140283584,
+        "impact_events": 1.0,
+        "launches": 2.0,
+        "mean_slip_rad": 0.031866664339897,
+        "min_load_n": 0.0,
+        "peak_load_n": 549.06300772661,
+        "reach_m": 0.16576936841011,
+        "reasons": {
+          "unloaded": 2.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.0,
+        "short_events": 0.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 1.0,
+      "heading": 1.04357847637513,
+      "input": "ripple",
+      "kmh": 160.0,
+      "name": "face_1_band_0",
+      "origin": [
+        649.816162109375,
+        3540.07935484871,
+        632.881408691406
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 1.0,
+      "baseline": {
+        "airtime_s": 2.91666666666666,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 129.129455566406,
+        "foot_error_m": 0.00012204051017761,
+        "impact_events": 7.0,
+        "launches": 5.0,
+        "mean_slip_rad": 0.314093480500858,
+        "min_load_n": 0.0,
+        "peak_load_n": 1447.03192677781,
+        "reach_m": 0.293281197547913,
+        "reasons": {
+          "unloaded": 5.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.05,
+        "short_events": 1.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 1.0,
+      "heading": 1.26357847637513,
+      "input": "ripple",
+      "kmh": 120.0,
+      "name": "face_1_band_1",
+      "origin": [
+        871.344360351563,
+        3241.33450078219,
+        848.636474609375
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 2.0,
+      "baseline": {
+        "airtime_s": 0.708333333333333,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 29.144799041748,
+        "foot_error_m": 0.0001220479607582,
+        "impact_events": 5.0,
+        "launches": 3.0,
+        "mean_slip_rad": 0.210164922765776,
+        "min_load_n": 0.0,
+        "peak_load_n": 1694.71650639627,
+        "reach_m": 0.280427046120167,
+        "reasons": {
+          "reach": 1.0,
+          "unloaded": 2.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.35,
+        "short_events": 2.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 1.0,
+      "heading": 1.04357847637513,
+      "input": "glide",
+      "kmh": 120.0,
+      "name": "face_1_band_2",
+      "origin": [
+        1487.09375,
+        2693.36986270547,
+        1122.64685058594
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 0.0,
+      "baseline": {
+        "airtime_s": 3.02499999999999,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 38.3277797698975,
+        "foot_error_m": 0.00012205448001623,
+        "impact_events": 5.0,
+        "launches": 2.0,
+        "mean_slip_rad": 0.555792851429546,
+        "min_load_n": 0.0,
+        "peak_load_n": 1206.53140605448,
+        "reach_m": 0.279985845088959,
+        "reasons": {
+          "unloaded": 2.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.0,
+        "short_events": 0.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 2.0,
+      "heading": 2.09077602757172,
+      "input": "ripple",
+      "kmh": 160.0,
+      "name": "face_2_band_0",
+      "origin": [
+        555.545166015625,
+        3911.06802096404,
+        -156.746871948242
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 1.0,
+      "baseline": {
+        "airtime_s": 2.23333333333333,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 111.750759887695,
+        "foot_error_m": 0.00012198276817798,
+        "impact_events": 2.0,
+        "launches": 3.0,
+        "mean_slip_rad": 0.203801086236768,
+        "min_load_n": 0.0,
+        "peak_load_n": 1040.57739871477,
+        "reach_m": 0.171800946816802,
+        "reasons": {
+          "unloaded": 3.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.0,
+        "short_events": 0.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 2.0,
+      "heading": 2.31077602757172,
+      "input": "ripple",
+      "kmh": 120.0,
+      "name": "face_2_band_1",
+      "origin": [
+        1170.61303710938,
+        3420.89148163795,
+        -330.2880859375
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 2.0,
+      "baseline": {
+        "airtime_s": 1.95833333333333,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 69.1455322265625,
+        "foot_error_m": 0.00012190639972686,
+        "impact_events": 6.0,
+        "launches": 3.0,
+        "mean_slip_rad": 0.0194490654954271,
+        "min_load_n": 0.0,
+        "peak_load_n": 1386.38469486034,
+        "reach_m": 0.281333222985268,
+        "reasons": {
+          "unloaded": 3.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.158333333333333,
+        "short_events": 1.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 2.0,
+      "heading": 2.09077602757172,
+      "input": "glide",
+      "kmh": 120.0,
+      "name": "face_2_band_2",
+      "origin": [
+        1495.18078613281,
+        2930.10915966332,
+        -1111.85363769531
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 0.0,
+      "baseline": {
+        "airtime_s": 0.874999999999999,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 42.1208885192871,
+        "foot_error_m": 0.00012195436283946,
+        "impact_events": 2.0,
+        "launches": 1.0,
+        "mean_slip_rad": 0.712306134878908,
+        "min_load_n": 0.0,
+        "peak_load_n": 1377.51871274226,
+        "reach_m": 0.280498538166285,
+        "reasons": {
+          "unloaded": 1.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.0,
+        "short_events": 0.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 3.0,
+      "heading": 3.13797357876832,
+      "input": "ripple",
+      "kmh": 160.0,
+      "name": "face_3_band_0",
+      "origin": [
+        69.2262496948242,
+        4000.10495369509,
+        -559.753112792969
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 1.0,
+      "baseline": {
+        "airtime_s": 5.12500000000004,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 135.640832519531,
+        "foot_error_m": 0.00012202374637126,
+        "impact_events": 2.0,
+        "launches": 2.0,
+        "mean_slip_rad": 0.193874335139567,
+        "min_load_n": 0.0,
+        "peak_load_n": 1173.41386097562,
+        "reach_m": 0.287709727883339,
+        "reasons": {
+          "reach": 1.0,
+          "unloaded": 1.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.0,
+        "short_events": 0.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 3.0,
+      "heading": 3.35797357876832,
+      "input": "ripple",
+      "kmh": 120.0,
+      "name": "face_3_band_1",
+      "origin": [
+        299.268615722656,
+        3590.51131908968,
+        -1178.92468261719
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 2.0,
+      "baseline": {
+        "airtime_s": 0.0,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 34.5127464294434,
+        "foot_error_m": 0.00012196414172649,
+        "impact_events": 2.0,
+        "launches": 0.0,
+        "mean_slip_rad": 0.248745171431677,
+        "min_load_n": 0.381932912289198,
+        "peak_load_n": 1519.13470691443,
+        "reach_m": 0.292536498978734,
+        "reasons": {},
+        "rock_s": 0.0,
+        "short_airtime_s": 0.0,
+        "short_events": 0.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 3.0,
+      "heading": 3.13797357876832,
+      "input": "glide",
+      "kmh": 120.0,
+      "name": "face_3_band_2",
+      "origin": [
+        -271.165679931641,
+        2556.44487342797,
+        -2330.99658203125
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 0.0,
+      "baseline": {
+        "airtime_s": 4.8666666666667,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 180.216938781738,
+        "foot_error_m": 0.00012195855379104,
+        "impact_events": 5.0,
+        "launches": 4.0,
+        "mean_slip_rad": 0.0867098384228386,
+        "min_load_n": 0.0,
+        "peak_load_n": 1528.60059084563,
+        "reach_m": 0.282425194978714,
+        "reasons": {
+          "unloaded": 4.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.025,
+        "short_events": 2.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 4.0,
+      "heading": 4.18517112996492,
+      "input": "ripple",
+      "kmh": 160.0,
+      "name": "face_4_band_0",
+      "origin": [
+        -649.816162109375,
+        3443.00889626518,
+        -632.881408691406
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 2.0,
+      "baseline": {
+        "airtime_s": 0.0,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 29.8214126586914,
+        "foot_error_m": 0.00012192875146865,
+        "impact_events": 1.0,
+        "launches": 0.0,
+        "mean_slip_rad": 0.247444614959142,
+        "min_load_n": 0.193383479407078,
+        "peak_load_n": 1562.47910797698,
+        "reach_m": 0.279392704367638,
+        "reasons": {},
+        "rock_s": 0.0,
+        "short_airtime_s": 0.0,
+        "short_events": 0.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 4.0,
+      "heading": 4.18517112996492,
+      "input": "glide",
+      "kmh": 120.0,
+      "name": "face_4_band_2",
+      "origin": [
+        -1366.0908203125,
+        2638.03979805857,
+        -1330.48937988281
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 0.0,
+      "baseline": {
+        "airtime_s": 0.0583333333333333,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 101.412535858154,
+        "foot_error_m": 0.00012201443314552,
+        "impact_events": 1.0,
+        "launches": 1.0,
+        "mean_slip_rad": 0.363878288109581,
+        "min_load_n": 0.0,
+        "peak_load_n": 1509.80865826762,
+        "reach_m": 0.280364077538252,
+        "reasons": {
+          "unloaded": 1.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.0583333333333333,
+        "short_events": 1.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 5.0,
+      "heading": 5.23236868116152,
+      "input": "ripple",
+      "kmh": 160.0,
+      "name": "face_5_band_0",
+      "origin": [
+        -597.281616210938,
+        3962.95668688137,
+        83.8491363525391
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 1.0,
+      "baseline": {
+        "airtime_s": 3.96666666666666,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 144.620988464355,
+        "foot_error_m": 0.0001220628619194,
+        "impact_events": 5.0,
+        "launches": 5.0,
+        "mean_slip_rad": 0.0488155709014106,
+        "min_load_n": 0.0,
+        "peak_load_n": 1456.92281407791,
+        "reach_m": 0.281162556260824,
+        "reasons": {
+          "unloaded": 5.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.0,
+        "short_events": 0.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 5.0,
+      "heading": 5.45236868116152,
+      "input": "ripple",
+      "kmh": 120.0,
+      "name": "face_5_band_1",
+      "origin": [
+        -1170.61303710938,
+        3478.89333631657,
+        330.287872314453
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 2.0,
+      "baseline": {
+        "airtime_s": 0.133333333333333,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 92.082389831543,
+        "foot_error_m": 0.00012192875146865,
+        "impact_events": 1.0,
+        "launches": 1.0,
+        "mean_slip_rad": 0.108848276098717,
+        "min_load_n": 0.0,
+        "peak_load_n": 1445.01176042656,
+        "reach_m": 0.298209883272648,
+        "reasons": {
+          "unloaded": 1.0
+        },
+        "rock_s": 0.0,
+        "short_airtime_s": 0.133333333333333,
+        "short_events": 1.0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 5.0,
+      "heading": 5.23236868116152,
+      "input": "glide",
+      "kmh": 120.0,
+      "name": "face_5_band_2",
+      "origin": [
+        -1715.78784179688,
+        2935.61833156645,
+        726.537231445313
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    },
+    {
+      "band": 1,
+      "baseline": {
+        "airtime_s": 0.0,
+        "crash": "",
+        "dissipated_j": 0.0,
+        "duration_s": 6.0,
+        "exit_kmh": 39.4919940948486,
+        "foot_error_m": 0.000122036784887314,
+        "impact_events": 2,
+        "launches": 0,
+        "mean_slip_rad": 0.343510030326435,
+        "min_load_n": 0.188925230003862,
+        "peak_load_n": 1554.17550965891,
+        "reach_m": 0.279942739754915,
+        "reasons": {},
+        "rock_s": 0.0,
+        "short_airtime_s": 0.0,
+        "short_events": 0,
+        "unsupported_grip_n": 0.0
+      },
+      "face": 4,
+      "heading": 4.40517112996492,
+      "input": "ripple",
+      "kmh": 120.0,
+      "name": "face_4_band_1",
+      "origin": [
+        -829.785766601563,
+        3137.51882984489,
+        -920.020263671875
+      ],
+      "seconds": 6.0,
+      "steer": 0.15
+    }
+  ],
+  "height_sha256": "78ceec0c8a9aa27ac7542eac6ae9c0f6648c94faddd6ea4c87538fa27bcd4ae7",
+  "model": 22,
+  "obstacle_sha256": "14560abcac31687bbb40a493d0b369325d9bdefef2cb3facb52b6d89e681e96e",
+  "unranked": true
+}

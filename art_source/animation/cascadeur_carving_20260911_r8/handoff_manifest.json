@@ -1,0 +1,24 @@
+{
+  "created_utc": "2026-09-10T22:45:12.054704+00:00",
+  "scope": "Live R8 handoff sources. Movie snapshots separately retain the prior model-27 source.",
+  "sha256": {
+    "art_source/animation/cascadeur_carving_20260911_r8/analyze.py": "97e41221f49e3b10ef92dea5fe36fc709569666741cd463fe8f6c6c3118b19c7",
+    "art_source/animation/cascadeur_carving_20260911_r8/finalize_evidence.py": "1e4c6352635416f6b1ac78a1168e10c2ced4ca0aa9d6e9ea3a006f4e70a1dd1c",
+    "art_source/animation/cascadeur_carving_20260911_r8/gameplay_analysis.json": "e7c114d7b48fe3eb27208c9419da7f19783cf23688c45bbe790d67285e6cfebc",
+    "art_source/animation/cascadeur_carving_20260911_r8/prepare_media.py": "d37f6bb4748356fb904c4ff714707a8e2d3240366b39a7a30c59d00d3abc53dd",
+    "art_source/animation/cascadeur_carving_20260911_r8/README.md": "86382ec40db647b736d332b51d113e66ec4a19d684857eb043ebefc1eac1842b",
+    "docs/CASCADEUR_SNOW_LEGS_R8.md": "346631be54ad60cc475368c9e4b305c2b02a2256ed6dae04df211f6adc63514e",
+    "Play Cascadeur Snow Carving.cmd": "93cb8c072f30fb3c89570a6dd74d539607d7ba779b9ab3a5df54f62adb4c178a",
+    "Play Cascadeur Snow Carving.ps1": "8fbb9ea2385d01447dd2f4c9945c2add991a19e77d5315947940bd544d5b2635",
+    "scripts/main.gd": "d74f3acdf378ea037517b34bd9cded6106dab02fdd05d0c5b9cd40a63559602e",
+    "tests/cascadeur_r8_playtest/capture.gd": "d3c749f848142f690cbf78d9c8ed32110e38814b6f361505e0366ab2036ceabf",
+    "tests/cascadeur_r8_playtest/coordinate_probe.gd": "efce9ab7fe914d1169324506576711dcb42dd40eb45841f1b79fed2903c313f4",
+    "tests/cascadeur_r8_playtest/game.gd": "61b0fa66569ff7c24516abedf38b51d1c1fec8d32e95be622f0021484c9b2230",
+    "tests/cascadeur_r8_playtest/physics_suite.gd": "9c2a485f050e2f93d4555161388dc6b3db8985003ac7789ff1cf03dc960e1808",
+    "tests/cascadeur_r8_playtest/playtest.tscn": "49809c8b57a85dfc2dc0557c92ff1460665da8a9f106b53fd8cdca25d37e63b4",
+    "tests/cascadeur_r8_playtest/run_checks.ps1": "0edb98e6c4b52f84d1711f7a7eeb24a8de0fb47b2119793360acdbb734400ac5",
+    "tests/cascadeur_r8_playtest/run_render.ps1": "b55cec5adc3ca76b802dc39404bb0df2598b6c3dafcc7f1aa39172966e3f11f7",
+    "tests/cascadeur_r8_playtest/simulation.gd": "441802c6efca84098f83a07ac96a818ac581b34e080618a6bdfc998f7a9bea85",
+    "tests/cascadeur_r8_playtest/snow_support.gd": "5af4f90b709b78282b0b82c0597bf72addacb8cf198a473a54551e1905ef02a9"
+  }
+}

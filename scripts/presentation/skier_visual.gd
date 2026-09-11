@@ -1,5 +1,9 @@
 extends Node3D
 ## A skinned character driven only by the existing simulation. No root motion.
+const Anatomy = preload("res://scripts/presentation/skier_anatomy.gd")
+const PoseWriter = preload("res://scripts/presentation/skier_pose_writer.gd")
+const Equipment = preload("res://scripts/presentation/skier_equipment.gd")
+var preview_only = false
 var body_pivot = Node3D.new()
 var skis: Array[MeshInstance3D] = []
 var poles: Array[MeshInstance3D] = []
@@ -15,6 +19,20 @@ var probes: Dictionary = {}
 var jacket_material: ShaderMaterial
 var ragdoll
 var appearance
+var snow_burial_enabled = false
+var animation = preload("res://scripts/presentation/skier_animation.gd").new()
+var animation_enabled = true
+var rendered_joints: Dictionary = {}
+var rendered_rotations: Dictionary = {}
+var motion_comparison: CheckButton
+var pose_microseconds = 0
+var leg_fit_microseconds = 0
+
+func reset_animation(sim) -> void:
+	animation.reset(sim)
+
+func step_animation(dt: float, sim, intent, surface) -> void:
+	animation.step(dt,sim,intent,surface)
 
 func _ready() -> void:
 	if assets==null:
@@ -33,19 +51,52 @@ func _ready() -> void:
 		rest.append(skeleton.get_bone_global_rest(i))
 		desired.append(rest[i])
 	for side in [-1.0,1.0]:
-		var ski = _equipment("ski",self)
+		var ski = _equipment("ski_detailed_v1" if side<0 else "ski_detailed_v1_left",self)
 		ski.position = Vector3(side*.22,.015,.15)
 		skis.append(ski)
-		var binding = _equipment("binding",ski)
-		binding.position = Vector3(0,.018,-.15)
+		var binding = _equipment(Equipment.BINDING_MESH,ski)
+		binding.position = Equipment.BINDING_ORIGIN
 		var boot = _equipment("skier_v7_boot_right" if side<0 else "skier_v7_boot_left",ski)
-		boot.position = Vector3(0,.095,-.15)
-		poles.append(_equipment("pole",body_pivot))
+		boot.position = Equipment.BOOT_ORIGIN
+		poles.append(_equipment("pole_detailed_v1",body_pivot))
 
 	_receive_gi_only(self)
-	ragdoll = preload("res://scripts/presentation/skier_ragdoll.gd").new()
-	add_child(ragdoll)
-	ragdoll.build(self)
+	if not preview_only:
+		ragdoll = preload("res://scripts/presentation/skier_ragdoll.gd").new()
+		add_child(ragdoll)
+		ragdoll.build(self)
+		call_deferred("_install_motion_comparison")
+	else:
+		set_process_unhandled_input(false)
+
+func _install_motion_comparison() -> void:
+	# The character owns this presentation preference, including comparison in
+	# the live game. Test/standalone characters need no game HUD dependency.
+	var parent = get_parent()
+	if parent==null or parent.get("hud")==null: return
+	var hud = parent.get("hud")
+	if hud.motion_toggle==null: return
+	motion_comparison = CheckButton.new()
+	motion_comparison.name = "FullSkierMotion"
+	motion_comparison.text = "Full skier motion (F8 compares procedural animation)"
+	motion_comparison.button_pressed = animation.full_motion.enabled
+	motion_comparison.toggled.connect(func(value): animation.full_motion.enabled = value)
+	hud.motion_toggle.get_parent().add_child(motion_comparison)
+	var grab_choice = OptionButton.new()
+	grab_choice.name = "SkierGrabStyle"
+	grab_choice.add_item("Grab style: Safety")
+	grab_choice.add_item("Grab style: Mute")
+	grab_choice.item_selected.connect(func(index): animation.full_motion.grab_style = "safety" if index==0 else "mute")
+	hud.motion_toggle.get_parent().add_child(grab_choice)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode==KEY_F8:
+		animation.full_motion.enabled = not animation.full_motion.enabled
+		if motion_comparison: motion_comparison.set_pressed_no_signal(animation.full_motion.enabled)
+		var parent = get_parent()
+		if parent and parent.get("hud"):
+			parent.hud.toast("FULL SKIER MOTION" if animation.full_motion.enabled else "PROCEDURAL SKIER MOTION")
+		get_viewport().set_input_as_handled()
 
 func _receive_gi_only(node: Node) -> void:
 	# SDFGI cannot rebake moving rider/equipment geometry each frame.
@@ -103,7 +154,9 @@ func _limb_frame(up: Vector3, side: Vector3) -> Basis:
 	var right = side.slide(up).normalized()
 	return Basis(right,up,right.cross(up).normalized())
 
-func pose(sim, fraction: float = 1.0) -> void:
+func pose(sim, fraction: float = 1.0, preview: Dictionary = {}) -> void:
+	pose_microseconds = 0; leg_fit_microseconds = 0
+	var pose_start = Time.get_ticks_usec()
 	if ragdoll and ragdoll.running:
 		ragdoll.update_equipment()
 		return
@@ -111,25 +164,71 @@ func pose(sim, fraction: float = 1.0) -> void:
 	# One explicit timestamp for root, support frame, joints and equipment.
 	# Tools/stopped sessions default to the completed tick, not a cycling clock.
 	var blend = 1.0 if sim.crashed else clampf(fraction,0.0,1.0)
-	global_transform = sim.body.previous_pose_frame.interpolate_with(sim.body.pose_frame,blend)
+	var facing = sim.facing_pose
+	global_transform = facing.previous_frame.interpolate_with(facing.frame,blend)
 	var joints: Dictionary = {}
 	var rotations: Dictionary = {}
-	for id in sim.body.joints:
-		joints[id] = sim.body.previous_joints.get(id,sim.body.joints[id]).lerp(sim.body.joints[id],blend)
-	for id in sim.body.rotations:
-		rotations[id] = sim.body.previous_rotations.get(id,sim.body.rotations[id]).slerp(sim.body.rotations[id],blend)
+	for id in facing.joints:
+		joints[id] = facing.previous_joints.get(id,facing.joints[id]).lerp(facing.joints[id],blend)
+	for id in facing.rotations:
+		rotations[id] = facing.previous_rotations.get(id,facing.rotations[id]).slerp(facing.rotations[id],blend)
+	# Removing the spacer lowers the entire visible rider equally. Keep the
+	# physical COM, contact solution and replay untouched, and reclose each leg
+	# against its actual rendered cuff below (including independent ski edges).
+	var support_up: Vector3 = (facing.previous_orientations[0].slerp(facing.orientations[0],blend).y+facing.previous_orientations[1].slerp(facing.orientations[1],blend).y).normalized()
+	var lowering = global_basis.transposed()*support_up*Equipment.BODY_LOWERING
+	for id in joints: joints[id] -= lowering
 	for i in range(2):
 		var prefix = "Right" if i==0 else "Left"
-		var ski = sim.skis[i]
-		var ski_basis: Basis = ski.previous_orientation.slerp(ski.orientation,blend)
-		var ski_position: Vector3 = ski.previous_position.lerp(ski.position,blend)
+		var ski = sim.skis[1-i if sim.facing_backward else i]
+		var ski_basis: Basis = facing.previous_orientations[i].slerp(facing.orientations[i],blend)
+		var ski_position: Vector3 = facing.previous_positions[i].lerp(facing.positions[i],blend)
+		# Keep only a shallow cosmetic bite: the loose surface already surrounds
+		# the skis. Physical depth must not hide the equipment below that surface.
+		# Binding/ankle share one frame; render IK closes the legs independently.
+		if snow_burial_enabled and ski.grounded and not sim.crashed:
+			# Physical yield already supplies burial. Subtract only the cosmetic
+			# remainder, so entering/leaving a bank cannot double it or pop 2 cm.
+			ski_position.y -= maxf(0.0,clampf(ski.penetration*.15,0.0,.02)-ski.crush_vertical_m)
 		skis[i].global_transform = Transform3D(ski_basis,ski_position+ski_basis*Vector3(0,.015,.15))
 		# The rigid boot and the skin share this exact ankle frame even between
 		# ticks. Interpolating two independently transformed ankles breaks that
 		# constraint as the support plane rotates.
-		joints[prefix+"Foot"] = to_local(ski_position+ski_basis.y*(.110+_origin(prefix+"Foot").y))
+		joints[prefix+"Foot"] = to_local(ski_position+ski_basis.y*(Equipment.SOLE_ABOVE_SUPPORT+_origin(prefix+"Foot").y))
 		rotations[prefix+"Foot"] = global_basis.transposed()*ski_basis
-	_solve_render_legs(sim.Body,joints,rotations)
+	var motion: Dictionary = animation.sample(blend) if animation_enabled else {}
+	if sim.facing_backward and not motion.is_empty():
+		for key in ["steer","carve","impact_side","recoil_x","recoil_z"]:
+			if motion.has(key): motion[key] = -motion[key]
+	var base_joints = joints.duplicate()
+	var base_rotations = rotations.duplicate()
+	var skeletal = animation.full_motion.sample(blend) if animation_enabled else {}
+	if not preview.is_empty():
+		skeletal = preview.duplicate(true)
+	var retention_full = 1.0
+	var support_alignment = animation.full_motion.upright_support(global_basis)
+	for attempt in range(4):
+		animation.compose(sim.Body,joints,rotations,motion)
+		# Populate the old limb frames for a continuous live A/B handover.
+		_procedural_limb_rotations(joints,rotations,motion,sim.effective_tuck)
+		animation.full_motion.compose(sim.Body,joints,rotations,skeletal,motion,retention_full,base_joints.Hips,support_alignment)
+		var leg_start = Time.get_ticks_usec()
+		_solve_render_legs(sim.Body,joints,rotations,skeletal.get("amount",0.0)*retention_full)
+		leg_fit_microseconds += Time.get_ticks_usec()-leg_start
+		if motion.is_empty() or not sim.grounded or not animation.has_method("clearance_margin"): break
+		var margin: float = animation.clearance_margin(joints,global_transform)
+		if margin>=0.0 or attempt==3: break
+		# Reduce overlapping expression inside the anatomical envelope, then
+		# close limbs again. Never lift the skis or stretch a leg to gain height.
+		var retention: float = clampf(1.0+margin/.12,0.0,.75)
+		retention_full *= retention
+		for key in ["tuck","prepare","impact_drop","impact","carve","recoil","recoil_x","recoil_z"]:
+			if motion.has(key): motion[key] *= retention
+		motion.spine_flex *= retention
+		joints = base_joints.duplicate()
+		rotations = base_rotations.duplicate()
+	rendered_joints = joints
+	rendered_rotations = rotations
 	targets.clear()
 	for id in ["Hips","Spine02","Spine01","Spine","neck","Head"]:
 		_target(id,joints[id],rotations[id])
@@ -138,19 +237,23 @@ func pose(sim, fraction: float = 1.0) -> void:
 	for i in range(2):
 		var side = -1.0 if i==0 else 1.0
 		var prefix = "Right" if i==0 else "Left"
+		Anatomy.fit_hinge(prefix,false,joints,rotations)
 		for pair in [["UpLeg","Leg"],["Leg","Foot"]]:
-			_aim_leg(prefix+pair[0],prefix+pair[1],joints[prefix+pair[0]],joints[prefix+pair[1]],rotations[prefix+"Foot"])
+			var id = prefix+pair[0]
+			var child = prefix+pair[1]
+			rotations[id] = _fitted_rotation(id,child,joints,rotations[id])
+			_target(id,joints[id],rotations[id])
 		for pair in [["Shoulder","Arm"],["Arm","ForeArm"],["ForeArm","Hand"]]:
-			_aim(prefix+pair[0],prefix+pair[1],joints[prefix+pair[0]],joints[prefix+pair[1]])
+			var id = prefix+pair[0]
+			var child = prefix+pair[1]
+			rotations[id] = _fitted_rotation(id,child,joints,rotations[id])
+			_target(id,joints[id],rotations[id])
 		_target(prefix+"Foot",joints[prefix+"Foot"],rotations[prefix+"Foot"])
 		var hand: Vector3 = joints[prefix+"Hand"]
 		var elbow: Vector3 = joints[prefix+"ForeArm"]
 		# A palm frame fixes the handle through the closed fingers. Its shaft
 		# trails the forearm; the wrist turns instead of letting the grip slide.
-		var along = (hand-elbow).normalized()
-		var pole_direction = Vector3(side*.08,-.65+sim.effective_tuck*.20,-.75-sim.effective_tuck*.18).normalized()
-		var wrist_axis = along.slide(pole_direction).normalized()*side
-		var grip_rotation = Basis(wrist_axis,(-pole_direction).cross(wrist_axis),-pole_direction)
+		var grip_rotation: Basis = rotations[prefix+"Hand"]
 		# Generated glove's rest frame: X points out along hand; Y is palm normal.
 		_target(prefix+"Hand",hand,grip_rotation)
 		var grip = hand+grip_rotation*Vector3(side*.070,0,.018)
@@ -159,15 +262,33 @@ func pose(sim, fraction: float = 1.0) -> void:
 		probes[prefix.to_lower()+"_hand"] = grip
 		probes[prefix.to_lower()+"_ankle"] = joints[prefix+"Foot"]
 		if i==1: probes.jacket = joints.LeftArm.lerp(joints.LeftForeArm,.36)
-	for i in range(skeleton.get_bone_count()):
-		var parent = skeleton.get_bone_parent(i)
-		desired[i] = targets[i] if targets.has(i) else (desired[parent]*skeleton.get_bone_rest(i) if parent>=0 else rest[i])
-		var local = desired[parent].affine_inverse()*desired[i] if parent>=0 else desired[i]
-		skeleton.set_bone_pose_position(i,local.origin)
-		skeleton.set_bone_pose_rotation(i,local.basis.get_rotation_quaternion())
-		skeleton.set_bone_pose_scale(i,Vector3.ONE)
+	PoseWriter.apply(skeleton,rest,desired,targets)
+	# Toes are rigid children of the boots, solved by the final writer. The
+	# interpolated physical markers precede the render-time ankle refit and
+	# can disagree during fast rotations. Report the actual rendered markers.
+	for prefix in ["Right","Left"]:
+		var toe = prefix+"ToeBase"
+		rendered_joints[toe] = desired[bone_ids[toe]].origin
+	pose_microseconds = Time.get_ticks_usec()-pose_start
 
-func _solve_render_legs(body, joints: Dictionary, rotations: Dictionary) -> void:
+func present_authored(joints: Dictionary, rotations: Dictionary) -> void:
+	# Workshop-only free articulation uses the same bind conversion/final writer.
+	assert(preview_only)
+	rendered_joints = joints.duplicate(); rendered_rotations = rotations.duplicate()
+	targets.clear()
+	for id in joints:
+		if bone_ids.has(id): _target(id,joints[id],rotations[id])
+	PoseWriter.apply(skeleton,rest,desired,targets)
+	for i in 2:
+		var prefix = "Right" if i==0 else "Left"
+		var foot: Vector3 = joints[prefix+"Foot"]
+		var boot: Basis = rotations[prefix+"Foot"]
+		skis[i].transform = Transform3D(boot,foot-boot.y*(Equipment.SOLE_ABOVE_SUPPORT+_origin(prefix+"Foot").y)+boot*Equipment.SKI_ORIGIN)
+		var grip: Basis = rotations[prefix+"Hand"]
+		poles[i].position = joints[prefix+"Hand"]+grip*Vector3(-.070 if i==0 else .070,0,.018)
+		poles[i].basis = Basis(Quaternion(Vector3.DOWN,(grip*Vector3(0,0,-1)).normalized()))
+
+func _solve_render_legs(body, joints: Dictionary, rotations: Dictionary, native_weight: float = 0.0) -> void:
 	# Interpolation describes an arc between solved poses. Reclose both chains
 	# against the rendered bindings without stretching a shin or splitting the
 	# pelvis. This correction is visual only; no feedback enters the solver.
@@ -175,7 +296,7 @@ func _solve_render_legs(body, joints: Dictionary, rotations: Dictionary) -> void
 	var pelvis: Basis = rotations.Hips
 	var ankles: Array[Vector3] = [joints.RightFoot,joints.LeftFoot]
 	var boots: Array[Basis] = [rotations.RightFoot,rotations.LeftFoot]
-	hips = body.fit_hips(hips,pelvis,ankles,boots)
+	hips = Anatomy.fit_pelvis(hips,pelvis,ankles,boots)
 	var shift: Vector3 = hips-joints.Hips
 	for id in joints:
 		if not id.ends_with("Foot") and not id.ends_with("ToeBase"):
@@ -186,4 +307,55 @@ func _solve_render_legs(body, joints: Dictionary, rotations: Dictionary) -> void
 		var thigh = _origin(prefix+"UpLeg").distance_to(_origin(prefix+"Leg"))
 		var shin = _origin(prefix+"Leg").distance_to(_origin(prefix+"Foot"))
 		joints[prefix+"UpLeg"] = hip
-		joints[prefix+"Leg"] = body.leg_joint(hip,ankle,thigh,shin,rotations[prefix+"Foot"])
+		var cuff: Vector3 = body.leg_joint(hip,ankle,thigh,shin,rotations[prefix+"Foot"])
+		var wanted: Vector3 = body.joint(hip,ankle,thigh,shin,joints[prefix+"Leg"]-hip)
+		# On the reach circle, keep as much of the source knee plane as the
+		# rigid cuff permits. Lengths remain exact throughout the correction.
+		var delta: Vector3 = (ankle-hip).normalized()
+		var hint: Vector3 = (cuff-hip).slide(delta).normalized()
+		var source_pole: Vector3 = (joints[prefix+"Leg"]-hip).slide(delta)
+		var native_hint = source_pole.normalized()
+		# The sine of the pole difference is continuous through the opposite
+		# direction. A saturated signed angle flipped the knee between its two
+		# limits during edge changes. Keep a bounded, smooth source contribution.
+		# If the source knee crosses the hip/ankle axis its pole is undefined.
+		# Fade by its original distance from that axis before normalizing can
+		# amplify a millimetre of source motion into a full pole reversal.
+		var pole_weight = smoothstep(.03,.12,source_pole.length())
+		var angle: float = hint.cross(native_hint).dot(delta)*deg_to_rad(10.0)*native_weight*pole_weight
+		var lo = 0.0; var hi = 1.0
+		var knee: Vector3 = cuff
+		for iteration in 10:
+			var t = (lo+hi)*.5
+			var candidate: Vector3 = body.joint(hip,ankle,thigh,shin,hint.rotated(delta,angle*t))
+			var axis: Vector3 = rotations[prefix+"Foot"].transposed()*(candidate-ankle).normalized()
+			var side_angle = absf(atan2(axis.x,axis.y))
+			var flex = atan2(axis.z,axis.y)
+			if side_angle<=deg_to_rad(10.05) and flex>=deg_to_rad(-.05) and flex<=deg_to_rad(Anatomy.CUFF_FLEX_DEGREES+.05) and absf(Anatomy.leg_twist(prefix,hip,candidate,ankle,rotations[prefix+"Foot"]))<deg_to_rad(18.0):
+				lo = t; knee = candidate
+			else: hi = t
+		joints[prefix+"Leg"] = knee
+		animation.full_motion.diagnostics[prefix.to_lower()+"_knee_correction_m"] = knee.distance_to(wanted)
+
+func _fitted_rotation(id: String, child: String, joints: Dictionary, rotation_value: Basis) -> Basis:
+	# Minimal swing onto the fitted segment, retaining authored axial twist.
+	var from = (rotation_value*(_origin(child)-_origin(id))).normalized()
+	var to: Vector3 = (joints[child]-joints[id]).normalized()
+	return (Basis(Quaternion(from,to))*rotation_value).orthonormalized()
+
+func _procedural_limb_rotations(joints: Dictionary, rotations: Dictionary, motion: Dictionary, tuck: float) -> void:
+	for i in 2:
+		var side = -1.0 if i==0 else 1.0
+		var prefix = "Right" if i==0 else "Left"
+		for pair in [["UpLeg","Leg"],["Leg","Foot"]]:
+			var id = prefix+pair[0]; var child = prefix+pair[1]
+			var original = _limb_frame((_origin(id)-_origin(child)).normalized(),Vector3.RIGHT)
+			rotations[id] = _limb_frame((joints[id]-joints[child]).normalized(),rotations[prefix+"Foot"].x)*original.transposed()
+		for pair in [["Shoulder","Arm"],["Arm","ForeArm"],["ForeArm","Hand"]]:
+			var id = prefix+pair[0]; var child = prefix+pair[1]
+			rotations[id] = Basis(Quaternion((_origin(child)-_origin(id)).normalized(),(joints[child]-joints[id]).normalized()))
+		var along: Vector3 = (joints[prefix+"Hand"]-joints[prefix+"ForeArm"]).normalized()
+		var direction = Vector3(side*.08,-.65+tuck*.20,-.75-tuck*.18).normalized()
+		if not motion.is_empty(): direction = animation.pole_direction(side,motion)
+		var axis = along.slide(direction).normalized()*side
+		rotations[prefix+"Hand"] = Basis(axis,(-direction).cross(axis),-direction)

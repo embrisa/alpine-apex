@@ -1,0 +1,18 @@
+[
+  {
+    "Path": "C:\\Users\\hp\\Downloads\\alpine-apex\\assets\\graphics\\models\\skier_v7.glb",
+    "Hash": "176CC9B1570191B4A4C9D22C2B73AC51446CD18DD1B991FC9770867A109BAE39"
+  },
+  {
+    "Path": "C:\\Users\\hp\\Downloads\\alpine-apex\\art_source\\blender\\skier_v7.blend",
+    "Hash": "A0E92EED4C95B9D93F2745AE8D5499F83C4F09624352CF83E7A39CC942DC8467"
+  },
+  {
+    "Path": "C:\\Users\\hp\\Downloads\\alpine-apex\\assets\\animation\\steep_ski_motion.res",
+    "Hash": "94E9795933228171DFFB2C52E7ECE9534A959E6996ABAF30A2F80BF26C862FE4"
+  },
+  {
+    "Path": "C:\\Users\\hp\\Downloads\\alpine-apex\\scripts\\presentation\\skier_pose_writer.gd",
+    "Hash": "96651001006FF16065EA492B689FAE4B265B8E9FAAED6398085C3EB9C66030B3"
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "label": "copy_state",
+  "started_unix": 1789063124.8114996,
+  "seconds": 2.7998428344726562,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "run_script",
+      "arguments": {
+        "code": "print([(s.name(),s.get_path_name()) for s in app.get_scene_manager().scenes()]); print('active',app.current_scene().get_path_name())"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"ok\": true,\n  \"value\": \"\",\n  \"messages\": [\n    {\n      \"level\": \"Info\",\n      \"text\": \"[('ready_compression_baked.casc', 'C:/Users/hp/Downloads/alpine-apex/artifacts/cascadeur_rig_20260910_r4/ready_compression_baked.casc'), ('ready_compression_r6.casc', 'C:/Users/hp/Downloads/alpine-apex/art_source/animation/cascadeur_evaluation_20260910_r6/ready_compression_r6.casc')]\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"active C:/Users/hp/Downloads/alpine-apex/art_source/animation/cascadeur_evaluation_20260910_r6/ready_compression_r6.casc\"\n    }\n  ]\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "transport_error": null
+}

@@ -1,0 +1,151 @@
+{
+  "assets": [
+    {
+      "asset": "mineral_medium_sedimentary_01",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_rounded_01",
+      "triangles": 17959,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_rounded_02",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_rounded_03",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_rounded_04",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_fractured_01",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_fractured_02",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_fractured_03",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_fractured_04",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_sedimentary_02",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_sedimentary_03",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_sedimentary_04",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_outcrop_01",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_outcrop_02",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_outcrop_03",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_outcrop_04",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_cliff_01",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_cliff_02",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_cliff_03",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_cliff_04",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_glacier_01",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_glacier_02",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_glacier_03",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_medium_glacier_04",
+      "triangles": 17960,
+      "roundtrip_verified": true
+    }
+  ],
+  "export_hashes": {
+    "mineral_medium_sedimentary_01": "35ceecda8d7ebd5d0ff16fd3efb914c4c68825f995419feffd9c0b9ba748ddac",
+    "mineral_medium_rounded_01": "88e90911a38bb9a7ddef3c56fbda16a75457c80536d002ac38f284fa59e31690",
+    "mineral_medium_rounded_02": "0ddfed884f011baa8e30cd9d0e48c33e68b93d50cf32fe73be4a668d312e9b69",
+    "mineral_medium_rounded_03": "16801fec672ea8e5c277277b1962322e665a761a5f1671cdce302f27e18b5e60",
+    "mineral_medium_rounded_04": "1e1d0b96a6518197e0b208b8fbc7f7a0d973e98c6c0562de3825d447bf8f84be",
+    "mineral_medium_fractured_01": "d55f68091e074e3c4392be80b7a5f34a3cf0a2ab8bfb3ae804ccaee6ffae1b22",
+    "mineral_medium_fractured_02": "21c235e7b79ee797aafed573c18f4085cd8cc8c811e5578a3aee4e7a3ec809b3",
+    "mineral_medium_fractured_03": "7bb1ed6dc9cfd0cd02443e4e359a8d1c43aa0510f1e9abe47981e9f63f3cc024",
+    "mineral_medium_fractured_04": "cdc987f2737721ff2dfd1dd846a0db37983968e365e397151f178becfebbad1d",
+    "mineral_medium_sedimentary_02": "a620b8b8ae9e46d186ec79e75b73722381e3b75132d07ca0311483af50e57334",
+    "mineral_medium_sedimentary_03": "aafae29541beb1e1f06bcd0f20ef8b4622ee1a8bbb050150d343a982fbf3f7ca",
+    "mineral_medium_sedimentary_04": "17667fd267a1388ca60bab2d2312adc67c733ad04c354f835743b494622585c4",
+    "mineral_medium_outcrop_01": "0bf0b2542597cf1b01cfd0c28276720159f3f71d7b518e67b58f2ad854efd1b5",
+    "mineral_medium_outcrop_02": "c8ab6ce30387a0e48dcc80c04341d49e3abb1a9fbc54cfae342c04d9d74f6d69",
+    "mineral_medium_outcrop_03": "88d49f8b373a38d7df3b476346ffefbab17a85705b6fed8e7a9ed18a0c2af006",
+    "mineral_medium_outcrop_04": "65a01f8df91efd90e92be77a77c5efe6b2c56e3f1dd205018539de8535a8849b",
+    "mineral_medium_cliff_01": "77e3c875c92dd09bf2acd3d3b99f1b515d6e94a26781dbdab9e83e3a7210c08f",
+    "mineral_medium_cliff_02": "5771f92c5bce3a7fc461f1ff2986a054dd24993cebb3647a7202df6007a626d1",
+    "mineral_medium_cliff_03": "d26f43a6dcc3fafd8a5ff61c28af4530c5889ede3483caa2916dde09f1fe9de2",
+    "mineral_medium_cliff_04": "8c459a3122cde5d40da6cc1753f566dbdaa0ac183cac9cef87e2087e2b5c8535",
+    "mineral_medium_glacier_01": "95ed3534764306f97ba0a13a63ece92e8ef1b521499cfedef51a32938264fdb4",
+    "mineral_medium_glacier_02": "0606e2a7bd7da2f0de09a3c247b27980cd429f0f0850b17f9be8808cace0e7c8",
+    "mineral_medium_glacier_03": "f3152c017aaa0fd728e176c7054c8ca172526af09b0f40e662bbfcde4f9d6efc",
+    "mineral_medium_glacier_04": "2f395558f8aed27a351af1495d943ea70cb4095c1b2e37a05537c8d76499f3e4"
+  },
+  "blend_sha256": "94a4492c16de9cd8db4db2b6269823c4569514fe15415ba712e49cc715b9812c"
+}

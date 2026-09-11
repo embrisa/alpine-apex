@@ -1,0 +1,151 @@
+{
+  "assets": [
+    {
+      "asset": "mineral_huge_boulders_erratic_01",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_erratic_02",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_erratic_03",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_erratic_04",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_block_01",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_block_02",
+      "triangles": 89959,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_block_03",
+      "triangles": 89958,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_block_04",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_split_01",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_split_02",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_split_03",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_split_04",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_dome_01",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_dome_02",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_dome_03",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_dome_04",
+      "triangles": 89958,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_overhang_01",
+      "triangles": 89959,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_overhang_02",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_overhang_03",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_overhang_04",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_monolith_01",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_monolith_02",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_monolith_03",
+      "triangles": 89960,
+      "roundtrip_verified": true
+    },
+    {
+      "asset": "mineral_huge_boulders_monolith_04",
+      "triangles": 89959,
+      "roundtrip_verified": true
+    }
+  ],
+  "export_hashes": {
+    "mineral_huge_boulders_erratic_01": "7c6e269b87acdd8d0e8682043921050a89445ed58a762a8ea8c133e5b3ca55b5",
+    "mineral_huge_boulders_erratic_02": "406fe385e6598eebc3331e107cc520d726b4162437900e6a4e9925e393c76770",
+    "mineral_huge_boulders_erratic_03": "b65a83afae8d5b43d35b3e35fa313704da318ba5317d3880a46b765fe1029ca7",
+    "mineral_huge_boulders_erratic_04": "5b131e3e93d556d6a8058f6c0f914e431c53539d467e992df455ac968f5ed1fa",
+    "mineral_huge_boulders_block_01": "c3e4a4c1ed97acc26c85632dd35cf3a1241bc19bee52cd6a4ccfebb92cf21612",
+    "mineral_huge_boulders_block_02": "57bca83682dfdb0962719abfcfc6a5a9dd1d38bdfcd6cb0b81751540b0c29244",
+    "mineral_huge_boulders_block_03": "5360a4a17b1b232ffcc5211a3f73aa53c5a84c7ff9d6ba0d6d7419ed1ce8cfb8",
+    "mineral_huge_boulders_block_04": "082400b63ec4f24aa528105b4069773ddf8f39153be47e6dd2395fc36c664b43",
+    "mineral_huge_boulders_split_01": "b50b469eaf8559af9de41e0412a3f0881302f907856a1534f4b9d209ccc3b5a2",
+    "mineral_huge_boulders_split_02": "1d381fe07c26eeb106d0d267a4f63fc4ff0a66f36369f666012d64486eaaa57c",
+    "mineral_huge_boulders_split_03": "1a5d97d445a35029fb80fbfc85ab01dff063451fad07404b6d5aed6b821e756e",
+    "mineral_huge_boulders_split_04": "09bb027c676c287195753754ecbef2981240e6770d1460451123d3a7362e4894",
+    "mineral_huge_boulders_dome_01": "7b1da5d4bfeefbf5df21d07706442e1b95d781b60487b7636033f82c4de98082",
+    "mineral_huge_boulders_dome_02": "5c9ed6bb7d8b952d47f104e32f2b3d5cc223f5e5aa304dcc69bd7a2229647e5b",
+    "mineral_huge_boulders_dome_03": "22410e442189def9b07eeeecaa653bf8c8e1d0b3b76abad4db6d34ed07f8f2bb",
+    "mineral_huge_boulders_dome_04": "29321499295a97cfccd992f8b8a6124ec3704e0e134c90279ee99660eb966ebd",
+    "mineral_huge_boulders_overhang_01": "feb494d6c9af09f11a699df34548f09000658b0cd3660d410d771ecf51c7266a",
+    "mineral_huge_boulders_overhang_02": "aea2959d5e0c9b91cd73c2368ded0cdc9e9c4886ca4161926f33a6c345480918",
+    "mineral_huge_boulders_overhang_03": "3854184b31c024dcbdf4278636c3a7f5522ac7961883c3a5276d46ac3cc6a08a",
+    "mineral_huge_boulders_overhang_04": "f16a60ffd44e101ed0b1b468c821e84e91a29f6fd0dc8af84f5727f0ffc2c2e8",
+    "mineral_huge_boulders_monolith_01": "babbe3159788d875aaf179e168b2d3d926236ccf3d9e05d849ad40bb3218dca3",
+    "mineral_huge_boulders_monolith_02": "ef48caefd139931717c5f5af2f7bd28da5c6677d3d11285c2a589f0ac7255256",
+    "mineral_huge_boulders_monolith_03": "b050291dbef4da59f74fd45fb85ffb403332af589f1d61ec0e0777a27a187e40",
+    "mineral_huge_boulders_monolith_04": "cb8f228e71ea5770f82affe1a2146acb0444c5e3dade3dd8153ed2771477fe61"
+  },
+  "blend_sha256": "8a243f48d59cf102c0090ffdb9445855fbd7cc762d4d7603bad12cd8d9777cd8"
+}

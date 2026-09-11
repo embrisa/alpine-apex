@@ -1,0 +1,8 @@
+Import("env", "env_modules")
+from pathlib import Path
+
+local = env_modules.Clone()
+sdk = Path(Dir("#").abspath).parent / "FidelityFX-SDK" / "Kits" / "FidelityFX"
+local.Append(CPPPATH=[str(sdk / "api/include"), str(sdk / "upscalers/include"), str(sdk / "framegeneration/include")])
+local.Append(CPPDEFINES=["_WINDOWS", "NOMINMAX", "WIN32_LEAN_AND_MEAN"])
+local.add_source_files(env.modules_sources, "*.cpp")

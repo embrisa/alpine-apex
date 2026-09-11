@@ -2,7 +2,7 @@ extends SceneTree
 const Definition = preload("res://scripts/world/mountain_definition.gd")
 const Pilot = preload("res://tests/showcase_pilot.gd")
 var OUTPUT = "res://artifacts/pc_environment/native"
-var version = 7
+var version = 9
 var requested_pixels = Vector2i(3840,2160)
 var start_z = 0
 var end_z = 2850
@@ -56,6 +56,7 @@ func run() -> void:
 	current_scene = game
 	await process_frame
 	game.set_physics_process(false)
+	game.skier.animation_enabled = "--skier-animation-off" not in OS.get_cmdline_user_args()
 	game.effects.muted = true
 	game.weather.set_preset(weather)
 	game.start_run(false)
@@ -100,6 +101,7 @@ func run() -> void:
 		await physics_frame
 		var begin = Time.get_ticks_usec()
 		sim.step(Pilot.DT,input,field)
+		if game.skier.animation_enabled: game.skier.step_animation(Pilot.DT,sim,input,field)
 		physics_us.append(Time.get_ticks_usec()-begin)
 		game.session.elapsed += Pilot.DT
 		if captures or pov_forest:
@@ -114,6 +116,8 @@ func run() -> void:
 	result.scope = "full_descent" if start_z==0 and end_z==2850 else "section_probe"
 	result.section_completed = sim.position.z>=end_z if end_z<2850 else result.finished
 	result.generation_ms = field.generation_ms
+	result.wilderness = game.world.wilderness.report() if game.world.wilderness else {}
+	result.snow_budget = game.effects.snow_budget()
 	result.background_workload = "Existing applications left untouched; see actual process samples in system.json. WoW no longer required."
 	result.frame_ms = frame_timing(frames)
 	result.forest_frame_ms = frame_timing(forest_frames)
@@ -191,6 +195,7 @@ func inspect_motion() -> void:
 						for tick in 2:
 							game.intent = Pilot.intent(game.sim,field,route) if section!=1756 else RiderInput.new()
 							game.sim.step(Pilot.DT,game.intent,field)
+							if game.skier.animation_enabled: game.skier.step_animation(Pilot.DT,game.sim,game.intent,field)
 						game._process(1.0/60.0)
 						await process_frame
 						if frame in [30,31,32,60,90,120,179]: await capture(label+"_%03d" % frame,0)
@@ -230,7 +235,7 @@ func timing(values: Array[float]) -> Dictionary:
 	var slow_count = maxi(1,ceili(values.size()*.01))
 	var slow_sum = 0.0
 	for i in range(values.size()-slow_count,values.size()): slow_sum += values[i]
-	return {"samples":values.size(),"mean":total/values.size(),"p95":values[int(values.size()*.95)],"p99":values[int(values.size()*.99)],"slowest_one_percent_mean":slow_sum/slow_count}
+	return {"samples":values.size(),"mean":total/values.size(),"median":values[values.size()/2],"p95":values[int(values.size()*.95)],"p99":values[int(values.size()*.99)],"slowest_one_percent_mean":slow_sum/slow_count}
 
 func frame_timing(values: Array[float]) -> Dictionary:
 	var result = timing(values)

@@ -1,0 +1,38 @@
+{
+  "authorized_credits": 500,
+  "initial_balance": 3760,
+  "reference_tool": "built-in imagegen",
+  "candidate_cost_expected": 35,
+  "request": {
+    "ai_model": "meshy-7",
+    "ultra_mode": true,
+    "model_type": "standard",
+    "file_path": "C:\\Users\\hp\\Downloads\\alpine-apex\\art_source\\meshy\\hands_v1\\reference.png",
+    "target_formats": [
+      "glb"
+    ],
+    "should_texture": true,
+    "enable_pbr": true,
+    "texture_resolution": "2k",
+    "should_remesh": false,
+    "image_enhancement": false,
+    "response_format": "json"
+  },
+  "submission": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"task_id\": \"01a08610-5532-7391-87a6-47f9a9b0ce52\",\n  \"status\": \"PENDING\",\n  \"message\": \"3D generation task created successfully. Task ID: 01a08610-5532-7391-87a6-47f9a9b0ce52\",\n  \"estimated_time\": \"2-3 minutes\"\n}"
+      }
+    ],
+    "structuredContent": {
+      "task_id": "01a08610-5532-7391-87a6-47f9a9b0ce52",
+      "status": "PENDING",
+      "message": "3D generation task created successfully. Task ID: 01a08610-5532-7391-87a6-47f9a9b0ce52",
+      "estimated_time": "2-3 minutes"
+    }
+  },
+  "consumed_credits": 35,
+  "final_balance": 3725,
+  "status": "SUCCEEDED"
+}

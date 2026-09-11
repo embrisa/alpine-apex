@@ -8,7 +8,7 @@ space while retaining the existing skiing, race, mountain and graphics contracts
 | Window | Tabs / actions |
 | --- | --- |
 | Main menu | Ride, Explore, Tools |
-| Settings (Tools) | Display, Weather, Rider, Interface, Controls |
+| Settings (Tools) | Display, Weather, Rider, Camera, Skier Voice, Interface, Controls |
 | Mountains (Explore) | Create, Saved, Share; large terrain preview beside the controls |
 | Races (Explore / F4) | Saved races, Import & share; separate in-world creation view |
 | Personal best (Explore / F6) | Overview, Splits, Run history |
@@ -16,8 +16,129 @@ space while retaining the existing skiing, race, mountain and graphics contracts
 
 Settings and the workbench have fixed Back/Close buttons outside their scrolling
 tab content. Tab/arrow navigation, focus outlines and Escape remain available.
-Settings and records restore focus to their main-menu entry. The skiing footer
-shows primary controls; the Controls tab contains the complete shortcut list.
+Settings and records restore focus to their main-menu entry. The controls footer
+appears only in menus and stays hidden while riding, including summit drop-in.
+The Controls tab contains the complete shortcut list.
+
+Menus show the loaded game world. The current layout, panel opacity, branding,
+tabs and navigation are retained; photography and photo captions appear only
+inside actual loading screens. The world-only transition cover ignores mouse
+input and sits below all controls.
+
+The main menu alternates the summit player with up to six validated mountain
+views: 24-second shots and a 0.7-second fade through dark. Player shots orbit at
+4 degrees/second, initially 9 m away and 4.5 m above the skier, with a 60-degree
+FOV. Terrain and solid clearance override that framing. Pause/results orbit the
+current player; crashes follow the ragdoll until its existing 15-second freeze,
+then orbit its resting position. Settings, workbench, libraries and records
+inherit the menu context without restarting the sequence. Endpoint placement
+alone uses the controllable survey camera.
+
+Reduced interface motion holds the current live viewpoint and suppresses cuts
+and fades; a moving crash can still be followed. Clouds and precipitation animate
+in ordinary menus, while the paused simulation, race timer, impact reserve,
+daylight progression and automatic weather cycle remain held. Resume, Drop In
+and Retry cancel outstanding fades and restore the selected riding view before
+another simulation tick. Camera and weather history are reset at handoff.
+
+The camera owns no mountain data or save state. Viewpoints consume the current
+landform metadata, falling back to terrain-sampled summit views on archived
+mountains and to a safe player view when no scenic shot passes clearance checks.
+See [camera behavior and validation](CAMERA.md#live-menu-camera).
+
+The Camera tab starts with shared vertical FoV endpoints at rest and 200 km/h
+(72°/110°, adjustable from 50–120°). Equal endpoints give a fixed lens. Third-person
+distance/height follow, then independent third-/first-person tilt (−30° to +30°,
+default 0°) and shared vertical smoothing. Negative tilt looks down; positive
+looks up. Distance/height defaults are 3/7 m behind and 6/8 m above, with 50%
+smoothing. Metre, signed-degree and percentage readouts, automatic saving and
+**Reset camera settings** cover all nine values. Focus follows keyboard/gamepad
+navigation through the scrolling content. Height remains subject to clearance;
+tilt and stabilization also work with motion effects off, which uses resting FoV.
+The menu keeps its own camera; changes apply when riding without restarting.
+See [camera behavior and validation](CAMERA.md).
+
+## Angular visual language
+
+The interface shares the Alpine Apex logo's hard edges and diagonal cuts. Large
+panels use opposing top-left/bottom-right 24 by 12 logical-pixel cuts; buttons,
+tabs and fields use 12 by 6. All cuts keep a 2:1 slope and shrink proportionally
+when a control or progress fill is small. The navy, cold-white and ice-blue
+palette, photography and existing tab layouts are retained.
+
+`scripts/ui/alpine_theme.gd` owns the shared theme, cached style resources and
+small control icons. `scripts/ui/angular_style_box.gd` draws the polygon fills
+and antialiased borders in canvas coordinates, keeping them sharp at native 4K
+UI output. Icons are generated once from simple SVG geometry at four times
+their logical dimensions. No additional photographic assets are needed.
+
+Primary actions carry a double-chevron. Active tabs carry a small angled marker.
+Keyboard focus uses a two-pixel outline, with a dark outline on light primary
+actions for contrast. Hover, pressed, disabled and selected states keep identical
+content margins, so interaction does not move text or change layout. Clipped
+corners retain the full native rectangular click target.
+
+The theme covers menu and tool panels, dropdowns and popup contents, toggles,
+checkboxes, fields, lists, sliders, scrollbars, Godot file dialogs, color-picker
+controls and loading. The mountain preview shares the panel silhouette. Skiing
+keeps the speed dial and instrument positions; course/impact bars and footer
+framing carry the angular treatment. The summit-return caption uses a matching
+frame. Progress remains tied to actual work and retains its original values.
+
+Standalone art validation includes a native control gallery at 1280x720,
+1440x900 and 3840x2160, pointer activation at a clipped corner, keyboard slider
+input, popup/dialog captures, text selection and zero/tiny/half/full progress.
+The interface integration suite additionally captures rider color controls,
+mountain file dialogs and a short unranked laboratory descent with the HUD.
+An optional `--ui-baseline-hud=path/to/saved_hud.gd` argument accepts a saved pre-change
+HUD script for a comparison over the same paused mountain at 4K. Both HUD
+instances remain resident during that comparison; only one is visible at a time.
+
+### Angular styling acceptance — 2026-09-08
+
+- Automated: standalone interface review **80/80** and native integration
+  **51/51**, with no engine errors in the final guarded runs. Hover, clipped-corner
+  clicks, keyboard sliders, focus restoration, reduced motion, staged loading,
+  disabled library actions and progress values passed.
+- Rendered: **27** standalone captures and **28** integration captures. Inspected
+  menu/control layouts at 1280x720, 1440x900 and 3840x2160; settings, dropdowns,
+  file-dialog title framing, color pickers, mountain preview and the HUD during
+  a short fixed-input unranked laboratory descent. The speed dial stays circular.
+- Performance: same paused v11 mountain, RX 9070/D3D12, High, 3840x2160 output,
+  2880x1620 FSR2 internal resolution, 120 FPS cap and GI off. Each paired sample
+  used 120 warmup frames and 240 measured frames without screenshot overhead.
+
+| Paused interface metric | Previous UI | Angular UI |
+| --- | ---: | ---: |
+| Mean frame time | 8.333 ms | 8.333 ms |
+| Frame p95 / p99 | 8.384 / 8.454 ms | 8.389 / 8.443 ms |
+| Render CPU mean | 1.120 ms | 1.225 ms |
+| GPU mean | 5.323 ms | 5.286 ms |
+| Engine video memory | 5328.24 MiB | 5330.12 MiB |
+| Engine static memory | 638.85 MiB | 638.90 MiB |
+
+This short sample maintained the 120 FPS cap; CPU render time increased by
+about 0.105 ms. It does not establish descent performance. Both HUD instances
+were retained for the paired draw comparison, so its memory figures are not
+isolated per-theme allocations. Concurrent loading-atmosphere work was preserved;
+the paired paused-HUD sample is the relevant comparison for this styling change.
+
+Evidence and source hashes are in `artifacts/ui_angular/validation.json`; the
+guarded logs are under `artifacts/guarded/angular_art/` and
+`artifacts/guarded/angular_integration/`. Captures and full timing distributions
+remain in `artifacts/interface_art/` and `artifacts/ui_refresh/`.
+
+Human acceptance of styling and hands-on keyboard/controller feel remains open.
+The rendered descent is inspection evidence, not a claim of user skiing approval.
+
+Reproduce the rendered reviews from PowerShell:
+
+```powershell
+./godotw.ps1 --script tests/interface_art_playtest.gd
+./godotw.ps1 --script tests/interface_suite.gd '--' --ui-staged-loading --graphics-quality=high
+# Optional paired comparison, when the saved pre-change HUD is available:
+./godotw.ps1 --script tests/interface_suite.gd '--' --ui-staged-loading --graphics-quality=high --ui-baseline-hud=artifacts/ui_angular/source_before/scripts__ui__hud.gd
+```
 
 ## Sounds and motion
 
@@ -35,6 +156,17 @@ not read or write these personal preferences. Camera-effects selection survives
 mountain changes along with the existing graphics/weather/tuning snapshot.
 
 ## Loading architecture
+
+Atmospheric loading adds photo drift, photo-matched moving glare/rays/lens flare,
+32 drifting snow motes and optional quiet wind. **Loading wind ambience** has a
+separate Interface switch and also obeys Interface volume and global mute.
+Reduced motion holds the photo/light steady, removes motes and skips tip fades.
+Tips rotate every eight seconds; elapsed time only appears after eight seconds.
+The timer retains layout space and progress remains tied to real work. See
+[loading artwork and verification](MENU_ART.md#loading-atmosphere--2026-09-08).
+Cold startup and the HUD share the same preference reader; live changes and
+scene reloads retain wind, volume, mute and reduced-motion values. Loading audio
+and visual resources are released on completion or teardown.
 
 `scripts/ui/loading_overlay.gd` is a scene-owned CanvasLayer above the HUD. It
 exists before world construction and reports the current operation plus elapsed

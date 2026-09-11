@@ -1,0 +1,30 @@
+{
+  "label": "save_carving",
+  "started_unix": 1789076214.3422613,
+  "seconds": 16.93119239807129,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "run_script",
+      "arguments": {
+        "code": "assert app.current_scene().get_path_name().endswith('/cascadeur_carving_20260910_r7/carving_r7.casc'); app.current_scene().save('C:/Users/hp/Downloads/alpine-apex/art_source/animation/cascadeur_carving_20260910_r7/carving_r7.casc'); print('Saved carving R7')"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"ok\": true,\n  \"value\": \"\",\n  \"messages\": [\n    {\n      \"level\": \"Info\",\n      \"text\": \"Start saving to C:/Users/hp/Downloads/alpine-apex/art_source/animation/cascadeur_carving_20260910_r7\\\\carving_r7.casc\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"Saving is completed\\n\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"Saved carving R7\"\n    }\n  ]\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "transport_error": null
+}

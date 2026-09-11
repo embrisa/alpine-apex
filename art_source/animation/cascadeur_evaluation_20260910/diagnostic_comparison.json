@@ -1,0 +1,570 @@
+{
+  "original_live": {
+    "max_attachment_change_m": 0.2956816720204628,
+    "segments": {
+      "LeftToeBase": {
+        "parent": "LeftFoot",
+        "lengths_m": [
+          0.1375198175501789,
+          0.1375198175501789
+        ],
+        "absolute_change_m": 0.0
+      },
+      "LeftFoot": {
+        "parent": "LeftLeg",
+        "lengths_m": [
+          0.36155755727998795,
+          0.3615575397054985
+        ],
+        "absolute_change_m": 1.7574489474814214e-08
+      },
+      "LeftLeg": {
+        "parent": "LeftUpLeg",
+        "lengths_m": [
+          0.367248912857735,
+          0.36724877600252365
+        ],
+        "absolute_change_m": 1.3685521133011136e-07
+      },
+      "RightToeBase": {
+        "parent": "RightFoot",
+        "lengths_m": [
+          0.14730165000109385,
+          0.14730165000109385
+        ],
+        "absolute_change_m": 0.0
+      },
+      "RightFoot": {
+        "parent": "RightLeg",
+        "lengths_m": [
+          0.3539982067521792,
+          0.35399819515804404
+        ],
+        "absolute_change_m": 1.1594135151948848e-08
+      },
+      "RightLeg": {
+        "parent": "RightUpLeg",
+        "lengths_m": [
+          0.3653564055993349,
+          0.36535652768736504
+        ],
+        "absolute_change_m": 1.2208803013002978e-07
+      },
+      "LeftHand": {
+        "parent": "LeftForeArm",
+        "lengths_m": [
+          0.27076047618303,
+          0.270760418276142
+        ],
+        "absolute_change_m": 5.79068880068867e-08
+      },
+      "LeftForeArm": {
+        "parent": "LeftArm",
+        "lengths_m": [
+          0.2541721997363716,
+          0.25417219548842207
+        ],
+        "absolute_change_m": 4.247949547675489e-09
+      },
+      "LeftArm": {
+        "parent": "LeftShoulder",
+        "lengths_m": [
+          0.1427861557231943,
+          0.14278758552973433
+        ],
+        "absolute_change_m": 1.429806540026446e-06
+      },
+      "head_end": {
+        "parent": "Head",
+        "lengths_m": [
+          0.24074759268483437,
+          0.24074750852616092
+        ],
+        "absolute_change_m": 8.415867344679917e-08
+      },
+      "headfront": {
+        "parent": "Head",
+        "lengths_m": [
+          0.13870958805085243,
+          0.13870962396173267
+        ],
+        "absolute_change_m": 3.5910880241685206e-08
+      },
+      "Head": {
+        "parent": "neck",
+        "lengths_m": [
+          0.07122263968574567,
+          0.07123179511383437
+        ],
+        "absolute_change_m": 9.15542808870018e-06
+      },
+      "RightHand": {
+        "parent": "RightForeArm",
+        "lengths_m": [
+          0.26148530342075993,
+          0.2614852761378299
+        ],
+        "absolute_change_m": 2.728293002629556e-08
+      },
+      "RightForeArm": {
+        "parent": "RightArm",
+        "lengths_m": [
+          0.26740887070567815,
+          0.2674090150925117
+        ],
+        "absolute_change_m": 1.4438683354489612e-07
+      },
+      "RightArm": {
+        "parent": "RightShoulder",
+        "lengths_m": [
+          0.14047049213137416,
+          0.14047189969788126
+        ],
+        "absolute_change_m": 1.4075665071000554e-06
+      },
+      "LeftShoulder": {
+        "parent": "Spine",
+        "lengths_m": [
+          0.0675707393704261,
+          0.3539152508047335
+        ],
+        "absolute_change_m": 0.2863445114343074
+      },
+      "neck": {
+        "parent": "Spine",
+        "lengths_m": [
+          0.11033916022456408,
+          0.4060208322450269
+        ],
+        "absolute_change_m": 0.2956816720204628
+      },
+      "RightShoulder": {
+        "parent": "Spine",
+        "lengths_m": [
+          0.06468433888907786,
+          0.35063434757387396
+        ],
+        "absolute_change_m": 0.2859500086847961
+      },
+      "Spine": {
+        "parent": "Spine01",
+        "lengths_m": [
+          0.14122383285542697,
+          0.2382379368965109
+        ],
+        "absolute_change_m": 0.09701410404108393
+      },
+      "Spine01": {
+        "parent": "Spine02",
+        "lengths_m": [
+          0.141214600193665,
+          0.12132108412278468
+        ],
+        "absolute_change_m": 0.019893516070880315
+      },
+      "LeftUpLeg": {
+        "parent": "Hips",
+        "lengths_m": [
+          0.13529298644823834,
+          0.13520034129608902
+        ],
+        "absolute_change_m": 9.264515214932323e-05
+      },
+      "RightUpLeg": {
+        "parent": "Hips",
+        "lengths_m": [
+          0.13264006555740993,
+          0.13273393876253237
+        ],
+        "absolute_change_m": 9.387320512244113e-05
+      },
+      "Spine02": {
+        "parent": "Hips",
+        "lengths_m": [
+          0.1412145224116521,
+          0.08169715977747984
+        ],
+        "absolute_change_m": 0.059517362634172274
+      }
+    }
+  },
+  "corrected_small": {
+    "max_attachment_change_m": 0.0003293666782324678,
+    "segments": {
+      "LeftToeBase": {
+        "parent": "LeftFoot",
+        "lengths_m": [
+          0.1375198175501789,
+          0.1375198175501789
+        ],
+        "absolute_change_m": 0.0
+      },
+      "LeftFoot": {
+        "parent": "LeftLeg",
+        "lengths_m": [
+          0.36155755686292845,
+          0.3615575571394504
+        ],
+        "absolute_change_m": 2.765219719869094e-10
+      },
+      "LeftLeg": {
+        "parent": "LeftUpLeg",
+        "lengths_m": [
+          0.367248912736936,
+          0.36724883176244466
+        ],
+        "absolute_change_m": 8.097449133437351e-08
+      },
+      "RightToeBase": {
+        "parent": "RightFoot",
+        "lengths_m": [
+          0.14730165000109385,
+          0.14730165000109385
+        ],
+        "absolute_change_m": 0.0
+      },
+      "RightFoot": {
+        "parent": "RightLeg",
+        "lengths_m": [
+          0.353998206186507,
+          0.3539981865378831
+        ],
+        "absolute_change_m": 1.964862389458588e-08
+      },
+      "RightLeg": {
+        "parent": "RightUpLeg",
+        "lengths_m": [
+          0.3653564048400051,
+          0.36535643616349184
+        ],
+        "absolute_change_m": 3.132348674883545e-08
+      },
+      "LeftHand": {
+        "parent": "LeftForeArm",
+        "lengths_m": [
+          0.2707604980449107,
+          0.2707604415838093
+        ],
+        "absolute_change_m": 5.646110140533622e-08
+      },
+      "LeftForeArm": {
+        "parent": "LeftArm",
+        "lengths_m": [
+          0.2541721810765823,
+          0.2541722303576346
+        ],
+        "absolute_change_m": 4.928105229451418e-08
+      },
+      "LeftArm": {
+        "parent": "LeftShoulder",
+        "lengths_m": [
+          0.1427861569258581,
+          0.14278692917822233
+        ],
+        "absolute_change_m": 7.722523642228474e-07
+      },
+      "head_end": {
+        "parent": "Head",
+        "lengths_m": [
+          0.2407475923830342,
+          0.2407479556189444
+        ],
+        "absolute_change_m": 3.63235910211257e-07
+      },
+      "headfront": {
+        "parent": "Head",
+        "lengths_m": [
+          0.13870958805085754,
+          0.13870953859784355
+        ],
+        "absolute_change_m": 4.945301398939783e-08
+      },
+      "Head": {
+        "parent": "neck",
+        "lengths_m": [
+          0.07122263968574567,
+          0.07122711777799977
+        ],
+        "absolute_change_m": 4.478092254095456e-06
+      },
+      "RightHand": {
+        "parent": "RightForeArm",
+        "lengths_m": [
+          0.2614852949392297,
+          0.26148526793077215
+        ],
+        "absolute_change_m": 2.700845752601211e-08
+      },
+      "RightForeArm": {
+        "parent": "RightArm",
+        "lengths_m": [
+          0.26740885506343104,
+          0.2674088159329463
+        ],
+        "absolute_change_m": 3.91304847413565e-08
+      },
+      "RightArm": {
+        "parent": "RightShoulder",
+        "lengths_m": [
+          0.14047049335382217,
+          0.14047136423395296
+        ],
+        "absolute_change_m": 8.708801307877323e-07
+      },
+      "LeftShoulder": {
+        "parent": "Spine",
+        "lengths_m": [
+          0.06757847092652407,
+          0.06734396387083769
+        ],
+        "absolute_change_m": 0.00023450705568638097
+      },
+      "neck": {
+        "parent": "Spine",
+        "lengths_m": [
+          0.11034831601127212,
+          0.11035403679279134
+        ],
+        "absolute_change_m": 5.720781519211182e-06
+      },
+      "RightShoulder": {
+        "parent": "Spine",
+        "lengths_m": [
+          0.06469191171575711,
+          0.06491080033904567
+        ],
+        "absolute_change_m": 0.00021888862328856007
+      },
+      "Spine": {
+        "parent": "Spine01",
+        "lengths_m": [
+          0.1412146768277303,
+          0.141226265665527
+        ],
+        "absolute_change_m": 1.1588837796699947e-05
+      },
+      "Spine01": {
+        "parent": "Spine02",
+        "lengths_m": [
+          0.14121460031270938,
+          0.14120252172351827
+        ],
+        "absolute_change_m": 1.2078589191111266e-05
+      },
+      "LeftUpLeg": {
+        "parent": "Hips",
+        "lengths_m": [
+          0.13529294866805222,
+          0.1356104372225953
+        ],
+        "absolute_change_m": 0.0003174885545430828
+      },
+      "RightUpLeg": {
+        "parent": "Hips",
+        "lengths_m": [
+          0.13264011094517913,
+          0.13231074426694667
+        ],
+        "absolute_change_m": 0.0003293666782324678
+      },
+      "Spine02": {
+        "parent": "Hips",
+        "lengths_m": [
+          0.14121452399736567,
+          0.1412339937552063
+        ],
+        "absolute_change_m": 1.9469757840617774e-05
+      }
+    }
+  },
+  "explicit_compression": {
+    "max_attachment_change_m": 0.00011337165665861737,
+    "segments": {
+      "LeftToeBase": {
+        "parent": "LeftFoot",
+        "lengths_m": [
+          0.1375198175501789,
+          0.1375198175501789
+        ],
+        "absolute_change_m": 0.0
+      },
+      "LeftFoot": {
+        "parent": "LeftLeg",
+        "lengths_m": [
+          0.36155755686292845,
+          0.3615575794318025
+        ],
+        "absolute_change_m": 2.2568874047390608e-08
+      },
+      "LeftLeg": {
+        "parent": "LeftUpLeg",
+        "lengths_m": [
+          0.367248912736936,
+          0.367248811504441
+        ],
+        "absolute_change_m": 1.0123249499782716e-07
+      },
+      "RightToeBase": {
+        "parent": "RightFoot",
+        "lengths_m": [
+          0.14730165000109385,
+          0.14730165000109385
+        ],
+        "absolute_change_m": 0.0
+      },
+      "RightFoot": {
+        "parent": "RightLeg",
+        "lengths_m": [
+          0.353998206186507,
+          0.35399816775400483
+        ],
+        "absolute_change_m": 3.8432502180718586e-08
+      },
+      "RightLeg": {
+        "parent": "RightUpLeg",
+        "lengths_m": [
+          0.3653564048400051,
+          0.3653565411817254
+        ],
+        "absolute_change_m": 1.3634172030263514e-07
+      },
+      "LeftHand": {
+        "parent": "LeftForeArm",
+        "lengths_m": [
+          0.2707604980449107,
+          0.27076043090248453
+        ],
+        "absolute_change_m": 6.71424261744491e-08
+      },
+      "LeftForeArm": {
+        "parent": "LeftArm",
+        "lengths_m": [
+          0.2541721810765823,
+          0.2541722543753691
+        ],
+        "absolute_change_m": 7.329878681794355e-08
+      },
+      "LeftArm": {
+        "parent": "LeftShoulder",
+        "lengths_m": [
+          0.1427861569258581,
+          0.14278627622139686
+        ],
+        "absolute_change_m": 1.1929553875300591e-07
+      },
+      "head_end": {
+        "parent": "Head",
+        "lengths_m": [
+          0.2407475923830342,
+          0.24074756655288107
+        ],
+        "absolute_change_m": 2.5830153127515132e-08
+      },
+      "headfront": {
+        "parent": "Head",
+        "lengths_m": [
+          0.13870958805085754,
+          0.13870965901888888
+        ],
+        "absolute_change_m": 7.096803134043483e-08
+      },
+      "Head": {
+        "parent": "neck",
+        "lengths_m": [
+          0.07122263968574567,
+          0.07122501702837268
+        ],
+        "absolute_change_m": 2.37734262700795e-06
+      },
+      "RightHand": {
+        "parent": "RightForeArm",
+        "lengths_m": [
+          0.2614852949392297,
+          0.26148531813088055
+        ],
+        "absolute_change_m": 2.3191650877496528e-08
+      },
+      "RightForeArm": {
+        "parent": "RightArm",
+        "lengths_m": [
+          0.26740885506343104,
+          0.26740903064401605
+        ],
+        "absolute_change_m": 1.7558058501565554e-07
+      },
+      "RightArm": {
+        "parent": "RightShoulder",
+        "lengths_m": [
+          0.14047049335382217,
+          0.14047058709485588
+        ],
+        "absolute_change_m": 9.374103371317943e-08
+      },
+      "LeftShoulder": {
+        "parent": "Spine",
+        "lengths_m": [
+          0.06757847092652407,
+          0.0675486762872296
+        ],
+        "absolute_change_m": 2.9794639294464242e-05
+      },
+      "neck": {
+        "parent": "Spine",
+        "lengths_m": [
+          0.11034831601127212,
+          0.11035097729466092
+        ],
+        "absolute_change_m": 2.6612833887995624e-06
+      },
+      "RightShoulder": {
+        "parent": "Spine",
+        "lengths_m": [
+          0.06469191171575711,
+          0.06469112069683237
+        ],
+        "absolute_change_m": 7.910189247367638e-07
+      },
+      "Spine": {
+        "parent": "Spine01",
+        "lengths_m": [
+          0.1412146768277303,
+          0.1412303098305673
+        ],
+        "absolute_change_m": 1.5633002836995535e-05
+      },
+      "Spine01": {
+        "parent": "Spine02",
+        "lengths_m": [
+          0.14121460031270938,
+          0.14122530841465403
+        ],
+        "absolute_change_m": 1.0708101944645332e-05
+      },
+      "LeftUpLeg": {
+        "parent": "Hips",
+        "lengths_m": [
+          0.13529294866805222,
+          0.13518496322378884
+        ],
+        "absolute_change_m": 0.00010798544426338097
+      },
+      "RightUpLeg": {
+        "parent": "Hips",
+        "lengths_m": [
+          0.13264011094517913,
+          0.13275348260183775
+        ],
+        "absolute_change_m": 0.00011337165665861737
+      },
+      "Spine02": {
+        "parent": "Hips",
+        "lengths_m": [
+          0.14121452399736567,
+          0.14121998738724323
+        ],
+        "absolute_change_m": 5.463389877558011e-06
+      }
+    }
+  },
+  "scope": "Native joint data in cm converted to metres; frame 0 to frame 30. Diagnostic targets, not artistic poses."
+}

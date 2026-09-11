@@ -1,0 +1,7 @@
+# Blender Asset Catalog Definition File
+VERSION 1
+
+d6e177ae-d5e0-5ee9-83d2-601d95b4fcad:Alpine flavor/gates:gates
+ef61113a-85b8-5b50-b49e-4628fad21ebc:Alpine flavor/structures:structures
+2ef75bd7-0969-5152-b2b4-b6b49c63a653:Alpine flavor/camp:camp
+404696b4-8780-5b23-ae7e-4ef65639bf78:Alpine flavor/discoveries:discoveries

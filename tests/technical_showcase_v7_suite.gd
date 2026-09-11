@@ -19,7 +19,7 @@ func run() -> void:
 	check(field.height_checksum=="9f303aab12a3a3bc97b115b4040013303b04f562c2bb5a2486214602b822b560" and field.obstacle_checksum=="afeb8a384c013515344980dc3f913bc24bcfecffb18332ed7ce93f6ad199025a","V7 retains its frozen terrain and obstacle fingerprints")
 	metrics.height_sha256 = field.height_checksum
 	metrics.obstacle_sha256 = field.obstacle_checksum
-	check(Definition.parse_seed("849205174").version==4,"Bare seeds retain v4")
+	check(Definition.parse_seed("849205174").version==10,"Bare seeds select the current v10 massif")
 	check(Definition.parse_seed("42 / v7").has("error") and not Definition.parse_seed("42 / v7").has("seed") and Definition.generate(42,7)==null,"Unsupported showcase seeds fail without generating a different mountain")
 	var recipe = Definition.from_field(field,"Technical Showcase")
 	var race = preload("res://scripts/racing/race_definition.gd").new()

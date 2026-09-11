@@ -1,0 +1,12 @@
+{
+	"frames": 61,
+	"handle_exclusion_m": 0.1,
+	"include_flight": false,
+	"intersections": [],
+	"passed": true,
+	"scenarios": [
+		"cascadeur_grounded"
+	],
+	"selected_only": false,
+	"shaft_radius_m": 0.006
+}

@@ -1,0 +1,30 @@
+{
+  "label": "export_carving02",
+  "started_unix": 1789076402.3717763,
+  "seconds": 2.9006168842315674,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "run_script",
+      "arguments": {
+        "code": "output_name='carving_r7_animation.glb'; exec(open('C:/Users/hp/Downloads/alpine-apex/art_source/animation/cascadeur_carving_20260910_r7/export_animation.py',encoding='utf-8-sig').read())"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"ok\": true,\n  \"value\": \"\",\n  \"messages\": [\n    {\n      \"level\": \"Success\",\n      \"text\": \"GLB/GLTF: Export: Success\"\n    },\n    {\n      \"level\": \"Info\",\n      \"text\": \"Exported C:\\\\Users\\\\hp\\\\Downloads\\\\alpine-apex\\\\art_source\\\\animation\\\\cascadeur_carving_20260910_r7\\\\carving_r7_animation.glb 83956\"\n    }\n  ]\n}"
+        }
+      ],
+      "isError": false
+    }
+  },
+  "transport_error": null
+}

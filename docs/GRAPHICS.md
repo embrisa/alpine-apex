@@ -1,20 +1,54 @@
 # Graphics and generated mountains
 
-The [golden sunlight update](GOLDEN_SUNLIGHT.md) warms the existing noon sun, coordinates filmic exposure and surface response, and adds High-only nearby shadowed shafts plus restrained highlight glow. It preserves the noon direction, terrain and PC defaults. Its fresh acceptance evidence is reported separately from the earlier PC environment measurements below.
+[Snow readability](SNOW_READABILITY.md) reduces broad clear-day glare while
+retaining crystal sparkle, and adds bounded cool shading in actual terrain
+hollows. The shared terrain, powder and track treatment is presentation only.
 
-The PC graphics upgrade adds selective 4K snow, rock and bark, nine rebuilt conifers, six angular rocks, directional impostors and persistent rendering controls. Technical Showcase v7 uses the new treatment on a versioned south face; shared assets and lighting apply throughout the game. The earlier [scenery library](SCENERY.md) remains available, with spruce/fir/pine and rock selections now mapped to the PC assets. Ski physics remains an independent 120 Hz solver. Graphics preferences do not change record eligibility or physics identity. See [implementation and acceptance](PC_ENVIRONMENT_IMPLEMENTATION.md) for final captures, measurements and limitations.
+[FidelityFX integration](FIDELITYFX.md) adds native FSR 4.1/3.1 upscaling and
+FSR 3 frame generation through the custom Windows DirectX 12 engine.
+Auto selects the best supported provider; the stock editor/runtime retains FSR2.
+See that page for installation, rendered evidence and hardware coverage.
+
+[Dreamlike snow](DREAMLIKE_SNOW.md) adds denser two-scale crystals, a snow-only
+sun sheen and stronger HDR highlight glow through the existing quality presets.
+Validate its appearance in motion and measure its cost on the current mountain.
+
+[Technical woodland v13](ALPINE_V13.md) expands solid tree and mineral coverage
+over the unchanged v12 support surface. Distant tree batches cover larger regions;
+detailed geometry and shadows are prepared locally around the camera. Its loading and dense-forest acceptance limits are documented on that page.
+
+[Off-map scenery v2](OFFMAP_V2.md) connects the decorative apron and distant
+panorama with shared ridge/valley geometry and a cheaper blended terrain material.
+Its geometry budgets and physical terrain identity are preserved; fresh validation
+and performance measurements belong to the current workload.
+
+The [alpine wilderness backdrop](WILDERNESS.md) adds three distant ridge/valley
+bands and a shared summit-return zone. Additional geometry budgets are
+19,200 / 37,632 / 74,240 triangles for Low / Balanced / High, with 24 batches,
+no collision, shadows or GI contribution, and a 32 km far plane.
+
+The [golden sunlight update](GOLDEN_SUNLIGHT.md) warms the existing noon sun, coordinates filmic exposure and surface response, and adds High-only nearby shadowed shafts plus restrained highlight glow. It preserves the noon direction, terrain and PC defaults. Use current native views and timing to validate lighting changes.
+
+The PC graphics upgrade adds selective 4K snow, rock and bark, nine rebuilt conifers, six angular rocks, directional impostors and persistent rendering controls. The [v11 environment](GEOLOGY_V11.md) adds terrain-fitted mineral formations and extends the showcase landforms, exposure, forests and powder across every face of every new mountain; shared assets and lighting apply throughout the game. The earlier [scenery library](SCENERY.md) remains available, with spruce/fir/pine and rock selections now mapped to the PC assets. Ski physics remains an independent 120 Hz solver. Graphics preferences do not change record eligibility or physics identity. See [validation](VALIDATION.md) for required checks and remaining acceptance.
 
 ## Performance policy
 
-As of 2026-09-07, target **Ryzen 5 5600X / RX 9070 / 16 GB RAM**, **3840x2160 output** and **90-120 FPS**. Aim for steady-state p95 <= 11.1 ms and p99 <= 16.7 ms. Demanding sections may favor fidelity. The MacBook requirement is removed; older measurements below are historical evidence. The ski simulation remains independent at 120 Hz.
+Follow [the Godot engine strategy](ENGINE_STRATEGY.md) when improving terrain,
+scenery or rendering. Profile preparation, CPU submission and GPU work separately;
+use batching, native components or focused engine changes where they address a
+measured cost. Improve the existing production terrain path while preserving
+physical authority. Document quality tradeoffs separately from optimizations at
+matched settings. A full replacement runtime is outside the current roadmap.
 
-**High is recommended:** 75% FSR2 (2880x1620 internal at 4K output), 120 FPS cap, SSAO and restrained SSIL, SDFGI initially off. Native rendering and exact two-thirds scale (2560x1440 internal) are available. No dynamic resolution is used. FSR2 supplies temporal antialiasing, so additional MSAA/TAA are disabled in that mode; native uses 2x MSAA. The HUD remains at output resolution. See [Godot resolution scaling](https://docs.godotengine.org/en/stable/tutorials/3d/resolution_scaling.html).
+As of 2026-09-07, target **Ryzen 5 5600X / RX 9070 / 16 GB RAM**, **3840x2160 output** and **90-120 FPS**. Aim for steady-state p95 <= 11.1 ms and p99 <= 16.7 ms. Demanding sections may favor fidelity. The MacBook requirement is removed. The ski simulation remains independent at 120 Hz.
 
-Visual Settings persists display mode, upscaler, render scale, frame cap, quality and the advanced terrain GI override in `user://graphics_v1.cfg`. Restart and mountain changes preserve them; they never enter recipes, physics tuning, replay identity or ranked eligibility. Automated/script runs use isolated defaults and never write this preference file. Windows benchmarks use an exact-size borderless/fullscreen window and verify the rendered image dimensions, fixing the earlier 3856x2176 result for a 3840x2160 request.
+**High is recommended:** Auto FSR at 75% scale (2880x1620 internal at 4K output), 120 rendered FPS cap, frame generation initially off, SSAO and restrained SSIL, SDFGI initially off. Auto uses FSR 4.1 on supported Radeon hardware, FSR 3.1 on other supported GPUs, and FSR2 in the stock engine. Native rendering and exact two-thirds scale (2560x1440 internal) are available. No dynamic resolution is used. Temporal upscaling supplies antialiasing, so additional MSAA/TAA are disabled; native uses 2x MSAA unless frame generation requires the temporal path at 100% scale. The HUD remains at output resolution. Generated presentation frames do not count toward the rendered 90-120 FPS target. See [Godot resolution scaling](https://docs.godotengine.org/en/stable/tutorials/3d/resolution_scaling.html).
 
-Run `./scripts/benchmark_pc.ps1 -Label v7_high_clear -Side -1 -Weather clear` on Windows. It performs a screenshot-free complete descent after warmup, records actual output pixels and internal dimensions calculated from the viewport's active scale, CPU/GPU timings, frame percentiles, slowest-1% FPS, draw calls, engine video memory and process/system RAM. Generation/import costs are reported separately. Existing applications remain untouched and background presence is sampled. The user removed the WoW requirement for the golden sunlight comparison; earlier measurements with WoW running are historical, different workload conditions.
+Visual Settings persists display mode, upscaler, frame generation, render scale, frame cap, quality and the advanced terrain GI override in `user://graphics_v1.cfg`. Restart and mountain changes preserve them; they never enter recipes, physics tuning, replay identity or ranked eligibility. Automated/script runs use isolated defaults and never write this preference file. Windows benchmarks use an exact-size borderless/fullscreen window and verify the rendered image dimensions, fixing the earlier 3856x2176 result for a 3840x2160 request.
 
-Equivalent game arguments are `--display-mode=fullscreen|windowed`, `--upscaler=fsr2|native`, `--render-scale=0.75`, `--fps-limit=0|90|120|144`, `--terrain-gi=off|on`, `--graphics-quality=low|balanced|high` and benchmark `--benchmark-resolution=3840x2160`. Quote the user-argument separator in PowerShell: `./godotw.ps1 --script tests/technical_showcase_playtest.gd '--' --views --benchmark-label=review`.
+The Windows `scripts/benchmark_pc.ps1` default is v14 and uses the same validated engine resolver as `godotw.ps1`. Its production workload reuses a successful, source-validated ordinary-input trace through the complete gameplay loop, including the chase camera, HUD, audio, collision preparation and effects. Explicit `-Upscaler`, `-TerrainGI`, `-FrameGeneration`, `-FrameCap`, `-ProfileFrameCosts` and `-Repetitions` options keep the measured settings reviewable without writing preferences. Use the guarded runner and generate a current trace first; see [FPS optimization](FPS_OPTIMIZATION.md) for commands and limitations. Actual output pixels, active internal dimensions, CPU/GPU timings, frame percentiles, slowest-1% FPS, draw calls, upload volume and RAM/VRAM are reported. Loading, shader warmup and captures are outside the measured intervals. Existing applications remain untouched and background presence is sampled. Explicit older versions retain their own comparison workloads.
+
+Equivalent game arguments are `--display-mode=fullscreen|windowed`, `--upscaler=auto|fsr4|fsr3|fsr2|native`, `--frame-generation=on|off`, `--render-scale=0.75`, `--fps-limit=0|90|120|144`, `--terrain-gi=off|on`, `--graphics-quality=low|balanced|high` and benchmark `--benchmark-resolution=3840x2160`. Quote the user-argument separator in PowerShell: `./godotw.ps1 --script tests/technical_showcase_playtest.gd '--' --views --benchmark-label=review`.
 
 ## Terrain architecture
 
@@ -26,7 +60,7 @@ The data descriptor records generator version, seed, extent, cell size, engine v
 
 The built-in chunk renderer is the sole terrain path. Terrain3D and its addon, adapter, custom clipmap shader and integration suite were removed on 2026-09-06: the bounded-course comparison did not establish a benefit worth maintaining a second renderer. Historical benchmark results remain in `VALIDATION.md` and `artifacts/`. The Godot MCP toolkit and plugin/autoload configuration are preserved.
 
-The laboratory renders the authoritative 4 m triangles directly; the decorative backdrop uses the same mountain data at a coarser spacing. No clipmap exclusion mask or moving replacement patch remains. Terrain materials retain world-coordinate snow/rock shading and the shared cloud-light field. Only laboratory terrain casts directional shadows; decorative mountains can contribute to SDFGI without expanding the sun's shadow-map caster budget.
+The laboratory renders the authoritative 4 m triangles directly; the decorative backdrop uses the same mountain data at a coarser spacing. High's [local powder surface](POWDER_VOLUME.md) replaces a bounded 32 m rectangle with fine visual relief over those same support triangles. Terrain materials retain world-coordinate snow/rock shading and the shared cloud-light field. Physical terrain and the local patch cast directional shadows; decorative mountains can contribute to SDFGI without expanding the sun's shadow-map caster budget.
 
 ### Surface variation
 
@@ -38,13 +72,20 @@ Blending costs extra texture reads. Negligible triplanar projections are removed
 
 ### Snow relief, crystals and imprints
 
+Archived Technical Showcase v8 carries the laboratory-scale physical ridges, scallops
+and mounds across its snow face. They are baked into the same 4 m contact grid
+after gully shaping, with protected cliffs and jump transitions. The shared snow
+shader, mesh vertex budget and 120 Hz solver are retained. See
+[v8 implementation and acceptance](SNOW.md); the laboratory and archived
+showcase versions keep their original terrain.
+
 Laboratory generator v3 now sculpts the actual snow heightfield with warped wind ridges, smaller scallops and uneven mounds. Heights are shared by rendered vertices, collision and obstacle placement, and copied into decorative mountain generator v2. The existing terrain mesh budget is retained. Main drift amplitude is 1.15 m, with smaller 0.18 m scallops and a seeded mound field. Longitudinal variation is gentler than cross-slope relief to retain useful racing contact.
 
 The snow material adds stronger scanned relief and shallow wind ripples in the lighting normal, fading over 12–65 m. World-anchored crystal facets reflect the actual sun/view angle. Footprint filtering removes subpixel grains; there is no animated noise or emissive glitter. The shared directional-light function applies geometry shadows and cloud transmission to the crystal response and disables it below the sun horizon. `snow_sparkle_strength` controls highlight strength. The terrain renderer and all graphics presets use the same shader.
 
-`presentation/snow_tracks.gd` replaces isolated flat stamps with continuous paired ribbons. The fixed 800-instance MultiMesh uses a 64-triangle cross-section per ribbon, and four corner heights conform it to the contact surface. Compressed centers have different roughness, shallow optical recesses and broken, physically raised snow lips. The shader's detail is anchored in world coordinates, avoiding a repeating stamp pattern. The track center remains just above the sculpted terrain; these are visual grooves, not excavated collision geometry. Tight turns can overlap impressions, and a wrapped ring can remove nearby older marks when revisiting an area. Visibility fades before typical distant ring replacement.
+`presentation/snow_tracks.gd` uses continuous paired ribbons with a bounded 800 / 1,600 / 4,096 segment ring for Low / Balanced / High. Independent ski load, slip and penetration drive width, roughness, compression and displaced lips. One immutable height texture makes ribbon vertices follow the exact 4 m contact triangles. Raised lips are geometry; Balanced/High groove recesses use analytical parallax and surface normals. The collision surface remains unchanged. Quality changes preserve the newest history through CPU mirrors, without GPU readback. See [reactive snow](SNOW.md) for budgets, approximations and validation.
 
-Powder puffs and smaller grains share the original 380-particle allocation across four emitters. They use different gravity and drag, take intensity from the ski solver, and receive the world's sun/cloud lighting. No CPU particle simulation, terrain queries per particle, or new texture assets are required. Physics model v4 separately adds the loose-snow resistance described in `ARCHITECTURE.md`.
+Powder, ballistic grains and fine mist use six GPU emitters, capped at 320 / 736 / 1,536 active particles. A shared per-ski response makes clean high-speed gliding restrained and loaded deep skids dramatic. Airborne snow follows the same weather wind used by precipitation and spindrift. Camera and depth fades preserve route visibility. Physics model v4's existing loose-snow resistance, retained by model v12, is unchanged. The current crystal implementation shares world-locked, independently oriented facets with disturbed tracks; Low disables glints.
 
 Run `./godotw --script tests/snow_playtest.gd`. Captures under `artifacts/snow_upgrade/` include carving, braking powder, close grooves, all three qualities, first person, sun-facing crystal on/off pairs night, and a low-angle plain-material view that exposes the actual geometry. The native graphics suite checks uploaded imprint corner heights; the headless dummy renderer cannot read back that MultiMesh data.
 
@@ -65,8 +106,8 @@ Retained assets and earlier authoring history:
 
 | Asset | Runtime detail | Editable source |
 |---|---|---|
-| Skier | 36,950 body triangles, 24 bones | `art_source/blender/skier_v7.blend` |
-| Equipment | 5,171 generated boot triangles + 992 for skis, bindings and poles; complete rider 43,113 | `art_source/blender/skier_v7.blend`, `art_source/blender/alpine_library.blend` |
+| Skier | 35,900 body triangles, 24 bones | `art_source/blender/skier_v7.blend` |
+| Equipment | 5,171 boot triangles + 48,000 for the detailed ski/binding/pole pairs; complete rider 89,071. [Current evidence](EQUIPMENT.md) | `art_source/blender/equipment_v1_*.blend`; original equipment retained in `alpine_library.blend` |
 | Spruce | Three crown derivatives; approximately 18k / 6.5k triangles near/mid; baked far cards | `art_source/blender/spruce_library.blend` |
 | Far spruce | Three albedo silhouettes, two triangles per tree | `art_source/blender/spruce_impostor_bake.blend` |
 | Expanded trees | Ten additional families, four shapes each; 6–14k near / 1.8–5k mid / two-triangle far cards | `art_source/blender/<family>_family.blend` |
@@ -113,11 +154,11 @@ Tree batches cover 128 m regions. PC conifers use a 20 m opaque dither transitio
 
 The world blends a 42% sky contribution with the existing weather/daylight ambient fill. This gives lighting some dependence on surface orientation while retaining readable shade and night snow. The existing sun/moon cascaded shadows, tone mapping and fog remain in use. Sky lighting uses the existing radiance map and its inexpensive cloud-free cubemap branch; it is an artistic outdoor approximation, not terrain-aware bounced GI.
 
-Balanced (Medium) and High enable restrained SSAO with a 0.65 m radius, 1.2 intensity/power and 0.35 detail. It affects indirect lighting only (`ssao_light_affect = 0`) and does not additionally multiply the material AO channel. Low disables SSAO. `graphics_quality.gd` owns the contact-shading switch, and `alpine_world.gd` applies it on startup and live quality changes. Graphics and weather quality remain independent. These environment controls follow the [Godot Environment API](https://docs.godotengine.org/en/stable/classes/class_environment.html).
+Balanced (Medium) and High enable restrained SSAO with a 0.65 m radius, 1.2 intensity/power and 0.35 detail. A modest direct-light influence (`ssao_light_affect = 0.20`) keeps nearby contacts visible in sunlight. The local Forward+ renderer requires `ssao_ao_channel_affect = 1.0` to enable that influence; it takes the minimum of material and screen-space AO rather than multiplying them. Low disables SSAO. `graphics_quality.gd` owns the contact-shading switch, and `alpine_world.gd` applies it on startup and live quality changes. Graphics and weather quality remain independent. See [snow readability](SNOW_READABILITY.md) and the [Godot Environment API](https://docs.godotengine.org/en/stable/classes/class_environment.html).
 
 The first increment did not enable SSIL; the second increment below adds it to High. The third increment below adds SDFGI; SSR and hardware RT remain disabled. Evaluate those separately after this foundation; reflective surfaces and terrain-aware GI need their own visual and performance comparisons. SSAO remains a screen-space approximation and can miss off-screen occluders or small details. The native inspection showed a subtle change, not a dramatic transformation.
 
-Run `./godotw --script tests/ambient_lighting_playtest.gd` for matched before/after environment captures in all graphics tiers, clear/snowfall chase and first-person views, Balanced dawn/dusk/night, and successive frames of a moving snowfall descent. The harness changes only presentation settings for comparison, advances gameplay manually, and remains unranked. Outputs are in `artifacts/ambient_lighting/`; see [VALIDATION.md](VALIDATION.md#ambient-and-contact-lighting-first-increment) for the measured Low budget and limitations.
+Run `./godotw --script tests/ambient_lighting_playtest.gd` for matched before/after environment captures in all graphics tiers, clear/snowfall chase and first-person views, Balanced dawn/dusk/night, and successive frames of a moving snowfall descent. The harness changes only presentation settings for comparison, advances gameplay manually, and remains unranked. Outputs are in `artifacts/ambient_lighting/`; see [VALIDATION.md](VALIDATION.md#full-mountain-and-rendered-checks) for the measured Low budget and limitations.
 
 ## Local indirect lighting — second increment
 
@@ -133,7 +174,7 @@ For a controlled full-descent comparison, run the following with `off`, then `on
 ./godotw --script tests/ssil_lighting_playtest.gd -- --autoplay --benchmark-no-captures --benchmark-resolution=2560x1440 --graphics-quality=high --weather=clear --ssil-benchmark=off --benchmark-label=ssil_high_off
 ```
 
-The benchmark report records actual SSAO/SSIL enablement, SSIL radius and intensity in its `lighting` field. The SSIL override exists only in the test harness. See [validation results](VALIDATION.md#local-indirect-lighting-second-increment) for measured cost and visual limitations.
+The benchmark report records actual SSAO/SSIL enablement, SSIL radius and intensity in its `lighting` field. The SSIL override exists only in the test harness. See [validation results](VALIDATION.md#full-mountain-and-rendered-checks) for measured cost and visual limitations.
 
 ## Terrain indirect lighting — third increment
 
@@ -178,115 +219,22 @@ For matched surface inspections, run `./godotw --script tests/terrain_material_p
 
 The autoplay benchmark reads actual rendered pixel dimensions once before the run, excludes the first 120 render frames, and records frame distributions, slowest-1% mean FPS, draw calls, reported video memory, graphics/backend settings and mountain checksums. GPU timing may be unavailable on Metal; the report explicitly marks that field unavailable. Measurements are full lab descents, not a comprehensive input-latency or hardware certification.
 
-The final measured results and visual findings are in [VALIDATION.md](VALIDATION.md). The evidence index is `artifacts/graphics_validation.json`; matching camera comparisons are `artifacts/graphics_before_after.png`. `scripts/art/build_graphics_report.py` reconstructs the historical 2026-09-05 report, including archived Terrain3D comparisons; it is not a current acceptance report. New lighting results are documented separately below in `VALIDATION.md`.
+[Validation](VALIDATION.md) defines current checks and remaining acceptance.
+Use current v14 production-loop measurements for the PC target; historical lab
+results and deleted before/after captures do not establish current performance.
+Generation runs on an owned worker, while world scene construction remains a
+separate loading cost. Streaming and cross-platform replay validation are future
+work. See [mountain loading](MOUNTAINS.md).
 
-The current PC target is defined in the [performance policy](#performance-policy); historical MacBook measurements do not establish PC performance. The [final Windows RX 9070 measurements](PC_ENVIRONMENT_IMPLEMENTATION.md#performance-acceptance) establish results only for their stated workload and settings. Other devices and shipping platform exports require direct validation.
+## Powder volume and local geometric compression
 
-The landscape is allocated at startup, with no streaming or background generation. Bounded playable generated basins, mountain libraries, race sharing and local PB ghosts are implemented. Cross-platform replay validation remains future work. See [MOUNTAINS.md](MOUNTAINS.md).
+Showcase v9 adds 32 physical powder banks and a deeper loose layer. Snow crowns
+on suitable rocks also appear on existing mountains. High replaces a bounded
+32 m square with a fixed 6.25 cm mesh and GPU impressions; Low/Balanced retain
+cheaper track ribbons. The original terrain is clipped inside the patch so it
+cannot cover recessed grooves. See [implementation, budgets, captures and measured
+acceptance](POWDER_VOLUME.md). The 120 Hz solver receives no visual feedback.
 
+## Mineral scenery v11
 
-## Articulated rider — model v5
-
-Normal skiing now interpolates the whole-body joint poses and the two ski
-transforms produced by the 120 Hz support/balance solver. Snow spray and track
-history respect each ski's independent support; an airborne ski leaves no new
-imprint. Crashes use fifteen Jolt physical bodies with nearby collider shapes
-built from the existing terrain meshes and solver obstacle envelopes.
-
-The finished skier/equipment is 42,063 base triangles. Clothing, helmet, lens,
-skin and gloves have separate material surfaces. The Visual Settings panel
-contains independent clothing/helmet/lens tint, roughness and metallic controls;
-these persist separately from handling settings and never mark physics modified.
-
-Measured Low/snowfall on Apple M4, Metal, 1440×900: mean 8.33 ms (~120 FPS),
-p95 8.54 ms, p99 8.71 ms, slowest-1% mean 93.2 FPS. Weather quality was High
-(1,700 weather particles); the complete unranked run finished without crashing.
-This supports the approximately 60 FPS Low target at that tested resolution.
-See [rider validation and limits](SKIER_PHYSICS.md#original-model-v5-validation).
-
-## Turning correction — model v6
-
-The knees, pelvis and shin orientation now follow the boot cuff constraints;
-the normal pose solve exits early when both legs already satisfy them. The
-separate ski-contact simulation remains at 120 Hz. A runaway orphaned MCP
-process consuming one CPU core was also stopped during the lag investigation.
-The toolkit, project configuration and graphics presets were preserved.
-
-The final full-descent measurements use Apple M4 / macOS / Godot 4.7.2 /
-Forward+ Metal, **1440×900 actual pixels**, snowfall with High weather quality
-(1,700 particles), and no screenshot capture. The first 120 frames are excluded.
-
-| Graphics | Average FPS | Mean ms | p95 / p99 ms | Slowest-1% mean FPS |
-|---|---:|---:|---:|---:|
-| Low | 115.1 | 8.691 | 12.419 / 13.472 | 65.2 |
-| Balanced | 91.6 | 10.913 | 14.918 / 15.681 | 57.6 |
-
-Both runs finish in 57.4876 s at 142.578 km/h peak with no crash or airtime.
-Low meets the approximately 60 FPS target in this configuration, including its
-slowest-1% average. Balanced has occasional slower frames and is not held to the
-Low target. GPU timing is unavailable; these sequential desktop measurements
-are not a controlled attribution of frame-time changes to one code edit.
-Raw reports are `artifacts/weather_benchmark_turn_anatomy_low.json` and
-`artifacts/weather_benchmark_turn_anatomy_balanced.json`.
-
-See [turning anatomy and validation](SKIER_PHYSICS.md#turning-anatomy--model-v6)
-and `artifacts/turn_anatomy/validation.json` for regression evidence.
-
-
-## Drainage v2 at racing speed
-
-The steeper physical generator retains the existing grid, terrain chunks and renderer. On Apple M4 / Godot 4.7.2 / Metal, Low at 1440×900 actual pixels with snowfall / High weather, the completed eastern descent on seed 849205174 reaches 154.20 km/h and records 120.0 FPS average, 9.842/10.909 ms p95/p99, and 84.0 FPS slowest-1% mean. Measurement excludes 120 warmup frames and screenshot capture; the other open game was temporarily suspended and resumed afterward. This supports the Low target for the tested high-speed descent. See [mountain validation](MOUNTAINS.md#steeper-v2-validation--2026-09-06) and `artifacts/mountain_generation_v2/descent_v2_849205174_native.json`.
-
-
-## Larger physical basin — drainage v3
-
-New mountains expand to 1,536 × 4,096 m at the original 4 m resolution, with
-786,432 physical triangles in 384 chunks. The built-in mesh renderer remains
-the sole terrain path; bounds, exact decorative collar copying and 4 m edge
-stitching follow the active surface. World rendering data built in about 4.1 s
-in the final native fixture; generation and scene construction are synchronous.
-
-Multiple final flight poses, Space hops and the mountain survey were rendered
-and inspected. See `artifacts/jump_upgrade/` and the v10/v3 section of
-`VALIDATION.md`. The initial M4 Low capture run averaged 10.26 ms/frame, but the
-final-build foreground FPS check is pending: the Mac was locked during subsequent
-measurements. Those throttled runs do not certify the approximately 60 FPS target.
-
-
-## Full summit terrain — v4
-
-The v4 physical mountain spans 6.144 km square at 4 m spacing. Its 576 chunks retain 4,718,592 authoritative base triangles. Distant LOD index buffers coarsen interiors while preserving every original boundary segment; nearby skiing and crash trimeshes use the original physical mesh. The scenery origin and shader mask mapping are centred around this mountain. The laboratory and archived mountain geometry remain unchanged.
-
-An isolated complete south-face descent, including lower forests and snowfall, reaches 163.50 km/h on Apple M4 / Godot 4.7.2 / Metal. Low at **1440×900 actual pixels**, snowfall / High weather, records **119.9 FPS average**, **8.340 ms mean**, **9.396/10.624 ms p95/p99**, and **82.5 FPS slowest-1% mean**. The 14,065 measured frames exclude 120 warmup frames and contain no screenshot capture. The base image is taken afterward. This supports the approximately 60 FPS target for this route/configuration. Source data and limits are in `artifacts/summit_mountain/descent_v4_849205174_native.json` and [MOUNTAINS.md](MOUNTAINS.md).
-
-
-## Technical Showcase
-
-The current v6 south face retains the same 4,718,592 base terrain triangles and
-LOD indices. Its localized 4 m rock/snow mask is enabled only on showcase terrain
-materials. Dense stands retain existing tree LODs and regional MultiMeshes, with
-restricted family palettes. Graphics quality never changes physical placement.
-
-The archived v5 full Low / Snowfall descent at 1440×900 on Apple M4 measured
-8.450 ms mean and 10.256/11.498 ms p95/p99. That earlier face was rejected as too
-smooth; these measurements do **not** establish v6 performance. Current native
-measurements and visual evidence are stored in `artifacts/technical_showcase_v6/`.
-See [mountain validation](MOUNTAINS.md#technical-showcase--fixed-south-face-v6).
-
-The complete native western descent in **Low**, **Snowfall / High weather**,
-**Godot 4.7.2 / Metal / Apple M4**, at **1440 × 900 actual pixels**, finishes in
-372.042 s without a crash. Across **44,167 measured frames**, mean frame time is
-**8.423 ms (118.7 FPS)**, with **9.769 / 11.083 ms p95 / p99** and **12.806 ms
-slowest-1% mean**. The first-person forest section contains 8,846 frames: **8.737
-ms mean**, **10.933 / 13.277 ms p95 / p99**, and **14.263 ms slowest-1% mean
-(70.1 FPS)**. The run is isolated and foreground; it excludes 120 warmup frames
-and screenshot capture. These measurements support the approximately-60-FPS Low
-target for this configuration and route, including the dense forest.
-
-World mesh construction takes 4.453 s. Reported peak video memory is about 882
-MiB. Isolated solver steps average 0.291 ms, with 0.491 ms p99; this excludes
-presentation and collision preparation. The report and its exact physical
-fingerprints are in `artifacts/technical_showcase_v6/native_-1_snowfall.json`.
-Clear and snowfall survey/chase/first-person captures are in the same directory.
-Player evaluation of repeated attempts remains open; none of these metrics
-claims that the revised face is fun.
+The active mountain now uses the v3 mineral library through compressed runtime derivatives and regional mesh batches. High retains source-resolution normals; quality never changes solid placement. [Geology v11](GEOLOGY_V11.md) describes placement, collision, imports and measured validation. Existing PC resolution and frame-time targets remain in force.

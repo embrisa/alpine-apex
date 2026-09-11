@@ -29,9 +29,13 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/vsync/vsync_mode=0
 
+[editor]
+
+import/use_multiple_threads=false
+
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_mcp_toolkit/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_mcp_toolkit/plugin.cfg", "res://addons/generation_export/plugin.cfg")
 
 [input_devices]
 
@@ -54,6 +58,7 @@ jolt_physics_3d/simulation/position_steps=12
 
 [rendering]
 
+limits/global_shader_variables/buffer_size=262144
 rendering_device/driver.windows="d3d12"
 lights_and_shadows/directional_shadow/size=2048
 global_illumination/gi/use_half_resolution=true

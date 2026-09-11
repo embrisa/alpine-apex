@@ -13,10 +13,12 @@ func run() -> void:
 		quit(1)
 		return
 	DirAccess.make_dir_recursive_absolute(OUT)
+	set_meta("test_lab_fixture",true)
 	game = load("res://main.tscn").instantiate()
+	game.automated = true
 	root.add_child(game)
 	current_scene = game
-	await process_frame
+	while not game.initialized or (game.loading and game.loading.busy): await process_frame
 	game.set_physics_process(false)
 	game.set_process(false)
 	game.automated = true
@@ -43,7 +45,9 @@ func run() -> void:
 	# A controlled vertical drop supplies real normal impact and body reaction.
 	game.sim.position.y += 3.2
 	game.sim.grounded = false
-	game.sim.velocity += Vector3.DOWN*3.0
+	# Model v18 absorbs ordinary clean drops completely. Use a genuinely
+	# extreme normal impact to retain visible damage and delayed refill coverage.
+	game.sim.velocity += Vector3.DOWN*30.0
 	game.sim.reset_pose_history()
 	for i in range(200):
 		await _step()

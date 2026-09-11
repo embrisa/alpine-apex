@@ -1,0 +1,34 @@
+extends Resource
+## Cosmetic pose/timing values only. Never part of SkiTuning or replay identity.
+const Profiles = preload("res://assets/animation/apex_ski_motion.gd").PROFILES
+@export var preparation_seconds: float = Profiles.prepare.seconds
+@export var preparation_drop_m: float = Profiles.prepare.hip_drop_m
+@export var takeoff_seconds: float = Profiles.powered_takeoff.seconds
+@export var takeoff_extension_m: float = Profiles.powered_takeoff.hip_extension_m
+@export var tuck_drop_m: float = Profiles.tuck.hip_drop_m
+@export var tuck_back_degrees = 30.0 # above the local ski plane
+@export var preparation_forward_degrees: float = rad_to_deg(Profiles.prepare.chest_pitch_rad)
+@export var spine_relaxed_degrees = 6.0
+@export var spine_tuck_degrees = 24.0
+@export var spine_preparation_degrees = 28.0
+@export var spine_landing_degrees = 18.0
+@export var spine_max_degrees = 38.0
+@export var spine_response_hz = 16.0
+@export var landing_lookahead_seconds: float = Profiles.landing_open.lookahead_s
+@export var landing_min_speed_mps = .75
+@export var landing_medium_mps = 4.0
+@export var landing_large_mps = 8.0
+@export var landing_group_seconds = .30
+@export var landing_recovery_seconds = Vector3(Profiles.landing_small.seconds,Profiles.landing_medium.seconds,Profiles.landing_large.seconds)
+@export var landing_drop_m = Vector3(Profiles.landing_small.hip_drop_m,Profiles.landing_medium.hip_drop_m,Profiles.landing_large.hip_drop_m)
+@export var response_hz = 12.0
+@export var air_gather_start_seconds: float = Profiles.natural_departure.gather_delay_s
+@export var air_gather_seconds = .30
+@export var air_gather_drop_m: float = Profiles.compact_flight.hip_drop_m
+@export var turn_chest_bank_degrees = 32.0
+@export var minimum_hip_above_ankles_m = .20
+@export var maximum_torso_tilt_degrees = 78.0
+@export var collision_min_speed_mps = 1.0
+@export var collision_group_seconds = .30
+@export var collision_recovery_seconds = .50
+@export var collision_reference_mps = 12.0

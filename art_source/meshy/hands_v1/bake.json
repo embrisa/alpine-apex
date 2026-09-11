@@ -1,0 +1,11 @@
+{
+  "fingerprint": "c9cfd0cdf7dc99eb5380083798bcd84041e9c14a0efc927268775f29ad8b68ef",
+  "source_sha256": "3b15b84579416493ded1fd792364f9c37d713fe15fc8f5aef8f585d5ff49db4b",
+  "resolution": 2048,
+  "channels": [
+    "albedo",
+    "normal",
+    "roughness"
+  ],
+  "blender": "5.2.1 LTS"
+}

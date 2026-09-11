@@ -1,15 +1,28 @@
 extends Node
 ## Small, synthesized UI cues. No assets, loops, or per-frame audio allocation.
 const PATH = "user://interface_preferences.cfg"
-var volume: float = 0.55
+signal preferences_changed
+var volume: float = 0.55:
+	set(value):
+		volume = clampf(value,0.0,1.0)
+		preferences_changed.emit()
 var muted: bool = false:
 	set(value):
 		muted = value
 		if value:
 			for player in players: player.stop()
-var reduced_motion: bool = false
+		preferences_changed.emit()
+var reduced_motion: bool = false:
+	set(value):
+		reduced_motion = value
+		preferences_changed.emit()
+var loading_ambience: bool = true:
+	set(value):
+		loading_ambience = value
+		preferences_changed.emit()
 var persist: bool = false
 var enabled: bool = false
+var pending_preferences: Dictionary = {}
 var players: Array[AudioStreamPlayer] = []
 var cues: Dictionary = {}
 var cursor: int = 0
@@ -17,12 +30,8 @@ var last_hover: int = 0
 
 func _ready() -> void:
 	persist = DisplayServer.get_name() != "headless" and "--script" not in OS.get_cmdline_args() and "-s" not in OS.get_cmdline_args() and "--autoplay" not in OS.get_cmdline_user_args()
-	if persist:
-		var config = ConfigFile.new()
-		if config.load(PATH) == OK:
-			volume = clampf(float(config.get_value("ui","volume",0.55)),0.0,1.0)
-			muted = bool(config.get_value("ui","muted",false))
-			reduced_motion = bool(config.get_value("ui","reduced_motion",false))
+	restore(pending_preferences if not pending_preferences.is_empty() else read_preferences(persist))
+	pending_preferences.clear()
 	for id in ["hover","press","ready","error"]:
 		cues[id] = _tone(id)
 	for i in 3:
@@ -30,12 +39,31 @@ func _ready() -> void:
 		add_child(player)
 		players.append(player)
 
+static func preferences_from_config(config: ConfigFile) -> Dictionary:
+	return {"volume":clampf(float(config.get_value("ui","volume",0.55)),0.0,1.0),
+		"muted":bool(config.get_value("ui","muted",false)),
+		"reduced_motion":bool(config.get_value("ui","reduced_motion",false)),
+		"loading_ambience":bool(config.get_value("ui","loading_ambience",true))}
+
+static func read_preferences(personal: bool) -> Dictionary:
+	var config = ConfigFile.new()
+	if personal: config.load(PATH)
+	return preferences_from_config(config)
+
+func snapshot() -> Dictionary:
+	return {"volume":volume,"muted":muted,"reduced_motion":reduced_motion,"loading_ambience":loading_ambience}
+
+func restore(values: Dictionary) -> void:
+	volume = values.get("volume",0.55)
+	muted = values.get("muted",false)
+	reduced_motion = values.get("reduced_motion",false)
+	loading_ambience = values.get("loading_ambience",true)
+
 func save() -> void:
 	if not persist: return
 	var config = ConfigFile.new()
-	config.set_value("ui","volume",volume)
-	config.set_value("ui","muted",muted)
-	config.set_value("ui","reduced_motion",reduced_motion)
+	config.load(PATH)
+	for key in snapshot(): config.set_value("ui",key,snapshot()[key])
 	config.save(PATH)
 
 func play(id: String = "press") -> void:

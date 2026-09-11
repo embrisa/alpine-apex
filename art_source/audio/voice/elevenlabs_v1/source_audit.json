@@ -1,0 +1,448 @@
+[
+  {
+    "index": 1,
+    "source": "ElevenLabs_2026-09-07T23_02_31_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "6abf9fb0d1a4cb2029b93d5e84c7193fd6a21acf7b57374c45a7a0949aba144b",
+    "duration": 0.9926875,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 1.0,
+        "text": " Come on!",
+        "no_speech_prob": 0.023076007142663002,
+        "avg_logprob": -0.5617235600948334
+      }
+    ]
+  },
+  {
+    "index": 2,
+    "source": "ElevenLabs_2026-09-07T23_04_09_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3 (1).mp3",
+    "sha256": "331dfbea811fa4f16f5146fc1c61bd58b42bbb7e38002b7879001bb30d839af8",
+    "duration": 1.149375,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 1.0,
+        "text": " Ah!",
+        "no_speech_prob": 0.11655698716640472,
+        "avg_logprob": -0.9922347068786621
+      }
+    ]
+  },
+  {
+    "index": 3,
+    "source": "ElevenLabs_2026-09-07T23_04_09_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "abcbe8213029a1222a69afeff199ae47de136eea6489a1b742da6aaac0ad0ee3",
+    "duration": 0.9143125,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 0.98,
+        "text": " AHHHHH!",
+        "no_speech_prob": 0.23560436069965363,
+        "avg_logprob": -1.216120413371495
+      }
+    ]
+  },
+  {
+    "index": 4,
+    "source": "ElevenLabs_2026-09-07T23_04_44_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3 (1).mp3",
+    "sha256": "0085240fe8f062462dc5bd804671d32de019a2905446e69d52b09ad670a8d8b6",
+    "duration": 1.22775,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 1.0,
+        "text": " Ahhhhh!",
+        "no_speech_prob": 0.15371529757976532,
+        "avg_logprob": -1.199823021888733
+      }
+    ]
+  },
+  {
+    "index": 5,
+    "source": "ElevenLabs_2026-09-07T23_04_44_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "402804f395c2e56f8dc8e3c41ec8518450b5b51730e994077f7dc6567fd5c8a5",
+    "duration": 1.306125,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 1.0,
+        "text": " AAAAAH!",
+        "no_speech_prob": 0.1100645512342453,
+        "avg_logprob": -1.0850158759525843
+      }
+    ]
+  },
+  {
+    "index": 6,
+    "source": "ElevenLabs_2026-09-07T23_05_05_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "a23bbf4925bb3f56e60d19cd4d7867fb5213f6a084322530a95095942ab08df0",
+    "duration": 1.149375,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 0.84,
+        "text": " Ah!",
+        "no_speech_prob": 0.16264641284942627,
+        "avg_logprob": -1.0703953742980956
+      }
+    ]
+  },
+  {
+    "index": 7,
+    "source": "ElevenLabs_2026-09-07T23_05_55_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "18b15969ee6e320d3ddecde282715e826abc44a5c2249a94ec972b94c83b0081",
+    "duration": 1.149375,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 1.0,
+        "text": " Waaaah!",
+        "no_speech_prob": 0.07775431871414185,
+        "avg_logprob": -0.9410128252846854
+      }
+    ]
+  },
+  {
+    "index": 8,
+    "source": "ElevenLabs_2026-09-07T23_06_30_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "71389af94e262c5ebc8aeb9adce6b5148fdfe529628df5ee5c833e42dc75edc9",
+    "duration": 2.2726875,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 2.0,
+        "text": " AHHHHH!",
+        "no_speech_prob": 0.18777091801166534,
+        "avg_logprob": -1.1719744205474854
+      }
+    ]
+  },
+  {
+    "index": 9,
+    "source": "ElevenLabs_2026-09-07T23_16_21_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3 (1).mp3",
+    "sha256": "1b137b56a836498cefa1b7771225632a862c973f2ed1155471a302b9adb62d21",
+    "duration": 2.847375,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 2.0,
+        "text": " breath",
+        "no_speech_prob": 0.5957444906234741,
+        "avg_logprob": -2.4578661918640137
+      }
+    ]
+  },
+  {
+    "index": 10,
+    "source": "ElevenLabs_2026-09-07T23_16_21_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "d74f1f9b7ddd93e32e30c6199f370ded96a0a00c38a6adbc989bb7b3675b0bbc",
+    "duration": 2.50775,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 2.0,
+        "text": " H-h-h-h-h-h-h",
+        "no_speech_prob": 0.6170985698699951,
+        "avg_logprob": -0.860022883862257
+      }
+    ]
+  },
+  {
+    "index": 11,
+    "source": "ElevenLabs_2026-09-07T23_17_04_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3 (1).mp3",
+    "sha256": "18325829b937f31677551d857a2fa2c5d669d3d904f10cedd88b25111c714d20",
+    "duration": 4.049,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 2.0,
+        "text": " I'm sorry.",
+        "no_speech_prob": 0.5391905307769775,
+        "avg_logprob": -1.6479816096169608
+      }
+    ]
+  },
+  {
+    "index": 12,
+    "source": "ElevenLabs_2026-09-07T23_17_04_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "6595e603f5224d81b9c15a8d1f5d22e65693ea0568de90d9f7b3fa0074482a46",
+    "duration": 5.5640625,
+    "segments": []
+  },
+  {
+    "index": 13,
+    "source": "ElevenLabs_2026-09-07T23_17_41_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "5354f52c258f915e60cb1d4aac305932169b4d586adb60d183cf49f57ed4796c",
+    "duration": 23.170625,
+    "segments": []
+  },
+  {
+    "index": 14,
+    "source": "ElevenLabs_2026-09-07T23_27_58_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "587f0b0844fc5a36e25509eaa1bd837f3826510470d0351d3d1d65388d779599",
+    "duration": 6.269375,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 6.24,
+        "text": " Then with beggar Decaded",
+        "no_speech_prob": 0.20235827565193176,
+        "avg_logprob": -0.7877399656507704
+      }
+    ]
+  },
+  {
+    "index": 15,
+    "source": "ElevenLabs_2026-09-07T23_46_36_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3 (1).mp3",
+    "sha256": "641315e532f89f90d48dd7f24f70aa9c048a81411c3c238e58bd2e4fd2510824",
+    "duration": 9.4040625,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 3.36,
+        "text": " Oh my god! Watch out! Careful!",
+        "no_speech_prob": 0.008037127554416656,
+        "avg_logprob": -0.405436862598766
+      },
+      {
+        "start": 3.36,
+        "end": 7.36,
+        "text": " Whoa! That's a big jump! Huge air!",
+        "no_speech_prob": 0.008037127554416656,
+        "avg_logprob": -0.405436862598766
+      },
+      {
+        "start": 7.36,
+        "end": 9.36,
+        "text": " Whoa! Whoa! Whoa!",
+        "no_speech_prob": 0.008037127554416656,
+        "avg_logprob": -0.405436862598766
+      }
+    ]
+  },
+  {
+    "index": 16,
+    "source": "ElevenLabs_2026-09-07T23_46_36_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "c9e1c05cc561a64aebd8020f4aee48e278309db963a6e895fee90b6fa2b5aa77",
+    "duration": 7.3926875,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 1.52,
+        "text": " Oh my god, watch out!",
+        "no_speech_prob": 0.011321412399411201,
+        "avg_logprob": -0.41790005323049184
+      },
+      {
+        "start": 1.52,
+        "end": 2.32,
+        "text": " Careful!",
+        "no_speech_prob": 0.011321412399411201,
+        "avg_logprob": -0.41790005323049184
+      },
+      {
+        "start": 2.32,
+        "end": 3.92,
+        "text": " Whoa, that's a big jump!",
+        "no_speech_prob": 0.011321412399411201,
+        "avg_logprob": -0.41790005323049184
+      },
+      {
+        "start": 3.92,
+        "end": 5.36,
+        "text": " Huge air!",
+        "no_speech_prob": 0.011321412399411201,
+        "avg_logprob": -0.41790005323049184
+      },
+      {
+        "start": 5.36,
+        "end": 7.36,
+        "text": " Whoa, whoa, whoa!",
+        "no_speech_prob": 0.011321412399411201,
+        "avg_logprob": -0.41790005323049184
+      }
+    ]
+  },
+  {
+    "index": 17,
+    "source": "ElevenLabs_2026-09-07T23_52_48_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "5feb6fc2dd950e3f5133ab428fb507f43df16b744acccff8c61a1db12db19fe1",
+    "duration": 5.9559375,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 5.92,
+        "text": " That was huge! Yes! Come on! No way!",
+        "no_speech_prob": 0.0016680274857208133,
+        "avg_logprob": -0.4427439451217651
+      }
+    ]
+  },
+  {
+    "index": 18,
+    "source": "ElevenLabs_2026-09-07T23_54_55_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3 (1).mp3",
+    "sha256": "4d84ea13e52962a25528b66dfdcef3bc773efc3e02124c983aca93ee07fa2ffa",
+    "duration": 6.0343125,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 6.0200000000000005,
+        "text": " Pfft, pfft, pfft, pfft, pfft, pfft...",
+        "no_speech_prob": 0.5917562246322632,
+        "avg_logprob": -0.6018746958838569
+      }
+    ]
+  },
+  {
+    "index": 19,
+    "source": "ElevenLabs_2026-09-07T23_54_55_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "aafab58f5c56e42aee39e638951ad2cb55b7111219e3a327c1039d041a8cbdc4",
+    "duration": 5.5640625,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 5.0,
+        "text": " Ha! Ha! Ha! Ha! Ha!",
+        "no_speech_prob": 0.7187694907188416,
+        "avg_logprob": -0.8683561728550837
+      }
+    ]
+  },
+  {
+    "index": 20,
+    "source": "ElevenLabs_2026-09-07T23_57_25_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3 (1).mp3",
+    "sha256": "40fbc0afeea49833233f08ef6ae8c1c9fe4389ca2407db204c72ef3989fdea7c",
+    "duration": 1.410625,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 1.36,
+        "text": " Yes, that's a PB.",
+        "no_speech_prob": 0.03452232852578163,
+        "avg_logprob": -0.3956570506095886
+      }
+    ]
+  },
+  {
+    "index": 21,
+    "source": "ElevenLabs_2026-09-07T23_57_25_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "83ca4058412ca29e3ca01492d53ce9d178af64c770f36f6ec3a5e403df028d46",
+    "duration": 1.567375,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 1.6,
+        "text": " Yes, that's a PB!",
+        "no_speech_prob": 0.008792621083557606,
+        "avg_logprob": -0.3820097029209137
+      }
+    ]
+  },
+  {
+    "index": 22,
+    "source": "ElevenLabs_2026-09-07T23_57_37_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3 (1).mp3",
+    "sha256": "dde0b8a9f31f65f49628b63bcc4a16110eaf1e384e03db8227533886246a1141",
+    "duration": 1.7240625,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 2.0,
+        "text": " Yes, that's a PB!",
+        "no_speech_prob": 0.008529304526746273,
+        "avg_logprob": -0.3935961753129959
+      }
+    ]
+  },
+  {
+    "index": 23,
+    "source": "ElevenLabs_2026-09-07T23_57_37_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "a2a8e965c1f578e80e214a4e09196b1379ccfb96417fecbb4d65d4deafcdaa7f",
+    "duration": 1.7240625,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 1.68,
+        "text": " Yes, that's a PB.",
+        "no_speech_prob": 0.015435487031936646,
+        "avg_logprob": -0.4119056582450867
+      }
+    ]
+  },
+  {
+    "index": 24,
+    "source": "ElevenLabs_2026-09-07T23_58_29_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3 (1).mp3",
+    "sha256": "0ae526ad08bb8827b353fa05f26f347e43beb07b8785d003ef599e071bd65c70",
+    "duration": 3.0040625,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 3.0,
+        "text": " No way! Yes, I'm the best!",
+        "no_speech_prob": 0.03630438819527626,
+        "avg_logprob": -0.41818023644960844
+      }
+    ]
+  },
+  {
+    "index": 25,
+    "source": "ElevenLabs_2026-09-07T23_58_29_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "647526b769e96a7c2ab2816d2236feb51f9b93e247ec452c52bd2d173b85985f",
+    "duration": 3.1608125,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 3.16,
+        "text": " No way, yes, I'm the best.",
+        "no_speech_prob": 0.014097421430051327,
+        "avg_logprob": -0.5170534757467417
+      }
+    ]
+  },
+  {
+    "index": 26,
+    "source": "ElevenLabs_2026-09-07T23_59_18_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3 (1).mp3",
+    "sha256": "b52a9e79451f5858a2cae84679dd27338be3e737dd4fedc957cd6d0afb655bd1",
+    "duration": 3.2391875,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 3.16,
+        "text": " Holy! I did it! I'm the top!",
+        "no_speech_prob": 0.005140864290297031,
+        "avg_logprob": -0.36695575075490133
+      }
+    ]
+  },
+  {
+    "index": 27,
+    "source": "ElevenLabs_2026-09-07T23_59_18_Liam - Energetic, Social Media Creator_pre_sp90_s40_sb75_v3.mp3",
+    "sha256": "67bfebf8aef6ff3d273607aeb8890e3c02f1b02894a6489fcfedc00328e5052b",
+    "duration": 2.690625,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 2.64,
+        "text": " Holy! I did it! I'm the top!",
+        "no_speech_prob": 0.005284799262881279,
+        "avg_logprob": -0.30285146832466125
+      }
+    ]
+  },
+  {
+    "index": 28,
+    "source": "ElevenLabs_2026-09-08T00_06_40_James - Husky, Engaging and Bold_pvc_sp100_s50_sb50_v3.mp3",
+    "sha256": "e73b53356cb4b2b3ec0f3de380c577a4eb4b6d52708cdbf821ae8ffa0114d7a0",
+    "duration": 3.0824375,
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 3.04,
+        "text": " Holy! I did it! I'm the top!",
+        "no_speech_prob": 0.00690736947581172,
+        "avg_logprob": -0.3618945287806647
+      }
+    ]
+  }
+]

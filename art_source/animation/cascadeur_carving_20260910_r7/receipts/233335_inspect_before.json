@@ -1,0 +1,18 @@
+{
+  "label": "inspect_before",
+  "started_unix": 1789076013.5753775,
+  "seconds": 2.050311803817749,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "run_script",
+      "arguments": {
+        "code": "print(app.current_scene().get_path_name()); print(app.current_scene().domain_scene().data_viewer().get_animation_size())"
+      }
+    }
+  },
+  "response": null,
+  "transport_error": "URLError(ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None))"
+}

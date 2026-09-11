@@ -1,0 +1,382 @@
+[
+  {
+    "asset_id": "garden_gnome",
+    "name": "Garden Gnome",
+    "author": {
+      "Bhargav Kubal": "All"
+    },
+    "source": "Poly Haven",
+    "source_url": "https://polyhaven.com/a/garden_gnome",
+    "license": "CC0-1.0",
+    "texture_resolution": 2048,
+    "files": [
+      {
+        "path": "art_source/flavor_v1/raw/garden_gnome/garden_gnome.gltf",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/garden_gnome/garden_gnome_2k.gltf",
+        "sha256": "194aae0e1942a06366879cf675fdfdacbe4763606abf214d5a517b4bef1b34c1",
+        "bytes": 2784
+      },
+      {
+        "path": "art_source/flavor_v1/raw/garden_gnome/textures/garden_gnome_diff_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/garden_gnome/garden_gnome_diff_2k.jpg",
+        "sha256": "e180b76bca101c31527c1a7dc06e18c9dc67fd6a501a911d60176b70be3143ff",
+        "bytes": 1560793
+      },
+      {
+        "path": "art_source/flavor_v1/raw/garden_gnome/textures/garden_gnome_arm_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/garden_gnome/garden_gnome_arm_2k.jpg",
+        "sha256": "5cfe74c5182e49cf26d6e2e2149efee46aeacb631a8d10a1cf8bcbb22e8f22cb",
+        "bytes": 1839012
+      },
+      {
+        "path": "art_source/flavor_v1/raw/garden_gnome/garden_gnome.bin",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/garden_gnome/garden_gnome.bin",
+        "sha256": "d3b29486e4c7ad51ce564524e5e2b1c80afeef1b85ea4027a98ec3deca934b1d",
+        "bytes": 683068
+      },
+      {
+        "path": "art_source/flavor_v1/raw/garden_gnome/textures/garden_gnome_nor_gl_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/garden_gnome/garden_gnome_nor_gl_2k.jpg",
+        "sha256": "8546438bca11cde10f317103099728c8a9a626e4d25a2720765d34c22662b31f",
+        "bytes": 2082903
+      }
+    ]
+  },
+  {
+    "asset_id": "WetFloorSign_01",
+    "name": "Wet Floor Sign 01",
+    "author": {
+      "Fran Calvente": "All"
+    },
+    "source": "Poly Haven",
+    "source_url": "https://polyhaven.com/a/WetFloorSign_01",
+    "license": "CC0-1.0",
+    "texture_resolution": 2048,
+    "files": [
+      {
+        "path": "art_source/flavor_v1/raw/WetFloorSign_01/WetFloorSign_01.gltf",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/WetFloorSign_01/WetFloorSign_01_2k.gltf",
+        "sha256": "8bb1e1d7099e2592f0778b8eaa4d8a2cd5cb52137069db9d83f81dae6486c097",
+        "bytes": 2688
+      },
+      {
+        "path": "art_source/flavor_v1/raw/WetFloorSign_01/textures/WetFloorSign_01_nor_gl_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/WetFloorSign_01/WetFloorSign_01_nor_gl_2k.jpg",
+        "sha256": "9f1d068237273aae2a76b4b1cfb9fc79269b0b8c265ce0859e8daff21e22440f",
+        "bytes": 234546
+      },
+      {
+        "path": "art_source/flavor_v1/raw/WetFloorSign_01/textures/WetFloorSign_01_diff_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/WetFloorSign_01/WetFloorSign_01_diff_2k.jpg",
+        "sha256": "f2cc0de3faa39fa922c878ecdb84935f444a0d9276afe7e993e7e59e28f75b49",
+        "bytes": 115837
+      },
+      {
+        "path": "art_source/flavor_v1/raw/WetFloorSign_01/textures/WetFloorSign_01_arm_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/WetFloorSign_01/WetFloorSign_01_arm_2k.jpg",
+        "sha256": "dfe8b7eaa199845ba5e0049d73407c5fae8567803c7c22bdd7cf6c16c05e750d",
+        "bytes": 408113
+      },
+      {
+        "path": "art_source/flavor_v1/raw/WetFloorSign_01/WetFloorSign_01.bin",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/WetFloorSign_01/WetFloorSign_01.bin",
+        "sha256": "d23cdec8975ac452d64ae97b08f1eecd22e38f052bd5d588d352dbc0f0373af0",
+        "bytes": 9496
+      }
+    ]
+  },
+  {
+    "asset_id": "ArmChair_01",
+    "name": "Arm Chair 01",
+    "author": {
+      "Kirill Sannikov": "All"
+    },
+    "source": "Poly Haven",
+    "source_url": "https://polyhaven.com/a/ArmChair_01",
+    "license": "CC0-1.0",
+    "texture_resolution": 2048,
+    "files": [
+      {
+        "path": "art_source/flavor_v1/raw/ArmChair_01/ArmChair_01.gltf",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/ArmChair_01/ArmChair_01_2k.gltf",
+        "sha256": "fef57c24069f77767605f865332cb6b4bfa4b78352b230ce75ee66ed5566a9eb",
+        "bytes": 2643
+      },
+      {
+        "path": "art_source/flavor_v1/raw/ArmChair_01/textures/Armchair_01_nor_gl_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/ArmChair_01/Armchair_01_nor_gl_2k.jpg",
+        "sha256": "0bce11bc21a3259e13429e65bedc1cf28d2a672fc6dde6dc86f45e8b8f8a9af4",
+        "bytes": 1482566
+      },
+      {
+        "path": "art_source/flavor_v1/raw/ArmChair_01/ArmChair_01.bin",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/ArmChair_01/ArmChair_01.bin",
+        "sha256": "42a4206ea8bb3f7c3c1500ca3e408e084e8687cd3cc9cbf095b3344e215e0db6",
+        "bytes": 154012
+      },
+      {
+        "path": "art_source/flavor_v1/raw/ArmChair_01/textures/Armchair_01_diff_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/ArmChair_01/Armchair_01_diff_2k.jpg",
+        "sha256": "d45d6f6328a924b5099deb7ed88023ab066128a376ee2d16f48149872cec47de",
+        "bytes": 723200
+      },
+      {
+        "path": "art_source/flavor_v1/raw/ArmChair_01/textures/Armchair_01_arm_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/ArmChair_01/Armchair_01_arm_2k.jpg",
+        "sha256": "9f5011595cfc5ba523ac385b0bf978c5e455dcf9f9fb6f53d4bfcb4159224e39",
+        "bytes": 442886
+      }
+    ]
+  },
+  {
+    "asset_id": "wooden_picnic_table",
+    "name": "Wooden Picnic Table",
+    "author": {
+      "Ulan Cabanilla": "All"
+    },
+    "source": "Poly Haven",
+    "source_url": "https://polyhaven.com/a/wooden_picnic_table",
+    "license": "CC0-1.0",
+    "texture_resolution": 2048,
+    "files": [
+      {
+        "path": "art_source/flavor_v1/raw/wooden_picnic_table/wooden_picnic_table.gltf",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/wooden_picnic_table/wooden_picnic_table_2k.gltf",
+        "sha256": "3d8d1b6d0c0efe5303b50e58e2d9d449bd7b6223b7421f2acc75693eb1044333",
+        "bytes": 5099
+      },
+      {
+        "path": "art_source/flavor_v1/raw/wooden_picnic_table/wooden_picnic_table.bin",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/wooden_picnic_table/wooden_picnic_table.bin",
+        "sha256": "1efd51c292843194fbd709452d56d06c9ddc770f43a013db57ca79bfc2731b01",
+        "bytes": 279116
+      },
+      {
+        "path": "art_source/flavor_v1/raw/wooden_picnic_table/textures/wooden_picnic_table_bottom_diff_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/wooden_picnic_table/wooden_picnic_table_bottom_diff_2k.jpg",
+        "sha256": "3f6ab082adbc93d58d0fcb890dbcbbbf1bb9731390bf86f7e06f1149cd8c44d9",
+        "bytes": 2779459
+      },
+      {
+        "path": "art_source/flavor_v1/raw/wooden_picnic_table/textures/wooden_picnic_table_top_arm_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/wooden_picnic_table/wooden_picnic_table_top_arm_2k.jpg",
+        "sha256": "a095db06707a2101ac3fe3ba41b1b78c5bcecd338ee981643f2aa36bf31b0043",
+        "bytes": 3118298
+      },
+      {
+        "path": "art_source/flavor_v1/raw/wooden_picnic_table/textures/wooden_picnic_table_bottom_nor_gl_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/wooden_picnic_table/wooden_picnic_table_bottom_nor_gl_2k.jpg",
+        "sha256": "2b5f79431ebdfc7a94f54be64c168a975bff4a3f41666ca992450ae58e686026",
+        "bytes": 2513966
+      },
+      {
+        "path": "art_source/flavor_v1/raw/wooden_picnic_table/textures/wooden_picnic_table_top_nor_gl_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/wooden_picnic_table/wooden_picnic_table_top_nor_gl_2k.jpg",
+        "sha256": "9aff708208707c2017c7422f6c0d97b302f9ccccd30fb45bb86bdfa320498425",
+        "bytes": 3037855
+      },
+      {
+        "path": "art_source/flavor_v1/raw/wooden_picnic_table/textures/wooden_picnic_table_bottom_arm_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/wooden_picnic_table/wooden_picnic_table_bottom_arm_2k.jpg",
+        "sha256": "a7d8573dc60ed977f2069d34460b6784eb4155601b4890b47c4f52c4b1231ffe",
+        "bytes": 2774038
+      },
+      {
+        "path": "art_source/flavor_v1/raw/wooden_picnic_table/textures/wooden_picnic_table_top_diff_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/wooden_picnic_table/wooden_picnic_table_top_diff_2k.jpg",
+        "sha256": "34440cd1c2618716d3f585ee7e431b57f9ff0adb7b4633b28674a1dfd0dce5bc",
+        "bytes": 3135590
+      }
+    ]
+  },
+  {
+    "asset_id": "stone_fire_pit",
+    "name": "Stone Fire Pit",
+    "author": {
+      "Sebastian Platen": "All"
+    },
+    "source": "Poly Haven",
+    "source_url": "https://polyhaven.com/a/stone_fire_pit",
+    "license": "CC0-1.0",
+    "texture_resolution": 2048,
+    "files": [
+      {
+        "path": "art_source/flavor_v1/raw/stone_fire_pit/stone_fire_pit.gltf",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/stone_fire_pit/stone_fire_pit_2k.gltf",
+        "sha256": "ec9fbcbde245600ee8ea7c53de99599c1877e1fe10760cf90faac6988048c56c",
+        "bytes": 2792
+      },
+      {
+        "path": "art_source/flavor_v1/raw/stone_fire_pit/textures/stone_fire_pit_arm_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/stone_fire_pit/stone_fire_pit_arm_2k.jpg",
+        "sha256": "e710477110468a6f154ca8a106ce3a8dc33007be418c45565cdcae092de58400",
+        "bytes": 2511948
+      },
+      {
+        "path": "art_source/flavor_v1/raw/stone_fire_pit/textures/stone_fire_pit_nor_gl_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/stone_fire_pit/stone_fire_pit_nor_gl_2k.jpg",
+        "sha256": "abb35b4c48a221f5ca5a4ca4f3ae63cfa12a3cf5002021a90e9b96bb780f8134",
+        "bytes": 3844732
+      },
+      {
+        "path": "art_source/flavor_v1/raw/stone_fire_pit/stone_fire_pit.bin",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/stone_fire_pit/stone_fire_pit.bin",
+        "sha256": "83528a314ac1ff67a583a59640612e7f8dca803dbb581188b8226d9b661ef0d6",
+        "bytes": 96220
+      },
+      {
+        "path": "art_source/flavor_v1/raw/stone_fire_pit/textures/stone_fire_pit_diff_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/stone_fire_pit/stone_fire_pit_diff_2k.jpg",
+        "sha256": "79a4a9a09d1654077fd07b354b95ed6996a0670171bfad8aa320f348d3c73c7e",
+        "bytes": 3161409
+      }
+    ]
+  },
+  {
+    "asset_id": "vintage_radio_transceiver",
+    "name": "Vintage Radio Transceiver",
+    "author": {
+      "Mateusz Sadek": "All"
+    },
+    "source": "Poly Haven",
+    "source_url": "https://polyhaven.com/a/vintage_radio_transceiver",
+    "license": "CC0-1.0",
+    "texture_resolution": 2048,
+    "files": [
+      {
+        "path": "art_source/flavor_v1/raw/vintage_radio_transceiver/vintage_radio_transceiver.gltf",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/vintage_radio_transceiver/vintage_radio_transceiver_2k.gltf",
+        "sha256": "97a942911b68440da250ae0d829a5ae0075df121148c07bf941bef7c6da9f07d",
+        "bytes": 25848
+      },
+      {
+        "path": "art_source/flavor_v1/raw/vintage_radio_transceiver/textures/vintage_radio_transceiver_nor_gl_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_radio_transceiver/vintage_radio_transceiver_nor_gl_2k.jpg",
+        "sha256": "0847075bff7d68574dcf65986f6c441cfb46c4619878786b1beffe3ad853622a",
+        "bytes": 1809010
+      },
+      {
+        "path": "art_source/flavor_v1/raw/vintage_radio_transceiver/textures/vintage_radio_transceiver_diff_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_radio_transceiver/vintage_radio_transceiver_diff_2k.jpg",
+        "sha256": "87f03f8ce4b48d78083609a91afc9172f09ffe572c622342c6352b04ab90356f",
+        "bytes": 2978698
+      },
+      {
+        "path": "art_source/flavor_v1/raw/vintage_radio_transceiver/textures/vintage_radio_transceiver_arm_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_radio_transceiver/vintage_radio_transceiver_arm_2k.jpg",
+        "sha256": "3b301d0a23ccc10711e88380af600e12b74c5e564b6bb3b94f002bfd86124bc1",
+        "bytes": 3683828
+      },
+      {
+        "path": "art_source/flavor_v1/raw/vintage_radio_transceiver/textures/vintage_radio_transceiver_accessories_nor_gl_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_radio_transceiver/vintage_radio_transceiver_accessories_nor_gl_2k.jpg",
+        "sha256": "fb0a8dc541d9b6337405354df580144c95804490f1ba0bc24a46ed7b79128979",
+        "bytes": 1927802
+      },
+      {
+        "path": "art_source/flavor_v1/raw/vintage_radio_transceiver/textures/vintage_radio_transceiver_accessories_diff_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_radio_transceiver/vintage_radio_transceiver_accessories_diff_2k.jpg",
+        "sha256": "67124a78e7de97188ddee5f43b5dc58068dacd679a03cfc15da3c768bd495991",
+        "bytes": 2759700
+      },
+      {
+        "path": "art_source/flavor_v1/raw/vintage_radio_transceiver/textures/vintage_radio_transceiver_accessories_arm_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/vintage_radio_transceiver/vintage_radio_transceiver_accessories_arm_2k.jpg",
+        "sha256": "f9c03b0960f0e0723327ff9f73e9818a8c17fdbc28fa931c82b295647067397c",
+        "bytes": 3430814
+      },
+      {
+        "path": "art_source/flavor_v1/raw/vintage_radio_transceiver/vintage_radio_transceiver.bin",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/vintage_radio_transceiver/vintage_radio_transceiver.bin",
+        "sha256": "392976de8f78517141a42c8a4685463c8db508d3ce4ac04e7235d6a5374c0de1",
+        "bytes": 1740024
+      }
+    ]
+  },
+  {
+    "asset_id": "wooden_crate_01",
+    "name": "Wooden Crate 01",
+    "author": {
+      "James Ray Cock": "All"
+    },
+    "source": "Poly Haven",
+    "source_url": "https://polyhaven.com/a/wooden_crate_01",
+    "license": "CC0-1.0",
+    "texture_resolution": 2048,
+    "files": [
+      {
+        "path": "art_source/flavor_v1/raw/wooden_crate_01/wooden_crate_01.gltf",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/wooden_crate_01/wooden_crate_01_2k.gltf",
+        "sha256": "747c26810ddcca99454ccd27fa0079b3718edda34c75d2a792b2c9bd28772a20",
+        "bytes": 5612
+      },
+      {
+        "path": "art_source/flavor_v1/raw/wooden_crate_01/wooden_crate_01.bin",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/wooden_crate_01/wooden_crate_01.bin",
+        "sha256": "85f381f8035f7a6f2f3b848640894c6d3333b261946dd8a338c0fe19e0bea21e",
+        "bytes": 189408
+      },
+      {
+        "path": "art_source/flavor_v1/raw/wooden_crate_01/textures/wooden_crate_01_arm_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/wooden_crate_01/wooden_crate_01_arm_2k.jpg",
+        "sha256": "00568882a62e4870a3ca9bbaad72606381bf3da857f0cb7a71b004edde39653c",
+        "bytes": 2808807
+      },
+      {
+        "path": "art_source/flavor_v1/raw/wooden_crate_01/textures/wooden_crate_01_nor_gl_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/wooden_crate_01/wooden_crate_01_nor_gl_2k.jpg",
+        "sha256": "d163fac0801aa15a6153a8b19de898442b849f82bd720ce1418e300fee9f2c75",
+        "bytes": 2553649
+      },
+      {
+        "path": "art_source/flavor_v1/raw/wooden_crate_01/textures/wooden_crate_01_diff_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/wooden_crate_01/wooden_crate_01_diff_2k.jpg",
+        "sha256": "0ba1a7745837c7b5495b6a90051ddb92b25224476526ebd19418286afc3d429b",
+        "bytes": 2728494
+      }
+    ]
+  },
+  {
+    "asset_id": "rubber_duck_toy",
+    "name": "Rubber Duck Toy",
+    "author": {
+      "Plat251": "All"
+    },
+    "source": "Poly Haven",
+    "source_url": "https://polyhaven.com/a/rubber_duck_toy",
+    "license": "CC0-1.0",
+    "texture_resolution": 2048,
+    "files": [
+      {
+        "path": "art_source/flavor_v1/raw/rubber_duck_toy/rubber_duck_toy.gltf",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/2k/rubber_duck_toy/rubber_duck_toy_2k.gltf",
+        "sha256": "d10f8a5f4d7416c62d67cb5d8cd480d93d5750c5cc911128729ae47c5ee05466",
+        "bytes": 3180
+      },
+      {
+        "path": "art_source/flavor_v1/raw/rubber_duck_toy/textures/rubber_duck_toy_arm_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/rubber_duck_toy/rubber_duck_toy_arm_2k.jpg",
+        "sha256": "87cd18f544e579fb9a5bb42076abf731a5dcd629486d2cdd34f3378716e1eeda",
+        "bytes": 1098944
+      },
+      {
+        "path": "art_source/flavor_v1/raw/rubber_duck_toy/rubber_duck_toy.bin",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/4k/rubber_duck_toy/rubber_duck_toy.bin",
+        "sha256": "381e1373b99a4ff23d5ee02cb66bfb5e7d897eaa280581f19b652c38ffd83314",
+        "bytes": 105376
+      },
+      {
+        "path": "art_source/flavor_v1/raw/rubber_duck_toy/textures/rubber_duck_toy_nor_gl_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/rubber_duck_toy/rubber_duck_toy_nor_gl_2k.jpg",
+        "sha256": "2c2cdbaa3a46a1d3f577d510ba3bc999c4fbfd188985ee65e851b6c9b2bbd231",
+        "bytes": 170721
+      },
+      {
+        "path": "art_source/flavor_v1/raw/rubber_duck_toy/textures/rubber_duck_toy_diff_2k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/rubber_duck_toy/rubber_duck_toy_diff_2k.jpg",
+        "sha256": "6abc199fd0249ff906ddb977510c6f6527887aadc976dbede2ec67bda64b0f92",
+        "bytes": 789401
+      }
+    ]
+  }
+]

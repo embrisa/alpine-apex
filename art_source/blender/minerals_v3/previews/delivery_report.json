@@ -1,0 +1,19 @@
+{
+  "asset_count": 120,
+  "categories": {
+    "small": 24,
+    "medium": 24,
+    "large": 24,
+    "huge_boulders": 24,
+    "cliffs": 24
+  },
+  "moss_scenes": 108,
+  "moss_grass_scenes": 60,
+  "source_sha256": "f644a0d1b7505dbcd43687cba12630e39e6f7eac7f221ad067c9accf3df1687f",
+  "manifest_sha256": "cad265d0313ddb130650e556a5419e0ca2388de107ef16bbbbe4b12be9fb5fea",
+  "glb_bytes": 3603817240,
+  "source_and_v2_exports_preserved": true,
+  "blender_and_godot_validation_passed": true,
+  "course_performance_measured": false,
+  "main_project_texture_uid_path_fallbacks": true
+}

@@ -3,12 +3,28 @@
 /android/
 
 .tools/
+.validation/
+/.mcp.json
 .DS_Store
 builds/
+
+# Local credentials and editor/OS state.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+Thumbs.db
+Desktop.ini
 
 # Generated playtest captures, logs, and snapshots
 artifacts/*
 !artifacts/.gdignore
+!artifacts/README.md
+
+# Asset-build logs and interrupted Godot import writes are disposable output.
+/art_source/**/*.log
+*.import*.tmp
 
 # Python generated files
 __pycache__/
@@ -17,6 +33,9 @@ __pycache__/
 # Blender autosave backups
 *.blend1
 *.blend2
+
+# Purchased authoring library; keep local, never redistribute the generator.
+/TreeDesigner + 400 trees/
 
 # Intermediate art QA/export directories; keep the primary source assets
 art_source/**/qa/

@@ -11,14 +11,14 @@ func check(ok: bool, label: String) -> void:
 	print("PASS: " if ok else "FAIL: ",label)
 	if not ok: failures.append(label)
 func run() -> void:
-	var example = Definition.generate(849205174)
+	var example = Definition.generate(849205174,4)
 	check(example.GENERATOR_VERSION==4 and example.bounds().size==Vector2(6144,6144),"Current seeds generate a complete 6.144 km square mountain")
 	check(example.height_checksum=="5fae684348b894f276549e57c420b6318d5e508be169348df81431c13060b3c9" and example.obstacle_checksum=="547e534a054990f7df0f6ea2f19417c0dca408077a2184b3f384b94dbfe09e3e","Generator v4 terrain and obstacle fingerprints are frozen")
-	var repeated = Definition.generate(849205174)
+	var repeated = Definition.generate(849205174,4)
 	check(repeated.heights==example.heights and repeated.obstacles==example.obstacles,"The same seed reconstructs every height and physical obstacle exactly")
 	repeated = null
 	for seed_value in [849205174,0,1,42,12981,2147483647]:
-		var field = example if seed_value==849205174 else Definition.generate(seed_value)
+		var field = example if seed_value==849205174 else Definition.generate(seed_value,4)
 		var high = -INF
 		var finite = true
 		for h in field.heights:
@@ -46,7 +46,7 @@ func run() -> void:
 	var mountain = Definition.from_field(example,"Summit 360")
 	var decoded = Definition.decode(mountain.share_text())
 	check(decoded.has("mountain") and decoded.mountain.reconstruct().field.heights==example.heights,"Compact v4 mountain files reconstruct the full summit mountain")
-	check(Definition.parse_seed(mountain.seed_text()).version==4 and Definition.parse_seed("849205174").version==4,"Copied and bare seeds select the intended current version")
+	check(Definition.parse_seed(mountain.seed_text()).version==4 and Definition.parse_seed("849205174").version==10,"Copied and bare seeds select the intended current version")
 	for version in [1,2,3]:
 		var old = Definition.generate(849205174,version)
 		var old_recipe = Definition.from_field(old)

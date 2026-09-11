@@ -8,10 +8,11 @@ func check(ok: bool, label: String) -> void:
 	print("PASS: " if ok else "FAIL: ",label)
 	if not ok: failures.append(label)
 func run() -> void:
+	set_meta("test_lab_fixture",true) # Explicit laboratory regression fixture.
 	var settings = Settings.new()
-	check(settings.quality==2 and settings.upscaler=="fsr2" and settings.render_scale==.75 and settings.fps_limit==120 and not settings.terrain_gi,"PC defaults select High, 75% FSR2, 120 FPS and optional terrain GI")
+	check(settings.quality==2 and settings.upscaler=="auto" and not settings.frame_generation and settings.render_scale==.75 and settings.fps_limit==120 and not settings.terrain_gi,"PC defaults select High, automatic 75% upscaling, frame generation off and 120 FPS")
 	settings.apply_arguments(["--graphics-quality=low","--render-scale=0.1","--fps-limit=75","--upscaler=invalid"])
-	check(settings.quality==0 and is_equal_approx(settings.render_scale,2.0/3.0) and settings.fps_limit==120 and settings.upscaler=="fsr2","Invalid display arguments are bounded without disabling valid settings")
+	check(settings.quality==0 and is_equal_approx(settings.render_scale,2.0/3.0) and settings.fps_limit==120 and settings.upscaler=="auto","Invalid display arguments are bounded without disabling valid settings")
 	settings.apply_arguments(["--graphics-quality=high","--display-mode=windowed","--upscaler=native","--fps-limit=90","--terrain-gi=on"])
 	var path = "res://artifacts/pc_graphics_test.cfg"
 	check(settings.save_preferences(path)==OK,"Display preferences save to an isolated test file")
