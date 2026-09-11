@@ -74,9 +74,6 @@ var voice
 var audio_environment = preload("res://scripts/presentation/voice_environment.gd").new()
 var vectors
 var hud
-var animation_workshop
-var animation_workshop_return = "title"
-var animation_workshop_ragdoll_frozen = false
 var intent = RiderInput.new()
 var impact_warning = preload("res://scripts/presentation/impact_warning.gd").new()
 var active: bool = false:
@@ -401,7 +398,6 @@ func _ready() -> void:
 	)
 	hud.sync_camera_settings(camera_settings)
 	hud.quit_requested.connect(quit_cleanly)
-	hud.animation_workshop_requested.connect(open_animation_workshop)
 	hud.weather_preset_requested.connect(weather.set_preset)
 	hud.weather_auto_requested.connect(weather.set_automatic)
 	hud.weather_quality_requested.connect(weather.set_quality)
@@ -571,7 +567,6 @@ func observe_audio_tick(dt: float) -> void:
 	voice.observe_tick(sim,dt,field,session.progress_percent(sim.position)/100.0 if timed else -1.0,candidates)
 
 func _process(dt: float) -> void:
-	if animation_workshop != null: return
 	_sync_camera_preview()
 	_sync_camera_controls()
 	if not initialized or (loading and loading.busy) or sim == null:
@@ -743,7 +738,6 @@ func _sync_camera_controls() -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if allowed else Input.MOUSE_MODE_VISIBLE
 
 func _unhandled_input(event: InputEvent) -> void:
-	if animation_workshop != null: return
 	if hud and hud.camera_options.preview_active:
 		if event.is_action_pressed("pause_run"):
 			set_camera_preview(false)
@@ -867,7 +861,7 @@ func _reset_screen_effects() -> void:
 		speed_periphery.material.set_shader_parameter("warning_strength",0.0)
 
 func _update_screen_effects(dt: float) -> void:
-	var riding: bool = initialized and active and application_focused and not transitioning and not returning_to_summit and not quitting and animation_workshop==null and sim!=null and not sim.crashed and not (loading and loading.busy)
+	var riding: bool = initialized and active and application_focused and not transitioning and not returning_to_summit and not quitting and sim!=null and not sim.crashed and not (loading and loading.busy)
 	if not riding:
 		_reset_screen_effects()
 		return
@@ -1010,30 +1004,6 @@ func open_workbench() -> void:
 	hud.hide_menu()
 	hud.tuning_panel.show()
 	hud.tuning_tabs.get_tab_bar().grab_focus()
-
-func open_animation_workshop() -> void:
-	if animation_workshop != null or not initialized or transitioning or returning_to_summit: return
-	animation_workshop_return = "paused" if active else hud.menu_mode
-	active = false
-	voice.silence()
-	animation_workshop_ragdoll_frozen = skier.ragdoll.frozen
-	skier.ragdoll.set_frozen(true)
-	hud.hide()
-	speed_periphery.hide()
-	skier.set_process_unhandled_input(false)
-	animation_workshop = load("res://scripts/workshop/motion_workshop.gd").new()
-	animation_workshop.persistence_enabled = not automated
-	animation_workshop.closed.connect(close_animation_workshop)
-	add_child(animation_workshop)
-
-func close_animation_workshop() -> void:
-	animation_workshop = null
-	skier.ragdoll.set_frozen(animation_workshop_ragdoll_frozen)
-	skier.set_process_unhandled_input(true)
-	hud.show()
-	hud.show_menu(animation_workshop_return,sim.crash_reason if sim.crashed else Session.format_time(session.elapsed))
-	last_frame_usec = 0
-	_sync_camera_controls()
 
 func set_audio_muted(value: bool) -> void:
 	effects.muted = value

@@ -120,8 +120,7 @@ Read current files; other agents may have changed production since this handoff.
    `docs/SKIER_ANATOMY.md`, and `docs/EQUIPMENT.md`.
 5. `docs/DOWNHILL_TUCK_ALIGNMENT_R4.md` if working on tuck/carry. It is a prior
    refinement with user acceptance pending, not a certified quality baseline.
-6. `docs/STEEP_MOTION_GAMEPLAY.md` for asset-to-gameplay integration; read
-   `docs/ANIMATION_WORKSHOP.md` only if using that preview workflow.
+6. `docs/STEEP_MOTION_GAMEPLAY.md` for asset-to-gameplay integration.
 
 ## Non-negotiable project boundaries
 

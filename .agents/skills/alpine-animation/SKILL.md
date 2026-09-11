@@ -1,6 +1,6 @@
 ---
 name: alpine-animation
-description: Improve, author, debug, retarget or review Alpine Apex skier animations, including downhill, tuck, carving, takeoff, landing, grabs, connected hands and ski poles, anatomy, equipment attachment and Animation Workshop evidence. Use for animation quality work and animation handoffs in this project. Covers the production pose pipeline, action-specific targets, frozen visual comparisons and honest grading; does not replace the skiing solver or define physics behavior.
+description: Improve, author, debug, retarget or review Alpine Apex skier animations, including downhill, tuck, carving, takeoff, landing, grabs, connected hands and ski poles, anatomy, equipment attachment and rendered review evidence. Use for animation quality work and animation handoffs in this project. Covers the production pose pipeline, action-specific targets, frozen visual comparisons and honest grading; does not replace the skiing solver or define physics behavior.
 ---
 
 # Alpine animation
@@ -18,8 +18,8 @@ The project root is three directories above this file. Run commands there.
    the live function that owns the defect. Verify current source/engine identity;
    dated evidence and constants are snapshots. Preserve concurrent changes and
    unsaved authoring sessions.
-3. Choose the route. Workshop edits are preview projects; source retargeting is
-   an asset task; production state/blend/fitting changes belong in presentation.
+3. Choose the route. Source retargeting is an asset task; production
+   state/blend/fitting changes belong in presentation.
    Read the matching route in the rig guide before editing. Do not start by
    rewriting the entire pose pipeline or copying code from disposable artifacts.
 4. Establish a usable before capture, reusing an existing frozen one when its

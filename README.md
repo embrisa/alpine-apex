@@ -36,8 +36,6 @@ Camera, interface, graphics and audio settings are available in the menus. Ordin
 
 Holding forward tucks automatically; sustained steering opens the stance, and returning forward resumes tuck. In the air, center the left stick once, then forward/back performs continuous flips without L1, at about 1.7 seconds per flip. L1 plus left stick remains available for flips and fast spins; release brakes rotation. Keyboard W/S or up/down retains pitch adjustment up to 50 degrees. See [arcade air control](docs/ARCADE_AIR_V27.md). Controller vibration is limited to brief impacts and faint, spaced rock taps. The workbench Vibration control scales these pulses, including zero to disable them. See [controller feedback](docs/CONTROLLER_FEEDBACK.md).
 
-**Menu → Tools → Animation Workshop** opens the isolated clip editor. Pose the skier with the mouse, adjust correction curves, add frame comments, and export a review package for Astra. Workshop edits remain previews. See [Animation Workshop](docs/ANIMATION_WORKSHOP.md).
-
 ## Graphics
 
 The target PC is Ryzen 5 5600X / RX 9070 / 16 GB at **3840×2160 output and 90–120 rendered FPS**. Recommended **High** uses Auto FSR at 75%, a 120 rendered FPS cap and optional SDFGI initially off. The [custom FidelityFX runtime](docs/FIDELITYFX.md) supplies FSR 4.1/3.1 upscaling and optional FSR 3 frame generation; stock Godot uses FSR2. Frame generation initially stays off. Low/Balanced/High remain available. The independent ski solver stays at 120 Hz.

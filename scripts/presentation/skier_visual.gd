@@ -272,7 +272,7 @@ func pose(sim, fraction: float = 1.0, preview: Dictionary = {}) -> void:
 	pose_microseconds = Time.get_ticks_usec()-pose_start
 
 func present_authored(joints: Dictionary, rotations: Dictionary) -> void:
-	# Workshop-only free articulation uses the same bind conversion/final writer.
+	# Authored-pose diagnostics use the same bind conversion/final writer.
 	assert(preview_only)
 	rendered_joints = joints.duplicate(); rendered_rotations = rotations.duplicate()
 	targets.clear()

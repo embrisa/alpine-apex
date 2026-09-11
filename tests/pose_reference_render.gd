@@ -2,6 +2,7 @@ extends SceneTree
 ## Rephotograph frozen final bone/equipment transforms. No pose fitting or sim.
 const Visual = preload("res://scripts/presentation/skier_visual.gd")
 const Writer = preload("res://scripts/presentation/skier_pose_writer.gd")
+const FullMotion = preload("res://scripts/presentation/skier_full_motion.gd")
 var folder = ""
 var details = false
 var world_up = false
@@ -19,6 +20,20 @@ func unpack_t(d: Dictionary) -> Transform3D: return Transform3D(unpack_b(d.basis
 func pack_v(v: Vector3) -> Array: return [v.x,v.y,v.z]
 func pack_t(t: Transform3D) -> Dictionary: return {"origin":pack_v(t.origin),"basis":[pack_v(t.basis.x),pack_v(t.basis.y),pack_v(t.basis.z)]}
 func read(path: String): return JSON.parse_string(FileAccess.get_file_as_string(path))
+
+static func source_pose(pose: Dictionary) -> Dictionary:
+	# Reconstruct source curves with the production sampler, without fitting.
+	var motion = FullMotion.new()
+	motion.current.assign(pose.q)
+	motion.previous.assign(pose.q)
+	motion.root_position = pose.root
+	motion.previous_root = pose.root
+	var result = motion.sample(1.0)
+	var rest = preload("res://scripts/core/rider_body.gd").REST
+	var height: float = preload("res://scripts/presentation/skier_equipment.gd").SOLE_ABOVE_SUPPORT+(rest.RightFoot.y+rest.LeftFoot.y)*.5
+	for bone in result.joints: result.joints[bone] += Vector3.UP*height
+	return result
+
 func run():
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--revision="): folder=arg.trim_prefix("--revision=")
@@ -97,9 +112,7 @@ func run():
 					if row.clips[name].weight>highest: dominant=name; highest=row.clips[name].weight
 				var entry=row.clips[dominant]; var pose=full.sample_clip(dominant,entry.time,entry.loop)
 				if entry.mirror: pose=full.mirror_pose(pose)
-				var project=preload("res://scripts/workshop/motion_project.gd").new()
-				var source=preload("res://scripts/workshop/pose_evaluator.gd").authored(project,pose)
-				project.history.free()
+				var source=source_pose(pose)
 				skier.present_authored(source.joints,source.rotations)
 				await screenshot(destination+"/%04d_source.jpg"%row.frame)
 			else:

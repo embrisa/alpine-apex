@@ -7,17 +7,12 @@ not a promise that an old revision's implementation remains current.
 
 | Work | Starting points | Evidence to preserve |
 |---|---|---|
-| Preview curve edit, clip variant, feedback ZIP | `docs/ANIMATION_WORKSHOP.md`; `scripts/workshop/motion_project.gd`, `pose_evaluator.gd`, `motion_export.gd` | `.apexmotion`, original/edit/constrained comparison, exported ZIP and package verification |
 | Source import or retarget | `docs/STEEP_MOTION_GAMEPLAY.md`, `docs/SKIER_ANATOMY.md`, `assets/animation/steep_ski_motion.res` | Source frame/time, names/parents/rest axes, rotation conventions, source and output hashes |
-| Gameplay pose, blend or transition | `scripts/presentation/skier_animation.gd`, `skier_full_motion.gd`, `downhill_posture.gd` | Real solver inputs/events and final rendered pose, not only a Workshop preview |
+| Gameplay pose, blend or transition | `scripts/presentation/skier_animation.gd`, `skier_full_motion.gd`, `downhill_posture.gd` | Real solver inputs/events and final rendered pose |
 | Constraint, contact fitting or attachment | `skier_anatomy.gd`, `skier_visual.gd`, `skier_equipment.gd` in `scripts/presentation/` | Requested versus final joints, local rotations, cuff/grip errors, actual clothing clearance |
 | Mesh, weighting, rest pose or socket | `docs/SKIER.md`, `docs/EQUIPMENT.md`, `assets/graphics/models/skier_v7.glb` | Skin/rest compatibility, new rig hashes, attachment checks and rendered asset review |
 
-Workshop projects are preview-only. Saving/exporting a project does not apply it
-to gameplay. The package may embed source data, corrections and evidence; do not
-treat imported project data as executable code. Use `docs/ANIMATION_WORKSHOP.md`
-for recovery and export semantics. Source root motion/spins do not transfer
-wholesale into solver-owned gameplay.
+Source root motion/spins do not transfer wholesale into solver-owned gameplay.
 
 ## Trace the final result
 
@@ -26,7 +21,7 @@ wholesale into solver-owned gameplay.
 corrections and local limits, and advances its existing tick tracker.
 `skier_visual.gd` samples/composes that motion with support and anatomical fitting,
 then attaches equipment. `skier_pose_writer.gd` converts model-space targets to
-local Skeleton3D poses. It is the shared final writer for gameplay and Workshop.
+local Skeleton3D poses. It is the shared final writer for gameplay and pose review.
 
 Read `step`, `compose`, `Downhill.apply`, `Anatomy.local_limit`, `fit_hinge`,
 `present_authored` and the grip attachment code when relevant. There are multiple
@@ -53,8 +48,8 @@ remembering numeric indices.
 | Shoulder / upper arm / forearm / hand | `LeftShoulder` → `LeftArm` → `LeftForeArm` → `LeftHand`; same for `Right` |
 | Thigh / shin / foot / toe | `LeftUpLeg` → `LeftLeg` → `LeftFoot` → `LeftToeBase`; same for `Right` |
 
-- Metres, seconds, radians internally. Workshop UI uses degrees for local YXZ
-  correction curves; source animation is quaternions. Do not interchange Euler,
+- Metres, seconds, radians internally; source animation is quaternions.
+  Do not interchange Euler,
   quaternion, rest-local and model-space rotations.
 - The skier model uses +Z forward, +Y up and +X toward anatomical left in these
   pose targets. Godot's `Vector3.FORWARD` is -Z. Camera-left is not anatomical left.

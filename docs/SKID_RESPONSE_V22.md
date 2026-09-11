@@ -25,7 +25,7 @@ yaw in degrees/second, limiter percentages and physical COM coordinates. Release
 restart and flight clear the stall timer. Physics identity is v22; replay remains
 v4 and incompatible records remain separated.
 
-## Pelvis and workshop
+## Pelvis presentation
 
 The subsequent [compact posture correction](COMPACT_POSTURE.md) adds a small
 deep-tuck pelvis offset and gathers skiing/jump arms through local rotations.
@@ -44,10 +44,6 @@ signed-angle branch at opposite directions. Its source influence also fades when
 the source knee approaches the hip/ankle axis, where a pole direction is undefined.
 This prevents millimetres of source movement from flipping the fitted knee.
 
-Workshop Auto mode supports first-gesture joint manipulation and grounded foot
-holding. These edits stay in projects; no project automatically changes gameplay.
-See [Animation Workshop](ANIMATION_WORKSHOP.md).
-
 ## Validation
 
 Run `tests/skid_response_suite.gd`, physics/runtime, carving, high-speed balance,
@@ -61,8 +57,7 @@ Tests sharing result paths run sequentially; stagger startup to avoid the MCP
 toolkit's shared registry-file race. Run rendering/timing in isolation.
 
 Native inspection: `tests/steep_motion_gameplay.gd '--' --skid-review` or
-`--pelvis-review`; workshop
-mouse tests: `tests/animation_workshop_playtest.gd '--' --interactive`.
+`--pelvis-review`.
 Current evidence and acceptance limits live in
 `artifacts/steering_response_v22/ACCEPTANCE.md`. Numerical and rendered results
 are separate from the user's final handling and animation acceptance.

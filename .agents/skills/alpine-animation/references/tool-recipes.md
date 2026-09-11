@@ -109,7 +109,6 @@ and slow playback; a studio render is not a controller-feel or performance test.
 |---|---|
 | Downhill arm/trunk/attachment correction | `Regression -AnimationOnly`: anatomy, compact posture, ski attachment, skier motion |
 | Landing / flight / grabs | Add `landing_absorption_suite.gd`, `airborne_pose_suite.gd` and relevant anatomy/grip cases; new contact/mesh evidence for that action |
-| Workshop behavior / package | `scripts/validate_animation_workshop.ps1` under guard; package suite with actual `--package=` export |
 | Physics, input or session ownership | `tests/physics_suite.gd`, `tests/runtime_suite.gd`, plus affected contact/terrain tests; read architecture first |
 | Tool-only changes | `tests/pose_review_tools_test.py`, relevant real-capture CLI checks, guarded render smoke if renderer changed; no need to rerun unrelated physics |
 

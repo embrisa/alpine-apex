@@ -29,7 +29,6 @@ Current defaults are **mountain v14 / seed 849205174**, **replay v5**, and **rac
 ## Asset authoring
 
 - [Animation agent workflow and skill](ANIMATION_AGENT_WORKFLOW.md): production ownership, review lessons, reproducible tools, grading and handoffs.
-- [Animation Workshop](ANIMATION_WORKSHOP.md): pose editing, variants, review evidence and Astra export.
 - [Scenery](SCENERY.md), [tree collection](TREE_COLLECTION.md), [TreeDesigner pipeline](TREEDESIGNER_TREES.md).
 - [Mineral detail library](MINERAL_DETAIL_LIBRARY.md), [discovery assets](FLAVOR_LIBRARY.md), [discovery integration](FLAVOR_INTEGRATION.md).
 

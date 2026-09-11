@@ -38,7 +38,6 @@ signal wind_volume_requested(value: float)
 var motion_toggle: CheckButton
 var feedback = preload("res://scripts/ui/interface_feedback.gd").new()
 signal workbench_requested
-signal animation_workshop_requested
 signal audio_mute_requested(enabled: bool)
 signal motion_effects_requested(enabled: bool)
 signal mountains_requested
@@ -507,9 +506,6 @@ func _build_menu() -> void:
 	var workbench = _button("PHYSICS WORKBENCH  /  F2")
 	workbench.pressed.connect(func(): workbench_requested.emit())
 	tools.add_child(workbench)
-	var animation_editor = _button("ANIMATION WORKSHOP")
-	animation_editor.pressed.connect(func(): animation_workshop_requested.emit())
-	tools.add_child(animation_editor)
 	var quit_button = _button("QUIT GAME")
 	quit_button.pressed.connect(func(): quit_requested.emit())
 	tools.add_child(quit_button)
