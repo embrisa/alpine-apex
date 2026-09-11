@@ -60,7 +60,7 @@ func run() -> void:
 	await ride("Release R2: hop",0.0,0.0,5)
 	await capture("05_r2_hop")
 	if game.sim.grounded: failures.append("R2 release did not hop")
-	await ride("Landing: short impact pulse",0.0,0.0,60)
+	await ride("Landing: small contacts stay quiet",0.0,0.0,60)
 	await capture("06_landing")
 	game.active = false
 	game.hud.show(); game.hud.show_menu("paused"); game.hud.open_settings()

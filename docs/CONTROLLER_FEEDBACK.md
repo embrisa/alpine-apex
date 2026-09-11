@@ -15,10 +15,16 @@ after centering. Release brakes rotation. See
 `presentation/rider_haptics.gd` uses its own instance of the existing contact
 observer, sampled after completed 120 Hz ski ticks independently of audio mute.
 It queues landing and obstacle onsets, ignoring equipment and near-miss events.
-Impacts below 1 m/s normal closing speed are silent. Between 1 and 10 m/s, pulses
-scale linearly from 60 to 180 ms, weak motor 0.16 to 0.45, and strong motor 0.05
-to 0.80. Stronger impacts saturate there. Overlaps use maximum motor strength
-and cannot extend one active cluster past 180 ms from its onset.
+Impacts below **3.5 m/s normal closing speed** are silent, including small
+landings, supported bottom-outs and glancing obstacle brushes. Between 3.5 and
+14 m/s, severity is `(speed² - 3.5²) / (14² - 3.5²)`: an impact-energy proxy
+from the solver's normal closing speed, independent of travel speed and reserve
+damage. Both motors and pulse duration increase with severity: 45 to 180 ms,
+weak motor 0.08 to 0.55, and strong motor 0.02 to 1.0 before the user's intensity
+multiplier. This keeps marginal contacts faint and gives heavy impacts more
+range before saturation at 14 m/s. Overlaps use maximum motor strength and
+cannot extend one active cluster past 180 ms from its onset. Sub-threshold
+recontacts cannot strengthen or extend an active impact.
 
 Supported rock contact above 2 m/s gives a 30 ms weak-motor pulse at most every
 450 ms, scaled by the supported rock fraction with a maximum of 0.12. Impacts
@@ -34,12 +40,31 @@ Controller connection changes also cancel prepared jump input.
 
 The observer and envelopes never write simulation state. Jump strength, tick
 rate and record eligibility remain unchanged by haptics. Current aerial
-control uses physics model 27 and replay v5.
+control uses physics model 28 and replay v5.
 
 Validation separates automatic input/envelope checks, rendered posture review,
 and physical-controller comfort. See `tests/controller_input_suite.gd`,
 `tests/haptics_suite.gd` and the runtime lifecycle checks. Hardware comfort must
 be assessed on the actual controller; synthetic inputs do not establish it.
+
+## Impact threshold retune on 2026-09-11
+
+The user reported vibration from tiny jumps and impacts. The onset threshold
+increased from 1 to 3.5 m/s, with a quieter minimum pulse and an energy-weighted
+response extending to 14 m/s. The supported-rock texture is unchanged.
+
+Automated validation passed 284 checks: haptics 41, runtime 187, and physics 56.
+Coverage includes small landings/obstacle brushes/bottom-outs, progressive motor
+strength and duration, overlap limits, lifecycle cancellation, intensity scaling,
+and paired solver runs with/without haptic observation. No core physics or replay
+sources changed; the model remains 28 and replay remains v5.
+
+The native DX12 controller fixture passed at 1920x1080 on the unranked laboratory.
+The hop and landing captures were inspected; all seven captured states reported
+zero haptic output. These are sampled states, not a continuous vibration trace.
+Hardware output was disabled, so physical-controller comfort remains for the
+user's playtest. No new performance claim is made. Evidence is under
+`artifacts/controller_input_v1/` and `artifacts/guarded/haptics_*_20260911/`.
 
 ## Verification on 2026-09-09
 
