@@ -3,6 +3,8 @@ from pathlib import Path
 import hashlib
 import html
 import json
+import re
+from datetime import datetime
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'artifacts/offmap_v3'
@@ -18,15 +20,23 @@ def audit(label):
     guard = read(ROOT / 'artifacts/guarded' / label / 'guard.json')
     if not system or not guard:
         return {'complete': False}
+    result_name = {'views': 'offmap_v3.json', 'fixed': 'comparison.json', 'descents': 'production.json'}[label.removeprefix('offmap_v3_')]
+    result_path = NATIVE / label / result_name
+    fresh_result = result_path.exists() and result_path.stat().st_mtime >= datetime.fromisoformat(guard['started']).timestamp()
     changed = []
     for name, expected in system['source_sha256_before'].items():
         path = Path(name)
         if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest().upper() != expected.upper():
             changed.append(name)
     samples = guard.get('samples', [])
-    return {'complete': guard['exit_code'] == 0 and not system['changed_sources'],
+    log_path = ROOT / 'artifacts/guarded' / label / 'stdout.log'
+    stages = dict((name, float(ms)) for name, ms in re.findall(r'GENERATION_STAGE (\w+) ([\d.]+) ms', log_path.read_text(encoding='utf-8', errors='replace'))) if log_path.exists() else {}
+    return {'complete': guard['exit_code'] == 0 and not system['changed_sources'] and fresh_result,
+            'result_written_during_run': fresh_result,
             'matches_current_sources': not changed, 'changed_since_run': changed,
             'concurrent': guard['concurrent'], 'started': guard['started'], 'finished': guard['finished'],
+            'loading_stages_ms': stages,
+            'memory_scope': 'Whole comparison process with both v2 and v3 fixtures resident; not an incremental scenery allocation.',
             'peak_task_private_bytes': max((s.get('task_private_bytes') or 0 for s in samples), default=0),
             'peak_task_gpu_allocation_bytes': max((s.get('task_gpu_dedicated_bytes') or 0 for s in samples), default=0)}
 
@@ -51,6 +61,10 @@ def main():
             report['automated'][label] = {k: guard.get(k) for k in ['exit_code', 'stop_reason', 'concurrent']}
     for label in ['views', 'fixed', 'descents']:
         report['native_audits'][label] = audit('offmap_v3_'+label)
+    # An interrupted retry can leave an older result beside the new failure log.
+    # Keep it in the detailed record, but never present it as that run's timing.
+    if not report['native_audits']['fixed']['complete']: timing = None
+    if not report['native_audits']['descents']['complete']: descents = None
     if descents:
         paired = []
         for weather in ['clear', 'snowfall']:

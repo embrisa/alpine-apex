@@ -28,7 +28,7 @@ func build(placement, landscape, profile, checkpoint: Callable = Callable(), job
 			var mesh: Mesh = source.mesh.duplicate()
 			var mat = ShaderMaterial.new()
 			mat.shader = preload("res://assets/graphics/offmap_tree.gdshader") if group.kind=="tree" else preload("res://assets/graphics/offmap_prop.gdshader")
-			mat.set_shader_parameter("range_end",profile.offmap_tree_distance_m)
+			mat.set_shader_parameter("range_end",minf(profile.offmap_tree_distance_m,3200.0) if group.kind=="rock" else profile.offmap_tree_distance_m)
 			mat.set_shader_parameter("tree_near_end",600.0)
 			if group.kind=="tree":
 				mat.set_shader_parameter("albedo_texture",load("res://assets/graphics/trees/textures/%s_atlas_low.png" % id))
@@ -76,7 +76,10 @@ func build(placement, landscape, profile, checkpoint: Callable = Callable(), job
 		node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
 		# Node culling is deliberately conservative; per-instance shader ranges
 		# make the final fade continuous within each spatial batch.
-		node.visibility_range_end = (600.0 if group.kind=="near" else profile.offmap_tree_distance_m)+box.size.length()
+		var distance_limit=600.0 if group.kind=="near" else (minf(profile.offmap_tree_distance_m,3200.0) if group.kind=="rock" else profile.offmap_tree_distance_m)
+		# Godot measures from the transformed AABB center. Half its diagonal
+		# encloses every point; a full diagonal needlessly submits hidden props.
+		node.visibility_range_end = distance_limit+box.size.length()*.5+2.0
 		add_child(node)
 		instances += count
 		for surface in mesh.get_surface_count(): triangles += mesh.surface_get_array_index_len(surface)/3*count

@@ -61,6 +61,9 @@ the preset whose placements were baked against that exact terrain triangulation.
 
 Props use 1,024 m spatial MultiMeshes with conservative bounds, including all
 billboard orientations. Per-instance fades cover the last 800 m of visibility.
+Individual rocks fade out by 3,200 m (3,000 m on Low); rock texture breakup
+continues on the terrain. Node culling adds half the batch-bound diagonal to the
+instance range, matching Godot's distance measurement from the AABB center.
 Bases account for the source mesh bounds; rocks are partly buried to close gaps.
 All background geometry has collision, shadow casting and GI contribution off.
 
@@ -69,6 +72,13 @@ All background geometry has collision, shadow casting and GI contribution off.
 | Low | 0.3 | 3,000 m | 19,200 |
 | Balanced | 0.6 | 4,500 m | 37,632 |
 | High | 1.0 | 6,000 m | 74,240 |
+
+The shared asset occupies 23,981,149 bytes. High stores 165,752 tree positions,
+18,381 matching near-tree instances and 16,570 rocks in 1,765 spatial batches.
+Its nominal prop triangle count is 28,630,636, mostly near-tree geometry that is
+culled outside 600 m. These stored counts must not be treated as visible-frame
+work. The default connector changes zero authored placements; another mountain
+seed re-seats only placements attached to the adapted apron.
 
 ## Atmosphere and lifecycle
 
@@ -107,6 +117,7 @@ and are not an alternate shipping renderer. Their original hashes are retained.
 ./scripts/check_offmap_v3.ps1 -Views -Quick
 ./scripts/check_offmap_v3.ps1 -Views
 ./scripts/check_offmap_v3.ps1 -FixedTiming
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','godotw.ps1','--headless','--script','tests/performance_trace.gd','--','--version=15','--face=3','--trace-output=artifacts/offmap_v3/descent_input.json') -Label offmap_v3_trace -TimeoutSeconds 1200
 ./scripts/check_offmap_v3.ps1 -Descents
 python scripts/report_offmap_v3.py
 ```
@@ -120,7 +131,7 @@ all presets and sampled pans. Screenshot timings are not performance evidence.
 
 Fixed timing uses same-process ABBA blocks. Four complete ordinary-input descents
 pair v2/v3 in Clear and Snowfall using the current validated v15/model-28 trace at
-`artifacts/foliage_v3/descent_input.json`. Source mismatches invalidate the run.
+`artifacts/offmap_v3/descent_input.json`. Source mismatches invalidate the run.
 Relative targets are <=0.5 ms added median GPU cost and <=5% p95/p99 regression;
 absolute targets remain p95 <=11.1 ms and p99 <=16.7 ms. Report pre-existing baseline
 failures separately from regressions.
@@ -134,4 +145,18 @@ measured performance and the user's skiing acceptance are distinct.
 The authored asset and runtime integration are undergoing validation. Final
 measurements and inspection findings will be recorded here after the stable runs.
 
-Initial implementation milestone: 458 automated assertions passed across wilderness, atmosphere, lifecycle, v15 fingerprints/mesh joins, graphics, weather submission and staged scenery suites. All six real startup cancellation stages passed (28-485 ms). Native clear-day summit and first-person captures have been inspected; the full matrix and final timing runs are still pending.
+Initial implementation milestone (`4c2dccf`): 458 automated assertions passed
+across wilderness, atmosphere, lifecycle, v15 fingerprints/mesh joins, graphics,
+weather submission and staged scenery suites. All six real startup cancellation
+stages passed (28-485 ms). The tighter culling subsequently passed all 14 wilderness
+checks. The authored asset hash is
+`59eac4d1726efdb0e92e5cc655500d25cc222de0a0fa6843049695f0bcb4ae62`.
+
+The first full rendered set contains 67 matched 4K pairs and 144 sampled motion
+frames. Inspected summit, lower, boundary, weather and preset views show cleaner
+snow and recognizable closer forests. Simplified nearby trees/rocks remain
+apparent at the boundary, and Snowfall substantially softens distant detail.
+Sampled frames did not show obvious floating or open joins; they do not establish
+absence of shimmer during continuous skiing. Current-camera/current-culling
+captures and final timing runs supersede this first set below. User/controller
+acceptance remains pending.

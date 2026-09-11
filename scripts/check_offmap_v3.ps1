@@ -21,7 +21,7 @@ $offmapArgs=@('--path',$offmapRoot,'--script',$offmapTask,'--','--version=15','-
 if (-not $Descents) { $offmapArgs+='--views' }
 if ($Quick) { $offmapArgs+='--quick-review' }
 if ($Views -and -not $Quick) { $offmapArgs+='--clips' }
-if ($Descents) { $offmapArgs+=@('--benchmark-no-captures','--input-trace=res://artifacts/foliage_v3/descent_input.json') }
+if ($Descents) { $offmapArgs+=@('--benchmark-no-captures','--input-trace=res://artifacts/offmap_v3/descent_input.json') }
 $offmapBefore=@{}
 foreach ($offmapDirectory in @('scripts','tests','config','assets')) {
     Get-ChildItem -LiteralPath (Join-Path $offmapRoot $offmapDirectory) -Recurse -File |
