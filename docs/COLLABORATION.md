@@ -20,7 +20,8 @@ git lfs pull
 
 Setup verifies and extracts the bundled, pinned Godot 4.7.2 editor and the
 validated Alpine FidelityFX game runtime into ignored `.tools`, then imports
-the assets. The first import can take several minutes. Blender and Cascadeur
+the assets. The first import can take 20 minutes or more; later imports are
+incremental. Blender and Cascadeur
 are needed only for their authoring workflows, not for playing or exporting.
 The purchased TreeDesigner authoring library remains excluded; exported game
 assets are included. Keep that library backed up separately.
@@ -59,24 +60,29 @@ and art provenance hash source files; avoid unrelated line-ending conversions.
 After setup and import:
 
 ```powershell
-./scripts/run_snow_check.ps1 -Script scripts/prepare_generation_export.gd -Label generation_export_manifest -TimeLimit 60
-New-Item -ItemType Directory -Force builds/AlpineApex-Windows
-./godotw.ps1 --headless --export-debug 'Windows Playtest' builds/AlpineApex-Windows/AlpineApex.exe
+./scripts/build_collaboration.ps1
 ```
 
-Copy the runtime DLLs and license notices from `.tools/godot-fsr/bin` beside the
-exported executable, retain the exported native wind library, and follow
-[Windows packaging](WINDOWS_PLAYTEST.md) for a complete distributable with
-optional prepared default-mountain caches. Source play generates or rebuilds
-its own version-validated caches; personal saves and caches are not in Git.
+The command creates a new timestamped directory under `builds`, prepares the
+dependency receipt, exports, and copies the runtime DLLs, native wind library
+and license notices. It prints the executable path and writes file hashes in
+`BUILD.json`. An existing nonempty output directory is rejected to avoid mixing
+old and new exports. Use `-OutputDirectory builds/my-playtest` for a specific new
+directory. Run the command normally; it owns its validation guard.
+
+This build generates its default mountain on first launch. See
+[Windows packaging](WINDOWS_PLAYTEST.md) for optional prepared default-mountain
+caches. Source play also generates or rebuilds its own version-validated caches;
+personal saves and caches are not in Git.
 
 ## Storage and monthly cost
 
-The September 11 initial audit measured about 20.1 GiB of unique LFS assets,
-before the small Windows toolchain bundle and existing remote history. GitHub
+The September 11 committed snapshot contains about 20.49 GiB of unique LFS data,
+including the Windows toolchain, plus 21.4 MiB of current ordinary Git files.
+Existing ordinary Git history is additional. GitHub
 Free includes 10 GiB storage and 10 GiB of monthly LFS downloads per owner.
-At the published metered rates, the audited assets cost approximately $0.71
-per full month in storage, and one complete download adds approximately $0.88
+At the published metered rates, the snapshot costs approximately $0.74
+per full month in storage, and one complete download adds approximately $0.92
 after that month's free bandwidth. Taxes and other account usage are separate.
 
 The owner has authorized up to $5/month for LFS. Configure the existing Git LFS
@@ -105,3 +111,18 @@ matching editor, runtime dependencies, activation receipt and all license
 notices. Commit the updated ZIP and manifest together. Collaborators rerun setup
 after pulling to install exactly that toolchain. Never commit SDK source trees,
 compiler output, credentials or machine-specific configuration from `.tools`.
+
+## Setup verification
+
+On September 11, 2026, a separate checkout of `38ee712` materialized its LFS
+assets from the local object store, installed the bundled toolchain and completed
+a fresh Godot import. The physics suite passed 56 checks and the runtime suite
+passed 191 checks. The build helper produced a 10.12 GiB Windows folder.
+Launching that folder's executable and PCK passed seven gameplay/rendering checks
+with FSR 4.1.1 and frame generation on the RX 9070; gameplay and settings captures
+were inspected. Test saves were isolated and the laboratory run was unranked.
+
+This verifies the committed snapshot's setup and packaging on this Windows PC.
+It does not establish performance or controller acceptance on another computer.
+Local evidence is under `artifacts/github_collaboration_audit/` and
+`artifacts/guarded/collaboration_*`; generated evidence is intentionally ignored.
