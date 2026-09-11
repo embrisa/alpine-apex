@@ -11,6 +11,7 @@ const PHYSICAL = [
 	"res://scripts/world/mineral_catalog_data.gd","res://scripts/world/mineral_collision.gd","res://scripts/world/mountain_cache_v15.gd","res://scripts/world/mountain_archive.gd",
 	"res://assets/graphics/geology_v11/catalog.json","res://assets/graphics/geology_v11/catalog.res"]
 const SCENERY = [
+	"res://scripts/world/mountain_footprint.gd",
 	"res://scripts/world/mountain_preparation.gd","res://scripts/world/scenery_cache.gd","res://scripts/world/terrain_preparation.gd",
 	"res://scripts/world/mountain_data.gd","res://scripts/world/alpine_world.gd","res://scripts/world/alpine_scenery.gd",
 	"res://scripts/presentation/forest_placement.gd","res://scripts/presentation/density_forest.gd","res://scripts/presentation/tree_motion.gd",

@@ -131,18 +131,21 @@ func update_weather(state) -> void:
 
 func report() -> Dictionary:
 	return {"version":Data.VERSION,"seed":data.seed_value,"enabled":visible,"triangles":triangles,
+		"footprint_revision":Data.Footprint.REVISION,
 		"batches":ridge_nodes().size(),"build_ms":build_ms,"radius_m":Data.OUTER_RADIUS_M,"quality":level,"apron_triangles":apron_triangles,"apron_build_ms":apron_build_ms,
 		"props": {"counts":placement.counts,"fingerprint":placement.fingerprint,"prepare_ms":placement.build_ms,"adapted_instances":placement.adapted_instances,"seating_error_m":placement.seating_error_m,"triangles":props.triangles,"batches":props.get_child_count(),"upload_ms":props.upload_ms,"bounds_valid":props.bounds_valid} if placement else {},
 		"asset_id":data.asset.asset_id,"asset_path":data.asset.resource_path,"asset_sha256":FileAccess.get_sha256(data.asset.resource_path) if not data.asset.resource_path.is_empty() else "","asset_read_ms":data.asset_read_ms,"ridge_segments":data.asset.metadata.ridge_segments,"reference_scenery_seed":data.asset.metadata.scenery_seed,"connector_scenery_seed":data.mountain.seed_value,"source_sha256":source_hashes()}
 
 static func source_hashes() -> Dictionary:
 	var result = {}
+	for path in ["scripts/world/mountain_footprint.gd","scripts/world/terrain_preparation.gd"]:
+		result[path]=FileAccess.get_sha256("res://"+path)
 	for path in ["scripts/world/wilderness_data.gd","scripts/world/alpine_wilderness.gd","scripts/world/alpine_backdrop.gd","scripts/world/wilderness_instances.gd","scripts/world/wilderness_asset.gd","scripts/world/wilderness_props.gd","scripts/world/wilderness_atmosphere.gd","scripts/presentation/graphics_quality.gd","assets/graphics/offmap_fog.gdshaderinc","assets/graphics/offmap_tree.gdshader","assets/graphics/offmap_prop.gdshader","assets/graphics/alpine_wilderness.gdshader","assets/graphics/alpine_apron.gdshader","assets/graphics/offmap_surface.gdshaderinc","assets/graphics/alpine_surface_fragment.gdshaderinc","assets/cloud_light.gdshaderinc","assets/graphics/trees/manifest.json","assets/graphics/manifest.json"]:
 		result[path] = FileAccess.get_sha256("res://"+path)
-	for path in ["scripts/world/mountain_data.gd","assets/graphics/textures/rock_albedo_low.jpg","assets/graphics/textures/snow_albedo_low.jpg"]:
+	for path in ["scripts/world/mountain_data.gd","assets/graphics/textures/rock_albedo_low.jpg","assets/graphics/textures/snow_albedo_low.jpg","assets/graphics/textures/bark_albedo_low.jpg","assets/graphics/trees/textures/foliage_color_low.res"]:
 		result[path] = FileAccess.get_sha256("res://"+path)
 	for id in Placement.TREE_IDS:
-		for suffix in ["_shadow","_lod2"]:
+		for suffix in ["_lod1","_lod2"]:
 			var path = "assets/graphics/trees/models/%s%s.glb" % [id,suffix]
 			result[path] = FileAccess.get_sha256("res://"+path)
 		var path = "assets/graphics/trees/textures/%s_atlas_low.png" % id

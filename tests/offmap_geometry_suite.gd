@@ -42,8 +42,13 @@ func run() -> void:
 		check(stages>=52,"Seed %d builds apron/ridges through real loading checkpoints" % seed)
 		var baseline = preload("res://tests/fixtures/offmap_v1/alpine_backdrop.gd").new()
 		root.add_child(baseline); baseline.build(field,Assets.new(),source)
-		check(apron.triangles==baseline.triangles,"Seed %d retains the original apron triangle budget" % seed)
+		var retained_cells=0
+		for z in range(-3072,3072,32):
+			for x in range(-3072,3072,32):
+				retained_cells+=int(Data.Footprint.owns_cell(Vector2(x+16,z+16)))
+		check(retained_cells*128+apron.triangles<4718592+baseline.triangles,"Seed %d cuts unused physical corners and reduces the combined terrain triangle budget" % seed)
 		var boundary: Dictionary = {}
+		var physical_edge_vertices: Dictionary = {}
 		var physical_match = true
 		var protected_match = true
 		var apron_presentation = true
@@ -56,10 +61,22 @@ func run() -> void:
 				var n: Vector3 = arrays[Mesh.ARRAY_NORMAL][i]
 				if absf(p.x)==4096.0 or absf(p.y)==4096.0: boundary[Vector2i(p)] = [v.y,n,arrays[Mesh.ARRAY_COLOR][i]]
 				if apron._on_surface_edge(p):
+					physical_edge_vertices[Vector2i(p)]=true
 					physical_match = physical_match and absf(v.y-field.sample(p.x,p.y).height)<.001 and n.distance_to(field.render_normal(p.x,p.y))<.002
 				if panorama.data.blend_at(p)==0.0 and not apron._on_surface_edge(p):
 					protected_match = protected_match and absf(v.y-source.sample_height(p))<.001 and arrays[Mesh.ARRAY_TEX_UV][i].x==0.0
 		check(physical_match and protected_match,"Seed %d preserves physical-edge stitches and protected collar" % seed)
+		var complete_perimeter=true
+		for z in range(-3072,3072,32):
+			for x in range(-3072,3072,32):
+				var p=Vector2(x,z)
+				if not Data.Footprint.owns_cell(p+Vector2.ONE*16): continue
+				var corners=[p,p+Vector2(32,0),p+Vector2(32,32),p+Vector2(0,32)]
+				for side in 4:
+					var a: Vector2=corners[side]; var b: Vector2=corners[(side+1)%4]
+					if not Data.Footprint.edge_segment(a,b): continue
+					for i in 9: complete_perimeter=complete_perimeter and physical_edge_vertices.has(Vector2i(a.lerp(b,float(i)/8)))
+		check(complete_perimeter,"Seed %d stitches every 4 m vertex around the complete irregular perimeter" % seed)
 		check(apron_presentation,"Seed %d apron has no shadows or GI contribution" % seed)
 		var seen: Dictionary = {}
 		var matched = true

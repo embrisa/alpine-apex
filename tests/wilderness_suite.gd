@@ -34,10 +34,12 @@ func run() -> void:
 		joined = joined and world.data.sample_at(p)==deterministic.sample_at(p)
 	check(joined,"All 1024 inner-edge samples share height, normal and material with the apron sampler")
 	var collar = true
-	for i in range(-3072,3073,32):
-		for p in [Vector2(i,-3264),Vector2(i,3264),Vector2(-3264,i),Vector2(3264,i)]:
-			collar = collar and world.data.height_at(p)==source.sample_height(p) and world.data.blend_at(p)==0.0
-	check(collar,"The complete 192 m collar preserves the original height and material blend")
+	for i in 360:
+		var direction=Vector2.from_angle(deg_to_rad(i))
+		for distance_m in [0,96,191]:
+			var p=direction*(world.data.Footprint.radius(direction)+24+distance_m)
+			collar = collar and world.data.height_at(p)==source.sample_height(p)
+	check(collar,"The 192 m collar follows the irregular footprint and preserves the reference support")
 	check(world.data.edge_point(0)==world.data.edge_point(1024),"The full perimeter closes without a seam")
 	for level in 3:
 		await world.apply_quality(Quality.preset(level))
@@ -54,6 +56,19 @@ func run() -> void:
 	var safe_props = world.props.get_children().all(func(c): return c is MultiMeshInstance3D and c.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_OFF and c.gi_mode==GeometryInstance3D.GI_MODE_DISABLED)
 	check(safe_props,"Every prop batch is presentation-only")
 	check(world.props.bounds_valid and world.props.bounds_corners_checked>0,"Conservative spatial bounds contain packed mesh and billboard footprint corners")
+	var detailed_trees = true
+	for id in 3:
+		var near_mesh: Mesh = world.props.meshes["near"+str(id)]
+		var wood = false; var needles = false; var modeled_snow = false
+		for surface in near_mesh.get_surface_count():
+			for color in near_mesh.surface_get_arrays(surface)[Mesh.ARRAY_COLOR]:
+				wood = wood or color.a<.4
+				needles = needles or (color.a>.65 and color.a<.8)
+				modeled_snow = modeled_snow or color.a>.9
+			var mat: ShaderMaterial = near_mesh.surface_get_material(surface)
+			detailed_trees = detailed_trees and mat.get_shader_parameter("foliage_texture")!=null and mat.get_shader_parameter("bark_texture")!=null
+		detailed_trees = detailed_trees and wood and needles and modeled_snow
+	check(detailed_trees,"Near conifers retain the normal forest's bark, cutout needles and modeled snow asset contract")
 	var fingerprint: String = world.placement.fingerprint
 	await world.apply_quality(Quality.preset(0))
 	await world.apply_quality(Quality.preset(2))

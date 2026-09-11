@@ -57,6 +57,13 @@ Root metadata comes from assets on the main thread. Existing packed forest uploa
 and bounded nearby detail residency consume prepared data and share poses with
 tree motion. The unused dense-forest grouping pass is removed.
 
+[Scenery v3](OFFMAP_V3.md) trims unused square render corners beyond the existing
+2,850 m return zone and connects the retained 4 m perimeter to one shared authored
+background. It submits 478 terrain chunks / 3,610,880 base triangles; 84 partial
+edge chunks keep exact triangles without coarse LODs. Physical arrays and v15
+generation remain unchanged. Scenery identity 3 and scenery cache schema 2 reject
+obsolete layouts, duplicate/missing chunks and invalid perimeter indices.
+
 Scene Nodes, ArrayMesh/MultiMesh creation and GPU submission remain on the main
 thread with yielding checkpoints. CPU preparation and scene construction have
 separate measurements. Asset metadata and each upload stage also update the shared

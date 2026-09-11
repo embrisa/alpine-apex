@@ -1,7 +1,7 @@
 extends RefCounted
 ## Presentation-only generated mountain data. Metres, float32 heights, no Nodes.
 ## The supplied physical heightfield remains the sole contact authority.
-const GENERATOR_VERSION = 2
+const GENERATOR_VERSION = 3
 var ORIGIN = Vector2(-4096,-2048)
 const EXTENT = 8192.0
 const COARSE_SIZE = 257
@@ -89,7 +89,7 @@ static func snow_coverage(normal: Vector3, hollow: float, exposure: float, varia
 
 func _landform(p: Vector2, field) -> float:
 	if field.is_summit_mountain():
-		return field.continuation_height(p.x,p.y)+maxf(0,detail.get_noise_2d(p.x,p.y))*160*smoothstep(3100,3800,p.length())
+		return field.continuation_height(p.x,p.y)
 	var bounds: Rect2 = field.bounds()
 	var edge = p.clamp(bounds.position,bounds.end)
 	var base: float = field.sample(edge.x,edge.y).height-(p.y-edge.y)*.24

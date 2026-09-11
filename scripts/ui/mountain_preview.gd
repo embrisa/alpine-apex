@@ -20,12 +20,13 @@ static func build_image(field, job = null) -> Image:
 	# A bounded survey texture keeps preview time independent of physical area.
 	var dimensions = Vector2i(mini(field.NX,385),mini(field.NZ,513))
 	if job: job.set_total(dimensions.y+ceili(float(Obstacles.count(field))/1024)+ceili(float(field.geology.placements.size())/128) if "geology" in field else dimensions.y+ceili(float(Obstacles.count(field))/1024))
-	var image = Image.create(dimensions.x,dimensions.y,false,Image.FORMAT_RGB8)
+	var image = Image.create(dimensions.x,dimensions.y,false,Image.FORMAT_RGBA8)
 	var area: Rect2 = field.bounds()
 	for z in dimensions.y:
 		if job and job.is_cancelled(): return null
 		for x in dimensions.x:
 			var p = area.position+Vector2(float(x)/(dimensions.x-1),float(z)/(dimensions.y-1))*area.size
+			if preload("res://scripts/world/mountain_footprint.gd").enabled(field) and not preload("res://scripts/world/mountain_footprint.gd").owns_cell(p): continue
 			var n: Vector3 = field.contact_normal(p.x,p.y)
 			var slope = rad_to_deg(acos(clampf(n.y,0,1)))
 			var color = Color("d9e6e7").lerp(Color("e2ae70"),smoothstep(27,43,slope))
@@ -40,7 +41,8 @@ static func build_image(field, job = null) -> Image:
 				color = color.lerp(Color("87bbc9"),exposure.g)
 			var shade = .67+maxf(0,n.dot(Vector3(-.5,1,-.4).normalized()))*.33
 			if fposmod(field.height_at(p.x,p.y) if field.has_method("height_at") else field.sample(p.x,p.y).height,50)<2.0: shade *= .78
-			image.set_pixel(x,z,color*shade)
+			color*=shade; color.a=1.0
+			image.set_pixel(x,z,color)
 		if job: job.advance()
 	for id in Obstacles.count(field):
 		if id%1024==0 and job:

@@ -1,6 +1,7 @@
 extends RefCounted
 ## Shared background uniforms. Global fog and nearby shafts remain world-owned.
 static func configure(material: ShaderMaterial, data) -> void:
+	material.set_shader_parameter("offmap_footprint",preload("res://scripts/world/mountain_footprint.gd").SHAPE)
 	material.set_shader_parameter("offmap_bounds",Vector4(data.physical_bounds.position.x,data.physical_bounds.position.y,data.physical_bounds.end.x,data.physical_bounds.end.y))
 	material.set_shader_parameter("offmap_valley_height",data.valley_height)
 

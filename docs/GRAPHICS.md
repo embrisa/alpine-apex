@@ -20,8 +20,10 @@ detailed geometry and shadows are prepared locally around the camera. Its loadin
 [Off-map scenery v3](OFFMAP_V3.md) adds batched background conifers and rocks,
 snowfields, canopy variation and distant valley fog to the connected apron and
 panorama through one shared authored asset. Loading adapts the short connector;
-it does not generate another background. Its terrain budgets and physical identity are preserved; fresh
-validation and performance measurements belong to the current workload.
+it does not generate another background. Unused square render corners are trimmed
+to an irregular perimeter beyond the unchanged 2,850 m return zone. Base terrain
+submission falls from 4,718,592 to 3,610,880 triangles; heights and physical identity
+are preserved. Scenery identity is 3. Current validation and timings are recorded there.
 
 The [alpine wilderness backdrop](WILDERNESS.md) adds three distant ridge/valley
 bands and a shared summit-return zone. Additional geometry budgets are

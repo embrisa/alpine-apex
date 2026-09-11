@@ -2,6 +2,8 @@ extends Node3D
 ## Built-in mesh renderer for the shared decorative mountain data.
 ## The skiable rectangle is explicitly omitted. This has no collision contract.
 const STEP = 32.0
+const Footprint = preload("res://scripts/world/mountain_footprint.gd")
+var trimmed = false
 var triangles: int = 0
 var physical_bounds: Rect2
 var landscape
@@ -15,6 +17,7 @@ func build(surface, assets, mountain, shared_landscape = null, checkpoint: Calla
 	triangles = 0
 	triangle_sources.clear()
 	physical_bounds = surface.bounds()
+	trimmed = landscape!=null and Footprint.enabled(surface)
 	var mat = assets.terrain_material() if surface.GENERATOR_ID=="alpine-drainage" else assets.terrain_material(.06,.035)
 	material = mat
 	if landscape:
@@ -31,7 +34,7 @@ func build(surface, assets, mountain, shared_landscape = null, checkpoint: Calla
 			points[z*nx+x] = Vector3(wx,_height(Vector2(wx,wz),mountain),wz)
 	for cz in range(0,nz-1,32):
 		for cx in range(0,nx-1,32):
-			if physical_bounds.encloses(Rect2(mountain.ORIGIN+Vector2(cx,cz)*STEP,Vector2.ONE*1024.0)): continue
+			if not trimmed and physical_bounds.encloses(Rect2(mountain.ORIGIN+Vector2(cx,cz)*STEP,Vector2.ONE*1024.0)): continue
 			var vertices = PackedVector3Array()
 			var normals = PackedVector3Array()
 			var indices = PackedInt32Array()
@@ -50,7 +53,7 @@ func build(surface, assets, mountain, shared_landscape = null, checkpoint: Calla
 			for z in range(32):
 				for x in range(32):
 					var p: Vector3 = vertices[z*33+x]
-					if physical_bounds.has_point(Vector2(p.x,p.z)): continue
+					if Footprint.owns_cell(Vector2(p.x,p.z)) if trimmed else physical_bounds.has_point(Vector2(p.x,p.z)): continue
 					if surface.GENERATOR_ID=="alpine-drainage" and _touches_surface(p):
 						_stitch_quad(vertices,normals,indices,p,mountain,surface)
 						continue
@@ -88,9 +91,15 @@ func _height(p: Vector2,mountain) -> float:
 	return landscape.height_at(p) if landscape else mountain.sample_height(p)
 
 func _touches_surface(p: Vector3) -> bool:
+	if trimmed:
+		var center = Vector2(p.x,p.z)+Vector2.ONE*STEP*.5
+		for offset in [Vector2.LEFT,Vector2.RIGHT,Vector2.UP,Vector2.DOWN]:
+			if Footprint.owns_cell(center+offset*STEP): return true
+		return false
 	return ((p.x==physical_bounds.position.x-STEP or p.x==physical_bounds.end.x) and p.z>=physical_bounds.position.y and p.z<physical_bounds.end.y) or ((p.z==physical_bounds.position.y-STEP or p.z==physical_bounds.end.y) and p.x>=physical_bounds.position.x and p.x<physical_bounds.end.x)
 
 func _on_surface_edge(p: Vector2) -> bool:
+	if trimmed: return Footprint.on_edge(p)
 	return ((p.x==physical_bounds.position.x or p.x==physical_bounds.end.x) and p.y>=physical_bounds.position.y and p.y<=physical_bounds.end.y) or ((p.y==physical_bounds.position.y or p.y==physical_bounds.end.y) and p.x>=physical_bounds.position.x and p.x<=physical_bounds.end.x)
 
 func _stitch_quad(vertices: PackedVector3Array, normals: PackedVector3Array, indices: PackedInt32Array, p: Vector3, mountain, surface) -> void:
@@ -104,7 +113,8 @@ func _stitch_quad(vertices: PackedVector3Array, normals: PackedVector3Array, ind
 	for i in 4:
 		var a: Vector2 = corners[i]
 		var b: Vector2 = corners[(i+1)%4]
-		var divisions = 8 if _on_surface_edge(a) and _on_surface_edge(b) else 1
+		var boundary = Footprint.edge_segment(a,b) if trimmed else _on_surface_edge(a) and _on_surface_edge(b)
+		var divisions = 8 if boundary else 1
 		for j in divisions: _backdrop_vertex(vertices,normals,a.lerp(b,float(j)/divisions),mountain,surface)
 	var count = vertices.size()-first
 	for i in count: indices.append_array(PackedInt32Array([center,first+i,first+(i+1)%count]))

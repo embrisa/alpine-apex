@@ -4,8 +4,9 @@ extends RefCounted
 const TILE_M = 1024.0
 const CELL_M = 32.0
 const MAX_RADIUS_M = 10000.0
+const Footprint = preload("res://scripts/world/mountain_footprint.gd")
 const TREE_IDS = ["forest_spruce_03", "forest_fir_02", "forest_pine_03"]
-const ROCK_IDS = ["pc_rock_boulder_1", "pc_rock_buttress_1", "pc_rock_ledge_1"]
+const ROCK_IDS = ["pc_rock_boulder_1", "rock_boulder_2", "rock_gneiss_1"]
 var groups: Array[Dictionary] = []
 var counts = {"trees":0,"rocks":0,"near_trees":0,"candidates":0}
 var fingerprint = ""
@@ -47,7 +48,7 @@ func build(sources: Array, bounds: Rect2, center: Vector2, seed_value: int, snow
 			var rng = RandomNumberGenerator.new()
 			rng.seed = (seed_value ^ (x*73856093) ^ (z*19349663) ^ 0x4197C25) & 0x7fffffff
 			var p = center+Vector2(x+rng.randf_range(.13,.87),z+rng.randf_range(.13,.87))*CELL_M
-			if p.distance_to(center)>MAX_RADIUS_M or bounds.grow(12).has_point(p): continue
+			if p.distance_to(center)>MAX_RADIUS_M or Footprint.edge_distance(p)<24.0: continue
 			var keep = rng.randf()
 			if keep>density: continue
 			counts.candidates += 1
@@ -56,13 +57,14 @@ func build(sources: Array, bounds: Rect2, center: Vector2, seed_value: int, snow
 			var mask: Color = hit.mask
 			var normal: Vector3 = hit.normal
 			var patch = noise.get_noise_2d(p.x,p.y)
-			var forest = mask.g*smoothstep(.65,.88,normal.y)
+			var edge_distance = Footprint.edge_distance(p)
+			var forest = mask.g*smoothstep(.65,.88,normal.y)*smoothstep(24,180+patch*160,edge_distance)
 			var tree = rng.randf()<forest*.82 and patch>-.30
 			var rock = not tree and rng.randf()<(.075+.18*(1.0-normal.y)) and normal.y>.48 and patch<.24
 			if not tree and not rock: continue
 			var id: int = rng.randi_range(0,2)
 			var yaw = rng.randf_range(-PI,PI)
-			var scale_value = rng.randf_range(.75,1.45) if tree else rng.randf_range(1.8,5.2)
+			var scale_value = rng.randf_range(.75,1.45) if tree else rng.randf_range(1.0,2.8)
 			if tree: scale_value *= lerpf(.8,1.3,clampf((snowline-hit.position.y)/1200.0,0.0,1.0))
 			var basis = Basis(Vector3.UP,yaw).scaled(Vector3.ONE*scale_value)
 			if rock:
@@ -74,7 +76,7 @@ func build(sources: Array, bounds: Rect2, center: Vector2, seed_value: int, snow
 			var kind = "tree" if tree else "rock"
 			_append(packed,"%d:%d:%s:%d" % [cell.x,cell.y,kind,id],kind,id,pose,mask.r,rng.randf(),hit.anchor)
 			counts.trees += int(tree); counts.rocks += int(rock)
-			if tree and p.distance_to(p.clamp(bounds.position,bounds.end))<900.0:
+			if tree and edge_distance<900.0:
 				_append(packed,"%d:%d:near:%d" % [cell.x,cell.y,id],"near",id,pose,mask.r,.5,hit.anchor)
 				counts.near_trees += 1
 			# Small groves give forests a canopy rhythm instead of a regular
@@ -82,13 +84,13 @@ func build(sources: Array, bounds: Rect2, center: Vector2, seed_value: int, snow
 			if tree and forest>.45:
 				for extra in 2:
 					var cluster_p=p+Vector2.from_angle(yaw+extra*2.4)*rng.randf_range(8.0,14.0)
-					if bounds.grow(12).has_point(cluster_p): continue
+					if Footprint.edge_distance(cluster_p)<24.0: continue
 					var cluster_hit=sample(cluster_p)
 					if cluster_hit.is_empty() or cluster_hit.normal.y<.68: continue
 					var cluster_pose=Transform3D(Basis(Vector3.UP,yaw+extra+1).scaled(Vector3.ONE*scale_value*rng.randf_range(.65,.95)),cluster_hit.position)
 					_append(packed,"%d:%d:tree:%d" % [cell.x,cell.y,id],"tree",id,cluster_pose,cluster_hit.mask.r,rng.randf(),cluster_hit.anchor)
 					counts.trees+=1
-					if cluster_p.distance_to(cluster_p.clamp(bounds.position,bounds.end))<900.0:
+					if Footprint.edge_distance(cluster_p)<900.0:
 						_append(packed,"%d:%d:near:%d" % [cell.x,cell.y,id],"near",id,cluster_pose,cluster_hit.mask.r,.5,cluster_hit.anchor)
 						counts.near_trees+=1
 	var keys = packed.keys(); keys.sort()

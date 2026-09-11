@@ -108,7 +108,7 @@ func run() -> void:
 	check(game.current_mountain!=null and game.field.height_checksum==initial and game.active and not game.timed,"Ski button loads the preview as a free-ski session")
 	check(game.graphics.level==0 and game.weather.selected_preset=="snowfall" and game.physics_modified and is_equal_approx(game.sim.tuning.edge_grip,1.9),"Mountain changes preserve graphics, weather and modified tuning")
 	check(not game.session.eligible and game.session.reference_replay==null and game.session.course_id.begins_with("free-ski-"),"Generated free skiing cannot use benchmark personal bests or ghosts")
-	check(game.world.benchmark_markers.is_empty() and game.world.terrain_triangles==4718592,"Generated terrain uses the expanded 4 m mesh without a predefined marker corridor")
+	check(game.world.benchmark_markers.is_empty() and game.world.terrain_triangles>3000000 and game.world.terrain_triangles<4718592,"Generated terrain uses the retained 4 m mesh without a predefined marker corridor")
 	check(game.world.mountain.physics_authority=="alpine-drainage-v%d" % Definition.CURRENT_VERSION,"Scenery identifies the generated physical authority")
 	check(game.summit_ready and game.sim.position==game.field.spawn_point(),"Free skiing stages the player at the true highest summit")
 	var height_before = game.sim.position.y

@@ -20,7 +20,7 @@ func build(placement, landscape, profile, checkpoint: Callable = Callable(), job
 		if not meshes.has(key):
 			var tree: bool = group.kind!="rock"
 			var id: String = Placement.TREE_IDS[group.asset] if tree else Placement.ROCK_IDS[group.asset]
-			var suffix = ("_shadow" if group.kind=="near" else "_lod2") if tree else ""
+			var suffix = ("_lod1" if group.kind=="near" else "_lod2") if tree else ""
 			var path = "res://assets/graphics/%s/%s%s.glb" % ["trees/models" if tree else "models",id,suffix]
 			var root: Node = load(path).instantiate()
 			var source = _find_mesh(root)
@@ -35,6 +35,9 @@ func build(placement, landscape, profile, checkpoint: Callable = Callable(), job
 			else:
 				mat.set_shader_parameter("tree_geometry",group.kind=="near")
 				mat.set_shader_parameter("rock_texture",load("res://assets/graphics/textures/rock_albedo_low.jpg"))
+				if group.kind=="near":
+					mat.set_shader_parameter("bark_texture",load("res://assets/graphics/textures/bark_albedo_low.jpg"))
+					mat.set_shader_parameter("foliage_texture",load("res://assets/graphics/trees/textures/foliage_color_low.res"))
 			Fog.configure(mat,landscape)
 			materials.append(mat)
 			for i in mesh.get_surface_count(): mesh.surface_set_material(i,mat)

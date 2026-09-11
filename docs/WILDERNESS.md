@@ -1,9 +1,10 @@
 # Alpine wilderness and summit return
 
 **Current scenery: [presentation v3](OFFMAP_V3.md).** The complete off-map apron
-and panorama now share a connected ridge network and blended materials. The
-landscape implementation and measurements below describe the earlier v1;
-summit-return behavior is unchanged by the v2 presentation update.
+and panorama now use one reusable authored landscape with conifers, natural rocks,
+snowfields and valley fog. Unused square render corners are replaced by an irregular
+connection beyond the unchanged 2,850 m return zone. The landscape implementation
+and measurements below describe the earlier v1 and are historical evidence.
 
 Generated summit mountains have an unreachable, seeded alpine panorama extending
 18 km from the center. Free skiing and racing share a 2,850 m summit-return

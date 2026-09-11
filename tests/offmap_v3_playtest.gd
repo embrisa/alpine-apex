@@ -4,6 +4,7 @@ const Fixture = preload("res://tests/offmap_v2_fixture.gd")
 var comparison_pairs: Array = []
 
 func inspect_massif() -> void:
+	game.camera_settings.reset()
 	game.active=false; game.summit_ready=false
 	game.set_process(false) # Main otherwise reclaims the riding camera each frame.
 	game.hud.hide_menu(); game.hud.root.hide()
@@ -28,14 +29,17 @@ func inspect_massif() -> void:
 					game.camera.make_current(); place_on_face(face,distance_m,close)
 					await pair(fixture,"ride_%s_%s_%d_%d_%s" % [condition[0],condition[1],face,distance_m,"pov" if close else "chase"])
 		if not quick:
-			for bearing in [Vector2.RIGHT,Vector2.DOWN]:
-				var p=bearing*3048.0
+			for bearing in [Vector2.RIGHT,Vector2.DOWN,Vector2.ONE.normalized()]:
+				var p=bearing*2835.0
 				observer.make_current()
 				observer.position=Vector3(p.x,field.sample(p.x,p.y).height+1.8,p.y)
 				observer.look_at(observer.position+Vector3(bearing.x*1000,-80,bearing.y*1000))
-				await pair(fixture,"boundary_%s_%s_%s" % [condition[0],condition[1],"east" if bearing==Vector2.RIGHT else "south"])
+				await pair(fixture,"boundary_%s_%s_%s" % [condition[0],condition[1],"east" if bearing==Vector2.RIGHT else ("south" if bearing==Vector2.DOWN else "diagonal")])
 	if not quick:
 		game.weather.set_preset("clear"); game.weather.set_time_of_day("day")
+		for view in [["edge_overview",Vector3(0,14000,5500),Vector3(0,2300,0)],["edge_corner",Vector3(6200,6100,6200),Vector3(2300,2200,2300)]]:
+			observer.make_current(); observer.position=view[1]; observer.look_at(view[2])
+			await pair(fixture,view[0])
 		observer.make_current(); observer.position=field.spawn_point()+Vector3.UP*65
 		observer.look_at(observer.position+Vector3(0,-1900,10000))
 		for level in 3:

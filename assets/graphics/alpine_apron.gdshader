@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode cull_back, shadows_disabled;
+render_mode cull_back;
 #define ALPINE_OFFMAP
 #include "res://assets/graphics/offmap_surface.gdshaderinc"
 #include "res://assets/graphics/offmap_fog.gdshaderinc"

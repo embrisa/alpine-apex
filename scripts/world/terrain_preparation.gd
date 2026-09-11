@@ -1,6 +1,7 @@
 extends RefCounted
 ## Packed CPU arrays only. ArrayMesh/scene creation belongs to AlpineWorld.
 const CHUNK = 64
+const Footprint = preload("res://scripts/world/mountain_footprint.gd")
 var chunks: Array = []
 var indices = PackedInt32Array()
 var lods: Dictionary = {}
@@ -9,9 +10,12 @@ func build(field, job) -> void:
 	indices = base_indices(CHUNK)
 	lods = {0.7:lod_indices(CHUNK,4),3.0:lod_indices(CHUNK,8)}
 	var columns = (field.NX-1)/CHUNK; var rows = (field.NZ-1)/CHUNK
-	chunks = job.map_tiles(columns*rows,func(i): return chunk_arrays(field,(i%columns)*CHUNK,(i/columns)*CHUNK,job))
+	chunks = job.map_tiles(columns*rows,func(i): return chunk_arrays(field,(i%columns)*CHUNK,(i/columns)*CHUNK,job)).filter(func(row): return not row.is_empty())
 
-static func chunk_arrays(field, cx: int, cz: int, job) -> Dictionary:
+static func chunk_arrays(field, cx: int, cz: int, job, keep_inside: bool = true) -> Dictionary:
+	var clip = footprint_indices(Vector2(field.X_MIN+cx*4,field.Z_MIN+cz*4),keep_inside) if Footprint.enabled(field) else {"mode":1}
+	if clip.mode==0:
+		job.advance(); return {}
 	var vertices = PackedVector3Array(); vertices.resize((CHUNK+1)*(CHUNK+1))
 	var normals = PackedVector3Array(); normals.resize(vertices.size())
 	for z in CHUNK+1:
@@ -21,7 +25,28 @@ static func chunk_arrays(field, cx: int, cz: int, job) -> Dictionary:
 			vertices[at] = Vector3(field.X_MIN+(cx+x)*4,field.heights[index],field.Z_MIN+(cz+z)*4)
 			normals[at] = field.final_normals[index]
 	job.advance()
-	return {"vertices":vertices,"normals":normals,"center":Vector2(field.X_MIN+(cx+CHUNK*.5)*4,field.Z_MIN+(cz+CHUNK*.5)*4)}
+	var result = {"vertices":vertices,"normals":normals,"center":Vector2(field.X_MIN+(cx+CHUNK*.5)*4,field.Z_MIN+(cz+CHUNK*.5)*4)}
+	if clip.mode==2:
+		result.indices=clip.indices
+		# The new internal perimeter must retain every 4 m join vertex. Full
+		# interior chunks still use the existing shared LOD buffers.
+		result.lods={}
+	return result
+
+static func footprint_indices(origin: Vector2, keep_inside: bool = true) -> Dictionary:
+	var mask = PackedByteArray(); var kept = 0
+	for z in 8:
+		for x in 8:
+			var keep = Footprint.owns_cell(origin+Vector2(x,z)*32+Vector2.ONE*16)==keep_inside
+			mask.append(int(keep)); kept+=int(keep)
+	if kept==0 or kept==64: return {"mode":0 if kept==0 else 1}
+	var clipped = PackedInt32Array()
+	for z in CHUNK:
+		for x in CHUNK:
+			if not mask[(z/8)*8+x/8]: continue
+			var a = z*(CHUNK+1)+x
+			clipped.append_array(PackedInt32Array([a,a+1,a+CHUNK+1,a+1,a+CHUNK+2,a+CHUNK+1]))
+	return {"mode":2,"indices":clipped}
 
 static func base_indices(chunk: int) -> PackedInt32Array:
 	var indices = PackedInt32Array(); indices.resize(chunk*chunk*6)

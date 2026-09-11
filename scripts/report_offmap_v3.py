@@ -55,10 +55,24 @@ def main():
     descents = read(NATIVE / 'offmap_v3_descents/production.json')
     report = {'views': views, 'fixed_views': timing, 'descents': descents,
               'human_acceptance': 'pending', 'automated': {}, 'native_audits': {}}
-    for label in ['wilderness', 'atmosphere', 'geometry', 'fingerprints', 'graphics', 'loading', 'scenery_loading', 'weather', 'lifecycle']:
+    for label in ['footprint', 'wilderness', 'atmosphere', 'geometry', 'fingerprints', 'graphics', 'loading', 'scenery_loading', 'weather', 'lifecycle', 'integrity', 'contracts', 'interface', 'mountain_library']:
         guard = read(ROOT / 'artifacts/guarded' / f'offmap_v3_{label}' / 'guard.json')
         if guard:
-            report['automated'][label] = {k: guard.get(k) for k in ['exit_code', 'stop_reason', 'concurrent']}
+            entry = {k: guard.get(k) for k in ['exit_code', 'stop_reason', 'concurrent', 'started', 'finished']}
+            log = (ROOT / 'artifacts/guarded' / f'offmap_v3_{label}' / 'stdout.log').read_text(encoding='utf-8', errors='replace')
+            for line in reversed(log.splitlines()):
+                match = re.match(r'^[A-Z0-9_]+\s+(\{.*\})$', line)
+                if match:
+                    result = json.loads(match[1])
+                    if 'checks' in result or ('samples' in result and 'failures' in result):
+                        entry.update(checks=result.get('checks', len(result.get('samples', []))), failures=result.get('failures', []))
+                        break
+            if label == 'weather':
+                match = re.search(r'RENDER_EFFICIENCY (\d+) checks; (\d+) failures', log)
+                if match: entry.update(checks=int(match[1]), failure_count=int(match[2]))
+            if label == 'scenery_loading':
+                entry.update(read(ROOT / 'artifacts/geology_v11/scenery_loading.json') or {})
+            report['automated'][label] = entry
     for label in ['views', 'fixed', 'descents']:
         report['native_audits'][label] = audit('offmap_v3_'+label)
     # An interrupted retry can leave an older result beside the new failure log.
@@ -81,7 +95,7 @@ def main():
     cards, other, clips = [], [], []
     if views:
         from PIL import Image
-        featured = ['summit_clear_day_0', 'ride_clear_day_0_2750_pov', 'boundary_clear_day_east',
+        featured = ['edge_overview', 'edge_corner', 'summit_clear_day_0', 'ride_clear_day_0_2750_pov', 'boundary_clear_day_diagonal',
                     'summit_snowfall_day_3', 'summit_clear_dusk_3', 'ride_clear_night_0_2750_chase']
         for label in views['pairs']:
             for state in ['before', 'after']:
@@ -99,7 +113,7 @@ def main():
                     frames[0].save(OUT / f'{label}_{state}.webp', save_all=True, append_images=frames[1:], duration=100, loop=0, quality=85)
                     parts.append(f'<figure><img loading="lazy" src="{label}_{state}.webp"><figcaption>{state}</figcaption></figure>')
                 clips.append(f'<article><h2>{label} - sampled motion</h2><div class="pair">'+''.join(parts)+'</div></article>')
-    report['evidence_complete'] = all(a.get('complete') and a.get('matches_current_sources') and not a.get('concurrent') for a in report['native_audits'].values()) and bool(views and len(views['pairs']) == 67 and descents and len(descents['rows']) == 4)
+    report['evidence_complete'] = all(a.get('complete') and a.get('matches_current_sources') and not a.get('concurrent') for a in report['native_audits'].values()) and bool(views and len(views['pairs']) == 73 and descents and len(descents['rows']) == 4)
     (OUT / 'report.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     rows = []
     if timing:
@@ -112,7 +126,7 @@ def main():
     metrics = html.escape(json.dumps({'fixed_budget': timing.get('budget') if timing else None, 'descents': report.get('descent_comparisons'), 'automated': report['automated'], 'native_audits': report['native_audits']}, indent=2))
     page='''<!doctype html><meta charset="utf-8"><title>Alpine Apex - shared background v3</title>
 <style>body{max-width:1500px;margin:32px auto;padding:0 24px;background:#101a24;color:#e5edf5;font:16px/1.5 system-ui}h1{font-size:30px}h2{font-size:18px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}figure{margin:0}img{width:100%;display:block}article{margin:32px 0}figcaption{padding:8px;color:#b6c9d9}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#1b2a37;padding:18px}a{color:#9ad6f5}th,td{text-align:left;padding:8px 18px;border-bottom:1px solid #35434f}summary{cursor:pointer;padding:16px;background:#1b2a37}input{padding:10px;font:inherit;width:90%}@media(max-width:700px){.pair{grid-template-columns:1fr}}</style>
-<h1>Shared alpine background and distant valley fog</h1><p>One reusable authored asset, the normal mountain's snow/rock sources, and a shorter boundary connection. Matched v2/v3 views on v15 Standard at 4K. Open stills at full resolution.</p>
+<h1>Shared alpine background and distant valley fog</h1><p>One reusable authored asset, the normal mountain's snow/rock sources, and unused square corners replaced by a closer, irregular scenery connection. The 2.85 km skiing boundary is unchanged. Matched v2/v3 views on v15 Standard at 4K. Open stills at full resolution.</p>
 <p>Automated checks, rendered inspection and measured performance are separate. Sampled clips contain capture overhead; user skiing acceptance remains pending.</p>'''
     status='Complete stable evidence set.' if report['evidence_complete'] else 'Validation evidence is incomplete or stale; see audit details.'
     page+=f'<p><strong>{status}</strong></p>'+table+'<details><summary>Validation and performance details</summary><pre>'+metrics+'</pre></details>'+''.join(cards)+''.join(clips)

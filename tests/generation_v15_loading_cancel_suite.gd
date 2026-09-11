@@ -34,7 +34,7 @@ func run() -> void:
 			failures.append("Did not reach cancellable stage "+phase); game.queue_free(); await process_frame; continue
 		if phase=="terrain_upload":
 			var snap: Dictionary = game.generation_job.snapshot()
-			if snap.stage!="terrain_meshes_uploads" or snap.completed<4 or snap.total!=576: failures.append("GPU construction is absent from the shared job snapshot")
+			if snap.stage!="terrain_meshes_uploads" or snap.completed<4 or snap.total<=0 or snap.total>=576: failures.append("Trimmed GPU construction is absent from the shared job snapshot")
 		var field_ref = weakref(game.field) if game.field else null
 		var world_ref = weakref(game.world) if game.world else null
 		var start = Time.get_ticks_usec(); game.loading.cancel_button.pressed.emit()

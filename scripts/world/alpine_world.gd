@@ -279,6 +279,8 @@ func _terrain(checkpoint: Callable = Callable()) -> void:
 	var lods = {0.7:_terrain_lod_indices(chunk,4),3.0:_terrain_lod_indices(chunk,8)} if surface.is_summit_mountain() else {}
 	for cz in range(0, surface.NZ - 1, chunk):
 		for cx in range(0, surface.NX - 1, chunk):
+			var clipped = preload("res://scripts/world/terrain_preparation.gd").footprint_indices(Vector2(surface.X_MIN+cx*4,surface.Z_MIN+cz*4)) if preload("res://scripts/world/mountain_footprint.gd").enabled(surface) else {"mode":1}
+			if clipped.mode==0: continue
 			var nx = mini(chunk, surface.NX - 1 - cx)
 			var nz = mini(chunk, surface.NZ - 1 - cz)
 			var vertices = PackedVector3Array()
@@ -302,18 +304,20 @@ func _terrain(checkpoint: Callable = Callable()) -> void:
 					var d = c + 1
 					indices.append_array(PackedInt32Array([a,b,c,b,d,c]))
 			var arrays = []
+			if clipped.mode==2: indices=clipped.indices
 			arrays.resize(Mesh.ARRAY_MAX)
 			arrays[Mesh.ARRAY_VERTEX] = vertices
 			arrays[Mesh.ARRAY_NORMAL] = normals
 			arrays[Mesh.ARRAY_INDEX] = indices
 			var mesh = ArrayMesh.new()
-			mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays,[],lods)
+			mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays,[],{} if clipped.mode==2 else lods)
 			var instance = MeshInstance3D.new()
 			instance.mesh = mesh
 			instance.gi_mode = GeometryInstance3D.GI_MODE_STATIC
 			instance.material_override = snow_material
 			instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 			instance.set_meta("terrain_center",Vector2(surface.vertex(cx,cz).x+nx*surface.CELL*.5,surface.vertex(cx,cz).z+nz*surface.CELL*.5))
+			instance.set_meta("trimmed_perimeter",clipped.mode==2)
 			terrain_chunks.append(instance)
 			add_child(instance)
 			terrain_triangles += indices.size() / 3
@@ -329,6 +333,11 @@ func _vistas(checkpoint: Callable = Callable(), data_worker: Callable = Callable
 		add_child(wilderness)
 		wilderness.prepare(surface,mountain)
 		await backdrop.build(surface,assets,mountain,wilderness.data,checkpoint)
+		# The joining collar must use the same snow/stone decision as the
+		# retained support mesh. A separate procedural mask exposes its cut edge.
+		for parameter in ["contact_material_enabled","contact_material","contact_material_origin","contact_material_size"]:
+			backdrop.material.set_shader_parameter(parameter,snow_material.get_shader_parameter(parameter))
+		snow_readability.bind(backdrop.material)
 		wilderness.apron_material = backdrop.material
 		wilderness.apron_sources = backdrop.triangle_sources
 		wilderness.worker = data_worker
@@ -455,13 +464,14 @@ func _prepared_terrain(checkpoint: Callable) -> void:
 	for chunk in data.chunks:
 		if _cancelled(): return
 		var arrays: Array = []; arrays.resize(Mesh.ARRAY_MAX)
-		arrays[Mesh.ARRAY_VERTEX] = chunk.vertices; arrays[Mesh.ARRAY_NORMAL] = chunk.normals; arrays[Mesh.ARRAY_INDEX] = data.indices
-		var mesh = ArrayMesh.new(); mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays,[],data.lods)
+		arrays[Mesh.ARRAY_VERTEX] = chunk.vertices; arrays[Mesh.ARRAY_NORMAL] = chunk.normals; arrays[Mesh.ARRAY_INDEX] = chunk.get("indices",data.indices)
+		var mesh = ArrayMesh.new(); mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays,[],chunk.get("lods",data.lods))
 		var instance = MeshInstance3D.new(); instance.mesh = mesh
 		instance.gi_mode = GeometryInstance3D.GI_MODE_STATIC; instance.material_override = snow_material
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		instance.set_meta("terrain_center",chunk.center)
-		terrain_chunks.append(instance); add_child(instance); terrain_triangles += data.indices.size()/3
+		instance.set_meta("trimmed_perimeter",chunk.has("indices"))
+		terrain_chunks.append(instance); add_child(instance); terrain_triangles += arrays[Mesh.ARRAY_INDEX].size()/3
 		if build_job: build_job.advance()
 		if checkpoint.is_valid() and terrain_chunks.size()%4==0:
 			await checkpoint.call("Building terrain · %d / %d sections" % [terrain_chunks.size(),data.chunks.size()],100.0*terrain_chunks.size()/data.chunks.size())

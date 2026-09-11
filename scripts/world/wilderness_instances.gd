@@ -1,7 +1,7 @@
 extends RefCounted
 ## Reuse authored transforms; adapt only baked triangle anchors on the join.
 const TREE_IDS = ["forest_spruce_03", "forest_fir_02", "forest_pine_03"]
-const ROCK_IDS = ["pc_rock_boulder_1", "pc_rock_buttress_1", "pc_rock_ledge_1"]
+const ROCK_IDS = ["pc_rock_boulder_1", "rock_boulder_2", "rock_gneiss_1"]
 var groups: Array[Dictionary] = []
 var counts: Dictionary
 var fingerprint = ""

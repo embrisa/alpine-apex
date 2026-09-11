@@ -20,7 +20,8 @@ func run() -> void:
 	asset.metadata={"seed":recipe.seed_value,"physical_seed":field.seed_value,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"scenery_height_sha256":mountain.height_checksum,"scenery_environment_sha256":mountain.environment_checksum,"bounds":field.bounds(),"valley_height":recipe.valley_height,"snowline":recipe.snowline,"ridge_segments":recipe.ridges.size(),"source_sha256":Panorama.source_hashes()}
 	asset.metadata.source_sha256={}
 	asset.metadata.scenery_seed=mountain.seed_value
-	for source_path in ["scripts/authoring/bake_wilderness.gd","scripts/authoring/wilderness_recipe.gd","scripts/authoring/wilderness_mesh.gd","scripts/authoring/wilderness_placement.gd","scripts/world/alpine_backdrop.gd","scripts/world/mountain_data.gd","scripts/world/wilderness_asset.gd","scripts/presentation/graphics_quality.gd"]:
+	asset.metadata.footprint_revision=recipe.Footprint.REVISION
+	for source_path in ["scripts/authoring/bake_wilderness.gd","scripts/authoring/wilderness_recipe.gd","scripts/authoring/wilderness_mesh.gd","scripts/authoring/wilderness_placement.gd","scripts/world/mountain_footprint.gd","scripts/world/alpine_backdrop.gd","scripts/world/mountain_data.gd","scripts/world/wilderness_asset.gd","scripts/presentation/graphics_quality.gd"]:
 		asset.metadata.source_sha256[source_path]=FileAccess.get_sha256("res://"+source_path)
 	asset.metadata.engine=Engine.get_version_info().string
 	# One extra ring supplies exact normals at the 8192 m apron edge.

@@ -2,11 +2,12 @@ extends RefCounted
 const Physical = preload("res://scripts/world/mountain_cache_v15.gd")
 const Archive = preload("res://scripts/world/mountain_archive.gd")
 const Sources = preload("res://scripts/world/generation_sources.gd")
+const Terrain = preload("res://scripts/world/terrain_preparation.gd")
 
 static func key(field, quality, job = null) -> String:
 	var source = Sources.signature(true,job)
 	if source.is_empty(): return ""
-	return ("scenery-v1|%s|%s|%s|%s|%d" % [source,Sources.engine_identity(),field.height_checksum,field.obstacle_checksum,quality.level]).sha256_text()
+	return ("scenery-v2|%s|%s|%s|%s|%d" % [source,Sources.engine_identity(),field.height_checksum,field.obstacle_checksum,quality.level]).sha256_text()
 
 static func path_for(field) -> String:
 	return Archive.DIRECTORY.path_join(Physical.recipe_key(field.seed_value,field.generation_settings)+".scenery")
@@ -14,7 +15,7 @@ static func path_for(field) -> String:
 static func save(prepared, field, quality, job, archive_path: String = "") -> bool:
 	var cache_key = key(field,quality,job)
 	if cache_key.is_empty(): return false
-	var sections: Array = [{"name":"meta","value":{"schema":1,"seed":field.seed_value,"height":field.height_checksum,"obstacles":field.obstacle_checksum,
+	var sections: Array = [{"name":"meta","value":{"schema":2,"seed":field.seed_value,"height":field.height_checksum,"obstacles":field.obstacle_checksum,
 		"origin":prepared.mountain.ORIGIN,"scenery_height":prepared.mountain.height_checksum,"scenery_environment":prepared.mountain.environment_checksum,
 		"assets":prepared.forest.assets,"family_counts":prepared.forest.family_counts,"macro_bounds":prepared.macro_bounds,
 		"readability_origin":prepared.readability.origin,"readability_cell":prepared.readability.cell_m}}]
@@ -61,7 +62,7 @@ static func _decode_into(prepared, field, quality, job, archive_path: String = "
 		data = Archive.read(bundled_path,cache_key,job)
 	if data.is_empty() or job.is_cancelled(): return false
 	var meta = data.get("meta")
-	if not meta is Dictionary or meta.get("schema")!=1 or meta.get("height")!=field.height_checksum or meta.get("obstacles")!=field.obstacle_checksum: return false
+	if not meta is Dictionary or meta.get("schema")!=2 or meta.get("height")!=field.height_checksum or meta.get("obstacles")!=field.obstacle_checksum: return false
 	var height = Archive.unpack(data,"height",PackedByteArray(),2048*2048*4)
 	var environment = Archive.unpack(data,"environment",PackedByteArray(),257*257*4)
 	var readability = Archive.unpack(data,"readability",PackedByteArray(),1537*1537*2)
@@ -83,7 +84,21 @@ static func _decode_into(prepared, field, quality, job, archive_path: String = "
 	var minerals = Archive.unpack(data,"minerals",[],100000,64)
 	var regions = Archive.unpack(data,"forest_regions",[],524288,64)
 	var far = Archive.unpack(data,"forest_far",[],20000,8)
-	if terrain==null or minerals==null or regions==null or far==null or terrain.size()!=576: return false
+	if terrain==null or minerals==null or regions==null or far==null or terrain.is_empty() or terrain.size()>576: return false
+	var expected_chunks: Dictionary={}
+	for z in range(0,1536,64):
+		for x in range(0,1536,64):
+			var origin=Vector2(field.X_MIN+x*4,field.Z_MIN+z*4)
+			var clip=Terrain.footprint_indices(origin)
+			if clip.mode!=0: expected_chunks[origin+Vector2.ONE*128]=clip
+	if terrain.size()!=expected_chunks.size(): return false
+	for chunk in terrain:
+		if not chunk is Dictionary or not chunk.get("vertices") is PackedVector3Array or not chunk.get("normals") is PackedVector3Array or chunk.vertices.size()!=4225 or chunk.normals.size()!=4225: return false
+		if not expected_chunks.has(chunk.get("center")): return false
+		var expected: Dictionary=expected_chunks[chunk.center]; expected_chunks.erase(chunk.center)
+		if expected.mode==2:
+			if chunk.get("indices")!=expected.indices or chunk.get("lods")!={}: return false
+		elif chunk.has("indices") or chunk.has("lods"): return false
 	if not data.get("terrain_indices") is PackedInt32Array or not data.get("terrain_lods") is Dictionary: return false
 	prepared.terrain.chunks = terrain; prepared.terrain.indices = data.terrain_indices; prepared.terrain.lods = data.terrain_lods
 	var near_count = 0; var far_count = 0

@@ -7,6 +7,7 @@ const EDGE_SEGMENTS = 1024
 const COLLAR_M = 192.0
 const DEFAULT_ASSET = "res://assets/graphics/scenery/alpine_valleys_01.res"
 const GRID = 259
+const Footprint = preload("res://scripts/world/mountain_footprint.gd")
 var asset
 var seed_value: int
 var origin = Vector2(-4096,-4096)
@@ -24,6 +25,7 @@ func configure(source, field) -> void:
 	var started=Time.get_ticks_usec()
 	if not asset: asset=load(DEFAULT_ASSET)
 	assert(asset!=null and asset.presentation_version==VERSION and asset.levels.size()==3,"Missing or incompatible authored background asset")
+	assert(asset.metadata.get("footprint_revision")==Footprint.REVISION,"Rebake the background for the current mountain footprint")
 	assert(physical_bounds==asset.metadata.bounds,"The background connector requires the standard mountain bounds")
 	asset_read_ms=(Time.get_ticks_usec()-started)/1000.0
 	seed_value=asset.metadata.seed
@@ -44,14 +46,14 @@ func _sample(values, p: Vector2):
 	var g=_grid(p); var i=int(g.x)
 	return lerp(lerp(values[i],values[i+1],g.y),lerp(values[i+GRID],values[i+GRID+1],g.y),g.z)
 func _delta(p: Vector2) -> float:
-	var distance_m=p.distance_to(p.clamp(physical_bounds.position,physical_bounds.end))
+	var distance_m=Footprint.edge_distance(p)
 	var weight=1.0-smoothstep(COLLAR_M,640.0,distance_m)
 	if weight<=0.0: return 0.0
 	return (mountain.sample_height(p)-float(_sample(asset.apron_reference,p)))*weight
 func blend_at(p: Vector2) -> float:
 	return _sample(asset.apron_blends,p)
 func height_at(p: Vector2) -> float:
-	if p.distance_to(p.clamp(physical_bounds.position,physical_bounds.end))<=COLLAR_M: return mountain.sample_height(p)
+	if Footprint.edge_distance(p)<=COLLAR_M: return mountain.sample_height(p)
 	var key=Vector2i((p*1000.0).round())
 	if not height_cache.has(key): height_cache[key]=float(_sample(asset.apron_heights,p))+_delta(p)
 	return height_cache[key]

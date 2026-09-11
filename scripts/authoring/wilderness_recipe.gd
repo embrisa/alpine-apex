@@ -1,5 +1,6 @@
 extends RefCounted
 const AlpineBiomes = preload("res://scripts/world/mountain_data.gd")
+const Footprint = preload("res://scripts/world/mountain_footprint.gd")
 ## Presentation-only shared ridge network; no physical RNG or image writes.
 const VERSION = 3
 const OUTER_RADIUS_M = 18000.0
@@ -20,11 +21,13 @@ var ridge_bins: Dictionary = {}
 var noise = FastNoiseLite.new()
 var detail = FastNoiseLite.new()
 var mountain
+var reference_field
 var height_cache: Dictionary = {}
 var sample_cache: Dictionary = {}
 
 func configure(source, field) -> void:
 	mountain = source
+	reference_field = field
 	seed_value = (source.seed_value ^ 0x57A1D39) & 0x7fffffff
 	origin = source.ORIGIN
 	apron_half = source.EXTENT*0.5
@@ -84,7 +87,7 @@ func ring_point(index: int, band: int, fraction: float) -> Vector2:
 	return inner.lerp(apron_center+direction*RING_RADII[band],fraction)
 
 func blend_at(p: Vector2) -> float:
-	var distance_m = p.distance_to(p.clamp(physical_bounds.position,physical_bounds.end))
+	var distance_m = Footprint.edge_distance(p)
 	var end_m = 760.0+noise.get_noise_2d(p.x+740,p.y-320)*220.0
 	return smoothstep(COLLAR_M,end_m,distance_m)
 
@@ -96,10 +99,11 @@ func height_at(p: Vector2) -> float:
 	return h
 
 func _height_uncached(p: Vector2) -> float:
-	# Geometry needs a broad shoulder; compressing a kilometre of drop into the
-	# material transition would turn the protected collar into a square cliff.
-	var distance_m = p.distance_to(p.clamp(physical_bounds.position,physical_bounds.end))
-	var blend = smoothstep(COLLAR_M,1700.0+noise.get_noise_2d(p.x+740,p.y-320)*600.0,distance_m)
+	# The retained footprint only protects the exact joining collar. Beyond it,
+	# it follows the massif's radial continuation, spurs and drainage, so neither
+	# the valley floor nor a kilometre-long drop traces the four grid edges.
+	var distance_m = Footprint.edge_distance(p)
+	var blend = smoothstep(COLLAR_M,800.0,distance_m)
 	if blend<=0.0: return mountain.sample_height(p)
 	var broad = noise.get_noise_2d(p.x,p.y)
 	var relief = 0.0
@@ -114,6 +118,18 @@ func _height_uncached(p: Vector2) -> float:
 		relief = maxf(relief,h)+smoothing*smoothing/640.0
 	var cuts = absf(detail.get_noise_2d(p.x+1200,p.y-870))
 	var h = valley_height+broad*180.0+relief*(.94+broad*.10)-cuts*230.0*smoothstep(250,1100,relief)
+	var radius = p.length()
+	var angle = atan2(p.x,p.y)
+	var phase: float = reference_field.parameters.phase
+	var drainage = angle*5.0+sin(angle*3.0+phase)*.65+radius*.00065+phase
+	var spur = pow(.5+.5*cos(drainage),3.0)
+	var gully = pow(.5+.5*sin(drainage+1.1),6.0)
+	var foothills: float = reference_field.foundation_height(p.x,p.y)
+	foothills += (spur*360.0-gully*140.0+broad*110.0)*smoothstep(3200,4000,radius)
+	# Curving outer contours meet the existing ridges at different radii. Keep
+	# the distant ridge network and horizon exactly as authored before this edit.
+	var valley_start = 4200.0+sin(angle*3.0+phase)*380.0+broad*400.0
+	h = lerpf(foothills,h,smoothstep(valley_start,valley_start+1800.0,radius))
 	return lerpf(mountain.sample_height(p),h,blend) if blend<1.0 else h
 
 func normal_at(p: Vector2) -> Vector3:

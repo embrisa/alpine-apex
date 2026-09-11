@@ -12,6 +12,8 @@ func run() -> void:
 	var state = preload("res://scripts/presentation/weather_state.gd").new()
 	state.fog_color=Color("b4c9da"); state.fog_density=.000065; state.sun_color=Color("ffe1bb"); state.sun_energy=1.9
 	var material = ShaderMaterial.new(); material.shader=preload("res://assets/graphics/offmap_prop.gdshader")
+	Fog.configure(material,{"physical_bounds":Rect2(-3072,-3072,6144,6144),"valley_height":1600.0})
+	check(material.get_shader_parameter("offmap_footprint")==preload("res://scripts/world/mountain_footprint.gd").SHAPE,"Background fog and tree fades share the authored footprint coefficients")
 	Fog.apply(material,state)
 	var clear: float = material.get_shader_parameter("offmap_valley_density")
 	check(material.get_shader_parameter("offmap_depth_density")==state.fog_density,"Custom background fog composes existing depth density")

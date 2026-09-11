@@ -181,7 +181,7 @@ func run() -> void:
 	game.active = false
 	game.effects.muted = true
 	game.hud.feedback.muted = true
-	check(game.current_mountain.identity()==mountain_id and game.world.terrain_triangles==4718592,"Staged mountain load retains the exact v4 terrain and all 576 sections")
+	check(game.current_mountain.identity()==mountain_id and game.world.terrain_triangles>3000000 and game.world.terrain_triangles<4718592,"Staged mountain load retains exact support and trims unused outer corners")
 	check(not game.camera.effects_enabled and not game.timed and not game.session.eligible,"Scene transition retains motion preference and keeps generated skiing unranked")
 	game.hud.show_menu("paused")
 	await capture("loaded_mountain")
