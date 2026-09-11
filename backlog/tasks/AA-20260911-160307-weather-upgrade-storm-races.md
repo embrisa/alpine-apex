@@ -64,7 +64,7 @@ Read-only source inspection on 2026-09-11, at commit `1a99064`:
   [validation](../../docs/VALIDATION.md#check-selection) still say schema 3: source takes
   precedence, and affected documentation must be corrected during this work.
 - No duplicate weather task was found in `backlog/` or `docs/tasks/`.
-  The [current performance audit](AA-20260911-153903-current-4k-performance-baseline.md)
+  The [current performance audit](../archive/AA-20260911-153903-current-4k-performance-baseline.md)
   and [race-loop audit](AA-20260911-153905-race-loop-acceptance-audit.md)
   are related evidence tasks, not prerequisites or authorization to rewrite them.
   Reuse their results only if current and matched. Coordinate shared files with

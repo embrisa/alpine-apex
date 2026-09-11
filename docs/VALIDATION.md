@@ -142,6 +142,10 @@ GPU/render-thread ms, draw calls and engine memory; `system.json` records source
 stability, engine hash and process/system/GPU allocation telemetry. Windows
 allocation and engine memory are not precise physical VRAM occupancy. Radial
 route sections are labels for that trace, not universal terrain classifications.
+Keep the game window focused during the measured descents. The current baseline
+receipt producer rejects any unfocused measured frames, source drift, incomplete
+replays or changed personal settings/records; preserve rejected attempts as
+diagnostic evidence and use a fresh label for replacements.
 
 ### Player recordings and short scenarios
 
@@ -244,17 +248,97 @@ seeds remain open.
 
 ## Performance evidence
 
-The sustained target remains **unmet**. Historical v14/model-26 full descents
-and model-28 short routes do not meet all tail targets. Model-28 snow-contact
-laboratory samples at 4K/.75 FSR4 met their short frame-time gate, with increased
-snow CPU/GPU cost for stronger output; they do not establish sustained skiing.
+### Current v15 player-descent baseline
+
+2026-09-12: three capture-free replays of the user's **attempt 8**, a complete
+122.025-second descent, reproduced all 14,643 solver ticks and 122 checkpoints.
+All three stayed focused; 1,008 source hashes and 32 personal settings/record
+files stayed unchanged. The [structured receipt](V15_PERFORMANCE_BASELINE_RESULTS.json)
+retains each run, medians of run statistics, full identities and raw-evidence
+hashes. This completes the [baseline audit](../backlog/archive/AA-20260911-153903-current-4k-performance-baseline.md).
+
+Workload: default Standard seed 849205174, generator 15/model 28, launch face
+index 0, recorded chase-camera profile/look, clear/day, full production scenery
+and animation. Actual output was 3840×2160, internal scale 2880×1620, High preset
+7, Auto resolving FSR 4.1.1, cap 120, FG off and SDFGI off. Runtime was custom
+Godot 4.7.2 `ed1daf0bf`, Forward+/DX12, RX 9070 driver `32.0.31041.1004`, Ryzen
+5 5600X, 16 GB RAM, Windows 11 Pro build 26200.
+
+| Run | Average rendered FPS | Median FPS | Frame p95 / p99 ms | GPU mean / p95 / p99 ms | Render CPU mean / p95 / p99 ms |
+|---|---:|---:|---|---|---|
+| 1 | 90.42 | 101.82 | 16.614 / 23.877 | 8.769 / 11.941 / 13.154 | 1.563 / 2.385 / 2.976 |
+| 2 | 92.65 | 103.92 | 16.301 / 22.216 | 8.588 / 11.779 / 13.035 | 1.544 / 2.365 / 2.888 |
+| 3 | 92.57 | 103.81 | 16.311 / 23.198 | 8.607 / 11.827 / 13.279 | 1.542 / 2.363 / 2.953 |
+| Median of runs | 92.57 | 103.81 | 16.311 / 23.198 | 8.607 / 11.827 / 13.154 | 1.544 / 2.365 / 2.953 |
+
+The sustained target remains **unmet**: every run misses p95 ≤11.1 ms and
+p99 ≤16.7 ms. The median slowest-one-percent rate is 34.56 FPS; neither average
+nor percentile statistics establish a hard minimum, display delivery or latency.
+Mineral and forest radial bands have median average FPS 79.82 and 89.95, with
+p95/p99 18.375/26.458 and 16.832/25.599 ms. Every measured forest-band frame has
+resident forest regions (3,841 / 3,953 / 3,960 frames); maximum residency is
+90 / 89 / 89 regions. Region residency is not a visible-tree count.
+
+One shared startup took 3.826 s for physical-cache loading/validation and 58.123 s
+for scene readiness; both physical and scenery caches hit. Scene submission
+included 22.855 s minerals, 13.695 s forest and 8.326 s distant scenery. These
+overlap aggregate job timings and must not be added to scene readiness again.
+Cold generation was not measured; `original_bake_ms` is cached metadata. Each
+trial then had its own 240-render-frame warmup and approximately 122.03 s of
+measured gameplay. The entire guarded job took 444.179 s, plus 0.152 s queue wait.
+
+| Run | Peak process working set / private GiB | Peak Windows GPU dedicated / shared allocation GiB | Minimum system free GiB |
+|---|---|---|---:|
+| 1 | 1.829 / 5.637 | 4.100 / 0.302 | 4.720 |
+| 2 | 1.824 / 5.636 | 4.100 / 0.239 | 4.835 |
+| 3 | 1.782 / 5.638 | 4.100 / 0.239 | 5.475 |
+
+Engine-reported peak video memory was 3.538 GiB per run; static-memory peaks
+were 1.153 / 1.148 / 1.148 GiB. Process, engine and Windows GPU allocation
+counters measure different things; do not sum them or equate allocation with
+physical VRAM residency. Two-second telemetry saw no other Godot or WoW workload.
+Other applications and GPU allocations remained present and are retained in the
+receipt. Sampled background CPU is limited to the wrapper's observed processes;
+zero readings do not establish an idle computer. CPU scopes overlap: median
+simulation and animation tick costs were 1.494 and 1.027 ms, and presentation
+pose cost 1.539 ms per rendered update. Scope spikes identify profiling leads,
+not proven causes of individual slow frames.
+
+The user's route replaces a 297.242-second pilot route: 58.95% shorter simulation
+duration, or 6:06.075 for three descents instead of 14:51.725, excluding setup.
+The route and camera changed; this is reduced benchmark workload duration, not
+an FPS optimization. The pilot matrix cancelled at the user's request and the
+first player matrix interrupted for focus loss are excluded. Their provenance
+remains under `artifacts/current_v15_4k_baseline/` and
+`artifacts/player_v15_4k_baseline/`. Human/controller comfort, other faces, weather
+and cameras remain separate acceptance.
+
+Original producing commands (use fresh output/guard labels for a new measurement):
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','player-v15-4k-focused-20260912','-Version','15','-InputTrace','artifacts/player_recordings/player-20260911-221639/attempt_008.json','-Upscaler','auto','-RenderScale','0.75','-TerrainGI','off','-FrameGeneration','off','-FrameCap','120','-Repetitions','3','-ProfileFrameCosts') -Label player-v15-4k-focused -TimeoutSeconds 1200 -CollectGpuMemory
+python tests/report_current_4k_baseline.py
+```
+
+The receipt producer defaults to these retained labels and verifies raw frame,
+GPU, render-CPU and draw-call distributions before publishing. For a new run,
+pass matching `--label`, `--guard`, `--trace`, `--evidence` and `--output`; the
+evidence directory holds before/after personal-file hashes, the observed worker
+binary identity and route provenance. Detailed samples stay in ignored
+`artifacts/pc_environment/player-v15-4k-focused-20260912/`.
+
+### Historical narrower workloads
+
+Historical v14/model-26 full descents and model-28 short routes also missed tail
+targets. Model-28 snow-contact laboratory samples at 4K/.75 FSR4 met their short
+frame-time gate, with increased snow CPU/GPU cost for stronger output; they do
+not establish sustained skiing.
 
 2026-09-11 v15/model-28 interface protocol: preset 7 missed summit p95 and snowy
 forest mean/p95/p99 targets; Ultra also missed tails. Preserve the exact rows,
 identities and limits in [structured results](INTERFACE_PERFORMANCE_RESULTS.json).
 This data remains byte-preserved from the original report. Fixed views, short
-moving cases and UI cost are not a complete-descent result. Current task:
-[4K baseline](../backlog/tasks/AA-20260911-153903-current-4k-performance-baseline.md).
+moving cases and UI cost are not a complete-descent result.
 
 ## Presentation evidence
 
