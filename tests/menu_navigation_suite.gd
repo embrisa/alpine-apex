@@ -153,6 +153,16 @@ func run() -> void:
 	await press(JOY_BUTTON_B)
 	check(not editor.visible and game.hud.widget_layout.values.reserve.visible,"Editor Back restores its snapshot and returns to Settings")
 	if DisplayServer.get_name()!="headless":
+		root.mode = Window.MODE_WINDOWED; root.borderless = true; root.size = Vector2i(1280,720)
+		for i in 20: await process_frame
+		game.hud.settings_tabs.current_tab = 6
+		game.hud.settings_tabs.focus_page()
+		for i in 4: await process_frame
+		var rail_scroll = game.hud.settings_tabs.rail.get_parent()
+		check(rail_scroll.get_global_rect().grow(1).encloses(game.hud.settings_tabs.buttons[6].get_global_rect()),"Active category stays visible in the small-screen navigation rail")
+		await RenderingServer.frame_post_draw
+		DirAccess.make_dir_recursive_absolute("res://artifacts/interface_overhaul/popups")
+		root.get_texture().get_image().save_png("res://artifacts/interface_overhaul/popups/active_category_720p.png")
 		root.mode = Window.MODE_WINDOWED; root.borderless = true; root.size = Vector2i(3840,2160)
 		for i in 20: await process_frame
 		game.hud.settings_tabs.current_tab = 1

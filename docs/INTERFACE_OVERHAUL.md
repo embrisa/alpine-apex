@@ -37,17 +37,16 @@ This is a short stationary menu sample, not sustained skiing performance.
 
 ## Verification record
 
-The graphics foundation was pushed as `264689a`. The responsive UI milestone
-has native matrix evidence (120 checks, five actual output sizes, 106 captures),
-headless layout (72), retained screens (248), feedback/content (111), and native
-popup selection/text entry checks. The subsequent review removed authoring-HUD
-interference and tightened default small-screen instrument spacing.
+Pushed milestones: `264689a` (presets/domain foundation), `6f5ef8d` (responsive
+menus, controller navigation, HUD editor and retained screens), `8024088`
+(bounded nested-dialog registration and mouse coverage). Final native inspection
+also corrected the small-screen rail so shoulder navigation keeps the selected
+category visible. Simulation/model, physical terrain, race identity, animation
+assets and the removed Animation Workshop boundary remain unchanged.
 
-Existing regression checks passed: physics, runtime (192), controller input,
-rider lifecycle (51), camera profiles, camera and menu camera (20). Final retained
-loading/library, camera-preview, graphics, native audio and performance records
-follow below when complete. Human controller comfort, spaciousness and listening
-acceptance remain separate from automation.
+See the integrated verification below and [performance report](INTERFACE_PERFORMANCE.md).
+Human controller comfort, spaciousness, listening and full-descent acceptance
+remain separate from this implementation's automated/native evidence.
 
 ## Graphics controls and apply contract
 
@@ -196,23 +195,59 @@ These are user acceptance checks, not automation claims.
 
 ## Integrated verification
 
-The guarded native interface regression passes 122/122, the new native layout
-and interaction matrix passes 120 checks across all five required output sizes,
-and retained-screen checks pass 248/248. Settings (114), HUD layout (72), shared
-feedback (111), controller navigation, graphics overrides, native PC graphics
-(16), native graphics (29), and FidelityFX settings pass. Physics passes 56/56;
-runtime passes 192/192, with controller, rider lifecycle (51), camera profile,
-camera and menu-camera (20) regressions also passing.
+All workloads ran serially under `scripts/run_guarded.ps1`; final runs report no
+engine errors. Preferences and records were isolated.
 
-Native display evidence records actual Keep/Revert and 15-second timeout
-recovery, native-sized Windowed, and FG off/on/off. Actual mixer capture records
-six distinct cues, rapid adjustment, volume and mute, and loading ambience in
-`artifacts/interface_feedback/native_mixer_timeline.wav`; peak amplitude is
-0.026435 and the muted interval is exactly silent. Output-device listening and
-physical-controller acceptance remain unperformed.
+| Check | Result / evidence |
+|---|---|
+| Physics / runtime | 56/56 and 192/192; `interface-regression-physics_suite`, `interface-regression-runtime_suite-fixed` |
+| Controller / rider / camera | Controller input, rider lifecycle (51), camera profiles, camera and menu-camera (20) pass; `interface-regression-*-fixed` |
+| Existing native interface | 122/122; `interface-regression-native-interface` |
+| Five-size native UI matrix | 125/125, 111 captures; `interface-overhaul-rendered-final` |
+| Retained screens | 248/248; `interface-overhaul-retained_interface_suite-final` |
+| Settings / graphics overrides | 114/114 and 64/64; `interface-verified-interface_settings_suite`, `interface-verified-graphics_override_suite` |
+| Native PC graphics / graphics | 16/16 and 29/29; `interface-regression-native-pc_graphics_suite`, `interface-regression-native-graphics-final` |
+| FidelityFX settings | 18/18; `interface-final-fidelityfx_settings_suite`; native SDK transitions separately exercised |
+| HUD layout / mouse | 84/84, including all 12 drag targets; `interface-overhaul-mouse-widgets` |
+| Controller popups / editor / rail | 26/26; `interface-overhaul-active-category-final` |
+| Shared feedback / loading content | 111/111; `interface-overhaul-interface_feedback_suite-final` |
+| Mountain library | 62/62, including generation/share/reload/cancel; `interface-verified-mountain_library_suite` |
+| Staged loading cancellation | Six stages, partial resources released, 27.6–506.0 ms; `interface-overhaul-staged-loading-final` |
+| Camera preview | 14 native captures, no failures; `interface-overhaul-camera-preview-final` |
+| Display recovery / FG | Six native rows, four recovery captures; `interface-overhaul-display-captures-final` |
+| Controller interaction timeline | 46 checks and 26 chronological frames; `interface-overhaul-interaction-timeline-fixed` |
+| Editor import | Pass; `interface-overhaul-import-complete` |
+| Native performance / powder | 48 rows plus 11 final paired rows; [measured report](INTERFACE_PERFORMANCE.md) |
 
-Current evidence is under `artifacts/interface_overhaul/` and the named
-`artifacts/guarded/interface-*` runs. The final library, camera-preview and
-performance results are recorded separately as they complete. Historical
-pre-overhaul settings timing is retained only as context; the performance runner
-also offers a paired old/current visible HUD comparison on the same live scene.
+Native pixel sizes are 1280×720, 1440×900, 1920×1080, 3840×2160 and 3440×1440;
+the 720p matrix also requests 1.4 UI scale. Inspected menus, basic/expanded pages,
+HUD preview, text entry, Workbench, race drawer, retained mountain/file dialogs,
+loading, camera preview, display recovery and chronological controller/descent
+captures. Categories and grouped controls retain scroll/expansion/focus state.
+Native category-transition frames show full-motion opacity reaching 1 in about
+180 ms, while reduced-motion pages are immediately opaque. Input remains live;
+all interaction-timeline simulation ticks remain zero. The keyboard/slider events
+are synthetic native input; held-stick timing also has a deterministic elapsed-
+time test to avoid a connected physical pad overriding injected motion.
+
+Actual mixer capture is `artifacts/interface_feedback/native_mixer_timeline.wav`
+with its timeline JSON: six cues, rapid adjustment, UI volume, mute, and loading
+ambience. Peak amplitude is .026435 and the muted interval is exactly silent.
+No output-device listening or physical-controller acceptance is claimed.
+Loading-tip provenance is maintained in [LOADING_CONTENT.md](LOADING_CONTENT.md).
+
+Preset 7's fixed views meet the target; sustained moving forest averages 88.42
+rendered FPS with p95 15.462 / p99 26.549 ms, so sustained performance acceptance
+remains open. The isolated HUD update adds about .048 ms; the stationary paired
+layouts show no material regression. The moving pair is 3.8% slower in mean
+frame time with improved tails, and does not establish a causal UI regression.
+Full details, actual settings, source/cache/engine identities, CPU/GPU times and
+memory are in [INTERFACE_PERFORMANCE.md](INTERFACE_PERFORMANCE.md) and its
+[maintained result data](INTERFACE_PERFORMANCE_RESULTS.json).
+
+Raw samples and images stay in ignored `artifacts/interface_overhaul/`,
+`artifacts/ui_refresh/`, `artifacts/pc_environment/interface_camera_final/`, and
+named guard directories. Do not read screenshot HUD FPS as steady performance:
+PNG/readback work is excluded from timed samples but affects those live labels.
+The review checklist above remains for the user; the separate human acceptance
+backlog task is not marked complete by these results.

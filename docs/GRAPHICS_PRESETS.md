@@ -35,8 +35,9 @@ not changed; late-created materials and scenery receive the effective profile.
 
 The table also scales shadow distance, material detail, sparkle, crystal
 density, sheen, glow, decorative density/distance and mineral LOD bias. Ultra
-is a bounded configuration; its rendered performance and visual acceptance
-still require the integrated validation below.
+is a bounded configuration. Native fixed/moving measurements and maximum GPU
+track-buffer checks are recorded in [INTERFACE_PERFORMANCE.md](INTERFACE_PERFORMANCE.md);
+visual quality and real-controller acceptance remain for user review.
 
 ## Controls and consumers
 

@@ -54,6 +54,7 @@ func _changed(index: int) -> void:
 	var focus = get_viewport().gui_get_focus_owner()
 	if focus and previous<get_tab_count() and get_tab_control(previous).is_ancestor_of(focus): remembered[previous] = weakref(focus)
 	for i in buttons.size(): buttons[i].set_pressed_no_signal(i==index)
+	if index>=0 and index<buttons.size(): rail.get_parent().ensure_control_visible.call_deferred(buttons[index])
 	previous = index
 	if hud:
 		hud.feedback.play("press")
