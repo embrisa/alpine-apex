@@ -197,7 +197,6 @@ func update_effects(sim, field, position_value: Vector3, dt: float, active: bool
 	update_haptics(dt,active,crash_visible,sim.tuning.vibration_intensity)
 
 func apply_quality(profile) -> void:
-	if quality_level==profile.level: return
 	quality_level = profile.level
 	rock_sparks.apply_quality(profile.level)
 	for i in range(sprays.size()):

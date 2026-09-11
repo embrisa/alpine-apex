@@ -247,7 +247,7 @@ func update_weather(state, dt: float, animate: bool) -> void:
 		render_state.assign(environment,&"ambient_light_color",state.ambient_color)
 		render_state.assign(environment,&"ambient_light_energy",state.ambient_energy)
 		render_state.assign(environment,&"fog_light_color",state.fog_color)
-		render_state.assign(environment,&"fog_density",state.fog_density)
+		render_state.assign(environment,&"fog_density",state.fog_density*quality.fog_strength)
 		render_state.assign(environment,&"fog_sky_affect",0.07 if state.enabled else 0.25)
 		Atmosphere.apply(environment,sun,moon,weather_material,state,quality,render_state)
 		if not state.enabled:
@@ -360,6 +360,9 @@ func apply_graphics(profile) -> void:
 	if not assets:
 		return
 	environment.ssao_enabled = profile.contact_shading
+	environment.ssao_light_affect = profile.contact_intensity
+	environment.ssil_intensity = profile.indirect_intensity
+	RenderingServer.directional_soft_shadow_filter_set_quality(profile.shadow_quality)
 	environment.ssil_enabled = profile.indirect_lighting
 	environment.sdfgi_enabled = profile.terrain_gi
 	Atmosphere.apply_quality(environment,profile)

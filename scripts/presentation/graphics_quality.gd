@@ -26,48 +26,45 @@ extends Resource
 @export var offmap_prop_density: float = .6
 @export var offmap_tree_distance_m: float = 4500.0
 
-static func preset(id: int) -> Resource:
+const Presets = preload("res://scripts/presentation/graphics_presets.gd")
+@export var preset_id: int = 4
+@export var texture_tier: int = 1
+@export var backdrop_tier: int = 1
+@export var mesh_lod_bias: float = .6
+@export var shadow_quality: int = 1
+@export var contact_intensity: float = .20
+@export var indirect_intensity: float = 1.0
+@export var shaft_strength: float = 1.0
+@export var fog_strength: float = 1.0
+@export var spray_budget: int = 192
+@export var grain_budget: int = 128
+@export var mist_budget: int = 48
+@export var weather_quality: int = 2
+@export var weather_budget: float = 1.0
+
+static func preset(asset_tier: int) -> Resource:
+	# Named Low/Balanced/High anchors for resource and fixture consumers.
+	return numbered([1,4,7][clampi(asset_tier,0,2)])
+
+static func numbered(id: int, overrides: Dictionary = {}) -> Resource:
 	var q = load("res://scripts/presentation/graphics_quality.gd").new()
-	q.level = clampi(id,0,2)
-	q.offmap_prop_density = [.3,.6,1.0][q.level]
-	q.offmap_tree_distance_m = [3000.0,4500.0,6000.0][q.level]
-	if q.level == 0:
-		q.snow_particles = Vector3i(96,64,0)
-		q.snow_track_capacity = 800
-		q.snow_track_relief = false
-		q.snow_sparkle = 0.0
-		q.snow_crystal_density = 0.0
-		q.snow_sheen = .06
-		q.highlight_glow = false
-		q.highlight_glow_intensity = 0.0
-		q.contact_shading = false
-		q.texture_suffix = "_low"
-		q.surface_texture_suffix = "_low"
-		q.tree_near_m = 40.0
-		q.tree_mid_m = 135.0
-		q.tree_far_m = 700.0
-		q.scrub_distance_m = 45.0
-		q.scrub_density = 0.45
-		q.shadow_distance_m = 100.0
-		q.normal_strength = 0.23
-	elif q.level == 2:
-		q.snow_local_deformation = true
-		q.snow_particles = Vector3i(384,256,128)
-		q.snow_track_capacity = 4096
-		q.snow_sparkle = 9.0
-		q.snow_crystal_density = 1.75
-		q.snow_sheen = .1584
-		q.highlight_glow_intensity = .385
-		q.volumetric_shafts = true
-		q.indirect_lighting = true
-		q.surface_texture_suffix = "_high"
-		q.tree_near_m = 95.0
-		q.tree_mid_m = 280.0
-		q.tree_far_m = 1300.0
-		q.scrub_distance_m = 130.0
-		q.shadow_distance_m = 220.0
-		q.normal_strength = 0.42
+	q.preset_id = clampi(id,1,10)
+	q.level = 0 if id<4 else (1 if id<7 else 2)
+	var values = Presets.values(q.preset_id)
+	values.merge(Presets.sanitize(overrides),true)
+	# Ordered LOD transitions avoid invisible gaps after arbitrary edits.
+	values.tree_mid_m = maxf(values.tree_mid_m,values.tree_near_m+20.0)
+	values.tree_far_m = maxf(values.tree_far_m,values.tree_mid_m+50.0)
+	for key in values: q.set(key,values[key])
+	q.texture_suffix = "_low" if q.texture_tier==0 else ""
+	q.surface_texture_suffix = ["_low","","_high"][q.texture_tier]
+	q.snow_particles = Vector3i(q.spray_budget,q.grain_budget,q.mist_budget)
 	return q
+
+func snapshot() -> Dictionary:
+	var result = {}
+	for key in Presets.CONTROLS: result[key] = get(key)
+	return result
 
 func label() -> String:
 	return ["low","balanced","high"][level]

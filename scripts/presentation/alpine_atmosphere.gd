@@ -55,8 +55,8 @@ static func apply(environment: Environment, sun: DirectionalLight3D, moon: Direc
 	var shaft_weight = day*clear*clear if state.enabled else 0.0
 	if cache: cache.assign(environment,&"volumetric_fog_enabled",quality.volumetric_shafts and shaft_weight>0.001)
 	else: environment.volumetric_fog_enabled = quality.volumetric_shafts and shaft_weight>0.001
-	if cache: cache.assign(sun,&"light_volumetric_fog_energy",SHAFT_ENERGY*shaft_weight if environment.volumetric_fog_enabled else 0.0)
-	else: sun.light_volumetric_fog_energy = SHAFT_ENERGY*shaft_weight if environment.volumetric_fog_enabled else 0.0
+	if cache: cache.assign(sun,&"light_volumetric_fog_energy",SHAFT_ENERGY*quality.shaft_strength*shaft_weight if environment.volumetric_fog_enabled else 0.0)
+	else: sun.light_volumetric_fog_energy = SHAFT_ENERGY*quality.shaft_strength*shaft_weight if environment.volumetric_fog_enabled else 0.0
 	if cache: cache.assign(moon,&"light_volumetric_fog_energy",0.0)
 	else: moon.light_volumetric_fog_energy = 0.0
 	if cache: cache.shader(sky,"sun_disc_energy",14.0*clampf(state.sun_energy/1.9,0.0,1.5))

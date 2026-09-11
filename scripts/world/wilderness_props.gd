@@ -75,6 +75,7 @@ func build(placement, landscape, profile, checkpoint: Callable = Callable(), job
 				bounds_corners_checked+=1
 		var node = MultiMeshInstance3D.new()
 		node.name = "Batch_%s_%d" % [key,index]; node.multimesh = multi
+		node.set_meta("kind",group.kind)
 		node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
 		# Node culling is deliberately conservative; per-instance shader ranges
@@ -88,6 +89,7 @@ func build(placement, landscape, profile, checkpoint: Callable = Callable(), job
 		for surface in mesh.get_surface_count(): triangles += mesh.surface_get_array_index_len(surface)/3*count
 		bounds_valid = bounds_valid and box.position.is_finite() and box.size.is_finite()
 		if checkpoint.is_valid() and index%16==15: await checkpoint.call("Loading authored forests and stone…",100.0*(index+1)/placement.groups.size())
+	apply_quality(profile)
 	upload_ms = (Time.get_ticks_usec()-started)/1000.0
 
 static func pose_at(buffer: PackedFloat32Array, i: int) -> Transform3D:
@@ -99,3 +101,14 @@ func _find_mesh(node: Node) -> MeshInstance3D:
 		var found = _find_mesh(child)
 		if found: return found
 	return null
+
+func apply_quality(profile) -> void:
+	# Reuse uploaded geometry for same-tier changes; no ridge rebuild or seating.
+	for node in get_children():
+		if not node is MultiMeshInstance3D: continue
+		var kind = node.get_meta("kind", "tree")
+		var distance = 600.0 if kind=="near" else minf(profile.offmap_tree_distance_m,3200.0) if kind=="rock" else profile.offmap_tree_distance_m
+		node.visibility_range_end = distance+node.multimesh.custom_aabb.size.length()*.5+2.0
+		node.multimesh.visible_instance_count = roundi(node.multimesh.instance_count*profile.offmap_prop_density)
+		var material = node.multimesh.mesh.surface_get_material(0)
+		material.set_shader_parameter("range_end",distance)

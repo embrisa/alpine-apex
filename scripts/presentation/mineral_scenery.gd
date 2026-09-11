@@ -85,14 +85,14 @@ func _material(row: Dictionary) -> ShaderMaterial:
 	return material
 
 func _set_textures(material: ShaderMaterial, row: Dictionary, profile) -> void:
-	var level: String=["low","balanced","high"][profile.level]
-	if stream_macro_textures and profile.level==2 and macro_bounds.has(row.id) and not high_macros.has(row.id): level="balanced"
+	var level: String=["low","balanced","high"][profile.texture_tier]
+	if stream_macro_textures and profile.texture_tier==2 and macro_bounds.has(row.id) and not high_macros.has(row.id): level="balanced"
 	for channel in ["albedo","normal","roughness"]:
 		material.set_shader_parameter(channel+"_map",load(row.textures[level][channel]))
 	material.set_shader_parameter("snow_albedo",library.texture("snow","albedo"))
 	material.set_shader_parameter("snow_normal",library.texture("snow","normal"))
 	material.set_shader_parameter("terrain_rock",library.texture("rock","albedo"))
-	material.set_shader_parameter("detail_depth",.009 if profile.level==2 else .005)
+	material.set_shader_parameter("detail_depth",.009 if profile.texture_tier==2 else .005)
 
 func _batch(items: Array, mesh: Mesh, material: Material, category: String) -> void:
 	var mm=MultiMesh.new()
@@ -121,21 +121,23 @@ func _instance(mm: MultiMesh, material: Material, category: String) -> void:
 	batches.append(instance)
 
 func apply_quality(profile) -> void:
+	var textures_changed = quality==null or quality.texture_tier!=profile.texture_tier
 	quality=profile
-	high_macros.clear(); pending_macros.clear(); macro_timer=0.0
-	for id in materials: _set_textures(materials[id],rows[id],profile)
+	if textures_changed:
+		high_macros.clear(); pending_macros.clear(); macro_timer=0.0
+		for id in materials: _set_textures(materials[id],rows[id],profile)
 	for batch in batches:
 		var category: String=batch.get_meta("category")
-		batch.lod_bias=[.35,.6,1.0][profile.level]
+		batch.lod_bias=profile.mesh_lod_bias
 		batch.visibility_range_end=180.0 if category=="small" else (1000.0 if category=="medium" else (3500.0 if category=="large" else 0.0))
 		batch.visibility_range_end_margin=16.0
 		batch.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if category in ["small","grass"] else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		if category=="grass":
 			batch.visible=profile.level>0
-			batch.visibility_range_end=60.0 if profile.level==2 else 35.0
+			batch.visibility_range_end=60.0 if profile.texture_tier==2 else 35.0
 
 func _process(dt: float) -> void:
-	if not macro_ready or not stream_macro_textures or quality.level!=2: return
+	if not macro_ready or not stream_macro_textures or quality.texture_tier!=2: return
 	var camera=get_viewport().get_camera_3d()
 	if camera==null: return
 	var started = frame_costs.begin() if frame_costs else 0

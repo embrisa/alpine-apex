@@ -10,9 +10,9 @@ func check(ok: bool, label: String) -> void:
 func run() -> void:
 	set_meta("test_lab_fixture",true) # Explicit laboratory regression fixture.
 	var settings = Settings.new()
-	check(settings.quality==2 and settings.upscaler=="auto" and not settings.frame_generation and settings.render_scale==.75 and settings.fps_limit==120 and not settings.terrain_gi,"PC defaults select High, automatic 75% upscaling, frame generation off and 120 FPS")
+	check(settings.quality==7 and settings.upscaler=="auto" and not settings.frame_generation and settings.render_scale==.75 and settings.fps_limit==120 and not settings.terrain_gi,"PC defaults select High, automatic 75% upscaling, frame generation off and 120 FPS")
 	settings.apply_arguments(["--graphics-quality=low","--render-scale=0.1","--fps-limit=75","--upscaler=invalid"])
-	check(settings.quality==0 and is_equal_approx(settings.render_scale,2.0/3.0) and settings.fps_limit==120 and settings.upscaler=="auto","Invalid display arguments are bounded without disabling valid settings")
+	check(settings.quality==1 and is_equal_approx(settings.render_scale,2.0/3.0) and settings.fps_limit==120 and settings.upscaler=="auto","Invalid display arguments are bounded without disabling valid settings")
 	settings.apply_arguments(["--graphics-quality=high","--display-mode=windowed","--upscaler=native","--fps-limit=90","--terrain-gi=on"])
 	var path = "res://artifacts/pc_graphics_test.cfg"
 	check(settings.save_preferences(path)==OK,"Display preferences save to an isolated test file")
@@ -20,7 +20,7 @@ func run() -> void:
 	restored.load_preferences(path)
 	check(restored.snapshot()==settings.snapshot(),"All graphics and display choices round-trip across application launches")
 	settings.restore({"render_scale":NAN,"quality":-5,"display_mode":"broken","terrain_gi":"not a bool"})
-	check(settings.quality==0 and settings.render_scale==.75 and settings.display_mode=="fullscreen" and settings.terrain_gi,"Malformed preference fields retain safe typed defaults")
+	check(settings.quality==1 and settings.render_scale==.75 and settings.display_mode=="fullscreen" and settings.terrain_gi,"Malformed preference fields retain safe typed defaults")
 	var game = load("res://main.tscn").instantiate()
 	game.automated = true
 	root.add_child(game)
@@ -34,13 +34,13 @@ func run() -> void:
 		game.hud.display_setting_requested.emit(setting[0],setting[1])
 	game.set_graphics_quality(1)
 	check([game.session.eligible,game.session.course_id,game.physics_modified,tuning_state(game)]==identity,"Display and graphics controls preserve ranked eligibility, tuning and course identity")
-	check(game.world.environment.sdfgi_enabled,"Terrain GI override is independent of the preset")
+	check(not game.world.environment.sdfgi_enabled,"Reapplying a graphics preset clears its GI override")
 	game._remember_world_settings()
 	var reload_state: Dictionary = get_meta("world_reload_settings")
 	check(reload_state.display==game.display_settings.snapshot(),"Mountain scene reload carries the complete display state")
 	remove_meta("world_reload_settings")
 	game.restart()
-	check(game.display_settings.fps_limit==90 and game.display_settings.terrain_gi,"Restart retains display controls")
+	check(game.display_settings.fps_limit==90 and not game.display_settings.terrain_gi,"Restart retains display controls")
 	check(not game.preferences_enabled,"Automated tests never write the player's graphics preferences")
 	var manifest = JSON.parse_string(FileAccess.get_file_as_string("res://art_source/pc_environment_manifest.json"))
 	var hashes = true

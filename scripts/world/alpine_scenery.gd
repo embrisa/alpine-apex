@@ -267,12 +267,12 @@ func configure_batches(profile, instances: Array) -> void:
 		if instance.get_meta("forest_tree",false):
 			# Individual needle geometry matters nearby; the directional atlas
 			# carries the crown silhouette after needles are smaller than a pixel.
-			near_m = minf(near_m,[25.0,40.0,55.0][profile.level])
-			mid_m = minf(mid_m,[90.0,120.0,150.0][profile.level])
+			near_m = near_m*[25.0,40.0,55.0][profile.level]/[40.0,70.0,95.0][profile.level]
+			mid_m = mid_m*[90.0,120.0,150.0][profile.level]/[135.0,220.0,280.0][profile.level]
 			shadow_m = minf(shadow_m,[35.0,60.0,85.0][profile.level])
 			if dense_woodlands:
-				near_m = [6.0,10.0,12.0][profile.level]
-				mid_m = [34.0,48.0,64.0][profile.level]
+				near_m = [6.0,10.0,12.0][profile.level]*profile.tree_near_m/[40.0,70.0,95.0][profile.level]
+				mid_m = [34.0,48.0,64.0][profile.level]*profile.tree_mid_m/[135.0,220.0,280.0][profile.level]
 				shadow_m = [20.0,26.0,32.0][profile.level]
 		instance.visibility_range_begin = [0.0,near_m,mid_m,0.0,0.0,0.0][lod]
 		instance.visibility_range_end = [near_m,mid_m,profile.tree_far_m,profile.tree_far_m,profile.scrub_distance_m,shadow_m][lod]

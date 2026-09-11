@@ -5,6 +5,7 @@ const HIGH_VOLUME_COUNTS = [600,900]
 var volumes: Array[GPUParticles3D] = []
 var drifts: Array[GPUParticles3D] = []
 var quality: int = -1
+var budget_scale: float = 1.0
 var previous_camera = Vector3.ZERO
 var previous_close: bool = false
 var initialized: bool = false
@@ -69,14 +70,21 @@ func reset() -> void:
 	for particle in volumes + drifts:
 		particle.restart()
 
+func set_budget_scale(value: float) -> void:
+	if is_equal_approx(budget_scale,value): return
+	budget_scale = clampf(value,.25,1.5)
+	var previous = quality
+	quality = -1
+	set_quality(previous)
+
 func set_quality(value: int) -> void:
 	if quality == value:
 		return
 	quality = value
 	for i in range(volumes.size()):
-		volumes[i].amount = HIGH_VOLUME_COUNTS[i] if quality==2 else HIGH_VOLUME_COUNTS[i]/2
+		volumes[i].amount = maxi(1,roundi((HIGH_VOLUME_COUNTS[i] if quality==2 else HIGH_VOLUME_COUNTS[i]/2)*budget_scale))
 	for particle in drifts:
-		particle.amount = 100 if quality==2 else 50
+		particle.amount = maxi(1,roundi((100 if quality==2 else 50)*budget_scale))
 	reset()
 
 func particle_budget() -> int:

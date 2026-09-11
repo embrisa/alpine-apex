@@ -1,49 +1,107 @@
 extends RefCounted
 ## Display preferences never enter mountain recipes, physics or ranked identity.
-const PATH = "user://graphics_v1.cfg"
-const KEYS = ["quality", "display_mode", "upscaler", "frame_generation", "render_scale", "fps_limit", "terrain_gi"]
+const Store = preload("res://scripts/ui/preference_store.gd")
+const Profile = preload("res://scripts/presentation/graphics_quality.gd")
+const Presets = preload("res://scripts/presentation/graphics_presets.gd")
+const Output = preload("res://scripts/presentation/display_settings.gd")
+const PATH = "user://graphics_v2.cfg"
+const GRAPHICS_KEYS = ["quality","upscaler","frame_generation","render_scale","terrain_gi","sharpness","msaa","anisotropic","overrides","custom"]
+const KEYS = GRAPHICS_KEYS + Output.KEYS
 const UPSCALERS = ["auto", "fsr4", "fsr3", "fsr2", "native"]
-var quality: int = 2
-var display_mode: String = "fullscreen"
+var display = Output.new()
+var quality: int = 7
 var upscaler: String = "auto"
 var frame_generation: bool = false
-var render_scale: float = 0.75
-var fps_limit: int = 120
+var render_scale: float = .75
 var terrain_gi: bool = false
+var sharpness: float = .35
+var msaa: int = 1
+var anisotropic: int = 2
+var overrides: Dictionary = {}
+var custom = false
+var display_mode: String:
+	get: return display.display_mode
+	set(value): display.display_mode = value
+var fps_limit: int:
+	get: return display.fps_limit
+	set(value): display.fps_limit = value
+var resolution: Vector2i:
+	get: return display.resolution
+	set(value): display.resolution = value
+var monitor: int:
+	get: return display.monitor
+	set(value): display.monitor = value
+var vsync: int:
+	get: return display.vsync
+	set(value): display.vsync = value
 
 func snapshot() -> Dictionary:
-	var result = {}
-	for key in KEYS: result[key] = get(key)
-	return result
+	var result = display.snapshot()
+	for key in GRAPHICS_KEYS: result[key] = get(key)
+	return result.duplicate(true)
 
 func restore(values: Dictionary) -> void:
-	for key in KEYS:
+	display.restore(values)
+	for key in GRAPHICS_KEYS:
 		if values.has(key) and typeof(values[key])==typeof(get(key)): set(key,values[key])
-	quality = clampi(quality,0,2)
-	if display_mode not in ["fullscreen","windowed"]: display_mode = "fullscreen"
+	quality = clampi(quality,1,10)
 	if upscaler not in UPSCALERS: upscaler = "auto"
 	if not is_finite(render_scale): render_scale = .75
 	render_scale = clampf(render_scale,2.0/3.0,1.0)
-	if fps_limit not in [0,90,120,144]: fps_limit = 120
+	if not is_finite(sharpness): sharpness = .35
+	sharpness = clampf(sharpness,0.0,1.0)
+	msaa = clampi(msaa,0,3)
+	anisotropic = clampi(anisotropic,0,4)
+	overrides = Presets.sanitize(overrides)
+
+func profile() -> Resource:
+	var result = Profile.numbered(quality,overrides)
+	result.terrain_gi = terrain_gi
+	return result
+
+func select_preset(id: int) -> void:
+	quality = clampi(id,1,10)
+	overrides.clear()
+	custom = false
+	upscaler = "auto"
+	render_scale = .75
+	terrain_gi = false
+	sharpness = .35
+	msaa = 1
+	anisotropic = 2
+
+func set_graphics_value(key: String, value: Variant) -> void:
+	if Presets.CONTROLS.has(key) and key!="terrain_gi":
+		overrides.merge(Presets.sanitize({key:value}),true)
+	elif key in GRAPHICS_KEYS and key not in ["quality","overrides","custom"]:
+		restore({key:value})
+	else: return
+	if key!="frame_generation": custom = true
+
+func reset_group(group: String) -> void:
+	for key in overrides.keys():
+		if Presets.CONTROLS[key][1]==group: overrides.erase(key)
+	if group=="Lighting & shadows": terrain_gi = false
+	custom = not overrides.is_empty() or terrain_gi or upscaler!="auto" or render_scale!=.75 or sharpness!=.35 or msaa!=1 or anisotropic!=2
 
 func load_preferences(path: String = PATH) -> void:
-	var config = ConfigFile.new()
-	if config.load(path)!=OK: return
-	var values = {}
-	for key in KEYS: values[key] = config.get_value("graphics",key,get(key))
-	restore(values)
+	restore(Store.read_values(path,2))
+	display.load_preferences(Output.PATH if path==PATH else path+".display")
 
 func save_preferences(path: String = PATH) -> Error:
-	var config = ConfigFile.new()
-	for key in KEYS: config.set_value("graphics",key,get(key))
-	return config.save(path)
+	var values = {}
+	for key in GRAPHICS_KEYS: values[key] = get(key)
+	var error = Store.write_values(path,2,values)
+	if error!=OK: return error
+	return display.save_preferences(Output.PATH if path==PATH else path+".display")
 
 func apply_arguments(args: PackedStringArray) -> void:
 	for arg in args:
 		var value = arg.get_slice("=",1)
 		if arg.begins_with("--graphics-quality="):
-			var level = ["low","balanced","high"].find(value)
-			if level>=0: quality = level
+			var tier = ["low","balanced","high"].find(value)
+			if tier>=0: select_preset([1,4,7][tier])
+			elif value.is_valid_int(): select_preset(int(value))
 		elif arg.begins_with("--display-mode=") and value in ["fullscreen","windowed"]: display_mode = value
 		elif arg.begins_with("--upscaler=") and value in UPSCALERS: upscaler = value
 		elif arg.begins_with("--frame-generation=") and value in ["on","off"]: frame_generation = value=="on"
@@ -59,9 +117,10 @@ func apply_viewport(viewport: Viewport) -> void:
 	# Stock Godot retains its actual FSR2 implementation and reports that fallback.
 	viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR2 if temporal else Viewport.SCALING_3D_MODE_BILINEAR
 	viewport.scaling_3d_scale = render_scale if upscaler!="native" else 1.0
-	viewport.msaa_3d = Viewport.MSAA_DISABLED if temporal else Viewport.MSAA_2X
+	viewport.msaa_3d = Viewport.MSAA_DISABLED if temporal else msaa
 	viewport.use_taa = false
-	viewport.fsr_sharpness = 0.35
+	viewport.fsr_sharpness = sharpness
+	viewport.anisotropic_filtering_level = anisotropic
 	if has_native_fsr(): Engine.get_singleton("AlpineFidelityFX").set_options(upscaler,frame_generation)
 	Engine.max_fps = fps_limit
 
@@ -78,30 +137,7 @@ func reset_history() -> void:
 	if has_native_fsr(): Engine.get_singleton("AlpineFidelityFX").reset_history()
 
 func apply_display(window: Window, requested_pixels: Vector2i = Vector2i.ZERO) -> void:
-	if DisplayServer.get_name()=="headless": return
-	var screen_pixels = DisplayServer.screen_get_size(window.current_screen)
-	window.mode = Window.MODE_WINDOWED
-	# A screen-sized decorated window is enlarged by Windows to include its
-	# frame. Borderless exact-size benchmark windows avoid the old +16/+16 bug.
-	window.borderless = display_mode=="fullscreen" or requested_pixels!=Vector2i.ZERO
-	# Godot's Windows multiwindow fullscreen expands the native swapchain past
-	# the reported screen size. FSR generation requires an exact HUD/output
-	# match. A screen-sized borderless window keeps both resources identical.
-	var exact_fullscreen = frame_generation and has_native_fsr() and (requested_pixels==screen_pixels or (requested_pixels==Vector2i.ZERO and display_mode=="fullscreen"))
-	if exact_fullscreen:
-		window.borderless = true
-		window.size = screen_pixels
-		window.position = DisplayServer.screen_get_position(window.current_screen)
-		return
-	if requested_pixels!=Vector2i.ZERO:
-		window.size = requested_pixels
-		window.position = DisplayServer.screen_get_position(window.current_screen)+(screen_pixels-requested_pixels)/2
-		if requested_pixels==screen_pixels: window.mode = Window.MODE_FULLSCREEN
-	elif display_mode=="fullscreen":
-		window.mode = Window.MODE_FULLSCREEN
-	else:
-		window.size = Vector2i(mini(1920,int(screen_pixels.x*.8)),mini(1080,int(screen_pixels.y*.8)))
-		window.position = DisplayServer.screen_get_position(window.current_screen)+(screen_pixels-window.size)/2
+	display.apply(window,requested_pixels,frame_generation and has_native_fsr())
 
 func report(viewport: Viewport, output_pixels: Vector2i) -> Dictionary:
 	var scale_value = viewport.scaling_3d_scale

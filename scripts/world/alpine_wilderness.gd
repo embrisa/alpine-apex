@@ -48,8 +48,10 @@ func apply_quality(profile, checkpoint: Callable = Callable()) -> void:
 	if not enabled:
 		data.clear_cache()
 		return
-	if requested_level==profile.level: return
-	requested_level = profile.level
+	if requested_level==profile.backdrop_tier:
+		if props: props.apply_quality(profile)
+		return
+	requested_level = profile.backdrop_tier
 	build_revision += 1
 	var revision = build_revision
 	var begin = Time.get_ticks_usec()
@@ -59,8 +61,8 @@ func apply_quality(profile, checkpoint: Callable = Callable()) -> void:
 	add_child(staging)
 	triangles = 0
 	source_arrays = apron_sources.duplicate()
-	var preset: Dictionary = data.asset.levels[profile.level]
-	var detail: float = [0.0,0.12,0.18][profile.level]
+	var preset: Dictionary = data.asset.levels[profile.backdrop_tier]
+	var detail: float = [0.0,0.12,0.18][profile.backdrop_tier]
 	material.set_shader_parameter("offmap_detail",detail)
 	if apron_material:
 		apron_material.set_shader_parameter("offmap_detail",detail)
@@ -83,7 +85,7 @@ func apply_quality(profile, checkpoint: Callable = Callable()) -> void:
 	if terrain_root:
 		remove_child(terrain_root); terrain_root.queue_free()
 	terrain_root = staging; props = candidate_props; placement = candidate
-	level = profile.level
+	level = profile.backdrop_tier
 	staging.visible = true
 	source_arrays.clear()
 	data.clear_cache()

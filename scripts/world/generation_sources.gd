@@ -16,7 +16,7 @@ const SCENERY = [
 	"res://scripts/world/mountain_data.gd","res://scripts/world/alpine_world.gd","res://scripts/world/alpine_scenery.gd",
 	"res://scripts/presentation/forest_placement.gd","res://scripts/presentation/density_forest.gd","res://scripts/presentation/tree_motion.gd",
 	"res://scripts/presentation/mineral_scenery.gd","res://scripts/presentation/asset_snow_contacts.gd","res://scripts/presentation/snow_readability.gd",
-	"res://scripts/presentation/alpine_assets.gd","res://scripts/presentation/graphics_quality.gd",
+	"res://scripts/presentation/alpine_assets.gd","res://scripts/presentation/graphics_quality.gd","res://scripts/presentation/graphics_presets.gd",
 	"res://scripts/presentation/foliage_sight.gd","res://assets/graphics/foliage_sight.gdshaderinc",
 	"res://assets/graphics/trees/manifest.json","res://assets/graphics/trees/branches.json",
 	"res://scripts/art/tree_collection_post_import.gd",

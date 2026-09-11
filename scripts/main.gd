@@ -155,7 +155,7 @@ func _ready() -> void:
 	if preferences_enabled: display_settings.load_preferences()
 	if preferences_enabled: camera_settings.load_preferences()
 	display_settings.apply_arguments(OS.get_cmdline_user_args())
-	graphics = Graphics.preset(display_settings.quality)
+	graphics = display_settings.profile()
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--graphics-quality="):
 			var index = ["low","balanced","high"].find(arg.get_slice("=",1))
@@ -176,8 +176,8 @@ func _ready() -> void:
 	var reload_settings: Dictionary = get_tree().get_meta("world_reload_settings",{})
 	get_tree().remove_meta("world_reload_settings")
 	if not reload_settings.is_empty():
-		graphics = Graphics.preset(reload_settings.graphics)
 		display_settings.restore(reload_settings.get("display",display_settings.snapshot()))
+		graphics = display_settings.profile()
 		camera_settings.restore(reload_settings.get("camera",{}))
 		sim.tuning = reload_settings.tuning
 		physics_modified = reload_settings.modified
@@ -1160,17 +1160,31 @@ func _timing_summary(samples: Array[float]) -> Dictionary:
 	return {"available":true,"samples":samples.size(),"mean":total/samples.size(),"p95":samples[int(samples.size()*0.95)],"p99":samples[int(samples.size()*0.99)]}
 
 func set_graphics_quality(level: int) -> void:
-	graphics = Graphics.preset(level)
-	display_settings.quality = graphics.level
-	graphics.terrain_gi = display_settings.terrain_gi
+	# Named resource-tier API used by retained rendering fixtures.
+	set_graphics_preset([1,4,7][clampi(level,0,2)])
+
+func set_graphics_preset(id: int) -> void:
+	display_settings.select_preset(id)
+	apply_graphics_configuration()
+
+func apply_graphics_configuration() -> void:
+	graphics = display_settings.profile()
+	display_settings.apply_viewport(get_viewport())
 	world.apply_graphics(graphics)
+	weather.set_quality(graphics.weather_quality)
+	if weather_effects: weather_effects.set_budget_scale(graphics.weather_budget)
 	if workshop:
 		for marker in workshop.markers.get_children():
 			if marker.has_method("apply_quality"): marker.apply_quality(graphics.level)
 	if effects: effects.apply_quality(graphics)
 	if hud:
 		hud.graphics_quality.select(graphics.level)
-	if preferences_enabled: display_settings.save_preferences()
+		hud.sync_display(display_settings)
+	_save_presentation_settings()
+
+func _save_presentation_settings() -> void:
+	if preferences_enabled and display_settings.save_preferences()!=OK and hud:
+		hud.toast("Could not save settings. Check available disk space.")
 
 func set_camera_setting(view: String, key: String, value: Variant) -> void:
 	if automated or not camera_settings.set_value(view,key,value): return
@@ -1225,16 +1239,16 @@ func set_camera_preview(enabled: bool) -> void:
 	weather_effects.reset()
 
 func set_display_setting(key: String, value: Variant) -> void:
-	if key not in PCGraphics.KEYS: return
-	var values = display_settings.snapshot()
-	values[key] = value
-	display_settings.restore(values)
-	display_settings.apply_viewport(get_viewport())
-	if key=="display_mode" or (key=="frame_generation" and display_settings.display_mode=="fullscreen"): display_settings.apply_display(get_window())
-	graphics.terrain_gi = display_settings.terrain_gi
-	world.apply_graphics(graphics)
-	if hud: hud.sync_display(display_settings)
-	if preferences_enabled: display_settings.save_preferences()
+	if key in PCGraphics.Output.KEYS:
+		display_settings.display.restore({key:value})
+		display_settings.apply_display(get_window())
+		display_settings.apply_viewport(get_viewport())
+		if hud: hud.sync_display(display_settings)
+		_save_presentation_settings()
+		return
+	display_settings.set_graphics_value(key,value)
+	if key=="frame_generation" and display_settings.display_mode=="fullscreen": display_settings.apply_display(get_window())
+	apply_graphics_configuration()
 
 func load_mountain(definition, generated_field) -> void:
 	_cancel_summit_return()

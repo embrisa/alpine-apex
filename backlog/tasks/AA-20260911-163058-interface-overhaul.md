@@ -1,7 +1,7 @@
 ---
 id: "AA-20260911-163058-interface-overhaul"
 title: "Overhaul the interface, controller menus, graphics settings and customizable HUD"
-status: ready
+status: in_progress
 priority: P2
 depends_on: []
 created: "2026-09-11T16:30:58Z"
