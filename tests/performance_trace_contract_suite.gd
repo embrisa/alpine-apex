@@ -6,7 +6,7 @@ func check(ok: bool, label: String) -> void:
 	print("PASS: " if ok else "FAIL: ",label)
 	if not ok: failures.append(label)
 func run() -> void:
-	var current := {"identity":{"sources":Trace.source_identity(),"model":Trace.Simulation.MODEL_VERSION,"generator":15},"result":{"finished":true,"crash":""},"commands":[[0,1,0,false,false,0,0,0]]}
+	var current := {"identity":{"sources":Trace.source_identity(),"model":Trace.Simulation.MODEL_VERSION,"generator":15},"result":{"finished":true,"crash":"","ticks":12},"input_fields":Trace.Inputs.FIELDS,"command_ticks":12,"commands":[[0,1,0,false,false,0,0,false,0]]}
 	check(Trace.preflight_error(current,15).is_empty(),"Current complete trace passes source preflight (terrain/replay still checked by benchmark)")
 	check(not Trace.preflight_error(null,15).is_empty(),"Malformed JSON fails before setup")
 	var changed: Dictionary = current.duplicate(true); changed.identity.sources = {}
@@ -20,4 +20,14 @@ func run() -> void:
 	check(not Trace.preflight_error(changed,15).is_empty(),"Crashed pilot fails before setup")
 	changed = current.duplicate(true); changed.commands = []
 	check(not Trace.preflight_error(changed,15).is_empty(),"Empty trace fails before setup")
+	changed = current.duplicate(true); changed.commands[0].pop_back()
+	check(not Trace.preflight_error(changed,15).is_empty(),"Missing air tilt fails before setup")
+	changed = current.duplicate(true); changed.commands[0][0] = NAN
+	check(not Trace.preflight_error(changed,15).is_empty(),"Nonfinite control fails before setup")
+	changed = current.duplicate(true); changed.result.ticks = 13
+	check(not Trace.preflight_error(changed,15).is_empty(),"Missing tick input fails before setup")
+	changed = current.duplicate(true); changed.result.finished = false
+	check(Trace.preflight_error(changed,15,false).is_empty(),"Explicit scenario playback accepts a short clip")
+	changed.result.crash = "TREE IMPACT"
+	check(Trace.preflight_error(changed,15,false).is_empty(),"Explicit scenario playback retains a captured crash")
 	quit(0 if failures.is_empty() else 1)

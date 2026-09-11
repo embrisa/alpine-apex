@@ -10,6 +10,7 @@ param(
     [ValidateSet('on','off')][string]$TerrainGI = 'off',
     [ValidateSet('on','off')][string]$FrameGeneration = 'off',
     [switch]$ProfileFrameCosts,
+    [switch]$ScenarioReplay,
     [ValidateRange(1,10)][int]$Repetitions = 1,
     [string]$InputTrace = 'res://artifacts/fps_optimization/descent_input.json',
     [ValidateSet(0,90,120,144)][int]$FrameCap = 120,
@@ -62,6 +63,7 @@ $alpineArgs += @("--benchmark-start=$StartZ","--benchmark-end=$EndZ")
 if ($Version -ge 14) { $alpineArgs += @("--input-trace=$InputTrace","--repetitions=$Repetitions",'--benchmark-no-captures') }
 elseif (-not $ThirdPerson) { $alpineArgs += '--pov-forest' }
 if ($ProfileFrameCosts) { $alpineArgs += '--profile-frame-costs' }
+if ($ScenarioReplay) { $alpineArgs += '--scenario-replay' }
 if ($Version -ge 10 -and -not $WildernessSummit) { $alpineArgs += '--ui-staged-loading' }
 $alpineArgs += "--wilderness=$Wilderness"
 if ($VoiceBenchmark) { $alpineArgs += $(if ($VoiceObserverOff) { '--voice-observer=off' } else { '--voice-observer=on' }) }

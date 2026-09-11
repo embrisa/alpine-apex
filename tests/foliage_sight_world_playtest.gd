@@ -5,7 +5,11 @@ func run() -> void:
 	output="res://artifacts/foliage_v3/sight_world_wide"
 	DirAccess.make_dir_recursive_absolute(output)
 	trace=JSON.parse_string(FileAccess.get_file_as_string("res://artifacts/foliage_v3/descent_input.json"))
-	field=Definition.generate(849205174,15); field.build_material_map()
+	var preflight = Trace.preflight_error(trace,15)
+	if not preflight.is_empty(): printerr(preflight); quit(2); return
+	field = preload("res://tests/validation_mountain.gd").load_standard()
+	if field==null: quit(2); return
+	field.build_material_map()
 	if not Trace.matches(field,trace.identity): printerr("SIGHT_TRACE_IDENTITY_CHANGED"); quit(2); return
 	var simulation=load("res://scripts/core/ski_simulation.gd").new(preload("res://config/ski_default.tres").duplicate(true))
 	simulation.reset(field.launch_point(trace.heading),trace.heading); simulation.prime_contacts(field)

@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-153903-current-4k-performance-baseline"
 title: "Measure the current v15 full-descent performance baseline"
-status: "ready"
+status: "blocked"
 priority: "P1"
 depends_on: []
 created: "2026-09-11T15:39:00Z"
-updated: "2026-09-11T19:06:07Z"
+updated: "2026-09-11T22:06:25Z"
 source_thread: "01a090fe-2a8c-7fe0-8b5b-fa6446206ea9"
 ---
 
@@ -25,7 +25,7 @@ Measurement and maintained reporting only; no renderer, density, quality or solv
 
 ## Implementation approach
 
-Inspect scripts/benchmark_pc.ps1, tests/performance_trace.gd and tests/performance_descent.gd. Produce a current valid ordinary-input trace with at most two bounded trace-generation attempts; block if a complete uncrashed trace cannot be obtained. Run three serial capture-free full descents through the guard. Report each run and medians of per-run statistics, including forest coverage, rendered FPS, p95/p99, CPU/GPU timings, loading and memory. Record competing workloads and source hashes before/after; unstable runs are invalid.
+Inspect scripts/benchmark_pc.ps1, tests/performance_trace.gd and tests/performance_descent.gd. The user now prefers to record a faster, representative descent using scripts/record_run.ps1. Wait for their complete uncrashed recording, verify its current identity and recorded checkpoints, then use it as InputTrace. Short/crashed scenario clips are useful for reproductions but do not satisfy this full-descent workload. If returning to pilot generation with the user's agreement, retain the original bound of at most two attempts. Run three serial capture-free full descents through the guard. Report each run and medians of per-run statistics, including forest coverage, rendered FPS, p95/p99, CPU/GPU timings, loading and memory. Record competing workloads and source hashes before/after; unstable runs are invalid.
 
 ## Acceptance and verification
 
@@ -39,11 +39,24 @@ A valid measured miss of the target is an acceptable audit result, not permissio
 
 ## Open questions
 
-None.
+Waiting for the user's complete recorded descent. The user explicitly requested
+stopping the pilot-driven matrix and preparing their recording instead.
 
 ## Completion record
 
-Imported from the existing roadmap during backlog setup. Pending implementation. Any worker follow-up ideas belong in `backlog/ideas/` for the user's review.
+Pending the user recording; this audit is not complete. On 2026-09-11, the first
+bounded pilot attempt produced a current v15/model-28, 297.242-second successful
+trace. The user stopped the subsequent 4K matrix during its first descent to
+replace it with their faster route. No complete three-run baseline or tail-target
+acceptance is claimed. The cancellation receipt is
+`artifacts/current_v15_4k_baseline/cancellation.json`.
+
+Commit `1679949` added separate physical-cache/scene loading timings, effective
+graphics/renderer identity, forest residency/focus evidence, and background CPU/
+GPU-allocation telemetry. Recording/replay setup and controls are maintained in
+[Validation](../../docs/VALIDATION.md#player-recordings-and-short-scenarios).
+Resume only after the player has saved a complete uncrashed recording; run all
+three descents against a stable source snapshot and finish the unchecked criteria.
 
 ## Satisfied prerequisite history
 

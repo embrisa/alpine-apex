@@ -143,6 +143,58 @@ stability, engine hash and process/system/GPU allocation telemetry. Windows
 allocation and engine memory are not precise physical VRAM occupancy. Radial
 route sections are labels for that trace, not universal terrain classifications.
 
+### Player recordings and short scenarios
+
+Use `./scripts/record_run.ps1` when a player can demonstrate a faster route or a
+specific event. The guarded launch opens current default v15 Standard with normal
+riding input, High/Auto .75/120 FPS/FG off/GI off and read-only saved camera settings.
+At the summit, choose a face and drop in to start recording. **Triangle / R**
+restarts with a fresh input stream; **D-pad Right / F8** or **Save clip** ends early.
+Base arrival and crashes also save automatically. Each saved attempt has its own
+file under the printed `artifacts/player_recordings/<label>/` directory. Restart
+discards the unsaved attempt and preserves saved clips. Close the game when done.
+The recording window owns the engine guard while open.
+
+These are diagnostic input recordings, separate from personal-best snapshot ghosts
+and video. They retain all nine resolved riding fields at 120 Hz (including jump
+hold and air tilt), initial launch, one-second position/velocity/heading checkpoints,
+final outcome, sampled camera look/view, source/terrain/runtime identities and
+starting presentation settings. They never change the solver or write personal
+records/preferences. Inputs and launch heading use packed 64-bit values inside JSON
+to avoid decimal-parser drift; the remaining metadata uses full precision. Replay compares
+Vector3 state exactly and allows only 1e-12 radians of JSON heading roundoff.
+Camera look samples are applied through the production following camera; rendering
+still depends on frame cadence. Menu interaction, settings changes, post-crash
+ragdoll sequences and video/audio are not captured as an interaction recording.
+Save before pausing, or restart after resuming/changing settings.
+
+Replay a short or crashed scenario once with:
+
+```powershell
+./scripts/record_run.ps1 -Replay artifacts/player_recordings/<label>/attempt_001.json -Label scenario-check
+```
+
+The same normal physics/render loop checks the original trajectory and stops at
+the captured tick. Partial/crashed clips require explicit scenario mode and produce
+`scope: recorded_scenario`; they cannot count as full-descent evidence. Only a
+complete uncrashed player recording may replace the pilot trace in
+`scripts/benchmark_pc.ps1 -InputTrace ... -Repetitions 3`. Old eight-field benchmark
+traces must be regenerated; personal replay format 5 is unchanged. The recorder
+and replay helpers live entirely under `tests/`; the production scene is inherited.
+Use `performance_recording_suite.gd`, `performance_trace_contract_suite.gd` and
+`record_run.ps1 -SmokeTest -Label <fresh-label>` to verify this tooling.
+
+2026-09-12 verification: 12 recorder and 13 trace-contract checks passed. The
+native manual-input smoke saved two independent early clips and verified restart,
+preservation and isolation; a native 3840×2160 replay reproduced the 240-tick clip
+and checkpoints. Four controller-prompt UI/test files were finalized during that
+playback; its functional result stands, but its timings are not baseline evidence.
+The recorded physics/input identities remained unchanged. Shared physics/runtime checks passed
+56/192 in the controller-prompts milestone `3a554cb`; all 32 checked preference/
+record files stayed unchanged. Detailed receipts are in
+`artifacts/player_recording_validation/summary.json`. This validates the recorder,
+not a full-descent FPS baseline or physical-controller comfort.
+
 `tests/interface_performance_suite.gd` is the bounded native UI/graphics protocol.
 It uses actual v15 Standard main-scene handoff and validated caches; physical
 cache misses invalidate comparisons. Run via the resolved DX12 engine with

@@ -7,7 +7,11 @@ func run() -> void:
 		if arg.begins_with("--benchmark-label="): output = "res://artifacts/fps_optimization/"+arg.get_slice("=",1).validate_filename()
 	DirAccess.make_dir_recursive_absolute(output)
 	trace = JSON.parse_string(FileAccess.get_file_as_string("res://artifacts/fps_optimization/descent_input.json"))
-	field = Definition.generate(849205174,Definition.CURRENT_VERSION); field.build_material_map()
+	var preflight = Trace.preflight_error(trace,Definition.CURRENT_VERSION)
+	if not preflight.is_empty(): printerr(preflight); quit(2); return
+	field = preload("res://tests/validation_mountain.gd").load_standard()
+	if field==null: quit(2); return
+	field.build_material_map()
 	if not Trace.matches(field,trace.identity): printerr("Close-track trace identity changed"); quit(2); return
 	var sim = load("res://scripts/core/ski_simulation.gd").new(preload("res://config/ski_default.tres").duplicate(true))
 	sim.reset(field.launch_point(trace.heading),trace.heading); sim.prime_contacts(field)
