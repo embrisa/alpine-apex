@@ -7,13 +7,13 @@
   "evidence": {
     "audit": "artifacts/v15_route_audit/audit.json",
     "audit_sha256": "51744a56ebded0c98404cb82de0bb4f8276c94615708d12c49d73baa2861ce5f",
-    "checkout_head_before_delivery": "00af57c4c5642968a15b11cfce5c3f78ed73b55c",
+    "checkout_head_at_receipt": "8bd07ea4036bc16f929449b84aaf4ec29f04feb0",
     "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/alpine_v15_route_audit.gd') -Label v15-route-audit -TimeoutSeconds 3600",
     "guard": "artifacts/guarded/v15-route-audit/guard.json",
     "guard_exit_code": 0,
     "guard_sha256": "57a335acbef93f4d1e691285c0099033bcea2892cb85f7b065d6e16700bf4981",
     "receipt_command": "python tests/report_v15_route_audit.py",
-    "receipt_producer_sha256": "e9808322b45d6b80af6fa2c8bf07161e5d556aa007fe7be9f3a5582a778bf72d",
+    "receipt_producer_sha256": "ac7f9f26ef01fe040eae7574201ca943d87d2dbe7e55f3c323b586424eb32750",
     "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "stdout_sha256": "4b91af53a5b6cb54e0a3c45e3c29d6cdc752555bae4979af34148d90bc7feabb"
   },

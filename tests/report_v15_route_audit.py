@@ -107,11 +107,11 @@ def main():
         "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/alpine_v15_route_audit.gd') -Label v15-route-audit -TimeoutSeconds 3600",
         "receipt_command": "python tests/report_v15_route_audit.py",
         "receipt_producer_sha256": digest(Path(__file__)),
-        "checkout_head_before_delivery": subprocess.check_output(
+        "checkout_head_at_receipt": subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
         ).strip(),
     }
-    OUTPUT.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    OUTPUT.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
     print(f"Validated six surveys and six bounded pilot outcomes: {OUTPUT}")
 
 
