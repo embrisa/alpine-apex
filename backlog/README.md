@@ -50,9 +50,14 @@ Use priorities `P0` (urgent correctness/blocker), `P1` (high), `P2` (normal), or
 `P3` (low). Default new tasks to `P2` unless the discussion or evidence establishes
 a different priority. The authoring skill does not reprioritize unrelated work.
 
-Completed or retired tasks can be kept under `backlog/archive/` with IDs, reasons,
-and useful references preserved. Do not treat old `docs/tasks/` handoffs as ready
-work without checking their status and newer evidence.
+Move completed or retired tasks out of `backlog/tasks/` into `backlog/archive/`.
+Preserve IDs, status, reasons and completion evidence, and update incoming and
+outgoing relative links. Archived IDs remain available to dependency validation.
+When retiring a completed prerequisite, remove its already-satisfied dependency
+from remaining tasks and retain a history link so their eligibility is preserved.
+Closed ideas use the separate `backlog/ideas/archive/` folder; see
+[idea conventions](ideas/README.md). Do not treat old `docs/tasks/` handoffs as
+ready work without checking their status and newer evidence.
 
 A ready task must contain no unresolved decisions that materially change its
 implementation. Record routine assumptions explicitly. Keep automated verification

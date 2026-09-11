@@ -46,4 +46,4 @@ Imported from the existing roadmap during backlog setup. Pending user acceptance
 
 ## Satisfied prerequisite history
 
-On 2026-09-11, [AA-20260911-153901-input-acceptance-evidence](AA-20260911-153901-input-acceptance-evidence.md) was retired at the user's request after completion. Its satisfied dependency was removed; this task's scope and acceptance requirements are unchanged.
+On 2026-09-11, [AA-20260911-153901-input-acceptance-evidence](../archive/AA-20260911-153901-input-acceptance-evidence.md) was retired at the user's request after completion. Its satisfied dependency was removed; this task's scope and acceptance requirements are unchanged.

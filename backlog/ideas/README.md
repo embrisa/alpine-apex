@@ -23,3 +23,10 @@ marks the idea `accepted` with the destination task link. Preserve the suggestio
 and its rationale; do not move an idea directly into the ready queue. If the user
 rejects one, record `rejected` with their reason if supplied. Only the user decides
 which proposals to take forward or reject. Unreviewed ideas remain `proposed`.
+
+Move closed ideas (`accepted` or `rejected`, including ideas the user retires)
+into `backlog/ideas/archive/`. Keep their IDs, decision, rationale and destination
+task link when applicable. Update incoming links and rebase relative links inside
+the moved file. Proposed ideas stay directly in `backlog/ideas/`; task records
+have their separate archive at `backlog/archive/`. Neither ideas folder is an
+executable task queue.

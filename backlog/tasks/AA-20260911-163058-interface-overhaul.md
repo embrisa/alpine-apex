@@ -89,7 +89,7 @@ verification are recorded below.
   [pose renderer](../../tests/pose_reference_render.gd), now reconstructs source
   poses through the production sampler without an editor project dependency.
 - No equivalent overhaul exists in the current tasks/archive or `docs/tasks/`.
-  The [input evidence task](AA-20260911-153901-input-acceptance-evidence.md),
+  The [input evidence task](../archive/AA-20260911-153901-input-acceptance-evidence.md),
   [presentation review](AA-20260911-153904-presentation-comfort-review.md) and
   [human acceptance](AA-20260911-153906-player-and-controller-acceptance.md)
   cover evidence, not this implementation. The

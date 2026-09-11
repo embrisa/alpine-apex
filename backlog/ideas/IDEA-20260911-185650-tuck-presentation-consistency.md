@@ -19,7 +19,7 @@ and does not establish a gameplay defect.
 
 ## Evidence and origin
 
-The [input acceptance audit](../tasks/AA-20260911-153901-input-acceptance-evidence.md)
+The [input acceptance audit](../archive/AA-20260911-153901-input-acceptance-evidence.md)
 uses production snapshot `29b1767da65f8dc7d75c4937601381a2096ba5fa` plus its
 test-only fixture correction. The final native 1920x1080 images are under
 `artifacts/input_acceptance_20260911/visual/`: `01_forward_tuck.png` is more

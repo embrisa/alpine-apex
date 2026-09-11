@@ -47,4 +47,4 @@ Imported from the existing roadmap during backlog setup. Pending implementation.
 
 ## Satisfied prerequisite history
 
-On 2026-09-11, [AA-20260911-153900-baseline-acceptance-index](AA-20260911-153900-baseline-acceptance-index.md) was retired at the user's request after completion. Its satisfied dependency was removed; this task's scope and acceptance requirements are unchanged.
+On 2026-09-11, [AA-20260911-153900-baseline-acceptance-index](../archive/AA-20260911-153900-baseline-acceptance-index.md) was retired at the user's request after completion. Its satisfied dependency was removed; this task's scope and acceptance requirements are unchanged.

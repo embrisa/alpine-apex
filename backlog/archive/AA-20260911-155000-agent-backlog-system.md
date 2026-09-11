@@ -76,4 +76,4 @@ ends until resolved. The remaining manual-start race and recent-list limit are
 documented in [operations](../OPERATIONS.md).
 
 Next-step idea for the user's review:
-[resolve the existing untracked UID companions](../ideas/IDEA-20260911-155000-uid-companions.md).
+[resolve the existing untracked UID companions](../ideas/archive/IDEA-20260911-155000-uid-companions.md).

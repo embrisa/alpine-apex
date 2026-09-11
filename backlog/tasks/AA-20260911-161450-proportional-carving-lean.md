@@ -78,7 +78,7 @@ has not yet been reproduced or diagnosed by an implementation worker.
   frames and pending human acceptance are limitations, not a current all-clear.
 
 Backlog, archive and `docs/tasks/` searches found no duplicate fix.
-[Input acceptance evidence](AA-20260911-153901-input-acceptance-evidence.md) is a
+[Input acceptance evidence](../archive/AA-20260911-153901-input-acceptance-evidence.md) is a
 related audit that does not authorize retuning; this bounded animation fix can
 proceed independently. Older Cascadeur handoffs concern authoring experiments,
 not this response defect.

@@ -20,7 +20,7 @@ another agent's asset changes.
 
 ## Evidence and origin
 
-The [installation task](../archive/AA-20260911-155000-agent-backlog-system.md)
+The [installation task](../../archive/AA-20260911-155000-agent-backlog-system.md)
 observed these untracked files in `git status --short`:
 
 - `assets/graphics/foliage_sight.gdshaderinc.uid`
