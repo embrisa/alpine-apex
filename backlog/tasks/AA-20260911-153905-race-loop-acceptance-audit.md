@@ -17,7 +17,7 @@ Verify the current route-discovery, custom-race, retry, split and ghost loop and
 
 ## Current state and evidence
 
-[The roadmap](../../docs/ROADMAP.md) leaves the usefulness of the racing loop open. [Competitive loop](../../docs/COMPETITIVE_LOOP.md), [races](../../docs/RACES.md), scripts/racing/ and tests/race_suite.gd describe current foundations. Race schema is declared in source and must be verified rather than copied from the old index.
+[The roadmap](../../docs/development/ROADMAP.md) leaves the usefulness of the racing loop open. [Competitive loop](../../docs/gameplay/COMPETITIVE_LOOP.md), [races](../../docs/gameplay/RACES.md), scripts/racing/ and tests/race_suite.gd describe current foundations. Race schema is declared in source and must be verified rather than copied from the old index.
 
 ## Agreed decisions and scope
 

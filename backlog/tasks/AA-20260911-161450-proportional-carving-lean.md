@@ -70,7 +70,7 @@ has not yet been reproduced or diagnosed by an implementation worker.
   held input and 0.8 alternating taps. [carve_entry_suite.gd](../../tests/carve_entry_suite.gd)
   checks wrong-way silhouette motion with hard input or ramps to 0.55. Neither
   establishes an acceptable lean envelope for small sustained inputs and taps.
-- [CARVE_DIRECTION_FIX.md](../../docs/CARVE_DIRECTION_FIX.md) documents the earlier
+- [CARVE_DIRECTION_FIX.md](../../docs/gameplay/CARVE_DIRECTION_FIX.md) documents the earlier
   cross-slope/body-frame correction and its evidence. Retain its valid direction
   and support-frame guarantees, but treat the latest report as an unresolved
   direction defect; the earlier checks do not prove this case is fixed.
@@ -108,7 +108,7 @@ not this response defect.
 ## Implementation approach
 
 1. Follow the [animation skill](../../.agents/skills/alpine-animation/SKILL.md) and
-   [review workflow](../../docs/ANIMATION_AGENT_WORKFLOW.md). Capture a current
+   [review workflow](../../docs/presentation/ANIMATION_AGENT_WORKFLOW.md). Capture a current
    failing baseline. Trace post-mapping input, speed, actual trajectory turn rate,
    heading, body bank, grounded load/edges, original and overridden channels,
    source phase/weights, downhill/action weights, requested pose and final pose.

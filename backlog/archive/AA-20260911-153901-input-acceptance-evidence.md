@@ -17,7 +17,7 @@ Produce current reproducible input/handling checks and a concise controller play
 
 ## Current state and evidence
 
-The [roadmap](../../docs/ROADMAP.md) leaves turn initiation, sustained carving, reversals, tuck transitions, jumps, switch skiing, clean landings and real controllers open. [Controller feedback](../../docs/CONTROLLER_FEEDBACK.md) distinguishes automated coverage from human vibration acceptance. Existing tests/controller_input_suite.gd and tests/controller_input_playtest.gd provide production-input fixtures; the rendered fixture disables physical haptic output.
+The [roadmap](../../docs/development/ROADMAP.md) leaves turn initiation, sustained carving, reversals, tuck transitions, jumps, switch skiing, clean landings and real controllers open. [Controller feedback](../../docs/gameplay/CONTROLLER_FEEDBACK.md) distinguishes automated coverage from human vibration acceptance. Existing tests/controller_input_suite.gd and tests/controller_input_playtest.gd provide production-input fixtures; the rendered fixture disables physical haptic output.
 
 ## Agreed decisions and scope
 
@@ -56,7 +56,7 @@ input suppression and rearming, reapplies triggers per frame, verifies landing
 and test isolation, and supports a separate output directory. No production
 solver, mapping, haptics or animation changed.
 
-The [maintained controller audit](../../docs/CONTROLLER_FEEDBACK.md#input-acceptance-audit-on-2026-09-11)
+The [maintained controller audit](../../docs/gameplay/CONTROLLER_FEEDBACK.md#input-acceptance-audit-on-2026-09-11)
 records exact engine hashes, reproduction commands, source-owned lifecycle
 behavior and the real-device checklist. Serial guarded checks passed **388/388**:
 physics 56, runtime 192, controller input 48, haptics 41 and rider lifecycle 51.

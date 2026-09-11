@@ -1,6 +1,6 @@
 # Meshy 7 skier — selected and integrated
 
-The candidate is active in the game. See `docs/SKIER.md` at the project root for preparation, posture, validation, limitations and rebuild instructions.
+The candidate is active in the game. See `docs/presentation/SKIER.md` at the project root for preparation, posture, validation, limitations and rebuild instructions.
 
 - `reference.png`: built-in image generation reference; exact prompt in `reference_prompt.txt`.
 - `candidate.glb` and `candidate_textures/`: untouched textured Meshy 7 Ultra source.

@@ -7,11 +7,11 @@ The first documentation task resolves those against live code again.
 
 | Source | Disposition |
 |---|---|
-| [Roadmap acceptance areas](../docs/ROADMAP.md) | Six ready evidence/documentation tasks, plus one blocked user playtest task. |
+| [Roadmap acceptance areas](../docs/development/ROADMAP.md) | Six ready evidence/documentation tasks, plus one blocked user playtest task. |
 | [Original Cascadeur handoff](../docs/tasks/CASCADEUR_ANIMATION_HANDOFF.md) | Already superseded; retained as reference, not requeued. |
 | [Cascadeur workflow/gameplay handoff](../docs/tasks/CASCADEUR_WORKFLOW_AND_GAMEPLAY_EVALUATION.md) | Reports completed work and links newer R6-R9 evidence; not requeued. Adoption and user acceptance are not assumed. |
-| [Engine opportunities](../docs/ENGINE_STRATEGY.md) | Existing direction and measured opportunities remain documentation; the performance task refreshes evidence before proposing new optimizations. |
-| Roadmap later increments / [online direction](../docs/ONLINE_COMPETITION.md) | Remain scoped future options, not implementation authorization. No speculative backend, engine rewrite or snowboarding task was made ready. |
+| [Engine opportunities](../docs/development/ENGINE_STRATEGY.md) | Existing direction and measured opportunities remain documentation; the performance task refreshes evidence before proposing new optimizations. |
+| Roadmap later increments / [online direction](../docs/gameplay/ONLINE_COMPETITION.md) | Remain scoped future options, not implementation authorization. No speculative backend, engine rewrite or snowboarding task was made ready. |
 
 Each imported task is bounded to evidence, documentation or necessary test harness
 work. This import does not silently authorize retuning gameplay, adopting a tool,

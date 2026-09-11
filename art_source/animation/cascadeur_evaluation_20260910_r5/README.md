@@ -30,7 +30,7 @@ The first recipe uses rest-calibrated torso frames and a reachable two-segment
 elbow construction; the second solves all changed controls through Cascadeur.
 There is no alternate runtime pose writer.
 
-See [the current evaluation](../../../docs/CASCADEUR_TRIAL_EVALUATION.md) and
+See [the current evaluation](../../../docs/presentation/CASCADEUR_TRIAL_EVALUATION.md) and
 the `cascadeur-20260910-r5` frozen review for actual rendered and audit results.
 The R4 source remains preserved separately with the user's rejection. R5 is
 not an artistic acceptance grade, a gameplay integration or an adoption decision.

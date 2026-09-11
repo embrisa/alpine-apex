@@ -17,11 +17,11 @@ Make the project's entry-point documentation accurately describe the current gam
 
 ## Current state and evidence
 
-The imported [roadmap](../../docs/ROADMAP.md) and [documentation index](../../docs/README.md) still describe default mountain v14 and race schema 3. During backlog setup, [project guidance](../../AGENTS.md) and [validation](../../docs/VALIDATION.md) use v15; live ski simulation declares model 28 and race_definition.gd declares schema 4. These are inspection findings from 2026-09-11, not permanent version assumptions. Verify them again.
+The imported [roadmap](../../docs/development/ROADMAP.md) and [documentation index](../../docs/README.md) still describe default mountain v14 and race schema 3. During backlog setup, [project guidance](../../AGENTS.md) and [validation](../../docs/development/VALIDATION.md) use v15; live ski simulation declares model 28 and race_definition.gd declares schema 4. These are inspection findings from 2026-09-11, not permanent version assumptions. Verify them again.
 
 ## Agreed decisions and scope
 
-This is a documentation-only reconciliation of existing work. Update docs/README.md, docs/ROADMAP.md and docs/VALIDATION.md as needed; link maintained subsystem evidence instead of duplicating reports. Preserve player acceptance as open wherever it remains unverified. Do not change game behavior or claim fresh performance measurements.
+This is a documentation-only reconciliation of existing work. Update docs/README.md, docs/development/ROADMAP.md and docs/development/VALIDATION.md as needed; link maintained subsystem evidence instead of duplicating reports. Preserve player acceptance as open wherever it remains unverified. Do not change game behavior or claim fresh performance measurements.
 
 ## Implementation approach
 
@@ -54,7 +54,7 @@ commit byte-for-byte. Normal startup is seed 849205174 / v15 / Standard; physics
 is model 28, replay is v5 with eight input fields, and race schema is 4.
 
 Updated the documentation index, roadmap and validation guide; the
-[current acceptance checklist](../../docs/VALIDATION.md#current-acceptance-checklist)
+[current acceptance checklist](../../docs/development/VALIDATION.md#current-acceptance-checklist)
 links all six imported follow-ups. Historical v13 routes, the dated v14/model-26
 FPS comparison, model-28 short-route timings and v15 generation/scene diagnostics
 remain distinct from current full-descent and player acceptance.

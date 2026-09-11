@@ -1,24 +1,24 @@
 # Task: evaluate Cascadeur authoring and gameplay fitting from R5
 
-**Latest: [R9 deeper carving](../CASCADEUR_DEEP_CARVING_R9.md)** follows the request for about 17 cm
+**Latest: [R9 deeper carving](../presentation/CASCADEUR_DEEP_CARVING_R9.md)** follows the request for about 17 cm
 between boot heights at the deepest carve. The optional trial reaches 16.94 cm
 during the strong-turn fixture; its fresh model-28 comparison uses R8 and R9
 pressure profiles with the same R7 hands. Earlier sealed evidence is preserved.
 
 Created: 2026-09-10. Project: `C:\Users\hp\Downloads\alpine-apex`.
 Audience: a new agent continuing the Cascadeur evaluation.
-Latest follow-up: [R8 snow and leg response](../CASCADEUR_SNOW_LEGS_R8.md) implements
+Latest follow-up: [R8 snow and leg response](../presentation/CASCADEUR_SNOW_LEGS_R8.md) implements
 the user's explicit choice, **“Include soft-snow sinking and leg motion,”** after
 R7 hands were considered okay but the legs lacked feeling. R8 retains R7 hands;
 this separately authorized trial changes physical contacts. Its frozen movies
 use base model 27; check the later live compatibility receipt before comparing
 against concurrent model-28 snow-handling work.
 Follow-up: the user requested a distinct carving candidate after the R6 in-game
-comparison looked similar. See [R7 carving](../CASCADEUR_CARVING_R7.md) for that
+comparison looked similar. See [R7 carving](../presentation/CASCADEUR_CARVING_R7.md) for that
 separately authorized experiment and its launcher. The original scope below is
 historical and does not limit that subsequent request.
 Status: completed with a diagnosed presentation-ownership limitation. See the
-[R6 report](../CASCADEUR_WORKFLOW_EVALUATION_R6.md),
+[R6 report](../presentation/CASCADEUR_WORKFLOW_EVALUATION_R6.md),
 [editable source](../../art_source/animation/cascadeur_evaluation_20260910_r6/README.md)
 and [interactive review](http://127.0.0.1:8769/comparisons/cascadeur-20260910-r6/review.html).
 R6 user acceptance and Cascadeur adoption remain open. The scope below is retained
@@ -48,12 +48,12 @@ run one specific remaining test.
 
 1. `AGENTS.md`, [the animation skill](../../.agents/skills/alpine-animation/SKILL.md)
    and its rig/action, review, tool and handoff references.
-2. [Current evaluation](../CASCADEUR_TRIAL_EVALUATION.md), especially R5;
-   [review lessons](../ANIMATION_REVIEW_LESSONS.md).
+2. [Current evaluation](../presentation/CASCADEUR_TRIAL_EVALUATION.md), especially R5;
+   [review lessons](../presentation/ANIMATION_REVIEW_LESSONS.md).
 3. [R5 source README](../../art_source/animation/cascadeur_evaluation_20260910_r5/README.md),
    source manifest, export helper and final rotation audit.
-4. [Gameplay motion ownership](../STEEP_MOTION_GAMEPLAY.md),
-   [anatomy](../SKIER_ANATOMY.md), [equipment](../EQUIPMENT.md), then the live
+4. [Gameplay motion ownership](../presentation/STEEP_MOTION_GAMEPLAY.md),
+   [anatomy](../presentation/SKIER_ANATOMY.md), [equipment](../presentation/EQUIPMENT.md), then the live
    functions involved. Historical physics/version numbers in these documents are
    not the current runtime identity; verify live source and engine hashes.
 

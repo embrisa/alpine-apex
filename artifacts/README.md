@@ -28,4 +28,4 @@ regression fixtures remain available without those local copies.
 
 Past artifact paths in implementation notes describe output locations, not files
 included with the project. The old local evidence was cleared on 2026-09-09.
-See [validation](../docs/VALIDATION.md) for current checks and acceptance limits.
+See [validation](../docs/development/VALIDATION.md) for current checks and acceptance limits.

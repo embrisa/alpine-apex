@@ -55,7 +55,7 @@ The R4 held-tuck comparison at frame 106 reduced tip span from about 0.781 m to
 yet the **whole equipment silhouette** became narrower. These are case-study
 measurements, not universal bounds or proof of an 8.0 grade. The R4 report records
 552 chronological frames and a passing 426-supported-pose clothing audit.
-See `docs/DOWNHILL_TUCK_ALIGNMENT_R4.md` and `docs/ANIMATION_REVIEW_LESSONS.md`.
+See `docs/presentation/DOWNHILL_TUCK_ALIGNMENT_R4.md` and `docs/presentation/ANIMATION_REVIEW_LESSONS.md`.
 
 ## Mechanical and visual evidence
 

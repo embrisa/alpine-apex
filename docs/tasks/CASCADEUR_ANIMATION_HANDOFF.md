@@ -55,7 +55,7 @@ preserves animation transforms but reproduces orange/black material corruption.
 A separate post-reopen control edit also worked, although MCP reported an idle
 timeout after completing it. Inspect saved outputs/current state before retries.
 
-- [Current evaluation, cause, metrics and recommendation](../CASCADEUR_TRIAL_EVALUATION.md).
+- [Current evaluation, cause, metrics and recommendation](../presentation/CASCADEUR_TRIAL_EVALUATION.md).
 - [Durable source and tested export procedure](../../art_source/animation/cascadeur_evaluation_20260910/README.md).
 - [Interactive preview](http://127.0.0.1:8769/revisions/cascadeur-20260910-r4/index.html).
 - New diagnostics: `artifacts/cascadeur_rig_20260910_r4/`.
@@ -113,14 +113,14 @@ expand into a whole animation library immediately.
 Read current files; other agents may have changed production since this handoff.
 
 1. `AGENTS.md` and `.agents/skills/alpine-animation/SKILL.md`.
-2. `docs/CASCADEUR_TRIAL_EVALUATION.md` — results from this specific trial.
+2. `docs/presentation/CASCADEUR_TRIAL_EVALUATION.md` — results from this specific trial.
 3. The animation skill's `references/rig-and-actions.md`, `review-loop.md`,
    `tool-recipes.md`, and `handoff.md`.
-4. `docs/ANIMATION_AGENT_WORKFLOW.md`, `docs/ANIMATION_REVIEW_LESSONS.md`,
-   `docs/SKIER_ANATOMY.md`, and `docs/EQUIPMENT.md`.
-5. `docs/DOWNHILL_TUCK_ALIGNMENT_R4.md` if working on tuck/carry. It is a prior
+4. `docs/presentation/ANIMATION_AGENT_WORKFLOW.md`, `docs/presentation/ANIMATION_REVIEW_LESSONS.md`,
+   `docs/presentation/SKIER_ANATOMY.md`, and `docs/presentation/EQUIPMENT.md`.
+5. `docs/presentation/DOWNHILL_TUCK_ALIGNMENT_R4.md` if working on tuck/carry. It is a prior
    refinement with user acceptance pending, not a certified quality baseline.
-6. `docs/STEEP_MOTION_GAMEPLAY.md` for asset-to-gameplay integration.
+6. `docs/presentation/STEEP_MOTION_GAMEPLAY.md` for asset-to-gameplay integration.
 
 ## Non-negotiable project boundaries
 

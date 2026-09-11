@@ -17,7 +17,7 @@ Replace reliance on historical v13/v14 route evidence with a reproducible defaul
 
 ## Current state and evidence
 
-[Validation](../../docs/VALIDATION.md) still carries forward a v13 pilot completing one face while crashing or stalling on others. Existing tests/alpine_v13_route_survey.gd and tests/alpine_v14_routes.gd target historical identities; they do not establish current v15 coverage.
+[Validation](../../docs/development/VALIDATION.md) still carries forward a v13 pilot completing one face while crashing or stalling on others. Existing tests/alpine_v13_route_survey.gd and tests/alpine_v14_routes.gd target historical identities; they do not establish current v15 coverage.
 
 ## Agreed decisions and scope
 
@@ -32,7 +32,7 @@ Inspect the current generation and route-survey helpers. Add the smallest curren
 - [ ] Reproducible survey output identifies current source hashes, generator/model, seed and settings.
 - [ ] All six faces have explicit surveyed and pilot-completion statuses.
 - [ ] Pilot failure is reported without equating it with proof of an unskiable mountain.
-- [ ] Update docs/GENERATION_V15.md and the route acceptance summary with the result.
+- [ ] Update docs/development/GENERATION_V15.md and the route acceptance summary with the result.
 - [ ] Validate any new harness and run required regressions if its scope grows into input/session changes; commit/push the task evidence.
 
 The audit may complete with documented pilot limitations if every face was investigated and no harness failure is hidden. User skiing of the faces and other seeds remains a separate acceptance task.

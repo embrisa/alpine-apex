@@ -7,10 +7,10 @@ not a promise that an old revision's implementation remains current.
 
 | Work | Starting points | Evidence to preserve |
 |---|---|---|
-| Source import or retarget | `docs/STEEP_MOTION_GAMEPLAY.md`, `docs/SKIER_ANATOMY.md`, `assets/animation/steep_ski_motion.res` | Source frame/time, names/parents/rest axes, rotation conventions, source and output hashes |
+| Source import or retarget | `docs/presentation/STEEP_MOTION_GAMEPLAY.md`, `docs/presentation/SKIER_ANATOMY.md`, `assets/animation/steep_ski_motion.res` | Source frame/time, names/parents/rest axes, rotation conventions, source and output hashes |
 | Gameplay pose, blend or transition | `scripts/presentation/skier_animation.gd`, `skier_full_motion.gd`, `downhill_posture.gd` | Real solver inputs/events and final rendered pose |
 | Constraint, contact fitting or attachment | `skier_anatomy.gd`, `skier_visual.gd`, `skier_equipment.gd` in `scripts/presentation/` | Requested versus final joints, local rotations, cuff/grip errors, actual clothing clearance |
-| Mesh, weighting, rest pose or socket | `docs/SKIER.md`, `docs/EQUIPMENT.md`, `assets/graphics/models/skier_v7.glb` | Skin/rest compatibility, new rig hashes, attachment checks and rendered asset review |
+| Mesh, weighting, rest pose or socket | `docs/presentation/SKIER.md`, `docs/presentation/EQUIPMENT.md`, `assets/graphics/models/skier_v7.glb` | Skin/rest compatibility, new rig hashes, attachment checks and rendered asset review |
 
 Source root motion/spins do not transfer wholesale into solver-owned gameplay.
 
@@ -30,7 +30,7 @@ moves it. Avoid another final writer or a late visual-only override that bypasse
 the same constraints elsewhere.
 
 `scripts/core/rider_body.gd` provides physical/rest anatomy; it is not a convenient
-place for a cosmetic correction. Read `docs/ARCHITECTURE.md` before a change that
+place for a cosmetic correction. Read `docs/development/ARCHITECTURE.md` before a change that
 actually involves simulation/contact. Such a change needs its own physics scope
 and physics/runtime validation.
 

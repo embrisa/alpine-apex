@@ -10,9 +10,9 @@ The project root is three directories above this file. Run commands there.
 
 ## Start with the current defect
 
-1. Read the user's latest corrections and [review lessons](../../../docs/ANIMATION_REVIEW_LESSONS.md).
+1. Read the user's latest corrections and [review lessons](../../../docs/presentation/ANIMATION_REVIEW_LESSONS.md).
    Identify the action, phase, body/equipment chain and requested visible result.
-   For downhill carry, read [R4](../../../docs/DOWNHILL_TUCK_ALIGNMENT_R4.md):
+   For downhill carry, read [R4](../../../docs/presentation/DOWNHILL_TUCK_ALIGNMENT_R4.md):
    it records the current refinement, **not final user acceptance or an 8.0 grade**.
 2. Read [rig and action ownership](references/rig-and-actions.md), then locate
    the live function that owns the defect. Verify current source/engine identity;

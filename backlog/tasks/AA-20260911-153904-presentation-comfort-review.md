@@ -17,7 +17,7 @@ Create a bounded current visual review and listening/player checklist for contin
 
 ## Current state and evidence
 
-[The roadmap](../../docs/ROADMAP.md) leaves continuous motion, knee/boot fitting, deep tuck, camera readability, menu transitions, reduced motion and the audio mix open. Newer snow and camera changes make earlier snapshots insufficient as current acceptance.
+[The roadmap](../../docs/development/ROADMAP.md) leaves continuous motion, knee/boot fitting, deep tuck, camera readability, menu transitions, reduced motion and the audio mix open. Newer snow and camera changes make earlier snapshots insufficient as current acceptance.
 
 ## Agreed decisions and scope
 
@@ -25,7 +25,7 @@ Review and evidence preparation only. Do not redesign lighting, camera presets, 
 
 ## Implementation approach
 
-Inspect maintained camera/interface, soft-snow, animation and audio guidance. Use current native harnesses to capture short chase/first-person riding sequences, a tuck/turn transition, pause/settings/resume and the existing reduced-motion behavior. Follow the animation skill if assessing the skier's pose. Inspect motion, not only still images. Reuse the latest source-stable evidence if it already covers a requested state. Produce a compact review guide linked from docs/VALIDATION.md; keep captures under artifacts.
+Inspect maintained camera/interface, soft-snow, animation and audio guidance. Use current native harnesses to capture short chase/first-person riding sequences, a tuck/turn transition, pause/settings/resume and the existing reduced-motion behavior. Follow the animation skill if assessing the skier's pose. Inspect motion, not only still images. Reuse the latest source-stable evidence if it already covers a requested state. Produce a compact review guide linked from docs/development/VALIDATION.md; keep captures under artifacts.
 
 ## Acceptance and verification
 

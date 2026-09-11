@@ -26,7 +26,7 @@ test-only fixture correction. The final native 1920x1080 images are under
 upright than `03_tuck_resumes.png`, although `results.json` records effective
 tuck 0.99475 and 0.99481. Terrain, speed, prior actions and pose history differ;
 the screenshots alone cannot identify the cause. All input assertions passed.
-See [the maintained evidence](../../docs/CONTROLLER_FEEDBACK.md#rendered-inspection-and-limits).
+See [the maintained evidence](../../docs/gameplay/CONTROLLER_FEEDBACK.md#rendered-inspection-and-limits).
 
 ## Suggested next step
 
