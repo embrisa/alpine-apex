@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-153900-baseline-acceptance-index"
 title: "Refresh the current baseline and acceptance index"
-status: "ready"
+status: "done"
 priority: "P1"
 depends_on: []
 created: "2026-09-11T15:39:00Z"
-updated: "2026-09-11T15:39:00Z"
+updated: "2026-09-11T18:47:05Z"
 source_thread: "01a090fe-2a8c-7fe0-8b5b-fa6446206ea9"
 ---
 
@@ -29,10 +29,10 @@ Read current startup/generation, scripts/core/ski_simulation.gd, scripts/racing/
 
 ## Acceptance and verification
 
-- [ ] Entry-point default/version claims match the inspected live sources.
-- [ ] Historical results and outstanding player/controller acceptance remain distinct.
-- [ ] Relevant Markdown links resolve; run the backlog validator and git diff --check.
-- [ ] Commit/push the documentation and completion record; include inspected source commit references.
+- [x] Entry-point default/version claims match the inspected live sources.
+- [x] Historical results and outstanding player/controller acceptance remain distinct.
+- [x] Relevant Markdown links resolve; run the backlog validator and git diff --check.
+- [x] Commit/push the documentation and completion record; include inspected source commit references.
 
 No game suites or new gameplay measurements are required for this documentation-only task. Human acceptance remains a follow-up, not a gate for this documentation task.
 
@@ -42,4 +42,28 @@ None.
 
 ## Completion record
 
-Imported from the existing roadmap during backlog setup. Pending implementation. Any worker follow-up ideas belong in `backlog/ideas/` for the user's review.
+Completed 2026-09-11. Documentation milestone
+[`2ecd606d0cfc49a1b53c1773ef280a08e25b8321`](https://github.com/embrisa/alpine-apex/commit/2ecd606d0cfc49a1b53c1773ef280a08e25b8321)
+was committed and pushed to `origin/main`; this completion record is the follow-up checkpoint.
+
+Inspected source snapshot:
+[`f7b44ed8cb71a5591dd45cdd70336340fc25cf3f`](https://github.com/embrisa/alpine-apex/commit/f7b44ed8cb71a5591dd45cdd70336340fc25cf3f).
+Verified the project/main scene, startup, mountain definition, v15 generator/cache,
+generation settings, ski simulation, race definition and replay files match that
+commit byte-for-byte. Normal startup is seed 849205174 / v15 / Standard; physics
+is model 28, replay is v5 with eight input fields, and race schema is 4.
+
+Updated the documentation index, roadmap and validation guide; the
+[current acceptance checklist](../../docs/VALIDATION.md#current-acceptance-checklist)
+links all six imported follow-ups. Historical v13 routes, the dated v14/model-26
+FPS comparison, model-28 short-route timings and v15 generation/scene diagnostics
+remain distinct from current full-descent and player acceptance.
+
+Verification: all 107 local Markdown links and heading anchors in the three
+entry pages and this task resolve; source-constant checks pass;
+`./scripts/backlog.ps1 validate` passes. Whitespace checking uses
+`git -c core.whitespace=cr-at-eol diff --check` to recognize the existing Windows
+line endings while preserving file bytes outside edited content.
+No game suites, rendered runs or new performance measurements were required or
+performed. Player/controller, listening, all-face skiing and current complete-descent
+performance acceptance remain open in the linked follow-ups.
