@@ -147,6 +147,15 @@ and screen AO combine by minimum, not multiplication. Preserve local shape cues
 while tuning soft detail, sheen/glow and filtered crystals; current values live
 in graphics profiles/material code, not the earlier readability snapshots.
 
+Scanned snow normal detail is multiplied by .5 before snow/rock blending in
+`alpine_surface_fragment.gdshaderinc`; geometric relief, procedural ripples,
+rock detail and crystal settings retain their separate contributions. The user
+accepted this modest softening after 13 matched still pairs, without reporting
+a noticeable visual improvement. `tests/snow_bump_comparison.gd` reconstructs
+the original strength for comparison; `--production-check` captures the adopted
+shader directly. Receipts/captures live in `artifacts/snow_bump_comparison_20260911/`.
+Motion/readability benefit and performance improvement are not established.
+
 ## Weather
 
 `weather_controller.gd`, `weather_state.gd`, `weather_effects.gd`,

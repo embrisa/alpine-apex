@@ -1,17 +1,19 @@
 extends "res://tests/snow_readability_playtest.gd"
-## Matched material preview. Production shaders/preferences remain unchanged.
-## The only candidate change is 0.5x scanned snow normal contribution.
+## Original scanned snow normals versus the adopted half-strength material.
+## --production-check captures only the actual production shaders at three sites.
 var preview_materials: Array[ShaderMaterial] = []
 var preview_shaders: Dictionary = {}
 var original_shaders: Dictionary = {}
 var preview_start: Dictionary = {}
 var controls: Array = []
+var production_check = false
 
 func run() -> void:
 	if DisplayServer.get_name()=="headless":
 		printerr("Snow bump comparison requires native rendering")
 		quit(1); return
-	OUTPUT = "res://artifacts/snow_bump_comparison_20260911/native"
+	production_check = "--production-check" in OS.get_cmdline_user_args()
+	OUTPUT = "res://artifacts/snow_bump_comparison_20260911/"+("adopted" if production_check else "comparison")
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--output="): OUTPUT = arg.trim_prefix("--output=")
 	DirAccess.make_dir_recursive_absolute(OUTPUT)
@@ -45,17 +47,22 @@ func run() -> void:
 	game.add_child(observer)
 	for particle in game.effects.sprays+game.weather_effects.volumes+game.weather_effects.drifts:
 		particle.use_fixed_seed = true; particle.seed = 849205174+particle.get_index(); particle.speed_scale = 0
-	if not prepare_preview():
+	if not production_check and not prepare_preview():
 		quit(2); return
 	choose_sites()
-	for site in snow_sites:
-		for condition in ["clear","cloudy","snowfall"]:
-			await compare_site(site,condition,"day")
-	await compare_site(snow_sites[0],"clear","dusk")
+	if production_check:
+		await compare_site(snow_sites[0],"clear","day")
+		await compare_site(snow_sites[2],"cloudy","day")
+		await compare_site(snow_sites[3],"snowfall","day")
+	else:
+		for site in snow_sites:
+			for condition in ["clear","cloudy","snowfall"]:
+				await compare_site(site,condition,"day")
+		await compare_site(snow_sites[0],"clear","dusk")
 	for material in original_shaders: material.shader = original_shaders[material]
 	if source_identity!=read_sources(): failures.append("Comparison sources changed during capture")
 	if game.session.eligible or game.preferences_enabled: failures.append("Fixture isolation failed")
-	var report = {"change":"Scanned snow normal contribution only: 1.0 baseline, 0.5 candidate. In-memory comparison shaders; production defaults unchanged.",
+	var report = {"change":"Scanned snow normal contribution only: 1.0 original, 0.5 adopted production material.","production_check":production_check,
 		"engine":Engine.get_version_info(),"engine_sha256":FileAccess.get_sha256(OS.get_executable_path()),
 		"device":RenderingServer.get_video_adapter_name(),"backend":RenderingServer.get_current_rendering_driver_name(),
 		"actual_pixels":[actual_pixels.x,actual_pixels.y],"display":game.display_settings.report(root,actual_pixels),
@@ -65,7 +72,7 @@ func run() -> void:
 		"preview_material_count":preview_materials.size(),"sources":source_identity,"sites":snow_sites,"samples":samples,"controls":controls,"failures":failures,
 		"scope":"Frozen rendered comparisons, not motion, performance or human acceptance. Snowfall uses identical frozen GPU particles within each pair."}
 	FileAccess.open(OUTPUT+"/report.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
-	print("SNOW_BUMP_COMPLETE pairs=",samples.size()/2," failures=",failures)
+	print("SNOW_BUMP_COMPLETE captures=",samples.size()," production_check=",production_check," failures=",failures)
 	game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)
 
@@ -77,7 +84,7 @@ func read_sources() -> Dictionary:
 
 func prepare_preview() -> bool:
 	var fragment = FileAccess.get_file_as_string("res://assets/graphics/alpine_surface_fragment.gdshaderinc")
-	var needle = "sn=terrain_snow_normal(snow_tiles);"
+	var needle = "sn=terrain_snow_normal(snow_tiles)*.5;"
 	if fragment.count(needle)!=1:
 		printerr("Scanned snow normal source changed; refusing an ambiguous preview")
 		return false
@@ -101,7 +108,8 @@ func prepare_preview() -> bool:
 func select_look(old: bool) -> void:
 	before = old
 	for material in preview_materials:
-		material.set_shader_parameter("snow_bump_comparison_scale",1.0 if old else .5)
+		material.shader = preview_shaders[original_shaders[material]] if old else original_shaders[material]
+		if old: material.set_shader_parameter("snow_bump_comparison_scale",1.0)
 	game.display_settings.reset_history()
 
 func compare_site(site: Dictionary, condition: String, daylight: String) -> void:
@@ -125,7 +133,7 @@ func compare_site(site: Dictionary, condition: String, daylight: String) -> void
 	game.hud.root.hide(); game.hud.hide_menu(); game.speed_periphery.hide()
 	preview_start = frozen_state()
 	var name = "%s_%s_%s"%[site.name,condition,daylight]
-	for look in [true,false]:
+	for look in ([false] if production_check else [true,false]):
 		select_look(look)
 		for i in 50: await process_frame
 		await RenderingServer.frame_post_draw

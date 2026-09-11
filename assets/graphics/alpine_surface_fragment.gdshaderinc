@@ -56,7 +56,8 @@ void fragment() {
   TerrainTiles snow_tiles=terrain_tiles(world_pos.xz*snow_scale,dx.xz*snow_scale,dy.xz*snow_scale,true);
   snow=terrain_color(snow_albedo,snow_tiles);
   if(pbr_detail>.001) so=mix(so,terrain_snow_orm(snow_tiles),pbr_detail);
-  if(detail>.005) sn=terrain_snow_normal(snow_tiles);
+  // Soften scanned grain without reducing geometric relief or rock detail.
+  if(detail>.005) sn=terrain_snow_normal(snow_tiles)*.5;
  }
  vec3 stone=vec3(0); vec3 ro=vec3(0); vec3 rock_bump=vec3(0);
  if(rock>.015) {
