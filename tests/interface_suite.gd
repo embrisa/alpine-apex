@@ -42,9 +42,9 @@ func run() -> void:
 	check(game.hud.menu_tabs.get_tab_count()==3,"Main menu separates Ride, Explore and Tools")
 	check(game.hud.settings_tabs.get_tab_count()==8,"Settings separate display, weather, rider, camera, skier voice, interface, controls and audio")
 	check(game.hud.settings_tabs.get_tab_control(7).is_ancestor_of(game.hud.wind_mode),"Audio tab contains the existing wind controls")
-	check(game.hud.camera_setting_controls.size()==9 and game.hud.camera_reset_button.text=="RESET CAMERA SETTINGS","Camera tab exposes FoV, distances, heights, tilt, stabilization and a complete reset")
-	check(game.hud.camera_setting_readouts.rest_fov.text=="72°" and game.hud.camera_setting_readouts.fast_fov.text=="110°" and game.hud.camera_setting_readouts.chase_pitch_offset.text=="0°" and game.hud.camera_setting_readouts.first_person_pitch_offset.text=="0°","Lens and tilt defaults preserve original framing")
-	check(game.hud.camera_setting_readouts.rest_height.text=="6.00 m" and game.hud.camera_setting_readouts.fast_height.text=="8.00 m" and game.hud.camera_setting_readouts.vertical_smoothing.text=="50%","Camera default readouts match the lower stabilized view")
+	check(game.hud.camera_options.controls.size()==game.CameraSettings.DEFAULTS.size()+game.CameraSettings.SHARED_DEFAULTS.size() and game.hud.camera_options.reset_all.text=="RESET ALL CAMERA SETTINGS","Camera tab exposes FoV, distances, heights, tilt, stabilization and a complete reset")
+	check(game.hud.camera_options.readouts.rest_fov.text=="55°" and game.hud.camera_options.readouts.fast_fov.text=="75°" and game.hud.camera_options.readouts.rest_tilt.text=="-45°" and game.hud.camera_options.readouts.fast_tilt.text=="-45°","Lens and tilt defaults use the grounded Connected preset")
+	check(game.hud.camera_options.readouts.rest_height.text=="3.00 m" and game.hud.camera_options.readouts.fast_height.text=="3.50 m" and game.hud.camera_options.readouts.vertical_smoothing.text=="50%","Camera default readouts match the lower stabilized view")
 	check(game.hud.tuning_tabs.get_tab_count()==4,"Workbench separates handling, forces, camera and speed lab")
 	if game.staged_loading:
 		check(startup_frames>8 and startup_stages.size()>5,"Real staged startup draws between terrain sections and reports scenery stages")

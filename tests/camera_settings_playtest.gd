@@ -1,127 +1,122 @@
 extends "res://tests/camera_playtest.gd"
-## Native camera settings review, using isolated presentation preferences.
+## Native v15 profile/menu/preview review. Isolated preferences, always unranked.
 func inspect_massif() -> void:
 	game.set_process(false)
-	fixture(820,0)
-	await present(0.5)
+	game.set_physics_process(false)
+	fixture(820,120)
+	await present(.5)
 	game.active = false
 	game.automated = false
+	game.application_focused = true
 	game.hud.show_menu("paused")
 	game.hud.open_settings()
+	var ui = game.hud.camera_options
 	for i in game.hud.settings_tabs.get_tab_count():
-		if game.hud.settings_tabs.get_tab_title(i) == "Camera": game.hud.settings_tabs.current_tab = i
+		if game.hud.settings_tabs.get_tab_title(i)=="Camera": game.hud.settings_tabs.current_tab = i
 	var page: ScrollContainer = game.hud.settings_tabs.get_current_tab_control()
-	await present(0.2)
-	await camera_capture("camera_menu_defaults","native settings menu")
-	if game.preferences_enabled: camera_failures.append("Scripted menu review could write personal preferences")
-	var eligibility: bool = game.session.eligible
-	var custom_lens = {"rest_fov":85.0,"fast_fov":100.0,"chase_pitch_offset":8.0,"first_person_pitch_offset":-5.0}
-	for key in custom_lens: game.hud.camera_setting_controls[key].value = custom_lens[key]
-	game.hud.camera_setting_controls.rest_distance.value = 4.5
-	game.hud.camera_setting_controls.fast_distance.value = 10.0
-	game.hud.camera_setting_controls.rest_height.value = 4.0
-	game.hud.camera_setting_controls.fast_height.value = 6.5
-	game.hud.camera_setting_controls.vertical_smoothing.value = 75.0
-	await present(0.5)
-	await camera_capture("camera_menu_custom","native settings signals / 4.5 m and 10 m")
-	if game.camera_settings.rest_distance != 4.5 or game.camera_settings.fast_distance != 10.0:
-		camera_failures.append("Menu controls did not reach the camera")
-	if game.camera_settings.rest_height != 4.0 or game.camera_settings.fast_height != 6.5 or game.camera_settings.vertical_smoothing != 75.0:
-		camera_failures.append("Height and stabilization menu controls did not reach the camera")
-	if game.session.eligible != eligibility: camera_failures.append("Camera settings changed record eligibility")
-	for key in custom_lens:
-		if game.camera_settings.get(key) != custom_lens[key]: camera_failures.append("Lens/tilt control did not reach the camera: " + key)
-	# Exercise native focus-following, keyboard adjustment and gamepad UI events.
-	for key in custom_lens:
-		var slider: HSlider = game.hud.camera_setting_controls[key]
+	if game.preferences_enabled: camera_failures.append("Native review could write personal preferences")
+	await present(.2)
+	await camera_capture("settings_connected","native grouped camera settings")
+	for group in ui.groups:
+		for other in ui.groups: ui.groups[other].button.set_pressed_no_signal(other==group); ui.groups[other].content.visible = other==group
+		page.ensure_control_visible(ui.groups[group].button)
+		await present(.1)
+		await camera_capture("settings_"+group.validate_filename(),"native expandable group")
+		for control in ui.groups[group].content.find_children("*","HSlider",true,false):
+			if not control.is_visible_in_tree(): continue
+			control.grab_focus()
+			page.ensure_control_visible(control)
+			await present(.05)
+			if not page.get_global_rect().encloses(control.get_global_rect()): camera_failures.append("Slider clipped: "+control.name)
+	ui.groups["Framing"].button.button_pressed = true
+	for key in ["rest_fov","fast_fov","rest_tilt","fast_tilt"]:
+		var slider: HSlider = ui.controls[key]
 		slider.grab_focus()
-		await present(0.1)
+		await present(.05)
 		var before: float = slider.value
-		var key_right = InputEventKey.new()
-		key_right.keycode = KEY_RIGHT
-		key_right.pressed = true
-		Input.parse_input_event(key_right)
-		await present(0.05)
-		key_right.pressed = false
-		Input.parse_input_event(key_right)
-		if game.camera_settings.get(key) != before+1.0: camera_failures.append("Keyboard did not adjust lens/tilt: " + key)
-		var pad_left = InputEventJoypadButton.new()
-		pad_left.button_index = JOY_BUTTON_DPAD_LEFT
-		pad_left.pressed = true
-		Input.parse_input_event(pad_left)
-		await present(0.05)
-		pad_left.pressed = false
-		Input.parse_input_event(pad_left)
-		if game.camera_settings.get(key) != before: camera_failures.append("Gamepad event did not adjust lens/tilt: " + key)
-		if not page.get_global_rect().encloses(slider.get_global_rect()): camera_failures.append("Focused lens/tilt slider did not scroll into view: " + key)
-	await camera_capture("camera_menu_tilt","native tilt controls / focus scroll / signed degree readouts")
-	var visible_rect = game.hud.root.get_global_rect()
-	for control in game.hud.camera_setting_controls.values() + game.hud.camera_setting_readouts.values() + [game.hud.camera_reset_button]:
-		page.ensure_control_visible(control)
-		await present(0.05)
-		if not visible_rect.encloses(control.get_global_rect()): camera_failures.append("Camera control clipped outside the viewport")
-		if not page.get_global_rect().encloses(control.get_global_rect()): camera_failures.append("Camera control cannot be scrolled fully into view")
-	await camera_capture("camera_menu_smoothing","native scroll to smoothing and reset")
-	game.hud.camera_setting_controls.vertical_smoothing.grab_focus()
-	var key_event = InputEventKey.new()
-	key_event.keycode = KEY_RIGHT
-	key_event.pressed = true
-	Input.parse_input_event(key_event)
-	await present(0.05)
-	key_event.pressed = false
-	Input.parse_input_event(key_event)
-	if game.camera_settings.vertical_smoothing != 76.0: camera_failures.append("Focused smoothing slider did not respond to keyboard")
-	if Input.mouse_mode != Input.MOUSE_MODE_VISIBLE: camera_failures.append("Camera settings did not release the cursor")
-	game.hud.close_weather()
-	game.hud.hide_menu()
-	game.automated = true
-	if "--camera-settings-menu-only" not in OS.get_cmdline_user_args():
-		await riding_settings_review()
-	game.active = false
-	game.automated = false
-	game.hud.open_settings()
-	game.hud.camera_reset_button.pressed.emit()
+		var event = InputEventKey.new()
+		event.keycode = KEY_RIGHT; event.pressed = true
+		Input.parse_input_event(event)
+		await present(.05)
+		event.pressed = false; Input.parse_input_event(event)
+		if slider.value!=before+1: camera_failures.append("Keyboard increment failed: "+key)
+		var pad = InputEventJoypadButton.new()
+		pad.button_index = JOY_BUTTON_DPAD_LEFT; pad.pressed = true
+		Input.parse_input_event(pad)
+		await present(.05)
+		pad.pressed = false; Input.parse_input_event(pad)
+		if slider.value!=before: camera_failures.append("Synthetic controller increment failed: "+key)
+	game.set_camera_preset("save","chase","Native review","")
+	game.set_camera_setting("chase","rest_fov",58)
+	if game.camera_settings.presets.chase["Native review"].rest_fov!=55: camera_failures.append("Working edit changed saved preset")
+	game.set_camera_preset("replace","chase","Native review","")
+	game.set_camera_preset("rename","chase","Native review","Native renamed")
+	game.set_camera_preset("delete","chase","Native renamed","")
+	game.reset_camera_settings()
+	for group in ui.groups:
+		ui.groups[group].button.set_pressed_no_signal(group in ["Preview speed","Framing"])
+		ui.groups[group].content.visible = group in ["Preview speed","Framing"]
 	page.scroll_vertical = 0
-	await present(0.2)
-	await camera_capture("camera_menu_reset","native reset button")
-	if game.camera_settings.snapshot() != game.CameraSettings.DEFAULTS: camera_failures.append("Reset did not restore all camera defaults")
+	var before = [game.sim.position,game.sim.velocity,game.sim.ticks,game.session.elapsed,game.session.eligible]
+	game.set_camera_preview(true)
+	ui.preview_speed.value = 200
+	await present(2)
+	await camera_capture("preview_chase_200","paused riding projection / synthetic camera speed")
+	ui.collapse_button.pressed.emit()
+	await present(.1)
+	await camera_capture("preview_chase_unobstructed","paused full-width projection with controls collapsed")
+	ui.collapse_button.pressed.emit()
+	ui.view_selector.select(1); ui.view_selector.item_selected.emit(1)
+	await present(.5)
+	await camera_capture("preview_first_person","independent first-person preview")
+	if before!=[game.sim.position,game.sim.velocity,game.sim.ticks,game.session.elapsed,game.session.eligible]: camera_failures.append("Preview changed simulation or session")
+	if not ui.preview_active: camera_failures.append("Preview exited unexpectedly")
+	game.set_camera_preview(false)
+	ui.view_selector.select(0); ui.view_selector.item_selected.emit(0)
+	await present(.1)
+	await camera_capture("settings_after_preview","settings layout restored")
+	game.hud.close_weather(); game.hud.hide_menu()
 	game.automated = true
-	var report = {"captures":camera_frames,"failures":camera_failures,"actual_pixels":[actual_pixels.x,actual_pixels.y],"hardware_input_verified":false,"preferences_written":false,"generator":version,"seed":mountain_seed,"model":game.sim.MODEL_VERSION,"engine":Engine.get_version_info().string,"display":game.display_settings.report(root,actual_pixels),"camera_sha256":FileAccess.get_sha256("res://scripts/presentation/chase_camera.gd"),"settings_sha256":FileAccess.get_sha256("res://scripts/presentation/camera_settings.gd")}
+	if "--camera-settings-menu-only" not in OS.get_cmdline_user_args(): await riding_settings_review()
+	game.active = false; game.automated = false
+	game.reset_camera_settings()
+	game.hud.show_menu("paused"); game.hud.open_settings()
+	page.scroll_vertical = 0
+	await present(.1)
+	await camera_capture("settings_reset","reset restores Connected and typed controls")
+	game.automated = true
+	var report = {"captures":camera_frames,"failures":camera_failures,"actual_pixels":[actual_pixels.x,actual_pixels.y],"hardware_input_verified":false,"preferences_written":game.preferences_enabled,"generator":version,"seed":mountain_seed,"model":game.sim.MODEL_VERSION,"engine":Engine.get_version_info().string,"display":game.display_settings.report(root,actual_pixels),"camera_sha256":FileAccess.get_sha256("res://scripts/presentation/chase_camera.gd"),"settings_sha256":FileAccess.get_sha256("res://scripts/presentation/camera_settings.gd")}
 	FileAccess.open(OUTPUT+"/camera_settings_review.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
 	print("CAMERA_SETTINGS_REVIEW ",JSON.stringify({"captures":camera_frames.size(),"failures":camera_failures}))
 
 func riding_settings_review() -> void:
-	var configured: Dictionary = game.camera_settings.snapshot()
-	var profiles = [
-		{"label":"defaults"},
-		{"label":"custom","values":configured},
-		{"label":"narrow","values":{"rest_fov":50.0,"fast_fov":50.0}},
-		{"label":"wide","values":{"rest_fov":120.0,"fast_fov":120.0}},
-		{"label":"tilt_down","values":{"chase_pitch_offset":-30.0,"first_person_pitch_offset":-30.0}},
-		{"label":"tilt_up","values":{"chase_pitch_offset":30.0,"first_person_pitch_offset":30.0}},
-	]
-	for profile in profiles:
-		game.camera_settings.reset()
-		game.camera_settings.restore(profile.get("values",{}))
+	for preset in game.CameraSettings.BUILT_INS:
+		for view in game.CameraSettings.VIEWS: game.camera_settings.apply_preset(view,preset)
 		for close in [false,true]:
-			for kmh in [0,200]:
-				fixture(820,kmh,close)
-				await present(0.3)
-				await camera_capture("%s_%s_%03d" % [profile.label,"pov" if close else "chase",kmh],"frozen speed / configurable lens and tilt")
-	# Both defaults and menu-selected preferences get complete moving clips.
-	# Separate folders prevent either profile from replacing the other's evidence.
-	if "--camera-motion-capture" in OS.get_cmdline_user_args():
-		var base_output = OUTPUT
-		record_motion = true
-		for custom in [false,true]:
-			game.camera_settings.reset()
-			if custom: game.camera_settings.restore(configured)
-			OUTPUT = base_output + ("/custom_motion" if custom else "/default_motion")
-			DirAccess.make_dir_recursive_absolute(OUTPUT)
-			for close in [false,true]: await skiing_clip("jump_land",820,90,close)
-		OUTPUT = base_output
+			for site in [820,1600,2350]:
+				for kmh in [0,60,120,160,200]:
+					fixture(site,kmh,close)
+					await present(.1)
+					await camera_capture("%s_%s_%d_%03d" % [preset.to_lower(),"pov" if close else "chase",site,kmh],"frozen terrain/speed fixture")
+	var base_output = OUTPUT
+	record_motion = "--camera-motion-capture" in OS.get_cmdline_user_args()
+	for preset in game.CameraSettings.BUILT_INS:
+		for view in game.CameraSettings.VIEWS: game.camera_settings.apply_preset(view,preset)
+		OUTPUT = base_output+"/"+preset.to_lower()
+		DirAccess.make_dir_recursive_absolute(OUTPUT)
+		await skiing_clip("turn_brake",820,120)
+		await skiing_clip("jump_land",820,90)
+		await skiing_clip("steep",1600,150)
+		await skiing_clip("jump_land",820,90,true)
+	OUTPUT = base_output
+	game.camera_settings.reset()
+	if record_motion:
+		await bump_clip(false)
+		await bump_clip(true)
 
 func camera_capture(label: String, evidence: String) -> void:
 	await super.camera_capture(label,evidence)
 	camera_frames.back()["settings"] = game.camera_settings.snapshot()
-	camera_frames.back()["first_person"] = game.camera.close_view
+	camera_frames.back()["preview"] = game.hud.camera_options.preview_active
+	if game.hud.camera_options.preview_active: camera_frames.back()["preview_speed"] = game.hud.camera_options.preview_speed.value
+

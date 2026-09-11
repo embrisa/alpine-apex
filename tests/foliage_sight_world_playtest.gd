@@ -34,7 +34,7 @@ func run() -> void:
 				game.start_run(false); game.summit_ready=false; game.physics_modified=true; game.session.eligible=false
 				game.sim.reset(site.position,site.heading); game.sim.prime_contacts(field); game.sim.velocity=site.velocity
 				game.previous_position=game.sim.position; game.skier.reset_animation(game.sim)
-				game.camera_settings.forest_visibility=strength; game.camera.close_view=close; game.camera.reset()
+				game.camera_settings.shared.forest_visibility=strength; game.camera.close_view=close; game.camera.reset()
 				game.hud.hide_menu(); game.weather.set_preset(weather); game.weather.set_time_of_day("day")
 				game.weather.visual_time=0; game.world.assets.wind_time=0; game.world.cloud_offset=Vector2.ZERO
 				game.effects.reset(); game.weather_effects.reset(); game.active=true
@@ -51,7 +51,8 @@ func run() -> void:
 				print("SIGHT_WORLD_CASE ",JSON.stringify(cases[-1]))
 	game.active=false; game.hud.show_menu("paused"); game.hud.open_settings()
 	game.hud.settings_tabs.current_tab=3
-	game.hud.camera_setting_controls.forest_visibility.grab_focus()
+	game.hud.camera_options.groups["Forest visibility · both views"].button.button_pressed=true
+	game.hud.camera_options.controls.forest_visibility.grab_focus()
 	for frame in 45: game._process(1.0/60); await process_frame
 	var camera_scroll=game.hud.settings_tabs.get_child(3) as ScrollContainer
 	camera_scroll.scroll_vertical=int(camera_scroll.get_v_scroll_bar().max_value)

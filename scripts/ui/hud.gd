@@ -15,12 +15,12 @@ signal time_of_day_requested(id: String)
 signal time_cycle_requested(enabled: bool)
 signal graphics_quality_requested(level: int)
 signal display_setting_requested(key: String, value: Variant)
-signal camera_setting_requested(key: String, value: float)
-signal camera_defaults_requested
+signal camera_setting_requested(view: String, key: String, value: Variant)
+signal camera_defaults_requested(view: String)
+signal camera_preset_requested(action: String, view: String, name: String, new_name: String)
+signal camera_preview_requested(enabled: bool)
 const CameraSettings = preload("res://scripts/presentation/camera_settings.gd")
-var camera_setting_controls: Dictionary = {}
-var camera_setting_readouts: Dictionary = {}
-var camera_reset_button: Button
+var camera_options = preload("res://scripts/ui/camera_settings_panel.gd").new()
 var display_controls: Dictionary = {}
 var fidelityfx_display_settings
 var fidelityfx_status_label: Label
@@ -336,6 +336,9 @@ func _sync_menu_backdrop() -> void:
 	if not background_visible or feedback.reduced_motion: set_background_fade(0.0)
 	menu.offset_top = 255 if title_screen else 145
 	mode_label.visible = not hero_logo.visible
+	if camera_options.preview_active:
+		header_logo.hide()
+		mode_label.hide()
 	footer.visible = background_visible
 	footer_controls.text = MENU_CONTROLS if background_visible else (PAD_CONTROLS if not Input.get_connected_joypads().is_empty() else SKI_CONTROLS)
 	for control in hud_controls:
@@ -617,86 +620,10 @@ func _build_weather() -> void:
 	weather_panel.visible = false
 
 func _build_camera_settings(col: VBoxContainer) -> void:
-	col.add_child(_label("BOTH VIEWS / FIELD OF VIEW",14,LIME,true))
-	var lens_grid = GridContainer.new()
-	lens_grid.columns = 2
-	lens_grid.add_theme_constant_override("h_separation",32)
-	col.add_child(lens_grid)
-	_camera_slider(lens_grid,"rest_fov","At rest")
-	_camera_slider(lens_grid,"fast_fov","At 200 km/h and above")
-	_note(col,"Vertical field of view. Higher values show more of your surroundings. Set both values equal for a fixed FoV; motion effects off uses the resting value.")
-	for group in [["DISTANCE BEHIND SKIER","distance"],["HEIGHT ABOVE SKIER","height"]]:
-		col.add_child(_label("THIRD PERSON / " + group[0],14,LIME,true))
-		var grid = GridContainer.new()
-		grid.columns = 2
-		grid.add_theme_constant_override("h_separation",32)
-		col.add_child(grid)
-		_camera_slider(grid,"rest_" + group[1],"At rest")
-		_camera_slider(grid,"fast_" + group[1],"At 200 km/h and above")
-	_note(col,"Distance and height blend with speed. Terrain may raise the camera for clearance. Motion effects off uses the resting values.")
-	col.add_child(_label("CAMERA TILT",14,LIME,true))
-	var tilt_grid = GridContainer.new()
-	tilt_grid.columns = 2
-	tilt_grid.add_theme_constant_override("h_separation",32)
-	col.add_child(tilt_grid)
-	_camera_slider(tilt_grid,"chase_pitch_offset","Third person")
-	_camera_slider(tilt_grid,"first_person_pitch_offset","First person")
-	_note(col,"Negative looks down; positive looks up. Zero keeps the original framing. Recenter returns to your chosen tilt. Also active with motion effects off.")
-	col.add_child(_label("BOTH VIEWS / VERTICAL SMOOTHING",14,LIME,true))
-	_camera_slider(col,"vertical_smoothing","Off ← Vertical smoothing → Strong")
-	_note(col,"Softens vertical movement over bumps in both views. Turning stays responsive. Also active with motion effects off.")
-	col.add_child(_label("BOTH VIEWS / FOREST VISIBILITY",14,LIME,true))
-	_camera_slider(col,"forest_visibility_size","Opening size · Small → Full screen")
-	_camera_slider(col,"forest_visibility","Aid reach · Off → Farther")
-	_note(col,"Size at 100% clears across the whole screen, including the edges. Reach controls how far ahead foliage clears. Trunks stay visible. Set reach to 0% to turn the aid off.")
-	_note(col,"Saves automatically. Your changes apply when riding, without restarting.")
-	camera_reset_button = _button("RESET CAMERA SETTINGS")
-	camera_reset_button.pressed.connect(func(): camera_defaults_requested.emit())
-	col.add_child(camera_reset_button)
-
-func _camera_slider(parent: Control, key: String, caption: String) -> void:
-	var field = _settings_field(parent,caption)
-	var row = HBoxContainer.new()
-	row.add_theme_constant_override("separation",16)
-	field.add_child(row)
-	var slider = HSlider.new()
-	var bounds: Vector3 = CameraSettings.RANGES[key]
-	slider.min_value = bounds.x
-	slider.max_value = bounds.y
-	slider.step = bounds.z
-	slider.value = CameraSettings.DEFAULTS[key]
-	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	slider.custom_minimum_size = Vector2(100,42)
-	slider.focus_mode = Control.FOCUS_ALL
-	if key.ends_with("fov"):
-		slider.tooltip_text = "Vertical field of view in degrees, shared by both riding views"
-	elif key.ends_with("pitch_offset"):
-		slider.tooltip_text = "Tilt in degrees from the original framing: negative looks down, positive looks up"
-	elif key=="forest_visibility":
-		slider.tooltip_text = "How far ahead foliage clears; 0% turns the aid off without changing its size"
-	elif key=="forest_visibility_size":
-		slider.tooltip_text = "Opening size, independent of reach; 100% removes the screen border and corner mask"
-	else:
-		slider.tooltip_text = "Vertical stabilization in both riding views" if key == "vertical_smoothing" else ("Height above the skier, in metres; terrain clearance takes priority" if key.ends_with("height") else "Distance behind the skier, in metres")
-	row.add_child(slider)
-	var readout = _label(_camera_readout(key,slider.value),18,WHITE,true)
-	readout.custom_minimum_size = Vector2(90,42)
-	readout.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	readout.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	row.add_child(readout)
-	camera_setting_controls[key] = slider
-	camera_setting_readouts[key] = readout
-	slider.value_changed.connect(func(value): camera_setting_requested.emit(key,value))
-
-func _camera_readout(key: String, value: float) -> String:
-	if key.ends_with("fov"): return "%d°" % roundi(value)
-	if key.ends_with("pitch_offset"): return ("+%d°" if value > 0.0 else "%d°") % roundi(value)
-	return "%d%%" % roundi(value) if key in ["vertical_smoothing","forest_visibility","forest_visibility_size"] else "%.2f m" % value
+	camera_options.build(col,self)
 
 func sync_camera_settings(settings) -> void:
-	for key in camera_setting_controls:
-		camera_setting_controls[key].set_value_no_signal(settings.get(key))
-		camera_setting_readouts[key].text = _camera_readout(key,settings.get(key))
+	camera_options.sync(settings)
 
 func _build_audio_settings(col: VBoxContainer) -> void:
 	col.add_child(_label("GAME AUDIO",14,LIME,true))
@@ -928,7 +855,7 @@ func build_tuning(values) -> void:
 	tuning_tabs = _tabs(shell)
 	var handling = _tab(tuning_tabs,"Handling")
 	var forces = _tab(tuning_tabs,"Forces")
-	var comfort = _tab(tuning_tabs,"Camera")
+	var comfort = _tab(tuning_tabs,"Feedback")
 	var lab = _tab(tuning_tabs,"Speed lab")
 	for setting in [
 		["Gravity", "gravity_multiplier",0.4,1.6,0.05],
@@ -940,7 +867,6 @@ func build_tuning(values) -> void:
 		["Air drag", "aerodynamic_drag",0.001,0.010,0.0002],
 		["Steering", "steering_sensitivity",0.4,2.5,0.05],
 		["Landing severity (m/s)", "landing_tolerance",5.0,16.0,0.5],
-		["Camera response", "camera_response",3.0,16.0,0.5],
 		["Vibration", "vibration_intensity",0.0,1.0,0.1]
 	]:
 		var row = HBoxContainer.new()
@@ -964,11 +890,11 @@ func build_tuning(values) -> void:
 			values.set(setting[1],value)
 			readout.text = "%.4f" % value
 			if setting[1]=="vibration_intensity": vibration_changed.emit(value)
-			if setting[1] not in ["camera_response","vibration_intensity"]:
+			if setting[1] not in ["vibration_intensity"]:
 				tuning_changed.emit()
 		)
 		row.custom_minimum_size.y = 48
-		var target = comfort if setting[1] in ["camera_response","vibration_intensity"] else (forces if setting[1] in ["gravity_multiplier","ski_friction","skidding_friction","aerodynamic_drag"] else handling)
+		var target = comfort if setting[1] in ["vibration_intensity"] else (forces if setting[1] in ["gravity_multiplier","ski_friction","skidding_friction","aerodynamic_drag"] else handling)
 		target.add_child(row)
 	lab.add_child(_label("SPEED LAB  /  START AT A KNOWN VELOCITY",11,LIME,true))
 	var buttons = GridContainer.new()

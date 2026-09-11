@@ -154,9 +154,6 @@ extends Resource
 @export var high_speed_body_lean: float = 1.05 # rad (60.2 degrees)
 
 @export_group("Presentation")
-@export var camera_response: float = 7.5
-@export var base_fov: float = 72.0
-@export var speed_fov: float = 15.0
 @export var vibration_intensity: float = 0.5
 @export var speed_thresholds: PackedFloat32Array = PackedFloat32Array([30, 60, 90, 120, 150, 165, 200])
 

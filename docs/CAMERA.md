@@ -44,168 +44,159 @@ comfort; automated checks do not establish user skiing acceptance.
 ./godotw.ps1 --script tests/menu_camera_playtest.gd '--' --ui-staged-loading --menu-benchmark --graphics-quality=high --benchmark-resolution=3840x2160 --upscaler=fsr2 --render-scale=0.75 --fps-limit=120 --terrain-gi=off
 ```
 
-## In-game settings
+## Camera profiles and presets
 
-Open **Tools → Settings & Controls → Camera** from the title or pause menu.
+Open **Tools → Settings & Controls → Camera**. Third-person and first-person
+profiles are independent. Each retains its own lens, absolute tilt, speed
+progression, follow response, and optional motion strengths. Device look controls
+and forest visibility remain shared.
 
-| Setting | Default | Range / step |
-| --- | --- | --- |
-| Vertical FoV at rest, both riding views | 72° | 50–120° / 1° |
-| Vertical FoV at 200 km/h and above, both riding views | 110° | 50–120° / 1° |
-| Distance at rest | 3 m | 1–20 m / 0.25 m |
-| Distance at 200 km/h and above | 7 m | 1–20 m / 0.25 m |
-| Height at rest | 6 m | 2–20 m / 0.25 m |
-| Height at 200 km/h and above | 8 m | 2–20 m / 0.25 m |
-| Third-person tilt | 0° | −30 to +30° / 1° |
-| First-person tilt | 0° | −30 to +30° / 1° |
-| Vertical smoothing, both riding views | 50% | 0–100% / 1% |
+| Preset | Vertical FoV, rest → full speed | Chase distance | Chase height | Chase tilt | First-person tilt |
+| --- | --- | --- | --- | --- | --- |
+| Connected (default) | 55° → 75° | 3 → 4.5 m | 3 → 3.5 m | −45° | −25° |
+| Race | 60° → 80° | 3.5 → 5.5 m | 3.5 → 4.5 m | −40° | −22° |
+| Stable | 60° fixed | 3.5 m fixed | 3.5 m fixed | −45° | −25° |
 
-FoV, distance and height endpoints are independent; any can decrease with speed.
-Equal FoV values give a fixed lens. FoV is the vertical angle in both riding views;
-wider values show more surroundings. Tilt adjusts the current framing: negative
-looks down, positive looks up, and zero retains the original automatic aim.
-Third-person and first-person tilt are independent of each other.
+Connected uses 50% of the existing carve, tuck, load/landing, peripheral blur and
+speed-streak strengths, 35% bank, and no chatter. Race uses 100% of each existing
+effect. Stable disables them and uses 75% vertical smoothing; the others use 50%.
+First-person eye height is 1.45 m and full-strength tuck lowering is 0.35 m.
 
-Changes save automatically in `user://camera_v1.cfg` and apply to riding without
-restarting. The settings menu retains its own camera; resume skiing to see the
-chosen framing. **Reset camera settings** restores all nine defaults. Restart,
-camera switching and mountain reload retain preferences. Missing keys receive
-defaults through the existing configuration loader. Scripted
-runs isolate preferences and never write personal settings.
+Built-in presets are immutable. Editing a profile changes its selector to
+**Custom**, without changing its saved source. **Save new**, **Replace**,
+**Rename**, and **Delete** operate on named presets for the selected view.
+Replacing uses the entered existing name; rename/delete target the last selected
+preset. Names are 1–40 characters and cannot use built-in names or Custom.
+Reset-current-view restores Connected; reset-all additionally resets shared
+controls. Neither reset deletes named presets.
 
-Height means desired height above the skier in third person. Terrain can raise
-or retract the camera for clearance. The Camera tab orders FoV, third-person
-distance/height, per-view tilt, then smoothing/reset. Paired controls show metres,
-degrees (signed for tilt) or percentages; keyboard/controller focus scrolls them
-into view on shorter displays. First person keeps
-its existing eye position; its vertical stabilization uses the shared strength.
+Working edits save automatically to `user://camera_v2.cfg` and survive restart
+and mountain reload. The file contains version 2, both working profiles, shared
+preferences, selected preset labels, and independent named-preset dictionaries.
+The old camera_v1 file is untouched and is not loaded or migrated. Missing or
+invalid current data receives safe defaults. Nonfinite or incorrectly typed live
+edits leave the current valid value intact. Automated fixtures isolate
+preferences and never write the player's file.
 
-## Framing and stabilization
+## Framing and speed response
 
-Third person starts 3 m behind / 6 m above the skier, reaching 7 m / 8 m at
-200 km/h. Desired framing prefers **2 m above snow**; the final collision pass
-requires **1 m**. This replaces the previous 10–12 m overhead floor. Upward
-manual look progressively releases preferred clearance down to the collision
-floor. Bounded boom probes retain their 0.6 m terrain clearance, and geology
-rays retract the boom before rock obstructions. These are terrain/rock checks,
-not comprehensive decorative-mesh or foliage occlusion.
+Each profile has start speed, full-effect speed, exponent, and separate
+acceleration/deceleration smoothing. The default factor is:
 
-FoV defaults to 72–110 degrees and blends the configured endpoints without
-requiring ascending values. Its existing speed factor is 20% smoothstep(0,60),
-50% smoothstep(60,120), and 30% smoothstep(120,200), in km/h, smoothed at 2.5/s.
-Height and distance use that same factor. Carving still subtracts at most 0.6 m
-of distance and 0.25 m of height, with 0.12/0.6 s attack/release. Tuck and load
-compression remain bounded. The height floor is 1 m before terrain correction.
+```text
+t = clamp((km/h − start_speed) / (full_speed − start_speed), 0, 1)
+blend = pow(t, exponent)
+start_speed = 0 km/h; full_speed = 200 km/h; exponent = 1.6
+```
 
-The completed 120 Hz rider pose still drives presentation. Godot's vertical axis
-is **Y**; horizontal X/Z translation follows immediately. A separate exponential
-filter stabilizes automatic camera elevation:
-`alpha = 1 - exp(-dt / tau)`, with `tau = 0.24 * strength / 100` seconds.
-The default 50% gives 0.12 s; 0% bypasses the added filter and retains the
-existing boom/heading response. Added elevation lag relative to the base follow
-is bounded to 1.5 m in third person and 0.2 m in first person. First person's
-existing 0.8 m terrain floor remains. Sustained descent cannot accumulate
-unbounded lag.
+At 60/100/120/160/180/200 km/h the default factor is approximately
+15/33/44/70/84/100%. Connected's vertical FoV is approximately
+58/62/64/69/72/75° at those speeds. One smoothed factor blends lens, distance,
+height and tilt. Both time constants default to 0.4 s and use exponential
+frame-rate-independent integration. Zero time applies the target directly.
+The full-effect threshold is constrained to at least 1 km/h above start speed.
 
-Riding pitch is independent of this vertical movement. First person holds a
-10-degree downward base angle. Chase uses the nominal speed-blended settings:
-`pitch = -atan2(height - 0.6, distance + min(distance, lerp(4, 6, speed_blend)))`.
-Limiting nominal look-ahead to the boom distance keeps short, low camera setups
-framed around the skier without aiming at a terrain sample. Bumps,
-takeoff/landing switches, tuck, load compression, carving offsets and collision
-corrections cannot rotate that automatic aim. Pitch chatter is disabled in both
-riding views; optional bank and roll chatter remain. Changing speed still gently
-changes chase framing through the existing speed blend.
+Rest/fast FoV is 50–120° in 1° steps. Rest/fast absolute optical tilt is −80° to
++80° in 1° steps: **negative looks down; positive looks up**. Equal endpoints
+hold that property fixed; descending endpoints are supported. Tilt is independent
+of boom geometry, terrain look-ahead, bumps, airtime, tuck, compression and
+collision correction. Manual look is applied after the configured aim, before
+the final ±80° optical limit. Recenter returns to configured aim.
 
-The fixed first-person angle prioritizes a steady horizon. During extended
-airtime over steep terrain, nearby landing snow can move below the frame;
-manual downward look remains immediate instead of automatically pitching at it.
+Chase distance is 1–20 m and height is 2–20 m, with 0.25 m steps.
+First-person eye height is 1–2 m and full-strength tuck lowering is 0–0.5 m,
+with 0.05 m steps. Eye position uses the profile's tuck-motion strength.
+V disables automatic speed framing and optional motion, using resting lens,
+distance, height and tilt while retaining manual look and vertical smoothing.
 
-Manual orbit elevation retains only the existing boom response; it bypasses
-the vertical stabilization. Manual yaw and pitch are applied after the steady
-automatic orientation and the selected view's configured tilt, preserving
-mouse/stick response. Tilt does not move the camera boom, change clearance, or
-enter manual-look state. Recenter returns to the configured tilt. The chase boom retains
-its orbit response. Final optical pitch is limited to -80/+80 degrees in both
-riding views. Collision correction reconciles position filter state without
-tilting the camera; clearance takes priority over damping when necessary.
+Terrain clearance always wins over the configured position. Chase prefers 2 m
+above uphill snow and enforces the existing 1 m final floor. First person keeps
+its 0.8 m floor. Bounded boom probes and geology retraction remain in place.
+The viewpoint does not automatically tilt when collision raises or retracts it.
+Extreme custom geometry/tilt combinations can crop the skier; preview them before
+riding. The preset visibility checks cover ordinary and steep support surfaces.
 
-Reset, drop-in, restart and reload seed the filters directly; a view change also
-reseeds them. Pause retains the follow state and allows it to settle, and resume
-continues from that state. Title, summit and crash follow bypass stabilization;
-the summit retains its 30 m behind / 45 m above overview. Crash framing keeps
-the former 12–14 m height and 10–12 m snow clearance, independently of riding
-height controls. The ragdoll focus still owns crash aim. Independent look and the hidden first-person body remain.
+## Follow, motion and independent look
 
-V disables speed framing, carving, bank, chatter and motion effects, using the
-configured resting distance/height/FoV. **Tilt and vertical stabilization
-stay active**. Summit, menu, crash and survey retain their existing lens and aim;
-the new lens/tilt preferences apply only to riding. No input, terrain/contact, physics resource, replay format or
-record-eligibility behavior is changed by these preferences. The camera-response
-workbench control continues to tune the existing boom response independently.
+Expandable groups expose framing, speed response, follow/stability, motion,
+shared look controls, forest visibility, and named presets. A graph samples the
+same framing evaluator as the riding and preview cameras.
 
-## Controls and lifecycle
+Vertical smoothing remains 0–100%, with a maximum 0.24 s time constant and
+bounded lag of 1.5 m in chase and 0.2 m in first person. Horizontal translation
+follows immediately. Boom response defaults to 7.5/s and heading response to
+5.5/s; these now live in camera preferences. The duplicate physics-workbench
+camera response and unused lens tuning fields have been removed.
 
-- Mouse movement: look directly, at 0.10 degrees per screen pixel, independent of render scale. No button needs to be held.
-- Right stick: logical SDL axes, 0.18 radial deadzone, squared response after deadzone, maximum yaw/pitch rates 150/100 degrees per second. Vertical look is non-inverted.
-- Middle mouse / R3: start smooth recentering. C / R1: switch chase and first person.
-- Third person and summit allow full horizontal orbit. First person limits yaw to ±120 degrees. Look pitch is limited to -65/+60 degrees, with final optical/orbit limits preventing vertical flips.
-- After 0.8 seconds idle, moving above 5 km/h recenters with a 0.35-second exponential time constant. Stationary and summit look holds until input or explicit recentering.
+Independent 0–100% controls scale existing carve pull-in, tuck movement,
+load/landing movement, bank, roll chatter, peripheral blur and speed streaks.
+Full-strength carve retains its 0.6 m distance/0.25 m height bounds and
+0.12/0.6 s attack/release. Pitch chatter remains disabled while riding.
+Speed-streak strength also scales exaggerated precipitation stretching.
+Disabling those effects never suppresses the separate impact-reserve warning.
 
-Gameplay captures the cursor. Pause, menus, authoring, focus loss, loading, crash, and exit release it. Pending motion is cleared at control ownership changes; the first capture motion is discarded. A stick held through pause, restart, or a view switch must return to neutral before controlling the view. Restart, drop-in, and view switching reset look and carve state. Live mouse and stick input are excluded from autoplay; automated fixtures can inject camera input explicitly.
+Shared look defaults remain 0.10° per mouse output pixel, stick yaw/pitch
+150/100° per second, 0.18 radial deadzone, squared stick response, non-inverted
+vertical look, 0.8 s idle recenter delay and 0.35 s return smoothing.
+Each is adjustable; automatic recentering can be disabled. Explicit
+middle-mouse/R3 recenter remains available. C/R1 changes the riding view.
+Chase/summit support full horizontal orbit; first person retains ±120° yaw.
+
+Main owns cursor capture and clears pending look on ownership changes. Held
+sticks must return to neutral after pause, restart or view switching. Camera
+deadzone/response edits affect only camera sampling, never rider controls.
+
+## Paused riding preview
+
+**Preview camera** uses another camera over the already loaded world, with only
+one camera rendering. It preserves gameplay aspect ratio and projection.
+A collapsible left drawer shares the normal Camera controls, and its toolbar
+provides Hide/Show controls, Exit preview and (from a paused run) Resume skiing.
+
+The 0–300 km/h **Preview speed** slider starts at actual rider speed.
+It only changes local framing; the rider, simulation, race timer, recording,
+eligibility, weather and audio do not advance. View selection in the drawer
+does not replace the retained riding view. First-person preview hides the body
+just like actual first person. This is a stationary framing review; it cannot
+establish moving camera comfort.
+
+Tab changes, preview exit, restart, loading, focus loss and quit release preview
+ownership, discard pending look and reset camera/weather temporal history.
+Returning to gameplay primes the riding camera using actual speed.
+Ordinary title/pause/results cameras, summit overview, crash and race survey
+retain their own framing. Gameplay instruments return after menus; the controls
+footer remains menu-only.
 
 ## Validation
 
-Run the focused camera suite and required physics/runtime suites:
+Run serially through `scripts/run_guarded.ps1`:
 
-~~~powershell
-./godotw.ps1 --headless --script tests/camera_suite.gd
-./godotw.ps1 --headless --script tests/physics_suite.gd
-./godotw.ps1 --headless --script tests/runtime_suite.gd
-~~~
+- `tests/camera_profiles_suite.gd`: validated bounds, progression, profile
+  independence, named presets, working copies and isolated persistence.
+- `tests/camera_suite.gd`: framing, preset projection, manual look, motion
+  strengths, collision, speed/vertical response at 30/60/120/240 Hz, and bounded
+  pitch through bumps, airtime and landing.
+- `tests/runtime_suite.gd`, `tests/interface_suite.gd`,
+  `tests/menu_camera_suite.gd`, `tests/physics_suite.gd`, and
+  `tests/foliage_sight_suite.gd`: integration and unaffected boundaries.
 
-Native review includes speed fixtures, carving/release fixtures, both look modes, summit orbit, comfort, native cursor capture/release, controls help, and real 120 Hz solver clips with 60 Hz presentation. Frozen telemetry fixtures are labeled separately from moving clips.
+Native menu review uses `tests/camera_settings_playtest.gd` with
+`--views --version=15 --ui-staged-loading --camera-settings-menu-only` at
+1280×720. The full 3840×2160 review omits the menu-only flag and adds
+`--camera-motion-capture`. It covers all presets/views at 0, 60, 120, 160 and
+200 km/h on upper, steep and forest terrain, plus real 120 Hz solver turn/brake,
+jump/landing and steep clips, and clearly labeled synthetic bump sequences.
 
-~~~powershell
-./godotw.ps1 --script tests/camera_playtest.gd '--' --views --benchmark-label=camera_upgrade_views --benchmark-resolution=3840x2160 --graphics-quality=high --upscaler=fsr2 --render-scale=0.75 --fps-limit=120 --terrain-gi=off
-./scripts/benchmark_pc.ps1 -Label camera_upgrade_high_clear -ThirdPerson
-~~~
+`tests/camera_performance_descent.gd` preserves the production benchmark hooks.
+`--camera-matched` fixes 60° FoV, 3.5 m distance/height, −45° tilt, 75%
+stabilization and motion off. An explicit `--camera-baseline-script` can load
+the frozen pre-change camera from ignored review artifacts for a matched
+comparison; this is a test fixture, not a production compatibility path.
+Omitting these flags measures Connected. Use a current successful input trace,
+3840×2160 High, Auto FSR 75%, cap 120, frame generation/SDFGI off, and report
+actual pixels, rendered p95/p99, CPU/GPU, camera cost and memory without captures.
 
-Reports are under `artifacts/camera_upgrade/` and `artifacts/pc_environment/camera_upgrade_views/`. The separate uncaptured performance run reports actual output/internal pixels, frame percentiles, CPU/GPU timings, and memory. Automated and native synthetic input checks do not verify a physical mouse or PlayStation controller; user skiing remains the camera-feel acceptance gate.
-
-Camera comfort, controller/mouse feel and continuous motion need player review.
-Use [current validation gates](VALIDATION.md) for fresh performance measurements;
-old framing comparisons and local reports have been removed.
-
-The camera suite also exercises isolated/repeated bumps, brief airtime, hard
-landings, terrain clearance and rock retraction at 30/60/120/240 Hz, with
-0/40/100% vertical smoothing and default/close-low framing. Constant-speed
-automatic pitch must remain within 0.1 degree, including with motion effects on.
-`tests/camera_pitch_playtest.gd` records unranked v14 descent/jump clips in both
-views with default and close-low settings, optical pitch and route/skier framing
-telemetry. Its frame captures measure motion and framing, not rendered performance.
-
-The lens/tilt regressions additionally cover 50–120° endpoints in ascending,
-equal and descending order, ±30° view offsets, recentering, manual-look limits,
-preference round trips and native degree readouts. Nonzero tilt participates in
-the 30/60/120/240 Hz bump/airtime/landing/clearance matrix.
-`tests/camera_settings_playtest.gd` reviews the current v15 Standard bake:
-
-```powershell
-./godotw.ps1 --script tests/camera_settings_playtest.gd '--' --views --version=15 --ui-staged-loading --benchmark-label=camera_options_720 --benchmark-resolution=1280x720 --camera-settings-menu-only
-./godotw.ps1 --script tests/camera_settings_playtest.gd '--' --views --version=15 --ui-staged-loading --benchmark-label=camera_options_4k --benchmark-resolution=3840x2160 --graphics-quality=high --upscaler=auto --render-scale=0.75 --fps-limit=120 --terrain-gi=off --camera-motion-capture
-```
-
-Run these through the [validation guard](VALIDATION.md). The first checks the
-scrolling menu, all nine controls, keyboard/gamepad events and reset. The second
-also captures default, custom, narrow/wide lens and up/down tilt in both views
-at rest/200 km/h, plus complete default/custom jump/landing frame sequences.
-Preferences and ranked records remain isolated. These captures do not measure
-rendered FPS or establish physical controller feel.
-
-2026-09-11 validation: camera/interface/runtime/physics/menu-camera suites passed
-1,195 checks in total. Native 720p and 4K settings reviews passed, with v15
-default/custom motion captured in both riding views. Controlled nonzero-tilt
-pitch excursion remained below 0.000007°. See
-[the camera-options report](../artifacts/camera_options/report.md) for identities,
-reviewed frames and the separate performance/user-acceptance boundaries.
+Automated correctness, rendered framing, measured performance, and physical
+controller/user skiing acceptance are separate. Evidence from this revision is
+recorded under `artifacts/camera_v2/` and the labeled `artifacts/pc_environment/`
+directories.

@@ -66,6 +66,7 @@ var session
 var skier
 var crash_collision
 var camera
+var camera_preview
 var menu_camera
 var presentation_camera: Camera3D
 var effects
@@ -304,6 +305,11 @@ func _ready() -> void:
 	camera.near = 0.15
 	camera.far = 32000.0
 	add_child(camera)
+	camera_preview = ChaseCamera.new()
+	camera_preview.settings = camera_settings
+	camera_preview.near = camera.near
+	camera_preview.far = camera.far
+	add_child(camera_preview)
 	menu_camera = preload("res://scripts/presentation/menu_camera.gd").new()
 	add_child(menu_camera)
 	menu_camera.setup(field,world.ski_surface)
@@ -388,6 +394,11 @@ func _ready() -> void:
 	hud.motion_effects_requested.connect(set_motion_effects)
 	hud.camera_setting_requested.connect(set_camera_setting)
 	hud.camera_defaults_requested.connect(reset_camera_settings)
+	hud.camera_preset_requested.connect(set_camera_preset)
+	hud.camera_preview_requested.connect(set_camera_preview)
+	hud.settings_tabs.tab_changed.connect(func(_index):
+		if hud.camera_options.preview_active and not hud.camera_options.camera_tab_visible(): set_camera_preview(false)
+	)
 	hud.sync_camera_settings(camera_settings)
 	hud.quit_requested.connect(quit_cleanly)
 	hud.animation_workshop_requested.connect(open_animation_workshop)
@@ -561,6 +572,7 @@ func observe_audio_tick(dt: float) -> void:
 
 func _process(dt: float) -> void:
 	if animation_workshop != null: return
+	_sync_camera_preview()
 	_sync_camera_controls()
 	if not initialized or (loading and loading.busy) or sim == null:
 		_reset_screen_effects()
@@ -571,7 +583,7 @@ func _process(dt: float) -> void:
 		var hip_speed: float = skier.ragdoll.bodies.Hips.linear_velocity.length() if skier.ragdoll.running else INF
 		voice.observe_crash(dt,hip_speed,crash_visible)
 	if camera_controls_active:
-		var stick: Vector2 = input_router.sample_camera_look()
+		var stick: Vector2 = input_router.sample_camera_look(camera_settings.shared.stick_deadzone,camera_settings.shared.stick_exponent)
 		if stick.is_zero_approx(): camera_stick_armed = true
 		camera.set_stick_look(stick if camera_stick_armed else Vector2.ZERO)
 	render_frames += 1
@@ -618,7 +630,8 @@ func _process(dt: float) -> void:
 	frame_costs.end(&"camera",camera_started)
 	var menu_view: bool = presentation_camera == menu_camera
 	var animate_menu: bool = menu_view and not hud.feedback.reduced_motion
-	skier.body_pivot.visible = menu_view or skier.ragdoll.running or summit_ready or not camera.close_view
+	var first_person_presented: bool = (presentation_camera==camera and camera.close_view) or (presentation_camera==camera_preview and camera_preview.close_view)
+	skier.body_pivot.visible = menu_view or skier.ragdoll.running or (summit_ready and presentation_camera!=camera_preview) or not first_person_presented
 	var weather_started = frame_costs.begin()
 	weather.update_weather(dt,active,animate_menu)
 	world.update_weather(weather.state,dt,active or animate_menu)
@@ -626,10 +639,10 @@ func _process(dt: float) -> void:
 	get_tree().call_group("race_beam_vfx","update_effect",dt,active or not workshop.mode.is_empty(),hud.feedback.reduced_motion)
 	var trees_started = frame_costs.begin()
 	world.scenery.tree_motion.update(p,sim.velocity,dt,active)
-	world.assets.update_foliage_sight(presentation_camera,p,sim.velocity,dt,active and presentation_camera==camera,camera_settings.forest_visibility,camera_settings.forest_visibility_size)
+	world.assets.update_foliage_sight(presentation_camera,p,sim.velocity,dt,(active and presentation_camera==camera) or presentation_camera==camera_preview,camera_settings.shared.forest_visibility,camera_settings.shared.forest_visibility_size)
 	frame_costs.end(&"interactive_trees",trees_started)
 	var weather_anchor: Vector3 = menu_camera.focus_point if menu_view else p
-	weather_effects.update_weather(weather.state,presentation_camera,weather_anchor,field,dt,active,animate_menu,camera.motion_intensity if active and camera.effects_enabled else 0.0,weather.quality,presentation_camera==camera and camera.close_view)
+	weather_effects.update_weather(weather.state,presentation_camera,weather_anchor,field,dt,active,animate_menu,camera.motion_intensity * camera_settings.profile("first_person" if camera.close_view else "chase").streak_strength / 100.0 if active and camera.effects_enabled else 0.0,weather.quality,first_person_presented)
 	_update_screen_effects(dt)
 	var crash_audio_visible: bool = (application_focused or automated) and not transitioning and not returning_to_summit and hud.menu_mode=="crashed" and hud.menu.visible and not hud.weather_panel.visible and not hud.tuning_panel.visible
 	var voice_speaking: bool = voice.enabled and not voice.muted and voice.volume>0.001 and voice.clock_seconds<voice.speaking_until
@@ -673,7 +686,17 @@ func _present_camera(dt: float, rider_position: Vector3) -> void:
 		hud.set_background_fade(0.0)
 		presentation_camera = get_viewport().get_camera_3d()
 		return
-	if workshop and workshop.mode=="create":
+	if hud.camera_options.preview_active:
+		var preview_close: bool = hud.camera_options.view=="first_person"
+		if camera_preview.close_view!=preview_close: camera_preview.reset()
+		camera_preview.close_view = preview_close
+		camera_preview.effects_enabled = camera.effects_enabled
+		camera_preview.update_camera(sim,field,rider_position,dt,false,false,false,hud.camera_options.preview_speed.value)
+		presentation_camera = camera_preview
+		camera_preview.make_current()
+		menu_camera.cancel_fade()
+		hud.set_background_fade(0.0)
+	elif workshop and workshop.mode=="create":
 		presentation_camera = workshop.survey
 		workshop.survey.make_current()
 		menu_camera.cancel_fade()
@@ -721,6 +744,12 @@ func _sync_camera_controls() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if animation_workshop != null: return
+	if hud and hud.camera_options.preview_active:
+		if event.is_action_pressed("pause_run"):
+			set_camera_preview(false)
+			return
+		if event.is_action_pressed("restart"): set_camera_preview(false)
+		else: return
 	_sync_camera_controls()
 	if camera_controls_active:
 		if event is InputEventMouseMotion:
@@ -844,15 +873,17 @@ func _update_screen_effects(dt: float) -> void:
 		return
 	impact_warning.update(sim.impacts.reserve,dt,camera.effects_enabled and not hud.feedback.reduced_motion)
 	var speed: float = camera.motion_intensity if camera.effects_enabled else 0.0
+	var profile: Dictionary = camera_settings.profile("first_person" if camera.close_view else "chase")
 	effect_time += dt
-	speed_periphery.visible = speed>0.005 or impact_warning.strength>0.0001
-	speed_periphery.material.set_shader_parameter("intensity",speed)
-	speed_periphery.material.set_shader_parameter("arcade_intensity",speed if weather.state.enabled else 0.0)
+	speed_periphery.visible = speed * maxf(profile.blur_strength,profile.streak_strength) / 100.0>0.005 or impact_warning.strength>0.0001
+	speed_periphery.material.set_shader_parameter("intensity",speed * profile.blur_strength / 100.0)
+	speed_periphery.material.set_shader_parameter("arcade_intensity",speed * profile.streak_strength / 100.0 if weather.state.enabled else 0.0)
 	speed_periphery.material.set_shader_parameter("effect_time",effect_time)
 	speed_periphery.material.set_shader_parameter("warning_strength",impact_warning.strength)
 	speed_periphery.material.set_shader_parameter("warning_pulse",impact_warning.pulse)
 
 func restart(preserve_return: bool = false) -> void:
+	set_camera_preview(false)
 	_reset_screen_effects()
 	voice.reset()
 	if not preserve_return: _cancel_summit_return()
@@ -953,6 +984,7 @@ func play_custom_race(race) -> void:
 	restart()
 
 func resume() -> void:
+	set_camera_preview(false)
 	if sim.crashed or session.finished:
 		hud.show_menu("crashed" if sim.crashed else "finished",sim.crash_reason if sim.crashed else Session.format_time(session.elapsed))
 		return
@@ -1051,6 +1083,7 @@ func _controller_connection_changed(_device: int, _connected: bool) -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		set_camera_preview(false)
 		_reset_screen_effects()
 		application_focused = false
 		if effects: effects.reset_haptics()
@@ -1072,6 +1105,7 @@ func _notification(what: int) -> void:
 			hud.show_menu("paused")
 
 func quit_cleanly() -> void:
+	set_camera_preview(false)
 	if quitting:
 		return
 	quitting = true
@@ -1168,17 +1202,57 @@ func set_graphics_quality(level: int) -> void:
 		hud.graphics_quality.select(graphics.level)
 	if preferences_enabled: display_settings.save_preferences()
 
-func set_camera_setting(key: String, value: float) -> void:
-	if automated or key not in CameraSettings.DEFAULTS: return
-	camera_settings.restore({key:value})
+func set_camera_setting(view: String, key: String, value: Variant) -> void:
+	if automated or not camera_settings.set_value(view,key,value): return
 	hud.sync_camera_settings(camera_settings)
 	if preferences_enabled: camera_settings.save_preferences()
 
-func reset_camera_settings() -> void:
+func reset_camera_settings(view: String = "all") -> void:
 	if automated: return
-	camera_settings.reset()
+	if view=="all": camera_settings.reset()
+	else: camera_settings.reset_view(view)
 	hud.sync_camera_settings(camera_settings)
 	if preferences_enabled: camera_settings.save_preferences()
+
+func set_camera_preset(action: String, view: String, name: String, new_name: String) -> void:
+	if automated: return
+	var changed = false
+	match action:
+		"apply": changed = camera_settings.apply_preset(view,name)
+		"save": changed = camera_settings.save_preset(view,name)
+		"replace": changed = camera_settings.save_preset(view,name,true)
+		"rename": changed = camera_settings.rename_preset(view,name,new_name)
+		"delete": changed = camera_settings.delete_preset(view,name)
+	if not changed:
+		hud.toast("Choose a saved preset, or enter an unused name (1–40 characters).")
+		return
+	hud.sync_camera_settings(camera_settings)
+	if preferences_enabled: camera_settings.save_preferences()
+
+func _sync_camera_preview() -> void:
+	if not hud or not camera_preview: return
+	var available: bool = initialized and sim!=null and not sim.crashed and not transitioning and not returning_to_summit and not quitting and not (loading and loading.busy) and (workshop==null or workshop.mode.is_empty())
+	hud.camera_options.set_preview_available(available,hud.menu_mode=="paused" and not session.finished)
+	if hud.camera_options.preview_active and (not available or not hud.camera_options.camera_tab_visible() or (not application_focused and not automated)):
+		set_camera_preview(false)
+
+func set_camera_preview(enabled: bool) -> void:
+	if not hud or not camera_preview or not hud.camera_options.preview_toolbar: return
+	if enabled:
+		_sync_camera_preview()
+		if not hud.camera_options.preview_supported or not hud.weather_panel.visible or not hud.camera_options.camera_tab_visible(): return
+		active = false
+		camera.clear_look_input()
+		camera_preview.reset()
+		hud.camera_options.set_preview(true,sim.speed_kmh())
+	else:
+		if not hud.camera_options.preview_active: return
+		hud.camera_options.set_preview(false)
+		camera_preview.reset()
+		_restore_riding_camera()
+	_sync_camera_controls()
+	_reset_screen_effects()
+	weather_effects.reset()
 
 func set_display_setting(key: String, value: Variant) -> void:
 	if key not in PCGraphics.KEYS: return

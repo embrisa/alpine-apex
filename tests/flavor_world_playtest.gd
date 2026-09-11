@@ -10,7 +10,7 @@ class Driver extends RefCounted:
 	var controls=RiderInput.new()
 	func sample(_grounded: bool = true): return controls
 	func cancel_air_input(): pass
-	func sample_camera_look(): return Vector2.ZERO
+	func sample_camera_look(_deadzone: float = .18, _exponent: float = 2.0): return Vector2.ZERO
 	func device_label(): return "Test driver"
 func _initialize() -> void: call_deferred("run")
 func check(ok: bool,label: String) -> void:

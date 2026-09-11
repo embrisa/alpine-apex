@@ -119,7 +119,7 @@ func present(seconds: float) -> void:
 
 func camera_capture(label: String, evidence: String) -> void:
 	await capture(label,0)
-	var cam = game.camera
+	var cam = game.camera_preview if game.hud.camera_options.preview_active else game.camera
 	var ground: float = field.sample(cam.position.x,cam.position.z).height
 	var ahead = game.sim.position + Vector3(sin(game.sim.heading),0,cos(game.sim.heading))*4.0
 	ahead.y = field.sample(ahead.x,ahead.z).height+0.1

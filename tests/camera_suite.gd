@@ -61,43 +61,12 @@ func run() -> void:
 			camera.free()
 			camera = load(arg.get_slice("=",1)).new()
 	root.add_child(camera)
-	var previous = 0.0
-	for kmh in [0, 30, 60, 90, 120, 150, 200, 240]:
-		reset(kmh)
-		update(0.1)
-		check(camera.fov >= previous and camera.fov <= 110.0, "FOV monotonic and capped at %d km/h" % kmh)
-		previous = camera.fov
-	check(is_equal_approx(camera.fov, 110.0), "200+ FOV settles at 110 degrees")
-	check(is_equal_approx(camera.boom_distance, 7.0) and is_equal_approx(camera.boom_height, 8.0), "Fast straight framing is 7 m / 8 m")
-	reset()
-	update(0.1)
-	check(is_equal_approx(camera.fov, 72.0) and is_equal_approx(camera.boom_distance, 3.0) and is_equal_approx(camera.boom_height, 6.0), "Rest framing is 72 degrees / 3 m / 6 m")
-	sim.velocity = Vector3.BACK * 200.0 / 3.6
-	update(0.1)
-	check(camera.fov > 72.0 and camera.fov < 100.0, "Acceleration widens smoothly without a snap")
-	update(4.0)
-	check(absf(camera.fov - 110.0) < 0.01, "Acceleration converges to 110")
-	sim.velocity = Vector3.ZERO
-	update(0.1)
-	check(camera.fov > 90.0 and camera.fov < 110.0, "Braking narrows smoothly")
-	reset(200)
-	camera.close_view = true
-	update(0.1)
-	check(is_equal_approx(camera.fov, 110.0) and camera.position.distance_to(sim.position) < 2.0, "First person widens lens while retaining eye position")
-	reset(200)
-	camera.effects_enabled = false
-	update(0.1)
-	check(camera.fov == 72.0 and camera.boom_distance == 3.0 and camera.boom_height == 6.0, "Comfort uses configured stationary framing")
-	reset()
-	update(0.1, 120, true)
-	check(camera.fov == 72.0 and absf(camera.position.distance_to(sim.position) - Vector2(30.0,45.0).length()) < 0.01, "Summit retains its overview scale after chase framing changes")
+	_framing_checks()
 	_carve_checks()
 	_look_checks()
 	_input_checks()
 	_clearance_checks()
 	_rate_checks()
-	_settings_checks()
-	_lens_tilt_checks()
 	_stabilization_checks()
 	_pitch_checks()
 	camera.queue_free()
@@ -110,14 +79,15 @@ func run() -> void:
 
 func _carve_checks() -> void:
 	reset(150)
+	configure({"carve_strength":100.0})
 	sim.edge_angle = deg_to_rad(35.0)
 	sim.lateral_acceleration = 1.3 * 9.81
 	update(0.12)
 	var attack: float = camera.carve_blend
 	check(attack > 0.60 and attack < 0.65, "Carve enters with 0.12 s time constant")
 	update(1.0)
-	var straight_distance = lerpf(3.0, 7.0, Camera.speed_factor(150))
-	var straight_height = lerpf(6.0, 8.0, Camera.speed_factor(150))
+	var straight_distance = camera.settings.framing("chase",150).y
+	var straight_height = camera.settings.framing("chase",150).z
 	check(absf(camera.boom_distance - (straight_distance - 0.6)) < 0.01 and absf(camera.boom_height - (straight_height - 0.25)) < 0.01, "Hard carve is bounded to 0.6 m inward / 0.25 m downward")
 	var left: float = Camera.carve_factor(sim)
 	sim.lateral_acceleration *= -1.0
@@ -127,7 +97,7 @@ func _carve_checks() -> void:
 		sim.lateral_acceleration *= -1.0
 		sim.edge_angle *= -1.0
 		update(0.1)
-	check(camera.carve_blend <= 1.0 and camera.boom_distance >= 2.4 and camera.boom_height >= 5.25, "Repeated S turns cannot accumulate compression")
+	check(camera.carve_blend <= 1.0 and camera.boom_distance >= 2.4 and camera.boom_height >= 2.75, "Repeated S turns cannot accumulate compression")
 	sim.lateral_acceleration = 0.0
 	update(0.12)
 	check(camera.carve_blend > 0.80 and camera.carve_blend < 0.83, "Release is slower than attack")
@@ -262,7 +232,7 @@ func _clearance_checks() -> void:
 	var automatic_height: float = camera.position.y
 	camera.add_mouse_look(Vector2(0, -500))
 	update(0.8)
-	check(camera.position.y < automatic_height - 2.0, "Intentional look up can lower the raised orbit")
+	check(camera.position.y < automatic_height - 0.5, "Intentional look up can lower the raised orbit")
 	camera.recenter_look()
 	update(3.0)
 	check(absf(camera.position.y - automatic_height) < 0.05, "Recenter restores configured framing after look up")
@@ -298,159 +268,7 @@ func _rate_checks() -> void:
 		update(1.5, hz)
 		results.append(Vector3(camera.fov, camera.look_yaw, carve))
 	for result in results:
-		check(absf(result.x - results[0].x) < 0.05 and absf(result.y - results[0].y) < 0.001 and absf(result.z - results[0].z) < 0.001, "Speed, look return and carve smoothing agree at 30â€“240 Hz")
-
-func _settings_checks() -> void:
-	var preferences = Preferences.new()
-	preferences.restore({"rest_distance":-10.0,"fast_distance":999.0})
-	check(preferences.rest_distance == 1.0 and preferences.fast_distance == 20.0, "Saved distances are bounded to the menu range")
-	preferences.restore({"rest_distance":NAN,"fast_distance":INF})
-	check(preferences.snapshot() == Preferences.DEFAULTS, "Nonfinite saved distances recover safe defaults")
-	preferences.restore({"rest_distance":5.23,"fast_distance":12.5})
-	check(preferences.rest_distance == 5.25, "Distances use quarter-metre increments")
-	preferences.restore({"rest_height":-10.0,"fast_height":999.0,"vertical_smoothing":999.0})
-	check(preferences.rest_height == 2.0 and preferences.fast_height == 20.0 and preferences.vertical_smoothing == 100.0, "Height and smoothing use their own menu bounds")
-	preferences.restore({"rest_height":NAN,"fast_height":INF,"vertical_smoothing":-INF})
-	check(preferences.rest_height == 6.0 and preferences.fast_height == 8.0 and preferences.vertical_smoothing == 50.0, "Nonfinite new preferences recover safe defaults")
-	preferences.restore({"rest_height":5.23,"fast_height":3.12,"vertical_smoothing":73.3})
-	check(preferences.rest_height == 5.25 and preferences.fast_height == 3.0 and preferences.vertical_smoothing == 73.0, "Height and smoothing snap to quarter metres and whole percent")
-	for key in ["rest_fov","fast_fov","chase_pitch_offset","first_person_pitch_offset"]:
-		var bounds: Vector3 = Preferences.RANGES[key]
-		for value in [-999.0,999.0]:
-			preferences.restore({key:value})
-			check(preferences.get(key) == (bounds.x if value < 0.0 else bounds.y),"Lens/tilt bounds: " + key)
-		for value in [NAN,INF,-INF]:
-			preferences.restore({key:value})
-			check(preferences.get(key) == Preferences.DEFAULTS[key],"Nonfinite lens/tilt recovers default: " + key)
-		preferences.restore({key:78.4 if key.ends_with("fov") else -12.4})
-		var selected: float = preferences.get(key)
-		check(selected == (78.0 if key.ends_with("fov") else -12.0),"Lens/tilt uses whole degrees: " + key)
-		for value in ["invalid",true,[],Vector2.ONE]: preferences.restore({key:value})
-		check(preferences.get(key) == selected,"Malformed lens/tilt types are ignored: " + key)
-	var path = "user://camera_suite_%d.cfg" % Time.get_ticks_usec()
-	check(preferences.save_preferences(path) == OK, "Camera preferences save to an isolated test file")
-	var restored = Preferences.new()
-	restored.load_preferences(path)
-	check(restored.snapshot() == preferences.snapshot(), "All nine camera preferences survive reload")
-	var legacy = ConfigFile.new()
-	legacy.set_value("camera","rest_distance",4.5)
-	legacy.set_value("camera","fast_distance",9.5)
-	legacy.save(path)
-	var old_preferences = Preferences.new()
-	old_preferences.load_preferences(path)
-	check(old_preferences.rest_distance == 4.5 and old_preferences.fast_distance == 9.5 and old_preferences.rest_height == 6.0 and old_preferences.fast_height == 8.0 and old_preferences.vertical_smoothing == 50.0, "Existing distance-only config gains defaults without losing distances")
-	check(old_preferences.rest_fov == 72.0 and old_preferences.fast_fov == 110.0 and old_preferences.chase_pitch_offset == 0.0 and old_preferences.first_person_pitch_offset == 0.0,"Missing lens/tilt keys use original framing defaults")
-	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
-	preferences.restore({"rest_distance":"invalid","fast_distance":Vector2.ONE})
-	preferences.restore({"rest_height":false,"fast_height":[],"vertical_smoothing":"invalid","unexpected":1.0})
-	check(preferences.snapshot() == restored.snapshot(), "Malformed preference types are ignored")
-	reset()
-	camera.settings.restore({"rest_distance":4.0,"fast_distance":9.0})
-	update(0.1)
-	check(camera.boom_distance == 4.0 and camera.fov == 72.0, "Rest view applies the chosen distance without changing FOV")
-	sim.velocity = Vector3.BACK * 200.0 / 3.6
-	update(4.0)
-	check(absf(camera.boom_distance - 9.0) < 0.01 and absf(camera.fov - 110.0) < 0.01, "Speed blends toward the chosen fast distance with the agreed FOV")
-	camera.effects_enabled = false
-	update(4.0)
-	check(absf(camera.boom_distance - 4.0) < 0.01, "Motion effects off uses the configured resting distance")
-	camera.reset()
-	check(camera.settings.rest_distance == 4.0 and camera.settings.fast_distance == 9.0, "View reset preserves camera preferences")
-	camera.settings.reset()
-	for heights in [Vector2(2.0,20.0),Vector2(20.0,2.0)]:
-		for kmh in [0,100,200,240]:
-			reset(kmh)
-			camera.settings.restore({"rest_height":heights.x,"fast_height":heights.y})
-			update(0.1)
-			var expected = lerpf(heights.x,heights.y,Camera.speed_factor(kmh))
-			check(absf(camera.boom_height-expected)<0.001,"Both height endpoint orders blend at %d km/h" % kmh)
-	camera.effects_enabled = false
-	update(4.0)
-	check(absf(camera.boom_height-20.0)<0.01,"Comfort uses selected resting height")
-	camera.reset()
-	check(camera.settings.rest_height == 20.0,"Camera reset retains height preferences")
-	camera.settings.reset()
-
-func _lens_tilt_checks() -> void:
-	check(camera.keep_aspect == Camera3D.KEEP_HEIGHT,"FoV preferences measure the vertical angle")
-	for close in [false,true]:
-		for endpoints in [Vector2(50,120),Vector2(85,85),Vector2(120,50)]:
-			for kmh in [0,60,120,200,240]:
-				reset(kmh)
-				camera.close_view = close
-				camera.settings.restore({"rest_fov":endpoints.x,"fast_fov":endpoints.y})
-				update(0.1)
-				check(absf(camera.fov-lerpf(endpoints.x,endpoints.y,Camera.speed_factor(kmh)))<0.001,"Custom, fixed and reversed FoV: view %s / %s / %d kmh" % [close,endpoints,kmh])
-		var rate_results: Array[float] = []
-		for hz in [30,60,120,240]:
-			reset()
-			camera.close_view = close
-			camera.settings.restore({"rest_fov":120.0,"fast_fov":50.0})
-			update(0.1,hz)
-			sim.velocity = Vector3.BACK * 200.0 / 3.6
-			update(0.6,hz)
-			rate_results.append(camera.fov)
-			check(camera.fov>50.0 and camera.fov<120.0,"Custom FoV changes smoothly")
-			update(4.0,hz)
-			check(absf(camera.fov-50.0)<0.01,"Custom fast FoV converges")
-			camera.effects_enabled = false
-			update(4.0,hz)
-			check(absf(camera.fov-120.0)<0.01,"Motion effects off returns to the configured resting FoV")
-		for result in rate_results:
-			check(absf(result-rate_results[0])<0.001,"Custom FoV response agrees across 30-240 Hz")
-		for kmh in [0,90,200]:
-			for offset in [-30.0,0.0,30.0]:
-				reset(kmh)
-				camera.close_view = close
-				update(0.1)
-				var original_pitch = optical_pitch()
-				var original_position: Vector3 = camera.position
-				camera.settings.restore({"chase_pitch_offset":offset if not close else -offset,"first_person_pitch_offset":offset if close else -offset})
-				update(0.1)
-				var configured_pitch = clampf(original_pitch+deg_to_rad(offset),deg_to_rad(-80.0),deg_to_rad(80.0))
-				check(absf(optical_pitch()-configured_pitch)<0.001,"Selected view applies its own tilt with the correct sign")
-				check(camera.position.distance_to(original_position)<0.001,"Tilt leaves camera position unchanged")
-				camera.add_mouse_look(Vector2(0,-100))
-				update(1.0/120.0)
-				check(absf(optical_pitch()-clampf(original_pitch+deg_to_rad(offset+10.0),deg_to_rad(-80.0),deg_to_rad(80.0)))<0.001,"Manual look adds immediately to configured tilt")
-				camera.recenter_look()
-				update(4.0)
-				check(absf(optical_pitch()-configured_pitch)<0.001,"Recenter restores configured tilt")
-				camera.add_mouse_look(Vector2(0,9999))
-				update(1.0/120.0)
-				check(absf(rad_to_deg(optical_pitch()))<=80.001,"Combined downward look and tilt cannot flip vertically")
-				camera.add_mouse_look(Vector2(0,-19999))
-				update(1.0/120.0)
-				check(absf(rad_to_deg(optical_pitch()))<=80.001,"Combined upward look and tilt cannot flip vertically")
-		reset(200)
-		camera.close_view = close
-		camera.effects_enabled = false
-		camera.settings.restore({"rest_fov":95.0,"chase_pitch_offset":8.0,"first_person_pitch_offset":-7.0})
-		update(0.1)
-		var comfort_pitch = optical_pitch()
-		camera.settings.chase_pitch_offset = 0.0
-		camera.settings.first_person_pitch_offset = 0.0
-		update(0.1)
-		check(absf(comfort_pitch-optical_pitch()-deg_to_rad(-7.0 if close else 8.0))<0.001,"Tilt remains active with motion effects off")
-		camera.settings.restore({"rest_fov":95.0,"fast_fov":65.0,"chase_pitch_offset":8.0,"first_person_pitch_offset":-7.0})
-		var saved: Dictionary = camera.settings.snapshot()
-		camera.close_view = not close
-		camera.reset()
-		update(0.1)
-		check(camera.settings.snapshot()==saved,"View switching and camera reset retain all preferences")
-	for context in ["menu","summit","crash"]:
-		reset(150)
-		camera.clock = 0.0
-		sim.crashed = context == "crash"
-		camera.update_camera(sim,field,sim.position,0.1,context=="menu",true,context=="summit")
-		var original_transform: Transform3D = camera.transform
-		var original_fov: float = camera.fov
-		camera.settings.restore({"rest_fov":120.0,"fast_fov":50.0,"chase_pitch_offset":30.0,"first_person_pitch_offset":-30.0})
-		camera.reset()
-		camera.clock = 0.0
-		camera.update_camera(sim,field,sim.position,0.1,context=="menu",true,context=="summit")
-		check(camera.transform.is_equal_approx(original_transform) and is_equal_approx(camera.fov,original_fov),"Lens/tilt leaves existing %s framing unchanged" % context)
-	reset()
+		check(absf(result.x - results[0].x) < 0.05 and absf(result.y - results[0].y) < 0.001 and absf(result.z - results[0].z) < 0.001, "Speed, look return and carve smoothing agree at 30Ã¢â‚¬â€œ240 Hz")
 
 func _stabilization_checks() -> void:
 	for close in [false,true]:
@@ -460,7 +278,7 @@ func _stabilization_checks() -> void:
 				reset()
 				camera.close_view = close
 				camera.effects_enabled = false
-				camera.settings.vertical_smoothing = strength
+				configure({"vertical_smoothing":strength})
 				sim.position.y = 10.0
 				update(0.1,hz)
 				var start_y: float = camera.position.y
@@ -483,7 +301,7 @@ func _stabilization_checks() -> void:
 			reset(90)
 			camera.close_view = close
 			camera.effects_enabled = false
-			camera.settings.vertical_smoothing = 100.0
+			configure({"vertical_smoothing":100.0})
 			field.height_offset = -300.0
 			sim.position.y = 100.0
 			update(0.1,hz)
@@ -498,14 +316,14 @@ func _stabilization_checks() -> void:
 				translation = translation and Vector2(camera.position.x-sim.position.x,camera.position.z-sim.position.z).distance_to(horizontal)<0.001
 			check(bounded and translation,"Sustained descent bounds vertical lag and follows horizontal travel immediately")
 		for result in step_results:
-			check(absf(result-step_results[0])<0.0001,"Equal elapsed time gives the same vertical step at 30–240 Hz")
+			check(absf(result-step_results[0])<0.0001,"Equal elapsed time gives the same vertical step at 30â€“240 Hz")
 		_lifecycle_stabilization_checks(close)
 		var manual_results: Array = []
 		for strength in [0.0,100.0]:
 			reset()
 			camera.close_view = close
 			camera.effects_enabled = false
-			camera.settings.vertical_smoothing = strength
+			configure({"vertical_smoothing":strength})
 			sim.position.y = 10.0
 			update(0.1)
 			camera.add_mouse_look(Vector2(100,-100))
@@ -513,7 +331,7 @@ func _stabilization_checks() -> void:
 			manual_results.append(camera.transform)
 		check(manual_results[0].is_equal_approx(manual_results[1]),"Maximum stabilization adds no delay to the actual manual orbit or optical pose")
 	reset()
-	camera.settings.rest_height = 2.0
+	configure({"rest_height":2.0})
 	update(0.1)
 	field.ridge = true
 	update(1.0/120.0)
@@ -540,7 +358,7 @@ func _bump_metrics(hz: int, strength: float, close: bool) -> Dictionary:
 	reset()
 	camera.close_view = close
 	camera.effects_enabled = false
-	camera.settings.vertical_smoothing = strength
+	configure({"vertical_smoothing":strength})
 	sim.position.y = 10.0
 	update(0.1,hz)
 	var previous_y: float = camera.position.y
@@ -599,7 +417,7 @@ func _lifecycle_stabilization_checks(close: bool) -> void:
 	check(absf(camera.position.y-summit_y-1.0)<0.001,"Summit translation retains its original immediate response")
 	reset()
 	sim.crashed = true
-	camera.settings.rest_height = 2.0
+	configure({"rest_height":2.0})
 	update(0.1)
 	check(camera.boom_height == 12.0 and camera.position.y >= 12.0,"Crash retains its former elevated framing independently of riding height")
 	var crash_y: float = camera.position.y
@@ -611,16 +429,16 @@ func optical_pitch() -> float:
 	return asin(clampf(-camera.global_basis.z.y,-1.0,1.0))
 
 func _pitch_checks() -> void:
-	# Nominal chase framing must also work at the user's short distances on
-	# steep ground. Checking the projected body catches fixed-aim cropping.
-	for slope in [0.0,0.7,1.3]:
-		for kmh in [0,60,90,150,200]:
-			reset(kmh)
-			camera.settings.restore({"rest_distance":1.0,"fast_distance":3.0,"rest_height":2.0,"fast_height":4.0,"vertical_smoothing":40.0})
-			field.slope = slope
-			update(0.1)
-			var body_point = sim.position + Vector3.UP*0.8
-			check(not camera.is_position_behind(body_point) and root.get_visible_rect().has_point(camera.unproject_position(body_point)),"Close chase keeps the skier in frame at %.1f slope / %d kmh" % [slope,kmh])
+	# Built-in presets must retain a visible skier on ordinary and steep snow.
+	for preset in Preferences.BUILT_INS:
+		for slope in [0.0,0.7,1.3]:
+			for kmh in [0,60,90,150,200]:
+				reset(kmh)
+				camera.settings.apply_preset("chase",preset)
+				field.slope = slope
+				update(0.1)
+				var body_point = sim.position + Vector3.UP*0.8
+				check(not camera.is_position_behind(body_point) and root.get_visible_rect().has_point(camera.unproject_position(body_point)),"Preset keeps skier in frame: %s / %.1f slope / %d kmh" % [preset,slope,kmh])
 	# These are controlled presentation inputs, not a claim about solver motion.
 	# At fixed speed, even effects-enabled impacts must leave optical pitch alone.
 	for close in [false,true]:
@@ -631,8 +449,8 @@ func _pitch_checks() -> void:
 					for event in ["isolated_bump","repeated_bumps","brief_airtime","landing","terrain_clearance","rock_clearance"]:
 						reset(150)
 						camera.close_view = close
-						if custom: camera.settings.restore({"rest_distance":1.0,"fast_distance":3.0,"rest_height":2.0,"fast_height":4.0,"chase_pitch_offset":-30.0,"first_person_pitch_offset":30.0,"rest_fov":95.0,"fast_fov":65.0})
-						camera.settings.vertical_smoothing = strength
+						if custom: configure({"rest_distance":1.0,"fast_distance":3.0,"rest_height":2.0,"fast_height":4.0,"rest_tilt":-60.0,"fast_tilt":-60.0,"rest_fov":95.0,"fast_fov":65.0})
+						configure({"vertical_smoothing":strength})
 						var rocks = RockSurface.new()
 						rocks.blocked = false
 						var surface = rocks if event == "rock_clearance" else field
@@ -680,7 +498,7 @@ func _pitch_checks() -> void:
 			camera.close_view = close
 			update(0.1)
 			var base_pitch = optical_pitch()
-			if close: check(absf(rad_to_deg(base_pitch)+10.0)<0.001,"First-person base pitch stays ten degrees down at every speed")
+			if close: check(absf(rad_to_deg(base_pitch)+25.0)<0.001,"First-person base pitch stays twenty-five degrees down at every speed")
 			camera.add_mouse_look(Vector2(900,-100))
 			update(1.0/120.0)
 			check(absf(optical_pitch()-base_pitch-deg_to_rad(10.0))<0.001,"Manual pitch is applied immediately after automatic orientation")
@@ -698,3 +516,71 @@ func _pitch_checks() -> void:
 		sim.effective_tuck = 1.0
 		update(1.0)
 		check(absf(optical_pitch()-prior_pitch)<deg_to_rad(0.1),"Carving, bank and tuck cannot steer automatic pitch")
+
+func configure(values: Dictionary) -> void:
+	for view in Preferences.VIEWS: camera.settings.update_profile(view,values)
+
+func _framing_checks() -> void:
+	for view in Preferences.VIEWS:
+		for preset in Preferences.BUILT_INS:
+			for kmh in [0,60,100,120,160,200,240]:
+				reset(kmh)
+				camera.settings.apply_preset(view,preset)
+				camera.close_view = view=="first_person"
+				update(0.1)
+				var expected: Vector4 = camera.settings.framing(view,kmh)
+				check(absf(camera.fov-expected.x)<.001 and absf(rad_to_deg(optical_pitch())-expected.w)<.001,"Live framing matches evaluator: %s / %s / %d" % [view,preset,kmh])
+				if view=="chase": check(absf(camera.boom_distance-expected.y)<.001 and absf(camera.boom_height-expected.z)<.001,"Boom uses same speed progression")
+				var before = [sim.position,sim.velocity,sim.heading,sim.ticks]
+				camera.reset()
+				camera.update_camera(sim,field,sim.position,.1,false,false,false,120)
+				check(absf(camera.fov-camera.settings.framing(view,120).x)<.001,"Preview uses shared evaluator")
+				check(before==[sim.position,sim.velocity,sim.heading,sim.ticks],"Preview cannot mutate simulation")
+	for endpoints in [Vector2(50,120),Vector2(80,50),Vector2(65,65)]:
+		reset(100)
+		configure({"rest_fov":endpoints.x,"fast_fov":endpoints.y,"rest_tilt":-55,"fast_tilt":-35})
+		update(.1)
+		check(absf(camera.fov-lerpf(endpoints.x,endpoints.y,pow(.5,1.6)))<.001,"Custom and reversed lens endpoints")
+		check(absf(rad_to_deg(optical_pitch())-lerpf(-55,-35,pow(.5,1.6)))<.001,"Explicit tilt interpolates independently")
+		var pitch = optical_pitch()
+		configure({"rest_distance":12,"fast_distance":16,"rest_height":12,"fast_height":16})
+		update(3)
+		check(absf(optical_pitch()-pitch)<.001,"Changing geometry never changes configured optical tilt")
+	for context in ["menu","summit","crash"]:
+		reset(160)
+		sim.crashed = context=="crash"
+		camera.clock = 0.0
+		camera.update_camera(sim,field,sim.position,.1,context=="menu",true,context=="summit")
+		var original = [camera.transform,camera.fov]
+		configure({"rest_fov":50,"fast_fov":50,"rest_tilt":-80,"fast_tilt":-80,"rest_distance":18,"fast_distance":18,"rest_height":20,"fast_height":20})
+		camera.reset()
+		camera.clock = 0.0
+		camera.update_camera(sim,field,sim.position,.1,context=="menu",true,context=="summit")
+		check(camera.transform.is_equal_approx(original[0]) and is_equal_approx(camera.fov,original[1]),"Riding profiles cannot change "+context)
+	reset(200)
+	configure({"rest_tilt":-35,"fast_tilt":-60})
+	camera.effects_enabled = false
+	update(.1)
+	check(camera.fov==55 and camera.boom_distance==3 and absf(rad_to_deg(optical_pitch())+35)<.001,"V keeps resting framing and chosen tilt")
+	reset(120)
+	camera.settings.set_value("shared","auto_recenter",false)
+	camera.settings.set_value("shared","invert_y",true)
+	camera.settings.set_value("shared","mouse_sensitivity",.2)
+	camera.add_mouse_look(Vector2(100,100))
+	update(.1)
+	check(absf(rad_to_deg(camera.look_yaw)+20)<.001 and absf(rad_to_deg(camera.look_pitch)-20)<.001,"Look sensitivity and inversion apply")
+	update(3)
+	check(absf(rad_to_deg(camera.look_yaw)+20)<.001,"Automatic return can be disabled")
+	camera.recenter_look()
+	update(4)
+	check(absf(camera.look_yaw)<.001,"Explicit recenter remains available")
+	for strength in [0,50,100]:
+		reset(150)
+		configure({"carve_strength":strength,"bank_strength":strength,"compression_strength":strength,"tuck_strength":strength})
+		sim.edge_angle = deg_to_rad(35)
+		sim.lateral_acceleration = 9.81
+		sim.normal_load = 30
+		sim.effective_tuck = 1
+		update(2)
+		check(camera.carve_blend<=strength/100.0+.001 and absf(camera.bank)<=.035*strength/100.0+.001,"Individual motion controls bound carve and bank")
+		if strength==0: check(absf(camera.compression)<.001 and absf(camera.boom_height-camera.settings.framing("chase",150).z)<.001,"Tuck and compression can be disabled")

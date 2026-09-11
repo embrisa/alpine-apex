@@ -1,6 +1,6 @@
 extends "res://tests/camera_playtest.gd"
-## Unranked real-solver v14 motion, with isolated default and close-low settings.
-## ./godotw.ps1 --script tests/camera_pitch_playtest.gd '--' --views --version=14 --benchmark-label=camera_pitch --ui-staged-loading
+## Unranked real-solver v15 motion, with isolated default and close-low settings.
+## ./godotw.ps1 --script tests/camera_pitch_playtest.gd '--' --views --version=15 --benchmark-label=camera_pitch --ui-staged-loading
 var pitch_clips: Array = []
 
 func inspect_massif() -> void:
@@ -9,12 +9,12 @@ func inspect_massif() -> void:
 	game.hud.hide_menu()
 	game.summit_ready = false
 	game.active = true
-	if version != 14: camera_failures.append("Camera motion review requires generator v14")
+	if version != 15: camera_failures.append("Camera motion review requires generator v15")
 	if game.preferences_enabled: camera_failures.append("Scripted review can write personal preferences")
 	for custom in [false,true]:
 		game.camera_settings.reset()
 		if custom:
-			game.camera_settings.restore({"rest_distance":1.0,"fast_distance":3.0,"rest_height":2.0,"fast_height":4.0,"vertical_smoothing":40.0})
+			game.camera_settings.update_profile("chase",{"rest_distance":1.0,"fast_distance":3.0,"rest_height":2.0,"fast_height":4.0,"vertical_smoothing":40.0})
 		for close in [false,true]:
 			for jump in [false,true]:
 				await pitch_clip(custom,close,jump)
@@ -65,7 +65,7 @@ func pitch_clip(custom: bool, close: bool, jump: bool) -> void:
 			"ahead_on_screen":not cam.is_position_behind(ahead) and viewport_rect.has_point(cam.unproject_position(ahead)),
 			"skier_screen":[skier_screen.x,skier_screen.y],"ahead_screen":[ahead_screen.x,ahead_screen.y]})
 		if frame in [0,29,44,64,104,139,179,239]:
-			await camera_capture(label+"_%03d" % frame,"120 Hz solver / 60 Hz presentation, unranked v14 motion")
+			await camera_capture(label+"_%03d" % frame,"120 Hz solver / 60 Hz presentation, unranked v15 motion")
 		if game.sim.crashed: break
 	pitch_clips.append({"label":label,"settings":game.camera_settings.snapshot(),"first_person":close,
 		"jump_requested":jump,"contact_transitions":ground_transitions,"crash":game.sim.crash_reason,

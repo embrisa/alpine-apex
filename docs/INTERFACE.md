@@ -46,17 +46,26 @@ landform metadata, falling back to terrain-sampled summit views on archived
 mountains and to a safe player view when no scenic shot passes clearance checks.
 See [camera behavior and validation](CAMERA.md#live-menu-camera).
 
-The Camera tab starts with shared vertical FoV endpoints at rest and 200 km/h
-(72°/110°, adjustable from 50–120°). Equal endpoints give a fixed lens. Third-person
-distance/height follow, then independent third-/first-person tilt (−30° to +30°,
-default 0°) and shared vertical smoothing. Negative tilt looks down; positive
-looks up. Distance/height defaults are 3/7 m behind and 6/8 m above, with 50%
-smoothing. Metre, signed-degree and percentage readouts, automatic saving and
-**Reset camera settings** cover all nine values. Focus follows keyboard/gamepad
-navigation through the scrolling content. Height remains subject to clearance;
-tilt and stabilization also work with motion effects off, which uses resting FoV.
-The menu keeps its own camera; changes apply when riding without restarting.
-See [camera behavior and validation](CAMERA.md).
+The Camera tab provides separate third-person and first-person profiles.
+Connected defaults to 55°–75° vertical FoV, a 3–4.5 m chase distance,
+3–3.5 m height, and steady −45° chase / −25° first-person aim. Race opens
+visibility; Stable fixes framing and disables optional motion. Expandable groups
+expose framing, speed progression, follow/stability, individual effects, shared
+look controls, foliage visibility and named presets. Negative tilt looks down;
+positive looks up, in 1° steps. Device look and forest preferences are shared.
+
+Working edits save automatically in camera_v2.cfg. Editing a preset creates a
+Custom working copy; Save new/Replace explicitly store named copies. View/all
+resets retain saved presets. A small graph shows the delayed default progression
+(44% at 120 km/h; 70% at 160; full at 200).
+
+Preview camera opens a collapsible left drawer over the paused riding view.
+Preview speed changes only framing, and view selection leaves the riding view
+untouched. Exit returns to settings; Resume skiing is offered from a paused run.
+The preview retains normal gameplay aspect ratio with one rendering camera.
+Keyboard/controller focus follows the scrolling content. Settings remain usable
+without preview; crashed/loading states disable preview.
+See [camera behavior, controls and validation](CAMERA.md).
 
 ## Angular visual language
 
@@ -94,7 +103,7 @@ An optional `--ui-baseline-hud=path/to/saved_hud.gd` argument accepts a saved pr
 HUD script for a comparison over the same paused mountain at 4K. Both HUD
 instances remain resident during that comparison; only one is visible at a time.
 
-### Angular styling acceptance — 2026-09-08
+### Angular styling acceptance â€” 2026-09-08
 
 - Automated: standalone interface review **80/80** and native integration
   **51/51**, with no engine errors in the final guarded runs. Hover, clipped-corner
@@ -147,7 +156,7 @@ hover/focus, activation, completion and error. A pool of three audio players kee
 playback bounded. Hover is rate-limited; UI construction does not trigger sounds.
 Panel and tab reveals fade in over 160 ms. No animation drives skier movement.
 
-Tools → Settings → Interface exposes UI volume, a preview sound, mute, reduced
+Tools â†’ Settings â†’ Interface exposes UI volume, a preview sound, mute, reduced
 interface motion and the existing skiing camera-effects toggle. M synchronizes
 skiing audio and UI mute; muting stops an active UI cue. Reduced motion skips fades
 and holds the unknown-progress indicator still. Volume, mute and reduced motion
@@ -196,7 +205,7 @@ reload path. This is cooperative loading, not streaming or asynchronous GPU
 upload: individual material/shader, backdrop and scenery operations can still
 pause the animation. Generation currently has no Cancel action.
 
-## Validation — 2026-09-07
+## Validation â€” 2026-09-07
 
 Commands below use the Windows `godotw.ps1` counterpart to `godotw`:
 
@@ -225,12 +234,12 @@ graphics/tuning retention and unchanged personal-best files.
 
 Rendered evidence: native Godot 4.7.2 / RX 9070 captures were inspected for menu,
 settings, workbench, race import, mountain preview and loading layout. Captures
-include actual 1440×900, 1280×720 and 3840×2160 output. Logs, screenshots and JSON
+include actual 1440Ã—900, 1280Ã—720 and 3840Ã—2160 output. Logs, screenshots and JSON
 reports are under `artifacts/ui_refresh/`; `interface_native.json` contains the
 final assertions and measurements.
 
 Performance evidence: the final short sample of the Display window over a paused
-v4 summit used High, 75% FSR2 (2880×1620 internal / 3840×2160 output), 120 FPS cap,
+v4 summit used High, 75% FSR2 (2880Ã—1620 internal / 3840Ã—2160 output), 120 FPS cap,
 GI off. After 120 warmup frames, 240 frames without screenshot overhead measured:
 
 | Metric | Final sample |
@@ -244,7 +253,7 @@ GI off. After 120 warmup frames, 240 frames without screenshot overhead measured
 
 This brief paused-view sample includes a p99 spike and is not an isolated skiing
 benchmark or a full-process memory measurement. Other editor/test processes were
-not stopped. It does not establish the 90–120 FPS target during downhill play.
+not stopped. It does not establish the 90â€“120 FPS target during downhill play.
 
 Human acceptance remains open for audio balance, controller navigation feel,
 transition comfort and repeated skiing/menu use. Automated assertions and native

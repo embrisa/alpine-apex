@@ -419,46 +419,64 @@ func _camera_settings_checks() -> void:
 	game.active = false
 	game.hud.show_menu("paused")
 	game.hud.open_settings()
+	for i in game.hud.settings_tabs.get_tab_count():
+		if game.hud.settings_tabs.get_tab_title(i)=="Camera": game.hud.settings_tabs.current_tab = i
 	game._sync_camera_controls()
-	var before = [game.sim.position,game.sim.velocity,game.sim.heading,game.session.elapsed,game.session.eligible,game.physics_modified]
-	game.hud.camera_setting_controls.rest_distance.value = 4.5
-	game.hud.camera_setting_controls.fast_distance.value = 9.5
-	game.hud.camera_setting_controls.rest_height.value = 5.5
-	game.hud.camera_setting_controls.fast_height.value = 11.5
-	game.hud.camera_setting_controls.vertical_smoothing.value = 70.0
-	game.hud.camera_setting_controls.forest_visibility.value = 35.0
-	check(game.camera_settings.forest_visibility==35.0 and game.hud.camera_setting_readouts.forest_visibility.text=="35%","Forest visibility slider reaches local presentation settings")
-	game.hud.camera_setting_controls.forest_visibility_size.value = 42.0
-	check(game.camera_settings.forest_visibility_size==42.0 and game.hud.camera_setting_readouts.forest_visibility_size.text=="42%" and game.camera_settings.forest_visibility==35.0,"Opening size slider updates independently of aid reach")
-	var lens_tilt = {"rest_fov":85.0,"fast_fov":65.0,"chase_pitch_offset":12.0,"first_person_pitch_offset":-8.0}
-	for key in lens_tilt: game.hud.camera_setting_controls[key].value = lens_tilt[key]
-	for key in lens_tilt: check(game.camera_settings.get(key)==lens_tilt[key],"Lens/tilt slider reaches the live camera: " + key)
-	check(game.hud.camera_setting_readouts.rest_fov.text=="85°" and game.hud.camera_setting_readouts.fast_fov.text=="65°" and game.hud.camera_setting_readouts.chase_pitch_offset.text=="+12°" and game.hud.camera_setting_readouts.first_person_pitch_offset.text=="-8°","FoV and tilt display degrees and tilt direction")
-	check(game.camera.settings == game.camera_settings and game.camera_settings.rest_distance == 4.5 and game.camera_settings.fast_distance == 9.5, "Settings sliders update the live camera preferences")
-	check(game.camera_settings.rest_height == 5.5 and game.camera_settings.fast_height == 11.5 and game.camera_settings.vertical_smoothing == 70.0,"Height and stabilization controls reach the live camera")
-	check(game.hud.camera_setting_readouts.rest_height.text == "5.50 m" and game.hud.camera_setting_readouts.vertical_smoothing.text == "70%","Camera controls display metres and percentages correctly")
-	check(game.hud.camera_setting_readouts.rest_distance.text == "4.50 m" and not game.camera_controls_active, "Distance readouts update while settings retain cursor control")
-	check(before == [game.sim.position,game.sim.velocity,game.sim.heading,game.session.elapsed,game.session.eligible,game.physics_modified], "Camera menu changes preserve solver, replay eligibility and physics tuning")
+	var ui = game.hud.camera_options
+	var before = [game.sim.position,game.sim.velocity,game.sim.heading,game.sim.ticks,game.session.elapsed,game.session.eligible,game.physics_modified,game.weather.visual_time,game.weather.daylight.hour]
+	var changes = {"rest_distance":4.5,"fast_distance":9.5,"rest_height":5.5,"fast_height":11.5,"vertical_smoothing":70.0,"rest_fov":85.0,"fast_fov":65.0,"rest_tilt":-52.0,"fast_tilt":-38.0}
+	for key in changes: ui.controls[key].value = changes[key]
+	for key in changes: check(game.camera_settings.profile("chase")[key]==changes[key],"Slider reaches live chase profile: "+key)
+	ui.controls.forest_visibility.value = 35
+	ui.controls.forest_visibility_size.value = 42
+	check(game.camera_settings.shared.forest_visibility==35 and game.camera_settings.shared.forest_visibility_size==42,"Shared foliage sliders remain independent")
+	check(ui.readouts.rest_tilt.text=="-52Â°" and ui.readouts.rest_distance.text=="4.50 m","Typed readouts display tilt and metres")
+	check(game.camera_settings.profile("first_person").rest_fov==55,"Chase edits leave first-person profile untouched")
+	game.set_camera_preset("save","chase","Runtime custom","")
+	check(game.camera_settings.presets.chase.has("Runtime custom"),"Preset save travels through UI owner")
+	game.set_camera_preview(true)
+	check(ui.preview_active and not game.active,"Preview holds the run paused")
+	ui.preview_speed.value = 200
+	for frame in 120: game._process(1.0/60.0)
+	check(game.presentation_camera==game.camera_preview and game.get_viewport().get_camera_3d()==game.camera_preview,"Preview is the single rendered camera")
+	check(absf(game.camera_preview.fov-65)<.01,"Synthetic preview speed applies camera endpoints")
+	check(before==[game.sim.position,game.sim.velocity,game.sim.heading,game.sim.ticks,game.session.elapsed,game.session.eligible,game.physics_modified,game.weather.visual_time,game.weather.daylight.hour],"Preview cannot advance simulation, timing, eligibility or weather")
+	var riding_view: bool = game.camera.close_view
+	ui.view_selector.select(1)
+	ui.view_selector.item_selected.emit(1)
+	game._process(.1)
+	check(game.camera_preview.close_view and game.camera.close_view==riding_view,"Preview view selection does not change riding view")
+	ui.collapse_button.pressed.emit()
+	check(not game.hud.weather_panel.visible and ui.preview_active,"Collapsing controls retains preview")
+	game._unhandled_input(InputEventMouseMotion.new())
+	check(not game.camera_controls_active and game.camera.pending_mouse.is_zero_approx(),"Preview cannot capture gameplay look")
+	game.set_camera_preview(false)
+	check(not ui.preview_active and game.hud.weather_panel.visible and game.camera.close_view==riding_view,"Exit restores settings and riding view")
+	ui.view_selector.select(0)
+	ui.view_selector.item_selected.emit(0)
+	game.set_camera_preview(true)
+	game.hud.settings_tabs.current_tab = 0
+	check(not ui.preview_active,"Changing settings tabs ends preview")
+	for i in game.hud.settings_tabs.get_tab_count():
+		if game.hud.settings_tabs.get_tab_title(i)=="Camera": game.hud.settings_tabs.current_tab = i
+	game.set_camera_preview(true)
+	game._notification(NOTIFICATION_APPLICATION_FOCUS_OUT)
+	check(not ui.preview_active,"Focus loss ends preview")
+	game._notification(NOTIFICATION_APPLICATION_FOCUS_IN)
 	game._remember_world_settings()
-	check(get_meta("world_reload_settings").camera == game.camera_settings.snapshot(), "Mountain reload carries all camera preferences")
+	check(get_meta("world_reload_settings").camera==game.camera_settings.snapshot(),"Reload snapshot includes both profiles and named presets")
 	remove_meta("world_reload_settings")
 	game.restart()
-	check(game.camera_settings.rest_distance == 4.5 and game.camera_settings.fast_distance == 9.5, "Restart retains configured camera distances")
-	check(game.camera_settings.rest_height == 5.5 and game.camera_settings.fast_height == 11.5 and game.camera_settings.vertical_smoothing == 70.0,"Restart retains configured heights and smoothing")
-	check(game.camera_settings.forest_visibility==35.0,"Restart retains forest visibility preference")
-	check(game.camera_settings.forest_visibility_size==42.0,"Restart retains opening size preference")
-	for key in lens_tilt: check(game.camera_settings.get(key)==lens_tilt[key],"Restart retains lens/tilt: " + key)
-	game.hud.camera_reset_button.pressed.emit()
-	check(game.camera_settings.snapshot() == game.CameraSettings.DEFAULTS and game.hud.camera_setting_controls.rest_height.value == 6.0 and game.hud.camera_setting_controls.vertical_smoothing.value == 50.0, "Camera reset button restores all defaults and synchronizes sliders")
-	for key in game.CameraSettings.DEFAULTS:
-		check(game.hud.camera_setting_controls[key].value == game.CameraSettings.DEFAULTS[key],"Reset synchronizes camera slider: " + key)
+	check(game.camera_settings.profile("chase").rest_distance==4.5,"Restart preserves working profile")
+	ui.reset_all.pressed.emit()
+	check(game.camera_settings.profile("chase")==game.CameraSettings.defaults("chase") and game.camera_settings.presets.chase.has("Runtime custom"),"Reset all restores defaults and retains saved presets")
+	game.set_camera_preset("delete","chase","Runtime custom","")
+	var reset_snapshot = game.camera_settings.snapshot()
 	game.automated = true
-	game.hud.camera_setting_requested.emit("rest_distance",12.0)
-	game.hud.camera_setting_requested.emit("rest_height",12.0)
-	game.hud.camera_setting_requested.emit("vertical_smoothing",0.0)
-	game.hud.camera_setting_requested.emit("forest_visibility_size",30.0)
-	for key in lens_tilt: game.hud.camera_setting_requested.emit(key,lens_tilt[key])
-	check(not game.preferences_enabled and game.camera_settings.snapshot() == game.CameraSettings.DEFAULTS, "Automated runs ignore preference loading and all live camera changes")
+	game.hud.camera_setting_requested.emit("chase","rest_fov",100)
+	game.hud.camera_setting_requested.emit("shared","forest_visibility",0)
+	game.set_camera_preset("save","chase","Cannot write","")
+	check(not game.preferences_enabled and game.camera_settings.snapshot()==reset_snapshot,"Automated runs ignore live edits and preset writes")
 	game.automated = false
 	game.hud.close_weather()
 	game.restart()
@@ -563,13 +581,13 @@ func _weather_checks() -> void:
 	check(independent,"All weather presentation updates leave simulation state, clock and benchmark eligibility untouched")
 	controller.set_preset("rain")
 	game._process(0.2)
-	check("RAIN" in game.hud.altitude_label.text and "°C" not in game.hud.altitude_label.text,"HUD shows actual weather without a fabricated temperature")
+	check("RAIN" in game.hud.altitude_label.text and "Â°C" not in game.hud.altitude_label.text,"HUD shows actual weather without a fabricated temperature")
 	controller.set_preset("clear")
 	controller.set_automatic(true)
 	controller.update_weather(180.0,true)
 	check(controller.state.label=="Clear" and is_equal_approx(controller.state.cloud_coverage,0.2),"Auto weather holds the preset for three minutes")
 	controller.update_weather(10.0,true)
-	check(controller.state.cloud_coverage>0.2 and controller.state.cloud_coverage<0.78 and "→" in controller.state.label,"Auto weather blends lighting and clouds gradually")
+	check(controller.state.cloud_coverage>0.2 and controller.state.cloud_coverage<0.78 and "â†’" in controller.state.label,"Auto weather blends lighting and clouds gradually")
 	var frozen = [controller.phase_seconds,controller.visual_time,controller.state.cloud_coverage]
 	controller.update_weather(60.0,false)
 	check(frozen==[controller.phase_seconds,controller.visual_time,controller.state.cloud_coverage],"Pause freezes the transition and weather animation clock")

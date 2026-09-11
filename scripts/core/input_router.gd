@@ -90,10 +90,10 @@ func sample(grounded: bool = true) -> RiderInput:
 		frame.air_pitch = stick_pitch
 	return frame
 
-func sample_camera_look() -> Vector2:
+func sample_camera_look(deadzone: float = 0.18, exponent: float = 2.0) -> Vector2:
 	# get_vector applies one radial deadzone using raw action strengths.
-	var stick = Input.get_vector("look_left", "look_right", "look_up", "look_down", 0.18)
-	return stick * stick.length()
+	var stick = Input.get_vector("look_left", "look_right", "look_up", "look_down", deadzone)
+	return stick.normalized() * pow(stick.length(),exponent) if not stick.is_zero_approx() else Vector2.ZERO
 
 func device_label() -> String:
 	var pads = Input.get_connected_joypads()
