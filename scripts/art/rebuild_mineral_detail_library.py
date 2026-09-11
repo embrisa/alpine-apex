@@ -18,7 +18,7 @@ from pathlib import Path
 from mathutils import Vector, Matrix, noise
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'rock_generator.blend'
+SOURCE = ROOT / 'art_source/blender/rock_generator.blend'
 OUT = ROOT / 'assets/graphics/minerals_v3'
 ART = ROOT / 'art_source/blender/minerals_v3'
 QA = ROOT / 'artifacts/minerals_v3'

@@ -1,6 +1,6 @@
 # Try Cascadeur R6 in game
 
-Double-click **Play Cascadeur R6.cmd** in the project folder. This opens the normal
+Double-click **scripts/launchers/Play Cascadeur R6.cmd** in the project folder. This opens the normal
 default v15 mountain with the R6 grounded sequence enabled in a separate playable
 scene. Normal launch still uses the production animations. The scene remains a
 playtest when restarted or when its mountain is reloaded, and its runs are unranked.
@@ -25,7 +25,7 @@ not a complete replacement animation library.
 For a faster small-slope launch:
 
 ```powershell
-./'Play Cascadeur R6.ps1' -QuickSlope
+./'scripts/launchers/Play Cascadeur R6.ps1' -QuickSlope
 ```
 
 The playtest uses the same source import convention and inherited fitting as the

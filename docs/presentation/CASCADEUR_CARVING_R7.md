@@ -16,12 +16,12 @@ if we like that more than our current?”** This follows the R6 playtest feedbac
 **“they look very similar?”** R7 supplies a distinct, optional carving variant.
 Preference and adoption remain open; no artistic score is assigned.
 
-Double-click **Play Cascadeur Carving.cmd** in the project folder. It loads the
+Double-click **scripts/launchers/Play Cascadeur Carving.cmd** in the project folder. It loads the
 normal mountain with the candidate enabled. **Enter / A** drops in; **A/D / left
 stick** steers; **F9** switches between current and Cascadeur carving; **C / right
 shoulder** changes camera. The comparison button is accessible while paused or at
 the summit. All runs are unranked. Normal launch keeps the production animations.
-`./'Play Cascadeur Carving.ps1' -QuickSlope` opens the smaller laboratory slope.
+`./'scripts/launchers/Play Cascadeur Carving.ps1' -QuickSlope` opens the smaller laboratory slope.
 
 ## What changes
 

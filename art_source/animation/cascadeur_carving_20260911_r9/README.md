@@ -20,6 +20,6 @@ and `run_render.ps1`. The full two-variant clothing audit needs more than the
 initial 120-second limit; the completed rerun uses 600 seconds. Both reports
 remain useful even if the audit exits nonzero for a shared clothing defect.
 
-`Play Cascadeur Deep Carving.cmd` is the user launcher. F9 compares R9 pressure
+`scripts/launchers/Play Cascadeur Deep Carving.cmd` is the user launcher. F9 compares R9 pressure
 support with current contacts without pressure sinking, while the browser pair
 compares R8 with R9. This pass authors no new Cascadeur source animation.

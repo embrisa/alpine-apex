@@ -16,7 +16,7 @@ replacements = {
     'cascadeur-20260911-r8-01-': 'cascadeur-20260911-r9-02-',
     'Right turn, frame 54: boot world-height separation is 2.8 cm with current contacts and 12.2 cm with pressure sinking. It varies through the turn; 10 cm is not a fixed target.':
         'Right turn, frame 54: boot world-height separation is 12.6 cm with R8 and 16.7 cm with R9. During the strong turn R9 reaches 16.9 cm. Terrain and ski position can make the total gap larger later.',
-    'Play Cascadeur Snow Carving.cmd': 'Play Cascadeur Deep Carving.cmd',
+    'scripts/launchers/Play Cascadeur Snow Carving.cmd': 'scripts/launchers/Play Cascadeur Deep Carving.cmd',
     'Known shared issue: poles briefly intersect clothing at frames 44–45 of the tuck-to-turn sequence in both versions.':
         'Known issues: both versions retain tuck-transition pole/clothing clipping at frames 44–45. R9 adds brief pole/trouser contacts at left-turn frame 63 and reversal frame 27. This is an optional height/feel trial; visual acceptance is still open.',
     'to compare snow contacts; the R7 hand pose stays enabled.': 'to switch R9 pressure sinking on/off; the R7 hand pose stays enabled. The videos above compare R8 with R9.',

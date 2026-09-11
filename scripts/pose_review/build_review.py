@@ -33,7 +33,7 @@ def main():
     assert not render.get('partial',False),'A review needs chronological rendered motion, not selected stills only'
     destination=rev/'review';assets=destination/'assets';assets.mkdir(parents=True,exist_ok=True)
     refs={}
-    for path in sorted((ROOT/'skier_pose_reference_sheets').glob('*.png')):
+    for path in sorted((ROOT/'art_source/references/skier_pose_reference_sheets').glob('*.png')):
         refs[path.name]=sha(path);shutil.copy2(path,assets/path.name)
     trace_hashes={s['name']:sha(rev/'capture'/(s['name']+'.json')) for s in manifest['scenarios']}
     identity=hashlib.sha256(json.dumps({'capture':sha(rev/'capture/manifest.json'),'traces':trace_hashes,'references':refs,'render':sha(rev/'render.json'),'selection':[(p['id'],p['scenario'],p['frame']) for p in assessed['poses']]},sort_keys=True).encode()).hexdigest()

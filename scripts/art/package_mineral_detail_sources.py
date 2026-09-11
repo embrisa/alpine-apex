@@ -64,6 +64,6 @@ for category in manifest['categories']:
     results.extend(category_results)
     print('DETAIL_CATEGORY_PACKED',category,24,flush=True)
 assert len(results) == 120 or '--completed-categories' in sys.argv
-assert hashlib.sha256((ROOT/'rock_generator.blend').read_bytes()).hexdigest() == manifest['source_sha256']
+assert hashlib.sha256((ROOT/'art_source/blender/rock_generator.blend').read_bytes()).hexdigest() == manifest['source_sha256']
 (QA/'blender_validation.json').write_text(json.dumps({'passed':True,'partial':len(results)!=120,'asset_count':len(results),'source_preserved':True,'assets':results},indent=2)+'\n')
 print('DETAIL_BLENDER_VALIDATED',len(results),flush=True)

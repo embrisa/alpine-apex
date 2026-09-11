@@ -109,7 +109,7 @@ def main():
         write(path / 'author_assessment.json', dict(assessment, evidence_variant=v))
     files = [p for p in SOURCE.rglob('*') if p.is_file() and p.suffix not in ('.pyc','.uid') and '__pycache__' not in p.parts]
     files += [p for p in (ROOT / 'tests/cascadeur_r7_playtest').iterdir() if p.suffix in ('.gd','.tscn')]
-    files += [ROOT / p for p in ('Play Cascadeur Carving.ps1','Play Cascadeur Carving.cmd','docs/CASCADEUR_CARVING_R7.md','scripts/presentation/skier_full_motion.gd')]
+    files += [ROOT / p for p in ('scripts/launchers/Play Cascadeur Carving.ps1','scripts/launchers/Play Cascadeur Carving.cmd','docs/CASCADEUR_CARVING_R7.md','scripts/presentation/skier_full_motion.gd')]
     manifest = {'created_utc':now, 'scope':'Handoff source hashes, not an adoption or quality certificate.',
                 'sha256':{p.relative_to(ROOT).as_posix():sha(p) for p in sorted(files)}}
     write(SOURCE / 'handoff_manifest.json', manifest)

@@ -1,4 +1,4 @@
-"""Build an additive game-asset pack from the supplied rock_generator.blend.
+"""Build an additive game-asset pack from the supplied art_source/blender/rock_generator.blend.
 
 blender --background --factory-startup --disable-autoexec --python-exit-code 1
     --python scripts/art/build_mineral_library.py [-- --sample | --formations-only]
@@ -20,7 +20,7 @@ from pathlib import Path
 from mathutils import Vector, Matrix, noise
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'rock_generator.blend'
+SOURCE = ROOT / 'art_source/blender/rock_generator.blend'
 OUT = ROOT / 'assets/graphics/minerals'
 ART = ROOT / 'art_source/blender/minerals'
 QA = ROOT / 'artifacts/minerals'
@@ -541,7 +541,7 @@ assert sha(SOURCE)==source_hash
 for row in preserved:assert sha(ROOT/row['path'])==row['sha256'],row['asset']
 new_count=len(records)
 records=preserved+records
-manifest=dict(version=VERSION,source='rock_generator.blend',source_sha256=source_hash,
+manifest=dict(version=VERSION,source='art_source/blender/rock_generator.blend',source_sha256=source_hash,
     blender_version=bpy.app.version_string,size_definition='Longest bounding-box dimension in metres',
     categories=LENGTHS,category_families=CATEGORY_FAMILIES,triangle_budgets=BUDGETS,asset_count=len(records),
     source_preserved=True,collision='Visual assets only; no skiing/contact changes',

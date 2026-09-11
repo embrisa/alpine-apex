@@ -12,12 +12,12 @@ along at the top of the snow.”** When offered a choice between leg motion alon
 and physical snow sinking, the user chose **“Include soft-snow sinking and leg
 motion.”** R8 implements that physical trial and retains the R7 hand pose.
 
-Double-click **Play Cascadeur Snow Carving.cmd**. **Enter / A** drops in,
+Double-click **scripts/launchers/Play Cascadeur Snow Carving.cmd**. **Enter / A** drops in,
 **A/D / left stick** carves, **C** changes camera, and **F9** switches the pressure
 support on/off. Both F9 modes retain R7 hands. The overlay reports each ski's
 pressure sinking in centimetres. The trial disables recording and eligibility
 after every restart. Normal launch does not enable this pressure-support layer.
-`./'Play Cascadeur Snow Carving.ps1' -QuickSlope` uses the laboratory slope.
+`./'scripts/launchers/Play Cascadeur Snow Carving.ps1' -QuickSlope` uses the laboratory slope.
 
 [Video comparison](http://127.0.0.1:8769/comparisons/cascadeur-20260911-r8/review.html)
 has a front leg close-up and full oblique/front/side views, six sequences, linked

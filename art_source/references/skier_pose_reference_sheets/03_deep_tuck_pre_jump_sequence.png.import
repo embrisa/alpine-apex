@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bk4nktiq53lky"
-path="res://.godot/imported/01_regular_downhill_sequence.png-fe0e076760eb7d606cfd856113bef6bb.ctex"
+uid="uid://bystub8j1xom3"
+path="res://.godot/imported/03_deep_tuck_pre_jump_sequence.png-0c33bba87c8ca8d7575b1f4f7a729105.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://skier_pose_reference_sheets/01_regular_downhill_sequence.png"
-dest_files=["res://.godot/imported/01_regular_downhill_sequence.png-fe0e076760eb7d606cfd856113bef6bb.ctex"]
+source_file="res://art_source/references/skier_pose_reference_sheets/03_deep_tuck_pre_jump_sequence.png"
+dest_files=["res://.godot/imported/03_deep_tuck_pre_jump_sequence.png-0c33bba87c8ca8d7575b1f4f7a729105.ctex"]
 
 [params]
 

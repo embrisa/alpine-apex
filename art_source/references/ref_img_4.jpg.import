@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dqmi30vwxpw03"
-path="res://.godot/imported/06_jump_takeoff_sequence.png-c7ce31a77d5e301ff2b6d125747f6340.ctex"
+uid="uid://c3o3ybo4fnhmd"
+path="res://.godot/imported/ref_img_4.jpg-ae1bda22e82b6bdcf7a253f815011620.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://skier_pose_reference_sheets/06_jump_takeoff_sequence.png"
-dest_files=["res://.godot/imported/06_jump_takeoff_sequence.png-c7ce31a77d5e301ff2b6d125747f6340.ctex"]
+source_file="res://art_source/references/ref_img_4.jpg"
+dest_files=["res://.godot/imported/ref_img_4.jpg-ae1bda22e82b6bdcf7a253f815011620.ctex"]
 
 [params]
 

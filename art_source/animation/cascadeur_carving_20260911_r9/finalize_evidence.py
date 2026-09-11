@@ -145,7 +145,7 @@ def main():
     files = [p for p in SOURCE.rglob('*') if p.is_file() and p.suffix not in ('.pyc', '.uid') and '__pycache__' not in p.parts]
     for folder in ('tests/cascadeur_r8_playtest', 'tests/cascadeur_r9_playtest'):
         files += [p for p in (ROOT / folder).iterdir() if p.suffix in ('.gd', '.tscn', '.ps1')]
-    files += [ROOT / p for p in ('Play Cascadeur Deep Carving.ps1', 'Play Cascadeur Deep Carving.cmd', 'scripts/main.gd', 'docs/CASCADEUR_DEEP_CARVING_R9.md')]
+    files += [ROOT / p for p in ('scripts/launchers/Play Cascadeur Deep Carving.ps1', 'scripts/launchers/Play Cascadeur Deep Carving.cmd', 'scripts/main.gd', 'docs/CASCADEUR_DEEP_CARVING_R9.md')]
     manifest = {'created_utc': now, 'scope': 'Live handoff sources; each movie has its own frozen snapshot.',
                 'sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in sorted(files)}}
     write(SOURCE / 'handoff_manifest.json', manifest)

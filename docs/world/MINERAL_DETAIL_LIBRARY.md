@@ -3,7 +3,7 @@
 This rebuild addresses the surface-detail loss in the first mineral pack. The
 default is **bare rock**, with optional moss scenes and separate moss-and-grass
 scenes. The previous `assets/graphics/minerals` exports remain available for
-comparison. The supplied `rock_generator.blend` is never overwritten.
+comparison. The supplied `art_source/blender/rock_generator.blend` is never overwritten.
 
 ## Assets and scale
 

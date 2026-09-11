@@ -5,7 +5,7 @@ or new imported leg clip. See [the handoff](../../../docs/presentation/CASCADEUR
 for exact user feedback, implementation, coordinates and acceptance limits.
 
 The live trial is `tests/cascadeur_r8_playtest/playtest.tscn`, launched with
-`Play Cascadeur Snow Carving.cmd`. F9 changes physical snow support while R7 hands
+`scripts/launchers/Play Cascadeur Snow Carving.cmd`. F9 changes physical snow support while R7 hands
 stay enabled. Runs are unranked. The core simulation is inherited; concurrent
 model-28 handling work remains in the normal project.
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bp4ggdvaktvq8"
-path="res://.godot/imported/05_carving_right_sequence.png-11027ebe3c91ce25ffcda6f52dfef98f.ctex"
+uid="uid://d1lghe2et88lr"
+path="res://.godot/imported/04_carving_left_sequence.png-f63a370ed50a5a1ef838efe123f4a513.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://skier_pose_reference_sheets/05_carving_right_sequence.png"
-dest_files=["res://.godot/imported/05_carving_right_sequence.png-11027ebe3c91ce25ffcda6f52dfef98f.ctex"]
+source_file="res://art_source/references/skier_pose_reference_sheets/04_carving_left_sequence.png"
+dest_files=["res://.godot/imported/04_carving_left_sequence.png-f63a370ed50a5a1ef838efe123f4a513.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqlqudgpse2m0"
-path="res://.godot/imported/ref_img_1.jpg-aba906c8a9f9ffa8b99206f3ff1aedda.ctex"
+uid="uid://dej0m2tcrs5i3"
+path="res://.godot/imported/07_landing_impact_sequence.png-a66af61ddde54c86b0d603abc1d97df5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ref_img_1.jpg"
-dest_files=["res://.godot/imported/ref_img_1.jpg-aba906c8a9f9ffa8b99206f3ff1aedda.ctex"]
+source_file="res://art_source/references/skier_pose_reference_sheets/07_landing_impact_sequence.png"
+dest_files=["res://.godot/imported/07_landing_impact_sequence.png-a66af61ddde54c86b0d603abc1d97df5.ctex"]
 
 [params]
 

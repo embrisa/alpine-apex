@@ -14,7 +14,7 @@ from pathlib import Path
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'rock_generator.blend'
+SOURCE = ROOT / 'art_source/blender/rock_generator.blend'
 ART = ROOT / 'art_source/blender/mineral_detail'
 OUT = ROOT / 'artifacts/mineral_detail/prototype_assets'
 QA = ROOT / 'artifacts/mineral_detail'

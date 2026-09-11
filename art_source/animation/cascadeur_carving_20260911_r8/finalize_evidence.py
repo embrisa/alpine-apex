@@ -113,7 +113,7 @@ def main():
         write(p/'author_assessment.json',dict(assessment,evidence_variant=v))
     files=[p for p in SOURCE.rglob('*') if p.is_file() and p.suffix not in ('.pyc','.uid') and '__pycache__' not in p.parts]
     files += [p for p in (ROOT/'tests/cascadeur_r8_playtest').iterdir() if p.suffix in ('.gd','.tscn','.ps1')]
-    files += [ROOT/p for p in ('Play Cascadeur Snow Carving.ps1','Play Cascadeur Snow Carving.cmd','scripts/main.gd','docs/CASCADEUR_SNOW_LEGS_R8.md')]
+    files += [ROOT/p for p in ('scripts/launchers/Play Cascadeur Snow Carving.ps1','scripts/launchers/Play Cascadeur Snow Carving.cmd','scripts/main.gd','docs/CASCADEUR_SNOW_LEGS_R8.md')]
     manifest={'created_utc':now,'scope':'Live R8 handoff sources. Movie snapshots separately retain the prior model-27 source.',
               'sha256':{p.relative_to(ROOT).as_posix():sha(p) for p in sorted(files)}}
     write(SOURCE/'handoff_manifest.json',manifest);write(COMPARISON/'handoff_manifest.json',manifest)

@@ -7,11 +7,11 @@ optional R8 pressure-support response. The strong-turn fixture now reaches
 R7's hand source is retained. This is a physical contact experiment with fitted
 leg motion; it contains no new Cascadeur leg clip or AI result.
 
-Double-click **Play Cascadeur Deep Carving.cmd** in the project folder for the
+Double-click **scripts/launchers/Play Cascadeur Deep Carving.cmd** in the project folder for the
 normal mountain. **F9** switches between R9 sinking and current contacts without
 pressure sinking; both modes retain R7 hands. Enter/controller A drops in,
 A/D/left stick carves, and C changes camera. Runs are unranked. For a smaller
-fixture, run `pwsh -NoProfile -File "Play Cascadeur Deep Carving.ps1" -QuickSlope`.
+fixture, run `pwsh -NoProfile -File "scripts/launchers/Play Cascadeur Deep Carving.ps1" -QuickSlope`.
 Normal project startup does not enable this experiment.
 
 [R8/R9 video comparison](http://127.0.0.1:8769/comparisons/cascadeur-20260911-r9/review.html)
