@@ -5,7 +5,7 @@ status: ready
 priority: P2
 depends_on: []
 created: "2026-09-11T18:38:12Z"
-updated: "2026-09-11T18:38:12Z"
+updated: "2026-09-11T23:43:33Z"
 source_thread: null
 ---
 
@@ -17,8 +17,8 @@ Holding forward lets the skier repeatedly push with the poles to get moving and
 cross slow terrain. Pushing can approach 40 km/h on flat ground, but uphill speed
 must fall with steepness: steep climbs should be around 5-15 km/h, and extremely
 steep slopes must eventually become impossible to climb using poles. Show a
-convincing new pushing motion synchronized with the propulsion. Evaluate
-Cascadeur for authoring this action without assuming broader tool adoption.
+convincing new pushing motion synchronized with the propulsion, authored through
+the existing Blender/Godot route.
 
 ## Current state and evidence
 
@@ -43,11 +43,10 @@ rendered or performance validation was run during task authoring.
   [skier_visual.gd](../../scripts/presentation/skier_visual.gd) fits the result
   to support/equipment, using the sole final
   [skier_pose_writer.gd](../../scripts/presentation/skier_pose_writer.gd).
-- The earlier [Cascadeur evaluation handoff](../../docs/ANIMATION.md#retained-findings-and-acceptance)
-  is historical context, not an unfinished prerequisite. The
-  [review lessons](../../docs/ANIMATION.md#retained-findings-and-acceptance) document how downstream
-  posture fitting largely hid an imported R6 candidate. Verify this new action
-  after the full gameplay pipeline, rather than judging export fidelity alone.
+- The [production pipeline](../../docs/ANIMATION.md#production-pipeline) applies
+  posture and joint fitting after source sampling. Verify the new action after
+  that complete gameplay pipeline; source export fidelity alone cannot prove
+  the intended motion survives those stages.
 - Backlog/archive and `docs/tasks/` inspection found no duplicate pole-pushing
   task. [Carving lean work](AA-20260911-161450-proportional-carving-lean.md) touches
   neighboring presentation code; preserve or coordinate its edits and retest
@@ -79,12 +78,11 @@ rendered or performance validation was run during task authoring.
   switch skiing or strong carving that needs the poles for balance. Preserve
   steering during ordinary low-speed pushes. Do not create airborne propulsion,
   rock-climbing assistance or a force from cosmetic pole intersections.
-- Try Cascadeur on a task-owned editable source. Evaluate the complete action in
-  gameplay, retain useful source/export files, and record authoring effort and
-  shortcomings. No purchase or commitment to replacing the animation library is
-  implied. If Cascadeur is unsuitable, record why and use the existing
-  Blender/Godot authoring route to finish this action; do not turn tool repair
-  into an unbounded prerequisite.
+- Author the action through the existing Blender/Godot route on a task-owned
+  editable source. Retain useful source/export files and evaluate the complete
+  action in gameplay. The user's 2026-09-12 tool-removal decision supersedes the
+  earlier external-authoring trial requirement; do not reintroduce it as a
+  prerequisite for this feature.
 
 ## Implementation approach
 
@@ -127,7 +125,7 @@ rendered or performance validation was run during task authoring.
    connected arms, rigid poles/boots and the existing final skeleton writer.
    Inspect transitions, planted-tip sliding, clothing collisions and full shafts.
 7. Document the final curve (degrees and km/h), force/cadence, action ownership,
-   controls, Cascadeur decision and measured limitations in maintained subsystem
+   controls, animation source and measured limitations in maintained subsystem
    documentation. Follow the [engine strategy](../../docs/ARCHITECTURE.md#engine-strategy)
    for bounded tick work; no unrelated performance rewrite is needed.
 
@@ -155,9 +153,9 @@ rendered or performance validation was run during task authoring.
   evidence, gameplay and side/front views. Demonstrate force/phase alignment,
   source survival through final fitting, stable grips/boots and credible pole
   contact without new conspicuous clothing intersections.
-- [ ] Report Cascadeur source/edit/export results separately from final gameplay
-  motion quality. A rejected Cascadeur route is valid; an unfinished or hidden
-  animation does not complete the gameplay feature.
+- [ ] Retain editable source and export provenance, and report final gameplay
+  motion quality. An unfinished animation or a source shape hidden by downstream
+  fitting does not complete the gameplay feature.
 - [ ] Measure affected solver/animation cost and matched rendered gameplay on the
   target PC at 3840x2160 output, High, documenting render scale, rendered FPS,
   p95/p99, CPU/GPU timing and memory. Keep generated frames separate. For a full

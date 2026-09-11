@@ -5,7 +5,7 @@ status: "ready"
 priority: "P2"
 depends_on: []
 created: "2026-09-11T15:39:00Z"
-updated: "2026-09-11T19:06:07Z"
+updated: "2026-09-11T23:43:33Z"
 source_thread: "01a090fe-2a8c-7fe0-8b5b-fa6446206ea9"
 ---
 
@@ -21,7 +21,7 @@ Create a bounded current visual review and listening/player checklist for contin
 
 ## Agreed decisions and scope
 
-Review and evidence preparation only. Do not redesign lighting, camera presets, animation, audio or controls. Preserve the user's adopted choices and separate aesthetic observations from structural failures. Cascadeur adoption is not authorized.
+Review and evidence preparation only. Do not redesign lighting, camera presets, animation, audio or controls. Preserve the user's adopted choices and separate aesthetic observations from structural failures. Use the established authoring route; tool evaluation is outside this review.
 
 ## Implementation approach
 

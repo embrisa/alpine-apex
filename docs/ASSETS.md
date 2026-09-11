@@ -89,13 +89,10 @@ checks repeat export/focused regressions. `scripts/measure_steep_motion.ps1`
 captures the native A/B (`-Timing` for screenshot-free timing); invoke these
 parameterized scripts through the native-pwsh guard pattern in Validation.
 
-Cascadeur R5/R6/R7/R8/R9 source directories retain their own editable files,
-exports and source receipts. Their short source READMEs describe asset-local
-commands; the canonical experiment status is [Animation](ANIMATION.md#retained-findings-and-acceptance).
-Existing authoring/sealing scripts are historical tools, not proof of current
-acceptance; do not rewrite sealed manifests to pretend later source hashes match.
-Timestamped handoff hash maps retain their historical paths; current source
-READMEs and producer scripts carry the relocated paths.
+Historical handoff/benchmark receipts retain their original paths and hashes.
+They describe the captured revision, not current build dependencies; do not
+rewrite them to imply later sources match. Current animation ownership and
+authoring direction live in [Animation](ANIMATION.md#authoring-direction).
 
 ## Trees
 

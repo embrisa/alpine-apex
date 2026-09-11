@@ -130,9 +130,6 @@ var camera_stick_armed: bool = false
 var discard_camera_mouse_motion: bool = false
 var application_focused: bool = true
 
-func create_simulation(values: SkiTuning):
-	return Simulation.new(values)
-
 func _ready() -> void:
 	get_tree().auto_accept_quit = false
 	Input.joy_connection_changed.connect(_controller_connection_changed)
@@ -140,7 +137,7 @@ func _ready() -> void:
 	navigation = preload("res://scripts/ui/menu_navigation.gd").new()
 	add_child(navigation) # Detect devices before the first loading tip is drawn.
 	var values = preload("res://config/ski_default.tres").duplicate(true)
-	sim = create_simulation(values)
+	sim = Simulation.new(values)
 	sim.tuning.ground_assist_enabled = "--ground-assist" in OS.get_cmdline_user_args()
 	sim.tuning.landing_assist_enabled = "--air-assist" in OS.get_cmdline_user_args()
 	if sim.tuning.ground_assist_enabled or sim.tuning.landing_assist_enabled: physics_modified = true

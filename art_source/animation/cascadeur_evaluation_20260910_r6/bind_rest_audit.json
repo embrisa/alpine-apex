@@ -1,8 +1,0 @@
-{
-  "scope": "Original body inverse-bind rest versus exported default node frames. Animation-only GLB has no inverse-bind matrices; original body supplies skin and bind axes.",
-  "names_match": true,
-  "joints": 24,
-  "max_bind_position_difference_m": 1.6585520479889394e-06,
-  "max_bind_basis_coefficient_difference": 7.642669837243377e-06,
-  "passed": true
-}

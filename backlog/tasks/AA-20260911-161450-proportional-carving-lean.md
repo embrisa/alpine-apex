@@ -5,7 +5,7 @@ status: ready
 priority: P2
 depends_on: []
 created: "2026-09-11T16:14:50Z"
-updated: "2026-09-11T16:45:36Z"
+updated: "2026-09-11T23:43:33Z"
 source_thread: "01a0913c-4f24-7623-a631-64ae86ab068e"
 ---
 
@@ -80,8 +80,7 @@ has not yet been reproduced or diagnosed by an implementation worker.
 Backlog, archive and `docs/tasks/` searches found no duplicate fix.
 [Input acceptance evidence](../archive/AA-20260911-153901-input-acceptance-evidence.md) is a
 related audit that does not authorize retuning; this bounded animation fix can
-proceed independently. Older Cascadeur handoffs concern authoring experiments,
-not this response defect.
+proceed independently of retired authoring experiments.
 
 ## Agreed decisions and scope
 

@@ -7,7 +7,7 @@ remain in task records.
 | Source now retained in | Import disposition |
 |---|---|
 | [Validation](../docs/VALIDATION.md) | Roadmap acceptance work, bounded to evidence/docs/necessary harnesses; baseline identity documentation precedes dependent work |
-| [Animation findings](../docs/ANIMATION.md#retained-findings-and-acceptance) | Original/completed Cascadeur handoffs superseded; not requeued or treated as adoption/user acceptance |
+| [Animation findings](../docs/ANIMATION.md#retained-findings-and-acceptance) | Original/completed external-authoring handoffs superseded; not requeued or treated as user acceptance; current tool direction is owned by Animation |
 | [Engine strategy](../docs/ARCHITECTURE.md#engine-strategy) | Measured opportunities; refresh performance evidence before optimization proposals |
 | [Competition direction](../docs/RACING.md#future-competition) | Future options; no speculative backend, engine rewrite or snowboard authorization |
 

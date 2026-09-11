@@ -364,9 +364,10 @@ Current task: [presentation comfort](../backlog/tasks/AA-20260911-153904-present
 Durable findings/limits are in [Animation](ANIMATION.md#retained-findings-and-acceptance).
 Reproduce with the animation skill, `tests/carve_entry_suite.gd`, production
 motion/anatomy/attachment suites and frozen chronological capture/audit stages.
-The carve-entry regression retained baseline clipping; R9's 16.94 cm height
-target introduced two new pole/clothing contact frames. Neither establishes
-production clearance, an artistic score or Cascadeur adoption.
+The carve-entry regression retained baseline clipping; it does not establish
+production clearance or an artistic score. Current authoring direction is in
+[Animation](ANIMATION.md#authoring-direction); retired trial results remain
+historical evidence, not current production acceptance.
 
 Source-pose diagnostics after editor removal verified 7,920 source joint samples
 unchanged across 33 clips/five times/mirror states. Its six rendered diagnostic

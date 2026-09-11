@@ -19,8 +19,8 @@ git lfs pull
 [the archive/file hashes](../tools/windows/toolchain.json), extracts the pinned
 editor and custom runtime into ignored `.tools/`, then imports assets. First
 import can exceed 20 minutes. Repeat setup after pulling a toolchain change;
-`-SkipImport` installs/verifies without importing. Blender/Cascadeur are only
-needed for their authoring workflows.
+`-SkipImport` installs/verifies without importing. Blender is only
+needed for its authoring workflows.
 
 `godotw.ps1` resolves the validated custom runtime for game/test invocations;
 editor, import and export use stock Godot. `./godotw.ps1 --editor` opens that

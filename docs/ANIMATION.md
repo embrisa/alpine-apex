@@ -131,26 +131,23 @@ from the earlier direction correction.
 - The carve-entry correction passed 64 checks with 720 paired physical frames
   unchanged, but retained ten baseline tuck-transition intersection frames.
   Preserve that limitation; no new intersections is not an all-clear result.
-- Cascadeur R4 source shoulders collapsed and torso/neck rotations approached
-  180° despite stable positions. R5's rest-calibrated orientations, explicit
-  clavicles and elbow planes retained shoulders. The user said R5 looked decent;
-  that approves a source-preview baseline, not gameplay or tool adoption.
-- R6 source changes looked similar in game because downstream posture ownership
-  overwrote them. Identify the actual authoring method and evaluated stage;
-  successful export does not prove useful AI authoring. R7 adds a visible local
-  upper-body difference before limits/tracking, with its own stiffness/preference
-  question and paired transition-clipping limits.
-- R8/R9 are optional physical snow-support experiments with R7 hands. Foot height
-  follows physical support, not cosmetic leg displacement. R9's requested deepest
-  carve achieved 0.169428061 m world-Y boot separation; slope/fore-aft differences
-  can produce larger later gaps. World-Y separation is not normal sinking.
-  Full audit found two new affected pole/clothing frames. The numerical target
-  does not establish production clearance, adoption or a Blender comparison.
+- Downstream posture ownership can overwrite an imported source shape. Inspect
+  source, requested and final poses to locate that stage before authoring more
+  clips. Successful export and stable joint positions do not establish useful
+  gameplay motion or correct joint rotations.
 
-Cascadeur sources, experiment scenes and sealed evidence remain retained.
-Launchers are in `scripts/launchers/`: R6, Carving (R7), Snow Carving (R8) and
-Deep Carving (R9); each accepts `-QuickSlope`, with its existing capture/control
-options. These are isolated unranked trials, not replacement production defaults.
+## Authoring direction
+
+The user retired Cascadeur on 2026-09-12 after the matched visual comparison
+showed insufficient benefit. Its trial sources, scenes, launchers, report builder
+and alternate simulation hook are removed. Use the existing Blender/Godot route
+for new animation work; future tasks do not require another tool trial.
+
+The review remains in `artifacts/animation_comparison_20260912/`. Its dated
+captures establish neither current gameplay quality nor acceptance of the trial
+poses. The rejected trial's source/fitting findings and unresolved clothing
+contacts remain in the sealed historical evidence. Removal provenance and
+validation are in `artifacts/animation_trial_retirement_20260912/`.
 
 Current evidence and unresolved player review are in [Validation](VALIDATION.md#animation-evidence).
 Reuse durable lessons rather than obsolete assignment briefs or copied artifact scripts.
