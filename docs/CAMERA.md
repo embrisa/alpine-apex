@@ -197,6 +197,6 @@ Omitting these flags measures Connected. Use a current successful input trace,
 actual pixels, rendered p95/p99, CPU/GPU, camera cost and memory without captures.
 
 Automated correctness, rendered framing, measured performance, and physical
-controller/user skiing acceptance are separate. Evidence from this revision is
-recorded under `artifacts/camera_v2/` and the labeled `artifacts/pc_environment/`
-directories.
+controller/user skiing acceptance are separate. See the
+[2026-09-11 validation report](CAMERA_V2_VALIDATION.md). Raw evidence is recorded
+under `artifacts/camera_v2/` and the labeled `artifacts/pc_environment/` directories.

@@ -8,11 +8,11 @@ space while retaining the existing skiing, race, mountain and graphics contracts
 | Window | Tabs / actions |
 | --- | --- |
 | Main menu | Ride, Explore, Tools |
-| Settings (Tools) | Display, Weather, Rider, Camera, Skier Voice, Interface, Controls |
+| Settings (Tools) | Display, Weather, Rider, Camera, Skier Voice, Interface, Controls, Audio |
 | Mountains (Explore) | Create, Saved, Share; large terrain preview beside the controls |
 | Races (Explore / F4) | Saved races, Import & share; separate in-world creation view |
 | Personal best (Explore / F6) | Overview, Splits, Run history |
-| Workbench (Tools / F2) | Handling, Forces, Camera, Speed lab |
+| Workbench (Tools / F2) | Handling, Forces, Feedback, Speed lab |
 
 Settings and the workbench have fixed Back/Close buttons outside their scrolling
 tab content. Tab/arrow navigation, focus outlines and Escape remain available.
@@ -65,7 +65,8 @@ untouched. Exit returns to settings; Resume skiing is offered from a paused run.
 The preview retains normal gameplay aspect ratio with one rendering camera.
 Keyboard/controller focus follows the scrolling content. Settings remain usable
 without preview; crashed/loading states disable preview.
-See [camera behavior, controls and validation](CAMERA.md).
+See [camera behavior and controls](CAMERA.md) and the
+[camera profiles and preview validation](CAMERA_V2_VALIDATION.md).
 
 ## Angular visual language
 

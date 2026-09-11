@@ -6,7 +6,10 @@ func configure_comparison() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg=="--camera-matched": matched = true
 		if arg.begins_with("--camera-baseline-script="): camera_baseline_path = arg.get_slice("=",1)
-	if not camera_baseline_path.is_empty():
+func prepare_comparison_trial(index: int) -> void:
+	# The parent assigns current settings before its initial render-size check.
+	# Install the historical fixture afterward, before this trial can render.
+	if not camera_baseline_path.is_empty() and index==0:
 		var previous = game.camera
 		game.camera = load(camera_baseline_path).new()
 		game.camera.near = previous.near
@@ -14,7 +17,6 @@ func configure_comparison() -> void:
 		game.add_child(game.camera)
 		previous.queue_free()
 		game.camera.make_current()
-func prepare_comparison_trial(_index: int) -> void:
 	game.camera_settings.reset()
 	game.camera.effects_enabled = true
 	if matched:
