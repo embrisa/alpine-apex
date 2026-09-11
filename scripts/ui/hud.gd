@@ -73,6 +73,7 @@ const LIME = Art.ICE
 var root = Control.new()
 var menu_fade: ColorRect
 var menu_backgrounds: Array[Control] = []
+var menu_edge_shading: Array[Control] = []
 var menu_art_ready: bool = false
 var hero_logo: TextureRect
 var header_logo: TextureRect
@@ -137,16 +138,19 @@ class SpeedDial:
 		var radius = size.x * 0.46
 		var start = deg_to_rad(140.0)
 		var sweep = deg_to_rad(260.0)
-		draw_arc(center,radius,start,start+sweep,80,Color(1,1,1,0.20),2.0,true)
+		var edge = Color(.008,.018,.026,.96)
+		draw_arc(center,radius,start,start+sweep,80,edge,6.0,true)
+		draw_arc(center,radius,start,start+sweep,80,Color(1,1,1,.65),1.0,true)
 		draw_arc(center,radius,start,start+sweep*clampf(speed/200.0,0,1),80,tint,3.0,true)
 		for threshold in [60,90,120,150,165,200]:
 			var direction = Vector2.from_angle(start+sweep*threshold/200.0)
-			draw_line(center+direction*(radius-6),center+direction*radius,Color(1,1,1,0.4),1.0,true)
+			draw_line(center+direction*(radius-6),center+direction*radius,edge,3.0,true)
+			draw_line(center+direction*(radius-6),center+direction*radius,Color(1,1,1,.85),1.0,true)
 
 class SlimBar:
 	extends Control
 	const UITheme = preload("res://scripts/ui/alpine_theme.gd")
-	var background = UITheme.box(Color(1,1,1,0.20),Color.TRANSPARENT,0,Vector2(6,3))
+	var background = UITheme.box(Color(1,1,1,0.45),Color.TRANSPARENT,0,Vector2(6,3))
 	var fill = UITheme.box(Color("a5dced"),Color.TRANSPARENT,0,Vector2(6,3))
 	var tint: Color = Color("a5dced"):
 		set(v):
@@ -161,6 +165,7 @@ class SlimBar:
 			queue_redraw()
 	var max_value: float = 100.0
 	func _draw() -> void:
+		draw_rect(Rect2(Vector2.ZERO,size).grow(1.25),Color(.008,.018,.026,.96))
 		draw_style_box(background,Rect2(Vector2.ZERO,size))
 		var fraction = clampf(value/maxf(max_value,0.001),0,1)
 		if fraction > 0.0: draw_style_box(fill,Rect2(Vector2.ZERO,Vector2(size.x*fraction,size.y)))
@@ -177,7 +182,7 @@ func _ready() -> void:
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(root)
 	_build_menu_backdrop()
-	_build_readability_gradients()
+	_build_menu_edge_shading()
 	root.move_child(hero_logo,root.get_child_count()-1)
 	_build_header()
 	_build_instruments()
@@ -232,7 +237,7 @@ func _label(text_value: String, size_value: int = 16, color: Color = WHITE, mono
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return label
 
-func _build_readability_gradients() -> void:
+func _build_menu_edge_shading() -> void:
 	for bottom in [false,true]:
 		var gradient = Gradient.new()
 		gradient.set_color(0,Color(0.02,0.07,0.11,0.0 if bottom else 0.45))
@@ -249,6 +254,8 @@ func _build_readability_gradients() -> void:
 			rect.offset_top = -225
 		else:
 			rect.offset_bottom = 135
+		rect.visible = false
+		menu_edge_shading.append(rect)
 		root.add_child(rect)
 
 func _style(bg: Color, border: Color = Color(0.55,0.69,0.73,0.2), padding: int = 28) -> StyleBox:
@@ -360,6 +367,7 @@ func _sync_menu_backdrop() -> void:
 	if camera_options.preview_active:
 		header_logo.hide()
 		mode_label.hide()
+	for shade in menu_edge_shading: shade.visible = background_visible
 	footer.visible = background_visible
 	footer_controls.text = MENU_CONTROLS if background_visible else (PAD_CONTROLS if not Input.get_connected_joypads().is_empty() else SKI_CONTROLS)
 	widget_layout.menu_visible = background_visible
@@ -742,6 +750,9 @@ func show_result(session, peak_kmh: float) -> void:
 
 func _build_debug() -> void:
 	debug_panel = _panel()
+	var empty_panel = StyleBoxEmpty.new()
+	empty_panel.set_content_margin_all(28)
+	debug_panel.add_theme_stylebox_override("panel",empty_panel)
 	debug_panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
 	debug_panel.offset_left = -386
 	debug_panel.offset_right = -44
@@ -948,6 +959,7 @@ func toggle_instruments() -> void:
 	layout_widgets()
 
 func layout_widgets() -> void:
+	for widget in widget_layout.widgets.values(): widget.node.background_enabled = shell_layout.hud_backgrounds
 	if widget_layout.widgets.is_empty() or widget_layout.preview: return
 	widget_layout.safe_area = shell_layout.safe_area
 	widget_layout.apply(root.size)
@@ -968,6 +980,7 @@ func _widget(id: String, caption: String, nodes: Array, dimensions: Vector2, pos
 		node.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 		node.position = offsets[i]+Vector2(8,6)
 		node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		wrapper.style_content(node)
 	widget_layout.register(id,caption,wrapper,dimensions+Vector2(16,12),position,enabled,race_only)
 
 func _build_widget_registry() -> void:

@@ -280,6 +280,14 @@ func _interface(col: Control) -> void:
 		readout.custom_minimum_size.x = 64
 		row.add_child(readout)
 		slider.value_changed.connect(func(value): hud.shell_layout.change(key,value); readout.text = "%d%%" % roundi(value*100))
+	var backgrounds = CheckButton.new()
+	backgrounds.name = "HUDBackgrounds"
+	backgrounds.text = "HUD backgrounds"
+	backgrounds.button_pressed = hud.shell_layout.hud_backgrounds
+	backgrounds.toggled.connect(func(value): hud.shell_layout.change("hud_backgrounds",value))
+	hud.shell_layout.preferences_changed.connect(func(): backgrounds.set_pressed_no_signal(hud.shell_layout.hud_backgrounds))
+	col.add_child(backgrounds)
+	hud._note(col,"Off by default. Outlined text and gauges stay readable without panels.")
 	var reduced = CheckButton.new()
 	reduced.text = "Reduce interface motion"
 	reduced.button_pressed = hud.feedback.reduced_motion

@@ -20,6 +20,22 @@ func run() -> void:
 	hud.sync_display(Settings.new())
 	check(hud.widget_layout.widgets.size()==12,"Registry covers all instrument groups")
 	var original = hud.widget_layout.snapshot()
+	var backgrounds = hud.root.find_child("HUDBackgrounds",true,false)
+	check(not hud.shell_layout.hud_backgrounds and not backgrounds.button_pressed,"HUD backgrounds default off in the live setting")
+	for enabled in [true,false]:
+		backgrounds.button_pressed = enabled
+		check(hud.widget_layout.widgets.values().all(func(widget): return widget.node.background_enabled==enabled) and hud.widget_layout.snapshot()==original,"Background toggle updates every instrument without changing layout: "+str(enabled))
+		var interface_path = "user://overhaul_interface_test.cfg"
+		check(hud.shell_layout.Store.write_values(interface_path,1,hud.shell_layout.snapshot())==OK,"Interface preference saves atomically: "+str(enabled))
+		var restored = preload("res://scripts/ui/screen_shell.gd").new()
+		restored.restore(restored.Store.read_values(interface_path,1))
+		check(restored.hud_backgrounds==enabled,"Background preference survives a fresh store load: "+str(enabled))
+		restored.free()
+	hud.shell_layout.restore({"hud_backgrounds":"false"})
+	check(not hud.shell_layout.hud_backgrounds,"Malformed background preference cannot enable panels")
+	hud.hide_menu()
+	check(not hud.footer.visible and hud.menu_edge_shading.all(func(shade): return not shade.visible),"Riding HUD has no footer or screen-edge background")
+
 	for size in [Vector2(1280,720),Vector2(1440,900),Vector2(1920,1080),Vector2(3840,2160),Vector2(3440,1440)]:
 		root.size = size
 		await settle()
@@ -47,6 +63,10 @@ func run() -> void:
 	await hud.hud_editor.open()
 	await settle()
 	check(hud.hud_editor.visible and hud.widget_layout.preview,"HUD preview owns real composite widgets")
+	for enabled in [true,false]:
+		hud.shell_layout.restore({"hud_backgrounds":enabled})
+		hud.shell_layout.resize()
+		check(backgrounds.button_pressed==enabled and hud.widget_layout.widgets.values().all(func(widget): return widget.node.background_enabled==enabled),"Restore synchronizes the setting and live editor preview: "+str(enabled))
 	hud.hud_editor.select("reserve")
 	hud.hud_editor.set_mode("move")
 	hud.hud_editor.handle_direction(Vector2i.LEFT)

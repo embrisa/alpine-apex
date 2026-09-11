@@ -2,9 +2,11 @@ extends Node
 ## Responsive layout and presentation-only UI preferences; UI draws at output pixels.
 const Store = preload("res://scripts/ui/preference_store.gd")
 const PATH = "user://interface_layout_v1.cfg"
+signal preferences_changed
 var hud
 var ui_scale = 1.0
 var safe_area = .025
+var hud_backgrounds = false
 var windows: Array[Control] = []
 var origins: Dictionary = {}
 var applying_size = false
@@ -16,7 +18,7 @@ func setup(owner_hud) -> void:
 	resize()
 
 func snapshot() -> Dictionary:
-	return {"ui_scale":ui_scale,"safe_area":safe_area}
+	return {"ui_scale":ui_scale,"safe_area":safe_area,"hud_backgrounds":hud_backgrounds}
 
 func restore(values: Dictionary) -> void:
 	for key in ["ui_scale","safe_area"]:
@@ -24,8 +26,10 @@ func restore(values: Dictionary) -> void:
 		if (value is float or value is int) and is_finite(value): set(key,float(value))
 	ui_scale = clampf(ui_scale,.85,1.4)
 	safe_area = clampf(safe_area,0.0,.08)
+	if values.get("hud_backgrounds") is bool: hud_backgrounds = values.hud_backgrounds
+	preferences_changed.emit()
 
-func change(key: String, value: float) -> void:
+func change(key: String, value: Variant) -> void:
 	restore({key:value})
 	resize()
 	if hud.feedback.persist and Store.write_values(PATH,1,snapshot())!=OK: hud.toast("Could not save interface settings.")
