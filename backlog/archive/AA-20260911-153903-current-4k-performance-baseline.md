@@ -63,7 +63,7 @@ the changed route is not a like-for-like FPS optimization. Full evidence lives i
 `artifacts/pc_environment/player-v15-4k-focused-20260912/`,
 `artifacts/guarded/player-v15-4k-focused/` and
 `artifacts/player_v15_4k_baseline/`. Source/recording milestones are `1679949`
-and `1c2c836`; measured checkout HEAD was `be69d1d`. This closure adds reporting
+and `1c2c836`; measured checkout HEAD was `370038a`. This closure adds reporting
 only and is committed with the receipt and guide. Receipt distribution checks,
 backlog validation and link checks passed; no production change required another
 physics/runtime batch.
