@@ -1,15 +1,15 @@
 ---
 id: "AA-20260911-161450-proportional-carving-lean"
-title: "Make carving lean proportional during light steering and taps"
+title: "Fix excessive and wrong-direction carving lean"
 status: ready
 priority: P2
 depends_on: []
 created: "2026-09-11T16:14:50Z"
-updated: "2026-09-11T16:14:50Z"
+updated: "2026-09-11T16:45:36Z"
 source_thread: "01a0913c-4f24-7623-a631-64ae86ab068e"
 ---
 
-# Make carving lean proportional during light steering and taps
+# Fix excessive and wrong-direction carving lean
 
 ## Outcome
 
@@ -20,6 +20,12 @@ Small corrections should look subtle, deep lean should remain available for a
 sustained loaded turn, and the pose should settle as the actual turn fades. The
 user explicitly chose to keep strong carving for real turns.
 
+The user subsequently reported the direction is also wrong: "if im steering to
+the right the skier will lean to the left". Fix both excessive strength and
+opposite visible lean in this task. From settled straight skiing, a right turn
+must develop rightward whole-body lean, with the mirrored expectation for left.
+Assess the final skier in the gameplay view, not merely the selected clip name.
+
 ## Current state and evidence
 
 Read-only investigation on 2026-09-11 at commit
@@ -27,11 +33,22 @@ Read-only investigation on 2026-09-11 at commit
 and engine identity before implementation. No Godot reproduction or rendered
 verification was performed while authoring this task; the symptom is user-reported.
 
+Direction follow-up inspection at commit
+`4e10f9fafab183cdca49ac179eda1cf1f0cfea5b` confirmed the separate direction/bank
+channels below remain in the live source. Concurrent presentation/animation-tool
+cleanup was in progress; only this task file was edited. The new direction report
+has not yet been reproduced or diagnosed by an implementation worker.
+
 - [skier_full_motion.gd](../../scripts/presentation/skier_full_motion.gd), `step`
   and `supported_turn`: grounded, load-weighted completed ski edge is normalized
   by 0.65 radians. Input above magnitude 0.001 selects direction, while the edge
   signal supplies magnitude. A duplicated state's `steer` and `carve` are replaced
   by these values. Turn clip weight uses `smoothstep(.02,.85,abs(turn))`.
+  In particular, `state.steer` takes the input-selected sign while `state.carve`
+  retains the supported-edge sign. `Action.apply` uses `state.carve` for hip/spine
+  roll and `state.steer` for yaw. These signals can disagree during counterbank
+  or reversal; trace whether that disagreement explains the reported left lean
+  on right input, without assuming that changing a clip label fixes the body.
 - Carve clips are sampled using the continuously advancing `clock` with looping
   enabled. Inspection does not establish an input-triggered one-shot animation;
   investigate why the final motion *looks* like a full committed sequence.
@@ -54,8 +71,10 @@ verification was performed while authoring this task; the symptom is user-report
   checks wrong-way silhouette motion with hard input or ramps to 0.55. Neither
   establishes an acceptable lean envelope for small sustained inputs and taps.
 - [CARVE_DIRECTION_FIX.md](../../docs/CARVE_DIRECTION_FIX.md) documents the earlier
-  cross-slope/body-frame correction and its evidence. Preserve its direction and
-  support-frame behavior. Its historical ten tuck-transition clothing-contact
+  cross-slope/body-frame correction and its evidence. Retain its valid direction
+  and support-frame guarantees, but treat the latest report as an unresolved
+  direction defect; the earlier checks do not prove this case is fixed.
+  Its historical ten tuck-transition clothing-contact
   frames and pending human acceptance are limitations, not a current all-clear.
 
 Backlog, archive and `docs/tasks/` searches found no duplicate fix.
@@ -68,6 +87,10 @@ not this response defect.
 
 - Cover held light steering, quick tap/release, both directions and transitions
   back to nearly straight skiing. Preserve expressive balance in strong turns.
+- Correct wrong-way final body/torso lean as well as strength. Distinguish entry
+  from settled straight skiing from a reversal that must unwind an existing
+  loaded turn. Preserve continuous weight transfer and natural upper-body
+  counterbalance; do not snap or force every joint to share the input sign.
 - Change presentation response/blending in the existing production pipeline.
   Use completed physical response to distinguish real loading/turning from an
   exaggerated pose; neither raw input nor any nonzero edge is sufficient alone.
@@ -89,16 +112,22 @@ not this response defect.
    failing baseline. Trace post-mapping input, speed, actual trajectory turn rate,
    heading, body bank, grounded load/edges, original and overridden channels,
    source phase/weights, downhill/action weights, requested pose and final pose.
-   Establish which stage first creates excessive lean or delayed continuation.
+   Establish which stage first creates excessive lean, wrong-way lean or delayed
+   continuation. Track clip side, signed bank/roll and final torso/whole-body lean
+   separately, with explicit rider-relative and gravity/heading-frame conventions.
 2. Use matched left/right fixtures with normalized post-mapping inputs 0, 0.05,
    0.10, 0.20, 0.55 and 1.0: light holds, 50-150 ms taps, release and reversal.
    Vary source phase and speed; include fall-line, cross-slope and mirrored
    cross-slope support, tuck, unequal loads, and return from a strong turn.
    Check idle stick noise through the existing controller mapping as a neighbor.
+   Include an explicit settled-straight -> right-input -> release sequence and
+   its left mirror, plus input opposing terrain counterbank or the previous turn.
+   Do not filter out opposite-sign edge/input samples from the direction audit.
 3. Correct the owning blend/posture stage so mild real corrections remain mild
    through source sampling, tracking and final fitting. Preserve smooth entry,
    release and reversals, strong-turn range, valid residual balance and the
-   earlier apparent-direction correction. Do not enforce waiting for a clip to
+   valid support-frame correction while repairing the newly reported direction
+   failure wherever it originates. Do not enforce waiting for a clip to
    finish. Change only the smallest coherent cause demonstrated by the trace.
 4. Extend focused regressions around the reproducer. Measure final torso and
    foot-to-chest lateral angles in the gravity/heading frame, plus lateral pelvis
@@ -110,6 +139,14 @@ not this response defect.
 
 All checks below are planned and pending implementation.
 
+- [ ] Starting from settled straight skiing, right input does not initiate a
+  pronounced leftward whole-body/torso lean; left input satisfies the mirror.
+  Verify final gravity/heading-relative silhouettes and production chase views
+  through entry, hold and release, across light/strong input and source phases.
+  Record opposite-lean magnitude/duration and bounded natural sway. A correct
+  LEFT/RIGHT clip label alone cannot pass this check. Counterbank/reversal cases
+  must transition smoothly without a newly triggered wrong-way lurch; distinguish
+  unwinding real residual bank from a presentation direction defect.
 - [ ] Mild holds and taps that produce only mild path correction have visibly
   smaller final lean than sustained strong loaded turns. A light correction
   cannot merely activate the full deep-carve posture. Document quantitative
@@ -118,7 +155,7 @@ All checks below are planned and pending implementation.
   toward straight skiing without a later deep lurch or completing a committed
   clip cycle. Record peak timing and time to settle; preserve proportionate
   residual balance while a real turn persists. No snaps in entry or reversal.
-- [ ] New focused magnitude/release checks, `tests/carve_response_suite.gd`,
+- [ ] New focused magnitude/direction/release checks, `tests/carve_response_suite.gd`,
   `tests/carve_entry_suite.gd`, and the animation regression group (anatomy,
   compact posture, ski attachment, skier motion) pass. Paired runs retain exact
   recorded physics/ski state and COM. If input/session/physics changes become
