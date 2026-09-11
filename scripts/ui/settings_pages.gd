@@ -287,7 +287,7 @@ func _interface(col: Control) -> void:
 	backgrounds.toggled.connect(func(value): hud.shell_layout.change("hud_backgrounds",value))
 	hud.shell_layout.preferences_changed.connect(func(): backgrounds.set_pressed_no_signal(hud.shell_layout.hud_backgrounds))
 	col.add_child(backgrounds)
-	hud._note(col,"Off by default. Outlined text and gauges stay readable without panels.")
+	hud._note(col,"Add a translucent panel behind each instrument. Off by default.")
 	var reduced = CheckButton.new()
 	reduced.text = "Reduce interface motion"
 	reduced.button_pressed = hud.feedback.reduced_motion

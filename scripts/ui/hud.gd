@@ -138,19 +138,16 @@ class SpeedDial:
 		var radius = size.x * 0.46
 		var start = deg_to_rad(140.0)
 		var sweep = deg_to_rad(260.0)
-		var edge = Color(.008,.018,.026,.96)
-		draw_arc(center,radius,start,start+sweep,80,edge,6.0,true)
-		draw_arc(center,radius,start,start+sweep,80,Color(1,1,1,.65),1.0,true)
+		draw_arc(center,radius,start,start+sweep,80,Color(1,1,1,.25),2.0,true)
 		draw_arc(center,radius,start,start+sweep*clampf(speed/200.0,0,1),80,tint,3.0,true)
 		for threshold in [60,90,120,150,165,200]:
 			var direction = Vector2.from_angle(start+sweep*threshold/200.0)
-			draw_line(center+direction*(radius-6),center+direction*radius,edge,3.0,true)
-			draw_line(center+direction*(radius-6),center+direction*radius,Color(1,1,1,.85),1.0,true)
+			draw_line(center+direction*(radius-6),center+direction*radius,Color(1,1,1,.5),1.0,true)
 
 class SlimBar:
 	extends Control
 	const UITheme = preload("res://scripts/ui/alpine_theme.gd")
-	var background = UITheme.box(Color(1,1,1,0.45),Color.TRANSPARENT,0,Vector2(6,3))
+	var background = UITheme.box(Color(1,1,1,0.25),Color.TRANSPARENT,0,Vector2(6,3))
 	var fill = UITheme.box(Color("a5dced"),Color.TRANSPARENT,0,Vector2(6,3))
 	var tint: Color = Color("a5dced"):
 		set(v):
@@ -165,7 +162,6 @@ class SlimBar:
 			queue_redraw()
 	var max_value: float = 100.0
 	func _draw() -> void:
-		draw_rect(Rect2(Vector2.ZERO,size).grow(1.25),Color(.008,.018,.026,.96))
 		draw_style_box(background,Rect2(Vector2.ZERO,size))
 		var fraction = clampf(value/maxf(max_value,0.001),0,1)
 		if fraction > 0.0: draw_style_box(fill,Rect2(Vector2.ZERO,Vector2(size.x*fraction,size.y)))
