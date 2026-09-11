@@ -51,7 +51,7 @@ were performed during authoring.
 - [Ragdoll](../../scripts/presentation/skier_ragdoll.gd) follows physical hips
   after onset. Their later position must not select the recovery anchor.
 - No matching recovery task was found in tasks, archives or ideas. The completed
-  [interface overhaul](AA-20260911-163058-interface-overhaul.md) owns the existing
+  [interface overhaul](../archive/AA-20260911-163058-interface-overhaul.md) owns the existing
   menu shell. The ready [weather/race task](AA-20260911-160307-weather-upgrade-storm-races.md)
   also touches race schema, identity and main lifecycle: coordinate these shared
   owners and allocate versions from current source rather than assuming schema 5
