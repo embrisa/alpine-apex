@@ -1,6 +1,7 @@
 extends RefCounted
 ## Single source for numbered presets and editable presentation bounds.
 ## Rows: label, group, minimum, maximum, step. Booleans use false/true.
+const MAX_TRACK_HISTORY = 6144
 const CONTROLS = {
 	"texture_tier":["Surface textures", "Textures & detail",0,2,1],
 	"mesh_lod_bias":["Stone mesh detail", "Textures & detail",.25,1.6,.05],
@@ -15,7 +16,7 @@ const CONTROLS = {
 	"shadow_quality":["Shadow filtering", "Lighting & shadows",0,5,1],
 	"shadow_distance_m":["Shadow distance (m)", "Lighting & shadows",60.0,320.0,10.0],
 	"contact_shading":["Contact shading", "Lighting & shadows",false,true,1],
-	"contact_intensity":["Contact shading strength", "Lighting & shadows",0.0,1.0,.05],
+	"contact_intensity":["Contact shading in direct light", "Lighting & shadows",0.0,1.0,.05],
 	"indirect_lighting":["Screen-space indirect light", "Lighting & shadows",false,true,1],
 	"indirect_intensity":["Indirect light strength", "Lighting & shadows",0.0,2.0,.1],
 	"terrain_gi":["Terrain global illumination", "Lighting & shadows",false,true,1],
@@ -28,7 +29,7 @@ const CONTROLS = {
 	"snow_sparkle":["Crystal sparkle", "Snow & particles",0.0,12.0,.5],
 	"snow_crystal_density":["Crystal density", "Snow & particles",0.0,2.5,.05],
 	"snow_sheen":["Snow sheen", "Snow & particles",0.0,.25,.01],
-	"snow_track_capacity":["Track segments", "Snow & particles",400,6144,128],
+	"snow_track_capacity":["Track segments", "Snow & particles",400,MAX_TRACK_HISTORY,128],
 	"snow_track_relief":["Track relief", "Snow & particles",false,true,1],
 	"snow_local_deformation":["Local snow deformation", "Snow & particles",false,true,1],
 	"spray_budget":["Spray per ski", "Snow & particles",48,640,16],
@@ -49,7 +50,7 @@ const TABLE = [
 	[95,280,1300,130,1.0,220,.42,384,256,128,4096,9,1.75,.1584,.385,1.0,6000,1.0],
 	[110,320,1500,150,1.0,250,.44,448,288,144,4608,10,1.90,.17,.40,1.0,6500,1.15],
 	[130,360,1750,175,1.0,280,.46,512,320,160,5376,11,2.10,.18,.42,1.0,7000,1.30],
-	[150,400,2000,200,1.0,320,.48,640,384,192,6144,12,2.25,.19,.44,1.0,7500,1.50]
+	[150,400,2000,200,1.0,320,.48,640,384,192,MAX_TRACK_HISTORY,12,2.25,.19,.44,1.0,7500,1.50]
 ]
 
 static func values(id: int) -> Dictionary:

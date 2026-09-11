@@ -1,5 +1,12 @@
 # Graphics and generated mountains
 
+Current player settings use ten numbered presets: 1 Low, 4 Balanced, 7 High
+(recommended), 10 Ultra. [Preset budgets and consumer contracts](GRAPHICS_PRESETS.md)
+and the [interface inventory](INTERFACE_OVERHAUL.md) define advanced controls,
+Custom/reset behavior and separate graphics/display stores.
+[Native performance evidence](INTERFACE_PERFORMANCE.md) distinguishes steady
+rendering, application cost, generated frames and human acceptance.
+
 [Softer snow](SOFT_SNOW.md) keeps the scanned textures and broad drifts while
 reducing grain/ripple contrast, with a modest increase in sun sheen and highlight
 glow. It retains terrain-shape shading, crystal density and the existing presets.

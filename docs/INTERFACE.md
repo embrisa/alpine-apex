@@ -1,14 +1,15 @@
 # Interface windows and loading
 
-The interface refresh on `codex/ui-workspace-loading` gives each activity its own
-space while retaining the existing skiing, race, mountain and graphics contracts.
+The September 11 interface overhaul uses a responsive shell, edge categories,
+centered content and fixed actions across player menus and retained tools.
+See [current implementation, inventory and evidence](INTERFACE_OVERHAUL.md).
 
 ## Navigation
 
 | Window | Tabs / actions |
 | --- | --- |
 | Main menu | Ride, Explore, Tools |
-| Settings (Tools) | Display, Weather, Rider, Camera, Skier Voice, Interface, Controls, Audio |
+| Settings (Tools) | Display, Graphics, Camera, Controls, Audio, Interface & HUD, Weather, Rider |
 | Mountains (Explore) | Create, Saved, Share; large terrain preview beside the controls |
 | Races (Explore / F4) | Saved races, Import & share; separate in-world creation view |
 | Personal best (Explore / F6) | Overview, Splits, Run history |
@@ -20,8 +21,8 @@ Settings and records restore focus to their main-menu entry. The controls footer
 appears only in menus and stays hidden while riding, including summit drop-in.
 The Controls tab contains the complete shortcut list.
 
-Menus show the loaded game world. The current layout, panel opacity, branding,
-tabs and navigation are retained; photography and photo captions appear only
+Menus show the loaded game world. Angular branding is shared across responsive
+layouts, collapsed setting groups and controller focus. Photography appears only
 inside actual loading screens. The world-only transition cover ignores mouse
 input and sits below all controls.
 
@@ -77,7 +78,7 @@ The interface shares the Alpine Apex logo's hard edges and diagonal cuts. Large
 panels use opposing top-left/bottom-right 24 by 12 logical-pixel cuts; buttons,
 tabs and fields use 12 by 6. All cuts keep a 2:1 slope and shrink proportionally
 when a control or progress fill is small. The navy, cold-white and ice-blue
-palette, photography and existing tab layouts are retained.
+palette and photography are retained; edge categories replace the native tab bar.
 
 `scripts/ui/alpine_theme.gd` owns the shared theme, cached style resources and
 small control icons. `scripts/ui/angular_style_box.gd` draws the polygon fills
@@ -94,8 +95,8 @@ corners retain the full native rectangular click target.
 The theme covers menu and tool panels, dropdowns and popup contents, toggles,
 checkboxes, fields, lists, sliders, scrollbars, Godot file dialogs, color-picker
 controls and loading. The mountain preview shares the panel silhouette. Skiing
-keeps the speed dial and instrument positions; course/impact bars and footer
-framing carry the angular treatment. The summit-return caption uses a matching
+keeps a circular speed dial and groups every instrument in an individually
+configurable frame. Edit HUD provides position, size, opacity and visibility. The summit-return caption uses a matching
 frame. Progress remains tied to actual work and retains its original values.
 
 Standalone art validation includes a native control gallery at 1280x720,

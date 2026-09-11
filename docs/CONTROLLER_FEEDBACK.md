@@ -87,3 +87,8 @@ its one-shot synthetic forward axis across native frames; the final harness
 reapplies axes immediately before each frame's physics steps. The rejected
 attempt is retained separately. This is rendered behavior evidence, not a
 4K performance measurement or human controller/vibration acceptance.
+
+
+Menu/controller ownership, repeat thresholds, popup input, device prompts and
+HUD editing are documented in [the interface overhaul](INTERFACE_OVERHAUL.md#controller-ownership-and-focus).
+They retain the existing rider action mapping and add a neutral-axis resume gate.

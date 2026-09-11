@@ -1,0 +1,112 @@
+extends SceneTree
+## Consumer contracts without mountain generation or a native GPU workload.
+const Settings = preload("res://scripts/presentation/pc_graphics_settings.gd")
+const Presets = preload("res://scripts/presentation/graphics_presets.gd")
+const Profile = preload("res://scripts/presentation/graphics_quality.gd")
+const Powder = preload("res://scripts/presentation/powder_surface.gd")
+const Tracks = preload("res://scripts/presentation/snow_tracks.gd")
+const Assets = preload("res://scripts/presentation/alpine_assets.gd")
+const Clouds = preload("res://scripts/presentation/cloud_lighting.gd")
+var failures: Array[String] = []
+var checks = 0
+func _initialize() -> void: call_deferred("run")
+func check(ok: bool, label: String) -> void:
+	checks += 1
+	print("PASS: " if ok else "FAIL: ",label)
+	if not ok: failures.append(label)
+func run() -> void:
+	check_sharpening()
+	check_foliage()
+	check_track_uploads()
+	print("GRAPHICS_OVERRIDE_RESULTS ",JSON.stringify({"checks":checks,"failures":failures}))
+	quit(0 if failures.is_empty() else 1)
+
+func check_sharpening() -> void:
+	var settings = Settings.new()
+	check(is_equal_approx(settings.sharpness,.825) and is_equal_approx(settings.viewport_sharpness(),.35),"Default sharpening preserves the established .35 viewport appearance")
+	var prior_sdk_strength = -1.0
+	for strength in [0.0,.25,.5,.825,1.0]:
+		settings.set_graphics_value("sharpness",strength)
+		# This is the conversion in the installed clustered renderer before the SDK.
+		var sdk_strength = clampf(1.0-settings.viewport_sharpness()/2.0,0.0,1.0)
+		check(is_equal_approx(sdk_strength,strength) and sdk_strength>prior_sdk_strength,"Sharpening %.3f reaches matching increasing SDK strength" % strength)
+		prior_sdk_strength = sdk_strength
+	settings.set_graphics_value("sharpness",-3.0)
+	check(settings.sharpness==0.0 and settings.viewport_sharpness()==2.0,"Sharpening below range disables sharpening at the consumer")
+	settings.set_graphics_value("sharpness",3.0)
+	check(settings.sharpness==1.0 and settings.viewport_sharpness()==0.0,"Sharpening above range clamps to full strength")
+	settings.restore({"sharpness":NAN})
+	check(is_equal_approx(settings.viewport_sharpness(),.35),"Invalid persisted sharpening returns to the established default")
+	settings.select_preset(10)
+	settings.reset_group("Snow & particles")
+	check(not settings.custom and is_equal_approx(settings.sharpness,.825),"Preset and group resets agree on the sharpening default")
+	check(Presets.CONTROLS.contact_intensity[0]=="Contact shading in direct light" and Profile.numbered(7).contact_intensity==.20,"Contact control describes its direct-light consumer and preserves its .20 contribution")
+
+func check_foliage() -> void:
+	var source = StandardMaterial3D.new()
+	source.resource_name = "FC_Tree"
+	var library = Assets.new(Clouds.new(),Profile.numbered(7))
+	var material = library.material_for(source)
+	for preset in [7,1]:
+		for texture_tier in [0,2,1,0]:
+			var profile = Profile.numbered(preset,{"texture_tier":texture_tier})
+			library.apply_quality(profile)
+			var suffix: String = ["_low","_balanced",""][texture_tier]
+			var color: Resource = material.get_shader_parameter("foliage_texture")
+			var normal: Resource = material.get_shader_parameter("foliage_normal_ao")
+			check(color!=null and color.resource_path=="res://assets/graphics/trees/textures/foliage_color%s.res" % suffix,"Preset %d texture tier %d reaches resident foliage color" % [preset,texture_tier])
+			check(normal!=null and normal.resource_path=="res://assets/graphics/trees/textures/foliage_normal_ao%s.res" % suffix,"Preset %d texture tier %d reaches resident foliage normal/AO" % [preset,texture_tier])
+			var fresh = Assets.new(Clouds.new(),profile).material_for(source)
+			check(fresh.get_shader_parameter("foliage_texture")==color and fresh.get_shader_parameter("foliage_normal_ao")==normal,"Late material creation and live reapplication use identical foliage variants")
+
+func check_track_uploads() -> void:
+	check(Powder.MAX_STROKES==6146 and Powder.BUFFER_BYTES==196672,"Deformation allocation holds 6144 history strokes and two live footprints")
+	var tracks = Tracks.new()
+	tracks.lighting = Clouds.new()
+	root.add_child(tracks)
+	var mirror = PackedByteArray()
+	mirror.resize(Powder.BUFFER_BYTES)
+	var live = PackedFloat32Array([-.2,0,-.2,1.5,.24,.05,.5,1,.2,0,.2,1.5,.24,.06,.7,-1]).to_byte_array()
+	# The exact sequence requested by the review also crosses all asset anchors.
+	for preset in [7,8,10,7,1,7,10]:
+		tracks.apply_quality(Profile.numbered(preset))
+		var uploads = tracks.take_gpu_updates()
+		uploads.append({"offset":tracks.capacity*Powder.STROKE_BYTES,"bytes":live})
+		var valid = Powder.valid_submission(uploads,tracks.capacity+Powder.LIVE_STROKES)
+		check(valid,"Preset %d history resize and live endpoints fit the real deformation allocation" % preset)
+		if valid:
+			apply_to_mirror(mirror,uploads)
+			check(mirror.slice(0,tracks.capacity*32)==tracks.gpu_stamps.to_byte_array() and mirror.slice(tracks.capacity*32,(tracks.capacity+2)*32)==live,"Preset %d uploads reconstruct complete history and both live slots" % preset)
+	# Partial producer spans on either side of the maximum-size ring wrap.
+	for index in [tracks.capacity-2,tracks.capacity-1,0,1]:
+		tracks.transforms[index] = Transform3D(Basis.IDENTITY,Vector3(index*.37,0,index*.61))
+		tracks.corner_history[index] = Color(0,0,0,0)
+		tracks.appearance_history[index] = Color(.03,.7,.2,1)
+		tracks._upload(index)
+	var wrapped = tracks.take_gpu_updates()
+	check(wrapped.size()==2 and wrapped[0].offset==(tracks.capacity-2)*32 and wrapped[1].offset==0,"Maximum-capacity ring wrap emits two bounded dirty spans")
+	wrapped.append({"offset":tracks.capacity*32,"bytes":live})
+	var valid_wrap = Powder.valid_submission(wrapped,Powder.MAX_STROKES)
+	check(valid_wrap,"Maximum-capacity split spans plus live slots are dispatchable")
+	if valid_wrap:
+		apply_to_mirror(mirror,wrapped)
+		check(mirror.slice(0,tracks.capacity*32)==tracks.gpu_stamps.to_byte_array() and mirror.slice(tracks.capacity*32)==live,"Split uploads preserve all maximum-capacity history and both live footprints")
+	check(not Powder.valid_submission([],Powder.MAX_STROKES+1),"Dispatch count cannot read beyond the allocated buffer")
+	check(not Powder.valid_submission([],1),"Dispatch count always reserves both live strokes")
+	var one_stroke = live.slice(0,32)
+	for bad in [
+		{"offset":Powder.BUFFER_BYTES,"bytes":one_stroke},
+		{"offset":Powder.BUFFER_BYTES-32,"bytes":live},
+		{"offset":-32,"bytes":one_stroke},
+		{"offset":1,"bytes":one_stroke},
+		{"offset":0,"bytes":live.slice(0,31)},
+		{"offset":0.0,"bytes":one_stroke},
+		{"offset":0,"bytes":"invalid"},
+		{"offset":0}]:
+		check(not Powder.valid_submission([{"offset":0,"bytes":one_stroke},bad],Powder.MAX_STROKES),"An invalid upload rejects its entire batch before any GPU mutation: %s" % str(bad.get("offset")))
+	check(not Powder.valid_submission([{"offset":64,"bytes":one_stroke}],2),"Upload endpoints also obey the current dispatch range after downsizing")
+	tracks.free()
+
+func apply_to_mirror(mirror: PackedByteArray, uploads: Array) -> void:
+	for upload in uploads:
+		for i in upload.bytes.size(): mirror[upload.offset+i] = upload.bytes[i]

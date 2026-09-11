@@ -9,10 +9,11 @@ func run() -> void:
 	var sfx=preload("res://scripts/presentation/procedural_sfx.gd").new();root.add_child(sfx)
 	hud.riding_audio_settings.bind(sfx)
 	hud.open_settings()
-	hud.settings_tabs.current_tab=hud.settings_tabs.get_tab_count()-1
+	_select_tab(hud.settings_tabs,"Audio")
+	var sound_group = _expand_group(hud.settings_tabs.get_current_tab_control(),"Skiing sounds")
 	var scroll: ScrollContainer=hud.settings_tabs.get_current_tab_control()
 	for i in 10: await process_frame
-	scroll.scroll_vertical=int(scroll.get_v_scroll_bar().max_value)
+	scroll.ensure_control_visible(sound_group)
 	for i in 3: await process_frame
 	await RenderingServer.frame_post_draw
 	var picture=root.get_texture().get_image()
@@ -22,3 +23,18 @@ func run() -> void:
 	sfx.stop_audio();sfx.queue_free();hud.queue_free()
 	await create_timer(.2).timeout
 	quit(0)
+
+func _select_tab(tabs: TabContainer, caption: String) -> void:
+	for index in tabs.get_tab_count():
+		if tabs.get_tab_title(index)==caption:
+			tabs.current_tab = index
+			return
+	assert(false,"Missing tab: "+caption)
+
+func _expand_group(page: Control, caption: String) -> Control:
+	for button in page.find_children("*","Button",true,false):
+		if button.has_meta("group_body") and button.text.ends_with(caption):
+			button.button_pressed = true
+			return button.get_meta("group_body")
+	assert(false,"Missing settings group: "+caption)
+	return null

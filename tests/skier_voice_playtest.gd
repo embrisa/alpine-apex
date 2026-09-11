@@ -95,15 +95,20 @@ func run() -> void:
 	check(game.session.finished and game.voice.current_event=="finish","Missing comparison data uses a normal finish reaction")
 	game.active = false
 	game.hud.open_settings()
-	for i in game.hud.settings_tabs.get_tab_count():
-		if game.hud.settings_tabs.get_tab_title(i)=="Skier Voice": game.hud.settings_tabs.current_tab = i
+	_select_tab(game.hud.settings_tabs,"Audio")
+	var audio_page = game.hud.settings_tabs.get_current_tab_control() as ScrollContainer
+	_expand_group(audio_page,"Skier voice")
 	await settle()
 	var panel = game.hud.voice_settings
-	check(panel.volume.is_visible_in_tree() and panel.selection.is_visible_in_tree(),"Skier Voice tab exposes volume and auditions")
+	audio_page.ensure_control_visible(panel.selection)
+	await settle()
+	check(panel.volume.is_visible_in_tree() and panel.selection.is_visible_in_tree(),"Expanded Audio voice group exposes volume and auditions")
 	check(root.get_visible_rect().encloses(panel.selection.get_global_rect()),"Voice audition fits 1280x720")
 	var voice_column = panel.selection.get_parent()
 	var play_button = voice_column.find_child("PlaySkierReaction",true,false)
-	check(voice_column.get_parent().get_global_rect().encloses(play_button.get_global_rect()),"Audition action is fully visible inside the scroll viewport at 720p")
+	audio_page.ensure_control_visible(play_button)
+	await settle()
+	check(audio_page.get_global_rect().encloses(play_button.get_global_rect()),"Audition action is fully visible inside the scroll viewport at 720p")
 	panel.volume.value = 0.5
 	check(is_equal_approx(game.voice.volume,0.5),"Settings slider controls live voice volume")
 	panel.enabled.button_pressed = false
@@ -111,15 +116,14 @@ func run() -> void:
 	panel.enabled.button_pressed = true
 	panel.volume.value = 0.75
 	game.voice.preview("breathing")
-	var voice_tab: int = game.hud.settings_tabs.current_tab
-	game.hud.settings_tabs.current_tab = 0
+	_select_tab(game.hud.settings_tabs,"Display")
 	await settle()
-	check(not game.voice.audition_active and not game.voice.breath_wanted,"Leaving the voice tab stops its audition")
-	game.hud.settings_tabs.current_tab = voice_tab
+	check(not game.voice.audition_active and not game.voice.breath_wanted,"Leaving Audio stops its voice audition")
+	_select_tab(game.hud.settings_tabs,"Audio")
 	await capture("settings_720p")
 	root.size = Vector2i(3840,2160)
 	await capture("settings_4k")
-	check(voice_column.get_parent().get_global_rect().encloses(play_button.get_global_rect()),"Audition action is fully visible inside the scroll viewport at 4K")
+	check(audio_page.get_global_rect().encloses(play_button.get_global_rect()),"Audition action is fully visible inside the scroll viewport at 4K")
 	var record: AudioEffectRecord
 	var bus = AudioServer.bus_count
 	if native:
@@ -168,3 +172,18 @@ func run() -> void:
 	await settle()
 	print("VOICE_PLAYTEST_RESULT ",JSON.stringify(result))
 	quit(0 if failures.is_empty() else 1)
+
+func _select_tab(tabs: TabContainer, caption: String) -> void:
+	for index in tabs.get_tab_count():
+		if tabs.get_tab_title(index)==caption:
+			tabs.current_tab = index
+			return
+	assert(false,"Missing tab: "+caption)
+
+func _expand_group(page: Control, caption: String) -> Control:
+	for button in page.find_children("*","Button",true,false):
+		if button.has_meta("group_body") and button.text.ends_with(caption):
+			button.button_pressed = true
+			return button.get_meta("group_body")
+	assert(false,"Missing settings group: "+caption)
+	return null

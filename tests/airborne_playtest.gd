@@ -118,8 +118,11 @@ func run():
 	if not timing_only:
 		game.hud.show()
 		game.hud.open_settings()
-		for i in game.hud.settings_tabs.get_tab_count():
-			if game.hud.settings_tabs.get_tab_title(i)=="Controls": game.hud.settings_tabs.current_tab = i
+		_select_tab(game.hud.settings_tabs,"Controls")
+		var help_page = game.hud.settings_tabs.get_current_tab_control() as ScrollContainer
+		var air_help = _expand_group(help_page,"Air control")
+		for frame in 3: await process_frame
+		help_page.ensure_control_visible(air_help)
 		for i in 3: await process_frame
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png(output+"/controls.png")
@@ -127,3 +130,18 @@ func run():
 	game.queue_free()
 	await process_frame
 	quit(0 if failures.is_empty() else 1)
+
+func _select_tab(tabs: TabContainer, caption: String) -> void:
+	for index in tabs.get_tab_count():
+		if tabs.get_tab_title(index)==caption:
+			tabs.current_tab = index
+			return
+	assert(false,"Missing tab: "+caption)
+
+func _expand_group(page: Control, caption: String) -> Control:
+	for button in page.find_children("*","Button",true,false):
+		if button.has_meta("group_body") and button.text.ends_with(caption):
+			button.button_pressed = true
+			return button.get_meta("group_body")
+	assert(false,"Missing settings group: "+caption)
+	return null

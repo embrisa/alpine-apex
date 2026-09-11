@@ -58,7 +58,7 @@ func run() -> void:
 		return
 	await review_loading_behavior()
 	check(hud.has_menu_background() and hud.root.find_child("TitlePhotography",true,false)==null,"Title leaves the world visible without photography")
-	check(hud.hero_logo.visible and not hud.header_logo.visible,"Title presents one large transparent logo")
+	check(not hud.hero_logo.visible and hud.header_logo.is_visible_in_tree(),"Title presents one compact header logo")
 	check(hud.hud_controls.all(func(control):return not control.visible),"Skiing instruments do not overlap title artwork")
 	hud.toggle_instruments()
 	check(hud.hud_controls.all(func(control):return not control.visible),"The instrument shortcut cannot draw telemetry over the title artwork")
@@ -72,9 +72,13 @@ func run() -> void:
 		check(root.get_visible_rect().encloses(hud.menu.get_global_rect()),"Menu fits %s" % dimensions)
 		check(hud.menu.get_global_rect().encloses(hud.primary.get_global_rect()),"Drop In fits %s" % dimensions)
 		await capture("menu_%dx%d" % [dimensions.x,dimensions.y])
-	hud.menu_tabs.current_tab = 1
+	_select_tab(hud.menu_tabs,"Explore")
 	await capture("explore_4k")
+	# Focus the visible Settings opener before testing Back restoration.
+	_select_tab(hud.menu_tabs,"Tools")
+	hud.weather_button.grab_focus()
 	hud.open_settings()
+	_select_tab(hud.settings_tabs,"Display")
 	await settle()
 	check(hud.has_menu_background() and not hud.hero_logo.visible,"Settings retains live background context with compact brand")
 	await capture("settings_4k")
@@ -84,7 +88,10 @@ func run() -> void:
 	await review_controls()
 	hud.hide_menu()
 	check(not hud.has_menu_background() and not hud.menu_fade.visible,"Drop In releases the menu background fade")
-	check(hud.hud_controls.all(func(control):return control.visible),"Skiing instruments are restored")
+	for id in ["speed","state","reserve","location","performance","run"]:
+		check(hud.widget_layout.widgets[id].node.is_visible_in_tree(),"Default free-ski instrument is restored: "+id)
+	for id in ["time","progress","split","debug"]:
+		check(not hud.widget_layout.widgets[id].node.is_visible_in_tree(),"Race-only and opt-in instruments stay hidden during free skiing: "+id)
 	hud.show_menu("paused")
 	check(hud.has_menu_background() and not hud.hero_logo.visible,"Pause uses live mountain coverage with compact branding")
 	hud.show_menu("title")
@@ -510,3 +517,10 @@ func timings(values: Array[float]) -> Dictionary:
 	var total: float = 0.0
 	for value in values: total += value
 	return {"mean":total/values.size(),"p95":values[int(values.size()*0.95)],"p99":values[int(values.size()*0.99)]}
+
+func _select_tab(tabs: TabContainer, caption: String) -> void:
+	for index in tabs.get_tab_count():
+		if tabs.get_tab_title(index)==caption:
+			tabs.current_tab = index
+			return
+	assert(false,"Missing tab: "+caption)

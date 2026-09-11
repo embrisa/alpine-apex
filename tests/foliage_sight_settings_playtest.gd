@@ -24,11 +24,13 @@ func run() -> void:
 	game.start_run(false); game.summit_ready=false; game.session.eligible=false
 	game.automated=false; game.active=false
 	if game.preferences_enabled: failures.append("Personal preferences enabled")
-	game.hud.show_menu("paused"); game.hud.open_settings(); game.hud.settings_tabs.current_tab=3
+	game.hud.show_menu("paused"); game.hud.open_settings()
+	_select_tab(game.hud.settings_tabs,"Camera")
 	await present()
 	game.hud.camera_options.groups["Forest visibility · both views"].button.button_pressed=true
 	var page=game.hud.settings_tabs.get_current_tab_control() as ScrollContainer
-	page.scroll_vertical=int(page.get_v_scroll_bar().max_value)
+	await present(5)
+	page.ensure_control_visible(game.hud.camera_options.controls.forest_visibility_size)
 	await present(5); await capture("defaults")
 	var slider: HSlider=game.hud.camera_options.controls.forest_visibility_size
 	slider.value=100; await present(5); await capture("full_screen")
@@ -56,10 +58,18 @@ func run() -> void:
 		game.set_camera_setting("shared","forest_visibility",60)
 	game.active=false; game.hud.show_menu("paused"); game.hud.open_settings()
 	game.hud.camera_options.reset_all.pressed.emit()
-	await present(30); page.scroll_vertical=int(page.get_v_scroll_bar().max_value)
+	_select_tab(game.hud.settings_tabs,"Camera")
+	await present(30); page.ensure_control_visible(slider)
 	await present(5); await capture("reset")
 	if game.camera_settings.shared.forest_visibility_size!=88 or game.camera_settings.shared.forest_visibility!=60: failures.append("Reset failed")
 	FileAccess.open(OUTPUT+"/report.json",FileAccess.WRITE).store_string(JSON.stringify({"failures":failures,"settings":game.camera_settings.snapshot(),"preferences_written":game.preferences_enabled,"hardware_input_verified":false,"actual_pixels":root.get_texture().get_image().get_size()},"\t"))
 	print("SIGHT_SETTINGS_REVIEW ",JSON.stringify({"failures":failures}))
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)
+
+func _select_tab(tabs: TabContainer, caption: String) -> void:
+	for index in tabs.get_tab_count():
+		if tabs.get_tab_title(index)==caption:
+			tabs.current_tab = index
+			return
+	assert(false,"Missing tab: "+caption)

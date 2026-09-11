@@ -292,7 +292,7 @@ func _find_mesh(node: Node) -> MeshInstance3D:
 	return null
 
 func _set_foliage(mat: ShaderMaterial) -> void:
-	var suffix: String = ["_low","_balanced",""][quality.level]
+	var suffix: String = ["_low","_balanced",""][quality.texture_tier]
 	mat.set_shader_parameter("foliage_color_grade",NEEDLE_COLOR_GRADE)
 	mat.set_shader_parameter("foliage_texture",load("res://assets/graphics/trees/textures/foliage_color%s.res" % suffix))
 	mat.set_shader_parameter("foliage_normal_ao",load("res://assets/graphics/trees/textures/foliage_normal_ao%s.res" % suffix))

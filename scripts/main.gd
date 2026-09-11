@@ -74,12 +74,16 @@ var voice
 var audio_environment = preload("res://scripts/presentation/voice_environment.gd").new()
 var vectors
 var hud
+var navigation
+var controller_keyboard
+var rider_axes_armed = false
 var intent = RiderInput.new()
 var impact_warning = preload("res://scripts/presentation/impact_warning.gd").new()
 var active: bool = false:
 	set(value):
 		if active != value:
 			# A menu, pause, finish or focus change cancels pending release input.
+			rider_axes_armed = false
 			air_controls_armed = false
 			air_tilt_controls_armed = false
 			if input_router != null: input_router.cancel_air_input()
@@ -276,12 +280,12 @@ func _ready() -> void:
 		elif arg.begins_with("--weather-quality="):
 			var quality_id = ["off","low","high"].find(arg.get_slice("=",1))
 			if quality_id >= 0:
-				weather.set_quality(quality_id)
+				display_settings.set_graphics_value("weather_quality",quality_id)
+				graphics = display_settings.profile()
 	weather.set_automatic("--weather-auto" in OS.get_cmdline_user_args())
 	weather.set_time_cycle("--time-cycle" in OS.get_cmdline_user_args())
 	if not reload_settings.is_empty():
 		weather.set_preset(reload_settings.weather)
-		weather.set_quality(reload_settings.weather_quality)
 		weather.set_automatic(reload_settings.weather_auto)
 		weather.daylight.hour = reload_settings.hour
 		weather.set_time_cycle(reload_settings.time_cycle)
@@ -343,6 +347,8 @@ func _ready() -> void:
 	weather_effects = WeatherEffects.new()
 	weather_effects.lighting = world.cloud_lighting
 	add_child(weather_effects)
+	weather_effects.set_budget_scale(graphics.weather_budget)
+	weather_effects.set_quality(graphics.weather_quality)
 	vectors = Vectors.new()
 	add_child(vectors)
 	vectors.visible = false
@@ -400,12 +406,20 @@ func _ready() -> void:
 	hud.quit_requested.connect(quit_cleanly)
 	hud.weather_preset_requested.connect(weather.set_preset)
 	hud.weather_auto_requested.connect(weather.set_automatic)
-	hud.weather_quality_requested.connect(weather.set_quality)
+	hud.weather_quality_requested.connect(func(value): set_display_setting("weather_quality",value))
 	hud.time_of_day_requested.connect(weather.set_time_of_day)
 	hud.time_cycle_requested.connect(weather.set_time_cycle)
-	hud.graphics_quality_requested.connect(set_graphics_quality)
-	hud.graphics_quality.select(graphics.level)
+	hud.graphics_quality_requested.connect(set_graphics_preset)
+	hud.graphics_quality.select(display_settings.quality-1)
 	hud.display_setting_requested.connect(set_display_setting)
+	hud.graphics_values_requested.connect(func(values):
+		for key in values: display_settings.set_graphics_value(key,values[key])
+		apply_graphics_configuration()
+	)
+	hud.graphics_group_reset_requested.connect(func(group): display_settings.reset_group(group); apply_graphics_configuration())
+	hud.display_preview_requested.connect(preview_display)
+	hud.display_keep_requested.connect(keep_display)
+	hud.display_revert_requested.connect(revert_display)
 	hud.sync_display(display_settings)
 	weather.settings_changed.connect(func(): hud.sync_weather(weather))
 	hud.sync_weather(weather)
@@ -441,6 +455,22 @@ func _ready() -> void:
 	add_child(return_overlay)
 	generation_job.advance()
 	generation_job.end_stage("rider_and_interface")
+	navigation = preload("res://scripts/ui/menu_navigation.gd").new()
+	add_child(navigation)
+	navigation.setup(self)
+	controller_keyboard = preload("res://scripts/ui/controller_keyboard.gd").new()
+	add_child(controller_keyboard)
+	controller_keyboard.setup(hud)
+	navigation.virtual_keyboard = controller_keyboard
+	navigation.device_changed.connect(func():
+		get_tree().set_meta("interface_device",navigation.family)
+		hud.footer_controls.text = navigation.prompts(workshop.mode=="create")
+	)
+	if not reload_settings.is_empty():
+		hud.widget_layout.restore(reload_settings.get("hud_layout",hud.widget_layout.snapshot()))
+		hud.widget_layout.global_visible = reload_settings.get("hud_visible",true)
+		hud.shell_layout.restore(reload_settings.get("interface_layout",{}))
+		hud.shell_layout.resize()
 	initialized = true
 	if pending_race:
 		play_custom_race(pending_race)
@@ -485,6 +515,9 @@ func _physics_process(dt: float) -> void:
 	var tick_start = Time.get_ticks_usec()
 	previous_position = sim.position
 	intent = input_router.sample(sim.grounded)
+	if not rider_axes_armed:
+		if absf(intent.steer)+intent.tuck+intent.brake<.01: rider_axes_armed = true
+		intent.steer = 0.0; intent.tuck = 0.0; intent.brake = 0.0
 	if not air_tilt_controls_armed:
 		if absf(intent.air_tilt)<.000001: air_tilt_controls_armed = true
 		intent.air_tilt = 0.0
@@ -567,6 +600,9 @@ func observe_audio_tick(dt: float) -> void:
 	voice.observe_tick(sim,dt,field,session.progress_percent(sim.position)/100.0 if timed else -1.0,candidates)
 
 func _process(dt: float) -> void:
+	if initialized:
+		_update_display_recovery()
+		if navigation and hud.footer.visible: hud.footer_controls.text = navigation.prompts(workshop.mode=="create")
 	_sync_camera_preview()
 	_sync_camera_controls()
 	if not initialized or (loading and loading.busy) or sim == null:
@@ -637,7 +673,7 @@ func _process(dt: float) -> void:
 	world.assets.update_foliage_sight(presentation_camera,p,sim.velocity,dt,(active and presentation_camera==camera) or presentation_camera==camera_preview,camera_settings.shared.forest_visibility,camera_settings.shared.forest_visibility_size)
 	frame_costs.end(&"interactive_trees",trees_started)
 	var weather_anchor: Vector3 = menu_camera.focus_point if menu_view else p
-	weather_effects.update_weather(weather.state,presentation_camera,weather_anchor,field,dt,active,animate_menu,camera.motion_intensity * camera_settings.profile("first_person" if camera.close_view else "chase").streak_strength / 100.0 if active and camera.effects_enabled else 0.0,weather.quality,first_person_presented)
+	weather_effects.update_weather(weather.state,presentation_camera,weather_anchor,field,dt,active,animate_menu,camera.motion_intensity * camera_settings.profile("first_person" if camera.close_view else "chase").streak_strength / 100.0 if active and camera.effects_enabled else 0.0,graphics.weather_quality,first_person_presented)
 	_update_screen_effects(dt)
 	var crash_audio_visible: bool = (application_focused or automated) and not transitioning and not returning_to_summit and hud.menu_mode=="crashed" and hud.menu.visible and not hud.weather_panel.visible and not hud.tuning_panel.visible
 	var voice_speaking: bool = voice.enabled and not voice.muted and voice.volume>0.001 and voice.clock_seconds<voice.speaking_until
@@ -646,6 +682,8 @@ func _process(dt: float) -> void:
 	frame_costs.end(&"effects",effects_started)
 	vectors.update_vectors(sim)
 	var hud_started = frame_costs.begin()
+	hud.widget_layout.menu_visible = hud.has_menu_background() or workshop.mode=="create" or hud.camera_options.preview_active
+	hud.footer.visible = hud.has_menu_background() or workshop.mode=="create"
 	hud.update_hud(sim,session,intent,input_router.device_label(),frame_ms,cpu_tick_ms,dt,timed,weather.state.label+" · "+weather.state.time_label)
 	hud.update_summit_return(mountain_zone.distance_to_boundary(sim.position),active and not summit_ready and not returning_to_summit)
 	if workshop and not workshop.mode.is_empty():
@@ -664,6 +702,7 @@ func _process(dt: float) -> void:
 	else:
 		hud.footer_controls.text = hud.SKI_CONTROLS
 
+	if navigation and hud.footer.visible: hud.footer_controls.text = navigation.prompts(workshop.mode=="create")
 	frame_costs.end(&"hud",hud_started)
 
 func _menu_context() -> String:
@@ -737,7 +776,21 @@ func _sync_camera_controls() -> void:
 	if DisplayServer.get_name() != "headless":
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if allowed else Input.MOUSE_MODE_VISIBLE
 
+func _input(event: InputEvent) -> void:
+	if navigation and initialized and not automated and navigation.route(event): get_viewport().set_input_as_handled()
+
 func _unhandled_input(event: InputEvent) -> void:
+	if initialized and navigation and navigation.scope()!=null and not automated:
+		if event.has_meta("menu_owned"): return
+		if event.is_action_pressed("pause_run") or event.is_action_pressed("ui_cancel"): navigation.back()
+		elif not navigation.top_popup():
+			if event.is_action_pressed("tuning"):
+				if hud.tuning_panel.visible: close_workbench()
+				else: open_workbench()
+			elif event.is_action_pressed("race_library"): workshop.open_library()
+			elif event.is_action_pressed("run_records"): open_competition()
+			elif workshop.mode=="create" and event is InputEventMouse: workshop.handle_input(event)
+		return
 	if hud and hud.camera_options.preview_active:
 		if event.is_action_pressed("pause_run"):
 			set_camera_preview(false)
@@ -802,8 +855,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		set_motion_effects(not camera.effects_enabled)
 		hud.toast("MOTION EFFECTS ON" if camera.effects_enabled else "MOTION EFFECTS OFF")
 	elif event.is_action_pressed("debug_overlay"):
-		hud.debug_panel.visible = not hud.debug_panel.visible
-		vectors.visible = hud.debug_panel.visible
+		hud.widget_layout.values.debug.visible = not hud.widget_layout.values.debug.visible
+		hud.layout_widgets()
+		vectors.visible = hud.widget_layout.values.debug.visible
 	elif event.is_action_pressed("tuning"):
 		if hud.tuning_panel.visible:
 			close_workbench()
@@ -1003,7 +1057,7 @@ func open_workbench() -> void:
 	active = false
 	hud.hide_menu()
 	hud.tuning_panel.show()
-	hud.tuning_tabs.get_tab_bar().grab_focus()
+	hud.tuning_tabs.focus_page()
 
 func set_audio_muted(value: bool) -> void:
 	effects.muted = value
@@ -1134,7 +1188,7 @@ func _finish_automation() -> void:
 		slow_total += frame_samples[i]
 	data.one_percent_low_fps = 1000.0/(slow_total/slow_count) if slow_total>0.0 else 0.0
 	data.weather = weather.selected_preset
-	data.weather_quality = weather.quality
+	data.weather_quality = graphics.weather_quality
 	data.weather_particle_budget = weather_effects.particle_budget()
 	data.snow_budget = effects.snow_budget()
 	data.time_hour = weather.daylight.hour
@@ -1171,14 +1225,15 @@ func apply_graphics_configuration() -> void:
 	graphics = display_settings.profile()
 	display_settings.apply_viewport(get_viewport())
 	world.apply_graphics(graphics)
-	weather.set_quality(graphics.weather_quality)
-	if weather_effects: weather_effects.set_budget_scale(graphics.weather_budget)
+	if weather_effects:
+		weather_effects.set_budget_scale(graphics.weather_budget)
+		weather_effects.set_quality(graphics.weather_quality)
 	if workshop:
 		for marker in workshop.markers.get_children():
 			if marker.has_method("apply_quality"): marker.apply_quality(graphics.level)
 	if effects: effects.apply_quality(graphics)
 	if hud:
-		hud.graphics_quality.select(graphics.level)
+		hud.graphics_quality.select(display_settings.quality-1)
 		hud.sync_display(display_settings)
 	_save_presentation_settings()
 
@@ -1241,14 +1296,15 @@ func set_camera_preview(enabled: bool) -> void:
 func set_display_setting(key: String, value: Variant) -> void:
 	if key in PCGraphics.Output.KEYS:
 		display_settings.display.restore({key:value})
-		display_settings.apply_display(get_window())
+		if key=="fps_limit": Engine.max_fps = display_settings.fps_limit
+		else: display_settings.apply_display(get_window())
 		display_settings.apply_viewport(get_viewport())
 		if hud: hud.sync_display(display_settings)
 		_save_presentation_settings()
 		return
 	display_settings.set_graphics_value(key,value)
-	if key=="frame_generation" and display_settings.display_mode=="fullscreen": display_settings.apply_display(get_window())
 	apply_graphics_configuration()
+	if key=="frame_generation" and display_settings.display_mode=="fullscreen": display_settings.apply_display(get_window())
 
 func load_mountain(definition, generated_field) -> void:
 	_cancel_summit_return()
@@ -1275,10 +1331,10 @@ func load_mountain(definition, generated_field) -> void:
 func _remember_world_settings() -> void:
 	get_tree().set_meta("world_reload_settings",{"graphics":graphics.level,"display":display_settings.snapshot(),"tuning":sim.tuning.duplicate(true),
 		"camera":camera_settings.snapshot(),
-		"modified":physics_modified,"weather":weather.selected_preset,"weather_quality":weather.quality,
+		"modified":physics_modified,"weather":weather.selected_preset,"weather_quality":graphics.weather_quality,
 		"weather_auto":weather.automatic,"hour":weather.daylight.hour,"time_cycle":weather.daylight.automatic,
 		"close_view":camera.close_view,"muted":effects.muted,"motion_effects":camera.effects_enabled,
-		"interface":hud.feedback.snapshot(),"wind":effects.wind.snapshot(),"voice":voice.snapshot(),"riding_audio":effects.sfx.snapshot()})
+		"interface":hud.feedback.snapshot(),"hud_layout":hud.widget_layout.snapshot(),"hud_visible":hud.widget_layout.global_visible,"interface_layout":hud.shell_layout.snapshot(),"wind":effects.wind.snapshot(),"voice":voice.snapshot(),"riding_audio":effects.sfx.snapshot()})
 
 func drop_from_summit() -> void:
 	if not summit_ready or not active or returning_to_summit or not summit_drop_armed: return
@@ -1382,3 +1438,31 @@ func _cancel_startup() -> void:
 		set(member,null)
 	field = null; current_mountain = null; mountain_zone = null; session = null
 	loading.cancelled_startup()
+
+func preview_display(values: Dictionary) -> void:
+	display_settings.display.begin_preview(values,Time.get_ticks_msec(),get_window())
+	display_settings.apply_display(get_window())
+	hud.settings_pages.recovery.popup_centered(Vector2i(560,180))
+	hud.settings_pages.recovery.get_cancel_button().grab_focus()
+	_update_display_recovery()
+
+func keep_display() -> void:
+	hud.settings_pages.output_dirty = false
+	display_settings.display.keep()
+	hud.settings_pages.recovery.hide()
+	hud.sync_display(display_settings)
+	_save_presentation_settings()
+
+func revert_display() -> void:
+	if display_settings.display.pending.is_empty(): return
+	hud.settings_pages.output_dirty = false
+	display_settings.display.revert()
+	display_settings.apply_display(get_window())
+	hud.settings_pages.recovery.hide()
+	hud.sync_display(display_settings)
+
+func _update_display_recovery() -> void:
+	var output = display_settings.display
+	if output.pending.is_empty(): return
+	if output.expired(Time.get_ticks_msec()): revert_display(); return
+	hud.settings_pages.recovery.dialog_text = "Keep this display mode?\nReverting in %d seconds." % ceili((output.deadline_ms-Time.get_ticks_msec())/1000.0)

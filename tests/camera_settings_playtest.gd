@@ -11,14 +11,15 @@ func inspect_massif() -> void:
 	game.hud.show_menu("paused")
 	game.hud.open_settings()
 	var ui = game.hud.camera_options
-	for i in game.hud.settings_tabs.get_tab_count():
-		if game.hud.settings_tabs.get_tab_title(i)=="Camera": game.hud.settings_tabs.current_tab = i
+	_select_tab(game.hud.settings_tabs,"Camera")
 	var page: ScrollContainer = game.hud.settings_tabs.get_current_tab_control()
 	if game.preferences_enabled: camera_failures.append("Native review could write personal preferences")
 	await present(.2)
 	await camera_capture("settings_connected","native grouped camera settings")
 	for group in ui.groups:
-		for other in ui.groups: ui.groups[other].button.set_pressed_no_signal(other==group); ui.groups[other].content.visible = other==group
+		for other in ui.groups: ui.groups[other].button.button_pressed = other==group
+		if not ui.groups[group].content.is_visible_in_tree(): camera_failures.append("Group did not expand: "+group)
+		await present(.05)
 		page.ensure_control_visible(ui.groups[group].button)
 		await present(.1)
 		await camera_capture("settings_"+group.validate_filename(),"native expandable group")
@@ -32,6 +33,7 @@ func inspect_massif() -> void:
 	for key in ["rest_fov","fast_fov","rest_tilt","fast_tilt"]:
 		var slider: HSlider = ui.controls[key]
 		slider.grab_focus()
+		page.ensure_control_visible(slider)
 		await present(.05)
 		var before: float = slider.value
 		var event = InputEventKey.new()
@@ -54,8 +56,7 @@ func inspect_massif() -> void:
 	game.set_camera_preset("delete","chase","Native renamed","")
 	game.reset_camera_settings()
 	for group in ui.groups:
-		ui.groups[group].button.set_pressed_no_signal(group in ["Preview speed","Framing"])
-		ui.groups[group].content.visible = group in ["Preview speed","Framing"]
+		ui.groups[group].button.button_pressed = group in ["Preview speed","Framing"]
 	page.scroll_vertical = 0
 	var before = [game.sim.position,game.sim.velocity,game.sim.ticks,game.session.elapsed,game.session.eligible]
 	game.set_camera_preview(true)

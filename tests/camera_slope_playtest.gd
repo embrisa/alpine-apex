@@ -39,8 +39,8 @@ func inspect_massif() -> void:
 	place_grade("uphill",false,60)
 	game.active = false; game.automated = false; game.application_focused = true
 	game.hud.show_menu("paused"); game.hud.open_settings()
-	for i in game.hud.settings_tabs.get_tab_count():
-		if game.hud.settings_tabs.get_tab_title(i)=="Camera": game.hud.settings_tabs.current_tab = i
+	_select_tab(game.hud.settings_tabs,"Camera")
+	game.hud.camera_options.groups["Preview speed"].button.button_pressed = true
 	game.set_camera_preview(true)
 	if not game.hud.camera_options.preview_active: camera_failures.append("Uphill preview did not acquire camera ownership")
 	game.hud.camera_options.preview_speed.value = 120

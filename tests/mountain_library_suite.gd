@@ -34,6 +34,7 @@ func run() -> void:
 	var library = game.mountain_library
 	library.store.directory = test_dir
 	await library.open()
+	_select_tab(library.tabs,"Create")
 	check(library.panel.visible and not game.active and library.draft!=null,"Mountain library opens paused with a generated preview")
 	check(library.draft.seed_value==849205174 and library.draft_field.GENERATOR_ID=="alpine-drainage","Example seed generates physical terrain")
 	await capture("library")
@@ -50,12 +51,14 @@ func run() -> void:
 	await library.generate_random()
 	check(library.draft_field.height_checksum!=initial,"Random mountain changes the physical preview")
 	var random_seed = library.draft.seed_value
+	_select_tab(library.tabs,"Saved")
 	await library.load_selected(0)
 	check(library.draft_field.height_checksum==initial and library.name_input.text=="Bowl Run","Loading a saved mountain restores terrain and name")
 	var path = test_dir.path_join("export.apexmountain")
 	check(library.Store.write_file(path,library.draft).is_empty(),"Mountain file exports to a chosen path")
 	# Revisit the generated seed through the public control before importing;
 	# random selection itself was already exercised above.
+	_select_tab(library.tabs,"Create")
 	library.seed_input.text = str(random_seed)
 	await library.generate_seed()
 	await library.import_file(path)
@@ -66,6 +69,8 @@ func run() -> void:
 	for index in 4:
 		library._preset_changed(index)
 		check(library.generation_settings()==library.Settings.preset(index),"Preset controls apply all four density factors")
+	library.advanced_toggle.button_pressed = true
+	check(library.settings_controls.tree_spacing.is_visible_in_tree(),"Expanded generation details expose spacing")
 	library.settings_controls.tree_spacing.value = .5
 	check(library.preset_control.selected==4 and library.generation_settings().tree_spacing==.5,"Spacing selects Custom independently")
 	var precise = library.Settings.preset(); precise.snow_feature_density = 1.01
@@ -92,6 +97,7 @@ func run() -> void:
 	library.save_draft()
 	check(library.saved.size()==1,"Saving the same current recipe updates one entry")
 	# Verify the real controls open usable filesystem dialogs, including cancel.
+	_select_tab(library.tabs,"Share")
 	library.export_file()
 	await process_frame
 	check(library.export_dialog.visible and library.export_dialog.current_file.ends_with(".apexmountain"),"Export opens a named mountain file dialog")
@@ -183,7 +189,8 @@ func run() -> void:
 	var showcase_library = game.mountain_library
 	showcase_library.store.directory = test_dir
 	await showcase_library.open()
-	var showcase_buttons = showcase_library.panel.find_children("*","Button",true,false).filter(func(button): return button.text.begins_with("DEFAULT MOUNTAIN"))
+	_select_tab(showcase_library.tabs,"Create")
+	var showcase_buttons = showcase_library.panel.find_children("*","Button",true,false).filter(func(button): return button.text.to_upper()=="DEFAULT MOUNTAIN")
 	check(showcase_buttons.size()==1,"The library exposes one Default Mountain entry")
 	showcase_buttons[0].pressed.emit()
 	while showcase_library.busy: await process_frame
@@ -254,3 +261,10 @@ func _cleanup(path: String) -> void:
 	for child in DirAccess.get_directories_at(path): _cleanup(path.path_join(child))
 	for file in DirAccess.get_files_at(path): DirAccess.remove_absolute(path.path_join(file))
 	DirAccess.remove_absolute(path)
+
+func _select_tab(tabs: TabContainer, caption: String) -> void:
+	for index in tabs.get_tab_count():
+		if tabs.get_tab_title(index)==caption:
+			tabs.current_tab = index
+			return
+	assert(false,"Missing tab: "+caption)

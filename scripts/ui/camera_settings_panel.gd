@@ -56,7 +56,7 @@ func build(col: VBoxContainer, owner_hud) -> void:
 	preview_button = hud._button("PREVIEW CAMERA")
 	preview_button.pressed.connect(func(): hud.camera_preview_requested.emit(true))
 	col.add_child(preview_button)
-	var speed_group = _group(col,"Preview speed",true)
+	var speed_group = _group(col,"Preview speed")
 	preview_speed = HSlider.new()
 	preview_speed.name = "PreviewSpeed"
 	preview_speed.max_value = 300
@@ -70,7 +70,7 @@ func build(col: VBoxContainer, owner_hud) -> void:
 	speed_group.add_child(curve_readout)
 	hud._note(speed_group,"Stationary framing only. Resume skiing to judge motion and speed feel.")
 	preview_speed.value_changed.connect(func(_value): _sync_curve())
-	var framing = _group(col,"Framing",true)
+	var framing = _group(col,"Framing")
 	for item in [["rest_fov","FoV at rest"],["fast_fov","FoV at full-effect speed"],["rest_tilt","Tilt at rest"],["fast_tilt","Tilt at full-effect speed"],["rest_distance","Distance at rest"],["fast_distance","Distance at full-effect speed"],["rest_height","Height at rest"],["fast_height","Height at full-effect speed"],["eye_height","Eye height"],["tuck_lowering","Full-strength tuck lowering"]]:
 		_slider(framing,item[0],item[1])
 	hud._note(framing,"FoV is vertical. Negative tilt looks down; positive looks up. With slope following, tilt is your aim on a 15° descent; flat and uphill ground lift the view. Terrain clearance takes priority.")
@@ -138,7 +138,12 @@ func _group(parent: Control, title: String, expanded: bool = false) -> VBoxConta
 	content.add_theme_constant_override("separation",12)
 	parent.add_child(content)
 	content.visible = expanded
-	toggle.toggled.connect(func(enabled): content.visible = enabled)
+	toggle.set_meta("group_body",content)
+	toggle.toggled.connect(func(enabled):
+		var focus = content.get_viewport().gui_get_focus_owner()
+		if not enabled and focus and content.is_ancestor_of(focus): toggle.grab_focus()
+		content.visible = enabled
+	)
 	groups[title] = {"button":toggle,"content":content}
 	return content
 
@@ -257,10 +262,11 @@ func set_preview(enabled: bool, speed: float = 0.0) -> void:
 		panel.offset_right = 460
 		panel.offset_top = 86
 		for child in shell.get_children():
-			if child!=hud.settings_tabs and child is Control and child.visible:
+			if child!=hud.settings_tabs.row and child is Control and child.visible:
 				hidden_shell_controls.append(child)
 				child.hide()
-		hud.settings_tabs.tabs_visible = false
+		hud.settings_tabs.rail.get_parent().hide()
+		panel.set_meta("preview_layout",true)
 		preview_speed.value = clampf(speed,0,300)
 		preview_toolbar.show()
 		preview_button.hide()
@@ -273,7 +279,9 @@ func set_preview(enabled: bool, speed: float = 0.0) -> void:
 		panel.offset_bottom = saved_offsets.w
 		for child in hidden_shell_controls: child.show()
 		hidden_shell_controls.clear()
-		hud.settings_tabs.tabs_visible = true
+		hud.settings_tabs.rail.get_parent().show()
+		panel.set_meta("preview_layout",false)
+		hud.shell_layout.frame(panel)
 		panel.show()
 		preview_toolbar.hide()
 		preview_button.show()

@@ -50,12 +50,12 @@ func run() -> void:
 				cases.append({"id":id,"end":str(game.sim.position),"velocity":str(game.sim.velocity),"crash":game.sim.crash_reason,"sight":game.world.assets.foliage_sight.parameters})
 				print("SIGHT_WORLD_CASE ",JSON.stringify(cases[-1]))
 	game.active=false; game.hud.show_menu("paused"); game.hud.open_settings()
-	game.hud.settings_tabs.current_tab=3
+	_select_tab(game.hud.settings_tabs,"Camera")
 	game.hud.camera_options.groups["Forest visibility · both views"].button.button_pressed=true
 	game.hud.camera_options.controls.forest_visibility.grab_focus()
 	for frame in 45: game._process(1.0/60); await process_frame
-	var camera_scroll=game.hud.settings_tabs.get_child(3) as ScrollContainer
-	camera_scroll.scroll_vertical=int(camera_scroll.get_v_scroll_bar().max_value)
+	var camera_scroll=game.hud.settings_tabs.get_current_tab_control() as ScrollContainer
+	camera_scroll.ensure_control_visible(game.hud.camera_options.controls.forest_visibility)
 	for frame in 5: await process_frame
 	await RenderingServer.frame_post_draw; root.get_texture().get_image().save_png(output+"/camera_settings.png")
 	for i in range(0,cases.size(),2):
@@ -63,3 +63,10 @@ func run() -> void:
 	FileAccess.open(output+"/report.json",FileAccess.WRITE).store_string(JSON.stringify({"site":site,"cases":cases,"display":game.display_settings.report(root,Vector2i(3840,2160)),"camera":game.camera_settings.snapshot(),"capture_overhead_included":true,"unranked":not game.session.eligible,"failures":failures},"\t"))
 	game.effects.stop_audio(); game.queue_free(); await process_frame; quit(0 if failures.is_empty() else 1)
 func input_at_tick(tick: int) -> RiderInput: return super.input_at_tick(fixture_tick+tick)
+
+func _select_tab(tabs: TabContainer, caption: String) -> void:
+	for index in tabs.get_tab_count():
+		if tabs.get_tab_title(index)==caption:
+			tabs.current_tab = index
+			return
+	assert(false,"Missing tab: "+caption)

@@ -5,7 +5,11 @@ const EXTENT_M = 32.0
 const RESOLUTION = 1024
 const IMPRINT_RESOLUTION = 256 # filtered relief spans multiple mesh vertices
 const SUBDIVISIONS = 512
-const MAX_STROKES = 4098
+const Presets = preload("res://scripts/presentation/graphics_presets.gd")
+const LIVE_STROKES = 2
+const STROKE_BYTES = 32
+const MAX_STROKES = Presets.MAX_TRACK_HISTORY+LIVE_STROKES
+const BUFFER_BYTES = MAX_STROKES*STROKE_BYTES
 var track_history
 var world
 var patch: MeshInstance3D
@@ -101,7 +105,7 @@ func _render_setup() -> void:
 	format.width = IMPRINT_RESOLUTION
 	format.height = IMPRINT_RESOLUTION
 	surface_rid = rd.texture_create(format,RDTextureView.new())
-	buffer_rid = rd.storage_buffer_create(MAX_STROKES*32)
+	buffer_rid = rd.storage_buffer_create(BUFFER_BYTES)
 	var image_uniform = RDUniform.new()
 	image_uniform.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
 	image_uniform.binding = 0
@@ -139,6 +143,11 @@ func _visibility(value: bool) -> void:
 
 func update_surface(sim, p: Vector3, responses: Array) -> void:
 	if not is_active(): return
+	if track_history.capacity<0 or track_history.capacity>Presets.MAX_TRACK_HISTORY:
+		_visibility(false)
+		last_revision = -1
+		push_error("Powder track history exceeds the allocated deformation buffer")
+		return
 	var next = Vector2(snappedf(p.x,4.0),snappedf(p.z,4.0))
 	var moved = next!=center
 	center = next
@@ -165,16 +174,36 @@ func update_surface(sim, p: Vector3, responses: Array) -> void:
 		var offset = i*8
 		var values = [a.x,a.z,b.x,b.z,response.contact_width_m,response.depth_m if response.snow_contact else 0.0,response.slip,signf(side)]
 		for j in 8: data[offset+j] = values[j]
-	updates.append({"offset":track_history.capacity*32,"bytes":data.to_byte_array()})
+	updates.append({"offset":track_history.capacity*STROKE_BYTES,"bytes":data.to_byte_array()})
+	if not valid_submission(updates,track_history.capacity+LIVE_STROKES):
+		_visibility(false)
+		last_revision = -1 # Retry with a complete history after a rejected upload.
+		push_error("Powder deformation submission exceeds its buffer or stroke layout")
+		return
 	last_revision = track_history.revision
 	dispatches += 1
 	for update in updates:
 		uploaded_bytes+=update.bytes.size()
 		upload_calls+=1
-	RenderingServer.call_on_render_thread(_render_update.bind(updates,center,track_history.capacity+2))
+	RenderingServer.call_on_render_thread(_render_update.bind(updates,center,track_history.capacity+LIVE_STROKES))
+
+static func valid_submission(updates: Array, count: int) -> bool:
+	# Reject the entire batch before any GPU mutation, including wrapped spans.
+	if count<LIVE_STROKES or count>MAX_STROKES: return false
+	for update in updates:
+		if not update is Dictionary or not update.has("offset") or not update.has("bytes"): return false
+		if not update.offset is int or not update.bytes is PackedByteArray: return false
+		var offset: int = update.offset
+		var byte_count: int = update.bytes.size()
+		if offset<0 or offset%STROKE_BYTES!=0 or byte_count%STROKE_BYTES!=0: return false
+		if offset>count*STROKE_BYTES or byte_count>count*STROKE_BYTES-offset: return false
+	return true
 
 func _render_update(updates: Array, location: Vector2, count: int) -> void:
 	if not uniforms.is_valid(): return
+	if not valid_submission(updates,count):
+		push_error("Rejected out-of-bounds powder render submission")
+		return
 	for update in updates:
 		rd.buffer_update(buffer_rid,update.offset,update.bytes.size(),update.bytes)
 	var constants = PackedFloat32Array([location.x-EXTENT_M*.5,location.y-EXTENT_M*.5,EXTENT_M,RESOLUTION]).to_byte_array()
@@ -196,7 +225,7 @@ func _render_update(updates: Array, location: Vector2, count: int) -> void:
 
 func budget() -> Dictionary:
 	return {"enabled":is_active(),"extent_m":EXTENT_M,"atlas_resolution":RESOLUTION,"imprint_resolution":IMPRINT_RESOLUTION,
-		"atlas_bytes":(RESOLUTION*RESOLUTION+IMPRINT_RESOLUTION*IMPRINT_RESOLUTION)*4 if available else 0,"contact_buffer_bytes":MAX_STROKES*32 if available else 0,
+		"atlas_bytes":(RESOLUTION*RESOLUTION+IMPRINT_RESOLUTION*IMPRINT_RESOLUTION)*4 if available else 0,"contact_buffer_bytes":BUFFER_BYTES if available else 0,
 		"vertices":(SUBDIVISIONS+1)*(SUBDIVISIONS+1) if is_active() else 0,"dispatch_frames":dispatches,
 		"uploaded_bytes":uploaded_bytes,"upload_calls":upload_calls}
 

@@ -10,6 +10,9 @@ var vsync = 0
 var fps_limit = 120
 var pending: Dictionary = {}
 var deadline_ms = 0
+# Actual state belongs only to this transaction, never to KEYS or the store.
+var _pending_window: Dictionary = {}
+var _rollback_window: Dictionary = {}
 
 func snapshot() -> Dictionary:
 	var values = {}
@@ -27,23 +30,39 @@ func restore(values: Dictionary) -> void:
 
 func choices(window: Window) -> Array[Vector2i]:
 	var result: Array[Vector2i] = [Vector2i.ZERO]
-	var screen = DisplayServer.screen_get_size(window.current_screen)
+	if display_mode=="fullscreen": return result
+	var screen = DisplayServer.screen_get_size(monitor if monitor>=0 else window.current_screen)
 	for pixels in [Vector2i(1280,720),Vector2i(1440,900),Vector2i(1920,1080),Vector2i(2560,1440),Vector2i(3440,1440),Vector2i(3840,2160),screen]:
 		if pixels.x<=screen.x and pixels.y<=screen.y and pixels not in result: result.append(pixels)
 	return result
 
-func begin_preview(values: Dictionary, now_ms: int) -> void:
-	if not pending.is_empty(): revert()
-	pending = snapshot()
+func begin_preview(values: Dictionary, now_ms: int, window: Window = null) -> void:
+	if pending.is_empty():
+		pending = snapshot()
+		# Revert followed by another preview before apply still has the original
+		# actual window available; do not capture the unconfirmed geometry.
+		_pending_window = _rollback_window.duplicate(true) if not _rollback_window.is_empty() else capture_window(window)
+		_rollback_window.clear()
+	else:
+		# Replacing an active preview must keep the first recovery target.
+		restore(pending)
 	restore(values)
 	deadline_ms = now_ms+15000
 
+static func capture_window(window: Window) -> Dictionary:
+	if window==null: return {}
+	return {"screen":window.current_screen,"position":window.position,"size":window.size,
+		"mode":window.mode,"borderless":window.borderless}
+
 func keep() -> void:
 	pending.clear()
+	_pending_window.clear()
 	deadline_ms = 0
 
 func revert() -> void:
+	if pending.is_empty(): return
 	var previous = pending.duplicate(true)
+	_rollback_window = _pending_window.duplicate(true)
 	keep()
 	restore(previous)
 
@@ -56,21 +75,48 @@ func load_preferences(path: String = PATH) -> void:
 func save_preferences(path: String = PATH) -> Error:
 	return Store.write_values(path,1,pending if not pending.is_empty() else snapshot())
 
+func window_plan(screen_pixels: Vector2i, screen_position: Vector2i, requested_pixels: Vector2i = Vector2i.ZERO, exact_output: bool = false) -> Dictionary:
+	# Fullscreen preferences always use native display pixels. Explicit fixture
+	# and benchmark output requests retain priority over ordinary preferences.
+	var explicit_pixels = requested_pixels!=Vector2i.ZERO
+	var pixels = requested_pixels if explicit_pixels else (screen_pixels if display_mode=="fullscreen" else resolution)
+	if pixels==Vector2i.ZERO:
+		pixels = Vector2i(mini(1920,int(screen_pixels.x*.8)),mini(1080,int(screen_pixels.y*.8)))
+	var fullscreen = display_mode=="fullscreen" and pixels==screen_pixels and not exact_output
+	return {"size":pixels,"position":screen_position+(screen_pixels-pixels)/2,
+		"mode":Window.MODE_FULLSCREEN if fullscreen else Window.MODE_WINDOWED,
+		"borderless":display_mode=="fullscreen" or explicit_pixels or pixels==screen_pixels}
+
 func apply(window: Window, requested_pixels: Vector2i = Vector2i.ZERO, exact_output: bool = false) -> void:
 	Engine.max_fps = fps_limit
-	if DisplayServer.get_name()=="headless": return
-	if monitor>=0: window.current_screen = monitor
-	DisplayServer.window_set_vsync_mode(vsync,window.get_window_id())
-	var screen_pixels = DisplayServer.screen_get_size(window.current_screen)
-	var pixels = requested_pixels if requested_pixels!=Vector2i.ZERO else resolution
+	var native_window = DisplayServer.get_name()!="headless" and window.get_window_id()!=DisplayServer.INVALID_WINDOW_ID
+	if native_window: DisplayServer.window_set_vsync_mode(vsync,window.get_window_id())
+	if not _rollback_window.is_empty():
+		# Consume once and return: normal preference application would recenter
+		# the restored window or lose an automatically selected prior screen.
+		var actual = _rollback_window.duplicate(true)
+		_rollback_window.clear()
+		_apply_window_state(window,actual)
+		return
+	if not native_window: return
+	var screen = monitor if monitor>=0 else window.current_screen
+	var plan = window_plan(DisplayServer.screen_get_size(screen),DisplayServer.screen_get_position(screen),requested_pixels,exact_output)
+	plan.screen = screen
+	_apply_window_state(window,plan)
+
+static func _apply_window_state(window: Window, state: Dictionary) -> void:
+	# Godot Windows infers fullscreen from a borderless native-sized rectangle.
+	# Drop the borderless flag before restoring Windowed so a native-sized
+	# pre-fullscreen rectangle cannot immediately re-enter fullscreen.
+	if window.mode in [Window.MODE_FULLSCREEN,Window.MODE_EXCLUSIVE_FULLSCREEN]: window.borderless = false
 	window.mode = Window.MODE_WINDOWED
-	window.borderless = display_mode=="fullscreen" or requested_pixels!=Vector2i.ZERO
-	# Custom DX12 generation requires the swapchain, UI and output to match.
-	if display_mode=="fullscreen" and pixels==Vector2i.ZERO: pixels = screen_pixels
-	if pixels!=Vector2i.ZERO:
-		window.size = pixels
-		window.position = DisplayServer.screen_get_position(window.current_screen)+(screen_pixels-pixels)/2
-		if pixels==screen_pixels and not exact_output: window.mode = Window.MODE_FULLSCREEN
+	window.current_screen = state.screen
+	window.borderless = state.borderless
+	if state.mode in [Window.MODE_FULLSCREEN,Window.MODE_EXCLUSIVE_FULLSCREEN]:
+		# Preserve a real previous window rectangle instead of first resizing
+		# the window to native pixels, which prevents a later fullscreen exit.
+		window.mode = state.mode
 	else:
-		window.size = Vector2i(mini(1920,int(screen_pixels.x*.8)),mini(1080,int(screen_pixels.y*.8)))
-		window.position = DisplayServer.screen_get_position(window.current_screen)+(screen_pixels-window.size)/2
+		window.size = state.size
+		window.position = state.position
+		if state.mode!=Window.MODE_WINDOWED: window.mode = state.mode

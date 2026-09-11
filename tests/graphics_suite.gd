@@ -21,7 +21,7 @@ func run() -> void:
 	var material_count: int = game.world.cloud_lighting.materials.size()
 	for level in [0,2,1,0,2,1]:
 		game.set_graphics_quality(level)
-		game.hud.graphics_quality.item_selected.emit(level)
+		game.hud.graphics_quality.item_selected.emit(game.hud.graphics_quality.get_item_index([1,4,7][level]))
 		game.world.update_weather(game.weather.state,.1,false)
 	var after = [game.sim.position,game.sim.velocity,game.sim.heading,game.sim.balance,game.session.elapsed,game.session.eligible,game.session.course_id,hash(game.field.heights),hash(game.field.obstacles)]
 	check(original==after,"Graphics switching preserves simulation, course geometry, obstacles and records")

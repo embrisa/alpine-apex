@@ -52,7 +52,11 @@ func _capture_descent() -> void:
 	game.active = false
 	game.hud.menu.hide()
 	game.hud.weather_panel.show()
-	game.hud.settings_tabs.current_tab = 4
+	_select_tab(game.hud.settings_tabs,"Audio")
+	var audio_page = game.hud.settings_tabs.get_current_tab_control() as ScrollContainer
+	var wind_group = _expand_group(audio_page,"Wind")
+	for frame in 3: await process_frame
+	audio_page.ensure_control_visible(wind_group)
 	await capture("wind_controls")
 	var report = _write_report()
 	report.capture_frames = wind_capture_frames
@@ -88,3 +92,18 @@ func _wind_capture_frame() -> void:
 	frame.save_jpg(wind_clip_path+"/%04d.jpg" % wind_capture_frames,0.86)
 	wind_capture_frames += 1
 	wind_capture_busy = false
+
+func _select_tab(tabs: TabContainer, caption: String) -> void:
+	for index in tabs.get_tab_count():
+		if tabs.get_tab_title(index)==caption:
+			tabs.current_tab = index
+			return
+	assert(false,"Missing tab: "+caption)
+
+func _expand_group(page: Control, caption: String) -> Control:
+	for button in page.find_children("*","Button",true,false):
+		if button.has_meta("group_body") and button.text.ends_with(caption):
+			button.button_pressed = true
+			return button.get_meta("group_body")
+	assert(false,"Missing settings group: "+caption)
+	return null

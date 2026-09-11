@@ -40,8 +40,8 @@ func run() -> void:
 	game.hud.feedback.persist = false
 	await settle()
 	check(game.hud.menu_tabs.get_tab_count()==3,"Main menu separates Ride, Explore and Tools")
-	check(game.hud.settings_tabs.get_tab_count()==8,"Settings separate display, weather, rider, camera, skier voice, interface, controls and audio")
-	check(game.hud.settings_tabs.get_tab_control(7).is_ancestor_of(game.hud.wind_mode),"Audio tab contains the existing wind controls")
+	check(game.hud.settings_tabs.get_tab_count()==8,"Settings separate Display, Graphics, Camera, Controls, Audio, Interface & HUD, Weather and Rider")
+	check(game.hud.settings_tabs.get_node("Audio").is_ancestor_of(game.hud.wind_mode),"Audio tab contains the existing wind controls")
 	check(game.hud.camera_options.controls.size()==game.CameraSettings.DEFAULTS.size()+game.CameraSettings.SHARED_DEFAULTS.size() and game.hud.camera_options.reset_all.text=="RESET ALL CAMERA SETTINGS","Camera tab exposes FoV, distances, heights, tilt, stabilization and a complete reset")
 	check(game.hud.camera_options.readouts.rest_fov.text=="55°" and game.hud.camera_options.readouts.fast_fov.text=="75°" and game.hud.camera_options.readouts.rest_tilt.text=="-45°" and game.hud.camera_options.readouts.fast_tilt.text=="-45°","Lens and tilt defaults use the grounded Connected preset")
 	check(game.hud.camera_options.readouts.rest_height.text=="3.00 m" and game.hud.camera_options.readouts.fast_height.text=="3.50 m" and game.hud.camera_options.readouts.vertical_smoothing.text=="50%","Camera default readouts match the lower stabilized view")
@@ -58,7 +58,7 @@ func run() -> void:
 	for i in game.hud.settings_tabs.get_tab_count():
 		game.hud.settings_tabs.current_tab = i
 		await capture("settings_%d" % i)
-		if i == 2:
+		if game.hud.settings_tabs.get_tab_title(i) == "Rider":
 			var colors = game.hud.appearance_column.find_children("*","ColorPickerButton",true,false)
 			if not colors.is_empty():
 				colors[0].get_popup().popup_centered()

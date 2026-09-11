@@ -64,8 +64,12 @@ func run() -> void:
 	await capture("06_landing")
 	game.active = false
 	game.hud.show(); game.hud.show_menu("paused"); game.hud.open_settings()
-	for tab in game.hud.settings_tabs.get_tab_count():
-		if game.hud.settings_tabs.get_tab_title(tab)=="Controls": game.hud.settings_tabs.current_tab = tab
+	_select_tab(game.hud.settings_tabs,"Controls")
+	var help_page = game.hud.settings_tabs.get_current_tab_control() as ScrollContainer
+	var skiing_help = _expand_group(help_page,"Skiing")
+	_expand_group(help_page,"Air control")
+	for frame in 3: await process_frame
+	help_page.ensure_control_visible(skiing_help)
 	caption.hide()
 	game._process(1.0/60.0)
 	await capture("07_controller_guide")
@@ -96,3 +100,18 @@ func capture(name: String) -> void:
 	picture.save_png(OUT+"/"+name+".png")
 	rows.append({"name":name,"pixels":[picture.get_width(),picture.get_height()],"tuck":game.sim.effective_tuck,"input_tuck":game.intent.tuck,"input_steer":game.intent.steer,"input_brake":game.intent.brake,"jump_held":game.intent.jump_held,"grounded":game.sim.grounded,"crashed":game.sim.crashed,"haptic_output":str(game.effects.haptic_output)})
 	if game.sim.crashed: failures.append(name+": unexpected crash")
+
+func _select_tab(tabs: TabContainer, caption: String) -> void:
+	for index in tabs.get_tab_count():
+		if tabs.get_tab_title(index)==caption:
+			tabs.current_tab = index
+			return
+	assert(false,"Missing tab: "+caption)
+
+func _expand_group(page: Control, caption: String) -> Control:
+	for button in page.find_children("*","Button",true,false):
+		if button.has_meta("group_body") and button.text.ends_with(caption):
+			button.button_pressed = true
+			return button.get_meta("group_body")
+	assert(false,"Missing settings group: "+caption)
+	return null

@@ -76,8 +76,13 @@ func inspect_massif() -> void:
 	await cursor_checks()
 	game.active = false
 	game.hud.show_menu("paused")
+	_select_tab(game.hud.menu_tabs,"Tools")
 	game.hud.weather_button.pressed.emit()
-	game.hud.settings_tabs.current_tab = game.hud.settings_tabs.get_tab_count()-1
+	_select_tab(game.hud.settings_tabs,"Controls")
+	var help_page = game.hud.settings_tabs.get_current_tab_control() as ScrollContainer
+	var camera_help = _expand_group(help_page,"Camera")
+	await present(.1)
+	help_page.ensure_control_visible(camera_help)
 	await present(0.1)
 	await camera_capture("controls_help", "UI fixture")
 	write_camera_report()
@@ -183,3 +188,18 @@ func cursor_checks() -> void:
 	if Input.mouse_mode != Input.MOUSE_MODE_VISIBLE: camera_failures.append("Paused native cursor not released")
 	game.automated = true
 	game._sync_camera_controls()
+
+func _select_tab(tabs: TabContainer, caption: String) -> void:
+	for index in tabs.get_tab_count():
+		if tabs.get_tab_title(index)==caption:
+			tabs.current_tab = index
+			return
+	assert(false,"Missing tab: "+caption)
+
+func _expand_group(page: Control, caption: String) -> Control:
+	for button in page.find_children("*","Button",true,false):
+		if button.has_meta("group_body") and button.text.ends_with(caption):
+			button.button_pressed = true
+			return button.get_meta("group_body")
+	assert(false,"Missing settings group: "+caption)
+	return null

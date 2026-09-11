@@ -148,9 +148,10 @@ func review_views() -> void:
 		root.mode = Window.MODE_WINDOWED
 		root.borderless = true
 		root.size = size_value
-		game.hud.menu_tabs.current_tab = 0
+		_select_tab(game.hud.menu_tabs,"Ride")
 		await capture("title_%dx%d" % [size_value.x,size_value.y])
 		game.hud.open_settings()
+		_select_tab(game.hud.settings_tabs,"Display")
 		await capture("settings_%dx%d" % [size_value.x,size_value.y])
 		game.hud.close_weather()
 	game.display_settings.apply_display(root,Vector2i(3840,2160))
@@ -254,3 +255,10 @@ func measure(label: String, tour: bool, seconds: float) -> void:
 	var actual = root.get_texture().get_image().get_size()
 	timings[label] = {"seconds":(Time.get_ticks_usec()-start)/1000000.0,"frames":frames.size(),"frame_ms":game._timing_summary(frames),"cpu_ms":game._timing_summary(cpu),"gpu_ms":game._timing_summary(gpu),"video_peak_bytes":video_peak,"static_peak_bytes":static_peak,"display":game.display_settings.report(root,actual),"actual_pixels":[actual.x,actual.y],"cuts":game.menu_camera.cut_serial-initial_cut,"capture_overhead_included":false}
 	print("LIVE_MENU_MEASURE_END ",label," ",JSON.stringify(timings[label]))
+
+func _select_tab(tabs: TabContainer, caption: String) -> void:
+	for index in tabs.get_tab_count():
+		if tabs.get_tab_title(index)==caption:
+			tabs.current_tab = index
+			return
+	assert(false,"Missing tab: "+caption)

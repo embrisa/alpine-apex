@@ -63,7 +63,7 @@ func run() -> void:
 	game.restart()
 	check(not game.sim.crashed and game.sim.velocity.length()==0 and game.session.elapsed==0,"Instant restart clears crash, momentum, and clock")
 	key(KEY_F3)
-	check(game.vectors.visible and game.hud.debug_panel.visible,"Telemetry toggle enables instruments and world arrows")
+	check(game.vectors.visible and game.hud.debug_panel.is_visible_in_tree(),"Telemetry toggle enables instruments and world arrows")
 	key(KEY_M)
 	check(game.effects.muted,"Audio can be muted independently")
 	check(not game.effects.wind.audible,"Mute also disables procedural wind")
@@ -419,10 +419,12 @@ func _camera_settings_checks() -> void:
 	game.active = false
 	game.hud.show_menu("paused")
 	game.hud.open_settings()
-	for i in game.hud.settings_tabs.get_tab_count():
-		if game.hud.settings_tabs.get_tab_title(i)=="Camera": game.hud.settings_tabs.current_tab = i
+	_select_tab(game.hud.settings_tabs,"Camera")
 	game._sync_camera_controls()
 	var ui = game.hud.camera_options
+	for caption in ["Framing","Follow and stability","Forest visibility · both views","Preview speed"]:
+		ui.groups[caption].button.button_pressed = true
+		check(ui.groups[caption].content.is_visible_in_tree(),"Camera group expands: "+caption)
 	var before = [game.sim.position,game.sim.velocity,game.sim.heading,game.sim.ticks,game.session.elapsed,game.session.eligible,game.physics_modified,game.weather.visual_time,game.weather.daylight.hour]
 	var changes = {"rest_distance":4.5,"fast_distance":9.5,"rest_height":5.5,"fast_height":11.5,"vertical_smoothing":70.0,"rest_fov":85.0,"fast_fov":65.0,"rest_tilt":-52.0,"fast_tilt":-38.0}
 	for key in changes: ui.controls[key].value = changes[key]
@@ -455,10 +457,9 @@ func _camera_settings_checks() -> void:
 	ui.view_selector.select(0)
 	ui.view_selector.item_selected.emit(0)
 	game.set_camera_preview(true)
-	game.hud.settings_tabs.current_tab = 0
+	_select_tab(game.hud.settings_tabs,"Display")
 	check(not ui.preview_active,"Changing settings tabs ends preview")
-	for i in game.hud.settings_tabs.get_tab_count():
-		if game.hud.settings_tabs.get_tab_title(i)=="Camera": game.hud.settings_tabs.current_tab = i
+	_select_tab(game.hud.settings_tabs,"Camera")
 	game.set_camera_preview(true)
 	game._notification(NOTIFICATION_APPLICATION_FOCUS_OUT)
 	check(not ui.preview_active,"Focus loss ends preview")
@@ -563,12 +564,21 @@ func _weather_checks() -> void:
 	check(not controller.automatic and controller.state.label=="Clear","Weather defaults to clear, high quality, automatic off")
 	game.active = false
 	game.hud.show_menu("title")
+	_select_tab(game.hud.menu_tabs,"Tools")
 	game.hud.weather_button.pressed.emit()
-	check(game.hud.weather_panel.visible and not game.hud.menu.visible,"Weather controls open from the title without starting a run")
+	_select_tab(game.hud.settings_tabs,"Weather")
+	check(game.hud.weather_panel.visible and not game.hud.menu.visible and game.hud.weather_preset.is_visible_in_tree(),"Weather controls open from the title without starting a run")
 	game.hud.weather_preset.item_selected.emit(2)
 	game.hud.weather_auto.toggled.emit(true)
-	game.hud.weather_quality.item_selected.emit(1)
-	check(controller.selected_preset=="snowfall" and controller.automatic and controller.quality==1,"Weather controls dispatch preset, auto and quality changes")
+	_select_tab(game.hud.settings_tabs,"Graphics")
+	var quality_control = game.hud.weather_quality
+	for button in game.hud.settings_tabs.get_current_tab_control().find_children("*","Button",true,false):
+		if button.has_meta("group_body") and button.get_meta("group_body").is_ancestor_of(quality_control): button.button_pressed = true
+	check(quality_control.is_visible_in_tree(),"Graphics weather quality group exposes its selector")
+	quality_control.select(1)
+	quality_control.item_selected.emit(1)
+	game.hud.settings_pages.flush_changes()
+	check(controller.selected_preset=="snowfall" and controller.automatic and game.graphics.weather_quality==1 and game.weather_effects.quality==1,"Conditions and Graphics controls dispatch to their separate live owners")
 	key(KEY_ESCAPE)
 	check(game.hud.menu_mode=="title" and game.hud.menu.visible and not game.active,"Escape from weather controls returns to title")
 	game.start_run(true)
@@ -612,7 +622,7 @@ func _weather_checks() -> void:
 	game._process(0.016)
 	var high: int = 0
 	for quality in [2,1,0]:
-		controller.set_quality(quality)
+		game.set_display_setting("weather_quality",quality)
 		game._process(0.016)
 		var ceiling: int = [0,1000,2000][quality]
 		var allocated: int = game.weather_effects.particle_budget()
@@ -622,8 +632,8 @@ func _weather_checks() -> void:
 		check(valid,"Weather particle allocation stays within %d at quality %d" % [ceiling,quality])
 		if quality==2:
 			high = game.weather_effects.particle_budget()
-	check(game.world.environment.sky==game.world.original_sky and not game.weather_effects.volumes[0].visible,"Off disables precipitation and restores the original sky")
-	controller.set_quality(2)
+	check(game.world.environment.sky==game.world.weather_sky and controller.state.enabled and controller.selected_preset=="snowfall" and not game.weather_effects.volumes[0].visible,"Effects Off disables precipitation while retaining actual weather and sky")
+	game.set_display_setting("weather_quality",2)
 	game.sim.velocity = Vector3.BACK*55.0
 	game._process(0.5)
 	key(KEY_V)
@@ -650,7 +660,9 @@ func _weather_checks() -> void:
 	game._process(2.0)
 	check(game.effects.audio_rain.volume_db < -64.0 and game.effects.audio_wind.volume_db < -64.0,"M fades both rain and wind to silence")
 	key(KEY_ESCAPE)
+	_select_tab(game.hud.menu_tabs,"Tools")
 	game.hud.weather_button.pressed.emit()
+	_select_tab(game.hud.settings_tabs,"Weather")
 	game.hud.close_weather()
 	check(not game.active and game.hud.menu_mode=="paused","Weather controls return to pause without resuming")
 	controller.set_automatic(false)
@@ -720,3 +732,10 @@ func _lighting_checks() -> void:
 	check(weather.state.time_label=="Dawn" and not weather.daylight.automatic,"Time controls select a preset and stop the automatic cycle")
 	weather.set_time_of_day("day")
 	weather.set_preset("clear")
+
+func _select_tab(tabs: TabContainer, caption: String) -> void:
+	for index in tabs.get_tab_count():
+		if tabs.get_tab_title(index)==caption:
+			tabs.current_tab = index
+			return
+	assert(false,"Missing tab: "+caption)

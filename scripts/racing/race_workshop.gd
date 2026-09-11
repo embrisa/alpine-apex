@@ -1,5 +1,6 @@
 extends Node3D
 ## Authoring uses the existing rendered world; it never moves the ski solver.
+const RetainedContent = preload("res://scripts/ui/retained_screen_content.gd")
 const Race = preload("res://scripts/racing/race_definition.gd")
 const Store = preload("res://scripts/racing/race_store.gd")
 const Beams = preload("res://scripts/presentation/race_beams.gd")
@@ -13,6 +14,10 @@ var survey: Camera3D
 var focus_point = Vector3.ZERO
 var survey_height: float = 240.0
 var panel: PanelContainer
+var heading: Label
+var library_actions: HFlowContainer
+var editor_scroll: ScrollContainer
+var survey_keyboard_enabled: bool = false
 var library: VBoxContainer
 var library_tabs: TabContainer
 var editor: VBoxContainer
@@ -65,104 +70,124 @@ func build(owner_game) -> void:
 func _build_ui() -> void:
 	var hud = game.hud
 	panel = hud._panel()
-	panel.add_theme_stylebox_override("panel",hud._style(Color(0.035,0.095,0.13,0.94),Color(0.55,0.69,0.73,0.2),20))
-	panel.set_anchors_and_offsets_preset(Control.PRESET_LEFT_WIDE)
-	panel.offset_left = 28
-	panel.offset_right = 528
-	panel.offset_top = 135
-	panel.offset_bottom = -60
-	var scroll = ScrollContainer.new()
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	panel.add_child(scroll)
-	var col = VBoxContainer.new()
-	col.add_theme_constant_override("separation",10)
-	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.add_child(col)
-	col.add_child(hud._label("YOUR MOUNTAIN. YOUR RACE.",20,hud.WHITE))
-	var intro = hud._label("Start here. Finish there.\nFind the fastest route.",15,hud.MUTED)
-	col.add_child(intro)
+	panel.name = "RaceWorkshop"
+	var shell = hud._window(panel)
+	shell.add_theme_constant_override("separation",14)
+	# Only the library owns menu atmosphere; the drawer leaves terrain unobscured.
+	hud.menu_backgrounds.erase(panel)
+	heading = hud._label("Races",28,hud.WHITE)
+	shell.add_child(heading)
 	library = VBoxContainer.new()
-	library.add_theme_constant_override("separation",8)
-	col.add_child(library)
-	var create = hud._button("+  CREATE IN THE WORLD",true)
-	create.pressed.connect(begin_creation)
-	library.add_child(create)
+	library.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	shell.add_child(library)
 	library_tabs = hud._tabs(library)
-	library_tabs.custom_minimum_size.y = 310
 	var saved_page = hud._tab(library_tabs,"Saved races")
 	var import_page = hud._tab(library_tabs,"Import & share")
+	var columns = RetainedContent.new()
+	saved_page.add_child(columns)
+	var saved_column = VBoxContainer.new()
+	saved_column.add_theme_constant_override("separation",16)
+	columns.add_child(saved_column)
+	saved_column.add_child(hud._label("Saved races",20,hud.WHITE))
 	list = ItemList.new()
-	list.custom_minimum_size = Vector2(324,80)
+	list.custom_minimum_size.y = 280
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	list.item_selected.connect(select_race)
-	saved_page.add_child(list)
-	details = hud._label("",12,hud.MUTED,true)
+	saved_column.add_child(list)
+	var detail_column = VBoxContainer.new()
+	detail_column.add_theme_constant_override("separation",18)
+	columns.add_child(detail_column)
+	detail_column.add_child(hud._label("Selected race",20,hud.WHITE))
+	details = hud._label("",16,hud.MUTED)
 	details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	details.custom_minimum_size.y = 75
-	saved_page.add_child(details)
-	var actions = HBoxContainer.new()
-	saved_page.add_child(actions)
-	race_button = hud._button("RACE IT",true)
-	race_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	race_button.pressed.connect(play_selected)
-	actions.add_child(race_button)
-	share_button = hud._button("COPY TO SHARE")
-	share_button.add_theme_font_size_override("font_size",13)
+	detail_column.add_child(details)
+	share_button = hud._button("Copy race code")
 	share_button.pressed.connect(copy_selected)
-	actions.add_child(share_button)
+	detail_column.add_child(share_button)
+	benchmark_button = hud._button("Ski current mountain" if game.current_mountain else "Restart lab fixture")
+	benchmark_button.pressed.connect(func(): close(); game.start_run(game.current_mountain==null))
+	detail_column.add_child(benchmark_button)
+	if not game.current_mountain:
+		hud._note(detail_column,"The lab fixture is an unranked test course. Lab runs do not enter personal records.")
 	code_input = TextEdit.new()
 	code_input.placeholder_text = "Paste a shared race code here"
-	code_input.custom_minimum_size = Vector2(324,55)
+	code_input.custom_minimum_size.y = 200
 	code_input.wrap_mode = TextEdit.LINE_WRAPPING_BOUNDARY
-	hud._note(import_page,"Paste a shared race code to add it to your library. Select a saved race to copy its code.")
+	hud._note(import_page,"Import a shared race code to add it to your library. Copy a saved race's code from its details.")
 	import_page.add_child(code_input)
-	var import_button = hud._button("IMPORT RACE CODE")
-	import_button.custom_minimum_size.y = 38
+	var import_button = hud._button("Import race code",true)
 	import_button.pressed.connect(import_from_ui)
-	import_page.add_child(import_button)
-	benchmark_button = hud._button("FREE SKI CURRENT MOUNTAIN" if game.current_mountain else "RESTART LAB FIXTURE")
-	benchmark_button.custom_minimum_size.y = 34
-	benchmark_button.add_theme_font_size_override("font_size",13)
-	benchmark_button.pressed.connect(func(): close(); game.start_run(game.current_mountain==null))
-	saved_page.add_child(benchmark_button)
+	# Import is a primary action and remains reachable below the scrolling code.
+	library_actions = HFlowContainer.new()
+	library_actions.add_theme_constant_override("h_separation",12)
+	library_actions.add_theme_constant_override("v_separation",8)
+	library_tabs.tab_changed.connect(func(index):
+		race_button.visible = index==0
+		import_button.visible = index==1
+	)
+	editor_scroll = ScrollContainer.new()
+	editor_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	editor_scroll.follow_focus = true
+	editor_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	shell.add_child(editor_scroll)
 	editor = VBoxContainer.new()
-	editor.add_theme_constant_override("separation",12)
-	col.add_child(editor)
+	editor.add_theme_constant_override("separation",16)
+	editor.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	editor_scroll.add_child(editor)
+	editor.add_child(hud._label("Race name",14,hud.LIME))
 	name_input = LineEdit.new()
-	name_input.placeholder_text = "Race name, e.g. Ravine Rush"
+	name_input.placeholder_text = "Name this race"
 	name_input.max_length = 60
-	name_input.custom_minimum_size.y = 42
+	name_input.custom_minimum_size.y = 44
 	name_input.text_changed.connect(func(_value): _refresh_draft())
 	editor.add_child(name_input)
-	start_button = hud._button("1  PLACE START ON THE SNOW",true)
-	start_button.pressed.connect(func(): placing = "start"; start_button.release_focus(); _refresh_draft())
+	start_button = hud._button("1  Place start",true)
+	start_button.pressed.connect(func(): placing = "start"; _refresh_draft())
 	editor.add_child(start_button)
-	finish_button = hud._button("2  PLACE FINISH ON THE SNOW")
-	finish_button.pressed.connect(func(): placing = "finish"; finish_button.release_focus(); _refresh_draft())
+	finish_button = hud._button("2  Place finish")
+	finish_button.pressed.connect(func(): placing = "finish"; _refresh_draft())
 	editor.add_child(finish_button)
-	var here = hud._button("USE SKIER POSITION")
-	here.custom_minimum_size.y = 38
+	var here = hud._button("Use skier position")
 	here.pressed.connect(func():
 		var p: Vector3 = game.sim.position
 		p.y = game.field.sample(p.x,p.z).height
 		place_point(p)
 	)
 	editor.add_child(here)
-	endpoint_label = hud._label("",12,hud.MUTED,true)
+	endpoint_label = hud._label("",14,hud.MUTED)
+	endpoint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	editor.add_child(endpoint_label)
-	editor.add_child(hud._label("Click snow to place the selected gate.\nWASD / arrows pan · scroll to zoom\nNo checkpoints. Ski through FINISH either way.",12,hud.WHITE))
-	save_button = hud._button("SAVE RACE",true)
-	save_button.pressed.connect(save_draft)
-	editor.add_child(save_button)
-	status = hud._label("",13,hud.LIME)
+	hud._note(editor,"Click terrain to place a gate and enable keyboard survey. WASD / arrows pan; mouse wheel zooms outside this drawer. Selecting a menu control stops survey movement.")
+	hud._note(editor,"Choose any route. Cross the 10 m finish gate from either side.")
+	status = hud._label("",14,hud.LIME)
 	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	status.custom_minimum_size.x = 324
-	col.add_child(status)
-	var back = hud._button("BACK / ESC")
-	back.custom_minimum_size.y = 38
+	status.max_lines_visible = 3
+	shell.add_child(status)
+	shell.add_child(library_actions)
+	var create = hud._button("Create race")
+	create.pressed.connect(begin_creation)
+	library_actions.add_child(create)
+	race_button = hud._button("Race selected",true)
+	race_button.pressed.connect(play_selected)
+	library_actions.add_child(race_button)
+	library_actions.add_child(import_button)
+	import_button.hide()
+	var footer = HBoxContainer.new()
+	footer.name = "RaceActions"
+	footer.add_theme_constant_override("separation",12)
+	shell.add_child(footer)
+	var back = hud._button("Back")
+	back.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	back.pressed.connect(back_pressed)
-	col.add_child(back)
-	panel.visible = false
-	# The library gets menu atmosphere; gate placement needs the live snow view.
+	footer.add_child(back)
+	save_button = hud._button("Save race",true)
+	save_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	save_button.pressed.connect(save_draft)
+	footer.add_child(save_button)
+	editor_scroll.hide()
+	editor.hide()
+	save_button.hide()
+	panel.hide()
 	hud.register_menu_background(library)
 
 func open_library() -> void:
@@ -185,6 +210,12 @@ func open_library() -> void:
 
 func _refresh_library(select_id: String = "") -> void:
 	mode = "library"
+	survey_keyboard_enabled = false
+	game.hud.shell_layout.frame(panel)
+	heading.text = "Races"
+	library_actions.show()
+	editor_scroll.hide()
+	save_button.hide()
 	cursor.hide()
 	if zone_outline: zone_outline.hide()
 	library_tabs.current_tab = 0
@@ -212,7 +243,7 @@ func _refresh_library(select_id: String = "") -> void:
 func select_race(index: int) -> void:
 	if index<0 or index>=races.size(): return
 	selected = races[index]
-	details.text = "MOUNTAIN  %d\nSTART   %s\nFINISH  %s\nSki through the 10 m finish gate · open route" % [selected.mountain.seed,_coordinates(selected.start),_coordinates(selected.finish)]
+	details.text = "Mountain %d\nStart  %s\nFinish  %s\n\nChoose any route. Cross the 10 m finish gate from either side." % [selected.mountain.seed,_coordinates(selected.start),_coordinates(selected.finish)]
 	race_button.disabled = false
 	share_button.disabled = false
 	if matches_world(selected):
@@ -222,10 +253,16 @@ func select_race(index: int) -> void:
 		_update_survey()
 	else:
 		show_race(null)
-		status.text = "Race it loads the mountain saved with this race."
+		status.text = "Racing this course loads its saved mountain."
 
 func begin_creation() -> void:
 	mode = "create"
+	survey_keyboard_enabled = false
+	game.hud.shell_layout.frame(panel,true)
+	heading.text = "Create race"
+	library_actions.hide()
+	editor_scroll.show()
+	save_button.show()
 	survey.make_current()
 	_update_survey()
 	library.visible = false
@@ -261,14 +298,14 @@ func place_point(point: Vector3) -> bool:
 	_clear_markers()
 	if has_start: _gate_marker(draft.start,"start_gate",draft.heading,false)
 	if has_finish: _gate_marker(draft.finish,"finish_gate",draft.finish_heading,false)
-	status.text = "Name and save your race, or reposition either endpoint." if has_start and has_finish else "Now choose a finish on any face. Pan with WASD / arrows."
+	status.text = "Name and save your race, or reposition either endpoint." if has_start and has_finish else "Choose a finish on any face. Click terrain to place it."
 	return true
 
 func _refresh_draft() -> void:
 	if not draft: return
 	draft.title = name_input.text.strip_edges()
-	start_button.text = "1  START  ·  " + ("CLICK SNOW" if placing=="start" else "REPOSITION" if has_start else "PLACE")
-	finish_button.text = "2  FINISH  ·  " + ("CLICK SNOW" if placing=="finish" else "REPOSITION" if has_finish else "PLACE")
+	start_button.text = "1  Start · " + ("Selected" if placing=="start" else "Reposition" if has_start else "Place")
+	finish_button.text = "2  Finish · " + ("Selected" if placing=="finish" else "Reposition" if has_finish else "Place")
 	endpoint_label.text = "MOUNTAIN  %d\nSTART   %s\nFINISH  %s" % [draft.mountain.seed,_coordinates(draft.start) if has_start else "—",_coordinates(draft.finish) if has_finish else "—"]
 	save_button.disabled = not (has_start and has_finish and not draft.title.is_empty())
 
@@ -348,6 +385,7 @@ func back_pressed() -> void:
 
 func close() -> void:
 	mode = ""
+	survey_keyboard_enabled = false
 	if zone_outline: zone_outline.hide()
 	panel.visible = false
 	cursor.visible = false
@@ -362,25 +400,32 @@ func close() -> void:
 func handle_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_run"):
 		back_pressed()
-	elif mode=="create" and event is InputEventMouseButton and event.pressed:
-		if event.button_index==MOUSE_BUTTON_WHEEL_UP:
-			survey_height = maxf(45.0,survey_height*0.82)
-		elif event.button_index==MOUSE_BUTTON_WHEEL_DOWN:
-			survey_height = minf(_survey_limit(),survey_height/0.82)
-		elif event.button_index==MOUSE_BUTTON_LEFT and mode=="create":
-			get_viewport().gui_release_focus()
-			var point = pick_snow(event.position)
-			if point is Vector3: place_point(point)
-			else: status.text = "Choose snow inside the skiable mountain."
-		elif event.button_index==MOUSE_BUTTON_LEFT:
-			get_viewport().gui_release_focus()
+		return
+	if mode!="create" or not event is InputEventMouseButton or not event.pressed: return
+	# This also protects direct callers; GUI scrolling must never zoom the world.
+	if panel.get_global_rect().has_point(event.position): return
+	if event.button_index==MOUSE_BUTTON_WHEEL_UP:
+		survey_height = maxf(45.0,survey_height*0.82)
+	elif event.button_index==MOUSE_BUTTON_WHEEL_DOWN:
+		survey_height = minf(_survey_limit(),survey_height/0.82)
+	elif event.button_index==MOUSE_BUTTON_LEFT:
+		get_viewport().gui_release_focus()
+		survey_keyboard_enabled = true
+		var point = pick_snow(event.position)
+		if point is Vector3: place_point(point)
+		else: status.text = "Choose snow inside the skiable mountain."
+
+func keyboard_survey_allowed() -> bool:
+	return mode=="create" and survey_keyboard_enabled and get_window().has_focus() and get_viewport().gui_get_focus_owner()==null
 
 func update_survey(dt: float) -> void:
-	var focused = game.hud.root.get_viewport().gui_get_focus_owner()
-	if not focused is LineEdit and not focused is TextEdit:
-		var x = Input.get_axis("steer_left","steer_right")
-		var z = Input.get_axis("brake","tuck")
-		focus_point += (Vector3.LEFT*x+Vector3.BACK*z)*survey_height*dt*0.7
+	if get_viewport().gui_get_focus_owner()!=null or not get_window().has_focus():
+		survey_keyboard_enabled = false
+	if keyboard_survey_allowed():
+		# Physical keyboard state cannot inherit rider axes from a stick or D-pad.
+		var x = float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT))-float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT))
+		var z = float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP))-float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN))
+		focus_point += (Vector3.LEFT*x+Vector3.BACK*z).limit_length(1.0)*survey_height*dt*0.7
 	_update_survey()
 	cursor.visible = false
 	if mode=="create" and not panel.get_global_rect().has_point(get_viewport().get_mouse_position()):

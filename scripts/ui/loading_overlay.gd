@@ -6,15 +6,10 @@ const AlpineTheme = preload("res://scripts/ui/alpine_theme.gd")
 const Feedback = preload("res://scripts/ui/interface_feedback.gd")
 const Snow = preload("res://scripts/ui/loading_snow.gd")
 const WindAudio = preload("res://scripts/presentation/wind_audio.gd")
+const Content = preload("res://scripts/ui/loading_content.gd")
 const TIP_SECONDS = 8.0
 const TIP_FADE_SECONDS = 0.25
-const TIPS = [
-	"A clean line is a fast line. Give your turns room to breathe.",
-	"Read the terrain ahead. Choose your descent before you build speed.",
-	"Tuck on an open line. Brake early when the mountain gets tight.",
-	"Hold Space to prepare a hop. Release it to take off.",
-	"Your mountain, your route. Create a race and share the challenge."
-]
+var tip_device: String = "keyboard"
 var overlay: ColorRect
 var artwork: Art
 var art_caption: Label
@@ -37,6 +32,11 @@ var previous_focus: WeakRef
 var reduced_motion: bool = false:
 	set(value):
 		reduced_motion = value
+		if value:
+			tip_fade = TIP_FADE_SECONDS
+			if tip: tip.modulate.a = 1.0
+			if outgoing_tip: outgoing_tip.hide(); outgoing_tip.modulate.a = 0.0
+			if pulse and bar: pulse.position.x = maxf(0.0,bar.size.x-pulse.size.x)*0.5
 		if artwork: artwork.set_loading_mode(busy and atmosphere_enabled,value)
 		if snow: snow.update_motion(phase,busy and atmosphere_enabled and not value)
 var atmosphere_enabled: bool = true:
@@ -80,9 +80,6 @@ func _ready() -> void:
 	var brand = Art.logo(Vector2(500,235))
 	brand.position = Vector2(44,16)
 	overlay.add_child(brand)
-	var eyebrow = _label("T H E   M O U N T A I N   I S   C A L L I N G",12,Art.ICE)
-	eyebrow.position = Vector2(63,257)
-	overlay.add_child(eyebrow)
 	var col = VBoxContainer.new()
 	col.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
 	col.offset_left = 64
@@ -91,8 +88,8 @@ func _ready() -> void:
 	col.offset_bottom = -64
 	col.add_theme_constant_override("separation",16)
 	overlay.add_child(col)
-	col.add_child(_label("UP NEXT  /  YOUR DESCENT",12,Art.ICE))
-	title = _label("Finding your mountain",38)
+	col.add_child(_label("LOADING",12,Art.ICE))
+	title = _label("Loading mountain",38)
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(title)
 	detail = _label("",17,Art.MUTED)
@@ -116,7 +113,7 @@ func _ready() -> void:
 	tip_stack.custom_minimum_size.y = 42
 	tip_stack.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	col.add_child(tip_stack)
-	tip = _label(TIPS[0],14,Art.MUTED)
+	tip = _label(Content.tip(0,_device()),14,Art.MUTED)
 	tip.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tip.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	tip_stack.add_child(tip)
@@ -172,9 +169,10 @@ func begin(caption: String, message: String) -> void:
 		if index % Art.PHOTOS.size() == artwork.last_photo_index: index += 1
 		get_tree().set_meta("alpine_loading_photo",index % Art.PHOTOS.size())
 		artwork.show_photo(index)
-		art_caption.text = "%02d / %02d     %s" % [artwork.photo_index+1,Art.PHOTOS.size(),Art.PHOTOS[artwork.photo_index].caption]
-		tip_start = posmod(index,TIPS.size())
-		tip.text = TIPS[tip_start]
+		_update_photo_caption()
+		tip_start = posmod(index,Content.COUNT)
+		tip_device = _device()
+		tip.text = Content.tip(tip_start,tip_device)
 	busy = true
 	artwork.set_loading_mode(atmosphere_enabled,reduced_motion)
 	_sync_audio()
@@ -194,7 +192,7 @@ func stage(message: String, percent: float = -1.0) -> void:
 func finish() -> void:
 	if not busy: return
 	busy = false
-	if job and not job.is_cancelled(): job.complete()
+	if job and not job.is_cancelled() and not job.snapshot().finished: job.complete()
 	cancel_button.hide(); retry_button.hide(); quit_button.hide()
 	job = null
 	overlay.hide()
@@ -238,7 +236,7 @@ func _process(dt: float) -> void:
 	if not reduced_motion: phase += visual_delta
 	if artwork.advance_loading(visual_delta):
 		artwork.show_photo(artwork.next_photo())
-		art_caption.text = "%02d / %02d     %s" % [artwork.photo_index+1,Art.PHOTOS.size(),Art.PHOTOS[artwork.photo_index].caption]
+		_update_photo_caption()
 	snow.update_motion(phase,atmosphere_enabled and not reduced_motion)
 	pulse.position.x = maxf(0.0,bar.size.x-pulse.size.x)*(0.5 if reduced_motion else (sin(phase*2.8)*0.5+0.5))
 	_update_wait_feedback((Time.get_ticks_msec()-started)/1000.0,visual_delta)
@@ -246,14 +244,25 @@ func _process(dt: float) -> void:
 		var snapshot: Dictionary = job.snapshot()
 		Estimates.reconcile(job,snapshot)
 		cancel_button.disabled = snapshot.cancelled
-		if snapshot.cancelled: detail.text = "Cancelling loading… Finishing the current work tile."
+		if not str(snapshot.error).is_empty():
+			detail.text = str(snapshot.error)
+			pulse.hide()
+		elif snapshot.cancelled: detail.text = "Cancelling loading… Waiting for the current work to stop."
 		elif worker_snapshot_active:
 			detail.text = snapshot.stage.replace("_"," ").capitalize()
 			if snapshot.total>0:
 				bar.value = clampf(100.0*snapshot.completed/snapshot.total,0,100); pulse.hide()
 			else: pulse.show()
-		if not snapshot.cancelled:
+		if not snapshot.cancelled and str(snapshot.error).is_empty() and not snapshot.finished:
 			elapsed.text = "%d s elapsed · estimated %d–%d s remaining" % [snapshot.elapsed_s,maxi(0,floori(snapshot.estimate_range_s.x)),maxi(0,ceili(snapshot.estimate_range_s.y))]
+		else: elapsed.text = "%d s elapsed" % snapshot.elapsed_s
+
+func _device() -> String:
+	return str(get_tree().get_meta("interface_device","keyboard"))
+
+func _update_photo_caption() -> void:
+	# A photo index supports review without inventing locations or image subjects.
+	art_caption.text = "Photo %02d / %02d" % [artwork.photo_index+1,Art.PHOTOS.size()]
 
 func _update_wait_feedback(wait_seconds: float, visual_delta: float) -> void:
 	var second = int(maxf(wait_seconds,0.0))
@@ -261,10 +270,17 @@ func _update_wait_feedback(wait_seconds: float, visual_delta: float) -> void:
 		elapsed_second = second
 		elapsed.text = "%d s elapsed" % second if second >= 8 else ""
 	var step = int(maxf(wait_seconds,0.0)/TIP_SECONDS)
-	if step != tip_step:
+	var device = _device()
+	if device != tip_device:
+		# A device handoff fixes the visible binding immediately, without cycling tips.
+		tip_device = device
+		tip_step = step
+		tip.text = Content.tip(tip_start+step,tip_device)
+		tip_fade = TIP_FADE_SECONDS
+	elif step != tip_step:
 		tip_step = step
 		outgoing_tip.text = tip.text
-		tip.text = TIPS[(tip_start+step)%TIPS.size()]
+		tip.text = Content.tip(tip_start+step,tip_device)
 		tip_fade = 0.0
 	tip_fade = TIP_FADE_SECONDS if reduced_motion else minf(TIP_FADE_SECONDS,tip_fade+visual_delta)
 	var blend = smoothstep(0.0,TIP_FADE_SECONDS,tip_fade)

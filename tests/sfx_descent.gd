@@ -107,8 +107,11 @@ func _audition() -> void:
 	game.effects.stop_audio()
 	game.skier.ragdoll.stop()
 	game.hud.weather_panel.show()
-	for i in game.hud.settings_tabs.get_tab_count():
-		if game.hud.settings_tabs.get_tab_title(i)=="Audio": game.hud.settings_tabs.current_tab=i
+	_select_tab(game.hud.settings_tabs,"Audio")
+	var audio_page = game.hud.settings_tabs.get_current_tab_control() as ScrollContainer
+	var sound_group = _expand_group(audio_page,"Skiing sounds")
+	for frame in 3: await process_frame
+	audio_page.ensure_control_visible(sound_group)
 	await capture("audio_settings")
 	await create_timer(.2).timeout
 
@@ -121,3 +124,18 @@ func _capture_audio_frame() -> void:
 	root.get_texture().get_image().save_jpg("res://artifacts/sfx/capture/"+name,.88)
 	sfx_frames.append({"time":now-sfx_capture_start,"file":name})
 	sfx_capture_busy=false
+
+func _select_tab(tabs: TabContainer, caption: String) -> void:
+	for index in tabs.get_tab_count():
+		if tabs.get_tab_title(index)==caption:
+			tabs.current_tab = index
+			return
+	assert(false,"Missing tab: "+caption)
+
+func _expand_group(page: Control, caption: String) -> Control:
+	for button in page.find_children("*","Button",true,false):
+		if button.has_meta("group_body") and button.text.ends_with(caption):
+			button.button_pressed = true
+			return button.get_meta("group_body")
+	assert(false,"Missing settings group: "+caption)
+	return null

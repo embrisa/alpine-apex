@@ -5,6 +5,7 @@ const Profile = preload("res://scripts/presentation/graphics_quality.gd")
 const Presets = preload("res://scripts/presentation/graphics_presets.gd")
 const Output = preload("res://scripts/presentation/display_settings.gd")
 const PATH = "user://graphics_v2.cfg"
+const DEFAULT_SHARPNESS = .825 # Preserves the established viewport value .35.
 const GRAPHICS_KEYS = ["quality","upscaler","frame_generation","render_scale","terrain_gi","sharpness","msaa","anisotropic","overrides","custom"]
 const KEYS = GRAPHICS_KEYS + Output.KEYS
 const UPSCALERS = ["auto", "fsr4", "fsr3", "fsr2", "native"]
@@ -14,7 +15,7 @@ var upscaler: String = "auto"
 var frame_generation: bool = false
 var render_scale: float = .75
 var terrain_gi: bool = false
-var sharpness: float = .35
+var sharpness: float = DEFAULT_SHARPNESS
 var msaa: int = 1
 var anisotropic: int = 2
 var overrides: Dictionary = {}
@@ -48,7 +49,7 @@ func restore(values: Dictionary) -> void:
 	if upscaler not in UPSCALERS: upscaler = "auto"
 	if not is_finite(render_scale): render_scale = .75
 	render_scale = clampf(render_scale,2.0/3.0,1.0)
-	if not is_finite(sharpness): sharpness = .35
+	if not is_finite(sharpness): sharpness = DEFAULT_SHARPNESS
 	sharpness = clampf(sharpness,0.0,1.0)
 	msaa = clampi(msaa,0,3)
 	anisotropic = clampi(anisotropic,0,4)
@@ -66,7 +67,7 @@ func select_preset(id: int) -> void:
 	upscaler = "auto"
 	render_scale = .75
 	terrain_gi = false
-	sharpness = .35
+	sharpness = DEFAULT_SHARPNESS
 	msaa = 1
 	anisotropic = 2
 
@@ -82,7 +83,9 @@ func reset_group(group: String) -> void:
 	for key in overrides.keys():
 		if Presets.CONTROLS[key][1]==group: overrides.erase(key)
 	if group=="Lighting & shadows": terrain_gi = false
-	custom = not overrides.is_empty() or terrain_gi or upscaler!="auto" or render_scale!=.75 or sharpness!=.35 or msaa!=1 or anisotropic!=2
+	if group=="Rendering & reconstruction":
+		upscaler = "auto"; render_scale = .75; sharpness = DEFAULT_SHARPNESS; msaa = 1; anisotropic = 2
+	custom = not overrides.is_empty() or terrain_gi or upscaler!="auto" or render_scale!=.75 or sharpness!=DEFAULT_SHARPNESS or msaa!=1 or anisotropic!=2
 
 func load_preferences(path: String = PATH) -> void:
 	restore(Store.read_values(path,2))
@@ -110,6 +113,11 @@ func apply_arguments(args: PackedStringArray) -> void:
 		elif arg.begins_with("--terrain-gi=") and value in ["on","off"]: terrain_gi = value=="on"
 	restore(snapshot())
 
+func viewport_sharpness() -> float:
+	# Godot converts this back to SDK strength with clamp(1 - value / 2, 0, 1).
+	var strength = sharpness if is_finite(sharpness) else DEFAULT_SHARPNESS
+	return 2.0*(1.0-clampf(strength,0.0,1.0))
+
 func apply_viewport(viewport: Viewport) -> void:
 	if DisplayServer.get_name()=="headless": return
 	var temporal = upscaler!="native" or (frame_generation and has_native_fsr())
@@ -119,7 +127,7 @@ func apply_viewport(viewport: Viewport) -> void:
 	viewport.scaling_3d_scale = render_scale if upscaler!="native" else 1.0
 	viewport.msaa_3d = Viewport.MSAA_DISABLED if temporal else msaa
 	viewport.use_taa = false
-	viewport.fsr_sharpness = sharpness
+	viewport.fsr_sharpness = viewport_sharpness()
 	viewport.anisotropic_filtering_level = anisotropic
 	if has_native_fsr(): Engine.get_singleton("AlpineFidelityFX").set_options(upscaler,frame_generation)
 	Engine.max_fps = fps_limit

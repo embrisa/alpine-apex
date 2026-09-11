@@ -7,15 +7,15 @@ const ICE = Color("a5dced")
 const WHITE = Color("edf4f8")
 const MUTED = Color("aec1ce")
 const PHOTOS = [
-	{"file":"p8.jpg", "caption":"HOLD YOUR EDGE", "aspect":1.5, "focus":Vector2(0.5,0.42)},
-	{"file":"p6.jpg", "caption":"CHASE THE POWDER", "aspect":4.0/3.0, "focus":Vector2(0.5,0.42)},
-	{"file":"p1.jpg", "caption":"FIND YOUR FALL LINE", "aspect":1.5, "focus":Vector2(0.5,0.60)},
-	{"file":"p5.jpg", "caption":"TAKE THE QUIET LINE", "aspect":2448.0/3265.0, "framed":true, "exposure":0.96},
-	{"file":"p3.jpg", "caption":"MAKE ROOM TO FLY", "aspect":1.25, "framed":true, "exposure":0.97},
-	{"file":"p9.jpg", "caption":"A MOMENT ABOVE IT ALL", "aspect":2023.0/3596.0, "framed":true},
-	{"file":"p4.jpg", "caption":"LEAVE YOUR SIGNATURE", "aspect":0.8, "framed":true, "exposure":0.92},
-	{"file":"p7.jpg", "caption":"THE MOUNTAIN IS CALLING", "aspect":2400.0/1602.0, "focus":Vector2(0.5,0.58), "saturation":0.46},
-	{"file":"p2.jpg", "caption":"FOLLOW THE FEELING", "aspect":1080.0/1441.0, "framed":true, "saturation":0.46}
+	{"file":"p8.jpg", "aspect":1.5, "focus":Vector2(0.5,0.42)},
+	{"file":"p6.jpg", "aspect":4.0/3.0, "focus":Vector2(0.5,0.42)},
+	{"file":"p1.jpg", "aspect":1.5, "focus":Vector2(0.5,0.60)},
+	{"file":"p5.jpg", "aspect":2448.0/3265.0, "framed":true, "exposure":0.96},
+	{"file":"p3.jpg", "aspect":1.25, "framed":true, "exposure":0.97},
+	{"file":"p9.jpg", "aspect":2023.0/3596.0, "framed":true},
+	{"file":"p4.jpg", "aspect":0.8, "framed":true, "exposure":0.92},
+	{"file":"p7.jpg", "aspect":2400.0/1602.0, "focus":Vector2(0.5,0.58), "saturation":0.46},
+	{"file":"p2.jpg", "aspect":1080.0/1441.0, "framed":true, "saturation":0.46}
 ]
 # Source-image coordinates keep the light attached to the moving photograph.
 # Strength/rays are deliberately softer in shade; p4 keeps its monochrome light.

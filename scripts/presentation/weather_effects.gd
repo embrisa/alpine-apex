@@ -108,7 +108,7 @@ func update_weather(state, camera: Camera3D, rider_position: Vector3, field, dt:
 	for i in range(volumes.size()):
 		var particle = volumes[i]
 		var strength: float = state.snow if i==0 else state.rain
-		var enabled: bool = state.enabled and strength>0.002
+		var enabled: bool = quality>0 and state.enabled and strength>0.002
 		var process: ShaderMaterial = particle.process_material
 		var material: ShaderMaterial = particle.draw_pass_1.material
 		var flow: Vector3 = state.wind_velocity + Vector3.DOWN*(2.3 if i==0 else 16.0) - camera_velocity
@@ -137,7 +137,7 @@ func update_weather(state, camera: Camera3D, rider_position: Vector3, field, dt:
 		var material: ShaderMaterial = particle.draw_pass_1.material
 		material.set_shader_parameter("flow",drift-camera_velocity)
 		material.set_shader_parameter("opacity",state.spindrift*(0.18+state.gust*0.20))
-		_set_emission(particle,state.enabled and state.spindrift>0.002 and absf(rider_position.y-height)<7.0,animate)
+		_set_emission(particle,quality>0 and state.enabled and state.spindrift>0.002 and absf(rider_position.y-height)<7.0,animate)
 
 func _set_emission(particle: GPUParticles3D, enabled: bool, animate: bool) -> void:
 	if enabled and not particle.visible:

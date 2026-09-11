@@ -1,7 +1,9 @@
 extends RefCounted
 ## HUD-owned record view. It only reads the selected session.
+const RetainedContent = preload("res://scripts/ui/retained_screen_content.gd")
 const Session = preload("res://scripts/core/run_session.gd")
 var panel: PanelContainer
+var tabs: TabContainer
 var course: Label
 var best: Label
 var ghost_toggle: CheckButton
@@ -14,35 +16,51 @@ func build(hud) -> void:
 	panel = hud._panel()
 	panel.name = "RecordsWindow"
 	var shell = hud._window(panel,980)
-	shell.add_child(hud._label("YOUR PERSONAL BEST",28,hud.WHITE))
-	var tabs = hud._tabs(shell)
+	shell.add_theme_constant_override("separation",14)
+	shell.add_child(hud._label("Records",28,hud.WHITE))
+	tabs = hud._tabs(shell)
 	var col = hud._tab(tabs,"Overview")
 	var split_page = hud._tab(tabs,"Splits")
 	var history_page = hud._tab(tabs,"Run history")
-	course = hud._label("",14,hud.MUTED)
-	course.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	col.add_child(course)
+	# Read-only pages still need a controller focus target for long records.
+	for index in [1,2]:
+		tabs.get_tab_control(index).get_v_scroll_bar().focus_mode = Control.FOCUS_ALL
+	var columns = RetainedContent.new()
+	col.add_child(columns)
+	var best_column = VBoxContainer.new()
+	best_column.add_theme_constant_override("separation",18)
+	columns.add_child(best_column)
+	var ghost_column = VBoxContainer.new()
+	ghost_column.add_theme_constant_override("separation",18)
+	columns.add_child(ghost_column)
+	best_column.add_child(hud._label("Personal best",20,hud.WHITE))
+	course = hud._label("",16,hud.MUTED)
+	course.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	best_column.add_child(course)
 	best = hud._label("",38,hud.LIME,true)
-	col.add_child(best)
+	best_column.add_child(best)
 	ghost_toggle = CheckButton.new()
-	ghost_toggle.text = "Show personal-best ghost  /  G"
+	ghost_toggle.text = "Show personal-best ghost"
 	ghost_toggle.toggled.connect(func(value): hud.ghost_visibility_requested.emit(value))
-	col.add_child(ghost_toggle)
-	ghost_info = hud._label("",13,hud.MUTED)
+	ghost_column.add_child(hud._label("Ghost",20,hud.WHITE))
+	ghost_column.add_child(ghost_toggle)
+	ghost_info = hud._label("",16,hud.MUTED)
 	ghost_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	col.add_child(ghost_info)
-	split_page.add_child(hud._label("CUMULATIVE SPLITS  /  FREE ROUTE CHOICE",12,hud.LIME,true))
-	splits = hud._label("",13,hud.WHITE,true)
+	ghost_column.add_child(ghost_info)
+	split_page.add_child(hud._label("Cumulative splits",20,hud.WHITE))
+	splits = hud._label("",16,hud.WHITE)
+	splits.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	splits.add_theme_constant_override("line_spacing",5)
 	split_page.add_child(splits)
-	history_page.add_child(hud._label("LAST 20 COMPLETED RUNS  /  LOCAL TIMES",12,hud.LIME,true))
-	history = hud._label("",12,hud.WHITE,true)
+	history_page.add_child(hud._label("Last 20 completed runs",20,hud.WHITE))
+	history = hud._label("",16,hud.WHITE)
+	history.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	history.add_theme_constant_override("line_spacing",5)
 	history_page.add_child(history)
 	notice = hud._label("",13,hud.MUTED)
 	notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	shell.add_child(notice)
-	var close = hud._button("BACK / ESC")
+	var close = hud._button("Back")
 	close.pressed.connect(func(): hud.close_competition())
 	shell.add_child(close)
 	panel.visible = false
@@ -52,25 +70,29 @@ func refresh(session, ghost_enabled: bool) -> void:
 	course.text = session.race.title if session.race else ("Free ski · create a race to record times" if free_ski else "Laboratory fixture")
 	best.text = Session.format_time(session.personal_best)
 	ghost_toggle.set_pressed_no_signal(ghost_enabled)
-	ghost_info.text = "Cyan ghost follows your best recorded line. It has no collision." if session.best_replay else "Set a new personal best to record a ghost. Older best times are retained."
+	ghost_toggle.disabled = free_ski or session.best_replay==null
+	ghost_info.text = "The cyan ghost follows your best recorded run without collision." if session.best_replay else "Set a new personal best to record a ghost."
 	if free_ski: ghost_info.text = "Free skiing has no personal best or ghost. Create or select a race on this mountain."
 	var has_attempt: bool = session.elapsed>0.0
 	var reference: Array = session.reference_splits if has_attempt else session.best_splits
-	splits.text = "APPROACH       THIS RUN        PB AT START      DIFFERENCE\n" if has_attempt else "APPROACH       PERSONAL BEST\n"
+	splits.text = ""
 	for i in range(3):
 		if has_attempt:
-			splits.text += "%3d%%         %s    %s    %s\n" % [(i+1)*25,_time(session.split_times[i]),_time(reference[i]),Session.format_delta(session.split_delta(i))]
+			splits.text += "%d%% approach\nThis run: %s · Best at start: %s\nDifference: %s\n\n" % [(i+1)*25,_time(session.split_times[i]),_time(reference[i]),Session.format_delta(session.split_delta(i))]
 		else:
-			splits.text += "%3d%%         %s\n" % [(i+1)*25,_time(reference[i])]
-	history.text = "DATE / UTC         RUN TIME      VS BEST    TOP km/h\n"
+			splits.text += "%d%% approach\nPersonal best: %s\n\n" % [(i+1)*25,_time(reference[i])]
+	if free_ski: splits.text = "Choose a race to record split times."
+	history.text = ""
 	for row in session.history:
-		var date = Time.get_datetime_string_from_unix_time(row.date).replace("T"," ").left(16) if row.date>0 else "Earlier record  "
+		var date = Time.get_datetime_string_from_unix_time(row.date).replace("T"," ").left(16)+" UTC" if row.date>0 else "Date unavailable"
 		var delta = row.time-session.personal_best
-		history.text += "%s   %s  %9s  %s\n" % [date,Session.format_time(row.time),"BEST" if absf(delta)<0.0000001 else Session.format_delta(delta),str(roundi(row.peak_kmh)) if row.peak_kmh>0 else "—"]
-	if session.history.is_empty(): history.text = "Finish a ranked race to begin your history."
+		history.text += "%s\n%s · %s · Top speed %s km/h\n\n" % [date,Session.format_time(row.time),"BEST" if absf(delta)<0.0000001 else Session.format_delta(delta),str(roundi(row.peak_kmh)) if row.peak_kmh>0 else "—"]
+	if session.history.is_empty(): history.text = "Finish a race eligible for records to begin your history."
+	if free_ski: history.text = "Free skiing does not record timed runs. Choose or create a race."
 	notice.text = session.save_error if not session.save_error.is_empty() else session.record_warning
 	if notice.text.is_empty(): notice.text = session.replay_warning
-	if notice.text.is_empty(): notice.text = "R / △ instantly retries this race. Lab and automated runs do not replace your best or enter this history."
+	if notice.text.is_empty() and not free_ski and session.race==null: notice.text = "Lab and automated runs do not replace personal bests or enter race history."
+	notice.visible = not notice.text.is_empty()
 
 func _time(value: float) -> String:
-	return Session.format_time(value) if value>=0 else "     —    "
+	return Session.format_time(value) if value>=0 else "—"
