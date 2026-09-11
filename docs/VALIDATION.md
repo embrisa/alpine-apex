@@ -38,6 +38,7 @@ Paths in this table are under `tests/` unless noted.
 | Animation/fitting | Animation skill's Regression stages; anatomy, attachment, motion, relevant flight/landing and full clothing audit; chronological rendered review |
 | Pose-review tools | `pose_review_tools_test.py`, affected real-capture commands, `pose_review_state.test.cjs` for feedback state; native smoke if rendering changes |
 | Generation/cache | Existing v15 generation/cache/recipe/cancellation/export suites; cold/worker determinism and actual requested/achieved populations |
+| Default-v15 routes | `alpine_v15_route_audit.gd`, then `python tests/report_v15_route_audit.py`; six surveys and one bounded ordinary-input pilot per face; human/multiple-seed acceptance separate |
 | Geology/assets | `geology_asset_suite.gd`, collision/seating/proxy checks as affected; source hashes plus native gallery/gameplay |
 | Trees | `density_lod_suite.gd`, `foliage_playtest.gd`, actual near/mid/far transition and dense-route cost |
 | Camera/UI | Camera/profile/menu-camera, interface/settings/retained-screen/HUD suites; native multi-size/controller/popup/display matrix |
@@ -118,10 +119,13 @@ dependency-hash optimization brought v15 cold mean to 130.843 s. These retain
 their original workloads; readiness includes scene submission and is not FPS.
 Producers/receipts are the v15 generation suites and `artifacts/generation_v15/`.
 
-The historical v13 survey's pilot completed face 3 and crashed/stalled on others.
-That is not current v15 coverage. Natural population saturation and synthetic
-million-tree capacity are separate results. Current task:
-[six-face audit](../backlog/tasks/AA-20260911-153902-v15-six-face-route-audit.md).
+Current default-v15 route coverage, per-face pilot outcomes, methodology and
+reproduction commands are in [World's route audit](WORLD.md#default-v15-route-audit)
+and its [source-hashed receipt](V15_ROUTE_AUDIT_RESULTS.json). This replaces the
+historical v13 pilot result (face index 3 completed; others crashed/stalled) as
+the current route acceptance evidence. Natural population saturation and
+synthetic million-tree capacity remain separate results; user skiing and other
+seeds remain open.
 
 ## Performance evidence
 

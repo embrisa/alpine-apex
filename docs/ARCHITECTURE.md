@@ -87,7 +87,7 @@ packaging costs when evaluating native work. Follow [performance evidence](VALID
 
 ## Direction and pending work
 
-Current acceptance still needs full-mountain skiing, six-face/multiple-seed route
+Current acceptance still needs full-mountain user skiing, multiple-seed route
 coverage, complete-descent frame times, continuous presentation comfort, listening,
 controller hardware feedback and ordinary racing usefulness. [Validation](VALIDATION.md)
 links the existing tasks; evidence completion is separate from player acceptance.

@@ -29,6 +29,75 @@ saturate placement. The user accepts roughly 600,000 trees where natural space
 limits the million-tree request. Synthetic capacity tests do not prove natural
 placement feasibility or skiable routes.
 
+## Default-v15 route audit
+
+The current default-seed route evidence is produced by
+[`alpine_v15_route_audit.gd`](../tests/alpine_v15_route_audit.gd), using
+`MountainDefinition.generate(849205174, 15)` with Standard settings and the
+source/engine-validated physical cache. The retained v13-named planner and pilot
+are test-only algorithms applied to that current field; no historical bake or
+saved route is loaded. Generator, model, recipe, source/engine/terrain hashes,
+per-face results and evidence hashes are in the
+[committed receipt](V15_ROUTE_AUDIT_RESULTS.json).
+
+2026-09-11, model 28: all six surveys returned two paths, all twelve paths had
+finite support and zero tree/mineral sweep hits (13,962 support samples and
+11,126 swept segments). Five pilots completed; face 5's pilot stalled without
+crashing after reaching a maximum radius of 2,053.42 m (72.05% of the base
+radius). No second attempt was made. Labels below are one-based; indices match
+the source and receipt.
+
+| Face (index) | Survey | Graph rejoin nodes | Pilot outcome (simulation seconds) |
+|---|---|---:|---|
+| 1 (0) | Two swept-clear paths | 34,012 | Completed, 288.03 s |
+| 2 (1) | Two swept-clear paths | 30,180 | Completed, 280.29 s |
+| 3 (2) | Two swept-clear paths | 32,925 | Completed, 289.96 s |
+| 4 (3) | Two swept-clear paths | 32,785 | Completed, 297.24 s |
+| 5 (4) | Two swept-clear paths | 23,559 | Stalled at 72.05%, 227.78 s |
+| 6 (5) | Two swept-clear paths | 35,632 | Completed, 323.48 s |
+
+All surveys used the initial 6 × 12 m grid. Their two paths first crossed the
+base boundary 1,847.58–2,266.91 m apart. The finer support check measured contact
+normal Y as low as 0.539 between graph nodes: node constraints do not bound
+every point along an edge. Collision clearance alone does not establish dynamic
+skiability. Only path 0 was piloted on each face; alternate-path and deliberate
+branch/rejoin skiing remain untested. Sampled pilot positions (one-second
+intervals plus final positions) stayed within each face's ±30° sector.
+
+The graph samples every 6 m across and 12 m downhill, with at most one 3 × 6 m
+refinement. Nodes use a 1.8 m clearance and edges a 1.5 m sampled clearance.
+Reachable width counts reachable columns, not a single unobstructed corridor.
+Rejoin nodes have multiple accepted incoming graph edges; that count does not
+establish independently skied branches. Returned polylines receive support
+samples and production tree/mineral rider sweeps at intervals no longer than
+4 m. Local graph endpoints are at downhill coordinate 2,784 m and can extend
+beyond the playable disk; the receipt separately records the first crossings
+of the 2,850 m base boundary and their separation.
+
+Each face gets one ordinary-input pilot attempt from its normal launch, using
+the first swept-clear path. The fallback order is the first nonempty path, then
+an explicitly unsurveyed radial target. The pilot steps the unchanged solver at
+120 Hz, refreshes intent every 12 ticks, and pulses jump release for one tick.
+It stops on a crash, the production base boundary, 800 simulation seconds, or
+30 seconds without a 2 m increase in maximum radius. No session, record store,
+rendered view or timing benchmark is involved. Pilot failure limits that
+attempt's evidence; it does not prove an unskiable mountain. User skiing and
+other seeds are separate acceptance work.
+
+Reproduce under the shared validation guard, then validate/publish the receipt:
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/alpine_v15_route_audit.gd') -Label v15-route-audit -TimeoutSeconds 3600
+python tests/report_v15_route_audit.py
+```
+
+Detailed polylines, tick inputs, one-second position samples and logs remain in
+ignored `artifacts/v15_route_audit/` and `artifacts/guarded/v15-route-audit/`.
+The receipt producer rejects incomplete runs, engine/guard failures, missing
+faces, repeated attempts, changed sources and mismatched pilot evidence hashes.
+An audit may complete with reported crashes, stalls or missing graph paths;
+successful harness execution is separate from route acceptance.
+
 ## Deterministic jobs and packed data
 
 [GenerationJob](../scripts/world/generation_job.gd) owns up to six workers, a
