@@ -4,6 +4,7 @@ import hashlib
 import html
 import json
 import re
+from statistics import median
 from datetime import datetime
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -73,7 +74,11 @@ def main():
                 if match: entry.update(checks=int(match[1]), failure_count=int(match[2]))
             if label == 'scenery_loading':
                 entry.update(read(ROOT / 'artifacts/geology_v11/scenery_loading.json') or {})
+            if label == 'geometry':
+                entry.update(checks=len(re.findall(r'^PASS:', log, re.M)),
+                             failures=re.findall(r'^FAIL:.*$', log, re.M))
             report['automated'][label] = entry
+    report['automated_checks'] = sum(entry.get('checks', 0) for entry in report['automated'].values())
     for label in ['views', 'fixed', 'descents', 'boundary_motion']:
         report['native_audits'][label] = audit('offmap_v3_'+label)
     # An interrupted retry can leave an older result beside the new failure log.
@@ -81,6 +86,17 @@ def main():
     if not all(report['native_audits']['fixed'].get(k) for k in ['complete', 'matches_current_sources']): timing = None
     if not all(report['native_audits']['descents'].get(k) for k in ['complete', 'matches_current_sources']): descents = None
     if descents:
+        # The descent harness keeps raw samples but its shared cost summary has no median.
+        # Derive the requested metric from those samples, without changing native evidence.
+        for row in descents['rows']:
+            path = NATIVE / 'offmap_v3_descents' / f"frame_samples_{row['run']}.json"
+            samples = read(path)
+            assert samples and len(samples['gpu_ms']) == row['gpu_ms']['count'], path
+            assert len(samples['frame_ms']) == row['frame_ms']['count'], path
+            row['gpu_ms']['median'] = median(samples['gpu_ms'])
+            row['median_source'] = {'path': str(path.relative_to(ROOT)),
+                                    'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
+                                    'method': 'statistics.median over all recorded GPU frame samples'}
         paired = []
         for weather in ['clear', 'snowfall']:
             trials = {r['offmap_version']: r for r in descents['rows'] if r['trial_weather'] == weather}
@@ -96,9 +112,10 @@ def main():
     cards, other, clips = [], [], []
     if views:
         from PIL import Image
-        featured = ['edge_overview', 'edge_corner', 'summit_clear_day_0', 'ride_clear_day_0_2750_pov', 'boundary_clear_day_diagonal',
+        featured = ['summit_clear_day_0', 'edge_corner', 'edge_overview', 'ride_clear_day_0_2750_pov', 'boundary_clear_day_diagonal',
                     'summit_snowfall_day_3', 'summit_clear_dusk_3', 'summit_clear_night_3']
-        for label in views['pairs']:
+        ordered = [label for label in featured if label in views['pairs']] + [label for label in views['pairs'] if label not in featured]
+        for label in ordered:
             for state in ['before', 'after']:
                 with Image.open(NATIVE / 'offmap_v3_views' / f'{label}_{state}.png') as im:
                     assert im.size == (3840, 2160), (label, im.size)
@@ -107,12 +124,16 @@ def main():
             for label in ['pan_0', 'pan_3', 'ride_motion'] + (['boundary_motion'] if boundary_motion else []):
                 parts = []
                 for state in ['before', 'after']:
-                    frames = []
-                    for index in range(24):
-                        directory = 'offmap_v3_boundary_motion' if label == 'boundary_motion' else 'offmap_v3_views'
-                        with Image.open(NATIVE / directory / f'{label}_{state}_{index:03d}.jpg') as frame:
-                            frame.thumbnail((1280, 720)); frames.append(frame.copy())
-                    frames[0].save(OUT / f'{label}_{state}.webp', save_all=True, append_images=frames[1:], duration=100, loop=0, quality=85)
+                    directory = 'offmap_v3_boundary_motion' if label == 'boundary_motion' else 'offmap_v3_views'
+                    sources = [NATIVE / directory / f'{label}_{state}_{index:03d}.jpg' for index in range(24)]
+                    preview = OUT / f'{label}_{state}.webp'
+                    if not preview.exists() or preview.stat().st_mtime < max(path.stat().st_mtime for path in sources):
+                        frames = []
+                        for path in sources:
+                            with Image.open(path) as frame:
+                                assert frame.size == (3840, 2160), path
+                                frame.thumbnail((1280, 720)); frames.append(frame.copy())
+                        frames[0].save(preview, save_all=True, append_images=frames[1:], duration=100, loop=0, quality=85)
                     parts.append(f'<figure><img loading="lazy" src="{label}_{state}.webp"><figcaption>{state}</figcaption></figure>')
                 clips.append(f'<article><h2>{label} - sampled motion</h2><div class="pair">'+''.join(parts)+'</div></article>')
     report['evidence_complete'] = all(a.get('complete') and a.get('matches_current_sources') and not a.get('concurrent') for a in report['native_audits'].values()) and bool(views and len(views['pairs']) == 73 and boundary_motion and boundary_motion['frames'] == 48 and descents and len(descents['rows']) == 4)
@@ -125,13 +146,29 @@ def main():
         for r in descents['rows']:
             rows.append((f"{r['trial_weather']} descent - v{r['offmap_version']}", r['gpu_ms']['median'], r['frame_ms']['p95'], r['frame_ms']['p99']))
     table='<table><tr><th>Matched workload</th><th>Median GPU</th><th>Frame p95</th><th>Frame p99</th></tr>'+''.join(f'<tr><td>{html.escape(r[0])}</td>'+''.join(f'<td>{x:.2f} ms</td>' for x in r[1:])+'</tr>' for r in rows)+'</table>'
+    loading = '<table><tr><th>Run</th><th>Peak process private memory</th><th>Peak GPU allocation</th></tr>'
+    for label in ['fixed', 'descents']:
+        entry = report['native_audits'][label]
+        if entry.get('complete'):
+            loading += f'<tr><td>{label}</td><td>{entry["peak_task_private_bytes"]/2**30:.2f} GiB</td><td>{entry["peak_task_gpu_allocation_bytes"]/2**30:.2f} GiB</td></tr>'
+    loading += '</table><p>Memory includes both comparison fixtures resident at once; it is not the incremental cost of v3. Loading-stage timings are recorded separately in the audit details.</p>'
+    if timing and descents:
+        loading += '<table><tr><th>Loading workload</th><th>Asset read</th><th>Prop preparation</th><th>Prop submission</th></tr>'
+        for label, geometry in [('Fixed-view startup', timing['geometry']), ('Descent startup', descents['rows'][0]['offmap'])]:
+            loading += f'<tr><td>{label}</td><td>{geometry["asset_read_ms"]:.1f} ms</td><td>{geometry["props"]["prepare_ms"]:.1f} ms</td><td>{geometry["props"]["upload_ms"]:.1f} ms</td></tr>'
+        loading += '</table><p>Submission is elapsed time including loading checkpoints, frame pacing and upload; it is not CPU execution time or steady-state GPU cost. These starts read the existing physical/scenery caches.</p>'
     metrics = html.escape(json.dumps({'fixed_budget': timing.get('budget') if timing else None, 'descents': report.get('descent_comparisons'), 'automated': report['automated'], 'native_audits': report['native_audits']}, indent=2))
     page='''<!doctype html><meta charset="utf-8"><title>Alpine Apex - shared background v3</title>
 <style>body{max-width:1500px;margin:32px auto;padding:0 24px;background:#101a24;color:#e5edf5;font:16px/1.5 system-ui}h1{font-size:30px}h2{font-size:18px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}figure{margin:0}img{width:100%;display:block}article{margin:32px 0}figcaption{padding:8px;color:#b6c9d9}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#1b2a37;padding:18px}a{color:#9ad6f5}th,td{text-align:left;padding:8px 18px;border-bottom:1px solid #35434f}summary{cursor:pointer;padding:16px;background:#1b2a37}input{padding:10px;font:inherit;width:90%}@media(max-width:700px){.pair{grid-template-columns:1fr}}</style>
 <h1>Shared alpine background and distant valley fog</h1><p>One reusable authored asset, the normal mountain's snow/rock sources, and unused square corners replaced by a closer, irregular scenery connection. The 2.85 km skiing boundary is unchanged. Matched v2/v3 views on v15 Standard at 4K. Open stills at full resolution.</p>
 <p>Automated checks, rendered inspection and measured performance are separate. Sampled clips contain capture overhead; user skiing acceptance remains pending.</p>'''
     status='Complete stable evidence set.' if report['evidence_complete'] else 'Validation evidence is incomplete or stale; see audit details.'
-    page+=f'<p><strong>{status}</strong></p>'+table+'<details><summary>Validation and performance details</summary><pre>'+metrics+'</pre></details>'+''.join(cards)+''.join(clips)
+    measured = [timing['budget']] + report.get('descent_comparisons', []) if timing else []
+    verdict = ''
+    if report['evidence_complete']:
+        verdict = 'Relative budgets pass on all three measured workloads. ' if all(r['relative_pass'] for r in measured) else 'At least one relative budget is unmet. '
+        verdict += 'Absolute frame-time targets pass.' if all(r['absolute_pass'] for r in measured) else 'Absolute frame-time targets remain unmet.'
+    page+=f'<p><strong>{status} {verdict}</strong> {report["automated_checks"]} automated checks are recorded.</p><details><summary>Performance, loading, memory and automated checks</summary>'+table+'<p>The relative budget is +0.5 ms median GPU and at most 5% p95/p99 regression. The absolute targets are p95 11.1 ms and p99 16.7 ms.</p>'+loading+'<details><summary>Full validation audit</summary><pre>'+metrics+'</pre></details></details>'+''.join(cards)+''.join(clips)
     page+='<details><summary>All remaining bearings, weather, boundary and quality comparisons</summary><input placeholder="Filter views" oninput="document.querySelectorAll(\'article[data-name]\').forEach(e=>e.hidden=!e.dataset.name.includes(this.value.toLowerCase()))">'+''.join(other)+'</details>'
     (OUT / 'index.html').write_text(page, encoding='utf-8')
     print(json.dumps({'gallery': str(OUT / 'index.html'), 'pairs': len(views['pairs']) if views else 0, 'evidence_complete': report['evidence_complete'], 'fixed_budget': timing.get('budget') if timing else None, 'descents': report.get('descent_comparisons')}, indent=2))

@@ -185,8 +185,11 @@ measured performance and the user's skiing acceptance are distinct.
 
 ## Validation record
 
-The authored asset and runtime integration are undergoing validation. Final
-measurements and inspection findings will be recorded here after the stable runs.
+The final stable validation set completed on 2026-09-11, after the shared snow
+readability update (`eb8dfcc`) and near-tree culling milestone (`9e476f2`). All four
+native guards exited successfully, with no concurrent heavy workload or changed
+runtime sources. The gallery report marks the evidence set complete. This records
+completed implementation and agent review; user/controller acceptance is pending.
 
 The irregular-perimeter asset occupies 24,798,121 bytes; SHA-256:
 `5f091db305c434fb327c1679cce2619afb0f98ad6769efabae303f0463731b85`.
@@ -197,9 +200,92 @@ forest/material/bounds suite passes 16 checks; atmosphere passes 10 and lifecycl
 passes 5. The affected suite set totals 740 checks with no failures, including
 graphics, weather, interface, mountain library, v15 contracts, cache integrity and
 all six real startup cancellation stages (28-550 ms). Current source/export
-receipts are refreshed. Native Clear summit and boundary pairs show continuous
-snow joins, recognizable forests and natural boulders. The complete weather/motion
-set and final timing remain pending for this milestone.
+receipts are refreshed. Repartitioning preserves the placement fingerprint
+`240d0dd8c7bf5908ac244157c619ed8b6bfe525722819b899b933550ba2dae37`.
+Physical height and obstacle checksums remain respectively
+`e12569ae88d5c3c564e66ad6e3e5ed3744baa71398a914db6c954c6eba24e40e`
+and `b84df994471e299e83aebbb114ad3d156f6f6a0306dbf44d8f8e08824c0d4159`.
+
+### Rendered inspection and acceptance
+
+The current set contains 73 matched native 4K pairs and 192 sampled motion frames:
+six summit bearings, lower chase/first-person, boundary approaches, two aerial
+perimeter views, all three presets, Clear/Snowfall/dusk/night, two summit pans,
+camera travel and a separate eye-height boundary pass. The gallery presents eight
+featured comparisons and four paired sampled clips, with the remaining stills
+expandable. Original 4K files remain available; animated previews are 1280x720.
+
+Inspected views show a continuous white snow connection, recognizable uneven
+forest stands, natural boulders and clearer separation of near slopes and distant
+ridges. The former square rim is absent. The normal mountain's snow sources and
+coverage calculation resolve the earlier gray mineral tint on snow. Dusk and
+night colors follow the existing weather state. Snowfall strongly softens distant
+forest detail, and coarse panorama facets remain visible at the retained terrain
+budget. Those are visual limits of this version.
+
+Sampled pans and the boundary pass show no obvious open joins, floating props or
+large abrupt changes in the inspected frames. This is sampled rendered evidence,
+not proof of shimmer-free continuous motion. Complete descents below verify the
+ordinary-input route and performance without screenshots; they do not establish
+controller feel. Agent visual review accepts this as an improvement in background
+readability and perimeter continuity. The user's skiing/appearance acceptance is
+still open.
+
+### Measured performance
+
+The guarded comparison ran on the Ryzen 5 5600X / RX 9070 at 3840x2160 output,
+2880x1620 internal rendering, High, Auto FSR 4.1.1 at 75%, a 120 rendered FPS cap,
+frame generation off and SDFGI off. No screenshots or encoding occur inside the
+measurement windows. The fixed views pool 4,320 frames per version across six
+same-process ABBA views. Four full descents pair v3/v2 for Clear and Snowfall.
+
+| Workload | Version | Median GPU ms | Frame p95 ms | Frame p99 ms |
+| --- | --- | ---: | ---: | ---: |
+| Fixed views | v2 | 9.194 | 11.877 | 12.136 |
+| Fixed views | v3 | 9.616 | 11.820 | 12.016 |
+| Clear descent | v2 | 7.807 | 20.217 | 27.728 |
+| Clear descent | v3 | 7.742 | 18.119 | 24.192 |
+| Snowfall descent | v2 | 8.087 | 19.511 | 31.239 |
+| Snowfall descent | v3 | 7.885 | 18.232 | 24.194 |
+
+All three workloads pass the relative budget. Fixed-view median GPU cost adds
+0.422 ms; p95/p99 change by -0.48%/-0.99%. Clear descent median GPU changes by
+-0.065 ms with p95/p99 -10.38%/-12.75%; Snowfall changes by -0.202 ms with
+p95/p99 -6.56%/-22.55%. These descents are one observed pair per weather, not a
+multi-session estimate of a speedup. The report computes descent GPU medians from
+the retained raw frame samples and records their hashes; native summaries are
+left intact.
+
+The absolute p95 <=11.1 ms / p99 <=16.7 ms targets remain unmet. Both fixed-view
+versions exceed the p95 target; both descent versions exceed both tail targets.
+Average rendered descent rates are 77.50/77.19 FPS for v3 Clear/Snowfall versus
+75.86/75.00 FPS for v2, below the desired 90-120 FPS. This milestone meets the
+scenery regression budget, not overall rendered gameplay performance acceptance.
+
+All four descents finish the same 35,669-tick ordinary-input trace exactly, with
+no crash or source mismatch and no generated frames. Physical generator 15 and
+model 28 remain unchanged. The trace SHA-256 is
+`5fc463142e545fb9238ba637622d8e10cbea81e69bab7e6e853715ed1642ff2c`.
+
+### Loading and memory
+
+These are cached starts, not cold physical generation. Descent startup measured
+2.368 s physical-cache reading and 5.173 s scenery-preparation-cache reading.
+The authored background read took 124.9 ms; prop preparation took 222.3 ms;
+prop submission took 3.769 s and apron construction 3.944 s. The fixed-view
+startup measured 127.6 ms / 256.0 ms / 7.453 s for asset read, preparation and
+prop submission. Submission/construction are elapsed times including loading
+checkpoints and frame pacing, not pure CPU work or steady-state GPU cost.
+
+Peak process private memory / GPU allocation were 5.75 / 4.06 GiB for fixed views
+and 5.69 / 4.10 GiB for descents. Both v2 and v3 fixtures are resident in these
+comparison processes; these figures do not measure incremental v3 RAM or VRAM.
+The report retains stage timing, engine allocation counters, full process/GPU
+samples and asset/source identities separately from frame timing. Reducing scene
+submission time and measuring standalone production allocations remain useful
+follow-up opportunities.
+
+### Retained diagnostic iteration
 
 The first perimeter timing run (`fixed_before_prop_culling.json`) missed the added
 median GPU target: +0.790 ms, with p95/p99 ratios 1.0016/0.9977. Component isolation
@@ -207,26 +293,6 @@ at the expensive lower view attributed about 1.5 ms to near conifers. Partitioni
 those batches at 256 m reduced their measured contribution to about 0.2 ms while
 preserving the authored asset, placement fingerprint, geometry and fade ranges.
 Preparation was 220 ms in the headless check. These component runs diagnose the
-change; the final stable full comparison below determines acceptance.
-
-The records below precede the perimeter revision and are retained as historical
-iteration evidence, not current performance or final acceptance.
-
-Initial implementation milestone (`4c2dccf`): 458 automated assertions passed
-across wilderness, atmosphere, lifecycle, v15 fingerprints/mesh joins, graphics,
-weather submission and staged scenery suites. All six real startup cancellation
-stages passed (28-485 ms). The tighter culling subsequently passed all 14 wilderness
-checks. The corrected production-reference asset hash is
-`973b2412a47e618b5b7787a1bb1cb9bf4a472768596e3784da58094d163ac5e2`.
-Its 41 wilderness, geometry, physical-fingerprint and lifecycle checks passed
-again. Real staged startup also passed the reference-identity assertion with
-zero adjusted anchors.
-
-The first full rendered set contains 67 matched 4K pairs and 144 sampled motion
-frames. Inspected summit, lower, boundary, weather and preset views show cleaner
-snow and recognizable closer forests. Simplified nearby trees/rocks remain
-apparent at the boundary, and Snowfall substantially softens distant detail.
-Sampled frames did not show obvious floating or open joins; they do not establish
-absence of shimmer during continuous skiing. Current-camera/current-culling
-captures and final timing runs supersede this first set below. User/controller
-acceptance remains pending.
+change; the final stable full comparison above determines acceptance. Older
+67-pair captures and pre-perimeter assets are historical iteration evidence and
+are superseded by the current gallery and source audit.
