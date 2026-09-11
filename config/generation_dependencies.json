@@ -490,7 +490,7 @@
 		"res://scripts/presentation/density_forest.gd": "ab1b07d03eb7ba2a23fe23ee1caa00d0c6254e0a3d8c2904b326d15c4817f153",
 		"res://scripts/presentation/foliage_sight.gd": "58fcf57f05a29efd48fbb9e19026a45bdd636d599b2fdef3010ea7428a834693",
 		"res://scripts/presentation/forest_placement.gd": "aef41122ebeb0c7f3f6dbae303fd197c145f0132942d12a8ae94616ba0f45fa1",
-		"res://scripts/presentation/graphics_quality.gd": "06dcfb54841ca500cdbe71bc376dfe417cd05960578e9e5326fca183c0dc2dc2",
+		"res://scripts/presentation/graphics_quality.gd": "7412fc4ffde4a3d44555761d5293c4575b028a02c34bd160b97cfa9af256ed1a",
 		"res://scripts/presentation/mineral_scenery.gd": "5d6e9d0ac235a7a94f83d0d9f678c3a57b2ba2928394db29605d779919af445f",
 		"res://scripts/presentation/snow_readability.gd": "19df010f47ce223626af951adefcd45b6c41bf1725987ad53f7a466970fe5035",
 		"res://scripts/presentation/tree_motion.gd": "e637180994db27b603f1a8d132c7e67348649b247771f0c3085166bbfe88d6f9",
@@ -516,6 +516,6 @@
 		"res://scripts/world/scenery_cache.gd": "7f4e71df691f0f7288f311ab6445d0f6d7e12c1f8186b7378d53bf9ac3d6e95b",
 		"res://scripts/world/terrain_preparation.gd": "5802dad2701c5f5ecd476bed27d55de89536b6351800493c12cd8d5d126f1f9f"
 	},
-	"scenery_sha256": "ff812b3f8d5eb532be3c76cf1ce84564f05a9d1154b52777d594fd4148e79368",
+	"scenery_sha256": "ba6419539ba0fa6bbd9306a7b7c7c00277c9612ecc846d2b315594028b6dfbd7",
 	"schema": 1
 }

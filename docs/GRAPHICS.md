@@ -1,5 +1,9 @@
 # Graphics and generated mountains
 
+[Softer snow](SOFT_SNOW.md) keeps the scanned textures and broad drifts while
+reducing grain/ripple contrast, with a modest increase in sun sheen and highlight
+glow. It retains terrain-shape shading, crystal density and the existing presets.
+
 [Snow readability](SNOW_READABILITY.md) reduces broad clear-day glare while
 retaining crystal sparkle, and adds bounded cool shading in actual terrain
 hollows. The shared terrain, powder and track treatment is presentation only.

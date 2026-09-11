@@ -3,7 +3,9 @@
 The shared snow presentation uses dense, bright crystal reflections and a warm
 sun sheen. The subsequent [snow readability pass](SNOW_READABILITY.md) reduces
 broad sheen, glow and clear-day exposure, and adds cool shading to actual terrain
-hollows. The table below reflects those current defaults. Crystal density,
+hollows. The [soft snow pass](SOFT_SNOW.md) subsequently softens fine relief and
+raises sheen by 20% and highlight glow by 10% from the readability defaults.
+The table below reflects the current defaults. Crystal density,
 individual sparkle, sun direction and physical terrain remain unchanged.
 The original evidence later on this page describes the v13 dreamlike treatment;
 the readability page records current v14 validation separately.
@@ -35,8 +37,8 @@ and volumetric effects. Snowfall and rain retain their overcast palette.
 |---|---:|---:|---:|
 | Crystal strength | 0 | 6.0 | 9.0 |
 | Crystal density | 0 | 1.35 | 1.75 |
-| Snow sheen strength | 0.06 | 0.084 | 0.132 |
-| Clear-noon highlight glow intensity | 0 | 0.252 | 0.35 |
+| Snow sheen strength | 0.06 | 0.1008 | 0.1584 |
+| Clear-noon highlight glow intensity | 0 | 0.2772 | 0.385 |
 
 The existing seven glow mip weights are now `[0, .25, .65, .45, .12, 0, 0]`.
 The HDR threshold remains 1.4, full-screen bloom remains zero, and the HUD stays

@@ -1,5 +1,10 @@
 # Snow shape readability
 
+The subsequent [soft snow treatment](SOFT_SNOW.md) retains the shape/contact
+shading described here, while increasing the following sheen/glow values by
+20%/10% and softening fine material detail. Values below describe this pass's
+original readability baseline.
+
 Snow keeps its bright, sparkling style while broad glare is reduced. Clear-day
 filmic exposure is 1.15 (previously 1.30). Balanced/High broad sheen is
 0.084/0.132 (40% lower), and highlight glow is 0.252/0.35 (30% lower). Individual

@@ -18,11 +18,12 @@ void fragment() {
  vec2 grain=vec2(sin(cap_world.x*41.0+cap_world.z*23.0),sin(cap_world.z*47.0-cap_world.x*31.0));
  float footprint=max(length(dFdx(cap_world)),length(dFdy(cap_world)));
  float fine=1.0-smoothstep(.025,.08,footprint);
- vec3 bump=vec3(grain.x,0,grain.y)*.045*detail*fine;
+ // Match the terrain's 35% softer grain normal and halved micro-roughness.
+ vec3 bump=vec3(grain.x,0,grain.y)*.02925*detail*fine;
  n=normalize(n+bump-n*dot(n,bump));
  NORMAL=normalize((VIEW_MATRIX*vec4(n,0)).xyz);
  ALBEDO=mix(vec3(.74,.84,.93),vec3(.93,.965,.99),smoothstep(-.2,.7,n.y));
- ROUGHNESS=.83+grain.x*.035*fine;
+ ROUGHNESS=.83+grain.x*.0175*fine;
  SPECULAR=.38;
  snow_transmission=vec3(.17,.23,.30);
  vec4 crystals=sample_crystals(cap_world,n,1.0,distance_m);

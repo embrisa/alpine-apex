@@ -79,7 +79,7 @@ void fragment() {
   stone=vec3(.35); ro=vec3(.9,.85,0);
  }
  // Broad variation remains legible at speed without painting false obstacles.
- snow=mix(vec3(.94,.965,.99),snow,.28);
+ snow=mix(vec3(.94,.965,.99),snow,.24);
  snow*=.94+macro*.045+drift*.035;
  snow*=mix(vec3(.94,.97,1.0),vec3(1.0),environment.r);
  // Real terrain hollows remain legible beneath sunlight and broad reflection.
@@ -98,19 +98,19 @@ void fragment() {
  if(powder_local_surface) ALBEDO=mix(ALBEDO,vec3(.69,.79,.88),powder_compaction*.20*(1.0-rock));
  ROUGHNESS=mix(clamp(so.g-.045+(drift-.5)*.08,.60,.92),clamp(ro.g-.025,.70,1.0),rock);
  ROUGHNESS=clamp(ROUGHNESS-(1.0-environment.r)*.07,.58,1.0);
- AO=mix(mix(1.0,so.r,.2),mix(1.0,ro.r,.5),rock);
+ AO=mix(mix(1.0,so.r,.12),mix(1.0,ro.r,.5),rock);
  ROUGHNESS=mix(ROUGHNESS,.40,mineral_ice);
  SPECULAR=.35;
  if(powder_local_surface) ROUGHNESS=mix(ROUGHNESS,.66,powder_compaction*(1.0-rock));
  vec3 bump=mix(vec3(sn.x,0,sn.y),rock_bump,rock);
  // Low, wind-shaped relief in the lighting normal, never the collision mesh.
- // Metre-scale ripples sit beneath the scanned grains and disappear at distance.
+ // Softer scanned grains and ripples retain broad drifts without etched relief.
  float close_snow=(1.0-rock)*(1.0-smoothstep(12.0,65.0,distance_m));
  float ripple_phase=world_pos.x*.95+world_pos.z*2.6+drift*5.0;
- float ripple=sin(ripple_phase)*.065+sin(ripple_phase*2.17+macro*8.0)*.023;
+ float ripple=(sin(ripple_phase)*.065+sin(ripple_phase*2.17+macro*8.0)*.023)*.75;
  vec3 relief=vec3(.34,0,.94)*ripple*close_snow;
- vec3 final_n=normalize(n+(bump-n*dot(bump,n))*detail*mix(.72,1.0,rock)+relief-n*dot(relief,n));
- AO*=1.0-close_snow*(.5+.5*cos(ripple_phase))*.045;
+ vec3 final_n=normalize(n+(bump-n*dot(bump,n))*detail*mix(.468,1.0,rock)+relief-n*dot(relief,n));
+ AO*=1.0-close_snow*(.5+.5*cos(ripple_phase))*.03375;
  NORMAL=normalize((VIEW_MATRIX*vec4(final_n,0.0)).xyz);
  // World-locked crystal facets. Filter subpixel grains instead of animating
  // noise: shimmer comes from the view/sun angle and obeys real/cloud shadows.
@@ -127,7 +127,7 @@ void fragment() {
  // Fine clumps add roughness rather than painting grey dots onto bright snow.
  float grain_filter=1.0-smoothstep(.025,.09,max(length(dx),length(dy)));
  float clumps=value_noise(world_pos.xz*19.0);
- ROUGHNESS=clamp(ROUGHNESS+(clumps-.5)*.10*close_snow*grain_filter-wind_pack*.035*(1.0-rock),.58,1.0);
+ ROUGHNESS=clamp(ROUGHNESS+(clumps-.5)*.05*close_snow*grain_filter-wind_pack*.035*(1.0-rock),.58,1.0);
  if(snow_geometry_debug) {
   ALBEDO=vec3(.45,.50,.56); ROUGHNESS=.9; SPECULAR=0.0;
   NORMAL=normalize((VIEW_MATRIX*vec4(n,0)).xyz); snow_glints=0.0; snow_transmission=vec3(0);

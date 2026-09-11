@@ -15,13 +15,13 @@ extends Resource
 @export var terrain_gi: bool = false
 @export var volumetric_shafts: bool = false
 @export var highlight_glow: bool = true
-@export var highlight_glow_intensity: float = .252
+@export var highlight_glow_intensity: float = .2772
 @export var snow_particles: Vector3i = Vector3i(192,128,48)
 @export var snow_track_capacity: int = 1600
 @export var snow_track_relief: bool = true
 @export var snow_sparkle: float = 6.0
 @export var snow_crystal_density: float = 1.35
-@export var snow_sheen: float = .084
+@export var snow_sheen: float = .1008
 @export var snow_local_deformation: bool = false
 @export var offmap_prop_density: float = .6
 @export var offmap_tree_distance_m: float = 4500.0
@@ -56,8 +56,8 @@ static func preset(id: int) -> Resource:
 		q.snow_track_capacity = 4096
 		q.snow_sparkle = 9.0
 		q.snow_crystal_density = 1.75
-		q.snow_sheen = .132
-		q.highlight_glow_intensity = .35
+		q.snow_sheen = .1584
+		q.highlight_glow_intensity = .385
 		q.volumetric_shafts = true
 		q.indirect_lighting = true
 		q.surface_texture_suffix = "_high"

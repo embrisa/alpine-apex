@@ -1,7 +1,7 @@
 #define ALPINE_SNOW_SPARKLE
 uniform float snow_sparkle_strength : hint_range(0.0,12.0) = 9.0;
 uniform float snow_crystal_density : hint_range(0.0,2.5) = 1.75;
-uniform float snow_sheen_strength : hint_range(0.0,1.0) = .132;
+uniform float snow_sheen_strength : hint_range(0.0,1.0) = .1584;
 varying float snow_glints;
 varying vec3 snow_facet_normal;
 varying float snow_large_glints;

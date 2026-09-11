@@ -52,11 +52,10 @@ func run() -> void:
 	game.display_settings.apply_viewport(root)
 	root.content_scale_size = requested_pixels
 	RenderingServer.viewport_set_measure_render_time(root.get_viewport_rid(),true)
-	var surfaces: Array = game.world.assets.surface_materials.duplicate()
-	surfaces.append(game.effects.snow_tracks.material)
+	var surfaces = comparison_materials()
 	for material in surfaces:
 		current_shaders[material] = material.shader
-		reference_shaders[material] = load(REFERENCE+material.shader.resource_path.trim_prefix("res://"))
+		reference_shaders[material] = load(reference_root()+material.shader.resource_path.trim_prefix("res://"))
 		if material.get_shader_parameter("snow_hollows_enabled"): hollow_receivers.append(material)
 	observer = Camera3D.new(); observer.fov = 75; observer.far = 15000
 	game.add_child(observer)
@@ -72,11 +71,7 @@ func run() -> void:
 		await timings()
 	else:
 		await stills()
-		if "--stills-only" not in args:
-			for site in [snow_sites[0],snow_sites[-1]]:
-				for close in [false,true]:
-					for condition in ["clear","snowfall"]:
-						for look in [true,false]: await ride(site,condition,close,look,false)
+		if "--stills-only" not in args: await capture_motion()
 	if "--all" in args and not timing_run:
 		save_report()
 		OUTPUT = OUTPUT.get_base_dir()+"/timing"
@@ -87,6 +82,24 @@ func run() -> void:
 	print("SNOW_READABILITY_COMPLETE ",OUTPUT," failures=",failures)
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)
+
+func reference_root() -> String:
+	return REFERENCE
+
+func comparison_materials() -> Array:
+	var surfaces: Array = game.world.assets.surface_materials.duplicate()
+	surfaces.append(game.effects.snow_tracks.material)
+	return surfaces
+
+func capture_motion() -> void:
+	for site in [snow_sites[0],snow_sites[-1]]:
+		for close in [false,true]:
+			for condition in ["clear","snowfall"]:
+				for look in [true,false]: await ride(site,condition,close,look,false)
+
+func save_motion_frame(picture: Image,path: String) -> void:
+	picture.resize(1920,1080,Image.INTERPOLATE_LANCZOS)
+	picture.save_jpg(path,.94)
 
 func timings() -> void:
 	game.display_settings.fps_limit = 120; Engine.max_fps = 120
@@ -276,8 +289,7 @@ func ride(site: Dictionary,condition: String,close: bool,old: bool,measure: bool
 		if not measure:
 			await RenderingServer.frame_post_draw
 			var picture = root.get_texture().get_image()
-			picture.resize(1920,1080,Image.INTERPOLATE_LANCZOS)
-			picture.save_jpg(folder+"/%04d.jpg"%frame,.94)
+			save_motion_frame(picture,folder+"/%04d.jpg"%frame)
 		if game.sim.crashed: break
 	recording = false
 	var digest = HashingContext.new(); digest.start(HashingContext.HASH_SHA256); digest.update(trajectory.to_byte_array())

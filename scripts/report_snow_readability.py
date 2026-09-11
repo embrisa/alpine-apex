@@ -98,6 +98,8 @@ def main() -> None:
 <h1>Snow readability</h1><p>Frozen original shaders and current shading on the same default v14 mountain. 3840×2160 output, Auto FSR at 75%, frame generation and SDFGI off. Videos are stored at 1920×1080 / 30 fps. Inspect shallow folds, contacts, glare and stability in motion. These are unranked test fixtures; your skiing acceptance remains separate.</p>'''
     page = page.replace("Frozen original shaders and current shading on the same default v14 mountain.",
                         html.escape(report.get("comparison_description", "Frozen original shaders and current shading on the same default v14 mountain.")))
+    page = page.replace("Snow readability", html.escape(report.get("title", "Snow readability")))
+    page = page.replace("Videos are stored at 1920×1080", "Videos are stored at " + html.escape(report.get("video_resolution", "1920×1080")))
     page += "<h2>Performance</h2>" + timing_text + "".join(cards)
     (visual / "index.html").write_text(page, encoding="utf-8")
     print(json.dumps(summary, indent=2))
