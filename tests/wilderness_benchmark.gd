@@ -4,16 +4,18 @@ extends "res://tests/massif_playtest.gd"
 func inspect_massif() -> void:
 	game.active = false
 	game.summit_ready = false
+	game.set_process(false) # Keep the chosen fixed-view camera authoritative.
 	game.hud.root.hide()
 	game.weather.set_preset("clear")
 	game.weather.set_time_of_day("day")
+	game.world.update_weather(game.weather.state,0.0,false)
 	var observer = Camera3D.new()
 	game.add_child(observer)
 	observer.far = 32000
 	observer.fov = 75
 	observer.make_current()
-	var fixture = preload("res://tests/offmap_fixture.gd").new()
-	fixture.build(game.world)
+	var fixture = comparison_fixture()
+	await fixture.build(game.world)
 	# Capture fixtures cap loading at 30; timed blocks restore the requested cap.
 	Engine.max_fps = game.display_settings.fps_limit
 	assert(Engine.max_fps==game.display_settings.fps_limit and actual_pixels==requested_pixels)
@@ -73,3 +75,6 @@ func inspect_massif() -> void:
 	fixture.dispose()
 	FileAccess.open(OUTPUT+"/comparison.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
 	print("OFFMAP_BUDGET ",JSON.stringify(report.budget))
+
+func comparison_fixture():
+	return preload("res://tests/offmap_fixture.gd").new()

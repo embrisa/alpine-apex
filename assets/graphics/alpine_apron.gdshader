@@ -2,6 +2,7 @@ shader_type spatial;
 render_mode cull_back, shadows_disabled;
 #define ALPINE_OFFMAP
 #include "res://assets/graphics/offmap_surface.gdshaderinc"
+#include "res://assets/graphics/offmap_fog.gdshaderinc"
 #include "res://assets/graphics/alpine_surface_uniforms.gdshaderinc"
 void vertex() {
  world_pos=(MODEL_MATRIX*vec4(VERTEX,1)).xyz;

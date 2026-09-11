@@ -107,7 +107,7 @@ func build(field, checkpoint: Callable = Callable(), data_worker: Callable = Cal
 	step_start = Time.get_ticks_usec()
 	_begin_submission("distant_scenery")
 	if checkpoint.is_valid(): await checkpoint.call("Building the distant peaks…",-1.0)
-	await _vistas(checkpoint)
+	await _vistas(checkpoint,data_worker)
 	build_timings.distant_scenery_ms = (Time.get_ticks_usec()-step_start)/1000.0
 	_end_submission("distant_scenery")
 	if _cancelled(): return
@@ -321,7 +321,7 @@ func _terrain(checkpoint: Callable = Callable()) -> void:
 				var total = ceili(float(surface.NX-1)/chunk)*ceili(float(surface.NZ-1)/chunk)
 				await checkpoint.call("Building terrain · %d / %d sections" % [terrain_chunks.size(),total],100.0*terrain_chunks.size()/total)
 
-func _vistas(checkpoint: Callable = Callable()) -> void:
+func _vistas(checkpoint: Callable = Callable(), data_worker: Callable = Callable()) -> void:
 	backdrop = preload("res://scripts/world/alpine_backdrop.gd").new()
 	add_child(backdrop)
 	if surface.is_summit_mountain():
@@ -330,6 +330,8 @@ func _vistas(checkpoint: Callable = Callable()) -> void:
 		wilderness.prepare(surface,mountain)
 		await backdrop.build(surface,assets,mountain,wilderness.data,checkpoint)
 		wilderness.apron_material = backdrop.material
+		wilderness.apron_sources = backdrop.triangle_sources
+		wilderness.worker = data_worker
 		wilderness.apron_triangles = backdrop.triangles
 		wilderness.apron_build_ms = backdrop.build_ms
 		await wilderness.apply_quality(quality,checkpoint)

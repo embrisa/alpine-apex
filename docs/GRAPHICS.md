@@ -17,10 +17,11 @@ Validate its appearance in motion and measure its cost on the current mountain.
 over the unchanged v12 support surface. Distant tree batches cover larger regions;
 detailed geometry and shadows are prepared locally around the camera. Its loading and dense-forest acceptance limits are documented on that page.
 
-[Off-map scenery v2](OFFMAP_V2.md) connects the decorative apron and distant
-panorama with shared ridge/valley geometry and a cheaper blended terrain material.
-Its geometry budgets and physical terrain identity are preserved; fresh validation
-and performance measurements belong to the current workload.
+[Off-map scenery v3](OFFMAP_V3.md) adds batched background conifers and rocks,
+snowfields, canopy variation and distant valley fog to the connected apron and
+panorama through one shared authored asset. Loading adapts the short connector;
+it does not generate another background. Its terrain budgets and physical identity are preserved; fresh
+validation and performance measurements belong to the current workload.
 
 The [alpine wilderness backdrop](WILDERNESS.md) adds three distant ridge/valley
 bands and a shared summit-return zone. Additional geometry budgets are

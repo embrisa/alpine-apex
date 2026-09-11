@@ -1,0 +1,9 @@
+{
+  "scripts/world/wilderness_data.gd": "e9ef52026777b5d64636b85cedfdb49462c3ce289186412459f6613530018997",
+  "scripts/world/alpine_wilderness.gd": "724943a14092ccacc9e524de1c883a897b456cfeb9fa4e2c94aa45d1fad62545",
+  "scripts/world/alpine_backdrop.gd": "d74f5d76cb4695bc4a41215929b49be216dd42f7bfc5818a18611a904f67673d",
+  "assets/graphics/alpine_wilderness.gdshader": "3e1851dca259fda92ee80a32d0be423992f047c76ea96b1a61dbf6a27bc0c349",
+  "assets/graphics/alpine_apron.gdshader": "a2e654f644ff6145833177393376f9f73fe4621f8c3ffab3b080bebea8856b43",
+  "assets/graphics/offmap_surface.gdshaderinc": "27d06051c056031055cd472f10e7896a3fffa135b6c0f7fb6ba1f3686e5560fd",
+  "assets/graphics/alpine_surface_fragment.gdshaderinc": "d1ac7c33ada3eb1b98e0202daed83fe3b4416282e77db6e3b6e4ef50cc096263"
+}

@@ -41,6 +41,7 @@ func run() -> void:
 	root.add_child(game); current_scene = game
 	while not game.initialized or (game.loading and game.loading.busy): await process_frame
 	game.set_physics_process(false)
+	await configure_comparison()
 	game.benchmark_input = input_at_tick
 	game.benchmark_no_captures = true
 	game.effects.frame_costs = game.frame_costs
@@ -59,6 +60,7 @@ func run() -> void:
 	if pixels!=game.benchmark_resolution: printerr("Wrong output dimensions"); quit(2); return
 	process_frame.connect(measure)
 	for repetition in repetitions:
+		await prepare_comparison_trial(repetition)
 		game.start_run(false); game.summit_ready = false; game.active = false
 		game.physics_modified = true; game.session.eligible = false
 		game.sim.reset(field.launch_point(trace.heading),trace.heading); game.sim.prime_contacts(field)
@@ -91,13 +93,21 @@ func run() -> void:
 		# median FPS, tails and later analyses never have to infer raw frames.
 		FileAccess.open(output+"/frame_samples_%d.json" % (repetition+1),FileAccess.WRITE).store_string(JSON.stringify({"frame_ms":frames,"gpu_ms":gpu,"render_cpu_ms":cpu,"draw_calls":draws,"sections":sections}))
 		var row = {"run":repetition+1,"finished":game.session.finished,"crash":game.sim.crash_reason,"exact_trace":exact,"ticks":game.sim.ticks,"wall_seconds":elapsed,"frame_ms":frame_stats(frames),"gpu_ms":Costs.stats(gpu),"render_cpu_ms":Costs.stats(cpu),"draw_calls":Costs.stats(draws),"cpu_scopes_us":game.frame_costs.report(),"sections":section_report,"peak_video_bytes":peak_video,"peak_engine_static_bytes":peak_static,"snow":game.effects.snow_budget(),"forest":game.world.scenery.density_forest.report(),"fsr_begin":start_status,"fsr_end":end_status}
+		row.merge(comparison_metadata())
 		rows.append(row)
 		var report = {"scope":"complete_production_descent","trace_sha256":FileAccess.get_sha256(path),"identity":Trace.identity(field),"actual_pixels":[pixels.x,pixels.y],"display":game.display_settings.report(root,pixels),"sdfgi":game.world.environment.sdfgi_enabled,"camera":game.camera_settings.snapshot(),"weather":weather,"device":RenderingServer.get_video_adapter_name(),"engine":Engine.get_version_info(),"capture_overhead_included":false,"warmup_frames":240,"unranked":not game.session.eligible,"rows":rows,"failures":failures}
 		FileAccess.open(output+"/production.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
 		print("PERFORMANCE_RESULT run=",repetition+1," ",JSON.stringify(row.frame_ms)," exact=",exact)
 		if not failures.is_empty(): break
+	dispose_comparison()
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)
+
+func configure_comparison() -> void: pass
+func prepare_comparison_trial(_index: int) -> void: pass
+func comparison_metadata() -> Dictionary: return {}
+func dispose_comparison() -> void: pass
+
 func input_at_tick(tick: int) -> RiderInput:
 	var result = RiderInput.new()
 	var index = tick/int(trace.command_ticks)

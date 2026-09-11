@@ -11,7 +11,11 @@ float sample_cloud_light(vec3 world_position) {
 void light() {
 #ifdef ALPINE_OFFMAP
  if(offmap_blend>.999) {
+#ifdef ALPINE_OFFMAP_V3
+  DIFFUSE_LIGHT+=LIGHT_COLOR*offmap_diffuse(dot(NORMAL,LIGHT),offmap_snow_coverage)*cloud_shade/PI;
+#else
   DIFFUSE_LIGHT+=LIGHT_COLOR*max(dot(NORMAL,LIGHT),0.0)*cloud_shade/PI;
+#endif
  } else {
 #endif
 	// Broad cloud shade is sampled per vertex and interpolated across the mesh;

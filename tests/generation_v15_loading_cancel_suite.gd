@@ -9,7 +9,7 @@ func run() -> void:
 	DirAccess.make_dir_recursive_absolute("res://artifacts/generation_v15")
 	var physical_path = Cache.path_for(849205174)
 	var original_cache = FileAccess.get_sha256(physical_path)
-	for phase in ["physical_cache_read","terrain_upload","rider_and_interface","ready"]:
+	for phase in ["physical_cache_read","terrain_upload","background_preparation","background_upload","rider_and_interface","ready"]:
 		var game = load("res://main.tscn").instantiate(); root.add_child(game)
 		var observed = false; var deadline = Time.get_ticks_msec()+240000
 		while Time.get_ticks_msec()<deadline:
@@ -18,6 +18,12 @@ func run() -> void:
 				observed = game.loading.worker_snapshot_active and game.generation_job.snapshot().stage==phase
 			elif phase=="terrain_upload":
 				observed = game.world!=null and game.world.terrain_chunks.size()>=4
+			elif phase=="background_preparation":
+				observed = game.world!=null and game.world.wilderness!=null and game.loading.worker_snapshot_active
+			elif phase=="background_upload":
+				if game.world!=null and game.world.wilderness!=null:
+					var staging = game.world.wilderness.get_node_or_null("RidgeBatches")
+					observed = staging!=null and staging.get_child_count()>24 and staging.get_child(24).get_child_count()>=16
 			elif phase=="ready":
 				observed = game.initialized and game.loading.busy
 			else:

@@ -74,13 +74,18 @@ func generate(field, mountain_seed: int, job = null) -> void:
 			var exposure = clampf(.5+normal.dot(Vector3(.7,0,-.7))*.5,0,1)
 			var hollow = clampf(((west+east+north+south)*.25-h)/25.0,-1,1)
 			var variation = detail.get_noise_2d(p.x,p.y)
-			var snow = clampf(smoothstep(.44,.88,normal.y)+hollow*.13-(exposure-.5)*.17+variation*.10,0,1)
+			var snow = snow_coverage(normal,hollow,exposure,variation)
 			var treeline = 2050.0+noise.get_noise_2d(p.x,p.y)*250.0
 			var vegetation = (1-smoothstep(treeline-250,treeline+60,h))*smoothstep(.64,.88,normal.y)*clampf(.65+variation,0,1)
 			environment_image.set_pixel(x,z,Color(snow,1-snow,vegetation,exposure))
 	height_checksum = _sha256(height_image.get_data())
 	environment_checksum = _sha256(environment_image.get_data())
 	generation_ms = (Time.get_ticks_usec()-begin)/1000.0
+
+static func snow_coverage(normal: Vector3, hollow: float, exposure: float, variation: float) -> float:
+	# Shared appearance rule for the playable mountain and decorative ridges.
+	# Keep this independent of Nodes, physical terrain and material friction.
+	return clampf(smoothstep(.44,.88,normal.y)+hollow*.13-(exposure-.5)*.17+variation*.10,0,1)
 
 func _landform(p: Vector2, field) -> float:
 	if field.is_summit_mountain():

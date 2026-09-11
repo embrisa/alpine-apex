@@ -1,6 +1,8 @@
 void fragment() {
 #ifdef ALPINE_OFFMAP
+ FOG=offmap_fog(world_pos,CAMERA_POSITION_WORLD);
  vec3 distant_color=offmap_color(world_pos,normalize(world_n),offmap_masks,length(VERTEX));
+ offmap_snow_coverage=offmap_snow_amount(normalize(world_n),offmap_masks);
  if(offmap_blend>.999) {
   ALBEDO=distant_color; ROUGHNESS=1.0; SPECULAR=0.0;
   snow_transmission=vec3(0); snow_glints=0.0; snow_large_glints=0.0; snow_sheen=0.0;

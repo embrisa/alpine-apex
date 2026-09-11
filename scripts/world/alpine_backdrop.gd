@@ -7,11 +7,13 @@ var physical_bounds: Rect2
 var landscape
 var material: ShaderMaterial
 var build_ms: float = 0.0
+var triangle_sources: Array = []
 
 func build(surface, assets, mountain, shared_landscape = null, checkpoint: Callable = Callable()) -> void:
 	var begin = Time.get_ticks_usec()
 	landscape = shared_landscape
 	triangles = 0
+	triangle_sources.clear()
 	physical_bounds = surface.bounds()
 	var mat = assets.terrain_material() if surface.GENERATOR_ID=="alpine-drainage" else assets.terrain_material(.06,.035)
 	material = mat
@@ -71,6 +73,7 @@ func build(surface, assets, mountain, shared_landscape = null, checkpoint: Calla
 				arrays[Mesh.ARRAY_TEX_UV] = uvs
 			var mesh = ArrayMesh.new()
 			mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+			if landscape: triangle_sources.append(arrays)
 			var node = MeshInstance3D.new()
 			node.mesh = mesh
 			node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED if landscape else GeometryInstance3D.GI_MODE_STATIC

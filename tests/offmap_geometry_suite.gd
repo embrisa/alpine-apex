@@ -22,9 +22,11 @@ func checkpoint(_label: String,_percent: float) -> void:
 	await process_frame
 
 func run() -> void:
+	var shared_asset=load(Data.DEFAULT_ASSET)
+	var authored_buffer: PackedFloat32Array=shared_asset.levels[2].groups[0].buffer.duplicate()
 	for seed in [849205174,638201943]:
 		stages = 0
-		var field = Definition.generate(seed,11)
+		var field = Definition.generate(seed,15)
 		var source = preload("res://scripts/world/mountain_data.gd").new()
 		source.generate(field,seed+4187)
 		field.build_material_map()
@@ -33,7 +35,10 @@ func run() -> void:
 		root.add_child(apron); root.add_child(panorama)
 		panorama.prepare(field,source)
 		await apron.build(field,Assets.new(),source,panorama.data,checkpoint)
+		panorama.apron_sources = apron.triangle_sources
 		await panorama.apply_quality(Quality.preset(2),checkpoint)
+		check(panorama.data.asset==shared_asset and shared_asset.levels[2].groups[0].buffer==authored_buffer,"Seed %d reuses the same unmodified authored background asset" % seed)
+		check(panorama.placement.adapted_instances==0 if seed==849205174 else panorama.placement.adapted_instances>0,"Seed %d adapts baked triangle anchors only when the map connection changes" % seed)
 		check(stages>=52,"Seed %d builds apron/ridges through real loading checkpoints" % seed)
 		var baseline = preload("res://tests/fixtures/offmap_v1/alpine_backdrop.gd").new()
 		root.add_child(baseline); baseline.build(field,Assets.new(),source)
@@ -58,7 +63,7 @@ func run() -> void:
 		check(apron_presentation,"Seed %d apron has no shadows or GI contribution" % seed)
 		var seen: Dictionary = {}
 		var matched = true
-		for node in panorama.get_children():
+		for node in panorama.ridge_nodes():
 			var arrays = node.mesh.surface_get_arrays(0)
 			for i in arrays[Mesh.ARRAY_VERTEX].size():
 				var v: Vector3 = arrays[Mesh.ARRAY_VERTEX][i]
@@ -73,7 +78,7 @@ func run() -> void:
 		var shared_vertices: Dictionary = {}
 		var all_joins = true
 		for renderer in [apron,panorama]:
-			for node in renderer.get_children():
+			for node in (renderer.ridge_nodes() if renderer==panorama else renderer.get_children()):
 				var arrays = node.mesh.surface_get_arrays(0)
 				for i in arrays[Mesh.ARRAY_VERTEX].size():
 					var v: Vector3 = arrays[Mesh.ARRAY_VERTEX][i]
@@ -90,6 +95,6 @@ func run() -> void:
 		check(panorama.data.height_cache.is_empty() and panorama.data.sample_cache.is_empty(),"Seed %d releases construction caches after upload" % seed)
 		baseline.queue_free(); apron.queue_free(); panorama.queue_free()
 		await process_frame
-	DirAccess.make_dir_recursive_absolute("res://artifacts/offmap_v2")
-	FileAccess.open("res://artifacts/offmap_v2/geometry.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
+	DirAccess.make_dir_recursive_absolute("res://artifacts/offmap_v3")
+	FileAccess.open("res://artifacts/offmap_v3/geometry.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
 	quit(0 if failures.is_empty() else 1)

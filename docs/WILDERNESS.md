@@ -1,6 +1,6 @@
 # Alpine wilderness and summit return
 
-**Current scenery: [presentation v2](OFFMAP_V2.md).** The complete off-map apron
+**Current scenery: [presentation v3](OFFMAP_V3.md).** The complete off-map apron
 and panorama now share a connected ridge network and blended materials. The
 landscape implementation and measurements below describe the earlier v1;
 summit-return behavior is unchanged by the v2 presentation update.

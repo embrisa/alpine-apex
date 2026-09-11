@@ -23,10 +23,14 @@ extends Resource
 @export var snow_crystal_density: float = 1.35
 @export var snow_sheen: float = .084
 @export var snow_local_deformation: bool = false
+@export var offmap_prop_density: float = .6
+@export var offmap_tree_distance_m: float = 4500.0
 
 static func preset(id: int) -> Resource:
 	var q = load("res://scripts/presentation/graphics_quality.gd").new()
 	q.level = clampi(id,0,2)
+	q.offmap_prop_density = [.3,.6,1.0][q.level]
+	q.offmap_tree_distance_m = [3000.0,4500.0,6000.0][q.level]
 	if q.level == 0:
 		q.snow_particles = Vector3i(96,64,0)
 		q.snow_track_capacity = 800

@@ -1,5 +1,8 @@
 # Alpine wilderness presentation v2
 
+The current renderer is [presentation v3](OFFMAP_V3.md). This page retains the
+v2 design and historical evidence; the v3 task uses an explicit frozen v2 baseline.
+
 The complete off-map view uses a shared seeded ridge network, extending from
 the decorative apron to an 18 km horizon. Fifty-four connected ridge segments
 form unequal summits, saddles and descending spurs across three distance bands.
