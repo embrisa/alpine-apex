@@ -18,6 +18,7 @@ func check(value: bool, caption: String) -> void:
 	if not value: failures.append(caption)
 
 func run() -> void:
+	var _router = Router.new()
 	check(DirAccess.make_dir_recursive_absolute(OUTPUT)==OK,"Artifact directory is available")
 	var feedback = Feedback.new()
 	feedback.enabled = true

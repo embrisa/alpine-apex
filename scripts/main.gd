@@ -137,6 +137,8 @@ func _ready() -> void:
 	get_tree().auto_accept_quit = false
 	Input.joy_connection_changed.connect(_controller_connection_changed)
 	input_router = Router.new()
+	navigation = preload("res://scripts/ui/menu_navigation.gd").new()
+	add_child(navigation) # Detect devices before the first loading tip is drawn.
 	var values = preload("res://config/ski_default.tres").duplicate(true)
 	sim = create_simulation(values)
 	sim.tuning.ground_assist_enabled = "--ground-assist" in OS.get_cmdline_user_args()
@@ -455,17 +457,16 @@ func _ready() -> void:
 	add_child(return_overlay)
 	generation_job.advance()
 	generation_job.end_stage("rider_and_interface")
-	navigation = preload("res://scripts/ui/menu_navigation.gd").new()
-	add_child(navigation)
 	navigation.setup(self)
 	controller_keyboard = preload("res://scripts/ui/controller_keyboard.gd").new()
 	add_child(controller_keyboard)
 	controller_keyboard.setup(hud)
 	navigation.virtual_keyboard = controller_keyboard
 	navigation.device_changed.connect(func():
-		get_tree().set_meta("interface_device",navigation.family)
+		hud.set_input_family(navigation.family,navigation.device_label())
 		hud.footer_controls.text = navigation.prompts(workshop.mode=="create")
 	)
+	hud.set_input_family(navigation.family,navigation.device_label())
 	if not reload_settings.is_empty():
 		hud.widget_layout.restore(reload_settings.get("hud_layout",hud.widget_layout.snapshot()))
 		hud.widget_layout.global_visible = reload_settings.get("hud_visible",true)
@@ -683,26 +684,20 @@ func _process(dt: float) -> void:
 	vectors.update_vectors(sim)
 	var hud_started = frame_costs.begin()
 	hud.widget_layout.menu_visible = hud.has_menu_background() or workshop.mode=="create" or hud.camera_options.preview_active
-	hud.footer.visible = hud.has_menu_background() or workshop.mode=="create"
-	hud.update_hud(sim,session,intent,input_router.device_label(),frame_ms,cpu_tick_ms,dt,timed,weather.state.label+" · "+weather.state.time_label)
+	hud.footer.visible = hud.has_menu_background() or workshop.mode=="create" or summit_ready
+	hud.update_hud(sim,session,intent,navigation.device_label(),frame_ms,cpu_tick_ms,dt,timed,weather.state.label+" · "+weather.state.time_label)
 	hud.update_summit_return(mountain_zone.distance_to_boundary(sim.position),active and not summit_ready and not returning_to_summit)
 	if workshop and not workshop.mode.is_empty():
 		hud.mode_label.text = "CREATE A RACE / WORLD SURVEY" if workshop.mode=="create" else "SAVED & SHARED RACES"
-		hud.footer_controls.text = "WASD / ARROWS  PAN      SCROLL  ZOOM      CLICK SNOW  PLACE ENDPOINT      ESC  BACK" if workshop.mode=="create" else hud.MENU_CONTROLS
 	elif mountain_library and mountain_library.panel.visible:
 		hud.mode_label.text = "MOUNTAIN LIBRARY"
-		hud.footer_controls.text = "GENERATE A SEED   ·   EXPLORE THE TERRAIN   ·   SAVE AND SHARE   ·   ESC BACK"
-	elif hud.menu.visible or hud.weather_panel.visible or hud.competition.panel.visible or hud.tuning_panel.visible:
-		hud.footer_controls.text = hud.MENU_CONTROLS
-	elif summit_ready:
+	elif summit_ready and not hud.has_menu_background():
 		var bearing = posmod(roundi(180-rad_to_deg(sim.heading)),360)
 		var compass = ["N","NE","E","SE","S","SW","W","NW"][posmod(roundi(bearing/45.0),8)]
 		hud.mode_label.text = "SUMMIT  /  %03d° %s  /  CHOOSE YOUR DESCENT" % [bearing,compass]
-		hud.footer_controls.text = "A / D / LEFT STICK  DIRECTION   ·   MOUSE / RIGHT STICK  LOOK   ·   W / ENTER / RT  DROP IN   ·   ESC  PAUSE"
-	else:
-		hud.footer_controls.text = hud.SKI_CONTROLS
 
-	if navigation and hud.footer.visible: hud.footer_controls.text = navigation.prompts(workshop.mode=="create")
+	if navigation and hud.footer.visible:
+		hud.footer_controls.text = hud.Prompts.summit(navigation.family) if summit_ready and navigation.scope()==null else navigation.prompts(workshop.mode=="create")
 	frame_costs.end(&"hud",hud_started)
 
 func _menu_context() -> String:
@@ -777,7 +772,9 @@ func _sync_camera_controls() -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if allowed else Input.MOUSE_MODE_VISIBLE
 
 func _input(event: InputEvent) -> void:
-	if navigation and initialized and not automated and navigation.route(event): get_viewport().set_input_as_handled()
+	if not navigation or automated: return
+	if not initialized: navigation._device_used(event)
+	elif navigation.route(event): get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if initialized and navigation and navigation.scope()!=null and not automated:

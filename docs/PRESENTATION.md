@@ -23,6 +23,34 @@ Endpoint terrain picking remains explicit pointer input. The controls footer is
 menu-only, including summit staging; the Controls page retains the full shortcut
 inventory.
 
+## Controller prompts
+
+`ui/menu_navigation.gd` detects the active input device before initial loading,
+then follows meaningful button, stick, keyboard and mouse activity. Connect selects
+a pad when keyboard is active; disconnect selects another attached pad or falls
+back to keyboard. Scene reload retains the last-used device. Stick/trigger values
+below 0.25, negative trigger rest and mouse movements of at most three pixels do not switch
+prompts. Menu navigation retains its separate 0.60 activation / 0.35 release gates.
+
+`ui/controller_prompts.gd` owns Xbox, PlayStation and generic controller names.
+Detection uses the mapped/raw names and Sony/Microsoft vendor or XInput metadata
+from [Godot Input](https://docs.godotengine.org/en/stable/classes/class_input.html#class-input-method-get-joy-info).
+Unknown devices use positional button names. A virtual controller that exposes
+only an Xbox identity is shown as Xbox; the hidden physical brand cannot be
+inferred. This changes presentation, not SDL mappings or rider sampling.
+
+Controls, loading hints and summit drop-in help read gameplay actions from
+`InputMap`; menu prompts describe navigation's logical buttons. Device changes
+refresh existing Controls labels without rebuilding focus/scroll state. The
+summit hint names forward tuck or the south button for drop-in, never the hop
+trigger. Keyboard-only tools remain explicitly labelled in the Controls guide.
+
+`tests/controller_prompts_suite.gd` exercises detection, hotplug, multiple pads,
+noise, reloads and the actual guide with simulated devices; a native invocation
+captures the Xbox/PlayStation/generic/keyboard pages in
+`artifacts/controller_prompts/`. Physical Xbox and PlayStation testing remains
+separate from those automated and rendered checks.
+
 ## Visual language and HUD
 
 `alpine_theme.gd` and `angular_style_box.gd` own cached styles/icons and the shared

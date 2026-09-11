@@ -1,6 +1,8 @@
 extends Node
 ## Menu ownership precedes gameplay. SDL logical buttons; no device-specific indices.
 const Tabs = preload("res://scripts/ui/navigation_tabs.gd")
+const Prompts = preload("res://scripts/ui/controller_prompts.gd")
+const DEVICE_DEADZONE = .25
 const DEADZONE = .60
 const RELEASE_ZONE = .35
 const INITIAL_REPEAT = .34
@@ -8,6 +10,7 @@ const HELD_REPEAT = .095
 var game
 var family = "keyboard"
 var device = -1
+var active_device_name = "Keyboard & mouse"
 var stick = Vector2.ZERO
 var held = Vector2i.ZERO
 var repeat_left = 0.0
@@ -17,6 +20,14 @@ var last_focus: WeakRef
 var popups: Array[Window] = []
 signal device_changed
 
+func _ready() -> void:
+	Input.joy_connection_changed.connect(_connection_changed)
+	var pads = _connected_devices()
+	var previous = int(get_tree().get_meta("interface_controller",-1))
+	if get_tree().get_meta("interface_device","") == "keyboard": _select_device(-1)
+	elif previous in pads: _select_device(previous)
+	else: _select_device(pads[0] if not pads.is_empty() else -1)
+
 func setup(owner_game) -> void:
 	game = owner_game
 	# Raw controller events have one owner, including PopupMenu's native input
@@ -24,7 +35,6 @@ func setup(owner_game) -> void:
 	for action in ["ui_up","ui_down","ui_left","ui_right","ui_accept","ui_cancel","ui_focus_next","ui_focus_prev"]:
 		for event in InputMap.action_get_events(action):
 			if event is InputEventJoypadButton or event is InputEventJoypadMotion: InputMap.action_erase_event(action,event)
-	Input.joy_connection_changed.connect(_connection_changed)
 	_scan_windows(game.hud.root)
 	get_tree().node_added.connect(_track_window)
 	get_window().focus_exited.connect(cancel_repeat)
@@ -36,35 +46,52 @@ func cancel_repeat() -> void:
 
 func _connection_changed(id: int, connected: bool) -> void:
 	cancel_repeat()
-	if not connected and id==device:
-		device = -1
-		family = "keyboard"
-		device_changed.emit()
+	if connected and device < 0: _select_device(id)
+	elif not connected and id == device:
+		var pads = _connected_devices()
+		pads.erase(id)
+		_select_device(pads[0] if not pads.is_empty() else -1)
 	if scope(): ensure_focus()
 
-static func device_family(name_value: String) -> String:
-	var name_lower = name_value.to_lower()
-	if "dual" in name_lower or "playstation" in name_lower or "ps4" in name_lower or "ps5" in name_lower: return "playstation"
-	if "xbox" in name_lower or "xinput" in name_lower: return "xbox"
-	return "gamepad"
+func _connected_devices() -> Array[int]:
+	return Input.get_connected_joypads()
+
+func _device_info(id: int) -> Dictionary:
+	# Synthetic validation events may target a pad that is not physically attached.
+	if id not in _connected_devices(): return {"mapped_name":"Gamepad"}
+	var info = Input.get_joy_info(id)
+	info["mapped_name"] = Input.get_joy_name(id)
+	return info
+
+func _select_device(id: int) -> void:
+	var next = "keyboard"
+	active_device_name = "Keyboard & mouse"
+	if id >= 0:
+		var info = _device_info(id)
+		next = Prompts.device_family(str(info.get("mapped_name","")),info)
+		active_device_name = str(info.get("mapped_name","Gamepad"))
+	var changed = id != device or next != family
+	device = id
+	family = next
+	get_tree().set_meta("interface_device",family)
+	get_tree().set_meta("interface_controller",device)
+	if changed: device_changed.emit()
+
+func device_label() -> String:
+	return active_device_name
 
 func _device_used(event: InputEvent) -> void:
-	var next = family
-	if event is InputEventJoypadButton and event.pressed or event is InputEventJoypadMotion and absf(event.axis_value)>=DEADZONE:
-		device = event.device
-		next = device_family(Input.get_joy_name(device))
+	var pad_used = event is InputEventJoypadButton and event.pressed
+	if event is InputEventJoypadMotion:
+		# Trigger release/negative rest cannot steal prompts from the keyboard.
+		pad_used = absf(event.axis_value) >= DEVICE_DEADZONE if event.axis < JOY_AXIS_TRIGGER_LEFT else event.axis <= JOY_AXIS_TRIGGER_RIGHT and event.axis_value >= DEVICE_DEADZONE
+	if pad_used:
+		if event.device != device or family == "keyboard": _select_device(event.device)
 	elif event is InputEventKey and event.pressed or event is InputEventMouseButton and event.pressed or event is InputEventMouseMotion and event.relative.length()>3.0:
-		next = "keyboard"
-	if next!=family:
-		family = next
-		device_changed.emit()
+		if family != "keyboard": _select_device(-1)
 
 func prompts(authoring: bool = false) -> String:
-	if family=="keyboard": return "Arrows / Tab  Navigate     Enter  Select     Esc  Back"+("     Mouse  Place gate · WASD  Survey" if authoring else "")
-	var confirm = "×" if family=="playstation" else "A" if family=="xbox" else "South"
-	var back = "○" if family=="playstation" else "B" if family=="xbox" else "East"
-	var shoulders = "L1 / R1" if family=="playstation" else "LB / RB" if family=="xbox" else "Shoulders"
-	return "D-pad / LS  Navigate     %s  Select     %s  Back     %s  Categories%s" % [confirm,back,shoulders,"     Mouse  Terrain placement" if authoring else ""]
+	return Prompts.menu(family,authoring)
 
 func _track_window(node: Node) -> void:
 	if node is Window and node!=get_tree().root:

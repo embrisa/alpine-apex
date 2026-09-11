@@ -94,7 +94,3 @@ func sample_camera_look(deadzone: float = 0.18, exponent: float = 2.0) -> Vector
 	# get_vector applies one radial deadzone using raw action strengths.
 	var stick = Input.get_vector("look_left", "look_right", "look_up", "look_down", deadzone)
 	return stick.normalized() * pow(stick.length(),exponent) if not stick.is_zero_approx() else Vector2.ZERO
-
-func device_label() -> String:
-	var pads = Input.get_connected_joypads()
-	return Input.get_joy_name(pads[0]) if not pads.is_empty() else "KEYBOARD"

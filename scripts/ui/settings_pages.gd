@@ -1,6 +1,7 @@
 extends RefCounted
 const Presets = preload("res://scripts/presentation/graphics_presets.gd")
 const Shell = preload("res://scripts/ui/screen_shell.gd")
+const Prompts = preload("res://scripts/ui/controller_prompts.gd")
 var hud
 var output_draft: Dictionary = {}
 var output_dirty = false
@@ -13,6 +14,8 @@ var recovery: ConfirmationDialog
 var apply_timer: Timer
 var changes: Dictionary = {}
 var groups: Dictionary = {}
+var control_notes: Dictionary = {}
+var controller_status: Label
 
 func build(owner_hud) -> void:
 	hud = owner_hud
@@ -307,14 +310,18 @@ func _interface(col: Control) -> void:
 	hud._note(comfort,"Reduced motion keeps interface transitions and impact warnings steady.")
 
 func _controls(col: Control) -> void:
+	controller_status = hud._note(col,"")
 	col.add_child(hud._label("Menu controls",20,hud.WHITE))
-	hud._note(col,"D-pad / left stick: navigate. South button: select. East button: back. Shoulders: categories. Select a text field to open the controller keyboard.")
-	for entry in [
-		["Skiing","A/D or left stick: steer. W / stick forward: tuck. S / LT / L2: brake. Hold Space / RT / R2 and release to hop."],
-		["Air control","Center the stick after takeoff, then forward/back flips. L1 / LB remains optional. Left/right turns. Shift / west button grabs. I/K flips and Q/E spins on keyboard."],
-		["Camera","Mouse / right stick looks. Middle mouse / R3 centers. C / R1 / RB changes view."],
-		["Shortcuts & tools","Escape / Options / Menu pauses. R / north button retries while skiing. H hides the HUD; G toggles the ghost; F3 telemetry; F2 Physics Workbench; F4 races; F6 records. Terrain gate placement uses a pointer."],
-		["Comfort","V toggles camera motion. M mutes audio. Vibration strength is available in Physics Workbench → Feedback."]
-	]:
-		var group = Shell.group(col,entry[0],hud)
-		hud._note(group,entry[1])
+	control_notes["Menu controls"] = hud._note(col,"")
+	for title in ["Skiing","Air control","Camera","Shortcuts & tools","Comfort"]:
+		var group = Shell.group(col,title,hud)
+		control_notes[title] = hud._note(group,"")
+	refresh_controls(hud.input_family)
+
+func refresh_controls(family: String, device_name: String = "") -> void:
+	if controller_status == null: return
+	var layout = {"keyboard":"Keyboard & mouse","xbox":"Xbox","playstation":"PlayStation","gamepad":"Gamepad"}.get(family,"Gamepad")
+	controller_status.text = "%s prompts · Automatic" % layout
+	if not device_name.is_empty() and family != "keyboard": controller_status.text += " · " + device_name
+	var guide = Prompts.guide(family)
+	for title in control_notes: control_notes[title].text = guide[title]

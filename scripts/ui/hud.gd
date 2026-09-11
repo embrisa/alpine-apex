@@ -87,9 +87,8 @@ var mountain_seed_value: int = -1
 var conditions: Label
 var footer: PanelContainer
 var footer_controls: Label
-const SKI_CONTROLS = "A / D  STEER    W  TUCK    S  BRAKE    SPACE  HOP    MOUSE / RS  LOOK    MMB / R3  CENTER    C  VIEW    ESC  MENU"
-const PAD_CONTROLS = "LS  STEER    LS FORWARD  TUCK    L2 / LT  BRAKE    HOLD R2 / RT, RELEASE TO HOP    RS  LOOK    R3  CENTER    R1  VIEW"
-const MENU_CONTROLS = "TAB / ARROWS  NAVIGATE     ENTER  SELECT     ESC  BACK     F2  WORKBENCH     F4  RACES     F6  HISTORY"
+const Prompts = preload("res://scripts/ui/controller_prompts.gd")
+var input_family = "keyboard"
 var primary: Button
 var secondary: Button
 var debug_panel: PanelContainer
@@ -365,9 +364,14 @@ func _sync_menu_backdrop() -> void:
 		mode_label.hide()
 	for shade in menu_edge_shading: shade.visible = background_visible
 	footer.visible = background_visible
-	footer_controls.text = MENU_CONTROLS if background_visible else (PAD_CONTROLS if not Input.get_connected_joypads().is_empty() else SKI_CONTROLS)
+	footer_controls.text = Prompts.menu(input_family)
 	widget_layout.menu_visible = background_visible
 	layout_widgets()
+
+func set_input_family(family: String, device_name: String = "") -> void:
+	input_family = family
+	footer_controls.text = Prompts.menu(family)
+	settings_pages.refresh_controls(family,device_name)
 
 func _build_header() -> void:
 	header_logo = Art.logo(Vector2(315,60),true)
@@ -420,7 +424,7 @@ func _build_header() -> void:
 	footer.offset_bottom = 0
 	footer.add_theme_stylebox_override("panel",_style(Color(0.03,0.08,0.11,0.82),Color.TRANSPARENT,10))
 	root.add_child(footer)
-	footer_controls = _label(SKI_CONTROLS,11,MUTED,true)
+	footer_controls = _label(Prompts.menu(input_family),11,MUTED,true)
 	footer_controls.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	footer.add_child(footer_controls)
 

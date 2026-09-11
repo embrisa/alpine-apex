@@ -77,7 +77,9 @@ func run() -> void:
 	late_dialog.add_child(late_field)
 	root.add_child(late_dialog)
 	for i in 3: await process_frame
-	late_dialog.popup_centered(Vector2i(650,180))
+	# Headless's 128px mock desktop cannot center this native dialog on screen.
+	if DisplayServer.get_name() == "headless": late_dialog.popup(Rect2i(0,0,650,180))
+	else: late_dialog.popup_centered(Vector2i(650,180))
 	keyboard.open(late_field)
 	for i in 3: await process_frame
 	check(game.navigation.popups.count(keyboard.dialog)==1,"Reparenting text entry retains one popup registration")
@@ -119,7 +121,9 @@ func run() -> void:
 	game.navigation.family = "gamepad"; game.navigation.device = 3
 	game.navigation.held = Vector2i.LEFT
 	game.navigation._connection_changed(3,false)
-	check(game.navigation.family=="keyboard" and game.navigation.held==Vector2i.ZERO,"Disconnect cancels repeat and restores keyboard prompts")
+	var remaining = Input.get_connected_joypads()
+	remaining.erase(3)
+	check(game.navigation.device == (-1 if remaining.is_empty() else remaining[0]) and game.navigation.held==Vector2i.ZERO,"Disconnect cancels repeat and falls back to an available input device")
 	game.navigation.held = Vector2i.RIGHT
 	root.focus_exited.emit()
 	check(game.navigation.held==Vector2i.ZERO,"Focus loss cancels held navigation")

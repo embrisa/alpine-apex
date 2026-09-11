@@ -1,15 +1,16 @@
 extends RefCounted
 ## Production-derived copy and bindings; provenance is in docs/ASSETS.md.
 const COUNT = 7
+const Prompts = preload("res://scripts/ui/controller_prompts.gd")
 
 static func tip(index: int, device: String = "keyboard") -> String:
 	var keyboard = device not in ["playstation","xbox","gamepad"]
 	match posmod(index,COUNT):
 		0:
-			var hop = "Space" if keyboard else ("R2" if device == "playstation" else ("RT" if device == "xbox" else "the right trigger"))
+			var hop = Prompts.binding("jump","keyboard" if keyboard else device)
 			return "Release %s to hop while supported. Holding it longer does not increase jump power." % hop
 		1:
-			var brake = "S or Down Arrow" if keyboard else ("L2" if device == "playstation" else ("LT" if device == "xbox" else "the left trigger"))
+			var brake = Prompts.binding("brake","keyboard" if keyboard else device)
 			return "Hold %s to brake." % brake
 		2:
 			return "Hold W or Up Arrow to tuck. Sustained steering opens your stance." if keyboard else "Push the left stick forward to tuck. Sustained steering opens your stance."
@@ -20,4 +21,4 @@ static func tip(index: int, device: String = "keyboard") -> String:
 		5:
 			return "Airborne rotation changes your landing orientation, not your flight path."
 		_:
-			return "Press C to change riding camera." if keyboard else ("Press R1 to change riding camera." if device == "playstation" else ("Press RB to change riding camera." if device == "xbox" else "Press the right shoulder button to change riding camera."))
+			return "Press %s to change riding camera." % Prompts.binding("camera_mode","keyboard" if keyboard else device)
