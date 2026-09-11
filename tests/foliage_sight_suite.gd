@@ -22,8 +22,17 @@ func run() -> void:
 			if strength>=60:
 				# Area of the fully clear fourth-power superellipse, before depth fading.
 				var clear_area=4.0*sight.window.z*sight.window.w*.86*.86*.92703734
-				check(clear_area>.5,"Default and higher strength fully clear a majority of nearby screen coverage")
+				check(clear_area>.5,"Default size fully clears a majority of nearby screen coverage")
 			check(sight.parameters.z<=28.0 and sight.parameters.y<sight.parameters.z,"Visibility aid has bounded forward depth")
+	camera.position=Vector3(0,1.7,0)
+	sight.update(camera,Vector3.ZERO,Vector3(0,0,25),1.0/60,true,100)
+	var prior_depth=sight.parameters.z
+	for coverage in [20.0,50.0,88.0,100.0]:
+		sight.update(camera,Vector3.ZERO,Vector3(0,0,25),1.0/60,true,100,coverage)
+		check(is_equal_approx(sight.window.z*200,coverage) and sight.parameters.z==prior_depth,"Size changes screen coverage without changing reach")
+	var prior_size=Vector2(sight.window.z,sight.window.w)
+	sight.update(camera,Vector3.ZERO,Vector3(0,0,25),1.0/60,true,10,100)
+	check(Vector2(sight.window.z,sight.window.w)==prior_size and sight.parameters.z<prior_depth,"Reach changes independently of opening size")
 	var enabled=sight.parameters.x
 	sight.update(camera,Vector3.ZERO,Vector3.ZERO,1.0/60,false,60)
 	check(sight.parameters.x<enabled and sight.parameters.x>0.0,"Leaving skiing restores foliage gradually")
@@ -41,6 +50,10 @@ func run() -> void:
 	var near=library.mesh("forest_spruce_01_lod0").surface_get_material(0)
 	var middle=library.mesh("forest_spruce_01_lod1").surface_get_material(0)
 	check(near==middle,"Near and middle share the visibility material")
+	library.update_foliage_sight(camera,Vector3.ZERO,Vector3(0,0,20),.1,true,60,40)
+	for receiver in [near,far]:
+		var updated: Vector4=receiver.get_shader_parameter("foliage_sight_window")
+		check(is_equal_approx(updated.z,.2),"Size updates reach both resident and fallback materials")
 	for level in 3:
 		library.apply_quality(Quality.preset(level))
 		check(near.get_shader_parameter("foliage_sight_parameters")==library.foliage_sight.parameters,"Quality switching preserves aid state")
@@ -50,10 +63,15 @@ func run() -> void:
 	preferences.restore({"forest_visibility":-5}); check(preferences.forest_visibility==0,"Aid preference clamps off")
 	preferences.restore({"forest_visibility":INF}); check(preferences.forest_visibility==60,"Nonfinite aid preference restores default")
 	preferences.restore({"forest_visibility":101}); check(preferences.forest_visibility==100,"Aid preference clamps maximum")
+	preferences.restore({"forest_visibility_size":-5}); check(preferences.forest_visibility_size==20,"Size clamps to small opening")
+	preferences.restore({"forest_visibility_size":INF}); check(preferences.forest_visibility_size==88,"Invalid size restores enlarged default")
+	preferences.restore({"forest_visibility_size":101}); check(preferences.forest_visibility_size==100,"Maximum size enables full-screen mode")
+	preferences.restore({"forest_visibility_size":50})
 	var path="user://foliage_sight_test.cfg"
 	check(preferences.save_preferences(path)==OK,"Aid preference saves independently of replay state")
 	var restored=Preferences.new(); restored.load_preferences(path)
 	check(restored.forest_visibility==100,"Aid preference roundtrips")
+	check(restored.forest_visibility_size==50,"Size persists separately from reach")
 	DirAccess.remove_absolute(path)
 	print("FOLIAGE_SIGHT_RESULTS ",JSON.stringify({"checks":checks,"failures":failures}))
 	camera.free(); quit(0 if failures.is_empty() else 1)

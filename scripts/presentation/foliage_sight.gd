@@ -5,7 +5,7 @@ var parameters = Vector4.ZERO # activation, full-depth limit, outer limit, unuse
 var initialized = false
 var previous_actor = Vector3.ZERO
 
-func update(camera: Camera3D, actor: Vector3, velocity: Vector3, dt: float, riding: bool, strength: float) -> void:
+func update(camera: Camera3D, actor: Vector3, velocity: Vector3, dt: float, riding: bool, strength: float, size_percent: float = 88.0) -> void:
 	var amount=clampf(strength/100.0,0.0,1.0) if is_finite(strength) else .6
 	var enabled=riding and is_instance_valid(camera) and amount>0.0
 	var blend=1.0-exp(-clampf(dt,0.0,.1)/.16)
@@ -26,7 +26,7 @@ func update(camera: Camera3D, actor: Vector3, velocity: Vector3, dt: float, ridi
 			center=Vector2(clampf(projected.x,.49,.51),clampf(projected.y,.49,.51))
 	var current=Vector2(window.x,window.y)
 	center=center if reset else current.lerp(center,blend)
-	var radius=lerpf(.38,.48,amount)
+	var radius=clampf(size_percent,20.0,100.0)/200.0 if is_finite(size_percent) else .44
 	window=Vector4(center.x,center.y,radius,radius)
 	var depth=clampf(camera.global_position.distance_to(actor)+lerpf(8.0,18.0,amount),8.0,28.0)
 	parameters.y=depth*.78; parameters.z=depth

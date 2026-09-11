@@ -347,8 +347,8 @@ func _remember_material(id: String, mat: ShaderMaterial) -> void:
 			mat.set_shader_parameter("wind_direction",last_wind_direction)
 			mat.set_shader_parameter("wind_strength",last_wind_strength)
 
-func update_foliage_sight(camera: Camera3D, actor: Vector3, velocity: Vector3, dt: float, riding: bool, strength: float = 60.0) -> void:
-	foliage_sight.update(camera,actor,velocity,dt,riding,strength)
+func update_foliage_sight(camera: Camera3D, actor: Vector3, velocity: Vector3, dt: float, riding: bool, strength: float = 60.0, size_percent: float = 88.0) -> void:
+	foliage_sight.update(camera,actor,velocity,dt,riding,strength,size_percent)
 	var window_changed=foliage_sight.window!=sight_window_sent
 	var parameters_changed=foliage_sight.parameters!=sight_parameters_sent
 	if not window_changed and not parameters_changed: return

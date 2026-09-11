@@ -5,7 +5,7 @@ const DEFAULTS = {
 	"rest_fov":72.0, "fast_fov":110.0,
 	"rest_distance":3.0, "fast_distance":7.0, "rest_height":6.0, "fast_height":8.0,
 	"chase_pitch_offset":0.0, "first_person_pitch_offset":0.0, "vertical_smoothing":50.0,
-	"forest_visibility":60.0,
+	"forest_visibility":60.0, "forest_visibility_size":88.0,
 }
 const MIN_DISTANCE = 1.0
 const MAX_DISTANCE = 20.0
@@ -21,6 +21,7 @@ const RANGES = {
 	"first_person_pitch_offset":Vector3(-30.0, 30.0, 1.0),
 	"vertical_smoothing":Vector3(0.0, 100.0, 1.0),
 	"forest_visibility":Vector3(0.0, 100.0, 1.0),
+	"forest_visibility_size":Vector3(20.0, 100.0, 1.0),
 }
 var rest_fov: float = DEFAULTS.rest_fov
 var fast_fov: float = DEFAULTS.fast_fov
@@ -32,6 +33,7 @@ var chase_pitch_offset: float = DEFAULTS.chase_pitch_offset
 var first_person_pitch_offset: float = DEFAULTS.first_person_pitch_offset
 var vertical_smoothing: float = DEFAULTS.vertical_smoothing
 var forest_visibility: float = DEFAULTS.forest_visibility
+var forest_visibility_size: float = DEFAULTS.forest_visibility_size
 
 func snapshot() -> Dictionary:
 	var values = {}

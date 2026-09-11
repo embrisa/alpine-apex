@@ -21,7 +21,7 @@
 	},
 	"physical_sha256": "11dfe49542c2557a7360770643b67808b32789be14c2632b26c8c84d07636e92",
 	"scenery": {
-		"res://assets/graphics/foliage_sight.gdshaderinc": "84fd97acb6576a6c89683d5f7493ca51f42a3731d00fdf7bca6fe4b0f3f398ae",
+		"res://assets/graphics/foliage_sight.gdshaderinc": "9133850c6afee8ecb05d872599dadb258c4da53a9a37445f51ac780e58997ef2",
 		"res://assets/graphics/geology_v11/catalog.json": "90cc75f3403ec375b1b201e63c43ae6bb52f1219ed7488ba2c52b3a982acf402",
 		"res://assets/graphics/geology_v11/catalog.res": "e88266c655c662373408d3d31c522f3600615e14895dad195b0b18582297acd3",
 		"res://assets/graphics/geology_v11/meshes/mineral_cliffs_buttress_01.res": "8b4ac1ffa9149c561b810cc0077bdb0c5c0cd722cf5ae575873b984cc2815f42",
@@ -485,10 +485,10 @@
 		"res://assets/graphics/trees/textures/forest_spruce_04_atlas_low.png": "682d61a96c0c4d785f632c57c26152cf8f167d55ea461bffd8b0293c694f1c1d",
 		"res://assets/graphics/trees/textures/forest_spruce_04_atlas_low.png.import": "3682691b4ad6da7d3e1551b3c7865fa5b7aea63e833b5929a77f3588ec254e90",
 		"res://scripts/art/tree_collection_post_import.gd": "5410f3c1bb3150bedd9d8735d1d66baadf4a84d999c6aecc4f9fe9717c96a09b",
-		"res://scripts/presentation/alpine_assets.gd": "bf9cb947719c1f80d6d0602d85c5be2a8b3082e9eb67539b009126a21bb52bef",
+		"res://scripts/presentation/alpine_assets.gd": "a03d3e42c326e429104dc0c8c3214eb52139422b9f777d66a8ee9fa48db69fe7",
 		"res://scripts/presentation/asset_snow_contacts.gd": "ffebb2771efa74bcfb309b3d09dbdbe6d21a029c1c50f9d68d9171dc29aaa63d",
 		"res://scripts/presentation/density_forest.gd": "ab1b07d03eb7ba2a23fe23ee1caa00d0c6254e0a3d8c2904b326d15c4817f153",
-		"res://scripts/presentation/foliage_sight.gd": "e84f7873787346e5a33243b82996533fc03c3371167822dcaa8b619ec1df1b38",
+		"res://scripts/presentation/foliage_sight.gd": "58fcf57f05a29efd48fbb9e19026a45bdd636d599b2fdef3010ea7428a834693",
 		"res://scripts/presentation/forest_placement.gd": "aef41122ebeb0c7f3f6dbae303fd197c145f0132942d12a8ae94616ba0f45fa1",
 		"res://scripts/presentation/graphics_quality.gd": "064498bf09083b43168b1db8e9381681696a4c7f11e500a40262267ce8b97117",
 		"res://scripts/presentation/mineral_scenery.gd": "5d6e9d0ac235a7a94f83d0d9f678c3a57b2ba2928394db29605d779919af445f",
@@ -515,6 +515,6 @@
 		"res://scripts/world/scenery_cache.gd": "ea5acc333113f9324c95cf6dfa2a1a58504e245225abc8d88cce270a098879d3",
 		"res://scripts/world/terrain_preparation.gd": "b6ca4f16298b7dfcdb604d776f3771b8e1f511b81bc17d82515d57042b26b7c7"
 	},
-	"scenery_sha256": "ef744cc41ac7b5d68b3521b02a9f56e119737eb2aa888ad6fa97ff35497cd164",
+	"scenery_sha256": "b944ee260b655c0b9b6acd3e9d0c37d467f6d1ab866c4ddd3068b7850d45e97c",
 	"schema": 1
 }

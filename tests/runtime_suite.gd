@@ -428,6 +428,8 @@ func _camera_settings_checks() -> void:
 	game.hud.camera_setting_controls.vertical_smoothing.value = 70.0
 	game.hud.camera_setting_controls.forest_visibility.value = 35.0
 	check(game.camera_settings.forest_visibility==35.0 and game.hud.camera_setting_readouts.forest_visibility.text=="35%","Forest visibility slider reaches local presentation settings")
+	game.hud.camera_setting_controls.forest_visibility_size.value = 42.0
+	check(game.camera_settings.forest_visibility_size==42.0 and game.hud.camera_setting_readouts.forest_visibility_size.text=="42%" and game.camera_settings.forest_visibility==35.0,"Opening size slider updates independently of aid reach")
 	var lens_tilt = {"rest_fov":85.0,"fast_fov":65.0,"chase_pitch_offset":12.0,"first_person_pitch_offset":-8.0}
 	for key in lens_tilt: game.hud.camera_setting_controls[key].value = lens_tilt[key]
 	for key in lens_tilt: check(game.camera_settings.get(key)==lens_tilt[key],"Lens/tilt slider reaches the live camera: " + key)
@@ -444,6 +446,7 @@ func _camera_settings_checks() -> void:
 	check(game.camera_settings.rest_distance == 4.5 and game.camera_settings.fast_distance == 9.5, "Restart retains configured camera distances")
 	check(game.camera_settings.rest_height == 5.5 and game.camera_settings.fast_height == 11.5 and game.camera_settings.vertical_smoothing == 70.0,"Restart retains configured heights and smoothing")
 	check(game.camera_settings.forest_visibility==35.0,"Restart retains forest visibility preference")
+	check(game.camera_settings.forest_visibility_size==42.0,"Restart retains opening size preference")
 	for key in lens_tilt: check(game.camera_settings.get(key)==lens_tilt[key],"Restart retains lens/tilt: " + key)
 	game.hud.camera_reset_button.pressed.emit()
 	check(game.camera_settings.snapshot() == game.CameraSettings.DEFAULTS and game.hud.camera_setting_controls.rest_height.value == 6.0 and game.hud.camera_setting_controls.vertical_smoothing.value == 50.0, "Camera reset button restores all defaults and synchronizes sliders")
@@ -453,6 +456,7 @@ func _camera_settings_checks() -> void:
 	game.hud.camera_setting_requested.emit("rest_distance",12.0)
 	game.hud.camera_setting_requested.emit("rest_height",12.0)
 	game.hud.camera_setting_requested.emit("vertical_smoothing",0.0)
+	game.hud.camera_setting_requested.emit("forest_visibility_size",30.0)
 	for key in lens_tilt: game.hud.camera_setting_requested.emit(key,lens_tilt[key])
 	check(not game.preferences_enabled and game.camera_settings.snapshot() == game.CameraSettings.DEFAULTS, "Automated runs ignore preference loading and all live camera changes")
 	game.automated = false

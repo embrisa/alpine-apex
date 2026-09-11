@@ -626,7 +626,7 @@ func _process(dt: float) -> void:
 	get_tree().call_group("race_beam_vfx","update_effect",dt,active or not workshop.mode.is_empty(),hud.feedback.reduced_motion)
 	var trees_started = frame_costs.begin()
 	world.scenery.tree_motion.update(p,sim.velocity,dt,active)
-	world.assets.update_foliage_sight(presentation_camera,p,sim.velocity,dt,active and presentation_camera==camera,camera_settings.forest_visibility)
+	world.assets.update_foliage_sight(presentation_camera,p,sim.velocity,dt,active and presentation_camera==camera,camera_settings.forest_visibility,camera_settings.forest_visibility_size)
 	frame_costs.end(&"interactive_trees",trees_started)
 	var weather_anchor: Vector3 = menu_camera.focus_point if menu_view else p
 	weather_effects.update_weather(weather.state,presentation_camera,weather_anchor,field,dt,active,animate_menu,camera.motion_intensity if active and camera.effects_enabled else 0.0,weather.quality,presentation_camera==camera and camera.close_view)

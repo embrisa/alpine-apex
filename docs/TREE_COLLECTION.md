@@ -141,9 +141,9 @@ Reproduce with `./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfil
 
 ## Forest visibility aid
 
-**Settings → Camera → Forest visibility** controls a camera-only canopy opening while skiing. The default is 60%; 0% turns it off. Increasing the value widens the opening and extends its short forward reach. The setting saves with local camera preferences and applies to first-person and chase views. It does not steer, choose a route, alter collision, or change replay/record eligibility.
+**Settings → Camera → Forest visibility** provides two independent controls. **Opening size** ranges from 20–100%, defaulting to 88%. **100% is full-screen mode with no border or corner masking**; lower values retain a soft boundary. **Aid reach** controls forward distance, defaulting to 60%; 0% turns the aid off without changing the saved size. Both settings save with local camera preferences, apply immediately when riding in first-person and chase views, and reset with the other camera settings. They do not steer, choose a route, alter collision, or change replay/record eligibility.
 
-The shared `FoliageSight` controller follows a tightly clamped projection of the rider's short look-ahead point. Following the user's request to cover most of the screen, its rounded rectangular opening now spans 88% of both screen dimensions at the default. The fully clear core covers about 53% of the screen for nearby canopy, with a short feather beyond it. At default strength the outer 5% of every screen edge stays untouched; the maximum setting keeps at least a 1% border. The reach includes the camera boom plus 8–18 m ahead, capped at 28 m from the camera. Activation and recentering settle smoothly; leaving skiing restores the canopy, and teleporting discards the old opening. Reduced motion does not disable this navigation aid: it has no pulsing, camera shake or animated random noise.
+The shared `FoliageSight` controller follows a tightly clamped projection of the rider's short look-ahead point. Its rounded rectangular opening spans the selected percentage of both screen dimensions below 100%. At the default 88%, the fully clear core covers about 53% of the screen for nearby canopy, with a short feather beyond it; the outer 5% of every screen edge stays untouched. At 100%, the shader bypasses the screen mask entirely, including the corners. Reach and activation still apply in full-screen mode. The reach includes the camera boom plus 8–18 m ahead, capped at 28 m from the camera. Activation and recentering settle smoothly; leaving skiing restores the canopy, and teleporting discards the old opening. Reduced motion does not disable this navigation aid: it has no pulsing, camera shake or animated random noise.
 
 Needles and their branch snow share a cutout mask, preserving solid woody geometry and distant forest coverage. The far shader applies the aid only to living-conifer materials, for consistent temporary residency fallback. Shadow passes and the static shadow proxies retain full coverage. A stationary screen pattern is shared across overlapping sprays so layers cannot fill the opening back in; it is separate from the complementary LOD threshold. The feather was narrowed after the first native prototype looked too grainy. Fine stippling is still possible at the feathered boundary, particularly with temporal upscaling.
 
@@ -158,6 +158,12 @@ Validation of the broad opening, 11 September:
 - **Performance:** no new isolated timing comparison is claimed for the aid. These captures include readback overhead and may coexist with the user's game. The original foliage performance results above remain separate.
 - **Skiing acceptance:** automated ordinary-input samples passed; the user's controller/navigation assessment of the enlarged opening remains pending. Matched images, motion clips and receipts are in `artifacts/foliage_v3/sight_review/review.html`.
 
+Independent size and full-screen follow-up, 11 September:
+
+- **1,098 automated checks passed:** 59 visibility, 817 camera, 194 runtime and 28 graphics. Visibility checks cover size/reach independence, shared material propagation, bounds and separate preference persistence. Runtime checks cover menu signals, restart and reset. Native settings review checks keyboard and gamepad events and applies the selected size in both riding cameras, without writing personal preferences.
+- Rendered comparisons at 20%, 50%, 88% and 100% size use identical production stands and 60% reach. Both riding views confirm the full-screen endpoint removes the border and corners while retaining woody geometry. The default remains the enlarged 88% view. Captures and receipts are under `artifacts/foliage_v3/sight_sizes/review.html`; settings screenshots are under `sight_size_settings`.
+- These functional checks ran with the guard's `AllowConcurrent` option alongside an import in a separate checkout. No new performance result or physical-controller skiing acceptance is claimed. The export dependency receipt was refreshed.
+
 Reproduction (run engine workloads serially):
 
 ```powershell
@@ -166,6 +172,13 @@ Reproduction (run engine workloads serially):
 ./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','godotw.ps1','--script','tests/foliage_sight_world_playtest.gd','--fixed-fps','60','--','--graphics-quality=high','--upscaler=auto','--render-scale=0.75') -Label foliage_sight_world_wide -TimeoutSeconds 900
 ./artifacts/foliage_v3/validate_sight.ps1
 python artifacts/foliage_v3/package_sight.py
+```
+
+For the size controls, run `tests/foliage_sight_suite.gd`, `tests/camera_suite.gd`, `tests/runtime_suite.gd` and `tests/graphics_suite.gd` with the headless guard commands above. Native reproductions:
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','godotw.ps1','--script','tests/foliage_sight_playtest.gd','--fixed-fps','60','--','--label=sight_sizes','--size-review','--graphics-quality=high','--upscaler=auto','--render-scale=0.75') -Label foliage_sight_sizes -TimeoutSeconds 180
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','godotw.ps1','--script','tests/foliage_sight_settings_playtest.gd','--fixed-fps','60','--','--graphics-quality=high','--upscaler=auto','--render-scale=0.75') -Label foliage_sight_size_settings -TimeoutSeconds 180
 ```
 
 ## Historical validation, 7 September 2026

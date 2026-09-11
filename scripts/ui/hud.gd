@@ -646,8 +646,9 @@ func _build_camera_settings(col: VBoxContainer) -> void:
 	_camera_slider(col,"vertical_smoothing","Off ← Vertical smoothing → Strong")
 	_note(col,"Softens vertical movement over bumps in both views. Turning stays responsive. Also active with motion effects off.")
 	col.add_child(_label("BOTH VIEWS / FOREST VISIBILITY",14,LIME,true))
-	_camera_slider(col,"forest_visibility","Off ← Clear foliage ahead → Wider")
-	_note(col,"Clears nearby foliage across most of your view while skiing, with a soft border at the edges. Trunks stay visible. Set to 0% to turn it off.")
+	_camera_slider(col,"forest_visibility_size","Opening size · Small → Full screen")
+	_camera_slider(col,"forest_visibility","Aid reach · Off → Farther")
+	_note(col,"Size at 100% clears across the whole screen, including the edges. Reach controls how far ahead foliage clears. Trunks stay visible. Set reach to 0% to turn the aid off.")
 	_note(col,"Saves automatically. Your changes apply when riding, without restarting.")
 	camera_reset_button = _button("RESET CAMERA SETTINGS")
 	camera_reset_button.pressed.connect(func(): camera_defaults_requested.emit())
@@ -672,7 +673,9 @@ func _camera_slider(parent: Control, key: String, caption: String) -> void:
 	elif key.ends_with("pitch_offset"):
 		slider.tooltip_text = "Tilt in degrees from the original framing: negative looks down, positive looks up"
 	elif key=="forest_visibility":
-		slider.tooltip_text = "Size and reach of the central foliage opening; 0% turns it off"
+		slider.tooltip_text = "How far ahead foliage clears; 0% turns the aid off without changing its size"
+	elif key=="forest_visibility_size":
+		slider.tooltip_text = "Opening size, independent of reach; 100% removes the screen border and corner mask"
 	else:
 		slider.tooltip_text = "Vertical stabilization in both riding views" if key == "vertical_smoothing" else ("Height above the skier, in metres; terrain clearance takes priority" if key.ends_with("height") else "Distance behind the skier, in metres")
 	row.add_child(slider)
@@ -688,7 +691,7 @@ func _camera_slider(parent: Control, key: String, caption: String) -> void:
 func _camera_readout(key: String, value: float) -> String:
 	if key.ends_with("fov"): return "%d°" % roundi(value)
 	if key.ends_with("pitch_offset"): return ("+%d°" if value > 0.0 else "%d°") % roundi(value)
-	return "%d%%" % roundi(value) if key in ["vertical_smoothing","forest_visibility"] else "%.2f m" % value
+	return "%d%%" % roundi(value) if key in ["vertical_smoothing","forest_visibility","forest_visibility_size"] else "%.2f m" % value
 
 func sync_camera_settings(settings) -> void:
 	for key in camera_setting_controls:
