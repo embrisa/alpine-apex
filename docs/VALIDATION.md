@@ -37,10 +37,11 @@ for any new acceptance claim.
 ## Current acceptance checklist
 
 The [2026-09-11 backlog import](../backlog/IMPORT.md) separates bounded evidence
-work from the user's acceptance. The following follow-ups remain open at this
-inspection; linked task files own their current status and detailed criteria.
+work from the user's acceptance. The checklist records evidence completion
+separately from open user acceptance; linked task files own their current status
+and detailed criteria.
 
-- [ ] [Skiing/input evidence](../backlog/tasks/AA-20260911-153901-input-acceptance-evidence.md): refresh automated and rendered coverage and the real-device checklist; maintain [controller feedback evidence](CONTROLLER_FEEDBACK.md).
+- [x] [Skiing/input evidence](../backlog/tasks/AA-20260911-153901-input-acceptance-evidence.md): [2026-09-11 audit](CONTROLLER_FEEDBACK.md#input-acceptance-audit-on-2026-09-11) passed 388 automated checks and inspected eight native laboratory captures. Real-device feel/vibration and full-mountain skiing remain open; the report includes the player checklist and a posture observation for follow-up.
 - [ ] [V15 six-face route audit](../backlog/tasks/AA-20260911-153902-v15-six-face-route-audit.md): survey Standard seed 849205174 and report each face's pilot coverage and limitations in [v15 generation](GENERATION_V15.md). Other seeds remain follow-up skiing work.
 - [ ] [Current 4K performance baseline](../backlog/tasks/AA-20260911-153903-current-4k-performance-baseline.md): three complete, stable-source descents or a precise trace/workload blocker; update [FPS evidence](FPS_OPTIMIZATION.md). Keep generation, cache reading, scene construction, rendered frames and generated frames separate.
 - [ ] [Presentation comfort review](../backlog/tasks/AA-20260911-153904-presentation-comfort-review.md): prepare current continuous-motion, camera/interface and animation evidence plus a listening/player checklist in the maintained subsystem pages.
@@ -49,7 +50,8 @@ inspection; linked task files own their current status and detailed criteria.
 
 Automated correctness, rendered inspection, measured performance, listening and
 player/controller acceptance are distinct. Historical measurements keep their
-original date, generator/model and workload; none were rerun for this index.
+original date, generator/model and workload. The input audit above is a later
+scoped result; it does not refresh historical mountain/performance measurements.
 
 ## Routine checks
 
