@@ -3,9 +3,9 @@ id: "AA-20260911-153902-v15-six-face-route-audit"
 title: "Establish current v15 route coverage on all six faces"
 status: "ready"
 priority: "P1"
-depends_on: ["AA-20260911-153900-baseline-acceptance-index"]
+depends_on: []
 created: "2026-09-11T15:39:00Z"
-updated: "2026-09-11T15:39:00Z"
+updated: "2026-09-11T19:06:07Z"
 source_thread: "01a090fe-2a8c-7fe0-8b5b-fa6446206ea9"
 ---
 
@@ -44,3 +44,7 @@ None.
 ## Completion record
 
 Imported from the existing roadmap during backlog setup. Pending implementation. Any worker follow-up ideas belong in `backlog/ideas/` for the user's review.
+
+## Satisfied prerequisite history
+
+On 2026-09-11, [AA-20260911-153900-baseline-acceptance-index](AA-20260911-153900-baseline-acceptance-index.md) was retired at the user's request after completion. Its satisfied dependency was removed; this task's scope and acceptance requirements are unchanged.

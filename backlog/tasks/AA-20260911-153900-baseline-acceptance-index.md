@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-153900-baseline-acceptance-index"
 title: "Refresh the current baseline and acceptance index"
-status: "done"
+status: "retired"
 priority: "P1"
 depends_on: []
 created: "2026-09-11T15:39:00Z"
-updated: "2026-09-11T18:47:05Z"
+updated: "2026-09-11T19:06:07Z"
 source_thread: "01a090fe-2a8c-7fe0-8b5b-fa6446206ea9"
 ---
 
@@ -67,3 +67,9 @@ line endings while preserving file bytes outside edited content.
 No game suites, rendered runs or new performance measurements were required or
 performed. Player/controller, listening, all-face skiing and current complete-descent
 performance acceptance remain open in the linked follow-ups.
+
+## Retirement
+
+Retired at the user's request on 2026-09-11 after successful completion.
+The completion record and evidence above remain valid. This task will not be
+dispatched again; its satisfied prerequisite was removed from remaining tasks.

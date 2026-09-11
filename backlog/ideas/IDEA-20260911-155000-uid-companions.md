@@ -1,7 +1,7 @@
 ---
 id: "IDEA-20260911-155000-uid-companions"
 title: "Resolve existing untracked UID companions so the queue can dispatch"
-status: "proposed"
+status: "rejected"
 created: "2026-09-11T15:50:00Z"
 source_task: "AA-20260911-155000-agent-backlog-system"
 source_thread: "01a090fe-2a8c-7fe0-8b5b-fa6446206ea9"
@@ -49,5 +49,6 @@ acting because another agent may already have resolved them.
 
 ## User decision
 
-Pending user review. This proposal is not an executable task and the manager must
-not promote it automatically.
+Retired at the user's request on 2026-09-11. Marked `rejected` under the idea
+status convention; the historical proposal is retained and no further work is
+authorized by it.

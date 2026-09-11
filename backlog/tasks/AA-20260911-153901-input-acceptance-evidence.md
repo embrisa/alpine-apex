@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-153901-input-acceptance-evidence"
 title: "Refresh skiing and input acceptance evidence"
-status: "done"
+status: "retired"
 priority: "P1"
 depends_on: ["AA-20260911-153900-baseline-acceptance-index"]
 created: "2026-09-11T15:39:00Z"
-updated: "2026-09-11T18:59:54Z"
+updated: "2026-09-11T19:06:07Z"
 source_thread: "01a090fe-2a8c-7fe0-8b5b-fa6446206ea9"
 ---
 
@@ -84,3 +84,9 @@ vibration comfort, skiing feel and current full-mountain coverage remain open.
 No performance measurement or human acceptance was claimed; the
 [player/controller task](AA-20260911-153906-player-and-controller-acceptance.md)
 remains blocked for actual user feedback.
+
+## Retirement
+
+Retired at the user's request on 2026-09-11 after successful completion.
+The completion record and evidence above remain valid. This task will not be
+dispatched again; its satisfied prerequisite was removed from remaining tasks.
