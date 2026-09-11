@@ -3,6 +3,8 @@ param(
     [Parameter(Mandatory)][string[]]$Arguments,
     [ValidatePattern('^[a-zA-Z0-9_-]+$')][string]$Label = 'validation',
     [ValidateRange(10,3600)][int]$TimeoutSeconds = 1200,
+    [ValidateRange(0,86400)][int]$WaitTimeoutSeconds = 3600,
+    [ValidateSet('progress','all','quiet')][string]$OutputMode = 'progress',
     # Windows per-process allocation totals include shared resources. By default
     # collect them as telemetry, not as a physical VRAM exhaustion detector.
     [ValidateRange(0,65536)][int]$MaximumGpuMB = 0,
@@ -14,22 +16,16 @@ param(
 # Exclusive by default. Never changes or terminates existing apps.
 $ErrorActionPreference = 'Stop'
 $guardRoot = Split-Path $PSScriptRoot -Parent
+if ($env:ALPINE_VALIDATION_ROOT -eq $guardRoot) { throw 'Nested validation guards are not allowed. Run the child directly inside the existing guard.' }
 $guardOut = Join-Path $guardRoot "artifacts/guarded/$Label"
 New-Item -ItemType Directory -Force $guardOut | Out-Null
 $guardLock = $null
-if (-not $AllowConcurrent) {
-    $guardLock = [IO.File]::Open((Join-Path $guardRoot 'artifacts/validation.lock'), 'OpenOrCreate', 'ReadWrite', 'None')
-}
-$guardStart = Get-Date
-# Preserve previous attempts, especially interrupted runs, before replacing logs.
-if (Test-Path -LiteralPath (Join-Path $guardOut 'guard.json')) {
-    $guardHistory = Join-Path $guardOut ('history/' + $guardStart.ToString('yyyyMMdd-HHmmss-fff'))
-    New-Item -ItemType Directory -Force $guardHistory | Out-Null
-    foreach ($guardName in @('guard.json','stdout.log','stderr.log')) {
-        $guardOld = Join-Path $guardOut $guardName
-        if (Test-Path -LiteralPath $guardOld) { Copy-Item -LiteralPath $guardOld -Destination (Join-Path $guardHistory $guardName) }
-    }
-}
+$guardRequested = Get-Date
+$guardStart = $null
+$guardWait = [Diagnostics.Stopwatch]::StartNew()
+$guardWaitSeconds = 0.0
+$guardReceipt = Join-Path $guardOut ('request-' + [guid]::NewGuid().ToString('N') + '.json')
+$guardLockPath = Join-Path $guardRoot 'artifacts/validation.lock'
 $guardOwned = [Collections.Generic.HashSet[int]]::new()
 $guardSamples = [Collections.Generic.List[object]]::new()
 $guardBackgroundErrors = [Collections.Generic.List[object]]::new()
@@ -40,16 +36,72 @@ $guardProcess = $null
 $guardJob = $null
 $guardStdout = $null
 $guardStderr = $null
-$guardOutFile = $null
-$guardErrFile = $null
 $guardLaunched = $false
+function Write-GuardOutput {
+    foreach ($guardPump in @($guardStdout,$guardStderr)) {
+        if (-not $guardPump) { continue }
+        foreach ($guardLine in $guardPump.Drain()) {
+            if ($OutputMode -eq 'quiet') { continue }
+            if ($OutputMode -eq 'progress' -and ($guardLine -match '^PASS(?::|\s)' -or -not $guardLine.Trim())) { continue }
+            if ($OutputMode -eq 'progress' -and $guardLine.Length -gt 1600) {
+                Write-Output ($guardLine.Substring(0,1600) + " ... [full line in $guardOut]")
+            } else { Write-Output $guardLine }
+        }
+    }
+}
+function Read-GuardOwner {
+    try {
+        $guardReader = [IO.StreamReader]::new([IO.File]::Open($guardLockPath,'Open','Read','ReadWrite'))
+        try { return $guardReader.ReadToEnd() } finally { $guardReader.Dispose() }
+    } catch { return 'owner unavailable (older guard or external workload)' }
+}
 try {
-    $guardBusy = @(Get-CimInstance Win32_Process | Where-Object {
-        ($_.Name -like 'Godot*.exe' -and $_.CommandLine -match '(--script\s|--import)') -or
-        ($_.Name -eq 'blender.exe' -and $_.CommandLine -match '--background')
-    })
-    if ($guardBusy.Count -and -not $AllowConcurrent) { throw 'Another Godot/Blender workload is active; existing processes were left untouched.' }
+    $guardNextWaitNotice = 0.0
+    if (-not $AllowConcurrent) {
+        while ($true) {
+            $guardOwner = ''
+            try { $guardLock = [IO.File]::Open($guardLockPath,'OpenOrCreate','ReadWrite','Read') }
+            catch [IO.IOException] {
+                # Only sharing/lock violations represent contention. Disk/path
+                # failures must surface immediately, not consume the wait budget.
+                if (($_.Exception.HResult -band 0xffff) -notin @(32,33)) { throw }
+                $guardOwner = Read-GuardOwner
+            }
+            if ($guardLock) {
+                $guardBusy = @(Get-CimInstance Win32_Process | Where-Object {
+                    ($_.Name -like 'Godot*.exe' -and $_.CommandLine -match '(--script\s|--import)') -or
+                    ($_.Name -eq 'blender.exe' -and $_.CommandLine -match '--background')
+                })
+                if (-not $guardBusy.Count) { break }
+                $guardOwner = ($guardBusy | ForEach-Object { "$($_.Name) pid=$($_.ProcessId)" }) -join ', '
+                $guardLock.Dispose(); $guardLock = $null
+            }
+            if ($guardWait.Elapsed.TotalSeconds -ge $guardNextWaitNotice) {
+                Write-Output "GUARDED_WAIT $Label waited=$([math]::Round($guardWait.Elapsed.TotalSeconds,1))s owner=$guardOwner"
+                $guardNextWaitNotice = $guardWait.Elapsed.TotalSeconds + 10
+            }
+            if ($guardWait.Elapsed.TotalSeconds -ge $WaitTimeoutSeconds) { throw "Validation wait exceeded ${WaitTimeoutSeconds}s; owner=$guardOwner. Existing workload preserved." }
+            Start-Sleep -Milliseconds 250
+        }
+    }
+    $guardWaitSeconds = $guardWait.Elapsed.TotalSeconds
+    $guardStart = Get-Date
+    if ($guardLock) {
+        $guardOwnerBytes = [Text.Encoding]::UTF8.GetBytes((@{pid=$PID;label=$Label;thread=$env:CODEX_THREAD_ID;started=$guardStart.ToString('o')} | ConvertTo-Json -Compress))
+        $guardLock.SetLength(0); $guardLock.Write($guardOwnerBytes,0,$guardOwnerBytes.Length); $guardLock.Flush()
+    }
+    # Waiters never replace the active owner's receipt or logs.
+    $guardReceipt = Join-Path $guardOut 'guard.json'
+    if (Test-Path -LiteralPath $guardReceipt) {
+        $guardHistory = Join-Path $guardOut ('history/' + $guardStart.ToString('yyyyMMdd-HHmmss-fff'))
+        New-Item -ItemType Directory -Force $guardHistory | Out-Null
+        foreach ($guardName in @('guard.json','stdout.log','stderr.log')) {
+            $guardOld = Join-Path $guardOut $guardName
+            if (Test-Path -LiteralPath $guardOld) { Copy-Item -LiteralPath $guardOld -Destination (Join-Path $guardHistory $guardName) }
+        }
+    }
     if (-not ('AlpineValidationJob' -as [type])) { Add-Type -Path (Join-Path $PSScriptRoot 'guarded_job.cs') }
+    if (-not ('AlpineValidationOutput' -as [type])) { Add-Type -Path (Join-Path $PSScriptRoot 'validation_output.cs') }
     $guardJob = [AlpineValidationJob]::new()
     $guardStartInfo = [Diagnostics.ProcessStartInfo]::new()
     $guardStartInfo.FileName = (Get-Command pwsh -ErrorAction Stop).Source
@@ -59,20 +111,36 @@ try {
     $guardStartInfo.RedirectStandardOutput = $true
     $guardStartInfo.RedirectStandardError = $true
     $guardStartInfo.RedirectStandardInput = $true
+    $guardStartInfo.StandardOutputEncoding = [Text.UTF8Encoding]::new($false)
+    $guardStartInfo.StandardErrorEncoding = [Text.UTF8Encoding]::new($false)
+    $guardStartInfo.Environment['ALPINE_VALIDATION_ROOT'] = $guardRoot
     $guardPayload = @{file=$FilePath;arguments=$Arguments;directory=$guardRoot} | ConvertTo-Json -Compress
     $guardEncoded = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($guardPayload))
     foreach ($guardArg in @('-NoProfile','-File',(Join-Path $PSScriptRoot 'guarded_child.ps1'),'-Payload',$guardEncoded)) { $guardStartInfo.ArgumentList.Add($guardArg) }
     $guardProcess = [Diagnostics.Process]::Start($guardStartInfo)
     [void]$guardOwned.Add($guardProcess.Id)
     $guardJob.Assign($guardProcess.Handle)
-    $guardOutFile = [IO.FileStream]::new((Join-Path $guardOut 'stdout.log'),[IO.FileMode]::Create,[IO.FileAccess]::Write,[IO.FileShare]::Read,1)
-    $guardErrFile = [IO.FileStream]::new((Join-Path $guardOut 'stderr.log'),[IO.FileMode]::Create,[IO.FileAccess]::Write,[IO.FileShare]::Read,1)
-    $guardStdout = $guardProcess.StandardOutput.BaseStream.CopyToAsync($guardOutFile)
-    $guardStderr = $guardProcess.StandardError.BaseStream.CopyToAsync($guardErrFile)
+    $guardStdout = [AlpineValidationOutput]::new($guardProcess.StandardOutput,(Join-Path $guardOut 'stdout.log'))
+    $guardStderr = [AlpineValidationOutput]::new($guardProcess.StandardError,(Join-Path $guardOut 'stderr.log'))
     $guardProcess.StandardInput.WriteLine('GO')
     $guardProcess.StandardInput.Close()
     $guardLaunched = $true
+    Write-Output "GUARDED_START $Label waited=$([math]::Round($guardWaitSeconds,2))s logs=$guardOut"
+    $guardNextTelemetry = Get-Date
+    $guardNextNotice = (Get-Date).AddSeconds(10)
     while (-not $guardProcess.HasExited) {
+        Write-GuardOutput
+        if ($guardStdout.HasEngineError -or $guardStderr.HasEngineError) { throw 'Engine errors detected; validation stopped.' }
+        if (((Get-Date)-$guardStart).TotalSeconds -gt $TimeoutSeconds) { throw 'Validation exceeded its wall-clock limit.' }
+        if ((Get-Date) -ge $guardNextNotice) {
+            Write-Output "GUARDED_RUNNING $Label elapsed=$([math]::Round(((Get-Date)-$guardStart).TotalSeconds,1))s"
+            $guardNextNotice = (Get-Date).AddSeconds(10)
+        }
+        if ((Get-Date) -lt $guardNextTelemetry) {
+            [void]$guardProcess.WaitForExit(100)
+            continue
+        }
+        $guardNextTelemetry = (Get-Date).AddSeconds(2)
         $guardAll = @(Get-CimInstance Win32_Process)
         do {
             $guardAdded = $false
@@ -115,9 +183,6 @@ try {
             }
         }
         if ($guardEvents.Count) { throw 'Windows recorded a display-driver timeout or compositor crash; validation stopped.' }
-        $guardRecent = (Get-Content (Join-Path $guardOut 'stderr.log') -Tail 32 -ErrorAction SilentlyContinue) -join "`n"
-        if ($guardRecent -match '(?m)^(ERROR:|SCRIPT ERROR:)') { throw 'Engine errors detected; validation stopped.' }
-        Start-Sleep -Seconds 2
         $guardProcess.Refresh()
     }
     $guardProcess.WaitForExit()
@@ -134,17 +199,21 @@ try {
     }
     if ($guardJob) { $guardJob.Dispose() }
     if ($guardProcess) {
-        if ($guardStdout) { [void]$guardStdout.GetAwaiter().GetResult() }
-        if ($guardStderr) { [void]$guardStderr.GetAwaiter().GetResult() }
-        if ($guardOutFile) { $guardOutFile.Dispose() }
-        if ($guardErrFile) { $guardErrFile.Dispose() }
-        $guardText = if ($guardOutFile) { [IO.File]::ReadAllText((Join-Path $guardOut 'stdout.log')) } else { '' }
-        $guardErrors = if ($guardErrFile) { [IO.File]::ReadAllText((Join-Path $guardOut 'stderr.log')) } else { '' }
-        if (($guardText+"`n"+$guardErrors) -match '(?m)^(ERROR:|SCRIPT ERROR:|FAIL )') { $guardExit=1; if (-not $guardReason) { $guardReason='Engine or test errors in output.' } }
+        foreach ($guardPump in @($guardStdout,$guardStderr)) {
+            if (-not $guardPump) { continue }
+            try { [void]$guardPump.Completion.GetAwaiter().GetResult() }
+            catch { $guardReason = "Output capture failed: $($_.Exception.Message)" }
+            if ($guardPump.HasEngineError -or $guardPump.HasTestFailure) { $guardExit=1; if (-not $guardReason) { $guardReason='Engine or test errors in output.' } }
+        }
+        Write-GuardOutput
     }
     if ($guardReason) { $guardExit=1 }
-    @{exit_code=$guardExit; stop_reason=$guardReason; workload_launched=$guardLaunched; concurrent=[bool]$AllowConcurrent; started=$guardStart.ToString('o'); finished=(Get-Date).ToString('o'); samples=$guardSamples; background_driver_app_errors=$guardBackgroundErrors; file=$FilePath; arguments=$Arguments; limits=@{gpu_monitoring=[bool]$CollectGpuMemory; gpu_mb=$MaximumGpuMB}} | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $guardOut 'guard.json')
-    if ($guardLock) { $guardLock.Dispose() }
+    if (-not $guardStart) { $guardWaitSeconds = $guardWait.Elapsed.TotalSeconds }
+    try {
+        @{exit_code=$guardExit; stop_reason=$guardReason; workload_launched=$guardLaunched; concurrent=[bool]$AllowConcurrent; requested=$guardRequested.ToString('o'); wait_seconds=$guardWaitSeconds; started=$(if ($guardStart) { $guardStart.ToString('o') } else { $null }); finished=(Get-Date).ToString('o'); samples=$guardSamples; background_driver_app_errors=$guardBackgroundErrors; file=$FilePath; arguments=$Arguments; limits=@{wait_seconds=$WaitTimeoutSeconds; workload_seconds=$TimeoutSeconds; gpu_monitoring=[bool]$CollectGpuMemory; gpu_mb=$MaximumGpuMB}} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $guardReceipt
+    } finally {
+        if ($guardLock) { $guardLock.SetLength(0); $guardLock.Dispose() }
+    }
 }
 Write-Output "GUARDED_COMPLETE $Label exit=$guardExit $guardReason"
 exit $guardExit

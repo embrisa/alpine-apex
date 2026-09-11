@@ -1,5 +1,7 @@
 param([Parameter(Mandatory)][string]$Payload)
 $ErrorActionPreference = 'Stop'
+[Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
+[Console]::InputEncoding = [Text.UTF8Encoding]::new($false)
 # Do not launch the workload until the parent assigns this helper to its job.
 if ([Console]::ReadLine() -ne 'GO') { exit 125 }
 $request = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($Payload)) | ConvertFrom-Json

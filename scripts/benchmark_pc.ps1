@@ -57,7 +57,7 @@ if ($OffmapComparison -or $OffmapBaseline) { $alpinePlaytest = 'tests/offmap_des
 if ($OffmapPaired) { $alpinePlaytest = 'tests/offmap_descent_pair.gd' }
 if ($WildernessSummit) { $alpinePlaytest = 'tests/wilderness_benchmark.gd' }
 if ($VoiceBenchmark) { $alpinePlaytest = 'tests/skier_voice_benchmark.gd' }
-$alpineArgs = @('--path',('"'+$alpineRoot+'"'),'--script',$alpinePlaytest,'--',"--version=$Version","--face=$Face","--seed=$Seed","--side=$Side","--weather=$Weather","--benchmark-label=$Label",'--benchmark-resolution=3840x2160','--graphics-quality=high',"--render-scale=$RenderScale","--upscaler=$Upscaler","--fps-limit=$FrameCap","--terrain-gi=$TerrainGI","--frame-generation=$FrameGeneration")
+$alpineArgs = @('--path',$alpineRoot,'--script',$alpinePlaytest,'--',"--version=$Version","--face=$Face","--seed=$Seed","--side=$Side","--weather=$Weather","--benchmark-label=$Label",'--benchmark-resolution=3840x2160','--graphics-quality=high',"--render-scale=$RenderScale","--upscaler=$Upscaler","--fps-limit=$FrameCap","--terrain-gi=$TerrainGI","--frame-generation=$FrameGeneration")
 $alpineArgs += @("--benchmark-start=$StartZ","--benchmark-end=$EndZ")
 if ($Version -ge 14) { $alpineArgs += @("--input-trace=$InputTrace","--repetitions=$Repetitions",'--benchmark-no-captures') }
 elseif (-not $ThirdPerson) { $alpineArgs += '--pov-forest' }
@@ -80,10 +80,30 @@ function Get-AlpineSourceHashes {
     return $alpineHashes
 }
 $alpineSourcesBefore = Get-AlpineSourceHashes
-$alpineProcess = Start-Process -FilePath $alpineEngine -ArgumentList $alpineArgs -WorkingDirectory $alpineRoot -WindowStyle Hidden -RedirectStandardOutput (Join-Path $alpineOutput 'stdout.log') -RedirectStandardError (Join-Path $alpineOutput 'stderr.log') -PassThru
+if (-not ('AlpineValidationOutput' -as [type])) { Add-Type -Path (Join-Path $PSScriptRoot 'validation_output.cs') }
+$alpineStartInfo = [Diagnostics.ProcessStartInfo]::new()
+$alpineStartInfo.FileName = $alpineEngine
+$alpineStartInfo.WorkingDirectory = $alpineRoot
+$alpineStartInfo.UseShellExecute = $false
+$alpineStartInfo.CreateNoWindow = $true
+$alpineStartInfo.RedirectStandardOutput = $true
+$alpineStartInfo.RedirectStandardError = $true
+$alpineStartInfo.StandardOutputEncoding = [Text.UTF8Encoding]::new($false)
+$alpineStartInfo.StandardErrorEncoding = [Text.UTF8Encoding]::new($false)
+foreach ($alpineArg in $alpineArgs) { $alpineStartInfo.ArgumentList.Add($alpineArg) }
+$alpineProcess = [Diagnostics.Process]::Start($alpineStartInfo)
+$alpineStdout = [AlpineValidationOutput]::new($alpineProcess.StandardOutput,(Join-Path $alpineOutput 'stdout.log'))
+$alpineStderr = [AlpineValidationOutput]::new($alpineProcess.StandardError,(Join-Path $alpineOutput 'stderr.log'))
 $alpineSamples = [Collections.Generic.List[object]]::new()
 $alpineWorker = $alpineProcess
+$alpineNextTelemetry = Get-Date
+$alpineFailure = ''
+try {
 while (-not $alpineProcess.HasExited) {
+    foreach ($alpinePump in @($alpineStdout,$alpineStderr)) { foreach ($alpineLine in $alpinePump.Drain()) { Write-Output $alpineLine } }
+    if ($alpineStdout.HasEngineError -or $alpineStderr.HasEngineError) { throw 'Engine errors detected; benchmark stopped.' }
+    if ((Get-Date) -lt $alpineNextTelemetry) { [void]$alpineProcess.WaitForExit(100); continue }
+    $alpineNextTelemetry = (Get-Date).AddSeconds(2)
     $alpineProcess.Refresh()
     # Godot's Windows console executable is a waiting launcher. Measure the
     # child engine, not the launcher's small working set.
@@ -101,15 +121,21 @@ while (-not $alpineProcess.HasExited) {
     $alpineWoW = @(Get-Process -Name Wow,WowClassic -ErrorAction SilentlyContinue)
     $alpineOtherEngines = @(Get-Process -Name Godot* -ErrorAction SilentlyContinue | Where-Object { $_.Id -ne $alpineWorker.Id -and $_.Id -ne $alpineProcess.Id -and $_.ProcessName -notlike '*console*' } | Select-Object Id,CPU,WorkingSet64)
     $alpineSamples.Add(@{utc=[DateTime]::UtcNow.ToString('o'); engine_pid=$alpineWorker.Id; working_set_bytes=$alpineWorker.WorkingSet64; private_bytes=$alpineWorker.PrivateMemorySize64; gpu_memory=$alpineGpuMemory; system_free_bytes=[int64]$alpineOS.FreePhysicalMemory*1024; other_godot_processes=$alpineOtherEngines; wow_running=$alpineWoW.Count -gt 0; wow_working_set_bytes=($alpineWoW | Measure-Object WorkingSet64 -Sum).Sum})
-    $alpineErrors = (Get-Content (Join-Path $alpineOutput 'stderr.log') -Tail 32 -ErrorAction SilentlyContinue) -join "`n"
-    if ($alpineErrors -match '(?m)^(ERROR:|SCRIPT ERROR:)') {
-        Stop-Process -Id $alpineWorker.Id -Force -ErrorAction SilentlyContinue
-        Write-Error 'Engine errors detected; benchmark stopped.'
-    }
-    Start-Sleep -Seconds 2
 }
 $alpineProcess.WaitForExit()
+} catch {
+    $alpineFailure = $_.Exception.Message
+} finally {
+    if (-not $alpineProcess.HasExited) { $alpineProcess.Kill($true); $alpineProcess.WaitForExit() }
+    foreach ($alpinePump in @($alpineStdout,$alpineStderr)) {
+        try { [void]$alpinePump.Completion.GetAwaiter().GetResult() }
+        catch { $alpineFailure = "Output capture failed: $($_.Exception.Message)" }
+        foreach ($alpineLine in $alpinePump.Drain()) { Write-Output $alpineLine }
+        if ($alpinePump.HasEngineError -or $alpinePump.HasTestFailure) { $alpineFailure = 'Engine or test errors in benchmark output.' }
+    }
+}
 $alpineExit = $alpineProcess.ExitCode
+if ($alpineFailure) { $alpineExit=1; Write-Output "BENCHMARK_ERROR $alpineFailure" }
 $alpineSources = Get-AlpineSourceHashes
 $alpineChangedSources = @(@($alpineSources.Keys)+@($alpineSourcesBefore.Keys) | Sort-Object -Unique | Where-Object { $alpineSources[$_] -ne $alpineSourcesBefore[$_] })
 @{started_utc=$alpineStarted.ToString('o'); ended_utc=[DateTime]::UtcNow.ToString('o'); exit_code=$alpineExit; project_root=$alpineRoot; engine_path=$alpineEngine; engine_sha256=(Get-FileHash -LiteralPath $alpineEngine).Hash; cpu=(Get-CimInstance Win32_Processor).Name; installed_ram_bytes=(Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory; background_policy='Existing apps left untouched. WoW is no longer required; actual presence is sampled.'; samples=$alpineSamples; source_sha256_before=$alpineSourcesBefore; source_sha256_after=$alpineSources; changed_sources=$alpineChangedSources} | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $alpineOutput 'system.json')
