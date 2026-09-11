@@ -133,7 +133,7 @@ func report() -> Dictionary:
 	return {"version":Data.VERSION,"seed":data.seed_value,"enabled":visible,"triangles":triangles,
 		"batches":ridge_nodes().size(),"build_ms":build_ms,"radius_m":Data.OUTER_RADIUS_M,"quality":level,"apron_triangles":apron_triangles,"apron_build_ms":apron_build_ms,
 		"props": {"counts":placement.counts,"fingerprint":placement.fingerprint,"prepare_ms":placement.build_ms,"adapted_instances":placement.adapted_instances,"seating_error_m":placement.seating_error_m,"triangles":props.triangles,"batches":props.get_child_count(),"upload_ms":props.upload_ms,"bounds_valid":props.bounds_valid} if placement else {},
-		"asset_id":data.asset.asset_id,"asset_sha256":FileAccess.get_sha256(Data.DEFAULT_ASSET),"asset_read_ms":data.asset_read_ms,"ridge_segments":data.asset.metadata.ridge_segments,"source_sha256":source_hashes()}
+		"asset_id":data.asset.asset_id,"asset_path":data.asset.resource_path,"asset_sha256":FileAccess.get_sha256(data.asset.resource_path) if not data.asset.resource_path.is_empty() else "","asset_read_ms":data.asset_read_ms,"ridge_segments":data.asset.metadata.ridge_segments,"reference_scenery_seed":data.asset.metadata.scenery_seed,"connector_scenery_seed":data.mountain.seed_value,"source_sha256":source_hashes()}
 
 static func source_hashes() -> Dictionary:
 	var result = {}

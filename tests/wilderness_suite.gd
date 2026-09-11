@@ -17,7 +17,7 @@ func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	var field = preload("res://scripts/world/mountain_definition.gd").generate(849205174,15)
 	var source = preload("res://scripts/world/mountain_data.gd").new()
-	source.generate(field,field.seed_value+4187)
+	source.generate(field,field.seed_value)
 	var world = Wilderness.new()
 	root.add_child(world)
 	world.prepare(field,source)

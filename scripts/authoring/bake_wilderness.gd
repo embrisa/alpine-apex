@@ -13,11 +13,13 @@ class Assets:
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	var field = preload("res://scripts/world/mountain_definition.gd").generate(849205174,15)
-	var mountain = preload("res://scripts/world/mountain_data.gd").new(); mountain.generate(field,field.seed_value+4187)
+	# Match MountainPreparation and normal startup, including its scenery RNG.
+	var mountain = preload("res://scripts/world/mountain_data.gd").new(); mountain.generate(field,field.seed_value)
 	var recipe = Recipe.new(); recipe.configure(mountain,field)
 	var asset = Asset.new()
 	asset.metadata={"seed":recipe.seed_value,"physical_seed":field.seed_value,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"scenery_height_sha256":mountain.height_checksum,"scenery_environment_sha256":mountain.environment_checksum,"bounds":field.bounds(),"valley_height":recipe.valley_height,"snowline":recipe.snowline,"ridge_segments":recipe.ridges.size(),"source_sha256":Panorama.source_hashes()}
 	asset.metadata.source_sha256={}
+	asset.metadata.scenery_seed=mountain.seed_value
 	for source_path in ["scripts/authoring/bake_wilderness.gd","scripts/authoring/wilderness_recipe.gd","scripts/authoring/wilderness_mesh.gd","scripts/authoring/wilderness_placement.gd","scripts/world/alpine_backdrop.gd","scripts/world/mountain_data.gd","scripts/world/wilderness_asset.gd","scripts/presentation/graphics_quality.gd"]:
 		asset.metadata.source_sha256[source_path]=FileAccess.get_sha256("res://"+source_path)
 	asset.metadata.engine=Engine.get_version_info().string

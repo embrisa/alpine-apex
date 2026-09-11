@@ -10,7 +10,8 @@ func configure_comparison() -> void:
 	repetitions=4
 	render_sources=game.world.wilderness.source_hashes()
 func prepare_comparison_trial(index: int) -> void:
-	baseline=index%2==0
+	game.camera_settings.reset() # Pin Connected/default foliage aid in memory; never save preferences.
+	baseline=index%2==1 # Current Clear first, also shared with the camera acceptance report.
 	trial_weather="clear" if index<2 else "snowfall"
 	game.weather.set_preset(trial_weather); game.weather.set_time_of_day("day")
 	fixture.select(game.world,baseline)

@@ -73,12 +73,16 @@ All background geometry has collision, shadow casting and GI contribution off.
 | Balanced | 0.6 | 4,500 m | 37,632 |
 | High | 1.0 | 6,000 m | 74,240 |
 
-The shared asset occupies 23,981,149 bytes. High stores 165,752 tree positions,
-18,381 matching near-tree instances and 16,570 rocks in 1,765 spatial batches.
-Its nominal prop triangle count is 28,630,636, mostly near-tree geometry that is
+The shared asset occupies 24,347,984 bytes. High stores 167,352 tree positions,
+19,645 matching near-tree instances and 16,369 rocks in 1,781 spatial batches.
+Its nominal prop triangle count is 30,451,916, mostly near-tree geometry that is
 culled outside 600 m. These stored counts must not be treated as visible-frame
 work. The default connector changes zero authored placements; another mountain
 seed re-seats only placements attached to the adapted apron.
+The bake uses the same scenery seed as normal `MountainPreparation` startup.
+Native comparison fixtures assert the reference height identity and zero default
+anchor movement before capturing or measuring anything. Reports include both
+reference/connector seeds and the actual loaded resource path and hash.
 
 ## Atmosphere and lifecycle
 
@@ -124,14 +128,18 @@ python scripts/report_offmap_v3.py
 
 The wrapper waits for existing validation, uses the exclusive guard and audits
 engine/source identities, display settings and RAM/GPU allocations. Native runs
-use seed 849205174/v15 Standard, 3840x2160 output, High, Auto FSR 75%, a 120 rendered
-FPS cap, frame generation off and SDFGI off. Full views include six summit
+use seed 849205174/v15 Standard, 3840x2160 output, High, Auto FSR 75%, frame generation
+off and SDFGI off. Timing uses a 120 rendered FPS cap; capture fixtures hold 30 FPS
+and also incur readback/encoding overhead. Full views include six summit
 bearings, lower chase/first-person and boundary views, Clear/Snowfall/dusk/night,
 all presets and sampled pans. Screenshot timings are not performance evidence.
 
 Fixed timing uses same-process ABBA blocks. Four complete ordinary-input descents
 pair v2/v3 in Clear and Snowfall using the current validated v15/model-28 trace at
 `artifacts/offmap_v3/descent_input.json`. Source mismatches invalidate the run.
+Descents pin the current Connected camera and default foliage aid in memory;
+personal preferences are never saved. The verified current trace retains the
+original commands, 35,669-tick finish and exact endpoint after the camera API update.
 Relative targets are <=0.5 ms added median GPU cost and <=5% p95/p99 regression;
 absolute targets remain p95 <=11.1 ms and p99 <=16.7 ms. Report pre-existing baseline
 failures separately from regressions.
@@ -149,8 +157,11 @@ Initial implementation milestone (`4c2dccf`): 458 automated assertions passed
 across wilderness, atmosphere, lifecycle, v15 fingerprints/mesh joins, graphics,
 weather submission and staged scenery suites. All six real startup cancellation
 stages passed (28-485 ms). The tighter culling subsequently passed all 14 wilderness
-checks. The authored asset hash is
-`59eac4d1726efdb0e92e5cc655500d25cc222de0a0fa6843049695f0bcb4ae62`.
+checks. The corrected production-reference asset hash is
+`973b2412a47e618b5b7787a1bb1cb9bf4a472768596e3784da58094d163ac5e2`.
+Its 41 wilderness, geometry, physical-fingerprint and lifecycle checks passed
+again. Real staged startup also passed the reference-identity assertion with
+zero adjusted anchors.
 
 The first full rendered set contains 67 matched 4K pairs and 144 sampled motion
 frames. Inspected summit, lower, boundary, weather and preset views show cleaner

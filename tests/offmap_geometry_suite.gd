@@ -28,7 +28,7 @@ func run() -> void:
 		stages = 0
 		var field = Definition.generate(seed,15)
 		var source = preload("res://scripts/world/mountain_data.gd").new()
-		source.generate(field,seed+4187)
+		source.generate(field,seed)
 		field.build_material_map()
 		var before = [field.heights.to_byte_array(),var_to_bytes(field.obstacles),field.material_image.get_data(),source.height_image.get_data(),source.environment_image.get_data()]
 		var apron = Apron.new(); var panorama = Panorama.new()

@@ -20,7 +20,7 @@ func run() -> void:
 	var field = Definition.generate(849205174,15)
 	check(field.height_checksum==HEIGHT and field.obstacle_checksum==OBSTACLES,"V15 Standard retains the frozen physical terrain and obstacle fingerprints")
 	var physical = [field.heights.to_byte_array(),var_to_bytes(field.obstacles)]
-	var apron = Apron.new(); apron.generate(field,field.seed_value+4187)
+	var apron = Apron.new(); apron.generate(field,field.seed_value)
 	var scenery = [apron.height_image.get_data(),apron.environment_image.get_data()]
 	var wilderness = Wilderness.new(); root.add_child(wilderness)
 	wilderness.prepare(field,apron)

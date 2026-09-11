@@ -7,6 +7,11 @@ var panorama
 var source_world
 
 func build(world, checkpoint: Callable = Callable()) -> void:
+	# Exercise the actual staged startup path, not a separately seeded test map.
+	var reference: Dictionary=world.wilderness.data.asset.metadata
+	if world.surface.seed_value==reference.physical_seed:
+		assert(world.mountain.seed_value==reference.scenery_seed and world.mountain.height_checksum==reference.scenery_height_sha256,"Default startup must match the authored scenery reference")
+		assert(world.wilderness.placement.adapted_instances==0,"Default startup must not move authored prop anchors")
 	source_world = world
 	apron = Apron.new(); panorama = Panorama.new()
 	world.add_child(apron); world.add_child(panorama)
