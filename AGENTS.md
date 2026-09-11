@@ -20,6 +20,11 @@ Alpine Apex is a high-speed, physics-driven downhill racing game. Physics, respo
 - Large assets use Git LFS. Keep generated output, local tools, caches and credentials ignored. Preserve file bytes, `.import` settings and `.uid` files. See [collaboration setup](docs/COLLABORATION.md).
 - The authorized Git LFS spending limit is $5/month with usage stopped at the limit. Do not raise it without the user. Commit useful binary-art milestones rather than every autosave, because each changed binary version adds its full size to LFS storage.
 
+## Backlog task authoring
+
+- When the user wants to turn an idea, feature, bug or improvement into a backlog task for a later agent, use [the Alpine backlog skill](.agents/skills/alpine-backlog/SKILL.md). Investigate the codebase, discuss material choices with the user, then save the agreed task according to [the backlog conventions](backlog/README.md). Respect Plan Mode write restrictions. Task authoring does not include implementing the feature or launching a worker.
+- Scheduled backlog managers and workers must follow [backlog operation and ownership](backlog/OPERATIONS.md) and their [manager](backlog/MANAGER.md) or [worker](backlog/WORKER.md) instructions. Only scheduled work uses that claim; manually started agents retain the existing collaboration workflow. A ready task is authorized for later dispatch, but unfinished drafts and blocked tasks are not.
+
 ## Engineering guidance
 
 - Godot is the long-term engine direction. Read [the engine and performance strategy](docs/ENGINE_STRATEGY.md) when working on generation, loading, terrain/scenery, simulation performance, audio or native/engine integration. Improve measured bottlenecks through efficient data/algorithms, caching, bounded jobs, native C++ components and focused Godot changes as appropriate. A full replacement runtime is outside the current roadmap.

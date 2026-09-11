@@ -1,0 +1,6 @@
+interface:
+  display_name: "Alpine Backlog"
+  short_description: "Investigate ideas, discuss choices, save agent tasks"
+  default_prompt: "Use $alpine-backlog to investigate my idea, ask me focused questions, and save an actionable backlog task once the important decisions are settled."
+policy:
+  allow_implicit_invocation: true

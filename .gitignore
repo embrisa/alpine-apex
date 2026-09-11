@@ -5,6 +5,7 @@
 .tools/
 .validation/
 /.mcp.json
+/backlog/.runtime/
 .DS_Store
 builds/
 
