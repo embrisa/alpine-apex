@@ -20,7 +20,7 @@ def audit(label):
     guard = read(ROOT / 'artifacts/guarded' / label / 'guard.json')
     if not system or not guard:
         return {'complete': False}
-    result_name = {'views': 'offmap_v3.json', 'fixed': 'comparison.json', 'descents': 'production.json'}[label.removeprefix('offmap_v3_')]
+    result_name = {'views': 'offmap_v3.json', 'fixed': 'comparison.json', 'descents': 'production.json', 'boundary_motion': 'boundary_motion.json'}[label.removeprefix('offmap_v3_')]
     result_path = NATIVE / label / result_name
     fresh_result = result_path.exists() and result_path.stat().st_mtime >= datetime.fromisoformat(guard['started']).timestamp()
     changed = []
@@ -53,7 +53,8 @@ def main():
     views = read(NATIVE / 'offmap_v3_views/offmap_v3.json')
     timing = read(NATIVE / 'offmap_v3_fixed/comparison.json')
     descents = read(NATIVE / 'offmap_v3_descents/production.json')
-    report = {'views': views, 'fixed_views': timing, 'descents': descents,
+    boundary_motion = read(NATIVE / 'offmap_v3_boundary_motion/boundary_motion.json')
+    report = {'views': views, 'fixed_views': timing, 'descents': descents, 'boundary_motion': boundary_motion,
               'human_acceptance': 'pending', 'automated': {}, 'native_audits': {}}
     for label in ['footprint', 'wilderness', 'atmosphere', 'geometry', 'fingerprints', 'graphics', 'loading', 'scenery_loading', 'weather', 'lifecycle', 'integrity', 'contracts', 'interface', 'mountain_library']:
         guard = read(ROOT / 'artifacts/guarded' / f'offmap_v3_{label}' / 'guard.json')
@@ -73,12 +74,12 @@ def main():
             if label == 'scenery_loading':
                 entry.update(read(ROOT / 'artifacts/geology_v11/scenery_loading.json') or {})
             report['automated'][label] = entry
-    for label in ['views', 'fixed', 'descents']:
+    for label in ['views', 'fixed', 'descents', 'boundary_motion']:
         report['native_audits'][label] = audit('offmap_v3_'+label)
     # An interrupted retry can leave an older result beside the new failure log.
     # Keep it in the detailed record, but never present it as that run's timing.
-    if not report['native_audits']['fixed']['complete']: timing = None
-    if not report['native_audits']['descents']['complete']: descents = None
+    if not all(report['native_audits']['fixed'].get(k) for k in ['complete', 'matches_current_sources']): timing = None
+    if not all(report['native_audits']['descents'].get(k) for k in ['complete', 'matches_current_sources']): descents = None
     if descents:
         paired = []
         for weather in ['clear', 'snowfall']:
@@ -96,24 +97,25 @@ def main():
     if views:
         from PIL import Image
         featured = ['edge_overview', 'edge_corner', 'summit_clear_day_0', 'ride_clear_day_0_2750_pov', 'boundary_clear_day_diagonal',
-                    'summit_snowfall_day_3', 'summit_clear_dusk_3', 'ride_clear_night_0_2750_chase']
+                    'summit_snowfall_day_3', 'summit_clear_dusk_3', 'summit_clear_night_3']
         for label in views['pairs']:
             for state in ['before', 'after']:
                 with Image.open(NATIVE / 'offmap_v3_views' / f'{label}_{state}.png') as im:
                     assert im.size == (3840, 2160), (label, im.size)
             (cards if label in featured else other).append(pair_card(label))
         if views.get('clips'):
-            for label in ['pan_0', 'pan_3', 'ride_motion']:
+            for label in ['pan_0', 'pan_3', 'ride_motion'] + (['boundary_motion'] if boundary_motion else []):
                 parts = []
                 for state in ['before', 'after']:
                     frames = []
                     for index in range(24):
-                        with Image.open(NATIVE / 'offmap_v3_views' / f'{label}_{state}_{index:03d}.jpg') as frame:
+                        directory = 'offmap_v3_boundary_motion' if label == 'boundary_motion' else 'offmap_v3_views'
+                        with Image.open(NATIVE / directory / f'{label}_{state}_{index:03d}.jpg') as frame:
                             frame.thumbnail((1280, 720)); frames.append(frame.copy())
                     frames[0].save(OUT / f'{label}_{state}.webp', save_all=True, append_images=frames[1:], duration=100, loop=0, quality=85)
                     parts.append(f'<figure><img loading="lazy" src="{label}_{state}.webp"><figcaption>{state}</figcaption></figure>')
                 clips.append(f'<article><h2>{label} - sampled motion</h2><div class="pair">'+''.join(parts)+'</div></article>')
-    report['evidence_complete'] = all(a.get('complete') and a.get('matches_current_sources') and not a.get('concurrent') for a in report['native_audits'].values()) and bool(views and len(views['pairs']) == 73 and descents and len(descents['rows']) == 4)
+    report['evidence_complete'] = all(a.get('complete') and a.get('matches_current_sources') and not a.get('concurrent') for a in report['native_audits'].values()) and bool(views and len(views['pairs']) == 73 and boundary_motion and boundary_motion['frames'] == 48 and descents and len(descents['rows']) == 4)
     (OUT / 'report.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     rows = []
     if timing:

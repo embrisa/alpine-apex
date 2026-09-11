@@ -81,8 +81,11 @@ also follow the adjusted support normal. There is no runtime random placement,
 triangle BVH, regeneration or new physical collision data. Quality switches load
 the preset whose placements were baked against that exact terrain triangulation.
 
-Props use 1,024 m spatial MultiMeshes with conservative bounds, including all
-billboard orientations. Per-instance fades cover the last 800 m of visibility.
+Cards and rocks use 1,024 m spatial MultiMeshes. Runtime preparation partitions
+near conifers into 256 m batches, preserving every authored transform and custom
+value. This avoids processing large hidden groves beyond the 600 m geometry range.
+All bounds are conservative, including billboard orientations. Per-instance fades
+cover the last 800 m of visibility.
 Individual rocks fade out by 3,200 m (3,000 m on Low); rock texture breakup
 continues on the terrain. Node culling adds half the batch-bound diagonal to the
 instance range, matching Godot's distance measurement from the AABB center.
@@ -96,8 +99,8 @@ All background geometry has collision, shadow casting and GI contribution off.
 | High | 1.0 | 6,000 m | 74,240 |
 
 High stores 177,021 tree positions, 15,142 matching near-tree instances and 16,361
-rocks in 1,890 spatial batches, totaling 98,832,636 nominal prop triangles. Most
-belong to nearby tree
+rocks in 1,890 authored groups. Near-tree partitioning produces 2,592 runtime
+batches, totaling 98,832,636 nominal prop triangles. Most belong to nearby tree
 geometry that is culled outside 600 m. These stored counts must not be treated as visible-frame
 work. The default connector changes zero authored placements; another mountain
 seed re-seats only placements attached to the adapted apron.
@@ -146,6 +149,7 @@ heights, camera and weather remain identical between both presentations.
 ```powershell
 ./scripts/check_offmap_v3.ps1 -Views -Quick
 ./scripts/check_offmap_v3.ps1 -Views
+./scripts/check_offmap_v3.ps1 -BoundaryMotion
 ./scripts/check_offmap_v3.ps1 -FixedTiming
 ./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','godotw.ps1','--headless','--script','tests/performance_trace.gd','--','--version=15','--face=3','--trace-output=artifacts/offmap_v3/descent_input.json') -Label offmap_v3_trace -TimeoutSeconds 1200
 ./scripts/check_offmap_v3.ps1 -Descents
@@ -160,7 +164,10 @@ and also incur readback/encoding overhead. Full views include six summit
 bearings, lower chase/first-person and boundary views, Clear/Snowfall/dusk/night,
 all presets and sampled pans. The current set contains 73 matched pairs, including
 two aerial perimeter views and diagonal boundary approaches, plus 144 sampled
-motion frames. Screenshot timings are not performance evidence.
+motion frames. A separate 48-frame eye-height boundary pass travels from 2,670 to
+2,835 m radius while looking ahead, where near-tree fades and seating are visible.
+Screenshot timings are not performance evidence. `offmap_prop_benchmark.gd`
+isolates nearby trees, rocks and all props at the expensive face-2 lower view.
 
 Fixed timing uses same-process ABBA blocks. Four complete ordinary-input descents
 pair v2/v3 in Clear and Snowfall using the current validated v15/model-28 trace at
@@ -186,13 +193,21 @@ The irregular-perimeter asset occupies 24,798,121 bytes; SHA-256:
 Eight footprint checks pass, including 3,600 boundary bearings, exact partial
 triangles and transparent preview corners. All 22 geometry checks pass, including
 every exposed 4 m join vertex and a second seed using the same asset. The updated
-forest/material/bounds suite passes 15 checks; atmosphere passes 10 and lifecycle
-passes 5. The affected suite set totals 739 checks with no failures, including
+forest/material/bounds suite passes 16 checks; atmosphere passes 10 and lifecycle
+passes 5. The affected suite set totals 740 checks with no failures, including
 graphics, weather, interface, mountain library, v15 contracts, cache integrity and
 all six real startup cancellation stages (28-550 ms). Current source/export
 receipts are refreshed. Native Clear summit and boundary pairs show continuous
 snow joins, recognizable forests and natural boulders. The complete weather/motion
 set and final timing remain pending for this milestone.
+
+The first perimeter timing run (`fixed_before_prop_culling.json`) missed the added
+median GPU target: +0.790 ms, with p95/p99 ratios 1.0016/0.9977. Component isolation
+at the expensive lower view attributed about 1.5 ms to near conifers. Partitioning
+those batches at 256 m reduced their measured contribution to about 0.2 ms while
+preserving the authored asset, placement fingerprint, geometry and fade ranges.
+Preparation was 220 ms in the headless check. These component runs diagnose the
+change; the final stable full comparison below determines acceptance.
 
 The records below precede the perimeter revision and are retained as historical
 iteration evidence, not current performance or final acceptance.

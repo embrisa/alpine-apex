@@ -69,6 +69,25 @@ func run() -> void:
 			detailed_trees = detailed_trees and mat.get_shader_parameter("foliage_texture")!=null and mat.get_shader_parameter("bark_texture")!=null
 		detailed_trees = detailed_trees and wood and needles and modeled_snow
 	check(detailed_trees,"Near conifers retain the normal forest's bark, cutout needles and modeled snow asset contract")
+	var expected_near: Dictionary={}
+	for group in world.data.asset.levels[2].groups:
+		if group.kind!="near": continue
+		for i in group.buffer.size()/16:
+			var row: PackedFloat32Array=group.buffer.slice(i*16,i*16+16)
+			var height=row[7]; row[7]=0
+			expected_near[str(group.asset)+row.to_byte_array().hex_encode()]=height
+	var partition_valid=true
+	for group in world.placement.groups:
+		if group.kind!="near": continue
+		var first=Vector2i((Vector2(group.buffer[3],group.buffer[11])/256.0).floor())
+		for i in group.buffer.size()/16:
+			var row: PackedFloat32Array=group.buffer.slice(i*16,i*16+16)
+			partition_valid=partition_valid and Vector2i((Vector2(row[3],row[11])/256.0).floor())==first
+			var height=row[7]; row[7]=0
+			var key=str(group.asset)+row.to_byte_array().hex_encode()
+			partition_valid=partition_valid and expected_near.has(key) and absf(height-expected_near.get(key,INF))<.02
+			expected_near.erase(key)
+	check(partition_valid and expected_near.is_empty(),"Tighter near-tree batches preserve every authored transform and custom value, without duplicates")
 	var fingerprint: String = world.placement.fingerprint
 	await world.apply_quality(Quality.preset(0))
 	await world.apply_quality(Quality.preset(2))

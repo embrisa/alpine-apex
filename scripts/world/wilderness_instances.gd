@@ -2,6 +2,7 @@ extends RefCounted
 ## Reuse authored transforms; adapt only baked triangle anchors on the join.
 const TREE_IDS = ["forest_spruce_03", "forest_fir_02", "forest_pine_03"]
 const ROCK_IDS = ["pc_rock_boulder_1", "rock_boulder_2", "rock_gneiss_1"]
+const NEAR_TILE_M = 256.0
 var groups: Array[Dictionary] = []
 var counts: Dictionary
 var fingerprint = ""
@@ -11,6 +12,7 @@ var seating_error_m = 0.0
 var adapted_instances = 0
 func build(preset: Dictionary, apron: Array, job = null) -> void:
 	var started=Time.get_ticks_usec()
+	groups.clear(); ready=false; adapted_instances=0
 	assert(apron.size()==preset.apron_count,"Authored anchors require matching apron topology")
 	counts=preset.counts.duplicate(); seating_error_m=preset.seating_error_m
 	var context=HashingContext.new(); context.start(HashingContext.HASH_SHA256)
@@ -39,7 +41,22 @@ func build(preset: Dictionary, apron: Array, job = null) -> void:
 				buffer[offset]=basis.x.x; buffer[offset+4]=basis.x.y; buffer[offset+8]=basis.x.z
 				buffer[offset+1]=basis.y.x; buffer[offset+5]=basis.y.y; buffer[offset+9]=basis.y.z
 				buffer[offset+2]=basis.z.x; buffer[offset+6]=basis.z.y; buffer[offset+10]=basis.z.z
-		group.buffer=buffer; groups.append(group)
+		group.buffer=buffer
+		if group.kind=="near": _partition_near(group)
+		else: groups.append(group)
 		context.update(buffer.to_byte_array())
 	fingerprint=context.finish().hex_encode()
 	ready=true; build_ms=(Time.get_ticks_usec()-started)/1000.0
+
+func _partition_near(group: Dictionary) -> void:
+	# The authored kilometre tiles work for cards and rocks. Detailed conifers
+	# need tighter culling: otherwise whole groves run their vertex shaders even
+	# when every trunk is beyond the per-instance fade. Preserve every baked pose.
+	var tiles: Dictionary={}
+	var buffer: PackedFloat32Array=group.buffer
+	for i in buffer.size()/16:
+		var offset=i*16
+		var cell=Vector2i((Vector2(buffer[offset+3],buffer[offset+11])/NEAR_TILE_M).floor())
+		var values: PackedFloat32Array=tiles.get(cell,PackedFloat32Array())
+		values.append_array(buffer.slice(offset,offset+16)); tiles[cell]=values
+	for values in tiles.values(): groups.append({"kind":"near","asset":group.asset,"buffer":values})

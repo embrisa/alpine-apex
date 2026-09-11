@@ -1,4 +1,4 @@
-param([switch]$Views,[switch]$Quick,[switch]$FixedTiming,[switch]$Descents)
+param([switch]$Views,[switch]$Quick,[switch]$FixedTiming,[switch]$Descents,[switch]$BoundaryMotion)
 $ErrorActionPreference='Stop'
 $offmapRoot=Split-Path $PSScriptRoot -Parent
 $offmapDeadline=(Get-Date).AddMinutes(20)
@@ -15,8 +15,8 @@ do {
 if (-not $offmapAvailable) { throw 'Existing validation is still active. No native comparison was started.' }
 . (Join-Path $PSScriptRoot 'resolve_godot_engine.ps1')
 $offmapEngine=Get-AlpineGodotEngine -ProjectRoot $offmapRoot
-$offmapTask=if ($Descents) {'tests/offmap_v3_descent.gd'} elseif ($FixedTiming) {'tests/offmap_v3_benchmark.gd'} else {'tests/offmap_v3_playtest.gd'}
-$offmapLabel=if ($Descents) {'offmap_v3_descents'} elseif ($FixedTiming) {'offmap_v3_fixed'} elseif ($Quick) {'offmap_v3_quick'} else {'offmap_v3_views'}
+$offmapTask=if ($Descents) {'tests/offmap_v3_descent.gd'} elseif ($FixedTiming) {'tests/offmap_v3_benchmark.gd'} elseif ($BoundaryMotion) {'tests/offmap_boundary_motion.gd'} else {'tests/offmap_v3_playtest.gd'}
+$offmapLabel=if ($Descents) {'offmap_v3_descents'} elseif ($FixedTiming) {'offmap_v3_fixed'} elseif ($BoundaryMotion) {'offmap_v3_boundary_motion'} elseif ($Quick) {'offmap_v3_quick'} else {'offmap_v3_views'}
 $offmapArgs=@('--path',$offmapRoot,'--script',$offmapTask,'--','--version=15','--seed=849205174',"--benchmark-label=$offmapLabel",'--benchmark-resolution=3840x2160','--graphics-quality=high','--render-scale=0.75','--upscaler=auto','--fps-limit=120','--terrain-gi=off','--frame-generation=off','--ui-staged-loading')
 if (-not $Descents) { $offmapArgs+='--views' }
 if ($Quick) { $offmapArgs+='--quick-review' }
