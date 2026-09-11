@@ -70,6 +70,26 @@ func run() -> void:
 	await press(JOY_BUTTON_A)
 	check(keyboard.field.text.length()>0,"South enters focused character")
 	keyboard.dialog.hide()
+	# Child dialogs must be topmost even when their parent was created later.
+	var late_dialog = ConfirmationDialog.new()
+	var late_field = LineEdit.new()
+	late_field.text = "nested"
+	late_dialog.add_child(late_field)
+	root.add_child(late_dialog)
+	for i in 3: await process_frame
+	late_dialog.popup_centered(Vector2i(650,180))
+	keyboard.open(late_field)
+	for i in 3: await process_frame
+	check(game.navigation.popups.count(keyboard.dialog)==1,"Reparenting text entry retains one popup registration")
+	check(game.navigation.top_popup()==keyboard.dialog,"Reopened child text entry owns focus above a later-created parent dialog")
+	await press(JOY_BUTTON_B)
+	check(not keyboard.dialog.visible and late_dialog.visible,"Back closes only child text entry")
+	await press(JOY_BUTTON_B)
+	check(not late_dialog.visible and game.hud.weather_panel.visible,"Back closes the parent dialog before Settings")
+	# Return the reusable keyboard to the root before freeing its temporary parent.
+	keyboard.dialog.reparent(root)
+	late_dialog.queue_free()
+	await process_frame
 	game.hud.settings_tabs.current_tab = 1
 	await process_frame
 	var slider = game.hud.settings_pages.graphics_controls.snow_sparkle
@@ -81,7 +101,7 @@ func run() -> void:
 	# Exercise elapsed-time repeat deterministically: a connected physical pad may
 	# report its centered state between synthetic SDL events.
 	game.navigation.set_process(false)
-	Input.parse_input_event(motion)
+	Input.parse_input_event(motion.duplicate())
 	Input.flush_buffered_events()
 	check(slider.value==original-slider.step,"Stick direction adjusts a slider once on activation")
 	game.navigation._process(.18)
@@ -89,11 +109,11 @@ func run() -> void:
 	game.navigation._process(.3)
 	check(slider.value<original-slider.step,"Held stick repeats fine slider adjustments")
 	game.navigation.set_process(true)
-	motion.axis_value = 0.0; Input.parse_input_event(motion)
+	motion.axis_value = 0.0; Input.parse_input_event(motion.duplicate())
 	await process_frame
 	check(game.navigation.held==Vector2i.ZERO,"Stick centering clears held repeat")
 	game.navigation.family = "keyboard"
-	motion.axis_value = .12; Input.parse_input_event(motion)
+	motion.axis_value = .12; Input.parse_input_event(motion.duplicate())
 	await process_frame
 	check(game.navigation.family=="keyboard" and game.navigation.held==Vector2i.ZERO,"Analog noise cannot change device prompts or focus")
 	game.navigation.family = "gamepad"; game.navigation.device = 3

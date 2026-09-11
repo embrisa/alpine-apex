@@ -68,7 +68,7 @@ func prompts(authoring: bool = false) -> String:
 
 func _track_window(node: Node) -> void:
 	if node is Window and node!=get_tree().root:
-		popups.append(node)
+		if node not in popups: popups.append(node)
 		_attach_bridge.call_deferred(node)
 
 func _attach_bridge(window: Window) -> void:
@@ -80,6 +80,9 @@ func _attach_bridge(window: Window) -> void:
 	window.add_child(bridge)
 
 func _prepare_popup(window: Window) -> void:
+	# Activation order owns nested dialogs; reparenting must not grow the registry.
+	popups.erase(window)
+	popups.append(window)
 	# PopupMenu already derives its scale from the parent canvas in _pre_popup.
 	if window is PopupMenu: return
 	var output = get_tree().root

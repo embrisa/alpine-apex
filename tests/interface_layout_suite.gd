@@ -53,6 +53,22 @@ func run() -> void:
 	hud.hud_editor.set_mode("resize")
 	hud.hud_editor.handle_direction(Vector2i.UP)
 	check(hud.widget_layout.values.reserve!=original.reserve,"Controller moves and scales the selected composite")
+	for id in hud.widget_layout.widgets:
+		# Isolate each hit target so overlapping user layouts cannot select a sibling.
+		for other in hud.widget_layout.widgets: hud.widget_layout.values[other].visible = other==id
+		hud.hud_editor.select(id)
+		var widget = hud.widget_layout.widgets[id]
+		var start = widget.node.position+widget.size*widget.node.scale*.5
+		var before = hud.widget_layout.values[id].position
+		var button = InputEventMouseButton.new()
+		button.button_index = MOUSE_BUTTON_LEFT; button.pressed = true; button.position = start
+		hud.hud_editor.canvas._gui_input(button)
+		var drag = InputEventMouseMotion.new()
+		drag.position = start+Vector2(64 if before.x<.5 else -64,0)
+		hud.hud_editor.canvas._gui_input(drag)
+		button.pressed = false; button.position = drag.position
+		hud.hud_editor.canvas._gui_input(button)
+		check(hud.widget_layout.values[id].position!=before and not hud.hud_editor.canvas.dragging,"Mouse selects, moves and releases composite widget "+id)
 	hud.hud_editor.close(false)
 	check(hud.widget_layout.snapshot()==original and not hud.widget_layout.preview,"Cancel restores every HUD field and live ownership")
 	var path = "user://overhaul_hud_test.cfg"
