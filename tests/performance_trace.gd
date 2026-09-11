@@ -6,14 +6,27 @@ const Survey = preload("res://tests/alpine_v13_route_survey.gd")
 const Pilot = preload("res://tests/alpine_v13_pilot.gd")
 const OUTPUT = "res://artifacts/fps_optimization"
 func _initialize() -> void: call_deferred("run")
-static func identity(field) -> Dictionary:
+static func source_identity() -> Dictionary:
 	var sources = {}
 	for folder in ["res://scripts/core", "res://scripts/world/generators"]:
 		for file in DirAccess.get_files_at(folder):
 			if file.ends_with(".gd"): sources[folder+"/"+file] = FileAccess.get_sha256(folder+"/"+file)
 	for file in ["res://scripts/world/heightfield_surface.gd", "res://scripts/world/mountain_definition.gd", "res://config/ski_default.tres"]:
 		sources[file] = FileAccess.get_sha256(file)
-	return {"model":Simulation.MODEL_VERSION,"generator":field.GENERATOR_VERSION,"height":field.height_checksum,"obstacles":field.obstacle_checksum,"sources":sources}
+	return sources
+static func preflight_error(data, version: int) -> String:
+	if not data is Dictionary: return "Input trace must be a JSON object"
+	var expected = data.get("identity")
+	if not expected is Dictionary: return "Input trace has no identity"
+	if expected.get("sources") != source_identity() or int(expected.get("model",-1)) != Simulation.MODEL_VERSION or int(expected.get("generator",-1)) != version:
+		return "Benchmark rejects stale input trace sources before mountain setup"
+	var result = data.get("result")
+	if not result is Dictionary or result.get("finished") != true or result.get("crash") != "":
+		return "Benchmark requires a successful complete input trace"
+	if not data.get("commands") is Array or data.commands.is_empty(): return "Input trace has no commands"
+	return ""
+static func identity(field) -> Dictionary:
+	return {"model":Simulation.MODEL_VERSION,"generator":field.GENERATOR_VERSION,"height":field.height_checksum,"obstacles":field.obstacle_checksum,"sources":source_identity()}
 static func matches(field, expected: Dictionary) -> bool:
 	var current = identity(field)
 	return int(expected.get("model",-1))==current.model and int(expected.get("generator",-1))==current.generator and expected.get("height")==current.height and expected.get("obstacles")==current.obstacles and expected.get("sources")==current.sources
@@ -33,7 +46,8 @@ func run() -> void:
 	print("TRACE_OUTPUT ",trace_output)
 	var output_error = DirAccess.make_dir_recursive_absolute(trace_output.get_base_dir())
 	if output_error!=OK: printerr("Cannot create trace directory: ",trace_output," error=",output_error); quit(2); return
-	var field = Definition.generate(849205174,version)
+	var field = preload("res://tests/validation_mountain.gd").load_standard() if version == 15 else Definition.generate(849205174,version)
+	if field == null: quit(2); return
 	field.build_material_map()
 	var attempts = []
 	for face_index in faces:

@@ -68,8 +68,9 @@ func run() -> void:
 	check(first_eviction.evicted==[old_key] and FileAccess.file_exists(directory.path_join(new_key+".physical")),"Last-use eviction keeps the more recent recipe")
 	var eviction = Archive.evict(protected_key,4,"",directory)
 	check(eviction.bytes==4 and eviction.evicted==[new_key] and FileAccess.file_exists(directory.path_join(protected_key+".physical")),"Budget eviction protects default")
-	var field = Cache.generate(849205174)
+	var field = preload("res://tests/validation_mountain.gd").load_standard()
 	check(field!=null and field.cache_hit,"Current physical cache reusable")
+	if field == null: quit(1); return
 	var definition = Definition.from_field(field,"Contract test")
 	var decoded = Definition.decode(definition.share_text())
 	check(decoded.has("mountain") and decoded.mountain.identity()==definition.identity(),"Recipe identity survives sharing")

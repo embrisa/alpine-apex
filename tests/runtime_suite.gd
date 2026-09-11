@@ -2,6 +2,7 @@ extends SceneTree
 var checks: int = 0
 var failures: Array = []
 var game
+var timing = preload("res://tests/validation_timing.gd").new("runtime_suite")
 
 func _initialize() -> void:
 	call_deferred("run")
@@ -21,10 +22,12 @@ func key(code: Key) -> void:
 	game._unhandled_input(event)
 
 func run() -> void:
+	timing.mark("scene_setup")
 	set_meta("test_lab_fixture",true) # Explicit laboratory regression fixture.
 	game = load("res://main.tscn").instantiate()
 	root.add_child(game)
 	await process_frame
+	timing.mark("lifecycle")
 	check(not game.active and game.hud.menu.visible,"Project opens at the start screen")
 	var dial_rect: Rect2 = game.hud.speed_dial.get_global_rect()
 	check(dial_rect.position.x>=0 and dial_rect.position.y>=0 and root.get_visible_rect().encloses(dial_rect),"Speed dial stays fully inside the viewport")
@@ -95,9 +98,11 @@ func run() -> void:
 	for action in ["jump","steer_right","brake"]:
 		Input.action_release(action)
 	game.automated = false
+	timing.mark("weather_lighting_speed")
 	_weather_checks()
 	_lighting_checks()
 	_speed_band_checks()
+	timing.mark("input_camera")
 	_input_checks()
 	_camera_input_checks()
 	_camera_settings_checks()
@@ -113,16 +118,22 @@ func run() -> void:
 	await physics_frame
 	await physics_frame
 	check(game.sim.grounded,"Releasing a button held through restart is also suppressed")
+	timing.mark("jump_release")
 	await _jump_release_checks()
+	timing.mark("controller_runtime")
 	await _controller_runtime_checks()
+	timing.mark("haptic_feedback")
 	_haptic_lifecycle_checks()
 	_feedback_checks()
 	_impact_warning_checks()
+	timing.mark("impact_warning_reload")
 	await _impact_warning_reload_checks()
+	timing.mark("teardown")
 	game.active = false
 	game.queue_free()
 	await process_frame
 	var output = {"checks":checks,"failures":failures}
+	timing.finish()
 	var file = FileAccess.open("res://artifacts/runtime_results.json",FileAccess.WRITE)
 	file.store_string(JSON.stringify(output,"\t"))
 	print("RUNTIME_RESULTS ",JSON.stringify(output))

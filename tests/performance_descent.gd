@@ -31,8 +31,13 @@ func run() -> void:
 		if arg.begins_with("--repetitions="): repetitions = clampi(int(arg.get_slice("=",1)),1,10)
 		if arg.begins_with("--weather="): weather = arg.get_slice("=",1)
 	if not FileAccess.file_exists(path): printerr("Generate a current successful trace using tests/performance_trace.gd"); quit(2); return
-	trace = JSON.parse_string(FileAccess.get_file_as_string(path))
-	field = Definition.generate(849205174,version)
+	var decoded = JSON.parse_string(FileAccess.get_file_as_string(path))
+	# Reject stale inputs before loading a mountain or constructing a scene.
+	var preflight: String = Trace.preflight_error(decoded,version)
+	if not preflight.is_empty(): printerr(preflight); quit(2); return
+	trace = decoded
+	field = preload("res://tests/validation_mountain.gd").load_standard() if version == 15 else Definition.generate(849205174,version)
+	if field == null: quit(2); return
 	if not Trace.matches(field,trace.identity) or not trace.result.finished or not trace.result.crash.is_empty():
 		printerr("Benchmark rejects stale or unsuccessful input traces"); quit(2); return
 	DirAccess.make_dir_recursive_absolute(output)

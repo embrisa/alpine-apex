@@ -5,8 +5,12 @@
 Use [current source identities](ARCHITECTURE.md#current-identity), not the version
 embedded in an old filename. Run engine workloads serially through
 `scripts/run_guarded.ps1` or an owning wrapper; do not nest guards. Occupied
-`artifacts/validation.lock` means wait. The guard owns only its launched process
-tree and records timeout/engine/driver failures. Existing user apps are preserved.
+`artifacts/validation.lock` means wait. The guard waits automatically (up to
+`-WaitTimeoutSeconds 3600` by default), reports the owner when available, and
+records queue time separately from `-TimeoutSeconds` for the workload. A wait
+timeout writes a separate request receipt without replacing the active owner's
+logs. The guard owns only its launched process tree and records timeout/engine/
+driver failures. Existing user apps are preserved.
 Explicitly authorized concurrent functional checks cannot establish performance.
 
 ```powershell
@@ -20,11 +24,61 @@ can bind named-looking strings positionally. Use repository-relative trace
 output paths; an inline `res://` argument can split at its colon in PowerShell.
 Inspect actual engine errors as well as exit codes/JSON presence.
 
-`scripts/test_pc_environment.ps1 -Suites physics_suite,runtime_suite` selects a
-batch. Its full default includes expensive historical generator checks; it is
-not a routine documentation-edit requirement. Use current validated v15 Standard
-caches for mountain tests; direct generator construction is for cold/determinism
-work. Source/engine validation is mandatory even when a cache exists.
+The guard streams stage/progress/error lines and a ten-second running notice.
+Full stdout/stderr remain in `artifacts/guarded/LABEL/`; `-OutputMode all` also
+streams individual passing assertions and complete long lines. `quiet` suppresses
+child output, not lifecycle notices. Engine/parse errors fail immediately;
+assertion failures also fail the final receipt even if the child exits zero.
+
+`scripts/test_pc_environment.ps1` owns one guard when invoked directly and reuses
+an inherited guard when wrapped. It runs the entire batch serially, stops after
+the first failing suite, and records subsequent suites as `not_run` in `run.json`.
+`-ContinueOnFailure` requests the rest of the assertion-failure inventory; engine
+errors/timeouts still stop the guard. `results.json` contains completed suites,
+check counts, wall times and any emitted stage timings. Neither old logs nor
+unrun suites establish a pass. The whole suite list is checked before launch.
+
+```powershell
+./scripts/test_pc_environment.ps1 -Profile input -PlanOnly
+./scripts/test_pc_environment.ps1 -Suites controller_input_suite,haptics_suite
+./scripts/test_pc_environment.ps1 -Profile core
+```
+
+| Profile | Serial headless selection |
+|---|---|
+| `core` (default) | Physics, runtime |
+| `input` | Controller input, haptics, then physics/runtime |
+| `graphics` | Graphics settings, PC graphics settings |
+| `generation` | Current v15 estimates, archive/recipe contracts, scenery integrity |
+
+These are focused selections, not universal acceptance gates. Explicit `-Suites`
+accepts a PowerShell array or comma-separated names, including with `pwsh -File`.
+Historical generation suites are available only by explicit selection. Run the
+affected small checks while iterating, then the required complete checks after
+the change stabilizes. Repeat successful checks only for new changes or unresolved
+concerns. Documentation-only edits do not require the engine batch.
+
+Physics/runtime emit `TEST_STAGE_START` and `TEST_STAGE` with wall milliseconds;
+standalone timing JSON is in `artifacts/validation_timings/`, or the batch output
+directory. These timings expose fixture/setup/simulation costs; they are not
+rendered FPS or user acceptance.
+
+2026-09-11 single before/after headless pair: the physics suite fell from
+57.72 to 47.58 seconds after collecting the ten-second speed and speed-band
+measurements during the existing full laboratory descent. All 56 assertions and
+all non-timing result values matched; that stage fell from 20.07 to 9.50 seconds.
+Runtime retained its real scene construction/reload and passed 192 checks.
+Evidence: `artifacts/validation_turnaround/comparison.json`, `baseline/` and
+`optimized/`. This is one diagnostic pair, not a guaranteed latency bound.
+
+Warm v15 contracts, scenery-integrity checks, trace generation and production
+descent playback use `tests/validation_mountain.gd`. It reuses the production
+source/engine key, archive checksums and structural restore validation, and fails
+on a missing/incompatible Standard fixture without starting a cold bake. Prepare
+the current Standard mountain explicitly through normal generation or
+`tests/generation_v15_baseline.gd` under the guard before rerunning. Cold generation,
+cancellation, determinism, capacity and export checks remain separately selected;
+the warm profile does not replace them or skip source/engine validation.
 
 ## Check selection
 
@@ -46,6 +100,7 @@ Paths in this table are under `tests/` unless noted.
 | Audio | Wind/SFX offline/native/lifecycle, equipment observer and voice fixtures; actual listening separate |
 | Packaging | `playtest_bake_suite.gd`, `scripts/test_windows_playtest.ps1` on the actual packaged executable/PCK with isolated APPDATA |
 | Backlog/skills/docs | `python tests/test_backlog.py`, `./scripts/backlog.ps1 validate`, skill-creator `quick_validate.py`, local links/anchors and source-path checks |
+| Validation tooling | `python tests/test_validation_runner.py` (disposable Windows process/lock/pipe fixtures), physics/runtime timings, `validation_mountain_suite.gd`, `performance_trace_contract_suite.gd` |
 
 Fixtures stay unranked and use disposable preferences/records. Generated evidence
 belongs in ignored `artifacts/`, not personal bests. Source snapshots, actual
@@ -66,6 +121,14 @@ not position/solver changes. Validate trace/core/generator/tuning/terrain identi
 before playback. A failed pilot is a workload blocker, not license to substitute
 a scripted teleport descent. Check the test's selected version against the current
 baseline before producing or accepting a trace.
+
+Playback rejects stale source/model/generator identity and unsuccessful traces
+before mountain/scene setup, then still verifies terrain identity and exact
+replay completion. Use `-Repetitions 3` in one invocation to reuse the loaded
+scene across the existing independently warmed trials. This does not replace
+cold-start measurements or permit reusing old FPS results.
+`scripts/benchmark_pc.ps1` relays the engine's loading, trace and per-run progress
+while preserving full logs; the outer guard no longer hides this second layer.
 
 ```powershell
 ./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','current-v15','-Version','15','-InputTrace','artifacts/current/input.json','-Upscaler','auto','-TerrainGI','off','-FrameGeneration','off','-FrameCap','0','-Repetitions','3','-ProfileFrameCosts') -Label current-v15 -TimeoutSeconds 2400 -CollectGpuMemory

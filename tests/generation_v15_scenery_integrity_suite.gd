@@ -12,7 +12,8 @@ func check(value: bool, label: String) -> void:
 	print("PASS " if value else "FAIL ",label)
 	if not value: failures.append(label)
 func run() -> void:
-	var field = Physical.generate(849205174)
+	var field = preload("res://tests/validation_mountain.gd").load_standard()
+	if field == null: quit(1); return
 	var quality = Quality.preset(2); var job = Physical.Job.new()
 	var prepared = Preparation.new()
 	check(prepared.load_cached(field,quality,job),"Current High preparation loads")

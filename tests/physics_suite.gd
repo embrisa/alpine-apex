@@ -8,6 +8,7 @@ const DT = 1.0 / 120.0
 var failures: Array[String] = []
 var checks: int = 0
 var metrics: Dictionary = {}
+var timing = preload("res://tests/validation_timing.gd").new("physics_suite")
 
 class TestPlane:
 	extends RefCounted
@@ -66,6 +67,7 @@ func advance(sim,surface,seconds: float,frame = null) -> void:
 		sim.step(DT,controls,surface)
 
 func run() -> void:
+	timing.mark("straight_speed")
 	var slope = TestPlane.new()
 	var straight = make_sim(slope)
 	var tuck = Intent.new()
@@ -78,8 +80,11 @@ func run() -> void:
 	advance(upright,slope,20)
 	metrics.upright_20s_kmh = upright.speed_kmh()
 	check(straight.speed_kmh()>upright.speed_kmh()+15,"Tuck reduces air resistance and preserves more speed")
+	timing.mark("speed_calibration")
 	_speed_calibration()
+	timing.mark("steering_direction")
 	_steering_direction()
+	timing.mark("handling")
 	var gentle = make_sim(slope,90)
 	var sharp = make_sim(slope,90)
 	var neutral = make_sim(slope,90)
@@ -122,12 +127,19 @@ func run() -> void:
 	var cross_sim = make_sim(cross_surface,100)
 	advance(cross_sim,cross_surface,2)
 	check(absf(angle_difference(cross_sim.heading,atan2(cross_sim.ski_forward.x,cross_sim.ski_forward.z)))<0.0001,"Cross-slope contact preserves the handling axis azimuth, including neutral alignment")
+	timing.mark("energy")
 	_energy_test()
+	timing.mark("snow")
 	_snow_tests()
+	timing.mark("air")
 	_air_tests(slope)
+	timing.mark("render_rate_determinism")
 	_determinism_test(slope)
+	timing.mark("terrain_construction")
 	_terrain_tests()
+	timing.mark("tick_timing")
 	_timing_test()
+	timing.finish()
 	metrics.checks = checks
 	metrics.failures = failures
 	var file = FileAccess.open("res://artifacts/physics_results.json",FileAccess.WRITE)
@@ -232,6 +244,7 @@ func _terrain_tests() -> void:
 	var other = Terrain.new(34920)
 	check(field.heights==same.heights and field.obstacles==same.obstacles,"Same generator version and seed reconstruct identical terrain and obstacles")
 	check(field.heights!=other.heights,"Different seeds vary the laboratory landforms")
+	timing.mark("terrain_support")
 	var mesh_matches = true
 	for z in range(0,field.NZ-1,23):
 		for x in range(0,field.NX-1,11):
@@ -247,6 +260,7 @@ func _terrain_tests() -> void:
 	var b: Vector3 = ob.position+Vector3(12,0.5,0)
 	check(not field.sweep_obstacle(a,b).is_empty(),"Swept collision catches a thin obstacle between endpoints")
 	check(field.sweep_obstacle(a+Vector3.UP*50,b+Vector3.UP*50).is_empty(),"Aerial passage above an obstacle does not falsely collide")
+	timing.mark("laboratory_descent")
 	var sim = Sim.new(Tuning.new())
 	sim.reset(field.spawn_point())
 	var controls = Intent.new()
@@ -256,33 +270,32 @@ func _terrain_tests() -> void:
 	session.eligible = false
 	var max_tick = 0.0
 	var tick_count = 0
+	# These measurements share the exact same reset, terrain, input and 120 Hz
+	# trajectory. Observe them here instead of replaying it twice more. Dedicated
+	# render-rate and terrain reconstruction determinism checks remain separate.
+	var launch_speed = -1.0
+	var bands = {}
+	var collecting_bands = true
 	for i in range(10000):
 		var before: Vector3 = sim.position
 		var tick_start = Time.get_ticks_usec()
 		sim.step(DT,controls,field)
 		max_tick = maxf(max_tick,Time.get_ticks_usec()-tick_start)
 		tick_count += 1
+		if tick_count == 1200: launch_speed = sim.speed_kmh()
+		if collecting_bands and i < 7200:
+			for threshold in [30,60,90,120,150,165,200]:
+				if sim.speed_kmh() >= threshold and not bands.has(str(threshold)):
+					bands[str(threshold)] = tick_count*DT
+			if sim.position.z >= 1450 or sim.crashed: collecting_bands = false
 		if session.step(DT,before,sim.position) or sim.crashed:
 			break
 	metrics.laboratory_descent = {"seconds":session.elapsed,"finished":session.finished,"peak_kmh":sim.peak_speed*3.6,"airtime":sim.total_airtime,"crashed":sim.crashed,"reason":sim.crash_reason,"position":str(sim.position),"mean_tick_us":float(Time.get_ticks_usec()-start)/tick_count,"max_tick_us":max_tick}
 	check(session.finished and not sim.crashed,"Default clean fall-line descent reaches the finish without a forced crash")
 	check(sim.peak_speed*3.6>125 and sim.peak_speed*3.6<160,"Clean laboratory line earns elite speed without reaching the extreme risk zone")
 	check(sim.total_airtime<0.05,"Clean laboratory line retains snow contact")
-	var ordinary = Sim.new(Tuning.new())
-	ordinary.reset(field.spawn_point())
-	advance(ordinary,field,10,controls)
-	metrics.launch_10s_kmh = ordinary.speed_kmh()
-	check(ordinary.speed_kmh()>40 and ordinary.speed_kmh()<65,"Opening apron stays in ordinary skiing speeds after ten seconds")
-	var bands = {}
-	var launch = Sim.new(Tuning.new())
-	launch.reset(field.spawn_point())
-	for i in range(7200):
-		launch.step(DT,controls,field)
-		for threshold in [30,60,90,120,150,165,200]:
-			if launch.speed_kmh()>=threshold and not bands.has(str(threshold)):
-				bands[str(threshold)] = (i+1)*DT
-		if launch.position.z>=1450 or launch.crashed:
-			break
+	metrics.launch_10s_kmh = launch_speed
+	check(launch_speed>40 and launch_speed<65,"Opening apron stays in ordinary skiing speeds after ten seconds")
 	metrics.laboratory_speed_band_seconds = bands
 
 func _speed_calibration() -> void:
