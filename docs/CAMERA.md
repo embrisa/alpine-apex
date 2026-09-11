@@ -47,7 +47,7 @@ comfort; automated checks do not establish user skiing acceptance.
 ## Camera profiles and presets
 
 Open **Tools → Settings & Controls → Camera**. Third-person and first-person
-profiles are independent. Each retains its own lens, absolute tilt, speed
+profiles are independent. Each retains its own lens, reference tilt, speed
 progression, follow response, and optional motion strengths. Device look controls
 and forest visibility remain shared.
 
@@ -56,6 +56,11 @@ and forest visibility remain shared.
 | Connected (default) | 55° → 75° | 3 → 4.5 m | 3 → 3.5 m | −45° | −25° |
 | Race | 60° → 80° | 3.5 → 5.5 m | 3.5 → 4.5 m | −40° | −22° |
 | Stable | 60° fixed | 3.5 m fixed | 3.5 m fixed | −45° | −25° |
+
+Tilt values in this table are the reference aim on a 15° descent. With default
+slope following, Connected aims −30° on level ground and 0° on a 30° uphill;
+first person aims −10° and +20° respectively. This fixes the former fixed-world
+view becoming too top-down on flats and losing the route when skiing uphill.
 
 Connected uses 50% of the existing carve, tuck, load/landing, peripheral blur and
 speed-streak strengths, 35% bank, and no chatter. Race uses 100% of each existing
@@ -96,23 +101,27 @@ height and tilt. Both time constants default to 0.4 s and use exponential
 frame-rate-independent integration. Zero time applies the target directly.
 The full-effect threshold is constrained to at least 1 km/h above start speed.
 
-Rest/fast FoV is 50–120° in 1° steps. Rest/fast absolute optical tilt is −80° to
+Rest/fast FoV is 50–120° in 1° steps. Rest/fast reference tilt is −80° to
 +80° in 1° steps: **negative looks down; positive looks up**. Equal endpoints
-hold that property fixed; descending endpoints are supported. Tilt is independent
-of boom geometry, terrain look-ahead, bumps, airtime, tuck, compression and
-collision correction. Manual look is applied after the configured aim, before
-the final ±80° optical limit. Recenter returns to configured aim.
+remove speed-driven tilt changes; descending endpoints are supported.
+Slope following adds a broad directional terrain correction to the reference
+tilt. Manual look is applied afterward, before the final ±80° optical limit.
+Recenter returns to this terrain-adjusted aim. Setting slope following to 0%
+restores absolute world-space tilt.
 
 Chase distance is 1–20 m and height is 2–20 m, with 0.25 m steps.
 First-person eye height is 1–2 m and full-strength tuck lowering is 0–0.5 m,
 with 0.05 m steps. Eye position uses the profile's tuck-motion strength.
 V disables automatic speed framing and optional motion, using resting lens,
-distance, height and tilt while retaining manual look and vertical smoothing.
+distance, height and reference tilt while retaining slope following, manual
+look and vertical smoothing.
 
 Terrain clearance always wins over the configured position. Chase prefers 2 m
 above uphill snow and enforces the existing 1 m final floor. First person keeps
 its 0.8 m floor. Bounded boom probes and geology retraction remain in place.
-The viewpoint does not automatically tilt when collision raises or retracts it.
+Collision raises or retracts the camera without directly supplying optical pitch.
+Uphill terrain following rotates the chase boom around the skier as the aim
+rises, retaining the skier in view; the usual snow/rock clearance still wins.
 Extreme custom geometry/tilt combinations can crop the skier; preview them before
 riding. The preset visibility checks cover ordinary and steep support surfaces.
 
@@ -127,6 +136,23 @@ bounded lag of 1.5 m in chase and 0.2 m in first person. Horizontal translation
 follows immediately. Boom response defaults to 7.5/s and heading response to
 5.5/s; these now live in camera preferences. The duplicate physics-workbench
 camera response and unused lens tuning fields have been removed.
+
+Slope following defaults to 100%, with 0.35 s of exponential smoothing, in
+each view. It reads two terrain secants 8–20 m ahead and behind the rider in
+the viewing direction. This measures broad grade rather than local contact
+normals, rider bounce or vertical velocity. The estimator uses four bounded
+height queries per riding/preview frame; menus and fixed-tilt profiles skip it.
+Small near-rider bumps and contact-height steps do not change the grade estimate.
+The takeoff slope is held in air and resumes smoothing after landing.
+
+The correction is `slope_follow / 100 * (aim_grade + 15°)`, added to the
+configured tilt. First person uses the filtered grade directly. Chase clamps
+aim grade at a minimum of −15°: it retains its established steep-downhill view
+instead of pointing farther down and cropping the skier. Flat/uphill views rise.
+Uphill orbit adjustment uses the same filtered grade.
+Directional grade is bounded to ±65°, and the final optical limit stays ±80°.
+Shared controls, named presets and existing v2 profiles are retained; the added
+numeric settings receive their normal defaults when absent.
 
 Independent 0–100% controls scale existing carve pull-in, tuck movement,
 load/landing movement, bank, roll chatter, peripheral blur and speed streaks.
@@ -176,6 +202,9 @@ Run serially through `scripts/run_guarded.ps1`:
 - `tests/camera_suite.gd`: framing, preset projection, manual look, motion
   strengths, collision, speed/vertical response at 30/60/120/240 Hz, and bounded
   pitch through bumps, airtime and landing.
+- `tests/camera_slope_suite.gd`: directional uphill/downhill/traverse framing,
+  skier and 20 m route visibility, slope response at 30–240 Hz, takeoff hold,
+  landing recovery, fixed-tilt option and preview isolation.
 - `tests/runtime_suite.gd`, `tests/interface_suite.gd`,
   `tests/menu_camera_suite.gd`, `tests/physics_suite.gd`, and
   `tests/foliage_sight_suite.gd`: integration and unaffected boundaries.
@@ -192,6 +221,7 @@ jump/landing and steep clips, and clearly labeled synthetic bump sequences.
 stabilization and motion off. An explicit `--camera-baseline-script` can load
 the frozen pre-change camera from ignored review artifacts for a matched
 comparison; this is a test fixture, not a production compatibility path.
+Matched mode also disables slope following to preserve that absolute framing.
 Omitting these flags measures Connected. Use a current successful input trace,
 3840×2160 High, Auto FSR 75%, cap 120, frame generation/SDFGI off, and report
 actual pixels, rendered p95/p99, CPU/GPU, camera cost and memory without captures.
@@ -200,3 +230,35 @@ Automated correctness, rendered framing, measured performance, and physical
 controller/user skiing acceptance are separate. See the
 [2026-09-11 validation report](CAMERA_V2_VALIDATION.md). Raw evidence is recorded
 under `artifacts/camera_v2/` and the labeled `artifacts/pc_environment/` directories.
+
+
+### Slope-following correction, 2026-09-11
+
+All 3,708 checks passed through the serial guard: slope 650, camera 766,
+profiles 1,971, interface 114, runtime 187, menu camera 20. The slope fixtures
+cover all presets and views through 200 km/h on grades from −50° to +45°,
+including projected rider/ski-tail visibility, 20 m forward terrain, clearance,
+30/60/120/240 Hz transitions, airborne hold and preview isolation.
+
+`tests/camera_slope_playtest.gd` produced 49 successful native 3840×2160
+captures on Standard v15 seed 849205174, High, Auto FSR 75%, frame generation
+and SDFGI off. Evidence: `artifacts/pc_environment/camera_slope_final/`;
+guard logs use `camera_slope_*` labels. The matrix covers all presets and
+both views at 0 and 120 km/h on flat, downhill and uphill terrain. On the
+captured 41.25° hill, Connected chase retains −45° aim downhill and raises
+it to +11.25° uphill; flat aim is −30°. The skier remains in frame and the
+route ahead is visible. Local snow can still partially occlude the skis;
+this correction does not change snow relief or equipment placement.
+
+Two four-second sequences use the actual 120 Hz solver and 60 Hz camera,
+with 120 captured frames each at 30 fps. Chronological review covers uphill
+deceleration from 60 km/h through stopping and reversing downhill, separately
+from frozen framing. The paused uphill preview uses the same terrain response.
+The earlier full-grade chase experiment was rejected during rendered review
+because it cropped the skier on steep descents; the final chase limit above
+preserves downhill visibility.
+
+These captures include readback overhead and do not establish current rendered
+performance. The historical v2 benchmark predates slope following; no new
+capture-free performance comparison is claimed here. Physical controller feel
+and user skiing acceptance remain unverified.

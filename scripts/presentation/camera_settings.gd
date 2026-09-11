@@ -10,6 +10,7 @@ const DEFAULTS = {
 	"speed_start":0.0, "speed_full":200.0, "speed_exponent":1.6,
 	"acceleration_time":0.4, "deceleration_time":0.4,
 	"vertical_smoothing":50.0, "boom_response":7.5, "heading_response":5.5,
+	"slope_follow":100.0, "slope_smoothing":0.35,
 	"carve_strength":50.0, "tuck_strength":50.0, "compression_strength":50.0,
 	"bank_strength":35.0, "chatter_strength":0.0, "blur_strength":50.0, "streak_strength":50.0,
 }
@@ -29,6 +30,7 @@ const RANGES = {
 	"speed_exponent":Vector3(0.5,3,0.05),
 	"acceleration_time":Vector3(0,2,0.05), "deceleration_time":Vector3(0,2,0.05),
 	"vertical_smoothing":Vector3(0,100,1),
+	"slope_follow":Vector3(0,100,1), "slope_smoothing":Vector3(0,2,0.05),
 	"boom_response":Vector3(3,16,0.5), "heading_response":Vector3(1,16,0.5),
 	"carve_strength":Vector3(0,100,1), "tuck_strength":Vector3(0,100,1),
 	"compression_strength":Vector3(0,100,1), "bank_strength":Vector3(0,100,1),

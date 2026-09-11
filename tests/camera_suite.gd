@@ -498,7 +498,7 @@ func _pitch_checks() -> void:
 			camera.close_view = close
 			update(0.1)
 			var base_pitch = optical_pitch()
-			if close: check(absf(rad_to_deg(base_pitch)+25.0)<0.001,"First-person base pitch stays twenty-five degrees down at every speed")
+			if close: check(absf(rad_to_deg(base_pitch)+10.0)<0.001,"First-person flat-ground pitch stays ten degrees down at every speed")
 			camera.add_mouse_look(Vector2(900,-100))
 			update(1.0/120.0)
 			check(absf(optical_pitch()-base_pitch-deg_to_rad(10.0))<0.001,"Manual pitch is applied immediately after automatic orientation")
@@ -529,7 +529,7 @@ func _framing_checks() -> void:
 				camera.close_view = view=="first_person"
 				update(0.1)
 				var expected: Vector4 = camera.settings.framing(view,kmh)
-				check(absf(camera.fov-expected.x)<.001 and absf(rad_to_deg(optical_pitch())-expected.w)<.001,"Live framing matches evaluator: %s / %s / %d" % [view,preset,kmh])
+				check(absf(camera.fov-expected.x)<.001 and absf(rad_to_deg(optical_pitch())-(expected.w+15.0))<.001,"Live framing adds flat-ground correction to evaluator: %s / %s / %d" % [view,preset,kmh])
 				if view=="chase": check(absf(camera.boom_distance-expected.y)<.001 and absf(camera.boom_height-expected.z)<.001,"Boom uses same speed progression")
 				var before = [sim.position,sim.velocity,sim.heading,sim.ticks]
 				camera.reset()
@@ -541,7 +541,7 @@ func _framing_checks() -> void:
 		configure({"rest_fov":endpoints.x,"fast_fov":endpoints.y,"rest_tilt":-55,"fast_tilt":-35})
 		update(.1)
 		check(absf(camera.fov-lerpf(endpoints.x,endpoints.y,pow(.5,1.6)))<.001,"Custom and reversed lens endpoints")
-		check(absf(rad_to_deg(optical_pitch())-lerpf(-55,-35,pow(.5,1.6)))<.001,"Explicit tilt interpolates independently")
+		check(absf(rad_to_deg(optical_pitch())-(lerpf(-55,-35,pow(.5,1.6))+15.0))<.001,"Configured tilt interpolates independently of slope correction")
 		var pitch = optical_pitch()
 		configure({"rest_distance":12,"fast_distance":16,"rest_height":12,"fast_height":16})
 		update(3)
@@ -561,7 +561,7 @@ func _framing_checks() -> void:
 	configure({"rest_tilt":-35,"fast_tilt":-60})
 	camera.effects_enabled = false
 	update(.1)
-	check(camera.fov==55 and camera.boom_distance==3 and absf(rad_to_deg(optical_pitch())+35)<.001,"V keeps resting framing and chosen tilt")
+	check(camera.fov==55 and camera.boom_distance==3 and absf(rad_to_deg(optical_pitch())+20)<.001,"V keeps resting framing, chosen tilt and slope following")
 	reset(120)
 	camera.settings.set_value("shared","auto_recenter",false)
 	camera.settings.set_value("shared","invert_y",true)

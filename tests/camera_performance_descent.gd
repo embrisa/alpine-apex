@@ -21,6 +21,7 @@ func prepare_comparison_trial(index: int) -> void:
 	game.camera.effects_enabled = true
 	if matched:
 		game.camera_settings.apply_preset("chase","Stable")
+		game.camera_settings.update_profile("chase",{"slope_follow":0})
 		game.camera.effects_enabled = false
 	if not camera_baseline_path.is_empty():
 		game.camera.settings = load("res://artifacts/camera_v2/baseline_settings.gd").new()

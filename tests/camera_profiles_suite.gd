@@ -66,6 +66,12 @@ func _initialize() -> void:
 	var restored = Settings.new()
 	restored.restore(snapshot)
 	check(restored.snapshot()==snapshot,"Both profiles, shared controls and named presets round-trip")
+	var previous_fields = settings.snapshot()
+	for view in Settings.VIEWS:
+		previous_fields.profiles[view].erase("slope_follow")
+		previous_fields.profiles[view].erase("slope_smoothing")
+	restored.restore(previous_fields)
+	check(restored.snapshot()==settings.snapshot(),"Added slope controls receive defaults without discarding existing v2 working profiles or named presets")
 	snapshot.profiles.chase.rest_fov = 120
 	check(settings.profile("chase").rest_fov==55,"Snapshots are independent copies")
 	var path = "user://camera_profiles_test_%d.cfg" % Time.get_ticks_usec()
@@ -82,4 +88,3 @@ func _initialize() -> void:
 	check(not settings.delete_preset("chase","Connected"),"Built-ins cannot be deleted")
 	print("CAMERA_PROFILES_RESULTS ",JSON.stringify({"checks":checks,"failures":failures}))
 	quit(0 if failures.is_empty() else 1)
-

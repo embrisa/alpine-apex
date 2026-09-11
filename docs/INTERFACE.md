@@ -48,7 +48,10 @@ See [camera behavior and validation](CAMERA.md#live-menu-camera).
 
 The Camera tab provides separate third-person and first-person profiles.
 Connected defaults to 55°–75° vertical FoV, a 3–4.5 m chase distance,
-3–3.5 m height, and steady −45° chase / −25° first-person aim. Race opens
+3–3.5 m height, and −45° chase / −25° first-person reference aim on a 15°
+descent. Slope following raises the view on flats and uphill, filters small
+bumps and holds the takeoff angle during jumps. Its strength and smoothing are
+adjustable per view under Follow and stability; 0% restores fixed tilt. Race opens
 visibility; Stable fixes framing and disables optional motion. Expandable groups
 expose framing, speed progression, follow/stability, individual effects, shared
 look controls, foliage visibility and named presets. Negative tilt looks down;

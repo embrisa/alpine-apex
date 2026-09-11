@@ -73,12 +73,15 @@ func build(col: VBoxContainer, owner_hud) -> void:
 	var framing = _group(col,"Framing",true)
 	for item in [["rest_fov","FoV at rest"],["fast_fov","FoV at full-effect speed"],["rest_tilt","Tilt at rest"],["fast_tilt","Tilt at full-effect speed"],["rest_distance","Distance at rest"],["fast_distance","Distance at full-effect speed"],["rest_height","Height at rest"],["fast_height","Height at full-effect speed"],["eye_height","Eye height"],["tuck_lowering","Full-strength tuck lowering"]]:
 		_slider(framing,item[0],item[1])
-	hud._note(framing,"FoV is vertical. Negative tilt looks down; positive looks up. Terrain clearance takes priority over camera position.")
+	hud._note(framing,"FoV is vertical. Negative tilt looks down; positive looks up. With slope following, tilt is your aim on a 15° descent; flat and uphill ground lift the view. Terrain clearance takes priority.")
 	var response = _group(col,"Speed response")
 	for item in [["speed_start","Start changing at"],["speed_full","Full effect at"],["speed_exponent","Curve · early to delayed"],["acceleration_time","Acceleration smoothing"],["deceleration_time","Deceleration smoothing"]]: _slider(response,item[0],item[1])
 	hud._note(response,"Set matching rest and fast values for fixed framing. V uses resting framing and disables motion effects.")
 	var follow = _group(col,"Follow and stability")
 	for item in [["vertical_smoothing","Vertical smoothing"],["boom_response","Boom response"],["heading_response","Heading response"]]: _slider(follow,item[0],item[1])
+	_slider(follow,"slope_follow","Slope following")
+	_slider(follow,"slope_smoothing","Slope smoothing")
+	hud._note(follow,"Follow broad slope changes while filtering small bumps. 0% keeps fixed world tilt. Slope following stays active with V; jumps hold the takeoff angle.")
 	var motion = _group(col,"Motion effects")
 	for item in [["carve_strength","Carve pull-in"],["tuck_strength","Tuck movement"],["compression_strength","Load and landing movement"],["bank_strength","Bank into turns"],["chatter_strength","Roll chatter"],["blur_strength","Peripheral blur"],["streak_strength","Speed streaks"]]: _slider(motion,item[0],item[1])
 	hud._note(motion,"0% disables an effect; 100% uses its full existing strength. Camera pitch stays steady over bumps.")
@@ -168,8 +171,8 @@ static func readout(key: String, item: float) -> String:
 	if key.ends_with("fov"): return "%d°" % roundi(item)
 	if key.ends_with("tilt"): return ("%+d°" if item>0 else "%d°") % roundi(item)
 	if key in ["speed_start","speed_full"]: return "%d km/h" % roundi(item)
-	if key in ["acceleration_time","deceleration_time","recenter_delay","recenter_time"]: return "%.2f s" % item
-	if key.ends_with("_strength") or key in ["vertical_smoothing","forest_visibility","forest_visibility_size"]: return "%d%%" % roundi(item)
+	if key in ["acceleration_time","deceleration_time","recenter_delay","recenter_time","slope_smoothing"]: return "%.2f s" % item
+	if key.ends_with("_strength") or key in ["vertical_smoothing","slope_follow","forest_visibility","forest_visibility_size"]: return "%d%%" % roundi(item)
 	if key in ["stick_yaw_speed","stick_pitch_speed"]: return "%d°/s" % roundi(item)
 	if key=="mouse_sensitivity": return "%.2f°/px" % item
 	if key.ends_with("_response"): return "%.1f /s" % item

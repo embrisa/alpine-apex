@@ -1,5 +1,10 @@
 # Camera profiles and preview validation — 2026-09-11
 
+Historical scope: this report covers the fixed-world-tilt implementation through
+`e338c08`. Subsequent skiing feedback rejected its flat/uphill visibility.
+The later slope-following correction and its evidence are documented in
+[Camera](CAMERA.md); these timings do not measure that later revision.
+
 The implementation follows the Connected/Race/Stable values in [Camera](CAMERA.md).
 Camera source and interface changes were validated and pushed in `4e88937` and
 `5a0e53f`. The world during this review includes the concurrent off-map scenery

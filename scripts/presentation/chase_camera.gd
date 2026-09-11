@@ -13,6 +13,14 @@ const CRASH_SNOW_CLEARANCE = Vector2(10.0, 12.0)
 const MAX_SMOOTHING_TAU = 0.24
 const CHASE_VERTICAL_LAG = 1.5
 const FIRST_PERSON_VERTICAL_LAG = 0.2
+# Keep the saved tilt as the aim on a moderate 15-degree descent. Following
+# terrain lifts that aim on flats/uphill without changing existing profiles.
+const SLOPE_REFERENCE = -15.0 * PI / 180.0
+const SLOPE_INNER = 8.0
+const SLOPE_OUTER = 20.0
+const UPHILL_ORBIT_GAIN = 1.15
+var slope_pitch = 0.0
+var slope_initialized = false
 var close_view: bool = false
 var initialized: bool = false
 var smoothed_forward = Vector3.BACK
@@ -50,6 +58,8 @@ func reset() -> void:
 	look_yaw = 0.0
 	look_pitch = 0.0
 	stabilization_mode = -2
+	slope_initialized = false
+	slope_pitch = 0.0
 	clear_look_input()
 
 func clear_look_input() -> void:
@@ -156,6 +166,12 @@ func update_camera(sim, field, rider_position: Vector3, dt: float, menu: bool = 
 	if sim.crashed:
 		boom_height = maxf(11.25, lerpf(CRASH_HEIGHT.x, CRASH_HEIGHT.y, speed_blend) - height_offset)
 	var orbit_forward = smoothed_forward.rotated(Vector3.UP, look_yaw)
+	var slope_weight: float = profile.slope_follow / 100.0 if riding else 0.0
+	if riding and slope_weight>0.0:
+		_update_slope(field,rider_position,orbit_forward,dt,sim.grounded,profile.slope_smoothing)
+	else:
+		slope_initialized = false
+	var uphill_orbit = maxf(0.0,slope_pitch) * slope_weight * UPHILL_ORBIT_GAIN
 	var distance_value = 30.0 if summit else boom_distance
 	var height_value = 45.0 if summit else boom_height
 	var chase = not close_view and not summit and not menu
@@ -169,9 +185,12 @@ func update_camera(sim, field, rider_position: Vector3, dt: float, menu: bool = 
 		# The final collision pass enforces 1 m, allowing bumps to be smoothed.
 		var behind = rider_position - orbit_forward * distance_value
 		height_value = maxf(height_value, field.sample(behind.x, behind.z).height + preferred_clearance - rider_position.y)
-	var automatic_height = rider_position.y + height_value
 	var radius = Vector2(distance_value, height_value).length()
-	var elevation = clampf(atan2(height_value, distance_value) - look_pitch, deg_to_rad(5.0), deg_to_rad(80.0))
+	# Rotate the uphill boom around the skier as the aim rises. Simply tilting
+	# from a high world-space boom would leave the skier below the screen.
+	var automatic_elevation = atan2(height_value,distance_value)-uphill_orbit
+	var automatic_height = rider_position.y + sin(automatic_elevation)*radius
+	var elevation = clampf(atan2(height_value, distance_value) - look_pitch, deg_to_rad(5.0), deg_to_rad(80.0))-uphill_orbit
 	var desired = rider_position - orbit_forward * (cos(elevation) * radius) + Vector3.UP * (sin(elevation) * radius)
 	var manual_height = desired.y - automatic_height
 	if chase:
@@ -209,9 +228,12 @@ func update_camera(sim, field, rider_position: Vector3, dt: float, menu: bool = 
 	follow_position += position - before_clearance
 	stabilized_height = position.y - follow_manual_height
 	if mode >= 0:
-		# Explicit optical aim is independent of the boom, terrain correction and
-		# contact switches. The same evaluator supplies the paused preview.
-		var pitch = deg_to_rad(framing.w)
+		# Broad terrain grade supplies aim; rider bounce, velocity.y, clearance
+		# corrections and landing forces never supply pitch. Preview shares this.
+		# Chase already clears uphill snow on steep descents. Further downward
+		# rotation would crop the skier and replace the forward view with ground.
+		var aim_grade = slope_pitch if close_view else maxf(slope_pitch,SLOPE_REFERENCE)
+		var pitch = deg_to_rad(framing.w) + (aim_grade-SLOPE_REFERENCE)*slope_weight
 		look_at(position + smoothed_forward)
 		global_basis = Basis(Vector3.UP, look_yaw) * global_basis
 		rotate_object_local(Vector3.RIGHT, clampf(pitch + look_pitch, deg_to_rad(-80.0), deg_to_rad(80.0)))
@@ -247,6 +269,22 @@ func update_camera(sim, field, rider_position: Vector3, dt: float, menu: bool = 
 
 static func _smooth_height(previous: float, target: float, blend: float, max_lag: float) -> float:
 	return clampf(lerpf(previous, target, blend), target - max_lag, target + max_lag)
+
+func _update_slope(field, rider: Vector3, forward: Vector3, dt: float, grounded: bool, smoothing: float) -> void:
+	# Hold the takeoff aim in air; follow terrain smoothly again after contact.
+	if slope_initialized and not grounded: return
+	# Two broad secants outside the rider's immediate contact patch reject
+	# short bumps and a local height step without using a noisy contact normal.
+	var near_a = rider + forward*SLOPE_INNER
+	var far_a = rider + forward*SLOPE_OUTER
+	var near_b = rider - forward*SLOPE_INNER
+	var far_b = rider - forward*SLOPE_OUTER
+	var grade: float = ((field.sample(far_a.x,far_a.z).height-field.sample(near_a.x,near_a.z).height) + (field.sample(near_b.x,near_b.z).height-field.sample(far_b.x,far_b.z).height)) / (2.0*(SLOPE_OUTER-SLOPE_INNER))
+	if not is_finite(grade): return
+	var target = clampf(atan(grade),deg_to_rad(-65.0),deg_to_rad(65.0))
+	var blend = 1.0 if not slope_initialized or smoothing<=0.0 else 1.0-exp(-dt/smoothing)
+	slope_pitch = lerpf(slope_pitch,target,blend)
+	slope_initialized = true
 
 func _clear_terrain(field, rider_position: Vector3, first_person: bool, snow_clearance: float = 1.0) -> void:
 	position.y = maxf(position.y, field.sample(position.x, position.z).height + (0.8 if first_person else snow_clearance))
