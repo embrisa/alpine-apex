@@ -31,7 +31,7 @@ is one implementation task with small validated milestones.
 ## Current state and evidence
 
 Initial read-only inspection on 2026-09-11, with HEAD `35e29c1`. Camera source,
-tests and `docs/presentation/INTERFACE.md` had concurrent working edits; these subsequently
+tests and `docs/PRESENTATION.md` had concurrent working edits; these subsequently
 landed as `4e10f9f`. Re-read the completed state before implementation and preserve
 ownership. No implementation or acceptance of the UI overhaul occurred during
 authoring. The separately requested editor-removal pre-work and its limited
@@ -58,7 +58,7 @@ verification are recorded below.
   shared styling. [Feedback](../../scripts/ui/interface_feedback.gd) supplies
   four synthesized cues, a three-player pool, rate limiting, 160 ms reveals,
   volume/mute/reduced-motion persistence and isolated automated preferences.
-  [Interface documentation](../../docs/presentation/INTERFACE.md) describes earlier rendered
+  [Interface documentation](../../docs/PRESENTATION.md#ownership-and-navigation) describes earlier rendered
   evidence, which is historical evidence rather than acceptance of this overhaul.
 - [Input router](../../scripts/core/input_router.gd) maps rider actions;
   [main](../../scripts/main.gd) routes menu, preview, pause and gameplay events.
@@ -308,9 +308,9 @@ general art sources and external user data were not deleted.
    concise physical-controller/listening checklist and commit/push the completed
    milestones. Keep reports honest about any remaining human acceptance.
 
-Follow [engine strategy](../../docs/development/ENGINE_STRATEGY.md),
-[graphics policy](../../docs/development/GRAPHICS.md), [FidelityFX](../../docs/development/FIDELITYFX.md)
-and [input/competition boundaries](../../docs/gameplay/ONLINE_COMPETITION.md). No change
+Follow [engine strategy](../../docs/ARCHITECTURE.md#engine-strategy),
+[graphics policy](../../docs/RENDERING.md#performance-policy), [FidelityFX](../../docs/RENDERING.md#fidelityfx)
+and [input/competition boundaries](../../docs/RACING.md#future-competition). No change
 to the independent 120 Hz solver, authoritative 4 m support/contact surface,
 physical obstacle identities, flight trajectories, race rules or replay meaning
 is authorized by this UI task. Keep menu input separate from rider input and
@@ -453,11 +453,11 @@ updates add about .048 ms. The moving layout pair is 3.8% slower in mean frame
 time with improved tails, without establishing a causal UI regression. No
 quality reduction or generated-frame counting conceals those results.
 
-Maintained delivery: [interface/settings/HUD inventory and review checklist](../../docs/presentation/INTERFACE_OVERHAUL.md),
-[graphics preset contract](../../docs/development/GRAPHICS_PRESETS.md),
-[measured performance and protocol](../../docs/presentation/INTERFACE_PERFORMANCE.md),
-[structured evidence](../../docs/presentation/INTERFACE_PERFORMANCE_RESULTS.json), and
-[loading provenance](../../docs/presentation/LOADING_CONTENT.md). Raw captures/timings are
+Maintained delivery: [interface/settings/HUD inventory and review checklist](../../docs/PRESENTATION.md#ownership-and-navigation),
+[graphics preset contract](../../docs/RENDERING.md#graphics-and-display),
+[measured performance and protocol](../../docs/VALIDATION.md#performance-evidence),
+[structured evidence](../../docs/INTERFACE_PERFORMANCE_RESULTS.json), and
+[loading provenance](../../docs/ASSETS.md#branding-and-loading-art). Raw captures/timings are
 under `artifacts/interface_overhaul/` and named guarded runs. The task is complete
 under its implementation/evidence criterion; spaciousness, real-controller
 comfort, listening quality and full-descent acceptance remain for the user and
@@ -473,7 +473,7 @@ Verification: physics 56/56, runtime 187/187, production motion 77/77, native
 interface 122/122, evidence tools 13/13, skill validation and the source-reference
 audit passed. Inspected native Tools/menu/riding captures and all six diagnostic
 images for two copied historical frames. Maximum restored-bone error was
-0.0000003032 m. See [animation workflow evidence](../../docs/presentation/ANIMATION_AGENT_WORKFLOW.md#source-pose-diagnostics),
+0.0000003032 m. See [animation workflow evidence](../../docs/VALIDATION.md#animation-evidence),
 `artifacts/guarded/editor-removal-*` and `artifacts/editor_removal_20260911/`.
 This establishes the cleanup and retained diagnostic functionality; it does not
 mark UI-overhaul acceptance, current motion quality, controller feel or performance

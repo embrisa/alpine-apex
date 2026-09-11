@@ -43,9 +43,9 @@ rendered or performance validation was run during task authoring.
   [skier_visual.gd](../../scripts/presentation/skier_visual.gd) fits the result
   to support/equipment, using the sole final
   [skier_pose_writer.gd](../../scripts/presentation/skier_pose_writer.gd).
-- The earlier [Cascadeur evaluation handoff](../../docs/tasks/CASCADEUR_WORKFLOW_AND_GAMEPLAY_EVALUATION.md)
+- The earlier [Cascadeur evaluation handoff](../../docs/ANIMATION.md#retained-findings-and-acceptance)
   is historical context, not an unfinished prerequisite. The
-  [review lessons](../../docs/presentation/ANIMATION_REVIEW_LESSONS.md) document how downstream
+  [review lessons](../../docs/ANIMATION.md#retained-findings-and-acceptance) document how downstream
   posture fitting largely hid an imported R6 candidate. Verify this new action
   after the full gameplay pipeline, rather than judging export fidelity alone.
 - Backlog/archive and `docs/tasks/` inspection found no duplicate pole-pushing
@@ -88,8 +88,8 @@ rendered or performance validation was run during task authoring.
 
 ## Implementation approach
 
-1. Read [architecture](../../docs/development/ARCHITECTURE.md),
-   [competition boundaries](../../docs/gameplay/ONLINE_COMPETITION.md), and the
+1. Read [architecture](../../docs/ARCHITECTURE.md#ownership),
+   [competition boundaries](../../docs/RACING.md#future-competition), and the
    [animation skill](../../.agents/skills/alpine-animation/SKILL.md). Capture
    matched no-push baselines on flat, uphill and downhill fixtures. Keep the
    solver at 120 Hz and terrain authority on the shared 4 m support surface.
@@ -128,7 +128,7 @@ rendered or performance validation was run during task authoring.
    Inspect transitions, planted-tip sliding, clothing collisions and full shafts.
 7. Document the final curve (degrees and km/h), force/cadence, action ownership,
    controls, Cascadeur decision and measured limitations in maintained subsystem
-   documentation. Follow the [engine strategy](../../docs/development/ENGINE_STRATEGY.md)
+   documentation. Follow the [engine strategy](../../docs/ARCHITECTURE.md#engine-strategy)
    for bounded tick work; no unrelated performance rewrite is needed.
 
 ## Acceptance and verification
@@ -151,7 +151,7 @@ rendered or performance validation was run during task authoring.
 - [ ] Render and inspect complete chronological plant/push/recovery cycles and
   transitions on flat, gentle uphill, steep uphill, cutoff and downhill terrain,
   including left/right steering, braking and departure. Use the maintained
-  [pose-review workflow](../../docs/presentation/ANIMATION_AGENT_WORKFLOW.md), fresh frozen
+  [pose-review workflow](../../docs/ANIMATION.md#production-pipeline), fresh frozen
   evidence, gameplay and side/front views. Demonstrate force/phase alignment,
   source survival through final fitting, stable grips/boots and credible pole
   contact without new conspicuous clothing intersections.

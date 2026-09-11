@@ -103,7 +103,7 @@ sources = ["native/wind/sfx_dsp.h", "native/wind/sfx_stream.cpp", "native/wind/s
            "scripts/core/ski_simulation.gd", "scripts/presentation/skier_visual.gd",
            "scripts/presentation/skier_equipment.gd", "tests/sfx_audio_suite.gd", "tests/equipment_audio_suite.gd",
            "tests/natural_audio_benchmark.gd", "tests/natural_audio_playtest.gd",
-           "docs/SKIING_AUDIO.md", "addons/alpine_wind/bin/alpine_wind.windows.x86_64.dll"]
+           "docs/AUDIO.md", "addons/alpine_wind/bin/alpine_wind.windows.x86_64.dll"]
 shared_hashes_match = None
 final_dll_measured = None
 if benchmarks["before"] and benchmarks["after"]:

@@ -137,7 +137,7 @@ def main():
     for name, value in [('coordinate_summary.json', coords), ('clothing_comparison.json', clothing), ('execution_summary.json', execution), ('assessment.json', assessment)]:
         write(COMPARISON / name, value)
     shutil.copyfile(SOURCE / 'gameplay_analysis.json', COMPARISON / 'gameplay_analysis.json')
-    shutil.copyfile(ROOT / 'docs/CASCADEUR_DEEP_CARVING_R9.md', COMPARISON / 'handoff.md')
+    shutil.copyfile(ROOT / 'docs/ANIMATION.md', COMPARISON / 'handoff.md')
     shutil.copyfile(ROOT / 'artifacts/cascadeur_r9_live_playtest/ready.png', COMPARISON / 'laboratory_ready.png')
     for v, p in REVISIONS.items():
         write(p / 'provenance_check.json', reports[v])
@@ -145,7 +145,7 @@ def main():
     files = [p for p in SOURCE.rglob('*') if p.is_file() and p.suffix not in ('.pyc', '.uid') and '__pycache__' not in p.parts]
     for folder in ('tests/cascadeur_r8_playtest', 'tests/cascadeur_r9_playtest'):
         files += [p for p in (ROOT / folder).iterdir() if p.suffix in ('.gd', '.tscn', '.ps1')]
-    files += [ROOT / p for p in ('scripts/launchers/Play Cascadeur Deep Carving.ps1', 'scripts/launchers/Play Cascadeur Deep Carving.cmd', 'scripts/main.gd', 'docs/CASCADEUR_DEEP_CARVING_R9.md')]
+    files += [ROOT / p for p in ('scripts/launchers/Play Cascadeur Deep Carving.ps1', 'scripts/launchers/Play Cascadeur Deep Carving.cmd', 'scripts/main.gd', 'docs/ANIMATION.md')]
     manifest = {'created_utc': now, 'scope': 'Live handoff sources; each movie has its own frozen snapshot.',
                 'sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in sorted(files)}}
     write(SOURCE / 'handoff_manifest.json', manifest)

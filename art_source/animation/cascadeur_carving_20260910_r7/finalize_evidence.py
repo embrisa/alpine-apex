@@ -88,7 +88,7 @@ def main():
                      'cascadeur-r7-media':'Separate Videos/Chase completion, exit 0; does not turn clothing audits into passes.'}}
     write(COMPARISON / 'execution_summary.json', execution)
     shutil.copyfile(ROOT / 'artifacts/cascadeur_r7_live_playtest/ready.png', COMPARISON / 'playtest_ready.png')
-    shutil.copyfile(ROOT / 'docs/CASCADEUR_CARVING_R7.md', COMPARISON / 'handoff.md')
+    shutil.copyfile(ROOT / 'docs/ANIMATION.md', COMPARISON / 'handoff.md')
     assessment = {'created_utc':now, 'reviewer':'Codex author inspection',
                   'status':'Optional carving variant ready for user comparison',
                   'user_request':'can we do carving and maybe make it sligthly different and see if we like that more than our current?',
@@ -109,7 +109,7 @@ def main():
         write(path / 'author_assessment.json', dict(assessment, evidence_variant=v))
     files = [p for p in SOURCE.rglob('*') if p.is_file() and p.suffix not in ('.pyc','.uid') and '__pycache__' not in p.parts]
     files += [p for p in (ROOT / 'tests/cascadeur_r7_playtest').iterdir() if p.suffix in ('.gd','.tscn')]
-    files += [ROOT / p for p in ('scripts/launchers/Play Cascadeur Carving.ps1','scripts/launchers/Play Cascadeur Carving.cmd','docs/CASCADEUR_CARVING_R7.md','scripts/presentation/skier_full_motion.gd')]
+    files += [ROOT / p for p in ('scripts/launchers/Play Cascadeur Carving.ps1','scripts/launchers/Play Cascadeur Carving.cmd','docs/ANIMATION.md','scripts/presentation/skier_full_motion.gd')]
     manifest = {'created_utc':now, 'scope':'Handoff source hashes, not an adoption or quality certificate.',
                 'sha256':{p.relative_to(ROOT).as_posix():sha(p) for p in sorted(files)}}
     write(SOURCE / 'handoff_manifest.json', manifest)

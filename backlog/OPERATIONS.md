@@ -1,20 +1,14 @@
-# Backlog operation and recovery
+# Scheduled ownership protocol
 
-The production manager is a standalone local Codex automation, every 30 minutes,
-using Astra High. Workers use Astra Extra High in this checkout on `main`.
-Manager notifications are configured to failures only in the automation settings;
-workers retain normal task reporting. Keep the computer on and the app running.
-
-The manager finishes after skipping, finding no work, or confirming one worker's
-startup. Ordinary automation completion is sufficient; it does not create a
-persistent goal or supervise the worker. Pause/resume the automation through
-Codex's native scheduling tool or Scheduled UI. Reuse its saved ID from the local
-installation receipt, and inspect existing automations before creating a duplicate.
+Production: fresh local manager every 30 minutes, `gpt-6-astra` / `high`; one
+independent worker at `xhigh`, same checkout on main. Existing manager notification
+settings are failures-only. Manager ends after skip/no work/one startup snapshot;
+no persistent goal or supervision. Manage the existing automation with native
+scheduling tools using its local receipt, not a duplicate installation.
 
 ## Helper commands
 
-Requires Python 3.10+ and Git on PATH; no Python packages, services, API keys, or
-additional plugins are required. Run from the repository root:
+Python 3.10+ and Git on PATH; no third-party packages. Run at repository root:
 
 ```powershell
 ./scripts/backlog.ps1 validate
@@ -29,103 +23,75 @@ additional plugins are required. Run from the repository root:
 ./scripts/backlog.ps1 recover --snapshot backlog/.runtime/activity.json
 ```
 
-The caller defaults to `CODEX_THREAD_ID`; `--owner ID` allows explicit ownership
-when necessary. `attach` uses the original dispatching manager ID even during
-recovery by a later manager. Only do that after verifying the actual child/token.
-`--root PATH` selects a different exact Git root for isolated fixtures; production
-commands use the default repository root. `record` also accepts `--outcome blocked`.
-A manager with no prepared dispatch releases without a token.
+Caller defaults to `CODEX_THREAD_ID`; use `--owner ID` when necessary. Recovery
+`attach` uses the original manager ID only after verifying the child/token.
+`--root PATH` selects an exact Git root for isolated fixtures. `record` also
+accepts `--outcome blocked`; an unprepared manager releases without a token.
+JSON exit 0 + `skipped` is a no-op, never a bypass; exit 2 + `error` requires
+investigation. `check` is read-only preflight; status may create an ignored mutex.
+`validate` checks metadata, IDs, dependencies/cycles and ready-task open questions.
 
-Commands return JSON. Exit 0 with `status: skipped` is a successful no-op, not
-permission to ignore the reported condition. Exit 2 with `status: error` needs
-investigation. `validate` checks metadata, unique IDs, dependency references/cycles
-and ready-task open questions. `check` is the no-dispatch preflight; it does not
-claim or change task files. Helper status reads may create the ignored mutex file.
+## Activity receipts
 
-## Fresh activity receipts
-
-Use native app `list_projects` to find this checkout's project ID and native
-`list_threads(limit: 50)` for a fresh listing. Parse the tool's JSON text content.
-If a claim references another owner, also call `read_thread` for its current
-thread metadata. Save the following JSON to ignored
-`backlog/.runtime/activity.json`, using the tool output as data:
+Use native `list_projects`, `list_threads(limit: 50)` including pinned tasks,
+and exact `read_thread` for recorded owners beyond the listing. Parse native tool
+JSON; process names, titles and a separate CLI app-server are not substitutes.
+Save `backlog/.runtime/activity.json`:
 
 ```json
 {
-  "observed_at": "2026-09-11T12:00:00Z",
-  "project_id": "THE_LIVE_LOCAL_PROJECT_ID",
-  "listing": {
-    "threads": [],
-    "pinnedThreads": [],
-    "unavailableHosts": [],
-    "unavailableSources": []
-  },
+  "observed_at": "ACTUAL_UTC_TIME",
+  "project_id": "LIVE_LOCAL_PROJECT_ID",
+  "listing": {},
   "known_threads": [],
   "read_only": []
 }
 ```
 
-Replace the entire `listing` with the real native listing, not these example empty
-arrays. `observed_at` is the actual UTC observation time. `known_threads` contains
-the `thread` objects from exact reads in this same inspection. Do not manufacture
-idle statuses or recycle stale reads. Receipts expire after two minutes; refresh
-them just before claim, prepare, acceptance and recovery.
+Replace `listing` with the complete actual listing, including unavailable hosts/
+sources; `known_threads` contains exact reads' `thread` objects from this same
+inspection. Receipts expire after two minutes: refresh before claim, prepare,
+accept and recover. Do not manufacture idle states or reuse stale observations.
 
-An active planning/review conversation may be explicitly exempted with an entry
-`{"thread_id":"ID","turn_id":"CURRENT_TURN_ID","reason":"Evidence of read-only intent"}`
-in `read_only`, after reading that turn. Titles alone are insufficient. An active
-implementation waiting on input/approval still blocks. Never exempt an implementation
-worker just because it owns different files, except a specifically authorized
-isolated test fixture during setup.
-
-The desktop listing is limited to 50 recent non-pinned tasks. Known scheduled
-owners are always checked explicitly, even beyond that limit. Manually started
-agents do not participate in ownership, so detecting them is best effort. Fresh
-checks before dispatch and worker acceptance reduce the remaining race; they
-cannot prevent a manual implementation starting afterward. Unknown or unavailable
-activity prevents dispatch. These receipts are operational evidence supplied by
-the agent, not an independent security or multi-machine locking boundary.
+A verified current read-only planning/review turn may be exempted through
+`{"thread_id":"ID","turn_id":"CURRENT_TURN_ID","reason":"READ_TURN_EVIDENCE"}`.
+An implementation waiting for input/approval still blocks. Different file scope
+does not exempt another implementation, except an explicitly authorized isolated
+setup fixture. Unknown/unavailable activity blocks dispatch. Manual agents do
+not claim; detection beyond 50 non-pinned tasks is best effort. Fresh checks
+reduce races but are not a security or multi-machine lock.
 
 ## Ownership and recovery
 
-Ignored `backlog/.runtime/state.json` holds a versioned claim and last dispatch
-receipt. A short OS file lock serializes each atomic state update; the durable
-claim survives process exits. Do not commit or manually delete this local state.
-Claim states are manager, prepared dispatch, then worker. `prepare` creates a
-unique token and freezes task content; `accept` verifies the token and file hash.
-Two managers cannot claim at once, and two workers cannot accept the same token.
-Late `attach` after a fast worker completes preserves the finished receipt.
+Ignored `backlog/.runtime/state.json` stores the durable versioned claim/last
+dispatch. A short OS file lock serializes updates; a remaining mutex file does
+not mean held ownership. Do not commit/delete local ownership state.
 
-The mutex file normally remains on disk; its existence does not mean it is held.
-Neither claim age nor absence from the recent listing proves an owner stopped.
-Recovery requires an explicit native idle/notLoaded/systemError status. Unknown
-dispatch results retain the reservation until the original child can be identified.
+Transitions: manager -> prepared dispatch -> worker. `prepare` creates a unique
+token and freezes task content; `accept` verifies token/hash/ready state. Only one
+manager/worker can claim/accept; late attach preserves a fast worker's finished
+receipt. No claim timeout or absence from recent listings authorizes recovery.
 
-Recovery preserves unfinished edits and marks stopped unfinished work blocked.
-A previously explicit done record is retained as done only with clean committed
-delivery matching upstream. It does not derive success from an idle task.
-Commit/push any recovery record before another dispatch. Unrelated dirty files,
-including untracked `.uid` files, still prevent dispatch; nothing automatically
-stashes, deletes or commits them. A blocked task is eligible again only after an
-explicit retry decision or new user information resolves its blocker.
+Recovery needs explicit native idle/notLoaded/systemError evidence. Unknown
+dispatch results preserve the reservation until the original child's initial
+prompt verifies its token; never blindly create a second worker. Preserve edits
+and mark stopped unfinished work blocked. Retain a previously explicit done
+record only with clean committed delivery matching upstream. Commit/push the
+recovery record before dispatching again.
 
-If no ready task has completed dependencies, release a manager claim and finish.
-Do not invent replacement work to keep the scheduler occupied. Broad grooming
-authority applies within the project's adopted direction and explicit task
-constraints, not to overriding user design decisions or starting speculative
-backend/engine work.
+Dirty files, including untracked UIDs, block dispatch; never stash/delete/stage
+another agent's work to clear the gate. Blocked work requires an explicit retry
+decision or new user information resolving its blocker. No eligible ready task:
+release the manager claim and finish without inventing work.
 
-## Validate or reinstall
+## Validation
 
 ```powershell
 python tests/test_backlog.py
 ./scripts/backlog.ps1 validate
 ```
 
-The tests use isolated Git fixtures and a local bare test remote. They exercise
-real command concurrency, task transitions, pushed completion, dirty-workspace
-gates, recovery, and duplicate/uncertain dispatches without starting game workloads.
-Real app dispatch is checked separately with a bounded documentation fixture.
-Local installation and live-test receipts belong in `backlog/.runtime/` or
-`artifacts/backlog_setup/`; maintain portable behavior here rather than embedding
-machine-specific automation or worker IDs in tracked instructions.
+Tests use isolated Git fixtures/local bare remotes for concurrency, transitions,
+pushed completion, dirty gates, recovery and uncertain dispatch. Native app
+dispatch is a separate bounded fixture. Installation/live-test receipts belong
+in ignored `backlog/.runtime/` or `artifacts/backlog_setup/`.

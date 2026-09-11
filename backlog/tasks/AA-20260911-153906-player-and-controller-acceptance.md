@@ -17,7 +17,7 @@ Keep the outstanding human acceptance visible without allowing unattended worker
 
 ## Current state and evidence
 
-The five acceptance areas in [the roadmap](../../docs/development/ROADMAP.md) include actual controller feel, all-face/multiple-seed skiing, performance comfort, listening/aesthetics and ordinary racing usefulness. Automated and rendered reports alone cannot settle these.
+The five acceptance areas in [the roadmap](../../docs/VALIDATION.md#race-and-player-acceptance) include actual controller feel, all-face/multiple-seed skiing, performance comfort, listening/aesthetics and ordinary racing usefulness. Automated and rendered reports alone cannot settle these.
 
 ## Agreed decisions and scope
 

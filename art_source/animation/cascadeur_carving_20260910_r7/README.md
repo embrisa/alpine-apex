@@ -13,7 +13,7 @@ scripted; native AI Inbetweening and AutoPhysics are not part of this variant.
 
 The in-game experiment uses the local differences between neutral and the turn
 poses as a small layer over current carving, before its final limits/tracker.
-See [integration, controls and limitations](../../../docs/presentation/CASCADEUR_CARVING_R7.md).
+See [integration, controls and limitations](../../../docs/ANIMATION.md#retained-findings-and-acceptance).
 
 ## Re-export without overwriting evidence
 

@@ -200,7 +200,7 @@ if benchmarks:
         meets = result['frame_ms']['average_fps'] >= 90 and result['frame_ms']['p95'] <= 11.1 and result['frame_ms']['p99'] <= 16.7
         performance_statuses[weather] = 'Pass' if meets else 'Below target'
         lines.append(f"| {weather} | {number(result['render_cpu_ms'].get('p95'))} / {number(result['render_gpu_ms'].get('p95'))} | {result['physics_step_us']['p95']/1000:.2f} / {result['pilot_input_us']['p95']/1000:.2f} | {'Pass' if meets else 'Below target'} |")
-    lines += ['', 'Assessment requires mean ≥90 FPS, p95 ≤11.1 ms and p99 ≤16.7 ms, following docs/GRAPHICS.md. It does not imply a strict 90 FPS minimum.']
+    lines += ['', 'Assessment requires mean ≥90 FPS, p95 ≤11.1 ms and p99 ≤16.7 ms, following docs/RENDERING.md. It does not imply a strict 90 FPS minimum.']
     snapshot = read('artifacts/geology_v11/benchmark_snapshot.json', optional=True)
     if snapshot:
         lines += ['', 'The final runs use frozen project code so concurrent UI tasks can continue. Runtime assets and imported resources are shared, with asset/source hashes checked before and after each run.',
@@ -215,7 +215,7 @@ lines += ['', '## Driver incidents and workload policy', '',
     'A later Discord Clips APPCRASH in an AMD user-mode DLL was initially misclassified by the runner. No accompanying display reset or compositor crash was logged. The filter now records unrelated app errors without aborting validation.',
     '', '## User skiing acceptance', '', '**Pending.** Automated routes do not establish human steering feel, every possible impact or subjective visual acceptance.',
     '', '## Reproduction', '',
-    'See [GEOLOGY_V11.md](../../docs/GEOLOGY_V11.md). Regenerate with python scripts/report_geology_v11.py (CPU-only; streams one catalog asset at a time).',
+    'See [GEOLOGY_V11.md](../../docs/WORLD.md). Regenerate with python scripts/report_geology_v11.py (CPU-only; streams one catalog asset at a time).',
     '[report_inputs.json](report_inputs.json) records hashes of all reports and catalog inputs used.', '']
 OUT.mkdir(parents=True, exist_ok=True)
 (OUT / 'REPORT.md').write_text('\n'.join(lines), encoding='utf-8')

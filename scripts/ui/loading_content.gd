@@ -1,5 +1,5 @@
 extends RefCounted
-## Production-derived copy and bindings; provenance is in docs/LOADING_CONTENT.md.
+## Production-derived copy and bindings; provenance is in docs/ASSETS.md.
 const COUNT = 7
 
 static func tip(index: int, device: String = "keyboard") -> String:

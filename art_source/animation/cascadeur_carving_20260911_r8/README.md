@@ -1,7 +1,7 @@
 # R8 snow-support trial
 
 R8 retains the R7 Cascadeur upper-body source. It adds no native Cascadeur file
-or new imported leg clip. See [the handoff](../../../docs/presentation/CASCADEUR_SNOW_LEGS_R8.md)
+or new imported leg clip. See [the handoff](../../../docs/ANIMATION.md#retained-findings-and-acceptance)
 for exact user feedback, implementation, coordinates and acceptance limits.
 
 The live trial is `tests/cascadeur_r8_playtest/playtest.tscn`, launched with

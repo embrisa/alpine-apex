@@ -60,8 +60,8 @@ Read-only source inspection on 2026-09-11, at commit `1a99064`:
   [Race workshop](../../scripts/racing/race_workshop.gd) owns editor/library UI;
   [run session](../../scripts/core/run_session.gd) owns timing and record
   eligibility. Current solver model is 28 and replay layout is 5.
-  [Races](../../docs/gameplay/RACES.md) and parts of
-  [validation](../../docs/development/VALIDATION.md) still say schema 3: source takes
+  [Races](../../docs/RACING.md#race-authoring) and parts of
+  [validation](../../docs/VALIDATION.md#check-selection) still say schema 3: source takes
   precedence, and affected documentation must be corrected during this work.
 - No duplicate weather task was found in `backlog/` or `docs/tasks/`.
   The [current performance audit](AA-20260911-153903-current-4k-performance-baseline.md)
@@ -236,9 +236,9 @@ unrelated scenery/performance rewrite.
 5. Deliver small coherent validated milestones on main, including required
    assets/imports/UIDs. Update weather/daylight architecture, races, interface,
    graphics and validation documentation, plus affected competition contracts.
-   Follow [engine strategy](../../docs/development/ENGINE_STRATEGY.md),
-   [online competition boundaries](../../docs/gameplay/ONLINE_COMPETITION.md) and
-   [guarded validation](../../docs/development/VALIDATION.md).
+   Follow [engine strategy](../../docs/ARCHITECTURE.md#engine-strategy),
+   [online competition boundaries](../../docs/RACING.md#future-competition) and
+   [guarded validation](../../docs/VALIDATION.md#check-selection).
 
 ## Acceptance and verification
 

@@ -1,7 +1,7 @@
 # Cascadeur R6 editable evaluation source
 
 This is the retained task-owned R6 scene and animation export. It is not installed
-in the production motion library. [Outcome and limitations](../../../docs/presentation/CASCADEUR_WORKFLOW_EVALUATION_R6.md).
+in the production motion library. [Outcome and limitations](../../../docs/ANIMATION.md#retained-findings-and-acceptance).
 
 Open `ready_compression_r6.casc` in Cascadeur. The source has 61 solved frames
 at 30 FPS and 31 constrained point controls. R5's recovery beat 44 moves to R6

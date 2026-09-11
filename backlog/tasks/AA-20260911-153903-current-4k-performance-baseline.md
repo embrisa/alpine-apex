@@ -17,7 +17,7 @@ Establish current complete-descent performance and memory evidence on the target
 
 ## Current state and evidence
 
-[The FPS report](../../docs/development/FPS_OPTIMIZATION.md) records a dated v14/model-26 comparison with unmet p95 goals. [Engine strategy](../../docs/development/ENGINE_STRATEGY.md) distinguishes later v15 generation improvements from rendered gameplay cost. Neither is a current v15/model-28 full-descent result.
+[The FPS report](../../docs/VALIDATION.md#performance-evidence) records a dated v14/model-26 comparison with unmet p95 goals. [Engine strategy](../../docs/ARCHITECTURE.md#engine-strategy) distinguishes later v15 generation improvements from rendered gameplay cost. Neither is a current v15/model-28 full-descent result.
 
 ## Agreed decisions and scope
 
@@ -33,7 +33,7 @@ Inspect scripts/benchmark_pc.ps1, tests/performance_trace.gd and tests/performan
 - [ ] Report actual pixels, settings, p95/p99 and CPU/GPU/memory measures separately.
 - [ ] Compare results to current 11.1 ms p95 / 16.7 ms p99 goals without claiming a hard FPS minimum from averages.
 - [ ] Keep cold generation, cache loading, scene construction and rendered gameplay distinct.
-- [ ] Update docs/development/FPS_OPTIMIZATION.md and the current validation summary; commit/push.
+- [ ] Update docs/VALIDATION.md and the current validation summary; commit/push.
 
 A valid measured miss of the target is an acceptable audit result, not permission for an unplanned optimization. Suggest evidenced optimization ideas separately for the user. Human smoothness acceptance remains a follow-up.
 

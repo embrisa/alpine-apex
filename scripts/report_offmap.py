@@ -143,7 +143,7 @@ def main():
         "user_skiing": "pending",
     }
     html = '<!doctype html><meta charset="utf-8"><title>Alpine Apex - off-map scenery v2</title><style>body{margin:32px;background:#14212c;color:#e1e9ee;font:16px system-ui}h1{font-size:30px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}figure{margin:0}img{width:100%;height:auto}section{margin:40px 0}figcaption{margin-bottom:8px}pre{white-space:pre-wrap}a{color:#c9e4ff}</style>'
-    html += '<h1>Alpine Apex - off-map scenery v2</h1><p>4K output / High / 75% FSR2 / 120 FPS cap / SDFGI off. Captures show appearance; benchmark timings exclude readback. User skiing acceptance remains pending.</p><p><a href="report.json">Complete measurements, memory audits and checks</a> · <a href="../../docs/OFFMAP_V2.md">Implementation and acceptance notes</a></p>'
+    html += '<h1>Alpine Apex - off-map scenery v2</h1><p>4K output / High / 75% FSR2 / 120 FPS cap / SDFGI off. Captures show appearance; benchmark timings exclude readback. User skiing acceptance remains pending.</p><p><a href="report.json">Complete measurements, memory audits and checks</a> · <a href="../../docs/RENDERING.md">Implementation and acceptance notes</a></p>'
     html += '<h2>Measured performance</h2><table cellpadding="10"><tr><th>Scenario / scenery</th><th>Median GPU ms</th><th>Median render CPU ms</th><th>p95 frame ms</th><th>p99 frame ms</th><th>Mean draw calls</th></tr>'
     rows = []
     if abba:

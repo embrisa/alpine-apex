@@ -38,7 +38,7 @@ func find_type(node: Node, wanted: String) -> Node:
 func run() -> void:
 	verification = "--verify" in OS.get_cmdline_user_args()
 	if not FileAccess.file_exists(MODEL):
-		printerr("Build the research GLB first; see docs/STEEP_MOTION_GAMEPLAY.md.")
+		printerr("Build the research GLB first; see docs/ASSETS.md.")
 		quit(2)
 		return
 	world = Node3D.new()

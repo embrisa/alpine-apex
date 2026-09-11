@@ -26,7 +26,7 @@ if ($Stage -eq 'checks') {
     exit 0
 }
 if (-not (Test-Path "$snowRoot/artifacts/soft_snow/baseline/manifest.json")) {
-    throw 'Prepare the frozen baseline first with scripts/snapshot_snow_material.py; see docs/SOFT_SNOW.md.'
+    throw 'Prepare the frozen baseline first with scripts/snapshot_snow_material.py; see docs/RENDERING.md.'
 }
 $snowArgs = @('--script','tests/soft_snow_playtest.gd','--',"--output=res://artifacts/soft_snow/$Stage",'--graphics-quality=high','--upscaler=auto','--render-scale=0.75','--frame-generation=off','--terrain-gi=off','--ui-staged-loading')
 if ($Stage -eq 'timing') { $snowArgs += '--timing' }

@@ -1,6 +1,6 @@
 # R9 deeper carving trial
 
-See [implementation and measurements](../../../docs/presentation/CASCADEUR_DEEP_CARVING_R9.md).
+See [implementation and measurements](../../../docs/ANIMATION.md#retained-findings-and-acceptance).
 Final capture identity: `cascadeur-20260911-r9-02-{before,after}`; R8/R9 contact
 profiles on model 28 with R7 hands. Do not overwrite or regenerate into sealed
 revisions. The user's requested target was about 17 cm at deepest carve.

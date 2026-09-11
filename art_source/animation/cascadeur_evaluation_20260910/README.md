@@ -6,7 +6,7 @@ sequence uses the actual 24-bone skier with rigid boots, bindings, skis and pole
 The user rejected R4 for collapsing shoulders and shoulder/elbow wobble. These
 files preserve that rejected source; stable segment lengths missed near-180°
 torso/neck twist. Use the later R5 evidence when evaluating the correction.
-See [the evaluation](../../../docs/presentation/CASCADEUR_TRIAL_EVALUATION.md) for the decision
+See [the evaluation](../../../docs/ANIMATION.md#retained-findings-and-acceptance) for the decision
 and known limitations. Cascadeur 2026.2.2.0.16638 was used.
 
 ## Editable files

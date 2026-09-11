@@ -96,7 +96,7 @@ The retained source had 3,082,092 triangles. Local Blender preparation produced
 Reference: [reference.png](../../art_source/meshy/hands_v1/reference.png).
 Exact image-generation prompt: [reference_prompt.txt](../../art_source/meshy/hands_v1/reference_prompt.txt).
 [Credit ledger](../../art_source/meshy/hands_v1/credit_ledger.json),
-[rebuild instructions](../../docs/SKIER_HANDS.md), and
+[rebuild instructions](../../docs/ASSETS.md#skier-and-animation-sources), and
 [installed hashes](../../art_source/meshy/hands_v1/installation.json).
 
 ## Automated acceptance

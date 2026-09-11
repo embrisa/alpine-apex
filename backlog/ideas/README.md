@@ -1,32 +1,22 @@
-# Ideas for the user to review
+# Worker proposals
 
-Implementation workers may propose a few useful next steps here after their
-assigned work. These are suggestions, not authorized implementation tasks. The
-scheduled manager never dispatches, promotes, rewrites or retires these ideas on
-the user's behalf. The helper scans only `backlog/tasks/` and `backlog/archive/`.
+Ideas are suggestions for user review, outside the executable queue. The helper
+scans only `backlog/tasks/` and `backlog/archive/`; the scheduled manager never
+dispatches, promotes, rewrites or retires ideas.
 
-Use one Markdown file per distinct idea, based on the
-[idea template](../../.agents/skills/alpine-backlog/assets/idea-template.md).
-Name it `IDEA-YYYYMMDD-HHMMSS-short-slug.md` using UTC; preserve its ID. Check for
-similar existing ideas before adding another. Usually zero to three proposals
-are enough; an agent should not invent suggestions to fill a quota.
+Use [the template](../../.agents/skills/alpine-backlog/assets/idea-template.md), one
+distinct proposal per `IDEA-YYYYMMDD-HHMMSS-short-slug.md` (UTC, stable ID).
+Check duplicates. Zero to three is a useful default, not a quota. Record source
+task/worker/evidence, benefit, bounded next step and risks/questions; hypotheses
+are not proven fixes. Start `proposed`, link from source completion/final response
+and commit/push with that milestone.
 
-Each proposal links its source task, worker and evidence, explains the benefit
-and bounded next step, and records risks or questions the user should consider.
-Its status starts `proposed`. A proposal is not proof its suggested fix is correct.
-Link the ideas from the source task's completion record and the worker's final
-response, then commit/push them with that completion milestone.
+User selection invokes [alpine-backlog](../../.agents/skills/alpine-backlog/SKILL.md)
+to investigate and settle choices. Mark `accepted` with destination link only
+after the task exists; preserve proposal/rationale. Only the user can reject;
+record their reason if supplied. Unreviewed ideas remain proposed.
 
-To choose one, say: "Use $alpine-backlog to turn IDEA-ID into a task." The skill
-investigates and discusses remaining choices, saves a task when settled, then
-marks the idea `accepted` with the destination task link. Preserve the suggestion
-and its rationale; do not move an idea directly into the ready queue. If the user
-rejects one, record `rejected` with their reason if supplied. Only the user decides
-which proposals to take forward or reject. Unreviewed ideas remain `proposed`.
-
-Move closed ideas (`accepted` or `rejected`, including ideas the user retires)
-into `backlog/ideas/archive/`. Keep their IDs, decision, rationale and destination
-task link when applicable. Update incoming links and rebase relative links inside
-the moved file. Proposed ideas stay directly in `backlog/ideas/`; task records
-have their separate archive at `backlog/archive/`. Neither ideas folder is an
-executable task queue.
+Move accepted/rejected ideas (including user-retired proposals) to
+`backlog/ideas/archive/`, preserving IDs, decision, rationale and destination.
+Repair incoming links and rebase outgoing relative links. Proposed ideas remain
+here; neither directory is a task queue.

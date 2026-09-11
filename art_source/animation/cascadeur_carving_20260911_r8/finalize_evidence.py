@@ -106,14 +106,14 @@ def main():
                 'next_action':'Compare F9 during linked turns on sufficiently deep snow; assess leg readability and bank recovery.'}
     for name,data in [('clothing_comparison.json',clothing),('coordinate_example.json',coordinates),('current_model28_coordinates.json',probe),('execution_summary.json',execution),('assessment.json',assessment)]:write(COMPARISON/name,data)
     shutil.copyfile(SOURCE/'gameplay_analysis.json',COMPARISON/'gameplay_analysis.json')
-    shutil.copyfile(ROOT/'docs/CASCADEUR_SNOW_LEGS_R8.md',COMPARISON/'handoff.md')
+    shutil.copyfile(ROOT/'docs/ANIMATION.md',COMPARISON/'handoff.md')
     shutil.copyfile(ROOT/'artifacts/cascadeur_r8_model27_receipt/ready.png',COMPARISON/'model27_playtest_ready.png')
     for v,p in REVISIONS.items():
         write(p/'provenance_check.json',inspected[v])
         write(p/'author_assessment.json',dict(assessment,evidence_variant=v))
     files=[p for p in SOURCE.rglob('*') if p.is_file() and p.suffix not in ('.pyc','.uid') and '__pycache__' not in p.parts]
     files += [p for p in (ROOT/'tests/cascadeur_r8_playtest').iterdir() if p.suffix in ('.gd','.tscn','.ps1')]
-    files += [ROOT/p for p in ('scripts/launchers/Play Cascadeur Snow Carving.ps1','scripts/launchers/Play Cascadeur Snow Carving.cmd','scripts/main.gd','docs/CASCADEUR_SNOW_LEGS_R8.md')]
+    files += [ROOT/p for p in ('scripts/launchers/Play Cascadeur Snow Carving.ps1','scripts/launchers/Play Cascadeur Snow Carving.cmd','scripts/main.gd','docs/ANIMATION.md')]
     manifest={'created_utc':now,'scope':'Live R8 handoff sources. Movie snapshots separately retain the prior model-27 source.',
               'sha256':{p.relative_to(ROOT).as_posix():sha(p) for p in sorted(files)}}
     write(SOURCE/'handoff_manifest.json',manifest);write(COMPARISON/'handoff_manifest.json',manifest)

@@ -1,45 +1,66 @@
-# Alpine Apex project guidance
+# Alpine Apex agent contract
 
-Alpine Apex is a high-speed, physics-driven downhill racing game. Physics, response, frame rate and racing depth precede graphics and secondary systems. Do not replace the explicit ski model with animation-driven movement or add a predefined racing-line attractor.
+Physics, response, rendered frame rate and racing depth precede graphics and
+secondary systems. Preserve the explicit ski model; no animation-driven movement
+or racing-line attractor.
 
-## Early-development compatibility policy
+## Shared checkout
 
-- Breaking changes are expected and accepted. Prioritize fast iteration, a clean current implementation and removal of obsolete code over backward compatibility.
-- New map generators, physics models, replay formats and persistence schemas do not need to load or preserve old saved maps, races, records, personal bests, ghosts or replays. Do not add migrations, compatibility shims, fallback loaders or parallel legacy implementations solely to keep old data working unless the user explicitly requests that support.
-- When replacing a system, remove obsolete paths and update affected tests and documentation within the scope of that change. Do not retain old generators or original reconstruction behavior solely for historical saves. Keep older fixtures only when they serve an explicit current testing or comparison purpose.
-- Continue to identify current generator/model/schema versions and validate cached data so incompatible data is rejected or regenerated instead of silently mixed with current results. Versioning does not imply a promise of backward compatibility.
-- Do not ask for approval merely because a requested change invalidates old game data. This policy does not authorize unrelated cleanup or indiscriminate deletion of user files.
-- This policy takes precedence over older compatibility, reconstruction and migration requirements elsewhere in repository documentation.
+- Work directly on `main` in private `embrisa/alpine-apex`; no branches, PRs or
+  worktrees unless requested. Inspect status and fetch before edits; fast-forward
+  when safe. Coordinate overlaps and preserve concurrent work.
+- Commit/push small validated milestones, including related source/assets. Push
+  completed work before ending; report the exact blocker and unpushed commit on
+  failure. Stage only owned changes; no force-push/history rewriting.
+- Preserve asset bytes, import settings and UIDs. Large assets use LFS; commit
+  useful art milestones, not autosaves. LFS budget: **$5/month, hard stop**; no
+  increase without the user. Keep caches, tools, outputs and credentials ignored.
 
-## Git collaboration workflow
+## Boundaries
 
-- Use the private `embrisa/alpine-apex` repository and work directly on `main`. Do not create feature branches, pull requests or separate worktrees unless the user changes this policy.
-- Commit and push small, coherent, validated milestones frequently during work. Push completed work before ending the task; do not leave a completed task only in the local working tree. If pushing fails, report the specific blocker and the unpushed commit.
-- Inspect `git status` and fetch remote updates before editing. Use fast-forward updates when the working tree permits them. Preserve other agents' and the user's in-progress changes; stage only the files belonging to the milestone. Coordinate overlapping edits instead of overwriting them. Do not force-push or rewrite shared history.
-- Include required source and asset changes in the same checkpoint. Run the checks appropriate to that checkpoint; frequent commits do not replace validation. Avoid committing broken intermediate states or temporary binary autosaves.
-- Large assets use Git LFS. Keep generated output, local tools, caches and credentials ignored. Preserve file bytes, `.import` settings and `.uid` files. See [collaboration setup](docs/development/COLLABORATION.md).
-- The authorized Git LFS spending limit is $5/month with usage stopped at the limit. Do not raise it without the user. Commit useful binary-art milestones rather than every autosave, because each changed binary version adds its full size to LFS storage.
+- Breaking generator/model/schema changes are accepted. Reject/regenerate
+  incompatible data; do not add migrations, shims or legacy paths solely to
+  preserve old saves unless requested. Remove replaced paths within scope; retain old fixtures
+  only for an explicit current test. This overrides historical compatibility
+  guidance and does not authorize unrelated deletion.
+- Keep the Node-independent **120 Hz** solver and shared **4 m** terrain authority.
+  Presentation reads completed state. Preserve the Godot MCP toolkit and
+  plugin/autoload configuration.
+- Godot remains the engine. Explain major-system purpose, ownership and material
+  risks; improve measured bottlenecks within scope. No speculative engine rewrite.
+- Physics/input/session edits require `tests/physics_suite.gd` and
+  `tests/runtime_suite.gd` through `./godotw --headless --script ...`.
+  Camera/render/effect edits require rendered inspection. Keep automated,
+  rendered, performance and human/controller/listening acceptance distinct.
+- Engine workloads share `artifacts/validation.lock`; use the existing guard,
+  avoid nested guards and wait for occupied workloads. Test/lab runs never write
+  personal bests. See validation for cached mountain fixtures and isolation.
 
-## Backlog task authoring
+## Read for the task
 
-- When the user wants to turn an idea, feature, bug or improvement into a backlog task for a later agent, use [the Alpine backlog skill](.agents/skills/alpine-backlog/SKILL.md). Investigate the codebase, discuss material choices with the user, then save the agreed task according to [the backlog conventions](backlog/README.md). Respect Plan Mode write restrictions. Task authoring does not include implementing the feature or launching a worker.
-- Scheduled backlog managers and workers must follow [backlog operation and ownership](backlog/OPERATIONS.md) and their [manager](backlog/MANAGER.md) or [worker](backlog/WORKER.md) instructions. Only scheduled work uses that claim; manually started agents retain the existing collaboration workflow. A ready task is authorized for later dispatch, but unfinished drafts and blocked tasks are not.
+| Task | Guide |
+|---|---|
+| Ownership, simulation/contact changes, adopted direction | [Architecture](docs/ARCHITECTURE.md) |
+| Setup, builds, native tooling, packaging | [Development](docs/DEVELOPMENT.md) |
+| Input, contact, handling, flight, impacts, haptics | [Physics](docs/PHYSICS.md) |
+| Generation, terrain, snow support, caches, placement | [World](docs/WORLD.md) |
+| Graphics/performance, FidelityFX, snow/forest/weather rendering | [Rendering](docs/RENDERING.md) |
+| Camera, interface, HUD, loading | [Presentation](docs/PRESENTATION.md) |
+| Skier animation, anatomy, hands/poles or review | [Animation skill](.agents/skills/alpine-animation/SKILL.md), then relevant references |
+| Audio, native DSP, voice | [Audio](docs/AUDIO.md) |
+| Rider ownership, races, recordings, records, persistence | [Racing](docs/RACING.md) |
+| Asset provenance, source libraries, rebuilds | [Assets](docs/ASSETS.md) |
+| Checks, performance method, remaining acceptance | [Validation](docs/VALIDATION.md) |
 
-## Engineering guidance
+Generation/loading, scenery, simulation performance, audio and native work also
+follow [the incremental engine strategy](docs/ARCHITECTURE.md#engine-strategy).
 
-- Godot is the long-term engine direction. Read [the engine and performance strategy](docs/development/ENGINE_STRATEGY.md) when working on generation, loading, terrain/scenery, simulation performance, audio or native/engine integration. Improve measured bottlenecks through efficient data/algorithms, caching, bounded jobs, native C++ components and focused Godot changes as appropriate. A full replacement runtime is outside the current roadmap.
-- Apply that strategy incrementally in the subsystem being changed: carry out useful, evidenced improvements within the task, verify the affected workload, and record remaining opportunities in its documentation. Avoid unrelated performance rewrites, blanket C++ conversion or speculative engine-portability layers. Preserve the 120 Hz solver and shared terrain authority; faster generation and generated frames do not establish better rendered gameplay performance.
+Use [the backlog skill](.agents/skills/alpine-backlog/SKILL.md) to author agreed
+tasks; authoring does not implement or dispatch them. Scheduled agents follow
+[operations](backlog/OPERATIONS.md) and their [manager](backlog/MANAGER.md) or
+[worker](backlog/WORKER.md) role. Manual agents do not take scheduled claims.
 
-- For skier animation authoring, pose quality, retargeting, hands/poles, anatomy or animation review, read [the Alpine animation skill](.agents/skills/alpine-animation/SKILL.md) first. Its [workflow support](docs/presentation/ANIMATION_AGENT_WORKFLOW.md) maps the live pipeline, reusable commands, rejected approaches and evidence requirements. Keep one final skeleton writer, use action-specific targets, and separate mechanical checks, visual grading and user acceptance. Do not copy dated tooling from disposable review artifacts.
-
-- Graphics performance policy: target the user's Ryzen 5 5600X / RX 9070 / 16 GB PC at 3840x2160 output and 90-120 rendered FPS. High is recommended: Auto FSR at 75%, 120 rendered FPS cap, frame generation and optional SDFGI initially off. The validated custom DX12 engine provides FSR 4.1/3.1 and FSR 3 frame generation; stock Godot uses FSR2. Keep generated frames separate from rendered performance; see `docs/development/FIDELITYFX.md`. Retain Low/Balanced/High identifiers. The MacBook requirement is removed. The independent ski simulation remains 120 Hz. Measure actual pixels, p95/p99, CPU/GPU timings and memory; see `docs/development/GRAPHICS.md`.
-- Work incrementally. Explain gameplay purpose, proposed architecture and material risks before major systems. Implement the smallest useful version and measure it.
-- Read `docs/development/ARCHITECTURE.md` before changing simulation/contact. Keep the solver independent of Nodes and render frames. Use metres, seconds and radians; label debug units accurately.
-- For physics/input/session changes, run `tests/physics_suite.gd` and `tests/runtime_suite.gd` using `./godotw --headless --script ...`. For camera/render/effects changes, inspect a rendered playtest. Do not claim headless tests verify visual feel or device hardware.
-- For routine full-mountain tests, use the validated default v15 Standard bake through `MountainDefinition.generate(849205174, 15)` or `mountain_cache_v15.gd.generate(849205174)`. Explicit v14/v13 comparisons retain separate historical caches. Avoid direct generator construction unless testing cold generation or determinism. Current recipe-keyed physical and scenery caches share `user://mountain_cache_v15/` under a 2 GiB default budget; source/engine validation remains mandatory. Physical reconstruction, scenery preparation/cache reading, and rendered scene submission are separate costs. See `docs/development/GENERATION_V15.md`.
-- Preserve the user's Godot MCP toolkit in `addons/` and project plugin/autoload configuration. The ignored `.tools` folder contains a local engine, not game source.
-- The built-in mesh terrain renderer is the sole terrain path. Terrain3D was removed after it failed to establish a useful benefit; keep generated mountain data independent of the renderer.
-- Keep test/lab runs out of personal bests. Version changes that alter benchmark identity, generation or replay interpretation so incompatible data cannot be mistaken for current data; preserving old data support is not required.
-- Future social/competitive direction is recorded in [docs/gameplay/ONLINE_COMPETITION.md](docs/gameplay/ONLINE_COMPETITION.md). Consult it when changing rider input/ownership, race identities, recordings, results or persistence. Preserve local responsive skiing and offline solo play; apply its boundaries during ordinary work. Dedicated movement servers are a distant option contingent on demand and funding, and this guidance does not authorize speculative networking or backend implementation.
-- Future snowboard support belongs in a separate movement/equipment model over shared rider input and terrain contracts.
-- Normal startup uses seed 849205174 / v15 with Standard generation settings; bare and random seeds use the same all-face environment with localized physical snow formations. Drop In starts summit free skiing; timed play uses custom races. The laboratory is an explicit test fixture. See `docs/world/PLANTED_SNOW.md`, `docs/world/ALPINE_V13.md`, the retained landforms in `docs/world/ALPINE_V12.md`, and the mineral fitting contracts in `docs/world/GEOLOGY_V11.md`. Terrain/contact/tracks/survey/crash geometry share the authoritative 4 m support surface. High's local loose-snow relief is presentation only; see `docs/world/POWDER_VOLUME.md`. Document automated, rendered, performance and user skiing acceptance separately.
+Maintain one authoritative domain guide per fact. Write project-specific
+contracts, decisions, source pointers and reproducible commands; omit general
+tutorials and repeated reports. Detailed evidence goes in `artifacts/`. Preserve
+unresolved findings and provenance when removing superseded documentation.

@@ -1,6 +1,6 @@
 {
   "version": "mineral-library-v2",
-  "source": "rock_generator.blend",
+  "source": "art_source/blender/rock_generator.blend",
   "source_sha256": "f644a0d1b7505dbcd43687cba12630e39e6f7eac7f221ad067c9accf3df1687f",
   "blender_version": "5.2.1 LTS",
   "size_definition": "Longest bounding-box dimension in metres",
