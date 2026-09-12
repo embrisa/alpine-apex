@@ -34,7 +34,7 @@ performed during authoring. Read [the baseline limits](../../docs/VALIDATION.md#
 The user selected all four FPS areas for separate backlog implementation.
 Priority is P1. Order: [streaming](AA-20260912-105300-reduce-streaming-frame-spikes.md),
 [animation CPU](AA-20260912-105301-reduce-animation-cpu-cost.md), [dense-scene GPU](AA-20260912-105302-reduce-dense-scene-gpu-cost.md),
-then [batch visibility](AA-20260912-105303-improve-spatial-batch-visibility.md). Dependencies serialize shared edits and
+then [batch visibility](../archive/AA-20260912-105303-improve-spatial-batch-visibility.md). Dependencies serialize shared edits and
 performance attribution; they do not authorize this authoring task to dispatch.
 
 Own runtime preparation scheduling, allocation/resource reuse, preload decisions and publication boundaries in the three measured systems. The later batch task owns spatial batch partitioning; the GPU task owns shader/pass cost. Keep existing visible ranges and collision coverage; moving work earlier must not replace a skiing hitch with unbounded startup or memory cost. Never delay required physical support or leave a crash without its collision neighborhood.
