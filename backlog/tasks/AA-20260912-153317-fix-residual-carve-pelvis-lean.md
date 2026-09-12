@@ -1,11 +1,11 @@
 ---
 id: "AA-20260912-153317-fix-residual-carve-pelvis-lean"
 title: "Fix sideways pelvis and deep body lean after weak or released turns"
-status: ready
+status: done
 priority: P2
 depends_on: ["AA-20260912-105301-reduce-animation-cpu-cost"]
 created: "2026-09-12T15:33:17Z"
-updated: "2026-09-12T15:33:17Z"
+updated: "2026-09-12T21:09:31Z"
 source_thread: "01a0960f-732c-73f3-a61c-5eef64ebab21"
 ---
 
@@ -180,36 +180,36 @@ it to fresh outputs and cached current mountain loading before running it.
 
 ## Acceptance and verification
 
-- [ ] The retained low-curvature reversal failure is reproducible before the
+- [x] The retained low-curvature reversal failure is reproducible before the
   change and rejected by a focused regression. Both 25/40 m/s mirrored cases
   settle their pelvis/body within declared neutral-relative and temporal bounds
   without retaining the observed ~26–29 degrees / 0.36–0.41 m sideways stance.
   Report peak residual, duration, settling time and source/requested/final values.
-- [ ] Slight held inputs and 50/150 ms taps remain subtle; real sustained loaded
+- [x] Slight held inputs and 50/150 ms taps remain subtle; real sustained loaded
   55/100% turns retain strong lean and control. Direction, reversal response and
   supported transition behavior remain correct across mirrored slopes and speeds.
-- [ ] Inspect complete relevant entry/hold/reversal/release chronology and
+- [x] Inspect complete relevant entry/hold/reversal/release chronology and
   neighboring tuck/hop/landing phases in native chase and anatomical views,
   with world-up measurements and all equipment visible where relevant. Verify
   cuff/limb limits, connected skis/grips, clothing clearance and no new snaps.
   Matched controls/cameras are required; physics differences must be reported,
   not masked by demanding obsolete trajectory equality after an authorized fix.
-- [ ] Run the focused residual regression and current carve response/entry/
+- [x] Run the focused residual regression and current carve response/entry/
   proportional, animation/motion/anatomy, attachment, pole, landing and ghost/
   replay checks relevant to changed owners. Run `tests/physics_suite.gd` and
   `tests/runtime_suite.gd` via `./godotw --headless --script ...` for physics,
   input or session edits. Reproduce pre-existing failures on the before source;
   do not relax assertions to hide new failures.
-- [ ] Preserve deterministic physics/recording in the new model, presentation
+- [x] Preserve deterministic physics/recording in the new model, presentation
   isolation, fixed clocks and test-store isolation. For physical changes, compare
   actual turn radius/yaw, speed loss, stopping/settling and contact/impact behavior
   on matched inputs; document intentional differences and remaining risks.
-- [ ] Use the serial validation guard and short bounded probes; production
+- [x] Use the serial validation guard and short bounded probes; production
   performance checks use independently warmed, capture-free 15–30 second
   sections. Compare three before/after runs for animation/pose cost and rendered
   frame p95/p99 if the implementation changes those costs. Do not sacrifice the
   retained optimization or claim whole-route FPS from a local sample.
-- [ ] Update the owning Animation/Physics guide with the resolved mechanism and
+- [x] Update the owning Animation/Physics guide with the resolved mechanism and
   remaining limitations. Preserve this evidence until a reviewed replacement is
   retained, link exact source/engine identities, and commit/push the validated
   fix with its tests/assets and completion record.
@@ -225,9 +225,101 @@ None
 
 ## Completion record
 
-Pending implementation. Record the demonstrated root cause, changed owners,
-before/after evidence, any intentional physical/model changes, actual checks,
-rendered and handling results, remaining human acceptance, guide updates and
-commit/push references. If blocked, record the concrete cause and remaining
-work. Link separate proposals in `backlog/ideas/`, or state that none were made;
-they require user selection before authoring new tasks.
+Completed manually; no scheduled claim or downstream dispatch. Implementation,
+regression/capture fixtures and owning guides committed and pushed to `main` as
+**ee917a8**. Baseline production source is `0594a9b`; intervening `654c18c` only
+adds another task's rock performance fixture/documentation. Physics model is now
+30; replay format 7, input width 9 and race schema 6 remain unchanged. Existing
+compatibility checks reject model 29 recordings. Engine identity matches the
+preserved worker SHA256 above. No assets or production presentation code changed.
+
+**Cause and correction:** the bank-following edge-goal restriction kept the boots
+deeply edged after requested edge/path curvature faded. Rigid-cuff leg fitting
+then displaced the pelvis even with nearly upright requested torso. The sole
+runtime change releases that restriction at <=10% steering, smoothly restoring
+it by 25%. Actual skis still use their loaded response, maximum-edge clamp and
+3 rad/s motor limit. Balance integration, anatomical limits and presentation
+ownership are intact. The aggregate bank can still transiently overshoot during
+release; this fix addresses equipment unwind and the resulting connected stance.
+
+At the original measured tick 273, source posture root X changes -0.021526 to
+-0.021420 m, requested hips X -0.138504 to -0.006960 m and pelvis fitting correction
+0.476377 to 0.115296 m. Final body lean changes 26.562 to 4.892 degrees and lateral
+pelvis 0.400458 to 0.084491 m. Actual edges unwind from -0.899/-0.932 rad to near
+zero. Physical bank is still 1.131 rad versus 0.953 before at that instant.
+
+Matched peaks in the original tick >240 / |path acceleration| <0.5 window
+(body and pelvis maxima are measured independently):
+
+| Speed / initial direction | Body degrees before -> after | Pelvis m before -> after | Settling s before -> after |
+|---|---:|---:|---:|
+| 25 m/s / -1 | 27.260 -> 4.895 | 0.4005 -> 0.0862 | 1.117 -> 0.083 |
+| 25 m/s / +1 | 26.059 -> 4.911 | 0.3807 -> 0.0802 | 1.067 -> 0.067 |
+| 40 m/s / -1 | 28.601 -> 5.299 | 0.4137 -> 0.0870 | 0.983 -> 0.083 |
+| 40 m/s / +1 | 28.267 -> 4.463 | 0.4182 -> 0.0781 | 0.950 -> 0.067 |
+
+The maintained 50-case regression fails 18/276 checks on the original source and
+passes all 276 after. The neutral-relative envelope is 12 degrees / 0.15 m after
+0.5 s release and 0.25 s sustained low curvature, with no edge-saturation exemption.
+Residual violation duration in that window falls from 0.333/0.300/0.233/0.217 s
+to zero. Separate bounds cover held weak exits and 50/150 ms taps.
+
+**Handling:** eight strong held-steer/reversal metrics at 60-200 km/h and tuck
+0/1 match the original model exactly (response, radius, speed, arc). Strong loaded
+controls retain 35-43 degree peak lean. Original 55% reversals differ after release
+by <=0.015 m position / 0.025 m/s speed. Longer strong-hold releases differ by up
+to 0.374 m / 0.0812 m/s, with unchanged heading, because edges alter exit support
+and grip. Fresh 5/10% holds differ by <=0.0011 m position; weak exits end at
+2.1-5.8 degrees. Sixteen matched four-second uneven snow cases cover mirrored
+cross-slopes, two speeds/roughnesses, weak input and reversal with 64 passing
+support/reach/contact checks. No crash or unsupported grip was introduced.
+
+**Automated:** 2,388 passing assertions across 23 suites; 19 suites fully pass,
+including physics (56), runtime (192), carve response/entry/proportional
+(52/64/579), residual (276), animation CPU (72), anatomy/turn anatomy/attachments,
+landing/flight, rock, ghost/crash replay, handling and tuck contact. Current snow
+contracts add 26 passes, apart from the 64 uneven-snow checks above. Nine failures
+in four suites reproduce exactly on original source: animation 3 (neck gaze,
+tuck hands, impact back), motion 1 (tuck hand easing), pole pose 2 (28/34-degree
+continuity), pole contact 3 (brake departure and steep10/steep5 continuity).
+Assertions were not weakened. Historical model-27 snow fixtures were unavailable;
+current bounded support checks do not relabel them as a new baseline.
+
+**Rendered:** matched before/after native production captures each preserve
+4,800 frozen poses over 14 scenarios, 3,148 rear/front/side anatomical images at
+60 Hz and 2,400 chase images at 30 Hz. Author framewise review covers complete
+changed entry/hold/reversal/release and tuck/hop/landing neighborhoods. Equipment
+stays connected, strong carving stays deep, and residual sideways stance resolves
+without new visible snaps. Inputs and camera configuration match; physical
+changes are reported above. Restored bone error is <0.8 micrometres. Hop takeoff
+and landing remain ticks 481/560. These are analytic planes, not full-route review.
+
+**Clothing:** five-ray, 6 mm skinned shaft audit checks every one of the 2,060
+geometry-changed frame pairs in both revisions; the other 2,740 are exactly equal
+in all final bones, poles, skis and actor root. Intersecting frames fall 239 -> 171,
+with no new intersecting frame or frame/side/material contact. Remaining 83/88
+frames in the two tuck cases are baseline clipping. Absolute mesh audits still
+fail there; the differential regression passes. This is not a game-wide mesh
+all-clear. The existing tuck finding and nine assertions remain unresolved.
+
+**Load/performance boundary:** all work during the raid was headless at Idle
+priority on two logical CPUs. After the user closed WoW, native review ran serially
+at BelowNormal priority with small offscreen views capped at 60 FPS. Production
+animation algorithms/assets are byte-identical and their 72 CPU-optimization
+contracts pass; the conditional three-run animation-cost benchmark was not
+triggered by this edge-control change. No new production FPS or whole-route
+performance claim. Human visual preference, physical-controller comfort and skiing
+feel remain pending separately from this completed implementation.
+
+**Evidence:** retain both `artifacts/pelvis_residual/20260912-baseline/` and
+`artifacts/pelvis_residual/20260912-fix/` through review. The latter contains
+`EVIDENCE.md`, exact SHA256 in `identity-final-source.json`, `final-comparison.json`,
+`validation-summary.json`, `preexisting-comparison.json`, `uneven-comparison.json`,
+`author-review.json`, `mesh-comparison.json`, full `final-before/` and `final-after/`
+captures, and `before-after.png`. Guides updated: Animation, Physics, Architecture.
+Detailed logs distinguish the final fix from rejected balance-braking probes.
+Cleanup of superseded task outputs was deferred: another task owns the validation
+lock (`dense-gpu-tree-skip-pilot`). `cleanup-receipt.json` records zero deletions;
+`cleanup-owned.ps1` is limited to this task's obsolete copies. Active-review
+evidence is retained intentionally.
+No separate ideas or new backlog tasks were proposed.
