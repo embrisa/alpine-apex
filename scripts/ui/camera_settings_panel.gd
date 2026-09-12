@@ -28,6 +28,7 @@ var preview_supported = false
 var saved_offsets = Vector4.ZERO
 var hidden_shell_controls: Array[Control] = []
 var can_resume = false
+var motion_blur_note: Label
 
 func build(col: VBoxContainer, owner_hud) -> void:
 	hud = owner_hud
@@ -83,6 +84,17 @@ func build(col: VBoxContainer, owner_hud) -> void:
 	_slider(follow,"slope_smoothing","Slope smoothing")
 	hud._note(follow,"Follow broad slope changes while filtering small bumps. 0% keeps fixed world tilt. Slope following stays active with V; jumps hold the takeoff angle.")
 	var motion = _group(col,"Motion effects")
+	var blur_toggle = CheckButton.new()
+	blur_toggle.name = "motion_blur_enabled"
+	blur_toggle.text = "Motion blur"
+	motion.add_child(blur_toggle)
+	controls.motion_blur_enabled = blur_toggle
+	blur_toggle.toggled.connect(func(on): hud.camera_setting_requested.emit(view,"motion_blur_enabled",on))
+	_slider(motion,"motion_blur_strength","Motion blur strength")
+	motion_blur_note = hud._label("",14,hud.MUTED)
+	motion_blur_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	motion.add_child(motion_blur_note)
+	set_motion_blur_availability(preload("res://scripts/presentation/scene_motion_blur.gd").unavailable_reason())
 	for item in [["carve_strength","Carve pull-in"],["tuck_strength","Tuck movement"],["compression_strength","Load and landing movement"],["bank_strength","Bank into turns"],["chatter_strength","Roll chatter"],["blur_strength","Peripheral blur"],["streak_strength","Speed streaks"]]: _slider(motion,item[0],item[1])
 	hud._note(motion,"0% disables an effect; 100% uses its full existing strength. Camera pitch stays steady over bumps.")
 	var look = _group(col,"Look controls · both views")
@@ -146,6 +158,13 @@ func _group(parent: Control, title: String, expanded: bool = false) -> VBoxConta
 	)
 	groups[title] = {"button":toggle,"content":content}
 	return content
+
+func set_motion_blur_availability(reason: String) -> void:
+	controls.motion_blur_enabled.disabled = not reason.is_empty()
+	controls.motion_blur_strength.editable = reason.is_empty()
+	var caption = "Follows scene movement. Off retains strength; 0% also disables it. Hidden in preview and with reduced interface motion."
+	if not reason.is_empty(): caption = "Motion blur unavailable: "+reason
+	if motion_blur_note.text!=caption: motion_blur_note.text = caption
 
 func _slider(parent: Control, key: String, caption: String) -> void:
 	var field = hud._settings_field(parent,caption)

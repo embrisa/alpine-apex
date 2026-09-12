@@ -13,6 +13,7 @@ const DEFAULTS = {
 	"slope_follow":100.0, "slope_smoothing":0.35,
 	"carve_strength":50.0, "tuck_strength":50.0, "compression_strength":50.0,
 	"bank_strength":35.0, "chatter_strength":0.0, "blur_strength":50.0, "streak_strength":50.0,
+	"motion_blur_enabled":false, "motion_blur_strength":50.0,
 }
 const SHARED_DEFAULTS = {
 	"mouse_sensitivity":0.1, "stick_yaw_speed":150.0, "stick_pitch_speed":100.0,
@@ -36,6 +37,7 @@ const RANGES = {
 	"compression_strength":Vector3(0,100,1), "bank_strength":Vector3(0,100,1),
 	"chatter_strength":Vector3(0,100,1), "blur_strength":Vector3(0,100,1),
 	"streak_strength":Vector3(0,100,1),
+	"motion_blur_strength":Vector3(0,100,1),
 	"mouse_sensitivity":Vector3(0.01,0.5,0.01),
 	"stick_yaw_speed":Vector3(30,360,5), "stick_pitch_speed":Vector3(30,240,5),
 	"stick_deadzone":Vector3(0.05,0.4,0.01), "stick_exponent":Vector3(1,3,0.05),
@@ -61,6 +63,9 @@ static func defaults(view: String, preset: String = "Connected") -> Dictionary:
 		result.merge({"rest_fov":60.0,"fast_fov":60.0,"rest_distance":3.5,"fast_distance":3.5,"rest_height":3.5,"fast_height":3.5,"vertical_smoothing":75.0},true)
 		for key in result:
 			if key.ends_with("_strength"): result[key] = 0.0
+	# Scene blur is opt-in even in Race; do not inherit its broad strength loop.
+	result.motion_blur_enabled = false
+	result.motion_blur_strength = 0.0 if preset=="Stable" else 50.0
 	return result
 
 func profile(view: String) -> Dictionary:

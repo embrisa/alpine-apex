@@ -20,6 +20,9 @@ func check(value: bool, caption: String) -> void:
 func run() -> void:
 	set_meta("test_lab_fixture",true) # Explicit laboratory regression fixture.
 	rendered = DisplayServer.get_name() != "headless"
+	# The custom headless display defaults to 64x64, below any supported UI.
+	# Layout assertions still need a real logical viewport; no pixels are drawn.
+	if not rendered: root.size = Vector2i(1440,900)
 	DirAccess.make_dir_recursive_absolute("res://artifacts/ui_refresh")
 	game = load("res://main.tscn").instantiate()
 	game.automated = true

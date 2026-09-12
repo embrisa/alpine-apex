@@ -1,11 +1,11 @@
 ---
 id: "AA-20260912-004402-scene-motion-blur"
 title: "Add configurable scene-motion blur for speed feel"
-status: ready
+status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-12T00:44:02Z"
-updated: "2026-09-12T00:44:02Z"
+updated: "2026-09-12T18:48:00Z"
 source_thread: "01a0930e-ba9f-77c2-80fd-defb3dea4672"
 ---
 
@@ -103,7 +103,7 @@ the feature without a broader renderer redesign, record that concrete blocker.
 
 ## Acceptance and verification
 
-- [ ] Both views expose working On/Off and 0-100% strength controls, live apply,
+- [x] Both views expose working On/Off and 0-100% strength controls, live apply,
   independent persistence, named-preset round trips, reset and controller focus.
   Invalid/nonfinite settings remain safe. Off/zero perform no blur-only GPU work.
 - [ ] Native chronological comparisons show Off, medium and maximum strength
@@ -114,7 +114,7 @@ the feature without a broader renderer redesign, record that concrete blocker.
 - [ ] HUD/text and warning remain readable and unblurred; inspect disocclusions,
   silhouette bleeding, long trails and periphery/streak combinations. Confirm all
   suppression and lifecycle cases above, including the stationary camera preview.
-- [ ] Extend meaningful settings/lifecycle checks and run, as one guarded batch:
+- [x] Extend meaningful settings/lifecycle checks and run, as one guarded batch:
   `./scripts/test_pc_environment.ps1 -Suites camera_profiles_suite,camera_suite,menu_camera_suite,interface_suite,graphics_suite,pc_graphics_suite,fidelityfx_settings_suite`.
   Add focused motion-effect checks where these suites lack coverage. If changes
   touch physics/input/session behavior, also run the required physics/runtime
@@ -149,7 +149,45 @@ None.
 
 ## Completion record
 
-Pending implementation. Record actual verification, remaining human acceptance,
-documentation and commit/push references. If blocked, name the concrete blocker
-and unfinished work. Link any separate proposals in `backlog/ideas/`, or state
-that none were proposed. Authoring this task does not implement or dispatch it.
+Implemented manually on 2026-09-12; qualification remains blocked on the deferred
+full-resolution/performance matrix. The user is raiding Mount Hyjal and explicitly
+selected **short capped visual checks; defer 4K FPS benchmarks**. Do not treat the
+concurrent WoW run or the 30 FPS cap as a performance baseline or a target failure.
+No scheduled claim was taken. No separate proposals were added.
+
+- Added the riding-camera compositor, depth/velocity compute shader, per-view
+  On/Off and retained strength, availability explanation and lifecycle resets.
+  Defaults stay Off in every built-in. Rendering owns implementation/order/cost;
+  Presentation owns controls/defaults. Physics, inputs and race/replay formats
+  were not edited.
+- Required seven suites plus `scene_motion_blur_suite` passed **3,000 checks**
+  in one guarded batch: `artifacts/scene_motion_blur/headless_final/`.
+  The interface suite previously measured a 64x64 headless window; baseline and
+  current HUD had identical failing geometry. Its fixture now explicitly uses
+  1440x900. See `baseline_ui/geometry.json`; no product layout was changed.
+- Custom DX12 small-scene probe: **71 checks**; official stock 4.7.2 DX12
+  fallback: **48 checks**. Native/Auto, Off/50/100, Native MSAA, FG off/on where
+  supported, stationary motion, resize and Off dispatch bypass are exercised.
+  Captures show directional blur, pixel-identical stationary Off/100 frames,
+  and a pixel-identical opaque HUD region across strengths.
+- Production-game lab: **23 checks**, seven matched three-second input sequences
+  (21 seconds total), Off/50/100 in both views plus combined peripheral/streaks.
+  Started at 160 km/h, sampled approximately 86–148 km/h; carve, jump/airtime,
+  braking, manual look, skier/skis/poles and snowfall were observed. At 960x540
+  output/720x405 internal and preset 4 this is scoped visual/dispatch evidence.
+  Native Camera-controls/focus probe: **5 checks**, both view captures.
+- Evidence and exact commands: `artifacts/scene_motion_blur/README.md`,
+  `sources.json`, `native/`, `stock/`, `game/`, `ui/`; corresponding serial guard
+  receipts are `artifacts/guarded/scene-blur-*`. Retain this evidence for the
+  pending review. Source/shader/test UID companions are included in delivery.
+
+Still required before marking done: matched three-repeat 3840x2160 High
+Off/50/100 GPU/memory/rendered FPS/p95/p99 measurements (including baseline
+Off regression), fullscreen/FG transitions, full-resolution near-obstacle/gate/
+hollow/disocclusion and transparent-weather inspection, 200 km/h and low-speed
+coverage, and the remaining complete lifecycle/visual matrix. The enabled range
+is provisional until that qualification; transparent pixels use opaque depth/
+velocity supplied by Godot. Human/controller comfort and perceived-speed
+acceptance remain separately pending.
+
+Delivery commit/push references: recorded after the implementation milestone.

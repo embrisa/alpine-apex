@@ -223,6 +223,17 @@ manual look and vertical smoothing. Optional motion controls never disable the
 separate impact-reserve warning. Streak strength also scales exaggerated weather
 stretching, not physical weather.
 
+Camera > Motion effects also exposes **Motion blur** On/Off and **Motion blur
+strength** (0–100%) for each riding view. These are separate from Peripheral
+blur and Speed streaks. Off retains strength; zero also bypasses the effect.
+All built-ins default Off, with 50% retained in Connected/Race and 0% in Stable.
+Live apply, named presets and resets use the same typed profile store. V and
+reduced interface motion suppress scene blur, as do inactive riding, pause,
+preview, menus, crashes/results, loading, focus loss and transitions. Preview
+remains stationary framing only. Unsupported renderers show disabled controls
+and a reason. [Rendering](RENDERING.md#scene-motion-blur) owns buffer/order/cost
+and the remaining full-resolution validation.
+
 ### Forest visibility
 
 Forest visibility is shared by both riding views and the paused camera preview.

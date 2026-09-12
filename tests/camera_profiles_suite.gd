@@ -44,6 +44,7 @@ func _initialize() -> void:
 		check(not settings.save_preset("chase",name),"Reject reserved or malformed preset name")
 	for view in Settings.VIEWS:
 		for key in Settings.DEFAULTS:
+			if Settings.DEFAULTS[key] is bool: continue
 			var bounds: Vector3 = Settings.RANGES[key]
 			settings.set_value(view,key,-9999)
 			check(settings.value(view,key)>=bounds.x,"Lower bounds are enforced: "+key)
@@ -52,7 +53,9 @@ func _initialize() -> void:
 		settings.reset_view(view)
 		var before = settings.profile(view).duplicate()
 		for key in before:
-			for invalid in [NAN,INF,-INF,"wrong",true,{},[]]: settings.set_value(view,key,invalid)
+			var invalid_values = [NAN,INF,-INF,"wrong",{},[]]
+			invalid_values.append(1 if before[key] is bool else true)
+			for invalid in invalid_values: settings.set_value(view,key,invalid)
 		check(before==settings.profile(view),"Invalid values cannot damage live profile")
 		settings.update_profile(view,{"speed_start":250,"speed_full":100})
 		check(settings.profile(view).speed_full==251,"Start and full speed cannot cross")

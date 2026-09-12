@@ -12,6 +12,7 @@ const Visual = preload("res://scripts/presentation/skier_visual.gd")
 const ChaseCamera = preload("res://scripts/presentation/chase_camera.gd")
 const CameraSettings = preload("res://scripts/presentation/camera_settings.gd")
 var camera_settings = CameraSettings.new()
+var scene_motion_blur = preload("res://scripts/presentation/scene_motion_blur.gd").new()
 const Effects = preload("res://scripts/presentation/speed_effects.gd")
 const Vectors = preload("res://scripts/presentation/debug_vectors.gd")
 const HUD = preload("res://scripts/ui/hud.gd")
@@ -298,6 +299,9 @@ func _ready() -> void:
 	camera.near = 0.15
 	camera.far = 32000.0
 	add_child(camera)
+	# Only the riding camera owns this compositor; preview/menu/survey stay sharp.
+	camera.compositor = Compositor.new()
+	camera.compositor.compositor_effects = [scene_motion_blur]
 	camera_preview = ChaseCamera.new()
 	camera_preview.settings = camera_settings
 	camera_preview.near = camera.near
@@ -939,6 +943,7 @@ func start_run(is_timed: bool = false) -> void:
 	restart()
 
 func _reset_screen_effects() -> void:
+	if scene_motion_blur != null: scene_motion_blur.suspend()
 	if impact_warning != null: impact_warning.reset()
 	if is_instance_valid(speed_periphery):
 		speed_periphery.hide()
@@ -952,6 +957,10 @@ func _update_screen_effects(dt: float) -> void:
 	impact_warning.update(sim.impacts.reserve,dt,camera.effects_enabled and not hud.feedback.reduced_motion)
 	var speed: float = camera.motion_intensity if camera.effects_enabled else 0.0
 	var profile: Dictionary = camera_settings.profile("first_person" if camera.close_view else "chase")
+	var blur_riding: bool = presentation_camera==camera and not hud.camera_options.preview_active and not hud.menu.visible and not hud.weather_panel.visible and not hud.tuning_panel.visible and workshop.mode.is_empty()
+	scene_motion_blur.update_state(profile,blur_riding,camera.effects_enabled,hud.feedback.reduced_motion,dt,
+		[ camera.close_view,display_settings.upscaler,display_settings.frame_generation,get_viewport().size,get_viewport().scaling_3d_scale,get_viewport().msaa_3d ])
+	hud.camera_options.set_motion_blur_availability(scene_motion_blur.status().unavailable)
 	effect_time += dt
 	speed_periphery.visible = speed * maxf(profile.blur_strength,profile.streak_strength) / 100.0>0.005 or impact_warning.strength>0.0001
 	speed_periphery.material.set_shader_parameter("intensity",speed * profile.blur_strength / 100.0)

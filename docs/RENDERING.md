@@ -86,6 +86,47 @@ Reapply display immediately when toggling FG; Windows may report the resulting
 geometry as exclusive fullscreen. Test actual pixels and generation/present
 counters, not the enum alone. The native validation envelope is in [Validation](VALIDATION.md#native-and-package-evidence).
 
+## Scene motion blur
+
+[`scene_motion_blur.gd`](../scripts/presentation/scene_motion_blur.gd) is a
+single-view Forward+ `CompositorEffect` attached only to the riding camera.
+Main submits active-view preferences and lifecycle state; the render thread
+owns shader/pipeline/sampler resources and reads completed camera/buffer state.
+The installed 4.7.2 renderer orders its post-transparent callback after MSAA
+resolve, before FSR/Auto reconstruction, tone mapping, the native HUD-free FG
+copy, and canvas. The effect writes HDR scene color only: depth, velocity and
+per-pixel reactive alpha remain unchanged. HUD, menus and impact warning are
+drawn afterward. No engine/native integration patch is required.
+
+[`scene_motion_blur_compute.gd`](../assets/graphics/scene_motion_blur_compute.gd)
+uses previous-minus-current UV velocity with jitter removed by Godot. Temporal
+Forward+ marks static surfaces `(-1,-1)`; derive those and sky motion from depth
+and successive unjittered camera projections, with Godot's Y/Z correction.
+Thirteen bounded taps integrate one exposure, stopping at depth discontinuities.
+Maximum exposure is 1/120 s, scaled by strength and divided by rendered-frame
+delta; maximum full sample path is 24 pixels at 1080 internal height, also scaled
+by strength. Subpixel motion stays sharp; no previous color is accumulated.
+
+The blur pass writes one RGBA16F scratch texture, followed by a compute copy to
+scene color. Scratch costs 8 bytes/internal pixel (2.22 MiB at 720x405 in the
+capped probe; 35.60 MiB at 2880x1620 by allocation arithmetic). It is allocated
+lazily, retained while Off, and owned/released by scene buffers on viewport
+reconfiguration/destruction. Off/zero remove the compositor's velocity/resolve
+requests and execute neither pass. FSR/FG keep their own motion-vector needs.
+View/configuration changes, suspend/resume, resized buffers, large camera cuts
+and >100 ms stalls restart a two-rendered-frame warm-up. No `RenderData` or
+scene-buffer object escapes the callback. Shader/device/buffer failures disable
+the effect with an explicit Camera-panel explanation; no radial substitute.
+
+Transparent snow/weather has the opaque surface's depth/velocity because this
+Godot hook does not supply independent transparent motion. Very thin edges and
+disocclusions therefore still need full-resolution moving review. The provisional
+range passed capped DX12 Native/Auto/FG and lab-skiing checks; **4K cost, p95/p99,
+full-resolution comfort and complete visual-matrix qualification remain pending**.
+Reproducible producers and deferred coverage are recorded in
+[the motion-blur task](../backlog/tasks/AA-20260912-004402-scene-motion-blur.md).
+Controls/defaults are owned by [Presentation](PRESENTATION.md#look-and-motion).
+
 ## Terrain, forests and lighting
 
 The built-in mesh renderer is the sole terrain path. Prepared chunks and shared
