@@ -444,6 +444,17 @@ for each delivered build.
 
 ## Race and player acceptance
 
+For race-creator camera input, run the native `race_suite.gd --survey-only`
+selection below. It injects keyboard/mouse events through production UI routing,
+checks controller discovery and text focus, and captures the survey before/after
+panning in `artifacts/race_survey_{before,after}.png`. Headless execution cannot
+establish keyboard-window focus or rendered movement; physical controller feel
+remains a separate acceptance check.
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/race_suite.gd','--','--survey-only') -Label race-survey -TimeoutSeconds 120
+```
+
 Existing race/record suites cover authoring/import, finite crossings, splits,
 eligibility and ghosts. Ordinary route discovery, retries and ghost readability
 need the [race-loop audit](../backlog/tasks/AA-20260911-153905-race-loop-acceptance-audit.md).

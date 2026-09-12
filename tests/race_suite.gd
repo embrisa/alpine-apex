@@ -48,6 +48,11 @@ func run() -> void:
 	game.effects.muted = true
 	game.set_graphics_quality(0)
 	await process_frame
+	if DisplayServer.get_name()!="headless":
+		root.grab_focus()
+		await process_frame
+		# A connected pad must not auto-focus the name field on scope entry.
+		game.navigation.family = "playstation"
 	game.workshop.store.directory = test_dir.path_join("library")
 	var workshop = game.workshop
 	workshop.open_library()
@@ -56,6 +61,13 @@ func run() -> void:
 	check(workshop.mode=="create" and workshop.save_button.disabled and workshop.survey.current,"Create mode requires endpoints and a name")
 	var original_position: Vector3 = game.sim.position
 	var original_elapsed: float = game.session.elapsed
+	workshop.focus_point = point(field,0,150)
+	workshop.survey_height = 300
+	workshop._update_survey()
+	await _survey_control_checks(workshop)
+	if "--survey-only" in OS.get_cmdline_user_args():
+		await finish()
+		return
 	workshop.focus_point = point(field,0,150)
 	workshop.survey_height = 300
 	workshop._update_survey()
@@ -153,6 +165,9 @@ func run() -> void:
 	check(game.field.seed_value==849205174 and game.session.race==null and game.session.course_id==benchmark_identity,"Returning to the benchmark restores its original terrain and current physics identity")
 	var benchmark_after = FileAccess.get_file_as_string("user://benchmark_v1.json") if FileAccess.file_exists("user://benchmark_v1.json") else ""
 	check(benchmark_before==benchmark_after,"Race tests do not change the user's benchmark record")
+	await finish()
+
+func finish() -> void:
 	game.active = false
 	game.effects.stop_audio()
 	game.queue_free()
@@ -162,6 +177,65 @@ func run() -> void:
 	FileAccess.open("res://artifacts/race_results%s.json" % ("_rendered" if DisplayServer.get_name()!="headless" else ""),FileAccess.WRITE).store_string(JSON.stringify(output,"\t"))
 	print("RACE_RESULTS ",JSON.stringify(output))
 	quit(0 if failures.is_empty() else 1)
+
+func _survey_control_checks(workshop) -> void:
+	check(workshop.survey_keyboard_enabled and root.gui_get_focus_owner()==null,"Creation enables survey before placing an endpoint")
+	await capture("survey_before")
+	# Headless windows cannot own physical keyboard focus. The native invocation
+	# exercises the complete Input -> menu routing -> GUI -> render polling path.
+	if DisplayServer.get_name()=="headless": return
+	root.grab_focus()
+	await process_frame
+	check(root.has_focus(),"Native survey regression owns window focus")
+	# Device discovery can arrive after the creator opens. Passive hotplug must
+	# preserve survey ownership, while explicit controller navigation can focus UI.
+	game.navigation._connection_changed(-1,false)
+	check(workshop.keyboard_survey_allowed(),"Controller discovery preserves active survey focus")
+	var original_position: Vector3 = game.sim.position
+	var original_elapsed: float = game.session.elapsed
+	for code in [KEY_W,KEY_A,KEY_S,KEY_D,KEY_UP,KEY_LEFT,KEY_DOWN,KEY_RIGHT]:
+		var before: Vector3 = workshop.focus_point
+		key_event(code,true)
+		workshop.update_survey(.2)
+		key_event(code,false)
+		check(workshop.focus_point.distance_to(before)>1.0 and root.gui_get_focus_owner()==null,"Survey key %s pans without stealing menu focus" % OS.get_keycode_string(code))
+	key_event(KEY_UP,true)
+	for i in 12: await process_frame
+	workshop.update_survey(.5)
+	key_event(KEY_UP,false)
+	await capture("survey_after")
+	check(not workshop.has_start and not workshop.has_finish,"Survey movement requires no endpoint placement")
+	workshop.name_input.grab_focus()
+	var before: Vector3 = workshop.focus_point
+	key_event(KEY_D,true)
+	workshop.update_survey(.2)
+	key_event(KEY_D,false)
+	check(workshop.focus_point==before and root.gui_get_focus_owner()==workshop.name_input and not workshop.survey_keyboard_enabled,"Race name editing stops survey and retains text focus")
+	var click_event = InputEventMouseButton.new()
+	click_event.button_index = MOUSE_BUTTON_RIGHT
+	click_event.pressed = true
+	click_event.position = root.get_visible_rect().size*.65
+	Input.parse_input_event(click_event)
+	Input.flush_buffered_events()
+	click_event = click_event.duplicate()
+	click_event.pressed = false
+	Input.parse_input_event(click_event)
+	Input.flush_buffered_events()
+	check(workshop.keyboard_survey_allowed() and not workshop.has_start and not workshop.has_finish,"Right-click resumes survey without placing a gate")
+	before = workshop.focus_point
+	key_event(KEY_RIGHT,true)
+	workshop.update_survey(.2)
+	key_event(KEY_RIGHT,false)
+	check(workshop.focus_point.distance_to(before)>1.0,"Arrow panning resumes after leaving the drawer")
+	check(game.sim.position==original_position and game.session.elapsed==original_elapsed,"Keyboard survey preserves rider state and race time")
+
+func key_event(code: Key, pressed: bool) -> void:
+	var event = InputEventKey.new()
+	event.physical_keycode = code
+	event.keycode = code
+	event.pressed = pressed
+	Input.parse_input_event(event)
+	Input.flush_buffered_events()
 
 func click(screen: Vector2) -> void:
 	var event = InputEventMouseButton.new()

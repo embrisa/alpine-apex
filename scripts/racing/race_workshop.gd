@@ -157,7 +157,7 @@ func _build_ui() -> void:
 	endpoint_label = hud._label("",14,hud.MUTED)
 	endpoint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	editor.add_child(endpoint_label)
-	hud._note(editor,"Click terrain to place a gate and enable keyboard survey. WASD / arrows pan; mouse wheel zooms outside this drawer. Selecting a menu control stops survey movement.")
+	hud._note(editor,"WASD / arrows pan; mouse wheel zooms outside this drawer. Left-click terrain to place a gate. After using the drawer, right-click terrain to resume camera movement without placing a gate.")
 	hud._note(editor,"Choose any route. Cross the 10 m finish gate from either side.")
 	status = hud._label("",14,hud.LIME)
 	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -257,7 +257,6 @@ func select_race(index: int) -> void:
 
 func begin_creation() -> void:
 	mode = "create"
-	survey_keyboard_enabled = false
 	game.hud.shell_layout.frame(panel,true)
 	heading.text = "Create race"
 	library_actions.hide()
@@ -276,6 +275,7 @@ func begin_creation() -> void:
 	_clear_markers()
 	status.text = "Choose a starting position in the world."
 	_refresh_draft()
+	_enable_keyboard_survey()
 
 func place_point(point: Vector3) -> bool:
 	if mode!="create": return false
@@ -408,15 +408,25 @@ func handle_input(event: InputEvent) -> void:
 		survey_height = maxf(45.0,survey_height*0.82)
 	elif event.button_index==MOUSE_BUTTON_WHEEL_DOWN:
 		survey_height = minf(_survey_limit(),survey_height/0.82)
+	elif event.button_index==MOUSE_BUTTON_RIGHT:
+		_enable_keyboard_survey()
 	elif event.button_index==MOUSE_BUTTON_LEFT:
-		get_viewport().gui_release_focus()
-		survey_keyboard_enabled = true
+		_enable_keyboard_survey()
 		var point = pick_snow(event.position)
 		if point is Vector3: place_point(point)
 		else: status.text = "Choose snow inside the skiable mountain."
 
 func keyboard_survey_allowed() -> bool:
 	return mode=="create" and survey_keyboard_enabled and get_window().has_focus() and get_viewport().gui_get_focus_owner()==null
+
+func _enable_keyboard_survey() -> void:
+	get_viewport().gui_release_focus()
+	survey_keyboard_enabled = true
+
+func owns_survey_key(event: InputEventKey) -> bool:
+	# Consume before GUI navigation: an unfocused arrow key otherwise focuses the
+	# drawer, which disables polling on the next frame. Releases belong here too.
+	return keyboard_survey_allowed() and event.physical_keycode in [KEY_W,KEY_A,KEY_S,KEY_D,KEY_UP,KEY_LEFT,KEY_DOWN,KEY_RIGHT]
 
 func update_survey(dt: float) -> void:
 	if get_viewport().gui_get_focus_owner()!=null or not get_window().has_focus():

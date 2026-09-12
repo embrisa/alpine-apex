@@ -26,6 +26,12 @@ Survey pauses rider/session time and covers every mountain quadrant. Endpoint
 placement remains pointer-based; menu navigation must not imply gamepad terrain
 picking. Draft Back/Escape discards without saving.
 
+Creating a race immediately releases drawer focus for WASD/arrow survey panning.
+Survey keys are consumed before GUI focus navigation. Focusing a drawer control
+or leaving the window stops panning; right-clicking terrain resumes it without
+placing a gate. Left-click places an endpoint, and the wheel zooms only outside
+the drawer. Controller navigation still owns menu focus, not survey translation.
+
 [RaceDefinition](../scripts/racing/race_definition.gd) is Node-free and owns
 schema/validation/canonical identity. [Current versions](ARCHITECTURE.md#current-identity)
 are independent of storage directory suffixes: the current race schema is 4,

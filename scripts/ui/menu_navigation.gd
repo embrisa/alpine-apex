@@ -51,7 +51,8 @@ func _connection_changed(id: int, connected: bool) -> void:
 		var pads = _connected_devices()
 		pads.erase(id)
 		_select_device(pads[0] if not pads.is_empty() else -1)
-	if scope(): ensure_focus()
+	var current_scope = scope()
+	if current_scope and not _surveying(current_scope): ensure_focus()
 
 func _connected_devices() -> Array[int]:
 	return Input.get_connected_joypads()
@@ -182,6 +183,7 @@ func route(event: InputEvent) -> bool:
 				JOY_BUTTON_RIGHT_SHOULDER: cycle(1)
 		return true
 	if event is InputEventKey:
+		if current_scope==game.workshop.panel and game.workshop.mode=="create" and game.workshop.owns_survey_key(event): return true
 		if game.hud.hud_editor and game.hud.hud_editor.visible and event.pressed:
 			var arrows = {KEY_LEFT:Vector2i.LEFT,KEY_RIGHT:Vector2i.RIGHT,KEY_UP:Vector2i.UP,KEY_DOWN:Vector2i.DOWN}
 			if arrows.has(event.physical_keycode) and game.hud.hud_editor.handle_direction(arrows[event.physical_keycode]): return true
@@ -198,8 +200,11 @@ func _sync_scope() -> Node:
 	if current_scope!=last_scope:
 		cancel_repeat()
 		last_scope = current_scope
-		if current_scope and family!="keyboard": ensure_focus()
+		if current_scope and family!="keyboard" and not _surveying(current_scope): ensure_focus()
 	return current_scope
+
+func _surveying(current_scope: Node) -> bool:
+	return current_scope==game.workshop.panel and game.workshop.mode=="create" and game.workshop.survey_keyboard_enabled
 
 func _process(dt: float) -> void:
 	var current_scope = _sync_scope()
