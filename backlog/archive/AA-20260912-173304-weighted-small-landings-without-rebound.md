@@ -5,7 +5,7 @@ status: done
 priority: P2
 depends_on: []
 created: "2026-09-12T17:33:04Z"
-updated: "2026-09-12T18:18:58Z"
+updated: "2026-09-12T22:43:40Z"
 source_thread: "01a096ab-35cf-76e3-b11a-44ff6cf61ca8"
 ---
 
@@ -120,46 +120,44 @@ did not reproduce the bounce, run an engine workload or establish its cause.
 
 ## Acceptance and verification
 
-Implementation was narrowed to the reproduced presentation cause. No physical
-rebound was reproduced in the bounded ordinary-input cases; the solver remains
-unchanged. The original player report is not evidence that every intermittent
-physical relaunch is resolved. A remaining physical bounce needs its own repro.
+The user rejected the first presentation-only delivery and clarified that the
+whole skier hops off particular terrain, while good snow/slopes feel fine.
+The physical follow-up below supersedes the earlier unreproduced-contact scope.
 
-- [x] Frozen baseline reproduces excessive small-hop hip dip/pop, missing
-  additional procedural compression and restarted recovery. Four new focused
-  checks fail against baseline and all 21 pass after the change.
-- [x] Ordinary-input smooth/rounded snow at 30/60/120 km/h retains support after
-  the intended landing; sharper angled terrain still allows actual departures.
-  All 240 matched native sampled physical states are identical before/after;
-  paired 120 Hz simulations also remain identical with/without animation.
-- [x] Native final production motion shows proportionate compression and slower
-  recovery. Side, uneven snow, chase and first-person captures inspected. All 34
-  changed side-view frames reviewed. Clothing audit has no flags during changed
-  landings; two side and six uneven pre-contact flags are baseline-identical.
-  Those existing early poses are not claimed fixed.
-- [x] Reset/pause, contact grouping and genuine new flight covered by the new
-  suite. Anatomy, posture, equipment, flight and landing regressions ran. Total
-  391/395 checks pass; four pre-existing animation/tuck failures reproduced on
-  frozen baseline. No core physics/input/session edits, so complete physics and
-  runtime suites, replay regeneration and a model bump were not applicable.
-- [x] Four-second microfixtures plus an ordinary 1,800-tick/15-second current
-  mountain segment completed with clean timed stops and no record writes.
-  Uncontended timing was not assessed because the user was raiding in WoW;
-  no whole-route FPS or performance acceptance is claimed.
-- [x] Updated the owning [Animation guide](../../docs/ANIMATION.md#landing-compression-and-recovery).
-  Physics ownership/behavior did not change. Preserved unrelated dirty files,
-  including the user's immortal/high-speed stress driver. Source, checks,
-  identities, known failures and review evidence recorded below.
+- [x] Frozen detector reproduces four failures in the new terrain suite;
+  corrected detector passes all 13. Concave and lateral normal changes caused
+  false takeoff suppression of snow retention. Real convex profiles remain.
+- [x] Two current 15-second mountain sections exercise rough and smooth snow.
+  Rough world flights fall from five to one; first 14 seconds stay grounded.
+  A contact-only comparison removes collision differences: five flights/2.742 s
+  become one/0.617 s. Actual later lips still release; this is bounded evidence,
+  not a promise of zero flight on every terrain or preservation of every path.
+- [x] Required full physics/runtime and affected regressions pass 4,497 checks.
+  Energy/reach/unilateral load, manual/buffered jumps, real lips/drops, snow banks,
+  rock/mixed support, tuck, impact cost, lifecycle and current/old replay covered.
+- [x] Native 210-frame before/after side and new chase captures match headless
+  physics at all 1,800 ticks. All paired side frames inspected. Pole/clothing
+  audits remain imperfect: 29 flagged frames before, 22 after, with changed
+  timing. Those retained pose issues are not declared fixed or clearance-clean.
+- [x] Updated [Physics](../../docs/PHYSICS.md#snow-contact-and-small-banks) and
+  [Architecture](../../docs/ARCHITECTURE.md#current-identity), preserving the
+  earlier landing animation changes. Model 31 rejects older recordings; replay
+  format stays 7. User stress/performance driver and concurrent work preserved.
+- [x] Retain baseline, final sources, traces, comparison and unresolved audit
+  evidence. Native wrapper removes its own linked scaffold. Post-push cleanup
+  is scoped to regenerable staging from this follow-up; detailed receipt records
+  the earlier dated-output reuse and repaired landing-suite default.
 
-Human acceptance: the user's judgement of landing weight, natural recovery and
-controller feel remains a separate follow-up, not an unattended completion gate.
-Automated, rendered, performance and human acceptance remain distinct.
+Human/controller judgement of landing weight and recovery remains separate and
+pending. No uncontended scene-performance or whole-route acceptance is claimed.
 
 ## Open questions
 
 None
 
 ## Completion record
+
+### First delivery, 2026-09-12: presentation only
 
 Implemented manually at the user's request; no scheduled claim. Source, final
 motion profiles, bounded capture tools, regression suite and owning guide were
@@ -202,3 +200,39 @@ and intermediate captures; final/baseline and unresolved review evidence remain.
 Exact cleanup outcome is retained in `delivery.json`. No broad artifact cleanup.
 Human playtest remains pending; performance acceptance was excluded during WoW.
 No separate feature ideas or scheduled work were created.
+
+### Physical contact follow-up, 2026-09-13
+
+User clarification: the whole skier still hops on particular terrain, while
+good snow/slopes feel fine. Implemented and pushed `7a06dfd` on `main`.
+The old retention veto used full triangle-normal angles and absolute grade
+changes, so cross-slope ridges and concave pockets were mistaken for lips.
+The new detector uses signed 4 m along-travel height chords and suppresses only
+convex breaks above the existing 10-degree threshold. Loaded snow, 28 cm reach,
+the 3 m/s dissipation cap, rock/jump exclusions and physical force ownership are
+unchanged. No global gravity, added downward force, speed restoration or terrain
+flattening. Model 31 / replay 7; previous recordings rejected without migration.
+
+Final checks: physics 56, runtime 192, jump 90, handling 84, tuck-contact 213,
+landing absorption 155, rock 32, snow response 33, snow crush 3,582 across 648
+banks, landing settle 21, terrain settle 13, grounding contracts 26: 4,497 pass.
+Initial failures from the old model-string expectation and the shallow-crest
+test requiring repeated departures were corrected and rerun. The latter now
+checks one initial terrain departure followed by settled support.
+
+The selected rough section's real-world airtime changes from 2.55 to .133 s,
+but later collision encounters differ. The separate obstacle-free contact
+comparison changes 2.742 to .617 s, with exit speed 146.12 to 134.45 km/h (-8%).
+This is a rough-section tradeoff, not a global speed or FPS claim. All 18 bounded
+mountain scouts, their crashes and remaining true drops are retained. Smooth
+snow keeps support. Native motion uses actual heightfield/obstacle responses
+and production skier/camera, with scenery meshes omitted. Pose audit flags fall
+29 to 22; clipping remains unaccepted and is preserved in both complete audits.
+
+Evidence: `artifacts/snow_settle_20260913/RESULTS.md`, `delivery.json`, `before`,
+`profile`, `contact_before`, `contact_after`, `contracts`, `baseline_contracts`,
+`regression*`, `landing_final`, `grounding_contracts.json`,
+`snow_crush_contracts.json`, `native_before`, `native_after`, `native_chase`,
+`native_comparison.json`, `before_after.mp4`, `review_sheets`, `baseline`,
+`final_source` and `guard_receipts`. Source hashes and the dated-output reuse
+limitation are explicit. No independent/human acceptance or new task was created.
