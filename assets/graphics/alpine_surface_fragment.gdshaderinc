@@ -9,7 +9,11 @@ void fragment() {
   snow_facet_normal=vec3(0,1,0); snow_large_facet_normal=vec3(0,1,0);
  } else {
 #endif
- if(powder_patch_enabled && !powder_local_surface && all(lessThan(abs(world_pos.xz-powder_center),vec2(powder_extent*.5)))) discard;
+ // Complementary opaque ownership, in the zero-relief collar. No alpha/dither
+ // seam, double surface, or intact terrain covering recessed ski impressions.
+ if(powder_local_surface) {
+  if(!powder_patch_enabled || !powder_replaces(world_pos.xz)) discard;
+ } else if(powder_patch_enabled && powder_replaces(world_pos.xz)) discard;
  vec3 n=normalize(world_n);
  // Drop negligible projections before renormalizing to bound triplanar work.
  vec3 w=max(pow(abs(n),vec3(5.0))-vec3(.015),vec3(0));

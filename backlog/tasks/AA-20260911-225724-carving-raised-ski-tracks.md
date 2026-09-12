@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-225724-carving-raised-ski-tracks"
 title: "Keep snow tracks under the cosmetically raised ski during carving"
-status: ready
+status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-11T22:57:24Z"
-updated: "2026-09-11T22:57:24Z"
+updated: "2026-09-12T13:21:47Z"
 source_thread: "01a092ae-e40a-7510-aaba-b8043f8a1dd6"
 ---
 
@@ -96,16 +96,16 @@ were present during authoring and were left untouched.
 
 ## Acceptance and verification
 
-- [ ] Reproduce and document the actual cause, separating measured evidence from
+- [x] Reproduce and document the actual cause, separating measured evidence from
   the user's original animation-lift hypothesis.
-- [ ] Rendered chronological before/after evidence shows two continuous tracks
+- [x] Rendered chronological before/after evidence shows two continuous tracks
   on continuous snow during left/right carving, entry, hold, release and
   reversals while the cosmetic ski lift remains. Marks stay on the surface
   beneath the corresponding rendered ski and extend into retained history.
-- [ ] A focused regression changes only the cosmetic ski elevation while
+- [x] A focused regression changes only the cosmetic ski elevation while
   preserving completed simulation state and proves track continuity. Exercise
   the real reproduced failure as well; do not rely solely on synthetic flags.
-- [ ] Verify actual jumps, one-ski terrain departure, exposed/mixed rock, crashes,
+- [x] Verify actual jumps, one-ski terrain departure, exposed/mixed rock, crashes,
   resets and teleports still suppress invalid marks and prevent bridging gaps.
   Include low-load inner-ski carving if it is the demonstrated cause.
 - [ ] Run `./scripts/validate_snow_contact.ps1 -Stage checks`, then
@@ -119,7 +119,7 @@ were present during authoring and were left untouched.
   native GPU execution is required for changed shader/compute paths. Run
   `./scripts/validate_snow_contact.ps1 -Stage timing` if the hot path changes,
   comparing matched conditions and reporting cost separately from visual QA.
-- [ ] Verify unchanged completed physics/replay state for identical inputs.
+- [x] Verify unchanged completed physics/replay state for identical inputs.
   Physics/input/session changes are outside scope; if needed, reassess that
   boundary and run the required physics/runtime suites under the guard.
 - [ ] Use isolated fixtures/profiles; tests never write personal bests. Maintain
@@ -136,7 +136,53 @@ None.
 
 ## Completion record
 
-Pending implementation. Record the demonstrated cause, final eligibility rule,
-verification actually performed, capture paths, remaining human acceptance,
-updated documentation and commit/push references. If blocked, record the exact
-blocker and remaining work. Link separately proposed ideas or note none.
+Implemented and parent-accepted for the measured continuity defect. Physical
+load gating plus restrictive cosmetic burial/release/root-clearance tests caused
+the reproduced gaps; animation lift alone was not the demonstrated cause.
+Track-only eligibility now keeps independent shallow marks under certified
+grounded snow skis through unloading, entry, hold, release and reversal. The
+grounded footprint envelope is 24 cm after the stricter physical-center check;
+unsupported near-surface carving retains conservative opposite-ski/separation
+requirements. Nine-point material/support checks and a cut capped at 12 mm/local
+loose depth preserve rock/void exclusions. Physical support, forces and particles
+are not fabricated. Live ribbons and High GPU footprints share accepted geometry;
+horizontal XZ distance controls retained spacing. Air, rejection and lifecycle
+discontinuities break history. Rendering owns the detailed bounds.
+
+The accepted [continuity v3 review](../../artifacts/orchestration_20260912/carving/V3_NATIVE_REVIEW.md)
+audited **2,400 rows / 4,800 ski records**, eight complete five-second captures
+and every 600-tick physical trace. It found **278 restored Balanced samples**;
+right/reversal have two live marks on all 244 grounded frames each, with zero
+continuity errors. Low/High reversal and the deliberate jump pass; actual air
+and observed rock gaps have no bridge. All 900 paired Balanced physical hashes,
+physical response channels and final ski transforms match. Sampled chronology
+and 14 original images establish visible continuation with the pose preserved.
+Left-turn motion occurs within reversal; a separate sustained-left/switch v3
+recapture is not claimed. Native High checks prove live-packet parity and the
+cosmetic-elevation-only regression. Parent snow-contact checks passed129,
+rock32, powder-upload13 and carving-GPU7; synthetic checks cover drops, rock,
+crash, reset and teleport separately from native riding.
+
+The current causal captures supersede the original tree-crashing fixture, not
+every historical wrapper stage. `-Stage checks` ran; no `-Stage visual` or clean
+carving `-Stage timing` pass is claimed. The capture-only mean effects increments
+(+0.204/+0.268/+0.058 ms for right/reversal/jump) are not free, repeated timing or
+whole-frame FPS. FPS caps/misses are advisory under the user's concurrent-run
+waiver. Full trace identity is not a separate replay-file round trip.
+
+**R1 loaded-track shape remains limited:** Standard frames217–225, especially223,
+show scalloped/triangular banks. Loaded response/bank formulas predate the task,
+but XYZ→XZ spacing can change join prominence on steep terrain. Both boundary
+variants share carving; they cannot establish that the defect is unaffected.
+The spacing/live-history contribution remains unisolated. Preserve the
+[world-shape review](../../artifacts/orchestration_20260912/carving/world_shape/REVIEW.md),
+accepted continuity and rejected evidence separately. No speculative retune or
+new backlog idea is proposed. Validation and the [final checklist map](../../artifacts/orchestration_20260912/forest/final_four_records/CHECKLIST_MAP.md)
+record producer/evidence limits.
+
+- [ ] Human in-game/controller continuity and carving-appearance review: pending separate follow-up.
+- [ ] Parent delivery: **PARENT TO FILL** commit(s), successful push, final status and artifact-lifecycle disposition. Status remains `in_progress` until parent delivery.
+
+## Checkpoint disposition — 2026-09-12T13:21:47Z
+
+Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-review-loaded-track-ridge-shape](AA-20260912-132147-review-loaded-track-ridge-shape.md), [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.

@@ -121,6 +121,7 @@ func reset() -> void:
 	reset_haptics()
 	if rock_sparks: rock_sparks.reset()
 	if snow_tracks: snow_tracks.reset()
+	if powder_surface: powder_surface.reset()
 	for spray in sprays:
 		spray.restart()
 		spray.emitting = false
@@ -139,6 +140,7 @@ func update_effects(sim, field, position_value: Vector3, dt: float, active: bool
 			var visual = ski_visuals[1-i if sim.facing_backward else i]
 			responses[i].contact_position = visual.global_position
 			responses[i].contact_forward = visual.global_basis.z.normalized()
+		responses[i].resolve_track_contact(sim,ski,field)
 		var tail: Vector3 = responses[i].contact_position+responses[i].contact_forward*lerpf(.05,.32,responses[i].turn_work)
 		# Tail terrain can be higher than the boot on a mound. Births must clear
 		# that surface and High's loose crowns or depth testing hides the spray.

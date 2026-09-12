@@ -96,9 +96,9 @@ func build(col: VBoxContainer, owner_hud) -> void:
 		var key: String = item[0]
 		toggle.toggled.connect(func(enabled): hud.camera_setting_requested.emit("shared",key,enabled))
 	var forest = _group(col,"Forest visibility · both views")
-	_slider(forest,"forest_visibility_size","Opening size")
+	_slider(forest,"forest_visibility_strength","Transparency strength")
 	_slider(forest,"forest_visibility","Aid reach")
-	hud._note(forest,"100% opening clears the screen edges. Reach 0% turns the aid off. Trunks remain visible.")
+	hud._note(forest,"Strength reveals more through nearby canopy across the whole screen. Reach sets the affected distance. Either at 0% turns the aid off. Trunks remain visible.")
 	var saved = _group(col,"Named presets")
 	name_input = LineEdit.new()
 	name_input.placeholder_text = "Preset name"
@@ -177,7 +177,7 @@ static func readout(key: String, item: float) -> String:
 	if key.ends_with("tilt"): return ("%+d°" if item>0 else "%d°") % roundi(item)
 	if key in ["speed_start","speed_full"]: return "%d km/h" % roundi(item)
 	if key in ["acceleration_time","deceleration_time","recenter_delay","recenter_time","slope_smoothing"]: return "%.2f s" % item
-	if key.ends_with("_strength") or key in ["vertical_smoothing","slope_follow","forest_visibility","forest_visibility_size"]: return "%d%%" % roundi(item)
+	if key.ends_with("_strength") or key in ["vertical_smoothing","slope_follow","forest_visibility"]: return "%d%%" % roundi(item)
 	if key in ["stick_yaw_speed","stick_pitch_speed"]: return "%d°/s" % roundi(item)
 	if key=="mouse_sensitivity": return "%.2f°/px" % item
 	if key.ends_with("_response"): return "%.1f /s" % item

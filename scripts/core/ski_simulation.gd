@@ -1,6 +1,6 @@
 class_name SkiSimulation
 extends RefCounted
-const MODEL_VERSION = 28
+const MODEL_VERSION = 29
 const TerrainMaterial = preload("res://scripts/core/terrain_material.gd")
 const Contact = preload("res://scripts/core/ski_contact.gd")
 const Body = preload("res://scripts/core/rider_body.gd")
@@ -18,6 +18,19 @@ var impacts = ImpactRecovery.new()
 var landing_assist = preload("res://scripts/core/landing_assist.gd").new()
 var air_control = preload("res://scripts/core/air_rotation.gd").new()
 var snow_contact_assist = preload("res://scripts/core/snow_contact_assist.gd").new()
+var pole_push = preload("res://scripts/core/pole_propulsion.gd").new()
+var pole_push_phase: float:
+	get: return pole_push.phase
+var pole_push_intensity: float:
+	get: return pole_push.intensity
+var pole_push_power: float:
+	get: return pole_push.power
+var pole_push_acceleration: float:
+	get: return pole_push.acceleration
+var pole_push_limit_mps: float:
+	get: return pole_push.limit_mps
+var pole_push_grade_degrees: float:
+	get: return pole_push.grade_degrees
 var motion = preload("res://scripts/core/rider_motion_state.gd").new()
 var facing_pose = preload("res://scripts/core/rider_facing_pose.gd").new()
 # Handling yaw describes the travel-oriented ski axis. The half turn is visual.
@@ -180,6 +193,7 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 	var old_position = position
 	var old_speed = velocity.length()
 	var old_velocity = velocity
+	var pole_incoming_speed = velocity.slide(surface_normal).length()
 	landing_support_positions.clear()
 	var previous_support = [skis[0].grounded,skis[1].grounded]
 	for ski in skis:
@@ -196,7 +210,8 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 	landing_force = move_toward(landing_force, 0.0, dt * 12.0)
 	time_since_landing = minf(60.0,time_since_landing+dt)
 	landing_episode_age = minf(60.0,landing_episode_age+dt)
-	# Forward requests tuck. Tiny corrections and short taps retain it, while
+	# Forward pushes on slow supported snow and opens into tuck at its limit.
+	# Tiny corrections and short taps retain tuck, while
 	# sustained steering automatically opens the stance without reducing control.
 	# Float32 replay inputs must make the same boundary decision as live input.
 	var steering_outside_tuck = absf(intent.steer)>tuning.tuck_correction_window+.000001
@@ -206,6 +221,11 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 		tuck_steering_time = 0.0
 	var turning = tuck_steering_time>tuning.tuck_steering_window+.000001
 	var tuck_target = clampf(intent.tuck,0.0,1.0)*(1.0-clampf(intent.brake,0.0,1.0))
+	if tuning.pole_push_enabled and grounded:
+		var push_grade = rad_to_deg(asin(clampf(support_basis().z.y,-1.0,1.0)))
+		var push_limit = pole_push.speed_limit(maxf(0.0,push_grade),tuning)
+		if push_limit>.001 and not facing_backward:
+			tuck_target *= smoothstep(push_limit*.80,push_limit,velocity.slide(n).length())
 	if steering_outside_tuck:
 		# The grace window retains an existing tuck; it cannot start a new
 		# crouch when forward and steering are pressed together.
@@ -313,6 +333,11 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 	rock_wear_rate = tuning.rock_reserve_drain*rock_contact*smoothstep(.5,3.0,old_speed) if grounded else 0.0
 	impacts.step(dt,grounded and normal_load>0.0 and rock_contact==0.0,tuning)
 	var rock_exhausted = impacts.abrade(dt,rock_wear_rate)
+	# Evaluate exactly once, after jump/departure/contact eligibility and before
+	# resistance. Cap eligibility also reads the preceding completed speed;
+	# contact dissipation earlier in this tick cannot open high-speed propulsion.
+	# The returned force lies entirely in the current support tangent plane.
+	var pole_acceleration: Vector3 = pole_push.advance(dt,self,intent,pole_incoming_speed)
 	if grounded:
 		var normal_speed = velocity.dot(n)
 		velocity = velocity.slide(n)
@@ -399,10 +424,11 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 		# Snow friction above operates only in the tangent plane.
 		velocity += n*(gravity_vector.dot(n)+normal_load)*dt
 		# Static braking can hold on the test slope. Gravity is otherwise the
-		# only source of downhill acceleration; tuck only changes air drag.
+		# source of downhill acceleration independent of optional pole thrust.
 		if not (intent.brake > 0.8 and velocity.length() < 0.2 and downhill.length() < tuning.braking_deceleration):
 			velocity += downhill * dt
 		gravity_contribution = downhill.dot(velocity.normalized())
+		velocity += pole_acceleration*dt
 	if not grounded:
 		velocity += gravity_vector * dt
 		airtime += dt
@@ -557,6 +583,7 @@ func _resolve_obstacle(surface, from: Vector3) -> void:
 func clear_input_buffer() -> void:
 	jump_buffer_remaining = 0.0
 	landing_assist.reset()
+	pole_push.reset("input cleared")
 
 func _orient_travel_axis() -> bool:
 	# Flight owns a full quaternion. Reversing its yaw axis at 90 degrees
@@ -630,6 +657,7 @@ func _landing_fit(frame: Basis, normal: Vector3, incoming: Vector3) -> float:
 
 func _begin_flight(frame: Basis, reason: String = "unsupported") -> void:
 	snow_contact_assist.reset(reason)
+	pole_push.reset(reason)
 	carve_blend = 0.0
 	snow_control_blend = 0.0
 	if grounded or not flight_initialized: air_control.reset()
@@ -735,6 +763,7 @@ func _update_contacts(surface, dt: float, advance_motors: bool = true) -> void:
 	support_offset_m = position.y-_support_sample(surface,position).height
 
 func prime_contacts(surface) -> void:
+	pole_push.reset("primed")
 	snow_contact_assist.reset("primed")
 	# Explicit initialization used by restart/tools, never called from rendering.
 	for ski in skis: ski.clear_snow_response()

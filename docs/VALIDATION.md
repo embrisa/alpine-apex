@@ -127,13 +127,15 @@ Paths in this table are under `tests/` unless noted.
 |---|---|
 | Physics/input/session | Required physics/runtime; focused contact, carving, jump, flight, impact, race/replay tests |
 | Controller/haptics | `controller_input_suite.gd`, `haptics_suite.gd`, native `controller_input_playtest.gd`; actual hardware acceptance separate |
-| Snow contact | `scripts/validate_snow_contact.ps1 -Stage checks`, then visual/mountain/timing for changed presentation |
+| Snow contact | Focused response/contact/GPU and [causal boundary/carving producers](#snow-contact-and-local-boundary-producers); historical wrapper/source swaps are not matched current baselines |
+| Recovery/ghosts | [Focused replay/archive/lifecycle producers](#crash-recovery-and-ghost-producers), shared physics/runtime/race checks and separate native final-pose review |
+| Pole propulsion | [Force/pose/authoring producers](#pole-propulsion-and-animation-producers), shared physics/runtime and final shaft/clothing review |
 | Animation/fitting | Animation skill's Regression stages; anatomy, attachment, motion, relevant flight/landing and full clothing audit; chronological rendered review |
 | Pose-review tools | `pose_review_tools_test.py`, affected real-capture commands, `pose_review_state.test.cjs` for feedback state; native smoke if rendering changes |
 | Generation/cache | Existing v15 generation/cache/recipe/cancellation/export suites; cold/worker determinism and actual requested/achieved populations |
 | Default-v15 routes | `alpine_v15_route_audit.gd`, then `python tests/report_v15_route_audit.py`; six surveys and one bounded ordinary-input pilot per face; human/multiple-seed acceptance separate |
 | Geology/assets | `geology_asset_suite.gd`, collision/seating/proxy checks as affected; source hashes plus native gallery/gameplay |
-| Trees | `density_lod_suite.gd`, `foliage_playtest.gd`, actual near/mid/far transition and dense-route cost |
+| Trees | `density_lod_suite.gd`, `foliage_sight_suite.gd`, native mask/settings/stand review, actual near/mid/far transition and bounded dense-route cost |
 | Camera/UI | Camera/profile/menu-camera, interface/settings/retained-screen/HUD suites; native multi-size/controller/popup/display matrix |
 | Graphics/native | Graphics/PC settings, FidelityFX settings plus actual DX12 provider/resize/fullscreen/HUD/history/shutdown tests |
 | Audio | Wind/SFX offline/native/lifecycle, equipment observer and voice fixtures; actual listening separate |
@@ -231,8 +233,9 @@ the captured tick. Partial/crashed clips require explicit scenario mode and prod
 `scope: recorded_scenario`; they cannot count as full-descent evidence. Only a
 complete uncrashed player recording may replace the pilot trace in
 `scripts/benchmark_pc.ps1 -InputTrace ... -Repetitions 3`. Old eight-field benchmark
-traces must be regenerated; personal replay format 5 is unchanged. The recorder
-and replay helpers live entirely under `tests/`; the production scene is inherited.
+traces must be regenerated. Personal competitive replays separately use current
+format 7 with nine inputs and lossless clocks; incompatible older recordings are rejected without
+migration. The recorder and replay helpers live entirely under `tests/`; the production scene is inherited.
 Use `performance_recording_suite.gd`, `performance_trace_contract_suite.gd` and
 `record_run.ps1 -SmokeTest -Label <fresh-label>` to verify this tooling.
 
@@ -297,6 +300,11 @@ seeds remain open.
 ## Performance evidence
 
 ### Current v15 player-descent baseline
+
+This retained model-28 measurement predates the model-29 pole/recovery/ghost
+integration. Its receipt remains valid for its recorded sources; it does not
+measure the combined current build. Use bounded current diagnostics for new
+cost questions before requesting any additional full-route baseline.
 
 2026-09-12: three capture-free replays of the user's **attempt 8**, a complete
 122.025-second descent, reproduced all 14,643 solver ticks and 122 checkpoints.
@@ -411,6 +419,194 @@ pause/settings/resume and separate motion controls. Preparation is complete;
 full-mountain, close-fitting and actual human/controller/listening acceptance
 remain explicitly separate.
 
+### Forest transparency producers
+
+`foliage_sight_suite.gd` checks independent strength/reach, lifecycle, isolated
+preferences and material propagation. Native `foliage_sight_mask_playtest.gd`
+checks the production include at five strengths/depth boundaries across nine
+screen tiles and stacked layers. Synthetic coverage cannot establish real-tree
+appearance. `foliage_sight_settings_playtest.gd` checks actual controls and both
+preview views; `foliage_sight_playtest.gd` captures matched first-person/chase
+strengths, chronology, quality changes and fallback cards.
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/foliage_sight_settings_playtest.gd') -Label forest-settings
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/foliage_sight_playtest.gd','--','--graphics-quality=high','--frame-generation=off') -Label forest-stand -TimeoutSeconds 600
+```
+
+The optional world/benchmark producers require a current validated ordinary-input
+trace and matching Standard cache. `foliage_sight_world_playtest.gd` captures
+15-second cases; `foliage_sight_benchmark.gd` cycles 0/50/100% for three warmed
+15-second repetitions each at fixed 60% reach. Supply `--input-trace=PATH` and
+`--trial-start-seconds=N`, verify actual dense-forest coverage and keep captures
+out of timing. Reuse combined bounded riding evidence; do not generate a full
+route solely for FPS during this concurrent run. Default review outputs are fresh
+worker directories, but inherited `--label` / `--benchmark-label` override them.
+
+### Beacon and navigation producers
+
+`finish_beam_suite.gd` checks geometry, true bounds, independent resources and
+halo-free navigation style. `finish_beam_lab_playtest.gd` exercises the actual
+lab caller. `race_beams_playtest.gd` requires the current Standard cache and
+compares the explicitly retained `tests/fixtures/finish_beam_800m/` reference
+with current production at normal Connected chase framing. Candidate selection
+checks actual camera near/far/frustum and terrain LOS; captures require exposed
+shaft, including above 800 m for the dedicated lower-finish 2 km/ridge views.
+These geometric checks still need pixel/fog/prop inspection. A supplemental
+upward view does not establish distant riding usefulness. Existing output paths
+are refused.
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/race_beams_playtest.gd','--','--output=artifacts/finish-current-review','--views-only','--distant-only') -Label finish-review -TimeoutSeconds 900
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/session_navigation_playtest.gd','--','--navigation-smoke') -Label navigation-review -TimeoutSeconds 900
+```
+
+`--diagnostics-only --search-seconds=30 --candidate-limit=6` performs bounded
+selection before Main construction; limits are 5–120 seconds and 1–16 valid
+finish candidates. Inspect its rejection receipts and selected complete view
+bundle before native capture. `--distant-only --selection-report=PATH` reuses
+that source-pinned selection. `--500m-only` restricts it to four images;
+`--weather-only` produces twelve matched images covering Low Clear/Dusk,
+Balanced Clear/Night and High Snowfall/Day at 1080p/4K. Both subsets require
+`--distant-only` and the selection report. These are still producers, not proof
+of visibility: the accepted 2 km/ridge pose has real added amber extent, but
+the forest-obstructed 500 m view remains visually unaccepted. The weather review
+records pale, low-contrast snowfall visibility. Preserve rejected views and use
+the shared navigation landmark proposal for its outstanding fixture correction.
+See [finish review](../artifacts/orchestration_20260912/finish/WEATHER_NATIVE_REVIEW.md).
+Ordinary start/close/fade and broader capture routes remain separate.
+`--timings-only` uses one warmed 15-second
+baseline/proposed pair per near/far view (four samples), not repeated ABBA;
+`report_finish_beam.py` reports these stationary costs, not descent FPS.
+Navigation `--navigation-views-only` omits its cost matrix;
+smoke is a subset. Its marked ordinary-input descent stops at 15 seconds or
+an earlier crash, and 0/5/32-marker timing is a separate static-view comparison.
+Preserve `artifacts/session_navigation_render/` before another capture run.
+
+`session_navigation_suite.gd` covers memory lifetime, identity changes, rebuild,
+map pointer/controller ownership and limits; `session_navigation_checks.gd`
+exposes checks for an already-loaded isolated main scene. It changes fixture
+state and must not run on a user's active descent. Batch shared menu, interface,
+race, prompts and physics/runtime checks once, rather than per marker feature.
+
+### Snow contact and local boundary producers
+
+Batch `snow_response_suite.gd`, `snow_contact_visual_suite.gd` and the existing
+powder upload checks. Native `carving_raised_ski_tracks_gpu_suite.gd` checks live
+stroke parity and exclusions; `local_snow_boundary_suite.gd` checks support,
+recenter/atlas bytes and atomic material publication. Passing byte/flag checks
+does not reproduce or resolve a visible gap or boundary.
+
+For the raised-ski cause, the private TestSlope fixture omits placed trees/rocks
+before world construction, preserving its actual 4 m terrain/snow/materials and
+ordinary steering. Capture identical five-second cases with only cosmetic
+eligibility disabled, then enabled, under identical final physics/equipment:
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/carving_raised_ski_tracks_capture.gd','--','--eligibility-reference','--qualities=balanced','--output=artifacts/carving-gate-before') -Label carving-before -TimeoutSeconds 300
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/carving_raised_ski_tracks_capture.gd','--','--qualities=balanced','--output=artifacts/carving-gate-after') -Label carving-after -TimeoutSeconds 300
+python tests/carving_raised_ski_tracks_compare.py artifacts/carving-gate-before artifacts/carving-gate-after --output artifacts/carving-gate-comparison.json
+```
+
+The pair runs left/right/reversal/jump, 20 seconds total riding per invocation;
+`--cases=reversal` focuses one case. Require low-load grounded and independent
+near-surface candidates in entry/hold and after reversal; jump must execute once
+with genuine airborne exclusions. All cases must reach 300 frames/bounded_limit.
+Native/100% reconstruction is reapplied after preset selection in both modes.
+Use fresh directories and compare only this revised fixture pair; the earlier
+control crashed into a tree and used different reconstruction. Expand to Low/High
+after focused reproduction. A reference with no gap means not reproduced;
+rescued eligibility alone does not establish visible continuity.
+The older snow wrapper/source reference also changes powder implementation and
+cannot isolate this cause. `--timing` runs three warmed five-second capture-free
+submission samples; this CPU proxy is separate from rendered FPS.
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/local_snow_boundary_playtest.gd','--','--scenario=boundary','--preset=7','--upscaler=native','--seconds=15') -Label boundary-review -TimeoutSeconds 900
+```
+
+Repeat with `--reference` for the frozen baseline. Boundary/terrain-edge cases
+are synthetic diagnostics; `ride_glide` and `ride_carve` use ordinary solver input
+and stop after 15 seconds or an earlier crash. The current cached Standard fixture
+is required; cache failure does not start cold generation. Compare native/Auto,
+low sun/overcast, deformation on/off and relevant quality tiers. Inspect chronology
+for relief/shading seams, recenter swim, holes and temporal trails. The boundary reference freezes the original boundary sources while the paired
+scene retains the integrated carving path. Match completed and rendered poses,
+not merely root inputs. In v5 the compute hashes match, but frozen/current crystal
+includes differ; wider glitter/material changes are not a boundary-only result. `--timing --repeats=3` separates warmed
+15-second capture-free samples; record recenter queries/uploads and CPU/GPU cost.
+
+The current producer also accepts comma-separated `--scenarios` and a shared
+`--selection=PATH --selection-mode=create|reuse` for the 15-second ordinary
+glide/carve pair. Synthetic cases update the completed facing pose without solver
+steps and report `solver_ticks=0`. `--matrix=remaining` requires 15-second visual
+cases, one repeat and the exact `--route-proof=PATH --route-proof-sha256=HASH`;
+it covers preset-10/low-sun and preset-4/Cloudy override cases in one world.
+Its retained-edge case is synthetic. Current remaining coverage has six cases:
+`low_sun`, `retained_edge`, `overcast_on`, `overcast_off`, `overcast_carve` and
+`snow_reset`. The last uses ordinary snowy riding through on/off/reenable,
+including fresh GPU packets and old-world-point relief probes. Both modes pin
+actual Main render interpolation to 1.0 through private fixture copies; the
+original stationary-render-root comparison remains rejected motion evidence.
+Proof-backed timing is selected glide only, with matching origin/heading,
+three 15-second repeats at 4K/Auto75% and no captures. The
+[snow-reset handoff](../artifacts/orchestration_20260912/boundary/snow_reset_fix/HANDOFF.md)
+and [matrix handoff](../artifacts/orchestration_20260912/boundary/matrix_fix/HANDOFF.md)
+retain pinned commands and fixture limits. Configured coverage alone is not a pass.
+
+### Current combined evidence boundary
+
+The parent accepts scoped forest-strength, raised-ski continuity and boundary
+rendering for the 2026-09-12 concurrent run. Forest has232 focused and430 native
+mask checks, settings/preview failures[], and the accepted11-result production-tree
+scene review covering both views/strengths, motion, quality and fallback. The
+scene has no solver session and three-second motion clips; it is not ordinary
+Standard-mountain riding or a capture-free0/50/100 timing comparison.
+
+Carving continuity v3 audited2,400 rows/4,800 ski records and every600-tick case
+trace. Balanced right/reversal restored278 samples across the three Balanced
+cases; both skis remain live on every grounded right/reversal frame. Low/High
+reversal and actual jump/rock exclusions pass. All900 paired Balanced physical
+hashes and final ski transforms match. This is full physical trace evidence,
+not a replay-file round trip, every-frame pixel review or fresh sustained-left/
+switch capture. The legacy visual/timing wrapper stages are not reported passed.
+
+Boundary q7 Clear/Day v3 supplies ordinary glide/carve and synthetic movement.
+The final v5 pair completed six cases per mode,450 rows/JPGs each:5,400 total,
+with exact-zero paired roots/cameras/skis/bases/FOV and central findings[].
+[Forest's three-case review](../artifacts/orchestration_20260912/forest/matrix_v5_review/NATIVE_REVIEW.md)
+inspected424 source images; [boundary's three-case review](../artifacts/orchestration_20260912/boundary/FINAL_MATRIX_REVIEW.md)
+inspected468 plus eight GPU snapshots. Thus all six have independent scoped
+pixel review;5,400 individually viewed images are not claimed. Synthetic timelines
+have zero solver ticks, ordinary rides1,800/15 seconds. Genuine snowy reenable
+rebuilds fresh relief and clears old in-atlas marks (R2); rendered pose matching
+closes R4. q10 native dusk and q4 Cloudy Auto75/active FSR4.1.1 on/off are covered.
+
+Loaded scalloped banks (R1), the unisolated carving spacing contribution,
+foreground/spray contact occlusion and shared temporal rider/ski/shadow fringes
+remain limits. Crystal closures differ while v5 compute hashes match; not every
+white-fleck change belongs to the boundary correction. Captured C-pole/replay6/
+archive3 scope is retained despite later lossless replay7/archive4 integration.
+See [Rendering](RENDERING.md#snow-presentation) for the durable shape contract.
+
+[Three warmed capture-free 4K pairs](../artifacts/orchestration_20260912/finish/boundary_timing_review.md)
+found variable whole-frame results and an uncached snow/powder p99 increase to
+3.115–4.889 ms. The [bounded previous-grid cache](../artifacts/orchestration_20260912/boundary/SUPPORT_CACHE_REVIEW.md)
+passed24 byte/query/invalidation,22 boundary and7 carving-GPU checks. Its one
+justified15-second follow-up made738 queries/reused5,904 knots, retaining82 support
+uploads and1,800 dispatches; snow/powder mean/p95/p99 was.243/.533/.814 ms.
+The cache holds1,296 CPU bytes and preserves published bytes. This addresses the
+query cost; it is not three repeated final-cache timings or a full-frame speedup
+guarantee. FPS caps/misses are advisory under the user's concurrent-run waiver.
+Strict clean timing, full descent and human/controller acceptance remain separate.
+
+The [four-record evidence map](../artifacts/orchestration_20260912/forest/final_four_records/CHECKLIST_MAP.md)
+records passed and incomplete compound checklist items. Historical `PROGRESS.md`
+checkpoints and private proposals are not current acceptance. Crash's completed
+105-check native review and subsequent lossless-codec checks are distinguished
+below. Navigation/ghost/finish retain their separate owning reviews and limits;
+pole E remains separately in flight. No additional matrix is requested here.
+
 ## Animation evidence
 
 Durable findings/limits are in [Animation](ANIMATION.md#retained-findings-and-acceptance).
@@ -465,6 +661,37 @@ versus 33 in its baseline, concentrated in tucked-turn neighbors. This body-post
 regression does not clear that open pole/clothing issue; see
 [retained animation findings](ANIMATION.md#retained-findings-and-acceptance).
 
+### Pole propulsion and animation producers
+
+`pole_push_suite.gd` records paired 30-second force/slope/exclusion fixtures;
+`pole_push_pose_suite.gd` checks final fitting, connected grips, continuity and
+articulated replay. Batch physics/runtime and relevant animation/equipment/input
+regressions under the existing suite runner. The default curve's limits and
+intended climb speeds require actual receipts; constants are not observed speeds.
+
+```powershell
+./scripts/test_pc_environment.ps1 -Suites pole_push_suite,pole_push_pose_suite,physics_suite,runtime_suite
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/pole_push_playtest.gd','--','--output=artifacts/pose_review/revisions/poles-current','--scenarios=flat,gentle,steep15,steep10,steep5,cutoff,downhill,left,right,brake_departure,fast') -Label poles-review -TimeoutSeconds 1800
+python scripts/pose_review/freeze_sources.py --revision poles-current
+```
+
+Every named case is 15 seconds; select fewer cases for focused iteration.
+`pole_push_capture.gd -- --probe` provides headless frozen pose data; `--no-push`
+is the feature-off comparison. Enabled/disabled propulsion intentionally changes
+physics, so do not demand physics equality between those variants. Within each,
+presentation must preserve completed physics. Inspect source/requested/final
+poses, loaded tip sliding, wrists, hips/jacket and complete shafts through turn,
+release, high-speed plants and brake/departure flight. Full relevant clothing
+coverage remains required; prior failed tuck-neighbor audits are not superseded.
+
+The Blender source/export command belongs to [Assets](ASSETS.md#pole-action-source).
+The editable `pole_push.blend` and `export_provenance.json` now exist; the receipt
+identifies Blender 5.2.1 LTS and matching source/blend/runtime/builder hashes.
+Its `runtime_pose_accepted` is false. Pole contact_e fitting is still in flight;
+final fitting documentation must follow that integrated revision and its actual
+review. Source export does not clear contact, shaft/clothing, mechanical, timing
+or human acceptance.
+
 ## Audio evidence
 
 Run `scripts/build_wind.ps1 -Test` for standalone 44.1/48 kHz DSP tests, then
@@ -518,10 +745,86 @@ their status/dependencies; this guide does not mark them complete or duplicate
 their checklists. Automated, rendered, performance, listening and human acceptance
 must remain independently attributable.
 
+### Crash recovery and ghost producers
+
+Batch `crash_recovery_suite.gd`, `crash_replay_suite.gd`, `ghost_archive_suite.gd`,
+`competitive_suite.gd`, `race_suite.gd` and required physics/runtime after identities
+and capture hooks settle. Recovery core tests cover local 4 m support/active props,
+rest initialization and clock rules; replay/archive tests cover inactive masks,
+exact boundaries, final poses, selection/eviction and malformed bounded payloads.
+Do not weaken strict pose/identity checks to retain old eight-field or archive-v2
+fixtures. `crash_recovery_lifecycle.gd` uses a disposable eligible short lab race:
+**do not add `--test-lab`**, which would deliberately disable that eligibility.
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/crash_recovery_lifecycle.gd') -Label recovery-review -TimeoutSeconds 240
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/ghost_playtest.gd') -Label ghost-review -TimeoutSeconds 600
+```
+
+Recovery `--small` selects 960×540; normal is 1440×900. Inspect advancing/paused
+crash time, unavailable recovery, neutral-gated rest, attached equipment, restored
+camera and clean player/ghost trail origins. The current validated lab gate runs from (0,25) to (-3,70) in XZ, about
+45.1 m horizontally, with a 15-second riding budget; it is not a mountain descent. It mutes audio/haptics; listening and real-controller
+acceptance require separate ordinary play. Also sample a bounded warm natural-
+mountain obstacle/cliff/boundary case; planar query counts do not establish cost
+or placement usefulness on that terrain.
+
+The final [crash lifecycle review](../artifacts/orchestration_20260912/crash/FINAL_VALIDATION.md)
+passes105 checks with all26 frames reviewed cumulatively. The submitted equipment
+alignment issue is resolved by fixture render ordering:80 current-frame mesh
+submissions agree with final skin attachments within0.127 mm. Free-ski and timed
+actions, exact crash clocks, neutral rest, same-attempt eligible PB and local ghost
+resumption are covered. Timed onset is injected; active-prop impact is a separate
+probe. Prior small layout coverage is an earlier visual revision. Audio/haptics
+were suppressed; no listening or physical-controller acceptance is claimed.
+This native receipt remains C-pole/replay6/archive3, and its combined guard's pole
+failures are not crash failures. It is not a capture of later pole fitting.
+
+Current lossless replay7/archive4 checks separately pass exact-clock95,
+archive119, crash-replay36 and small-cache37, plus required physics56/runtime192.
+[Exact-clock evidence](../artifacts/orchestration_20260912/carving/exact_clock/results.json)
+retains the decimal one-ULP counterexample and proves exact float64 clocks through
+the new codec, archive and cache. Old identities are rejected without migration.
+No unchanged crash-native105 rerun is required solely for this codec change;
+these checks do not retroactively update captured identity or maximum-load timing.
+
+`ghost_archive_suite.gd -- --max-duration` produces ten maximum-length payloads;
+short codec fixtures do not measure their cost. `ghost_retry_cache_suite.gd`
+checks validated reuse, corruption, identity changes and roster pruning. Its
+`--maximum-only --reuse-maximum=PATH` mode reads an existing isolated maximum
+manifest without recreating it; the fixture must still match current identity.
+
+The retained pre-lossless-codec maximum-cache report,
+`artifacts/orchestration_20260912/carving/exact_clock/prior_results/retry_cache_results.json`,
+passed 44 checks. The current `artifacts/ghost/retry_cache_results.json` is the
+37-check small-cache run; it did not repeat the maximum payload measurement. Ten 600-second recordings cost 47,621.594 ms cold versus
+17.163 ms for unchanged cached retry, with ten hits and no additional decodes.
+The earlier maximum archive sample took 42,764.478 ms cold. Thus first load is
+still roughly 43–48 seconds in this low-entropy fixture, a material latency
+limitation; warm reuse is not a cold-load fix or a general latency guarantee.
+The cache accounts for 255,615,110 raw bytes in that sample; the cold decoded
+static-memory delta is 284,565,552 bytes. Those are different measurements, not
+a 320 MiB total-process bound. Less compressible recordings can cost more I/O
+and hashing. This storage evidence establishes no native appearance or FPS.
+
+The ghost native producer captures actual final production poses, then runs a
+15-second playback/selector/lifecycle review. `--profile` substitutes 20-second
+0/1/10-ghost and ten-without-tracks cases, excluding initial warmup and captures.
+These are diagnostic lab costs, not a full route or a three-repetition benchmark.
+For a comparative cost claim, preserve three independent warmed repetitions and
+actual output/internal pixels, quality, renderer and memory. Default-v15 High
+cost needs a matched bounded natural-scene fixture; the laboratory is not that
+acceptance. Preserve fixed `artifacts/ghost/native/` outputs before rerunning. Inspect
+multiple outfits, ten colors, body/equipment continuity, close overlap, occlusion,
+independent finishes, pause/hide/reenable and crash discontinuities. Codec fixtures
+are not animation-quality evidence. The native crash result above and ghost's separate review do not establish
+natural-mountain placement usefulness, full-route behavior or human comfort.
+
 ## Weather and storm-race evidence
 
-The weather upgrade uses schema 5 / weather rules 1. Focused tests cover launch
-preferences and private RNG, 3,600-second days, front/storm boundaries, complete
+The original weather evidence below used race schema 5 / weather rules 1;
+current race schema 6 retains those weather rules and adds recovery rules 1.
+Focused tests cover launch preferences and private RNG, 3,600-second days, front/storm boundaries, complete
 snapshot continuation, fixed race schedules and practice-record protection.
 Run `weather_suite.gd` headlessly and `weather_lifecycle_suite.gd` headlessly or
 natively through the guard. The lifecycle fixture uses isolated records and can

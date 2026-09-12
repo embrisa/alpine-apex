@@ -1,83 +1,112 @@
 extends Node3D
-## Cheap, non-colliding snapshot silhouette. No solver, contact, audio or tracks.
-var enabled: bool = true
-var material: StandardMaterial3D
-var torso: MeshInstance3D
-var head: MeshInstance3D
-var limbs: Array[MeshInstance3D] = []
-var skis: Array[MeshInstance3D] = []
-var last_pose: Dictionary = {}
+## A single replay-owned fully equipped skier and independent bounded tracks.
+const Visual = preload("res://scripts/presentation/skier_visual.gd")
+const Pose = preload("res://scripts/presentation/ghost_pose.gd")
+const Assets = preload("res://scripts/presentation/ghost_assets.gd")
+const Tracks = preload("res://scripts/presentation/snow_tracks.gd")
+const Stack = preload("res://scripts/presentation/ghost_track_stack.gd")
+const Response = preload("res://scripts/presentation/snow_response.gd")
+var visual
+var snow_tracks
+var ghost_assets
+var replay:
+	set(value):
+		if replay==value: return
+		replay = value
+		reset_history()
+var run_id = ""
+var color = Color.WHITE
+var source_assets
+var player_history
+var profile
+var field
+var last_time = -1.0
+var last_segment = -1
+var enabled = true
+var emitting = false
+var opacity = .15
+var responses: Array = [Response.new(),Response.new()]
 
 func _ready() -> void:
-	material = StandardMaterial3D.new()
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material.albedo_color = Color(0.3,0.93,1.0,0.45)
-	material.no_depth_test = false
-	var body_mesh = CapsuleMesh.new()
-	body_mesh.radius = 0.19
-	body_mesh.height = 0.65
-	body_mesh.radial_segments = 8
-	body_mesh.rings = 2
-	torso = _mesh(body_mesh)
-	var head_mesh = SphereMesh.new()
-	head_mesh.radius = 0.14
-	head_mesh.height = 0.28
-	head_mesh.radial_segments = 8
-	head_mesh.rings = 4
-	head = _mesh(head_mesh)
-	var limb_mesh = CylinderMesh.new()
-	limb_mesh.top_radius = 0.065
-	limb_mesh.bottom_radius = 0.065
-	limb_mesh.height = 1.0
-	limb_mesh.radial_segments = 6
-	for i in range(8): limbs.append(_mesh(limb_mesh))
-	var ski_mesh = BoxMesh.new()
-	ski_mesh.size = Vector3(0.10,0.055,1.90)
-	for side in [-1.0,1.0]:
-		var ski = _mesh(ski_mesh)
-		ski.position = Vector3(side*0.22,0.05,0.12)
-		skis.append(ski)
-	visible = false
+	ghost_assets = Assets.new(source_assets,color)
+	visual = Visual.new()
+	visual.preview_only = true
+	visual.animation_enabled = false
+	visual.assets = ghost_assets
+	visual.lighting = source_assets.lighting
+	add_child(visual)
+	# Equipment meshes intentionally share immutable production geometry. Their
+	# per-node overrides, like the body overrides, belong to this ghost alone.
+	_isolate(visual)
+	snow_tracks = Tracks.new()
+	snow_tracks.lighting = source_assets.lighting
+	add_child(snow_tracks)
+	var old_material: ShaderMaterial = snow_tracks.material
+	source_assets.lighting.materials.erase(old_material)
+	snow_tracks.material = player_history.material.duplicate()
+	source_assets.lighting.register(snow_tracks.material)
+	snow_tracks.tracks.mesh.material = snow_tracks.material
+	snow_tracks.live_tracks.mesh.material = snow_tracks.material
+	apply_quality(profile)
+	visual.visible = false
 
-func _mesh(mesh: Mesh) -> MeshInstance3D:
-	var instance = MeshInstance3D.new()
-	instance.mesh = mesh
-	instance.material_override = material
-	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	instance.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
-	add_child(instance)
-	return instance
+func _isolate(node: Node) -> void:
+	if node is GeometryInstance3D:
+		node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
+		node.transparency = 0.0
+		node.visibility_range_begin = 0.0; node.visibility_range_end = 0.0
+	if node is MeshInstance3D and node.mesh:
+		for i in node.mesh.get_surface_count():
+			var mat = node.get_active_material(i)
+			if mat and mat not in ghost_assets.materials.values(): node.set_surface_override_material(i,ghost_assets.material_for(mat))
+	for child in node.get_children(): _isolate(child)
 
-func update_ghost(replay, time: float, rider_position: Vector3, show_in_world: bool) -> void:
-	visible = false
-	if not enabled or not show_in_world or replay==null or time>replay.duration+0.25: return
-	var pose: Dictionary = replay.pose_at(time)
-	if pose.is_empty(): return
-	last_pose = pose
-	var distance: float = pose.position.distance_to(rider_position)
-	# Avoid covering the real skier or first-person camera on identical lines.
-	if distance<1.2 or distance>750.0: return
-	visible = true
-	material.albedo_color.a = 0.46*smoothstep(1.2,4.0,distance)
-	position = pose.position
-	basis = pose.basis
-	var joints: Dictionary = pose.joints
-	var hips: Vector3 = joints.Hips
-	var chest: Vector3 = joints.Spine
-	torso.position = hips.lerp(chest,.5)
-	torso.basis = Basis(Quaternion(Vector3.UP,(chest-hips).normalized()))
-	head.position = joints.Head+Vector3(0,.09,0)
-	for i in range(2):
-		var prefix = "Right" if i==0 else "Left"
-		_segment(limbs[i*4],joints[prefix+"UpLeg"],joints[prefix+"Leg"])
-		_segment(limbs[i*4+1],joints[prefix+"Leg"],joints[prefix+"Foot"])
-		_segment(limbs[i*4+2],joints[prefix+"Arm"],joints[prefix+"ForeArm"])
-		_segment(limbs[i*4+3],joints[prefix+"ForeArm"],joints[prefix+"Hand"])
-		var ski: Dictionary = pose.skis[i]
-		var ski_basis: Basis = ski.basis
-		skis[i].global_transform = Transform3D(ski_basis,position+ski.offset+ski_basis*Vector3(0,.015,.15))
+func apply_quality(value) -> void:
+	profile = value
+	if snow_tracks:
+		var bounded = value.duplicate()
+		bounded.snow_track_capacity = Stack.GHOST_CAPACITY
+		snow_tracks.apply_quality(bounded)
 
-func _segment(node: MeshInstance3D, a: Vector3, b: Vector3) -> void:
-	node.position = a.lerp(b,0.5)
-	node.basis = Basis(Quaternion(Vector3.UP,(b-a).normalized())).scaled_local(Vector3(1,a.distance_to(b),1))
+static func opacity_at(distance: float) -> float:
+	return clampf(lerpf(.15,.72,smoothstep(0.0,18.0,maxf(distance,0.0))),.15,.72)
+
+func reset_history() -> void:
+	last_time = -1.0; last_segment = -1; emitting = false
+	if snow_tracks: snow_tracks.reset()
+	if visual: visual.visible = false
+
+func break_tracks() -> void:
+	snow_tracks.foot_history.fill(Vector3.INF)
+	for i in 2: snow_tracks._hide_live(i)
+
+func update_ghost(time: float, rider_position: Vector3, show_in_world: bool, paused: bool = false, track_emission: bool = true) -> void:
+	if replay==null or not enabled or not show_in_world:
+		if last_time>=0: reset_history()
+		return
+	if paused and last_time>=0: time = last_time
+	if last_time>=0 and time<last_time: reset_history()
+	var sample_time = clampf(time,0.0,replay.duration)
+	var data: Dictionary = replay.presentation_at(sample_time)
+	if data.is_empty():
+		visual.visible = false; break_tracks(); last_time = time; emitting = false
+		return
+	var advanced = last_time<0 or time>last_time
+	if data.segment!=last_segment or (last_time>=0 and time-last_time>.12): break_tracks()
+	if advanced or not visual.visible:
+		Pose.apply(visual,data.a,data.b,data.weight,responses)
+	opacity = opacity_at(visual.global_position.distance_to(rider_position))
+	ghost_assets.tint(color,opacity)
+	visual.visible = time<=replay.duration
+	var crossed_finish = last_time>=0 and last_time<replay.duration and time>replay.duration and time-last_time<=.12
+	emitting = track_emission and not paused and advanced and (time<=replay.duration or crossed_finish)
+	if emitting:
+		snow_tracks.update_presentation(field,visual.global_position,true,responses,float(data.a[-1]))
+	elif time>replay.duration:
+		break_tracks() # retained marks remain, independent of this model's finish
+	last_time = time; last_segment = data.segment
+
+func _exit_tree() -> void:
+	if ghost_assets: ghost_assets.dispose()
+	if snow_tracks: source_assets.lighting.materials.erase(snow_tracks.material)

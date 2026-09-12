@@ -3,6 +3,9 @@ render_mode unshaded, blend_mix, depth_draw_never, cull_back;
 
 uniform vec4 beam_color : source_color = vec4(0.76,0.91,0.42,1.0);
 uniform float brightness = 1.0;
+uniform float height_above_anchor_m = 800.0;
+uniform float base_bury_m = 8.0;
+uniform float top_fade_start_m = 600.0;
 uniform float visual_time = 0.0;
 uniform float vfx_strength = 1.0;
 varying vec3 world_position;
@@ -12,7 +15,7 @@ varying float height_m;
 void vertex() {
 	world_position = (MODEL_MATRIX * vec4(VERTEX,1.0)).xyz;
 	radial_normal = mat3(MODEL_MATRIX) * NORMAL;
-	height_m = VERTEX.y + 396.0; // 800 m above the anchor, 8 m buried in snow.
+	height_m = VERTEX.y + (height_above_anchor_m-base_bury_m)*0.5;
 }
 
 float cell_random(vec2 cell) {
@@ -25,8 +28,8 @@ void fragment() {
 	float facing = max(0.0,dot(normalize(radial_normal.xz),toward_camera / max(length(toward_camera),0.001)));
 	float halo = pow(facing,2.0);
 	float core = pow(facing,12.0);
-	float top_fade = 1.0 - smoothstep(600.0,800.0,height_m);
-	float base_fade = smoothstep(-8.0,0.0,height_m);
+	float top_fade = 1.0 - smoothstep(top_fade_start_m,height_above_anchor_m,height_m);
+	float base_fade = smoothstep(-base_bury_m,0.0,height_m);
 	float distance_m = length(VERTEX);
 	float near_fade = smoothstep(2.0,12.0,distance_m);
 	float angle = atan(radial_normal.z,radial_normal.x);

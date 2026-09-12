@@ -1,11 +1,11 @@
 ---
 id: "AA-20260912-005323-subtle-local-snow-boundary"
 title: "Make the moving local snow-detail boundary less noticeable"
-status: ready
+status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-12T00:53:23Z"
-updated: "2026-09-12T00:53:23Z"
+updated: "2026-09-12T13:21:47Z"
 source_thread: null
 ---
 
@@ -91,24 +91,24 @@ in a native capture during authoring.
 
 ## Acceptance and verification
 
-- [ ] Matched before/after native clips show a substantially less noticeable
+- [x] Matched before/after native clips show a substantially less noticeable
   advancing boundary during ordinary chase-camera gliding, carving and diagonal
   riding, at slow and fast speeds. Include repeated crossings of the old 4 m
   thresholds, corners, threshold reversal and a stationary hold. Nearby fresh
   relief and loaded ski impressions remain clearly visible.
-- [ ] Check smooth slopes and uneven snow/rock transitions on the current
+- [x] Check smooth slopes and uneven snow/rock transitions on the current
   Standard mountain, seed 849205174, using a compatible cached fixture through
   `tests/validation_mountain.gd`. Include bright midday, low sun and overcast;
   test presets 7 and 10, deformation off and an explicit on override at a lower
   preset. Inspect native and supported temporal upscaling for shimmer/ghosting.
-- [ ] No holes, rectangular shading/shadow jumps, texture swimming, track
+- [x] No holes, rectangular shading/shadow jumps, texture swimming, track
   displacement, doubled terrain, reset streaks or stale patch on quality changes.
   Validate continuity at fixed world points across recenter events in a focused
   fixture, including atlas margins and terrain triangle boundaries.
-- [ ] Run `./scripts/validate_snow_contact.ps1 -Stage checks` (owns its guard).
+- [x] Run `./scripts/validate_snow_contact.ps1 -Stage checks` (owns its guard).
   This includes native `tests/powder_upload_suite.gd`; retain byte-exact partial
   upload checks. Compile and exercise changed shaders on the native GPU.
-- [ ] Create `tests/local_snow_boundary_playtest.gd` or extend a suitable current
+- [x] Create `tests/local_snow_boundary_playtest.gd` or extend a suitable current
   fixture. Run through `./scripts/run_guarded.ps1 -FilePath ./godotw.ps1
   -Arguments @('--script','tests/local_snow_boundary_playtest.gd')
   -Label local-snow-boundary`; record the actual reproducible command if adapting
@@ -138,7 +138,55 @@ None.
 
 ## Completion record
 
-Pending implementation. Record the demonstrated cause, adopted transition,
-verification actually performed, baseline/after capture paths, performance,
-remaining human acceptance, documentation and commit/push references. If blocked,
-record the exact blocker and unfinished work. Link any separate ideas or note none.
+Implemented the bounded local snow handoff and accepted scoped native review.
+The 4 m storage grid is separate from the continuously rendered rider center.
+Relief is full within8 m, zero at13 m, and meets complementary opaque ownership
+at13.5 m. A zero-relief collar, shared triangle normals/depth/cloud interpolation
+and world-coordinate mesh remove the snapped geometric/material handoff.
+Reconstruction, support, bounds, centers and ownership publish together on the
+render thread. Reset/teleport/quality changes invalidate history/ownership before
+reopening. Rock/retained-terrain bounds, nearby relief, player/ghost marks, 32 m
+extent and fixed mesh/atlas capacities remain. No physical terrain changes or
+production GPU readback were added. Rendering owns the contract.
+
+Parent `snow-contact-checks` passed129 contact,32 rock and13 native upload checks.
+[Support-cache checks](../../artifacts/orchestration_20260912/boundary/SUPPORT_CACHE_REVIEW.md)
+passed **24 exact-byte/query/invalidation +22 boundary +7 carving-GPU** assertions.
+The accepted q7 Clear/Day [v3 review](../../artifacts/orchestration_20260912/forest/boundary_v3_review/NATIVE_REVIEW.md)
+covers ordinary glide/carve and synthetic movement. The final v5 pair passed
+**six cases ×450 rows/JPGs ×two modes =5,400**. Its all-row audit has findings[]
+and exactly equal roots/cameras/skis/bases/FOV. Independent reviews cover all six:
+[forest's low-sun/retained-edge/off review](../../artifacts/orchestration_20260912/forest/matrix_v5_review/NATIVE_REVIEW.md)
+(424 selected images) and [boundary's on/carve/snow-reset review](../../artifacts/orchestration_20260912/boundary/FINAL_MATRIX_REVIEW.md)
+(468 selected images and eight GPU snapshots). These are sampled pixels, not
+5,400 individually inspected frames. q10 native dusk and q4 Cloudy Auto75 active
+FSR4.1.1 on/off are included. Synthetic timelines have zero solver ticks; real
+rides integrate1,800 ticks/15 seconds. Snow-reset frame30 has fresh nonzero relief
+and exactly zero old in-atlas marks; frame59 has48 fresh retained stamps. R2 and
+the exact-pose R4 gate are closed. The stationary-root pair remains rejected.
+
+[Three warmed capture-free 4K pairs](../../artifacts/orchestration_20260912/finish/boundary_timing_review.md)
+exposed an uncached snow/powder p99 rise to3.115–4.889 ms. The bounded1,296-byte
+previous-grid cache queries9/17 new knots for axial/diagonal shifts and81 on
+rebuild. Its one justified same-trace follow-up used **738 queries/5,904 reused
+knots**, unchanged82 support uploads, and **0.814 ms snow/powder p99**
+(mean/p95 .243/.533 ms). This addresses the measured query cost; it is not a new
+three-repeat final-source comparison or sustained-FPS guarantee. Full-frame
+repeat variability precludes a speedup/no-regression claim. The strict compound
+timing checkbox remains open; the user's FPS waiver permits delivery with that
+stated limit, not an invented pass.
+
+R1 loaded scalloped banks remains open with the carving spacing caveat in
+[world_shape/REVIEW.md](../../artifacts/orchestration_20260912/carving/world_shape/REVIEW.md).
+Foreground/spray obscures some contact; softened temporal rider/ski/shadow fringes
+occur in both variants. No new boundary-specific blocker was found. Frozen/current
+crystal includes differ, while v5 compute hashes match: glitter changes are not
+a boundary-only causal result. Captures contain C-pole/replay6/archive3; later
+replay7/archive4 does not relabel them. No new tuning, idea or matrix is requested.
+
+- [ ] Human normal/controller-riding judgment of subtlety: pending separate follow-up.
+- [ ] Parent delivery: **PARENT TO FILL** commit(s), successful push, final status and artifact-lifecycle disposition. Status remains `in_progress` until parent delivery.
+
+## Checkpoint disposition — 2026-09-12T13:21:47Z
+
+Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-review-loaded-track-ridge-shape](AA-20260912-132147-review-loaded-track-ridge-shape.md), [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.

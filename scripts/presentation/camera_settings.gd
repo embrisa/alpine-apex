@@ -18,7 +18,7 @@ const SHARED_DEFAULTS = {
 	"mouse_sensitivity":0.1, "stick_yaw_speed":150.0, "stick_pitch_speed":100.0,
 	"stick_deadzone":0.18, "stick_exponent":2.0, "invert_y":false,
 	"auto_recenter":true, "recenter_delay":0.8, "recenter_time":0.35,
-	"forest_visibility":60.0, "forest_visibility_size":88.0,
+	"forest_visibility":60.0, "forest_visibility_strength":100.0,
 }
 const RANGES = {
 	"rest_fov":Vector3(50,120,1), "fast_fov":Vector3(50,120,1),
@@ -40,7 +40,7 @@ const RANGES = {
 	"stick_yaw_speed":Vector3(30,360,5), "stick_pitch_speed":Vector3(30,240,5),
 	"stick_deadzone":Vector3(0.05,0.4,0.01), "stick_exponent":Vector3(1,3,0.05),
 	"recenter_delay":Vector3(0,5,0.1), "recenter_time":Vector3(0.05,2,0.05),
-	"forest_visibility":Vector3(0,100,1), "forest_visibility_size":Vector3(20,100,1),
+	"forest_visibility":Vector3(0,100,1), "forest_visibility_strength":Vector3(0,100,1),
 }
 var profiles: Dictionary = {}
 var shared: Dictionary = SHARED_DEFAULTS.duplicate()

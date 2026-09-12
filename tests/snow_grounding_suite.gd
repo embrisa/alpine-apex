@@ -115,7 +115,7 @@ func run() -> void:
 	quit(0 if failures.is_empty() else 1)
 
 func contracts() -> void:
-	check(Sim.MODEL_VERSION==28 and Replay.VERSION==5 and Replay.INPUT_WIDTH==8,"Model 28 retains replay v5 input layout")
+	check(Sim.MODEL_VERSION==29 and Replay.VERSION==7 and Replay.INPUT_WIDTH==9,"Pole propulsion retains grounded snow with the held-preparation replay field")
 	var field = Probe.SnowRipple.new(0,32,.20)
 	var sim = rider(Sim,field)
 	sim.velocity += sim.support_basis().y*1.0
@@ -179,8 +179,9 @@ func contracts() -> void:
 		b.step(DT,replay.input_at(tick),field)
 		same = same and a.position.distance_to(b.position)<.00001 and a.velocity.distance_to(b.velocity)<.00001
 	check(same,"Recorded inputs reproduce grounded snow")
+	preload("res://tests/ghost_replay_fixture.gd").attach_sample_poses(replay)
 	var encoded = replay.to_data()
-	check(Replay.decode(encoded,identity,replay.duration)!=null,"Model 28 recording round-trips")
+	check(Replay.decode(encoded,identity,replay.duration)!=null,"Current model recording round-trips with a complete pose envelope")
 	encoded.compatibility.physics = 27
 	check(Replay.decode(encoded,identity,replay.duration)==null,"Model 27 recordings are incompatible")
 	a.snow_contact_assist.suppressed = true; a.snow_contact_assist.settled_s = .1

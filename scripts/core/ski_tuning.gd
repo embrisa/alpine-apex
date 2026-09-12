@@ -1,6 +1,25 @@
 class_name SkiTuning
 extends Resource
-## SI units: metres, seconds, radians, acceleration in m/s². No speed cap.
+## SI units: metres, seconds, radians, acceleration in m/s². No global speed cap.
+@export_group("Pole pushing")
+@export var pole_push_enabled: bool = true
+@export var pole_push_grades_degrees = PackedFloat32Array([0,10,20,28,34,42])
+@export var pole_push_speeds_kmh = PackedFloat32Array([40,30,17,12,8,0])
+@export var pole_push_fade_degrees: float = 34.0
+@export var pole_push_acceleration: float = 5.0 # m/s2, peak flat stroke
+@export var pole_push_fast_acceleration: float = 12.0 # shorter contact at speed
+@export var pole_push_uphill_power: float = 2.4 # uphill gravity multiplier in power phase
+@export var pole_push_max_acceleration: float = 22.0 # m/s2, absolute thrust budget
+@export var pole_push_cadence_hz: float = 1.15
+@export var pole_push_fast_cadence_hz: float = 2.4
+@export var pole_push_uphill_cadence_hz: float = 2.25
+@export var pole_push_taper_start: float = .86 # fraction of applicable speed limit
+@export var pole_push_blend_rate: float = 6.0 # action envelope / second
+@export var pole_push_steer_cutoff: float = .65
+@export var pole_push_bank_cutoff: float = .45 # radians
+@export var pole_push_normal_tolerance: float = .20943951 # 12 degrees
+@export var pole_push_rollback_mps: float = .8 # slow rollback can be arrested; switch cannot
+@export var pole_push_sideways_mps: float = 2.0
 @export_group("Gravity and resistance")
 @export_range(0.3, 2.0) var gravity_multiplier: float = 1.0
 @export_range(0.001, 0.15) var ski_friction: float = 0.022

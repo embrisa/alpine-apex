@@ -1,5 +1,7 @@
 extends CanvasLayer
 signal start_requested(timed: bool)
+signal respawn_requested
+signal crash_pause_requested
 signal restart_requested
 signal resume_requested
 signal lab_speed_requested(kmh: float)
@@ -55,8 +57,12 @@ signal audio_mute_requested(enabled: bool)
 signal motion_effects_requested(enabled: bool)
 signal mountains_requested
 signal races_requested
+signal navigation_requested
+var navigation_button: Button
 signal competition_requested
 signal ghost_visibility_requested(enabled: bool)
+signal ghost_selection_requested(mode: String, ids: Array)
+var ghost_colors: Dictionary = {}
 const Competition = preload("res://scripts/ui/competitive_panel.gd")
 var competition = Competition.new()
 var records_button: Button
@@ -91,6 +97,10 @@ var footer_controls: Label
 const Prompts = preload("res://scripts/ui/controller_prompts.gd")
 var input_family = "keyboard"
 var primary: Button
+var crash_restart: Button
+var crash_pause: Button
+var crash_clock: Label
+var crash_availability: Label
 var secondary: Button
 var debug_panel: PanelContainer
 var debug_text: Label
@@ -493,6 +503,10 @@ func _build_menu() -> void:
 	var shell = _window(menu)
 	menu_location = _label("MOUNTAIN",12,LIME,true)
 	shell.add_child(menu_location)
+	crash_clock = _label("",20,WHITE,true)
+	crash_clock.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	shell.add_child(crash_clock)
+	crash_clock.hide()
 	menu_tabs = _tabs(shell)
 	var ride = _tab(menu_tabs,"Ride")
 	menu_title = _label("Alpine Apex",48,WHITE)
@@ -500,6 +514,10 @@ func _build_menu() -> void:
 	menu_description = _label("",20,MUTED)
 	menu_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	ride.add_child(menu_description)
+	crash_availability = _label("",16,MUTED)
+	crash_availability.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	ride.add_child(crash_availability)
+	crash_availability.hide()
 	menu_specs = _label("",15,WHITE,true)
 	menu_specs.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	ride.add_child(menu_specs)
@@ -514,10 +532,21 @@ func _build_menu() -> void:
 	primary.custom_minimum_size = Vector2(290,64)
 	primary.pressed.connect(_primary_pressed)
 	actions.add_child(primary)
+	crash_restart = _button("TRY AGAIN")
+	crash_restart.pressed.connect(func(): restart_requested.emit())
+	actions.add_child(crash_restart)
+	crash_restart.hide()
+	crash_pause = _button("PAUSE")
+	crash_pause.pressed.connect(func(): crash_pause_requested.emit())
+	actions.add_child(crash_pause)
+	crash_pause.hide()
 	secondary = _button("Create & share races")
 	secondary.custom_minimum_size = Vector2(290,64)
 	secondary.pressed.connect(func(): races_requested.emit())
 	actions.add_child(secondary)
+	navigation_button = _button("Map / Navigation")
+	navigation_button.pressed.connect(func(): navigation_requested.emit())
+	actions.add_child(navigation_button)
 	menu_tabs.tab_changed.connect(func(index): actions.visible = index==0)
 	var explore = _tab(menu_tabs,"Explore")
 	explore.add_child(_label("Mountains & races",32,WHITE))
@@ -527,7 +556,7 @@ func _build_menu() -> void:
 	var races_button = _button("Races  ·  Create & share")
 	races_button.pressed.connect(func(): races_requested.emit())
 	explore.add_child(races_button)
-	records_button = _button("Personal best & run history")
+	records_button = _button("Records & ghost selection")
 	records_button.pressed.connect(func(): competition_requested.emit())
 	explore.add_child(records_button)
 	var tools = _tab(menu_tabs,"Tools")
@@ -690,7 +719,9 @@ func close_weather() -> void:
 func _primary_pressed() -> void:
 	if menu_mode == "paused":
 		resume_requested.emit()
-	elif menu_mode in ["crashed","finished"]:
+	elif menu_mode=="crashed":
+		if not primary.disabled: respawn_requested.emit()
+	elif menu_mode=="finished":
 		restart_requested.emit()
 	else:
 		start_requested.emit(mountain_seed_value<0)
@@ -703,6 +734,12 @@ func show_menu(kind: String, detail: String = "") -> void:
 	weather_button.visible = true
 	menu_tabs.current_tab = 0
 	secondary.visible = kind == "title"
+	navigation_button.visible = kind in ["title","paused"]
+	primary.disabled = false
+	crash_restart.visible = kind=="crashed"
+	crash_pause.visible = kind=="crashed"
+	crash_clock.visible = kind=="crashed"
+	crash_availability.visible = kind=="crashed"
 	match kind:
 		"title":
 			menu_title.text = "Ready to ski"
@@ -715,7 +752,7 @@ func show_menu(kind: String, detail: String = "") -> void:
 		"crashed":
 			menu_title.text = "Crashed"
 			menu_description.text = detail
-			primary.text = "TRY AGAIN"
+			primary.text = "RESPAWN HERE"
 		"finished":
 			menu_title.text = "Race complete"
 			menu_description.text = detail
@@ -726,6 +763,17 @@ func show_menu(kind: String, detail: String = "") -> void:
 		primary.text = "DROP IN"
 	primary.grab_focus()
 	_sync_menu_backdrop()
+
+func update_crash_recovery(session, unavailable: String = "", focus_paused: bool = false) -> void:
+	if not session.recovering: return
+	var paused: bool = session.recovery_paused or focus_paused
+	crash_clock.text = "%s  /  %s" % [Session.format_time(session.elapsed),"PAUSED" if paused else "CLOCK RUNNING"]
+	crash_availability.text = unavailable if not unavailable.is_empty() else "Respawn from rest near the crash start. Keep this attempt; no added time penalty."
+	crash_pause.text = "CONTINUE CLOCK" if session.recovery_paused else "PAUSE"
+	primary.disabled = paused or not unavailable.is_empty()
+	if primary.disabled and primary.has_focus():
+		if session.recovery_paused: crash_pause.grab_focus()
+		else: crash_restart.grab_focus()
 
 func hide_menu() -> void:
 	menu.visible = false
@@ -890,7 +938,7 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 			split_label.text = "%d%% APPROACH  /  %s\n%s" % [(index+1)*25,Session.format_time(session.split_times[index]),"NO PREVIOUS SPLIT" if not is_finite(delta) else Session.format_delta(delta)+( " AHEAD OF PB" if delta<0 else " BEHIND PB" if delta>0 else " LEVEL WITH PB")]
 			split_label.modulate = Color("ffa96b") if is_finite(delta) and delta>0 else LIME
 		else:
-			split_label.text = "PB GHOST %s / G" % ("ON" if ghost_enabled else "OFF") if session.reference_replay else "SET A PERSONAL BEST"
+			split_label.text = "%d GHOSTS %s / G" % [session.reference_ghosts.size(),"ON" if ghost_enabled else "OFF"] if not session.reference_ghosts.is_empty() else "NO GHOSTS THIS ATTEMPT"
 			split_label.modulate = WHITE
 	progress.value = session.progress_percent(sim.position)
 	altitude_label.text = "%s m  ·  %s" % [str(roundi(sim.position.y + (1491.5 if mountain_seed_value<0 else 0.0))),weather_label.to_upper()]
@@ -943,7 +991,7 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 		mode_label.text = session.race.title.to_upper() + (" / UNRANKED" if not session.eligible else " / OPEN ROUTE")
 		state_label.text = "%s  ·  FINISH %d m" % [status,sim.position.distance_to(session.race.finish)]
 		if session.finished: state_label.text = "FINISH REACHED"
-		menu_specs.text = "MOUNTAIN %d  /  OPEN ROUTE\n12 m FINISH RADIUS  /  NO CHECKPOINTS" % session.race.mountain.seed
+		menu_specs.text = "MOUNTAIN %d  /  OPEN ROUTE\nFINISH GATE  /  NO CHECKPOINTS" % session.race.mountain.seed
 	elif not mountain_name.is_empty():
 		menu_specs.text = "MOUNTAIN SEED: %d\nFREE SKI / CREATE YOUR OWN RACES" % mountain_seed_value
 	else:

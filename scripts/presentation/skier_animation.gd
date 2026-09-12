@@ -32,6 +32,9 @@ func reset(sim) -> void:
 		"ready":0.0,"impact":0.0,"impact_drop":0.0,"impact_side":0.0,"transfer":0.0,
 		"compact":0.0,"absorbed":0.0,"skid":0.0,"load_bias":0.0,"impairment":0.0,"grab":0.0,"pulse":0.0,"turn_follow":0.0,"recoil":0.0,"recoil_x":0.0,"recoil_z":0.0,
 		"spine_flex":deg_to_rad(lerpf(tuning.spine_relaxed_degrees,tuning.spine_tuck_degrees,sim.effective_tuck))}
+	current.pole_phase = sim.pole_push_phase
+	current.pole_intensity = sim.pole_push_intensity
+	current.pole_power = sim.pole_push_power
 	previous = current.duplicate()
 	last_tick = sim.ticks
 	last_position = sim.position
@@ -64,6 +67,8 @@ func sample(fraction: float = 1.0) -> Dictionary:
 	var result: Dictionary = {}
 	for key in current:
 		result[key] = lerpf(previous.get(key,current[key]),current[key],clampf(fraction,0.0,1.0))
+	if current.has("pole_phase"):
+		result.pole_phase = fposmod(lerp_angle(previous.get("pole_phase",current.pole_phase)*TAU,current.pole_phase*TAU,clampf(fraction,0.0,1.0))/TAU,1.0)
 	return result
 
 func step(dt: float, sim, intent, surface) -> void:
@@ -82,6 +87,9 @@ func step(dt: float, sim, intent, surface) -> void:
 	landing_age += dt
 	collision_age += dt
 	var signals = sim.motion
+	current.pole_phase = sim.pole_push_phase
+	current.pole_intensity = sim.pole_push_intensity
+	current.pole_power = sim.pole_push_power
 	var contact: Dictionary = signals.obstacle_contact
 	if not contact.is_empty() and contact.closing_speed_mps>=tuning.collision_min_speed_mps:
 		if collision_age>=tuning.collision_group_seconds:
@@ -172,7 +180,7 @@ func step(dt: float, sim, intent, surface) -> void:
 	if recoil>.01 and envelope<=.01: phase = "collision"
 	if current.grab>.05 and not sim.grounded: phase = "grab"
 	was_grounded = sim.grounded
-	full_motion.step(dt,sim,intent,current,landing_events)
+	full_motion.step(dt,sim,intent,current,landing_events,surface)
 
 func landing_profile(speed: float) -> Vector2:
 	# Continuous strength across the named small/medium/large bands.

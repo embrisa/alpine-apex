@@ -213,9 +213,14 @@ func _recorded_requests() -> void:
 		restored = recording.input_at(tick)
 		playback.step(DT,restored,plane)
 		matches = matches and playback.position.is_equal_approx(sim.position) and playback.velocity.is_equal_approx(sim.velocity)
-	check(matches,"Recorded release commands reproduce every physics step without holding-state data")
-	check(identity.physics==21 and recording.inputs.size()==150*7,"Model v21 retains steering, release and the three airborne input fields")
+	check(matches,"Recorded held preparation and release commands reproduce every physics step")
+	check(identity.physics==29 and Replay.VERSION==7 and Replay.INPUT_WIDTH==9 and recording.inputs.size()==150*Replay.INPUT_WIDTH,"Model 29/replay 7 retain all nine fields including held preparation")
+	# Add only neutral presentation samples to the real recorded physics/inputs.
+	preload("res://tests/ghost_replay_fixture.gd").attach_sample_poses(recording)
 	var data = recording.to_data()
-	check(Replay.decode(data,identity,recording.duration)!=null,"Release-based recording round-trips")
-	data.compatibility.physics = 20
-	check(Replay.decode(data,identity,recording.duration)==null,"Previous physics model cannot load as a compatible v21 ghost")
+	var decoded = Replay.decode(data,identity,recording.duration)
+	check(decoded!=null and decoded.samples==recording.samples and decoded.inputs==recording.inputs and decoded.sample_times==recording.sample_times,"Release recording round-trips exact physical/input frames with synthetic codec poses")
+	if decoded==null: return
+	var incompatible = data.duplicate(true)
+	incompatible.compatibility.physics = 28
+	check(Replay.decode(incompatible,identity,recording.duration)==null,"Previous physics model cannot load as a compatible model 29 ghost")

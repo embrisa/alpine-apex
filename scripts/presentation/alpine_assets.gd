@@ -23,7 +23,6 @@ var last_wind_strength = 0.0
 var tree_collection: Dictionary = {}
 var foliage_sight = preload("res://scripts/presentation/foliage_sight.gd").new()
 var sight_receivers: Array[ShaderMaterial] = []
-var sight_window_sent = Vector4.ZERO
 var sight_parameters_sent = Vector4.ZERO
 
 func _init(clouds, profile) -> void:
@@ -336,7 +335,6 @@ func _remember_material(id: String, mat: ShaderMaterial) -> void:
 	named_materials[id] = mat
 	if id=="FC_Tree" or id.begins_with("FC_Impostor_spruce_") or id.begins_with("FC_Impostor_fir_") or id.begins_with("FC_Impostor_pine_"):
 		if not sight_receivers.has(mat): sight_receivers.append(mat)
-		mat.set_shader_parameter("foliage_sight_window",foliage_sight.window)
 		mat.set_shader_parameter("foliage_sight_parameters",foliage_sight.parameters)
 	if id in ["Needles","Spruce","PC_Conifer","TD_Conifer","FC_Tree"] or (id.begins_with("Tree_") and not id.ends_with("snag")):
 		if not wind_receivers.has(mat): wind_receivers.append(mat)
@@ -347,13 +345,9 @@ func _remember_material(id: String, mat: ShaderMaterial) -> void:
 			mat.set_shader_parameter("wind_direction",last_wind_direction)
 			mat.set_shader_parameter("wind_strength",last_wind_strength)
 
-func update_foliage_sight(camera: Camera3D, actor: Vector3, velocity: Vector3, dt: float, riding: bool, strength: float = 60.0, size_percent: float = 88.0) -> void:
-	foliage_sight.update(camera,actor,velocity,dt,riding,strength,size_percent)
-	var window_changed=foliage_sight.window!=sight_window_sent
-	var parameters_changed=foliage_sight.parameters!=sight_parameters_sent
-	if not window_changed and not parameters_changed: return
+func update_foliage_sight(camera: Camera3D, actor: Vector3, dt: float, riding: bool, reach_percent: float = 60.0, transparency_percent: float = 100.0) -> void:
+	foliage_sight.update(camera,actor,dt,riding,reach_percent,transparency_percent)
+	if foliage_sight.parameters==sight_parameters_sent: return
 	for mat in sight_receivers:
-		if window_changed: mat.set_shader_parameter("foliage_sight_window",foliage_sight.window)
-		if parameters_changed: mat.set_shader_parameter("foliage_sight_parameters",foliage_sight.parameters)
-	sight_window_sent=foliage_sight.window
-	sight_parameters_sent=foliage_sight.parameters
+		mat.set_shader_parameter("foliage_sight_parameters",foliage_sight.parameters)
+	sight_parameters_sent = foliage_sight.parameters

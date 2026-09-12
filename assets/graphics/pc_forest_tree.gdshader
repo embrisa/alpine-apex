@@ -63,8 +63,8 @@ void fragment() {
  float mask=COLOR.a;
  bool wood=mask<.4;
  bool snow=mask>.9;
- if(!wood && foliage_sight_parameters.x>0.0 && !IN_SHADOW_PASS) {
-  if(foliage_sight_removal(SCREEN_UV,-VERTEX.z)>foliage_sight_threshold(FRAGCOORD.xy)) discard;
+ if(!wood && foliage_sight_parameters.x*foliage_sight_parameters.w>0.0 && !IN_SHADOW_PASS) {
+  if(foliage_sight_removal(-VERTEX.z)>foliage_sight_threshold(FRAGCOORD.xy)) discard;
  }
  if(snow && snow_coverage<.5) discard;
  vec3 tint=COLOR.rgb;

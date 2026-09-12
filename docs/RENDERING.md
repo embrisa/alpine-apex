@@ -100,6 +100,15 @@ curved branch sprays and baked needle textures; source/authoring contracts are
 in [Assets](ASSETS.md#trees). Do not interpret all stored instance triangles as
 visible-frame work. Camera forest visibility assistance must remain cosmetic.
 
+`foliage_sight.gd` owns canopy-aid activation and bounded depth; `alpine_assets.gd`
+submits its state to resident geometry and late streamed/fallback conifer
+materials. `foliage_sight.gdshaderinc` scales removal by activation, normalized
+transparency strength and the existing outer depth fade. It has no screen mask.
+The unchanged stationary pixel threshold is coherent through stacked foliage;
+near/mid wood and shadow passes remain excluded, and impostors retain their
+canopy mask. Texture-quality/LOD changes retain the selected aid state. Player
+controls belong to [Presentation](PRESENTATION.md#forest-visibility).
+
 Cloud lighting shares a per-world registry across terrain, skier, tracks, trees,
 rocks, markers and sky. Sky/view and directional-receiver rays project onto the
 same layer at `max(2400 m, summit + 1200 m)` with shared wind offset/coverage.
@@ -109,28 +118,116 @@ response and geometry shadows remain per pixel. Additional directional lights
 would require their own projection contract. Sun/moon active shadow ranges do
 not overlap. Distant decorative background casts no shadows or GI.
 
+## Animated race ghosts
+
+`ghost_assets.gd` shares immutable production meshes/textures while isolating
+materials through `ghost_skier.gdshader`. Recoloring retains fabric/equipment
+luminance, normal/roughness response, world lighting and depth occlusion. Stable
+run IDs and the current player's outfit tint/atlas average choose the palette;
+Records swatches share it. Textual identity supplements color. Ten-way contrast
+in actual lighting and overlap remains a rendered review requirement.
+
+One final alpha clamps every body/equipment surface to .15–.72, smoothly rising
+from overlap to 18 m separation. Texture alpha and instance fading cannot
+multiply away that floor. Distance never hides an active ghost, including past
+750 m; ordinary camera clipping and terrain occlusion still apply. Instances
+cast no shadows or GI. [Racing](RACING.md#recording-and-ghosts) owns lifecycle and
+recording; independent marks use the shared snow path below.
+
 ## Snow presentation
 
 `snow_response.gd`, `snow_tracks.gd`, `powder_surface.gd`, `powder_caps.gd` and
 `speed_effects.gd` consume completed per-ski load/slip/edge/material state and
 final rendered ski transforms. Supported clean carving can widen/deepen tracks
-without large slip; skidding makes broader swept tracks. Unsupported skis,
-crashes and exposed rock do not emit live tracks. Landing/teleport/reset break
-history. Cosmetic depth is bounded by loose snow, width and shader limits.
+without large slip; skidding makes broader swept tracks. `supported` and
+`snow_contact` keep physical eligibility for particles; `track_contact` and
+`track_depth_m` independently permit bounded shallow marks. A completed grounded
+snow ski can continue through low load, turn release and root/leg extension:
+its physical centre must first pass the 12 cm reach / 4 cm extra-burial check.
+Its physical and final rendered footprints then use a 24 cm reach envelope and
+allow burial no deeper than local loose depth plus 24 cm. These are cosmetic
+footprint bounds, not added suspension or support.
+
+An unsupported ski retains the conservative near-surface carving path: the
+opposite ski must carry >1 N on snow, with >=.08 rad edge and grip/load >=.05
+at >=2 m/s. Completed clearance must be <=12 cm and upward separation <=1 m/s;
+physical footprint reach is 12 cm, rendered reach 24 cm and extra burial 4 cm.
+Both paths sample nine tail/centre/tip width points at each footprint, rejecting
+rock, voids and absent loose snow. The cut is capped at 12 mm and the minimum
+sampled loose depth, with the existing snow-condition multiplier. Neither path
+creates physical support, load or spray. Rider air and crashes remain excluded;
+rendered lift alone cannot revoke an already loaded snow contact.
+
+Resolve eligibility after final rendered ski transforms. Each ski's lateral
+position/orientation remains independent; retained stamp distance uses horizontal
+XZ travel, so cosmetic height cannot consume the 70 cm interval. Rejection,
+inactivity, landing, teleport and reset break history.
+`SnowTracks` owns accepted live geometry and supplies the identical two packed
+footprints through `live_gpu_strokes()`, with hidden slots zeroed. High must not
+reconstruct a second eligibility decision from physical response fields.
 
 Two live ribbon sections connect the last retained sample through the visible
 tips, with a 12 cm soft leading margin, every render frame. They do not wait for
-the 70 cm retained-history interval. High's two GPU footprints share those
-endpoints; live ribbons also work on Low/Balanced. The lateral axis of compute
+the 70 cm retained-history interval. The player's two live GPU footprints share
+those endpoints; live ribbons also work on Low/Balanced. The lateral axis of compute
 displacement must agree with ribbons and world-space snow throw. Rounded lips
 and forward ejection are important under hard turns. High retains its 32 m
 local patch; capacities come from the effective profile, not fixed old reports.
 
+Recorded ghosts call `update_presentation(field, position, active, responses,
+ski_length)` with their captured track data and separate histories. Each ghost
+has at most 320 retained stamps plus two live sections. `ghost_track_stack.gd`
+is the single GPU consumer: it composes player and up to ten ghost rings in the
+same 32-byte stroke layout, retaining the player's final two live slots. Ghost
+ribbon materials register with PowderSurface for the shared mapping and are
+removed on roster teardown. No ghost trail becomes physical terrain, contact
+support or a race effect. Ten articulated models and extra track history are
+bounded costs, not evidence of an acceptable native frame time. Maximum storage
+is 9,366 strokes / 299,712 bytes: 6,144 player retained stamps, two player live
+fronts and ten times 322 ghost slots. This is the stroke buffer only. Compare
+0/1/10 ghosts and ten without tracks, keeping capture CPU, GPU, resident memory
+and archive loading costs separate.
+
+The local powder storage stays on the terrain's 4 m grid, while the visual center
+follows rendered rider XZ continuously. Relief is full within 8 m, fades to zero
+at 13 m, and uses complementary opaque base/replacement ownership at 13.5 m.
+The .5 m zero-relief collar remains inside the 32 m storage square at maximum
+center offset. Terrain bounds and the retained v15 footprint clip ownership.
+There is no transparent or dithered surface blend.
+
+The mesh emits world coordinates from an identity transform, avoiding snapped
+instance motion vectors; only its culling bounds move. A 9×9 RGBA32F support
+texture stores base terrain vertex normals and loose depth at fixed 4 m knots.
+The previous grid is a bounded 1,296-byte CPU cache: a one-cell recenter queries
+only nine new knots (17 diagonally), with the same 1,296-byte upload. Reset,
+world replacement, non-grid moves and non-overlap rebuild all 81 knots.
+Replacement normals
+and cloud transmission use the base triangle interpolation, keeping noise/depth
+world-fixed. Mesh/atlas dimensions remain in PowderSurface's constants.
+
+Impression reconstruction, support upload, storage/visual centers, bounds and
+material ownership publish in one render-thread transaction. Register extra
+receivers through `register_receiver`; never update their origins independently
+of atlas contents. `reset()` hides ownership and invalidates storage/history;
+quality changes and discontinuities reopen only after reconstruction.
+SpeedEffects invokes reset at its lifecycle boundary. RenderingServer state and
+`budget()` describe committed mapping; the ShaderMaterial CPU cache is not the
+authority for render-thread submissions. `_render_update` remains a compute-only
+test API. Production uses no readback.
+
 Partial GPU uploads must match full uploads byte-for-byte. Native compilation
 caught a varying-limit failure in the end-cap shader; keep packed varyings within
 the engine's limit. Native GPU checks are required for compute/shader changes.
-Close views still expose some ribbon/mesh faceting; headless geometry checks
-do not establish the visual result.
+The accepted raised-ski continuity fix does not clear loaded-track shape quality.
+Standard-world carving frames 217–225 retain conspicuous scalloped/triangular
+banks. Loaded response and bank-shaping formulas predate this task, but its
+XYZ-to-XZ retained-distance change can alter stamp spacing and join prominence
+on steep terrain. That contribution is unisolated; the boundary before/after
+pair shares the carving implementation and cannot prove the defect unaffected.
+See the [world-shape diagnosis](../artifacts/orchestration_20260912/carving/world_shape/REVIEW.md).
+Headless geometry checks do not establish the visual result. Focused
+causal/chronological producers and
+their baseline limits are in [Validation](VALIDATION.md#snow-contact-and-local-boundary-producers).
 
 `snow_readability.gd` derives concavity from symmetric 4 m/12 m neighbors in the
 immutable support heights. Opposing planar slopes cancel; missing pairs and
@@ -156,6 +253,20 @@ the original strength for comparison; `--production-check` captures the adopted
 shader directly. Receipts/captures live in `artifacts/snow_bump_comparison_20260911/`.
 Motion/readability benefit and performance improvement are not established.
 
+Ground crystals use the shared `snow_crystals.gdshaderinc` compact hexagonal
+mask. Footprint widening is bounded by each grain's radius; the coarse layer
+uses a smaller radius and restrained coverage so it reads as small facets
+instead of white discs. Crystal placement, directional/shadow/cloud/night gates,
+quality controls and broad sheen retain their separate ownership. Terrain,
+local powder, caps and tracks consume the same sampler; no extra texture,
+particle or draw pass is added. `tests/snow_crystal_shape_playtest.gd` compares
+production against the explicitly retained round-mask test fixture, isolates
+layers/night response and captures matched short rides. Run it through
+`scripts/run_guarded.ps1`, with `--stills-only` for lighting/material controls or
+`--timing --motion` for three uncapped 15-second pairs followed by four-second
+chase/first-person captures. Evidence is under `artifacts/snow_crystal_shape/`;
+bounded measurements and human visual acceptance remain separate.
+
 ## Weather
 
 `weather_controller.gd`, `weather_state.gd`, `weather_effects.gd`,
@@ -166,7 +277,9 @@ displacement. World only submits this state to the shared sky/shadow field.
 Ordinary fronts hold 240–420 active seconds and blend over 45–75; rain and snow
 branches pass through Cloudy. Bounded gusts modulate wind and precipitation.
 Daylight wraps in **3,600 active-skiing seconds**. Menus, pause, survey, preview,
-loading, summit staging and results hold progression. Menu ambience may animate
+loading, summit staging and results hold free-ski progression. Authored weather
+samples race time, including unpaused crash time under the recovery rules in
+[Racing](RACING.md#crash-location-recovery). Menu ambience may animate
 clouds/precipitation unless reduced motion is enabled. Pathological deltas are
 capped at 86,400 active seconds, with phase-boundary integration and bounded event work.
 

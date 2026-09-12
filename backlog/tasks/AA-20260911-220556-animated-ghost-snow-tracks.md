@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-220556-animated-ghost-snow-tracks"
 title: "Add selectable top-time ghosts with animated skiers, distinct colors and snow tracks"
-status: ready
+status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-11T22:05:56Z"
-updated: "2026-09-12T09:22:00Z"
+updated: "2026-09-12T13:21:47Z"
 source_thread: "01a0927f-723e-7341-bfbc-e2ca1b449d1b"
 ---
 
@@ -306,3 +306,7 @@ actually performed, remaining acceptance, updated documentation, and commit/push
 references. If blocked, record the blocker and unfinished work instead of success.
 Link any separate next-step proposals in `backlog/ideas/`, or note that none were
 proposed. Those suggestions require the user's selection before task authoring.
+
+## Checkpoint disposition — 2026-09-12T13:21:47Z
+
+Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-ghost-selector-and-render-fixtures](AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md), [AA-20260912-132147-reduce-cold-ghost-archive-load](AA-20260912-132147-reduce-cold-ghost-archive-load.md), [AA-20260912-132147-reduce-ten-ghost-presentation-cost](AA-20260912-132147-reduce-ten-ghost-presentation-cost.md), [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.

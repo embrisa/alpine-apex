@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-221843-crash-location-respawn"
 title: "Offer crash-location respawn from rest while keeping the race valid"
-status: ready
+status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-11T22:18:43Z"
-updated: "2026-09-11T22:18:43Z"
+updated: "2026-09-12T13:21:47Z"
 source_thread: "01a09289-665d-7721-a68f-81a220f4c751"
 ---
 
@@ -147,30 +147,30 @@ were performed during authoring.
 
 ## Acceptance and verification
 
-- [ ] Reproduce a crash in free skiing and an isolated timed race. Both crash-menu
+- [x] Reproduce a crash in free skiing and an isolated timed race. Both crash-menu
   choices work by keyboard/mouse and simulated controller navigation. Recovery
   resumes near the captured onset even after the ragdoll travels elsewhere;
   full restart returns to the original start with a fresh clock.
-- [ ] At the recovery boundary velocity and angular motion are zero, reserve is
+- [x] At the recovery boundary velocity and angular motion are zero, reserve is
   full, contacts and pose are valid, and ordinary downhill acceleration follows.
   Holding confirm/jump/trick/stick across recovery produces no unintended action.
-- [ ] Exercise obstacle impacts, steep support, airborne/cliff crashes, active
+- [x] Exercise obstacle impacts, steep support, airborne/cliff crashes, active
   gate props, boundaries, repeated crashes and no-safe-location failures. Placement
   cannot skip a finish, grant a split or use distant ragdoll movement. Non-crash
   contexts, stale anchors, double activation and world changes cannot recover.
-- [ ] In deterministic fixtures, a known number of crash ticks contributes exactly
+- [x] In deterministic fixtures, a known number of crash ticks contributes exactly
   that duration to race time, with no fixed penalty, lost tick or double count.
   Genuine pause/focus cases follow the existing policy. Menu subpages, ragdoll
   settling/freezing and repeated recovery do not reset the clock or its ownership.
-- [ ] A previously eligible crash/recover/finish can save a new PB, matching splits
+- [x] A previously eligible crash/recover/finish can save a new PB, matching splits
   and a loadable ghost to a disposable record store. Existing ineligible reasons
   remain ineligible. Recovery preserves prior splits, reference PB and ride totals;
   full restart still clears attempt state. Personal records remain untouched.
-- [ ] Ghost time matches the full race, hides during crash if using the bounded
+- [x] Ghost time matches the full race, hides during crash if using the bounded
   presentation approach, resumes at the recovery boundary without interpolation
   across the jump, and reaches the exact finish. Test multiple events, malformed
   events, old identities, overflow and atomic save/load as well as clean runs.
-- [ ] Extend focused runtime/lifecycle/competitive/race/menu checks for these
+- [x] Extend focused runtime/lifecycle/competitive/race/menu checks for these
   behaviors. Run required suites serially through the existing guard:
 
   ```powershell
@@ -187,7 +187,7 @@ were performed during authoring.
   readable menu focus at small and normal output sizes, and no stray tracks,
   equipment, screen effects or persistent crash audio. Use current warm mountain
   fixtures and isolated preferences/records per the validation guide.
-- [ ] Document bounded recovery-query cost and actual fixture coverage. Separate
+- [x] Document bounded recovery-query cost and actual fixture coverage. Separate
   automated, rendered, performance and human/controller acceptance; do not infer
   frame-rate or controller feel from headless checks or screenshots.
 - [ ] Update owning guides, validate the backlog, and commit/push small owned
@@ -204,8 +204,56 @@ None.
 
 ## Completion record
 
-Pending implementation. The worker should record the outcome, verification
-actually performed, remaining acceptance, updated documentation, and commit/push
-references. If blocked, record the blocker and unfinished work instead of success.
-Link any separate next-step proposals in `backlog/ideas/`, or note that none were
-proposed. Those suggestions require the user's selection before task authoring.
+Implemented same-attempt RESPAWN HERE at the captured crash onset, retaining
+TRY AGAIN as full restart in free skiing and races. Deterministic local search
+uses shared support/material/active props: at most34 candidates within8 m,
+2 m maximum drop,6 m rise and40° support limit, with footprint/path/finish checks.
+Unsafe or unavailable locations retain restart instead of granting a shortcut.
+Recovery restores rest, impact reserve and contacts, clears held/transient input
+and presentation state, and preserves splits, reference PB, eligibility and
+attempt totals. Crash time advances at120 Hz without solver/race progression;
+explicit pause/focus policy remains. Replay hides crash intervals and resumes
+locally without interpolating the recovery jump. Racing and Presentation own
+the lifecycle; model29/race schema6/recovery1 retain authored weather rules1.
+
+The [final native receipt/review](../../artifacts/orchestration_20260912/crash/FINAL_VALIDATION.md)
+passed **105 checks**, with all26 chronological frames reviewed cumulatively
+(the last independent pass opened16 originals). The visible body/equipment
+offset is cleared: all80 equipment submissions are current-frame, with maximum
+final-skin attachment discrepancy0.127 mm after fixture render-order correction.
+No production rig/Jolt retune was needed. Recovery is at0 speed/full reserve;
+the disposable eligible race preserves480 inactive ticks, finishes at
+**14.794407352889436 s**, and saves/reloads matching PB/splits and327 samples/poses.
+Actual active-prop impact is separate; timed onset is injected, followed by
+ordinary neutral descent and actual swept finish. Free-ski/menu/neutral/focus,
+repeated/stale actions and ghost hide/local-resume pass. Prior normal/small51/51
+receipts retain layout coverage; the final observer/pole revision was not
+recaptured at small size. Snow/camera occlusion limits fine anatomy inspection.
+
+That native receipt is **C-pole, replay6/archive3**; its combined guard exit1
+belongs to pole failures, not the105 crash assertions. The later applied lossless
+codec is **replay7 (nine inputs)/archive4**, rejecting old identities without
+migration. Current central checks passed **exact-clock95, archive119,
+crash-replay36, small-cache37**, and physics56/runtime192. The
+[exact-clock receipt](../../artifacts/orchestration_20260912/carving/exact_clock/results.json)
+preserves the historical one-ULP counterexample and verifies exact float64 clocks
+through replay, records and cache; full-precision decimal JSON alone was not the
+fix. These codec passes do not claim a new native capture or maximum-cache timing.
+No repeat of unchanged crash105 is requested solely for the codec change.
+Prior crash-core82/rider51/race67/competitive53 coverage remains revision-scoped.
+
+Observed placement activation cost was1–34 candidates and0.211–12.021 ms, with
+no per-riding-tick search; this is bounded fixture cost, not natural-mountain
+percentiles or FPS. The native fixture suppresses audio/haptics, so the compound
+render/listening item stays unchecked despite completed visual review. FPS
+caps/misses are advisory. Preserve prior failures, source hashes and native/core
+scope in the [final checklist map](../../artifacts/orchestration_20260912/forest/final_four_records/CHECKLIST_MAP.md).
+Pole E fitting remains separately owned. No additional idea or crash fix is proposed.
+
+- [ ] Human controller option/restart/placement/repeated-recovery feel: pending separate follow-up.
+- [ ] Listening and hardware haptics: pending; muted fixtures establish neither.
+- [ ] Parent delivery: **PARENT TO FILL** commit(s), successful push, final status and artifact-lifecycle disposition. Status remains `in_progress` until parent delivery.
+
+## Checkpoint disposition — 2026-09-12T13:21:47Z
+
+Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.

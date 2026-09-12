@@ -6,6 +6,7 @@ const GLOVE_GRIP = Vector3(-.070,0.0,.018)
 const Anatomy = preload("res://scripts/presentation/skier_anatomy.gd")
 const Downhill = preload("res://scripts/presentation/downhill_posture.gd")
 const Action = preload("res://scripts/presentation/action_posture.gd")
+const PolePose = preload("res://scripts/presentation/pole_push_pose.gd")
 const LIBRARY = preload("res://assets/animation/steep_ski_motion.res")
 static var library: Dictionary = LIBRARY.data
 var enabled = true
@@ -47,6 +48,25 @@ var impact_posture = 0.0
 var previous_impact_posture = 0.0
 var support_response = 0.0
 var previous_support_response = 0.0
+var pole_amount = 0.0
+var previous_pole_amount = 0.0
+var pole_phase = 0.0
+var previous_pole_phase = 0.0
+var pole_plant = 0.0
+var previous_pole_plant = 0.0
+var pole_anchors: Array = []
+var pole_targets: Array = []
+var previous_pole_targets: Array = []
+var pole_target_normals: Array = []
+var previous_pole_target_normals: Array = []
+var pole_release_origin = Vector3.ZERO
+var pole_last_position = Vector3.ZERO
+var pole_target_stage = "inactive"
+var pole_entry = false
+var pole_carry = 0.0
+var previous_pole_carry = 0.0
+var pole_normals: Array = []
+var _pole_was_loaded = false
 
 func _init() -> void:
 	assert(library.get("version",0)==1,"Build the full motion library; see STEEP_MOTION_GAMEPLAY.md")
@@ -64,6 +84,13 @@ func reset(sim) -> void:
 	action_amount = Vector3.ZERO; previous_action = Vector3.ZERO
 	impact_posture = 0.0; previous_impact_posture = 0.0
 	support_response = 0.0; previous_support_response = 0.0
+	pole_amount = 0.0; previous_pole_amount = 0.0
+	pole_phase = 0.0; previous_pole_phase = 0.0
+	pole_plant = 0.0; previous_pole_plant = 0.0
+	pole_anchors.clear(); pole_normals.clear(); _pole_was_loaded = false
+	pole_targets.clear(); previous_pole_targets.clear(); pole_target_normals.clear(); previous_pole_target_normals.clear()
+	pole_release_origin = sim.position; pole_last_position = sim.position; pole_target_stage = "inactive"; pole_entry = false
+	pole_carry = 0.0; previous_pole_carry = 0.0
 	if sim.grounded and forward_downhill:
 		Downhill.apply(initial,library,{"tuck":sim.effective_tuck,"prepare":0.0},1.0)
 	current = initial.q
@@ -80,8 +107,11 @@ func hold() -> void:
 	previous_action = action_amount
 	previous_impact_posture = impact_posture
 	previous_support_response = support_response
+	previous_pole_amount = pole_amount; previous_pole_phase = pole_phase
+	previous_pole_plant = pole_plant; previous_pole_carry = pole_carry
+	previous_pole_targets = pole_targets.duplicate(); previous_pole_target_normals = pole_target_normals.duplicate()
 
-func step(dt: float, sim, intent, state: Dictionary, landing_event: int) -> void:
+func step(dt: float, sim, intent, state: Dictionary, landing_event: int, surface = null) -> void:
 	var start = Time.get_ticks_usec()
 	if current.is_empty() or sim.ticks<last_tick: reset(sim)
 	if sim.ticks==last_tick: return
@@ -89,7 +119,8 @@ func step(dt: float, sim, intent, state: Dictionary, landing_event: int) -> void
 	forward_downhill = not sim.facing_backward
 	hold()
 	if sim.crashed: return
-	amount_velocity += ((float(enabled)-amount)*225.0-amount_velocity*30.0)*dt
+	step_poles(dt,sim,surface)
+	amount_velocity += ((maxf(float(enabled),pole_amount)-amount)*225.0-amount_velocity*30.0)*dt
 	amount = clampf(amount+amount_velocity*dt,0.0,1.0)
 	clock += dt
 	if was_grounded and not sim.grounded: air_age = 0.0
@@ -108,7 +139,7 @@ func step(dt: float, sim, intent, state: Dictionary, landing_event: int) -> void
 	# the ski as soon as the input blend reaches one. Release keeps this phase.
 	grip_amount = state.grab*smoothstep(.10,.65,grab_age)
 	was_grounded = sim.grounded
-	if not enabled and amount<.00001:
+	if not enabled and amount<.00001 and pole_amount<.00001:
 		# A settled procedural comparison pays no skeletal sampler/fitting cost.
 		# Re-entry keeps the previous pose/velocities and blends from weight zero.
 		amount = 0.0; amount_velocity = 0.0; step_microseconds = 0; fit_microseconds = 0
@@ -235,14 +266,18 @@ func step(dt: float, sim, intent, state: Dictionary, landing_event: int) -> void
 	Action.apply(mixed,library,state,action_amount,air_age)
 	Action.balance_roll(mixed,library,balance_turn,clampf(downhill_amount+action_amount.x,0.0,1.0)*smoothstep(.001,.04,absf(balance_turn)))
 	refine_authored_pose(mixed,state,action_amount)
-	var articulated_carry = clampf(downhill_amount+action_amount.x+action_amount.y+action_amount.z,0.0,1.0)
+	# This new source owns torso/arm channels AFTER downhill/tuck/action shaping.
+	# The same tracker and final anatomical limits still own continuity.
+	PolePose.apply(mixed,library,pole_phase,pole_amount)
+	if pole_amount>.05: phase = "pole_push"
+	var articulated_carry = maxf(pole_amount,clampf(downhill_amount+action_amount.x+action_amount.y+action_amount.z,0.0,1.0))
 	# Continuous second-order tracking retains velocity on clip/phase changes.
 	# The limit applies only to relative posture, never actor spin/flip motion.
 	var max_accel = 0.0
 	var max_speed = 0.0
 	for i in current.size():
-		var requested = Action.tracked_grip_target(library.names[i],Basis(mixed.q[i]),current,library,action_amount)
-		var target_rotation = Anatomy.local_limit(library.names[i],requested,maxf(state.tuck,state.prepare)*(1.0-state.air)*carry,articulated_carry).get_rotation_quaternion()
+		var requested = Action.tracked_grip_target(library.names[i],Basis(mixed.q[i]),current,library,action_amount*(1.0-pole_amount))
+		var target_rotation = Anatomy.local_limit(library.names[i],requested,maxf(state.tuck,state.prepare)*(1.0-state.air)*carry*(1.0-pole_amount),articulated_carry).get_rotation_quaternion()
 		var error = rotation_vector(target_rotation*current[i].inverse())
 		var accel = (error*1600.0-velocities[i]*80.0).limit_length(160.0)
 		velocities[i] = (velocities[i]+accel*dt).limit_length(12.0)
@@ -253,7 +288,75 @@ func step(dt: float, sim, intent, state: Dictionary, landing_event: int) -> void
 	root_velocity = root_velocity.limit_length(2.0)
 	root_position += root_velocity*dt
 	diagnostics = {"phase":phase,"physical_turn":turn,"animation_turn":animation_turn,"balance_turn":balance_turn,"turn_strength":turn_weight,"max_posture_speed_rad_s":max_speed,"max_posture_accel_rad_s2":max_accel}
+	diagnostics.pole_phase = pole_phase; diagnostics.pole_intensity = pole_amount
+	diagnostics.pole_power = sim.pole_push_power; diagnostics.pole_acceleration_mps2 = sim.pole_push_acceleration
+	diagnostics.pole_grade_degrees = sim.pole_push_grade_degrees; diagnostics.pole_limit_mps = sim.pole_push_limit_mps
 	step_microseconds = Time.get_ticks_usec()-start
+
+func step_poles(dt: float, sim, surface) -> void:
+	pole_phase = sim.pole_push_phase
+	pole_amount = sim.pole_push_intensity if sim.grounded and not sim.facing_backward else 0.0
+	var requested: bool = sim.pole_push.active and pole_amount>.001
+	var wrap = pole_phase<previous_pole_phase
+	# Seed during reach, before force begins. Anticipate bounded travel during
+	# this authored contact interval so a fast plant does not begin behind an
+	# arm that cannot reach it by the end of the same stroke.
+	if requested and (not _pole_was_loaded or wrap) and surface!=null:
+		pole_anchors.clear(); pole_normals.clear()
+		var phase_rate = maxf(fposmod(pole_phase-previous_pole_phase,1.0)/maxf(dt,.000001),.5)
+		var travel = sim.velocity.slide(sim.surface_normal).length()*minf(.55,maxf(0.0,.76-pole_phase)/phase_rate)
+		# Five centimetres of cosmetic reach reserve avoids the terminal
+		# sphere tangency; it does not change pole length or the physical stroke.
+		var lead = .25+minf(.65,.40*travel)
+		for side in [-1.0,1.0]:
+			var point: Vector3 = sim.position+sim.support_basis()*Vector3(side*.42,0.0,lead)
+			var sample: Dictionary = surface.sample(point.x,point.z)
+			point.y = sample.height
+			pole_anchors.append(point)
+			pole_normals.append(sample.normal.normalized())
+	if requested and not _pole_was_loaded: pole_entry = true
+	if pole_phase>=.06: pole_entry = false
+	if requested:
+		pole_targets = pole_anchors.duplicate(); pole_target_normals = pole_normals.duplicate()
+		pole_target_stage = "plant"
+		if pole_phase>.76 and (previous_pole_phase<=.76 or not _pole_was_loaded):
+			pole_release_origin = sim.position
+		if pole_phase>.76 and pole_phase<.90:
+			# The poles have released: stop dragging a declining arm blend after
+			# a world anchor the skier is already passing at ~10 m/s.
+			pole_target_stage = "release"
+			for i in pole_targets.size():
+				pole_targets[i] += (sim.position-pole_release_origin).slide(pole_target_normals[i])
+		elif pole_phase>=.90 and surface!=null:
+			# Preview the next reachable plant in the completed support frame.
+			# This target may move while unloaded; the next actual plant is fixed
+			# by the existing tick seed above. No future state or render history.
+			pole_target_stage = "approach"
+			var speed: float = sim.velocity.slide(sim.surface_normal).length()
+			var fast = smoothstep(2.0,40.0/3.6,speed)
+			var duration = lerpf(.76,.26,fast)/maxf(sim.pole_push.cadence_hz,.5)
+			var lead = .25+minf(.65,.40*speed*minf(.55,maxf(0.0,duration-dt)))
+			pole_targets.clear(); pole_target_normals.clear()
+			for side in [-1.0,1.0]:
+				var point: Vector3 = sim.position+sim.support_basis()*Vector3(side*.42,0.0,lead)
+				var sample: Dictionary = surface.sample(point.x,point.z)
+				point.y = sample.height
+				pole_targets.append(point); pole_target_normals.append(sample.normal.normalized())
+	else:
+		pole_target_stage = "cancel"
+		for i in pole_targets.size():
+			pole_targets[i] += (sim.position-pole_last_position).slide(pole_target_normals[i])
+	pole_plant = PolePose.contact_weight(pole_phase) if requested else move_toward(pole_plant,0.0,dt*12.0)
+	if requested and pole_entry: pole_plant *= smoothstep(0.0,.06,pole_phase)
+	# Carry owns the unloaded shaft lane independently of snow contact. A
+	# completed-tick envelope avoids snapping into tuck when forward is released
+	# exactly at the zero-contact midpoint; render/preview never advances it.
+	pole_carry = move_toward(pole_carry,1.0 if requested else 0.0,dt*6.0)
+	if not sim.grounded or sim.facing_backward or (pole_amount<=.000001 and pole_carry<=.000001):
+		pole_plant = 0.0; pole_carry = 0.0; pole_anchors.clear(); pole_normals.clear(); pole_targets.clear(); pole_target_normals.clear()
+		pole_target_stage = "inactive"
+	pole_last_position = sim.position
+	_pole_was_loaded = requested
 
 func refine_authored_pose(_pose: Dictionary, _state: Dictionary, _action: Vector3) -> void:
 	# Optional authoring experiment, before the shared limits and tick tracker.
@@ -404,7 +507,13 @@ func sample(fraction: float) -> Dictionary:
 			rotations[id] = rotations[pid]*local
 			poses[id] = poses[pid]+rotations[pid]*(library.rest[i].origin-library.rest[parent].origin)
 	interpolation_microseconds = Time.get_ticks_usec()-start
-	return {"joints":poses,"rotations":rotations,"amount":lerpf(previous_amount,amount,fraction),"grip":lerpf(previous_grip,grip_amount,fraction),"downhill":lerpf(previous_downhill,downhill_amount,fraction),"action":previous_action.lerp(action_amount,fraction),"impact_posture":lerpf(previous_impact_posture,impact_posture,fraction),"support_response":lerpf(previous_support_response,support_response,fraction)}
+	var pushing = lerpf(previous_pole_amount,pole_amount,fraction)
+	var sampled_targets = pole_targets.duplicate(); var sampled_normals = pole_target_normals.duplicate()
+	if previous_pole_targets.size()==2 and sampled_targets.size()==2:
+		for i in 2:
+			sampled_targets[i] = previous_pole_targets[i].lerp(pole_targets[i],fraction)
+			sampled_normals[i] = previous_pole_target_normals[i].lerp(pole_target_normals[i],fraction).normalized()
+	return {"joints":poses,"rotations":rotations,"amount":lerpf(previous_amount,amount,fraction),"grip":lerpf(previous_grip,grip_amount,fraction),"downhill":lerpf(previous_downhill,downhill_amount,fraction)*(1.0-pushing),"action":previous_action.lerp(action_amount,fraction)*(1.0-pushing),"impact_posture":lerpf(previous_impact_posture,impact_posture,fraction),"support_response":lerpf(previous_support_response,support_response,fraction),"pole_amount":pushing,"pole_phase":fposmod(lerp_angle(previous_pole_phase*TAU,pole_phase*TAU,fraction)/TAU,1.0),"pole_plant":lerpf(previous_pole_plant,pole_plant,fraction),"pole_carry":lerpf(previous_pole_carry,pole_carry,fraction),"pole_anchors":pole_anchors.duplicate(),"pole_normals":pole_normals.duplicate(),"pole_targets":sampled_targets,"pole_target_normals":sampled_normals,"pole_target_stage":pole_target_stage}
 
 static func upright_support(frame: Basis) -> Basis:
 	# Source banking is authored about a sagittal up axis. Terrain up acquires
@@ -451,6 +560,7 @@ func compose(body, joints: Dictionary, rotations: Dictionary, sampled: Dictionar
 	# bias left the relaxed shins nearly vertical. Keep actual cuff frames fixed.
 	var downhill: float = sampled.get("downhill",0.0)
 	var action: Vector3 = sampled.get("action",Vector3.ZERO)
+	var pushing: float = sampled.get("pole_amount",0.0)
 	# A lingering ski edge must not bank the straight stance target after the
 	# path has settled. This changes the pelvis target, never the rigid cuffs.
 	var stance_up: Vector3 = (rotations.RightFoot.y+rotations.LeftFoot.y).normalized()
@@ -495,6 +605,13 @@ func compose(body, joints: Dictionary, rotations: Dictionary, sampled: Dictionar
 		var fore_aft = shin*sin(flex)-backward-hip_offset.dot(forward)
 		var absorbed = feet+up*height+forward*fore_aft
 		target = target.lerp(absorbed,action.z)
+	if pushing>.00001:
+		var up: Vector3 = (rotations.RightFoot.y+rotations.LeftFoot.y).normalized()
+		var forward: Vector3 = (rotations.RightFoot.z+rotations.LeftFoot.z).slide(up).normalized()
+		var stroke = preload("res://scripts/core/pole_propulsion.gd").stroke_power(sampled.get("pole_phase",0.0))
+		# A modest supported leg pulse accompanies the authored torso load;
+		# shared pelvis/cuff fitting below retains the physical equipment.
+		target = target.lerp(feet+up*(.73-.055*stroke)-forward*.12,pushing)
 	# Align the connected gliding/carving body in the same unbanked support
 	# frame. Boots remain in their physical frames; shared-pelvis/leg fitting
 	# below closes the chain. Apply alignment outside local joint limits: it is
@@ -526,8 +643,8 @@ func compose(body, joints: Dictionary, rotations: Dictionary, sampled: Dictionar
 		var old_local: Basis = procedural.get(pid,Basis.IDENTITY).transposed()*procedural.get(id,Basis.IDENTITY)
 		var source_local: Basis = native_rot[pid].transposed()*native_rot[id]
 		var local = old_local.orthonormalized().slerp(source_local.orthonormalized(),weight)
-		var pole_carry = maxf(state.get("tuck",0.0),state.get("prepare",0.0))*(1.0-state.air)*Downhill.straight(state)
-		rotations[id] = rotations[pid]*Anatomy.local_limit(id,local,pole_carry,clampf(downhill+action.x+action.y+action.z,0.0,1.0))
+		var pole_carry = maxf(state.get("tuck",0.0),state.get("prepare",0.0))*(1.0-state.air)*Downhill.straight(state)*(1.0-pushing)
+		rotations[id] = rotations[pid]*Anatomy.local_limit(id,local,pole_carry,maxf(pushing,clampf(downhill+action.x+action.y+action.z,0.0,1.0)))
 		joints[id] = joints[pid]+rotations[pid]*(body.REST[id]-body.REST[pid])
 	# The recovered safety clip reaches with the RIGHT hand. Its pole stays
 	# in the fixed glove; preserve the source's opposite-arm counterbalance.

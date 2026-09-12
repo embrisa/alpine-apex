@@ -11,6 +11,7 @@ var ghost_info: Label
 var splits: Label
 var history: Label
 var notice: Label
+var selector = preload("res://scripts/ui/ghost_selector.gd").new()
 
 func build(hud) -> void:
 	panel = hud._panel()
@@ -22,6 +23,8 @@ func build(hud) -> void:
 	var col = hud._tab(tabs,"Overview")
 	var split_page = hud._tab(tabs,"Splits")
 	var history_page = hud._tab(tabs,"Run history")
+	var ghost_page = hud._tab(tabs,"Ghosts")
+	selector.build(hud,ghost_page)
 	# Read-only pages still need a controller focus target for long records.
 	for index in [1,2]:
 		tabs.get_tab_control(index).get_v_scroll_bar().focus_mode = Control.FOCUS_ALL
@@ -40,9 +43,9 @@ func build(hud) -> void:
 	best = hud._label("",38,hud.LIME,true)
 	best_column.add_child(best)
 	ghost_toggle = CheckButton.new()
-	ghost_toggle.text = "Show personal-best ghost"
+	ghost_toggle.text = "Show selected ghosts"
 	ghost_toggle.toggled.connect(func(value): hud.ghost_visibility_requested.emit(value))
-	ghost_column.add_child(hud._label("Ghost",20,hud.WHITE))
+	ghost_column.add_child(hud._label("Ghosts",20,hud.WHITE))
 	ghost_column.add_child(ghost_toggle)
 	ghost_info = hud._label("",16,hud.MUTED)
 	ghost_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -70,8 +73,9 @@ func refresh(session, ghost_enabled: bool) -> void:
 	course.text = session.race.title if session.race else ("Free ski · create a race to record times" if free_ski else "Laboratory fixture")
 	best.text = Session.format_time(session.personal_best)
 	ghost_toggle.set_pressed_no_signal(ghost_enabled)
-	ghost_toggle.disabled = free_ski or session.best_replay==null
-	ghost_info.text = "The cyan ghost follows your best recorded run without collision." if session.best_replay else "Set a new personal best to record a ghost."
+	ghost_toggle.disabled = free_ski
+	ghost_info.text = "%d selected ghosts this attempt. Choose Automatic fastest 10 or a manual subset on the Ghosts tab. Changes apply next start/retry." % session.reference_ghosts.size()
+	selector.refresh(session)
 	if free_ski: ghost_info.text = "Free skiing has no personal best or ghost. Create or select a race on this mountain."
 	var has_attempt: bool = session.elapsed>0.0
 	var reference: Array = session.reference_splits if has_attempt else session.best_splits
@@ -91,6 +95,7 @@ func refresh(session, ghost_enabled: bool) -> void:
 	if free_ski: history.text = "Free skiing does not record timed runs. Choose or create a race."
 	notice.text = session.save_error if not session.save_error.is_empty() else session.record_warning
 	if notice.text.is_empty(): notice.text = session.replay_warning
+	if notice.text.is_empty(): notice.text = session.selection_notice
 	if notice.text.is_empty() and not free_ski and session.race==null: notice.text = "Lab and automated runs do not replace personal bests or enter race history."
 	notice.visible = not notice.text.is_empty()
 

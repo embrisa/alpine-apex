@@ -4,7 +4,8 @@ const Terrain = preload("res://scripts/world/test_slope.gd")
 const Mountain = preload("res://scripts/world/mountain_data.gd")
 const Simulation = preload("res://scripts/core/ski_simulation.gd")
 const MountainDefinition = preload("res://scripts/world/mountain_definition.gd")
-const SCHEMA = 5
+const SCHEMA = 6
+const Recovery = preload("res://scripts/core/crash_recovery.gd")
 const WeatherRules = preload("res://scripts/presentation/weather_rules.gd")
 const Flavor = preload("res://scripts/world/flavor_layout.gd")
 const Zone = preload("res://scripts/world/mountain_zone.gd")
@@ -34,7 +35,7 @@ func to_data() -> Dictionary:
 		"name":title, "type":"open_route", "start":[start.x,start.y,start.z],
 		"heading_rad":heading, "finish":[finish.x,finish.y,finish.z],
 		"finish_heading_rad":finish_heading,"finish_width_m":FINISH_WIDTH,
-		"finish_height_m":FINISH_HEIGHT,"props_version":Flavor.VERSION}}
+		"finish_height_m":FINISH_HEIGHT,"props_version":Flavor.VERSION,"recovery":{"rules":Recovery.RULES_VERSION,"anchor":"crash_start","clock":"running","speed":"rest"}}}
 
 func share_text() -> String:
 	return JSON.stringify(to_data(), "", true, true)
@@ -43,7 +44,7 @@ func identity() -> String:
 	return share_text().sha256_text()
 
 func record_identity() -> String:
-	return "race-v5-props%d-zone%d-%s-physics-v%d-%s" % [Flavor.VERSION,Zone.RULES_VERSION,identity(),Simulation.MODEL_VERSION,
+	return "race-v6-props%d-zone%d-recovery%d-%s-physics-v%d-%s" % [Flavor.VERSION,Zone.RULES_VERSION,Recovery.RULES_VERSION,identity(),Simulation.MODEL_VERSION,
 		FileAccess.get_sha256("res://config/ski_default.tres")]
 
 static func decode(text_value: String) -> Dictionary:
@@ -74,8 +75,15 @@ static func decode(text_value: String) -> Dictionary:
 			if not _number(m[key]) or float(m[key]) != floor(float(m[key])) or float(m[key]) < 0 or float(m[key]) > 2147483647:
 				return {"error":"Mountain seeds must be whole numbers from 0 to 2147483647."}
 	var r = data.race
-	if not r is Dictionary or not _keys(r,["name","type","start","heading_rad","finish","finish_heading_rad","finish_width_m","finish_height_m","props_version"]):
+	if not r is Dictionary or not _keys(r,["name","type","start","heading_rad","finish","finish_heading_rad","finish_width_m","finish_height_m","props_version","recovery"]):
 		return {"error":"This race has missing or unsupported rules. Only open-route races are supported."}
+	var recovery = r.recovery
+	if not recovery is Dictionary or not _keys(recovery,["rules","anchor","clock","speed"]):
+		return {"error":"Missing or unsupported crash recovery rules."}
+	if not recovery.anchor is String or not recovery.clock is String or not recovery.speed is String:
+		return {"error":"Unsupported crash recovery rules."}
+	if not _number(recovery.rules) or recovery.rules!=Recovery.RULES_VERSION or recovery.anchor!="crash_start" or recovery.clock!="running" or recovery.speed!="rest":
+		return {"error":"Unsupported crash recovery rules."}
 	if not r.name is String or r.name.strip_edges().is_empty() or r.name.length() > 60:
 		return {"error":"Give the race a name between 1 and 60 characters."}
 	for i in r.name.length():

@@ -2,7 +2,7 @@
 
 ## Ownership and navigation
 
-`main.gd` chooses one rendering camera: riding, menu, endpoint survey or paused
+`main.gd` chooses one rendering camera: riding, menu, race/navigation survey or paused
 preview. UI dispatches existing owner actions; it does not acquire physics,
 race, mountain-generation or save authority. `hud.gd` routes title/pause/crash/
 results and tool surfaces. `menu_navigation.gd` owns focus scopes, repeat,
@@ -29,6 +29,48 @@ apply immediately; next-launch toggles leave the current scene alone. Race
 controls show a latched practice reason when authored visibility is changed.
 Defaults, persistence and clock behavior belong to [Weather](RENDERING.md#weather);
 eligibility and restoration belong to [Racing](RACING.md#records-and-compatibility).
+
+## Session navigation map
+
+Map / Navigation in the summit and pause menus opens the existing rendered
+overhead survey without creating a race. `race_workshop.gd` owns this camera;
+`session_navigation_panel.gd` owns its drawer and explicit terrain focus mode.
+Opening holds completed rider/session state and weather/audio progression.
+Back returns to the originating menu; opening directly from active summit
+staging returns there without a respawn. Resume uses the normal input neutral
+gates, so held map controls cannot become the next skiing input.
+
+Place up to 32 violet beams. Select a numbered map point or a list row to move
+or remove it; Clear all removes only personal points. Hide/Show changes beam
+visibility immediately and keeps the editable map list/numbers. A full list
+reports the limit and never discards an older point. Moving is a preview until
+confirmed; Back first cancels a pending move, then leaves terrain mode, then
+returns to the previous menu. There is no automatic removal when passing points.
+
+Mouse clicks outside the drawer add/select points; WASD/arrows pan and the wheel
+zooms in terrain mode. Right-click resumes terrain controls; Tab returns to the
+panel. On a controller select Add point or Move selected, release Select, then
+use the left stick to pan, right stick up/down to zoom and the south button to
+confirm at the visible reticle. The west button returns to the panel; east/Start
+backs out. Drawer focus, focus loss and device changes suspend map input; stick
+neutral and confirm release gates prevent carried controls from placing points.
+Race endpoint terrain picking remains pointer-only.
+
+`racing/session_navigation.gd` is a memory-only list held by SceneTree metadata,
+keyed by the entire canonical physical mountain reference. The same mountain
+retains IDs/positions/visibility through retry, summit return, race/free-ski
+changes and scene rebuilds. Binding a different physical reference clears it,
+even for the same seed; application exit destroys the owner. There are no
+navigation files or additions to mountain/race/share/replay/record data.
+
+`presentation/session_navigation_beams.gd` owns personal meshes separately from
+race marker cleanup. It uses the shared explicit beam style: violet, 1,600 m
+height with top fade from 1,250 m, 3.5 m radius, natural depth/fog and no dense
+race halo, shadow, GI, collision or world text. Add/move only rebuilds the changed
+shaft; normal frames do no marker terrain rebuild. Reduced Motion uses the
+existing beam effect group. Numbers/selection/reticle exist only on the map.
+Native distance/readability/cost and real-controller usefulness require the
+separate validation evidence; implementation dimensions alone do not prove them.
 
 ## Controller prompts
 
@@ -86,6 +128,39 @@ states exercise hidden widgets, which remain list-selectable. Drag or controller
 Move/Resize operates whole instruments; Back exits movement mode before cancelling.
 Apply saves atomically; Cancel restores the session snapshot. Do not invent a
 second approximate HUD for this editor.
+
+## Crash recovery controls
+
+The crash shell offers RESPAWN HERE, separate TRY AGAIN and explicit PAUSE /
+CONTINUE CLOCK through the existing mouse/keyboard/controller focus path. Its
+running/paused time stays visible. Incidental settings subpages do not pause the
+attempt; explicit Pause and focus loss do. When no local spot qualifies, recovery
+is disabled with an explanation and full restart remains available. The HUD only
+emits intent; [Racing](RACING.md#crash-location-recovery) owns placement and timing.
+
+Local recovery stops the ragdoll, restores the previous riding view and resets
+pose/camera interpolation, player tracks/powder, particles, audio/voice observers,
+haptics and screen/weather transients. Existing neutral/release gates rearm
+steer, jump, grab, air controls and shared axes, preventing held confirmation
+from becoming a jump or pole stroke. Full restart resets the whole attempt.
+Navigation remains unavailable during crash/recovery, finish, loading and
+transitions; it cannot conceal a running recovery clock behind the map.
+
+## Ghost selection
+
+Records → Ghosts offers Automatic fastest 10 or a manual subset, including an
+explicit empty set. Rows show rank, time, UTC date, short stable run ID and a
+color swatch; color supplements identity. `ui/ghost_selector.gd` emits selection
+intent through the existing menu owner. Choices save for the next start/retry;
+current competitors and frozen PB split comparisons stay unchanged. Missing or
+evicted choices produce a notice rather than silently replacing a manual set.
+
+G / Show selected ghosts changes current visibility immediately. Hidden ghosts
+stop emitting and clear their presentation histories; reenabling starts at the
+current time without stamping the missed route. Colors are chosen deterministically
+from run IDs and the player's effective clothing/atlas color, then shared with
+the selector. Free skiing has no competitive selection. Storage, ordering and
+playback lifecycle belong to [Racing](RACING.md#recording-and-ghosts).
 
 ## Riding camera
 
@@ -148,6 +223,20 @@ manual look and vertical smoothing. Optional motion controls never disable the
 separate impact-reserve warning. Streak strength also scales exaggerated weather
 stretching, not physical weather.
 
+### Forest visibility
+
+Forest visibility is shared by both riding views and the paused camera preview.
+Transparency strength controls how much nearby canopy is removed across the
+whole screen, including edges and corners (0–100%, 1% steps, default 100%). Aid
+reach retains its 0–100% range and 60% default, setting the affected distance
+independently. Either at zero disables removal. Trunks remain visible; this does
+not change tree population, collision, racing or replay identity.
+
+Edits apply immediately and save with camera preferences; reset-all restores
+both defaults. View resets and presets leave these shared controls alone. The
+former opening-size field is ignored on load and absent from saved output;
+there is no size migration. Shader ownership is in [Rendering](RENDERING.md#terrain-forests-and-lighting).
+
 ## Menu and preview cameras
 
 [MenuCamera](../scripts/presentation/menu_camera.gd) is render-time over the loaded
@@ -181,8 +270,9 @@ loading delay. Cancellation waits for the current cooperative work; real errors
 display verbatim, hide the progress pulse and do not trigger automatic retries.
 
 `loading_content.gd` derives tips/device bindings from actual production behavior:
-tuck reduces drag, hop is release-to-jump, centered stick flips do not require
-L1, and air rotation does not assign flight trajectory. No invented marketing
+holding forward pushes at low speed and tucks at speed, hop is release-to-jump,
+centered stick flips do not require L1, and air rotation does not assign flight
+trajectory. No invented marketing
 claims or photograph locations. Tips hold eight seconds with .25 s fades; stage
 changes do not restart their timer. Reduced motion settles fades, freezes photo
 motion and centers the indeterminate marker. Loading wind is separately owned

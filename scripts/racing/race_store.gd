@@ -1,6 +1,6 @@
 extends RefCounted
 const Race = preload("res://scripts/racing/race_definition.gd")
-var directory: String = "user://races_v5"
+var directory: String = "user://races_v6"
 var warning: String = ""
 
 func save(race) -> String:

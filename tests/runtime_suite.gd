@@ -31,7 +31,7 @@ func run() -> void:
 	check(not game.active and game.hud.menu.visible,"Project opens at the start screen")
 	var dial_rect: Rect2 = game.hud.speed_dial.get_global_rect()
 	check(dial_rect.position.x>=0 and dial_rect.position.y>=0 and root.get_visible_rect().encloses(dial_rect),"Speed dial stays fully inside the viewport")
-	check(game.session.course_id=="laboratory-v3-physics-v28-default","Grounded snow uses its new benchmark identity")
+	check(game.session.course_id==game.session.laboratory_identity() and game.session.course_id.contains("physics-v29-"),"Current physics and crash recovery use the laboratory benchmark identity")
 	key(KEY_F2)
 	check(not game.active and game.hud.tuning_panel.visible,"Workbench pauses from the title screen")
 	var workbench_rect: Rect2 = game.hud.tuning_panel.get_global_rect()
@@ -441,8 +441,8 @@ func _camera_settings_checks() -> void:
 	for key in changes: ui.controls[key].value = changes[key]
 	for key in changes: check(game.camera_settings.profile("chase")[key]==changes[key],"Slider reaches live chase profile: "+key)
 	ui.controls.forest_visibility.value = 35
-	ui.controls.forest_visibility_size.value = 42
-	check(game.camera_settings.shared.forest_visibility==35 and game.camera_settings.shared.forest_visibility_size==42,"Shared foliage sliders remain independent")
+	ui.controls.forest_visibility_strength.value = 42
+	check(game.camera_settings.shared.forest_visibility==35 and game.camera_settings.shared.forest_visibility_strength==42,"Shared foliage sliders remain independent")
 	check(ui.readouts.rest_tilt.text=="-52°" and ui.readouts.rest_distance.text=="4.50 m","Typed readouts display tilt and metres")
 	check(game.camera_settings.profile("first_person").rest_fov==55,"Chase edits leave first-person profile untouched")
 	game.set_camera_preset("save","chase","Runtime custom","")

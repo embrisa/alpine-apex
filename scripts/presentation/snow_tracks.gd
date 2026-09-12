@@ -8,6 +8,7 @@ var tracks: MultiMesh
 var live_tracks: MultiMesh
 var live_transforms: Array[Transform3D] = [Transform3D.IDENTITY,Transform3D.IDENTITY]
 var live_active: Array[bool] = [false,false]
+var live_appearance: Array[Color] = [Color(0,0,.5,1),Color(0,0,.5,1)]
 var cursor: int = 0
 var written: int = 0
 var last_position = Vector3.INF
@@ -83,6 +84,7 @@ func reset() -> void:
 	for i in 2: _hide_live(i)
 
 func _hide_live(index: int) -> void:
+	if live_active[index]: revision += 1
 	live_active[index] = false
 	if live_tracks:
 		live_tracks.set_instance_transform(index,Transform3D(Basis(Vector3.ZERO,Vector3.ZERO,Vector3.ZERO),Vector3.ZERO))
@@ -93,6 +95,7 @@ func update_contact(sim, field, p: Vector3, active: bool, responses: Array = [])
 			for i in range(2):
 				contact_responses[i].sample(sim,sim.skis[i],field)
 				contact_responses[i].contact_position += p-sim.position
+				contact_responses[i].resolve_track_contact(sim,sim.skis[i],field)
 		_independent_contacts(sim,field,p,active,contact_responses if responses.is_empty() else responses)
 		return
 	if not active or not sim.grounded or sim.crashed:
@@ -120,19 +123,24 @@ func update_contact(sim, field, p: Vector3, active: bool, responses: Array = [])
 		last_position = next
 		last_right = next_right
 
-func _stamp(field, a: Vector3, b: Vector3, sim, response = null, live_index: int = -1) -> void:
+func _snow_segment(field, a: Vector3, b: Vector3) -> bool:
 	# Check the swept tail segment too: snow cannot bridge a narrow rock strip.
 	var TerrainMaterial = preload("res://scripts/core/terrain_material.gd")
 	for t in [0.0,.5,1.0]:
 		var point = a.lerp(b,t)
 		if TerrainMaterial.at(field,point.x,point.z)==TerrainMaterial.Kind.ROCK:
-			if live_index>=0: _hide_live(live_index)
-			return
+			return false
+	return true
+
+func _stamp(field, a: Vector3, b: Vector3, sim, response = null, live_index: int = -1) -> bool:
+	if not _snow_segment(field,a,b):
+		if live_index>=0: _hide_live(live_index)
+		return false
 	var along = Vector3(b.x-a.x,0,b.z-a.z)
 	var length_m = along.length()
 	if length_m<0.01:
 		if live_index>=0: _hide_live(live_index)
-		return
+		return false
 	along /= length_m
 	var across = Vector3.UP.cross(along)
 	var slip: float = absf(sin(sim.slip_angle)) if response==null else response.slip
@@ -146,18 +154,19 @@ func _stamp(field, a: Vector3, b: Vector3, sim, response = null, live_index: int
 		for side in [-1.0,1.0]:
 			var point = middle+along*end*length_m*0.5+across*side*width*0.5
 			corners.append(field.sample(point.x,point.z).height-middle.y)
-	var depth: float = clampf(sim.snow_penetration+absf(sim.edge_angle)*.012,0.001,.10) if response==null else response.depth_m
+	var depth: float = clampf(sim.snow_penetration+absf(sim.edge_angle)*.012,0.001,.10) if response==null else response.track_depth_m
 	var displaced_side: float = .5 if response==null else .5+.5*signf(response.throw_world.dot(across))
 	if live_index>=0:
 		var transform_value = Transform3D(Basis(across*width,Vector3.UP,along*length_m),middle)
 		live_transforms[live_index] = transform_value
 		live_active[live_index] = true
+		live_appearance[live_index] = Color(depth,slip,displaced_side,response.crystal_density)
 		live_tracks.set_instance_transform(live_index,transform_value)
 		live_tracks.set_instance_custom_data(live_index,Color(corners[0],corners[1],corners[2],corners[3]))
 		# Negative slip marks the live section for a soft end cap in the shared
 		# shader; retained history/GPU stamps continue to store ordinary slip.
 		live_tracks.set_instance_color(live_index,Color(depth,-1.0-slip,displaced_side,response.crystal_density))
-		return
+		return true
 	transforms[cursor] = Transform3D(Basis(across*width,Vector3.UP,along*length_m),middle)
 	corner_history[cursor] = Color(corners[0],corners[1],corners[2],corners[3])
 	appearance_history[cursor] = Color(depth,slip,displaced_side,1.0 if response==null else response.crystal_density)
@@ -165,27 +174,61 @@ func _stamp(field, a: Vector3, b: Vector3, sim, response = null, live_index: int
 	cursor = (cursor+1)%capacity
 	written = mini(written+1,capacity)
 	tracks.visible_instance_count = written
+	return true
 
 func _independent_contacts(sim, field, p: Vector3, active: bool, responses: Array) -> void:
+	update_presentation(field,p,active and sim.grounded and not sim.crashed,responses,sim.tuning.ski_length)
+
+func update_presentation(field, p: Vector3, active: bool, responses: Array, ski_length: float) -> void:
+	# Recorded ghosts pass their own already evaluated samples. No fake solver
+	# object, input, contact resimulation or shared player history is required.
 	for i in range(2):
-		if not active or sim.crashed or not responses[i].snow_contact:
+		if not active or responses.size()!=2 or not responses[i].track_contact:
 			_hide_live(i)
 			foot_history[i] = Vector3.INF
 			continue
 		var response = responses[i]
-		var tail: Vector3 = response.contact_position-response.contact_forward*sim.tuning.ski_length*.5
-		var tip: Vector3 = response.contact_position+response.contact_forward*(sim.tuning.ski_length*.5+.12)
-		if not foot_history[i].is_finite() or tail.distance_to(foot_history[i])>8.0:
+		var tail: Vector3 = response.contact_position-response.contact_forward*ski_length*.5
+		var tip: Vector3 = response.contact_position+response.contact_forward*(ski_length*.5+.12)
+		# Validate this ski's current footprint before retaining any history.
+		# A rejected interval must not leave a bridge anchor for re-entry.
+		if not _snow_segment(field,tail,tip):
+			_hide_live(i)
+			foot_history[i] = Vector3.INF
+			continue
+		if not foot_history[i].is_finite() or _ground_distance(tail,foot_history[i])>8.0:
 			foot_history[i] = tail
-		var distance: float = tail.distance_to(foot_history[i])
+		var distance = _ground_distance(tail,foot_history[i])
 		var steps = mini(12,floori(distance/SPACING_M))
 		var start = foot_history[i]
 		for step in range(1,steps+1):
 			var next: Vector3 = start.lerp(tail,step*SPACING_M/distance)
-			_stamp(field,foot_history[i],next,sim,responses[i])
+			if not _stamp(field,foot_history[i],next,null,response):
+				foot_history[i] = tail
+				break
 			foot_history[i] = next
-		_stamp(field,foot_history[i],tip,sim,response,i)
-	last_position = p if active and sim.grounded and not sim.crashed else Vector3.INF
+		if not _stamp(field,foot_history[i],tip,null,response,i):
+			foot_history[i] = Vector3.INF
+	last_position = p if active else Vector3.INF
+
+static func _ground_distance(a: Vector3, b: Vector3) -> float:
+	# Cosmetic Y must not consume history or change the teleport threshold.
+	return Vector2(a.x-b.x,a.z-b.z).length()
+
+func live_gpu_strokes() -> PackedFloat32Array:
+	# Sole live GPU contract: exactly the accepted surface-projected ribbons.
+	# Hidden, inactive and rock-rejected slots are zero, including depth.
+	var data = PackedFloat32Array()
+	data.resize(16)
+	for i in 2:
+		if not live_active[i]: continue
+		var transform_value = live_transforms[i]
+		var a = transform_value*Vector3(0,0,-.5)
+		var b = transform_value*Vector3(0,0,.5)
+		var style = live_appearance[i]
+		var values = [a.x,a.z,b.x,b.z,transform_value.basis.x.length(),style.r,style.g,style.b*2.0-1.0]
+		for j in 8: data[i*8+j] = values[j]
+	return data
 
 func _upload(index: int) -> void:
 	tracks.set_instance_transform(index,transforms[index])

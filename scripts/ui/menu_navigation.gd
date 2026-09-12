@@ -138,6 +138,7 @@ func scope() -> Node:
 	if game.loading and game.loading.busy: return game.loading.overlay
 	if hud.get("hud_editor") and hud.hud_editor.visible: return hud.hud_editor
 	if hud.camera_options.preview_active: return hud.root
+	if game.workshop.mode=="navigation": return game.workshop.navigation_panel.panel
 	for panel in [game.mountain_library.panel,game.workshop.panel,hud.competition.panel,hud.tuning_panel,hud.weather_panel,hud.menu]:
 		if panel.visible: return panel
 	return null
@@ -155,6 +156,8 @@ func ensure_focus() -> Control:
 func route(event: InputEvent) -> bool:
 	if event.has_meta("menu_owned"): return false
 	_device_used(event)
+	if game and game.initialized and game.workshop.mode=="navigation" and not top_popup() and not game.loading.busy:
+		if game.workshop.navigation_panel.route_event(event): return true
 	var current_scope = _sync_scope()
 	if current_scope==null: cancel_repeat(); return false
 	if event is InputEventJoypadMotion:
@@ -204,6 +207,8 @@ func _sync_scope() -> Node:
 	return current_scope
 
 func _surveying(current_scope: Node) -> bool:
+	if game.workshop.mode=="navigation":
+		return current_scope==game.workshop.navigation_panel.panel and game.workshop.navigation_panel.input_state.terrain_active
 	return current_scope==game.workshop.panel and game.workshop.mode=="create" and game.workshop.survey_keyboard_enabled
 
 func _process(dt: float) -> void:

@@ -39,10 +39,10 @@ void fragment() {
  vec4 tex=mix(first,second,smoothstep(.15,.85,fract(atlas_view)));
  // Grade green needles only; baked white snow and brown wood stay neutral.
  float needles=smoothstep(.006,.045,tex.g-max(tex.r,tex.b));
- if(foliage_sight_parameters.x>0.0 && !IN_SHADOW_PASS) {
+ if(foliage_sight_parameters.x*foliage_sight_parameters.w>0.0 && !IN_SHADOW_PASS) {
   // White branch snow follows needles; brown collision trunks stay opaque.
   float canopy=max(needles,smoothstep(.16,.30,min(tex.r,min(tex.g,tex.b))));
-  if(foliage_sight_removal(SCREEN_UV,-VERTEX.z)*canopy>foliage_sight_threshold(FRAGCOORD.xy)) discard;
+  if(foliage_sight_removal(-VERTEX.z)*canopy>foliage_sight_threshold(FRAGCOORD.xy)) discard;
  }
  ALBEDO=tex.rgb*mix(vec3(1.0),foliage_color_grade,needles);
  ALPHA=tex.a;

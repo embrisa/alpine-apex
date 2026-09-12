@@ -1,32 +1,28 @@
 extends RefCounted
-## Camera-only opening in nearby canopy. Never changes obstacles or rider input.
-var window = Vector4(.5,.5,.44,.44)
-var parameters = Vector4.ZERO # activation, full-depth limit, outer limit, unused
+## Full-screen nearby canopy aid. Never changes obstacles or rider input.
+var parameters = Vector4.ZERO # activation, full-depth limit, outer limit, transparency
 var initialized = false
 var previous_actor = Vector3.ZERO
 
-func update(camera: Camera3D, actor: Vector3, velocity: Vector3, dt: float, riding: bool, strength: float, size_percent: float = 88.0) -> void:
-	var amount=clampf(strength/100.0,0.0,1.0) if is_finite(strength) else .6
-	var enabled=riding and is_instance_valid(camera) and amount>0.0
-	var blend=1.0-exp(-clampf(dt,0.0,.1)/.16)
-	var reset=not initialized or actor.distance_squared_to(previous_actor)>900.0
-	previous_actor=actor; initialized=true
-	if reset: parameters.x=0.0
-	parameters.x=lerpf(parameters.x,1.0 if enabled else 0.0,blend)
-	if absf(parameters.x-(1.0 if enabled else 0.0))<.002: parameters.x=1.0 if enabled else 0.0
+func update(camera: Camera3D, actor: Vector3, dt: float, riding: bool, reach_percent: float, transparency_percent: float = 100.0) -> void:
+	var reach = clampf(reach_percent/100.0,0.0,1.0) if is_finite(reach_percent) else .6
+	parameters.w = clampf(transparency_percent/100.0,0.0,1.0) if is_finite(transparency_percent) else 1.0
+	var valid_pose = is_instance_valid(camera) and actor.is_finite()
+	if valid_pose: valid_pose = camera.global_position.is_finite()
+	var enabled = riding and valid_pose and reach>0.0
+	var elapsed = clampf(dt,0.0,.1) if is_finite(dt) else 0.0
+	var blend = 1.0-exp(-elapsed/.16)
+	var reset = not initialized or (actor.is_finite() and actor.distance_squared_to(previous_actor)>900.0)
+	if actor.is_finite():
+		previous_actor = actor
+		initialized = true
+	if reset: parameters.x = 0.0
+	var target = 1.0 if enabled else 0.0
+	parameters.x = lerpf(parameters.x,target,blend)
+	if absf(parameters.x-target)<.002: parameters.x = target
+	# Explicit off takes effect immediately; menu transitions retain their easing.
+	if reach==0.0: parameters.x = 0.0
 	if not enabled: return
-	var speed=Vector2(velocity.x,velocity.z).length()
-	var direction=velocity.normalized() if speed>1.0 else -camera.global_basis.z
-	var focus=actor+direction*clampf(speed*.3,5.0,10.0)+Vector3.UP*.65
-	var center=Vector2(.5,.5)
-	if not camera.is_position_behind(focus):
-		var size=camera.get_viewport().get_visible_rect().size
-		if size.x>0.0 and size.y>0.0:
-			var projected=camera.unproject_position(focus)/size
-			center=Vector2(clampf(projected.x,.49,.51),clampf(projected.y,.49,.51))
-	var current=Vector2(window.x,window.y)
-	center=center if reset else current.lerp(center,blend)
-	var radius=clampf(size_percent,20.0,100.0)/200.0 if is_finite(size_percent) else .44
-	window=Vector4(center.x,center.y,radius,radius)
-	var depth=clampf(camera.global_position.distance_to(actor)+lerpf(8.0,18.0,amount),8.0,28.0)
-	parameters.y=depth*.78; parameters.z=depth
+	var depth = clampf(camera.global_position.distance_to(actor)+lerpf(8.0,18.0,reach),8.0,28.0)
+	parameters.y = depth*.78
+	parameters.z = depth

@@ -14,6 +14,7 @@ duplicating their catalogs. Generated QA/captures belong in `artifacts/`.
 | Hands | `art_source/meshy/hands_v1/`, local glove preparation | Incorporated into the weighted skier; fixed fingers remain |
 | Equipment | `art_source/meshy/equipment_v1/`, packed `art_source/blender/equipment_v1_*.blend` | Detailed mirrored skis, v2 bindings, poles |
 | Motion | `art_source/animation/steep_full_curves/manifest.json`, retained source exports | `assets/animation/steep_ski_motion.res` |
+| Pole action | `art_source/animation/pole_push_v1/cycle.json`, `art_source/animation/pole_push_v1/pole_push.blend` | `assets/animation/pole_push_cycle.tres` |
 | Trees | Local purchased TreeDesigner source, packed Blender derivatives | `assets/graphics/trees/manifest.json` |
 | Minerals | `art_source/blender/rock_generator.blend`, `art_source/blender/minerals_v3/` | `assets/graphics/minerals_v3/manifest.json`, geology runtime catalog |
 | Flavor | `art_source/flavor_v1/` | `assets/graphics/flavor_v1/manifest.json` |
@@ -94,7 +95,38 @@ They describe the captured revision, not current build dependencies; do not
 rewrite them to imply later sources match. Current animation ownership and
 authoring direction live in [Animation](ANIMATION.md#authoring-direction).
 
+## Pole action source
+
+`art_source/animation/pole_push_v1/cycle.json` is the original double-pole
+control definition. `scripts/art/build_pole_push.py` builds its editable
+`pole_push.blend`, previews it on the unchanged weighted skier, exports
+`assets/animation/pole_push_cycle.tres` and writes actual source/Blender/runtime
+hashes to `export_provenance.json` beside the source.
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath 'C:/Program Files/Blender Foundation/Blender 5.2/blender.exe' -Arguments @('--background','--factory-startup','--python-exit-code','1','--python','scripts/art/build_pole_push.py') -Label pole-action-author -TimeoutSeconds 240
+```
+
+First build refuses to overwrite an existing blend. To export saved edits, append
+`'--','--export-existing'`; edit the four `PoleControl_` location channels with
+matching loop endpoints. Scalars use X, wrists/trails model-axis vectors. Export
+enforces smoothstep handles and carries no root motion. Preserve the JSON,
+editable blend, builder, runtime resource and hash receipt together. Existing
+GLBs/imports/UIDs remain untouched; Blender source follows existing LFS policy.
+The preview precedes final Godot anatomy/cuff/tracker fitting and is not gameplay
+acceptance. Verify generated files and receipts before claiming authoring complete;
+[Validation](VALIDATION.md#pole-propulsion-and-animation-producers) retains that gate.
+
 ## Trees
+
+Prepared-only colorful trees are stored in `art_source/trees/colorful_v1/`, outside
+production tree discovery and excluded from Godot import with `.gdignore`. See
+its README and manifest for the six birch/maple variants, portable materials,
+leaf-type samples, detail levels, source hashes and isolated preview commands.
+The authoring wrapper is `./scripts/prepare_colorful_trees.ps1`; forest selection,
+production shader conversion and performance validation remain deferred under
+`AA-20260912-094935-colorful-forest-variety`. Asset preparation does not authorize
+integration.
 
 The collection has 24 variants: four each spruce, fir, pine, winter birch,
 dead snag and broken crown. Revision 3 rebuilds twelve living conifers with
@@ -127,6 +159,30 @@ attaching a crown stub; prune whole twig tubes instead of arbitrary faces;
 deduplicate attachment sites; use forked birch sources rather than dense conifer
 presets. Near/mid/far visual review and texture memory are separate from tree
 counts, synthetic capacity and full-descent performance.
+
+## Prepared ground vegetation
+
+Standalone preparation packs live in
+[`art_source/foliage/grass_v1/`](../art_source/foliage/grass_v1/README.md) and
+[`art_source/foliage/plants_v1/`](../art_source/foliage/plants_v1/README.md).
+Both are excluded from production imports by `.gdignore`. Grass has six clump
+shapes; plants has two leafy forms, two ferns and two low shrubs. Green, dusted
+and snowy finishes each have three geometry levels. Package manifests own
+dimensions, counts, hashes, recipes and vertex contracts; editable Blender
+libraries and portable GLBs are retained alongside them.
+
+Use `scripts/prepare_foliage_assets.ps1 -Kind Grass|Plants -Mode
+Build|Validate|Preview` with a single choice for each parameter. The wrapper owns
+the validation guard; package READMEs explain rebuild protection and interactive
+review. These assets contain vegetation and attached snow only: no rocks,
+pebbles, pedestals, ground chunks or collision. Direct GLTFDocument review
+explicitly enables the imported vertex-color material flag, required by the
+observed Godot 4.7.2 path. No game importer or rendering shader is changed.
+
+Terrain selection, production materials, wind/skier interaction, LOD transitions
+and dense-scene performance remain separate integration work. The terrain-grass
+backlog task retains its original implementation scope; preparing the additional
+plants does not dispatch or authorize their game integration.
 
 ## Minerals
 

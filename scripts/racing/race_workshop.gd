@@ -4,6 +4,9 @@ const RetainedContent = preload("res://scripts/ui/retained_screen_content.gd")
 const Race = preload("res://scripts/racing/race_definition.gd")
 const Store = preload("res://scripts/racing/race_store.gd")
 const Beams = preload("res://scripts/presentation/race_beams.gd")
+const NavigationState = preload("res://scripts/racing/session_navigation.gd")
+const NavigationBeams = preload("res://scripts/presentation/session_navigation_beams.gd")
+const NavigationPanel = preload("res://scripts/ui/session_navigation_panel.gd")
 # Navigation keeps its original high-visibility color independently of menu art.
 const START_COLOR = Beams.START_COLOR
 var game
@@ -46,6 +49,9 @@ var cursor: MeshInstance3D
 var instrument_visibility: Array = []
 var zone_outline: MeshInstance3D
 var suggested_race
+var navigation_state
+var navigation_beams
+var navigation_panel
 
 func build(owner_game) -> void:
 	game = owner_game
@@ -67,7 +73,52 @@ func build(owner_game) -> void:
 	cursor.visible = false
 	add_child(cursor)
 	_build_ui()
+	# Retained outside scene nodes, keyed by the entire physical reference (not seed).
+	var physical_identity = JSON.stringify(Race.mountain_reference(game.field,game.world.mountain.seed_value),"",true,true).sha256_text()
+	navigation_state = NavigationState.acquire(get_tree(),physical_identity)
+	navigation_beams = NavigationBeams.new()
+	navigation_beams.name = "PersonalNavigationBeams"
+	add_child(navigation_beams)
+	navigation_beams.build(navigation_state,game.field)
+	navigation_panel = NavigationPanel.new()
+	add_child(navigation_panel)
+	navigation_panel.build(self,navigation_state)
 	suggested_race=Race.suggested(game.field,game.world.mountain.seed_value)
+
+func is_survey_open() -> bool:
+	return mode in ["create","navigation"]
+
+func open_navigation() -> void:
+	if not game.initialized or not mode.is_empty() or game.loading.busy or game.transitioning or game.returning_to_summit: return
+	if game.sim.crashed or game.session.finished or game.mountain_library.panel.visible: return
+	if game.hud.weather_panel.visible or game.hud.tuning_panel.visible or game.hud.competition.panel.visible: return
+	return_mode = "summit" if game.summit_ready and game.active else "paused" if game.active or game.hud.menu_mode=="racing" else game.hud.menu_mode
+	game.set_camera_preview(false)
+	game.active = false
+	game.hud.hide_menu()
+	game.hud.debug_panel.hide()
+	game.vectors.hide()
+	instrument_visibility.clear()
+	for control in game.hud.hud_controls:
+		instrument_visibility.append(control.visible)
+		control.hide()
+	focus_point = game.sim.position
+	survey_height = 480.0
+	mode = "navigation"
+	cursor.material_override = _material(NavigationBeams.COLOR)
+	_update_survey()
+	survey.make_current()
+	game.weather_effects.reset()
+	game._clear_storm_effects()
+	navigation_panel.open()
+
+func leave_navigation() -> void:
+	if mode != "navigation": return
+	close()
+	if return_mode == "summit":
+		game.summit_drop_armed = false
+		game.resume()
+	else: game.hud.show_menu(return_mode)
 
 func _build_ui() -> void:
 	var hud = game.hud
@@ -390,7 +441,9 @@ func matches_world(race) -> bool:
 	return race.mountain == Race.mountain_reference(game.field,game.world.mountain.seed_value)
 
 func back_pressed() -> void:
-	if mode=="create":
+	if mode=="navigation":
+		navigation_panel.back()
+	elif mode=="create":
 		draft = null
 		_refresh_library()
 	else:
@@ -398,20 +451,26 @@ func back_pressed() -> void:
 		game.hud.show_menu(return_mode,game.sim.crash_reason if game.sim.crashed else game.Session.format_time(game.session.elapsed))
 
 func close() -> void:
+	var closing_navigation = mode=="navigation"
+	if navigation_panel: navigation_panel.close()
 	mode = ""
 	survey_keyboard_enabled = false
 	if zone_outline: zone_outline.hide()
 	panel.visible = false
 	cursor.visible = false
+	cursor.material_override = _material(START_COLOR)
 	game.camera.current = true
 	game.camera.reset()
 	game.weather_effects.reset()
 	for i in instrument_visibility.size():
 		game.hud.hud_controls[i].visible = instrument_visibility[i]
 	instrument_visibility.clear()
-	show_race(game.session.race)
+	if not closing_navigation: show_race(game.session.race)
 
 func handle_input(event: InputEvent) -> void:
+	if mode=="navigation":
+		navigation_panel.route_event(event)
+		return
 	if event.is_action_pressed("pause_run"):
 		back_pressed()
 		return
@@ -443,6 +502,9 @@ func owns_survey_key(event: InputEventKey) -> bool:
 	return keyboard_survey_allowed() and event.physical_keycode in [KEY_W,KEY_A,KEY_S,KEY_D,KEY_UP,KEY_LEFT,KEY_DOWN,KEY_RIGHT]
 
 func update_survey(dt: float) -> void:
+	if mode=="navigation":
+		navigation_panel.update_survey(dt)
+		return
 	if get_viewport().gui_get_focus_owner()!=null or not get_window().has_focus():
 		survey_keyboard_enabled = false
 	if keyboard_survey_allowed():
@@ -459,15 +521,15 @@ func update_survey(dt: float) -> void:
 			cursor.visible = true
 
 func _update_survey() -> void:
-	if zone_outline: zone_outline.visible = mode=="create"
-	var area: Rect2 = game.field.ski_bounds().grow(-25.0)
+	if zone_outline: zone_outline.visible = is_survey_open()
+	var area: Rect2 = game.field.ski_bounds().grow(-1.0 if mode=="navigation" else -25.0)
 	focus_point.x = clampf(focus_point.x,area.position.x,area.end.x)
 	focus_point.z = clampf(focus_point.z,area.position.y,area.end.y)
 	focus_point.y = game.field.sample(focus_point.x,focus_point.z).height
 	var zone = Race.Zone.new(game.field)
 	if zone.enabled:
 		var offset = Vector2(focus_point.x,focus_point.z)-zone.center
-		offset = offset.limit_length(zone.radius_m-zone.ENDPOINT_MARGIN_M)
+		offset = offset.limit_length(zone.radius_m-(1.0 if mode=="navigation" else zone.ENDPOINT_MARGIN_M))
 		focus_point.x = zone.center.x+offset.x
 		focus_point.z = zone.center.y+offset.y
 		focus_point.y = game.field.sample(focus_point.x,focus_point.z).height
@@ -476,6 +538,12 @@ func _update_survey() -> void:
 	survey.look_at(focus_point)
 
 func pick_snow(screen: Vector2) -> Variant:
+	var hit = pick_terrain(screen)
+	if hit is Vector3 and Race.Zone.new(game.field).endpoint_error(hit).is_empty(): return hit
+	return null
+
+func pick_terrain(screen: Vector2) -> Variant:
+	# Raw supported terrain hit; each caller applies its own placement contract.
 	var origin = survey.project_ray_origin(screen)
 	var direction = survey.project_ray_normal(screen)
 	var previous = origin
@@ -491,7 +559,6 @@ func pick_snow(screen: Vector2) -> Variant:
 			var hit = low.lerp(high,0.5)
 			hit.y = game.field.sample(hit.x,hit.z).height
 			if game.field.has_method("ray_geology") and not game.field.ray_geology(origin,hit).is_empty(): return null
-			if not Race.Zone.new(game.field).endpoint_error(hit).is_empty(): return null
 			return hit
 		previous = p
 	return null

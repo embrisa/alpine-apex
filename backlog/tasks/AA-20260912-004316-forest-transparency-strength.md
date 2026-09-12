@@ -1,11 +1,11 @@
 ---
 id: "AA-20260912-004316-forest-transparency-strength"
 title: "Replace forest opening size with transparency strength"
-status: ready
+status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-12T00:43:16Z"
-updated: "2026-09-12T00:43:16Z"
+updated: "2026-09-12T13:21:47Z"
 source_thread: "01a0930f-61b9-7220-a2bc-66bd5f89dd9a"
 ---
 
@@ -92,17 +92,17 @@ authoring, and all implementation checks below remain planned.
 
 ## Acceptance and verification
 
-- [ ] Opening size is absent. Strength and Aid reach appear in the Forest
+- [x] Opening size is absent. Strength and Aid reach appear in the Forest
   visibility group with correct percentage values, help, focus and reset behavior.
-- [ ] Strength 0/25/50/75/100% gives monotonically increasing removal at fixed
+- [x] Strength 0/25/50/75/100% gives monotonically increasing removal at fixed
   reach after settling; 0% restores normal foliage and 100% matches the previous
   full-screen maximum. Corners and edges receive the same strength as the center
   for equivalent eligible foliage and depth. No screen opening remains.
-- [ ] Reach and strength are independent. Either value at zero disables removal;
+- [x] Reach and strength are independent. Either value at zero disables removal;
   changing one never overwrites the other. Save/reload, clamping/nonfinite input,
   reset-all, first-/third-person, preview, menu restore and teleport behavior pass
   in an isolated test profile without writing personal preferences or records.
-- [ ] Resident/streamed/fallback foliage and quality/LOD switches keep the selected
+- [x] Resident/streamed/fallback foliage and quality/LOD switches keep the selected
   strength. Trunks remain readable; collision and forest population stay unchanged.
 - [ ] Run the updated suites serially through the existing guard. Planned command
   template (use unique task-owned labels):
@@ -114,7 +114,7 @@ authoring, and all implementation checks below remain planned.
   Repeat for `tests/camera_profiles_suite.gd`, `tests/camera_suite.gd`,
   `tests/runtime_suite.gd` and `tests/graphics_suite.gd`. If physics, input or
   session behavior changes, also run `tests/physics_suite.gd` as required by AGENTS.
-- [ ] Adapt the existing rendered review scripts to fresh output paths and run
+- [x] Adapt the existing rendered review scripts to fresh output paths and run
   with the same guarded command template without `--headless`. Inspect matched
   first-/third-person views at the five strengths, both screen corners and depth
   boundaries, plus chronological moving dense-forest and LOD-transition evidence.
@@ -140,8 +140,41 @@ None.
 
 ## Completion record
 
-Pending implementation. The worker should record the outcome, verification
-actually performed, remaining acceptance, updated documentation, and commit/push
-references. If blocked, record the blocker and unfinished work instead of success.
-Link any separate next-step proposals in `backlog/ideas/`, or note that none were
-proposed. Those suggestions require the user's selection before task authoring.
+Implemented and parent-accepted for this concurrent run. Opening size and
+screen-window plumbing are removed. Shared Transparency strength is 0–100% in
+1% steps, default/reset 100%; independent Aid reach remains 0–100%, default 60%.
+Both riding views and preview apply full-screen canopy removal; either zero
+disables it. Preferences, menu/teleport lifecycle and resident/streamed/fallback
+materials use the current setting without migrating old size data. Stationary
+dithering, woody geometry, collisions, tree population and simulation authority
+are preserved. Presentation and Rendering own the final contracts.
+
+Parent-run evidence: **232 focused checks**, [430 native production-include mask
+checks](../../artifacts/orchestration_20260912/forest/mask_1843922/report.json),
+and [settings/preview failures=[]](../../artifacts/orchestration_20260912/forest/settings_16580_1216163/report.json).
+The parent accepts the [11-result production-tree scene review](../../artifacts/foliage_v3/eight-forest-20260912/report.json):
+five strengths in first-person/chase, backlighting, moving dense stand, quality
+changes and fallback views. It shows increasing canopy removal with opaque wood;
+the mask checks cover equivalent center/edge/corner depths and stacked layers.
+The scene report explicitly has no player/solver session and three-second motion
+clips; it is not an ordinary Standard-mountain descent. Central camera766,
+graphics28/PC14 and physics56/runtime192 receipts supplement these checks.
+
+Unchecked compound items remain honest: the named `camera_profiles_suite.gd`
+receipt was not located in this audit; the other listed suite passes do not
+silently substitute for it. No fresh capture-free 0/50/100 dense-forest timing
+matrix is claimed. The user waived FPS caps/misses for the concurrent run;
+screenshots and stand capture cost do not establish frame-time or full-descent
+acceptance. This audit launches no extra validation scope.
+
+Source/integration provenance is in [HANDOFF.md](../../artifacts/orchestration_20260912/forest/HANDOFF.md);
+the final [checklist/evidence map](../../artifacts/orchestration_20260912/forest/final_four_records/CHECKLIST_MAP.md)
+distinguishes passed components and outstanding record fields. No separate idea
+was authored; preserve useful captures and prior failures for review.
+
+- [ ] Human preferred strength and physical-controller comfort: pending separate follow-up.
+- [ ] Parent delivery: **PARENT TO FILL** commit(s), successful push, final status and artifact-lifecycle disposition. Status remains `in_progress` until parent delivery.
+
+## Checkpoint disposition — 2026-09-12T13:21:47Z
+
+Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.

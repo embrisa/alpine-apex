@@ -5,6 +5,25 @@
 [resource]
 script = ExtResource("1")
 
+pole_push_enabled = true
+pole_push_grades_degrees = PackedFloat32Array(0, 10, 20, 28, 34, 42)
+pole_push_speeds_kmh = PackedFloat32Array(40, 30, 17, 12, 8, 0)
+pole_push_fade_degrees = 34.0
+pole_push_acceleration = 5.0
+pole_push_fast_acceleration = 12.0
+pole_push_uphill_power = 2.4
+pole_push_max_acceleration = 22.0
+pole_push_cadence_hz = 1.15
+pole_push_fast_cadence_hz = 2.4
+pole_push_uphill_cadence_hz = 2.25
+pole_push_taper_start = 0.86
+pole_push_blend_rate = 6.0
+pole_push_steer_cutoff = 0.65
+pole_push_bank_cutoff = 0.45
+pole_push_normal_tolerance = 0.20943951
+pole_push_rollback_mps = 0.8
+pole_push_sideways_mps = 2.0
+
 air_spin_rate = 5.4
 air_flip_rate = 3.8
 air_steer_rate = 1.56

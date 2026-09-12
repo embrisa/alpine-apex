@@ -2,15 +2,16 @@
 
 ## Current identity
 
-Source baseline inspected on 2026-09-11; numeric identities are independent.
+Source identities inspected on 2026-09-12; numeric identities are independent.
 Their declarations, not an old report title, determine compatibility.
 
 | Identity | Current value | Source |
 |---|---|---|
 | Default mountain | Seed 849205174, generator 15, Standard | [startup](../scripts/main.gd), [definition](../scripts/world/mountain_definition.gd), [settings](../scripts/world/generation_settings.gd) |
-| Ski physics | Model 28, 120 Hz | [simulation](../scripts/core/ski_simulation.gd), [project settings](../project.godot) |
-| Replay | Format 5, eight tick-input fields | [replay](../scripts/racing/run_replay.gd) |
-| Race | Schema 5, weather rules 1 | [race definition](../scripts/racing/race_definition.gd) |
+| Ski physics | Model 29, 120 Hz | [simulation](../scripts/core/ski_simulation.gd), [project settings](../project.godot) |
+| Replay | Format 7, nine tick-input fields (including jump_held), lossless clocks | [replay](../scripts/racing/run_replay.gd) |
+| Race | Schema 6, recovery rules 1, weather rules 1 | [race definition](../scripts/racing/race_definition.gd) |
+| Ghost archive | Manifest 4, bounded immutable replay payloads and lossless clocks; no migrations | [records](../scripts/racing/competitive_record.gd) |
 | Mountain file | Schema 2 | [mountain definition](../scripts/world/mountain_definition.gd) |
 | Engine bundle | Godot 4.7.2 editor + validated custom DX12 runtime | [toolchain manifest](../tools/windows/toolchain.json), [development](DEVELOPMENT.md) |
 
@@ -32,10 +33,13 @@ Paths below are under `scripts/`.
 | `world/alpine_world.gd`, `presentation/*` | Render meshes, pose, camera, tracks, particles, weather and audio derived from state |
 | `presentation/skier_pose_writer.gd` | Single final skeleton writer; composed pose can seed a crash but cannot modify skiing forces or replay state |
 | `presentation/skier_ragdoll.gd`, `world/crash_collision.gd` | Crash-only Jolt skeleton, equipment and nearby exact terrain/obstacle collision |
-| `core/run_session.gd` | Clock, finish/splits, eligibility, frozen PB reference, recorder lifecycle |
+| `core/pole_propulsion.gd` | Fixed-tick bounded tangential pole thrust and completed stroke state; no animation-driven force |
+| `core/run_session.gd` | Clock including inactive crash ticks, finish/splits, eligibility, frozen PB and selected-ghost references, recorder lifecycle |
+| `core/crash_recovery.gd` | Frozen onset anchor, bounded authoritative terrain/prop search and rest initialization; preserves attempt totals |
 | `presentation/weather_controller.gd`, `weather_preferences.gd`, `main.gd` | Resumable fronts/cloud displacement, durable choices and cumulative storm progress, suspended free-ski versus authored race context; never physical wind or surface changes |
 | `racing/race_definition.gd`, `race_store.gd`, `competitive_record.gd`, `run_replay.gd` | Portable definitions, validation, local stores, compatible snapshot ghosts |
-| `racing/race_workshop.gd`, `ui/mountain_library.gd` | Survey/endpoint authoring and mountain generation/library flows |
+| `presentation/ghost_field.gd`, `ghost_pose.gd`, `ghost_track_stack.gd` | Recorded final-pose playback, isolated ghost instances and one aggregate cosmetic track upload |
+| `racing/session_navigation.gd`, `race_workshop.gd`, `ui/mountain_library.gd` | Memory-only personal points, survey/endpoint authoring and mountain generation/library flows |
 | `ui/hud.gd`, `main.gd` | UI intent dispatch; scene/session lifecycle, fixed-step dispatch and presentation interpolation |
 
 See [Physics](PHYSICS.md), [World](WORLD.md), [Racing](RACING.md) and
@@ -52,7 +56,9 @@ renderer. The removed Terrain3D path established no useful benefit.
 Godot dispatches 120 Hz physics with accumulated OS input disabled. Main retains
 previous/current completed states; translation, support rotation, body targets
 and both skis share the same explicit interpolation fraction. Inactive sessions
-hold completed state; resume clears presentation/contact history without advancing
+hold completed skiing state. An unpaused crashed attempt advances session time
+and inactive replay ticks without stepping skiing; explicit pause/focus loss
+holds that clock too. Resume clears presentation/contact history without advancing
 the solver. Catch-up is bounded at 24 steps. Interpolation can add one solver tick
 (about 8.33 ms); render cadence does not change the time step.
 
@@ -63,8 +69,9 @@ normal skiing solver. The project uses 32 velocity and 12 position iterations
 for crash joints.
 
 Tests establish repeatability for identical tick inputs under several render
-schedules. Cross-platform bitwise determinism is not promised. PB ghosts
-interpolate recorded snapshots; they do not run a trusted second simulation.
+schedules. Cross-platform bitwise determinism is not promised. Selected ghosts
+interpolate recorded completed body/equipment poses; they do not run a trusted
+second simulation. Their cosmetic tracks never alter physical snow or racing.
 Clock and finish timing belong to the session, including within-tick crossings.
 
 ## Engine strategy

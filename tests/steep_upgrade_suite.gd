@@ -133,11 +133,11 @@ func physics_authority():
 				skier.step_animation(DT,sim,intent,plane)
 				while render_time<=(tick+1)*DT:
 					skier.pose(sim,clampf((render_time-tick*DT)/DT,0,1)); render_time += 1.0/fps
-			var snapshot: Array = Replay.snapshot((tick+1)*DT,sim)
+			var snapshot: Array = Array(Replay.snapshot((tick+1)*DT,sim))
 			snapshot.append_array([sim.impacts.reserve,sim.body.com.x,sim.body.com.y,sim.body.com.z,sim.body.inertia.x,sim.body.inertia.y])
 			if fps==0: reference.append(snapshot)
 			elif snapshot!=reference[tick]: check(false,"Render schedule changed physical snapshot"); break
-		if fps>0: check(Replay.snapshot(2.5,sim)==reference[-1].slice(0,Replay.WIDTH),"Animation at %d FPS leaves physical replay state identical"%fps)
+		if fps>0: check(Array(Replay.snapshot(2.5,sim))==reference[-1].slice(0,Replay.WIDTH),"Animation at %d FPS leaves physical replay state identical"%fps)
 
 func replay_and_input():
 	var sim = setup(TestPlane.new(),100.0); sim._begin_flight(sim.support_basis())
@@ -148,16 +148,28 @@ func replay_and_input():
 	recording.begin(sim,identity)
 	for tick in 12:
 		sim.step(DT,intent,TestPlane.new()); recording.record(DT,(tick+1)*DT,sim,intent,1.0 if tick==11 else -1.0)
+	# These neutral poses complete an input/physics codec fixture, not an animation capture.
+	preload("res://tests/ghost_replay_fixture.gd").attach_sample_poses(recording)
 	var data: Dictionary = recording.to_data()
 	var decoded = Replay.decode(data,identity,.1)
-	check(decoded!=null and decoded.inputs.size()==12*Replay.INPUT_WIDTH,"Replay v5 validates all eight fields per tick")
+	check(Replay.VERSION==7 and Replay.INPUT_WIDTH==9 and decoded!=null and decoded.inputs.size()==12*Replay.INPUT_WIDTH and decoded.inputs==recording.inputs and decoded.samples==recording.samples and decoded.sample_times==recording.sample_times,"Replay v7 validates nine fields per tick and preserves recorded physical/input frames")
+	if decoded==null: return
 	if decoded!=null:
 		var restored = decoded.input_at(5)
 		check(absf(restored.air_pitch-intent.air_pitch)<.000001 and absf(restored.air_yaw-intent.air_yaw)<.000001 and restored.grab,"Replay input reader restores pitch/yaw/grab")
 	data.version = 3; check(Replay.decode(data,identity,.1)==null,"Earlier replay layout is rejected cleanly")
-	var bad = recording.to_data(); var corrupt = recording.inputs.duplicate(); corrupt[4] = NAN
-	bad.inputs_f32 = Marshalls.raw_to_base64(corrupt.to_byte_array())
-	check(Replay.decode(bad,identity,.1)==null,"Nonfinite rotation intent is rejected")
+	var bad = recording.to_data()
+	var corrupt: PackedByteArray = Marshalls.base64_to_raw(bad.payload)
+	# Float32 inputs immediately precede the final per-tick kind bytes.
+	var input_offset: int = corrupt.size()-recording.inputs.size()*4-recording.tick_kinds.size()
+	var pitch_offset: int = input_offset+4*4
+	var original: float = corrupt.decode_float(pitch_offset)
+	corrupt.encode_float(pitch_offset,NAN)
+	bad.payload = Marshalls.raw_to_base64(corrupt)
+	check(Replay.decode(bad,identity,.1)==null,"Nonfinite rotation intent in the binary input section is rejected")
+	corrupt.encode_float(pitch_offset,original)
+	bad.payload = Marshalls.raw_to_base64(corrupt)
+	check(Replay.decode(bad,identity,.1)!=null,"Restoring only nonfinite pitch intent restores a valid replay")
 
 func signals_and_recovery():
 	var plane = TestPlane.new()

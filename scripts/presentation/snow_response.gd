@@ -22,8 +22,27 @@ var turn_work = 0.0
 var contact_width_m = .30
 var contact_position = Vector3.ZERO
 var contact_forward = Vector3.BACK
+# Track-only continuation never grants physical support, spray or sparks.
+const TRACK_PHYSICAL_REACH_M = .12
+const TRACK_VISUAL_REACH_M = .24
+const TRACK_SEPARATION_SPEED_M_S = 1.0
+const COSMETIC_DEPTH_M = .012
+var track_contact = false
+var cosmetic_track = false
+var track_depth_m = 0.0
+var track_clearance_m = INF
+var track_reason = "unsupported"
+var track_probe = ""
+var track_rejection: Dictionary = {}
 
 func sample(sim, ski, surface = null) -> void:
+	track_contact = false
+	cosmetic_track = false
+	track_depth_m = 0.0
+	track_clearance_m = INF
+	track_reason = "unsupported"
+	track_probe = ""
+	track_rejection = {}
 	contact_position = ski.position
 	contact_forward = ski.forward
 	turn_work = 0.0
@@ -32,6 +51,8 @@ func sample(sim, ski, surface = null) -> void:
 	var speed: float = sim.velocity.length()
 	var rock: bool = ski.material_kind==TerrainMaterial.Kind.ROCK
 	snow_contact = supported and not rock
+	track_contact = snow_contact
+	track_reason = "supported" if snow_contact else ("rock" if rock else "unsupported")
 	sparks = smoothstep(.5,8.0,speed)*clampf(ski.load_n/maxf(sim.tuning.rider_mass*9.81*.5,1.0),0.0,1.0) if supported and rock else 0.0
 	if rock:
 		powder = 0.0
@@ -82,8 +103,111 @@ func sample(sim, ski, surface = null) -> void:
 	throw_side = signf(ski.slip_angle) if lateral_m_s>.35 else -signf(ski.edge_angle)
 	if is_zero_approx(throw_side): throw_side = ski.side
 	throw_world = ski.normal.cross(ski.forward).normalized()*throw_side
+	track_depth_m = depth_m if snow_contact else 0.0
+
+func resolve_track_contact(sim, ski, surface) -> void:
+	# Call after substituting final rendered equipment position/orientation.
+	# A supported ski already projects its mark onto the shared snow surface;
+	# changing only its cosmetic elevation cannot revoke that support.
+	if snow_contact or surface==null: return
+	if not sim.contacts_initialized or not sim.grounded or sim.crashed:
+		track_reason = "rider_inactive"
+		return
+	if ski.material_kind==TerrainMaterial.Kind.ROCK: return
+	var confirmed_grounded: bool = ski.grounded
+	if not confirmed_grounded:
+		# An unsupported ski still needs the original conservative carving proof.
+		# Root extension/normal velocity are departure guards only on this path.
+		var other = sim.skis[1] if ski==sim.skis[0] else sim.skis[0]
+		if not other.grounded or other.load_n<=1.0 or other.material_kind==TerrainMaterial.Kind.ROCK:
+			track_reason = "no_other_support"
+			return
+		if sim.velocity.length()<2.0 or absf(other.edge_angle)<.08 or other.grip_n/maxf(other.load_n,1.0)<.05:
+			track_reason = "not_carving"
+			return
+		if ski.clearance_m>TRACK_PHYSICAL_REACH_M or ski.normal_speed_ms>TRACK_SEPARATION_SPEED_M_S:
+			track_reason = "physical_separation"
+			return
+	if not surface.has_method("snow_depth_at"):
+		track_reason = "no_snow_depth"
+		return
+	if confirmed_grounded:
+		# Completed support is independent of load sharing, edge and root/leg
+		# extension. Certify the actual ski centre against its local loose layer.
+		track_probe = "physical_center"
+		if _track_snow_at(surface,ski.position,TRACK_PHYSICAL_REACH_M,.04)<=0.0: return
+	# Distributed support normals and the rigid final pose can intersect snow
+	# across a 4 m triangle change. A certified grounded centre permits the
+	# existing 24 cm presentation envelope at the footprint (also below the
+	# loose layer); it never bypasses local rock, void, depth or reach checks.
+	# Unsupported fallback keeps its original 12 cm reach / 4 cm burial margin.
+	var physical_reach = TRACK_VISUAL_REACH_M if confirmed_grounded else TRACK_PHYSICAL_REACH_M
+	var burial_margin = TRACK_VISUAL_REACH_M if confirmed_grounded else .04
+	track_probe = "physical_footprint"
+	var physical_depth = _near_snow_depth(surface,ski.position,ski.forward,sim.tuning.ski_length,physical_reach,burial_margin)
+	if physical_depth<=0.0: return
+	track_probe = "rendered_footprint"
+	var rendered_depth = _near_snow_depth(surface,contact_position,contact_forward,sim.tuning.ski_length,TRACK_VISUAL_REACH_M,burial_margin)
+	if rendered_depth<=0.0: return
+	var loose_depth = minf(physical_depth,rendered_depth)
+	var track_condition = Condition.at(surface,contact_position,loose_depth)
+	track_depth_m = minf(loose_depth,COSMETIC_DEPTH_M)*Condition.PROFILES[track_condition].w
+	track_contact = track_depth_m>0.0
+	cosmetic_track = track_contact
+	track_reason = "grounded_snow" if confirmed_grounded else "near_surface_carve"
+	# Small, neutral scratch: no full-load widening, lips or lateral throw.
+	width_m = .28
+	contact_width_m = .30
+	throw_world = Vector3.ZERO
+	crystal_density = Condition.CRYSTALS[track_condition]
+
+func _near_snow_depth(surface, center: Vector3, forward: Vector3, ski_length: float, reach: float, burial_margin: float) -> float:
+	var across = Vector3.UP.cross(forward).normalized()
+	if not center.is_finite() or not forward.is_finite() or across.length_squared()<.5:
+		return _reject_track("invalid_pose",center)
+	var depth = .35
+	for longitudinal in [-ski_length*.5,0.0,ski_length*.5+.12]:
+		for lateral in [-.15,0.0,.15]:
+			var point: Vector3 = center+forward*longitudinal+across*lateral
+			var local_depth = _track_snow_at(surface,point,reach,burial_margin)
+			if local_depth<=0.0: return 0.0
+			depth = minf(depth,local_depth)
+	return depth
+
+func _track_snow_at(surface, point: Vector3, reach: float, burial_margin: float) -> float:
+	if not point.is_finite(): return _reject_track("invalid_pose",point)
+	# Heightfield sampling clamps outside its domain. Never turn that clamp into
+	# a cosmetic bridge over the world edge, even with stale grounded evidence.
+	if surface.has_method("bounds") and not surface.bounds().has_point(Vector2(point.x,point.z)):
+		return _reject_track("footprint_void",point)
+	if TerrainMaterial.at(surface,point.x,point.z)==TerrainMaterial.Kind.ROCK:
+		return _reject_track("footprint_rock",point)
+	var sample_value: Dictionary = surface.sample(point.x,point.z)
+	var height: float = sample_value.get("height",NAN)
+	var normal: Vector3 = sample_value.get("normal",Vector3.ZERO)
+	var loose: float = surface.snow_depth_at(point.x,point.z)
+	if not is_finite(height) or not normal.is_finite() or normal.y<=.05 or not is_finite(loose):
+		return _reject_track("footprint_void",point)
+	var local_depth = clampf(loose,0.0,.35)
+	var clearance = (point.y-height)*normal.y
+	track_clearance_m = clearance if not is_finite(track_clearance_m) else maxf(track_clearance_m,clearance)
+	if local_depth<=0.0: return _reject_track("no_loose_snow",point,clearance,local_depth,reach,burial_margin)
+	if clearance>reach: return _reject_track("footprint_reach",point,clearance,local_depth,reach,burial_margin)
+	if clearance < -local_depth-burial_margin:
+		return _reject_track("footprint_buried",point,clearance,local_depth,reach,burial_margin)
+	return local_depth
+
+func _reject_track(reason: String, point: Vector3, clearance: float = INF, loose_depth: float = 0.0, reach: float = 0.0, burial_margin: float = 0.0) -> float:
+	track_reason = reason
+	# Allocated only on rejection. Preserve the first rejecting point/pass; a
+	# combined maximum cannot distinguish burial from physical/visual reach.
+	track_rejection = {"probe":track_probe,"point":[point.x,point.y,point.z],"clearance_m":clearance,
+		"loose_depth_m":loose_depth,"maximum_m":reach,"minimum_m":-loose_depth-burial_margin}
+	return 0.0
 
 func report() -> Dictionary:
-	return {"supported":supported,"snow_contact":snow_contact,"sparks":sparks,"condition":condition,"slip":slip,"pressure_bodyweights":pressure,
+	return {"supported":supported,"snow_contact":snow_contact,"track_contact":track_contact,"cosmetic_track":cosmetic_track,
+		"track_depth_m":track_depth_m,"track_clearance_m":track_clearance_m,"track_reason":track_reason,"track_rejection":track_rejection,
+		"sparks":sparks,"condition":condition,"slip":slip,"pressure_bodyweights":pressure,
 		"disturbance":disturbance,"powder":powder,"grains":grains,"mist":mist,
 		"width_m":width_m,"contact_width_m":contact_width_m,"turn_work":turn_work,"depth_m":depth_m,"ejection_m_s":ejection_m_s,"throw_side":throw_side}

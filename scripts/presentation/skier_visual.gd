@@ -227,6 +227,11 @@ func pose(sim, fraction: float = 1.0, preview: Dictionary = {}) -> void:
 		motion.spine_flex *= retention
 		joints = base_joints.duplicate()
 		rotations = base_rotations.duplicate()
+	var pole_fit_start = Time.get_ticks_usec()
+	var pole_fit = animation.full_motion.PolePose.fit_tips(joints,rotations,global_transform,skeletal.get("pole_targets",skeletal.get("pole_anchors",[])),skeletal.get("pole_target_normals",skeletal.get("pole_normals",[])),skeletal.get("pole_plant",0.0),skeletal.get("pole_phase",0.0),skeletal.get("pole_carry",0.0))
+	animation.full_motion.diagnostics.merge(pole_fit,true)
+	animation.full_motion.diagnostics.pole_target_stage = skeletal.get("pole_target_stage","inactive")
+	animation.full_motion.diagnostics.pole_contact_cpu_us = Time.get_ticks_usec()-pole_fit_start
 	rendered_joints = joints
 	rendered_rotations = rotations
 	targets.clear()

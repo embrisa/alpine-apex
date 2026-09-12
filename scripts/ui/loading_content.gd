@@ -13,7 +13,7 @@ static func tip(index: int, device: String = "keyboard") -> String:
 			var brake = Prompts.binding("brake","keyboard" if keyboard else device)
 			return "Hold %s to brake." % brake
 		2:
-			return "Hold W or Up Arrow to tuck. Sustained steering opens your stance." if keyboard else "Push the left stick forward to tuck. Sustained steering opens your stance."
+			return "Hold W or Up Arrow to push at low speed, then tuck at speed. Uphill pushing slows with the slope." if keyboard else "Hold the left stick forward to push at low speed, then tuck at speed. Uphill pushing slows with the slope."
 		3:
 			return "In the air, I / K controls forward / backward flips." if keyboard else "In the air, center the left stick, then push forward or back to flip."
 		4:

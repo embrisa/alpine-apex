@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-232936-session-navigation-beams"
 title: "Place session-only navigation beams on the mountain map"
-status: ready
+status: blocked
 priority: P2
 depends_on: ["AA-20260911-232811-taller-distant-finish-beam"]
 created: "2026-09-11T23:29:36Z"
-updated: "2026-09-11T23:29:36Z"
+updated: "2026-09-12T13:21:47Z"
 source_thread: "01a092cb-8276-7610-94d6-c817b99b24ed"
 ---
 
@@ -154,3 +154,7 @@ Pending implementation. Record delivered controls/lifecycle, visual tuning,
 verification actually performed, remaining human acceptance, guide updates and
 commit/push references. If blocked, record the exact blocker and unfinished work.
 Link separately proposed follow-up ideas or note that none were proposed.
+
+## Checkpoint disposition — 2026-09-12T13:21:47Z
+
+Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-beam-navigation-acceptance](AA-20260912-132147-finish-beam-navigation-acceptance.md), [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.

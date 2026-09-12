@@ -24,6 +24,7 @@ func check(value: bool, message: String):
 	print("PASS: " if value else "FAIL: ",message)
 
 func run():
+	DirAccess.make_dir_recursive_absolute(OUTPUT)
 	baseline_air = "--baseline-air-rates" in OS.get_cmdline_user_args()
 	skier = preload("res://scripts/presentation/skier_visual.gd").new()
 	root.add_child(skier); await process_frame

@@ -4,6 +4,10 @@ const World = preload("res://scripts/world/alpine_world.gd")
 const Simulation = preload("res://scripts/core/ski_simulation.gd")
 const Router = preload("res://scripts/core/input_router.gd")
 const Session = preload("res://scripts/core/run_session.gd")
+const CrashRecovery = preload("res://scripts/core/crash_recovery.gd")
+var crash_recovery = CrashRecovery.new()
+var recovery_placement: Dictionary = {}
+const CrashGhostPose = preload("res://scripts/presentation/ghost_pose.gd")
 const Visual = preload("res://scripts/presentation/skier_visual.gd")
 const ChaseCamera = preload("res://scripts/presentation/chase_camera.gd")
 const CameraSettings = preload("res://scripts/presentation/camera_settings.gd")
@@ -23,7 +27,8 @@ var loading
 var transitioning: bool = false
 const Race = preload("res://scripts/racing/race_definition.gd")
 const Workshop = preload("res://scripts/racing/race_workshop.gd")
-const Ghost = preload("res://scripts/presentation/personal_best_ghost.gd")
+const Ghost = preload("res://scripts/presentation/ghost_field.gd")
+const GhostPose = preload("res://scripts/presentation/ghost_pose.gd")
 const MountainDefinition = preload("res://scripts/world/mountain_definition.gd")
 const GenerationJob = preload("res://scripts/world/generation_job.gd")
 const GenerationEstimates = preload("res://scripts/world/generation_estimates.gd")
@@ -331,6 +336,8 @@ func _ready() -> void:
 	effects.apply_quality(graphics)
 	effects.snow_tracks.bind_surface(field)
 	effects.bind_powder_surface(world,graphics)
+	ghost.bind(world.assets,effects.snow_tracks,field,graphics,skier,effects.powder_surface)
+	effects.powder_surface.track_history = ghost.track_stack
 	storm_effects = preload("res://scripts/presentation/storm_effects.gd").new()
 	add_child(storm_effects)
 	storm_effects.layer_height = world.cloud_lighting.height_m
@@ -366,6 +373,8 @@ func _ready() -> void:
 	hud.build_tuning(sim.tuning)
 	hud.start_requested.connect(start_run)
 	hud.restart_requested.connect(restart)
+	hud.respawn_requested.connect(respawn_here)
+	hud.crash_pause_requested.connect(toggle_crash_pause)
 	hud.resume_requested.connect(resume)
 	hud.lab_speed_requested.connect(start_speed_lab)
 	hud.tuning_changed.connect(func(): physics_modified = true; session.eligible = false)
@@ -423,8 +432,10 @@ func _ready() -> void:
 	add_child(workshop)
 	workshop.build(self)
 	hud.races_requested.connect(workshop.open_library)
+	hud.navigation_requested.connect(workshop.open_navigation)
 	hud.competition_requested.connect(open_competition)
 	hud.ghost_visibility_requested.connect(set_ghost_visible)
+	hud.ghost_selection_requested.connect(_choose_ghosts)
 	generation_job.advance()
 	if staged_loading:
 		await _loading_checkpoint("Preparing summit access…",-1.0)
@@ -501,8 +512,16 @@ func _ready() -> void:
 		_capture_menu.call_deferred()
 
 func _physics_process(dt: float) -> void:
-	if not initialized or returning_to_summit or (loading and loading.busy) or sim == null or not active:
+	if not initialized or transitioning or returning_to_summit or quitting or (loading and loading.busy) or sim == null:
 		return
+	if session.recovering:
+		# Crash subpages and the ragdoll's settle limit never own the race clock.
+		if application_focused or automated:
+			_check_race_weather()
+			session.step_crash(dt)
+		hud.update_crash_recovery(session,recovery_placement.get("error",""),not application_focused and not automated)
+		return
+	if not active: return
 	_check_race_weather() # Resolve eligibility before this tick can finish/save.
 	var tick_start = Time.get_ticks_usec()
 	previous_position = sim.position
@@ -544,6 +563,7 @@ func _physics_process(dt: float) -> void:
 			skier.reset_animation(sim)
 		if intent.tuck>.1 and summit_drop_armed: drop_from_summit()
 		return
+	crash_recovery.observe_support(sim)
 	var simulation_started = frame_costs.begin()
 	sim.step(dt,intent,world.ski_surface)
 	frame_costs.end(&"simulation",simulation_started)
@@ -558,25 +578,33 @@ func _physics_process(dt: float) -> void:
 	frame_costs.end(&"audio_observers",audio_started)
 	# Independent observer: muting or changing sound must not affect impacts.
 	effects.haptics.observe_tick(sim,dt)
-	if timed and not sim.crashed:
+	if timed:
 		var completed: bool = session.step(dt,previous_position,sim.position,sim,intent)
+		_capture_ghost_pose((session.elapsed-session.previous_elapsed)/dt if completed else 1.0)
 		if completed:
+			_invalidate_crash_recovery()
 			active = false
 			hud.show_result(session,sim.peak_speed*3.6)
 			voice.finish_run(session)
 	elif not timed:
+		session.previous_elapsed = session.elapsed
 		session.elapsed += dt
 		if current_mountain and not mountain_zone.enabled and field.reached_base(sim.position) and not sim.crashed:
 			session.finished = true
 			active = false
 			hud.show_menu("finished","Mountain base reached.\nExplore another face or create a race.")
 	if sim.crashed:
+		crash_recovery.capture(sim,session.attempt_id,field.get_instance_id())
+		session.begin_crash(sim)
+		_capture_crash_boundary_pose()
+		recovery_placement = crash_recovery.resolve(field,world.ski_surface,session,mountain_zone,timed)
 		skier.ragdoll.start(sim)
 		last_ragdoll_position = skier.ragdoll.focus()
 		skier.ragdoll.saved_close_view = camera.close_view
 		camera.close_view = false
 		active = false
 		hud.show_menu("crashed",sim.crash_reason)
+		hud.update_crash_recovery(session,recovery_placement.get("error",""))
 		voice.begin_crash()
 	cpu_tick_ms = lerpf(cpu_tick_ms,(Time.get_ticks_usec()-tick_start)/1000.0,0.05)
 	if automated and not benchmark_input.is_valid():
@@ -594,7 +622,7 @@ func observe_audio_tick(dt: float) -> void:
 func _process(dt: float) -> void:
 	if initialized:
 		_update_display_recovery()
-		if navigation and hud.footer.visible: hud.footer_controls.text = navigation.prompts(workshop.mode=="create")
+		if navigation and hud.footer.visible: hud.footer_controls.text = workshop.navigation_panel.prompts() if workshop.mode=="navigation" else navigation.prompts(workshop.mode=="create")
 	_sync_camera_preview()
 	_sync_camera_controls()
 	if not initialized or (loading and loading.busy) or sim == null:
@@ -602,7 +630,7 @@ func _process(dt: float) -> void:
 		return
 	if voice.audition_active and not hud.voice_settings.selection.is_visible_in_tree(): voice.silence()
 	if voice.crash_pending:
-		var crash_visible: bool = application_focused and not transitioning and not returning_to_summit and hud.menu_mode=="crashed" and hud.menu.visible and skier.ragdoll.running
+		var crash_visible: bool = application_focused and not transitioning and not returning_to_summit and hud.menu_mode=="crashed" and hud.menu.visible and skier.ragdoll.running and not session.recovery_paused
 		var hip_speed: float = skier.ragdoll.bodies.Hips.linear_velocity.length() if skier.ragdoll.running else INF
 		voice.observe_crash(dt,hip_speed,crash_visible)
 	if camera_controls_active:
@@ -647,7 +675,8 @@ func _process(dt: float) -> void:
 	var collision_started = frame_costs.begin()
 	crash_collision.prepare(p)
 	frame_costs.end(&"collision_preparation",collision_started)
-	ghost.update_ghost(session.reference_replay,ghost_time,p,timed and workshop.mode.is_empty() and hud.menu_mode!="title")
+	ghost.update_ghosts(session,ghost_time,p,timed and workshop.mode.is_empty() and hud.menu_mode!="title",not active and not (session.recovering and not session.recovery_paused and (application_focused or automated)))
+	hud.ghost_colors = ghost.colors
 	var camera_started = frame_costs.begin()
 	_present_camera(dt,p)
 	frame_costs.end(&"camera",camera_started)
@@ -666,24 +695,24 @@ func _process(dt: float) -> void:
 	get_tree().call_group("race_beam_vfx","update_effect",dt,active or not workshop.mode.is_empty(),hud.feedback.reduced_motion)
 	var trees_started = frame_costs.begin()
 	world.scenery.tree_motion.update(p,sim.velocity,dt,active)
-	world.assets.update_foliage_sight(presentation_camera,p,sim.velocity,dt,(active and presentation_camera==camera) or presentation_camera==camera_preview,camera_settings.shared.forest_visibility,camera_settings.shared.forest_visibility_size)
+	world.assets.update_foliage_sight(presentation_camera,p,dt,(active and presentation_camera==camera) or presentation_camera==camera_preview,camera_settings.shared.forest_visibility,camera_settings.shared.forest_visibility_strength)
 	frame_costs.end(&"interactive_trees",trees_started)
 	var weather_anchor: Vector3 = menu_camera.focus_point if menu_view else p
 	weather_effects.update_weather(weather.state,presentation_camera,weather_anchor,field,dt,active,animate_menu,camera.motion_intensity * camera_settings.profile("first_person" if camera.close_view else "chase").streak_strength / 100.0 if active and camera.effects_enabled else 0.0,graphics.weather_quality,first_person_presented)
 	_update_screen_effects(dt)
-	var crash_audio_visible: bool = (application_focused or automated) and not transitioning and not returning_to_summit and hud.menu_mode=="crashed" and hud.menu.visible and not hud.weather_panel.visible and not hud.tuning_panel.visible
+	var crash_audio_visible: bool = (application_focused or automated) and not transitioning and not returning_to_summit and hud.menu_mode=="crashed" and hud.menu.visible and not hud.weather_panel.visible and not hud.tuning_panel.visible and not session.recovery_paused
 	var voice_speaking: bool = voice.enabled and not voice.muted and voice.volume>0.001 and voice.clock_seconds<voice.speaking_until
 	var effects_started = frame_costs.begin()
 	effects.update_effects(sim,field,p,dt,active and (application_focused or automated),weather.state,skier.ragdoll,presentation_camera,crash_audio_visible,voice_speaking,skier.skis)
 	frame_costs.end(&"effects",effects_started)
 	vectors.update_vectors(sim)
 	var hud_started = frame_costs.begin()
-	hud.widget_layout.menu_visible = hud.has_menu_background() or workshop.mode=="create" or hud.camera_options.preview_active
-	hud.footer.visible = hud.has_menu_background() or workshop.mode=="create" or summit_ready
+	hud.widget_layout.menu_visible = hud.has_menu_background() or workshop.is_survey_open() or hud.camera_options.preview_active
+	hud.footer.visible = hud.has_menu_background() or workshop.is_survey_open() or summit_ready
 	hud.update_hud(sim,session,intent,navigation.device_label(),frame_ms,cpu_tick_ms,dt,timed,weather.state.label+" · "+weather.state.time_label)
 	hud.update_summit_return(mountain_zone.distance_to_boundary(sim.position),active and not summit_ready and not returning_to_summit)
 	if workshop and not workshop.mode.is_empty():
-		hud.mode_label.text = "CREATE A RACE / WORLD SURVEY" if workshop.mode=="create" else "SAVED & SHARED RACES"
+		hud.mode_label.text = "MAP / PERSONAL NAVIGATION" if workshop.mode=="navigation" else "CREATE A RACE / WORLD SURVEY" if workshop.mode=="create" else "SAVED & SHARED RACES"
 	elif mountain_library and mountain_library.panel.visible:
 		hud.mode_label.text = "MOUNTAIN LIBRARY"
 	elif summit_ready and not hud.has_menu_background():
@@ -692,7 +721,7 @@ func _process(dt: float) -> void:
 		hud.mode_label.text = "SUMMIT  /  %03d° %s  /  CHOOSE YOUR DESCENT" % [bearing,compass]
 
 	if navigation and hud.footer.visible:
-		hud.footer_controls.text = hud.Prompts.summit(navigation.family) if summit_ready and navigation.scope()==null else navigation.prompts(workshop.mode=="create")
+		hud.footer_controls.text = hud.Prompts.summit(navigation.family) if summit_ready and navigation.scope()==null else (workshop.navigation_panel.prompts() if workshop.mode=="navigation" else navigation.prompts(workshop.mode=="create"))
 	frame_costs.end(&"hud",hud_started)
 
 func _menu_context() -> String:
@@ -720,7 +749,7 @@ func _present_camera(dt: float, rider_position: Vector3) -> void:
 		camera_preview.make_current()
 		menu_camera.cancel_fade()
 		hud.set_background_fade(0.0)
-	elif workshop and workshop.mode=="create":
+	elif workshop and workshop.is_survey_open():
 		presentation_camera = workshop.survey
 		workshop.survey.make_current()
 		menu_camera.cancel_fade()
@@ -777,6 +806,9 @@ func _input(event: InputEvent) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if initialized and navigation and navigation.scope()!=null and not automated:
 		if event.has_meta("menu_owned"): return
+		if workshop.mode=="navigation":
+			if event.is_action_pressed("pause_run") or event.is_action_pressed("ui_cancel"): navigation.back()
+			return # The navigation drawer owns shortcuts as well as terrain input.
 		if event.is_action_pressed("pause_run") or event.is_action_pressed("ui_cancel"): navigation.back()
 		elif not navigation.top_popup():
 			if event.is_action_pressed("tuning"):
@@ -869,9 +901,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		hud.toggle_instruments()
 	elif event.is_action_pressed("toggle_ghost"):
 		set_ghost_visible(not ghost.enabled)
-		hud.toast("PERSONAL-BEST GHOST ON" if ghost.enabled else "PERSONAL-BEST GHOST OFF")
+		hud.toast("GHOSTS ON" if ghost.enabled else "GHOSTS OFF")
 
 func start_run(is_timed: bool = false) -> void:
+	_invalidate_crash_recovery()
 	_leave_race_weather()
 	_cancel_summit_return()
 	if world and world.scenery: world.scenery.tree_motion.reset()
@@ -928,6 +961,7 @@ func _update_screen_effects(dt: float) -> void:
 	speed_periphery.material.set_shader_parameter("warning_pulse",impact_warning.pulse)
 
 func restart(preserve_return: bool = false) -> void:
+	_invalidate_crash_recovery()
 	set_camera_preview(false)
 	_reset_screen_effects()
 	voice.reset()
@@ -948,7 +982,10 @@ func restart(preserve_return: bool = false) -> void:
 	sim.prime_contacts(field)
 	skier.reset_animation(sim)
 	_check_race_weather()
-	if timed: session.begin_capture(sim)
+	if timed:
+		session.begin_capture(sim)
+		_capture_ghost_pose(1.0)
+	ghost.sync_attempt(session)
 	previous_position = sim.position
 	intent = RiderInput.new()
 	air_controls_armed = false
@@ -968,6 +1005,74 @@ func restart(preserve_return: bool = false) -> void:
 	active = true
 	if timed and not preserve_return: voice.start_run()
 
+func _capture_crash_boundary_pose() -> void:
+	if session.recording==null or session.recording.overflow: return
+	skier.pose(sim,1.0)
+	session.recording.capture_presentation(session.elapsed,CrashGhostPose.capture(skier,sim,field))
+
+func _invalidate_crash_recovery() -> void:
+	crash_recovery.invalidate()
+	recovery_placement.clear()
+	if session: session.cancel_recovery()
+
+func toggle_crash_pause() -> void:
+	if not session.recovering or transitioning or returning_to_summit: return
+	session.recovery_paused = not session.recovery_paused
+	if skier.ragdoll.running:
+		skier.ragdoll.set_frozen(session.recovery_paused or not application_focused or skier.ragdoll.elapsed>=15.0)
+	if session.recovery_paused:
+		effects.wind.silence()
+		effects.sfx.silence()
+		effects.reset_haptics()
+		voice.silence()
+	hud.update_crash_recovery(session,recovery_placement.get("error",""))
+
+func respawn_here() -> void:
+	if not initialized or active or transitioning or returning_to_summit or quitting or (loading and loading.busy): return
+	if not sim.crashed or not session.recovering or session.recovery_paused or session.finished: return
+	if not application_focused and not automated: return
+	if not hud.menu.visible or hud.menu_mode!="crashed": return
+	if not crash_recovery.matches(session.attempt_id,field.get_instance_id()): return
+	# Recheck active props at activation; a previously displayed choice is not a
+	# license to use stale placement after another menu changes the course.
+	recovery_placement = crash_recovery.resolve(field,world.ski_surface,session,mountain_zone,timed)
+	if not recovery_placement.get("error","").is_empty():
+		hud.update_crash_recovery(session,recovery_placement.error)
+		return
+	set_camera_preview(false)
+	if skier.ragdoll.running: camera.close_view = skier.ragdoll.saved_close_view
+	skier.ragdoll.stop()
+	CrashRecovery.restore_at_rest(sim,recovery_placement,world.ski_surface)
+	skier.reset_animation(sim)
+	session.recover(sim)
+	_capture_crash_boundary_pose()
+	previous_position = sim.position
+	crash_recovery.invalidate()
+	crash_recovery.observe_support(sim)
+	recovery_placement.clear()
+	intent = RiderInput.new()
+	rider_axes_armed = false
+	air_controls_armed = false
+	air_tilt_controls_armed = false
+	jump_armed = false
+	jump_prepared = false
+	input_router.cancel_air_input()
+	sim.clear_input_buffer()
+	camera.reset()
+	camera_stick_armed = false
+	effects.reset()
+	audio_environment.reset()
+	voice.reset()
+	weather_effects.reset()
+	_reset_screen_effects()
+	_clear_storm_effects()
+	effect_time = 0.0
+	hud.hide_menu()
+	hud.tuning_panel.hide()
+	hud.menu_mode = "racing"
+	summit_ready = false
+	active = true
+
 func open_competition() -> void:
 	if active or hud.menu_mode=="racing":
 		active = false
@@ -975,12 +1080,29 @@ func open_competition() -> void:
 	hud.tuning_panel.visible = false
 	hud.open_competition(session)
 
+func _capture_ghost_pose(fraction: float = 1.0) -> void:
+	if not session.recording or not session.recording.wants_presentation_sample(): return
+	# Completed 30 Hz samples plus exact endpoints, independent of render cadence.
+	# Read only the production writer after the fixed animation step. No extra
+	# simulation or animation step; render restores its ordinary interpolation.
+	var started = frame_costs.begin()
+	skier.pose(sim,fraction)
+	session.capture_presentation(GhostPose.capture(skier,sim,field))
+	frame_costs.end(&"ghost_capture",started)
+
+func _choose_ghosts(mode: String, ids: Array) -> void:
+	session.choose_ghosts(mode,ids)
+	ghost.refresh_colors(session.ghost_runs)
+	hud.ghost_colors = ghost.colors
+	hud.competition.refresh(session,ghost.enabled)
+
 func set_ghost_visible(enabled: bool) -> void:
-	ghost.enabled = enabled
+	ghost.set_enabled(enabled)
 	hud.ghost_enabled = enabled
 	hud.competition.ghost_toggle.set_pressed_no_signal(enabled)
 
 func play_custom_race(race) -> void:
+	_invalidate_crash_recovery()
 	if transitioning: return
 	_suspend_free_weather()
 	_cancel_summit_return()
@@ -1123,7 +1245,7 @@ func _notification(what: int) -> void:
 		return_paused = true
 	if what==NOTIFICATION_APPLICATION_FOCUS_OUT and skier and skier.ragdoll.running:
 		skier.ragdoll.set_frozen(true)
-	elif what==NOTIFICATION_APPLICATION_FOCUS_IN and not returning_to_summit and skier and skier.ragdoll.running and skier.ragdoll.elapsed<15.0:
+	elif what==NOTIFICATION_APPLICATION_FOCUS_IN and not returning_to_summit and skier and skier.ragdoll.running and skier.ragdoll.elapsed<15.0 and not session.recovery_paused:
 		skier.ragdoll.set_frozen(false)
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		quit_cleanly()
@@ -1237,6 +1359,7 @@ func apply_graphics_configuration() -> void:
 		for marker in workshop.markers.get_children():
 			if marker.has_method("apply_quality"): marker.apply_quality(graphics.level)
 	if effects: effects.apply_quality(graphics)
+	if ghost: ghost.apply_quality(graphics)
 	if hud:
 		hud.graphics_quality.select(display_settings.quality-1)
 		hud.sync_display(display_settings)
@@ -1315,6 +1438,7 @@ func set_display_setting(key: String, value: Variant) -> void:
 	if key=="frame_generation" and display_settings.display_mode=="fullscreen": display_settings.apply_display(get_window())
 
 func load_mountain(definition, generated_field) -> void:
+	_invalidate_crash_recovery()
 	_leave_race_weather()
 	_cancel_summit_return()
 	if transitioning: return
@@ -1381,6 +1505,7 @@ func _resolve_zone_exit(dt: float, before: Vector3, after: Vector3) -> bool:
 	var valid_finish = finish>=0.0 and finish<exit_fraction
 	if valid_finish:
 		session.step(dt,before,after,sim,intent)
+		_capture_ghost_pose((session.elapsed-session.previous_elapsed)/dt)
 	_begin_summit_return(valid_finish)
 	return true
 
@@ -1392,6 +1517,7 @@ func _begin_summit_return(valid_finish: bool) -> void:
 		session.eligible = false
 		session.recording = null
 		session.finished = false
+	_invalidate_crash_recovery()
 	returning_to_summit = true
 	return_paused = false
 	active = false

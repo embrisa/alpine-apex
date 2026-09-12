@@ -7,8 +7,9 @@ contracts, action targets and durable findings.
 ## Production pipeline
 
 `presentation/skier_full_motion.gd` samples 33 retargeted clips at the verified
-60 Hz source timebase from `assets/animation/steep_ski_motion.res`. The body GLB
-supplies 24 weighted joints. `skier_animation.gd` and `skier_animation_tuning.gd`
+60 Hz source timebase from `assets/animation/steep_ski_motion.res`, plus the
+original double-pole control action in `assets/animation/pole_push_cycle.tres`.
+The body GLB supplies 24 weighted joints. `skier_animation.gd` and `skier_animation_tuning.gd`
 retain the procedural presentation used by the F8 comparison. This is a live
 presentation path, not a historical solver. Apex chooses clip/event weights;
 the recovered data is not Steep's complete evaluated animation graph.
@@ -63,6 +64,25 @@ Equipment uses its own two-sided lit material for thin/open generated surfaces.
 Straps/binding mechanisms are static; equipment stays attached during crashes.
 Editable source/provenance is in [Assets](ASSETS.md#skier-and-animation-sources).
 
+## Recorded ghost presentation
+
+`ghost_pose.gd` captures completed writer output at session-owned 30 Hz sample
+times and exact initial/finish/crash/recovery boundaries. It records 24 named
+local bone transforms, root, both skis/poles and final accepted track data.
+Capture follows `SkierVisual.pose`, including current authored/procedural blend,
+pole pushing, grabs and fitting. This extra completed-pose evaluation neither
+advances animation nor steps skiing; Main restores normal render interpolation
+for the visible rider afterward.
+
+Playback composes local transforms hierarchically through `SkierPoseWriter`.
+Recorded equipment-to-foot/hand transforms interpolate relative to connected
+bones so cuffs/grips remain attached between samples while matching recorded
+equipment at endpoints. Preview-only setup shares the production mesh/equipment
+path without loading player appearance preferences, running clips or creating a
+simulation/ragdoll. Final attachment and action chronology still need native
+review. [Racing](RACING.md#recording-and-ghosts) owns serialization/discontinuities;
+[Rendering](RENDERING.md#snow-presentation) owns independent cosmetic tracks.
+
 ## Coordinates and diagnostics
 
 Skier model right is −X, left +X, forward +Z, up +Y; Godot's `Vector3.FORWARD`
@@ -90,10 +110,37 @@ not alternate simulations. Compare raw rotations as well as joint positions.
 |---|---|
 | Downhill | Ready connected hands, modest knee advancement, open chest/forward gaze; inspect tuck entry and uneven support |
 | Straight tuck | Separated hands near chest, elbows near ribs, whole shafts outside hips and trailing close; inspect entry/hold/release and clothing |
+| Pole pushing | Reach, simultaneous plant, loaded backward sweep, release/recovery; inspect slopes, grips, whole shafts and tuck/turn/departure neighbors |
 | Preparation | Lower pelvis and close thigh/shin within cuffs; physical support loss ends grounded preparation |
 | Carving | Free balance arms/poles; light/strong steer, both directions and residual bank after release, not permanent hip-hugging tuck bounds |
 | Flight/grabs | Correct semantic side/style, connected reach, grip entry/release and actual air ownership |
 | Landing | First contact/compression/rebound/recovery with full equipment clearance; tuck thresholds are not landing targets |
+
+## Pole pushing
+
+`pole_push_motion.gd` samples the editable control action; `pole_push_pose.gd`
+composes its torso/connected-arm targets after ordinary tuck/downhill/action
+shaping and before the bounded tracker. Those channels retain the reach and
+backward sweep through final fitting. The shared pelvis, rigid cuffs, anatomy
+limits, fixed grips and sole PoseWriter remain authoritative. The action also
+participates in the procedural F8 comparison.
+
+Completed solver phase/intensity/power drive the action and its loaded interval;
+presentation never advances the actuator. Cosmetic plant anchors are sampled
+at completed ticks on authoritative snow. The connected-arm fitter allows up to
+30 cm of cosmetic wrist accommodation, retains rigid pole/limb lengths and fixed
+grips, and keeps unloaded shafts in an outboard carry lane. Separate completed-tick
+carry smooths cancellation independently of snow-contact weight; rendering only
+samples it. Unreachable `tip_gap_m` remains a reported visual miss, never a force
+or moved ski. The current D fitting still has three joint-step failures; the
+unapplied E candidate and remaining chronological acceptance are tracked in the
+[integration follow-ups](../backlog/REMAINING_20260912.md).
+
+Source/export ownership is in [Assets](ASSETS.md#pole-action-source). Bounded
+probe/chase/front/side captures and enabled/disabled comparisons are in
+[Validation](VALIDATION.md#pole-propulsion-and-animation-producers). A source export,
+good grips or stable joint transforms do not clear tip sliding, shaft/clothing
+intersections or the retained tuck-neighbor findings below.
 
 ## Carving
 

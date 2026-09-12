@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-183812-slope-limited-pole-pushing"
 title: "Add slope-limited pole pushing and a new pushing animation"
-status: ready
+status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-11T18:38:12Z"
-updated: "2026-09-11T23:43:33Z"
+updated: "2026-09-12T13:21:47Z"
 source_thread: null
 ---
 
@@ -183,3 +183,7 @@ slope curve, animation source/tool decision, evidence locations, performance,
 remaining human acceptance, documentation and commit/push references. Record a
 real blocker and unfinished work if implementation cannot complete. No separate
 follow-up ideas were proposed during authoring.
+
+## Checkpoint disposition — 2026-09-12T13:21:47Z
+
+Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-pole-transition-validation](AA-20260912-132147-finish-pole-transition-validation.md), [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.

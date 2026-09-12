@@ -12,8 +12,9 @@ and timing are in [Architecture](ARCHITECTURE.md).
 Each ski has unilateral support, its own normal/load, yaw/edge, slip,
 penetration and release state. Root translation is constrained by actual
 support. Physical segments define COM/inertia; cosmetic IK does not change them.
-Gravity, drag, passive grip and braking determine speed. Turning requests act
-through yaw, bank, pressure and normal reaction, never a desired travel path.
+Gravity, bounded pole thrust, drag, passive grip and braking determine speed.
+Turning requests act through yaw, bank, pressure and normal reaction, never a
+desired travel path.
 
 ## Controls
 
@@ -23,7 +24,7 @@ through yaw, bank, pressure and normal reaction, never a desired travel path.
 | Intent | Keyboard | Controller |
 |---|---|---|
 | Steer | A/D or left/right | Left-stick X |
-| Tuck / brake | W/up / S/down | Left stick forward / L2 or LT |
+| Hold forward: push / tuck; brake | W/up; S/down | Left stick forward; L2 or LT |
 | Prepare then hop | Hold Space, release | Hold R2/RT, release |
 | Limited airborne pitch | W/S or up/down after centering | Direct stick is explicit flip control, below |
 | Continuous flip / spin | I/K / Q/E | Center left stick once airborne, then forward/back flips; optional L1/LB + stick also enables flips/fast spins |
@@ -44,11 +45,44 @@ response releases sustained equipment-yaw suppression while retaining ordinary
 carving/support; visual pelvis/arm behavior is separately owned by animation.
 Steering/body lean alone cannot cause a balance death.
 
-Forward requests tuck, reducing drag without propulsion. Small corrections have
-a 20% allowance and 150 ms grace before sustained steering opens the stance;
+Forward repeats pole pushes while slow on supported snow, then blends into
+aerodynamic tuck over 80–100% of the applicable propulsion limit. Small corrections
+have a 20% allowance and 150 ms grace before sustained steering opens the stance;
 centering steering with forward held returns to tuck. Tuck does not remove
 manual steering authority. Keep changeable coefficients in the tuning resource,
 not a second documentation table.
+
+## Pole propulsion
+
+`core/pole_propulsion.gd` advances once per 120 Hz skiing tick after authoritative
+support/jump decisions. It adds bounded thrust along the intended ski heading
+projected onto support, including traverses. It publishes phase, intensity,
+loaded power, actual acceleration, signed grade and the current speed limit.
+Animation and cosmetic pole-tip contacts only observe those completed values.
+
+The default grade/upper propulsion-limit knots are 0°/40, 10°/30, 20°/17,
+28°/12, 34°/8 and 42°/0 km/h, with smooth interpolation and assistance fading
+from 34° to 42°. These limit added propulsion; they are not measured steady
+climb speeds. Full tangential speed gates thrust. Only positive added impulse
+is bounded: carried momentum is never clamped and downhill gravity remains free.
+The default peak thrust ceiling is 22 m/s², with taper in the last 14% of the
+applicable limit. Force/cadence/curve settings belong to `SkiTuning` and
+`config/ski_default.tres`, which contributes to record identity.
+
+Both skis must carry snow, agree with the support normal and avoid sharp-lip
+suppression. Release, brake, jump preparation/release, crash, unsupported travel,
+rock, switch, excessive bank/steer, rapid rollback or sideways motion suppress
+thrust. Small steering remains available. Default rollback and sideways bounds
+are .8 and 2 m/s; their exact eligibility tests live in the actuator.
+
+The loaded authored phase is .06–.76. The solver shortens physical contact as
+speed increases and publishes the retimed phase; render clocks never advance it.
+Reset, contact priming and input cancellation clear stroke state. Pause holds it;
+visual release may ease after force has stopped. No additional physical pole
+collision, normal force, adhesion or lift is introduced. `jump_held` now affects
+force and is replay input nine; camera look remains outside recorded rider input.
+[Animation](ANIMATION.md#pole-pushing) owns the visible stroke and tip fitting;
+[Validation](VALIDATION.md#pole-propulsion-and-animation-producers) owns its checks.
 
 ## Snow contact and small banks
 
@@ -62,8 +96,8 @@ by available loose snow and a 30 cm crush cap. Its effective pressure/depression
 is separate from the 28 cm leg-suspension reach. Clearance, visual placement and
 crush sampling must agree; no independent low-resolution contact surface.
 
-`snow_contact_assist.gd` provides model-28 grounded retention. Rebound is softened
-and eligible smooth snowy support can dissipate separating normal velocity
+`snow_contact_assist.gd` retains the grounded-snow response introduced in model 28.
+Rebound is softened and eligible smooth snowy support can dissipate separating normal velocity
 within leg reach. It cannot add kinetic energy, move position, assign heading
 or restore speed. The correction is not compressive load and creates no grip
 budget; ordinary suspension/gravity/friction still integrate afterward.
@@ -115,6 +149,9 @@ physical colliders. Solid geology/trees and race props participate in the shared
 obstacle contract. A crash hands pose/momentum to Jolt; attached rigid skis,
 boots and poles and the fifteen-body collision model remain separate from the
 normal solver. Repeated resting crash contacts must not retrigger onset effects.
+Local recovery uses ordinary reset/contact priming without a solver tick, then
+clears translational and angular settling velocities. Placement and retained
+attempt timing belong to [Racing](RACING.md#crash-location-recovery).
 
 ## Controller feedback
 

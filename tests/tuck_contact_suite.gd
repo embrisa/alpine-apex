@@ -79,6 +79,8 @@ func _tuck() -> void:
 		check(sim.effective_tuck<.31,"Braking/releasing forward bypasses the steering grace window: "+str(brake))
 	# Recordings depend on the same per-tick state after restart, not an old timer.
 	sim.reset(Vector3.ZERO); sim.prime_contacts(plane)
+	# Match the original high-speed tuck fixture; low-speed forward now requests poles.
+	sim.velocity = sim.support_basis().z*120.0/3.6
 	input = RiderInput.new(); input.tuck = 1.0
 	advance(sim,plane,input,120)
 	input.steer = 1.0; advance(sim,plane,input,18)
@@ -144,7 +146,8 @@ func _flight_and_replay() -> void:
 		b.step(DT,recording.input_at(tick),plane)
 		same = same and a.position==b.position and a.velocity==b.velocity and a.effective_tuck==b.effective_tuck
 	check(same,"Current replay input fields reproduce auto-tuck and steering at every tick")
-	check(identity.physics==28 and Replay.VERSION==5 and Replay.INPUT_WIDTH==8,"Grounded snow versions contact while retaining the current input layout")
+	check(identity.physics==29 and Replay.VERSION==7 and Replay.INPUT_WIDTH==9,"Pole propulsion versions forward intent and retains the complete input layout")
+	preload("res://tests/ghost_replay_fixture.gd").attach_sample_poses(recording)
 	var data = recording.to_data()
 	check(Replay.decode(data,identity,recording.duration)!=null,"Current auto-tuck recording round-trips")
 	data.compatibility.physics = 20
