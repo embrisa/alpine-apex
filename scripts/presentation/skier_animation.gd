@@ -14,8 +14,10 @@ var takeoff_power = 0.0
 var landing_age = 60.0
 var landing_speed = 0.0
 var landing_side = 0.0
-var landing_duration = .25
+var landing_duration = .45
 var landing_depth = 0.0
+var landing_body_height = 0.0
+var landing_rearmed = true
 var landing_events = 0
 var phase = "ride"
 var prediction_samples = 0
@@ -46,6 +48,8 @@ func reset(sim) -> void:
 	landing_side = 0.0
 	landing_duration = tuning.landing_recovery_seconds.x
 	landing_depth = 0.0
+	landing_body_height = sim.body.pelvis_height
+	landing_rearmed = true
 	landing_events = 0
 	prediction_samples = 0
 	collision_age = 60.0
@@ -108,6 +112,7 @@ func step(dt: float, sim, intent, surface) -> void:
 	if sim.jump_executed or (was_grounded and not sim.grounded):
 		takeoff_age = 0.0
 		takeoff_power = 1.0 if signals.jump_executed else Profiles.natural_departure.power
+	if sim.jump_executed or sim.airtime>=.10: landing_rearmed = true
 	# Per-ski telemetry includes asymmetric support regain; the root impact
 	# also catches a landing which releases again within the same tick.
 	var right: float = signals.skis[0].get("landing_speed_mps",0.0)
@@ -115,11 +120,16 @@ func step(dt: float, sim, intent, surface) -> void:
 	var impact: float = maxf(right,left)
 	if sim.time_since_landing<dt*.5: impact = maxf(impact,sim.landing_force)
 	if impact>=tuning.landing_min_speed_mps:
-		var new_event: bool = landing_age>=tuning.landing_group_seconds
+		# Brief uneven-snow recontacts can strengthen a recovering landing, but
+		# cannot restart its down/up pulse. A real new flight rearms the brace.
+		var new_event: bool = landing_age>=tuning.landing_group_seconds and (landing_rearmed or landing_age>=landing_duration)
 		if new_event:
 			landing_age = 0.0
 			landing_speed = 0.0
+			landing_body_height = sim.body.pelvis_height
+			current.absorbed = 0.0
 			landing_events += 1
+			landing_rearmed = false
 		if impact>landing_speed:
 			landing_speed = impact
 			landing_side = (left-right)/maxf(left+right,.001)
@@ -157,13 +167,17 @@ func step(dt: float, sim, intent, surface) -> void:
 	# Small natural gaps do not play a full knee-gather. Readiness opens the
 	# legs before contact while held tuck adds compactness without changing drag.
 	current.compact = smoothstep(tuning.air_gather_start_seconds,tuning.air_gather_seconds,takeoff_age)*current.air*(1.0-current.ready*.75)
-	var physical_drop: float = maxf(0.0,.94-sim.effective_tuck*.22-sim.body.pelvis_height)
+	# A flight/tuck crouch already present at touchdown is not absorption of
+	# this impact. Only further physical flex can spend its cosmetic budget.
+	var physical_drop: float = maxf(0.0,landing_body_height-sim.body.pelvis_height)
 	current.absorbed = lerpf(current.absorbed,physical_drop,response)
 	# Budget the physical leg compression first. The cosmetic layer fills the
 	# remaining absorption rather than adding a second full impact crouch.
 	var progress: float = landing_age/maxf(landing_duration,.001)
 	var envelope: float = smoothstep(0.0,.16,progress)*(1.0-smoothstep(.16,1.0,progress))
-	current.impact = envelope
+	# Full-curve pelvis/chest targets also need impact severity: a tiny hop
+	# must not play the same 24 cm brace pulse as a hard landing.
+	current.impact = envelope*clampf(landing_depth/maxf(tuning.landing_drop_m.z,.001),0.0,1.0)
 	current.impact_drop = maxf(0.0,landing_depth-current.absorbed)*envelope
 	current.impact_side = landing_side*envelope
 	# The back follows compression with a short delay, then opens on extension.

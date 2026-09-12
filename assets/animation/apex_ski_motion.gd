@@ -61,12 +61,12 @@ const PROFILES = {
 		"hand_forward_m": 0.065
 	},
 	"landing_small": {
-		"seconds": 0.25,
-		"hip_drop_m": 0.045
+		"seconds": 0.45,
+		"hip_drop_m": 0.09
 	},
 	"landing_medium": {
-		"seconds": 0.5,
-		"hip_drop_m": 0.115
+		"seconds": 0.6,
+		"hip_drop_m": 0.135
 	},
 	"landing_large": {
 		"seconds": 0.85,

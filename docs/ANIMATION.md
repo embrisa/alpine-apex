@@ -146,6 +146,33 @@ not alternate simulations. Compare raw rotations as well as joint positions.
 | Flight/grabs | Correct semantic side/style, connected reach, grip entry/release and actual air ownership |
 | Landing | First contact/compression/rebound/recovery with full equipment clearance; tuck thresholds are not landing targets |
 
+## Landing compression and recovery
+
+`skier_animation.gd` measures additional physical leg flex from the height at
+touchdown. An existing flight/tuck crouch cannot consume the new landing's entire
+cosmetic budget. `assets/animation/apex_ski_motion.gd` owns the small/medium/large
+drop and recovery profiles. The full-motion impact channel also scales by that
+depth, preventing a small hop from playing the full hard-impact pelvis pulse.
+Small impacts retain compression longer and recover more slowly than the former
+quarter-second dip/pop. These are completed-tick presentation values; they do
+not change translation, contact, reserve, flight or recording identity.
+
+Brief recontacts can strengthen the current recovery without restarting it.
+After the normal contact-group interval, a deliberate jump or at least 100 ms of
+actual flight rearms a new landing; otherwise recovery must finish first. Reset
+clears the episode and pause holds it. The original large-impact profile remains.
+
+`tests/landing_settle_suite.gd` checks actual hop/contact behavior, proportional
+final-pose compression, recovery speed, episode ownership and identical paired
+solver state. `scripts/capture_small_landing.ps1 -OutputDirectory artifacts/landing-review -View side`
+captures four seconds of final production motion on a 4 m fixture. `-View chase`
+or `-View first_person`, `-Uneven` and `-Tuck` select focused neighbors. The wrapper
+uses the normal guard and a temporary offscreen/no-focus project, then unlinks
+its shared directories without touching their targets. Its capture manifest and
+`capture/landing.json` also support the existing full pole-mesh audit with
+`--scenarios=landing --include-flight`. These fixtures do not establish human
+feel or uncontended FPS.
+
 ## Pole pushing
 
 `pole_push_motion.gd` samples the editable control action; `pole_push_pose.gd`
