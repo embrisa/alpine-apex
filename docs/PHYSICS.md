@@ -115,7 +115,13 @@ within leg reach. It cannot add kinetic energy, move position, assign heading
 or restore speed. The correction is not compressive load and creates no grip
 budget; ordinary suspension/gravity/friction still integrate afterward.
 
-Model 31 identifies takeoffs from the signed change between 4 m height chords
+Model 32 retains the model 31 takeoff detector but reduces snow retention to a
+fraction of eligible separating velocity through `snow_contact_strength`. This
+lets rough snow produce occasional natural hops instead of absorbing every small
+departure. The fraction, depth/load weighting and per-tick cap only remove energy;
+they do not impose a hop count or alter gravity.
+
+The detector identifies takeoffs from the signed change between 4 m height chords
 along the skier's actual travel direction. Only a convex grade break above
 10 degrees suppresses retention. Sideways triangle-normal changes and concave
 landing pockets no longer disable absorption and trigger repeated small hops.
@@ -132,7 +138,9 @@ release reason. Test rounded bumps separately from sharp drops and actual jumps.
 
 `tests/terrain_settle_suite.gd` checks actual cross-slope/concave/convex 4 m
 fixtures and two bounded 15-second current-mountain sections. The rough case
-reproduces repeated unintended flight in the earlier detector. The existing
+targets two to three terrain departures in both the ordinary world and its
+obstacle-free contact companion, with bounded airtime. Smooth snow stays planted.
+These fixed-fixture targets are regressions, not a quota applied during play. The existing
 snow-grounding contracts retain jump/buffer, cliff, rock, mixed-foot, energy,
 reach and reset checks. `scripts/capture_small_landing.ps1 -Terrain
 -OutputDirectory artifacts/terrain-review -View side` captures the final seven
@@ -141,7 +149,7 @@ camera code on the real heightfield patch. It preserves real obstacle responses
 but omits scenery rendering; this is contact-motion evidence, not scene FPS.
 `-View chase` selects the gameplay camera. A frozen detector under `artifacts`
 can be supplied as `-ReferenceAssist` for a labelled causal comparison. Physics
-model 31 rejects model 30 recordings through the existing identity check; replay
+model 32 rejects model 31 recordings through the existing identity check; replay
 format remains 7. No old-record migration or speed restoration is introduced.
 
 ## Jumping and flight

@@ -1,6 +1,6 @@
 class_name SkiSimulation
 extends RefCounted
-const MODEL_VERSION = 31
+const MODEL_VERSION = 32
 const TerrainMaterial = preload("res://scripts/core/terrain_material.gd")
 const Contact = preload("res://scripts/core/ski_contact.gd")
 const Body = preload("res://scripts/core/rider_body.gd")

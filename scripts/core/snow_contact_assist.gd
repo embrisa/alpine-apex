@@ -104,6 +104,8 @@ func advance(dt: float, sim, surface, jump_pending: bool) -> Vector3:
 		suppressed = false; settled_s = 0.0
 	var normal = weighted_normal.normalized()
 	var outward = maxf(0.0,sim.velocity.dot(normal))
+	# Retain some separating motion over rounded snow.
+	strength *= clampf(tuning.snow_contact_strength,0.0,1.0)
 	correction_m_s = minf(outward*clampf(strength,0.0,1.0),tuning.snow_contact_max_correction_m_s)
 	var correction = -normal*correction_m_s
 	dissipated_j_per_kg = maxf(0.0,.5*(sim.velocity.length_squared()-(sim.velocity+correction).length_squared()))

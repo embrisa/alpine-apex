@@ -52,6 +52,7 @@ snow_crush_max_m = 0.30
 snow_crush_start_kmh = 0.0
 snow_crush_full_kmh = 30.0
 snow_contact_assist_enabled = true
+snow_contact_strength = 0.4
 snow_contact_max_correction_m_s = 3.0
 snow_contact_full_depth_m = 0.12
 snow_contact_lip_angle = 0.174532925

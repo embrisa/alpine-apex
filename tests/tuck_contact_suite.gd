@@ -146,7 +146,7 @@ func _flight_and_replay() -> void:
 		b.step(DT,recording.input_at(tick),plane)
 		same = same and a.position==b.position and a.velocity==b.velocity and a.effective_tuck==b.effective_tuck
 	check(same,"Current replay input fields reproduce auto-tuck and steering at every tick")
-	check(identity.physics==31 and Replay.VERSION==7 and Replay.INPUT_WIDTH==9,"Pole propulsion versions forward intent and retains the complete input layout")
+	check(identity.physics==32 and Replay.VERSION==7 and Replay.INPUT_WIDTH==9,"Pole propulsion versions forward intent and retains the complete input layout")
 	preload("res://tests/ghost_replay_fixture.gd").attach_sample_poses(recording)
 	var data = recording.to_data()
 	check(Replay.decode(data,identity,recording.duration)!=null,"Current auto-tuck recording round-trips")

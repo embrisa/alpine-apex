@@ -130,6 +130,7 @@ extends Resource
 
 @export_group("Grounded snow")
 @export var snow_contact_assist_enabled: bool = true
+@export_range(0.0,1.0) var snow_contact_strength: float = 0.4 # fraction of eligible separating velocity removed per tick
 @export var snow_contact_max_correction_m_s: float = 3.0 # per 120 Hz tick, separating velocity only
 @export var snow_contact_full_depth_m: float = 0.12
 @export var snow_contact_lip_angle: float = 0.174532925 # radians, convex along-travel grade change over 4 m

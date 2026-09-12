@@ -115,7 +115,7 @@ func run() -> void:
 	quit(0 if failures.is_empty() else 1)
 
 func contracts() -> void:
-	check(Sim.MODEL_VERSION==31 and Replay.VERSION==7 and Replay.INPUT_WIDTH==9,"Pole propulsion retains grounded snow with the held-preparation replay field")
+	check(Sim.MODEL_VERSION==32 and Replay.VERSION==7 and Replay.INPUT_WIDTH==9,"Pole propulsion retains grounded snow with the held-preparation replay field")
 	var field = Probe.SnowRipple.new(0,32,.20)
 	var sim = rider(Sim,field)
 	sim.velocity += sim.support_basis().y*1.0
@@ -128,6 +128,16 @@ func contracts() -> void:
 	check((before+delta).length_squared()<=before.length_squared() and delta.dot(before)<0,"Assist only removes kinetic energy")
 	check(sim.position==root_before and sim.velocity==before and sim.normal_load==load_before,"Evaluation does not snap root, write velocity or inflate load")
 	check(assist.advance(DT,sim,field,false)==Vector3.ZERO,"Assist can advance only once per physics tick")
+	var production=load("res://config/ski_default.tres")
+	check(sim.tuning.snow_contact_strength==production.snow_contact_strength,"Script and production snow retention agree")
+	check(delta.length()<.9 and (before+delta).dot(sim.support_basis().y)>.1,"Balanced snow retention leaves real separating motion")
+	var balanced_delta=delta
+	sim.tuning.snow_contact_strength=1.0; assist.reset()
+	var full_delta=assist.advance(DT,sim,field,false)
+	check(balanced_delta.length()<full_delta.length(),"Retention strength softens the eligible correction")
+	sim.tuning.snow_contact_strength=0.0; assist.reset()
+	check(assist.advance(DT,sim,field,false)==Vector3.ZERO,"Zero retention adds no correction")
+	sim.tuning.snow_contact_strength=production.snow_contact_strength
 	assist.reset(); sim.velocity = before+sim.support_basis().y*8.0
 	delta = assist.advance(DT,sim,field,false)
 	check(absf(delta.length()-3.0)<.00001 and (sim.velocity+delta).length_squared()<sim.velocity.length_squared(),"Extreme separating velocity saturates at 3 m/s without adding energy")
@@ -199,7 +209,7 @@ func contracts() -> void:
 		for x in steep.NX: steep.heights[z*steep.NX+x] = -(steep.Z_MIN+z*steep.CELL)*1.5
 	a = rider(Sim,steep); a.velocity += a.support_basis().y
 	assist.reset(); delta = assist.advance(DT,a,steep,false)
-	check(delta.length()>.9 and not assist.suppressed,"Absolute steepness does not suppress snow retention")
+	check(delta.length()>.9*a.tuning.snow_contact_strength and not assist.suppressed,"Absolute steepness does not suppress snow retention")
 	# Lip suppression persists over a smooth but still separating contact, then
 	# clears only after 150 ms of continuously loaded non-separating support.
 	field = Probe.SnowRipple.new(0,32,.20)
