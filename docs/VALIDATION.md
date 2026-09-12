@@ -536,3 +536,32 @@ material) measured median means of 54.50 us before, 59.43 us after Clear and
 59.00 us Thunderstorm, each from three 480-sample runs. This isolates submission
 CPU cost; it is not whole-game or GPU performance. Human readability, controller
 comfort and listening acceptance remain open.
+
+Matched 2026-09-12 trials use v15 seed 849205174, face 3, trace seconds 90-105,
+High at 3840x2160 / 2880x1620 internal, Auto FSR 4.1.1, 120 cap, FG/SDFGI off.
+CPU: Ryzen 5 5600X; GPU: RX 9070, driver 32.0.31041.1004. Each row is the
+median of three 15-second runs; p95/p99 are medians of run percentiles. All final
+runs matched the expected solver endpoint, stayed focused and kept source hashes
+stable. Engine/hash, complete source inventory and time/seed metadata are in
+`artifacts/pc_environment/weather-final-*/system.json`; raw distributions and
+measured-period memory/background summaries are in `artifacts/weather_upgrade/`.
+
+| Condition | Rendered FPS | p95 / p99 ms | Render CPU / GPU ms | Weather CPU us | Engine / video GiB |
+|---|---:|---:|---:|---:|---:|
+| pre-clear-short | 78.44 | 18.56 / 25.70 | 1.76 / 9.73 | 151.4 | 1.072 / 3.452 |
+| pre-snow-short | 80.07 | 17.27 / 24.12 | 1.72 / 9.71 | 149.0 | 1.072 / 3.404 |
+| final-clear | 78.35 | 18.28 / 24.24 | 1.82 / 8.15 | 175.1 | 1.074 / 3.452 |
+| final-snowfall | 75.69 | 20.01 / 24.75 | 1.85 / 8.30 | 178.9 | 1.075 / 3.404 |
+| final-snowstorm | 78.88 | 18.74 / 25.51 | 1.77 / 8.39 | 176.5 | 1.074 / 3.404 |
+| final-thunderstorm | 78.73 | 17.67 / 21.41 | 1.79 / 8.04 | 179.6 | 1.074 / 3.404 |
+
+Final Clear differs by -0.12% and Snowfall by -5.47%
+from their pre-change FPS medians. The initial cloud warp was replaced with three
+independent octaves to avoid a serial dependency on every lit receiver. Final
+Clear matches baseline closely; Snowfall's end-to-end decrease remains a finding
+despite lower measured GPU time. Background activity varied; existing apps were
+left running, so the whole FPS difference is not attributed to weather alone.
+The 90-120 FPS, p95 <=11.1 ms and p99 <=16.7 ms targets remain **unmet**, including
+in the pre-change baseline. This is not regression-free performance acceptance.
+No full-descent/forest-coverage or generated-frame throughput claim is made.
+The before/after isolated submission means above remain a separate CPU measure.

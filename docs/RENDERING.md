@@ -193,6 +193,8 @@ Disabling Rare storms also cancels a planned storm in a suspended free-ski front
 when that front resumes; it does not abruptly cut an existing storm short.
 
 The main cloud silhouette and receiver attenuation share the same noise field.
+Its three octaves stay independent; domain warping would serialize this cost
+across lit surfaces. Broader low-frequency weighting supplies the main shape.
 High adds a restrained non-shadow-casting wispy layer; the radiance branch stays
 cheap. Pooled lightning illuminates the cloud shader through WeatherState without
 another daylight owner or shadow pass. Reduced suppresses abrupt cloud flashes,

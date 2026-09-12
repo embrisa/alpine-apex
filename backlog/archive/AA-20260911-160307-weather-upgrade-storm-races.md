@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-160307-weather-upgrade-storm-races"
 title: "Weather upgrade, random launches, and storm races"
-status: ready
+status: done
 priority: P2
 depends_on: []
 created: "2026-09-11T16:03:07Z"
-updated: "2026-09-11T16:03:07Z"
+updated: "2026-09-12T02:18:50Z"
 source_thread: "01a0912e-4fd1-75b3-840f-afa391343fdc"
 ---
 
@@ -242,35 +242,38 @@ unrelated scenery/performance rewrite.
 
 ## Acceptance and verification
 
-All checks below are planned implementation work, not authoring-session results.
+Implementation verification is recorded below. The user narrowed rendered trial
+runtime to 15 seconds (maximum one minute) on 2026-09-12; the original full-descent
+performance requirement is superseded by matched short windows from a validated
+complete input trace.
 
 ### Automated
 
-- [ ] Fresh-profile defaults and missing/corrupt preference handling; save/reload
+- [x] Fresh-profile defaults and missing/corrupt preference handling; save/reload
   every preference; ordinary updates do not write preferences; explicit
   arguments and script/autoplay isolation take precedence correctly.
-- [ ] Reproducible launch draws, full-day range, ordinary-only weather,
+- [x] Reproducible launch draws, full-day range, ordinary-only weather,
   base weights and constrained anti-repeat behavior for all four launch-toggle
   combinations. Exactly one launch draw across retry/reload/race lifecycle.
-- [ ] Exactly 3,600 active seconds wraps daylight; menus/pause/loading/finish,
+- [x] Exactly 3,600 active seconds wraps daylight; menus/pause/loading/finish,
   survey/preview and race suspension consume no free-ski progression. Confirm
   the agreed cross-launch storm-counter behavior using isolated profiles.
-- [ ] Seeded front durations/transitions, cloudy rain/snow bridges, storm
+- [x] Seeded front durations/transitions, cloudy rain/snow bridges, storm
   eligibility boundaries, 5% decision path, peak/recovery/cooldown, bounded
   intensity, manual storm holds and deterministic large-delta handling.
-- [ ] Full snapshot round trips during holds, blends and storms preserve future
+- [x] Full snapshot round trips during holds, blends and storms preserve future
   state/RNG/cloud continuity; scene reconstruction and quality changes neither
   double advance nor reset it. Transient thunder never leaks across handoffs.
-- [ ] Schema/share/library round trips, malformed/old-code rejection, identities
+- [x] Schema/share/library round trips, malformed/old-code rejection, identities
   differing by weather/time/rules, default suggested race conditions, retry
   schedule equality at different render step sizes, pause and race switches.
-- [ ] Practice eligibility latches on weather/time/automatic/FX Off changes,
+- [x] Practice eligibility latches on weather/time/automatic/FX Off changes,
   clears only through a valid fresh retry, and never writes PB/history/ghosts.
   Low/High and lightning controls preserve eligibility. Cover race finish,
   boundary return, cancellation/load failure and free-ski restoration.
-- [ ] Same rider input and terrain produce unchanged simulation/replay state
+- [x] Same rider input and terrain produce unchanged simulation/replay state
   under different weather settings; weather draws do not consume gameplay RNG.
-- [ ] Run guarded serial `physics_suite.gd`, `runtime_suite.gd`,
+- [x] Run guarded serial `physics_suite.gd`, `runtime_suite.gd`,
   `race_suite.gd`, `graphics_suite.gd`, `golden_sunlight_suite.gd`,
   `offmap_atmosphere_suite.gd`, affected `interface_suite.gd` and audio suites,
   plus focused new weather tests. Use `./godotw.ps1 --headless --script ...`
@@ -279,43 +282,43 @@ All checks below are planned implementation work, not authoring-session results.
 
 ### Native rendered and audio
 
-- [ ] Inspect chronological native motion evidence for all six conditions
+- [x] Inspect chronological native motion evidence for all six conditions
   across the four daylight bands in chase and first person. Include storm
   build/peak/recovery, changing cloud shadows, rain/snow at skiing speed and
   fog/route readability. Compare ordinary conditions against matched baseline
   footage; stills alone do not establish transition quality.
-- [ ] Exercise graphics Low/Balanced/High separately from Weather FX Off/Low/High,
+- [x] Exercise graphics Low/Balanced/High separately from Weather FX Off/Low/High,
   reduced motion and Full/Reduced/Off lightning; verify native shader
   compilation, particle ceilings, immediate settings effects, sky/shadow
   alignment and no extra shadow passes. Confirm lightning off has no residual
   illumination and cloud motion does not jump on reload/restore.
-- [ ] Inspect weather settings and race creator/details at supported UI sizes;
+- [x] Inspect weather settings and race creator/details at supported UI sizes;
   create/share/start/retry/finish/leave a storm race, including practice feedback.
-- [ ] Verify delayed positional thunder through rendered/audio evidence with
+- [x] Verify delayed positional thunder through rendered/audio evidence with
   bounded overlapping voices, existing mute/volume behavior and no stale
   effects after pause, camera/lifecycle handoff or failed load.
 
 ### Performance and delivery
 
-- [ ] Capture a source-stable pre-change baseline, then matched capture-free
-  v15 Standard default-mountain descents at 3840x2160 High, Auto FSR 75%,
+- [x] Capture a source-stable pre-change baseline, then matched capture-free
+  15-second v15 Standard default-mountain trials at 3840x2160 High, Auto FSR 75%,
   120 rendered FPS cap, frame generation/SDFGI off. Use a validated complete
   ordinary-input trace through `scripts/benchmark_pc.ps1`; extend its current
   Clear/Snowfall-only weather selector and metadata to measure the new presets.
   Repeat matched ordinary and storm workloads enough to distinguish variance
   (three runs per reported comparison); record seed, trace, conditions/time,
   source/engine/driver identity and competing load.
-- [ ] Report actual internal/output pixels, rendered FPS, CPU/GPU timings,
+- [x] Report actual internal/output pixels, rendered FPS, CPU/GPU timings,
   p95/p99, memory and weather submission cost. Compare against the 90–120
   rendered FPS target, p95 <= 11.1 ms and p99 <= 16.7 ms. Separate pre-existing
-  full-descent misses from weather-induced regressions; address measured
+  existing short-window misses from weather-induced regressions; address measured
   regressions in this subsystem and record remaining target gaps honestly.
   A crash/stall, capture run or generated-frame count is not a valid complete
-  rendered-performance result.
-- [ ] Keep engine workloads serial under `artifacts/validation.lock`; wait
+  timed rendered-performance result.
+- [x] Keep engine workloads serial under `artifacts/validation.lock`; wait
   for other agents and preserve concurrent changes. Keep fixtures/profiles
   isolated from personal saves.
-- [ ] Update maintained docs, validate the backlog record, and commit/push all
+- [x] Update maintained docs, validate the backlog record, and commit/push all
   completed milestones directly to main with scoped staging.
 
 Human acceptance: the user should later judge everyday/storm readability, skiing
@@ -330,8 +333,60 @@ None.
 
 ## Completion record
 
-Pending implementation. Record changed behavior, tests actually run, reviewed
-motion/audio evidence, measured baseline/deltas/limits, documentation, remaining
-human acceptance and commit/push references. If required work is blocked, record
-the blocker and unfinished checks. Record separately selected follow-up ideas in
-`backlog/ideas/`, or note that none were proposed.
+Implemented manually on 2026-09-12. No scheduled claim was taken.
+
+- Saved automatic weather/daylight, ordinary randomized launches with constrained
+  anti-repeat, 60-minute active days, resumable fronts, persistent storm gates and
+  rare Snowstorm/Thunderstorm events. Manual choices and race changes retain
+  separate ownership; pause/reload/race handoffs preserve free-ski state.
+- Added bounded snowfall/gust/cloud refinements, pooled distant bolts, original
+  thunder clips, and Full/Reduced/Off lightning with reduced-motion handling.
+  Native review caught fog hiding the bolt; emissive fog handling was corrected.
+  Removed dependent cloud-noise warping after the initial timing comparison.
+- Added schema 5 / weather rules 1, race creator/details controls, fixed elapsed-time
+  conditions on retry and latched practice protection through finish. Old codes
+  are rejected and records/libraries use new namespaces; no migration was added.
+- Kept simulation model 28, generator 15, 120 Hz solving and 4 m terrain authority.
+  Benchmark wrappers now default to 15-second trials, with a one-minute maximum;
+  complete input traces still validate the reference trajectory.
+
+Validation executed: physics 56, runtime 192, race 51, graphics 28, golden sunlight
+50, off-map atmosphere 10, wind 19, SFX 39, equipment audio 25, skier voice 93,
+weather 44, lifecycle 32 and native interface 122 checks passed. Initial obsolete
+cycle and audio-fixture assertions were updated; their failed receipts and the
+successful reruns remain distinguishable. Native lifecycle covers authored
+start/share/retry/switch, finished practice record protection, load failure,
+restoration and disabling a suspended planned storm while racing.
+
+Inspected chronological native evidence: 48 clips covering six conditions,
+four daylight bands and both cameras; accelerated 15-second approach/peak/recovery;
+Full/Reduced/Off lightning; 54 graphics/FX/lightning/reduced-motion combinations;
+settings/creator at 1280x720 and 1920x1080; native practice finish and restored free
+skiing. Particle ceilings are 1700 High / 850 Low, with Off zero. Actual mixer
+capture verifies delayed thunder with lightning Off, muted peak zero, three
+pooled voices and no obsolete thunder after resume. Human/controller/listening
+acceptance is not claimed.
+
+Performance evidence follows the user's 15-second trial correction. Three final
+runs per condition used the complete default mountain, trace seconds 90-105,
+3840x2160 output / 2880x1620 internal, High, Auto FSR 4.1.1, cap 120, FG/SDFGI off.
+Source hashes stayed unchanged and exact solver endpoints/focus checks passed.
+Final median rendered FPS: Clear 78.35, Snowfall 75.69, Snowstorm 78.88, Thunderstorm 78.73.
+Clear is -0.12% and Snowfall -5.47% against their
+pre-change medians. The Snowfall decrease and unmet FPS/tail targets remain
+explicit performance findings; no regression-free approval is claimed.
+The baseline already missed the targets, and changing background activity limits
+causal attribution. All timing/CPU/GPU/memory values and commands are retained in
+[Validation](../../docs/VALIDATION.md#weather-and-storm-race-evidence), with raw
+reports/captures in `artifacts/weather_upgrade/` and `artifacts/pc_environment/`.
+Earlier interrupted/source-changing trials are excluded from accepted comparisons.
+
+Maintained Architecture, Rendering, Racing, Presentation, Audio and Validation
+owners. Delivery commits: `37d6fe9` (short benchmark windows) and `d917d36` (weather,
+races, assets and tests), both pushed to main; this record/evidence summary is a
+separate completion commit. Preserve review captures, native audio, raw timing
+and receipts; remove only owned draft/partial scratch artifacts after delivery.
+
+Remaining human follow-up: everyday/storm/night readability, comfort, controller
+flow and thunder mix on the user's equipment. Performance targets are still open
+as documented above. No additional backlog ideas were proposed.
