@@ -221,6 +221,13 @@ response finding, not a continuing source-clip cycle. The regression reports
 these frames explicitly; torso settling follows the path, whole-body settling
 also requires the supported edge to settle. No physical retune is included.
 
+The remaining stance defect is tracked in
+[the residual pelvis task](../backlog/tasks/AA-20260912-153317-fix-residual-carve-pelvis-lean.md),
+with a preserved trace/source/render package at
+`artifacts/pelvis_residual/20260912-baseline/`. The user authorized targeted
+edging/stance physics adjustment for that follow-up, with handling checks;
+the existing permissive residual-support assertions do not close it.
+
 The 2026-09-12 frozen comparison lives in
 `artifacts/pose_review/revisions/20260912-proportional-{before,final}/`; matrix,
 engine identity and regression receipts are in `artifacts/carve_proportional/`.
