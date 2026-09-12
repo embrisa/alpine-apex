@@ -1,0 +1,5 @@
+# Blender Asset Catalog Definition File
+VERSION 1
+
+8766c50c-f732-5ec8-b600-cfef0360aace:Prepared trees/golden_birch:golden_birch
+ef753291-68c2-553f-836d-36e77e854535:Prepared trees/autumn_maple:autumn_maple

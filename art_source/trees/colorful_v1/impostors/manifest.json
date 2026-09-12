@@ -1,0 +1,134 @@
+[
+	{
+		"center_height_m": 4.27455854415894,
+		"file": "autumn_maple_01_atlas.png",
+		"id": "autumn_maple_01",
+		"integrated": false,
+		"lighting": "unlit portable material albedo",
+		"sha256": "00c9cb47b9a80f6bf877efbfd09a14679c8005d429f34625efb2562247b08433",
+		"source_model_sha256": "7a1d38a03bb952c3c9edecc2eac6bef2621a50b3133843795620bfcdc87da2b4",
+		"span_m": 9.83148465156555,
+		"tile_size": 512,
+		"view_yaw_degrees": [
+			0,
+			45,
+			90,
+			135,
+			180,
+			225,
+			270,
+			315
+		],
+		"views": 8
+	},
+	{
+		"center_height_m": 5.79249572753906,
+		"file": "autumn_maple_02_atlas.png",
+		"id": "autumn_maple_02",
+		"integrated": false,
+		"lighting": "unlit portable material albedo",
+		"sha256": "daf771593cdbfd2cee61177b165fcd85cd22ab6933940edbe873740c73613334",
+		"source_model_sha256": "d89529b725d720225cfe0eaa6cf254f255db006c9d9deaa21e812678dd96d791",
+		"span_m": 13.3227401733398,
+		"tile_size": 512,
+		"view_yaw_degrees": [
+			0,
+			45,
+			90,
+			135,
+			180,
+			225,
+			270,
+			315
+		],
+		"views": 8
+	},
+	{
+		"center_height_m": 6.71381282806396,
+		"file": "autumn_maple_03_atlas.png",
+		"id": "autumn_maple_03",
+		"integrated": false,
+		"lighting": "unlit portable material albedo",
+		"sha256": "cb2b240614997cde4daa7b5753ab699f8baefe297fa63e24c22c1255dcb1bd9d",
+		"source_model_sha256": "7018319a725f496901c7396c75f941bb2963122b875b7134476521433d8aafe2",
+		"span_m": 15.4417695045471,
+		"tile_size": 512,
+		"view_yaw_degrees": [
+			0,
+			45,
+			90,
+			135,
+			180,
+			225,
+			270,
+			315
+		],
+		"views": 8
+	},
+	{
+		"center_height_m": 4.02791404724121,
+		"file": "golden_birch_01_atlas.png",
+		"id": "golden_birch_01",
+		"integrated": false,
+		"lighting": "unlit portable material albedo",
+		"sha256": "8918e9207ca5a8dbb32d0d5c86bb88756c9124e5e4b15e0c8821d57c74de37e6",
+		"source_model_sha256": "13eda14a3845a688ed3c7cdc0d6b8e111cb05c7082f6077ef56757ce2173d427",
+		"span_m": 9.26420230865478,
+		"tile_size": 512,
+		"view_yaw_degrees": [
+			0,
+			45,
+			90,
+			135,
+			180,
+			225,
+			270,
+			315
+		],
+		"views": 8
+	},
+	{
+		"center_height_m": 5.59302949905396,
+		"file": "golden_birch_02_atlas.png",
+		"id": "golden_birch_02",
+		"integrated": false,
+		"lighting": "unlit portable material albedo",
+		"sha256": "73bd4579f7d7eef1909b9aa9c9b7ea44aee70d2ede89d0cd11b747e01fb5803e",
+		"source_model_sha256": "ded602cf5ef608bfe87a53d501be49c54fb45768da630a13540cda93e4c151ae",
+		"span_m": 12.8639678478241,
+		"tile_size": 512,
+		"view_yaw_degrees": [
+			0,
+			45,
+			90,
+			135,
+			180,
+			225,
+			270,
+			315
+		],
+		"views": 8
+	},
+	{
+		"center_height_m": 7.05180072784424,
+		"file": "golden_birch_03_atlas.png",
+		"id": "golden_birch_03",
+		"integrated": false,
+		"lighting": "unlit portable material albedo",
+		"sha256": "6491307a6780cca4251bb866cf65835b45d1b7826997021e7be46be4ca6ccb02",
+		"source_model_sha256": "5b189c15819eed832fd2c2c93be85f3c6c9b04f84d7f9703d6e495fd04720acb",
+		"span_m": 16.2191416740417,
+		"tile_size": 512,
+		"view_yaw_degrees": [
+			0,
+			45,
+			90,
+			135,
+			180,
+			225,
+			270,
+			315
+		],
+		"views": 8
+	}
+]

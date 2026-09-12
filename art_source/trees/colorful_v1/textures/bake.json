@@ -1,0 +1,39 @@
+{
+  "source": "leaf_texture_master.png",
+  "source_sha256": "a26423f070ff285812035e1df573979587d695f0a09f59b58ab5f3580163ea86",
+  "tiles": [
+    "left: pinnate birch venation",
+    "right: palmate maple venation"
+  ],
+  "relief": "Approximate luminance-gradient tangent normal; shader strength 0.35; not a measured scan",
+  "baker_sha256": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+  "maps": [
+    {
+      "file": "leaf_albedo.png",
+      "sha256": "2316c289005643237b473c70375f663a480a4c9f20d4fbf42798f71edd8c9204",
+      "size": [
+        1024,
+        512
+      ],
+      "color_space": "sRGB"
+    },
+    {
+      "file": "leaf_normal.png",
+      "sha256": "25b524217fea12f305ab4ee194f33c42e988cc1026ba54e9960bc7c681161513",
+      "size": [
+        1024,
+        512
+      ],
+      "color_space": "Non-Color"
+    },
+    {
+      "file": "leaf_roughness.png",
+      "sha256": "4cdb64b990f06da505fe9ad03345ffc80d6a1ade36a0880ea0e57e72b4a656ba",
+      "size": [
+        1024,
+        512
+      ],
+      "color_space": "Non-Color"
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 ---
 id: "AA-20260912-094935-colorful-forest-variety"
 title: "Add colorful forests with distinct tree and leaf types"
-status: ready
+status: blocked
 priority: P2
 depends_on: ["AA-20260912-004316-forest-transparency-strength"]
 created: "2026-09-12T09:49:35Z"
-updated: "2026-09-12T09:51:45Z"
+updated: "2026-09-12T10:47:00Z"
 source_thread: "01a09503-6090-7991-bd5c-c3105a5bfd12"
 ---
 
@@ -87,6 +87,10 @@ No tree rendering or performance measurements were made during authoring.
   lobed maple-like leaves. The two added leafy families must use distinct leaf
   shapes, proportions and attachment patterns rather than the same generic leaf
   mesh/texture recolored. Exact species names remain an implementation choice.
+- Leaves must have actual surface texture: visible venation, fine grain,
+  mottled pigment and restrained relief/roughness variation. The user explicitly
+  rejected completely blank leaf surfaces. Carry the texture through authored
+  assets and future production materials, with close-up native review.
 - Ensure yellow, orange and red are all visible in the playable forest mix.
   Keep a green backbone with substantial warm-colored pockets; avoid isolated
   token trees, uniform recoloring of the forest or random rainbow confetti.
@@ -101,8 +105,10 @@ No tree rendering or performance measurements were made during authoring.
 - Prioritize the forest encountered while skiing and its distant LODs. Update
   other active render paths for consistency, but a separate off-map landscape
   redesign, species settings UI, seasons and new tree physics are outside scope.
-- Use owned/local sources and authored derivatives. No purchase or subscription
-  is authorized. Retain source provenance and export hashes, preserve unrelated
+- Use owned/local sources and authored derivatives. The user subsequently
+  authorized existing Meshy7 credits or other necessary tools for preparation;
+  no credits were needed or consumed. No new purchase or subscription was made.
+  Retain source provenance and export hashes, preserve unrelated
   assets/UIDs, and respect the existing $5/month hard LFS budget.
 
 ## Implementation approach
@@ -203,10 +209,64 @@ that automated tests or agent inspection prove the user likes the forest.
 
 None
 
+## Preparation-only scope
+
+On 2026-09-12 the user authorized preparing the tree assets without integrating
+them now. Keep the new collection outside the production tree manifest, runtime
+asset folders and forest selection. Asset preparation was completed manually
+in the originating task. Forest integration is deferred until the user resumes
+it; this task must not dispatch while that instruction is in effect.
+
 ## Completion record
 
-Pending implementation. Record shipped family/palette coverage, verification
-actually performed, remaining human acceptance, performance findings, updated
-guides and commit/push references. If blocked, record the exact blocker and
-unfinished work. Link separately proposed ideas only if any were written; they
-remain non-executable until selected by the user.
+### Prepared assets, 2026-09-12
+
+The user-authorized preparation phase is complete. The collection is in
+[art_source/trees/colorful_v1](../../art_source/trees/colorful_v1/README.md): three
+golden birches with rounded leaves and three orange/red maples with lobed leaves.
+It contains six editable baked Blender sources, eighteen tree GLBs across three
+detail levels, six leaf samples and six eight-direction RGBA atlases. The final
+pack is about 146 MiB including embedded leaf PBR textures. Its manifest records exact source presets, deterministic
+seeds, authoring/texture hashes, geometry counts and bounds. Vendor generator
+nodes are absent from the distributed blends; the original library stayed local.
+The initial plain leaf surfaces were replaced after user feedback. The final
+pack includes distinct generated pinnate/palmate venation, cellular grain and
+mottling, with derived normal and roughness maps. Exact imagegen prompt and
+source provenance are retained in `textures/provenance.json`, with data-map
+hashes in `textures/bake.json`. Relief is approximate, not a measured scan.
+No Meshy credits were consumed.
+
+Validation actually performed:
+
+- Independent Blender reimport passed for all 24 GLBs, checking hashes, triangle
+  counts, dimensions, textured leaf material surfaces, opaque vertex colors and branch UVs.
+  All six source blends were checked for absence of the vendor geometry-node
+  generator. All six atlas receipts match their source GLBs and image hashes.
+- Stock Godot 4.7.2 Forward+ / RX 9070 isolated review passed 364 checks and
+  produced eight native captures. Agent inspection covered both family rows at
+  near/reduced/coarse levels, the collection and enlarged rounded/lobed leaves.
+- Aggressive woody simplification was rejected after native review showed broken
+  trunks. Final geometry retains the near woody skeleton while reducing foliage:
+  near 21,379–28,940 triangles, reduced 9,020–10,430, coarse 6,396–7,806.
+  Production far rendering should use the prepared atlases, with its material,
+  residency and transition costs validated during later integration.
+- A custom-runtime Compatibility-mode startup crash happened before asset loading.
+  The isolated viewer now uses stock Forward+; the startup logs remain in
+  `artifacts/colorful_tree_preparation/startup_crash/`. No game renderer change
+  was made, and this workaround is not a diagnosis or fix of that startup crash.
+- Before/after SHA256 comparisons matched the production tree manifest,
+  ForestPlacement source and PackedTrees source. No production asset directory,
+  shader registration, forest selection, terrain or collision changes were made.
+
+Evidence is in `artifacts/colorful_tree_preparation/`: `native/`,
+`blender_validation.json`, `production_before.json` and `production_after.json`.
+The package README owns preparation/review commands and the material handoff.
+The concurrent eight-task parent owns insertion of the narrow pointer in Assets;
+this preparation task does not stage its guide changes.
+
+Integration remains **blocked by the user's instruction to prepare assets only
+for now**. Resume it only when the user requests integration. Production material
+conversion, wind/visibility registration, mixed-forest placement, LOD transitions,
+cache/residency checks and bounded forest performance remain unimplemented.
+Human visual/skiing acceptance is separately pending. No new worker ideas were
+proposed. Review evidence and startup-crash logs are retained for those open items.

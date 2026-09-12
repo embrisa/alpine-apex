@@ -1,0 +1,542 @@
+{
+  "assets": [
+    {
+      "id": "autumn_maple_01",
+      "family": "autumn_maple",
+      "leaf_type": "lobed",
+      "nominal_height_m": 8.5,
+      "palette_srgb": [
+        0.76,
+        0.36,
+        0.095
+      ],
+      "source_preset": "MapleTree_LowPoly.032",
+      "seed": 2111,
+      "source_settings": {
+        "Socket_47": 2111,
+        "Socket_40": 2122,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 10,
+        "Socket_50": 5,
+        "Socket_57": 10,
+        "Socket_24": 16
+      },
+      "attachment_sites": 210,
+      "models": [
+        {
+          "file": "autumn_maple_01_lod0.glb",
+          "sha256": "7a1d38a03bb952c3c9edecc2eac6bef2621a50b3133843795620bfcdc87da2b4",
+          "bytes": 6628948,
+          "triangles": 27530,
+          "dimensions_blender_xyz_m": [
+            6.0030107498168945,
+            4.821492671966553,
+            8.549117088317871
+          ],
+          "surfaces": 3,
+          "leaf_count": 1260
+        },
+        {
+          "file": "autumn_maple_01_lod1.glb",
+          "sha256": "2a4edfa22737d96882ace1ae4c7e753d5b023de42e78fb7d22085c216d128826",
+          "bytes": 3934528,
+          "triangles": 9020,
+          "dimensions_blender_xyz_m": [
+            5.834616661071777,
+            4.72927188873291,
+            8.592607498168945
+          ],
+          "surfaces": 3,
+          "leaf_count": 420
+        },
+        {
+          "file": "autumn_maple_01_lod2.glb",
+          "sha256": "a477909f05f26590411a03e6d78b0668340504ba6b2202fbc3ca04f0e6992579",
+          "bytes": 3566640,
+          "triangles": 6396,
+          "dimensions_blender_xyz_m": [
+            5.744501113891602,
+            4.973826885223389,
+            8.549117088317871
+          ],
+          "surfaces": 3,
+          "leaf_count": 159
+        }
+      ],
+      "leaf_sample": {
+        "file": "autumn_maple_01_leaf.glb",
+        "sha256": "4525d7d9acaa04e058a67e2556cc3471f933b688999e7135d3f488d68413851c",
+        "bytes": 2532616,
+        "triangles": 16,
+        "dimensions_blender_xyz_m": [
+          1.3799999952316284,
+          0.08295000344514847,
+          1.2000000476837158
+        ],
+        "surfaces": 1
+      },
+      "blend": "autumn_maple_01.blend",
+      "blend_sha256": "522f60847268f898df7049ed6889da88fbf69103e182897749adaf49d8b51299",
+      "authoring": {
+        "scripts/art/prepare_colorful_trees.py": "fae0ff409c461cd632611500bfae80219e0c22dc2c6742052287744db06bd793",
+        "scripts/art/colorful_tree_geometry.py": "c802af9cdf9bda5f04038f4b8997c99378bdf819c1064cb8d8ce981283651039",
+        "scripts/art/bake_colorful_leaf_maps.py": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+        "art_source/trees/colorful_v1/textures/bake.json": "39a5a33123f4a1b2967cf49e270dbed36f71656cdee4b842ab41f6da5d209e38",
+        "art_source/trees/colorful_v1/textures/provenance.json": "5d949a47179e64a00b1dbf2fb63ef1689f0a7b1b4cb15b7d5471738e757b0881",
+        "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94"
+      }
+    },
+    {
+      "id": "autumn_maple_02",
+      "family": "autumn_maple",
+      "leaf_type": "lobed",
+      "nominal_height_m": 11.5,
+      "palette_srgb": [
+        0.63,
+        0.16,
+        0.1
+      ],
+      "source_preset": "MapleTree_LowPoly.033",
+      "seed": 2137,
+      "source_settings": {
+        "Socket_47": 2137,
+        "Socket_40": 2148,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 10,
+        "Socket_50": 5,
+        "Socket_57": 10,
+        "Socket_24": 16
+      },
+      "attachment_sites": 210,
+      "models": [
+        {
+          "file": "autumn_maple_02_lod0.glb",
+          "sha256": "d89529b725d720225cfe0eaa6cf254f255db006c9d9deaa21e812678dd96d791",
+          "bytes": 6667632,
+          "triangles": 28360,
+          "dimensions_blender_xyz_m": [
+            7.928916931152344,
+            7.427774906158447,
+            11.584991455078125
+          ],
+          "surfaces": 3,
+          "leaf_count": 1260
+        },
+        {
+          "file": "autumn_maple_02_lod1.glb",
+          "sha256": "962ead01b1f10599049f8154f78c155395df618e3cb43de3e68068430f3ee46e",
+          "bytes": 3973204,
+          "triangles": 9850,
+          "dimensions_blender_xyz_m": [
+            8.153332710266113,
+            7.599117755889893,
+            11.584991455078125
+          ],
+          "surfaces": 3,
+          "leaf_count": 420
+        },
+        {
+          "file": "autumn_maple_02_lod2.glb",
+          "sha256": "3933d93d5e328c004b1c50389059f0224efb470e737353e4b1bf5da325c7d607",
+          "bytes": 3605320,
+          "triangles": 7226,
+          "dimensions_blender_xyz_m": [
+            7.786508560180664,
+            8.041179656982422,
+            11.584991455078125
+          ],
+          "surfaces": 3,
+          "leaf_count": 159
+        }
+      ],
+      "leaf_sample": {
+        "file": "autumn_maple_02_leaf.glb",
+        "sha256": "aaa69d0a27d56f2f3f250407c367a6c11c9a1a3df46e51f10467a7afaa889e1f",
+        "bytes": 2532616,
+        "triangles": 16,
+        "dimensions_blender_xyz_m": [
+          1.3799999952316284,
+          0.08295000344514847,
+          1.2000000476837158
+        ],
+        "surfaces": 1
+      },
+      "blend": "autumn_maple_02.blend",
+      "blend_sha256": "8a19804a32b5973a862dadcc2ce87670a71a2e853f8cf75ea981e565d80b4412",
+      "authoring": {
+        "scripts/art/prepare_colorful_trees.py": "fae0ff409c461cd632611500bfae80219e0c22dc2c6742052287744db06bd793",
+        "scripts/art/colorful_tree_geometry.py": "c802af9cdf9bda5f04038f4b8997c99378bdf819c1064cb8d8ce981283651039",
+        "scripts/art/bake_colorful_leaf_maps.py": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+        "art_source/trees/colorful_v1/textures/bake.json": "39a5a33123f4a1b2967cf49e270dbed36f71656cdee4b842ab41f6da5d209e38",
+        "art_source/trees/colorful_v1/textures/provenance.json": "5d949a47179e64a00b1dbf2fb63ef1689f0a7b1b4cb15b7d5471738e757b0881",
+        "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94"
+      }
+    },
+    {
+      "id": "autumn_maple_03",
+      "family": "autumn_maple",
+      "leaf_type": "lobed",
+      "nominal_height_m": 13.5,
+      "palette_srgb": [
+        0.83,
+        0.47,
+        0.1
+      ],
+      "source_preset": "MapleTree_LowPoly.034",
+      "seed": 2163,
+      "source_settings": {
+        "Socket_47": 2163,
+        "Socket_40": 2174,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 10,
+        "Socket_50": 5,
+        "Socket_57": 10,
+        "Socket_24": 16
+      },
+      "attachment_sites": 210,
+      "models": [
+        {
+          "file": "autumn_maple_03_lod0.glb",
+          "sha256": "7018319a725f496901c7396c75f941bb2963122b875b7134476521433d8aafe2",
+          "bytes": 6788820,
+          "triangles": 28940,
+          "dimensions_blender_xyz_m": [
+            11.502540588378906,
+            10.598947525024414,
+            13.42762565612793
+          ],
+          "surfaces": 3,
+          "leaf_count": 1260
+        },
+        {
+          "file": "autumn_maple_03_lod1.glb",
+          "sha256": "5dc3f16b97995514537e23dfe4d6d2b357da4197b8de4e4b2fb0d003482fd82f",
+          "bytes": 4094392,
+          "triangles": 10430,
+          "dimensions_blender_xyz_m": [
+            11.426980972290039,
+            10.766000747680664,
+            13.5667085647583
+          ],
+          "surfaces": 3,
+          "leaf_count": 420
+        },
+        {
+          "file": "autumn_maple_03_lod2.glb",
+          "sha256": "df1cfc35e3d7cb904551706ef175b463d0989a2871868d8faf9f31b6d673b0dc",
+          "bytes": 3726508,
+          "triangles": 7806,
+          "dimensions_blender_xyz_m": [
+            11.069558143615723,
+            10.330986022949219,
+            13.177522659301758
+          ],
+          "surfaces": 3,
+          "leaf_count": 159
+        }
+      ],
+      "leaf_sample": {
+        "file": "autumn_maple_03_leaf.glb",
+        "sha256": "af3713c7e55a5c075b1fe417e132ac3ebeeec11b76a94774cb06a57cdad45ba1",
+        "bytes": 2532616,
+        "triangles": 16,
+        "dimensions_blender_xyz_m": [
+          1.3799999952316284,
+          0.08295000344514847,
+          1.2000000476837158
+        ],
+        "surfaces": 1
+      },
+      "blend": "autumn_maple_03.blend",
+      "blend_sha256": "f3c46a84b9a1e8d63025c64959bbc95dc4038091fda19521f892aee214f2d941",
+      "authoring": {
+        "scripts/art/prepare_colorful_trees.py": "fae0ff409c461cd632611500bfae80219e0c22dc2c6742052287744db06bd793",
+        "scripts/art/colorful_tree_geometry.py": "c802af9cdf9bda5f04038f4b8997c99378bdf819c1064cb8d8ce981283651039",
+        "scripts/art/bake_colorful_leaf_maps.py": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+        "art_source/trees/colorful_v1/textures/bake.json": "39a5a33123f4a1b2967cf49e270dbed36f71656cdee4b842ab41f6da5d209e38",
+        "art_source/trees/colorful_v1/textures/provenance.json": "5d949a47179e64a00b1dbf2fb63ef1689f0a7b1b4cb15b7d5471738e757b0881",
+        "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94"
+      }
+    },
+    {
+      "id": "golden_birch_01",
+      "family": "golden_birch",
+      "leaf_type": "rounded",
+      "nominal_height_m": 8.0,
+      "palette_srgb": [
+        0.88,
+        0.67,
+        0.16
+      ],
+      "source_preset": "BirchTree_LowPoly.032",
+      "seed": 1901,
+      "source_settings": {
+        "Socket_47": 1901,
+        "Socket_40": 1912,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 10,
+        "Socket_50": 5,
+        "Socket_57": 10,
+        "Socket_24": 16
+      },
+      "attachment_sites": 210,
+      "models": [
+        {
+          "file": "golden_birch_01_lod0.glb",
+          "sha256": "13eda14a3845a688ed3c7cdc0d6b8e111cb05c7082f6077ef56757ce2173d427",
+          "bytes": 5569124,
+          "triangles": 21380,
+          "dimensions_blender_xyz_m": [
+            4.6437668800354,
+            5.1425018310546875,
+            8.055828094482422
+          ],
+          "surfaces": 3,
+          "leaf_count": 1260
+        },
+        {
+          "file": "golden_birch_01_lod1.glb",
+          "sha256": "1ffb70a8c8725c3970cc0aa6dc0ee8b13440479cac356dbe4c6846ba1a726964",
+          "bytes": 3819688,
+          "triangles": 9170,
+          "dimensions_blender_xyz_m": [
+            4.449321269989014,
+            4.890869140625,
+            8.055828094482422
+          ],
+          "surfaces": 3,
+          "leaf_count": 420
+        },
+        {
+          "file": "golden_birch_01_lod2.glb",
+          "sha256": "897c9de7373afdb770c0e9cee81b623b31037c5b1a0b8b6eaae752cb0744d77a",
+          "bytes": 3569264,
+          "triangles": 7329,
+          "dimensions_blender_xyz_m": [
+            4.254622459411621,
+            5.057168483734131,
+            8.055828094482422
+          ],
+          "surfaces": 3,
+          "leaf_count": 159
+        }
+      ],
+      "leaf_sample": {
+        "file": "golden_birch_01_leaf.glb",
+        "sha256": "d7c76957a91146c18d7622776540f82652919dab53b8380b871c8943903c28b7",
+        "bytes": 2531684,
+        "triangles": 10,
+        "dimensions_blender_xyz_m": [
+          1.0,
+          0.07250000536441803,
+          1.090000033378601
+        ],
+        "surfaces": 1
+      },
+      "blend": "golden_birch_01.blend",
+      "blend_sha256": "a2ae31ae08fbc741d8f10297d997416426b30e0057ff86c5fd06df765e6feec4",
+      "authoring": {
+        "scripts/art/prepare_colorful_trees.py": "fae0ff409c461cd632611500bfae80219e0c22dc2c6742052287744db06bd793",
+        "scripts/art/colorful_tree_geometry.py": "c802af9cdf9bda5f04038f4b8997c99378bdf819c1064cb8d8ce981283651039",
+        "scripts/art/bake_colorful_leaf_maps.py": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+        "art_source/trees/colorful_v1/textures/bake.json": "39a5a33123f4a1b2967cf49e270dbed36f71656cdee4b842ab41f6da5d209e38",
+        "art_source/trees/colorful_v1/textures/provenance.json": "5d949a47179e64a00b1dbf2fb63ef1689f0a7b1b4cb15b7d5471738e757b0881",
+        "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94"
+      }
+    },
+    {
+      "id": "golden_birch_02",
+      "family": "golden_birch",
+      "leaf_type": "rounded",
+      "nominal_height_m": 11.0,
+      "palette_srgb": [
+        0.83,
+        0.57,
+        0.11
+      ],
+      "source_preset": "BirchTree_LowPoly.042",
+      "seed": 1927,
+      "source_settings": {
+        "Socket_47": 1927,
+        "Socket_40": 1938,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 10,
+        "Socket_50": 5,
+        "Socket_57": 10,
+        "Socket_24": 16
+      },
+      "attachment_sites": 210,
+      "models": [
+        {
+          "file": "golden_birch_02_lod0.glb",
+          "sha256": "ded602cf5ef608bfe87a53d501be49c54fb45768da630a13540cda93e4c151ae",
+          "bytes": 5573584,
+          "triangles": 21379,
+          "dimensions_blender_xyz_m": [
+            6.082562446594238,
+            6.666064262390137,
+            11.18605899810791
+          ],
+          "surfaces": 3,
+          "leaf_count": 1260
+        },
+        {
+          "file": "golden_birch_02_lod1.glb",
+          "sha256": "72e0b6f0bba5b2d0d1b9d974010cf812e311aaba38b0200912f8a55c535af938",
+          "bytes": 3824152,
+          "triangles": 9169,
+          "dimensions_blender_xyz_m": [
+            6.039752006530762,
+            6.424013614654541,
+            11.077993392944336
+          ],
+          "surfaces": 3,
+          "leaf_count": 420
+        },
+        {
+          "file": "golden_birch_02_lod2.glb",
+          "sha256": "2ccafb79790b9ca4de1d38e106c5f67f1c648330b73dba87a792101a2fa52edf",
+          "bytes": 3573728,
+          "triangles": 7328,
+          "dimensions_blender_xyz_m": [
+            6.328765869140625,
+            5.793461799621582,
+            11.077993392944336
+          ],
+          "surfaces": 3,
+          "leaf_count": 159
+        }
+      ],
+      "leaf_sample": {
+        "file": "golden_birch_02_leaf.glb",
+        "sha256": "bebb6f30a310a464fde65fb943b15c87005b1420f2ea7952396699860c426027",
+        "bytes": 2531684,
+        "triangles": 10,
+        "dimensions_blender_xyz_m": [
+          1.0,
+          0.07250000536441803,
+          1.090000033378601
+        ],
+        "surfaces": 1
+      },
+      "blend": "golden_birch_02.blend",
+      "blend_sha256": "4311ec501193d0cadf6a4481bb908c4bdef36493b6020ee49b7a120bf6cfa8c2",
+      "authoring": {
+        "scripts/art/prepare_colorful_trees.py": "fae0ff409c461cd632611500bfae80219e0c22dc2c6742052287744db06bd793",
+        "scripts/art/colorful_tree_geometry.py": "c802af9cdf9bda5f04038f4b8997c99378bdf819c1064cb8d8ce981283651039",
+        "scripts/art/bake_colorful_leaf_maps.py": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+        "art_source/trees/colorful_v1/textures/bake.json": "39a5a33123f4a1b2967cf49e270dbed36f71656cdee4b842ab41f6da5d209e38",
+        "art_source/trees/colorful_v1/textures/provenance.json": "5d949a47179e64a00b1dbf2fb63ef1689f0a7b1b4cb15b7d5471738e757b0881",
+        "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94"
+      }
+    },
+    {
+      "id": "golden_birch_03",
+      "family": "golden_birch",
+      "leaf_type": "rounded",
+      "nominal_height_m": 14.0,
+      "palette_srgb": [
+        0.82,
+        0.71,
+        0.23
+      ],
+      "source_preset": "BirchTree_LowPoly.054",
+      "seed": 1953,
+      "source_settings": {
+        "Socket_47": 1953,
+        "Socket_40": 1964,
+        "Socket_174": true,
+        "Socket_102": false,
+        "Socket_25": 10,
+        "Socket_50": 5,
+        "Socket_57": 10,
+        "Socket_24": 16
+      },
+      "attachment_sites": 210,
+      "models": [
+        {
+          "file": "golden_birch_03_lod0.glb",
+          "sha256": "5b189c15819eed832fd2c2c93be85f3c6c9b04f84d7f9703d6e495fd04720acb",
+          "bytes": 5571088,
+          "triangles": 21380,
+          "dimensions_blender_xyz_m": [
+            8.248326301574707,
+            7.706371307373047,
+            14.103601455688477
+          ],
+          "surfaces": 3,
+          "leaf_count": 1260
+        },
+        {
+          "file": "golden_birch_03_lod1.glb",
+          "sha256": "31f63b31337a8760e8804d1071cf1c7a3954dce281ccaecbb120313e935daf49",
+          "bytes": 3821652,
+          "triangles": 9170,
+          "dimensions_blender_xyz_m": [
+            8.110576629638672,
+            8.003259658813477,
+            14.103601455688477
+          ],
+          "surfaces": 3,
+          "leaf_count": 420
+        },
+        {
+          "file": "golden_birch_03_lod2.glb",
+          "sha256": "551f384a6b19b8384ec7507075c14614041b15d8b5a3c8882709a81ff1d50733",
+          "bytes": 3571232,
+          "triangles": 7329,
+          "dimensions_blender_xyz_m": [
+            8.350918769836426,
+            7.478672981262207,
+            14.103601455688477
+          ],
+          "surfaces": 3,
+          "leaf_count": 159
+        }
+      ],
+      "leaf_sample": {
+        "file": "golden_birch_03_leaf.glb",
+        "sha256": "e58dfbeeb515d5fd4af6d3e61041004cf1ff3a79c738f52fd35a2f2983816617",
+        "bytes": 2531684,
+        "triangles": 10,
+        "dimensions_blender_xyz_m": [
+          1.0,
+          0.07250000536441803,
+          1.090000033378601
+        ],
+        "surfaces": 1
+      },
+      "blend": "golden_birch_03.blend",
+      "blend_sha256": "4cbf4d8dbb9d23117c605ac1a23972b57b33fa6a478510ff55a586220bfd509f",
+      "authoring": {
+        "scripts/art/prepare_colorful_trees.py": "fae0ff409c461cd632611500bfae80219e0c22dc2c6742052287744db06bd793",
+        "scripts/art/colorful_tree_geometry.py": "c802af9cdf9bda5f04038f4b8997c99378bdf819c1064cb8d8ce981283651039",
+        "scripts/art/bake_colorful_leaf_maps.py": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+        "art_source/trees/colorful_v1/textures/bake.json": "39a5a33123f4a1b2967cf49e270dbed36f71656cdee4b842ab41f6da5d209e38",
+        "art_source/trees/colorful_v1/textures/provenance.json": "5d949a47179e64a00b1dbf2fb63ef1689f0a7b1b4cb15b7d5471738e757b0881",
+        "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94"
+      }
+    }
+  ],
+  "schema": 1,
+  "status": "prepared_only_not_integrated",
+  "blender": "5.2.1 LTS",
+  "source": "TreeDesigner + 400 trees/TreeDesigner.blend",
+  "source_sha256": "59faf6ce55457f8535a3575ec4e815c0f7ccb47b95f2eb76bf5da5fad62b030f",
+  "authoring": {
+    "scripts/art/prepare_colorful_trees.py": "fae0ff409c461cd632611500bfae80219e0c22dc2c6742052287744db06bd793",
+    "scripts/art/colorful_tree_geometry.py": "c802af9cdf9bda5f04038f4b8997c99378bdf819c1064cb8d8ce981283651039",
+    "scripts/art/bake_colorful_leaf_maps.py": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+    "art_source/trees/colorful_v1/textures/bake.json": "39a5a33123f4a1b2967cf49e270dbed36f71656cdee4b842ab41f6da5d209e38",
+    "art_source/trees/colorful_v1/textures/provenance.json": "5d949a47179e64a00b1dbf2fb63ef1689f0a7b1b4cb15b7d5471738e757b0881",
+    "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94"
+  },
+  "coordinates": "GLB: Y-up, metres; Blender: Z-up, metres",
+  "material_contract": "Three portable PBR surfaces: Wood, Leaves, Snow. COLOR_0 opaque; UV1 texture coordinates; UV2 branch sector/pivot compatible data. No production shader registration.",
+  "lod_contract": "LOD0 near geometry; LOD1 reduced geometry; LOD2 coarse geometry. Directional impostors prepared by the isolated native preview bake; integration remains deferred."
+}
