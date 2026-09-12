@@ -5,7 +5,7 @@ status: ready
 priority: P2
 depends_on: []
 created: "2026-09-11T22:05:56Z"
-updated: "2026-09-11T22:30:25Z"
+updated: "2026-09-12T00:54:45Z"
 source_thread: "01a0927f-723e-7341-bfbc-e2ca1b449d1b"
 ---
 
@@ -20,6 +20,8 @@ selectable." By default, race against the fastest ten available compatible
 recordings. Let the player select a subset. Every ghost should look like a
 properly equipped, animated skier following its own recorded run, leave ski
 tracks in snow, and remain distinguishable from the live rider and other ghosts.
+The user additionally requires distance-based translucency that never makes a
+ghost fully disappear: the minimum opacity is **15%**.
 
 ## Current state and evidence
 
@@ -121,9 +123,16 @@ rendered or performance acceptance. The task remains unimplemented and ready.
   the player and each other, keeping list swatches synchronized. Check the
   actual textured/lit result, not just RGB values. No color-customization menu
   is required.
-- Preserve the existing near-player fade, depth occlusion and distance policy
-  so overlap does not cover the rider or first-person view. The full model and
-  its animation must remain legible at ordinary racing separation.
+- Replace the existing distance disappearance with smooth distance-based opacity:
+  closer ghosts become more translucent, reaching a minimum of **15% opacity**
+  (alpha 0.15, meaning 85% transparent), and become more opaque with separation.
+  Distance alone must never hide an enabled active ghost, including exact overlap
+  and distances beyond the old 750 m cutoff. Remove both the near-distance hide
+  and far-distance hide; clamp the combined ghost fade to at least 0.15 for the
+  body and all equipment. The implementer may tune the smooth curve/upper opacity
+  for readability. Preserve ordinary depth occlusion and camera clipping; this
+  does not add visibility through terrain. Explicit ghost-off and existing
+  replay/session lifecycle cleanup remain separate from distance-based fading.
 - Produce natural snow tracks from the replayed skis. Tracks use the current
   snow appearance rather than requiring colored snow. Snow spray, sound and
   additional environmental effects are outside this request.
@@ -168,12 +177,16 @@ rendered or performance acceptance. The task remains unimplemented and ready.
    across unsupported skis, jumps, rock, teleports and replay discontinuities.
 4. Isolate ghost material instances and implement the contrasting outfit/fade
    policy without modifying source assets, shared player materials or saved
-   appearance. Reuse world lighting/quality settings. Avoid duplicate asset
+   appearance. Apply the 0.15 minimum after combining ghost opacity/fade factors;
+   do not accidentally multiply it below the floor with a second material fade.
+   Reuse world lighting/quality settings. Avoid duplicate asset
    conversion, unbounded histories and allocation-heavy per-frame work.
 5. Wire the lifecycle into the existing ghost toggle/session clock. Reset pose
    interpolation and per-ski stamp origins together on retry, time reversal,
-   visibility re-enable or replay replacement. Bound animation/track work at
-   distance and prevent a long stamp when returning from distance culling.
+   visibility re-enable or replay replacement. Bound animation/track work with
+   measured optimizations that preserve the visible ghost and its 15% opacity
+   floor. Do not use distance-based model culling as a performance shortcut.
+   Prevent long connecting stamps across any skipped track updates.
 6. Extend session/record ownership with stable run IDs and a sorted bounded
    top-ten replay collection. Keep best-time/split metadata and recent history
    distinct from replay availability. Admit qualifying non-PBs, evict the slowest
@@ -226,7 +239,15 @@ rendered or performance acceptance. The task remains unimplemented and ready.
   player outfits in bright snow and shadow, including all ten selected ghosts.
   List swatches match stable run colors. Changing the player's appearance
   refreshes contrast without modifying player materials/preferences. Near-player
-  and first-person overlap fade still work without detached opaque equipment.
+  and first-person overlap remain translucent at no less than 15% ghost opacity,
+  without detached opaque equipment or an invisible body.
+- [ ] Automated opacity checks cover exact overlap, both sides of the old 1.2 m
+  and 4 m thresholds, ordinary separation, and both sides of the old 750 m
+  cutoff. Smooth opacity never falls below 0.15 and distance never sets an active
+  ghost invisible. Native chronological captures inspect the same near/far
+  transitions and ten overlapping ghosts, keeping the visible body/equipment
+  consistent. Check clear sightlines within camera range separately from normal
+  terrain occlusion, camera clipping, explicit ghost-off and replay cleanup.
 - [ ] Both supported skis leave continuous snow tracks aligned with the rendered
   skis, including live fronts during hard turns. Unsupported/airborne skis and
   exposed rock leave no false marks. All ten ghosts' tracks and player tracks
