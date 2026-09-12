@@ -12,6 +12,8 @@ param(
     [switch]$ProfileFrameCosts,
     [switch]$ScenarioReplay,
     [ValidateRange(1,10)][int]$Repetitions = 1,
+    [ValidateRange(1,60)][int]$TrialSeconds = 15,
+    [ValidateRange(0,600)][int]$TrialStartSeconds = 90,
     [string]$InputTrace = 'res://artifacts/fps_optimization/descent_input.json',
     [ValidateSet(0,90,120,144)][int]$FrameCap = 120,
     [ValidateRange(0,2400)][int]$StartZ = 0,
@@ -60,7 +62,7 @@ if ($WildernessSummit) { $alpinePlaytest = 'tests/wilderness_benchmark.gd' }
 if ($VoiceBenchmark) { $alpinePlaytest = 'tests/skier_voice_benchmark.gd' }
 $alpineArgs = @('--path',$alpineRoot,'--script',$alpinePlaytest,'--',"--version=$Version","--face=$Face","--seed=$Seed","--side=$Side","--weather=$Weather","--benchmark-label=$Label",'--benchmark-resolution=3840x2160','--graphics-quality=high',"--render-scale=$RenderScale","--upscaler=$Upscaler","--fps-limit=$FrameCap","--terrain-gi=$TerrainGI","--frame-generation=$FrameGeneration")
 $alpineArgs += @("--benchmark-start=$StartZ","--benchmark-end=$EndZ")
-if ($Version -ge 14) { $alpineArgs += @("--input-trace=$InputTrace","--repetitions=$Repetitions",'--benchmark-no-captures') }
+if ($Version -ge 14) { $alpineArgs += @("--input-trace=$InputTrace","--repetitions=$Repetitions","--trial-seconds=$TrialSeconds","--trial-start-seconds=$TrialStartSeconds",'--benchmark-no-captures') }
 elseif (-not $ThirdPerson) { $alpineArgs += '--pov-forest' }
 if ($ProfileFrameCosts) { $alpineArgs += '--profile-frame-costs' }
 if ($ScenarioReplay) { $alpineArgs += '--scenario-replay' }

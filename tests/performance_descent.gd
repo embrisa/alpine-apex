@@ -22,6 +22,10 @@ var forest_coverage: Dictionary = {}
 var rows = []
 var failures = []
 var scenario_replay = false
+var trial_seconds = 0
+var trial_start_seconds = 0
+var trial_end_tick = 0
+var trial_expected = Vector3.ZERO
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	var version = Definition.CURRENT_VERSION
@@ -33,6 +37,8 @@ func run() -> void:
 		if arg.begins_with("--benchmark-label="): output = "res://artifacts/pc_environment/"+arg.get_slice("=",1).validate_filename()
 		if arg.begins_with("--repetitions="): repetitions = clampi(int(arg.get_slice("=",1)),1,10)
 		if arg.begins_with("--weather="): weather = arg.get_slice("=",1)
+		if arg.begins_with("--trial-seconds="): trial_seconds = clampi(int(arg.get_slice("=",1)),1,60)
+		if arg.begins_with("--trial-start-seconds="): trial_start_seconds = maxi(0,int(arg.get_slice("=",1)))
 		if arg=="--scenario-replay": scenario_replay = true
 	if not FileAccess.file_exists(path): printerr("Generate a current successful trace using tests/performance_trace.gd"); quit(2); return
 	var decoded = JSON.parse_string(FileAccess.get_file_as_string(path))
@@ -46,6 +52,14 @@ func run() -> void:
 	var physical_seconds = (Time.get_ticks_usec()-physical_started)/1000000.0
 	if not Trace.matches(field,trace.identity):
 		printerr("Benchmark rejects stale or unsuccessful input traces"); quit(2); return
+	if trial_seconds>0:
+		trial_end_tick = (trial_start_seconds+trial_seconds)*120
+		if trial_end_tick>trace.result.ticks: printerr("Requested short trial exceeds trace coverage"); quit(2); return
+		var reference = Trace.Simulation.new(preload("res://config/ski_default.tres").duplicate(true))
+		reference.reset(field.launch_point(trace.heading),trace.heading); reference.prime_contacts(field)
+		for tick in trial_end_tick: reference.step(1.0/120.0,input_at_tick(tick),field)
+		if reference.crashed: printerr("Short trial reference crashed"); quit(2); return
+		trial_expected = reference.position
 	DirAccess.make_dir_recursive_absolute(output)
 	set_meta("mountain_to_load",{"definition":Definition.from_field(field,"Performance verification"),"field":field})
 	var scene_started = Time.get_ticks_usec()
@@ -93,6 +107,10 @@ func run() -> void:
 		game.sim.reset(field.launch_point(trace.heading),trace.heading); game.sim.prime_contacts(field)
 		if trace.has("initial_state") and not Trace.Inputs.matches_state(game.sim,trace.initial_state):
 			printerr("Recording launch state does not match current simulation"); quit(2); return
+		if trial_seconds>0:
+			for tick in trial_start_seconds*120: game.sim.step(1.0/120.0,input_at_tick(tick),game.world.ski_surface)
+			game.weather.visual_time = 0.0
+			if "active_seconds" in game.weather: game.weather.active_seconds = 0.0
 		game.previous_position = game.sim.position
 		game.skier.reset_animation(game.sim); game.camera.close_view = false; game.camera.reset()
 		game.hud.hide_menu(); game.effects.reset()
@@ -108,8 +126,9 @@ func run() -> void:
 		var last_progress = -1
 		var checkpoint = 0
 		var checkpoints: Array = trace.get("checkpoints",[])
-		while not game.session.finished and not game.sim.crashed and game.sim.ticks<trace.result.ticks:
+		while not game.session.finished and not game.sim.crashed and game.sim.ticks<(trial_end_tick if trial_seconds>0 else int(trace.result.ticks)):
 			await physics_frame
+			while checkpoint<checkpoints.size() and checkpoints[checkpoint][0]<game.sim.ticks: checkpoint += 1
 			if checkpoint<checkpoints.size() and game.sim.ticks==int(checkpoints[checkpoint][0]):
 				if not Trace.Inputs.matches_state(game.sim,checkpoints[checkpoint]):
 					failures.append("Recorded trajectory diverged at tick %d" % game.sim.ticks); break
@@ -123,7 +142,8 @@ func run() -> void:
 		var ended_unix = Time.get_unix_time_from_system()
 		var expected = Vector3(trace.result.position[0],trace.result.position[1],trace.result.position[2])
 		var exact = game.sim.position==expected and game.sim.ticks==trace.result.ticks
-		if game.session.finished!=trace.result.finished or game.sim.crash_reason!=trace.result.crash or not exact: failures.append("Run %d did not reproduce the recorded outcome" % (repetition+1))
+		if trial_seconds>0: exact = game.sim.position==trial_expected and game.sim.ticks==trial_end_tick and not game.sim.crashed
+		if (trial_seconds==0 and (game.session.finished!=trace.result.finished or game.sim.crash_reason!=trace.result.crash)) or not exact: failures.append("Run %d did not reproduce the recorded outcome" % (repetition+1))
 		var end_status = game.display_settings.fsr_status()
 		var section_report = {}
 		for section in sections: section_report[section] = frame_stats(sections[section])
@@ -135,6 +155,8 @@ func run() -> void:
 		row.merge(comparison_metadata())
 		rows.append(row)
 		var report = {"scope":"complete_production_descent","trace_sha256":FileAccess.get_sha256(path),"identity":Trace.identity(field),"actual_pixels":[pixels.x,pixels.y],"display":game.display_settings.report(root,pixels),"sdfgi":game.world.environment.sdfgi_enabled,"camera":game.camera_settings.snapshot(),"weather":weather,"device":RenderingServer.get_video_adapter_name(),"engine":Engine.get_version_info(),"capture_overhead_included":false,"warmup_frames":240,"unranked":not game.session.eligible,"rows":rows,"failures":failures}
+		if trial_seconds>0:
+			report.scope = "short_production_trial"; report.trial_seconds = trial_seconds; report.trial_start_seconds = trial_start_seconds
 		if scenario_replay: report.scope = "recorded_scenario"
 		report.merge({"loading":loading_report,"graphics_profile":game.graphics.snapshot(),"graphics_preset":game.graphics.preset_id,"renderer":RenderingServer.get_current_rendering_method(),"rendering_driver":RenderingServer.get_current_rendering_driver_name()})
 		FileAccess.open(output+"/production.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))

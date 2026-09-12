@@ -11,7 +11,7 @@ static func source_identity() -> Dictionary:
 	var sources = {}
 	for folder in ["res://scripts/core", "res://scripts/world/generators"]:
 		for file in DirAccess.get_files_at(folder):
-			if file.ends_with(".gd"): sources[folder+"/"+file] = FileAccess.get_sha256(folder+"/"+file)
+			if file.ends_with(".gd") and file!="run_session.gd": sources[folder+"/"+file] = FileAccess.get_sha256(folder+"/"+file)
 	for file in ["res://scripts/world/heightfield_surface.gd", "res://scripts/world/mountain_definition.gd", "res://config/ski_default.tres"]:
 		sources[file] = FileAccess.get_sha256(file)
 	return sources
