@@ -73,10 +73,12 @@ wrapper; those outputs were preserved, and the project-relative output argument
 was verified by a successful rerun. The maintained report distinguishes this
 launch issue from gameplay results and retains the historical evidence sections.
 
-Visual follow-up: [investigate differing tuck postures](../ideas/IDEA-20260911-185650-tuck-presentation-consistency.md).
-Initial and resumed tuck look different at similar solver tuck values; the
-cause is unproven and no pose-quality acceptance is claimed. The idea is only
-proposed for user review. It does not block this input evidence task.
+Visual follow-up: [investigate differing tuck postures](../ideas/archive/IDEA-20260911-185650-tuck-presentation-consistency.md).
+At this audit's completion, initial and resumed tuck looked different at similar
+solver tuck values; the cause was unproven and no pose-quality acceptance was
+claimed. The idea was only
+proposed for user review. It did not block this input evidence task. The linked
+idea now records the subsequent investigation and resolution.
 
 Markdown links/anchors, `./scripts/backlog.ps1 validate`, and `git diff --check`
 passed. Physical dead zones, trigger travel, disconnect/reconnect behavior,

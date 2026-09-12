@@ -226,7 +226,7 @@ haptics, physics/runtime suites; output `artifacts/controller_input_v1/`.
 Remaining device review: small/hard landings, bumps/rock taps, intensity zero,
 reconnect/focus loss, neutral-gated flips, tuck/turn/jump transitions, menu focus
 and HUD editing. Preserve the posture observation linked from the existing
-[tuck consistency idea](../backlog/ideas/IDEA-20260911-185650-tuck-presentation-consistency.md).
+[tuck consistency idea](../backlog/ideas/archive/IDEA-20260911-185650-tuck-presentation-consistency.md).
 
 ## Mountain evidence
 
@@ -373,6 +373,45 @@ Source-pose diagnostics after editor removal verified 7,920 source joint samples
 unchanged across 33 clips/five times/mirror states. Its six rendered diagnostic
 views came from two historical frames; this proves the diagnostic path, not
 current animation quality. Evidence: `artifacts/editor_removal_20260911/`.
+
+### Tuck consistency
+
+The original input-audit sequence now retains a compact initial tuck and returns
+to it after steering. The shared [carving posture handoff](ANIMATION.md#carving)
+also owns this correction; there is no separate tuck retune or input change.
+The regression must launch along the sampled fall line, as Speed Lab does:
+heading-aligned planar motion misses the small loaded edge that triggered the
+defect. Isolated historical motion reproduced the original 265 mm hip-height
+and 39-degree chest-pitch mismatch in `original-fixed-clock/` under the evidence
+directory below, while the solver's tuck assertions still passed.
+The 2026-09-12 native 1920x1080 capture contains 313 inspected chronological
+frames, passing input/pose assertions and stable production source hashes.
+All 313 paired frames have identical input, completed ticks, physical positions,
+velocities, speed, tuck, grounding, rendered skis and camera transforms.
+Initial/resumed support-relative hip height differs by 8.6 mm and chest pitch
+by 0.12 degrees. Detailed measurements and source snapshots live in
+`artifacts/tuck_consistency_20260912/current-fixed-clock/`; `paired-evidence.json`
+and `tuck-comparison.jpg` in its parent compare the historical/current motion.
+
+`tests/tuck_presentation_suite.gd` covers the laboratory and four planar speed/
+grade cases through entry, steering, resumed hold and release. It passed 30 checks
+with 4,200 identical paired physical snapshots/body-joint states; receipts are
+`delivery-suite.json` and `delivery-sources.json` beside the native capture.
+Reproduce with
+`./scripts/test_pc_environment.ps1 -Suites tuck_presentation_suite`.
+For the native router/pose chronology, choose an unused output directory:
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/tuck_presentation_playtest.gd','--','--output=res://artifacts/tuck_consistency/visual') -Label tuck-consistency -TimeoutSeconds 240
+```
+
+The capture refuses an existing output directory and disables records, preference
+writes and hardware haptics through the inherited input-audit fixture. These are
+automated and author-rendered results; human/controller acceptance and performance
+remain separate. The shared change's full mesh audit has 130 affected frames
+versus 33 in its baseline, concentrated in tucked-turn neighbors. This body-posture
+regression does not clear that open pole/clothing issue; see
+[retained animation findings](ANIMATION.md#retained-findings-and-acceptance).
 
 ## Audio evidence
 
