@@ -22,12 +22,8 @@ vec4 sample_crystal_layer(vec3 position,vec3 normal,float density,float distance
  vec3 orientation=crystal_hash(cell+vec2(41.1,653.7)+seed);
  vec2 delta=fract(uv)-(.25+random.xy*.50);
  float footprint=max(length(dFdx(uv)),length(dFdy(uv)));
- // Compact hexagonal facets, with filtering bounded by the grain's own size.
- // A wide pixel footprint must fade a grain, not inflate it into a white disc.
- vec2 facet_delta=abs(delta);
- float facet_distance=max(dot(facet_delta,vec2(.8660254,.5)),facet_delta.y);
- float width=radius+min(footprint,radius)*.32;
- float grain=1.0-smoothstep(radius*.35,width,facet_distance);
+ float width=radius+min(footprint,.35)*.32;
+ float grain=1.0-smoothstep(radius*.55,width,length(delta));
  // Increasing occupancy reveals more independently oriented facets; it does
  // not merely multiply the brightness of the original sparse grains.
  float coverage=grain*smoothstep(.40,.85,random.z*snow_crystal_density)*density;
@@ -43,5 +39,5 @@ vec4 sample_crystals(vec3 position,vec3 normal,float density,float distance_m) {
 }
 vec4 sample_large_crystals(vec3 position,vec3 normal,float density,float distance_m) {
  if(snow_sparkle_strength<=0.0) return vec4(normal,0.0);
- return sample_crystal_layer(position,normal,density*.70,distance_m,8.0,vec2(20,60),vec2(173.1,527.7),.040);
+ return sample_crystal_layer(position,normal,density,distance_m,8.0,vec2(20,60),vec2(173.1,527.7),.085);
 }
