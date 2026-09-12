@@ -143,6 +143,7 @@ func _process(dt: float) -> void:
 	var started = frame_costs.begin() if frame_costs else 0
 	macro_timer-=dt
 	if macro_timer<=0:
+		var scan_started = frame_costs.begin() if frame_costs else 0
 		macro_timer=.5
 		pending_macros.clear()
 		for id in macro_bounds:
@@ -154,13 +155,16 @@ func _process(dt: float) -> void:
 			var want_high=nearest<pow(420.0 if high_macros.has(id) else 280.0,2)
 			if want_high!=high_macros.has(id): pending_macros.append({"id":id,"high":want_high,"distance":nearest})
 		pending_macros.sort_custom(func(a,b): return a.distance<b.distance)
+		if frame_costs: frame_costs.end(&"stream_mineral_scan",scan_started)
 	# Shared source textures change at most twice per frame. Geometry and all
 	# collision remain resident; distant macro formations use their authored mips.
 	for i in mini(2,pending_macros.size()):
+		var texture_started = frame_costs.begin() if frame_costs else 0
 		var item: Dictionary=pending_macros.pop_front()
 		if item.high: high_macros[item.id]=true
 		else: high_macros.erase(item.id)
 		_set_textures(materials[item.id],rows[item.id],quality)
+		if frame_costs: frame_costs.end(&"stream_mineral_textures",texture_started)
 	if frame_costs: frame_costs.end(&"mineral_streaming",started)
 
 func _prepared_batches(preparation, checkpoint: Callable) -> void:

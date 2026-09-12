@@ -12,6 +12,7 @@ param(
     [ValidateSet('on','off')][string]$FrameGeneration = 'off',
     [switch]$ProfileFrameCosts,
     [switch]$ScenarioReplay,
+    [switch]$ColdCollision,
     [ValidateRange(1,10)][int]$Repetitions = 1,
     [ValidateRange(1,60)][int]$TrialSeconds = 15,
     [ValidateRange(0,600)][int]$TrialStartSeconds = 90,
@@ -67,6 +68,7 @@ if ($Version -ge 14) { $alpineArgs += @("--input-trace=$InputTrace","--repetitio
 elseif (-not $ThirdPerson) { $alpineArgs += '--pov-forest' }
 if ($ProfileFrameCosts) { $alpineArgs += '--profile-frame-costs' }
 if ($ScenarioReplay) { $alpineArgs += '--scenario-replay' }
+if ($ColdCollision) { $alpineArgs += '--cold-collision' }
 if ($Version -ge 10 -and -not $WildernessSummit) { $alpineArgs += '--ui-staged-loading' }
 $alpineArgs += "--wilderness=$Wilderness"
 if ($VoiceBenchmark) { $alpineArgs += $(if ($VoiceObserverOff) { '--voice-observer=off' } else { '--voice-observer=on' }) }

@@ -199,6 +199,26 @@ diagnostic evidence and use a fresh label for replacements.
 
 ### Player recordings and short scenarios
 
+Streaming investigations can add `-ProfileFrameCosts` to the benchmark to retain
+`streaming_events_N.json`. Events contain scope, process-frame ID and absolute
+begin/end microseconds; matching frame intervals also carry tick and position.
+Correlate overlapping events with those intervals instead of adding nested
+scope maxima. The opt-in event buffer caps at 20,000 entries per trial and is
+reset between trials; disk output happens after measurement. Subscopes distinguish
+collision terrain/obstacles/minerals/prefetch, mineral scans/textures, and forest
+scan/eviction, region upload and publication. These CPU scopes do not measure
+asynchronous GPU upload completion. Ordinary benchmark runs also reject any
+unfocused measured frames and reacquire window focus before each warmup.
+
+`-ColdCollision` replaces only the ragdoll collision owner before each trial's
+normal warmup, retaining the current mountain, renderer and input/endpoint
+validation. Use it to distinguish first convex preparation from repeated entry
+with the shared collision cache. It is an explicit test setup, not a gameplay
+restart or a cold process/renderer measurement. Omit it for ordinary repeated
+entry. `collision_streaming` reports body/shape counts, queue peaks and shape
+point bytes; point bytes exclude Jolt's native allocations. Keep render captures
+separate from these timing runs.
+
 Use `./scripts/record_run.ps1` when a player can demonstrate a faster route or a
 specific event. The guarded launch opens current default v15 Standard with normal
 riding input, High/Auto .75/120 FPS/FG off/GI off and read-only saved camera settings.

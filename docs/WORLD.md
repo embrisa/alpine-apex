@@ -148,6 +148,24 @@ are in [Rendering](RENDERING.md#snow-presentation).
 
 ## Geology and collision
 
+[CrashCollision](../scripts/world/crash_collision.gd) owns the ragdoll-only
+terrain/obstacle neighborhood, separate from the 120 Hz skiing support solver.
+Mineral bodies still publish all authoritative convex pieces immediately inside
+the existing 175 m preparation / 240 m retention window. Jolt cooks convex
+resources lazily on first body attachment. A nearest-first 300 m lookahead warms
+shared catalog pieces through one reusable body with collision layer/mask zero;
+its shape owner is cleared after every piece. Main-thread work stops after eight
+pieces or 750 microseconds, whichever is reached first. One native cook cannot be
+interrupted, so this is a scheduling budget, not a hard frame-time guarantee.
+
+Movement rebuilds the bounded record queue alongside the existing 45 m
+neighborhood refresh. Leaving the lookahead cancels obsolete queued work; a
+required formation completes synchronously even if warming is incomplete.
+Cached shapes belong to catalog records, not visited placements, and share the
+existing world lifetime. Restarting the world releases the cache and warmup
+body. `tests/streaming_collision_suite.gd` covers partial preparation, fast/reverse
+travel, cancellation, full publication and ray-tested scaled collision.
+
 [MountainGeology](../scripts/world/mountain_geology.gd) owns placement and spatial
 collision data; [MineralCatalog](../scripts/world/mineral_catalog.gd) loads a shared
 compressed resource validated against its source catalog. All 120 v3 base assets

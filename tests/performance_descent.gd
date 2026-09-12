@@ -11,6 +11,7 @@ var repetitions = 1
 var recording = false
 var previous_frame = 0
 var frames = PackedFloat64Array()
+var chronology: Array = []
 var gpu = PackedFloat64Array()
 var cpu = PackedFloat64Array()
 var draws = PackedFloat64Array()
@@ -22,6 +23,7 @@ var forest_coverage: Dictionary = {}
 var rows = []
 var failures = []
 var scenario_replay = false
+var cold_collision = false
 var trial_seconds = 0
 var trial_start_seconds = 0
 var trial_end_tick = 0
@@ -42,6 +44,7 @@ func run() -> void:
 		if arg.begins_with("--trial-seconds="): trial_seconds = clampi(int(arg.get_slice("=",1)),1,60)
 		if arg.begins_with("--trial-start-seconds="): trial_start_seconds = maxi(0,int(arg.get_slice("=",1)))
 		if arg=="--scenario-replay": scenario_replay = true
+		if arg=="--cold-collision": cold_collision = true
 	if not FileAccess.file_exists(path): printerr("Generate a current successful trace using tests/performance_trace.gd"); quit(2); return
 	var decoded = JSON.parse_string(FileAccess.get_file_as_string(path))
 	# Reject stale inputs before loading a mountain or constructing a scene.
@@ -82,6 +85,7 @@ func run() -> void:
 	game.effects.frame_costs = game.frame_costs
 	game.world.scenery.density_forest.frame_costs = game.frame_costs
 	game.world.minerals.frame_costs = game.frame_costs
+	game.crash_collision.frame_costs = game.frame_costs
 	game.camera_settings.load_preferences() # Read only; current user camera geometry.
 	if trace.has("presentation"):
 		game.camera_settings.restore(trace.presentation.camera)
@@ -104,6 +108,14 @@ func run() -> void:
 	process_frame.connect(measure)
 	for repetition in repetitions:
 		await prepare_comparison_trial(repetition)
+		if cold_collision:
+			# Model a fresh world collision owner, outside riding and warmup.
+			# This separates first convex cooking from repeated resident entry.
+			game.crash_collision.free()
+			game.crash_collision = preload("res://scripts/world/crash_collision.gd").new()
+			game.crash_collision.world = game.world
+			game.crash_collision.frame_costs = game.frame_costs
+			game.add_child(game.crash_collision)
 		game.start_run(false); game.summit_ready = false; game.active = false
 		game.physics_modified = true; game.session.eligible = false
 		game.sim.reset(field.launch_point(trace.heading),trace.heading); game.sim.prime_contacts(field)
@@ -116,8 +128,10 @@ func run() -> void:
 		game.previous_position = game.sim.position
 		game.skier.reset_animation(game.sim); game.camera.close_view = false; game.camera.reset()
 		game.hud.hide_menu(); game.effects.reset()
+		root.grab_focus()
 		for i in 240: await process_frame
 		frames.clear(); gpu.clear(); cpu.clear(); draws.clear(); sections.clear()
+		chronology.clear()
 		game.frame_samples.clear(); game.draw_samples.clear(); game.gpu_samples.clear(); game.render_cpu_samples.clear()
 		game.frame_costs.reset(); previous_frame = 0; peak_video = 0; peak_static = 0
 		unfocused_frames = 0; forest_coverage.clear()
@@ -147,14 +161,19 @@ func run() -> void:
 		if trial_seconds>0: exact = game.sim.position==trial_expected and game.sim.ticks==trial_end_tick and not game.sim.crashed
 		if (trial_seconds==0 and (game.session.finished!=trace.result.finished or game.sim.crash_reason!=trace.result.crash)) or not exact: failures.append("Run %d did not reproduce the recorded outcome" % (repetition+1))
 		var end_status = game.display_settings.fsr_status()
+		if unfocused_frames>0: failures.append("Run %d lost window focus for %d measured frames" % [repetition+1,unfocused_frames])
 		var section_report = {}
 		for section in sections: section_report[section] = frame_stats(sections[section])
 		# Write only after measurement ends. Retain the actual distribution so
 		# median FPS, tails and later analyses never have to infer raw frames.
 		FileAccess.open(output+"/frame_samples_%d.json" % (repetition+1),FileAccess.WRITE).store_string(JSON.stringify({"frame_ms":frames,"gpu_ms":gpu,"render_cpu_ms":cpu,"draw_calls":draws,"sections":sections}))
+		if game.frame_costs.enabled:
+			FileAccess.open(output+"/streaming_events_%d.json" % (repetition+1),FileAccess.WRITE).store_string(JSON.stringify({"event_fields":["scope","process_frame","begin_us","end_us"],"frame_fields":["process_frame","begin_us","end_us","tick","x","y","z"],"events":game.frame_costs.events,"frames":chronology}))
 		var row = {"run":repetition+1,"finished":game.session.finished,"crash":game.sim.crash_reason,"exact_trace":exact,"ticks":game.sim.ticks,"wall_seconds":elapsed,"frame_ms":frame_stats(frames),"gpu_ms":Costs.stats(gpu),"render_cpu_ms":Costs.stats(cpu),"draw_calls":Costs.stats(draws),"cpu_scopes_us":game.frame_costs.report(),"sections":section_report,"peak_video_bytes":peak_video,"peak_engine_static_bytes":peak_static,"snow":game.effects.snow_budget(),"forest":game.world.scenery.density_forest.report(),"fsr_begin":start_status,"fsr_end":end_status}
 		row.merge({"started_unix_seconds":started_unix,"ended_unix_seconds":ended_unix,"unfocused_frames":unfocused_frames,"forest_coverage":forest_coverage.duplicate(true)})
 		row.merge(comparison_metadata())
+		row.collision_streaming = game.crash_collision.report()
+		row.cold_collision = cold_collision
 		rows.append(row)
 		var report = {"scope":"complete_production_descent","trace_sha256":FileAccess.get_sha256(path),"identity":Trace.identity(field),"actual_pixels":[pixels.x,pixels.y],"display":game.display_settings.report(root,pixels),"sdfgi":game.world.environment.sdfgi_enabled,"camera":game.camera_settings.snapshot(),"weather":weather,"device":RenderingServer.get_video_adapter_name(),"engine":Engine.get_version_info(),"capture_overhead_included":false,"warmup_frames":240,"unranked":not game.session.eligible,"rows":rows,"failures":failures}
 		if trial_seconds>0:
@@ -183,6 +202,7 @@ func measure() -> void:
 	if previous_frame>0:
 		var ms = (now-previous_frame)/1000.0
 		frames.append(ms)
+		if game.frame_costs.enabled: chronology.append([Engine.get_process_frames(),previous_frame,now,game.sim.ticks,game.sim.position.x,game.sim.position.y,game.sim.position.z])
 		var radius = Vector2(game.sim.position.x,game.sim.position.z).length()
 		var section = "open" if radius<700 else ("powder" if radius<1300 else ("minerals" if radius<1900 else "forest"))
 		if not sections.has(section): sections[section] = PackedFloat64Array()

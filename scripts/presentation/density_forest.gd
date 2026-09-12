@@ -95,6 +95,7 @@ func _process(_dt: float) -> void:
 func update_residency(camera: Vector3) -> void:
 	var dirty=false
 	if camera.distance_to(last_camera)>8.0:
+		var scan_started = frame_costs.begin() if frame_costs else 0
 		last_camera=camera
 		pending.clear()
 		var p=Vector2(camera.x,camera.z)
@@ -114,10 +115,12 @@ func update_residency(camera: Vector3) -> void:
 				var key=Vector2i(x,z)
 				if regions.has(key) and not resident.has(key): pending.append(key)
 		pending.sort_custom(func(a,b): return ((Vector2(a)+Vector2.ONE*.5)*CELL-p).length_squared()<((Vector2(b)+Vector2.ONE*.5)*CELL-p).length_squared())
+		if frame_costs: frame_costs.end(&"stream_forest_scan_evict",scan_started)
 	# Preload beyond the visible 64 m detail range. Bounded work per frame keeps
 	# region upload independent of the total tree count.
 	var new_nodes: Array=[]
 	for i in mini(3,pending.size()):
+		var upload_started = frame_costs.begin() if frame_costs else 0
 		var key: Vector2i=pending.pop_front()
 		var nodes: Array=[]
 		for asset in regions[key]:
@@ -126,8 +129,11 @@ func update_residency(camera: Vector3) -> void:
 		residency_image.set_pixel(key.x+96,key.y+96,Color(1,0,0,1))
 		dirty=true
 		new_nodes.append_array(nodes)
+		if frame_costs: frame_costs.end(&"stream_forest_region",upload_started)
+	var publish_started = frame_costs.begin() if frame_costs else 0
 	if not new_nodes.is_empty(): host.configure_batches(host.quality,new_nodes)
 	if dirty: residency_texture.update(residency_image)
+	if dirty and frame_costs: frame_costs.end(&"stream_forest_publish",publish_started)
 
 func report() -> Dictionary:
 	return {"regions":regions.size(),"resident_regions":resident.size(),"pending_regions":pending.size(),"render_batches":host.batches.size(),"prepared_bytes":prepared_bytes}
