@@ -5,6 +5,9 @@ const Anatomy = preload("res://scripts/presentation/skier_anatomy.gd")
 const Body = preload("res://scripts/core/rider_body.gd")
 
 static func straight(state: Dictionary) -> float:
+	# Full-curve navigation supplies one physical response weight to source,
+	# posture and pelvis fitting. Keep the procedural comparison's own channels.
+	if state.has("turn_strength"): return 1.0-state.turn_strength
 	# Release for light steering and keep it released while the existing bank
 	# or turn rate persists after the rider lets go of the steering input.
 	# The carve channel contains up to 0.20 of load asymmetry even while going

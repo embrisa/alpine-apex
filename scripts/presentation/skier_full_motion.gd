@@ -45,6 +45,8 @@ var action_amount = Vector3.ZERO
 var previous_action = Vector3.ZERO
 var impact_posture = 0.0
 var previous_impact_posture = 0.0
+var support_response = 0.0
+var previous_support_response = 0.0
 
 func _init() -> void:
 	assert(library.get("version",0)==1,"Build the full motion library; see STEEP_MOTION_GAMEPLAY.md")
@@ -61,6 +63,7 @@ func reset(sim) -> void:
 	previous_downhill = downhill_amount
 	action_amount = Vector3.ZERO; previous_action = Vector3.ZERO
 	impact_posture = 0.0; previous_impact_posture = 0.0
+	support_response = 0.0; previous_support_response = 0.0
 	if sim.grounded and forward_downhill:
 		Downhill.apply(initial,library,{"tuck":sim.effective_tuck,"prepare":0.0},1.0)
 	current = initial.q
@@ -76,6 +79,7 @@ func hold() -> void:
 	previous_downhill = downhill_amount
 	previous_action = action_amount
 	previous_impact_posture = impact_posture
+	previous_support_response = support_response
 
 func step(dt: float, sim, intent, state: Dictionary, landing_event: int) -> void:
 	var start = Time.get_ticks_usec()
@@ -112,16 +116,20 @@ func step(dt: float, sim, intent, state: Dictionary, landing_event: int) -> void
 	weights.clear()
 	var speed: float = sim.motion.speed_mps
 	var turn = supported_turn(sim)
-	# A slope counterbank or the previous turn can oppose active steering.
-	# It still owns physical bank and blend strength, but must not select the
-	# opposite steering clip. On release, follow the remaining loaded edge.
-	# Keep these channels separate and feed the existing continuous tracker.
+	# An edge can persist on a nearly straight path, or oppose the turn on a
+	# cross-slope. Balance follows completed path curvature, gated by loaded
+	# edging. Neither input nor a lingering bank commits the whole posture.
+	# Motion turn rate is positive toward model +X (rider left).
+	var path_balance = -atan(sim.motion.turn_rate_rad_s*speed/9.81)/.65
+	var balance_turn = signf(path_balance)*minf(absf(turn),absf(path_balance))
+	support_response = lerpf(support_response,balance_turn/turn if absf(turn)>.00001 else 0.0,1.0-exp(-12.0*dt))
 	var turn_direction = signf(intent.steer) if absf(intent.steer)>.001 else signf(turn)
-	var animation_turn = absf(turn)*turn_direction
+	var animation_turn = absf(balance_turn)*turn_direction
 	state = state.duplicate()
 	state.steer = animation_turn
-	state.carve = turn
-	var turn_weight = smoothstep(.02,.85,absf(turn))
+	state.carve = balance_turn
+	var turn_weight = smoothstep(.02,.85,absf(balance_turn))
+	state.turn_strength = turn_weight
 	var slow = 1.0-smoothstep(3.0,12.0,speed)
 	var fast = smoothstep(16.0,28.0,speed)
 	var tuck: float = state.tuck
@@ -175,7 +183,7 @@ func step(dt: float, sim, intent, state: Dictionary, landing_event: int) -> void
 		scale_weights(1.0-recovery)
 		add("NAV_FWD_SOFT_COLLISION_01",recovery,clock,true)
 	phase = "glide"
-	if absf(turn)>.1: phase = "turn"
+	if absf(balance_turn)>.1: phase = "turn"
 	if tuck>.5: phase = "tuck"
 	if preparation>.1: phase = "prepare"
 	if air>.5: phase = "flight"
@@ -225,6 +233,7 @@ func step(dt: float, sim, intent, state: Dictionary, landing_event: int) -> void
 	# impact envelope rises too quickly to apply directly to pelvis position.
 	impact_posture = lerpf(impact_posture,state.impact,1.0-exp(-36.0*dt))
 	Action.apply(mixed,library,state,action_amount,air_age)
+	Action.balance_roll(mixed,library,balance_turn,clampf(downhill_amount+action_amount.x,0.0,1.0)*smoothstep(.001,.04,absf(balance_turn)))
 	refine_authored_pose(mixed,state,action_amount)
 	var articulated_carry = clampf(downhill_amount+action_amount.x+action_amount.y+action_amount.z,0.0,1.0)
 	# Continuous second-order tracking retains velocity on clip/phase changes.
@@ -243,7 +252,7 @@ func step(dt: float, sim, intent, state: Dictionary, landing_event: int) -> void
 	root_velocity += ((mixed.root-root_position)*900.0-root_velocity*60.0).limit_length(35.0)*dt
 	root_velocity = root_velocity.limit_length(2.0)
 	root_position += root_velocity*dt
-	diagnostics = {"phase":phase,"physical_turn":turn,"animation_turn":animation_turn,"max_posture_speed_rad_s":max_speed,"max_posture_accel_rad_s2":max_accel}
+	diagnostics = {"phase":phase,"physical_turn":turn,"animation_turn":animation_turn,"balance_turn":balance_turn,"turn_strength":turn_weight,"max_posture_speed_rad_s":max_speed,"max_posture_accel_rad_s2":max_accel}
 	step_microseconds = Time.get_ticks_usec()-start
 
 func refine_authored_pose(_pose: Dictionary, _state: Dictionary, _action: Vector3) -> void:
@@ -395,7 +404,7 @@ func sample(fraction: float) -> Dictionary:
 			rotations[id] = rotations[pid]*local
 			poses[id] = poses[pid]+rotations[pid]*(library.rest[i].origin-library.rest[parent].origin)
 	interpolation_microseconds = Time.get_ticks_usec()-start
-	return {"joints":poses,"rotations":rotations,"amount":lerpf(previous_amount,amount,fraction),"grip":lerpf(previous_grip,grip_amount,fraction),"downhill":lerpf(previous_downhill,downhill_amount,fraction),"action":previous_action.lerp(action_amount,fraction),"impact_posture":lerpf(previous_impact_posture,impact_posture,fraction)}
+	return {"joints":poses,"rotations":rotations,"amount":lerpf(previous_amount,amount,fraction),"grip":lerpf(previous_grip,grip_amount,fraction),"downhill":lerpf(previous_downhill,downhill_amount,fraction),"action":previous_action.lerp(action_amount,fraction),"impact_posture":lerpf(previous_impact_posture,impact_posture,fraction),"support_response":lerpf(previous_support_response,support_response,fraction)}
 
 static func upright_support(frame: Basis) -> Basis:
 	# Source banking is authored about a sagittal up axis. Terrain up acquires
@@ -442,10 +451,15 @@ func compose(body, joints: Dictionary, rotations: Dictionary, sampled: Dictionar
 	# bias left the relaxed shins nearly vertical. Keep actual cuff frames fixed.
 	var downhill: float = sampled.get("downhill",0.0)
 	var action: Vector3 = sampled.get("action",Vector3.ZERO)
+	# A lingering ski edge must not bank the straight stance target after the
+	# path has settled. This changes the pelvis target, never the rigid cuffs.
+	var stance_up: Vector3 = (rotations.RightFoot.y+rotations.LeftFoot.y).normalized()
+	stance_up.x *= sampled.get("support_response",1.0)
+	stance_up = stance_up.normalized()
 	if downhill>.00001 and support_pelvis.is_finite():
 		var tuck: float = state.get("tuck",0.0)
 		var prep = smoothstep(0,1,state.get("prepare",0.0))
-		var up: Vector3 = (rotations.RightFoot.y+rotations.LeftFoot.y).normalized()
+		var up = stance_up
 		var forward: Vector3 = (rotations.RightFoot.z+rotations.LeftFoot.z).slide(up).normalized()
 		var height = lerpf(lerpf(.72,.49,tuck),.405,prep)+.004*state.get("pulse",0.0)
 		var flex = deg_to_rad(lerpf(lerpf(18,23,tuck),23.5,prep))
@@ -463,7 +477,7 @@ func compose(body, joints: Dictionary, rotations: Dictionary, sampled: Dictionar
 		# A bank reduces world height by inclination, not by folding both knees
 		# into a seat. Build the stance along the actual cuff/support up axes;
 		# the usual shared-pelvis and rigid-leg fit still closes the chain.
-		var up: Vector3 = (rotations.RightFoot.y+rotations.LeftFoot.y).normalized()
+		var up: Vector3 = stance_up.lerp((rotations.RightFoot.y+rotations.LeftFoot.y).normalized(),action.z/maxf(action.x+action.z,.00001)).normalized()
 		var forward: Vector3 = (rotations.RightFoot.z+rotations.LeftFoot.z).slide(up).normalized()
 		var carved = feet+up*(.76-.04*absf(state.get("carve",0.0)))-forward*.10
 		target = target.lerp(carved,action.x)

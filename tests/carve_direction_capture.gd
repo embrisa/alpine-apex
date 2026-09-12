@@ -12,11 +12,11 @@ class DirectionSlope:
 
 func run():
 	probe = true
-	scenarios = DIRECTION_CASES.duplicate()
+	scenarios = capture_cases()
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--output="): output = arg.trim_prefix("--output=")
 		if arg.begins_with("--scenarios="): scenarios = Array(arg.trim_prefix("--scenarios=").split(","))
-	for name in scenarios: assert(name in DIRECTION_CASES,"Unknown direction case")
+	for name in scenarios: assert(name in capture_cases(),"Unknown direction case")
 	if FileAccess.file_exists(output+"/manifest.json"):
 		push_error("Capture exists; choose a new revision."); quit(2); return
 	DirAccess.make_dir_recursive_absolute(output)
@@ -46,6 +46,8 @@ func source_hashes() -> Dictionary:
 	var hashes = super.source_hashes()
 	hashes["res://tests/carve_direction_capture.gd"] = FileAccess.get_sha256("res://tests/carve_direction_capture.gd")
 	return hashes
+
+func capture_cases() -> Array: return DIRECTION_CASES.duplicate()
 
 func reset_sim(_name: String, fixture: Dictionary):
 	var sim = Sim.new(); sim.reset(fixture.origin,fixture.heading); sim.prime_contacts(field)

@@ -29,6 +29,10 @@ func drive(sim, field, ticks: int) -> void:
 
 func run() -> void:
 	router = Router.new()
+	for noise in [-.05,0.0,.05]:
+		axis(JOY_AXIS_LEFT_X,noise)
+		check(router.sample().steer==0.0,"Horizontal stick noise stays neutral: %.2f"%noise)
+	axis(JOY_AXIS_LEFT_X,0.0)
 	axis(JOY_AXIS_LEFT_Y,-.05)
 	check(router.sample().tuck==0.0,"Forward stick noise inside the deadzone is silent")
 	check(router.sample(false).air_pitch==0.0,"Stick flips share the stick deadzone")

@@ -12,7 +12,7 @@ static func weights(state: Dictionary, landing_age: float, forward: bool, physic
 	# A maximum of the two channels makes the elbows flare at touchdown.
 	var brace: float = smoothstep(0.0,.65,state.ready)
 	var land: float = (1.0-smoothstep(.25,.80,landing_age))*(1.0-state.air)+brace*state.air
-	var balancing = maxf(1.0-Downhill.straight(state),smoothstep(.25,.60,absf(physical_bank)))
+	var balancing: float = state.turn_strength if state.has("turn_strength") else maxf(1.0-Downhill.straight(state),smoothstep(.25,.60,absf(physical_bank)))
 	var turn: float = balancing*(1.0-state.air)*(1.0-state.prepare)*(1.0-state.brake)*(1.0-land)
 	# Complementary support/air weights preserve the prepared carry at release.
 	# Taking their maximum would halve it mid-transition and pull hands forward.
@@ -110,6 +110,17 @@ static func apply(pose: Dictionary, library: Dictionary, state: Dictionary, acti
 		pose.q[ai] = pose.q[ai].slerp(arm_local.get_rotation_quaternion(),arm_amount)
 		pose.q[ei] = pose.q[ei].slerp(elbow_local.get_rotation_quaternion(),arm_amount)
 		pose.q[hi] = pose.q[hi].slerp(wrist_local.get_rotation_quaternion(),arm_amount)
+
+static func balance_roll(pose: Dictionary, library: Dictionary, bank: float, grounded_weight: float) -> void:
+	if grounded_weight<.00001: return
+	# Sequential partial posture blends retain part of the source's opposite
+	# world bank. Give the grounded chain one support-relative roll target,
+	# keeping small source sway and independent hip/spine counterbalance.
+	for name in ["Hips","Spine02","Spine01","Spine"]:
+		var i: int = library.names.find(name)
+		var v = Anatomy.vector(pose.q[i])
+		v.z = lerpf(v.z,deg_to_rad(bank*(24.0 if name=="Hips" else -3.5))+v.z*.05,grounded_weight)
+		pose.q[i] = Anatomy.basis(v).get_rotation_quaternion()
 
 static func tracked_grip_target(id: String, original: Basis, tracked: Array[Quaternion], library: Dictionary, action: Vector3) -> Basis:
 	var amount = clampf(action.x+action.y+action.z,0.0,1.0)

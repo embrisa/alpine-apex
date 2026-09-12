@@ -97,10 +97,25 @@ not alternate simulations. Compare raw rotations as well as joint positions.
 
 ## Carving
 
-Active steer chooses clip direction; completed bank/load still controls physical
-strength. Cross-slope bank or residual previous-turn bank cannot select the
-opposite clip during an explicit new steer. A nonzero carve channel can include
-load asymmetry even while travelling straight.
+Active steer chooses clip direction; completed path turning and loaded ski edges
+control its strength. `skier_full_motion.step` computes signed balance from
+`-atan(turn_rate_rad_s * speed_mps / 9.81) / .65`, bounded by the magnitude of
+the supported edge channel. Motion turn rate is positive toward model +X (rider
+left), hence the minus sign. Input alone and residual edging alone cannot commit
+the posture. A reversal may retain the old balance while the real path unwinds.
+
+Source clips, straight-posture release and action-posture activation share
+`turn_strength = smoothstep(.02,.85,abs(balance))`. The former straight release
+at .06 made even a 5% hold fully activate the action posture. A .10 tap could
+activate it by 84%. The procedural F8 comparison retains its own channel mapping.
+
+Partial sequential posture blends also retained opposite source roll, while the
+old edge-signed torso target could disagree with clip direction on cross-slopes.
+`Action.balance_roll` gives the grounded hip/spine chain one proportional signed
+target before the existing joint tracker, retaining small source sway and spinal
+counterbalance. It releases through the existing ground/action weights. Pelvis
+stance inclination uses a tick-tracked ratio of balance to supported edge; final
+rigid-cuff fitting, physical boots/skis, COM and the sole writer remain unchanged.
 
 The user found the first clip-sign fix insufficient: on steep cross-slopes, a
 correct local pose still leaned outward because the terrain-normal frame rolled
@@ -114,8 +129,46 @@ Use `--world-up` in the pose renderer for this defect: ordinary studio initial-
 slope normalization concealed it. Measure final torso and foot-to-chest axes in
 a gravity/heading frame, across phases, gradual/hard steer, left/right, tuck and
 release. Normalize the whole axis for deep tuck instead of dividing by its tiny
-vertical projection. The proportional/overlean backlog item remains separate
-from the earlier direction correction.
+vertical projection. `tests/carve_proportional_capture.gd` adds matched 5/10/20%
+corrections, taps, 55/100% turns, mirrored cross-slopes, reversal and tuck;
+`tests/carve_proportional_suite.gd` varies phase, speed and 50/150 ms taps across
+114 cases. Use `tests/carve_direction_playtest.gd -- --proportional` for the same
+fixtures with the production chase camera. `scripts/pose_review/measure_carving.py`
+reports gravity/heading lean, pelvis offset, path acceleration, weights and timing.
+
+The physical model can retain a deeply edged, loaded stance after a strong
+reversal even when trajectory curvature has faded. The rigid-cuff fit then
+requires residual whole-body inclination: forcing an upright pelvis would
+violate the preserved equipment/anatomy constraints. This is a separate physical
+response finding, not a continuing source-clip cycle. The regression reports
+these frames explicitly; torso settling follows the path, whole-body settling
+also requires the supported edge to settle. No physical retune is included.
+
+The 2026-09-12 frozen comparison lives in
+`artifacts/pose_review/revisions/20260912-proportional-{before,final}/`; matrix,
+engine identity and regression receipts are in `artifacts/carve_proportional/`.
+The 114-case matrix passes 575 checks. All 3,150 frozen frames retain exact
+recorded physics/COM/skis; 1,155 paired chase frames also retain identical cameras.
+At 25 m/s, 5% holds peak at 1.7% action activation, 10% holds at 12.8%, and
+100 ms 10% taps at 2.2%, versus the previous 100%/100%/84%. Loaded 55-100%
+turns retain roughly 38-42 degrees of whole-body inclination. The matched
+capture CPU proxy (two 120 Hz steps plus one 60 Hz fit) is 2.394 -> 2.445 ms;
+this small measured increase is not a rendered-FPS or 4K performance acceptance.
+
+Clothing clearance **does not pass**: the complete 3,150-frame mesh audit finds
+33 affected frames before and 130 after (114 `tuck_10_right`, 16 `tuck_55_left`).
+There are 117 newly affected frame/scenario pairs, 13 retained pairs and 20
+removed pairs. All other 13 scenarios remain clear. Keeping a light turn tucked
+exposes the compact-arm shaft path for longer; this is a measured neighboring
+regression, not an all-clear or merely the historical ten-contact result.
+Pole-target/arm-carry trials were rejected: they retained intersections or caused
+large wrist snaps. Production retains the existing tracked arms, joint limits,
+fixed grips and sole writer. Detailed rejected captures remain in the revision
+folders; none of those pole corrections ships with the carving change.
+
+Automated lean/continuity checks, rendered lean review, failed clothing clearance,
+measured CPU cost and real-controller acceptance remain separate. Human
+visual/controller acceptance is pending.
 
 ## Retained findings and acceptance
 

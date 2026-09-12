@@ -100,8 +100,12 @@ func run():
 		check(rows.glide.hands.min>.40 and rows.glide.hands.max<.65 and rows.carve.hands.min>.60,"Regular downhill uses forward ready carry while carving retains source counterbalance")
 		# Free carving is checked against the tucked silhouette below. Its
 		# amplitude follows balance telemetry; it need not reproduce source sway.
-		for scenario in ["carve","tuck_carve","light_carve_left","light_carve_right"]:
-			check(rows[scenario].downhill.max<.10 and rows[scenario].hands.mean>rows.tuck.hands.mean+.12,scenario+": active carving releases the hip-hugging carry and restores free arms")
+		for scenario in ["carve","tuck_carve"]:
+			check(rows[scenario].downhill.mean<.25 and rows[scenario].hands.mean>rows.tuck.hands.mean+.12,scenario+": sustained loaded carving restores free balance arms")
+		# A 6% correction must retain most of the compact tuck. The former
+		# full-release assertion encoded the proportional-carving defect.
+		for scenario in ["light_carve_left","light_carve_right"]:
+			check(rows[scenario].downhill.min>.75 and rows[scenario].hands.max<rows.tuck.hands.max+.12,scenario+": a light correction retains proportional compact carry")
 		var cuff_ok = true
 		for row in rows.values(): cuff_ok = cuff_ok and row.cuff_flex.max<24.1
 		check(cuff_ok,"Final shins respect the 24-degree visual cuff envelope")

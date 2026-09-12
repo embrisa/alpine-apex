@@ -183,6 +183,9 @@ func capture_sequence(name: String,fixture: Dictionary):
 			"state":pack(skier.animation.current),"diagnostics":pack(full.diagnostics),"clips":clip_times(full),"root":pack(skier.global_transform),
 			"joints":pack(skier.rendered_joints),"rotations":pack(skier.rendered_rotations),"requested":pack(full.requested_joints),"requested_rotations":pack(full.requested_rotations),
 			"physical_position":pack(sim.position),"body_roll_rad":sim.body.roll,"speed_mps":sim.velocity.length(),"landing_speed_mps":sim.motion.landing_speed_mps,
+			"velocity":pack(sim.velocity),"heading_rad":sim.heading,"turn_rate_rad_s":sim.motion.turn_rate_rad_s,"physical_com":pack(sim.body.com),
+			"downhill_weight":full.downhill_amount,"action_weights":pack(full.action_amount),
+			"animation_timing_us":{"step":full.step_microseconds,"fit":full.fit_microseconds,"interpolation":full.interpolation_microseconds},
 			"final_bones":[],"skis":[],"poles":[],"cameras":[],"input":pack({"steer":intent_at(name,frame*2+1).steer,"tuck":intent_at(name,frame*2+1).tuck,"jump_held":intent_at(name,frame*2+1).jump_held})}
 		for i in skier.skeleton.get_bone_count(): row.final_bones.append(pack(skier.skeleton.get_bone_global_pose(i)))
 		for ski in skier.skis: row.skis.append(pack(ski.global_transform))

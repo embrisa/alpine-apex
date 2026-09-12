@@ -5,24 +5,39 @@ var snow: MeshInstance3D
 var caption: Label
 var steep_entry = false
 var baseline_motion = ""
+var proportional = false
+const Proportional = preload("res://tests/carve_proportional_capture.gd")
 
 func run():
 	for arg in OS.get_cmdline_user_args():
+		if arg=="--proportional": proportional=true
 		if arg=="--steep-entry": steep_entry=true
 		if arg.begins_with("--baseline-motion="): baseline_motion=arg.trim_prefix("--baseline-motion=")
 	await super.run()
+
+func capture_cases() -> Array:
+	return Proportional.CASES.duplicate() if proportional else super.capture_cases()
+
+func intent_at(name: String, tick: int):
+	return Proportional.test_intent(name,tick) if proportional else super.intent_at(name,tick)
 
 func source_hashes() -> Dictionary:
 	var hashes = super.source_hashes()
 	hashes["res://tests/carve_direction_playtest.gd"] = FileAccess.get_sha256("res://tests/carve_direction_playtest.gd")
 	if steep_entry: hashes["res://tests/carve_entry_capture.gd"] = FileAccess.get_sha256("res://tests/carve_entry_capture.gd")
-	if not baseline_motion.is_empty(): hashes[baseline_motion] = FileAccess.get_sha256(baseline_motion)
+	if proportional: hashes["res://tests/carve_proportional_capture.gd"] = FileAccess.get_sha256("res://tests/carve_proportional_capture.gd")
+	if not baseline_motion.is_empty():
+		hashes[baseline_motion] = FileAccess.get_sha256(baseline_motion)
+		for dependency in ["downhill_posture.gd","action_posture.gd"]:
+			var path=baseline_motion.get_base_dir()+"/"+dependency
+			if FileAccess.file_exists(path):hashes[path]=FileAccess.get_sha256(path)
 	return hashes
 
 func capture_sequence(name: String, fixture: Dictionary):
 	if DisplayServer.get_name()=="headless":
 		report.failures.append("Playtest needs a renderer"); return
 	if chase==null: setup_gameplay()
+	if proportional and name.begins_with("mirror"): field.cross_gradient=-.22
 	if steep_entry:
 		field=preload("res://tests/carve_entry_capture.gd").EntrySlope.new()
 		fixture.grade=.7;fixture.cross_gradient=0.0
