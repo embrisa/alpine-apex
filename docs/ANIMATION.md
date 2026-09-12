@@ -37,6 +37,36 @@ joint tracking preserves angular velocity across target changes (12 rad/s and
 interpolation; restart resets state. Settled procedural comparison disables full
 sampling cost while lightweight event clocks retain the correct re-entry phase.
 
+## Runtime preparation and cost
+
+`skier_full_motion.gd` prepares the 33 immutable source clips once per loaded
+script resource, before riding. The read-only table retains normalized source
+quaternions and packed root positions for all 3,985 frames (95,640 joint samples).
+Sampling still uses the original 60 Hz timebase, interpolation, loop seams and
+mirror rules. Each call returns its own mutable pose. After asset reimport, a new
+runtime/script load rebuilds preparation; live mutation of the loaded source
+table is unsupported. There is no cache of simulation, action,
+equipment, settings or interpolated poses and no per-frame invalidation protocol.
+
+Grip tracking evaluates only the requested arm's root-to-forearm ancestors.
+It rebuilds that chain on each wrist/forearm request because parent joints advance
+within the same fixed tick. Final composition computes pose-wide carry weights
+once. At exactly full source weight it omits the replaced procedural limb frames
+and their zero-contribution blend; partial F8/clearance blends keep both sides.
+The direct source rotation avoids a redundant quaternion round trip, so final
+floating-point transforms need not be bit-identical. Anatomy, fitting, grip and
+attachment limits remain unchanged.
+
+`tests/animation_cpu_suite.gd` compares prepared sampling to raw asset decoding
+at endpoints, fractional frames and loop seams, and verifies result isolation
+and complete grip ancestry. `tests/performance_descent.gd` connects the opt-in
+frame profiler to source/blend, posture, tracking, pelvis, hierarchy, grip,
+procedural, equipment and writer subscopes. These overlap the outer fixed-tick
+and render scopes and must not be summed. Completed 30 Hz ghost evaluations
+remain separate from visible render interpolation. Follow [Validation](VALIDATION.md#performance-method)
+for matched bounded production comparisons; detailed optimization evidence is
+in `artifacts/animation_cpu/`.
+
 ## Connected anatomy and equipment
 
 The initial full-curve result was rejected as rubbery despite bone-length and

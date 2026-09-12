@@ -86,6 +86,7 @@ func run() -> void:
 	game.world.scenery.density_forest.frame_costs = game.frame_costs
 	game.world.minerals.frame_costs = game.frame_costs
 	game.crash_collision.frame_costs = game.frame_costs
+	game.skier.animation.full_motion.frame_costs = game.frame_costs
 	game.camera_settings.load_preferences() # Read only; current user camera geometry.
 	if trace.has("presentation"):
 		game.camera_settings.restore(trace.presentation.camera)

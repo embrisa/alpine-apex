@@ -208,9 +208,13 @@ func pose(sim, fraction: float = 1.0, preview: Dictionary = {}) -> void:
 	var retention_full = 1.0
 	var support_alignment = animation.full_motion.upright_support(global_basis)
 	for attempt in range(4):
+		var procedural_started = animation.full_motion.frame_costs.begin()
 		animation.compose(sim.Body,joints,rotations,motion)
-		# Populate the old limb frames for a continuous live A/B handover.
-		_procedural_limb_rotations(joints,rotations,motion,sim.effective_tuck)
+		# The full source replaces limb rotations at weight one. Partial F8 and
+		# clearance blends still need the procedural side of that handover.
+		if skeletal.get("amount",0.0)*retention_full!=1.0:
+			_procedural_limb_rotations(joints,rotations,motion,sim.effective_tuck)
+		animation.full_motion.frame_costs.end(&"pose_procedural",procedural_started)
 		animation.full_motion.compose(sim.Body,joints,rotations,skeletal,motion,retention_full,base_joints.Hips,support_alignment)
 		var leg_start = Time.get_ticks_usec()
 		_solve_render_legs(sim.Body,joints,rotations,skeletal.get("amount",0.0)*retention_full)
@@ -235,6 +239,7 @@ func pose(sim, fraction: float = 1.0, preview: Dictionary = {}) -> void:
 	rendered_joints = joints
 	rendered_rotations = rotations
 	targets.clear()
+	var equipment_started = animation.full_motion.frame_costs.begin()
 	for id in ["Hips","Spine02","Spine01","Spine","neck","Head"]:
 		_target(id,joints[id],rotations[id])
 	probes.chest = joints.Spine01+rotations.Spine01*Vector3(0,.06,.04)
@@ -267,7 +272,10 @@ func pose(sim, fraction: float = 1.0, preview: Dictionary = {}) -> void:
 		probes[prefix.to_lower()+"_hand"] = grip
 		probes[prefix.to_lower()+"_ankle"] = joints[prefix+"Foot"]
 		if i==1: probes.jacket = joints.LeftArm.lerp(joints.LeftForeArm,.36)
+	animation.full_motion.frame_costs.end(&"pose_equipment",equipment_started)
+	var writer_started = animation.full_motion.frame_costs.begin()
 	PoseWriter.apply(skeleton,rest,desired,targets)
+	animation.full_motion.frame_costs.end(&"pose_writer",writer_started)
 	# Toes are rigid children of the boots, solved by the final writer. The
 	# interpolated physical markers precede the render-time ankle refit and
 	# can disagree during fast rotations. Report the actual rendered markers.

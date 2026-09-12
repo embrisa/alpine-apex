@@ -122,7 +122,7 @@ static func balance_roll(pose: Dictionary, library: Dictionary, bank: float, gro
 		v.z = lerpf(v.z,deg_to_rad(bank*(24.0 if name=="Hips" else -3.5))+v.z*.05,grounded_weight)
 		pose.q[i] = Anatomy.basis(v).get_rotation_quaternion()
 
-static func tracked_grip_target(id: String, original: Basis, tracked: Array[Quaternion], library: Dictionary, action: Vector3) -> Basis:
+static func tracked_grip_target(id: String, original: Basis, tracked: Array[Quaternion], library: Dictionary, action: Vector3, ancestors: PackedInt32Array) -> Basis:
 	var amount = clampf(action.x+action.y+action.z,0.0,1.0)
 	if amount<.00001 or not (id.ends_with("ForeArm") or id.ends_with("Hand")): return original
 	var prefix = "Right" if id.begins_with("Right") else "Left"
@@ -132,7 +132,9 @@ static func tracked_grip_target(id: String, original: Basis, tracked: Array[Quat
 	# joint; independently tracking a wrist target in the future chest frame
 	# otherwise sweeps a correctly aimed rigid shaft through the jacket.
 	var rotations = {}; var joints = {}
-	for i in tracked.size():
+	# Only this arm's ancestors can affect its grip. Re-evaluate them here:
+	# parent rotations advance between forearm and hand in the tick tracker.
+	for i in ancestors:
 		var name: String = library.names[i]
 		# Imported end markers (for example head_end) are not physical joints.
 		# Match the fitted body's FK traversal instead of indexing REST for them.

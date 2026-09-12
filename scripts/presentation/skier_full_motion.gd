@@ -9,6 +9,41 @@ const Action = preload("res://scripts/presentation/action_posture.gd")
 const PolePose = preload("res://scripts/presentation/pole_push_pose.gd")
 const LIBRARY = preload("res://assets/animation/steep_ski_motion.res")
 static var library: Dictionary = LIBRARY.data
+# The imported resource is immutable for this script's lifetime. Decode once,
+# before riding; no pose, clock, interpolation or equipment state is cached.
+static var prepared_clips: Dictionary = prepare_clips()
+static var grip_chains: Dictionary = prepare_grip_chains()
+
+static func prepare_clips() -> Dictionary:
+	var result = {}
+	for name in library.clips:
+		var clip: Dictionary = library.clips[name]
+		var values: PackedFloat32Array = clip.values
+		var qs: Array[Quaternion] = []
+		var roots = PackedVector3Array()
+		qs.resize(clip.frames*library.names.size()); roots.resize(clip.frames)
+		for frame in clip.frames:
+			var offset: int = frame*library.names.size()*7
+			roots[frame] = Vector3(values[offset],values[offset+1],values[offset+2])
+			for i in library.names.size():
+				var index: int = offset+i*7+3
+				qs[frame*library.names.size()+i] = Quaternion(values[index],values[index+1],values[index+2],values[index+3]).normalized()
+		qs.make_read_only()
+		var prepared = {"duration":clip.duration,"frames":clip.frames,"rotations":qs,"roots":roots}
+		prepared.make_read_only(); result[name] = prepared
+	result.make_read_only()
+	return result
+
+static func prepare_grip_chains() -> Dictionary:
+	var result = {}
+	for prefix in ["Right","Left"]:
+		var chain = PackedInt32Array()
+		var index: int = library.names.find(prefix+"ForeArm")
+		while index>=0:
+			chain.append(index); index = library.parents[index]
+		chain.reverse(); result[prefix+"ForeArm"] = chain; result[prefix+"Hand"] = chain
+	result.make_read_only()
+	return result
 var enabled = true
 var grab_style = "safety"
 var active_grab_style = "safety"
@@ -67,6 +102,7 @@ var pole_carry = 0.0
 var previous_pole_carry = 0.0
 var pole_normals: Array = []
 var _pole_was_loaded = false
+var frame_costs = preload("res://scripts/diagnostics/frame_costs.gd").new()
 
 func _init() -> void:
 	assert(library.get("version",0)==1,"Build the full motion library; see STEEP_MOTION_GAMEPLAY.md")
@@ -223,10 +259,13 @@ func step(dt: float, sim, intent, state: Dictionary, landing_event: int, surface
 	if state.grab>.1: phase = "grab"
 	var mixed: Dictionary = {}
 	var total = 0.0
+	var blend_started = frame_costs.begin()
 	for name in weights:
 		var entry: Dictionary = weights[name]
+		var source_started = frame_costs.begin()
 		var pose = sample_clip(name,entry.time,entry.loop)
 		if entry.mirror: pose = mirror_pose(pose)
+		frame_costs.end(&"animation_source",source_started)
 		var weight: float = entry.weight
 		if mixed.is_empty(): mixed = pose; total = weight; continue
 		var fraction: float = weight/(total+weight)
@@ -234,6 +273,8 @@ func step(dt: float, sim, intent, state: Dictionary, landing_event: int, surface
 		mixed.root = mixed.root.lerp(pose.root,fraction)
 		total += weight
 	if mixed.is_empty(): mixed = sample_clip("NAV_MED_FWD",clock,true)
+	frame_costs.end(&"animation_source_blend",blend_started)
+	var posture_started = frame_costs.begin()
 	fit_tuck_flexion(mixed,state.tuck*(1.0-state.air)*(1.0-state.prepare))
 	# Wide counterbalance belongs to sustained, well-cleared flight. Ordinary
 	# takeoff and small hops keep the hands close instead of selecting wide arms
@@ -275,8 +316,13 @@ func step(dt: float, sim, intent, state: Dictionary, landing_event: int, surface
 	# The limit applies only to relative posture, never actor spin/flip motion.
 	var max_accel = 0.0
 	var max_speed = 0.0
+	frame_costs.end(&"animation_posture",posture_started)
+	var tracking_started = frame_costs.begin()
+	var tracked_action = action_amount*(1.0-pole_amount)
 	for i in current.size():
-		var requested = Action.tracked_grip_target(library.names[i],Basis(mixed.q[i]),current,library,action_amount*(1.0-pole_amount))
+		var requested = Basis(mixed.q[i])
+		if grip_chains.has(library.names[i]):
+			requested = Action.tracked_grip_target(library.names[i],requested,current,library,tracked_action,grip_chains[library.names[i]])
 		var target_rotation = Anatomy.local_limit(library.names[i],requested,maxf(state.tuck,state.prepare)*(1.0-state.air)*carry*(1.0-pole_amount),articulated_carry).get_rotation_quaternion()
 		var error = rotation_vector(target_rotation*current[i].inverse())
 		var accel = (error*1600.0-velocities[i]*80.0).limit_length(160.0)
@@ -287,6 +333,7 @@ func step(dt: float, sim, intent, state: Dictionary, landing_event: int, surface
 	root_velocity += ((mixed.root-root_position)*900.0-root_velocity*60.0).limit_length(35.0)*dt
 	root_velocity = root_velocity.limit_length(2.0)
 	root_position += root_velocity*dt
+	frame_costs.end(&"animation_tracking",tracking_started)
 	diagnostics = {"phase":phase,"physical_turn":turn,"animation_turn":animation_turn,"balance_turn":balance_turn,"turn_strength":turn_weight,"max_posture_speed_rad_s":max_speed,"max_posture_accel_rad_s2":max_accel}
 	diagnostics.pole_phase = pole_phase; diagnostics.pole_intensity = pole_amount
 	diagnostics.pole_power = sim.pole_push_power; diagnostics.pole_acceleration_mps2 = sim.pole_push_acceleration
@@ -447,7 +494,7 @@ func scale_weights(scale_value: float) -> void:
 	for name in weights: weights[name].weight *= scale_value
 
 func sample_clip(name: String, time: float, looping: bool = false) -> Dictionary:
-	var clip: Dictionary = library.clips[name]
+	var clip: Dictionary = prepared_clips[name]
 	var seam = minf(.25,clip.duration*.2)
 	var t: float = clampf(time,0.0,clip.duration)
 	if looping: t = seam+fposmod(time,maxf(.01,clip.duration-seam))
@@ -465,14 +512,13 @@ func sample_raw(clip: Dictionary, time: float) -> Dictionary:
 	var b = mini(a+1,clip.frames-1)
 	var f = cursor-a
 	var count: int = library.names.size()
-	var values: PackedFloat32Array = clip.values
+	var values: Array[Quaternion] = clip.rotations
+	var roots: PackedVector3Array = clip.roots
 	var qs: Array[Quaternion] = []
-	for i in count:
-		var ai = (a*count+i)*7+3
-		var bi = (b*count+i)*7+3
-		qs.append(Quaternion(values[ai],values[ai+1],values[ai+2],values[ai+3]).normalized().slerp(Quaternion(values[bi],values[bi+1],values[bi+2],values[bi+3]).normalized(),f))
-	var ai = a*count*7; var bi = b*count*7
-	return {"q":qs,"root":Vector3(values[ai],values[ai+1],values[ai+2]).lerp(Vector3(values[bi],values[bi+1],values[bi+2]),f)}
+	qs.resize(count)
+	var ai = a*count; var bi = b*count
+	for i in count: qs[i] = values[ai+i].slerp(values[bi+i],f)
+	return {"q":qs,"root":roots[a].lerp(roots[b],f)}
 
 func mirror_pose(pose: Dictionary) -> Dictionary:
 	var result: Array[Quaternion] = []
@@ -528,10 +574,11 @@ static func upright_support(frame: Basis) -> Basis:
 
 func compose(body, joints: Dictionary, rotations: Dictionary, sampled: Dictionary, state: Dictionary, retention: float = 1.0, support_pelvis: Vector3 = Vector3.INF, support_alignment: Basis = Basis.IDENTITY) -> void:
 	var start = Time.get_ticks_usec()
+	var pelvis_started = frame_costs.begin()
 	var weight: float = sampled.get("amount",0.0)*retention
 	if state.is_empty(): state = {"grab":0.0,"air":0.0}
-	var native: Dictionary = sampled.get("joints",joints.duplicate())
-	var native_rot: Dictionary = sampled.get("rotations",rotations.duplicate())
+	var native: Dictionary = sampled.joints if sampled.has("joints") else joints.duplicate()
+	var native_rot: Dictionary = sampled.rotations if sampled.has("rotations") else rotations.duplicate()
 	var feet: Vector3 = (joints.RightFoot+joints.LeftFoot)*.5
 	var target: Vector3 = feet+native.Hips
 	var source_target = target
@@ -632,23 +679,30 @@ func compose(body, joints: Dictionary, rotations: Dictionary, sampled: Dictionar
 	for id in requested_rotations:
 		requested_rotations[id] = alignment*requested_rotations[id]
 	joints.Hips = fitted; rotations.Hips = pelvis
+	frame_costs.end(&"pose_pelvis",pelvis_started)
+	var hierarchy_started = frame_costs.begin()
 	# Blend parent-relative articulation, then rebuild the connected hierarchy.
 	# Blending global orientations separately lets parent fitting alter the
 	# child's local joint angle and was a source of rubbery spinal/arm motion.
+	var pole_carry = maxf(state.get("tuck",0.0),state.get("prepare",0.0))*(1.0-state.air)*Downhill.straight(state)*(1.0-pushing)
+	var articulated_carry = maxf(pushing,clampf(downhill+action.x+action.y+action.z,0.0,1.0))
 	for i in library.names.size():
 		var id: String = library.names[i]
 		if id=="Hips" or id.ends_with("Foot") or id.ends_with("ToeBase"): continue
 		if not body.REST.has(id): continue
 		var pid: String = library.names[library.parents[i]]
-		var old_local: Basis = procedural.get(pid,Basis.IDENTITY).transposed()*procedural.get(id,Basis.IDENTITY)
 		var source_local: Basis = native_rot[pid].transposed()*native_rot[id]
-		var local = old_local.orthonormalized().slerp(source_local.orthonormalized(),weight)
-		var pole_carry = maxf(state.get("tuck",0.0),state.get("prepare",0.0))*(1.0-state.air)*Downhill.straight(state)*(1.0-pushing)
-		rotations[id] = rotations[pid]*Anatomy.local_limit(id,local,pole_carry,maxf(pushing,clampf(downhill+action.x+action.y+action.z,0.0,1.0)))
+		var local = source_local.orthonormalized()
+		if weight!=1.0:
+			var old_local: Basis = procedural.get(pid,Basis.IDENTITY).transposed()*procedural.get(id,Basis.IDENTITY)
+			local = old_local.orthonormalized().slerp(local,weight)
+		rotations[id] = rotations[pid]*Anatomy.local_limit(id,local,pole_carry,articulated_carry)
 		joints[id] = joints[pid]+rotations[pid]*(body.REST[id]-body.REST[pid])
 	# The recovered safety clip reaches with the RIGHT hand. Its pole stays
 	# in the fixed glove; preserve the source's opposite-arm counterbalance.
 	var hand: Vector3 = joints.RightHand
+	frame_costs.end(&"pose_hierarchy",hierarchy_started)
+	var grip_started = frame_costs.begin()
 	var foot = "LeftFoot" if active_grab_style=="mute" else "RightFoot"
 	var grip: Vector3 = joints[foot]+rotations[foot]*SKI_GRIP
 	var grab: float = smoothstep(.05,.95,sampled.get("grip",0.0))*weight
@@ -750,6 +804,7 @@ func compose(body, joints: Dictionary, rotations: Dictionary, sampled: Dictionar
 	diagnostics.grip_phase = grab
 	diagnostics.clearance_retention = retention
 	fit_microseconds = Time.get_ticks_usec()-start
+	frame_costs.end(&"pose_grip",grip_started)
 
 func rotate_subtree(root_name: String, correction: Basis, joints: Dictionary, rotations: Dictionary) -> void:
 	var descendants = [root_name]
