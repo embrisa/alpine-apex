@@ -5,7 +5,7 @@ status: done
 priority: P2
 depends_on: []
 created: "2026-09-12T17:33:04Z"
-updated: "2026-09-12T22:43:40Z"
+updated: "2026-09-12T23:50:27Z"
 source_thread: "01a096ab-35cf-76e3-b11a-44ff6cf61ca8"
 ---
 
@@ -17,7 +17,10 @@ The user reports that landings lack downward impact and sometimes bounce the
 skier straight back into the air, which feels unnatural. They specifically
 locate the problem in **small hops and uneven snow**. Landing should produce a
 short, readable leg/body compression followed by a controlled return to riding.
-Ordinary reachable bumps should be absorbed without an unintended second hop.
+Ordinary reachable bumps should avoid immediate touchdown rebound while allowing
+occasional natural terrain departures. The latest agreed rough-snow target is
+about 2.5 hops (two to three in bounded regression samples), softened from the
+model-31 one-hop result that the user found too heavy.
 Preserve intentional jumps and natural departure over genuine terrain lips.
 
 ## Current state and evidence
@@ -119,6 +122,21 @@ did not reproduce the bounce, run an engine workload or establish its cause.
    so it alone cannot prove current gameplay-camera acceptance.
 
 ## Acceptance and verification
+
+The latest user feedback supersedes the one-hop target below: model 31 feels too
+heavy. Model 32 softens eligible snow retention to 40%, preserving the terrain
+fix and the earlier landing compression. Implementation pushed as `5374ce1`.
+
+- [x] The same rough world fixture has two hops; its obstacle-free companion has
+  three. Both complete 15 seconds without crashing. Smooth snow has zero hops.
+- [x] Final 962 functional checks pass, including full physics/runtime, jump/drop,
+  contact/energy/replay, landing recovery and focused snow-bank coverage.
+- [x] Native side/chase captures match all 1,800 headless ticks. A verified retained
+  model-31 baseline provides the comparison. Human landing feel remains pending;
+  existing pole/clothing and ski/terrain overlaps are not declared fixed.
+- [x] Evidence is retained in `artifacts/snow_retention_balance_20260913`.
+
+### Previous model-31 verification (historical)
 
 The user rejected the first presentation-only delivery and clarified that the
 whole skier hops off particular terrain, while good snow/slopes feel fine.
@@ -236,3 +254,40 @@ Evidence: `artifacts/snow_settle_20260913/RESULTS.md`, `delivery.json`, `before`
 `native_comparison.json`, `before_after.mp4`, `review_sheets`, `baseline`,
 `final_source` and `guard_receipts`. Source hashes and the dated-output reuse
 limitation are explicit. No independent/human acceptance or new task was created.
+
+### Softer retention follow-up, 2026-09-13
+
+User feedback: the one-hop result feels too harsh and weighted down; aim around
+2.5 hops. `5374ce1` implements `snow_contact_strength=0.4` in script/default tuning,
+leaving part of eligible separating velocity instead of absorbing it all. Model
+32 rejects older recordings; replay remains 7. No hop quota or added force.
+
+Ten strengths were scouted with ordinary inputs in both world/contact-only
+variants. Final rough-world hops/airtime: two/1.508 s; contact-only: three/1.550 s.
+The contact-only exit speed rises from 134.45 to 143.35 km/h (+6.6%). World exit
+speeds meet different obstacle paths and are not a causal speed comparison.
+The two variants average 2.5 departures but are not identical repeat trials.
+Smooth snow stays grounded. Shallow repeating crests may give separated hops;
+checks require bounded airtime/height and reject immediate touchdown rebound.
+
+Final passing coverage: physics 56, runtime 192, jump 90, handling 84,
+tuck-contact 213, landing absorption 155, rock 32, snow response 33, terrain
+settle 17, landing settle 21, grounding contracts 30, crush contracts 18 and
+quick crush 21: 962 checks. Full 648-bank matrix not rerun for this scalar tuning.
+Initial old-strength assertions and a quoted-argument harness repair are recorded
+in RESULTS.md alongside the passing reruns; no failed receipt is relabelled.
+
+Both native views have 210 frames after eight seconds of ordinary-input lead-in.
+Final source hashes are stable and all 1,800 physical rows match headless output.
+The retained model-31 baseline's source bytes and 1,800 ticks match fresh baseline
+scouting. All paired side frames and representative chase frames were inspected.
+No animation source edits, new pole-clearance audit, FPS or human/controller
+acceptance. Existing overlap findings remain. The stress driver is preserved.
+
+Evidence: `artifacts/snow_retention_balance_20260913/RESULTS.md`, `verification.json`,
+`baseline_native_identity.json`, `native_comparison.json`, `before_after.mp4`,
+`sweep`, `sweep_middle`, `terrain_final`, `landing_final`, `regression`, contracts,
+`native_after`, `native_chase`, `review_sheets`, `baseline`, `final_source` and
+`guard_receipts`. Comparison retains `artifacts/snow_settle_20260913/native_after`.
+Post-push cleanup only removes regenerable comparison frames and duplicate guard
+history copies under the new task root; final review evidence remains retained.
