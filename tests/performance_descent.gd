@@ -1,5 +1,5 @@
 extends SceneTree
-## Real 120 Hz gameplay and render loop, driven solely by a validated input trace.
+## Real 120 Hz/render loop. Ordinary replay or explicitly identified stress driver.
 const Trace = preload("res://tests/performance_trace.gd")
 const Definition = preload("res://scripts/world/mountain_definition.gd")
 const Costs = preload("res://scripts/diagnostics/frame_costs.gd")
@@ -22,6 +22,7 @@ var unfocused_frames = 0
 var forest_coverage: Dictionary = {}
 var rows = []
 var failures = []
+var stress_speed_kmh = 0.0
 var scenario_replay = false
 var cold_collision = false
 var trial_seconds = 0
@@ -45,10 +46,11 @@ func run() -> void:
 		if arg.begins_with("--trial-start-seconds="): trial_start_seconds = maxi(0,int(arg.get_slice("=",1)))
 		if arg=="--scenario-replay": scenario_replay = true
 		if arg=="--cold-collision": cold_collision = true
+		if arg.begins_with("--stress-speed-kmh="): stress_speed_kmh = float(arg.get_slice("=",1))
 	if not FileAccess.file_exists(path): printerr("Generate a current successful trace using tests/performance_trace.gd"); quit(2); return
 	var decoded = JSON.parse_string(FileAccess.get_file_as_string(path))
 	# Reject stale inputs before loading a mountain or constructing a scene.
-	var preflight: String = Trace.preflight_error(decoded,version,not scenario_replay)
+	var preflight: String = Trace.preflight_error(decoded,version,not scenario_replay,stress_speed_kmh)
 	if not preflight.is_empty(): printerr(preflight); quit(2); return
 	trace = decoded
 	var physical_started = Time.get_ticks_usec()
@@ -60,8 +62,8 @@ func run() -> void:
 	if trial_seconds>0:
 		trial_end_tick = (trial_start_seconds+trial_seconds)*120
 		if trial_end_tick>trace.result.ticks: printerr("Requested short trial exceeds trace coverage"); quit(2); return
-		var reference = Trace.Simulation.new(preload("res://config/ski_default.tres").duplicate(true))
-		reference.reset(field.launch_point(trace.heading),trace.heading); reference.prime_contacts(field)
+		var reference = create_simulation(preload("res://config/ski_default.tres").duplicate(true))
+		reference.reset(trace_start(),trace.heading); reference.prime_contacts(field)
 		for tick in trial_end_tick: reference.step(1.0/120.0,input_at_tick(tick),field)
 		if reference.crashed: printerr("Short trial reference crashed"); quit(2); return
 		trial_expected = reference.position
@@ -72,6 +74,7 @@ func run() -> void:
 	root.add_child(game); current_scene = game
 	while not game.initialized or (game.loading and game.loading.busy): await process_frame
 	game.set_physics_process(false)
+	if stress_speed_kmh>0.0: game.sim = create_simulation(game.sim.tuning.duplicate(true))
 	var loading_report = {"scope":"one startup shared by all repetitions; excludes process launch, trace generation and trial warmups",
 		"physical_load_or_generation_seconds":physical_seconds,"physical_cache_hit":field.cache_hit if "cache_hit" in field else false,
 		"physical_stages_ms":field.generation_stages.duplicate(true) if "generation_stages" in field else {},
@@ -119,7 +122,7 @@ func run() -> void:
 			game.add_child(game.crash_collision)
 		game.start_run(false); game.summit_ready = false; game.active = false
 		game.physics_modified = true; game.session.eligible = false
-		game.sim.reset(field.launch_point(trace.heading),trace.heading); game.sim.prime_contacts(field)
+		game.sim.reset(trace_start(),trace.heading); game.sim.prime_contacts(field)
 		if trace.has("initial_state") and not Trace.Inputs.matches_state(game.sim,trace.initial_state):
 			printerr("Recording launch state does not match current simulation"); quit(2); return
 		if trial_seconds>0:
@@ -137,6 +140,7 @@ func run() -> void:
 		game.frame_costs.reset(); previous_frame = 0; peak_video = 0; peak_static = 0
 		unfocused_frames = 0; forest_coverage.clear()
 		var start_status = game.display_settings.fsr_status()
+		if stress_speed_kmh>0.0: game.sim.reset_measurement()
 		var started_unix = Time.get_unix_time_from_system()
 		var started = Time.get_ticks_usec()
 		game.active = true; game.set_physics_process(true); recording = true
@@ -175,11 +179,20 @@ func run() -> void:
 		row.merge(comparison_metadata())
 		row.collision_streaming = game.crash_collision.report()
 		row.cold_collision = cold_collision
+		if stress_speed_kmh>0.0:
+			row.stress = game.sim.report()
+			if absf(row.stress.speed_kmh.min-stress_speed_kmh)>.01 or absf(row.stress.speed_kmh.max-stress_speed_kmh)>.01:
+				failures.append("Stress driver did not maintain the requested speed")
+			if row.stress.travelled_m<stress_speed_kmh/3.6*trial_seconds*.90:
+				failures.append("Stress rider did not cover the required high-speed distance")
 		rows.append(row)
 		var report = {"scope":"complete_production_descent","trace_sha256":FileAccess.get_sha256(path),"identity":Trace.identity(field),"actual_pixels":[pixels.x,pixels.y],"display":game.display_settings.report(root,pixels),"sdfgi":game.world.environment.sdfgi_enabled,"camera":game.camera_settings.snapshot(),"weather":weather,"device":RenderingServer.get_video_adapter_name(),"engine":Engine.get_version_info(),"capture_overhead_included":false,"warmup_frames":240,"unranked":not game.session.eligible,"rows":rows,"failures":failures}
 		if trial_seconds>0:
 			report.scope = "short_production_trial"; report.trial_seconds = trial_seconds; report.trial_start_seconds = trial_start_seconds
 		if scenario_replay: report.scope = "recorded_scenario"
+		if stress_speed_kmh>0.0:
+			report.scope = "speed_controlled_stress"; report.stress = trace.stress
+			report.handling_acceptance = false
 		report.merge({"loading":loading_report,"graphics_profile":game.graphics.snapshot(),"graphics_preset":game.graphics.preset_id,"renderer":RenderingServer.get_current_rendering_method(),"rendering_driver":RenderingServer.get_current_rendering_driver_name()})
 		FileAccess.open(output+"/production.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
 		print("PERFORMANCE_RESULT run=",repetition+1," ",JSON.stringify(row.frame_ms)," exact=",exact)
@@ -187,6 +200,15 @@ func run() -> void:
 	dispose_comparison()
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)
+
+func create_simulation(tuning):
+	return Trace.Stress.create(tuning,stress_speed_kmh) if stress_speed_kmh>0.0 else Trace.Simulation.new(tuning)
+
+func trace_start() -> Vector3:
+	if stress_speed_kmh>0.0:
+		var start: Array = trace.stress.start
+		return Vector3(start[0],start[1],start[2])
+	return field.launch_point(trace.heading)
 
 func configure_comparison() -> void: pass
 func prepare_comparison_trial(_index: int) -> void: pass

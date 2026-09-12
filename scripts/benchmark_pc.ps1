@@ -13,6 +13,7 @@ param(
     [switch]$ProfileFrameCosts,
     [switch]$ProfileGpuPasses,
     [switch]$ScenarioReplay,
+    [ValidateRange(0,300)][int]$StressSpeedKmh = 0,
     [switch]$ColdCollision,
     [ValidateRange(1,10)][int]$Repetitions = 1,
     [ValidateRange(1,60)][int]$TrialSeconds = 15,
@@ -37,6 +38,7 @@ $alpineRoot = Split-Path $PSScriptRoot -Parent
 if ($ProjectRoot) { $alpineRoot = (Resolve-Path -LiteralPath $ProjectRoot).Path }
 . (Join-Path $PSScriptRoot "resolve_godot_engine.ps1")
 $alpineEngine = Get-AlpineGodotEngine -ProjectRoot $alpineRoot
+if ($StressSpeedKmh -gt 0 -and (-not $ScenarioReplay -or $Version -lt 14 -or $OffmapComparison -or $OffmapBaseline -or $OffmapPaired -or $WildernessSummit -or $VoiceBenchmark)) { throw "Speed-controlled stress requires the production scenario benchmark and a matching stress trace." }
 if ($Version -ge 14 -and -not ($OffmapComparison -or $OffmapBaseline -or $OffmapPaired -or $WildernessSummit -or $VoiceBenchmark)) {
     if ($Seed -ne 849205174 -or $StartZ -ne 0 -or $EndZ -ne 2850 -or $SkierAnimationOff) {
         throw 'The production benchmark requires the complete default mountain with production animation. Generate a matching ordinary-input trace for other workloads.'
@@ -71,6 +73,7 @@ if ($Version -ge 14) { $alpineArgs += @("--input-trace=$InputTrace","--repetitio
 elseif (-not $ThirdPerson) { $alpineArgs += '--pov-forest' }
 if ($ProfileFrameCosts) { $alpineArgs += '--profile-frame-costs' }
 if ($ScenarioReplay) { $alpineArgs += '--scenario-replay' }
+if ($StressSpeedKmh -gt 0) { $alpineArgs += "--stress-speed-kmh=$StressSpeedKmh" }
 if ($ColdCollision) { $alpineArgs += '--cold-collision' }
 if ($Version -ge 10 -and -not $WildernessSummit) { $alpineArgs += '--ui-staged-loading' }
 $alpineArgs += "--wilderness=$Wilderness"

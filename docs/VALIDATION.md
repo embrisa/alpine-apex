@@ -197,6 +197,43 @@ receipt producer rejects any unfocused measured frames, source drift, incomplete
 replays or changed personal settings/records; preserve rejected attempts as
 diagnostic evidence and use a fresh label for replacements.
 
+### Immortal high-speed stress trials
+
+For high-speed rendering/streaming investigations, the user-selected workload
+is **170 km/h**, full tuck and no braking, for independently warmed 15-second
+sections. `benchmark_pc.ps1 -ScenarioReplay -StressSpeedKmh 170` explicitly loads
+`tests/performance_stress.gd` into that benchmark only. Ordinary gameplay,
+recordings and crash/handling regression suites retain the production solver.
+
+The driver normalizes velocity magnitude before/after each 120 Hz tick while
+retaining direction, terrain support, flight, body/animation and observers.
+Obstacle broad/narrow-phase queries and hit observations still execute; their
+translation stops and fatal transitions do not interrupt this stress workload.
+This is a speed-controlled performance scenario, not handling/crash acceptance.
+Completed motion telemetry receives the same regulated velocity.
+
+Generate a fresh, source-identified fixture with
+`tests/performance_stress_trace.gd`; optional `--origin=x,z` starts directly in a
+selected terrain/forest region, with its exact terrain height and downhill
+heading. No long braking pre-roll is needed. The driver hash, speed, immortality,
+collision policy and start are part of the fixture, so ordinary/stress modes
+cannot silently consume each other's traces. Preserve current terrain/model and
+per-second trajectory checks. A changed driver requires regenerating fixtures.
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','godotw.ps1','--headless','--script','tests/performance_stress_trace.gd','--','--stress-speed-kmh=170','--seconds=15','--trace-output=artifacts/high_speed_stress/open.json') -Label prepare-high-speed -TimeoutSeconds 300
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','high-speed-open','-InputTrace','artifacts/high_speed_stress/open.json','-ScenarioReplay','-StressSpeedKmh','170','-TrialStartSeconds','0','-TrialSeconds','15','-Repetitions','3','-FrameCap','0') -Label high-speed-open -TimeoutSeconds 900 -CollectGpuMemory
+```
+
+Receipts use `scope: speed_controlled_stress` and retain actual minimum/mean/
+maximum speed, travelled metres, grounded ticks, collision queries, nonblocking
+contacts and prevented crash reasons. Reject a run outside 0.01 km/h of its
+requested speed or below 90% of speed x duration in travelled distance; a HUD
+speed alone is insufficient. Focus, source, endpoint, display and personal-data
+checks still apply. `performance_stress_suite.gd` covers repeatability, continued
+movement through impacts, telemetry and isolation; run physics/runtime suites
+when changing this harness. Compare fresh matched before/after stress runs.
+
 ### Native GPU pass attribution
 
 `scripts/benchmark_pc.ps1 -ProfileGpuPasses` selects

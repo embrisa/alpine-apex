@@ -5,7 +5,7 @@ status: in_progress
 priority: P1
 depends_on: ["AA-20260912-105301-reduce-animation-cpu-cost"]
 created: "2026-09-12T10:53:00Z"
-updated: "2026-09-12T16:51:33Z"
+updated: "2026-09-12T17:18:41Z"
 source_thread: "01a09527-1988-7b50-b7c9-71ff6821cb00"
 ---
 
@@ -39,12 +39,21 @@ performance attribution; they do not authorize this authoring task to dispatch.
 
 Own demonstrated GPU shader/pass bottlenecks in shadows, foliage, terrain/snow, weather or distant scenery. The fourth task owns spatial batch partitioning/culling. Preserve output/internal resolution, reconstruction provider, density, detail distances, shadow quality, enabled effects and physical identities. Temporary diagnostic feature toggles are allowed only for attribution; restored production visuals are required for accepted results.
 
-Preserve the Node-independent 120 Hz solver, 4 m support, ordinary inputs,
+Preserve the production Node-independent 120 Hz solver, 4 m support, ordinary inputs,
 race/replay authority, current visual quality and personal settings/records.
 Follow [engine strategy](../../docs/ARCHITECTURE.md#engine-strategy).
 Coordinate with active owners before editing overlapping files; freeze source
 and settings for each comparison. Unrelated feature completion is not silently
 claimed or added as a prerequisite. Rebaseline after completed changes.
+
+**User test direction, 2026-09-12:** use immortal **170 km/h** stress trials
+as the primary high-speed rendering workload. Full tuck, no braking, continued
+travel through fatal/obstacle events, and actual speed/distance receipts are
+required. The explicit benchmark-only driver and fixture identity are owned by
+[Validation](../../docs/VALIDATION.md#immortal-high-speed-stress-trials).
+Rebaseline open/mineral/dense-forest sections at this speed. Earlier slow/stalled
+ordinary replays remain diagnostic history, not the primary acceptance workload.
+Production physics, input/replay behavior and personal settings remain unchanged.
 
 ## Implementation approach
 
@@ -61,7 +70,7 @@ claimed or added as a prerequisite. Rebaseline after completed changes.
 - [ ] No accepted gain comes from lower quality, resolution, effect frequency, scene density or generated-frame counts. Report control-scenario regressions, per-pass costs, bandwidth/allocation evidence when available and new memory resources.
 - [ ] Recheck the 120-rendered-cap configuration after uncapped attribution, without claiming monitor delivery or latency from SDK/present counters.
 - [ ] First collect a valid current baseline; never reuse the dated receipt as
-  the before measurement. Use ordinary-input 15-30 second sections covering the
+  the before measurement. Use the agreed 170 km/h stress sections covering the
   targeted event plus a control section. Name the question, warmup, duration and
   clean stop before launch. Match seed/model, camera, current source/engine
   identity and actual output/internal pixels.
@@ -88,13 +97,13 @@ claimed or added as a prerequisite. Rebaseline after completed changes.
   task-owned artifact cleanup under Development safeguards.
 
 Use the existing benchmark with a current validated input file selected during
-baseline preparation. `fpsTracePath` below denotes that real file; do not create
+high-speed stress preparation. `fpsTracePath` below denotes that real file; do not create
 a placeholder trace or bypass its identity checks. Choose the section start to
 include the observed event, not automatically the historical 90-second window.
 The example uses a 15-second section from its start:
 
 ```powershell
-./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','reduce-dense-scene-gpu-cost-before','-Version','15','-InputTrace',$fpsTracePath,'-TrialStartSeconds','0','-TrialSeconds','15','-Upscaler','auto','-RenderScale','0.75','-TerrainGI','off','-FrameGeneration','off','-FrameCap','0','-Repetitions','3','-ProfileFrameCosts') -Label reduce-dense-scene-gpu-cost-before -TimeoutSeconds 2400 -CollectGpuMemory
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','reduce-dense-scene-gpu-cost-before','-Version','15','-InputTrace',$fpsTracePath,'-ScenarioReplay','-StressSpeedKmh','170','-TrialStartSeconds','0','-TrialSeconds','15','-Upscaler','auto','-RenderScale','0.75','-TerrainGI','off','-FrameGeneration','off','-FrameCap','0','-Repetitions','3','-ProfileFrameCosts') -Label reduce-dense-scene-gpu-cost-before -TimeoutSeconds 2400 -CollectGpuMemory
 ./scripts/test_pc_environment.ps1 -Suites pc_graphics_suite,forest_preparation_suite,weather_suite
 ```
 

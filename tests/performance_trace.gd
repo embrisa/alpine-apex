@@ -5,6 +5,7 @@ const Simulation = preload("res://scripts/core/ski_simulation.gd")
 const Survey = preload("res://tests/alpine_v13_route_survey.gd")
 const Pilot = preload("res://tests/alpine_v13_pilot.gd")
 const Inputs = preload("res://tests/performance_input.gd")
+const Stress = preload("res://tests/performance_stress.gd")
 const OUTPUT = "res://artifacts/fps_optimization"
 func _initialize() -> void: call_deferred("run")
 static func source_identity() -> Dictionary:
@@ -15,8 +16,11 @@ static func source_identity() -> Dictionary:
 	for file in ["res://scripts/world/heightfield_surface.gd", "res://scripts/world/mountain_definition.gd", "res://config/ski_default.tres"]:
 		sources[file] = FileAccess.get_sha256(file)
 	return sources
-static func preflight_error(data, version: int, require_complete: bool = true) -> String:
+static func preflight_error(data, version: int, require_complete: bool = true, stress_speed_kmh: float = 0.0) -> String:
 	if not data is Dictionary: return "Input trace must be a JSON object"
+	var stress_error = Stress.preflight_error(data.get("stress"),stress_speed_kmh)
+	if not stress_error.is_empty(): return stress_error
+	if stress_speed_kmh>0.0 and require_complete: return "Stress traces require explicit scenario playback"
 	var decode_error = Inputs.expand(data)
 	if not decode_error.is_empty(): return decode_error
 	var expected = data.get("identity")
