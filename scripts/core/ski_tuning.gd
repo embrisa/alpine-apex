@@ -132,7 +132,7 @@ extends Resource
 @export var snow_contact_assist_enabled: bool = true
 @export var snow_contact_max_correction_m_s: float = 3.0 # per 120 Hz tick, separating velocity only
 @export var snow_contact_full_depth_m: float = 0.12
-@export var snow_contact_lip_angle: float = 0.174532925 # radians, 10 degrees over 4 m
+@export var snow_contact_lip_angle: float = 0.174532925 # radians, convex along-travel grade change over 4 m
 @export var snow_contact_settle_time: float = 0.15 # continuous loaded non-separating seconds
 
 @export_group("Neutral steering landing help")

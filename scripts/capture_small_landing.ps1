@@ -2,7 +2,9 @@ param(
     [Parameter(Mandatory)][string]$OutputDirectory,
     [ValidateSet('side','chase','first_person')][string]$View = 'side',
     [switch]$Uneven,
-    [switch]$Tuck
+    [switch]$Tuck,
+    [switch]$Terrain,
+    [string]$ReferenceAssist = ""
 )
 # Native final-pose capture without taking focus or changing personal settings.
 $ErrorActionPreference = 'Stop'
@@ -24,10 +26,17 @@ try {
     [IO.File]::WriteAllText((Join-Path $captureProject 'project.godot'),$config,[Text.UTF8Encoding]::new($false))
     foreach ($file in @('main.tscn','icon.svg')) { Copy-Item -LiteralPath (Join-Path $captureRoot $file) -Destination $captureProject }
     $relativeOutput = [IO.Path]::GetRelativePath($captureRoot,$captureOutput).Replace('\','/')
-    $captureArgs = @('--path',$captureProject,'--windowed','--resolution','1280x720','--position','-2000,-1200','--audio-driver','Dummy','--script','tests/small_landing_capture.gd','--',"--output=$relativeOutput","--view=$View")
+    $captureScript = if ($Terrain) { 'tests/terrain_settle_capture.gd' } else { 'tests/small_landing_capture.gd' }
+    $captureArgs = @('--path',$captureProject,'--windowed','--resolution','1280x720','--position','-2000,-1200','--audio-driver','Dummy','--script',$captureScript,'--',"--output=$relativeOutput","--view=$View")
+    if ($ReferenceAssist) {
+        if (-not $Terrain) { throw 'ReferenceAssist requires Terrain.' }
+        $referencePath = [IO.Path]::GetFullPath($ReferenceAssist,$captureRoot)
+        if (-not $referencePath.StartsWith($capturePrefix,[StringComparison]::OrdinalIgnoreCase) -or -not (Test-Path -LiteralPath $referencePath -PathType Leaf)) { throw 'ReferenceAssist must be a frozen source file under artifacts.' }
+        $captureArgs += '--reference-assist=' + [IO.Path]::GetRelativePath($captureRoot,$referencePath).Replace('\','/')
+    }
     if ($Uneven) { $captureArgs += '--uneven' }
     if ($Tuck) { $captureArgs += '--tuck' }
-    & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath (Join-Path $captureRoot 'godotw.ps1') -Arguments $captureArgs -Label "small-landing-$View" -TimeoutSeconds 180
+    & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath (Join-Path $captureRoot 'godotw.ps1') -Arguments $captureArgs -Label "small-landing-$View" -TimeoutSeconds 240
     $captureCode = $LASTEXITCODE
 } finally {
     # Only immediate generated files/links are removed. Never recurse through a

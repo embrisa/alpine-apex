@@ -65,16 +65,17 @@ func advance(dt: float, sim, surface, jump_pending: bool) -> Vector3:
 		var current_sample: Dictionary = ski.crush.sample(surface,now.x,now.z)
 		var predicted_sample: Dictionary = ski.crush.sample(surface,ahead.x,ahead.z)
 		if now.y-current_sample.height>tuning.leg_extension or ahead.y-predicted_sample.height>tuning.leg_extension: continue
-		# Inspect local changes relative to the slope, not its absolute angle.
-		# Height chords also catch a discontinuous ledge whose normals are flat.
+		# Read the actual height profile along travel on the same 4 m surface.
+		# A triangle's sideways normal change is not a downhill takeoff.
 		var behind = ahead-direction*4.0
 		var beyond = ahead+direction*4.0
 		var a: Dictionary = surface.sample(behind.x,behind.z)
 		var b: Dictionary = surface.sample(ahead.x,ahead.z)
 		var c: Dictionary = surface.sample(beyond.x,beyond.z)
-		var limit = cos(tuning.snow_contact_lip_angle)
-		var change = absf(atan2(c.height-b.height,4.0)-atan2(b.height-a.height,4.0))
-		if a.normal.dot(b.normal)<limit or b.normal.dot(c.normal)<limit or change>tuning.snow_contact_lip_angle:
+		# Only a convex break suppresses retention. Concave landing pockets
+		# keep absorption; chords also preserve ledges with parallel normals.
+		var change = atan2(b.height-a.height,4.0)-atan2(c.height-b.height,4.0)
+		if change>tuning.snow_contact_lip_angle:
 			sharp = true
 			continue
 		eligible_skis += 1

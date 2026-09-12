@@ -2,7 +2,7 @@ extends SceneTree
 ## Observable small-hop recovery, contact exclusions and presentation ownership.
 const Probe = preload("res://tests/small_landing_probe.gd")
 const Motion = preload("res://scripts/presentation/skier_animation.gd")
-var output = "res://artifacts/small_landing_20260912/contracts"
+var output = "res://artifacts/landing_settle"
 var checks = 0
 var failures: Array[String] = []
 var results: Array = []
@@ -25,7 +25,7 @@ func run() -> void:
 		check(row.crash.is_empty() and row.ticks==480,fixture.name+": complete bounded scenario")
 	var sharp={"amplitude":.6,"wavelength":16.0,"depth":.06,"angle":.5,"kmh":120.0,"steer":.15,"tuck":1.0,"hop":false}
 	var trace: Array=[]; var row=Probe.measure(sharp,trace); results.append(row)
-	check(row.jumps==0 and row.launches.size()>1,"Actual sharp terrain still releases the skier independently of deliberate jump input")
+	check(row.jumps==0 and row.launches.size()==1 and row.final_grounded,"Shallow angled crest permits one terrain departure and then settles")
 	await final_pose()
 	episodes()
 	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify({"model":Probe.Sim.MODEL_VERSION,"checks":checks,"failures":failures,"results":results,"human_acceptance":false},"\t"))

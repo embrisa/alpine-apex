@@ -115,8 +115,13 @@ within leg reach. It cannot add kinetic energy, move position, assign heading
 or restore speed. The correction is not compressive load and creates no grip
 budget; ordinary suspension/gravity/friction still integrate afterward.
 
-Raw normals and 4 m height chords detect a local break above 10 degrees. Chords
-also catch ledges with parallel triangle normals; absolute slope is not a lip.
+Model 31 identifies takeoffs from the signed change between 4 m height chords
+along the skier's actual travel direction. Only a convex grade break above
+10 degrees suppresses retention. Sideways triangle-normal changes and concave
+landing pockets no longer disable absorption and trigger repeated small hops.
+The chords still detect real ledges with parallel normals; neither absolute
+steepness nor a lateral ridge alone is a lip. The same 4 m heights, existing
+reach, 3 m/s dissipation cap and snow/material gates remain authoritative.
 A sharp break suppresses retention until departure/landing or 150 ms of loaded,
 non-separating smooth support. Pending/buffered jumps bypass it before impulse
 consumption. Airborne, out-of-reach and non-snow contacts do not retain support.
@@ -124,6 +129,20 @@ Restart/teleport/contact priming, departure and leaving snow clear histories.
 The tick owner advances the helper once; probes/rendering cannot advance it.
 Diagnostics distinguish correction m/s, dissipated J/kg, eligible skis and
 release reason. Test rounded bumps separately from sharp drops and actual jumps.
+
+`tests/terrain_settle_suite.gd` checks actual cross-slope/concave/convex 4 m
+fixtures and two bounded 15-second current-mountain sections. The rough case
+reproduces repeated unintended flight in the earlier detector. The existing
+snow-grounding contracts retain jump/buffer, cliff, rock, mixed-foot, energy,
+reach and reset checks. `scripts/capture_small_landing.ps1 -Terrain
+-OutputDirectory artifacts/terrain-review -View side` captures the final seven
+seconds after an eight-second ordinary-input lead-in, using production skier/
+camera code on the real heightfield patch. It preserves real obstacle responses
+but omits scenery rendering; this is contact-motion evidence, not scene FPS.
+`-View chase` selects the gameplay camera. A frozen detector under `artifacts`
+can be supplied as `-ReferenceAssist` for a labelled causal comparison. Physics
+model 31 rejects model 30 recordings through the existing identity check; replay
+format remains 7. No old-record migration or speed restoration is introduced.
 
 ## Jumping and flight
 
