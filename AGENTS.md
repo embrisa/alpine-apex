@@ -12,6 +12,10 @@ or racing-line attractor.
 - Commit/push small validated milestones, including related source/assets. Push
   completed work before ending; report the exact blocker and unpushed commit on
   failure. Stage only owned changes; no force-push/history rewriting.
+- After a successful commit and push, remove unneeded artifacts from your task
+  using the [artifact lifecycle](docs/DEVELOPMENT.md#artifact-lifecycle) safeguards.
+  Preserve evidence needed for active reviews, unresolved findings or concurrent
+  work; never clear another task's outputs. Report any deferred cleanup.
 - Preserve asset bytes, import settings and UIDs. Large assets use LFS; commit
   useful art milestones, not autosaves. LFS budget: **$5/month, hard stop**; no
   increase without the user. Keep caches, tools, outputs and credentials ignored.
