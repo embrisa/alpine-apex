@@ -509,9 +509,11 @@ remains a separate acceptance check.
 
 Existing race/record suites cover authoring/import, finite crossings, splits,
 eligibility and ghosts. Ordinary route discovery, retries and ghost readability
-need the [race-loop audit](../backlog/tasks/AA-20260911-153905-race-loop-acceptance-audit.md).
-The separate [player/controller task](../backlog/tasks/AA-20260911-153906-player-and-controller-acceptance.md)
-is blocked on actual user playtesting after evidence preparation. Task files own
+remain unverified by the [race-loop audit](../backlog/archive/AA-20260911-153905-race-loop-acceptance-audit.md),
+which the user retired before execution on 2026-09-12. The separate
+[player/controller task](../backlog/archive/AA-20260911-153906-player-and-controller-acceptance.md)
+was also retired without recorded human acceptance. These are no longer queued
+requirements; their retirement does not establish acceptance. Task files own
 their status/dependencies; this guide does not mark them complete or duplicate
 their checklists. Automated, rendered, performance, listening and human acceptance
 must remain independently attributable.

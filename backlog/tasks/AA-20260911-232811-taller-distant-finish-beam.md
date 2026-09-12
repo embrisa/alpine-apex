@@ -5,7 +5,7 @@ status: ready
 priority: P2
 depends_on: []
 created: "2026-09-11T23:28:11Z"
-updated: "2026-09-11T23:28:11Z"
+updated: "2026-09-12T09:22:00Z"
 source_thread: "01a092cb-8276-7610-94d6-c817b99b24ed"
 ---
 
@@ -37,9 +37,9 @@ Source inspection on 2026-09-11 UTC (2026-09-12 local):
   variants, and paired beam-on/off timing. Its distant cameras aim explicitly
   upward, so those images alone cannot prove visibility during ordinary riding.
 - No focused beam-height task was found among active/archived tasks or ideas.
-  The [race-loop audit](AA-20260911-153905-race-loop-acceptance-audit.md) covers
-  broader acceptance and is related, not a prerequisite. Coordinate any shared
-  harness/guide edits with its worker. No new rendered reproduction or timing
+  The [race-loop audit](../archive/AA-20260911-153905-race-loop-acceptance-audit.md)
+  was retired before execution at the user's request; this task retains its
+  own verification requirements. No new rendered reproduction or timing
   was performed during this authoring turn; the user's report is the symptom.
 
 ## Agreed decisions and scope

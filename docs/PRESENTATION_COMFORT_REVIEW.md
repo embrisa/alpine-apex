@@ -76,8 +76,9 @@ and encoding provide **no FPS, latency or display-delivery result**.
 
 ## Controller and listening checklist
 
-Use the existing [player/controller task](../backlog/tasks/AA-20260911-153906-player-and-controller-acceptance.md)
-to record results. Start with 15–30-second unranked riding samples, ending after
+The user retired the [player/controller task](../backlog/archive/AA-20260911-153906-player-and-controller-acceptance.md)
+on 2026-09-12 without recording acceptance. This checklist remains optional
+reference for future feedback. Start with 15–30-second unranked riding samples, ending after
 the requested event/recovery. Extend only for a named repetition/fatigue question.
 Record build/commit, mountain/face/seed, camera preset, display mode/resolution,
 controller model/connection, output device, OS/game volume and changed settings.

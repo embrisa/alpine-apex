@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-153906-player-and-controller-acceptance"
 title: "User playtest: skiing, controller, routes and racing acceptance"
-status: "blocked"
+status: "retired"
 priority: "P1"
 depends_on: ["AA-20260911-153904-presentation-comfort-review","AA-20260911-153905-race-loop-acceptance-audit"]
 created: "2026-09-11T15:39:00Z"
-updated: "2026-09-12T08:37:43Z"
+updated: "2026-09-12T09:22:00Z"
 source_thread: "01a090fe-2a8c-7fe0-8b5b-fa6446206ea9"
 ---
 
@@ -42,7 +42,9 @@ Awaiting the user's actual playtest results; no automatic implementation is auth
 
 ## Completion record
 
-Imported from the existing roadmap during backlog setup. Pending user acceptance. Any worker follow-up ideas belong in `backlog/ideas/` for the user's review.
+Retired at the user's request on 2026-09-12 without recorded user acceptance.
+The unchecked human criteria above remain unverified. No replacement task was
+requested; prior dependencies are preserved solely as historical context.
 
 ## Satisfied prerequisite history
 
@@ -54,3 +56,10 @@ available; this task stays blocked for actual user playtesting:
 
 - [AA-20260911-153902-v15-six-face-route-audit](../archive/AA-20260911-153902-v15-six-face-route-audit.md).
 - [AA-20260911-153903-current-4k-performance-baseline](../archive/AA-20260911-153903-current-4k-performance-baseline.md).
+
+## Retirement
+
+The user explicitly cancelled this backlog task on 2026-09-12. It is archived
+and must not be dispatched or treated as a completed prerequisite. The original
+scope and unchecked acceptance criteria are retained as history; retirement
+supersedes the pending-work instructions above.

@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-153905-race-loop-acceptance-audit"
 title: "Refresh race authoring and retry-loop acceptance evidence"
-status: "ready"
+status: "retired"
 priority: "P2"
 depends_on: []
 created: "2026-09-11T15:39:00Z"
-updated: "2026-09-11T19:06:07Z"
+updated: "2026-09-12T09:22:00Z"
 source_thread: "01a090fe-2a8c-7fe0-8b5b-fa6446206ea9"
 ---
 
@@ -43,8 +43,17 @@ None.
 
 ## Completion record
 
-Imported from the existing roadmap during backlog setup. Pending implementation. Any worker follow-up ideas belong in `backlog/ideas/` for the user's review.
+Retired before implementation at the user's request on 2026-09-12.
+No audit execution or completion is claimed; the unchecked criteria above remain
+unverified. No replacement task was requested.
 
 ## Satisfied prerequisite history
 
 On 2026-09-11, [AA-20260911-153900-baseline-acceptance-index](../archive/AA-20260911-153900-baseline-acceptance-index.md) was retired at the user's request after completion. Its satisfied dependency was removed; this task's scope and acceptance requirements are unchanged.
+
+## Retirement
+
+The user explicitly cancelled this backlog task on 2026-09-12. It is archived
+and must not be dispatched or treated as a completed prerequisite. The original
+scope and unchecked acceptance criteria are retained as history; retirement
+supersedes the pending-work instructions above.

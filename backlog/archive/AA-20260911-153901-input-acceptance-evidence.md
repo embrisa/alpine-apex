@@ -84,8 +84,9 @@ Markdown links/anchors, `./scripts/backlog.ps1 validate`, and `git diff --check`
 passed. Physical dead zones, trigger travel, disconnect/reconnect behavior,
 vibration comfort, skiing feel and current full-mountain coverage remain open.
 No performance measurement or human acceptance was claimed; the
-[player/controller task](../tasks/AA-20260911-153906-player-and-controller-acceptance.md)
-remains blocked for actual user feedback.
+[player/controller task](AA-20260911-153906-player-and-controller-acceptance.md)
+was blocked for actual user feedback at audit completion and was subsequently
+retired at the user's request without recording human acceptance.
 
 ## Retirement
 

@@ -5,7 +5,7 @@ status: ready
 priority: P2
 depends_on: []
 created: "2026-09-11T22:05:56Z"
-updated: "2026-09-12T00:54:45Z"
+updated: "2026-09-12T09:22:00Z"
 source_thread: "01a0927f-723e-7341-bfbc-e2ca1b449d1b"
 ---
 
@@ -70,8 +70,9 @@ rendered or performance acceptance. The task remains unimplemented and ready.
   `reference_replay`. [Competitive tests](../../tests/competitive_suite.gd)
   exercise record promotion, bounded history, compatibility, ghost lifecycle
   and native playback; extend these contracts for multiple retained runs.
-- Related work: [race-loop acceptance audit](AA-20260911-153905-race-loop-acceptance-audit.md)
-  audits existing behavior; this task implements the requested feature.
+- Related work: [race-loop acceptance audit](../archive/AA-20260911-153905-race-loop-acceptance-audit.md)
+  was retired before execution at the user's request; this feature task retains
+  its own verification requirements.
   [Carving lean](AA-20260911-161450-proportional-carving-lean.md) and
   [pole pushing](AA-20260911-183812-slope-limited-pole-pushing.md) touch animation
   ownership. No hard dependency is needed: consume the production pose available
