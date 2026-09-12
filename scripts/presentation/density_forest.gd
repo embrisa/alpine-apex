@@ -3,7 +3,7 @@ var frame_costs
 ## Presentation-only residency. Immutable transforms cover the complete forest;
 ## coarse distant cards and a bounded nearby detail window share per-tree LOD.
 const CELL = 32.0
-const FAR_CELL = 192.0
+const FAR_CELL = preload("res://scripts/presentation/forest_placement.gd").FAR_CELL
 const LOAD_RADIUS = 128.0
 const KEEP_RADIUS = 192.0
 var host
@@ -103,7 +103,7 @@ func update_residency(camera: Vector3) -> void:
 			var centre=(Vector2(key)+Vector2.ONE*.5)*CELL
 			if centre.distance_to(p)>KEEP_RADIUS:
 				for node in resident[key]:
-					host.batches.erase(node)
+					host.remove_batch(node)
 					node.queue_free()
 				# Keep GPU placement residency identical to the original window.
 				for group in regions[key].values(): group.prepared.multimeshes.clear()

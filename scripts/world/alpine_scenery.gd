@@ -250,7 +250,19 @@ func _batch(mesh: Mesh, transforms: Array, lod: int, height_m: float = 19.0, pre
 				var c: Array = record.crown_center
 				instance.set_instance_shader_parameter("pc_crown_bounds",Vector4(c[0],c[1],c[2],record.crown_radius))
 	add_child(instance)
+	instance.set_meta("batch_slot",batches.size())
 	batches.append(instance)
+
+func remove_batch(instance: MultiMeshInstance3D) -> void:
+	# This is an unordered ownership list, not scene/render order. Avoid scanning
+	# thousands of distant cards for each retiring detail/shadow instance.
+	var slot: int = instance.get_meta("batch_slot")
+	assert(slot>=0 and slot<batches.size() and batches[slot]==instance)
+	var last: MultiMeshInstance3D = batches.back()
+	batches[slot] = last
+	last.set_meta("batch_slot",slot)
+	batches.pop_back()
+	instance.remove_meta("batch_slot")
 
 func apply_quality(profile) -> void:
 	quality = profile

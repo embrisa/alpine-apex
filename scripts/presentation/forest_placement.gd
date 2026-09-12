@@ -2,7 +2,8 @@ extends RefCounted
 ## Shared seated poses: rendering and nearby tree motion consume these buffers.
 const Contacts = preload("res://scripts/presentation/asset_snow_contacts.gd")
 const CELL = 32.0
-const FAR_CELL = 192.0
+# Two-triangle cards tolerate coarser grouping; per-tree shader distances stay unchanged.
+const FAR_CELL = 384.0
 const FAMILY = {"spruce":"spruce","fir":"fir","pine":"pine","birch":"birch","snag":"dead","split_snag":"broken"}
 var assets = PackedStringArray()
 var asset_indices = PackedInt32Array()

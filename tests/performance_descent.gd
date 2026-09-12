@@ -15,6 +15,8 @@ var chronology: Array = []
 var gpu = PackedFloat64Array()
 var cpu = PackedFloat64Array()
 var draws = PackedFloat64Array()
+var primitives = PackedFloat64Array()
+var objects = PackedFloat64Array()
 var sections: Dictionary = {}
 var peak_video = 0
 var peak_static = 0
@@ -134,7 +136,7 @@ func run() -> void:
 		game.hud.hide_menu(); game.effects.reset()
 		root.grab_focus()
 		for i in 240: await process_frame
-		frames.clear(); gpu.clear(); cpu.clear(); draws.clear(); sections.clear()
+		frames.clear(); gpu.clear(); cpu.clear(); draws.clear(); primitives.clear(); objects.clear(); sections.clear()
 		chronology.clear()
 		game.frame_samples.clear(); game.draw_samples.clear(); game.gpu_samples.clear(); game.render_cpu_samples.clear()
 		game.frame_costs.reset(); previous_frame = 0; peak_video = 0; peak_static = 0
@@ -171,10 +173,10 @@ func run() -> void:
 		for section in sections: section_report[section] = frame_stats(sections[section])
 		# Write only after measurement ends. Retain the actual distribution so
 		# median FPS, tails and later analyses never have to infer raw frames.
-		FileAccess.open(output+"/frame_samples_%d.json" % (repetition+1),FileAccess.WRITE).store_string(JSON.stringify({"frame_ms":frames,"gpu_ms":gpu,"render_cpu_ms":cpu,"draw_calls":draws,"sections":sections}))
+		FileAccess.open(output+"/frame_samples_%d.json" % (repetition+1),FileAccess.WRITE).store_string(JSON.stringify({"frame_ms":frames,"gpu_ms":gpu,"render_cpu_ms":cpu,"draw_calls":draws,"submitted_primitives":primitives,"submitted_objects":objects,"sections":sections}))
 		if game.frame_costs.enabled:
 			FileAccess.open(output+"/streaming_events_%d.json" % (repetition+1),FileAccess.WRITE).store_string(JSON.stringify({"event_fields":["scope","process_frame","begin_us","end_us"],"frame_fields":["process_frame","begin_us","end_us","tick","x","y","z"],"events":game.frame_costs.events,"frames":chronology}))
-		var row = {"run":repetition+1,"finished":game.session.finished,"crash":game.sim.crash_reason,"exact_trace":exact,"ticks":game.sim.ticks,"wall_seconds":elapsed,"frame_ms":frame_stats(frames),"gpu_ms":Costs.stats(gpu),"render_cpu_ms":Costs.stats(cpu),"draw_calls":Costs.stats(draws),"cpu_scopes_us":game.frame_costs.report(),"sections":section_report,"peak_video_bytes":peak_video,"peak_engine_static_bytes":peak_static,"snow":game.effects.snow_budget(),"forest":game.world.scenery.density_forest.report(),"fsr_begin":start_status,"fsr_end":end_status}
+		var row = {"run":repetition+1,"finished":game.session.finished,"crash":game.sim.crash_reason,"exact_trace":exact,"ticks":game.sim.ticks,"wall_seconds":elapsed,"frame_ms":frame_stats(frames),"gpu_ms":Costs.stats(gpu),"render_cpu_ms":Costs.stats(cpu),"draw_calls":Costs.stats(draws),"submitted_primitives":Costs.stats(primitives),"submitted_objects":Costs.stats(objects),"cpu_scopes_us":game.frame_costs.report(),"sections":section_report,"peak_video_bytes":peak_video,"peak_engine_static_bytes":peak_static,"snow":game.effects.snow_budget(),"forest":game.world.scenery.density_forest.report(),"fsr_begin":start_status,"fsr_end":end_status}
 		row.merge({"started_unix_seconds":started_unix,"ended_unix_seconds":ended_unix,"unfocused_frames":unfocused_frames,"forest_coverage":forest_coverage.duplicate(true)})
 		row.merge(comparison_metadata())
 		row.collision_streaming = game.crash_collision.report()
@@ -241,6 +243,8 @@ func measure() -> void:
 		gpu.append(RenderingServer.viewport_get_measured_render_time_gpu(rid))
 		cpu.append(RenderingServer.viewport_get_measured_render_time_cpu(rid))
 		draws.append(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
+		primitives.append(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME))
+		objects.append(Performance.get_monitor(Performance.RENDER_TOTAL_OBJECTS_IN_FRAME))
 		peak_video = maxi(peak_video,int(Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED)))
 		peak_static = maxi(peak_static,int(Performance.get_monitor(Performance.MEMORY_STATIC)))
 	previous_frame = now

@@ -73,6 +73,7 @@ func _initialize() -> void:
 		check(ranges[3].y<ranges[1].y,"Shadow geometry stays inside detailed forest range")
 	scenery.free()
 	var result={"checks":checks,"failures":failures,"assets":manifest.assets.size()}
+	DirAccess.make_dir_recursive_absolute("res://artifacts/trees_v2")
 	FileAccess.open("res://artifacts/trees_v2/godot_validation.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
 	print("TREE_COLLECTION_RESULTS ",JSON.stringify(result))
 	quit(0 if failures.is_empty() else 1)

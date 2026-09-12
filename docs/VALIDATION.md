@@ -280,6 +280,36 @@ Example with a validated current short scenario:
 ./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','gpu-attribution','-InputTrace',$fpsTracePath,'-ScenarioReplay','-TrialStartSeconds','0','-TrialSeconds','15','-Repetitions','1','-FrameCap','0','-ProfileGpuPasses') -Label gpu-attribution -TimeoutSeconds 600 -CollectGpuMemory
 ```
 
+### Forest batch submission
+
+`performance_descent.gd` retains `submitted_primitives` and `submitted_objects`
+alongside draw calls in each row and raw frame file. These use the engine's
+[last-rendered-frame monitors](https://docs.godotengine.org/en/stable/classes/class_performance.html#enumerations)
+after object culling. Primitives count vertices or indices across depth/shadow passes; they are not unique triangles, logical tree
+counts or pixels that survive individual LOD/foliage shader rejection. Keep
+stored population, resident regions/batches, these submission counters and
+native visible output distinct. Both sides of a comparison use the same two
+monitor reads; detailed spatial readbacks belong outside acceptance timing.
+
+`forest_preparation_suite.gd` requires a native renderer (the generic suite
+runner is headless). It checks bulk-upload equivalence, all 24 tree variants,
+conservative wind/card bounds, signed partition edges, individual LOD reach,
+quality consumers and repeated residency retirement/re-entry with valid slots.
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','godotw.ps1','--script','tests/forest_preparation_suite.gd') -Label forest-batch-native -TimeoutSeconds 180
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','godotw.ps1','--script','tests/forest_batch_visibility_playtest.gd') -Label forest-batch-visual -TimeoutSeconds 300
+```
+
+The visual producer compares the current grouping with an explicit 192 m
+reference at identical frozen camera/wind states: 63 paired native 1280x720
+frames cover presets 1/7/10, turns, signed region crossings, maximum wind,
+50/100% visibility aid and low-sun off-camera shadows. This is rendered
+regression evidence, not 4K performance, whole-route or controller acceptance.
+Its readbacks and receipt are in `artifacts/spatial_batch_visibility/visual/`.
+Use fresh 15-second forest/rock/open workloads from the stress-trial instructions
+above for capture-free FPS, CPU/GPU, memory and repeated-entry comparisons.
+
 ### Player recordings and short scenarios
 
 Streaming investigations can add `-ProfileFrameCosts` to the benchmark to retain

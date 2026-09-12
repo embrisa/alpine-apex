@@ -141,6 +141,24 @@ curved branch sprays and baked needle textures; source/authoring contracts are
 in [Assets](ASSETS.md#trees). Do not interpret all stored instance triangles as
 visible-frame work. Camera forest visibility assistance must remain cosmetic.
 
+`forest_placement.gd` owns the 384 m distant-card partition; the direct
+`density_forest.gd` path reads the same constant. Detailed geometry and shadow
+proxies retain 32 m regions, 128 m loading and 192 m retention. Regrouping changes
+only immutable MultiMesh submissions: seated poses, asset choice, per-tree
+shader distances/fades and the residency fallback remain identical. Keep bounds
+as unions of each transformed authored wind/card envelope; batch-centre distance
+culling must include half the full bound diagonal. Larger groups trade more
+off-screen card vertices for fewer submissions; do not generalize this choice
+to the much heavier near/mid meshes or to mineral geometry.
+
+`AlpineScenery.batches` is an unordered ownership list. Registration records a
+node's `batch_slot`; `remove_batch()` swaps in the last member and updates its
+slot before removing the tail. Use this owner method for streaming retirement.
+Array order is not scene/render order or tree identity. This avoids repeatedly
+searching every distant batch when retiring nearby geometry, while preserving
+the existing queue, upload budget, residency publication and resource release.
+Native regression and moving-camera producers are in [Validation](VALIDATION.md#forest-batch-submission).
+
 `foliage_sight.gd` owns canopy-aid activation and bounded depth; `alpine_assets.gd`
 submits its state to resident geometry and late streamed/fallback conifer
 materials. `foliage_sight.gdshaderinc` scales removal by activation, normalized
