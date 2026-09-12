@@ -1,11 +1,11 @@
 ---
 id: "AA-20260912-105302-reduce-dense-scene-gpu-cost"
 title: "Reduce dense-scene GPU cost while preserving visual quality"
-status: ready
+status: blocked
 priority: P1
 depends_on: ["AA-20260912-105301-reduce-animation-cpu-cost"]
 created: "2026-09-12T10:53:00Z"
-updated: "2026-09-12T10:53:00Z"
+updated: "2026-09-12T16:43:57Z"
 source_thread: "01a09527-1988-7b50-b7c9-71ff6821cb00"
 ---
 
@@ -120,9 +120,83 @@ None
 
 ## Completion record
 
-Pending implementation. Record actual changed owners, baseline/after source and
-engine identities, accepted and rejected candidates, executed checks, rendered
-review, scenario performance, remaining acceptance, guide updates and commit/push
-references. If blocked, record the concrete cause and remaining work. Link
-separate next-step proposals in backlog/ideas/ or state that none were proposed;
-they require user selection before task authoring.
+Blocked after manual investigation on 2026-09-12. **No production optimization
+was accepted or retained.** The tested GPU savings did not establish a rendered
+FPS or frame-tail gain beyond observed variation. No scheduled claim, downstream
+dispatch or separate next-step proposal was made.
+
+**Fresh baseline:** `95ef3a3`, default seed 849205174, generator 15/model 29,
+3840x2160 output / 2880x1620 internal, High/Auto FSR 4.1.1, clear/day, FG/GI off,
+uncapped, current camera and saved `weather_quality: 2` override. Each window
+used three independently warmed (240 frames), capture-free 15-second ordinary
+input repetitions; every endpoint matched, all frames stayed focused, source
+hashes stayed fixed and no competing engine was observed.
+
+| Window | Median rendered FPS | Frame p95 / p99 ms | GPU mean ms | Render CPU mean ms |
+|---|---:|---:|---:|---:|
+| Open snow, 0-15 s | 104.74 | 13.987 / 16.686 | 7.116 | 1.627 |
+| Minerals, 15-30 s | 77.57 | 17.625 / 20.213 | 8.267 | 1.838 |
+| Woodland edge, 165-180 s | 70.95 | 20.606 / 25.256 | 8.640 | 2.069 |
+
+Private-byte peaks were 5.51-5.58 GiB. Background ChatGPT and PowerShell activity
+was recorded and preserved. Windows allocation counters are not physical VRAM
+occupancy. The dense/mineral samples still miss the 90-120 rendered FPS,
+p95 <=11.1 ms and p99 <=16.7 ms targets.
+
+**Native attribution:** a separately resimulated 240-second offline control
+prefix supplied a 225-240 s diagnostic with 163-286 trees within 175 m; this
+was not a rendered full descent. Its one profiled trial reached 68.71 FPS.
+GPU means: depth prepass 1.504 ms, moving geometry 1.531, opaque geometry 1.002,
+shadows .380, transparent geometry .493, SSIL .475, SSAO .200, fog .085 plus
+filter/integration, glow .557, tonemap .331, and the native FSR interval 1.844.
+The engine calls that last marker `FSR2`, but the active provider was 4.1.1.
+These diagnostic pass intervals are not acceptance repetitions or isolated
+shader-instruction costs. The separately instrumented powder reconstruction
+cost .033 ms in the opening; its extra query boundaries altered submission.
+
+**Rejected experiments:** exact-zero crystal coverage, invisible local-patch
+shading, zero-opacity particle fragments, and zero-visibility lighting branches
+produced negligible changes. Disabling powder entirely saved about 1 ms but
+changes quality and was diagnostic only. Removing its cloud light saved only
+about .04 ms. A shared-tile reconstruction filter passed 25 byte-exact native
+comparisons plus the existing 13 upload/lip checks; its .033 ms baseline cost
+was too small to justify advancing it as the main bottleneck. All experiments
+remain isolated in task artifacts; runtime shaders and geometry are unchanged.
+
+Tiled powder triangle ordering reduced the named moving-geometry interval by
+about .076 ms in its pilot. A subsequent capture-free, interleaved A/B/B/A/A/B
+comparison rejected delivery: medians were **108.35 -> 107.57 FPS**, GPU
+**7.100 -> 6.953 ms**, p95 **13.501 -> 13.562 ms**, p99 **16.407 -> 16.299 ms**.
+All six endpoints/focus checks passed. That small tail difference is within the
+run spread; an isolated GPU reduction is insufficient under this task's gate.
+
+**Retained tooling and remaining work:** `benchmark_pc.ps1 -ProfileGpuPasses`
+now exposes the validated named-pass collector through the existing isolated
+benchmark. [Validation](../../docs/VALIDATION.md#native-gpu-pass-attribution)
+owns reproduction, delayed-frame interpretation, bounds and instrumentation
+limits. Further work needs a materially larger shader/pass candidate, with
+finer vertex/pixel or native renderer attribution if necessary, followed by
+three matched production repetitions, controls, rendered still/motion review,
+relevant suites and the 120-cap check. Those optimization acceptance gates
+remain open; no visual or human/controller acceptance is claimed.
+
+**Receipts:** detailed runs, settings/identities, rejected candidates, native
+query records and exact commands are retained in `artifacts/dense_scene_gpu/`
+(`comparison.json`, `index_pairs.json`, `compute_oracle.json`, `REVIEW.md`) and
+`artifacts/pc_environment/dense-gpu-*`. Worker SHA256:
+`a18ddc9f3ee8fa1915a47d54c3e0d05ec4b10f8ee9deb15d7206b4e23d29bcc9`;
+launcher `0c4e9e4d32c3e550189f463efbf16bd7325cd26eae69b6718a40dc4088ef0b0b`.
+Evidence is retained for this unresolved investigation; cleanup is deferred.
+
+**Tooling validation:** the delivered profiler passed a native 3-second replay:
+301 named-pass frames, zero dropped records, ordered GPU IDs/timestamps, exact
+endpoint, no focus loss or source drift. Headless mode rejected with expected
+exit 2. Backlog validation and CRLF-aware diff checks passed. Personal settings
+and race records were unchanged; only generation-duration telemetry changed.
+The retained change is test tooling/documentation, so no runtime physics or
+visual acceptance is inferred. Delivery hashes are retained in
+`artifacts/dense_scene_gpu/delivery.json`.
+
+**Delivery:** profiler and authoritative validation guide committed and pushed
+to `origin/main` as `2a1c989987f40dc506d721b99ce47b471ded09fb`. This task record
+preserves the unresolved optimization and rejected-candidate evidence.
