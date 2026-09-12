@@ -80,6 +80,45 @@ the current Standard mountain explicitly through normal generation or
 cancellation, determinism, capacity and export checks remain separately selected;
 the warm profile does not replace them or skip source/engine validation.
 
+## Bounded test descents
+
+Agents default to short, timed descents for diagnostic data and iteration. A
+complete mountain run is not required to inspect handling, animation, camera,
+effects, audio or local frame cost.
+
+- Before launching, name the question, relevant terrain/event, measured duration
+  and stop condition. Default to **15–30 seconds of riding**; use less when one
+  event answers the question. Separate loading and warm-up from the sample.
+- Set a duration/tick limit in the harness, or save a bounded input clip and
+  replay to its captured final tick. End cleanly and flush evidence at the limit
+  or after the target event and its recovery. A guard wall timeout is a failure
+  backstop, not a successful sample boundary; budget setup separately.
+- Start near the relevant feature using a supported test launch/fixture, or reuse
+  a matching short recording. During measurement, use ordinary inputs and the
+  unchanged solver. Do not teleport through a route to claim descent performance.
+- One sample is enough for an initial diagnostic. For a performance comparison,
+  use three independently warmed repetitions of the same bounded scenario before
+  and after, with matched identities/settings and the performance method below.
+  Repeat only for changed code, failures, noise or an unresolved question.
+- Going beyond **60 seconds of measured riding per sample**, or choosing a full
+  descent, requires a recorded coverage reason before launch. Valid reasons
+  include finish/record/replay completion, an issue that appears only after
+  prolonged riding, whole-route coverage or an explicitly requested full-run
+  baseline. Agents may select these when the task needs them without asking for
+  routine permission. Extend only enough to cover that requirement.
+- Record actual riding seconds/ticks, setup/warm-up time, launch/route/event,
+  source/seed/settings, stop reason and collected metrics. Label bounded results
+  as scenario evidence; they establish only the sampled conditions. Keep visual,
+  performance and human/controller/listening acceptance separate.
+
+Use [player recordings and short scenarios](#player-recordings-and-short-scenarios)
+for existing early-save and exact-stop replay support. The interactive recorder
+does not currently expose a duration option: save at the planned boundary, then
+close it to release the guard. An unattended harness must provide its own clean
+timed stop; do not assume the wrapper timeout saves a clip. Existing complete-trace
+benchmark requirements remain intact, and mandatory physics/runtime suites still
+run in full when required by the agent contract.
+
 ## Check selection
 
 Paths in this table are under `tests/` unless noted.
@@ -115,7 +154,8 @@ physical/scenery cache status, actual pixels and effective settings. Warm up the
 workload; exclude screenshot/readback/video encoding and GPU validation layers
 from timing. Capture visuals separately.
 
-Generate ordinary-input traces with `tests/performance_trace.gd` under the guard.
+For a full-descent baseline justified under the bounded descent policy, generate
+ordinary-input traces with `tests/performance_trace.gd` under the guard.
 Only complete uncrashed descents become valid traces; the pilot supplies inputs,
 not position/solver changes. Validate trace/core/generator/tuning/terrain identity
 before playback. A failed pilot is a workload blocker, not license to substitute

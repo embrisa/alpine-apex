@@ -36,6 +36,9 @@ or racing-line attractor.
   `tests/runtime_suite.gd` through `./godotw --headless --script ...`.
   Camera/render/effect edits require rendered inspection. Keep automated,
   rendered, performance and human/controller/listening acceptance distinct.
+- Default to short, timed test descents for data collection; follow the
+  [bounded descent policy](docs/VALIDATION.md#bounded-test-descents). Full runs
+  require a specific coverage need, not routine iteration.
 - Engine workloads share `artifacts/validation.lock`; use the existing guard,
   avoid nested guards and wait for occupied workloads. Test/lab runs never write
   personal bests. See validation for cached mountain fixtures and isolation.
