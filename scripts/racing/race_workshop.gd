@@ -22,6 +22,8 @@ var library: VBoxContainer
 var library_tabs: TabContainer
 var editor: VBoxContainer
 var list: ItemList
+var weather_selector: OptionButton
+var time_selector: OptionButton
 var details: Label
 var status: Label
 var name_input: LineEdit
@@ -141,6 +143,15 @@ func _build_ui() -> void:
 	name_input.custom_minimum_size.y = 44
 	name_input.text_changed.connect(func(_value): _refresh_draft())
 	editor.add_child(name_input)
+	editor.add_child(hud._label("Fixed conditions",14,hud.LIME))
+	weather_selector = OptionButton.new()
+	for id in Race.WeatherRules.PRESETS: weather_selector.add_item(id.capitalize())
+	weather_selector.item_selected.connect(func(_index): _refresh_draft())
+	editor.add_child(weather_selector)
+	time_selector = OptionButton.new()
+	for id in Race.WeatherRules.TIMES: time_selector.add_item(id.capitalize())
+	time_selector.item_selected.connect(func(_index): _refresh_draft())
+	editor.add_child(time_selector)
 	start_button = hud._button("1  Place start",true)
 	start_button.pressed.connect(func(): placing = "start"; _refresh_draft())
 	editor.add_child(start_button)
@@ -226,7 +237,7 @@ func _refresh_library(select_id: String = "") -> void:
 	if suggested_race and not races.any(func(r): return r.identity()==suggested_race.identity()): races.push_front(suggested_race)
 	list.clear()
 	selected = null
-	for race in races: list.add_item(race.title)
+	for race in races: list.add_item(race.title+" · "+Race.WeatherRules.label(race.weather_preset,race.time_band))
 	status.text = store.warning
 	if not races.is_empty():
 		var index = 0
@@ -243,7 +254,7 @@ func _refresh_library(select_id: String = "") -> void:
 func select_race(index: int) -> void:
 	if index<0 or index>=races.size(): return
 	selected = races[index]
-	details.text = "Mountain %d\nStart  %s\nFinish  %s\n\nChoose any route. Cross the 10 m finish gate from either side." % [selected.mountain.seed,_coordinates(selected.start),_coordinates(selected.finish)]
+	details.text = "%s\nMountain %d\nStart  %s\nFinish  %s\n\nChoose any route. Cross the 10 m finish gate from either side." % [Race.WeatherRules.label(selected.weather_preset,selected.time_band),selected.mountain.seed,_coordinates(selected.start),_coordinates(selected.finish)]
 	race_button.disabled = false
 	share_button.disabled = false
 	if matches_world(selected):
@@ -267,6 +278,7 @@ func begin_creation() -> void:
 	library.visible = false
 	editor.visible = true
 	draft = Race.new()
+	weather_selector.select(0); time_selector.select(1)
 	draft.mountain = Race.mountain_reference(game.field,game.world.mountain.seed_value)
 	has_start = false
 	has_finish = false
@@ -304,6 +316,8 @@ func place_point(point: Vector3) -> bool:
 func _refresh_draft() -> void:
 	if not draft: return
 	draft.title = name_input.text.strip_edges()
+	draft.weather_preset = Race.WeatherRules.PRESETS[weather_selector.selected]
+	draft.time_band = Race.WeatherRules.TIMES.keys()[time_selector.selected]
 	start_button.text = "1  Start · " + ("Selected" if placing=="start" else "Reposition" if has_start else "Place")
 	finish_button.text = "2  Finish · " + ("Selected" if placing=="finish" else "Reposition" if has_finish else "Place")
 	endpoint_label.text = "MOUNTAIN  %d\nSTART   %s\nFINISH  %s" % [draft.mountain.seed,_coordinates(draft.start) if has_start else "—",_coordinates(draft.finish) if has_finish else "—"]

@@ -33,7 +33,7 @@ func run() -> void:
 	apply()
 	var expected = Vector3(0,sin(deg_to_rad(24.0)),cos(deg_to_rad(24.0))).rotated(Vector3.UP,deg_to_rad(-58.0))
 	check(game.weather.state.sun_direction.is_equal_approx(expected) and game.weather.daylight.hour==12.0,"Golden lighting preserves the exact noon direction and 12:00 default")
-	check(game.weather.daylight.CYCLE_SECONDS==1200.0 and Engine.physics_ticks_per_second==120,"Day cycle and independent 120 Hz simulation retain their timing")
+	check(game.weather.daylight.CYCLE_SECONDS==3600.0 and Engine.physics_ticks_per_second==120,"One active hour wraps daylight independently of the 120 Hz simulation")
 	check(env.volumetric_fog_enabled and game.world.sun.shadow_enabled and game.world.sun.light_volumetric_fog_energy>0.0,"Clear High enables shadowed sun shafts")
 	check(env.volumetric_fog_length<=160 and env.volumetric_fog_length<=game.world.sun.directional_shadow_max_distance and env.volumetric_fog_density<=0.0001,"Shaft range stays inside nearby tree and terrain shadows at minimal density")
 	check(env.volumetric_fog_gi_inject==0 and env.volumetric_fog_ambient_inject==0 and not env.sdfgi_enabled,"Shafts add no GI requirement and preserve optional SDFGI off")
@@ -76,7 +76,7 @@ func run() -> void:
 	check(not env.volumetric_fog_enabled and not env.glow_enabled and game.world.sun.light_color.r>game.world.sun.light_color.b,"Weather FX off disables effects but keeps warm direct light")
 	game.weather.set_quality(2)
 	game.weather.set_automatic(true)
-	game.weather.update_weather(180.0,true)
+	game.weather.update_weather(game.weather.duration,true)
 	var previous = noon_energy
 	var continuous = true
 	for step in 200:

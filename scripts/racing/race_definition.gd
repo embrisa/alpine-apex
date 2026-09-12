@@ -4,12 +4,16 @@ const Terrain = preload("res://scripts/world/test_slope.gd")
 const Mountain = preload("res://scripts/world/mountain_data.gd")
 const Simulation = preload("res://scripts/core/ski_simulation.gd")
 const MountainDefinition = preload("res://scripts/world/mountain_definition.gd")
-const SCHEMA = 4
+const SCHEMA = 5
+const WeatherRules = preload("res://scripts/presentation/weather_rules.gd")
 const Flavor = preload("res://scripts/world/flavor_layout.gd")
 const Zone = preload("res://scripts/world/mountain_zone.gd")
 const FINISH_WIDTH = 10.0
 const FINISH_HEIGHT = 4.5
 const MAX_BYTES = 16384
+var weather_preset = "clear"
+var time_band = "day"
+var weather_rules = WeatherRules.VERSION
 var title: String = ""
 var mountain: Dictionary = {}
 var start = Vector3.ZERO
@@ -26,7 +30,7 @@ static func mountain_reference(field, scenery_seed: int) -> Dictionary:
 		"engine":Engine.get_version_info().string}
 
 func to_data() -> Dictionary:
-	return {"schema":SCHEMA, "mountain":mountain.duplicate(true), "race":{
+	return {"schema":SCHEMA, "conditions":{"weather":weather_preset,"time":time_band,"rules":weather_rules}, "mountain":mountain.duplicate(true), "race":{
 		"name":title, "type":"open_route", "start":[start.x,start.y,start.z],
 		"heading_rad":heading, "finish":[finish.x,finish.y,finish.z],
 		"finish_heading_rad":finish_heading,"finish_width_m":FINISH_WIDTH,
@@ -39,7 +43,7 @@ func identity() -> String:
 	return share_text().sha256_text()
 
 func record_identity() -> String:
-	return "race-v4-props%d-zone%d-%s-physics-v%d-%s" % [Flavor.VERSION,Zone.RULES_VERSION,identity(),Simulation.MODEL_VERSION,
+	return "race-v5-props%d-zone%d-%s-physics-v%d-%s" % [Flavor.VERSION,Zone.RULES_VERSION,identity(),Simulation.MODEL_VERSION,
 		FileAccess.get_sha256("res://config/ski_default.tres")]
 
 static func decode(text_value: String) -> Dictionary:
@@ -50,8 +54,13 @@ static func decode(text_value: String) -> Dictionary:
 	var data = parser.data
 	if data is Dictionary and data.get("schema")==2:
 		return {"error":"This race uses the old finish area. Recreate it with the new gates; earlier times stay separate."}
-	if not data is Dictionary or not _keys(data,["schema","mountain","race"]) or data.get("schema") != SCHEMA:
+	if not data is Dictionary or not _keys(data,["schema","conditions","mountain","race"]) or data.get("schema") != SCHEMA:
 		return {"error":"Unsupported race format. Paste a complete Alpine Apex race code."}
+	var conditions = data.conditions
+	if not conditions is Dictionary or not _keys(conditions,["weather","time","rules"]):
+		return {"error":"Race conditions are missing or unsupported."}
+	if not conditions.weather is String or not conditions.weather in WeatherRules.PRESETS or not conditions.time is String or not conditions.time in WeatherRules.TIMES or not _number(conditions.rules) or conditions.rules!=WeatherRules.VERSION:
+		return {"error":"Unsupported weather, time band or weather rules."}
 	var m = data.mountain
 	if m is Dictionary and m.get("generator")=="alpine-drainage":
 		var error = MountainDefinition.reference_error(m)
@@ -77,6 +86,7 @@ static func decode(text_value: String) -> Dictionary:
 	if not _vector(r.start) or not _vector(r.finish) or not _number(r.heading_rad) or absf(float(r.heading_rad)) > PI or not _number(r.finish_heading_rad) or absf(float(r.finish_heading_rad))>PI:
 		return {"error":"Start, finish and heading must be finite world coordinates and radians."}
 	var result = load("res://scripts/racing/race_definition.gd").new()
+	result.weather_preset = conditions.weather; result.time_band = conditions.time; result.weather_rules = int(conditions.rules)
 	result.title = r.name.strip_edges()
 	result.mountain = m.duplicate(true)
 	for key in ["seed","scenery_seed","version","scenery_version"]:

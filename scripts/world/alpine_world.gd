@@ -261,10 +261,10 @@ func update_weather(state, dt: float, animate: bool) -> void:
 				render_state.shader(weather_material,key,state.get(key))
 			render_state.shader(weather_material,"sun_glow_strength",smoothstep(0.0,0.16,state.sun_direction.y))
 			render_state.shader(weather_material,"moon_glow_strength",smoothstep(0.01,0.20,-state.sun_direction.y))
-	# Integrate displacement instead of multiplying time by changing wind:
-	# a gust or transition must not teleport the clouds.
-	if animate and state.enabled:
-		cloud_offset += Vector2(state.wind_velocity.x,state.wind_velocity.z)*dt
+	# Controller snapshots own displacement; world only submits completed state.
+	cloud_offset = state.cloud_offset
+	render_state.shader(weather_material,"high_wisps",quality.level==2)
+	render_state.shader(weather_material,"lightning_flash",state.lightning_flash if state.enabled else 0.0)
 	cloud_lighting.update(state,cloud_offset,state.sun_direction)
 	var camera = get_viewport().get_camera_3d()
 	if camera:

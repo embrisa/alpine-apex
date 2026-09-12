@@ -1,5 +1,7 @@
 extends Resource
 ## Presentation values only. Wind is in world-space metres per second.
+@export_range(0,1) var storm: float = 0.0
+@export_range(0,1) var thunder: float = 0.0
 @export var label: String = "Clear"
 @export_range(0,1) var cloud_coverage: float = 0.2
 @export_range(0,1) var snow: float = 0.0

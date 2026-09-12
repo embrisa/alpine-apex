@@ -8,9 +8,10 @@ var free_radius: float = 0.0
 var finished: bool = false
 var personal_best: float = -1.0
 var history: Array = []
+var practice_reason = ""
 var eligible: bool = true
 var race = null
-var record_directory: String = "user://race_records_v3"
+var record_directory: String = "user://race_records_v5"
 var benchmark_path: String = "user://benchmark_v1.json"
 var previous_elapsed: float = 0.0
 var previous_best: float = -1.0
@@ -35,6 +36,7 @@ func reset() -> void:
 	previous_elapsed = 0.0
 	finished = false
 	eligible = true
+	practice_reason = ""
 	previous_best = personal_best
 	new_best = false
 	split_times = [-1.0,-1.0,-1.0]
@@ -52,6 +54,11 @@ func reset() -> void:
 		split_origin = Vector2(0,25)
 		split_axis = Vector2(0,1)
 		split_length = finish_z-25.0
+
+func mark_practice(reason: String) -> void:
+	eligible = false
+	recording = null
+	if practice_reason.is_empty(): practice_reason = reason
 
 func begin_capture(sim) -> void:
 	if not eligible: return
@@ -104,7 +111,7 @@ func split_delta(index: int) -> float:
 
 func result_text(peak_kmh: float) -> String:
 	var result = "%s  /  TOP SPEED %d km/h" % [format_time(elapsed),peak_kmh]
-	if not eligible: return result+"\nUnranked run. Personal best unchanged."
+	if not eligible: return result+"\nPractice · "+practice_reason+". Personal best unchanged." if not practice_reason.is_empty() else result+"\nUnranked run. Personal best unchanged."
 	if previous_best<0.0: result += "\nFirst personal best. Your next line starts here."
 	else: result += "\n%s vs your previous best." % format_delta(elapsed-previous_best)
 	if not save_error.is_empty(): return result+"\nSave failed. This result is kept for this session."

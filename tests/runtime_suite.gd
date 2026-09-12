@@ -605,27 +605,25 @@ func _weather_checks() -> void:
 	check("RAIN" in game.hud.altitude_label.text and "°C" not in game.hud.altitude_label.text,"HUD shows actual weather without a fabricated temperature")
 	controller.set_preset("clear")
 	controller.set_automatic(true)
-	controller.update_weather(180.0,true)
-	check(controller.state.label=="Clear" and is_equal_approx(controller.state.cloud_coverage,0.2),"Auto weather holds the preset for three minutes")
-	controller.update_weather(10.0,true)
+	var hold_duration: float = controller.duration
+	check(hold_duration>=240.0 and hold_duration<=420.0,"Ordinary fronts hold four to seven active minutes")
+	controller.update_weather(hold_duration,true)
+	check(controller.phase=="blend" and controller.target_preset=="cloudy","Clear begins a coherent Cloudy approach")
+	var blend_duration: float = controller.duration
+	controller.update_weather(blend_duration*.5,true)
 	check(controller.state.cloud_coverage>0.2 and controller.state.cloud_coverage<0.78 and "→" in controller.state.label,"Auto weather blends lighting and clouds gradually")
 	var frozen = [controller.phase_seconds,controller.visual_time,controller.state.cloud_coverage]
 	controller.update_weather(60.0,false)
-	check(frozen==[controller.phase_seconds,controller.visual_time,controller.state.cloud_coverage],"Pause freezes the transition and weather animation clock")
-	controller.update_weather(10.0,true)
-	check(controller.selected_preset=="cloudy" and is_zero_approx(controller.phase_seconds),"Twenty-second transition arrives at the next preset")
-	var sequence: Array = []
-	for i in range(5):
-		controller.update_weather(200.0,true)
-		sequence.append(controller.selected_preset)
-	check(sequence==["snowfall","cloudy","rain","cloudy","clear"],"Auto cycle includes cloudy interludes and returns to clear")
-	controller.update_weather(190.0,true)
+	check(frozen==[controller.phase_seconds,controller.visual_time,controller.state.cloud_coverage],"Pause freezes transition and weather animation")
+	controller.update_weather(blend_duration*.5,true)
+	check(controller.selected_preset=="cloudy" and is_zero_approx(controller.phase_seconds),"Seeded transition arrives at its target")
+	controller.update_weather(controller.duration+10.0,true)
 	controller.set_automatic(false)
 	var held: float = controller.state.cloud_coverage
 	controller.update_weather(30.0,true)
 	check(is_equal_approx(held,controller.state.cloud_coverage),"Disabling auto preserves an in-progress blend without a lighting jump")
 	controller.set_preset("snowfall")
-	check(is_zero_approx(controller.phase_seconds) and controller.state.snow>0.8,"Selecting a preset cancels the blend and starts a fresh hold")
+	check(is_zero_approx(controller.phase_seconds) and controller.state.snow>0.7,"Selecting a preset cancels the blend and starts a fresh hold")
 	controller.set_automatic(true)
 	controller.update_weather(27.0,true)
 	game.restart()
@@ -713,6 +711,7 @@ func _lighting_checks() -> void:
 	var offset: Vector2 = game.world.cloud_offset
 	game.world.update_weather(weather.state,10.0,false)
 	check(offset==game.world.cloud_offset,"Paused clouds do not move their ground shadows")
+	weather.update_weather(1.0,true)
 	game.world.update_weather(weather.state,1.0,true)
 	check(game.world.cloud_offset.distance_to(offset)>1.0,"Wind moves the shared cloud field in world metres")
 	weather.set_quality(0)
@@ -725,12 +724,12 @@ func _lighting_checks() -> void:
 	var hour: float = weather.daylight.hour
 	weather.update_weather(50.0,false,true)
 	check(weather.daylight.hour==hour,"Title and pause do not advance the optional time cycle")
-	weather.update_weather(300.0,true)
-	check(is_equal_approx(weather.daylight.hour,18.0),"Automatic time advances a quarter day in five minutes")
+	weather.update_weather(900.0,true)
+	check(is_equal_approx(weather.daylight.hour,18.0),"Automatic time advances a quarter day in fifteen active minutes")
 	game.restart()
 	check(is_equal_approx(weather.daylight.hour,18.0) and weather.daylight.automatic,"Restart retains time of day and its cycle setting")
-	weather.update_weather(1200.0,true)
-	check(is_equal_approx(weather.daylight.hour,18.0),"Twenty-minute time cycle wraps continuously")
+	weather.update_weather(3600.0,true)
+	check(is_equal_approx(weather.daylight.hour,18.0),"Sixty-minute time cycle wraps continuously")
 	var single_shadow_light = true
 	for step in range(480):
 		weather.daylight.hour = step*0.05

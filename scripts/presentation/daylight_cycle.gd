@@ -1,7 +1,7 @@
 extends RefCounted
 ## Artistic alpine daylight, independent of physics and the wall-clock date.
 const PRESETS = {"dawn":6.5,"day":12.0,"dusk":17.5,"night":0.0}
-const CYCLE_SECONDS = 1200.0
+const CYCLE_SECONDS = 3600.0
 var hour: float = 12.0
 var automatic: bool = false
 

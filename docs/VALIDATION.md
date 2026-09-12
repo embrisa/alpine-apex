@@ -115,8 +115,8 @@ Use [player recordings and short scenarios](#player-recordings-and-short-scenari
 for existing early-save and exact-stop replay support. The interactive recorder
 does not currently expose a duration option: save at the planned boundary, then
 close it to release the guard. An unattended harness must provide its own clean
-timed stop; do not assume the wrapper timeout saves a clip. Existing complete-trace
-benchmark requirements remain intact, and mandatory physics/runtime suites still
+timed stop; do not assume the wrapper timeout saves a clip. The benchmark now
+defaults to a 15-second window from a validated trace, and mandatory physics/runtime suites still
 run in full when required by the agent contract.
 
 ## Check selection
@@ -161,6 +161,14 @@ not position/solver changes. Validate trace/core/generator/tuning/terrain identi
 before playback. A failed pilot is a workload blocker, not license to substitute
 a scripted teleport descent. Check the test's selected version against the current
 baseline before producing or accepting a trace.
+
+`scripts/benchmark_pc.ps1` defaults to `-TrialSeconds 15 -TrialStartSeconds 90`;
+the duration is bounded to 1–60 seconds. It pre-rolls ordinary recorded input
+offline to the selected section, warms the unchanged scene, then measures only
+the requested window. An independent solver replay verifies the exact endpoint.
+Source identity pins movement code; `run_session.gd` is excluded because it does
+not execute during trace generation. Results explicitly use `short_production_trial`
+scope, never complete-descent acceptance. Loading/pre-roll are separate costs.
 
 Playback rejects stale source/model/generator identity and unsuccessful traces
 before mountain/scene setup, then still verifies terrain identity and exact
@@ -503,3 +511,28 @@ is blocked on actual user playtesting after evidence preparation. Task files own
 their status/dependencies; this guide does not mark them complete or duplicate
 their checklists. Automated, rendered, performance, listening and human acceptance
 must remain independently attributable.
+
+## Weather and storm-race evidence
+
+The weather upgrade uses schema 5 / weather rules 1. Focused tests cover launch
+preferences and private RNG, 3,600-second days, front/storm boundaries, complete
+snapshot continuation, fixed race schedules and practice-record protection.
+Run `weather_suite.gd` headlessly and `weather_lifecycle_suite.gd` headlessly or
+natively through the guard. The lifecycle fixture uses isolated records and can
+capture the authored start, practice result and restored free-ski state.
+
+`tests/weather_motion_review.gd` captures one-second chronological clips for six
+conditions, four daylight bands and both cameras; `--matrix` covers 54 independent
+graphics/FX/lightning/reduced-motion combinations. `weather_sky_review.gd` captures
+15-second accelerated storm approach/peak/recovery and short Full/Reduced/Off
+lightning sequences. `storm_audio_capture.gd` records the actual native mixer,
+including delayed thunder with lightning Off, mute and pause/resume. Use native
+DX12 for these checks; screenshots/audio captures are excluded from performance.
+
+2026-09-12 evidence is retained under `artifacts/weather_upgrade/`: regression
+receipts, 48 condition clips, 54 quality clips, native interfaces, lightning and
+thunder capture. World-only submission (100 cloud receivers and one wind
+material) measured median means of 54.50 us before, 59.43 us after Clear and
+59.00 us Thunderstorm, each from three 480-sample runs. This isolates submission
+CPU cost; it is not whole-game or GPU performance. Human readability, controller
+comfort and listening acceptance remain open.

@@ -72,7 +72,7 @@ func reset() -> void:
 
 func set_budget_scale(value: float) -> void:
 	if is_equal_approx(budget_scale,value): return
-	budget_scale = clampf(value,.25,1.5)
+	budget_scale = clampf(value,.25,1.0)
 	var previous = quality
 	quality = -1
 	set_quality(previous)
@@ -114,6 +114,8 @@ func update_weather(state, camera: Camera3D, rider_position: Vector3, field, dt:
 		var flow: Vector3 = state.wind_velocity + Vector3.DOWN*(2.3 if i==0 else 16.0) - camera_velocity
 		particle.global_position = camera.global_position
 		process.set_shader_parameter("airflow",flow)
+		process.set_shader_parameter("snow_kind",i==0)
+		process.set_shader_parameter("gust",state.gust)
 		process.set_shader_parameter("clock",state.visual_time)
 		process.set_shader_parameter("enabled",enabled)
 		material.set_shader_parameter("flow",flow)

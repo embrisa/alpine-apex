@@ -31,12 +31,14 @@ func run() -> void:
 	var version = Definition.CURRENT_VERSION
 	var path = "res://artifacts/fps_optimization/descent_input.json"
 	var weather = "clear"
+	var time_of_day = "day"
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--version="): version = int(arg.get_slice("=",1))
 		if arg.begins_with("--input-trace="): path = arg.get_slice("=",1)
 		if arg.begins_with("--benchmark-label="): output = "res://artifacts/pc_environment/"+arg.get_slice("=",1).validate_filename()
 		if arg.begins_with("--repetitions="): repetitions = clampi(int(arg.get_slice("=",1)),1,10)
 		if arg.begins_with("--weather="): weather = arg.get_slice("=",1)
+		if arg.begins_with("--time-of-day="): time_of_day = arg.get_slice("=",1)
 		if arg.begins_with("--trial-seconds="): trial_seconds = clampi(int(arg.get_slice("=",1)),1,60)
 		if arg.begins_with("--trial-start-seconds="): trial_start_seconds = maxi(0,int(arg.get_slice("=",1)))
 		if arg=="--scenario-replay": scenario_replay = true
@@ -90,7 +92,7 @@ func run() -> void:
 		game.camera.recorded_look = trace.camera_samples
 		game.camera.effects_enabled = effects_enabled
 	game.camera.settings = game.camera_settings
-	game.weather.set_preset(weather); game.weather.set_time_of_day("day")
+	game.weather.set_preset(weather); game.weather.set_time_of_day(time_of_day)
 	game.display_settings.apply_display(root,game.benchmark_resolution)
 	game.display_settings.apply_viewport(root)
 	game.effects.muted = false

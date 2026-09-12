@@ -1,6 +1,12 @@
 extends RefCounted
 ## One shared, mutable presentation snapshot. Never passed into SkiSimulation.
-const FIELDS = ["cloud_coverage","snow","rain","spindrift","wind_velocity","sky_top","sky_horizon","cloud_color","sun_color","sun_energy","ambient_color","ambient_energy","fog_color","fog_density"]
+const FIELDS = ["storm","thunder","cloud_coverage","snow","rain","spindrift","wind_velocity","sky_top","sky_horizon","cloud_color","sun_color","sun_energy","ambient_color","ambient_energy","fog_color","fog_density"]
+var storm = 0.0
+var thunder = 0.0
+var cloud_offset = Vector2.ZERO
+var active_seconds = 0.0
+var variation_seed = 849205174
+var lightning_flash = 0.0
 var label: String = "Clear"
 var enabled: bool = true
 var cloud_coverage: float = 0.2

@@ -16,6 +16,13 @@ class Fixture:
 	func sample(_x: float,z: float) -> Dictionary:
 		return {"height":-z*slope-(9.0 if drop and z>=8 else 0.0),"normal":Vector3(0,1,slope).normalized()}
 	func sweep_obstacle(_a: Vector3,_b: Vector3) -> String: return ""
+	func nearby_obstacle_indices(position: Vector3, radius: float) -> Array:
+		var result = []
+		for z in range(floori((position.z-radius)/48),floori((position.z+radius)/48)+1):
+			for x in range(floori((position.x-radius)/48),floori((position.x+radius)/48)+1):
+				for id in obstacle_grid.get(Vector2i(x,z),[]):
+					if not result.has(id): result.append(id)
+		return result
 	func add(p: Vector3,r: float = 0.5,h: float = 10.0) -> void:
 		var id = obstacles.size()
 		obstacles.append({"position":p,"radius":r,"height":h,"tree":true})

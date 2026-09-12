@@ -24,6 +24,7 @@ void vertex() {
 void fragment() {
 	vec2 p = UV*2.0-1.0;
 	float shape = (1.0-smoothstep(0.1,1.0,abs(p.x)))*(1.0-smoothstep(0.15,1.0,abs(p.y)));
+	if (kind==0) shape *= 1.0-smoothstep(0.3,1.0,length(p));
 	vec2 center = (SCREEN_UV-vec2(0.5,0.46))*vec2(VIEWPORT_SIZE.x/VIEWPORT_SIZE.y,1.0);
 	float route = mix(0.28,1.0,smoothstep(0.12,0.48,length(center)));
 	ALBEDO = kind==1 ? vec3(0.71,0.85,0.96) : vec3(0.90,0.96,1.0);

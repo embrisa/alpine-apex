@@ -11,7 +11,9 @@ float cloud_noise(vec2 p) {
 }
 float cloud_density(vec2 world_xz) {
 	vec2 p = (world_xz-cloud_params.xy)*CLOUD_SCALE_PER_M;
-	float n = cloud_noise(p)*0.57 + cloud_noise(p*2.07)*0.29 + cloud_noise(p*4.11)*0.14;
+	// Broader masses with restrained small edges, shared by sky and receivers.
+	// Keep octaves independent: domain warping serializes this per-surface hot path.
+	float n = cloud_noise(p)*0.62 + cloud_noise(p*2.07)*0.26 + cloud_noise(p*4.11)*0.12;
 	return smoothstep(0.87-cloud_params.z*0.64,1.05-cloud_params.z*0.64,n);
 }
 float cloud_light_transmission(vec3 world_position, vec3 light_direction) {

@@ -11,11 +11,13 @@ func run() -> void:
 	Engine.max_fps = 120
 	root.size = Vector2i(640,360)
 	var label = "weather_submission"
+	var preset = "clear"
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--benchmark-label="): label = arg.get_slice("=",1).validate_filename()
+		if arg.begins_with("--weather=") and Weather.PRESETS.has(arg.get_slice("=",1)): preset = arg.get_slice("=",1)
 	var world = World.new(); root.add_child(world); world._environment()
 	world.assets = Assets.new(world.cloud_lighting,Graphics.preset(2))
-	var weather = Weather.new(); root.add_child(weather); weather.set_preset("clear")
+	var weather = Weather.new(); root.add_child(weather); weather.set_preset(preset)
 	var source = StandardMaterial3D.new(); source.resource_name = "FC_Tree"
 	world.assets.material_for(source)
 	for i in 100: world.cloud_lighting.material(Color.WHITE)
@@ -33,6 +35,7 @@ func run() -> void:
 			await process_frame
 		rows.append(Costs.stats(samples))
 		print("WEATHER_SUBMISSION ",repetition+1," ",JSON.stringify(rows[-1]))
-	FileAccess.open("res://artifacts/fps_optimization/"+label+".json",FileAccess.WRITE).store_string(JSON.stringify({"scope":"World submission CPU microseconds, 100 cloud receivers plus one wind material; no full-descent or GPU performance claim","rows":rows},"\t"))
+	DirAccess.make_dir_recursive_absolute("res://artifacts/fps_optimization")
+	FileAccess.open("res://artifacts/fps_optimization/"+label+".json",FileAccess.WRITE).store_string(JSON.stringify({"scope":"World submission CPU microseconds, 100 cloud receivers plus one wind material; no full-descent or GPU performance claim","weather":preset,"rows":rows},"\t"))
 	world.queue_free(); weather.queue_free(); await process_frame
 	quit(0)

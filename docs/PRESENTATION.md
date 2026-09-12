@@ -23,6 +23,13 @@ Endpoint terrain picking remains explicit pointer input. The controls footer is
 menu-only, including summit staging; the Controls page retains the full shortcut
 inventory.
 
+Weather settings expose six conditions, time bands, independent automatic and
+next-launch controls, Rare storms and lightning Full/Reduced/Off. Manual choices
+apply immediately; next-launch toggles leave the current scene alone. Race
+controls show a latched practice reason when authored visibility is changed.
+Defaults, persistence and clock behavior belong to [Weather](RENDERING.md#weather);
+eligibility and restoration belong to [Racing](RACING.md#records-and-compatibility).
+
 ## Controller prompts
 
 `ui/menu_navigation.gd` detects the active input device before initial loading,

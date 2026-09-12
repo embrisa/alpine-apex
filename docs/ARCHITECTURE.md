@@ -10,7 +10,7 @@ Their declarations, not an old report title, determine compatibility.
 | Default mountain | Seed 849205174, generator 15, Standard | [startup](../scripts/main.gd), [definition](../scripts/world/mountain_definition.gd), [settings](../scripts/world/generation_settings.gd) |
 | Ski physics | Model 28, 120 Hz | [simulation](../scripts/core/ski_simulation.gd), [project settings](../project.godot) |
 | Replay | Format 5, eight tick-input fields | [replay](../scripts/racing/run_replay.gd) |
-| Race | Schema 4 | [race definition](../scripts/racing/race_definition.gd) |
+| Race | Schema 5, weather rules 1 | [race definition](../scripts/racing/race_definition.gd) |
 | Mountain file | Schema 2 | [mountain definition](../scripts/world/mountain_definition.gd) |
 | Engine bundle | Godot 4.7.2 editor + validated custom DX12 runtime | [toolchain manifest](../tools/windows/toolchain.json), [development](DEVELOPMENT.md) |
 
@@ -33,6 +33,7 @@ Paths below are under `scripts/`.
 | `presentation/skier_pose_writer.gd` | Single final skeleton writer; composed pose can seed a crash but cannot modify skiing forces or replay state |
 | `presentation/skier_ragdoll.gd`, `world/crash_collision.gd` | Crash-only Jolt skeleton, equipment and nearby exact terrain/obstacle collision |
 | `core/run_session.gd` | Clock, finish/splits, eligibility, frozen PB reference, recorder lifecycle |
+| `presentation/weather_controller.gd`, `weather_preferences.gd`, `main.gd` | Resumable fronts/cloud displacement, durable choices and cumulative storm progress, suspended free-ski versus authored race context; never physical wind or surface changes |
 | `racing/race_definition.gd`, `race_store.gd`, `competitive_record.gd`, `run_replay.gd` | Portable definitions, validation, local stores, compatible snapshot ghosts |
 | `racing/race_workshop.gd`, `ui/mountain_library.gd` | Survey/endpoint authoring and mountain generation/library flows |
 | `ui/hud.gd`, `main.gd` | UI intent dispatch; scene/session lifecycle, fixed-step dispatch and presentation interpolation |

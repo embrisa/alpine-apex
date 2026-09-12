@@ -34,14 +34,19 @@ the drawer. Controller navigation still owns menu focus, not survey translation.
 
 [RaceDefinition](../scripts/racing/race_definition.gd) is Node-free and owns
 schema/validation/canonical identity. [Current versions](ARCHITECTURE.md#current-identity)
-are independent of storage directory suffixes: the current race schema is 4,
-while [RaceStore](../scripts/racing/race_store.gd) still uses `user://races_v3`.
+use race schema 5 and [RaceStore](../scripts/racing/race_store.gd)
+uses `user://races_v5`. Older schemas are rejected without migration.
 The mountain reference includes generator/seed/engine, physical settings and
 height/obstacle fingerprints; laboratory/scenery references retain their own
 identities. Import rebuilds a differing reference before running it.
 
 Definitions contain the name, `open_route`, start/finish positions and headings,
-fixed gate dimensions and prop version. Names are 1–60 printable characters;
+fixed gate dimensions and prop version. Canonical `conditions` contains `weather`,
+`time` and `rules` (currently 1): six presets including Snowstorm/Thunderstorm,
+and Dawn/Day/Dusk/Night. New and suggested races default to Clear/Day. These
+fields appear in shared JSON, creator controls and library details and participate
+in race and record identity. Unknown/malformed conditions or rules are rejected.
+Names are 1–60 printable characters;
 codes are bounded to 16 KiB. Reject unsupported/unknown rules, malformed types,
 nonfinite coordinates, invalid seeds/versions and mismatched fingerprints.
 Endpoints need supported snow below 40° slope, clear gate footprints, at least
@@ -100,7 +105,7 @@ Zstandard JSON document. Readers bound decompression to 8 MiB and validate
 numbers, sample ordering, input dimensions and compatibility. Save failure is
 visible; the in-memory result remains available.
 
-Custom records use `user://race_records_v3/<course-hash>_competition_v2.apexrun`.
+Custom records use `user://race_records_v5/<course-hash>_competition_v2.apexrun`.
 The separate laboratory benchmark uses `user://benchmark_v1_competition_v2.apexrun`.
 Its existing schema-1 time migration remains implemented; it supplies no invented
 dates/splits/ghost. This retained code is not a requirement to add future migrations.
@@ -112,6 +117,22 @@ tick rate. A matching replay format alone does not establish compatibility.
 Malformed/incompatible ghosts are rejected while valid stored times can remain
 visible with an explanation. JSON numeric normalization must not reject otherwise
 valid recordings. Tests use disposable stores and stay out of personal records.
+
+Each authored attempt starts at the exact preset/hour with fronts and daylight
+held. Gusts, lightning and cloud displacement derive from canonical race identity
+and elapsed session time; retries reset to zero, pauses spend no schedule time.
+Changing weather/time, enabling either cycle, or Weather FX Off latches practice
+until a fresh valid retry. Returning controls to their original values cannot
+restore eligibility. Low/High FX and Full/Reduced/Off lightning are permitted.
+Main checks conditions before a physics tick can save a result; RunSession clears
+the recorder and preserves the practice reason. Existing automation/physics/lab
+restrictions still apply. Visibility rules do not enter the movement solver.
+
+Main suspends the initial complete free-ski weather snapshot through races,
+retries, finishes and world reconstruction. Leaving, boundary return and failed
+race loads restore it. Race weather controls do not write personal weather/time
+fallbacks. Quality/accessibility preferences can be saved independently. Old
+race files and records remain on disk in their earlier namespaces.
 
 ## Future competition
 

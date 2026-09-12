@@ -8,6 +8,7 @@ signal vibration_changed(value: float)
 signal defaults_requested
 signal workbench_closed
 signal quit_requested
+signal weather_option_requested(key: String, value: Variant)
 signal weather_preset_requested(id: String)
 signal weather_auto_requested(enabled: bool)
 signal weather_quality_requested(quality: int)
@@ -121,9 +122,11 @@ var appearance_column: VBoxContainer
 var weather_panel: PanelContainer
 var weather_button: Button
 var weather_preset: OptionButton
+var weather_options: Dictionary = {}
+var weather_practice: Label
 var weather_auto: CheckButton
 var weather_quality: OptionButton
-const WEATHER_IDS = ["clear","cloudy","snowfall","rain"]
+const WEATHER_IDS = ["clear","cloudy","snowfall","rain","snowstorm","thunderstorm"]
 const TIME_IDS = ["dawn","day","dusk","night"]
 var time_of_day: OptionButton
 var time_cycle: CheckButton

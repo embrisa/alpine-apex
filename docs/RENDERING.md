@@ -160,17 +160,51 @@ Motion/readability benefit and performance improvement are not established.
 
 `weather_controller.gd`, `weather_state.gd`, `weather_effects.gd`,
 `daylight_cycle.gd` and cloud/atmosphere owners form a presentation-only system.
-Current daylight duration is **1,200 active-skiing seconds**; the requested
-60-minute/random-weather/storm-race design is backlog work, not implemented state.
-Weather/daylight stop during title/pause/results while menu clouds/precipitation
-may animate. Weather Off clears cloud attenuation/additional weather effects
-at the selected time; it is not a physical surface change.
+The controller owns complete snapshots: seeded RNG state, front endpoints/phase,
+active clocks, daylight, storm cooldown and double-precision integrated cloud
+displacement. World only submits this state to the shared sky/shadow field.
+Ordinary fronts hold 240–420 active seconds and blend over 45–75; rain and snow
+branches pass through Cloudy. Bounded gusts modulate wind and precipitation.
+Daylight wraps in **3,600 active-skiing seconds**. Menus, pause, survey, preview,
+loading, summit staging and results hold progression. Menu ambience may animate
+clouds/precipitation unless reduced motion is enabled. Pathological deltas are
+capped at 86,400 active seconds, with phase-boundary integration and bounded event work.
+
+`weather_preferences.gd` stores player choices/history in `weather_v1.cfg`, separate
+from live fronts. Both cycles, random launch weather/time and Rare storms default
+on; manual fallbacks are Clear/Day, FX High, lightning Full. Launch weather draws
+from ordinary presets with base weights 30/30/30/10; hour draws cover all 24 hours.
+A repeated weather/time-band pair rerolls only an enabled component (hour first
+when both are enabled). The resulting joint distribution is constrained, not
+independent exact weights. Disabled launch toggles use manual selections. Explicit
+weather/time arguments hold their corresponding cycles unless an explicit cycle
+override is present. Script/headless/autoplay launches use fixed seeds, Clear/Day
+and disabled cycles without personal history reads/writes.
+
+Automatic free-ski storms have a 5% decision at eligible front changes after
+1,200 accumulated active seconds and a 1,200-second cooldown after recovery.
+Snowstorm follows the snowy branch; Thunderstorm follows rain; Cloudy can approach
+either. Peaks last 90–150 seconds and cannot nest. Manual storms can be held.
+Counters persist every 30 active seconds and at lifecycle handoffs; time away
+never counts. Launches do not restore a live front; replacing an exited storm
+retains a full cooldown. Within an application, retries/reloads restore the whole
+front without another launch draw. Authored attempts follow [race rules](RACING.md).
+Disabling Rare storms also cancels a planned storm in a suspended free-ski front
+when that front resumes; it does not abruptly cut an existing storm short.
+
+The main cloud silhouette and receiver attenuation share the same noise field.
+High adds a restrained non-shadow-casting wispy layer; the radiance branch stays
+cheap. Pooled lightning illuminates the cloud shader through WeatherState without
+another daylight owner or shadow pass. Reduced suppresses abrupt cloud flashes,
+Off hides bolts/flashes, and reduced motion caps the effective choice at Reduced.
+Transient lightning/thunder clears on mode, camera and lifecycle handoffs.
 
 Precipitation uses translation-only local volumes, relative wind/fall minus
 camera translation exactly once, wrapping and retained particle state. Reset
 history on teleports, camera transitions and quality/lifecycle changes. Bounded
 ground samples replace per-particle CPU collision. Apply budget then quality
-at creation and live changes; quality zero disables precipitation/drift without
+at creation and live changes, capped at 1,700 High / 850 Low particles. Snow uses
+varied flake sizes/fall/flutter and gust-driven drifts. Quality zero disables precipitation/drift without
 erasing selected weather, wind, cloud lighting or weather audio.
 
 There is no precipitation accumulation, wet-grip model, physical wind force,

@@ -58,6 +58,10 @@ var draw_samples: Array[float] = []
 var peak_video_memory_bytes: int = 0
 var weather
 var weather_effects
+var storm_effects
+var weather_preferences = preload("res://scripts/presentation/weather_preferences.gd").new()
+var free_weather_snapshot: Dictionary = {}
+var weather_checkpoint = 0.0
 var field
 var world
 var sim: SkiSimulation
@@ -96,7 +100,10 @@ var active: bool = false:
 			if sim != null: sim.clear_input_buffer()
 			if skier != null: skier.animation.hold()
 		active = value
-		if not value: _reset_screen_effects()
+		if not value:
+			_reset_screen_effects()
+			_clear_storm_effects()
+			_checkpoint_weather()
 		if value and initialized: _restore_riding_camera()
 		if not value and effects != null: effects.wind.silence()
 		if not value and effects != null and (sim==null or not sim.crashed): effects.reset_haptics()
@@ -173,6 +180,7 @@ func _ready() -> void:
 	frame_costs.enabled = "--profile-frame-costs" in OS.get_cmdline_user_args()
 	# A scene reload reconstructs both terrain and presentation from the race's
 	# pinned mountain reference. Never silently run a race on the current seed.
+	_initialize_weather()
 	var pending_race = null
 	var pending_mountain = null
 	var load_warning = ""
@@ -267,27 +275,7 @@ func _ready() -> void:
 	crash_collision = preload("res://scripts/world/crash_collision.gd").new()
 	crash_collision.world = world
 	add_child(crash_collision)
-	weather = Weather.new()
-	add_child(weather)
-	for arg in OS.get_cmdline_user_args():
-		if arg.begins_with("--time-of-day="):
-			weather.set_time_of_day(arg.get_slice("=",1))
-		elif arg == "--cloud-shadows-off":
-			world.cloud_lighting.shadow_strength = 0.0
-		elif arg.begins_with("--weather="):
-			weather.set_preset(arg.get_slice("=",1))
-		elif arg.begins_with("--weather-quality="):
-			var quality_id = ["off","low","high"].find(arg.get_slice("=",1))
-			if quality_id >= 0:
-				display_settings.set_graphics_value("weather_quality",quality_id)
-				graphics = display_settings.profile()
-	weather.set_automatic("--weather-auto" in OS.get_cmdline_user_args())
-	weather.set_time_cycle("--time-cycle" in OS.get_cmdline_user_args())
-	if not reload_settings.is_empty():
-		weather.set_preset(reload_settings.weather)
-		weather.set_automatic(reload_settings.weather_auto)
-		weather.daylight.hour = reload_settings.hour
-		weather.set_time_cycle(reload_settings.time_cycle)
+	if "--cloud-shadows-off" in OS.get_cmdline_user_args(): world.cloud_lighting.shadow_strength = 0.0
 	session = Session.new()
 	if current_mountain:
 		session.configure_free(current_mountain.identity(),field.finish_z,field.finish_z if field.is_summit_mountain() else 0.0)
@@ -343,6 +331,9 @@ func _ready() -> void:
 	effects.apply_quality(graphics)
 	effects.snow_tracks.bind_surface(field)
 	effects.bind_powder_surface(world,graphics)
+	storm_effects = preload("res://scripts/presentation/storm_effects.gd").new()
+	add_child(storm_effects)
+	storm_effects.layer_height = world.cloud_lighting.height_m
 	weather_effects = WeatherEffects.new()
 	weather_effects.lighting = world.cloud_lighting
 	add_child(weather_effects)
@@ -403,6 +394,7 @@ func _ready() -> void:
 	)
 	hud.sync_camera_settings(camera_settings)
 	hud.quit_requested.connect(quit_cleanly)
+	hud.weather_option_requested.connect(_set_weather_option)
 	hud.weather_preset_requested.connect(weather.set_preset)
 	hud.weather_auto_requested.connect(weather.set_automatic)
 	hud.weather_quality_requested.connect(func(value): set_display_setting("weather_quality",value))
@@ -420,8 +412,8 @@ func _ready() -> void:
 	hud.display_keep_requested.connect(keep_display)
 	hud.display_revert_requested.connect(revert_display)
 	hud.sync_display(display_settings)
-	weather.settings_changed.connect(func(): hud.sync_weather(weather))
-	hud.sync_weather(weather)
+	weather.settings_changed.connect(_sync_weather_ui)
+	_sync_weather_ui()
 	mountain_library = MountainLibrary.new()
 	add_child(mountain_library)
 	mountain_library.build(self)
@@ -478,6 +470,7 @@ func _ready() -> void:
 		var standard_timed: bool = get_tree().get_meta("standard_to_load")
 		get_tree().remove_meta("standard_to_load")
 		start_run(standard_timed)
+	if not pending_race and not free_weather_snapshot.is_empty(): _leave_race_weather()
 	if not load_warning.is_empty(): hud.toast(load_warning)
 	elif not effects.wind.available: hud.toast("Procedural wind unavailable · using Original")
 	if staged_loading:
@@ -510,6 +503,7 @@ func _ready() -> void:
 func _physics_process(dt: float) -> void:
 	if not initialized or returning_to_summit or (loading and loading.busy) or sim == null or not active:
 		return
+	_check_race_weather() # Resolve eligibility before this tick can finish/save.
 	var tick_start = Time.get_ticks_usec()
 	previous_position = sim.position
 	intent = input_router.sample(sim.grounded)
@@ -662,7 +656,11 @@ func _process(dt: float) -> void:
 	var first_person_presented: bool = (presentation_camera==camera and camera.close_view) or (presentation_camera==camera_preview and camera_preview.close_view)
 	skier.body_pivot.visible = menu_view or skier.ragdoll.running or (summit_ready and presentation_camera!=camera_preview) or not first_person_presented
 	var weather_started = frame_costs.begin()
-	weather.update_weather(dt,active,animate_menu)
+	var weather_active = active and not summit_ready and not transitioning and not returning_to_summit
+	if session.race: weather.sample_race(session.elapsed)
+	else: weather.update_weather(dt,weather_active,animate_menu)
+	storm_effects.update_storm(weather.state,weather_active,weather.lightning,hud.feedback.reduced_motion,effects.muted,effects.wind.volume)
+	if weather.free_seconds-weather_checkpoint>=30.0: _checkpoint_weather()
 	world.update_weather(weather.state,dt,active or animate_menu)
 	frame_costs.end(&"weather_world",weather_started)
 	get_tree().call_group("race_beam_vfx","update_effect",dt,active or not workshop.mode.is_empty(),hud.feedback.reduced_motion)
@@ -734,7 +732,9 @@ func _present_camera(dt: float, rider_position: Vector3) -> void:
 		menu_camera.update_view(rider_position,dt,hud.feedback.reduced_motion,skier.ragdoll.running and not skier.ragdoll.frozen)
 		presentation_camera = menu_camera
 		menu_camera.make_current()
-		if before_cut!=menu_camera.cut_serial: weather_effects.reset()
+		if before_cut!=menu_camera.cut_serial:
+			weather_effects.reset()
+			_clear_storm_effects()
 		hud.set_background_fade(menu_camera.fade_alpha)
 	else:
 		if not menu_camera.context.is_empty(): _restore_riding_camera()
@@ -754,6 +754,7 @@ func _restore_riding_camera() -> void:
 	camera_stick_armed = false
 	camera.update_camera(sim,field,sim.position,0.0,false,active,summit_ready)
 	weather_effects.reset()
+	_clear_storm_effects()
 
 func _camera_control_allowed() -> bool:
 	return initialized and active and application_focused and not automated and not quitting and not transitioning and not returning_to_summit and not (loading and loading.busy) and camera != null and hud != null and not hud.menu.visible and not hud.weather_panel.visible and not hud.tuning_panel.visible and not hud.competition.panel.visible and not (mountain_library and mountain_library.panel.visible) and not (workshop and not workshop.mode.is_empty()) and not sim.crashed
@@ -844,6 +845,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		camera.reset()
 		camera_stick_armed = false
 		weather_effects.reset()
+		_clear_storm_effects()
 		hud.toast("FIRST PERSON" if camera.close_view else "CHASE CAMERA")
 	elif event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_V:
 		set_motion_effects(not camera.effects_enabled)
@@ -870,6 +872,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		hud.toast("PERSONAL-BEST GHOST ON" if ghost.enabled else "PERSONAL-BEST GHOST OFF")
 
 func start_run(is_timed: bool = false) -> void:
+	_leave_race_weather()
 	_cancel_summit_return()
 	if world and world.scenery: world.scenery.tree_motion.reset()
 	if transitioning: return
@@ -939,10 +942,12 @@ func restart(preserve_return: bool = false) -> void:
 	else:
 		sim.reset(field.spawn_point(),field.spawn_heading())
 	session.reset()
+	if session.race: weather.begin_race(session.race.weather_preset,session.race.time_band,session.race.identity())
 	session.eligible = not physics_modified and not automated and "--test-lab" not in OS.get_cmdline_user_args() and (session.race != null or (field.GENERATOR_ID=="laboratory" and field.seed_value == 849205174))
 	sim.surface_normal = field.contact_normal(sim.position.x,sim.position.z)
 	sim.prime_contacts(field)
 	skier.reset_animation(sim)
+	_check_race_weather()
 	if timed: session.begin_capture(sim)
 	previous_position = sim.position
 	intent = RiderInput.new()
@@ -955,6 +960,7 @@ func restart(preserve_return: bool = false) -> void:
 	camera_stick_armed = false
 	effects.reset()
 	weather_effects.reset()
+	_clear_storm_effects()
 	effect_time = 0.0
 	hud.hide_menu()
 	hud.menu_mode = "racing"
@@ -976,6 +982,7 @@ func set_ghost_visible(enabled: bool) -> void:
 
 func play_custom_race(race) -> void:
 	if transitioning: return
+	_suspend_free_weather()
 	_cancel_summit_return()
 	var same_world: bool = workshop.matches_world(race)
 	var rebuilt = {"field":field}
@@ -994,6 +1001,7 @@ func play_custom_race(race) -> void:
 	if not rebuilt.has("field"):
 		transitioning = false
 		loading.finish()
+		_leave_race_weather()
 		workshop.status.text = rebuilt.error
 		hud.toast(rebuilt.error)
 		return
@@ -1002,6 +1010,7 @@ func play_custom_race(race) -> void:
 	if not error.is_empty():
 		transitioning = false
 		loading.finish()
+		_leave_race_weather()
 		workshop.status.text = error
 		hud.toast(error)
 		return
@@ -1018,6 +1027,7 @@ func play_custom_race(race) -> void:
 			get_tree().remove_meta("world_reload_settings")
 			transitioning = false
 			loading.finish()
+			_leave_race_weather()
 			workshop.status.text = "Could not load the race's mountain. Please try again."
 		return
 	session.configure(race)
@@ -1126,6 +1136,7 @@ func quit_cleanly() -> void:
 	set_camera_preview(false)
 	if quitting:
 		return
+	_checkpoint_weather()
 	quitting = true
 	if effects: effects.reset_haptics()
 	_cancel_summit_return()
@@ -1229,6 +1240,8 @@ func apply_graphics_configuration() -> void:
 	if hud:
 		hud.graphics_quality.select(display_settings.quality-1)
 		hud.sync_display(display_settings)
+	_check_race_weather()
+	weather_preferences.set_value("quality",graphics.weather_quality)
 	_save_presentation_settings()
 
 func _save_presentation_settings() -> void:
@@ -1286,6 +1299,7 @@ func set_camera_preview(enabled: bool) -> void:
 	_sync_camera_controls()
 	_reset_screen_effects()
 	weather_effects.reset()
+	_clear_storm_effects()
 
 func set_display_setting(key: String, value: Variant) -> void:
 	if key in PCGraphics.Output.KEYS:
@@ -1301,6 +1315,7 @@ func set_display_setting(key: String, value: Variant) -> void:
 	if key=="frame_generation" and display_settings.display_mode=="fullscreen": display_settings.apply_display(get_window())
 
 func load_mountain(definition, generated_field) -> void:
+	_leave_race_weather()
 	_cancel_summit_return()
 	if transitioning: return
 	if generated_field.GENERATOR_ID!="alpine-drainage" or MountainDefinition.from_field(generated_field).identity()!=definition.identity():
@@ -1323,10 +1338,10 @@ func load_mountain(definition, generated_field) -> void:
 		mountain_library.status.text = "Could not load the mountain. Your preview is still available."
 
 func _remember_world_settings() -> void:
+	_remember_application_weather()
 	get_tree().set_meta("world_reload_settings",{"graphics":graphics.level,"display":display_settings.snapshot(),"tuning":sim.tuning.duplicate(true),
 		"camera":camera_settings.snapshot(),
-		"modified":physics_modified,"weather":weather.selected_preset,"weather_quality":graphics.weather_quality,
-		"weather_auto":weather.automatic,"hour":weather.daylight.hour,"time_cycle":weather.daylight.automatic,
+		"modified":physics_modified,
 		"close_view":camera.close_view,"muted":effects.muted,"motion_effects":camera.effects_enabled,
 		"interface":hud.feedback.snapshot(),"hud_layout":hud.widget_layout.snapshot(),"hud_visible":hud.widget_layout.global_visible,"interface_layout":hud.shell_layout.snapshot(),"wind":effects.wind.snapshot(),"voice":voice.snapshot(),"riding_audio":effects.sfx.snapshot()})
 
@@ -1342,6 +1357,7 @@ func drop_from_summit() -> void:
 	camera_stick_armed = false
 	effects.reset()
 	weather_effects.reset()
+	_clear_storm_effects()
 
 func _resolve_zone_exit(dt: float, before: Vector3, after: Vector3) -> bool:
 	var exit_fraction: float = mountain_zone.swept_exit_fraction(before,after)
@@ -1386,6 +1402,7 @@ func _begin_summit_return(valid_finish: bool) -> void:
 
 func _return_to_summit_midpoint() -> void:
 	if not returning_to_summit or transitioning or quitting: return
+	_leave_race_weather()
 	# A race's restart spawns at its authored start. Explicitly leave it first.
 	session.configure_free(current_mountain.identity(),field.finish_z,field.finish_z)
 	workshop.show_race(null)
@@ -1410,6 +1427,7 @@ func _cancel_summit_return() -> void:
 	return_paused = false
 
 func _exit_tree() -> void:
+	_checkpoint_weather()
 	if camera_controls_active and DisplayServer.get_name() != "headless":
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	_cancel_summit_return()
@@ -1421,6 +1439,7 @@ func _generate_mountain(seed_number: int, version: int = MountainDefinition.CURR
 	return await loading.run_data(MountainDefinition.generate.bind(seed_number,version,{},generation_job),generation_job)
 
 func _cancel_startup() -> void:
+	_remember_application_weather()
 	# Retain only a compact retry recipe, never a partially constructed mountain.
 	if not startup_race_code.is_empty(): get_tree().set_meta("race_to_load",startup_race_code)
 	elif current_mountain: get_tree().set_meta("mountain_retry_recipe",current_mountain)
@@ -1428,7 +1447,7 @@ func _cancel_startup() -> void:
 	if effects: effects.stop_audio()
 	for child in get_children():
 		if child!=loading and not child.is_queued_for_deletion(): child.queue_free()
-	for member in ["world","crash_collision","weather","skier","ghost","camera","menu_camera","effects","voice","weather_effects","vectors","hud","mountain_library","workshop","return_overlay","speed_periphery"]:
+	for member in ["world","crash_collision","weather","skier","ghost","camera","menu_camera","effects","voice","weather_effects","storm_effects","vectors","hud","mountain_library","workshop","return_overlay","speed_periphery"]:
 		set(member,null)
 	field = null; current_mountain = null; mountain_zone = null; session = null
 	loading.cancelled_startup()
@@ -1460,3 +1479,107 @@ func _update_display_recovery() -> void:
 	if output.pending.is_empty(): return
 	if output.expired(Time.get_ticks_msec()): revert_display(); return
 	hud.settings_pages.recovery.dialog_text = "Keep this display mode?\nReverting in %d seconds." % ceili((output.deadline_ms-Time.get_ticks_msec())/1000.0)
+
+func _initialize_weather() -> void:
+	weather = Weather.new(); add_child(weather)
+	var remembered: Dictionary = get_tree().get_meta("weather_application",{})
+	if not remembered.is_empty():
+		weather_preferences.restore(remembered.preferences)
+		free_weather_snapshot = remembered.free.duplicate(true)
+		weather.restore(remembered.live)
+	else:
+		if preferences_enabled: weather_preferences.load_preferences()
+		var launch_rng = RandomNumberGenerator.new()
+		if preferences_enabled: launch_rng.randomize()
+		else: launch_rng.seed = 849205174
+		var startup: Dictionary = weather_preferences.launch(launch_rng,OS.get_cmdline_user_args(),preferences_enabled)
+		weather.seed_stream(launch_rng.randi() if preferences_enabled else 849205174)
+		display_settings.set_graphics_value("weather_quality",startup.quality)
+		graphics = display_settings.profile()
+		startup.quality = 2 # FX budget and the shared sky remain separate, as in graphics settings.
+		weather.configure_launch(startup,weather_preferences if preferences_enabled else null)
+	weather.choice_changed.connect(_weather_choice)
+	weather.transients_cleared.connect(_clear_storm_effects)
+	weather_preferences.changed.connect(_save_weather_preferences)
+	_remember_application_weather()
+
+func _suspend_free_weather() -> void:
+	if free_weather_snapshot.is_empty(): free_weather_snapshot = weather.snapshot()
+	_clear_storm_effects()
+	_checkpoint_weather()
+
+func _leave_race_weather() -> void:
+	if free_weather_snapshot.is_empty(): return
+	weather.restore(free_weather_snapshot)
+	free_weather_snapshot.clear()
+	weather.lightning = weather_preferences.values.lightning
+	weather.rare_storms = weather_preferences.values.rare_storms
+	# A failed race load returns to free skiing, including from a previous race.
+	if session and session.race:
+		if current_mountain: session.configure_free(current_mountain.identity(),field.finish_z,field.finish_z if field.is_summit_mountain() else 0.0)
+		else: session.configure()
+		timed = false
+	_remember_application_weather()
+	_sync_weather_ui()
+
+func _weather_choice(key: String, value: Variant) -> void:
+	if session and session.race:
+		_check_race_weather()
+		if key=="quality": weather_preferences.set_value(key,value)
+	else: weather_preferences.set_value(key,value)
+	_sync_weather_ui()
+
+func _set_weather_option(key: String, value: Variant) -> void:
+	weather_preferences.set_value(key,value)
+	if key=="lightning":
+		weather.lightning = weather_preferences.values.lightning
+		_clear_storm_effects()
+	if key=="rare_storms":
+		weather.rare_storms = weather_preferences.values.rare_storms
+		if not weather.rare_storms: weather.pending_storm = ""
+	_sync_weather_ui()
+
+func _check_race_weather() -> void:
+	if not session or not session.race or not weather: return
+	var reason = ""
+	if graphics.weather_quality==0 or weather.quality==0: reason = "Weather FX is Off"
+	elif weather.automatic or weather.daylight.automatic: reason = "Automatic weather or daylight enabled"
+	elif weather.selected_preset!=session.race.weather_preset or not is_equal_approx(weather.daylight.hour,Weather.Rules.TIMES[session.race.time_band]): reason = "Authored weather or time changed"
+	if not reason.is_empty():
+		var changed: bool = session.practice_reason.is_empty()
+		session.mark_practice(reason)
+		if changed:
+			if hud: hud.toast("Practice · "+reason+". Retry to restore race conditions.")
+			_sync_weather_ui()
+
+func _sync_weather_ui() -> void:
+	if not hud or not weather: return
+	hud.sync_weather(weather)
+	for key in hud.weather_options:
+		var control = hud.weather_options[key]
+		if control is CheckButton: control.set_pressed_no_signal(weather_preferences.values[key])
+		else: control.select(weather_preferences.values[key])
+	if hud.weather_practice:
+		hud.weather_practice.text = "Practice · "+session.practice_reason+". Retry to restore authored conditions." if session and not session.practice_reason.is_empty() else "Race conditions are fixed. Changing weather/time or using FX Off makes this attempt practice." if session and session.race else ""
+
+func _clear_storm_effects() -> void:
+	if weather: weather.state.lightning_flash = 0.0
+	if is_instance_valid(storm_effects): storm_effects.clear_transients(weather.active_seconds if weather else 0.0)
+	if world and world.weather_material: world.render_state.shader(world.weather_material,"lightning_flash",0.0)
+
+func _checkpoint_weather() -> void:
+	if not weather: return
+	var saved: Dictionary = free_weather_snapshot if not free_weather_snapshot.is_empty() else weather.snapshot()
+	weather_preferences.free_seconds = saved.free_seconds
+	weather_preferences.cooldown = saved.cooldown
+	weather_preferences.storm_at_exit = saved.automatic_storm or saved.selected_preset in ["snowstorm","thunderstorm"]
+	weather_checkpoint = weather.free_seconds
+	_save_weather_preferences()
+
+func _save_weather_preferences() -> void:
+	if preferences_enabled and weather_preferences.save_preferences()!=OK and hud: hud.toast("Could not save weather preferences.")
+
+func _remember_application_weather() -> void:
+	if not weather: return
+	_checkpoint_weather()
+	get_tree().set_meta("weather_application",{"live":weather.snapshot(),"free":free_weather_snapshot.duplicate(true),"preferences":weather_preferences.snapshot()})

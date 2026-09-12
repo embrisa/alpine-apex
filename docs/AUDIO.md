@@ -15,6 +15,16 @@ in `wind_v1.cfg`, `riding_audio_v1.cfg` and `skier_voice_v1.cfg`. Scripted fixtu
 isolate personal settings/records. Pause/loading/focus loss/restart/retirement
 discard obsolete pending events; visible unfrozen crashes remain audible.
 
+Thunder uses three original precomputed mono clips under `assets/audio/weather/`,
+reproducible with `python scripts/tools/generate_thunder_audio.py` (fixed seeds,
+24 kHz PCM, 7–9 second clips, asset peak −6 dBFS). No external source audio
+or runtime synthesis is involved. `storm_effects.gd` owns three positional players
+and an absolute active-time event schedule. Thunder follows Wind volume and game
+mute, including with lightning Off; pause/retry/camera/mode handoffs discard pending
+events. Late events beyond a bounded catch-up window are skipped. Native mixer
+evidence comes from `tests/storm_audio_capture.gd`; equipment listening remains
+a separate acceptance step.
+
 ## Wind DSP
 
 `procedural_wind.gd` computes `weather.wind_velocity - sim.velocity` in the

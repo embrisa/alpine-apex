@@ -1,7 +1,8 @@
 param(
     [ValidatePattern('^[a-zA-Z0-9_-]+$')][string]$Label = 'v15_high_clear',
     [ValidateSet(-1,1)][int]$Side = -1,
-    [ValidateSet('clear','snowfall')][string]$Weather = 'clear',
+    [ValidateSet('clear','cloudy','snowfall','rain','snowstorm','thunderstorm')][string]$Weather = 'clear',
+    [ValidateSet('dawn','day','dusk','night')][string]$TimeOfDay = 'day',
     [ValidateSet(6,7,8,9,10,11,12,13,14,15)][int]$Version = 15,
     [ValidateRange(0,5)][int]$Face = 0,
     [ValidateRange(0,2147483647)][int]$Seed = 849205174,
@@ -60,7 +61,7 @@ if ($OffmapComparison -or $OffmapBaseline) { $alpinePlaytest = 'tests/offmap_des
 if ($OffmapPaired) { $alpinePlaytest = 'tests/offmap_descent_pair.gd' }
 if ($WildernessSummit) { $alpinePlaytest = 'tests/wilderness_benchmark.gd' }
 if ($VoiceBenchmark) { $alpinePlaytest = 'tests/skier_voice_benchmark.gd' }
-$alpineArgs = @('--path',$alpineRoot,'--script',$alpinePlaytest,'--',"--version=$Version","--face=$Face","--seed=$Seed","--side=$Side","--weather=$Weather","--benchmark-label=$Label",'--benchmark-resolution=3840x2160','--graphics-quality=high',"--render-scale=$RenderScale","--upscaler=$Upscaler","--fps-limit=$FrameCap","--terrain-gi=$TerrainGI","--frame-generation=$FrameGeneration")
+$alpineArgs = @('--path',$alpineRoot,'--script',$alpinePlaytest,'--',"--version=$Version","--face=$Face","--seed=$Seed","--side=$Side","--weather=$Weather","--time-of-day=$TimeOfDay","--benchmark-label=$Label",'--benchmark-resolution=3840x2160','--graphics-quality=high',"--render-scale=$RenderScale","--upscaler=$Upscaler","--fps-limit=$FrameCap","--terrain-gi=$TerrainGI","--frame-generation=$FrameGeneration")
 $alpineArgs += @("--benchmark-start=$StartZ","--benchmark-end=$EndZ")
 if ($Version -ge 14) { $alpineArgs += @("--input-trace=$InputTrace","--repetitions=$Repetitions","--trial-seconds=$TrialSeconds","--trial-start-seconds=$TrialStartSeconds",'--benchmark-no-captures') }
 elseif (-not $ThirdPerson) { $alpineArgs += '--pov-forest' }
@@ -85,6 +86,7 @@ function Get-AlpineSourceHashes {
 }
 $alpineSourcesBefore = Get-AlpineSourceHashes
 $alpineEnvironment = @{
+    weather = $Weather; time_of_day = $TimeOfDay; weather_seed = 849205174
     os = Get-CimInstance Win32_OperatingSystem | Select-Object Caption,Version,BuildNumber
     video = @(Get-CimInstance Win32_VideoController | Select-Object Name,DriverVersion,DriverDate,CurrentHorizontalResolution,CurrentVerticalResolution)
     logical_processors = [Environment]::ProcessorCount

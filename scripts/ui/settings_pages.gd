@@ -240,7 +240,7 @@ func _sync_output_choices() -> void:
 func _weather(col: Control) -> void:
 	col.add_child(hud._label("Conditions",20,hud.WHITE))
 	hud.weather_preset = OptionButton.new()
-	for label in ["Clear","Cloudy","Snowfall","Rain"]: hud.weather_preset.add_item(label)
+	for label in ["Clear","Cloudy","Snowfall","Rain","Snowstorm","Thunderstorm"]: hud.weather_preset.add_item(label)
 	hud.weather_preset.item_selected.connect(func(index): hud.weather_preset_requested.emit(hud.WEATHER_IDS[index]))
 	col.add_child(hud.weather_preset)
 	hud.weather_auto = CheckButton.new()
@@ -257,7 +257,22 @@ func _weather(col: Control) -> void:
 	hud.time_cycle.text = "Cycle day and night"
 	hud.time_cycle.toggled.connect(func(value): hud.time_cycle_requested.emit(value))
 	deeper.add_child(hud.time_cycle)
-	hud._note(deeper,"One full day takes 20 minutes of skiing. Menus pause the cycle.")
+	hud._note(deeper,"One full day takes 60 minutes of active skiing. Menus pause progression.")
+
+	hud.weather_practice = hud._label("",14,hud.LIME)
+	hud.weather_practice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	col.add_child(hud.weather_practice)
+	for pair in [["random_weather","Random weather at launch"],["random_time","Random time at launch"],["rare_storms","Rare storms in free ski"]]:
+		var toggle = CheckButton.new(); toggle.text = pair[1]
+		toggle.toggled.connect(func(value): hud.weather_option_requested.emit(pair[0],value))
+		col.add_child(toggle); hud.weather_options[pair[0]] = toggle
+	hud._note(col,"Launch choices apply the next time you open the game. Storm timing carries across sessions; time away never counts.")
+	col.add_child(hud._label("Lightning effects",20,hud.WHITE))
+	var lightning = OptionButton.new()
+	for label in ["Off","Reduced","Full"]: lightning.add_item(label)
+	lightning.item_selected.connect(func(index): hud.weather_option_requested.emit("lightning",index))
+	col.add_child(lightning); hud.weather_options.lightning = lightning
+	hud._note(col,"Reduced motion limits lightning to Reduced. Thunder follows Wind volume and game mute.")
 
 func _audio(col: Control) -> void:
 	hud._build_audio_settings(col)
