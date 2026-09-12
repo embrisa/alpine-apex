@@ -47,7 +47,7 @@ Source inspected on 2026-09-12 at `78178562edb4a9ab812d95b5a47ce36ae6252554`:
   integration point, not evidence that ordering with this custom renderer works.
 
 No duplicate implementation task was found in active/archive tasks or ideas.
-The [presentation comfort review](AA-20260911-153904-presentation-comfort-review.md)
+The [presentation comfort review](../archive/AA-20260911-153904-presentation-comfort-review.md)
 prepares evidence only; it is not a prerequisite or approval for this feature.
 No prototype, rendered comparison or performance measurement was run for authoring.
 

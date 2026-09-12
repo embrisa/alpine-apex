@@ -1,7 +1,7 @@
 # Presentation comfort review
 
 This is the bounded review/checklist for
-[AA-20260911-153904](../backlog/tasks/AA-20260911-153904-presentation-comfort-review.md).
+[AA-20260911-153904](../backlog/archive/AA-20260911-153904-presentation-comfort-review.md).
 Preparation completed on 2026-09-12; player aesthetics, controller feel and
 listening remain unaccepted. Camera/HUD behavior belongs to
 [Presentation](PRESENTATION.md), posture/fitting to [Animation](ANIMATION.md),
