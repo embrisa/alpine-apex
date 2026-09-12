@@ -197,6 +197,35 @@ receipt producer rejects any unfocused measured frames, source drift, incomplete
 replays or changed personal settings/records; preserve rejected attempts as
 diagnostic evidence and use a fresh label for replacements.
 
+### Native GPU pass attribution
+
+`scripts/benchmark_pc.ps1 -ProfileGpuPasses` selects
+`tests/performance_gpu_profile.gd` and supplies Godot's native `--gpu-profile`
+flag. Keep the ordinary trace/scenario, settings and endpoint checks. Use this
+only for attribution; omit the switch for the three capture-free acceptance
+repetitions. `-ProfileFrameCosts` remains independent CPU instrumentation.
+
+`gpu_passes.json` retains resolved RenderingDevice frame IDs and named GPU
+nanosecond / CPU microsecond timestamps, read on the render thread without a
+new device synchronization. Subtract consecutive timestamps within a frame;
+ignore `<`/`>` scope markers as pass names, and never sum nested scope totals.
+The requesting simulation tick is not the delayed GPU frame's exact tick.
+Discard boundary frames when aggregating each trial. The 10,000-frame bound
+fails explicitly on overflow; missing native opaque-pass markers also fail.
+
+On the pinned custom DX12 renderer, the engine's **FSR2** timestamp wraps the
+selected native FidelityFX provider, including its reactive copy and dispatch
+boundaries. Read the actual provider from `display.fidelityfx`; the marker name
+alone does not identify FSR2. Viewport timing does not isolate external powder
+reconstruction. Additional compute query boundaries can change submission cost;
+measure that instrumentation separately before comparing performance.
+
+Example with a validated current short scenario:
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','gpu-attribution','-InputTrace',$fpsTracePath,'-ScenarioReplay','-TrialStartSeconds','0','-TrialSeconds','15','-Repetitions','1','-FrameCap','0','-ProfileGpuPasses') -Label gpu-attribution -TimeoutSeconds 600 -CollectGpuMemory
+```
+
 ### Player recordings and short scenarios
 
 Streaming investigations can add `-ProfileFrameCosts` to the benchmark to retain

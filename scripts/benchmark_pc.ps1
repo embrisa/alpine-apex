@@ -11,6 +11,7 @@ param(
     [ValidateSet('on','off')][string]$TerrainGI = 'off',
     [ValidateSet('on','off')][string]$FrameGeneration = 'off',
     [switch]$ProfileFrameCosts,
+    [switch]$ProfileGpuPasses,
     [switch]$ScenarioReplay,
     [switch]$ColdCollision,
     [ValidateRange(1,10)][int]$Repetitions = 1,
@@ -57,12 +58,14 @@ New-Item -ItemType Directory -Force $alpineOutput | Out-Null
 $alpinePlaytest = if ($Version -ge 10) { 'tests/massif_playtest.gd' } else { 'tests/technical_showcase_playtest.gd' }
 if ($Version -eq 12) { $alpinePlaytest = 'tests/alpine_v12_playtest.gd' }
 if ($Version -eq 13) { $alpinePlaytest = 'tests/alpine_v13_playtest.gd' }
-if ($Version -ge 14) { $alpinePlaytest = 'tests/performance_descent.gd' }
+if ($ProfileGpuPasses -and ($Version -lt 14 -or $OffmapComparison -or $OffmapBaseline -or $OffmapPaired -or $WildernessSummit -or $VoiceBenchmark)) { throw 'GPU pass profiling requires the production trace benchmark.' }
+if ($Version -ge 14) { $alpinePlaytest = if ($ProfileGpuPasses) { 'tests/performance_gpu_profile.gd' } else { 'tests/performance_descent.gd' } }
 if ($OffmapComparison -or $OffmapBaseline) { $alpinePlaytest = 'tests/offmap_descent.gd' }
 if ($OffmapPaired) { $alpinePlaytest = 'tests/offmap_descent_pair.gd' }
 if ($WildernessSummit) { $alpinePlaytest = 'tests/wilderness_benchmark.gd' }
 if ($VoiceBenchmark) { $alpinePlaytest = 'tests/skier_voice_benchmark.gd' }
 $alpineArgs = @('--path',$alpineRoot,'--script',$alpinePlaytest,'--',"--version=$Version","--face=$Face","--seed=$Seed","--side=$Side","--weather=$Weather","--time-of-day=$TimeOfDay","--benchmark-label=$Label",'--benchmark-resolution=3840x2160','--graphics-quality=high',"--render-scale=$RenderScale","--upscaler=$Upscaler","--fps-limit=$FrameCap","--terrain-gi=$TerrainGI","--frame-generation=$FrameGeneration")
+if ($ProfileGpuPasses) { $alpineArgs = @('--gpu-profile') + $alpineArgs }
 $alpineArgs += @("--benchmark-start=$StartZ","--benchmark-end=$EndZ")
 if ($Version -ge 14) { $alpineArgs += @("--input-trace=$InputTrace","--repetitions=$Repetitions","--trial-seconds=$TrialSeconds","--trial-start-seconds=$TrialStartSeconds",'--benchmark-no-captures') }
 elseif (-not $ThirdPerson) { $alpineArgs += '--pov-forest' }
