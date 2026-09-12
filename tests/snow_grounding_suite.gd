@@ -115,7 +115,7 @@ func run() -> void:
 	quit(0 if failures.is_empty() else 1)
 
 func contracts() -> void:
-	check(Sim.MODEL_VERSION==29 and Replay.VERSION==7 and Replay.INPUT_WIDTH==9,"Pole propulsion retains grounded snow with the held-preparation replay field")
+	check(Sim.MODEL_VERSION==30 and Replay.VERSION==7 and Replay.INPUT_WIDTH==9,"Pole propulsion retains grounded snow with the held-preparation replay field")
 	var field = Probe.SnowRipple.new(0,32,.20)
 	var sim = rider(Sim,field)
 	sim.velocity += sim.support_basis().y*1.0

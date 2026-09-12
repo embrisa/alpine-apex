@@ -161,7 +161,7 @@ func run() -> void:
 	check(before==after and after[0]==1 and after[1]==0 and is_equal_approx(after[2],.5),"Headless material sampling equals bilinear render-map sampling including boundaries")
 	var wrapped=preload("res://scripts/world/prop_collision_surface.gd").new(grid)
 	check(wrapped.rock_fraction_at(4,4)==1,"Runtime prop adapter preserves terrain material")
-	check(Sim.MODEL_VERSION==29,"Rock response is retained in the pole propulsion physics identity")
+	check(Sim.MODEL_VERSION==30,"Rock response is retained in the pole propulsion physics identity")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/rock_terrain")
 	var report={"checks":checks,"failures":failures,"metrics":metrics}
 	FileAccess.open("res://artifacts/rock_terrain/physics.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))

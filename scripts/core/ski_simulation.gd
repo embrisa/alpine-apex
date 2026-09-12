@@ -1,6 +1,6 @@
 class_name SkiSimulation
 extends RefCounted
-const MODEL_VERSION = 29
+const MODEL_VERSION = 30
 const TerrainMaterial = preload("res://scripts/core/terrain_material.gd")
 const Contact = preload("res://scripts/core/ski_contact.gd")
 const Body = preload("res://scripts/core/rider_body.gd")
@@ -301,7 +301,9 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 	# One bounded dissipative correction, while the preceding completed tick
 	# still owns real support. Neither contact probe may integrate this again.
 	velocity += snow_contact_assist.advance(dt,self,surface,intent.jump or jump_buffer_remaining>0.000001)
-	_update_contacts(surface,dt)
+	# Release the bank-following cuff restriction for small/neutral intent.
+	# Actual edges still follow the loaded, rate-limited physical motors.
+	_update_contacts(surface,dt,true,1.0-smoothstep(.10,.25,absf(intent.steer)))
 	n = surface_normal
 	# Consume before predictive contact/next-height release wins this tick. The
 	# cached frame belongs to actual support at its start, not an air grace period.
@@ -693,7 +695,7 @@ func _support_sample(surface, root: Vector3) -> Dictionary:
 	var low = minf(heights[0],heights[1])
 	return {"height":(high+low)*.5 if grounded and high-low<=tuning.leg_extension else high,"max_height":high,"normal":sampled_normal}
 
-func _update_contacts(surface, dt: float, advance_motors: bool = true) -> void:
+func _update_contacts(surface, dt: float, advance_motors: bool = true, edge_release: float = 0.0) -> void:
 	# The shared reference frame describes terrain geometry, not pressure.
 	# Weighting its normal by boot load feeds load transfer back into body lean
 	# and can rotate the ground frame when only the rider's pressure changed.
@@ -713,11 +715,12 @@ func _update_contacts(surface, dt: float, advance_motors: bool = true) -> void:
 		if advance_motors:
 			# Each loaded ski has its own boot/edge response and yaw.
 			ski.heading = lerp_angle(ski.heading,heading,1.0-exp(-60.0*dt*(.8+.4*shares[i])))
-			# A rigid cuff cannot roll independently through a nearly upright
-			# shin. Edge engagement follows the rider's bank, with a small range
-			# for angulation. Input still requests lean through the balance loop.
+			# Active turns keep engagement near the rider's bank. Weak/released
+			# intent frees this aggregate restriction so actual boot motors and
+			# the constrained leg fit can unwind together.
 			var bank: float = body.roll if body.initialized else 0.0
 			var edge_goal = clampf(edge_angle,-bank-.10,-bank+.10)
+			edge_goal = lerpf(edge_goal,edge_angle,edge_release)
 			var edge_limit = deg_to_rad(tuning.maximum_edge_angle)
 			edge_goal = clampf(edge_goal,-edge_limit,edge_limit)
 			var edge_response_value = lerpf(ski.edge_angle,edge_goal,1.0-exp(-32.0*dt*(.65+shares[i])))

@@ -45,6 +45,19 @@ response releases sustained equipment-yaw suppression while retaining ordinary
 carving/support; visual pelvis/arm behavior is separately owned by animation.
 Steering/body lean alone cannot cause a balance death.
 
+Model 30 releases the bank-following cuff restriction for steering at or below
+10%, smoothly restoring it by 25%. The former `-bank +/- .10` edge-goal window
+could keep skis deeply edged after a reversal even when the requested edge and
+path curvature had faded. Rigid-cuff leg fitting then required a sideways pelvis.
+`SkiSimulation._update_contacts` now lets weak/released intent seek its requested
+edge through the existing loaded motor response and 3 rad/s rate limit. Strong
+turns retain the bank coupling. Balance torque, anatomy and presentation ownership
+remain intact; this is an equipment-control change, not an assigned body pose.
+Release paths intentionally change, so the existing identity contract rejects
+model 29 recordings; replay format remains 7. Aggregate bank can still
+transiently overshoot while the edges unwind; this does not retune the balance
+integrator. Final connected stance and support recovery are checked separately.
+
 Forward repeats pole pushes while slow on supported snow, then blends into
 aerodynamic tuck over 80–100% of the applicable propulsion limit. Small corrections
 have a 20% allowance and 150 ms grace before sustained steering opens the stance;

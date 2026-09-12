@@ -240,20 +240,26 @@ corrections, taps, 55/100% turns, mirrored cross-slopes, reversal and tuck;
 fixtures with the production chase camera. `scripts/pose_review/measure_carving.py`
 reports gravity/heading lean, pelvis offset, path acceleration, weights and timing.
 
-The physical model can retain a deeply edged, loaded stance after a strong
-reversal even when trajectory curvature has faded. The rigid-cuff fit then
-requires residual whole-body inclination: forcing an upright pelvis would
-violate the preserved equipment/anatomy constraints. This is a separate physical
-response finding, not a continuing source-clip cycle. The regression reports
-these frames explicitly; torso settling follows the path, whole-body settling
-also requires the supported edge to settle. No physical retune is included.
+The residual reversal stance was traced to the bank-following physical edge-goal
+window: released or weak intent could not flatten deeply edged boots, and rigid
+cuff fitting kept the pelvis sideways. Model 30 releases that restriction through
+the existing rate-limited ski motors; see
+[Physics](PHYSICS.md#carving-skidding-and-tuck). Connected legs can then return
+without weakening anatomy or counter-posing the physical stance. Production
+animation code and its CPU preparation remain unchanged.
 
-The remaining stance defect is tracked in
-[the residual pelvis task](../backlog/tasks/AA-20260912-153317-fix-residual-carve-pelvis-lean.md),
-with a preserved trace/source/render package at
-`artifacts/pelvis_residual/20260912-baseline/`. The user authorized targeted
-edging/stance physics adjustment for that follow-up, with handling checks;
-the existing permissive residual-support assertions do not close it.
+`tests/carve_residual_suite.gd` rejects the retained 25/40 m/s mirrored reversals
+independently of edge saturation. It measures whole-body lean and lateral pelvis
+relative to each neutral control, using 12 degrees / 15 cm bounds after release
+and a sustained low-curvature interval. Strong loaded release retains its natural
+return; mild holds and 50/150 ms taps have separate controls. The capture companion
+records production final bones/equipment, two-second warm-up, turn/release and
+tuck/hop/landing neighbors. New evidence lives in
+`artifacts/pelvis_residual/20260912-fix/`; retain the original
+`artifacts/pelvis_residual/20260912-baseline/` through review. Acceptance and exact
+receipts are recorded in [the residual pelvis task](../backlog/tasks/AA-20260912-153317-fix-residual-carve-pelvis-lean.md).
+The matched mesh audit introduces no new intersecting frames; existing tuck
+pole/clothing intersections remain documented in that completion record.
 
 The 2026-09-12 frozen comparison lives in
 `artifacts/pose_review/revisions/20260912-proportional-{before,final}/`; matrix,
