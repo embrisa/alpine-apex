@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-153904-presentation-comfort-review"
 title: "Prepare a current presentation comfort review"
-status: "ready"
+status: "in_progress"
 priority: "P2"
 depends_on: []
 created: "2026-09-11T15:39:00Z"
-updated: "2026-09-11T23:43:33Z"
+updated: "2026-09-12T08:40:38.573859Z"
 source_thread: "01a090fe-2a8c-7fe0-8b5b-fa6446206ea9"
 ---
 
@@ -29,10 +29,10 @@ Inspect maintained camera/interface, soft-snow, animation and audio guidance. Us
 
 ## Acceptance and verification
 
-- [ ] The requested states have inspected current evidence or clearly named coverage gaps.
-- [ ] The riding controls footer stays hidden while gameplay instruments remain observable.
-- [ ] Document observed visual issues and a concrete listening/controller playtest checklist.
-- [ ] No unperformed listening, real-device or player acceptance is claimed.
+- [x] The requested states have inspected current evidence or clearly named coverage gaps.
+- [x] The riding controls footer stays hidden while gameplay instruments remain observable.
+- [x] Document observed visual issues and a concrete listening/controller playtest checklist.
+- [x] No unperformed listening, real-device or player acceptance is claimed.
 - [ ] Commit/push the review documentation and completion record.
 
 User aesthetics, listening comfort and skiing feel remain explicit follow-ups, not gates for preparing this review. Propose any useful fixes in the ideas folder instead of implementing them.
@@ -41,10 +41,10 @@ User aesthetics, listening comfort and skiing feel remain explicit follow-ups, n
 
 None.
 
-## Completion record
-
-Imported from the existing roadmap during backlog setup. Pending implementation. Any worker follow-up ideas belong in `backlog/ideas/` for the user's review.
-
 ## Satisfied prerequisite history
 
 On 2026-09-11, [AA-20260911-153900-baseline-acceptance-index](../archive/AA-20260911-153900-baseline-acceptance-index.md) was retired at the user's request after completion. Its satisfied dependency was removed; this task's scope and acceptance requirements are unchanged.
+
+## Completion record
+
+Worker `01a094c5-c894-7882-a4f1-db959db0879b` accepted dispatch `9398a59b-e804-4d2b-893e-1a19c8827067` at 2026-09-12T08:40:38.573859Z.

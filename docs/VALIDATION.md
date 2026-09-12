@@ -405,7 +405,11 @@ connection, displacement side and partial/full upload identity; close faceting
 and full-route visual preference remain open. Producer:
 `scripts/validate_snow_contact.ps1`; output `artifacts/snow_contact_20260911/`.
 
-Current task: [presentation comfort](../backlog/tasks/AA-20260911-153904-presentation-comfort-review.md).
+The [presentation comfort review and listening/controller checklist](PRESENTATION_COMFORT_REVIEW.md)
+records the 2026-09-12 bounded current laboratory chronology, HUD visibility,
+pause/settings/resume and separate motion controls. Preparation is complete;
+full-mountain, close-fitting and actual human/controller/listening acceptance
+remain explicitly separate.
 
 ## Animation evidence
 
