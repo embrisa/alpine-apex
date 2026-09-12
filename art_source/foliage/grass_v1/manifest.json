@@ -1,0 +1,1642 @@
+{
+  "schema": 1,
+  "status": "prepared_only_not_integrated",
+  "geometry_origin": "Original procedural curved blades from recipes.json; no vendor geometry or textures embedded",
+  "authoring_blender": "5.2.1 LTS",
+  "builder_sha256": "064a8c5f95f57cea704b7e1f903e8c08d8496023ecf997db58b5c3a84a1b7c8d",
+  "recipe_sha256": "726b915706fabbbb760d3ddece13b09ad74324757ff0f99427b9f97cecd7f9e2",
+  "units": "metres",
+  "export_axes": "Y up, Blender Z up",
+  "material": "One opaque double-sided vertex-colored PBR surface; no external textures",
+  "vertex_contract": {
+    "COLOR_0": "linear appearance RGB; alpha 1",
+    "TEXCOORD_0": "x across blade, y root-to-tip bend weight",
+    "TEXCOORD_1": "root pivot: x=(u-.5)*span; z=-(v-.5)*span; y=0",
+    "pivot_span_m": 1.0
+  },
+  "inspected_references_not_embedded": [
+    {
+      "path": "art_source/blender/rock_generator.blend",
+      "sha256": "f644a0d1b7505dbcd43687cba12630e39e6f7eac7f221ad067c9accf3df1687f"
+    },
+    {
+      "path": "assets/graphics/geology_v11/textures/grass.png",
+      "sha256": "5ddeae5e556cb610ecd6b0afcb294c22969bf4d077ecf7e2bc22bd07f3b1f23b"
+    }
+  ],
+  "rock_geometry": false,
+  "collision": false,
+  "wind_or_skier_runtime_implemented": false,
+  "assets": [
+    {
+      "id": "alpine_tuft_01_green",
+      "shape": "alpine_tuft_01",
+      "finish": "green",
+      "seed": 1201,
+      "models": [
+        {
+          "file": "alpine_tuft_01_green_lod0.glb",
+          "lod": 0,
+          "sha256": "01d57632b4311e8ed95b9511695461db305ca45f1fbafb9f053490b4b26324cf",
+          "bytes": 35740,
+          "triangles": 728,
+          "blades": 28,
+          "coated_blades": 0,
+          "base_triangles": 728,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.21833670139312744,
+            0.2252044975757599,
+            0.1878340244293213
+          ],
+          "dimensions_godot_xyz_m": [
+            0.21833670139312744,
+            0.1878340244293213,
+            0.2252044975757599
+          ]
+        },
+        {
+          "file": "alpine_tuft_01_green_lod1.glb",
+          "lod": 1,
+          "sha256": "2b401f67efa3baca21456a3a563423412e2db86ad74bc95ddebeb7d86cbff49b",
+          "bytes": 14064,
+          "triangles": 252,
+          "blades": 14,
+          "coated_blades": 0,
+          "base_triangles": 252,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.17539268732070923,
+            0.2252044975757599,
+            0.1878340244293213
+          ],
+          "dimensions_godot_xyz_m": [
+            0.17539268732070923,
+            0.1878340244293213,
+            0.2252044975757599
+          ]
+        },
+        {
+          "file": "alpine_tuft_01_green_lod2.glb",
+          "lod": 2,
+          "sha256": "f1392bbd313610e350c0a2bd00c9e8c68cbc0354cd259a82c951144a40d13932",
+          "bytes": 5564,
+          "triangles": 70,
+          "blades": 7,
+          "coated_blades": 0,
+          "base_triangles": 70,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.1299559473991394,
+            0.2252044975757599,
+            0.18649189174175262
+          ],
+          "dimensions_godot_xyz_m": [
+            0.1299559473991394,
+            0.18649189174175262,
+            0.2252044975757599
+          ]
+        }
+      ]
+    },
+    {
+      "id": "alpine_tuft_01_dusted",
+      "shape": "alpine_tuft_01",
+      "finish": "dusted",
+      "seed": 1201,
+      "models": [
+        {
+          "file": "alpine_tuft_01_dusted_lod0.glb",
+          "lod": 0,
+          "sha256": "1ba707d9e3c6dbfc72937c24791d6ed44d5a6c2f9304f11408c24fe17d8fa9e7",
+          "bytes": 53928,
+          "triangles": 1118,
+          "blades": 28,
+          "coated_blades": 15,
+          "base_triangles": 728,
+          "snow_triangles": 390,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.21833670139312744,
+            0.2252044975757599,
+            0.1878340244293213
+          ],
+          "dimensions_godot_xyz_m": [
+            0.21833670139312744,
+            0.1878340244293213,
+            0.2252044975757599
+          ]
+        },
+        {
+          "file": "alpine_tuft_01_dusted_lod1.glb",
+          "lod": 1,
+          "sha256": "d3e0c8233ba31e61ebab39e90220faaca6c801076fd721628da2b23659dd46fd",
+          "bytes": 18448,
+          "triangles": 342,
+          "blades": 14,
+          "coated_blades": 5,
+          "base_triangles": 252,
+          "snow_triangles": 90,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.17539268732070923,
+            0.2252044975757599,
+            0.1878340244293213
+          ],
+          "dimensions_godot_xyz_m": [
+            0.17539268732070923,
+            0.1878340244293213,
+            0.2252044975757599
+          ]
+        },
+        {
+          "file": "alpine_tuft_01_dusted_lod2.glb",
+          "lod": 2,
+          "sha256": "ddae6dbc7f0baa43f93f13e511a4dab944a9083a5d9bdf1b68523fa588d53b9b",
+          "bytes": 7196,
+          "triangles": 100,
+          "blades": 7,
+          "coated_blades": 3,
+          "base_triangles": 70,
+          "snow_triangles": 30,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.1299559473991394,
+            0.2252044975757599,
+            0.18649189174175262
+          ],
+          "dimensions_godot_xyz_m": [
+            0.1299559473991394,
+            0.18649189174175262,
+            0.2252044975757599
+          ]
+        }
+      ]
+    },
+    {
+      "id": "alpine_tuft_01_snow",
+      "shape": "alpine_tuft_01",
+      "finish": "snow",
+      "seed": 1201,
+      "models": [
+        {
+          "file": "alpine_tuft_01_snow_lod0.glb",
+          "lod": 0,
+          "sha256": "8d8b84ed79512cd4168852a8d08694d70b50ed6ef02ce055c56404d94b0d1d7b",
+          "bytes": 69684,
+          "triangles": 1456,
+          "blades": 28,
+          "coated_blades": 28,
+          "base_triangles": 728,
+          "snow_triangles": 728,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.21833670139312744,
+            0.2252044975757599,
+            0.18844401836395264
+          ],
+          "dimensions_godot_xyz_m": [
+            0.21833670139312744,
+            0.18844401836395264,
+            0.2252044975757599
+          ]
+        },
+        {
+          "file": "alpine_tuft_01_snow_lod1.glb",
+          "lod": 1,
+          "sha256": "ad6944a7b20f65435826c33fbb1884d2908cf20cf21d159257e5bc6cd90953dd",
+          "bytes": 26332,
+          "triangles": 504,
+          "blades": 14,
+          "coated_blades": 14,
+          "base_triangles": 252,
+          "snow_triangles": 252,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.17539268732070923,
+            0.2252044975757599,
+            0.18844401836395264
+          ],
+          "dimensions_godot_xyz_m": [
+            0.17539268732070923,
+            0.18844401836395264,
+            0.2252044975757599
+          ]
+        },
+        {
+          "file": "alpine_tuft_01_snow_lod2.glb",
+          "lod": 2,
+          "sha256": "e96b847d683c9c705a2cd3f1f70583508d1e4b8bb6ebae33d5b5aaafc857ea22",
+          "bytes": 9352,
+          "triangles": 140,
+          "blades": 7,
+          "coated_blades": 7,
+          "base_triangles": 70,
+          "snow_triangles": 70,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.1299559473991394,
+            0.2252044975757599,
+            0.18738925457000732
+          ],
+          "dimensions_godot_xyz_m": [
+            0.1299559473991394,
+            0.18738925457000732,
+            0.2252044975757599
+          ]
+        }
+      ]
+    },
+    {
+      "id": "alpine_tuft_02_green",
+      "shape": "alpine_tuft_02",
+      "finish": "green",
+      "seed": 1249,
+      "models": [
+        {
+          "file": "alpine_tuft_02_green_lod0.glb",
+          "lod": 0,
+          "sha256": "5062bcd3f2b64e6a389eaaab8d8e5453bf52b696b3e6ab6bd8d621c1908b6802",
+          "bytes": 40588,
+          "triangles": 832,
+          "blades": 32,
+          "coated_blades": 0,
+          "base_triangles": 832,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3504963517189026,
+            0.320273220539093,
+            0.22535300254821777
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3504963517189026,
+            0.22535300254821777,
+            0.320273220539093
+          ]
+        },
+        {
+          "file": "alpine_tuft_02_green_lod1.glb",
+          "lod": 1,
+          "sha256": "ae1453049834898ed9b895220c439e695182a9e67a83a63f17a5b8f25b623373",
+          "bytes": 15820,
+          "triangles": 288,
+          "blades": 16,
+          "coated_blades": 0,
+          "base_triangles": 288,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3504963517189026,
+            0.271919310092926,
+            0.21982578933238983
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3504963517189026,
+            0.21982578933238983,
+            0.271919310092926
+          ]
+        },
+        {
+          "file": "alpine_tuft_02_green_lod2.glb",
+          "lod": 2,
+          "sha256": "e6e6bf73d0f420f2a2bcdb3a1a13113704e0b9ab2b8abc7dc6edb16d27e8293c",
+          "bytes": 6104,
+          "triangles": 80,
+          "blades": 8,
+          "coated_blades": 0,
+          "base_triangles": 80,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3504963517189026,
+            0.22648885846138,
+            0.21982578933238983
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3504963517189026,
+            0.21982578933238983,
+            0.22648885846138
+          ]
+        }
+      ]
+    },
+    {
+      "id": "alpine_tuft_02_dusted",
+      "shape": "alpine_tuft_02",
+      "finish": "dusted",
+      "seed": 1249,
+      "models": [
+        {
+          "file": "alpine_tuft_02_dusted_lod0.glb",
+          "lod": 0,
+          "sha256": "dbdc270d2fcc986d777ab428f783c2d7f76171d6313140e0d4a8593e45662e4e",
+          "bytes": 61208,
+          "triangles": 1274,
+          "blades": 32,
+          "coated_blades": 17,
+          "base_triangles": 832,
+          "snow_triangles": 442,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3504963517189026,
+            0.320273220539093,
+            0.22535300254821777
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3504963517189026,
+            0.22535300254821777,
+            0.320273220539093
+          ]
+        },
+        {
+          "file": "alpine_tuft_02_dusted_lod1.glb",
+          "lod": 1,
+          "sha256": "dc023b1be6479132879c103c6691382eaa1372e5849f739666f37feaddd76c39",
+          "bytes": 22832,
+          "triangles": 432,
+          "blades": 16,
+          "coated_blades": 8,
+          "base_triangles": 288,
+          "snow_triangles": 144,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3504963517189026,
+            0.271919310092926,
+            0.22035065293312073
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3504963517189026,
+            0.22035065293312073,
+            0.271919310092926
+          ]
+        },
+        {
+          "file": "alpine_tuft_02_dusted_lod2.glb",
+          "lod": 2,
+          "sha256": "c3711e670b2920e1cc236fbfce80f90a0aa329d8d48fe9363c0acfe49d4d1961",
+          "bytes": 7736,
+          "triangles": 110,
+          "blades": 8,
+          "coated_blades": 3,
+          "base_triangles": 80,
+          "snow_triangles": 30,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3504963517189026,
+            0.22648885846138,
+            0.22035065293312073
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3504963517189026,
+            0.22035065293312073,
+            0.22648885846138
+          ]
+        }
+      ]
+    },
+    {
+      "id": "alpine_tuft_02_snow",
+      "shape": "alpine_tuft_02",
+      "finish": "snow",
+      "seed": 1249,
+      "models": [
+        {
+          "file": "alpine_tuft_02_snow_lod0.glb",
+          "lod": 0,
+          "sha256": "fe75ee1502877e459f139dbacabf98e84eabc01cf07b64191a85436eb076a514",
+          "bytes": 76960,
+          "triangles": 1612,
+          "blades": 32,
+          "coated_blades": 30,
+          "base_triangles": 832,
+          "snow_triangles": 780,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3504963517189026,
+            0.320273220539093,
+            0.22629904747009277
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3504963517189026,
+            0.22629904747009277,
+            0.320273220539093
+          ]
+        },
+        {
+          "file": "alpine_tuft_02_snow_lod1.glb",
+          "lod": 1,
+          "sha256": "c21ac9fef79aa728b89db266205c3ba81903603fc732ae3e3e8c74723be94acb",
+          "bytes": 28084,
+          "triangles": 540,
+          "blades": 16,
+          "coated_blades": 14,
+          "base_triangles": 288,
+          "snow_triangles": 252,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3504963517189026,
+            0.271919310092926,
+            0.2208351492881775
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3504963517189026,
+            0.2208351492881775,
+            0.271919310092926
+          ]
+        },
+        {
+          "file": "alpine_tuft_02_snow_lod2.glb",
+          "lod": 2,
+          "sha256": "a70807a15d57b6bbc8736a4f410bfd96735631b65d71c18655525f570f063bb5",
+          "bytes": 10432,
+          "triangles": 160,
+          "blades": 8,
+          "coated_blades": 8,
+          "base_triangles": 80,
+          "snow_triangles": 80,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3504963517189026,
+            0.22648885846138,
+            0.2208351492881775
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3504963517189026,
+            0.2208351492881775,
+            0.22648885846138
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meadow_clump_01_green",
+      "shape": "meadow_clump_01",
+      "finish": "green",
+      "seed": 1301,
+      "models": [
+        {
+          "file": "meadow_clump_01_green_lod0.glb",
+          "lod": 0,
+          "sha256": "16d7a19fed8a9bdbab37d5f5e984efbd5a3c0bcf5acb2079df59a83729f8328a",
+          "bytes": 50292,
+          "triangles": 1040,
+          "blades": 40,
+          "coated_blades": 0,
+          "base_triangles": 1040,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.47294044494628906,
+            0.4695429801940918,
+            0.3261818587779999
+          ],
+          "dimensions_godot_xyz_m": [
+            0.47294044494628906,
+            0.3261818587779999,
+            0.4695429801940918
+          ]
+        },
+        {
+          "file": "meadow_clump_01_green_lod1.glb",
+          "lod": 1,
+          "sha256": "e98f6c231c424fed555b9323aa334059433a9b7628c819f8b36f45894c844328",
+          "bytes": 19324,
+          "triangles": 360,
+          "blades": 20,
+          "coated_blades": 0,
+          "base_triangles": 360,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.38809311389923096,
+            0.43884265422821045,
+            0.3260371685028076
+          ],
+          "dimensions_godot_xyz_m": [
+            0.38809311389923096,
+            0.3260371685028076,
+            0.43884265422821045
+          ]
+        },
+        {
+          "file": "meadow_clump_01_green_lod2.glb",
+          "lod": 2,
+          "sha256": "643f413b0d7f753b4a94e0bf7f2c9a8868e2df3163083300d2b582facf1940bc",
+          "bytes": 7196,
+          "triangles": 100,
+          "blades": 10,
+          "coated_blades": 0,
+          "base_triangles": 100,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3321281373500824,
+            0.43884265422821045,
+            0.3260371685028076
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3321281373500824,
+            0.3260371685028076,
+            0.43884265422821045
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meadow_clump_01_dusted",
+      "shape": "meadow_clump_01",
+      "finish": "dusted",
+      "seed": 1301,
+      "models": [
+        {
+          "file": "meadow_clump_01_dusted_lod0.glb",
+          "lod": 0,
+          "sha256": "c4a0d293dbbe28652e54a90eb7dc02a1fc3aa8e15fd320f7eab717d74b9c758d",
+          "bytes": 75760,
+          "triangles": 1586,
+          "blades": 40,
+          "coated_blades": 21,
+          "base_triangles": 1040,
+          "snow_triangles": 546,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.47294044494628906,
+            0.4695429801940918,
+            0.32655784487724304
+          ],
+          "dimensions_godot_xyz_m": [
+            0.47294044494628906,
+            0.32655784487724304,
+            0.4695429801940918
+          ]
+        },
+        {
+          "file": "meadow_clump_01_dusted_lod1.glb",
+          "lod": 1,
+          "sha256": "fe72f32eee063af069d42417ec80b08271eb79329828a40e0e73cbcf35b03358",
+          "bytes": 31596,
+          "triangles": 612,
+          "blades": 20,
+          "coated_blades": 14,
+          "base_triangles": 360,
+          "snow_triangles": 252,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.38809311389923096,
+            0.43884265422821045,
+            0.32655784487724304
+          ],
+          "dimensions_godot_xyz_m": [
+            0.38809311389923096,
+            0.32655784487724304,
+            0.43884265422821045
+          ]
+        },
+        {
+          "file": "meadow_clump_01_dusted_lod2.glb",
+          "lod": 2,
+          "sha256": "168f22771bbd18d40493a683c502f0e98719b7e151e9d0fa9e0aac35022c3226",
+          "bytes": 10984,
+          "triangles": 170,
+          "blades": 10,
+          "coated_blades": 7,
+          "base_triangles": 100,
+          "snow_triangles": 70,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3321281373500824,
+            0.43884265422821045,
+            0.32655784487724304
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3321281373500824,
+            0.32655784487724304,
+            0.43884265422821045
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meadow_clump_01_snow",
+      "shape": "meadow_clump_01",
+      "finish": "snow",
+      "seed": 1301,
+      "models": [
+        {
+          "file": "meadow_clump_01_snow_lod0.glb",
+          "lod": 0,
+          "sha256": "53ea596c2b34d5eb08f0c148fbeaae4038e8c8fb7b4e759c1ef85ff6164754ef",
+          "bytes": 96356,
+          "triangles": 2028,
+          "blades": 40,
+          "coated_blades": 38,
+          "base_triangles": 1040,
+          "snow_triangles": 988,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.47294044494628906,
+            0.4695429801940918,
+            0.32721447944641113
+          ],
+          "dimensions_godot_xyz_m": [
+            0.47294044494628906,
+            0.32721447944641113,
+            0.4695429801940918
+          ]
+        },
+        {
+          "file": "meadow_clump_01_snow_lod1.glb",
+          "lod": 1,
+          "sha256": "8bd77fe8ad37ca680dff5da5d03fae04eeea4657f903d3e103115d3cdfd9a342",
+          "bytes": 36844,
+          "triangles": 720,
+          "blades": 20,
+          "coated_blades": 20,
+          "base_triangles": 360,
+          "snow_triangles": 360,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.38809311389923096,
+            0.43884265422821045,
+            0.3270384669303894
+          ],
+          "dimensions_godot_xyz_m": [
+            0.38809311389923096,
+            0.3270384669303894,
+            0.43884265422821045
+          ]
+        },
+        {
+          "file": "meadow_clump_01_snow_lod2.glb",
+          "lod": 2,
+          "sha256": "ff865d5bb7a2b07f96e63e8dca312e0c612928ab389082f0c1cad6e237f7dd28",
+          "bytes": 12600,
+          "triangles": 200,
+          "blades": 10,
+          "coated_blades": 10,
+          "base_triangles": 100,
+          "snow_triangles": 100,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3321281373500824,
+            0.43884265422821045,
+            0.3270384669303894
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3321281373500824,
+            0.3270384669303894,
+            0.43884265422821045
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meadow_clump_02_green",
+      "shape": "meadow_clump_02",
+      "finish": "green",
+      "seed": 1361,
+      "models": [
+        {
+          "file": "meadow_clump_02_green_lod0.glb",
+          "lod": 0,
+          "sha256": "b053b640f392bf3109964f07dc641585f12b9685e0d5be88ca60d4b7960fe9d7",
+          "bytes": 55136,
+          "triangles": 1144,
+          "blades": 44,
+          "coated_blades": 0,
+          "base_triangles": 1144,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.7076089978218079,
+            0.6805554628372192,
+            0.36051055788993835
+          ],
+          "dimensions_godot_xyz_m": [
+            0.7076089978218079,
+            0.36051055788993835,
+            0.6805554628372192
+          ]
+        },
+        {
+          "file": "meadow_clump_02_green_lod1.glb",
+          "lod": 1,
+          "sha256": "939e97e725e744549b0befe8038f80a6d6e72a715e825d132c136311579c9c6c",
+          "bytes": 21076,
+          "triangles": 396,
+          "blades": 22,
+          "coated_blades": 0,
+          "base_triangles": 396,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.7076089978218079,
+            0.6805554628372192,
+            0.36051055788993835
+          ],
+          "dimensions_godot_xyz_m": [
+            0.7076089978218079,
+            0.36051055788993835,
+            0.6805554628372192
+          ]
+        },
+        {
+          "file": "meadow_clump_02_green_lod2.glb",
+          "lod": 2,
+          "sha256": "a68865a934f0f71f95cd7f51756fef6292e2d6f853820d2dd87bf25d3c2c17ad",
+          "bytes": 7736,
+          "triangles": 110,
+          "blades": 11,
+          "coated_blades": 0,
+          "base_triangles": 110,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4335773289203644,
+            0.6805554628372192,
+            0.36051055788993835
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4335773289203644,
+            0.36051055788993835,
+            0.6805554628372192
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meadow_clump_02_dusted",
+      "shape": "meadow_clump_02",
+      "finish": "dusted",
+      "seed": 1361,
+      "models": [
+        {
+          "file": "meadow_clump_02_dusted_lod0.glb",
+          "lod": 0,
+          "sha256": "f88c489a4089d2ced3d53dd7929b7dce9722d1cd262b5680334418109134c403",
+          "bytes": 86664,
+          "triangles": 1820,
+          "blades": 44,
+          "coated_blades": 26,
+          "base_triangles": 1144,
+          "snow_triangles": 676,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.7076089978218079,
+            0.6805554628372192,
+            0.36051055788993835
+          ],
+          "dimensions_godot_xyz_m": [
+            0.7076089978218079,
+            0.36051055788993835,
+            0.6805554628372192
+          ]
+        },
+        {
+          "file": "meadow_clump_02_dusted_lod1.glb",
+          "lod": 1,
+          "sha256": "9042aa1b145219dfe6fe3e25090214afb7fe724c53453c14749cb0565b3d3ac7",
+          "bytes": 34224,
+          "triangles": 666,
+          "blades": 22,
+          "coated_blades": 15,
+          "base_triangles": 396,
+          "snow_triangles": 270,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.7076089978218079,
+            0.6805554628372192,
+            0.36051055788993835
+          ],
+          "dimensions_godot_xyz_m": [
+            0.7076089978218079,
+            0.36051055788993835,
+            0.6805554628372192
+          ]
+        },
+        {
+          "file": "meadow_clump_02_dusted_lod2.glb",
+          "lod": 2,
+          "sha256": "eae3432d7a9c4337e305fbb63976b3ace1a42164b95fe1efe248a8cf576f9f98",
+          "bytes": 10984,
+          "triangles": 170,
+          "blades": 11,
+          "coated_blades": 6,
+          "base_triangles": 110,
+          "snow_triangles": 60,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4335773289203644,
+            0.6805554628372192,
+            0.36051055788993835
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4335773289203644,
+            0.36051055788993835,
+            0.6805554628372192
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meadow_clump_02_snow",
+      "shape": "meadow_clump_02",
+      "finish": "snow",
+      "seed": 1361,
+      "models": [
+        {
+          "file": "meadow_clump_02_snow_lod0.glb",
+          "lod": 0,
+          "sha256": "6732afb6dc21930e27c03c78221196c9f8019ae07f9ae6975c337f8c85763ea2",
+          "bytes": 108476,
+          "triangles": 2288,
+          "blades": 44,
+          "coated_blades": 44,
+          "base_triangles": 1144,
+          "snow_triangles": 1144,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.7076089978218079,
+            0.6805554628372192,
+            0.36155959963798523
+          ],
+          "dimensions_godot_xyz_m": [
+            0.7076089978218079,
+            0.36155959963798523,
+            0.6805554628372192
+          ]
+        },
+        {
+          "file": "meadow_clump_02_snow_lod1.glb",
+          "lod": 1,
+          "sha256": "ecb82c97ec729a68365b15ab9a49392d7608372251762fee84cc8224e291122d",
+          "bytes": 40348,
+          "triangles": 792,
+          "blades": 22,
+          "coated_blades": 22,
+          "base_triangles": 396,
+          "snow_triangles": 396,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.7076089978218079,
+            0.6805554628372192,
+            0.36155959963798523
+          ],
+          "dimensions_godot_xyz_m": [
+            0.7076089978218079,
+            0.36155959963798523,
+            0.6805554628372192
+          ]
+        },
+        {
+          "file": "meadow_clump_02_snow_lod2.glb",
+          "lod": 2,
+          "sha256": "d0fce10270cefcf756db39070a4397216b3d0c4b4dbd28aaf0f46036b9bba9e2",
+          "bytes": 13680,
+          "triangles": 220,
+          "blades": 11,
+          "coated_blades": 11,
+          "base_triangles": 110,
+          "snow_triangles": 110,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4335773289203644,
+            0.6805554628372192,
+            0.36155959963798523
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4335773289203644,
+            0.36155959963798523,
+            0.6805554628372192
+          ]
+        }
+      ]
+    },
+    {
+      "id": "forest_fan_01_green",
+      "shape": "forest_fan_01",
+      "finish": "green",
+      "seed": 1423,
+      "models": [
+        {
+          "file": "forest_fan_01_green_lod0.glb",
+          "lod": 0,
+          "sha256": "20e05670d4326703ea6bf38f267f84a17228ea36b056fe92ff2afeafc77a703e",
+          "bytes": 50284,
+          "triangles": 1040,
+          "blades": 40,
+          "coated_blades": 0,
+          "base_triangles": 1040,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6896049976348877,
+            0.8277068138122559,
+            0.43258121609687805
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6896049976348877,
+            0.43258121609687805,
+            0.8277068138122559
+          ]
+        },
+        {
+          "file": "forest_fan_01_green_lod1.glb",
+          "lod": 1,
+          "sha256": "49ee20af715a8429b52dee9523ba2d8b6dadcdd2327907bca85a739bc0400a6c",
+          "bytes": 19320,
+          "triangles": 360,
+          "blades": 20,
+          "coated_blades": 0,
+          "base_triangles": 360,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6667280197143555,
+            0.775516152381897,
+            0.43258121609687805
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6667280197143555,
+            0.43258121609687805,
+            0.775516152381897
+          ]
+        },
+        {
+          "file": "forest_fan_01_green_lod2.glb",
+          "lod": 2,
+          "sha256": "e5bda96eda88ca17d6290a9fae9314e59f0123dd91727ada93954d6a04879714",
+          "bytes": 7188,
+          "triangles": 100,
+          "blades": 10,
+          "coated_blades": 0,
+          "base_triangles": 100,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6667280197143555,
+            0.775516152381897,
+            0.4282839000225067
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6667280197143555,
+            0.4282839000225067,
+            0.775516152381897
+          ]
+        }
+      ]
+    },
+    {
+      "id": "forest_fan_01_dusted",
+      "shape": "forest_fan_01",
+      "finish": "dusted",
+      "seed": 1423,
+      "models": [
+        {
+          "file": "forest_fan_01_dusted_lod0.glb",
+          "lod": 0,
+          "sha256": "80f0e5d5131bf9536a8da7758e9c30aa90d5a1dc75b64b20853f46ca3f016916",
+          "bytes": 76960,
+          "triangles": 1612,
+          "blades": 40,
+          "coated_blades": 22,
+          "base_triangles": 1040,
+          "snow_triangles": 572,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6896049976348877,
+            0.8277068138122559,
+            0.43258121609687805
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6896049976348877,
+            0.43258121609687805,
+            0.8277068138122559
+          ]
+        },
+        {
+          "file": "forest_fan_01_dusted_lod1.glb",
+          "lod": 1,
+          "sha256": "7967a33bbdcb5d9e9604485fded69f96767263bb69d2557d7f010b8171c4c7e5",
+          "bytes": 28960,
+          "triangles": 558,
+          "blades": 20,
+          "coated_blades": 11,
+          "base_triangles": 360,
+          "snow_triangles": 198,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6667280197143555,
+            0.775516152381897,
+            0.43258121609687805
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6667280197143555,
+            0.43258121609687805,
+            0.775516152381897
+          ]
+        },
+        {
+          "file": "forest_fan_01_dusted_lod2.glb",
+          "lod": 2,
+          "sha256": "c54712b135f3e2fec700556014a57912cd32581bc718b2510de3ce8ded29d0ef",
+          "bytes": 10436,
+          "triangles": 160,
+          "blades": 10,
+          "coated_blades": 6,
+          "base_triangles": 100,
+          "snow_triangles": 60,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6667280197143555,
+            0.775516152381897,
+            0.42884746193885803
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6667280197143555,
+            0.42884746193885803,
+            0.775516152381897
+          ]
+        }
+      ]
+    },
+    {
+      "id": "forest_fan_01_snow",
+      "shape": "forest_fan_01",
+      "finish": "snow",
+      "seed": 1423,
+      "models": [
+        {
+          "file": "forest_fan_01_snow_lod0.glb",
+          "lod": 0,
+          "sha256": "6f58c0441bb59081af67b5cf55636ea93538b62ed596c0cf87469811cbbe99dd",
+          "bytes": 95136,
+          "triangles": 2002,
+          "blades": 40,
+          "coated_blades": 37,
+          "base_triangles": 1040,
+          "snow_triangles": 962,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6896049976348877,
+            0.8277068138122559,
+            0.43345001339912415
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6896049976348877,
+            0.43345001339912415,
+            0.8277068138122559
+          ]
+        },
+        {
+          "file": "forest_fan_01_snow_lod1.glb",
+          "lod": 1,
+          "sha256": "0ba1f24e1716fd6ac3a73cd66c31a0a19d9cae9aa49532273fc8874d410719c0",
+          "bytes": 35964,
+          "triangles": 702,
+          "blades": 20,
+          "coated_blades": 19,
+          "base_triangles": 360,
+          "snow_triangles": 342,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6667280197143555,
+            0.775516152381897,
+            0.43345001339912415
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6667280197143555,
+            0.43345001339912415,
+            0.775516152381897
+          ]
+        },
+        {
+          "file": "forest_fan_01_snow_lod2.glb",
+          "lod": 2,
+          "sha256": "84d825d7bd0eb7faa8f65030e5068bcedb16f2b31d08e130681256d13e324ce3",
+          "bytes": 12052,
+          "triangles": 190,
+          "blades": 10,
+          "coated_blades": 9,
+          "base_triangles": 100,
+          "snow_triangles": 90,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6667280197143555,
+            0.775516152381897,
+            0.42936769127845764
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6667280197143555,
+            0.42936769127845764,
+            0.775516152381897
+          ]
+        }
+      ]
+    },
+    {
+      "id": "forest_fan_02_green",
+      "shape": "forest_fan_02",
+      "finish": "green",
+      "seed": 1481,
+      "models": [
+        {
+          "file": "forest_fan_02_green_lod0.glb",
+          "lod": 0,
+          "sha256": "3cdba9bef8c904830135d9240e4ef5f8cd5ec52911405d28161f5e8dc622bc3a",
+          "bytes": 55132,
+          "triangles": 1144,
+          "blades": 44,
+          "coated_blades": 0,
+          "base_triangles": 1144,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.9603181481361389,
+            1.0212147235870361,
+            0.49065640568733215
+          ],
+          "dimensions_godot_xyz_m": [
+            0.9603181481361389,
+            0.49065640568733215,
+            1.0212147235870361
+          ]
+        },
+        {
+          "file": "forest_fan_02_green_lod1.glb",
+          "lod": 1,
+          "sha256": "19d44fd8ec9f942d5083539135a0f380ef2b5d9975fa4b89093652f7a14dfba6",
+          "bytes": 21068,
+          "triangles": 396,
+          "blades": 22,
+          "coated_blades": 0,
+          "base_triangles": 396,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.8744561076164246,
+            1.0212147235870361,
+            0.49065640568733215
+          ],
+          "dimensions_godot_xyz_m": [
+            0.8744561076164246,
+            0.49065640568733215,
+            1.0212147235870361
+          ]
+        },
+        {
+          "file": "forest_fan_02_green_lod2.glb",
+          "lod": 2,
+          "sha256": "d042852b0ec35a181f9f34324b02a63deee007307e62957a5333c74cba4bd5de",
+          "bytes": 7732,
+          "triangles": 110,
+          "blades": 11,
+          "coated_blades": 0,
+          "base_triangles": 110,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6548165082931519,
+            1.0212147235870361,
+            0.49065640568733215
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6548165082931519,
+            0.49065640568733215,
+            1.0212147235870361
+          ]
+        }
+      ]
+    },
+    {
+      "id": "forest_fan_02_dusted",
+      "shape": "forest_fan_02",
+      "finish": "dusted",
+      "seed": 1481,
+      "models": [
+        {
+          "file": "forest_fan_02_dusted_lod0.glb",
+          "lod": 0,
+          "sha256": "db80ccd48d186a12dadfca84ac151fe79a9d9cc41d979f2c40cbcde7bfa5dd1b",
+          "bytes": 87872,
+          "triangles": 1846,
+          "blades": 44,
+          "coated_blades": 27,
+          "base_triangles": 1144,
+          "snow_triangles": 702,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.9603181481361389,
+            1.0212147235870361,
+            0.49065640568733215
+          ],
+          "dimensions_godot_xyz_m": [
+            0.9603181481361389,
+            0.49065640568733215,
+            1.0212147235870361
+          ]
+        },
+        {
+          "file": "forest_fan_02_dusted_lod1.glb",
+          "lod": 1,
+          "sha256": "e28121e67686597901feb7365a72d1024b002687681d43738e346db70e869c02",
+          "bytes": 30712,
+          "triangles": 594,
+          "blades": 22,
+          "coated_blades": 11,
+          "base_triangles": 396,
+          "snow_triangles": 198,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.8744561076164246,
+            1.0212147235870361,
+            0.49065640568733215
+          ],
+          "dimensions_godot_xyz_m": [
+            0.8744561076164246,
+            0.49065640568733215,
+            1.0212147235870361
+          ]
+        },
+        {
+          "file": "forest_fan_02_dusted_lod2.glb",
+          "lod": 2,
+          "sha256": "325edaef609e5b6cc416cba2419be8dc6acbce2c02709bda546150297f33b331",
+          "bytes": 10980,
+          "triangles": 170,
+          "blades": 11,
+          "coated_blades": 6,
+          "base_triangles": 110,
+          "snow_triangles": 60,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6548165082931519,
+            1.0212147235870361,
+            0.49065640568733215
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6548165082931519,
+            0.49065640568733215,
+            1.0212147235870361
+          ]
+        }
+      ]
+    },
+    {
+      "id": "forest_fan_02_snow",
+      "shape": "forest_fan_02",
+      "finish": "snow",
+      "seed": 1481,
+      "models": [
+        {
+          "file": "forest_fan_02_snow_lod0.glb",
+          "lod": 0,
+          "sha256": "bd6dd1b1913449fbf00cdb87c3090d585e539a9e4e6db08330734435c0a51b2c",
+          "bytes": 107260,
+          "triangles": 2262,
+          "blades": 44,
+          "coated_blades": 43,
+          "base_triangles": 1144,
+          "snow_triangles": 1118,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.9603181481361389,
+            1.0212147235870361,
+            0.49177834391593933
+          ],
+          "dimensions_godot_xyz_m": [
+            0.9603181481361389,
+            0.49177834391593933,
+            1.0212147235870361
+          ]
+        },
+        {
+          "file": "forest_fan_02_snow_lod1.glb",
+          "lod": 1,
+          "sha256": "6a4dd35757ef7d2ae57266df957d6e9cb24bc9fe74108e8bab8cf2d0bd3e7a53",
+          "bytes": 39468,
+          "triangles": 774,
+          "blades": 22,
+          "coated_blades": 21,
+          "base_triangles": 396,
+          "snow_triangles": 378,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.8744561076164246,
+            1.0212147235870361,
+            0.49177834391593933
+          ],
+          "dimensions_godot_xyz_m": [
+            0.8744561076164246,
+            0.49177834391593933,
+            1.0212147235870361
+          ]
+        },
+        {
+          "file": "forest_fan_02_snow_lod2.glb",
+          "lod": 2,
+          "sha256": "b0aa88b2c535c9ddc1fd349ce5027db483f0c615b18a60348b7fb7dbf260f55e",
+          "bytes": 13676,
+          "triangles": 220,
+          "blades": 11,
+          "coated_blades": 11,
+          "base_triangles": 110,
+          "snow_triangles": 110,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6548165082931519,
+            1.0212147235870361,
+            0.49177834391593933
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6548165082931519,
+            0.49177834391593933,
+            1.0212147235870361
+          ]
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "models/alpine_tuft_01_green_lod0.glb",
+      "sha256": "01d57632b4311e8ed95b9511695461db305ca45f1fbafb9f053490b4b26324cf",
+      "bytes": 35740
+    },
+    {
+      "path": "models/alpine_tuft_01_green_lod1.glb",
+      "sha256": "2b401f67efa3baca21456a3a563423412e2db86ad74bc95ddebeb7d86cbff49b",
+      "bytes": 14064
+    },
+    {
+      "path": "models/alpine_tuft_01_green_lod2.glb",
+      "sha256": "f1392bbd313610e350c0a2bd00c9e8c68cbc0354cd259a82c951144a40d13932",
+      "bytes": 5564
+    },
+    {
+      "path": "models/alpine_tuft_01_dusted_lod0.glb",
+      "sha256": "1ba707d9e3c6dbfc72937c24791d6ed44d5a6c2f9304f11408c24fe17d8fa9e7",
+      "bytes": 53928
+    },
+    {
+      "path": "models/alpine_tuft_01_dusted_lod1.glb",
+      "sha256": "d3e0c8233ba31e61ebab39e90220faaca6c801076fd721628da2b23659dd46fd",
+      "bytes": 18448
+    },
+    {
+      "path": "models/alpine_tuft_01_dusted_lod2.glb",
+      "sha256": "ddae6dbc7f0baa43f93f13e511a4dab944a9083a5d9bdf1b68523fa588d53b9b",
+      "bytes": 7196
+    },
+    {
+      "path": "models/alpine_tuft_01_snow_lod0.glb",
+      "sha256": "8d8b84ed79512cd4168852a8d08694d70b50ed6ef02ce055c56404d94b0d1d7b",
+      "bytes": 69684
+    },
+    {
+      "path": "models/alpine_tuft_01_snow_lod1.glb",
+      "sha256": "ad6944a7b20f65435826c33fbb1884d2908cf20cf21d159257e5bc6cd90953dd",
+      "bytes": 26332
+    },
+    {
+      "path": "models/alpine_tuft_01_snow_lod2.glb",
+      "sha256": "e96b847d683c9c705a2cd3f1f70583508d1e4b8bb6ebae33d5b5aaafc857ea22",
+      "bytes": 9352
+    },
+    {
+      "path": "models/alpine_tuft_02_green_lod0.glb",
+      "sha256": "5062bcd3f2b64e6a389eaaab8d8e5453bf52b696b3e6ab6bd8d621c1908b6802",
+      "bytes": 40588
+    },
+    {
+      "path": "models/alpine_tuft_02_green_lod1.glb",
+      "sha256": "ae1453049834898ed9b895220c439e695182a9e67a83a63f17a5b8f25b623373",
+      "bytes": 15820
+    },
+    {
+      "path": "models/alpine_tuft_02_green_lod2.glb",
+      "sha256": "e6e6bf73d0f420f2a2bcdb3a1a13113704e0b9ab2b8abc7dc6edb16d27e8293c",
+      "bytes": 6104
+    },
+    {
+      "path": "models/alpine_tuft_02_dusted_lod0.glb",
+      "sha256": "dbdc270d2fcc986d777ab428f783c2d7f76171d6313140e0d4a8593e45662e4e",
+      "bytes": 61208
+    },
+    {
+      "path": "models/alpine_tuft_02_dusted_lod1.glb",
+      "sha256": "dc023b1be6479132879c103c6691382eaa1372e5849f739666f37feaddd76c39",
+      "bytes": 22832
+    },
+    {
+      "path": "models/alpine_tuft_02_dusted_lod2.glb",
+      "sha256": "c3711e670b2920e1cc236fbfce80f90a0aa329d8d48fe9363c0acfe49d4d1961",
+      "bytes": 7736
+    },
+    {
+      "path": "models/alpine_tuft_02_snow_lod0.glb",
+      "sha256": "fe75ee1502877e459f139dbacabf98e84eabc01cf07b64191a85436eb076a514",
+      "bytes": 76960
+    },
+    {
+      "path": "models/alpine_tuft_02_snow_lod1.glb",
+      "sha256": "c21ac9fef79aa728b89db266205c3ba81903603fc732ae3e3e8c74723be94acb",
+      "bytes": 28084
+    },
+    {
+      "path": "models/alpine_tuft_02_snow_lod2.glb",
+      "sha256": "a70807a15d57b6bbc8736a4f410bfd96735631b65d71c18655525f570f063bb5",
+      "bytes": 10432
+    },
+    {
+      "path": "models/meadow_clump_01_green_lod0.glb",
+      "sha256": "16d7a19fed8a9bdbab37d5f5e984efbd5a3c0bcf5acb2079df59a83729f8328a",
+      "bytes": 50292
+    },
+    {
+      "path": "models/meadow_clump_01_green_lod1.glb",
+      "sha256": "e98f6c231c424fed555b9323aa334059433a9b7628c819f8b36f45894c844328",
+      "bytes": 19324
+    },
+    {
+      "path": "models/meadow_clump_01_green_lod2.glb",
+      "sha256": "643f413b0d7f753b4a94e0bf7f2c9a8868e2df3163083300d2b582facf1940bc",
+      "bytes": 7196
+    },
+    {
+      "path": "models/meadow_clump_01_dusted_lod0.glb",
+      "sha256": "c4a0d293dbbe28652e54a90eb7dc02a1fc3aa8e15fd320f7eab717d74b9c758d",
+      "bytes": 75760
+    },
+    {
+      "path": "models/meadow_clump_01_dusted_lod1.glb",
+      "sha256": "fe72f32eee063af069d42417ec80b08271eb79329828a40e0e73cbcf35b03358",
+      "bytes": 31596
+    },
+    {
+      "path": "models/meadow_clump_01_dusted_lod2.glb",
+      "sha256": "168f22771bbd18d40493a683c502f0e98719b7e151e9d0fa9e0aac35022c3226",
+      "bytes": 10984
+    },
+    {
+      "path": "models/meadow_clump_01_snow_lod0.glb",
+      "sha256": "53ea596c2b34d5eb08f0c148fbeaae4038e8c8fb7b4e759c1ef85ff6164754ef",
+      "bytes": 96356
+    },
+    {
+      "path": "models/meadow_clump_01_snow_lod1.glb",
+      "sha256": "8bd77fe8ad37ca680dff5da5d03fae04eeea4657f903d3e103115d3cdfd9a342",
+      "bytes": 36844
+    },
+    {
+      "path": "models/meadow_clump_01_snow_lod2.glb",
+      "sha256": "ff865d5bb7a2b07f96e63e8dca312e0c612928ab389082f0c1cad6e237f7dd28",
+      "bytes": 12600
+    },
+    {
+      "path": "models/meadow_clump_02_green_lod0.glb",
+      "sha256": "b053b640f392bf3109964f07dc641585f12b9685e0d5be88ca60d4b7960fe9d7",
+      "bytes": 55136
+    },
+    {
+      "path": "models/meadow_clump_02_green_lod1.glb",
+      "sha256": "939e97e725e744549b0befe8038f80a6d6e72a715e825d132c136311579c9c6c",
+      "bytes": 21076
+    },
+    {
+      "path": "models/meadow_clump_02_green_lod2.glb",
+      "sha256": "a68865a934f0f71f95cd7f51756fef6292e2d6f853820d2dd87bf25d3c2c17ad",
+      "bytes": 7736
+    },
+    {
+      "path": "models/meadow_clump_02_dusted_lod0.glb",
+      "sha256": "f88c489a4089d2ced3d53dd7929b7dce9722d1cd262b5680334418109134c403",
+      "bytes": 86664
+    },
+    {
+      "path": "models/meadow_clump_02_dusted_lod1.glb",
+      "sha256": "9042aa1b145219dfe6fe3e25090214afb7fe724c53453c14749cb0565b3d3ac7",
+      "bytes": 34224
+    },
+    {
+      "path": "models/meadow_clump_02_dusted_lod2.glb",
+      "sha256": "eae3432d7a9c4337e305fbb63976b3ace1a42164b95fe1efe248a8cf576f9f98",
+      "bytes": 10984
+    },
+    {
+      "path": "models/meadow_clump_02_snow_lod0.glb",
+      "sha256": "6732afb6dc21930e27c03c78221196c9f8019ae07f9ae6975c337f8c85763ea2",
+      "bytes": 108476
+    },
+    {
+      "path": "models/meadow_clump_02_snow_lod1.glb",
+      "sha256": "ecb82c97ec729a68365b15ab9a49392d7608372251762fee84cc8224e291122d",
+      "bytes": 40348
+    },
+    {
+      "path": "models/meadow_clump_02_snow_lod2.glb",
+      "sha256": "d0fce10270cefcf756db39070a4397216b3d0c4b4dbd28aaf0f46036b9bba9e2",
+      "bytes": 13680
+    },
+    {
+      "path": "models/forest_fan_01_green_lod0.glb",
+      "sha256": "20e05670d4326703ea6bf38f267f84a17228ea36b056fe92ff2afeafc77a703e",
+      "bytes": 50284
+    },
+    {
+      "path": "models/forest_fan_01_green_lod1.glb",
+      "sha256": "49ee20af715a8429b52dee9523ba2d8b6dadcdd2327907bca85a739bc0400a6c",
+      "bytes": 19320
+    },
+    {
+      "path": "models/forest_fan_01_green_lod2.glb",
+      "sha256": "e5bda96eda88ca17d6290a9fae9314e59f0123dd91727ada93954d6a04879714",
+      "bytes": 7188
+    },
+    {
+      "path": "models/forest_fan_01_dusted_lod0.glb",
+      "sha256": "80f0e5d5131bf9536a8da7758e9c30aa90d5a1dc75b64b20853f46ca3f016916",
+      "bytes": 76960
+    },
+    {
+      "path": "models/forest_fan_01_dusted_lod1.glb",
+      "sha256": "7967a33bbdcb5d9e9604485fded69f96767263bb69d2557d7f010b8171c4c7e5",
+      "bytes": 28960
+    },
+    {
+      "path": "models/forest_fan_01_dusted_lod2.glb",
+      "sha256": "c54712b135f3e2fec700556014a57912cd32581bc718b2510de3ce8ded29d0ef",
+      "bytes": 10436
+    },
+    {
+      "path": "models/forest_fan_01_snow_lod0.glb",
+      "sha256": "6f58c0441bb59081af67b5cf55636ea93538b62ed596c0cf87469811cbbe99dd",
+      "bytes": 95136
+    },
+    {
+      "path": "models/forest_fan_01_snow_lod1.glb",
+      "sha256": "0ba1f24e1716fd6ac3a73cd66c31a0a19d9cae9aa49532273fc8874d410719c0",
+      "bytes": 35964
+    },
+    {
+      "path": "models/forest_fan_01_snow_lod2.glb",
+      "sha256": "84d825d7bd0eb7faa8f65030e5068bcedb16f2b31d08e130681256d13e324ce3",
+      "bytes": 12052
+    },
+    {
+      "path": "models/forest_fan_02_green_lod0.glb",
+      "sha256": "3cdba9bef8c904830135d9240e4ef5f8cd5ec52911405d28161f5e8dc622bc3a",
+      "bytes": 55132
+    },
+    {
+      "path": "models/forest_fan_02_green_lod1.glb",
+      "sha256": "19d44fd8ec9f942d5083539135a0f380ef2b5d9975fa4b89093652f7a14dfba6",
+      "bytes": 21068
+    },
+    {
+      "path": "models/forest_fan_02_green_lod2.glb",
+      "sha256": "d042852b0ec35a181f9f34324b02a63deee007307e62957a5333c74cba4bd5de",
+      "bytes": 7732
+    },
+    {
+      "path": "models/forest_fan_02_dusted_lod0.glb",
+      "sha256": "db80ccd48d186a12dadfca84ac151fe79a9d9cc41d979f2c40cbcde7bfa5dd1b",
+      "bytes": 87872
+    },
+    {
+      "path": "models/forest_fan_02_dusted_lod1.glb",
+      "sha256": "e28121e67686597901feb7365a72d1024b002687681d43738e346db70e869c02",
+      "bytes": 30712
+    },
+    {
+      "path": "models/forest_fan_02_dusted_lod2.glb",
+      "sha256": "325edaef609e5b6cc416cba2419be8dc6acbce2c02709bda546150297f33b331",
+      "bytes": 10980
+    },
+    {
+      "path": "models/forest_fan_02_snow_lod0.glb",
+      "sha256": "bd6dd1b1913449fbf00cdb87c3090d585e539a9e4e6db08330734435c0a51b2c",
+      "bytes": 107260
+    },
+    {
+      "path": "models/forest_fan_02_snow_lod1.glb",
+      "sha256": "6a4dd35757ef7d2ae57266df957d6e9cb24bc9fe74108e8bab8cf2d0bd3e7a53",
+      "bytes": 39468
+    },
+    {
+      "path": "models/forest_fan_02_snow_lod2.glb",
+      "sha256": "b0aa88b2c535c9ddc1fd349ce5027db483f0c615b18a60348b7fb7dbf260f55e",
+      "bytes": 13676
+    },
+    {
+      "path": "grass_library.blend",
+      "sha256": "fd2c15db39b7a4656e18ea4a82411378185d257eb9b55b85c757b884782c46f9",
+      "bytes": 934593
+    }
+  ],
+  "total_payload_bytes": 2874141
+}

@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "units": "metres",
+  "finishes": ["green", "dusted", "snow"],
+  "lods": [
+    {"level": 0, "stride": 1, "segments": 7},
+    {"level": 1, "stride": 2, "segments": 5},
+    {"level": 2, "stride": 4, "segments": 3}
+  ],
+  "shapes": [
+    {"id": "alpine_tuft_01", "seed": 1201, "height": 0.20, "radius": 0.031, "blades": 28, "width": 0.006, "bend": 0.44},
+    {"id": "alpine_tuft_02", "seed": 1249, "height": 0.24, "radius": 0.038, "blades": 32, "width": 0.0065, "bend": 0.60},
+    {"id": "meadow_clump_01", "seed": 1301, "height": 0.34, "radius": 0.051, "blades": 40, "width": 0.009, "bend": 0.59},
+    {"id": "meadow_clump_02", "seed": 1361, "height": 0.38, "radius": 0.059, "blades": 44, "width": 0.008, "bend": 0.74},
+    {"id": "forest_fan_01", "seed": 1423, "height": 0.46, "radius": 0.065, "blades": 40, "width": 0.012, "bend": 0.74},
+    {"id": "forest_fan_02", "seed": 1481, "height": 0.52, "radius": 0.071, "blades": 44, "width": 0.010, "bend": 0.84}
+  ]
+}

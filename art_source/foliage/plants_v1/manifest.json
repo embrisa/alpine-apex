@@ -1,0 +1,1656 @@
+{
+  "schema": 1,
+  "kind": "plants",
+  "status": "prepared_only_not_integrated",
+  "geometry_origin": "Original procedural foliage from recipes; generic growth forms, not scanned botanical species",
+  "authoring_blender": "5.2.1 LTS",
+  "builder_path": "scripts/art/prepare_plant_assets.py",
+  "builder_sha256": "1a5b543ab8e45af245bd07bcce9178e02daacdce390f3f562f5b2990632e4ba6",
+  "builder_dependencies": {
+    "scripts/art/prepare_grass_assets.py": "064a8c5f95f57cea704b7e1f903e8c08d8496023ecf997db58b5c3a84a1b7c8d"
+  },
+  "recipe_sha256": "137f008156bbea736ae05d34fd9f77527db2ad2d0aef1db49346afbf2475b04b",
+  "units": "metres",
+  "export_axes": "Y up, Blender Z up",
+  "material": "One opaque double-sided vertex-colored PBR surface; stems and leaves, no external textures",
+  "vertex_contract": {
+    "COLOR_0": "linear appearance RGB; alpha 1",
+    "TEXCOORD_0": "y is clamped local height / authored plant height, for future bend weighting",
+    "TEXCOORD_1": "root pivot at origin, encoded (.5,.5)",
+    "pivot_span_m": 1.0
+  },
+  "inspected_references_not_embedded": [],
+  "rock_geometry": false,
+  "collision": false,
+  "wind_or_skier_runtime_implemented": false,
+  "assets": [
+    {
+      "id": "broadleaf_rosette_01_green",
+      "shape": "broadleaf_rosette_01",
+      "kind": "rosette",
+      "finish": "green",
+      "seed": 2203,
+      "models": [
+        {
+          "file": "broadleaf_rosette_01_green_lod0.glb",
+          "lod": 0,
+          "sha256": "a7899fcc331b7c3a74c4b6981d4d291cbcede11778172f6916a5855d00c2b09b",
+          "bytes": 42140,
+          "triangles": 320,
+          "leaves": 16,
+          "coated_leaves": 0,
+          "base_triangles": 320,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3806346654891968,
+            0.3499780595302582,
+            0.12877149879932404
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3806346654891968,
+            0.12877149879932404,
+            0.3499780595302582
+          ]
+        },
+        {
+          "file": "broadleaf_rosette_01_green_lod1.glb",
+          "lod": 1,
+          "sha256": "e1bc00f98d93b3eb5c06678f2f7c7aee79e8543d84737daa0fcb60c6d53617c4",
+          "bytes": 29276,
+          "triangles": 224,
+          "leaves": 16,
+          "coated_leaves": 0,
+          "base_triangles": 224,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3806346654891968,
+            0.3499780595302582,
+            0.12877149879932404
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3806346654891968,
+            0.12877149879932404,
+            0.3499780595302582
+          ]
+        },
+        {
+          "file": "broadleaf_rosette_01_green_lod2.glb",
+          "lod": 2,
+          "sha256": "ad7ffc7fe684cc21f9715f8c27960b60a9859b2347363b3db422cf621ba07ae2",
+          "bytes": 13140,
+          "triangles": 96,
+          "leaves": 8,
+          "coated_leaves": 0,
+          "base_triangles": 96,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3018656373023987,
+            0.3670571446418762,
+            0.11413169652223587
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3018656373023987,
+            0.11413169652223587,
+            0.3670571446418762
+          ]
+        }
+      ]
+    },
+    {
+      "id": "broadleaf_rosette_01_dusted",
+      "shape": "broadleaf_rosette_01",
+      "kind": "rosette",
+      "finish": "dusted",
+      "seed": 2203,
+      "models": [
+        {
+          "file": "broadleaf_rosette_01_dusted_lod0.glb",
+          "lod": 0,
+          "sha256": "fc04d6daa5c1c0eaee29ccc9ba5a9669ab05fd3c7d91535795808124c376a6fe",
+          "bytes": 55652,
+          "triangles": 410,
+          "leaves": 16,
+          "coated_leaves": 9,
+          "base_triangles": 320,
+          "snow_triangles": 90,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3806346654891968,
+            0.3499780595302582,
+            0.12877149879932404
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3806346654891968,
+            0.12877149879932404,
+            0.3499780595302582
+          ]
+        },
+        {
+          "file": "broadleaf_rosette_01_dusted_lod1.glb",
+          "lod": 1,
+          "sha256": "7bacb3c67c3f67df68ee12806c2a56a3ff9e4afb305c21f18aae66530ff9851d",
+          "bytes": 37380,
+          "triangles": 278,
+          "leaves": 16,
+          "coated_leaves": 9,
+          "base_triangles": 224,
+          "snow_triangles": 54,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3806346654891968,
+            0.3499780595302582,
+            0.12877149879932404
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3806346654891968,
+            0.12877149879932404,
+            0.3499780595302582
+          ]
+        },
+        {
+          "file": "broadleaf_rosette_01_dusted_lod2.glb",
+          "lod": 2,
+          "sha256": "017a8091b2463e29f5ab37945ea6354cf456221ede81ace0c34171f6cfb34a95",
+          "bytes": 14948,
+          "triangles": 108,
+          "leaves": 8,
+          "coated_leaves": 3,
+          "base_triangles": 96,
+          "snow_triangles": 12,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3018656373023987,
+            0.3670571446418762,
+            0.11413169652223587
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3018656373023987,
+            0.11413169652223587,
+            0.3670571446418762
+          ]
+        }
+      ]
+    },
+    {
+      "id": "broadleaf_rosette_01_snow",
+      "shape": "broadleaf_rosette_01",
+      "kind": "rosette",
+      "finish": "snow",
+      "seed": 2203,
+      "models": [
+        {
+          "file": "broadleaf_rosette_01_snow_lod0.glb",
+          "lod": 0,
+          "sha256": "26aa99b8c2b51df43d4254c36307ca82bbf5faf64eca1feea1a0b95fe29c118a",
+          "bytes": 66152,
+          "triangles": 480,
+          "leaves": 16,
+          "coated_leaves": 16,
+          "base_triangles": 320,
+          "snow_triangles": 160,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3806346654891968,
+            0.3499780595302582,
+            0.12877149879932404
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3806346654891968,
+            0.12877149879932404,
+            0.3499780595302582
+          ]
+        },
+        {
+          "file": "broadleaf_rosette_01_snow_lod1.glb",
+          "lod": 1,
+          "sha256": "48c4d2c4457a1bf65561cf17eb22fd878c2d3b70eab37ae1a8de26cba2e9b58a",
+          "bytes": 43676,
+          "triangles": 320,
+          "leaves": 16,
+          "coated_leaves": 16,
+          "base_triangles": 224,
+          "snow_triangles": 96,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3806346654891968,
+            0.3499780595302582,
+            0.12877149879932404
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3806346654891968,
+            0.12877149879932404,
+            0.3499780595302582
+          ]
+        },
+        {
+          "file": "broadleaf_rosette_01_snow_lod2.glb",
+          "lod": 2,
+          "sha256": "dfeca4050e1b1c1836ac8c3c75259b35e2f0579165fb66ebcc300d30d3f29e5c",
+          "bytes": 17940,
+          "triangles": 128,
+          "leaves": 8,
+          "coated_leaves": 8,
+          "base_triangles": 96,
+          "snow_triangles": 32,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3018656373023987,
+            0.3670571446418762,
+            0.11413169652223587
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3018656373023987,
+            0.11413169652223587,
+            0.3670571446418762
+          ]
+        }
+      ]
+    },
+    {
+      "id": "leafy_cluster_02_green",
+      "shape": "leafy_cluster_02",
+      "kind": "leafy",
+      "finish": "green",
+      "seed": 2251,
+      "models": [
+        {
+          "file": "leafy_cluster_02_green_lod0.glb",
+          "lod": 0,
+          "sha256": "9846bf819cbd4477545c28894b1b6decb25822ca5d0cfb04637eeaf17b1e0304",
+          "bytes": 88220,
+          "triangles": 720,
+          "leaves": 27,
+          "coated_leaves": 0,
+          "base_triangles": 720,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.21916471421718597,
+            0.21237139403820038,
+            0.29724937677383423
+          ],
+          "dimensions_godot_xyz_m": [
+            0.21916471421718597,
+            0.29724937677383423,
+            0.21237139403820038
+          ]
+        },
+        {
+          "file": "leafy_cluster_02_green_lod1.glb",
+          "lod": 1,
+          "sha256": "07da5598a25c8d6e6b9d5e17ac366c1f2e385291078af6dc1a0034fe264df5bb",
+          "bytes": 47640,
+          "triangles": 390,
+          "leaves": 21,
+          "coated_leaves": 0,
+          "base_triangles": 390,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.22240084409713745,
+            0.21481819450855255,
+            0.29724937677383423
+          ],
+          "dimensions_godot_xyz_m": [
+            0.22240084409713745,
+            0.29724937677383423,
+            0.21481819450855255
+          ]
+        },
+        {
+          "file": "leafy_cluster_02_green_lod2.glb",
+          "lod": 2,
+          "sha256": "820a5991cbdcf476e8291c1ffd9fdfd84202e9e1490c948e63ed743ec9f7ecad",
+          "bytes": 36440,
+          "triangles": 300,
+          "leaves": 21,
+          "coated_leaves": 0,
+          "base_triangles": 300,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.22240084409713745,
+            0.21481819450855255,
+            0.29724937677383423
+          ],
+          "dimensions_godot_xyz_m": [
+            0.22240084409713745,
+            0.29724937677383423,
+            0.21481819450855255
+          ]
+        }
+      ]
+    },
+    {
+      "id": "leafy_cluster_02_dusted",
+      "shape": "leafy_cluster_02",
+      "kind": "leafy",
+      "finish": "dusted",
+      "seed": 2251,
+      "models": [
+        {
+          "file": "leafy_cluster_02_dusted_lod0.glb",
+          "lod": 0,
+          "sha256": "ec494e5a13c01e15d1a646184680ada0b382c8ad80aed4cd6634eacb81c1d9f1",
+          "bytes": 110728,
+          "triangles": 870,
+          "leaves": 27,
+          "coated_leaves": 15,
+          "base_triangles": 720,
+          "snow_triangles": 150,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.21916471421718597,
+            0.21237139403820038,
+            0.29724937677383423
+          ],
+          "dimensions_godot_xyz_m": [
+            0.21916471421718597,
+            0.29724937677383423,
+            0.21237139403820038
+          ]
+        },
+        {
+          "file": "leafy_cluster_02_dusted_lod1.glb",
+          "lod": 1,
+          "sha256": "cfc7710df4faaa0034f2493ca4ca02c5039e05caa7448582a45c165dfb54ec63",
+          "bytes": 59352,
+          "triangles": 468,
+          "leaves": 21,
+          "coated_leaves": 13,
+          "base_triangles": 390,
+          "snow_triangles": 78,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.22240084409713745,
+            0.21481819450855255,
+            0.29724937677383423
+          ],
+          "dimensions_godot_xyz_m": [
+            0.22240084409713745,
+            0.29724937677383423,
+            0.21481819450855255
+          ]
+        },
+        {
+          "file": "leafy_cluster_02_dusted_lod2.glb",
+          "lod": 2,
+          "sha256": "17caba75e8f2eafef1e782896da3865d03ef18c2a4be7fb1d2cf062d2ef5e4e3",
+          "bytes": 44248,
+          "triangles": 352,
+          "leaves": 21,
+          "coated_leaves": 13,
+          "base_triangles": 300,
+          "snow_triangles": 52,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.22240084409713745,
+            0.21481819450855255,
+            0.29724937677383423
+          ],
+          "dimensions_godot_xyz_m": [
+            0.22240084409713745,
+            0.29724937677383423,
+            0.21481819450855255
+          ]
+        }
+      ]
+    },
+    {
+      "id": "leafy_cluster_02_snow",
+      "shape": "leafy_cluster_02",
+      "kind": "leafy",
+      "finish": "snow",
+      "seed": 2251,
+      "models": [
+        {
+          "file": "leafy_cluster_02_snow_lod0.glb",
+          "lod": 0,
+          "sha256": "ef828af8d492caf7c900f75f6949ed98e4defc5deaa367084046485490b255d5",
+          "bytes": 125724,
+          "triangles": 970,
+          "leaves": 27,
+          "coated_leaves": 25,
+          "base_triangles": 720,
+          "snow_triangles": 250,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.21916471421718597,
+            0.21237139403820038,
+            0.29724937677383423
+          ],
+          "dimensions_godot_xyz_m": [
+            0.21916471421718597,
+            0.29724937677383423,
+            0.21237139403820038
+          ]
+        },
+        {
+          "file": "leafy_cluster_02_snow_lod1.glb",
+          "lod": 1,
+          "sha256": "d4d5e6497722dae5c3ac7d46f29e09ca98dd97ff4a9b30056a1e4071012c6b7d",
+          "bytes": 64744,
+          "triangles": 504,
+          "leaves": 21,
+          "coated_leaves": 19,
+          "base_triangles": 390,
+          "snow_triangles": 114,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.22240084409713745,
+            0.21481819450855255,
+            0.29724937677383423
+          ],
+          "dimensions_godot_xyz_m": [
+            0.22240084409713745,
+            0.29724937677383423,
+            0.21481819450855255
+          ]
+        },
+        {
+          "file": "leafy_cluster_02_snow_lod2.glb",
+          "lod": 2,
+          "sha256": "5e12814a2b45ffcbf1c318b5a07be4a4306141548c2ba4a5d408375cb05099f2",
+          "bytes": 47844,
+          "triangles": 376,
+          "leaves": 21,
+          "coated_leaves": 19,
+          "base_triangles": 300,
+          "snow_triangles": 76,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.22240084409713745,
+            0.21481819450855255,
+            0.29724937677383423
+          ],
+          "dimensions_godot_xyz_m": [
+            0.22240084409713745,
+            0.29724937677383423,
+            0.21481819450855255
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fern_01_green",
+      "shape": "fern_01",
+      "kind": "fern",
+      "finish": "green",
+      "seed": 2309,
+      "models": [
+        {
+          "file": "fern_01_green_lod0.glb",
+          "lod": 0,
+          "sha256": "8bf7280506227106f3afeb0cea7d8fa6e8145e76d2e2f017ede170eb589ce2c5",
+          "bytes": 190496,
+          "triangles": 1370,
+          "leaves": 85,
+          "coated_leaves": 0,
+          "base_triangles": 1370,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4627755880355835,
+            0.3757961392402649,
+            0.3289477527141571
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4627755880355835,
+            0.3289477527141571,
+            0.3757961392402649
+          ]
+        },
+        {
+          "file": "fern_01_green_lod1.glb",
+          "lod": 1,
+          "sha256": "e42551f0323f7c585bb05801a33b25ce2c33840fc3e43df7e233d1f87f1d46e3",
+          "bytes": 80692,
+          "triangles": 590,
+          "leaves": 65,
+          "coated_leaves": 0,
+          "base_triangles": 590,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4627891182899475,
+            0.37578505277633667,
+            0.3289477527141571
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4627891182899475,
+            0.3289477527141571,
+            0.37578505277633667
+          ]
+        },
+        {
+          "file": "fern_01_green_lod2.glb",
+          "lod": 2,
+          "sha256": "18eb4661cb4fd87748dbc812e408b281a2d4fbdeb9e87e40dab2855c0dce26c9",
+          "bytes": 41020,
+          "triangles": 300,
+          "leaves": 45,
+          "coated_leaves": 0,
+          "base_triangles": 300,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4628790616989136,
+            0.37583014369010925,
+            0.3289477527141571
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4628790616989136,
+            0.3289477527141571,
+            0.37583014369010925
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fern_01_dusted",
+      "shape": "fern_01",
+      "kind": "fern",
+      "finish": "dusted",
+      "seed": 2309,
+      "models": [
+        {
+          "file": "fern_01_dusted_lod0.glb",
+          "lod": 0,
+          "sha256": "d17bd6cc7ef0ef61f65e9b7d83b681873a443fcbc52e542396cfb3d6a30e266e",
+          "bytes": 262504,
+          "triangles": 1850,
+          "leaves": 85,
+          "coated_leaves": 40,
+          "base_triangles": 1370,
+          "snow_triangles": 480,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4627755880355835,
+            0.3757961392402649,
+            0.3289477527141571
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4627755880355835,
+            0.3289477527141571,
+            0.3757961392402649
+          ]
+        },
+        {
+          "file": "fern_01_dusted_lod1.glb",
+          "lod": 1,
+          "sha256": "57ee0f3c6bd1da36493025f83163ad965081ba9bf87e28d714ad0c6735ae0c8c",
+          "bytes": 105000,
+          "triangles": 752,
+          "leaves": 65,
+          "coated_leaves": 27,
+          "base_triangles": 590,
+          "snow_triangles": 162,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4627891182899475,
+            0.37578505277633667,
+            0.3289477527141571
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4627891182899475,
+            0.3289477527141571,
+            0.37578505277633667
+          ]
+        },
+        {
+          "file": "fern_01_dusted_lod2.glb",
+          "lod": 2,
+          "sha256": "fe30d105ca5f3984c56b81f3bce8c946702291ccc8086e46ff5dff715579cdb3",
+          "bytes": 52436,
+          "triangles": 376,
+          "leaves": 45,
+          "coated_leaves": 19,
+          "base_triangles": 300,
+          "snow_triangles": 76,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4628790616989136,
+            0.37583014369010925,
+            0.3289477527141571
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4628790616989136,
+            0.3289477527141571,
+            0.37583014369010925
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fern_01_snow",
+      "shape": "fern_01",
+      "kind": "fern",
+      "finish": "snow",
+      "seed": 2309,
+      "models": [
+        {
+          "file": "fern_01_snow_lod0.glb",
+          "lod": 0,
+          "sha256": "cb142ddaf8a698e89ff433eed3e84deea4a1e947c2bfd1f1eb1082c0eb9681ac",
+          "bytes": 325500,
+          "triangles": 2270,
+          "leaves": 85,
+          "coated_leaves": 75,
+          "base_triangles": 1370,
+          "snow_triangles": 900,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4627755880355835,
+            0.3757961392402649,
+            0.3289477527141571
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4627755880355835,
+            0.3289477527141571,
+            0.3757961392402649
+          ]
+        },
+        {
+          "file": "fern_01_snow_lod1.glb",
+          "lod": 1,
+          "sha256": "dab3e5d880809f1f5875f75cbf01787ea2c8fb3b7bc637c32e6b2911632c9f85",
+          "bytes": 131996,
+          "triangles": 932,
+          "leaves": 65,
+          "coated_leaves": 57,
+          "base_triangles": 590,
+          "snow_triangles": 342,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4627891182899475,
+            0.37578505277633667,
+            0.3289477527141571
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4627891182899475,
+            0.3289477527141571,
+            0.37578505277633667
+          ]
+        },
+        {
+          "file": "fern_01_snow_lod2.glb",
+          "lod": 2,
+          "sha256": "349e4ce600cb96c823d2a14dc3425fc69ba8adf2a26c10e5838b716f5240acd2",
+          "bytes": 65032,
+          "triangles": 460,
+          "leaves": 45,
+          "coated_leaves": 40,
+          "base_triangles": 300,
+          "snow_triangles": 160,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4628790616989136,
+            0.37583014369010925,
+            0.3289477527141571
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4628790616989136,
+            0.3289477527141571,
+            0.37583014369010925
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fern_02_green",
+      "shape": "fern_02",
+      "kind": "fern",
+      "finish": "green",
+      "seed": 2351,
+      "models": [
+        {
+          "file": "fern_02_green_lod0.glb",
+          "lod": 0,
+          "sha256": "6ba51ab5f762f72a91e9d19c77533f67e20e6926bf2fd34988c0f026580ce2ec",
+          "bytes": 316380,
+          "triangles": 2254,
+          "leaves": 147,
+          "coated_leaves": 0,
+          "base_triangles": 2254,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6453384160995483,
+            0.6255332231521606,
+            0.47514674067497253
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6453384160995483,
+            0.47514674067497253,
+            0.6255332231521606
+          ]
+        },
+        {
+          "file": "fern_02_green_lod1.glb",
+          "lod": 1,
+          "sha256": "9905674d1010497718649ac18c2ee344fded8018ccaa68ebf08d45fcc7831a2a",
+          "bytes": 137456,
+          "triangles": 994,
+          "leaves": 119,
+          "coated_leaves": 0,
+          "base_triangles": 994,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.645355761051178,
+            0.6255475282669067,
+            0.47514674067497253
+          ],
+          "dimensions_godot_xyz_m": [
+            0.645355761051178,
+            0.47514674067497253,
+            0.6255475282669067
+          ]
+        },
+        {
+          "file": "fern_02_green_lod2.glb",
+          "lod": 2,
+          "sha256": "ea865662b2dcb051f3184b7ba63bcc9c61ff9aea3f64e1fa7d3da4445c2ef451",
+          "bytes": 73528,
+          "triangles": 532,
+          "leaves": 91,
+          "coated_leaves": 0,
+          "base_triangles": 532,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6454454660415649,
+            0.6256372928619385,
+            0.47514674067497253
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6454454660415649,
+            0.47514674067497253,
+            0.6256372928619385
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fern_02_dusted",
+      "shape": "fern_02",
+      "kind": "fern",
+      "finish": "dusted",
+      "seed": 2351,
+      "models": [
+        {
+          "file": "fern_02_dusted_lod0.glb",
+          "lod": 0,
+          "sha256": "f83b2ff5ae36183bab436346bc0c2f00cf7eeacd73f6244a43bb27c375cc8940",
+          "bytes": 453188,
+          "triangles": 3166,
+          "leaves": 147,
+          "coated_leaves": 76,
+          "base_triangles": 2254,
+          "snow_triangles": 912,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6453384160995483,
+            0.6255332231521606,
+            0.47514674067497253
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6453384160995483,
+            0.47514674067497253,
+            0.6255332231521606
+          ]
+        },
+        {
+          "file": "fern_02_dusted_lod1.glb",
+          "lod": 1,
+          "sha256": "f675f5bbb1830861aa7fd2abc6de3a0ef5953d21e7cf9a599ced91534c5ba6c4",
+          "bytes": 192364,
+          "triangles": 1360,
+          "leaves": 119,
+          "coated_leaves": 61,
+          "base_triangles": 994,
+          "snow_triangles": 366,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.645355761051178,
+            0.6255475282669067,
+            0.47514674067497253
+          ],
+          "dimensions_godot_xyz_m": [
+            0.645355761051178,
+            0.47514674067497253,
+            0.6255475282669067
+          ]
+        },
+        {
+          "file": "fern_02_dusted_lod2.glb",
+          "lod": 2,
+          "sha256": "da94c8625cfdba876e12457700fa966040128027313693d682fc64d8b7e64e14",
+          "bytes": 99336,
+          "triangles": 704,
+          "leaves": 91,
+          "coated_leaves": 43,
+          "base_triangles": 532,
+          "snow_triangles": 172,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6454454660415649,
+            0.6256372928619385,
+            0.47514674067497253
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6454454660415649,
+            0.47514674067497253,
+            0.6256372928619385
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fern_02_snow",
+      "shape": "fern_02",
+      "kind": "fern",
+      "finish": "snow",
+      "seed": 2351,
+      "models": [
+        {
+          "file": "fern_02_snow_lod0.glb",
+          "lod": 0,
+          "sha256": "290030e56dba280462e4c19f841633b55b6351f986ad463de4935e19ed431e6c",
+          "bytes": 564792,
+          "triangles": 3910,
+          "leaves": 147,
+          "coated_leaves": 138,
+          "base_triangles": 2254,
+          "snow_triangles": 1656,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6453384160995483,
+            0.6255332231521606,
+            0.47514674067497253
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6453384160995483,
+            0.47514674067497253,
+            0.6255332231521606
+          ]
+        },
+        {
+          "file": "fern_02_snow_lod1.glb",
+          "lod": 1,
+          "sha256": "93a65f5237886c3d0b294f7b6477dd02081eec4f7708983af479982aa69d2f11",
+          "bytes": 237360,
+          "triangles": 1660,
+          "leaves": 119,
+          "coated_leaves": 111,
+          "base_triangles": 994,
+          "snow_triangles": 666,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.645355761051178,
+            0.6255475282669067,
+            0.47514674067497253
+          ],
+          "dimensions_godot_xyz_m": [
+            0.645355761051178,
+            0.47514674067497253,
+            0.6255475282669067
+          ]
+        },
+        {
+          "file": "fern_02_snow_lod2.glb",
+          "lod": 2,
+          "sha256": "1e545bcee1220502cf99e778250a756c5a09d934df84c4734b09ab6425a2098e",
+          "bytes": 123932,
+          "triangles": 868,
+          "leaves": 91,
+          "coated_leaves": 84,
+          "base_triangles": 532,
+          "snow_triangles": 336,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.6454454660415649,
+            0.6256372928619385,
+            0.47514674067497253
+          ],
+          "dimensions_godot_xyz_m": [
+            0.6454454660415649,
+            0.47514674067497253,
+            0.6256372928619385
+          ]
+        }
+      ]
+    },
+    {
+      "id": "low_shrub_01_green",
+      "shape": "low_shrub_01",
+      "kind": "shrub",
+      "finish": "green",
+      "seed": 2417,
+      "models": [
+        {
+          "file": "low_shrub_01_green_lod0.glb",
+          "lod": 0,
+          "sha256": "5fa82abefb75e60a366f8541ef2f53b6635cdd7626c908724359a3495ff71656",
+          "bytes": 238692,
+          "triangles": 1960,
+          "leaves": 77,
+          "coated_leaves": 0,
+          "base_triangles": 1960,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.32023993134498596,
+            0.29337307810783386,
+            0.3963325023651123
+          ],
+          "dimensions_godot_xyz_m": [
+            0.32023993134498596,
+            0.3963325023651123,
+            0.29337307810783386
+          ]
+        },
+        {
+          "file": "low_shrub_01_green_lod1.glb",
+          "lod": 1,
+          "sha256": "3610f37047dd185c280257abfe0be869fabab5db08fc32043be217311228c9cf",
+          "bytes": 132768,
+          "triangles": 1106,
+          "leaves": 63,
+          "coated_leaves": 0,
+          "base_triangles": 1106,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.272307813167572,
+            0.24326467514038086,
+            0.3963325023651123
+          ],
+          "dimensions_godot_xyz_m": [
+            0.272307813167572,
+            0.3963325023651123,
+            0.24326467514038086
+          ]
+        },
+        {
+          "file": "low_shrub_01_green_lod2.glb",
+          "lod": 2,
+          "sha256": "e276eee035bb117f4c257bbc720cf278d830981d74b07e29851d0a2ec7fbba3d",
+          "bytes": 82616,
+          "triangles": 700,
+          "leaves": 49,
+          "coated_leaves": 0,
+          "base_triangles": 700,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.272307813167572,
+            0.24326467514038086,
+            0.3963325023651123
+          ],
+          "dimensions_godot_xyz_m": [
+            0.272307813167572,
+            0.3963325023651123,
+            0.24326467514038086
+          ]
+        }
+      ]
+    },
+    {
+      "id": "low_shrub_01_dusted",
+      "shape": "low_shrub_01",
+      "kind": "shrub",
+      "finish": "dusted",
+      "seed": 2417,
+      "models": [
+        {
+          "file": "low_shrub_01_dusted_lod0.glb",
+          "lod": 0,
+          "sha256": "077d3f9884380a4dee6e51b3433fd940b814de7cc24feb84fa8112f21705af7c",
+          "bytes": 289696,
+          "triangles": 2300,
+          "leaves": 77,
+          "coated_leaves": 34,
+          "base_triangles": 1960,
+          "snow_triangles": 340,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.32023993134498596,
+            0.29337307810783386,
+            0.3963325023651123
+          ],
+          "dimensions_godot_xyz_m": [
+            0.32023993134498596,
+            0.3963325023651123,
+            0.29337307810783386
+          ]
+        },
+        {
+          "file": "low_shrub_01_dusted_lod1.glb",
+          "lod": 1,
+          "sha256": "32516a2befaf6ed022aee8c82f4ebaa53baadc0b057ce89e417b4b541f5ccda8",
+          "bytes": 157076,
+          "triangles": 1268,
+          "leaves": 63,
+          "coated_leaves": 27,
+          "base_triangles": 1106,
+          "snow_triangles": 162,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.272307813167572,
+            0.24326467514038086,
+            0.3963325023651123
+          ],
+          "dimensions_godot_xyz_m": [
+            0.272307813167572,
+            0.3963325023651123,
+            0.24326467514038086
+          ]
+        },
+        {
+          "file": "low_shrub_01_dusted_lod2.glb",
+          "lod": 2,
+          "sha256": "a3f85a16d30da359851f0620cbef76c8e9235a8d6a25e327f078bcf8347a0e21",
+          "bytes": 94020,
+          "triangles": 776,
+          "leaves": 49,
+          "coated_leaves": 19,
+          "base_triangles": 700,
+          "snow_triangles": 76,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.272307813167572,
+            0.24326467514038086,
+            0.3963325023651123
+          ],
+          "dimensions_godot_xyz_m": [
+            0.272307813167572,
+            0.3963325023651123,
+            0.24326467514038086
+          ]
+        }
+      ]
+    },
+    {
+      "id": "low_shrub_01_snow",
+      "shape": "low_shrub_01",
+      "kind": "shrub",
+      "finish": "snow",
+      "seed": 2417,
+      "models": [
+        {
+          "file": "low_shrub_01_snow_lod0.glb",
+          "lod": 0,
+          "sha256": "d6d29e68b6e1ded9c753bb53f4ea5c5defb178210e57dfabadcfddb82807eca0",
+          "bytes": 349692,
+          "triangles": 2700,
+          "leaves": 77,
+          "coated_leaves": 74,
+          "base_triangles": 1960,
+          "snow_triangles": 740,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.32023993134498596,
+            0.29337307810783386,
+            0.3963325023651123
+          ],
+          "dimensions_godot_xyz_m": [
+            0.32023993134498596,
+            0.3963325023651123,
+            0.29337307810783386
+          ]
+        },
+        {
+          "file": "low_shrub_01_snow_lod1.glb",
+          "lod": 1,
+          "sha256": "e996088c2a34e94deb04cb8a71f02e4a07bab097f51df5cc26852aba2695dcad",
+          "bytes": 186768,
+          "triangles": 1466,
+          "leaves": 63,
+          "coated_leaves": 60,
+          "base_triangles": 1106,
+          "snow_triangles": 360,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.272307813167572,
+            0.24326467514038086,
+            0.3963325023651123
+          ],
+          "dimensions_godot_xyz_m": [
+            0.272307813167572,
+            0.3963325023651123,
+            0.24326467514038086
+          ]
+        },
+        {
+          "file": "low_shrub_01_snow_lod2.glb",
+          "lod": 2,
+          "sha256": "c95a6df6594353c8b76d7ac4c7f0fa62a206fad20c696700b8750cc21285fd34",
+          "bytes": 110820,
+          "triangles": 888,
+          "leaves": 49,
+          "coated_leaves": 47,
+          "base_triangles": 700,
+          "snow_triangles": 188,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.272307813167572,
+            0.24326467514038086,
+            0.3963325023651123
+          ],
+          "dimensions_godot_xyz_m": [
+            0.272307813167572,
+            0.3963325023651123,
+            0.24326467514038086
+          ]
+        }
+      ]
+    },
+    {
+      "id": "low_shrub_02_green",
+      "shape": "low_shrub_02",
+      "kind": "shrub",
+      "finish": "green",
+      "seed": 2473,
+      "models": [
+        {
+          "file": "low_shrub_02_green_lod0.glb",
+          "lod": 0,
+          "sha256": "e485d6b48f3c03e6ec357bcf7606b57a7839848eb6ad74c7d6033dfbc08c6f40",
+          "bytes": 306376,
+          "triangles": 2520,
+          "leaves": 99,
+          "coated_leaves": 0,
+          "base_triangles": 2520,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4543008506298065,
+            0.3946560323238373,
+            0.5746821761131287
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4543008506298065,
+            0.5746821761131287,
+            0.3946560323238373
+          ]
+        },
+        {
+          "file": "low_shrub_02_green_lod1.glb",
+          "lod": 1,
+          "sha256": "024d9c76986bdc47a4d68369bf1dd0e12d86d43fc52f56be39fe498446cb7d20",
+          "bytes": 170184,
+          "triangles": 1422,
+          "leaves": 81,
+          "coated_leaves": 0,
+          "base_triangles": 1422,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.38531923294067383,
+            0.34567826986312866,
+            0.5746821761131287
+          ],
+          "dimensions_godot_xyz_m": [
+            0.38531923294067383,
+            0.5746821761131287,
+            0.34567826986312866
+          ]
+        },
+        {
+          "file": "low_shrub_02_green_lod2.glb",
+          "lod": 2,
+          "sha256": "ee76521e7c9e53e3e6821ede5542c4abdf1912e50441c22b6f120d4da3f34bb0",
+          "bytes": 105704,
+          "triangles": 900,
+          "leaves": 63,
+          "coated_leaves": 0,
+          "base_triangles": 900,
+          "snow_triangles": 0,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3968852162361145,
+            0.35607820749282837,
+            0.5746821761131287
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3968852162361145,
+            0.5746821761131287,
+            0.35607820749282837
+          ]
+        }
+      ]
+    },
+    {
+      "id": "low_shrub_02_dusted",
+      "shape": "low_shrub_02",
+      "kind": "shrub",
+      "finish": "dusted",
+      "seed": 2473,
+      "models": [
+        {
+          "file": "low_shrub_02_dusted_lod0.glb",
+          "lod": 0,
+          "sha256": "b0efa23eeb4f088055476a9a12aa8b132b310c81694d25783b5a819b16cf0930",
+          "bytes": 384380,
+          "triangles": 3040,
+          "leaves": 99,
+          "coated_leaves": 52,
+          "base_triangles": 2520,
+          "snow_triangles": 520,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4543008506298065,
+            0.3946560323238373,
+            0.5746821761131287
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4543008506298065,
+            0.5746821761131287,
+            0.3946560323238373
+          ]
+        },
+        {
+          "file": "low_shrub_02_dusted_lod1.glb",
+          "lod": 1,
+          "sha256": "59c23be563590faf76e263e873a96bbf9c8d4142f6e6a348b096ad43255ce5f4",
+          "bytes": 207092,
+          "triangles": 1668,
+          "leaves": 81,
+          "coated_leaves": 41,
+          "base_triangles": 1422,
+          "snow_triangles": 246,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.38531923294067383,
+            0.34567826986312866,
+            0.5746821761131287
+          ],
+          "dimensions_godot_xyz_m": [
+            0.38531923294067383,
+            0.5746821761131287,
+            0.34567826986312866
+          ]
+        },
+        {
+          "file": "low_shrub_02_dusted_lod2.glb",
+          "lod": 2,
+          "sha256": "16a903cc13dcd45e6b57e4a82edaa2fe134108cbef0eed0816467926fff11406",
+          "bytes": 126712,
+          "triangles": 1040,
+          "leaves": 63,
+          "coated_leaves": 35,
+          "base_triangles": 900,
+          "snow_triangles": 140,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3968852162361145,
+            0.35607820749282837,
+            0.5746821761131287
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3968852162361145,
+            0.5746821761131287,
+            0.35607820749282837
+          ]
+        }
+      ]
+    },
+    {
+      "id": "low_shrub_02_snow",
+      "shape": "low_shrub_02",
+      "kind": "shrub",
+      "finish": "snow",
+      "seed": 2473,
+      "models": [
+        {
+          "file": "low_shrub_02_snow_lod0.glb",
+          "lod": 0,
+          "sha256": "79b1d5993af328d9a68ed7139ac846586e46d171bc38cedca4789c2ee64e22ab",
+          "bytes": 448880,
+          "triangles": 3470,
+          "leaves": 99,
+          "coated_leaves": 95,
+          "base_triangles": 2520,
+          "snow_triangles": 950,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.4543008506298065,
+            0.3946560323238373,
+            0.5746821761131287
+          ],
+          "dimensions_godot_xyz_m": [
+            0.4543008506298065,
+            0.5746821761131287,
+            0.3946560323238373
+          ]
+        },
+        {
+          "file": "low_shrub_02_snow_lod1.glb",
+          "lod": 1,
+          "sha256": "4d6b3f3eb7f1b529e988834b94aa581fe24001680a73bc8c5dedbb56c4e4a9dc",
+          "bytes": 239484,
+          "triangles": 1884,
+          "leaves": 81,
+          "coated_leaves": 77,
+          "base_triangles": 1422,
+          "snow_triangles": 462,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.38531923294067383,
+            0.34567826986312866,
+            0.5746821761131287
+          ],
+          "dimensions_godot_xyz_m": [
+            0.38531923294067383,
+            0.5746821761131287,
+            0.34567826986312866
+          ]
+        },
+        {
+          "file": "low_shrub_02_snow_lod2.glb",
+          "lod": 2,
+          "sha256": "cad44bbd18647a0f1e3b4b79fe727647f0144530248d1a387f6c78cebfd75a29",
+          "bytes": 142908,
+          "triangles": 1148,
+          "leaves": 63,
+          "coated_leaves": 62,
+          "base_triangles": 900,
+          "snow_triangles": 248,
+          "surfaces": 1,
+          "dimensions_blender_xyz_m": [
+            0.3968852162361145,
+            0.35607820749282837,
+            0.5746821761131287
+          ],
+          "dimensions_godot_xyz_m": [
+            0.3968852162361145,
+            0.5746821761131287,
+            0.35607820749282837
+          ]
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "models/broadleaf_rosette_01_green_lod0.glb",
+      "sha256": "a7899fcc331b7c3a74c4b6981d4d291cbcede11778172f6916a5855d00c2b09b",
+      "bytes": 42140
+    },
+    {
+      "path": "models/broadleaf_rosette_01_green_lod1.glb",
+      "sha256": "e1bc00f98d93b3eb5c06678f2f7c7aee79e8543d84737daa0fcb60c6d53617c4",
+      "bytes": 29276
+    },
+    {
+      "path": "models/broadleaf_rosette_01_green_lod2.glb",
+      "sha256": "ad7ffc7fe684cc21f9715f8c27960b60a9859b2347363b3db422cf621ba07ae2",
+      "bytes": 13140
+    },
+    {
+      "path": "models/broadleaf_rosette_01_dusted_lod0.glb",
+      "sha256": "fc04d6daa5c1c0eaee29ccc9ba5a9669ab05fd3c7d91535795808124c376a6fe",
+      "bytes": 55652
+    },
+    {
+      "path": "models/broadleaf_rosette_01_dusted_lod1.glb",
+      "sha256": "7bacb3c67c3f67df68ee12806c2a56a3ff9e4afb305c21f18aae66530ff9851d",
+      "bytes": 37380
+    },
+    {
+      "path": "models/broadleaf_rosette_01_dusted_lod2.glb",
+      "sha256": "017a8091b2463e29f5ab37945ea6354cf456221ede81ace0c34171f6cfb34a95",
+      "bytes": 14948
+    },
+    {
+      "path": "models/broadleaf_rosette_01_snow_lod0.glb",
+      "sha256": "26aa99b8c2b51df43d4254c36307ca82bbf5faf64eca1feea1a0b95fe29c118a",
+      "bytes": 66152
+    },
+    {
+      "path": "models/broadleaf_rosette_01_snow_lod1.glb",
+      "sha256": "48c4d2c4457a1bf65561cf17eb22fd878c2d3b70eab37ae1a8de26cba2e9b58a",
+      "bytes": 43676
+    },
+    {
+      "path": "models/broadleaf_rosette_01_snow_lod2.glb",
+      "sha256": "dfeca4050e1b1c1836ac8c3c75259b35e2f0579165fb66ebcc300d30d3f29e5c",
+      "bytes": 17940
+    },
+    {
+      "path": "models/leafy_cluster_02_green_lod0.glb",
+      "sha256": "9846bf819cbd4477545c28894b1b6decb25822ca5d0cfb04637eeaf17b1e0304",
+      "bytes": 88220
+    },
+    {
+      "path": "models/leafy_cluster_02_green_lod1.glb",
+      "sha256": "07da5598a25c8d6e6b9d5e17ac366c1f2e385291078af6dc1a0034fe264df5bb",
+      "bytes": 47640
+    },
+    {
+      "path": "models/leafy_cluster_02_green_lod2.glb",
+      "sha256": "820a5991cbdcf476e8291c1ffd9fdfd84202e9e1490c948e63ed743ec9f7ecad",
+      "bytes": 36440
+    },
+    {
+      "path": "models/leafy_cluster_02_dusted_lod0.glb",
+      "sha256": "ec494e5a13c01e15d1a646184680ada0b382c8ad80aed4cd6634eacb81c1d9f1",
+      "bytes": 110728
+    },
+    {
+      "path": "models/leafy_cluster_02_dusted_lod1.glb",
+      "sha256": "cfc7710df4faaa0034f2493ca4ca02c5039e05caa7448582a45c165dfb54ec63",
+      "bytes": 59352
+    },
+    {
+      "path": "models/leafy_cluster_02_dusted_lod2.glb",
+      "sha256": "17caba75e8f2eafef1e782896da3865d03ef18c2a4be7fb1d2cf062d2ef5e4e3",
+      "bytes": 44248
+    },
+    {
+      "path": "models/leafy_cluster_02_snow_lod0.glb",
+      "sha256": "ef828af8d492caf7c900f75f6949ed98e4defc5deaa367084046485490b255d5",
+      "bytes": 125724
+    },
+    {
+      "path": "models/leafy_cluster_02_snow_lod1.glb",
+      "sha256": "d4d5e6497722dae5c3ac7d46f29e09ca98dd97ff4a9b30056a1e4071012c6b7d",
+      "bytes": 64744
+    },
+    {
+      "path": "models/leafy_cluster_02_snow_lod2.glb",
+      "sha256": "5e12814a2b45ffcbf1c318b5a07be4a4306141548c2ba4a5d408375cb05099f2",
+      "bytes": 47844
+    },
+    {
+      "path": "models/fern_01_green_lod0.glb",
+      "sha256": "8bf7280506227106f3afeb0cea7d8fa6e8145e76d2e2f017ede170eb589ce2c5",
+      "bytes": 190496
+    },
+    {
+      "path": "models/fern_01_green_lod1.glb",
+      "sha256": "e42551f0323f7c585bb05801a33b25ce2c33840fc3e43df7e233d1f87f1d46e3",
+      "bytes": 80692
+    },
+    {
+      "path": "models/fern_01_green_lod2.glb",
+      "sha256": "18eb4661cb4fd87748dbc812e408b281a2d4fbdeb9e87e40dab2855c0dce26c9",
+      "bytes": 41020
+    },
+    {
+      "path": "models/fern_01_dusted_lod0.glb",
+      "sha256": "d17bd6cc7ef0ef61f65e9b7d83b681873a443fcbc52e542396cfb3d6a30e266e",
+      "bytes": 262504
+    },
+    {
+      "path": "models/fern_01_dusted_lod1.glb",
+      "sha256": "57ee0f3c6bd1da36493025f83163ad965081ba9bf87e28d714ad0c6735ae0c8c",
+      "bytes": 105000
+    },
+    {
+      "path": "models/fern_01_dusted_lod2.glb",
+      "sha256": "fe30d105ca5f3984c56b81f3bce8c946702291ccc8086e46ff5dff715579cdb3",
+      "bytes": 52436
+    },
+    {
+      "path": "models/fern_01_snow_lod0.glb",
+      "sha256": "cb142ddaf8a698e89ff433eed3e84deea4a1e947c2bfd1f1eb1082c0eb9681ac",
+      "bytes": 325500
+    },
+    {
+      "path": "models/fern_01_snow_lod1.glb",
+      "sha256": "dab3e5d880809f1f5875f75cbf01787ea2c8fb3b7bc637c32e6b2911632c9f85",
+      "bytes": 131996
+    },
+    {
+      "path": "models/fern_01_snow_lod2.glb",
+      "sha256": "349e4ce600cb96c823d2a14dc3425fc69ba8adf2a26c10e5838b716f5240acd2",
+      "bytes": 65032
+    },
+    {
+      "path": "models/fern_02_green_lod0.glb",
+      "sha256": "6ba51ab5f762f72a91e9d19c77533f67e20e6926bf2fd34988c0f026580ce2ec",
+      "bytes": 316380
+    },
+    {
+      "path": "models/fern_02_green_lod1.glb",
+      "sha256": "9905674d1010497718649ac18c2ee344fded8018ccaa68ebf08d45fcc7831a2a",
+      "bytes": 137456
+    },
+    {
+      "path": "models/fern_02_green_lod2.glb",
+      "sha256": "ea865662b2dcb051f3184b7ba63bcc9c61ff9aea3f64e1fa7d3da4445c2ef451",
+      "bytes": 73528
+    },
+    {
+      "path": "models/fern_02_dusted_lod0.glb",
+      "sha256": "f83b2ff5ae36183bab436346bc0c2f00cf7eeacd73f6244a43bb27c375cc8940",
+      "bytes": 453188
+    },
+    {
+      "path": "models/fern_02_dusted_lod1.glb",
+      "sha256": "f675f5bbb1830861aa7fd2abc6de3a0ef5953d21e7cf9a599ced91534c5ba6c4",
+      "bytes": 192364
+    },
+    {
+      "path": "models/fern_02_dusted_lod2.glb",
+      "sha256": "da94c8625cfdba876e12457700fa966040128027313693d682fc64d8b7e64e14",
+      "bytes": 99336
+    },
+    {
+      "path": "models/fern_02_snow_lod0.glb",
+      "sha256": "290030e56dba280462e4c19f841633b55b6351f986ad463de4935e19ed431e6c",
+      "bytes": 564792
+    },
+    {
+      "path": "models/fern_02_snow_lod1.glb",
+      "sha256": "93a65f5237886c3d0b294f7b6477dd02081eec4f7708983af479982aa69d2f11",
+      "bytes": 237360
+    },
+    {
+      "path": "models/fern_02_snow_lod2.glb",
+      "sha256": "1e545bcee1220502cf99e778250a756c5a09d934df84c4734b09ab6425a2098e",
+      "bytes": 123932
+    },
+    {
+      "path": "models/low_shrub_01_green_lod0.glb",
+      "sha256": "5fa82abefb75e60a366f8541ef2f53b6635cdd7626c908724359a3495ff71656",
+      "bytes": 238692
+    },
+    {
+      "path": "models/low_shrub_01_green_lod1.glb",
+      "sha256": "3610f37047dd185c280257abfe0be869fabab5db08fc32043be217311228c9cf",
+      "bytes": 132768
+    },
+    {
+      "path": "models/low_shrub_01_green_lod2.glb",
+      "sha256": "e276eee035bb117f4c257bbc720cf278d830981d74b07e29851d0a2ec7fbba3d",
+      "bytes": 82616
+    },
+    {
+      "path": "models/low_shrub_01_dusted_lod0.glb",
+      "sha256": "077d3f9884380a4dee6e51b3433fd940b814de7cc24feb84fa8112f21705af7c",
+      "bytes": 289696
+    },
+    {
+      "path": "models/low_shrub_01_dusted_lod1.glb",
+      "sha256": "32516a2befaf6ed022aee8c82f4ebaa53baadc0b057ce89e417b4b541f5ccda8",
+      "bytes": 157076
+    },
+    {
+      "path": "models/low_shrub_01_dusted_lod2.glb",
+      "sha256": "a3f85a16d30da359851f0620cbef76c8e9235a8d6a25e327f078bcf8347a0e21",
+      "bytes": 94020
+    },
+    {
+      "path": "models/low_shrub_01_snow_lod0.glb",
+      "sha256": "d6d29e68b6e1ded9c753bb53f4ea5c5defb178210e57dfabadcfddb82807eca0",
+      "bytes": 349692
+    },
+    {
+      "path": "models/low_shrub_01_snow_lod1.glb",
+      "sha256": "e996088c2a34e94deb04cb8a71f02e4a07bab097f51df5cc26852aba2695dcad",
+      "bytes": 186768
+    },
+    {
+      "path": "models/low_shrub_01_snow_lod2.glb",
+      "sha256": "c95a6df6594353c8b76d7ac4c7f0fa62a206fad20c696700b8750cc21285fd34",
+      "bytes": 110820
+    },
+    {
+      "path": "models/low_shrub_02_green_lod0.glb",
+      "sha256": "e485d6b48f3c03e6ec357bcf7606b57a7839848eb6ad74c7d6033dfbc08c6f40",
+      "bytes": 306376
+    },
+    {
+      "path": "models/low_shrub_02_green_lod1.glb",
+      "sha256": "024d9c76986bdc47a4d68369bf1dd0e12d86d43fc52f56be39fe498446cb7d20",
+      "bytes": 170184
+    },
+    {
+      "path": "models/low_shrub_02_green_lod2.glb",
+      "sha256": "ee76521e7c9e53e3e6821ede5542c4abdf1912e50441c22b6f120d4da3f34bb0",
+      "bytes": 105704
+    },
+    {
+      "path": "models/low_shrub_02_dusted_lod0.glb",
+      "sha256": "b0efa23eeb4f088055476a9a12aa8b132b310c81694d25783b5a819b16cf0930",
+      "bytes": 384380
+    },
+    {
+      "path": "models/low_shrub_02_dusted_lod1.glb",
+      "sha256": "59c23be563590faf76e263e873a96bbf9c8d4142f6e6a348b096ad43255ce5f4",
+      "bytes": 207092
+    },
+    {
+      "path": "models/low_shrub_02_dusted_lod2.glb",
+      "sha256": "16a903cc13dcd45e6b57e4a82edaa2fe134108cbef0eed0816467926fff11406",
+      "bytes": 126712
+    },
+    {
+      "path": "models/low_shrub_02_snow_lod0.glb",
+      "sha256": "79b1d5993af328d9a68ed7139ac846586e46d171bc38cedca4789c2ee64e22ab",
+      "bytes": 448880
+    },
+    {
+      "path": "models/low_shrub_02_snow_lod1.glb",
+      "sha256": "4d6b3f3eb7f1b529e988834b94aa581fe24001680a73bc8c5dedbb56c4e4a9dc",
+      "bytes": 239484
+    },
+    {
+      "path": "models/low_shrub_02_snow_lod2.glb",
+      "sha256": "cad44bbd18647a0f1e3b4b79fe727647f0144530248d1a387f6c78cebfd75a29",
+      "bytes": 142908
+    },
+    {
+      "path": "plant_library.blend",
+      "sha256": "a0541ac14837fd7f193269fa1319e026aeb1a8dcd4788104b6dd142fae179850",
+      "bytes": 1841604
+    }
+  ],
+  "total_payload_bytes": 10013728
+}

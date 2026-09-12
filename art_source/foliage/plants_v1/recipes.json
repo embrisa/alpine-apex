@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "units": "metres",
+  "finishes": ["green", "dusted", "snow"],
+  "shapes": [
+    {"id":"broadleaf_rosette_01","kind":"rosette","seed":2203,"height":0.18,"leaves":16},
+    {"id":"leafy_cluster_02","kind":"leafy","seed":2251,"height":0.30,"branches":3},
+    {"id":"fern_01","kind":"fern","seed":2309,"height":0.36,"fronds":5,"pairs":8},
+    {"id":"fern_02","kind":"fern","seed":2351,"height":0.52,"fronds":7,"pairs":10},
+    {"id":"low_shrub_01","kind":"shrub","seed":2417,"height":0.40,"branches":7},
+    {"id":"low_shrub_02","kind":"shrub","seed":2473,"height":0.58,"branches":9}
+  ]
+}
