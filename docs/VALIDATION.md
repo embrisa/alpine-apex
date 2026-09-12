@@ -234,6 +234,23 @@ checks still apply. `performance_stress_suite.gd` covers repeatability, continue
 movement through impacts, telemetry and isolation; run physics/runtime suites
 when changing this harness. Compare fresh matched before/after stress runs.
 
+The saved workload locations below share Standard seed `849205174`, generator
+15, 15 seconds, 170 km/h, full tuck and no braking. These are source-pinned
+trace snapshots: after solver or driver edits, regenerate at the listed X/Z
+with `--origin=x,z`; never bypass the stale-trace check. The generator derives
+height and initial heading from the same authoritative terrain.
+
+| Saved case | Origin X/Z (m) | Selection evidence |
+|---|---|---|
+| [Dense forest](../tests/fixtures/performance_stress_forest_170.json) | `583.4906616210938,-997.8701171875` | User-selected descent; 274-900 trees within 175 m in the saved trace. |
+| [Rock field](../tests/fixtures/performance_stress_rocks_170.json) | `-736,288` | Rendered rock field/shelves; 48-196 nearby rock bounds per second, 398 distinct rocks across 15 s. |
+
+Rock counts exclude glaciers and use distance to collision AABBs, not screen
+coverage. Its retained native selection run travelled 707.66 m and matched all
+trajectory checkpoints at 170 km/h. Selection captures are in
+`artifacts/pc_environment/high-speed-rock-visual/`; they do not establish FPS.
+Use fresh capture-free repetitions for performance comparisons at both sites.
+
 ### Native GPU pass attribution
 
 `scripts/benchmark_pc.ps1 -ProfileGpuPasses` selects

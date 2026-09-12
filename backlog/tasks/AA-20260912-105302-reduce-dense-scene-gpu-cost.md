@@ -215,3 +215,23 @@ candidates remain evidence, not a reason to stop investigation. Status is
 `in_progress` for this manual task; no scheduled claim is taken. Continue
 measuring the largest native passes and testing larger equivalent-work
 reductions against the existing quality and repeated-performance gates.
+
+**170 km/h workload milestone, 2026-09-12:** the user committed the explicit
+immortal stress driver, its checks and the saved Dense forest fixture in
+`0c59e6b`. After the requested raid pause, surveyed 750 rock-rich starts and
+resimulated eight separated candidates. Excluded routes that stalled despite
+the speed override. Saved the rendered Rock field case at X/Z `-736,288`:
+48-196 nearby non-glacier rock bounds per second, 398 distinct rocks, 707.66 m
+travel in 15 seconds, 39 nonblocking contacts and 35 prevented fatal rock
+impacts. Native 4K selection passed all trajectory/speed/focus checks; eight
+selection stills are separate from timing. A subsequent native pass-profile
+run also passed, with zero source drift. Locations, fixture links and stale-
+trace regeneration rules are maintained in Validation. Forest and rock cases
+are workload coverage; no new production GPU optimization is claimed.
+
+Receipts: `artifacts/high_speed_stress/rock_candidates.json`,
+`artifacts/pc_environment/high-speed-rock-visual/` and
+`artifacts/pc_environment/high-speed-rock-passes/`. The earlier forest visual
+capture had 27 unfocused frames and is visual-only evidence; its separate
+three capture-free timing repetitions passed. Evidence is retained while GPU
+optimization and visual review remain active.
