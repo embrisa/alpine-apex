@@ -1,11 +1,11 @@
 ---
 id: "AA-20260912-105302-reduce-dense-scene-gpu-cost"
 title: "Reduce dense-scene GPU cost while preserving visual quality"
-status: blocked
+status: in_progress
 priority: P1
 depends_on: ["AA-20260912-105301-reduce-animation-cpu-cost"]
 created: "2026-09-12T10:53:00Z"
-updated: "2026-09-12T16:43:57Z"
+updated: "2026-09-12T16:51:33Z"
 source_thread: "01a09527-1988-7b50-b7c9-71ff6821cb00"
 ---
 
@@ -120,7 +120,7 @@ None
 
 ## Completion record
 
-Blocked after manual investigation on 2026-09-12. **No production optimization
+Initial investigation on 2026-09-12; reopened for continued manual implementation. **No production optimization
 was accepted or retained.** The tested GPU savings did not establish a rendered
 FPS or frame-tail gain beyond observed variation. No scheduled claim, downstream
 dispatch or separate next-step proposal was made.
@@ -200,3 +200,9 @@ visual acceptance is inferred. Delivery hashes are retained in
 **Delivery:** profiler and authoritative validation guide committed and pushed
 to `origin/main` as `2a1c989987f40dc506d721b99ce47b471ded09fb`. This task record
 preserves the unresolved optimization and rejected-candidate evidence.
+
+**Reopened by the user on 2026-09-12:** there is no external blocker. Rejected
+candidates remain evidence, not a reason to stop investigation. Status is
+`in_progress` for this manual task; no scheduled claim is taken. Continue
+measuring the largest native passes and testing larger equivalent-work
+reductions against the existing quality and repeated-performance gates.
