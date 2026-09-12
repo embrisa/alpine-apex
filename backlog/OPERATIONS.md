@@ -68,21 +68,33 @@ dispatch. A short OS file lock serializes updates; a remaining mutex file does
 not mean held ownership. Do not commit/delete local ownership state.
 
 Transitions: manager -> prepared dispatch -> worker. `prepare` creates a unique
-token and freezes task content; `accept` verifies token/hash/ready state. Only one
-manager/worker can claim/accept; late attach preserves a fast worker's finished
+token, freezes task content and fingerprints existing dirty paths (working bytes
+and index entries). `accept` verifies token/hash/ready state and that those edits
+have not changed during dispatch. Existing edits are allowed, not auto-committed.
+Only one manager/worker can claim/accept; late attach preserves a fast worker's finished
 receipt. No claim timeout or absence from recent listings authorizes recovery.
 
 Recovery needs explicit native idle/notLoaded/systemError evidence. Unknown
 dispatch results preserve the reservation until the original child's initial
 prompt verifies its token; never blindly create a second worker. Preserve edits
 and mark stopped unfinished work blocked. Retain a previously explicit done
-record only with clean committed delivery matching upstream. Commit/push the
+record only with committed worker delivery matching upstream; unchanged dirty
+paths from the dispatch baseline do not invalidate delivery. Commit/push the
 recovery record before dispatching again.
 
-Dirty files, including untracked UIDs, block dispatch; never stash/delete/stage
-another agent's work to clear the gate. Blocked work requires an explicit retry
-decision or new user information resolving its blocker. No eligible ready task:
-release the manager claim and finish without inventing work.
+Dirty files, including deletions and untracked UIDs, do not block dispatch by
+themselves. Inspect their scope, preserve them and select independent work.
+Never stash/delete/stage another agent's changes to manufacture a clean checkout.
+A dirty selected task record blocks that candidate, not other ready tasks.
+Unresolved merge conflicts and unfinished Git operations still block dispatch.
+If edits change between prepare and accept, preserve the reservation and reconcile
+the same child; never create a duplicate. Completion requires no new or changed
+uncommitted files beyond the recorded baseline, a committed terminal task record,
+and HEAD equal to upstream. Existing baseline edits may remain or have been
+committed independently; workers must commit only their own paths.
+Blocked work requires an explicit retry decision or new user information resolving
+its blocker. Its unrelated leftover edits do not block other eligible tasks.
+No eligible ready task: release the manager claim and finish.
 
 ## Validation
 
@@ -92,6 +104,6 @@ python tests/test_backlog.py
 ```
 
 Tests use isolated Git fixtures/local bare remotes for concurrency, transitions,
-pushed completion, dirty gates, recovery and uncertain dispatch. Native app
-dispatch is a separate bounded fixture. Installation/live-test receipts belong
+pushed completion with preserved dirty baselines, recovery and uncertain dispatch.
+Native app dispatch is a separate bounded fixture. Installation/live-test receipts belong
 in ignored `backlog/.runtime/` or `artifacts/backlog_setup/`.

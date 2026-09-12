@@ -176,9 +176,67 @@ def workspace_problem(root):
         raise ValueError("Root must be the exact Git checkout, not a subdirectory")
     if git(root, "branch", "--show-current") != "main":
         return "Checkout is not on main"
-    dirty = git(root, "status", "--porcelain", "--untracked-files=all")
-    if dirty:
-        return "Checkout has unfinished changes:\n" + dirty
+    if git(root, "ls-files", "--unmerged"):
+        return "Checkout has unresolved merge conflicts"
+    for marker in ("MERGE_HEAD", "rebase-merge", "rebase-apply", "CHERRY_PICK_HEAD", "REVERT_HEAD"):
+        path = Path(git(root, "rev-parse", "--git-path", marker))
+        if (path if path.is_absolute() else root / path).exists():
+            return f"Checkout has an unfinished Git operation: {marker}"
+    return None
+
+
+def dirty_snapshot(root):
+    """Fingerprint existing edits without staging, restoring or reading ignored outputs.
+
+    NUL records and disabled rename detection keep arbitrary filenames unambiguous.
+    Index identities also catch staged-only changes while working bytes stay equal.
+    """
+    # Preserve the leading status column; git() normally strips whitespace.
+    records = subprocess.run(["git", "-C", str(root), "status", "--porcelain=v1", "-z",
+                              "--no-renames", "--untracked-files=all"],
+                             capture_output=True, check=True, timeout=30).stdout.decode("utf-8")
+    index = {}
+    for entry in git(root, "ls-files", "--stage", "-z").split("\0"):
+        if entry:
+            identity, path = entry.split("\t", 1)
+            index.setdefault(path, []).append(identity)
+    result = {}
+    for entry in records.split("\0"):
+        if not entry:
+            continue
+        path = entry[3:]
+        target = root / path
+        if target.is_symlink():
+            content = os.readlink(target).encode("utf-8")
+        elif target.is_file():
+            digest = hashlib.sha256()
+            with target.open("rb") as stream:
+                for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                    digest.update(chunk)
+            result[path] = {"status": entry[:2], "index": index.get(path), "worktree": digest.hexdigest()}
+            continue
+        else:
+            content = b"missing" if not target.exists() else b"directory"
+        result[path] = {"status": entry[:2], "index": index.get(path),
+                        "worktree": hashlib.sha256(content).hexdigest()}
+    return result
+
+
+def delivery_problem(root, claim, task):
+    problem = workspace_problem(root)
+    if problem:
+        return problem
+    baseline = claim.get("dirty_baseline", {})
+    dirty = dirty_snapshot(root)
+    changed = [path for path, value in dirty.items() if baseline.get(path) != value]
+    # The terminal record must always be committed, even if it was present before.
+    task_path = task["path"].relative_to(root).as_posix()
+    if task_path in dirty and task_path not in changed:
+        changed.append(task_path)
+    if changed:
+        return "Uncommitted changes since dispatch:\n" + "\n".join(changed)
+    if not pushed(root):
+        return "HEAD must equal its pushed upstream"
     return None
 
 
@@ -291,6 +349,7 @@ def operate(args):
             result = output(state=state, tasks=[{k: t[k] for k in ("id", "title", "status", "priority", "depends_on")}
                                                for t in tasks.values()], eligible=[t["id"] for t in eligible(tasks)])
             if args.action == "check":
+                result["existing_changes"] = dirty_snapshot(root)
                 data = snapshot(args.snapshot)
                 reason = gate(data, {args.owner})
                 if claim:
@@ -321,8 +380,11 @@ def operate(args):
             if args.task not in {t["id"] for t in eligible(tasks)}:
                 raise ValueError("Task is not ready with completed dependencies")
             task = tasks[args.task]
+            baseline = dirty_snapshot(root)
+            if task["path"].relative_to(root).as_posix() in baseline:
+                return output("skipped", reason="Selected task has uncommitted edits; preserve it and select another eligible task")
             claim.update(role="dispatch", token=str(uuid.uuid4()), task=args.task,
-                         task_sha256=task["sha256"], worker=None, prepared=now())
+                         task_sha256=task["sha256"], worker=None, prepared=now(), dirty_baseline=baseline)
             save()
             return output(claim=claim)
 
@@ -348,6 +410,8 @@ def operate(args):
             task = tasks[claim["task"]]
             if task["sha256"] != claim["task_sha256"] or task["id"] not in {t["id"] for t in eligible(tasks)}:
                 raise ValueError("Task changed after dispatch; do not implement stale instructions")
+            if dirty_snapshot(root) != claim.get("dirty_baseline", {}):
+                return output("skipped", reason="Existing edits changed after prepare; reconcile the reservation before implementation")
             # Persist ownership before touching the task, so a crash still leaves
             # an identifiable worker. Recovery never depends on elapsed time.
             claim.update(role="worker", owner=args.owner, worker=args.owner, accepted=now())
@@ -377,8 +441,10 @@ def operate(args):
                 task = tasks[claim["task"]]
                 if task["status"] not in TERMINAL:
                     raise ValueError("Record completion or a blocker before releasing a worker")
-                if task["status"] == "done" and (workspace_problem(root) or not pushed(root)):
-                    raise ValueError("Done requires a clean checkout and HEAD equal to its pushed upstream")
+                if task["status"] == "done":
+                    problem = delivery_problem(root, claim, task)
+                    if problem:
+                        raise ValueError("Done requires committed/pushed worker delivery: " + problem)
                 state["last_dispatch"] = {**claim, "outcome": task["status"], "released": now(), "head": git(root, "rev-parse", "HEAD")}
                 state["claim"] = None
             else:
@@ -400,7 +466,7 @@ def operate(args):
                 stopped(data, claim["worker"])
             if claim.get("task"):
                 task = tasks[claim["task"]]
-                completed = task["status"] == "done" and not workspace_problem(root) and pushed(root)
+                completed = task["status"] == "done" and not delivery_problem(root, claim, task)
                 if not completed:
                     old_record = re.search(r"^## Completion record\s*\n(.*)\Z", task["body"], re.M | re.S)
                     note = (old_record[1].strip() + "\n\n" if old_record else "")

@@ -114,8 +114,100 @@ class BacklogTests(unittest.TestCase):
         self.assertEqual(self.call("check")["status"], "skipped")
         self.receipt()
         (self.root / "unrelated.gd.uid").write_text("uid://untouched", encoding="utf-8")
-        self.assertIn("unfinished", self.call("claim")["reason"])
+        self.assertEqual(self.call("check")["status"], "ok")
+        self.assertEqual(self.call("claim")["status"], "ok")
         self.assertTrue((self.root / "unrelated.gd.uid").exists())
+
+    def test_deleted_idea_and_unrelated_edits_allow_dispatch_and_pushed_completion(self):
+        self.task()
+        idea = self.root / "backlog/ideas/archive/IDEA-old.md"
+        idea.parent.mkdir(parents=True)
+        idea.write_text("Archived proposal", encoding="utf-8")
+        staged = self.root / "staged file.txt"
+        staged.write_text("original", encoding="utf-8")
+        self.commit()
+        idea.unlink()
+        staged.write_text("staged user edit", encoding="utf-8")
+        self.run_git("add", "staged file.txt")
+        staged.write_text("unstaged user edit", encoding="utf-8")
+        extra = self.root / "unrelated ü.gd.uid"
+        extra.write_text("uid://preserve", encoding="utf-8")
+        before = self.run_git("status", "--porcelain")
+        self.call("claim")
+        prepared = self.call("prepare", "--task", "AA-test")
+        token = prepared["claim"]["token"]
+        baseline = prepared["claim"]["dirty_baseline"]
+        self.assertEqual(set(baseline), {"backlog/ideas/archive/IDEA-old.md", "staged file.txt", "unrelated ü.gd.uid"})
+        self.assertEqual(self.call("accept", "--token", token, owner="worker")["status"], "ok")
+        self.record(token, "done")
+        self.assertIn("Uncommitted", self.call("release", "--token", token, owner="worker", error=True)["reason"])
+        self.run_git("add", "backlog/tasks", "backlog/archive")
+        # Commit only worker paths, preserving the user's staged and unstaged edit.
+        self.run_git("commit", "--only", "-m", "Worker result", "--", "backlog/tasks/AA-test.md", "backlog/archive/AA-test.md")
+        remote = self.base / "origin.git"
+        subprocess.run(["git", "init", "--bare", str(remote)], check=True, capture_output=True)
+        self.run_git("remote", "add", "origin", str(remote))
+        self.run_git("push", "-u", "origin", "main")
+        leftover = self.root / "worker-leftover.gd"
+        leftover.write_text("unfinished worker output", encoding="utf-8")
+        self.assertIn("worker-leftover.gd", self.call("release", "--token", token, owner="worker", error=True)["reason"])
+        leftover.unlink()
+        staged.write_text("accidental overwrite", encoding="utf-8")
+        self.assertIn("staged file.txt", self.call("release", "--token", token, owner="worker", error=True)["reason"])
+        staged.write_text("unstaged user edit", encoding="utf-8")
+        self.assertEqual(self.call("release", "--token", token, owner="worker")["status"], "ok")
+        self.assertEqual(self.run_git("status", "--porcelain"), before)
+        self.assertEqual(staged.read_text(), "unstaged user edit")
+        self.assertEqual(self.run_git("show", ":staged file.txt"), "staged user edit")
+        self.assertFalse(idea.exists())
+
+    def test_dirty_selected_task_can_be_skipped_for_another_task(self):
+        path = self.task()
+        self.task("AA-other")
+        self.commit()
+        path.write_text(path.read_text() + "\nUser edit\n", encoding="utf-8")
+        self.call("claim")
+        self.assertEqual(self.call("prepare", "--task", "AA-test")["status"], "skipped")
+        self.assertEqual(self.call("prepare", "--task", "AA-other")["status"], "ok")
+
+    def test_baseline_change_before_accept_preserves_reservation(self):
+        token = self.prepare()
+        (self.root / "new-edit.txt").write_text("Changed after prepare", encoding="utf-8")
+        self.assertEqual(self.call("accept", "--token", token, owner="worker")["status"], "skipped")
+        self.assertEqual(self.call("status")["state"]["claim"]["role"], "dispatch")
+
+    def test_unfinished_git_operation_and_wrong_branch_block_claim(self):
+        (self.root / ".git/MERGE_HEAD").write_text(self.run_git("rev-parse", "HEAD"), encoding="utf-8")
+        self.assertIn("Git operation", self.call("claim")["reason"])
+        (self.root / ".git/MERGE_HEAD").unlink()
+        self.run_git("switch", "-c", "other")
+        self.assertIn("not on main", self.call("claim")["reason"])
+
+    def test_merge_conflict_blocks_claim(self):
+        path = self.root / "conflict.txt"
+        path.write_text("base\n", encoding="utf-8")
+        self.commit()
+        self.run_git("switch", "-c", "other")
+        path.write_text("theirs\n", encoding="utf-8")
+        self.commit()
+        self.run_git("switch", "main")
+        path.write_text("ours\n", encoding="utf-8")
+        self.commit()
+        proc = subprocess.run(["git", "-C", str(self.root), "merge", "other"], capture_output=True)
+        self.assertNotEqual(proc.returncode, 0)
+        self.assertTrue(self.run_git("ls-files", "--unmerged"))
+        self.assertIn("merge conflicts", self.call("claim")["reason"])
+
+    def test_existing_rename_is_preserved_during_accept(self):
+        self.task()
+        (self.root / "old name.txt").write_text("User content", encoding="utf-8")
+        self.commit()
+        self.run_git("mv", "old name.txt", "new name.txt")
+        self.call("claim")
+        claim = self.call("prepare", "--task", "AA-test")["claim"]
+        self.assertEqual(set(claim["dirty_baseline"]), {"old name.txt", "new name.txt"})
+        self.assertEqual(self.call("accept", "--token", claim["token"], owner="worker")["status"], "ok")
+        self.assertEqual((self.root / "new name.txt").read_text(), "User content")
 
     def test_stale_receipt(self):
         self.receipt(age=121)
@@ -190,14 +282,14 @@ class BacklogTests(unittest.TestCase):
         self.call("recover", owner="next")
         self.assertIsNone(self.call("status")["state"]["claim"])
 
-    def test_worker_stopped_with_partial_edits_blocks_other_work(self):
+    def test_worker_stopped_with_partial_edits_does_not_block_independent_work(self):
         token = self.prepare()
         self.call("accept", "--token", token, owner="worker")
         (self.root / "partial.gd").write_text("unfinished", encoding="utf-8")
         self.receipt(known=[self.person("worker", "idle")])
         self.call("recover", owner="next")
         self.assertEqual(self.call("status")["tasks"][0]["status"], "blocked")
-        self.assertEqual(self.call("claim", owner="next")["status"], "skipped")
+        self.assertEqual(self.call("claim", owner="next")["status"], "ok")
         self.assertEqual((self.root / "partial.gd").read_text(), "unfinished")
 
     def test_fast_worker_finishes_before_manager_attach(self):

@@ -8,13 +8,18 @@ applicable skill/domain guides.
 
 Verify helper status matches task ID, token and original manager. Collect a fresh
 native snapshot, including recorded owners, then `accept --token TOKEN` as your
-own `CODEX_THREAD_ID`. It excludes self/manager, checks other activity/cleanliness
-and unchanged ready-task hash, then marks in_progress. Skipped/failed acceptance:
+own `CODEX_THREAD_ID`. It excludes self/manager, checks other activity, Git state,
+the existing-change baseline and unchanged ready-task hash, then marks in_progress.
+Unrelated pre-existing edits do not prevent acceptance. Skipped/failed acceptance:
 make no source/task changes, report/end, preserve reservation for reconciliation;
 never bypass it or create a replacement worker.
 
 Fetch/re-evaluate the baseline before edits; block if intervening changes invalidate
-the assignment. Preserve unrelated work and stage only owned files.
+the assignment. Inspect the claim's `dirty_baseline` and the manager's scope
+assessment. Preserve unrelated working bytes and staged entries; stage and commit
+only owned paths. With unrelated staged changes, use explicit path-only commits
+so they are not swept into your commit. A conflict with your actual task requires
+reconciliation; an unrelated dirty path alone does not.
 
 ## Implement
 
@@ -40,7 +45,9 @@ commits, maintained guides, outstanding human acceptance and idea links (or none
 `record --token TOKEN --outcome done --record NOTE_PATH` is allowed only when the
 task's defined completion criteria are met; it moves the task to archive. Commit/
 push the completion record and ideas, then `release --token TOKEN`. Done release
-requires clean HEAD equal to upstream. Report delivery and idea links.
+requires HEAD equal to upstream, a committed completion record and no uncommitted
+changes beyond the preserved dispatch baseline. The checkout may still contain
+the user's unrelated pre-existing edits. Report delivery and idea links.
 
 Decision/tool/verification/interruption/push blocker: `record --outcome blocked`
 with exact reason, checks, remaining work and uncommitted/unpushed changes.

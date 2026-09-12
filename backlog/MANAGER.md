@@ -16,9 +16,11 @@ Astra xhigh worker, directly in this checkout on main.
    the original child/token before attach as the original manager. If unresolved,
    preserve the reservation, report it and end without another creation.
 3. Commit/push only recovered backlog records; preserve unfinished source edits.
-   Fetch/fast-forward when safe. `check` must allow the clean main checkout and
-   fresh snapshot. Missing native tools, dirty files, unknown activity or occupied
-   claim means no dispatch; do not manufacture clean/idle state.
+   Fetch/fast-forward when safe. `check` requires main and a fresh activity
+   snapshot, not a globally clean checkout. Existing edits/deletions/untracked
+   files are context to preserve, not grounds to skip the run. Missing native
+   tools, unknown activity, unresolved Git operations or an occupied claim block
+   dispatch; do not manufacture idle state.
 
 ## Groom and select
 
@@ -36,8 +38,17 @@ Prefer correctness, skiing response, performance and racing depth; respect
 explicit priorities/dependencies, then oldest ready task within equal priority.
 Retired prerequisites are not completed; adjust justified scope/history coherently.
 
+Inspect existing changes against candidate scope and validation needs. Choose
+an independent ready task when a candidate overlaps unfinished work; do not skip
+the whole queue because one file is dirty. Leave unrelated files and index entries
+untouched. Do not groom a task with someone else's uncommitted edits. If every
+candidate truly conflicts, name the affected paths and task IDs and the concrete
+conflict. A deleted archived idea or unrelated UID alone is not a conflict.
+
 Validate and commit/push grooming. No eligible task: release and finish. Refresh
-activity before prepare; newly busy/dirty checkout: release and finish.
+activity before prepare; newly busy checkout: release and finish. Reassess new
+edits for overlap. `prepare` snapshots existing changes and refuses only a dirty
+selected task record; choose another eligible task in that case.
 
 ## Dispatch
 
@@ -48,7 +59,8 @@ activity before prepare; newly busy/dirty checkout: release and finish.
    `model: gpt-6-astra`, `thinking: xhigh`. Independent task creation and use of
    this checkout are explicitly authorized for this scheduled role.
 3. Include task ID and full token in title/initial message. Supply repository
-   root, original manager ID, exact task file and concise outcome; require
+   root, original manager ID, exact task file, existing-change paths and why the
+   task can proceed independently, and concise outcome; require
    `backlog/WORKER.md` and acceptance before editing.
 4. `attach` the actual worker thread ID. Acceptance may race ahead safely.
    Uncertain response or queued setup ID: preserve reservation/receipt and
