@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-160307-weather-upgrade-storm-races"
 title: "Weather upgrade, random launches, and storm races"
-status: done
+status: "retired"
 priority: P2
 depends_on: []
 created: "2026-09-11T16:03:07Z"
-updated: "2026-09-12T02:18:50Z"
+updated: "2026-09-12T08:37:43Z"
 source_thread: "01a0912e-4fd1-75b3-840f-afa391343fdc"
 ---
 
@@ -390,3 +390,12 @@ and receipts; remove only owned draft/partial scratch artifacts after delivery.
 Remaining human follow-up: everyday/storm/night readability, comfort, controller
 flow and thunder mix on the user's equipment. Performance targets are still open
 as documented above. No additional backlog ideas were proposed.
+
+## Retirement
+
+Retired at the user's request on 2026-09-12 after recorded completion.
+The completion evidence, delivery history and unresolved findings above remain
+retained. Retirement does not establish additional performance, visual, listening
+or human/controller acceptance. No replacement implementation task is needed
+for this completed scope; satisfied dependencies are retained as history in
+remaining tasks.

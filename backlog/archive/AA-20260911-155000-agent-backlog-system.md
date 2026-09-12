@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-155000-agent-backlog-system"
 title: "Install the Alpine Apex agent backlog and authoring skill"
-status: "done"
+status: "retired"
 priority: "P1"
 depends_on: []
 created: "2026-09-11T15:00:00Z"
-updated: "2026-09-11T15:50:00Z"
+updated: "2026-09-12T08:37:43Z"
 source_thread: "01a090fe-2a8c-7fe0-8b5b-fa6446206ea9"
 ---
 
@@ -77,3 +77,12 @@ documented in [operations](../OPERATIONS.md).
 
 Next-step idea for the user's review:
 [resolve the existing untracked UID companions](../ideas/archive/IDEA-20260911-155000-uid-companions.md).
+
+## Retirement
+
+Retired at the user's request on 2026-09-12 after recorded completion.
+The completion evidence, delivery history and unresolved findings above remain
+retained. Retirement does not establish additional performance, visual, listening
+or human/controller acceptance. No replacement implementation task is needed
+for this completed scope; satisfied dependencies are retained as history in
+remaining tasks.

@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-153902-v15-six-face-route-audit"
 title: "Establish current v15 route coverage on all six faces"
-status: "done"
+status: "retired"
 priority: "P1"
 depends_on: []
 created: "2026-09-11T15:39:00Z"
-updated: "2026-09-11T21:09:18Z"
+updated: "2026-09-12T08:37:43Z"
 source_thread: "01a090fe-2a8c-7fe0-8b5b-fa6446206ea9"
 ---
 
@@ -76,3 +76,12 @@ User skiing of all faces and other seeds remains separate acceptance work.
 ## Satisfied prerequisite history
 
 On 2026-09-11, [AA-20260911-153900-baseline-acceptance-index](../archive/AA-20260911-153900-baseline-acceptance-index.md) was retired at the user's request after completion. Its satisfied dependency was removed; this task's scope and acceptance requirements are unchanged.
+
+## Retirement
+
+Retired at the user's request on 2026-09-12 after recorded completion.
+The completion evidence, delivery history and unresolved findings above remain
+retained. Retirement does not establish additional performance, visual, listening
+or human/controller acceptance. No replacement implementation task is needed
+for this completed scope; satisfied dependencies are retained as history in
+remaining tasks.

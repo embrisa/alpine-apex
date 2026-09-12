@@ -3,9 +3,9 @@ id: "AA-20260911-153906-player-and-controller-acceptance"
 title: "User playtest: skiing, controller, routes and racing acceptance"
 status: "blocked"
 priority: "P1"
-depends_on: ["AA-20260911-153902-v15-six-face-route-audit","AA-20260911-153903-current-4k-performance-baseline","AA-20260911-153904-presentation-comfort-review","AA-20260911-153905-race-loop-acceptance-audit"]
+depends_on: ["AA-20260911-153904-presentation-comfort-review","AA-20260911-153905-race-loop-acceptance-audit"]
 created: "2026-09-11T15:39:00Z"
-updated: "2026-09-11T19:06:07Z"
+updated: "2026-09-12T08:37:43Z"
 source_thread: "01a090fe-2a8c-7fe0-8b5b-fa6446206ea9"
 ---
 
@@ -47,3 +47,10 @@ Imported from the existing roadmap during backlog setup. Pending user acceptance
 ## Satisfied prerequisite history
 
 On 2026-09-11, [AA-20260911-153901-input-acceptance-evidence](../archive/AA-20260911-153901-input-acceptance-evidence.md) was retired at the user's request after completion. Its satisfied dependency was removed; this task's scope and acceptance requirements are unchanged.
+
+On 2026-09-12, the following completed prerequisites were retired at the user's
+request and removed from active dependencies. Their completion evidence remains
+available; this task stays blocked for actual user playtesting:
+
+- [AA-20260911-153902-v15-six-face-route-audit](../archive/AA-20260911-153902-v15-six-face-route-audit.md).
+- [AA-20260911-153903-current-4k-performance-baseline](../archive/AA-20260911-153903-current-4k-performance-baseline.md).

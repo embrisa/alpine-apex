@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-161450-proportional-carving-lean"
 title: "Fix excessive and wrong-direction carving lean"
-status: done
+status: "retired"
 priority: P2
 depends_on: []
 created: "2026-09-11T16:14:50Z"
-updated: "2026-09-12T00:12:55Z"
+updated: "2026-09-12T08:37:43Z"
 source_thread: "01a0913c-4f24-7623-a631-64ae86ab068e"
 ---
 
@@ -255,3 +255,12 @@ are indexed in `artifacts/carve_proportional/REVIEW.md`; the matched viewer is
 The authoritative response contract and limitations are in
 [Animation](../../docs/ANIMATION.md#carving). This completion/archive record is
 committed separately after the pushed implementation milestone.
+
+## Retirement
+
+Retired at the user's request on 2026-09-12 after recorded completion.
+The completion evidence, delivery history and unresolved findings above remain
+retained. Retirement does not establish additional performance, visual, listening
+or human/controller acceptance. No replacement implementation task is needed
+for this completed scope; satisfied dependencies are retained as history in
+remaining tasks.

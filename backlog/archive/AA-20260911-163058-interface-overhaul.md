@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-163058-interface-overhaul"
 title: "Overhaul the interface, controller menus, graphics settings and customizable HUD"
-status: done
+status: "retired"
 priority: P2
 depends_on: []
 created: "2026-09-11T16:30:58Z"
-updated: "2026-09-11T18:48:40Z"
+updated: "2026-09-12T08:37:43Z"
 source_thread: "01a0914b-c7d5-7ad1-bc28-5d0cd55be42d"
 ---
 
@@ -478,3 +478,12 @@ images for two copied historical frames. Maximum restored-bone error was
 This establishes the cleanup and retained diagnostic functionality; it does not
 mark UI-overhaul acceptance, current motion quality, controller feel or performance
 passed. Production animation/assets and personal exports remain intact.
+
+## Retirement
+
+Retired at the user's request on 2026-09-12 after recorded completion.
+The completion evidence, delivery history and unresolved findings above remain
+retained. Retirement does not establish additional performance, visual, listening
+or human/controller acceptance. No replacement implementation task is needed
+for this completed scope; satisfied dependencies are retained as history in
+remaining tasks.
