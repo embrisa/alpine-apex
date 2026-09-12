@@ -221,6 +221,8 @@ it; this task must not dispatch while that instruction is in effect.
 
 ### Prepared assets, 2026-09-12
 
+Prepared source/assets were committed and pushed in `c5ac882`.
+
 The user-authorized preparation phase is complete. The collection is in
 [art_source/trees/colorful_v1](../../art_source/trees/colorful_v1/README.md): three
 golden birches with rounded leaves and three orange/red maples with lobed leaves.
