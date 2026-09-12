@@ -5,7 +5,7 @@ status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-12T00:44:02Z"
-updated: "2026-09-12T18:48:00Z"
+updated: "2026-09-12T18:53:03Z"
 source_thread: "01a0930e-ba9f-77c2-80fd-defb3dea4672"
 ---
 
@@ -131,7 +131,7 @@ the feature without a broader renderer redesign, record that concrete blocker.
   p99 <=16.7 ms targets. Report incremental cost and any baseline target failure;
   generated frames are separate. Verify Off has no material regression, and tune
   the enabled range/cost before declaring the implementation complete.
-- [ ] Store captures/receipts and exact reproducible commands under
+- [x] Store captures/receipts and exact reproducible commands under
   `artifacts/scene_motion_blur/`; tests use isolated preferences and never write
   personal bests. Update Rendering for effect ownership/order/cost and Presentation
   for controls/defaults. Commit/push source, shaders and related assets, validate
@@ -190,4 +190,8 @@ is provisional until that qualification; transparent pixels use opaque depth/
 velocity supplied by Godot. Human/controller comfort and perceived-speed
 acceptance remain separately pending.
 
-Delivery commit/push references: recorded after the implementation milestone.
+Implementation milestone `3d20c429c49f1108745b7a1a5a96a454513d33e6` was pushed
+to `origin/main`. Backlog validation and all 23 backlog helper tests passed.
+Cleanup is deferred: automatic approval review rejected deletion of this task's
+duplicate logs and temporary UID helper with "blocked by policy". All task
+artifacts, final captures/receipts and baseline failure evidence are retained.
