@@ -1,0 +1,4 @@
+interface:
+  display_name: "Alpine Bug Investigation"
+  short_description: "Reproduce bugs and verify their causes and fixes"
+  default_prompt: "Use $alpine-bug-investigation to reproduce this Alpine Apex bug, identify its cause and verify any requested fix."

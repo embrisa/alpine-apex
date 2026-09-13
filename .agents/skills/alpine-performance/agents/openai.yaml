@@ -1,0 +1,4 @@
+interface:
+  display_name: "Alpine Performance"
+  short_description: "Measure bottlenecks with controlled comparisons"
+  default_prompt: "Use $alpine-performance to establish a current baseline, investigate this bottleneck and measure any requested optimization."

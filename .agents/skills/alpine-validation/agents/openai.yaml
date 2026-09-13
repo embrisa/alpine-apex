@@ -1,0 +1,4 @@
+interface:
+  display_name: "Alpine Validation"
+  short_description: "Choose checks and assess Alpine Apex evidence"
+  default_prompt: "Use $alpine-validation to select and run the checks needed for this change, then report what the evidence establishes."

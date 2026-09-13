@@ -51,14 +51,15 @@ or racing-line attractor.
 | Setup, builds, native tooling, packaging | [Development](docs/DEVELOPMENT.md) |
 | Input, contact, handling, flight, impacts, haptics | [Physics](docs/PHYSICS.md) |
 | Generation, terrain, snow support, caches, placement | [World](docs/WORLD.md) |
-| Graphics/performance, FidelityFX, snow/forest/weather rendering | [Rendering](docs/RENDERING.md) |
+| Graphics, FidelityFX, snow/forest/weather rendering | [Rendering](docs/RENDERING.md) |
+| Performance investigation and optimization | [Performance skill](.agents/skills/alpine-performance/SKILL.md), then relevant guides |
 | Camera, interface, HUD, loading | [Presentation](docs/PRESENTATION.md) |
 | Skier animation, anatomy, hands/poles or review | [Animation skill](.agents/skills/alpine-animation/SKILL.md), then relevant references |
 | Audio, native DSP, voice | [Audio](docs/AUDIO.md) |
 | Rider ownership, races, recordings, records, persistence | [Racing](docs/RACING.md) |
 | Asset provenance, source libraries, rebuilds | [Assets](docs/ASSETS.md) |
-| Checks, performance method, remaining acceptance | [Validation](docs/VALIDATION.md) |
-| Recorded bugs, `.apexcase` evidence and solver reruns | [Recorded bug cases](docs/VALIDATION.md#recorded-bug-cases) |
+| Check selection, execution and acceptance evidence | [Validation skill](.agents/skills/alpine-validation/SKILL.md), then relevant guide sections |
+| Reported bugs, `.apexcase` evidence and fix verification | [Bug investigation skill](.agents/skills/alpine-bug-investigation/SKILL.md), then relevant guides |
 
 When investigating a supplied `.apexcase`, read its notes, selection and diagnostic
 settings with `scripts/test_case.ps1 -Mode Inspect`, then use Capture and Rerun as
@@ -77,3 +78,8 @@ Maintain one authoritative domain guide per fact. Write project-specific
 contracts, decisions, source pointers and reproducible commands; omit general
 tutorials and repeated reports. Detailed evidence goes in `artifacts/`. Preserve
 unresolved findings and provenance when removing superseded documentation.
+
+When a change affects a repository skill's commands, assumptions, ownership or
+evidence contract, review and update the affected skill in the same validated
+milestone. Follow [skill maintenance](docs/DEVELOPMENT.md#agent-skill-maintenance)
+for dependency routing and verification; keep domain facts in their owning guides.

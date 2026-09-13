@@ -113,6 +113,36 @@ Verify menu, drop-in/movement, cache selection, missing-file/native errors and
 final ZIP integrity. Record actual size/hash. This establishes package operation
 on the test PC, not performance/controller feel on another PC.
 
+## Agent skill maintenance
+
+Repository skills in `.agents/skills/` describe workflows; domain guides remain
+authoritative for technical facts and policies. The agent changing an underlying
+contract also owns reviewing the affected skill and updating it in the same
+validated milestone. Review only affected workflows; an implementation edit that
+preserves their contracts does not require rewriting skill text.
+
+| Skill | Changes that require review |
+|---|---|
+| [Validation](../.agents/skills/alpine-validation/SKILL.md) | `scripts/test_pc_environment.ps1`, `scripts/run_guarded.ps1`, engine selection, test profiles/fixture preparation, result/log semantics, check-selection or bounded-descent policy |
+| [Bug investigation](../.agents/skills/alpine-bug-investigation/SKILL.md) | `scripts/test_case.ps1`, `scripts/diagnostics/case_tool.gd`, case/recording formats, recorded tuning or control replay, comparison/capture semantics, subsystem ownership |
+| [Performance](../.agents/skills/alpine-performance/SKILL.md) | `scripts/benchmark_pc.ps1`, trace producers/validators, profiling/result formats, runtime/cache identity, performance targets/method, workload exclusivity or engine strategy |
+
+These are dependency entry points, not an exhaustive file allowlist. Follow
+changed callers/contracts and linked guides when a dependency moves or is replaced.
+Update affected descriptions, instructions, command examples, links and UI metadata
+together. Remove replaced recipes within scope; derive volatile versions, hashes,
+settings and suite membership from live producers or owning guides.
+
+For a changed skill, run the installed skill-creator's `scripts/quick_validate.py`
+against its directory, check local links/anchors and named source paths, and verify
+command options against the current scripts. Exercise a safe plan/dry run when
+available; use already-required runtime checks for changed executable behavior.
+Review realistic task routing and result interpretation as well as syntax. Record
+what was actually verified in the milestone report; static validation alone does
+not establish improved agent performance. No engine run is needed for prose-only
+changes. If discovered drift is outside the current write scope, report the exact
+skill/dependency and coordinate its update while continuing independent work.
+
 ## Artifact lifecycle
 
 `artifacts/` is ignored except its guide and `.gdignore`. Suites/review tools
