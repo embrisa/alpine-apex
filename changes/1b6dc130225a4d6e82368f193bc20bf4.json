@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "id": "1b6dc130225a4d6e82368f193bc20bf4",
+  "summary": "Queue a 15 percent forest reduction and natural sparse upper trees for later regeneration",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Deferred physical forest generation"
+  ],
+  "owned_paths": [
+    "backlog/tasks/AA-20260913-232221-natural-forest-generation.md"
+  ],
+  "read_paths": [
+    ".agents/skills/alpine-backlog/SKILL.md",
+    "backlog/README.md",
+    "scripts/world/generation_settings.gd",
+    "scripts/world/generators/alpine_face_v15.gd",
+    "scripts/world/generators/alpine_massif_v15.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Documentation-only task authoring; no generator, runtime, settings or data change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Documentation-only task authoring; no generator, runtime, settings or data change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Documentation-only task authoring; no generator, runtime, settings or data change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Documentation-only task authoring; no generator, runtime, settings or data change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Documentation-only task authoring; no generator, runtime, settings or data change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "./scripts/backlog.ps1 validate --preserve-dirty; scoped whitespace and local-link/readback checks",
+      "result": "passed",
+      "details": "Ready metadata, resolved dependency, no open questions; existing tree target/upper-area gates verified against current source. No engine or physical generation work performed."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Task authoring only; later implementation, regeneration, automated/rendered/performance verification and human review remain pending."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-13T23:35:18.035029+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 25,
+      "commit": "9fb3badb48ec425534d61bc7b78f2624d403ed3d",
+      "modified": true,
+      "changes_sha256": "31776bfdc4626ef763bbddcb147fc677f79c74622ecfc6e2757c9eff59665d2c",
+      "source_sha256": "f7b515053cbe4b63d980cb7f264cda8b783ece109aceb98fd582ecf2d93a5788",
+      "categories": [
+        "Presentation"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      ".agents/skills/alpine-backlog/SKILL.md": "fa3f08c81bf79171d1478c5441e90e5d83410cf33fa528553a95f45f3740bfa8",
+      "backlog/README.md": "5799009cbbd585356fb1c322770c2415b97fd94a64809d5703bbcb63cfd2928e",
+      "backlog/tasks/AA-20260913-232221-natural-forest-generation.md": "2515f2207b01c35455849778fa51f810badccd3a83fdf939455901d41d923897",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "project.godot": "72cb6f901c83a06dc0b06b1d9198444dfb5a7155b4b6ab6ec2d1c311cd3458bd",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "c8375d4142f40481877919f2ed0800dfb4217fe0eb421575cb0aa11b2c8f1407",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/world/generation_settings.gd": "57d42e5dd8109b42c5fd9a838c340452385662e62c1af24ef9b409b61734b67e",
+      "scripts/world/generators/alpine_face_v15.gd": "ee1029f44421c3e36c7efde74974fae2485b7539da857e12da5f9cda3f843adc",
+      "scripts/world/generators/alpine_massif_v15.gd": "92d9af947c43b025f7e936c947ed480edeac8e3294ae1cfd3d76bc2378cc7fe9",
+      "scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f"
+    }
+  }
+}
