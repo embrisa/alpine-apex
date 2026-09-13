@@ -171,6 +171,48 @@ Pause, visibility, backward time, gaps and recovery prevent connecting strokes
 across discontinuities. Track composition belongs to [Rendering](RENDERING.md#snow-presentation),
 selection controls to [Presentation](PRESENTATION.md#ghost-selection).
 
+## Diagnostic test cases
+
+`scripts/diagnostics/test_cases.gd` owns an opt-in, isolated diagnostic session.
+It installs `case_simulation.gd` and `case_surface.gd` around the production
+120 Hz solver and shared 4 m terrain. The explicit `case_policy.gd` keeps speed,
+immunity and obstacle categories independent. It does not use the stress driver.
+Ordinary skiing has no installed diagnostic policy. Diagnostic sessions disable
+competitive capture, personal-record eligibility and preference writes; exit
+restores ordinary ownership. Every take starts at the selected summit face.
+
+`case_recorder.gd` records launch state, tuning, resolved F64 input fields, ordered
+accepted controls, completed contact/impact telemetry, source and engine hashes,
+mountain reference, rig identity and presentation configuration. Render observations
+contain timestamp, completed tick, interpolation fraction, frame duration, skier,
+equipment and camera transforms, appearance context, weather and track footprints.
+Crash poses read the actual Jolt bodies. Capture continues through the existing
+15-second aftermath; manual save can stop it earlier. Pause/focus loss freezes the
+clock. Recovery, restart and transitions finalize before changing the scenario.
+
+`case_store.gd` publishes new `.apexcase` files under `user://test_cases_v1` using a
+unique filename and same-directory temporary-file rename. Format 1 and input
+layout 1 have indexed Zstandard channels, 64-row chunks, raw/compressed SHA-256
+checksums, bounded metadata and decoding without objects. Limits are 72,000 ticks
+(ten minutes), 256 MiB of uncompressed channels, 1 MiB per chunk/header. A limit
+saves completed coverage with its endpoint reason; failed publication retains the
+capture for retry. Existing files are never overwritten. No earlier-format import
+or migration is supported. Keep these files separate from competitive archives.
+
+A clip has one tick-aligned interval and retains all input/control rows from
+launch through Out, plus selected visual frames and up to 30 seconds of earlier
+track context. It preserves original timestamps and capture provenance, adds notes
+and its parent SHA-256, and opens on the selection without requiring its parent.
+Further trimming stays inside that selection. The original remains available.
+
+Playback uses captured transforms through the existing skeleton writer, with live
+skiing and ragdoll stepping disabled. Seeks rebuild bounded track history and reset
+temporal effects. These files preserve pose/camera evidence, not pixel-identical
+video or recorded audio. Physics edits alone do not reject visual evidence;
+unsupported format, rig/assets or mountain reconstruction fail visibly. Agent
+commands and comparison interpretation belong to [Validation](VALIDATION.md#recorded-bug-cases);
+player controls belong to [Presentation](PRESENTATION.md#test-cases).
+
 ## Records and compatibility
 
 `racing/competitive_record.gd` archive 4 stores PB time/splits, last 20 eligible

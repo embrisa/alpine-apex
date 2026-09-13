@@ -109,6 +109,9 @@ func sweep_obstacle(from: Vector3, to: Vector3) -> String:
 	return sweep_obstacle_contact(from,to).get("reason","")
 
 func sweep_obstacle_contact(from: Vector3, to: Vector3) -> Dictionary:
+	return sweep_filtered_obstacle_contact(from,to,true,true)
+
+func sweep_filtered_obstacle_contact(from: Vector3, to: Vector3, trees: bool, rocks: bool) -> Dictionary:
 	# Earliest intersection of the swept rider with each cylindrical envelope.
 	# The vertical interval includes the rider's 1.6 m height. Geometry and
 	# obstacle indexing remain the same; callers can now measure closing speed.
@@ -128,6 +131,7 @@ func sweep_obstacle_contact(from: Vector3, to: Vector3) -> Dictionary:
 				if checked.has(idx): continue
 				checked[idx] = true
 				var ob = obstacles[idx]
+				if (ob.tree and not trees) or (not ob.tree and not rocks): continue
 				var center: Vector3 = ob.position
 				var offset = a-Vector2(center.x,center.z)
 				var radius: float = ob.radius+.35

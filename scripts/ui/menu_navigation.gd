@@ -136,6 +136,7 @@ func scope() -> Node:
 	if popup: return popup
 	var hud = game.hud
 	if game.loading and game.loading.busy: return game.loading.overlay
+	if game.get("test_cases") and game.test_cases.ui.panel.visible: return game.test_cases.ui.panel
 	if hud.get("hud_editor") and hud.hud_editor.visible: return hud.hud_editor
 	if hud.camera_options.preview_active: return hud.root
 	if game.workshop.mode=="navigation": return game.workshop.navigation_panel.panel
@@ -302,7 +303,8 @@ func back() -> void:
 	var hud = game.hud
 	if game.loading and game.loading.busy: return
 	if hud.get("hud_editor") and hud.hud_editor.visible: hud.hud_editor.back(); return
-	if hud.camera_options.preview_active: game.set_camera_preview(false)
+	if game.get("test_cases") and (game.test_cases.ui.panel.visible or game.test_cases.camera_active): game.test_cases.back()
+	elif hud.camera_options.preview_active: game.set_camera_preview(false)
 	elif game.mountain_library.panel.visible: game.mountain_library.close()
 	elif not game.workshop.mode.is_empty(): game.workshop.back_pressed()
 	elif hud.competition.panel.visible: hud.close_competition()

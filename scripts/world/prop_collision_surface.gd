@@ -47,9 +47,11 @@ func _reindex() -> void:
 func sweep_obstacle(from: Vector3, to: Vector3) -> String:
 	return sweep_obstacle_contact(from,to).get("reason","")
 
-func sweep_obstacle_contact(from: Vector3, to: Vector3) -> Dictionary:
+func sweep_obstacle_contact(from: Vector3, to: Vector3, terrain_hit: Variant = null) -> Dictionary:
 	var closest: Dictionary = {}
-	if terrain.has_method("sweep_obstacle_contact"):
+	if terrain_hit is Dictionary:
+		closest = terrain_hit
+	elif terrain.has_method("sweep_obstacle_contact"):
 		closest = terrain.sweep_obstacle_contact(from,to)
 	elif terrain.has_method("sweep_obstacle"):
 		var reason: String = terrain.sweep_obstacle(from,to)

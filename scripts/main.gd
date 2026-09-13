@@ -92,6 +92,7 @@ var impact_warning = preload("res://scripts/presentation/impact_warning.gd").new
 var active: bool = false:
 	set(value):
 		if active != value:
+			if test_cases: test_cases.record_input_reset()
 			# A menu, pause, finish or focus change cancels pending release input.
 			rider_axes_armed = false
 			air_controls_armed = false
@@ -142,6 +143,8 @@ var camera_controls_active: bool = false
 var camera_stick_armed: bool = false
 var discard_camera_mouse_motion: bool = false
 var application_focused: bool = true
+var test_cases
+var diagnostic_source_identity = preload("res://scripts/diagnostics/case_recorder.gd").sources()
 
 func _ready() -> void:
 	get_tree().auto_accept_quit = false
@@ -512,16 +515,20 @@ func _ready() -> void:
 		start_run(current_mountain==null)
 		session.eligible = false
 		camera.close_view = "--first-person" in OS.get_cmdline_user_args()
+	test_cases = preload("res://scripts/diagnostics/test_cases.gd").new()
+	add_child(test_cases); test_cases.setup(self)
 	if "--capture-menu" in OS.get_cmdline_user_args():
 		_capture_menu.call_deferred()
 
 func _physics_process(dt: float) -> void:
+	if test_cases and test_cases.reviewing: return
 	if not initialized or transitioning or returning_to_summit or quitting or (loading and loading.busy) or sim == null:
 		return
 	if session.recovering:
 		# Crash subpages and the ragdoll's settle limit never own the race clock.
 		if application_focused or automated:
 			_check_race_weather()
+			if test_cases: test_cases.crash_tick()
 			session.step_crash(dt)
 		hud.update_crash_recovery(session,recovery_placement.get("error",""),not application_focused and not automated)
 		return
@@ -569,7 +576,9 @@ func _physics_process(dt: float) -> void:
 		return
 	crash_recovery.observe_support(sim)
 	var simulation_started = frame_costs.begin()
+	if test_cases: test_cases.before_tick()
 	sim.step(dt,intent,world.ski_surface)
+	if test_cases: test_cases.observe_tick(true)
 	frame_costs.end(&"simulation",simulation_started)
 	var animation_started = frame_costs.begin()
 	skier.step_animation(dt,sim,intent,field)
@@ -624,6 +633,8 @@ func observe_audio_tick(dt: float) -> void:
 	voice.observe_tick(sim,dt,field,session.progress_percent(sim.position)/100.0 if timed else -1.0,candidates)
 
 func _process(dt: float) -> void:
+	if test_cases and test_cases.reviewing:
+		test_cases.update_review(dt); return
 	if initialized:
 		_update_display_recovery()
 		if navigation and hud.footer.visible: hud.footer_controls.text = workshop.navigation_panel.prompts() if workshop.mode=="navigation" else navigation.prompts(workshop.mode=="create")
@@ -727,6 +738,7 @@ func _process(dt: float) -> void:
 	if navigation and hud.footer.visible:
 		hud.footer_controls.text = hud.Prompts.summit(navigation.family) if summit_ready and navigation.scope()==null else (workshop.navigation_panel.prompts() if workshop.mode=="navigation" else navigation.prompts(workshop.mode=="create"))
 	frame_costs.end(&"hud",hud_started)
+	if test_cases: test_cases.observe_frame(dt,fraction)
 
 func _menu_context() -> String:
 	if sim.crashed: return "crashed"
@@ -803,11 +815,15 @@ func _sync_camera_controls() -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if allowed else Input.MOUSE_MODE_VISIBLE
 
 func _input(event: InputEvent) -> void:
+	if test_cases and not event.has_meta("menu_owned"):
+		navigation._device_used(event)
+		if test_cases.route(event): get_viewport().set_input_as_handled(); return
 	if not navigation or automated: return
 	if not initialized: navigation._device_used(event)
 	elif navigation.route(event): get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if test_cases and (test_cases.reviewing or test_cases.ui.panel.visible): return
 	if initialized and navigation and navigation.scope()!=null and not automated:
 		if event.has_meta("menu_owned"): return
 		if workshop.mode=="navigation":
@@ -970,6 +986,7 @@ func _update_screen_effects(dt: float) -> void:
 	speed_periphery.material.set_shader_parameter("warning_pulse",impact_warning.pulse)
 
 func restart(preserve_return: bool = false) -> void:
+	if test_cases and not test_cases.before_transition("restart"): return
 	_invalidate_crash_recovery()
 	set_camera_preview(false)
 	_reset_screen_effects()
@@ -1037,6 +1054,7 @@ func toggle_crash_pause() -> void:
 	hud.update_crash_recovery(session,recovery_placement.get("error",""))
 
 func respawn_here() -> void:
+	if test_cases and not test_cases.before_transition("recovery"): return
 	if not initialized or active or transitioning or returning_to_summit or quitting or (loading and loading.busy): return
 	if not sim.crashed or not session.recovering or session.recovery_paused or session.finished: return
 	if not application_focused and not automated: return
@@ -1245,6 +1263,7 @@ func _notification(what: int) -> void:
 		set_camera_preview(false)
 		_reset_screen_effects()
 		application_focused = false
+		if test_cases and test_cases.recording_mode and not test_cases.reviewing: test_cases.open_controls()
 		if effects: effects.reset_haptics()
 		if voice: voice.silence()
 		_sync_camera_controls()
@@ -1264,6 +1283,7 @@ func _notification(what: int) -> void:
 			hud.show_menu("paused")
 
 func quit_cleanly() -> void:
+	if test_cases and not test_cases.before_transition("quit"): return
 	set_camera_preview(false)
 	if quitting:
 		return
@@ -1447,6 +1467,7 @@ func set_display_setting(key: String, value: Variant) -> void:
 	if key=="frame_generation" and display_settings.display_mode=="fullscreen": display_settings.apply_display(get_window())
 
 func load_mountain(definition, generated_field) -> void:
+	if test_cases and not test_cases.before_transition("mountain"): return
 	_invalidate_crash_recovery()
 	_leave_race_weather()
 	_cancel_summit_return()
@@ -1491,6 +1512,7 @@ func drop_from_summit() -> void:
 	effects.reset()
 	weather_effects.reset()
 	_clear_storm_effects()
+	if test_cases: test_cases.begin_take()
 
 func _resolve_zone_exit(dt: float, before: Vector3, after: Vector3) -> bool:
 	var exit_fraction: float = mountain_zone.swept_exit_fraction(before,after)
@@ -1519,6 +1541,7 @@ func _resolve_zone_exit(dt: float, before: Vector3, after: Vector3) -> bool:
 	return true
 
 func _begin_summit_return(valid_finish: bool) -> void:
+	if test_cases and not test_cases.before_transition("boundary"): return
 	if returning_to_summit or transitioning or quitting or not mountain_zone.enabled: return
 	summit_return_voice = voice.Events.finish_event(session) if valid_finish else ""
 	return_message = "Finished %s · Back at the summit" % Session.format_time(session.elapsed) if valid_finish else ("Race ended at the boundary · Back at the summit" if timed else "Back at the summit · Choose your descent")

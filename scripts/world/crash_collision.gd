@@ -18,6 +18,19 @@ var warm_body: StaticBody3D
 var warm_owner = 0
 var warm_queue_peak = 0
 var warm_piece_count = 0
+var diagnostic_trees = true
+var diagnostic_rocks = true
+
+func set_diagnostic_filter(trees: bool, rocks: bool) -> void:
+	if trees==diagnostic_trees and rocks==diagnostic_rocks: return
+	diagnostic_trees = trees; diagnostic_rocks = rocks
+	for body in obstacles.values(): _filter_body(body,body.get_meta("audio_material",2)==2)
+	for body in mineral_bodies.values(): _filter_body(body,false)
+
+func _filter_body(body: StaticBody3D, tree: bool) -> void:
+	var enabled = diagnostic_trees if tree else diagnostic_rocks
+	body.collision_layer = 8 if enabled else 0
+	body.collision_mask = 16 if enabled else 0
 
 func prepare(center: Vector3) -> void:
 	if center.distance_to(last_center)<45.0:
@@ -50,6 +63,7 @@ func prepare(center: Vector3) -> void:
 			shape.height = obstacle.height
 			obstacles[i] = _static(shape,obstacle.position+Vector3.UP*obstacle.height*.5)
 			obstacles[i].set_meta("audio_material",2 if obstacle.get("tree",false) else 1)
+			_filter_body(obstacles[i],obstacle.get("tree",false))
 		elif distance_value>240.0 and obstacles.has(i):
 			obstacles[i].queue_free()
 			obstacles.erase(i)
@@ -84,7 +98,7 @@ func _prepare_minerals(center: Vector3) -> void:
 		var body=StaticBody3D.new()
 		body.name="Mineral_%d" % entry.id
 		body.set_meta("audio_material",1)
-		body.collision_layer=8; body.collision_mask=16
+		_filter_body(body,false)
 		# One owner holds all shared convex resources. Thousands of child Nodes
 		# per cliff add no collision information and cause avoidable allocation spikes.
 		var owner=body.create_shape_owner(body)

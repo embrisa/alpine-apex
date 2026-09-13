@@ -1,5 +1,48 @@
 # Camera and interface
 
+## Test Cases
+
+Open **Test Cases** from the game menu, choose **New recording**, set independent
+scenario controls, then select a summit face and drop in using normal riding input.
+During a take, **F9** or controller **Start** opens the paused Test Controls panel;
+**F10** or **Save & review** saves completed coverage. The recording overlay shows
+actual speed, held target (when enabled), immunity and collision settings.
+
+| Recording control | Meaning and default |
+|---|---|
+| Speed / Set speed now | One magnitude change, 0–300 km/h; default natural speed. It preserves travel direction, using heading at rest. |
+| Hold target speed | Off by default; 1–300 km/h restored before each skiing tick. Gravity, braking and physical impacts still resolve normally within the step. |
+| Immortality | Off by default. Enabling fills reserve; damage/crashes are prevented while impact reactions and diagnostic severity remain. Disabling resumes ordinary damage from full reserve. |
+| Tree collisions | On by default; switch physical tree contact without hiding trees. |
+| Rock collisions | On by default; switch placed rocks and formations without hiding them. Terrain, exposed rocky ground, props and boundaries stay active. |
+
+Paused changes apply in order on the next recording tick. Re-enabling an overlapping
+category is rejected until the rider/equipment is clear. Speed and immortality are
+unavailable during a crash; collision switches remain available. New takes retain
+session settings but never repeat a consumed one-shot speed command. Leaving test
+mode resets the diagnostic controls.
+
+Review offers a tick-aligned scrubber, play/pause, 0.1×/0.25×/0.5×/1×/2× rates,
+individual physics-tick and captured-frame steps, and orange control-event markers.
+Set In/Out and loop the interval; the timeline displays duration and original times.
+**Save selected clip** accepts a title and optional observed/expected behavior notes.
+It creates another standalone case; **Copy path** and **Open folder** expose it.
+
+Switch recorded/free camera at any time, including while paused. In free view,
+right-drag orbits, middle-drag pans and the wheel zooms. **Control free camera**
+captures the mouse for look and WASD/QE movement; Escape returns to the panel.
+**Focus skier** recenters on the captured rider. **F9 / Hide controls** clears the
+view. Controller navigation uses existing focus and text entry: A activates, B
+backs out, shoulders step one second and triggers scrub. While controlling the
+free camera, sticks move/look and triggers move vertically; B returns to controls.
+Review and panel input is consumed before riding input.
+
+The displayed poses and camera are saved evidence reconstructed in the current
+renderer; live skiing and ragdoll simulation stay disabled in review. Audio/video
+fidelity is outside this format. Storage ownership is documented in
+[Racing](RACING.md#diagnostic-test-cases), and agent commands in
+[Validation](VALIDATION.md#recorded-bug-cases).
+
 ## Ownership and navigation
 
 `main.gd` chooses one rendering camera: riding, menu, race/navigation survey or paused

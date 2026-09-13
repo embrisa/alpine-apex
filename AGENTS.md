@@ -58,6 +58,12 @@ or racing-line attractor.
 | Rider ownership, races, recordings, records, persistence | [Racing](docs/RACING.md) |
 | Asset provenance, source libraries, rebuilds | [Assets](docs/ASSETS.md) |
 | Checks, performance method, remaining acceptance | [Validation](docs/VALIDATION.md) |
+| Recorded bugs, `.apexcase` evidence and solver reruns | [Recorded bug cases](docs/VALIDATION.md#recorded-bug-cases) |
+
+When investigating a supplied `.apexcase`, read its notes, selection and diagnostic
+settings with `scripts/test_case.ps1 -Mode Inspect`, then use Capture and Rerun as
+appropriate. Preserve the original. Report captured evidence, current-code
+comparisons and human acceptance separately; a completed rerun is not a fix verdict.
 
 Generation/loading, scenery, simulation performance, audio and native work also
 follow [the incremental engine strategy](docs/ARCHITECTURE.md#engine-strategy).

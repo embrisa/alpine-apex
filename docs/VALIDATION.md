@@ -310,6 +310,71 @@ Its readbacks and receipt are in `artifacts/spatial_batch_visibility/visual/`.
 Use fresh 15-second forest/rock/open workloads from the stress-trial instructions
 above for capture-free FPS, CPU/GPU, memory and repeated-entry comparisons.
 
+## Recorded bug cases
+
+Use in-game **Test Cases** for new human demonstrations that need visual evidence,
+trimming or independent speed/immunity/obstacle controls. Start by reading the
+user's title, observed/expected notes, selected original time range, endpoint and
+active settings. Never infer ordinary gameplay from a modified scenario.
+
+```powershell
+./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode Inspect
+./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode Capture
+./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode Rerun
+```
+
+Each mode uses the workload guard and creates a fresh output folder under
+`artifacts/test_cases/` (or explicit `-Output`). Inspect exports metadata, notes,
+selected completed telemetry and all accepted control-event times to `result.json`.
+Capture reconstructs the recorded mountain and emits eight PNGs and a contact
+sheet with original timestamps; JSON distinguishes requested time from captured
+frame time. It preserves saved poses/camera using current rendering. Rerun retains
+recorded tuning and applies the launch-to-Out input/control prefix through the
+current production solver and diagnostic policy, reporting every selected tick's
+actual telemetry, trajectory difference, contact/impact state, speed injections,
+prevented damage and termination. The original file is never modified.
+
+`comparison` distinguishes `matching_source_verification` from
+`changed_code_comparison` using source/engine identity and capture stability.
+Matching-source skiing divergence fails validation. Changed-code differences are
+observations to compare against the notes, not automatic failures or fixes. Fresh
+Jolt crash motion is separately reported as a new observation. A successful exit
+never proves the bug is fixed. Incompatible input/policy or terrain reconstruction
+is rejected; the tool never supplies controls beyond saved coverage. Unsupported
+format/rig/assets give a clear error. Physics changes alone do not invalidate
+captured visual evidence. These cases are diagnostic and cannot qualify as ordinary
+gameplay or full-descent performance baselines; the existing benchmark compatibility
+checks remain strict.
+
+Run focused contracts and required shared suites through the existing batch guard:
+
+```powershell
+./scripts/test_pc_environment.ps1 -Suites test_case_suite,controller_input_suite,performance_recording_suite,performance_trace_contract_suite,physics_suite,runtime_suite -OutputDirectory artifacts/test_cases/regression
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/test_case_playtest.gd','--','--ui-staged-loading','--graphics-quality=high','--upscaler=auto','--render-scale=0.75','--fps-limit=120','--frame-generation=off','--terrain-gi=off','--benchmark-no-captures') -Label test-cases-native -TimeoutSeconds 600
+```
+
+The native fixture exercises pause, controller focus/text entry, trimming/reopening,
+seek/camera restoration, airborne/crash capture and record isolation. Append
+`--case-performance` to its user arguments for three matched pairs: two-second
+warmup plus 15 measured seconds each, 3840×2160 High, identical diagnostic scenario,
+unchanged rendering settings. Reject unfocused trials and differing trajectories.
+Report this capture overhead separately from ordinary/full-descent performance,
+rendered inspection and human/controller acceptance. The earlier input-only recorder
+below remains a separate strict benchmark tool. Package/session contracts belong
+to [Racing](RACING.md#diagnostic-test-cases); UI controls to
+[Presentation](PRESENTATION.md#test-cases).
+
+Implementation verification (2026-09-13): 49 package/policy checks, 51 controller,
+12 input-recorder, 13 trace-contract, 56 physics and 192 runtime checks passed.
+The native lifecycle fixture passed 23 checks, including focus/save retry and
+controller text entry. Skiing, airborne and crash reconstructions were visually
+inspected. Selected and retained-prefix clips plus crash skiing reran exactly with
+matching source; a changed-source case was correctly classified separately. Three
+matched 15-second 4K High samples measured mean capture cost increases of
+0.57–1.94 ms/frame (same diagnostic trajectory, all focused). This is bounded
+capture overhead, not an ordinary-gameplay baseline. Human/physical-controller
+acceptance remains open. Detailed local evidence: `artifacts/test_cases/DELIVERY.json`.
+
 ### Player recordings and short scenarios
 
 Streaming investigations can add `-ProfileFrameCosts` to the benchmark to retain
@@ -374,7 +439,7 @@ complete uncrashed player recording may replace the pilot trace in
 `scripts/benchmark_pc.ps1 -InputTrace ... -Repetitions 3`. Old eight-field benchmark
 traces must be regenerated. Personal competitive replays separately use current
 format 7 with nine inputs and lossless clocks; incompatible older recordings are rejected without
-migration. The recorder and replay helpers live entirely under `tests/`; the production scene is inherited.
+migration. The input-only recorder and replay helpers live under `tests/`, sharing the exact input codec in `scripts/diagnostics/case_inputs.gd`; the production scene is inherited.
 Use `performance_recording_suite.gd`, `performance_trace_contract_suite.gd` and
 `record_run.ps1 -SmokeTest -Label <fresh-label>` to verify this tooling.
 
