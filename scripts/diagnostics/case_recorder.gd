@@ -45,7 +45,7 @@ func begin(game) -> void:
 	data.metadata = {"title":"Recording "+Time.get_datetime_string_from_system(),"what":"","expected":"",
 		"recorded_utc":Time.get_datetime_string_from_system(true)+"Z","start_tick":0,"end_tick":0,"duration_ticks":0,"input_ticks":0,
 		"initial_settings":initial_settings,"policy_version":Policy.VERSION,"input_version":Store.INPUT_VERSION,"rig":Pose.rig(game.skier),
-		"identity":{"sources":game.diagnostic_source_identity.duplicate(),"model":game.sim.MODEL_VERSION,"engine":Engine.get_version_info().string,
+		"identity":{"build":preload("res://scripts/diagnostics/build_identity.gd").current(),"sources":game.diagnostic_source_identity.duplicate(),"model":game.sim.MODEL_VERSION,"engine":Engine.get_version_info().string,
 			"engine_sha256":FileAccess.get_sha256(OS.get_executable_path()),"mountain":game.current_mountain.to_reference()},
 		"termination":"","capture":"observed","origin":"automated" if game.automated else "player","personal_records":false}
 	var initial = {"t":0.0,"tick":0,"input":PackedFloat64Array(),"events":[],"state":state(game.sim),"tuning":tuning_data(game.sim.tuning),

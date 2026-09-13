@@ -2,6 +2,8 @@
 
 ## Current identity
 
+The [internal Dev identity](DEVELOPMENT.md#internal-development-versions) identifies
+committed milestones and modified checkout state; it is not a compatibility key.
 Source identities inspected on 2026-09-13; numeric identities are independent.
 Their declarations, not an old report title, determine compatibility.
 

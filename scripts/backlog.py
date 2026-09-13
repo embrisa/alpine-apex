@@ -252,6 +252,17 @@ def delivery_problem(root, claim, task, peer_paths=()):
         return "Uncommitted changes since dispatch:\n" + "\n".join(changed)
     if not pushed(root):
         return "HEAD must equal its pushed upstream"
+    if (root / "config/development_version.json").is_file():
+        import versioning
+        base = claim.get("version_base")
+        commits = git(root, "rev-list", "--first-parent", f"{base}..HEAD").splitlines() if base else [git(root, "log", "-1", "--format=%H", "--", task_path)]
+        owned = claim.get("scope", {}).get("write_paths", []) + [task_path]
+        for commit in commits:
+            if not commit or not any(covered(path, owned) for path in versioning.changed_paths(root, commit)):
+                continue
+            errors = versioning.check_commit(root, commit)
+            if errors:
+                return "Incomplete development milestone " + commit + ": " + "; ".join(errors)
     return None
 
 
@@ -602,7 +613,7 @@ def operate(args):
             claim.setdefault("peers", {}).update(observed_work(root, data))
             # Persist ownership before touching the task, so a crash still leaves
             # an identifiable worker. Recovery never depends on elapsed time.
-            claim.update(role="worker", owner=args.owner, worker=args.owner, accepted=now())
+            claim.update(role="worker", owner=args.owner, worker=args.owner, accepted=now(), version_base=git(root, "rev-parse", "HEAD"))
             save()
             path = save_task(root, task, "in_progress", f"Worker `{args.owner}` accepted dispatch `{args.token}` at {now()}.")
             return output(claim=claim, task_path=str(path))

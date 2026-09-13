@@ -22,7 +22,7 @@ class ValidationRunnerTests(unittest.TestCase):
         (self.root / "scripts").mkdir()
         (self.root / "tests").mkdir()
         for name in ("run_guarded.ps1", "validation_lease.ps1", "guarded_job.cs", "guarded_child.ps1",
-                     "validation_output.cs", "test_pc_environment.ps1", "clean_artifacts.ps1"):
+                     "validation_output.cs", "test_pc_environment.ps1", "clean_artifacts.ps1", "versioning.py"):
             shutil.copy2(PROJECT / "scripts" / name, self.root / "scripts" / name)
         # These fixtures exercise process/lock ownership without launching an
         # engine. Unrelated real game jobs must not control their outcome.

@@ -1,0 +1,266 @@
+{
+  "schema": 1,
+  "id": "e07ba1ad1bed4d73b87b1e6da917207f",
+  "summary": "Introduce internal Dev milestones, scoped change notes, and copyable build identity in game, diagnostics, and Windows packages.",
+  "categories": [
+    "Maintenance",
+    "Presentation"
+  ],
+  "areas": [
+    "agent workflow",
+    "build packaging",
+    "diagnostic provenance",
+    "menu build details"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-backlog/SKILL.md",
+    ".agents/skills/alpine-bug-investigation/SKILL.md",
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "AGENTS.md",
+    "addons/generation_export/receipt.gd",
+    "backlog/WORKER.md",
+    "changes/.gdignore",
+    "changes/README.md",
+    "config/development_version.json",
+    "config/generation_dependencies.json",
+    "docs/ARCHITECTURE.md",
+    "docs/DEVELOPMENT.md",
+    "docs/PRESENTATION.md",
+    "docs/VALIDATION.md",
+    "scripts/backlog.py",
+    "scripts/build_collaboration.ps1",
+    "scripts/diagnostics/build_identity.gd",
+    "scripts/diagnostics/build_identity.gd.uid",
+    "scripts/diagnostics/case_recorder.gd",
+    "scripts/diagnostics/scenario_evidence.gd",
+    "scripts/diagnostics/scenario_evidence.gd.uid",
+    "scripts/test_pc_environment.ps1",
+    "scripts/ui/hud.gd",
+    "scripts/versioning.py",
+    "tests/build_identity_suite.gd",
+    "tests/build_identity_suite.gd.uid",
+    "tests/test_backlog.py",
+    "tests/test_validation_runner.py",
+    "tests/test_versioning.py",
+    "tests/versioning_menu_capture.gd",
+    "tests/versioning_menu_capture.gd.uid"
+  ],
+  "read_paths": [
+    "export_presets.cfg",
+    "godotw.ps1",
+    "scripts/presentation/pole_push_pose.gd",
+    "scripts/resolve_godot_engine.ps1",
+    "scripts/run_guarded.ps1",
+    "scripts/ui/menu_navigation.gd",
+    "scripts/ui/screen_shell.gd",
+    "scripts/validation_lease.ps1",
+    "scripts/world/generation_sources.gd",
+    "tests/physics_suite.gd",
+    "tests/runtime_suite.gd",
+    "tests/scenario_suite.gd",
+    "tests/test_case_suite.gd",
+    "tools/windows/toolchain.json"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Adds diagnostic identity and workflow metadata; existing solver, terrain, and saved-data compatibility logic is unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Adds diagnostic identity and workflow metadata; existing solver, terrain, and saved-data compatibility logic is unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Adds diagnostic identity and workflow metadata; existing solver, terrain, and saved-data compatibility logic is unchanged."
+      }
+    },
+    "data": {
+      "caches": {
+        "effect": "preserved",
+        "reason": "Retains source-keyed cache policy; refreshes export receipt to the already-current generation sources."
+      },
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Dev IDs are informational and do not enter existing compatibility keys."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Dev IDs are informational and do not enter existing compatibility keys."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Dev IDs are informational and do not enter existing compatibility keys."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Dev IDs are informational and do not enter existing compatibility keys."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "python tests/test_versioning.py",
+      "result": "passed",
+      "details": "12 disposable Git/index/history/stamp checks passed; artifacts/versioning/versioning-tests.log."
+    },
+    {
+      "kind": "automated",
+      "command": "python tests/test_backlog.py",
+      "result": "passed",
+      "details": "40 workflow checks passed, including missing-note release rejection and compatible workers; artifacts/versioning/backlog-tests.log."
+    },
+    {
+      "kind": "automated",
+      "command": "python tests/test_validation_runner.py",
+      "result": "passed",
+      "details": "21 process, scope, pipe, regression-report and validation-lease checks passed."
+    },
+    {
+      "kind": "automated",
+      "command": "./scripts/test_pc_environment.ps1 -Suites build_identity_suite,scenario_suite,test_case_suite,physics_suite,runtime_suite -OutputDirectory artifacts/versioning/final-regression",
+      "result": "passed",
+      "details": "322 checks passed with stable game/build/test inputs; run.json and results.json retain exact source and engine identity."
+    },
+    {
+      "kind": "rendered",
+      "command": "Guarded tests/versioning_menu_capture.gd at 1440x900 and 960x540",
+      "result": "passed",
+      "details": "13 checks: title/paused label placement, controller focus and clipboard content passed; inspected captures in artifacts/versioning/menu-sealed. Windows clipboard line endings are normalized in the assertion."
+    },
+    {
+      "kind": "automated",
+      "command": "Guarded stock Godot --headless --editor --import; prepare_generation_export.gd",
+      "result": "passed",
+      "details": "Existing plugins remain configured. Refreshed the source/engine export receipt and imported new scripts successfully."
+    },
+    {
+      "kind": "automated",
+      "command": "skill-creator quick_validate.py for four affected skills; local guide/skill link scan; git diff --check",
+      "result": "passed",
+      "details": "All four skills validated using isolated PyYAML, local file targets resolve, and preserved line endings pass the repository whitespace check."
+    },
+    {
+      "kind": "rendered",
+      "command": "build_collaboration.ps1 -MilestoneNote NOTE; guarded standalone versioning_menu_capture.gd against exported PCK",
+      "result": "passed",
+      "details": "21 package checks passed with Git/Python absent from PATH, a deliberately unavailable ALPINE_PYTHON, isolated APPDATA and all res:// loads supplied by the PCK. Embedded identity, BUILD.json, actual engine, menus and clipboard agree. artifacts/versioning/package-validation2."
+    },
+    {
+      "kind": "performance",
+      "command": "No FPS benchmark required",
+      "result": "not_required",
+      "details": "Metadata/menu change. Functional/rendered checks provide no performance acceptance."
+    },
+    {
+      "kind": "human",
+      "command": "Human and controller-hardware acceptance",
+      "result": "pending",
+      "details": "Not a completion gate for build identification; synthetic controller activation and rendered inspection are recorded separately."
+    }
+  ],
+  "outstanding_acceptance": [
+    "No human/controller-hardware acceptance or FPS improvement is claimed; automated controller navigation and rendered menu/package checks are separate evidence."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-13T14:38:24.785318+00:00",
+    "build": {
+      "schema": 1,
+      "dev": null,
+      "commit": "06cc600ce8bca514776f618859bc32b0420db78d",
+      "modified": true,
+      "changes_sha256": "1dadb409f42222f83d4a44529f6176eabf26be13900ef11e401c076db0d6b0cb",
+      "source_sha256": "e07c8fe423bc7927d227911bee99a72b07eac6477d01a19d4c94d551b961bbcd",
+      "categories": [],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": "Version tracking has not been committed yet"
+    },
+    "inputs": {
+      ".agents/skills/alpine-backlog/SKILL.md": "7cf5af4b64d8fcbe59be606c7f27d928f3752c10c6747fc5e49beeb560ffd463",
+      ".agents/skills/alpine-bug-investigation/SKILL.md": "7cc028820b44eeb714918e5e15124179e07421ad5de31d13d2434c80f62fcb81",
+      ".agents/skills/alpine-performance/SKILL.md": "5d2a4d227bec40953b9edbabe7c161797569ed500c80aee396dbf9c520dfc8eb",
+      ".agents/skills/alpine-validation/SKILL.md": "616053c6eb6586846cac2cd94faaa987ae36578411c9ae65ccb975f39fe07df7",
+      "AGENTS.md": "681d49f89b6247c2c8aecea4724e8866377899046073cf9ba29290f8a836c34e",
+      "addons/generation_export/receipt.gd": "a3a5f9bf8e447e1c274112ec1bb80f54c9907b2da7e8b296247f19547e29030b",
+      "backlog/WORKER.md": "860e7205aa4b44d79b7edf8c6785225fd9eb3c0a1e10916bbc87b3718116dcd2",
+      "changes/.gdignore": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "changes/README.md": "f775323525ee18275d7c877a443e6c185fce66f2ffe9da5af6a49c21593f0766",
+      "config/development_version.json": "9ad0e4b814b24e9b93473f902e0f038d0531d50acfa93e8519343709b018a4b8",
+      "config/generation_dependencies.json": "389ea08fae721bf333567fdf649edae0d85d830ede4a8fa57adfa6492cf268ac",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/ARCHITECTURE.md": "7b602329129fe51e6ec71874a3ba9697f86eef571b317ec0ad375dc4513b96b9",
+      "docs/DEVELOPMENT.md": "e85e58e17a3aa804529da9a342a61e98504ca49369b2a9d65aecf34a1e118bf1",
+      "docs/PRESENTATION.md": "c42cd1cc57a02af893ceaa5064d9c7360925fee76b2cfa2978f2ce371e19795e",
+      "docs/VALIDATION.md": "4f6f09125fe0356deb99347f98fcfd156b296eb1794502f06e666ef9c02fa4b2",
+      "export_presets.cfg": "9ea82b0411512901efbf58868cab38883666a9c3a8400b0de490d4fe6dd9d47c",
+      "godotw.ps1": "1b058e4379a8c0ff42a26b6d6da31c59f167d29acb0de8dfbbf0e5e978a523ca",
+      "project.godot": "f92c86410aeff3c7038be456bc267092d7f1fa324f9411f0add1301bdc93c249",
+      "scripts/backlog.py": "ba25d73a636125a009fba37c51b5a13a299879cabc1a39071348065a60ec00fd",
+      "scripts/build_collaboration.ps1": "ec4ba2e136845f692e055e4783b8ff3dd77a08667a9a48e79c772aa9ab8276e2",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/diagnostics/build_identity.gd": "1d29dd28c4e17233779b817945abea75e18942b2b767faaae0931bfd4844fc67",
+      "scripts/diagnostics/build_identity.gd.uid": "02076898699d0d852b80005ea87053b1ac0f0115020c0589e8bd18cd2cdc7a25",
+      "scripts/diagnostics/case_recorder.gd": "dcab99a5d08ec07b20e34f1b32a4ee2e1333fbb2fe3d8232cb9d53892634b5b8",
+      "scripts/diagnostics/scenario_evidence.gd": "6338621680df2842c31bd660a51b2ecb1adb4426c033c29f768774f73e8ca1a2",
+      "scripts/diagnostics/scenario_evidence.gd.uid": "1c9af2b754e2cacad4ae3dbf2bd0ae8b1abf37522b37ac7a16ec86088ba4be95",
+      "scripts/presentation/pole_push_pose.gd": "5e010fae19681e88336a2efef496ae47594a24bac4cafc96effbb8eb020c991d",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "d7c78c78e58082e9da8f82ae0cd5c44015715333c1d6dcb15018f3eabd930fd6",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/resolve_godot_engine.ps1": "f24d9bee14db3b84a5674b1a732c499bbdad9284c073367afecc373fcf849d93",
+      "scripts/run_guarded.ps1": "9ae7955702e1f227f2f70b42caaeb8629eb81199f4acb730bf89ce073197b6fe",
+      "scripts/test_pc_environment.ps1": "29cb303300b6c5dc04c1476cb333f19f57be19369651012d9f1aaad14d78976d",
+      "scripts/ui/hud.gd": "17aa2b542f505bcc83236cd3d1ca8d51962c95da996c88613898f7af4eb7d8a1",
+      "scripts/ui/menu_navigation.gd": "b747b7894312fbfabf30f4953851de0a177bca29517c66dc55aba4cf30e9c9d3",
+      "scripts/ui/screen_shell.gd": "6a04c4ec44f9362e470a7e38117df75d6fed0cc9790dcce045f3a19785e4171e",
+      "scripts/validation_lease.ps1": "ce49b23e6daa1d716bb38a6cee7e11abc29a9cc3c327bece9bbcf39100f54df4",
+      "scripts/versioning.py": "a7d065f92fb670439c9ab3c5a4192915238bc9475ce2cf3260ba87c0408c46e4",
+      "scripts/world/generation_sources.gd": "759a8c3b56a7965d4afac545acd388d60d2f20bfd7bf9cb741ce135dd1974701",
+      "scripts/world/mountain_definition.gd": "4192db36e8fb6a685f37dfcda6aba38d05cd1367b951f077d4560ce35ecf314f",
+      "tests/build_identity_suite.gd": "779ddf89e0f775db0e08142dc1dfe3cb0cf775123923e427aeb342d8335f5e53",
+      "tests/build_identity_suite.gd.uid": "850522777859e0de1a73759318b34282f1d55b0562b019c7672de18b3aa92e6e",
+      "tests/physics_suite.gd": "99f6c27d889be1070532a48df1fa8a510385ce48c2f83d1d7c825df4a701c530",
+      "tests/runtime_suite.gd": "f08d84209611342c5067eeefc26dc692c392fd6c0878786eb77e37b723507a6c",
+      "tests/scenario_suite.gd": "fe98b65afd5d0e7aac7fee68073c04cb17bc0b52c583d9ec4cbb81c96a99398a",
+      "tests/test_backlog.py": "ac7950b9db4e26089c2bfb8f6d177ba22151a49c539a9ced574bed3f44d2305c",
+      "tests/test_case_suite.gd": "7b1def76af1077beb2b33196a8c9e2484a73db8aa2fc46761c4cf6e605d7676a",
+      "tests/test_validation_runner.py": "c64423dc5d22f84715f885f0f6b82727d80e4ca7905b0d691f9a4c126e8ad350",
+      "tests/test_versioning.py": "3193e33d269d01f2425088266298ef287e1ab15d333d10abc6d91e7bff1e4c2a",
+      "tests/versioning_menu_capture.gd": "e00d7c2a4c04573fa5cafec09c4b4c1258504b7cb8e89e651d335d49cb4d20f0",
+      "tests/versioning_menu_capture.gd.uid": "ee702d0dd4a6c869bb619b5f3aca1973e12a8c3c9c189e2bacbafef740a3f30c",
+      "tools/windows/toolchain.json": "c2a9d7da11d2a3f7c794feb746dfac967259d726d851d3b08eea02fb0b6b6eda"
+    }
+  }
+}

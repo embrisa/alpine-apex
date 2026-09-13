@@ -74,3 +74,16 @@ the specific missing fixture, conflict or failure when a check cannot complete.
 
 Follow [skill maintenance](../../../docs/DEVELOPMENT.md#agent-skill-maintenance)
 when runner behavior, fixtures, check selection or evidence meanings change.
+
+## Internal development identity
+
+Follow [development versioning](../../../docs/DEVELOPMENT.md#internal-development-versions)
+for each committed milestone, including documentation/backlog authoring. Use
+`python scripts/versioning.py identity --json` to identify the current checkout;
+keep Dev labels separate from compatibility and evidence source/runtime hashes.
+Reserve a unique note and all owned/read inputs, capture hashes before final
+verification, record actual checks, and run the scoped note check before commit.
+Report the final Dev ID after push. Preserve unrelated dirty inputs; do not refresh
+evidence hashes without repeating affected checks. Recorded case identity and
+current rerun identity are different observations. A version label is neither
+performance evidence nor human/controller acceptance.

@@ -43,6 +43,15 @@ fidelity is outside this format. Storage ownership is documented in
 [Racing](RACING.md#diagnostic-test-cases), and agent commands in
 [Validation](VALIDATION.md#recorded-bug-cases).
 
+## Internal build identification
+
+The title/pause menu shows the process's frozen Dev ID and compatibility labels.
+**Tools → Copy build details** copies the full commit, modified fingerprint,
+compatibility numbers, tuning hash and actual engine identity through the ordinary
+controller focus flow. Identity failures are explicit; restart after code changes.
+[Version policy](DEVELOPMENT.md#internal-development-versions) owns numbering,
+notes and package metadata. Patch notes are outside the game for now.
+
 ## Ownership and navigation
 
 `main.gd` chooses one rendering camera: riding, menu, race/navigation survey or paused

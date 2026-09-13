@@ -12,6 +12,10 @@ or racing-line attractor.
 - Commit/push small validated milestones, including related source/assets. Push
   completed work before ending; report the exact blocker and unpushed commit on
   failure. Stage only owned changes; no force-push/history rewriting.
+- Give every validated milestone one new [development note](docs/DEVELOPMENT.md#internal-development-versions).
+  Capture its owned/read input hashes before verification; run `scripts/versioning.py check`
+  on the note and staged owned paths before committing. Report the final Dev ID
+  after pushing. Dev IDs never replace gameplay compatibility checks.
 - After a successful commit and push, remove unneeded artifacts from your task
   using the [artifact lifecycle](docs/DEVELOPMENT.md#artifact-lifecycle) safeguards.
   Preserve evidence needed for active reviews, unresolved findings or concurrent

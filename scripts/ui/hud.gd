@@ -86,6 +86,9 @@ var hero_logo: TextureRect
 var header_logo: TextureRect
 var menu: PanelContainer
 var menu_title: Label
+var build_version_label: Label
+var copy_build_button: Button
+const BuildIdentity = preload("res://scripts/diagnostics/build_identity.gd")
 var menu_description: Label
 var menu_specs: Label
 var menu_location: Label
@@ -541,6 +544,11 @@ func _build_menu() -> void:
 	var ride = _tab(menu_tabs,"Ride")
 	menu_title = _label("Alpine Apex",48,WHITE)
 	ride.add_child(menu_title)
+	build_version_label = _label(BuildIdentity.short_label(),12,MUTED)
+	build_version_label.name = "BuildVersion"
+	build_version_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	build_version_label.tooltip_text = BuildIdentity.current().get("warning","")
+	ride.add_child(build_version_label)
 	menu_description = _label("",20,MUTED)
 	menu_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	ride.add_child(menu_description)
@@ -598,6 +606,10 @@ func _build_menu() -> void:
 	workbench.pressed.connect(func(): workbench_requested.emit())
 	tools.add_child(workbench)
 	_note(tools,"Physics tuning and speed tests are unranked.")
+	copy_build_button = _button("Copy build details")
+	copy_build_button.name = "CopyBuildDetails"
+	copy_build_button.pressed.connect(func(): DisplayServer.clipboard_set(BuildIdentity.details()))
+	tools.add_child(copy_build_button)
 	var quit_button = _button("Quit game")
 	quit_button.pressed.connect(func(): quit_requested.emit())
 	tools.add_child(quit_button)

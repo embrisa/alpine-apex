@@ -2,6 +2,15 @@
 
 ## Execution
 
+Follow [internal development versioning](DEVELOPMENT.md#internal-development-versions)
+for milestone notes and tested input snapshots. Regression `run.json`/result rows,
+scenario envelopes and new `.apexcase` recordings carry build identity alongside
+existing source/runtime hashes. Recorded and current rerun identities remain
+separate. Older optional diagnostic metadata may lack a build label; that does
+not supply missing provenance or require a gameplay schema reset. Dev equality
+alone never establishes source equivalence, comparable performance or acceptance.
+Regression reports retain test-script hashes and reject game/build/test-input drift.
+
 Use [current source identities](ARCHITECTURE.md#current-identity), not the version
 embedded in an old filename. Run engine workloads through
 `scripts/run_guarded.ps1` or an owning wrapper; do not nest guards. The guard

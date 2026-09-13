@@ -55,6 +55,16 @@ $alpineOutput = [IO.Path]::GetFullPath($OutputDirectory,$alpineRoot)
 New-Item -ItemType Directory -Force $alpineOutput | Out-Null
 $alpineResults = [Collections.Generic.List[object]]::new()
 $alpineRun = @{started_utc=[DateTime]::UtcNow.ToString('o'); status='running'; plan=$alpinePlan; suites=@($alpineSelected | ForEach-Object { @{suite=$_;status='not_run'} })}
+$alpineIdentityJson = & python (Join-Path $alpineRoot 'scripts/versioning.py') identity --root $alpineRoot --json
+if ($LASTEXITCODE) { throw 'Could not identify regression checkout.' }
+$alpineRun.build = ($alpineIdentityJson | ConvertFrom-Json)
+$alpineRun.test_inputs = @{}
+foreach ($alpineSuite in $alpineSelected) { $alpineRun.test_inputs[$alpineSuite] = (Get-FileHash -LiteralPath (Join-Path $alpineRoot "tests/$alpineSuite.gd") -Algorithm SHA256).Hash.ToLowerInvariant() }
+if (Test-Path -LiteralPath (Join-Path $alpineRoot "scripts/resolve_godot_engine.ps1")) {
+    . (Join-Path $alpineRoot "scripts/resolve_godot_engine.ps1")
+    $alpineTestEngine = Get-AlpineGodotEngine -ProjectRoot $alpineRoot -InvocationArguments @("--headless","--script","tests/$($alpineSelected[0]).gd")
+    $alpineRun.build | Add-Member -NotePropertyName engine_sha256 -NotePropertyValue (Get-FileHash -LiteralPath $alpineTestEngine -Algorithm SHA256).Hash.ToLowerInvariant()
+}
 $alpinePreviousTimings = $env:ALPINE_TEST_TIMINGS_DIRECTORY
 $env:ALPINE_TEST_TIMINGS_DIRECTORY = $alpineOutput
 function Save-AlpineBatch {
@@ -104,7 +114,7 @@ try {
         if ($null -ne $alpineReportedPassed) { $alpinePassed = $alpineReportedPassed }
         $alpineFailed = $alpineExit -ne 0 -or $alpineErrors.Count -gt 0
         $alpineStatus = if ($alpineFailed) {'failed'} else {'passed'}
-        $alpineResults.Add(@{suite=$alpineSuite; status=$alpineStatus; exit_code=$alpineExit; checks_passed=$alpinePassed; errors=@($alpineErrors.ToArray()); seconds=$alpineStarted.Elapsed.TotalSeconds; stages=@($alpineStages.ToArray())})
+        $alpineResults.Add(@{suite=$alpineSuite; build=$alpineRun.build; status=$alpineStatus; exit_code=$alpineExit; checks_passed=$alpinePassed; errors=@($alpineErrors.ToArray()); seconds=$alpineStarted.Elapsed.TotalSeconds; stages=@($alpineStages.ToArray())})
         $alpineRun.suites[$alpineIndex].status = $alpineStatus
         Save-AlpineBatch
         Write-Output "SUITE_COMPLETE $alpineSuite status=$alpineStatus checks=$alpinePassed seconds=$([math]::Round($alpineStarted.Elapsed.TotalSeconds,3))"
@@ -121,6 +131,16 @@ try {
 } finally {
     $env:ALPINE_TEST_TIMINGS_DIRECTORY = $alpinePreviousTimings
     $alpineRun.finished_utc = [DateTime]::UtcNow.ToString('o')
+    $alpineFinalIdentity = & python (Join-Path $alpineRoot 'scripts/versioning.py') identity --root $alpineRoot --json
+    if ($LASTEXITCODE) { $alpineRun.status = 'failed'; $alpineRun.error = 'Could not check final source identity.' }
+    else {
+        $alpineRun.finished_build = ($alpineFinalIdentity | ConvertFrom-Json)
+        $alpineRun.stable_build_sources = $alpineRun.build.source_sha256 -eq $alpineRun.finished_build.source_sha256
+        foreach ($alpineSuite in $alpineSelected) {
+            if ((Get-FileHash -LiteralPath (Join-Path $alpineRoot "tests/$alpineSuite.gd") -Algorithm SHA256).Hash.ToLowerInvariant() -ne $alpineRun.test_inputs[$alpineSuite]) { $alpineRun.stable_build_sources = $false }
+        }
+        if (-not $alpineRun.stable_build_sources) { $alpineRun.status = 'failed'; $alpineRun.error = 'Game/build inputs changed during regression.' }
+    }
     Save-AlpineBatch
 }
 Write-Output "BATCH_COMPLETE status=$($alpineRun.status) results=$alpineOutput"

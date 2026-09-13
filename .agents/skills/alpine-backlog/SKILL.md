@@ -40,3 +40,16 @@ In Plan Mode or another write-forbidden mode, finish the decision-ready proposal
 in the conversation and explain that saving requires a write-enabled mode. Do
 not bypass this through another tool or delegate. A later instruction to save
 authorizes the agreed task file, not feature implementation.
+
+## Internal development identity
+
+Follow [development versioning](../../../docs/DEVELOPMENT.md#internal-development-versions)
+for each committed milestone, including documentation/backlog authoring. Use
+`python scripts/versioning.py identity --json` to identify the current checkout;
+keep Dev labels separate from compatibility and evidence source/runtime hashes.
+Reserve a unique note and all owned/read inputs, capture hashes before final
+verification, record actual checks, and run the scoped note check before commit.
+Report the final Dev ID after push. Preserve unrelated dirty inputs; do not refresh
+evidence hashes without repeating affected checks. Recorded case identity and
+current rerun identity are different observations. A version label is neither
+performance evidence nor human/controller acceptance.

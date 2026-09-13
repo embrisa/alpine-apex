@@ -56,6 +56,18 @@ or an unnecessarily broad scope autonomously, and stop only when the actual
 required work still conflicts or cannot be validated. Never omit a real stable
 input or bypass a live writer's reservation to make a check pass.
 
+## Development milestone
+
+Follow [internal versioning](../docs/DEVELOPMENT.md#internal-development-versions).
+Reserve a unique `changes/<uuid>.json` path with the existing scope helper. Include
+all owned source/UID/guide/task paths and tested read dependencies in the note.
+Capture input hashes before final checks; record actual results and separate
+pending human acceptance. Validate the note and staged owned files before each
+milestone commit. Every administrative follow-up commit also needs a Maintenance
+note. Prefer including terminal task records in the final milestone. Done release
+checks the worker's scoped commits since acceptance; report the final Dev ID after
+pushing. Do not change a shared version counter or another agent's note.
+
 ## Record and release
 
 Optional follow-ups: zero to three evidence-backed [ideas](ideas/README.md), no

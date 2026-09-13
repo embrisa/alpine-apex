@@ -29,6 +29,104 @@ The resolver validates the activation receipt against exact executable hashes.
 `godotw-fsr.ps1` explicitly selects the custom runtime. The shell `godotw` keeps
 the existing stock-engine path on other platforms.
 
+## Internal development versions
+
+`Dev N` identifies one committed, validated milestone, including documentation
+and agent tooling. It is not a public release version. The immutable parent of
+Dev 1 is recorded in `config/development_version.json`; N is its first-parent
+commit distance. Earlier history stays unnumbered. Keep one milestone and one
+new `changes/<uuid>.json` note per commit. Never edit old notes or reset the
+baseline; corrections receive a new milestone. No per-commit tags or Git hooks
+are installed. Full commit hashes remain the exact committed identities.
+
+`python scripts/versioning.py identity` prints the current Dev ID, Git hash,
+modified state/fingerprint and source-owned compatibility identities; add
+`--json` for agents. Incomplete/unrelated/shallow Git history gives `Dev unknown`
+with a reason, never an estimated number. Fetch complete history to resolve it.
+A modified checkout keeps its committed number and adds `+ modified`. Its
+fingerprint covers non-ignored working changes and index identities, including
+untracked/deleted files. It is an observation, not a validation certificate.
+
+### Milestone workflow
+
+Manual agents and scheduled workers use the same helper. Keep normal ownership,
+path-only staging/commits, validation guards and push requirements. Scheduled
+workers also reserve their unique note path; compatible agents never edit a
+shared counter or changelog. Unrelated dirty/staged files remain untouched.
+
+1. Save an ignored scope JSON with literal repository-relative `write_paths` and
+   `read_paths` arrays. Include all files to be committed, UIDs, owning docs and
+   meaningful test dependencies; directories expand to their current contents.
+2. Create the note, fill `areas`, compatibility decisions/data effects, and the
+   intended acceptance boundary. Retain the returned unique path:
+
+   ```powershell
+   python scripts/versioning.py note --scope artifacts/my-change/scope.json --summary "Describe resulting behavior" --category Presentation
+   ```
+
+3. Run `python scripts/versioning.py capture --note changes/ID.json` immediately
+   before final verification. This records actual input hashes and expected
+   before/after compatibility values. Then execute the required checks and fill
+   `checks` with their actual commands, results and evidence references. Capture
+   does not run tests or certify a pass. Re-capturing after code changes requires
+   repeating affected checks; do not refresh hashes merely to silence drift.
+4. Run `python scripts/versioning.py check --note changes/ID.json`. After staging
+   only owned paths, repeat with `--staged`; unrelated staged files are excluded.
+   Commit exactly those source paths and the new note, then push. Use
+   `python scripts/versioning.py check --commit HEAD` to check delivered scope,
+   and `identity` to report the final Dev number and commit.
+
+Notes use categories `Maintenance`, `Presentation`, `Gameplay`, `World`, and
+`Data format`; combine them when appropriate. For compatibility-sensitive edits,
+record `physics`, `world`, or `data` decisions with `effect` (`preserved` or
+`changed`) and a concrete `reason`. Path classification requests a decision; it
+does not infer behavioral changes. Changed physics requires a model/tuning/tick
+identity change; changed physical generation requires a generator increment.
+Declare effects on mountains, races, records, ghosts and caches using
+`preserved`, `incompatible`, `regenerate`, or `not_applicable`, each with a reason.
+Data-schema changes use their existing source owners. Dev IDs never enter any
+save, race, replay, or cache compatibility key.
+
+Check entries have `kind` (`automated`, `rendered`, `performance`, `human`),
+`command`, `result`, and `details`. A milestone requires passed verification;
+failed or pending required non-human checks block it. `not_required` needs an
+explanation. Separately pending human acceptance must be recorded in
+`outstanding_acceptance` and must not be a task completion gate. The checker
+verifies structure, scope and input hashes, not the truth of prose assertions.
+Historical checks verify delivered files; hashes of preserved dirty read inputs
+remain observations and must not be represented as committed dependencies.
+
+The worker's done release checks its scoped commits since acceptance. Record
+terminal backlog changes before final note capture/commit when possible. If a
+separate administrative commit is needed, give it its own Maintenance note.
+
+### History, runtime and packages
+
+`python scripts/versioning.py history` generates readable Markdown from notes
+and their containing commits; `--json` provides structured history and `--output`
+saves an ignored report. Missing notes remain conspicuous history gaps. Raw Git
+subjects alone never imply validation. Notes are authoritative; generated history
+is not a second hand-maintained changelog.
+
+Title/pause menus display the compact identity; **Tools → Copy build details**
+uses the existing controller focus flow. There is no in-game notes browser.
+The process resolves identity once; restart after changing code. Checkout identity
+uses Python 3.10+ and Git (`ALPINE_PYTHON` may select the Python executable).
+Exported games use a hashed embedded manifest and need neither tool. Runtime
+reports include the actual Godot executable identity, even if it differs from
+the expected packaged engine. Do not interpret the manifest checksum as anti-cheat.
+
+The Windows packaging helper validates the committed note by default. To test a
+validated, uncommitted milestone use `-MilestoneNote changes/ID.json`. Modified
+packages remain explicitly labelled; with no supplied note, local changes are
+reported as unverified. Metadata is injected by the existing export plugin;
+export through the helper so it can prepare the identity and compare source and
+target-engine state before/after export. It writes `build-identity.json`,
+`BUILD.json`, and `CHANGES.md` beside the game. Runtime identity and output hashes
+serve different purposes. An export with source drift is incomplete and must be
+rebuilt. Documentation/evidence-only working changes do not invalidate the export
+input fingerprint. Existing generation receipts and engine safeguards still apply.
+
 ## Native builds
 
 ### FidelityFX

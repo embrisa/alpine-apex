@@ -88,6 +88,22 @@ class BacklogTests(unittest.TestCase):
         note.write_text("Verified fixture behavior. Human acceptance is not claimed.", encoding="utf-8")
         return self.call("record", "--token", token, "--outcome", outcome, "--record", str(note), owner="worker")
 
+    def test_versioned_worker_cannot_release_a_commit_without_note(self):
+        token = self.prepare()
+        self.call("accept", "--token", token, owner="worker")
+        self.record(token, "done")
+        config = self.root / "config/development_version.json"
+        config.parent.mkdir()
+        config.write_text(json.dumps({"schema": 1, "baseline_commit": self.run_git("rev-parse", "HEAD")}), encoding="utf-8")
+        self.commit()
+        remote = self.base / "version-origin.git"
+        subprocess.run(["git", "init", "--bare", str(remote)], check=True, capture_output=True)
+        self.run_git("remote", "add", "origin", str(remote))
+        self.run_git("push", "-u", "origin", "main")
+        result = self.call("release", "--token", token, owner="worker", error=True)
+        self.assertIn("Incomplete development milestone", result["reason"])
+        self.assertIn("exactly one note", result["reason"])
+
     def test_empty_and_wrapper(self):
         self.assertEqual(self.call("validate")["eligible"], [])
         proc = subprocess.run(["pwsh", "-NoProfile", "-File", str(PROJECT / "scripts" / "backlog.ps1"),
