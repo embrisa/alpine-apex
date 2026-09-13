@@ -50,7 +50,15 @@ func update_haptics(dt: float, active: bool, crash_visible: bool, intensity: flo
 		if motors==Vector2.ZERO: Input.stop_joy_vibration(pad)
 		else: Input.start_joy_vibration(pad,motors.x,motors.y,haptic_output.z)
 
+func silence_audio() -> void:
+	# Menus/reviews retain this scene: discard pending sounds, keep playback alive.
+	wind.silence()
+	sfx.silence()
+	for player in [audio_wind,audio_ski,audio_edge,audio_rain]:
+		if is_instance_valid(player): player.volume_db = -80.0
+
 func stop_audio() -> void:
+	# Permanent retirement for scene replacement or exit; not a resumable pause.
 	wind.stop_audio()
 	sfx.stop_audio()
 	for player in [audio_wind,audio_ski,audio_edge,audio_rain]:

@@ -68,7 +68,7 @@ func open_library() -> void:
 		open_controls(); return
 	if reviewing: _end_review()
 	if not recording_mode: return_menu = game.hud.menu_mode if game.hud.menu_mode in ["title","paused","crashed","finished"] else "paused"
-	game.active = false; game.hud.hide_menu(); game.effects.stop_audio(); Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	game.active = false; game.hud.hide_menu(); game.effects.silence_audio(); Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	var entries: Array = []
 	DirAccess.make_dir_recursive_absolute(directory)
 	var names = DirAccess.get_files_at(directory); names.reverse()
@@ -129,7 +129,7 @@ func open_controls() -> void:
 	game.active = false
 	if game.sim.crashed:
 		game.session.recovery_paused = true; game.skier.ragdoll.set_frozen(true)
-	game.hud.hide_menu(); game.effects.stop_audio(); Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	game.hud.hide_menu(); game.effects.silence_audio(); Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	ui.controls(false)
 
 func record_input_reset() -> void:
@@ -270,7 +270,7 @@ func open_case(path: String) -> void:
 			var value = appearance.get(id,{}).get(property)
 			if typeof(value)==typeof(game.skier.appearance.DEFAULTS[id][property]): game.skier.appearance.change(id,property,value,false)
 	game.active = false; game.skier.ragdoll.stop(); game._invalidate_crash_recovery()
-	game.hud.hide_menu(); game.effects.reset(); game.effects.stop_audio(); game._reset_screen_effects(); game._clear_storm_effects()
+	game.hud.hide_menu(); game.effects.reset(); game.effects.silence_audio(); game._reset_screen_effects(); game._clear_storm_effects()
 	game.weather_effects.reset(); game.vectors.hide(); game.skier.set_process_unhandled_input(false)
 	game.voice.silence(); game.hud.debug_panel.hide(); game.hud.toast_label.hide()
 	reviewing = true; playing = false; free_camera = false; camera_active = false

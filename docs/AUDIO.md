@@ -14,6 +14,10 @@ selects Original with an explanatory status. Wind/riding/voice preferences live
 in `wind_v1.cfg`, `riding_audio_v1.cfg` and `skier_voice_v1.cfg`. Scripted fixtures
 isolate personal settings/records. Pause/loading/focus loss/restart/retirement
 discard obsolete pending events; visible unfrozen crashes remain audible.
+Test Cases library, controls and review use `speed_effects.silence_audio()`:
+native streams fade, legacy loops become quiet, and all playback resources remain
+available when riding resumes. `stop_audio()` permanently retires players and is
+reserved for scene replacement or exit; it cannot serve as a temporary pause.
 
 Thunder uses three original precomputed mono clips under `assets/audio/weather/`,
 reproducible with `python scripts/tools/generate_thunder_audio.py` (fixed seeds,
