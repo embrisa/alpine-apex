@@ -203,6 +203,8 @@ Cosmetic rock-terrain detail is prepared in
 grit/gravel/pebble/shale shapes extracted from the supplied generator's stone branch,
 with shared source-derived albedo, normal and roughness textures. Field presets
 describe dense gravel beds with irregular edges and sparse rock accents.
+The package enforces small, low cosmetic dimensions and a runtime burial limit
+so the detail does not read as a collision obstacle.
 The package README owns rebuild commands and the integration contract; its
 manifest owns dimensions, detail levels and source/export hashes. The pack has
 no collision and remains outside production imports until runtime integration.

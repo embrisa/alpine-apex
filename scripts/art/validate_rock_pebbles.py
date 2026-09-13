@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 PACK = ROOT / 'art_source/rocks/pebbles_v1'
-OUT = ROOT / 'artifacts/rock_pebble_textures_20260914'
+OUT = ROOT / 'artifacts/rock_pebble_scale_20260914'
 
 
 def sha(path):
@@ -34,6 +34,9 @@ def main():
     assert sha(PACK / 'recipes.json') == manifest['recipe_sha256']
     assert sha(PACK / 'field_presets.json') == manifest['field_presets_sha256']
     presets = json.loads((PACK / 'field_presets.json').read_text())
+    assert manifest['cosmetic_size_limits']['width_range_m'] == [.01, .10]
+    assert manifest['cosmetic_size_limits']['maximum_exposed_height_m'] == .01
+    assert presets['cosmetic_size_limits'] == manifest['cosmetic_size_limits']
     asset_ids = {a['id'] for a in manifest['assets']}
     for preset in presets['presets']:
         assert abs(sum(m['fraction'] for m in preset['population_mix']) - 1) < 1e-6
@@ -98,6 +101,8 @@ def main():
             upper = [max(p[i] for p in positions) for i in range(3)]
             assert abs(lower[1]) < 1e-6
             assert all(abs(upper[i] - lower[i] - model['dimensions_godot_xyz_m'][i]) < 1e-6 for i in range(3))
+            assert .01 - 1e-6 <= max(upper[0]-lower[0],upper[2]-lower[2]) <= .10 + 1e-6
+            assert upper[1]-lower[1] <= .016 + 1e-6, 'Tall collision-looking cosmetic geometry'
             # Flat normals may split GLB vertices: weld positions for topology checks.
             weld = [tuple(round(v, 7) for v in p) for p in positions]
             indices = [row[0] for row in accessor(doc, binary, primitive['indices'])]

@@ -1,19 +1,204 @@
 {
-  "version": "rock-pebbles-v1-textured-gravel",
+  "version": "rock-pebbles-v1-cosmetic-scale",
   "source_branch": "Set Position.006",
-  "lod_triangle_budgets": [80, 40, 16],
+  "lod_triangle_budgets": [
+    80,
+    40,
+    16
+  ],
   "assets": [
-    {"id": "gravel_01", "seed": 91401, "dimensions_blender_xyz_m": [0.05, 0.038, 0.028], "linear_color": [0.23, 0.245, 0.26], "smooth": false},
-    {"id": "gravel_02", "seed": 91402, "dimensions_blender_xyz_m": [0.065, 0.047, 0.035], "linear_color": [0.29, 0.265, 0.23], "smooth": false},
-    {"id": "gravel_03", "seed": 91403, "dimensions_blender_xyz_m": [0.08, 0.052, 0.043], "linear_color": [0.19, 0.205, 0.22], "smooth": false},
-    {"id": "pebble_01", "seed": 91411, "dimensions_blender_xyz_m": [0.10, 0.075, 0.048], "linear_color": [0.255, 0.265, 0.275], "smooth": true},
-    {"id": "pebble_02", "seed": 91412, "dimensions_blender_xyz_m": [0.135, 0.095, 0.065], "linear_color": [0.27, 0.25, 0.215], "smooth": true},
-    {"id": "pebble_03", "seed": 91413, "dimensions_blender_xyz_m": [0.18, 0.12, 0.085], "linear_color": [0.215, 0.23, 0.245], "smooth": true},
-    {"id": "shale_chip_01", "seed": 91421, "dimensions_blender_xyz_m": [0.16, 0.095, 0.025], "linear_color": [0.18, 0.195, 0.21], "smooth": false},
-    {"id": "shale_chip_02", "seed": 91422, "dimensions_blender_xyz_m": [0.22, 0.14, 0.04], "linear_color": [0.25, 0.235, 0.215], "smooth": false},
-    {"id": "shale_chip_03", "seed": 91423, "dimensions_blender_xyz_m": [0.28, 0.175, 0.055], "linear_color": [0.22, 0.235, 0.25], "smooth": false},
-    {"id": "grit_01", "seed": 91431, "dimensions_blender_xyz_m": [0.015, 0.012, 0.009], "linear_color": [0.23, 0.245, 0.26], "smooth": false},
-    {"id": "grit_02", "seed": 91432, "dimensions_blender_xyz_m": [0.023, 0.018, 0.013], "linear_color": [0.29, 0.265, 0.23], "smooth": false},
-    {"id": "grit_03", "seed": 91433, "dimensions_blender_xyz_m": [0.032, 0.022, 0.018], "linear_color": [0.19, 0.205, 0.22], "smooth": false}
-  ]
+    {
+      "id": "gravel_01",
+      "seed": 91401,
+      "dimensions_blender_xyz_m": [
+        0.018,
+        0.013,
+        0.007
+      ],
+      "linear_color": [
+        0.23,
+        0.245,
+        0.26
+      ],
+      "smooth": false
+    },
+    {
+      "id": "gravel_02",
+      "seed": 91402,
+      "dimensions_blender_xyz_m": [
+        0.024,
+        0.017,
+        0.009
+      ],
+      "linear_color": [
+        0.29,
+        0.265,
+        0.23
+      ],
+      "smooth": false
+    },
+    {
+      "id": "gravel_03",
+      "seed": 91403,
+      "dimensions_blender_xyz_m": [
+        0.03,
+        0.023,
+        0.011
+      ],
+      "linear_color": [
+        0.19,
+        0.205,
+        0.22
+      ],
+      "smooth": false
+    },
+    {
+      "id": "pebble_01",
+      "seed": 91411,
+      "dimensions_blender_xyz_m": [
+        0.04,
+        0.027,
+        0.01
+      ],
+      "linear_color": [
+        0.255,
+        0.265,
+        0.275
+      ],
+      "smooth": true
+    },
+    {
+      "id": "pebble_02",
+      "seed": 91412,
+      "dimensions_blender_xyz_m": [
+        0.055,
+        0.036,
+        0.013
+      ],
+      "linear_color": [
+        0.27,
+        0.25,
+        0.215
+      ],
+      "smooth": true
+    },
+    {
+      "id": "pebble_03",
+      "seed": 91413,
+      "dimensions_blender_xyz_m": [
+        0.07,
+        0.046,
+        0.016
+      ],
+      "linear_color": [
+        0.215,
+        0.23,
+        0.245
+      ],
+      "smooth": true
+    },
+    {
+      "id": "shale_chip_01",
+      "seed": 91421,
+      "dimensions_blender_xyz_m": [
+        0.05,
+        0.032,
+        0.005
+      ],
+      "linear_color": [
+        0.18,
+        0.195,
+        0.21
+      ],
+      "smooth": false
+    },
+    {
+      "id": "shale_chip_02",
+      "seed": 91422,
+      "dimensions_blender_xyz_m": [
+        0.075,
+        0.045,
+        0.008
+      ],
+      "linear_color": [
+        0.25,
+        0.235,
+        0.215
+      ],
+      "smooth": false
+    },
+    {
+      "id": "shale_chip_03",
+      "seed": 91423,
+      "dimensions_blender_xyz_m": [
+        0.1,
+        0.06,
+        0.01
+      ],
+      "linear_color": [
+        0.22,
+        0.235,
+        0.25
+      ],
+      "smooth": false
+    },
+    {
+      "id": "grit_01",
+      "seed": 91431,
+      "dimensions_blender_xyz_m": [
+        0.01,
+        0.008,
+        0.004
+      ],
+      "linear_color": [
+        0.23,
+        0.245,
+        0.26
+      ],
+      "smooth": false
+    },
+    {
+      "id": "grit_02",
+      "seed": 91432,
+      "dimensions_blender_xyz_m": [
+        0.015,
+        0.011,
+        0.0055
+      ],
+      "linear_color": [
+        0.29,
+        0.265,
+        0.23
+      ],
+      "smooth": false
+    },
+    {
+      "id": "grit_03",
+      "seed": 91433,
+      "dimensions_blender_xyz_m": [
+        0.022,
+        0.016,
+        0.008
+      ],
+      "linear_color": [
+        0.19,
+        0.205,
+        0.22
+      ],
+      "smooth": false
+    }
+  ],
+  "cosmetic_size_limits": {
+    "width_range_m": [
+      0.01,
+      0.1
+    ],
+    "typical_width_range_m": [
+      0.01,
+      0.03
+    ],
+    "maximum_mesh_height_m": 0.016,
+    "maximum_exposed_height_m": 0.01,
+    "placement": "Keep runtime widths within 1-10 cm. Use source dimensions at scale 1 by default; any variation must enforce the final width and exposed-height limits. Seat and partially bury along the local terrain normal, never stack cosmetic stones. Larger 5-10 cm accents must read as shallow embedded gravel, not obstacles."
+  }
 }

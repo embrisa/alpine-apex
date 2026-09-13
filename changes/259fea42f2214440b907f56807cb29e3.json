@@ -1,0 +1,263 @@
+{
+  "schema": 1,
+  "id": "259fea42f2214440b907f56807cb29e3",
+  "summary": "Keep cosmetic gravel at 1-10 cm across with low exposed height",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Cosmetic gravel dimensions",
+    "Gravel field placement limits",
+    "Native scale review"
+  ],
+  "owned_paths": [
+    "art_source/rocks/pebbles_v1/.gdignore",
+    "art_source/rocks/pebbles_v1/README.md",
+    "art_source/rocks/pebbles_v1/field_presets.json",
+    "art_source/rocks/pebbles_v1/manifest.json",
+    "art_source/rocks/pebbles_v1/models/gravel_01_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_01_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_01_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_02_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_02_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_02_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_03_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_03_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_03_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/grit_01_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/grit_01_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/grit_01_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/grit_02_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/grit_02_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/grit_02_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/grit_03_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/grit_03_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/grit_03_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_01_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_01_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_01_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_02_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_02_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_02_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_03_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_03_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_03_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_01_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_01_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_01_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_02_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_02_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_02_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_03_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_03_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_03_lod2.glb",
+    "art_source/rocks/pebbles_v1/pebble_library.blend",
+    "art_source/rocks/pebbles_v1/recipes.json",
+    "art_source/rocks/pebbles_v1/textures/stone_albedo.png",
+    "art_source/rocks/pebbles_v1/textures/stone_metallic_roughness.png",
+    "art_source/rocks/pebbles_v1/textures/stone_normal.png",
+    "docs/ASSETS.md",
+    "scripts/art/build_rock_pebbles.py",
+    "scripts/art/preview_rock_pebbles.gd",
+    "scripts/art/validate_rock_pebbles.py",
+    "scripts/prepare_rock_pebbles.ps1"
+  ],
+  "read_paths": [
+    ".agents/skills/alpine-validation/SKILL.md",
+    "art_source/blender/rock_generator.blend",
+    "docs/DEVELOPMENT.md",
+    "scripts/resolve_godot_engine.ps1",
+    "scripts/run_guarded.ps1",
+    "scripts/validation_lease.ps1"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only .gdignore-protected source gravel and dedicated authoring/review tools change; no production physical terrain, solver, collision, session or persistence edits."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only .gdignore-protected source gravel and dedicated authoring/review tools change; no production physical terrain, solver, collision, session or persistence edits."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only .gdignore-protected source gravel and dedicated authoring/review tools change; no production physical terrain, solver, collision, session or persistence edits."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Prepared cosmetic asset scale has no effect on production game data or cache compatibility."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Prepared cosmetic asset scale has no effect on production game data or cache compatibility."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Prepared cosmetic asset scale has no effect on production game data or cache compatibility."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Prepared cosmetic asset scale has no effect on production game data or cache compatibility."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Prepared cosmetic asset scale has no effect on production game data or cache compatibility."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "./scripts/prepare_rock_pebbles.ps1 -Mode Validate",
+      "result": "passed",
+      "details": "All 36 GLBs passed source/export/shared-texture hashes, geometry/material/UV/topology checks and actual 1-10 cm width / <=1.6 cm body-height assertions. Manifest and field presets agree on the <=1 cm exposed-height integration contract. Evidence: artifacts/rock_pebble_scale_20260914/asset_validation.json."
+    },
+    {
+      "kind": "automated",
+      "command": "./scripts/prepare_rock_pebbles.ps1 -Mode Preview",
+      "result": "passed",
+      "details": "Godot 4.7.2 Compatibility on RX 9070 passed 2316 checks, including all 36 unique GLB dimensions and the <=1 cm exposed-height assertion for each of 1700 stones after partial burial. Four captures saved. Evidence: artifacts/rock_pebble_scale_20260914/native/native_validation.json."
+    },
+    {
+      "kind": "rendered",
+      "command": "Inspect collection, texture_detail, lod_comparison and gravel_field native captures",
+      "result": "passed",
+      "details": "Visually inspected final 1-10 cm collection, close stone surfaces, LOD silhouettes and dense low gravel field with a physical 10 cm ruler. The 18-28 cm bodies are replaced; most field stones are 1-3 cm with rare larger flat accents. Actual production terrain/LOD acceptance remains with integration."
+    },
+    {
+      "kind": "automated",
+      "command": "python -m py_compile scripts/art/build_rock_pebbles.py scripts/art/validate_rock_pebbles.py; PowerShell Parser.ParseFile(scripts/prepare_rock_pebbles.ps1); git -c core.whitespace=cr-at-eol diff --check",
+      "result": "passed",
+      "details": "Owned Python/PowerShell syntax and whitespace checks pass; final guarded Blender rebuild completed successfully. Source rock_generator.blend bytes and textures remain preserved."
+    },
+    {
+      "kind": "performance",
+      "command": "Authorized Astra integration and matched dense/sparse measurement handoff",
+      "result": "not_required",
+      "details": "Asset preparation only. No FPS or gameplay acceptance is claimed; runtime must enforce final scaled width and exposed-height limits while measuring the requested gravel fields."
+    },
+    {
+      "kind": "human",
+      "command": "Production skiing-height review after integration",
+      "result": "not_required",
+      "details": "The handoff requests user-facing visual readability and collision expectations to be assessed on actual terrain; not established by the isolated gallery."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Astra integration must enforce 1-10 cm final width, mostly 1-3 cm populations, <=1 cm exposed height after normal-aligned burial and no cosmetic stacking/upscaling past caps.",
+    "Production placement, snow/rock edges, LOD/fades, measured dense/sparse costs and human skiing-height acceptance remain with the authorized integration task."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-13T23:16:23.735132+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 24,
+      "commit": "c61fd4dc3f70edfc6baac2aa84d13061c87f5af8",
+      "modified": true,
+      "changes_sha256": "634919a866f1a0788a94e3bd31255f491ce4d67d94ace9f7f0d6957b951d7581",
+      "source_sha256": "60114ea5a7f5d566d4dd4d61466e1cc41793ec4f8050f3805b2ae8347579d4ca",
+      "categories": [
+        "Presentation"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": "771a03c9f2fc2d84e0ab3d545783660f23ba555991ab05ac4396e5b492c4de7c",
+      "art_source/blender/rock_generator.blend": "f644a0d1b7505dbcd43687cba12630e39e6f7eac7f221ad067c9accf3df1687f",
+      "art_source/rocks/pebbles_v1/.gdignore": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "art_source/rocks/pebbles_v1/README.md": "293fcb5c50f98d6dc7e776b5cbae4303c4a664c6c7f94409a4fbce133fd13e02",
+      "art_source/rocks/pebbles_v1/field_presets.json": "899aa8c994673316a997f7a1f563d5c94de0e4754c2a430db9ad4f73f258ad61",
+      "art_source/rocks/pebbles_v1/manifest.json": "3499916ddf9989cb33070643e06922d90dbba57718ecd621acf40d85bc1ff906",
+      "art_source/rocks/pebbles_v1/models/gravel_01_lod0.glb": "461b3d20c689da729384da2bf2835b721287e0dd77cf3bdff83c569516933b84",
+      "art_source/rocks/pebbles_v1/models/gravel_01_lod1.glb": "a7d79bac3e32e61cc492a758df20dbfead2ff361b7835f30520ff1394db602a6",
+      "art_source/rocks/pebbles_v1/models/gravel_01_lod2.glb": "6b4c005083dca78abd9457db2ffab431a8118aaaa0b21162ebd46e0fecd5292f",
+      "art_source/rocks/pebbles_v1/models/gravel_02_lod0.glb": "7a63e07e1c30284a1ecbb7da00cb6dcddcbdb75629176947385b32cb6c099e6c",
+      "art_source/rocks/pebbles_v1/models/gravel_02_lod1.glb": "f9848ff9100b70f831182f455f4351735ec0d1882d1623e9dddfe038ee5911bf",
+      "art_source/rocks/pebbles_v1/models/gravel_02_lod2.glb": "75cac14a12f70a636b93d8394c5e12573455d3a7cf80981190101da3c44e492d",
+      "art_source/rocks/pebbles_v1/models/gravel_03_lod0.glb": "664478be090b3fcc1a2ebb6019d984bf02ea909055fc03f3e3af05882734156c",
+      "art_source/rocks/pebbles_v1/models/gravel_03_lod1.glb": "de064567dda5a5d332eaf1d3c423b051d2e3ab437dc2273c303afc924be95e4f",
+      "art_source/rocks/pebbles_v1/models/gravel_03_lod2.glb": "64a56279c25505b5081b8f1573f7bc90e4bd95aebdea3d2006cf4b62f1017a8a",
+      "art_source/rocks/pebbles_v1/models/grit_01_lod0.glb": "8694a2951d5853e8b26964a9c1fdd5a7a1b90f96c2fd9063956dcf876eb60b30",
+      "art_source/rocks/pebbles_v1/models/grit_01_lod1.glb": "6f51af08f38d6c48b0ac6eb7ef23d826229ed1b3bf7e60d4fda672729dbc639e",
+      "art_source/rocks/pebbles_v1/models/grit_01_lod2.glb": "d9cb921ced5c494491811cb6565c65bef0bbec33155ab249743dd36cf3b2a5fa",
+      "art_source/rocks/pebbles_v1/models/grit_02_lod0.glb": "1e1559e718123d3675dcc0c5fc1ea30a46e29cc821e9188fb9fe4c43bad9b666",
+      "art_source/rocks/pebbles_v1/models/grit_02_lod1.glb": "116bb995880a4eecab9bb8c665f2b12cde79d15b33cf7adf5f07adeddca7238e",
+      "art_source/rocks/pebbles_v1/models/grit_02_lod2.glb": "cc0d5511d1abd2e4a01450363915dd140d5d357d3ed6c708e11ecc65ee5929d6",
+      "art_source/rocks/pebbles_v1/models/grit_03_lod0.glb": "2c1e01b1a04ee8415d0b04758b502391248ce28bfcf2d20c45372d1ed7dfa460",
+      "art_source/rocks/pebbles_v1/models/grit_03_lod1.glb": "ea420ce4abbb2b9631c46773a3035e4c540d2d7fc54a9a6808f2e5ccca9ef2b0",
+      "art_source/rocks/pebbles_v1/models/grit_03_lod2.glb": "b109236fa70b614ab23a62bf0b8971efdf3aea5a3a4ae89f199cd2e212ecc415",
+      "art_source/rocks/pebbles_v1/models/pebble_01_lod0.glb": "2bbf34272caf4b97a82ee39c18700eb04b80f00ad39adc747489a9aeafd3ca2e",
+      "art_source/rocks/pebbles_v1/models/pebble_01_lod1.glb": "89b4f0118e4bc5832a88d79adab311d6eced93edf4eb9c8f8a6eab66f589a0cd",
+      "art_source/rocks/pebbles_v1/models/pebble_01_lod2.glb": "88411a1998074da27b494a516dbafa4fa5228ca5b29ddfb8c06a557ad9cd2e25",
+      "art_source/rocks/pebbles_v1/models/pebble_02_lod0.glb": "6d1026e44778467c25b8e5780e6250e6b06598fe839f73495e44a3f87d9f706c",
+      "art_source/rocks/pebbles_v1/models/pebble_02_lod1.glb": "f61afaee02f14934731c99267e1d8d573a40c51eda3f01ab86df03621070b344",
+      "art_source/rocks/pebbles_v1/models/pebble_02_lod2.glb": "1eefdcd9d7af89056b5b642151728e0d1e45b6d5cc6649c18cbd6a8fa9558b2a",
+      "art_source/rocks/pebbles_v1/models/pebble_03_lod0.glb": "f5ff541f72127a5433b16aeff13e8cb512f1f207391615873a0f6909e8021ae2",
+      "art_source/rocks/pebbles_v1/models/pebble_03_lod1.glb": "d7ea0b9bb53af3226e2e1a6029044c493ff957a4d941b35ee87508a2ba79dfe7",
+      "art_source/rocks/pebbles_v1/models/pebble_03_lod2.glb": "3537ad616ff201c02baac63ce62b11dcabc689e0d7d593e49449043a72f9e8d8",
+      "art_source/rocks/pebbles_v1/models/shale_chip_01_lod0.glb": "570b7760beb7d0b12d0ac36e8908d651adcbca64666fb54e398d3a4ec51fc89b",
+      "art_source/rocks/pebbles_v1/models/shale_chip_01_lod1.glb": "81f3f5308edf7dfd67509a7460f2130eafcca590671caeec9cf320a444d74c46",
+      "art_source/rocks/pebbles_v1/models/shale_chip_01_lod2.glb": "0e49f09b9675f1137167c88fa18aabe49fa699f74168c26192c4f6e0210b1d8d",
+      "art_source/rocks/pebbles_v1/models/shale_chip_02_lod0.glb": "7c7e07ef19aae3e640e5e8fec29b64eec58c75c53e85574c259457e73558c34f",
+      "art_source/rocks/pebbles_v1/models/shale_chip_02_lod1.glb": "4669a34ad87cde6cf19146e252d0ac869595730dec245341a7bda98f1569551b",
+      "art_source/rocks/pebbles_v1/models/shale_chip_02_lod2.glb": "0f9aa8c077f537fa8f68e63ef432c1c697691d27ff967246e422fe73836d3e90",
+      "art_source/rocks/pebbles_v1/models/shale_chip_03_lod0.glb": "1524d87bae69cfea643a21b3d9fe46dec142cad05342db6681f178c522df2254",
+      "art_source/rocks/pebbles_v1/models/shale_chip_03_lod1.glb": "3f65c83e8774875b1b2898c628dfd2e0f5f91e3a73ebeddc66217428292fac8e",
+      "art_source/rocks/pebbles_v1/models/shale_chip_03_lod2.glb": "4b8bd00f9061ec81e9371ad2257cdc68bb0f69420ee32a4fdff5ca1223d23217",
+      "art_source/rocks/pebbles_v1/pebble_library.blend": "5f7eb4a30f87abbb2ecf1282484a54e330b4e4819cd3729813462f1c871200c9",
+      "art_source/rocks/pebbles_v1/recipes.json": "f377895a1b5dc42fc75c6fbb55497ec958697acd9be9d1ee41b38c94f99d0914",
+      "art_source/rocks/pebbles_v1/textures/stone_albedo.png": "673b040d4a3ac370f935dfbb5dfc426b50c0f31bb751bcc6de858962586b2dbc",
+      "art_source/rocks/pebbles_v1/textures/stone_metallic_roughness.png": "567a799fa8d4177c15addf01117bf5ef3ab977384eaaf6713e2f6c649c7a7552",
+      "art_source/rocks/pebbles_v1/textures/stone_normal.png": "3b6a078d7dd57df24bcc877c64777bb61b379bcaa1e6033a8083478013b7596e",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/ASSETS.md": "bd20a2ea6e0fa72e429e86bbb20e6843574fef61ab5bb8cd8837dd821058ff20",
+      "docs/DEVELOPMENT.md": "a5118f0e011f59b2f12cb9480b2aa153646f01d0b7734fd3651dc24645b2918d",
+      "project.godot": "c8c80310580e563f2f8c4675e6cb506ba082193946b0f536265a2234b5eb0289",
+      "scripts/art/build_rock_pebbles.py": "a6e021501f7d713fc87c82058184968ffc48efe9daaf8803106b73397bd84541",
+      "scripts/art/preview_rock_pebbles.gd": "abfbea1b602b77f4da6d5cf701de4ff593f98b7e966c9cf8ea59a20581260021",
+      "scripts/art/validate_rock_pebbles.py": "4afe0f08ad93857fd0c2560c6b792d33c746d792c82a80d656c7ee83a398405a",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/prepare_rock_pebbles.ps1": "2112eece98d9aed8d47aa8f1dfc4f497681ac93424534423644da81a9aac8f64",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "c8375d4142f40481877919f2ed0800dfb4217fe0eb421575cb0aa11b2c8f1407",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/resolve_godot_engine.ps1": "f24d9bee14db3b84a5674b1a732c499bbdad9284c073367afecc373fcf849d93",
+      "scripts/run_guarded.ps1": "67d133122cf22b25514f559d6f9d89ea52b6da0fc8ad24b7b5400612b21bec71",
+      "scripts/validation_lease.ps1": "b946e947282711f0dd7ef8f41f66aacbbf3f62ed841247af8636555f037f84fa",
+      "scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f"
+    }
+  }
+}

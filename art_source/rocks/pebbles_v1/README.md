@@ -1,7 +1,7 @@
 # Cosmetic rock pebbles
 
 Prepared assets for surface detail on exposed rock terrain. Nine standalone
-shapes plus three fine grit variants: 12 shapes spanning 1.5-28 cm. Each uses
+shapes plus three fine grit variants: 12 shapes spanning 1-10 cm across. Each uses
 the supplied generator's rock albedo, normal and roughness textures. Dense gravel
 beds are the main field target, with small grit filling gaps around larger accents.
 The manifest owns exact dimensions, geometry budgets and hashes. This source
@@ -24,7 +24,7 @@ overwrite. Preserve manual edits separately before an intentional rebuild.
 The wrapper owns the engine guard; do not wrap it in another guard. Validation
 is a stdlib GLB inspection; Preview loads every GLB directly into an isolated
 Godot project and writes four captures plus a native validation receipt under
-`artifacts/rock_pebble_textures_20260914/`. It never loads a game scene or user state.
+`artifacts/rock_pebble_scale_20260914/`. It never loads a game scene or user state.
 
 The source is the unchanged supplied `art_source/blender/rock_generator.blend`.
 Its `Set Position.006` Geometry Nodes branch makes the stones used by the
@@ -45,8 +45,16 @@ The supplied generator and Python/JSON recipe retain procedural provenance.
   The GLBs embed geometry and reference `../textures/`; copy the pack with its
   models/textures directory relationship intact. Runtime conversion should load
   one shared material/map set across all variants, avoiding per-GLB texture copies.
-  Metres, Godot Y-up, base at Y=0, centered in XZ. Widths are 1.5-28 cm and each
+  Metres, Godot Y-up, base at Y=0, centered in XZ. Widths are 1-10 cm and each
   shape has 80/40/16 triangles. UV orientation is stable across geometry levels.
+- Keep most stones 1-3 cm across. Occasional pebbles are 4-7 cm and the largest
+  10 cm accents are flat chips. These are widths, not heights: source bodies
+  are at most 1.6 cm tall. Seat and partially bury each stone along the terrain
+  normal so visible height is at most 1 cm. Use at least
+  `max(height * 0.3, height - 0.01)` metres of burial. Enforce both final width
+  and exposed-height limits after any runtime scale variation; never stack them.
+  No 18-28 cm geometry remains in this cosmetic pack. Anything reading as a
+  ski-impact obstacle needs the separate physical-rock workflow.
 - All assets are cosmetic. No physics bodies, collision shapes, collision
   proxies, obstacle records, vegetation, snow geometry or terrain chunks are
   included. Runtime integration must keep collision and solver inputs unchanged.
@@ -63,8 +71,8 @@ The supplied generator and Python/JSON recipe retain procedural provenance.
   not prescribe distances or prove a performance improvement.
 
 `field_presets.json` describes dense `gravel_bed` and `sparse_rock_accents`
-authoring recipes. A gravel bed is primarily 1.5-3 cm grit mixed with 5-8 cm
-stones and occasional larger pebbles. Use coherent fields with irregular edges,
+authoring recipes. A gravel bed is primarily 1-3 cm grit and gravel with
+occasional low 4-7 cm pebbles and rare flat chips up to 10 cm. Use coherent fields with irregular edges,
 local density variation and smaller stones filling gaps. Do not render a uniform
 distribution of large pebbles as the gravel-field result. Suggested patch widths,
 falloff and populations are appearance starting points; production measurements

@@ -57,7 +57,7 @@ def stone_material():
     images = []
     uv_node = nodes.new('ShaderNodeUVMap')
     uv_node.uv_map = 'StoneUV'
-    work = ROOT / 'artifacts/rock_pebble_textures_20260914/texture_work'
+    work = ROOT / 'artifacts/rock_pebble_scale_20260914/texture_work'
     work.mkdir(parents=True, exist_ok=True)
     for source_name, label, colorspace in [
             ('ROCK_Base Color.jpeg', 'Pebble_Albedo', 'sRGB'),
@@ -227,6 +227,9 @@ def main():
     model_dir.mkdir(exist_ok=True)
     records, library = [], []
     for entry in recipe['assets']:
+        dims = entry['dimensions_blender_xyz_m']
+        assert .01 <= max(dims[0], dims[1]) <= .10, 'Cosmetic gravel must be 1-10 cm across'
+        assert dims[2] <= .016, 'Cosmetic stone body is too tall'
         rng = random.Random(entry['seed'])
         offset.inputs[1].default_value = [rng.uniform(-100, 100) for _ in range(3)]
         graph.update_tag()
@@ -318,6 +321,7 @@ def main():
         'recipe_sha256': sha(PACK / 'recipes.json'), 'blender_version': bpy.app.version_string,
         'field_presets_sha256': sha(PACK / 'field_presets.json'),
         'collision': False, 'vegetation': False, 'terrain_or_pedestal_geometry': False,
+        'cosmetic_size_limits': recipe['cosmetic_size_limits'],
         'material': {'name': material.name, 'opaque': True, 'normal_strength': .22,
                      'metallic': 0, 'vertex_color': 'COLOR_0 tint', 'textures': texture_hashes, 'surfaces_per_mesh': 1,
                      'source_images': ['ROCK_Base Color.jpeg', 'ROCK_Normal.jpeg', 'ROCK_Roughness.jpeg'],

@@ -44,6 +44,7 @@ func load_asset(model: Dictionary) -> Node3D:
 		var dims: Array = model.dimensions_godot_xyz_m
 		check(box.size.distance_to(Vector3(dims[0],dims[1],dims[2])) < .00001, "Dimensions")
 		check(absf(box.position.y) < .00001, "Base at zero")
+		check(maxf(box.size.x,box.size.z) <= .10001 and box.size.y <= .01601, "Cosmetic size limit")
 		var arrays := child.mesh.surface_get_arrays(0)
 		check(arrays[Mesh.ARRAY_COLOR] != null and not arrays[Mesh.ARRAY_COLOR].is_empty(), "Color channel")
 		var mat := child.mesh.surface_get_material(0) as StandardMaterial3D
@@ -88,7 +89,7 @@ func label(text: String, position: Vector3) -> void:
 	var item := Label3D.new()
 	item.text = text
 	item.font_size = 28
-	item.pixel_size = .0008
+	item.pixel_size = .00045
 	item.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	item.no_depth_test = true
 	item.modulate = Color(.85,.89,.91)
@@ -152,13 +153,13 @@ func run() -> void:
 			node.free()
 	reset_display()
 	heading.text = "TEXTURED ROCK DETAIL  /  GRIT, GRAVEL, PEBBLES & SHALE"
-	subtitle.text = "Actual relative sizes, 1.5-28 cm  |  Shared albedo, normal & roughness maps  |  No collision"
+	subtitle.text = "1-10 cm ACROSS, mostly 1-3 cm  |  Low cosmetic gravel; no collision"
 	for i in catalog.assets.size():
 		var record: Dictionary = catalog.assets[i]
-		var p := Vector3((i%3-1)*.44, 0, (i/3-1.5)*.34)
+		var p := Vector3((i%3-1)*.19, 0, (i/3-1.5)*.14)
 		add_model(record,0,p,.3)
-		label("%s / %.0f cm" % [record.id,record.models[0].dimensions_godot_xyz_m[0]*100],p+Vector3(0,-.03,.15))
-	camera.size = 1.6
+		label("%s / %.1f cm" % [record.id,record.models[0].dimensions_godot_xyz_m[0]*100],p+Vector3(0,-.01,.065))
+	camera.size = .75
 	camera.position = Vector3(0,1.7,2.5)
 	camera.look_at(Vector3.ZERO)
 	await capture("collection")
@@ -168,26 +169,26 @@ func run() -> void:
 	for row in 2:
 		var record: Dictionary = catalog.assets[5 if row == 0 else 8]
 		for lod in 3:
-			var p := Vector3((lod-1)*.42,0,(row-.5)*.4)
+			var p := Vector3((lod-1)*.20,0,(row-.5)*.20)
 			add_model(record,lod,p,.3)
-			label("%s / LOD%d" % [record.id,lod],p+Vector3(0,-.03,.15))
-	camera.size = 1.15
+			label("%s / LOD%d" % [record.id,lod],p+Vector3(0,-.01,.065))
+	camera.size = .58
 	await capture("lod_comparison")
 	reset_display()
 	heading.text = "STONE SURFACE DETAIL"
 	subtitle.text = "Generator-sourced rock textures  |  Close asset view; actual placement remains integration work"
-	add_model(catalog.assets[5],0,Vector3(-.17,0,0),.3)
-	add_model(catalog.assets[8],0,Vector3(.17,0,0),-.25)
-	camera.size = .57
+	add_model(catalog.assets[5],0,Vector3(-.065,0,0),.3)
+	add_model(catalog.assets[8],0,Vector3(.065,0,0),-.25)
+	camera.size = .24
 	camera.position = Vector3(0,.7,1.1)
 	camera.look_at(Vector3.ZERO)
 	await capture("texture_detail")
 	reset_display()
 	heading.text = "GRAVEL BED  /  DENSE CORE & IRREGULAR EDGES"
-	subtitle.text = "Mostly 1.5-3 cm grit with larger accents  |  Review plane only; production terrain and FPS remain integration work"
+	subtitle.text = "Mostly 1-3 cm, rare 10 cm flat chips  |  Visible height capped at 1 cm  |  Review plane only"
 	var floor_node := MeshInstance3D.new()
 	var plane := PlaneMesh.new()
-	plane.size = Vector2(1.8,1.6)
+	plane.size = Vector2(1.1,.95)
 	floor_node.mesh = plane
 	var material := StandardMaterial3D.new()
 	material.albedo_color = Color(.22,.215,.21)
@@ -205,11 +206,11 @@ func run() -> void:
 		if placed.size() < 8: selected = rng.randi_range(3,8)
 		elif placed.size() < 210: selected = rng.randi_range(0,2)
 		var record: Dictionary = catalog.assets[selected]
-		var x := rng.randf_range(-.76,.76)
-		var z := rng.randf_range(-.64,.64)
-		var angle := atan2(z/.64,x/.76)
+		var x := rng.randf_range(-.48,.48)
+		var z := rng.randf_range(-.38,.38)
+		var angle := atan2(z/.38,x/.48)
 		var boundary := .90 + .075*sin(angle*5) + .055*cos(angle*9)
-		var distance := Vector2(x/.76,z/.64).length()
+		var distance := Vector2(x/.48,z/.38).length()
 		if distance > boundary or rng.randf() > clampf((boundary-distance)*7,0,1): continue
 		var radius: float = record.models[0].dimensions_godot_xyz_m[0]*.40
 		var clear := true
@@ -219,9 +220,24 @@ func run() -> void:
 				break
 		if not clear: continue
 		placed.append(Vector3(x,radius,z))
-		add_model(record,0,Vector3(x,-.001,z),rng.randf_range(0,TAU))
+		var height: float = record.models[0].dimensions_godot_xyz_m[1]
+		var burial := maxf(height*.3,height-.01)
+		check(height-burial <= .010001,"Gravel arrangement exposed height <= 1 cm")
+		add_model(record,0,Vector3(x,-burial,z),rng.randf_range(0,TAU))
 	gravel_count = placed.size()
-	camera.size = 1.60
+	# Physical scale reference belongs only to this review scene.
+	for tick in 10:
+		var marker := MeshInstance3D.new()
+		var bar := BoxMesh.new()
+		bar.size = Vector3(.01,.001,.008)
+		marker.mesh = bar
+		var ink := StandardMaterial3D.new()
+		ink.albedo_color = Color(.88,.88,.88) if tick%2 == 0 else Color(.08,.08,.08)
+		marker.material_override = ink
+		display.add_child(marker)
+		marker.position = Vector3(-.045+tick*.01,.001,.43)
+	label("10 cm ruler",Vector3(0,.008,.46))
+	camera.size = 1.0
 	camera.position = Vector3(0,1.8,2.2)
 	camera.look_at(Vector3.ZERO)
 	await capture("gravel_field")
