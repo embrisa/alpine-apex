@@ -57,7 +57,11 @@ shared counter or changelog. Unrelated dirty/staged files remain untouched.
 1. Save an ignored scope JSON with literal repository-relative `write_paths` and
    `read_paths` arrays. Include all files to be committed, UIDs, owning docs and
    meaningful test dependencies; directories expand to their current contents.
-2. Create the note, fill `areas`, compatibility decisions/data effects, and the
+2. Scheduled workers first choose a UUID (PowerShell: `[guid]::NewGuid().ToString('N')`),
+   reserve `changes/<uuid>.json` through their scope helper, and pass that exact
+   path with `note --note changes/<uuid>.json`. Creation is exclusive and refuses
+   to overwrite an existing note. Manual callers may omit `--note` to generate
+   a new UUID. Create the note, fill `areas`, compatibility decisions/data effects, and the
    intended acceptance boundary. Retain the returned unique path:
 
    ```powershell

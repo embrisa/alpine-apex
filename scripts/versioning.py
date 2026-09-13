@@ -198,16 +198,22 @@ def expand(root, paths):
     return sorted(result)
 
 
-def create_note(root, scope, summary, categories):
+def create_note(root, scope, summary, categories, reserved_path=None):
     owned = expand(root, scope["write_paths"])
-    note_id = uuid.uuid4().hex
+    if reserved_path is not None and not re.fullmatch(r"changes/[0-9a-f]{32}\.json", reserved_path):
+        raise ValueError("Reserved note must be changes/<32 lowercase hexadecimal UUID>.json")
+    note_id = PurePosixPath(reserved_path).stem if reserved_path else uuid.uuid4().hex
     path = f"changes/{note_id}.json"
     note = {"schema": 1, "id": note_id, "summary": summary, "categories": categories,
             "areas": [], "owned_paths": [p for p in owned if not is_note(p)],
             "read_paths": expand(root, scope.get("read_paths", [])),
             "compatibility": {"before": {}, "after": {}, "decisions": {}, "data": {}},
             "checks": [], "outstanding_acceptance": [], "evidence": {"inputs": {}}}
-    save(root / path, note)
+    (root / path).parent.mkdir(parents=True, exist_ok=True)
+    # Exclusive creation preserves another worker's note even if two callers
+    # accidentally reuse a reservation. There is no shared mutable counter.
+    with (root / path).open("x", encoding="utf-8") as output:
+        output.write(json.dumps(note, indent=2, ensure_ascii=False) + "\n")
     return path
 
 
@@ -358,6 +364,9 @@ def markdown(rows):
 
 
 def main():
+    # PowerShell and the desktop command transport consume UTF-8, including when
+    # Python otherwise selects the legacy Windows ANSI code page for a pipe.
+    if hasattr(sys.stdout, "reconfigure"): sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=["identity", "note", "capture", "check", "history", "stamp", "verify-stamp"])
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
@@ -376,7 +385,7 @@ def main():
         if args.action == "identity": result = identity(root)
         elif args.action == "note":
             if not args.scope or not args.summary or not args.category: raise ValueError("note requires --scope, --summary, and --category")
-            result = {"note": create_note(root, read_json(args.scope), args.summary, args.category)}
+            result = {"note": create_note(root, read_json(args.scope), args.summary, args.category, args.note)}
         elif args.action == "capture":
             if not args.note: raise ValueError("capture requires --note; run before verification")
             result = capture_inputs(root, args.note)

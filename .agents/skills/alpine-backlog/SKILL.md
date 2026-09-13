@@ -47,7 +47,8 @@ Follow [development versioning](../../../docs/DEVELOPMENT.md#internal-developmen
 for each committed milestone, including documentation/backlog authoring. Use
 `python scripts/versioning.py identity --json` to identify the current checkout;
 keep Dev labels separate from compatibility and evidence source/runtime hashes.
-Reserve a unique note and all owned/read inputs, capture hashes before final
+Reserve a unique note path before creation; pass it to `versioning.py note --note`.
+Reserve all owned/read inputs, capture hashes before final
 verification, record actual checks, and run the scoped note check before commit.
 Report the final Dev ID after push. Preserve unrelated dirty inputs; do not refresh
 evidence hashes without repeating affected checks. Recorded case identity and

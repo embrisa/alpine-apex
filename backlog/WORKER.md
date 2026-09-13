@@ -59,7 +59,8 @@ input or bypass a live writer's reservation to make a check pass.
 ## Development milestone
 
 Follow [internal versioning](../docs/DEVELOPMENT.md#internal-development-versions).
-Reserve a unique `changes/<uuid>.json` path with the existing scope helper. Include
+Reserve a unique `changes/<uuid>.json` path with the existing scope helper, then
+create it with `versioning.py note --note changes/<uuid>.json`. Include
 all owned source/UID/guide/task paths and tested read dependencies in the note.
 Capture input hashes before final checks; record actual results and separate
 pending human acceptance. Validate the note and staged owned files before each

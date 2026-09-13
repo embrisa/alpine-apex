@@ -207,5 +207,20 @@ class VersioningTests(unittest.TestCase):
         v.save(self.root / path, note)
         self.assertTrue(any("missing owned/identity inputs" in p for p in v.check_note(self.root, path)))
 
+    def test_reserved_note_cli_is_exact_atomic_and_history_is_utf8(self):
+        import sys
+        self.note(); self.commit()
+        self.write("ignored/scope.json", json.dumps({"write_paths": ["future.md"], "read_paths": []}))
+        reserved = "changes/" + "a" * 32 + ".json"
+        command = [sys.executable, str(Path(v.__file__)), "note", "--root", str(self.root), "--scope", str(self.root / "ignored/scope.json"), "--note", reserved, "--summary", "Reserved change", "--category", "Maintenance"]
+        result = subprocess.run(command, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertEqual(json.loads(result.stdout)["note"], reserved)
+        original = (self.root / reserved).read_bytes()
+        self.assertNotEqual(subprocess.run(command, capture_output=True).returncode, 0)
+        self.assertEqual((self.root / reserved).read_bytes(), original)
+        output = subprocess.run([sys.executable, str(Path(v.__file__)), "history", "--root", str(self.root)], capture_output=True, check=True).stdout.decode("utf-8")
+        self.assertIn("## Dev 1 ·", output)
+
 
 if __name__ == "__main__": unittest.main()

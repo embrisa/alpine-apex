@@ -1,0 +1,141 @@
+{
+  "schema": 1,
+  "id": "521dd50c7fb6404d950736c22fd5a55a",
+  "summary": "Allow scheduled agents to reserve an exact note path before creation, refuse accidental overwrites, and emit readable UTF-8 CLI history.",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "agent note reservations",
+    "CLI output"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-backlog/SKILL.md",
+    "backlog/WORKER.md",
+    "docs/DEVELOPMENT.md",
+    "scripts/versioning.py",
+    "tests/test_versioning.py"
+  ],
+  "read_paths": [
+    "scripts/backlog.py"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "records": {
+        "effect": "preserved",
+        "reason": "Only note creation and CLI text encoding change; game and compatibility behavior are unchanged."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Only note creation and CLI text encoding change; game and compatibility behavior are unchanged."
+      },
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Only note creation and CLI text encoding change; game and compatibility behavior are unchanged."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Only note creation and CLI text encoding change; game and compatibility behavior are unchanged."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Only note creation and CLI text encoding change; game and compatibility behavior are unchanged."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "python tests/test_versioning.py",
+      "result": "passed",
+      "details": "13 disposable Git and CLI checks passed, including exact reserved note paths, atomic overwrite refusal and UTF-8 history; artifacts/versioning/followup-tests.log."
+    },
+    {
+      "kind": "automated",
+      "command": "skill-creator quick_validate.py .agents/skills/alpine-backlog; local link scan; git -c core.whitespace=cr-at-eol diff --check",
+      "result": "passed",
+      "details": "The affected backlog skill validates, local guide/skill file links resolve and repository whitespace checks pass."
+    },
+    {
+      "kind": "rendered",
+      "command": "No additional rendered check required",
+      "result": "not_required",
+      "details": "This follow-up changes note creation, CLI output encoding and agent documentation only; Dev 1 runtime/package rendered evidence remains separate."
+    },
+    {
+      "kind": "performance",
+      "command": "No FPS benchmark required",
+      "result": "not_required",
+      "details": "No runtime performance behavior changes."
+    },
+    {
+      "kind": "human",
+      "command": "No additional human acceptance required",
+      "result": "not_required",
+      "details": "Tooling changes are covered by automated CLI and temporary Git repository checks."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-13T14:51:21.865343+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 1,
+      "commit": "1bb59c44f56a04c34ff2a474bf80f7445fd03abc",
+      "modified": true,
+      "changes_sha256": "415da7c30984ac90d8b703c476bcf44b807282f1bf06002fdb6e3bc9613f7fbc",
+      "source_sha256": "87166c0665b4261995fe8cfdcae6956f93e88986ec32f2394e6884f6e4f16715",
+      "categories": [
+        "Maintenance",
+        "Presentation"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      ".agents/skills/alpine-backlog/SKILL.md": "fa3f08c81bf79171d1478c5441e90e5d83410cf33fa528553a95f45f3740bfa8",
+      "backlog/WORKER.md": "c079adf69a271be40e0af0746f4949fb52ab2ffcb004145cbc5c9e9858d42ac3",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/DEVELOPMENT.md": "64837a45c9965396d7e97e1809adbf3a6537c6724746823e573e2dd248b4a155",
+      "project.godot": "f92c86410aeff3c7038be456bc267092d7f1fa324f9411f0add1301bdc93c249",
+      "scripts/backlog.py": "ba25d73a636125a009fba37c51b5a13a299879cabc1a39071348065a60ec00fd",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "d7c78c78e58082e9da8f82ae0cd5c44015715333c1d6dcb15018f3eabd930fd6",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/versioning.py": "473da19ad5e09d0a78f27d0b52bd5cf57d359b50337ceacb4c340124939804e4",
+      "scripts/world/mountain_definition.gd": "4192db36e8fb6a685f37dfcda6aba38d05cd1367b951f077d4560ce35ecf314f",
+      "tests/test_versioning.py": "128e8eb82d2051cc09a95d93b00c292d1e9a8f2407fdf7ab3f34e2ee84d42781"
+    }
+  }
+}
