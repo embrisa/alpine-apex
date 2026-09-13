@@ -21,7 +21,7 @@ func run():
 	geometry()
 	contacts()
 	episodes()
-	check(Sim.MODEL_VERSION==34 and Replay.VERSION==7,"Pole propulsion versions physics and articulated replay without changing impact recovery")
+	check(Sim.MODEL_VERSION==35 and Replay.VERSION==7,"Pole propulsion versions physics and articulated replay without changing impact recovery")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/landing_v18")
 	var result = {"model":Sim.MODEL_VERSION,"checks":checks,"failures":failures,"metrics":metrics}
 	FileAccess.open("res://artifacts/landing_v18/physics.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))

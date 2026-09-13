@@ -483,6 +483,45 @@ reconnect/focus loss, neutral-gated flips, tuck/turn/jump transitions, menu focu
 and HUD editing. Preserve the posture observation linked from the existing
 [tuck consistency idea](../backlog/ideas/archive/IDEA-20260911-185650-tuck-presentation-consistency.md).
 
+### Firm-carve response producer
+
+`tests/firm_carve_suite.gd` measures ordinary 120 Hz commands on a planar snow
+surface exactly representable by the shared 4 m terrain authority. The default
+24 cases cover full sideways and forward-diagonal entry/reversal at 60, 120 and
+160 km/h in 2 cm and 16 cm snow. `--full` expands to 432 cases with both steering
+directions, mirrored 20% cross-slopes, small corrections, release and rapid
+reversals. It never creates a session or writes personal bests.
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/firm_carve_suite.gd','--','--full','--output=artifacts/firm_carve/current-full.json') -Label firm-carve
+```
+
+The explicitly retained `tests/fixtures/firm_carve_v34.json` contains the captured
+pre-change model-34 response at source commit `607c92a`; it is a numeric regression
+reference, not a compatible production replay. Metrics separate input, requested
+and applied ski yaw, pressure transfer, actual edges, slip and travel yaw at
+0.25/0.5/1 second. `--trace` also retains every tick. A reversal starts after the
+same 30-degree travel excursion so different entry speeds cannot select different
+turn phases. The suite measures entry to 1 degree, reversal to sustained opposite
+travel yaw, and distance through a 45-degree arc. Radius targets are aggregate
+calibration checks, with individual speed/slip/support guards; they do not claim
+that every snow/input combination improves equally.
+
+`tests/firm_carve_capture.gd` renders a fixed 15-second sequence using the production
+skier and chase camera, with `--view=side` for equipment review, `--depth=0.02` or
+`0.16`, and a fresh `--output=artifacts/...`. Pass arguments through the guard's
+string array. It records source hashes, physical states and final skinned poses
+for `pose_pole_mesh_audit.gd`. `--reference` requires the deliberately frozen
+model/tuning under `artifacts/firm_carve/baseline-source`; missing historical
+sources are unavailable evidence, never a reason to relabel current source.
+These controlled snow-plane captures establish pose/handling evidence, not world
+scenery performance or human controller acceptance. Current model-35 paired
+captures, matched-speed diagnostics and retained findings live under
+`artifacts/firm_carve/EVIDENCE.md` and its linked captures/receipts. The strict
+pole/clothing clearance audit remains failing, with more intersecting frames
+in the faster-turn clips; equipment attachment checks and controller acceptance
+do not establish clean clothing clearance.
+
 ## Mountain evidence
 
 2026-09-10 v15 matched Standard work established deterministic outputs across

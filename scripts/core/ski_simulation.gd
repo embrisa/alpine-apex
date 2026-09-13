@@ -1,6 +1,6 @@
 class_name SkiSimulation
 extends RefCounted
-const MODEL_VERSION = 34
+const MODEL_VERSION = 35
 const TerrainMaterial = preload("res://scripts/core/terrain_material.gd")
 const Contact = preload("res://scripts/core/ski_contact.gd")
 const Body = preload("res://scripts/core/rider_body.gd")
@@ -719,7 +719,11 @@ func _update_contacts(surface, dt: float, advance_motors: bool = true, edge_rele
 			# intent frees this aggregate restriction so actual boot motors and
 			# the constrained leg fit can unwind together.
 			var bank: float = body.roll if body.initialized else 0.0
-			var edge_goal = clampf(edge_angle,-bank-.10,-bank+.10)
+			# Strong turns can engage the cuffs ahead of aggregate bank. The
+			# rate-limited real edges move the fitted stance/COM; available
+			# support still bounds traction. Small corrections keep their lead.
+			var edge_lead = .10+tuning.arcade_edge_lead*carve_blend
+			var edge_goal = clampf(edge_angle,-bank-edge_lead,-bank+edge_lead)
 			# A pressure-limited body can counterbank under loose-snow resistance.
 			# Do not turn that outward bank into an opposite boot command. Release
 			# the restriction continuously over its existing 0.10 rad allowance;

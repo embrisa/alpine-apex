@@ -45,6 +45,24 @@ response releases sustained equipment-yaw suppression while retaining ordinary
 carving/support; visual pelvis/arm behavior is separately owned by animation.
 Steering/body lean alone cannot cause a balance death.
 
+Model 35 makes strong controller input build a firm carve earlier. Carving
+amplification reaches full strength before the stick reaches its horizontal
+endpoint, so a forward diagonal engages a strong turn while tuck keeps its
+independent axis. Inputs at or below the existing 25% carving threshold retain
+their response. The input router and deadzone do not change.
+
+Strong turns allow bounded physical cuff lead ahead of aggregate body bank,
+then transmit the connected stance through the existing leg fit and COM. The
+loaded boot motors keep their 3 rad/s cap, and actual support still limits edge
+traction. Earlier weight-transfer yaw and coordinated carve/grip amplification
+reduce hesitation without assigning velocity, restoring speed or adding a new
+steering mode. Coefficients remain in the tuning resource. The previously
+recorded deep-snow balance cycle is a separate retained finding; improved turn
+response does not establish its resolution. Sustained-radius gains remain
+input/snow dependent; the 15% sustained-radius calibration target is not met,
+although entry/reversal and first-arc response improve. See the
+[response producer and evidence](VALIDATION.md#firm-carve-response-producer).
+
 The bank-following cuff restriction releases for steering at or below 10%,
 smoothly restoring it by 25%. Model 33 also releases it continuously when the
 supported body banks against the requested edge, over the existing 0.10 rad
@@ -54,8 +72,9 @@ release. Following that counterbank used to reverse the actual boots against
 held steering; rigid-cuff fitting then forced a large opposite pelvis excursion.
 `SkiSimulation._update_contacts` lets the cuffs seek the requested edge through
 their existing loaded response and 3 rad/s rate limit in this condition. Aligned
-strong turns keep the bank coupling; snow traction and turn-strength tuning are
-unchanged. Reversals and counterbank recovery intentionally change their paths.
+strong turns retain bank coupling with the model 35 cuff lead described above.
+The model 33 counterbank correction itself did not retune traction or strength.
+Reversals and counterbank recovery intentionally change their paths.
 
 This is an equipment-control correction. It does not assign a body pose or retune
 the balance integrator, whose aggregate bank can still transiently overshoot.
@@ -157,8 +176,8 @@ seconds after an eight-second ordinary-input lead-in, using production skier/
 camera code on the real heightfield patch. It preserves real obstacle responses
 but omits scenery rendering; this is contact-motion evidence, not scene FPS.
 `-View chase` selects the gameplay camera. A frozen detector under `artifacts`
-can be supplied as `-ReferenceAssist` for a labelled causal comparison. Physics
-model 34 rejects model 33 recordings through the existing identity check; replay
+can be supplied as `-ReferenceAssist` for a labelled causal comparison. The current physics
+identity rejects earlier-model recordings through the existing check; replay
 format remains 7. No old-record migration or speed restoration is introduced.
 
 ## Jumping and flight

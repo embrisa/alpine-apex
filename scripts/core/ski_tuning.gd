@@ -58,14 +58,16 @@ extends Resource
 @export_group("Arcade carving")
 # Developer calibration; zero disables carving amplification, retaining current tuck/contact.
 @export_range(0.0, 1.0) var arcade_carve_strength: float = 1.0
-@export var arcade_yaw_ratio: float = 1.20
-@export var arcade_transfer_yaw_fraction: float = 0.17 # retain the supporting edge during COM transfer
-@export var arcade_transfer_low_speed_fraction: float = 0.06
+@export_range(0.6, 1.0) var arcade_full_input: float = 0.70 # normalized stick command for full carving amplification
+@export var arcade_yaw_ratio: float = 1.45
+@export_range(0.0, 1.0) var arcade_edge_lead: float = 0.80 # radians, supported cuff lead while building a strong carve
+@export var arcade_transfer_yaw_fraction: float = 0.40 # retain the supporting edge during COM transfer
+@export var arcade_transfer_low_speed_fraction: float = 0.20
 @export var arcade_transfer_release_bank: float = 0.65 # rad, begin releasing yaw as COM approaches support
 @export var arcade_transfer_finish_bank: float = 0.15 # rad, full manual yaw near neutral
 @export var arcade_transfer_shift_m: float = 0.08 # m, bounded active pelvis transfer through leg fitting
 @export var arcade_transfer_shift_speed: float = 0.8 # m/s
-@export var arcade_grip_ratio: float = 1.40
+@export var arcade_grip_ratio: float = 1.65
 @export var arcade_carving_ratio: float = 1.65
 @export_range(0.0, 1.0) var arcade_anticipation: float = 0.95
 @export var arcade_body_lean: float = 1.238 # rad, supported high-input bank target
@@ -178,7 +180,12 @@ extends Resource
 @export var speed_thresholds: PackedFloat32Array = PackedFloat32Array([30, 60, 90, 120, 150, 165, 200])
 
 func carving_blend(steer: float, speed_mps: float) -> float:
-	return arcade_carve_strength*smoothstep(.25,1.0,absf(steer))*smoothstep(30.0/3.6,60.0/3.6,speed_mps)
+	# Retain the ordinary correction curve; build extra authority only past
+	# half input, reaching it on a strong controller diagonal.
+	var amount = absf(steer)
+	var ordinary = smoothstep(.25,1.0,amount)
+	var command = lerpf(ordinary,1.0,smoothstep(.5,arcade_full_input,amount))
+	return arcade_carve_strength*command*smoothstep(30.0/3.6,60.0/3.6,speed_mps)
 
 func carving_transfer_yaw(speed_mps: float) -> float:
 	return lerpf(arcade_transfer_low_speed_fraction,arcade_transfer_yaw_fraction,smoothstep(50.0/3.6,80.0/3.6,speed_mps))
