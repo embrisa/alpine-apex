@@ -1,0 +1,159 @@
+{
+  "schema": 1,
+  "id": "d937f91994544e4cb0e500d6a6874629",
+  "summary": "Author ready sun-facing lens-flare backlog task",
+  "categories": [
+    "Maintenance",
+    "Presentation"
+  ],
+  "areas": [
+    "backlog",
+    "rendering-planning"
+  ],
+  "owned_paths": [
+    "backlog/tasks/AA-20260913-221134-sun-facing-lens-flare.md"
+  ],
+  "read_paths": [
+    ".agents/skills/alpine-backlog/SKILL.md",
+    "backlog/README.md",
+    "docs/DEVELOPMENT.md",
+    "docs/PRESENTATION.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "scripts/main.gd",
+    "scripts/presentation/chase_camera.gd",
+    "scripts/presentation/weather_controller.gd",
+    "scripts/presentation/weather_state.gd",
+    "scripts/world/alpine_world.gd",
+    "tests/scene_motion_blur_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "This milestone authors a future presentation task only; it changes no solver, tuning, tick rate, or contact authority."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "This milestone changes no generator, physical terrain, world cache, or scenery placement source."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Backlog authoring does not change mountain data or generation identity."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Backlog authoring does not change race serialization or eligibility."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Backlog authoring does not alter timing, record storage, or result evaluation."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Backlog authoring does not change replay or ghost data."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Backlog authoring does not change cached generation or presentation payloads."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "./scripts/backlog.ps1 validate",
+      "result": "passed",
+      "details": "Validated the complete task graph with the new ready task; it was eligible and no task records were unavailable."
+    },
+    {
+      "kind": "automated",
+      "command": "git -c core.whitespace=cr-at-eol diff --cached --check -- backlog/tasks/AA-20260913-221134-sun-facing-lens-flare.md changes/d937f91994544e4cb0e500d6a6874629.json",
+      "result": "passed",
+      "details": "The two owned text files have no whitespace errors."
+    },
+    {
+      "kind": "rendered",
+      "command": "Not run; this milestone authors a future rendered-effect task and changes no runtime files.",
+      "result": "not_required",
+      "details": "Rendered inspection belongs to the implementation task and is explicitly required by its acceptance criteria."
+    },
+    {
+      "kind": "performance",
+      "command": "Not run; this milestone authors a future bounded performance check and changes no runtime workload.",
+      "result": "not_required",
+      "details": "No render path, scene query, asset, or runtime timing source changed in this authoring-only milestone."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-13T22:13:14.189210+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 20,
+      "commit": "8e6c9e1f68daa2b80181b7c3541339cd8d041f89",
+      "modified": true,
+      "changes_sha256": "32e0144d0110ca55212929d6ec8eb457a50e180f1b7f094eafaaf1bfea35e563",
+      "source_sha256": "0e8029f6f39bea47f39c4dbfb58e582903c534a816b15163351223ac2e3bede9",
+      "categories": [
+        "Presentation",
+        "Maintenance"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      ".agents/skills/alpine-backlog/SKILL.md": "fa3f08c81bf79171d1478c5441e90e5d83410cf33fa528553a95f45f3740bfa8",
+      "backlog/README.md": "5799009cbbd585356fb1c322770c2415b97fd94a64809d5703bbcb63cfd2928e",
+      "backlog/tasks/AA-20260913-221134-sun-facing-lens-flare.md": "c1a3aa5fbb4395fefaff7db64490c4c728d132f4eabd9d0a482ed20a49329e14",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/DEVELOPMENT.md": "a5118f0e011f59b2f12cb9480b2aa153646f01d0b7734fd3651dc24645b2918d",
+      "docs/PRESENTATION.md": "98e19ac6cf5c595ab4dfb4148d6e3d28c3db72c861c8e8c100b5e0ff70d1888c",
+      "docs/RENDERING.md": "015e882d1aa370a8ecd7355a238cacca85d8b57ea180f391362133d90b770ba9",
+      "docs/VALIDATION.md": "8759e3e9bc7881d1f91181be7f5017c1d7e669316eb770a7e852467fd7018be3",
+      "project.godot": "ab7da5f47f5c39a842b849501ab3c8df818d481db9ea9283517a576cd4062c7d",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/main.gd": "86ecf397adca7b5abb1d592a4ee6a692b8a08f86127306be9501c28931fe6a67",
+      "scripts/presentation/chase_camera.gd": "a71e29aebced45a05c907e0d07da81802ec393a6b816edfa20ef331bb3e5b675",
+      "scripts/presentation/weather_controller.gd": "8ea87e939ac41454e35aad81cd2af3162b2016d566d59a6465946ae07c13a26d",
+      "scripts/presentation/weather_state.gd": "6eab94049bae1280308fe1d95d80f8dbdc20533c27770e8ef81e120cd3ff4c81",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "c8375d4142f40481877919f2ed0800dfb4217fe0eb421575cb0aa11b2c8f1407",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/world/alpine_world.gd": "7a08cc17d2050ad58d57e4752d8e83f6c19d20ba4660118923c37841226870d8",
+      "scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f",
+      "tests/scene_motion_blur_suite.gd": "c4eff5af4c31481a5fbbce903ccc2d0b058995b2824f95438f9f722e21d0b250"
+    }
+  }
+}
