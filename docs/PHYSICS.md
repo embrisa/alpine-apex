@@ -45,18 +45,24 @@ response releases sustained equipment-yaw suppression while retaining ordinary
 carving/support; visual pelvis/arm behavior is separately owned by animation.
 Steering/body lean alone cannot cause a balance death.
 
-Model 30 releases the bank-following cuff restriction for steering at or below
-10%, smoothly restoring it by 25%. The former `-bank +/- .10` edge-goal window
-could keep skis deeply edged after a reversal even when the requested edge and
-path curvature had faded. Rigid-cuff leg fitting then required a sideways pelvis.
-`SkiSimulation._update_contacts` now lets weak/released intent seek its requested
-edge through the existing loaded motor response and 3 rad/s rate limit. Strong
-turns retain the bank coupling. Balance torque, anatomy and presentation ownership
-remain intact; this is an equipment-control change, not an assigned body pose.
-Release paths intentionally change, so the existing identity contract rejects
-model 29 recordings; replay format remains 7. Aggregate bank can still
-transiently overshoot while the edges unwind; this does not retune the balance
-integrator. Final connected stance and support recovery are checked separately.
+The bank-following cuff restriction releases for steering at or below 10%,
+smoothly restoring it by 25%. Model 33 also releases it continuously when the
+supported body banks against the requested edge, over the existing 0.10 rad
+allowance. Flight retains its separate cuff behavior.
+Loose-snow resistance can exceed the available pressure correction during tuck
+release. Following that counterbank used to reverse the actual boots against
+held steering; rigid-cuff fitting then forced a large opposite pelvis excursion.
+`SkiSimulation._update_contacts` lets the cuffs seek the requested edge through
+their existing loaded response and 3 rad/s rate limit in this condition. Aligned
+strong turns keep the bank coupling; snow traction and turn-strength tuning are
+unchanged. Reversals and counterbank recovery intentionally change their paths.
+
+This is an equipment-control correction. It does not assign a body pose or retune
+the balance integrator, whose aggregate bank can still transiently overshoot.
+Final connected stance and support recovery are checked separately. The current
+identity rejects earlier-model recordings; replay format remains 7. The explicit
+historical steering stimulus is retained only for the current defect regression,
+not accepted by production replay.
 
 Forward repeats pole pushes while slow on supported snow, then blends into
 aerodynamic tuck over 80–100% of the applicable propulsion limit. Small corrections

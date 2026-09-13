@@ -8,7 +8,7 @@ Their declarations, not an old report title, determine compatibility.
 | Identity | Current value | Source |
 |---|---|---|
 | Default mountain | Seed 849205174, generator 15, Standard | [startup](../scripts/main.gd), [definition](../scripts/world/mountain_definition.gd), [settings](../scripts/world/generation_settings.gd) |
-| Ski physics | Model 32, 120 Hz | [simulation](../scripts/core/ski_simulation.gd), [project settings](../project.godot) |
+| Ski physics | Model 33, 120 Hz | [simulation](../scripts/core/ski_simulation.gd), [project settings](../project.godot) |
 | Replay | Format 7, nine tick-input fields (including jump_held), lossless clocks | [replay](../scripts/racing/run_replay.gd) |
 | Race | Schema 6, recovery rules 1, weather rules 1 | [race definition](../scripts/racing/race_definition.gd) |
 | Ghost archive | Manifest 4, bounded immutable replay payloads and lossless clocks; no migrations | [records](../scripts/racing/competitive_record.gd) |

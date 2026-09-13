@@ -194,7 +194,9 @@ func pose(sim, fraction: float = 1.0, preview: Dictionary = {}) -> void:
 		# The rigid boot and the skin share this exact ankle frame even between
 		# ticks. Interpolating two independently transformed ankles breaks that
 		# constraint as the support plane rotates.
-		joints[prefix+"Foot"] = to_local(ski_position+ski_basis.y*(Equipment.SOLE_ABOVE_SUPPORT+_origin(prefix+"Foot").y))
+		# Use the actual boot child in rider-local coordinates. Reconstructing
+		# its ankle separately in world space adds rounding gaps at altitude.
+		joints[prefix+"Foot"] = skis[i].transform*skis[i].get_child(1).transform*Vector3(0,_origin(prefix+"Foot").y,0)
 		rotations[prefix+"Foot"] = global_basis.transposed()*ski_basis
 	var motion: Dictionary = animation.sample(blend) if animation_enabled else {}
 	if sim.facing_backward and not motion.is_empty():

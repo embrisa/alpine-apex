@@ -361,6 +361,12 @@ Replay a short or crashed scenario once with:
 ./scripts/record_run.ps1 -Replay artifacts/player_recordings/<label>/attempt_001.json -Label scenario-check
 ```
 
+Scenario playback defaults to the recording's exact endpoint, including fractional
+seconds. The benchmark's default 15-second window starting at 90 seconds is not
+applied. Supplying `-TrialSeconds` or `-TrialStartSeconds` directly to
+`benchmark_pc.ps1 -ScenarioReplay` opts into a window; duration alone starts at
+zero. Ordinary benchmark defaults are unchanged.
+
 The same normal physics/render loop checks the original trajectory and stops at
 the captured tick. Partial/crashed clips require explicit scenario mode and produce
 `scope: recorded_scenario`; they cannot count as full-descent evidence. Only a
@@ -741,6 +747,14 @@ below. Navigation/ghost/finish retain their separate owning reviews and limits;
 pole transition validation is recorded separately below. No additional matrix is requested here.
 
 ## Animation evidence
+
+The captured steering regression uses `steering_recording_suite.gd` and the
+15-second `steering_snow_suite.gd` neighbors. Frozen source/requested/final poses,
+paired chase/body playback, handling changes and rejected candidates are indexed
+in [Attempt 001 evidence](../artifacts/steering_jank/20260913/EVIDENCE.md).
+The recorded opposite-direction defect passes automated and rendered checks;
+controller acceptance remains separate. Existing tuck clothing contacts and a
+pole-push hand-snap check are retained findings, not cleared by this correction.
 
 Durable findings/limits are in [Animation](ANIMATION.md#retained-findings-and-acceptance).
 Reproduce with the animation skill, `tests/carve_entry_suite.gd`, production

@@ -16,6 +16,10 @@ func check(ok: bool, message: String):
 	print("PASS: " if ok else "FAIL: ",message)
 
 func steering(name: String, tick: int) -> float:
+	# Build a real opposite edge before the cross-slope steering switch.
+	# Do not depend on the old counterbank bug to manufacture this coverage.
+	if tick<120 and name=="cross_right": return -.55
+	if tick<120 and name=="cross_mirror_left": return .55
 	if tick<60: return 0.0
 	if name=="taps": return (.8 if int((tick-60)/12)%2==0 else -.8) if tick<300 else 0.0
 	if name=="reversal":

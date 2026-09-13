@@ -69,7 +69,16 @@ if ($VoiceBenchmark) { $alpinePlaytest = 'tests/skier_voice_benchmark.gd' }
 $alpineArgs = @('--path',$alpineRoot,'--script',$alpinePlaytest,'--',"--version=$Version","--face=$Face","--seed=$Seed","--side=$Side","--weather=$Weather","--time-of-day=$TimeOfDay","--benchmark-label=$Label",'--benchmark-resolution=3840x2160','--graphics-quality=high',"--render-scale=$RenderScale","--upscaler=$Upscaler","--fps-limit=$FrameCap","--terrain-gi=$TerrainGI","--frame-generation=$FrameGeneration")
 if ($ProfileGpuPasses) { $alpineArgs = @('--gpu-profile') + $alpineArgs }
 $alpineArgs += @("--benchmark-start=$StartZ","--benchmark-end=$EndZ")
-if ($Version -ge 14) { $alpineArgs += @("--input-trace=$InputTrace","--repetitions=$Repetitions","--trial-seconds=$TrialSeconds","--trial-start-seconds=$TrialStartSeconds",'--benchmark-no-captures') }
+if ($Version -ge 14) {
+    $alpineArgs += @("--input-trace=$InputTrace","--repetitions=$Repetitions",'--benchmark-no-captures')
+    # An ordinary scenario starts at launch and stops at the exact recorded tick.
+    # Benchmark windows remain opt-in for scenarios, including fractional clips.
+    $alpineWindowRequested = $PSBoundParameters.ContainsKey('TrialSeconds') -or $PSBoundParameters.ContainsKey('TrialStartSeconds')
+    if (-not $ScenarioReplay -or $alpineWindowRequested) {
+        if ($ScenarioReplay -and -not $PSBoundParameters.ContainsKey('TrialStartSeconds')) { $TrialStartSeconds = 0 }
+        $alpineArgs += @("--trial-seconds=$TrialSeconds","--trial-start-seconds=$TrialStartSeconds")
+    }
+}
 elseif (-not $ThirdPerson) { $alpineArgs += '--pov-forest' }
 if ($ProfileFrameCosts) { $alpineArgs += '--profile-frame-costs' }
 if ($ScenarioReplay) { $alpineArgs += '--scenario-replay' }

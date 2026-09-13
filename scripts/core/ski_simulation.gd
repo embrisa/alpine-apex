@@ -1,6 +1,6 @@
 class_name SkiSimulation
 extends RefCounted
-const MODEL_VERSION = 32
+const MODEL_VERSION = 33
 const TerrainMaterial = preload("res://scripts/core/terrain_material.gd")
 const Contact = preload("res://scripts/core/ski_contact.gd")
 const Body = preload("res://scripts/core/rider_body.gd")
@@ -720,7 +720,12 @@ func _update_contacts(surface, dt: float, advance_motors: bool = true, edge_rele
 			# the constrained leg fit can unwind together.
 			var bank: float = body.roll if body.initialized else 0.0
 			var edge_goal = clampf(edge_angle,-bank-.10,-bank+.10)
-			edge_goal = lerpf(edge_goal,edge_angle,edge_release)
+			# A pressure-limited body can counterbank under loose-snow resistance.
+			# Do not turn that outward bank into an opposite boot command. Release
+			# the restriction continuously over its existing 0.10 rad allowance;
+			# the same loaded response and motor rate still advance the real cuffs.
+			var counterbank_release = smoothstep(0.0,.10,bank*signf(edge_angle)) if was_grounded else 0.0
+			edge_goal = lerpf(edge_goal,edge_angle,maxf(edge_release,counterbank_release))
 			var edge_limit = deg_to_rad(tuning.maximum_edge_angle)
 			edge_goal = clampf(edge_goal,-edge_limit,edge_limit)
 			var edge_response_value = lerpf(ski.edge_angle,edge_goal,1.0-exp(-32.0*dt*(.65+shares[i])))

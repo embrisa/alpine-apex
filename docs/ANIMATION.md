@@ -290,6 +290,27 @@ Automated lean/continuity checks, rendered lean review, failed clothing clearanc
 measured CPU cost and real-controller acceptance remain separate. Human
 visual/controller acceptance is pending.
 
+## Recorded steering regression
+
+Final ankle targets read the actual rigid boot child in rider-local coordinates.
+Reconstructing the same attachment separately in world space introduced rounding
+gaps at mountain altitude; the cuff/attachment suites retain their existing limits.
+
+`tests/steering_recording_suite.gd` reruns the explicitly retained 9.2-second
+Attempt 001 input stimulus and mirrored steering on Standard terrain. It judges
+final body and torso direction, pelvis excursion and steering-joint continuity
+at render alpha 0, 0.5 and 1; clip-side checks alone missed this defect. The first
+wrong-way stage was the physical bank-following cuff command, not the authored
+turn or clearance fitting. The correction belongs to [Physics](PHYSICS.md#carving-skidding-and-tuck).
+
+`tests/steering_recording_capture.gd` freezes every completed tick and intermediate
+pose metrics, including path turn, bank, COP, both edges/loads, tuck, source and
+requested animation, clearance and final bones. Its explicit `--regression-fixture`
+mode reruns only this retained stimulus and emits a new current-model diagnostic
+recording; it does not migrate or accept an incompatible player replay. Use the
+ordinary `--input-trace` path for exact current-recording verification. The
+15-second uneven-snow neighbors are in `tests/steering_snow_suite.gd`.
+
 ## Retained findings and acceptance
 
 - Downhill R1/R2 were rejected despite plausible metrics/provisional author
