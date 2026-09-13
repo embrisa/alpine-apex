@@ -121,16 +121,18 @@ within leg reach. It cannot add kinetic energy, move position, assign heading
 or restore speed. The correction is not compressive load and creates no grip
 budget; ordinary suspension/gravity/friction still integrate afterward.
 
-Model 32 retains the model 31 takeoff detector but reduces snow retention to a
-fraction of eligible separating velocity through `snow_contact_strength`. This
-lets rough snow produce occasional natural hops instead of absorbing every small
+Model 34 retains the along-travel takeoff detector and uses a lighter
+fraction of eligible separating velocity through `snow_contact_strength`. Its
+lower convex-break threshold releases medium lips at speed while suspension,
+landing rebound damping and tangential snow resistance keep their existing
+values. This lets rough snow produce occasional natural hops instead of absorbing every small
 departure. The fraction, depth/load weighting and per-tick cap only remove energy;
 they do not impose a hop count or alter gravity.
 
 The detector identifies takeoffs from the signed change between 4 m height chords
 along the skier's actual travel direction. Only a convex grade break above
-10 degrees suppresses retention. Sideways triangle-normal changes and concave
-landing pockets no longer disable absorption and trigger repeated small hops.
+the tuned `snow_contact_lip_angle` suppresses retention. Sideways triangle-normal
+changes and concave landing pockets no longer disable absorption and trigger repeated small hops.
 The chords still detect real ledges with parallel normals; neither absolute
 steepness nor a lateral ridge alone is a lip. The same 4 m heights, existing
 reach, 3 m/s dissipation cap and snow/material gates remain authoritative.
@@ -144,10 +146,11 @@ release reason. Test rounded bumps separately from sharp drops and actual jumps.
 
 `tests/terrain_settle_suite.gd` checks actual cross-slope/concave/convex 4 m
 fixtures and two bounded 15-second current-mountain sections. The rough case
-targets two to three terrain departures in both the ordinary world and its
+targets three to four terrain departures in both the ordinary world and its
 obstacle-free contact companion, with bounded airtime. Smooth snow stays planted.
-These fixed-fixture targets are regressions, not a quota applied during play. The existing
-snow-grounding contracts retain jump/buffer, cliff, rock, mixed-foot, energy,
+A 0.8 m / 16 m snow lip must give one flight at 120/160 km/h and then stay
+supported for a full second; a 0.3 m bank remains absorbed. These fixture targets
+are regressions, not a quota applied during play. The existing snow-grounding contracts retain jump/buffer, cliff, rock, mixed-foot, energy,
 reach and reset checks. `scripts/capture_small_landing.ps1 -Terrain
 -OutputDirectory artifacts/terrain-review -View side` captures the final seven
 seconds after an eight-second ordinary-input lead-in, using production skier/
@@ -155,7 +158,7 @@ camera code on the real heightfield patch. It preserves real obstacle responses
 but omits scenery rendering; this is contact-motion evidence, not scene FPS.
 `-View chase` selects the gameplay camera. A frozen detector under `artifacts`
 can be supplied as `-ReferenceAssist` for a labelled causal comparison. Physics
-model 32 rejects model 31 recordings through the existing identity check; replay
+model 34 rejects model 33 recordings through the existing identity check; replay
 format remains 7. No old-record migration or speed restoration is introduced.
 
 ## Jumping and flight

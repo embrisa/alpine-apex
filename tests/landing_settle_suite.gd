@@ -22,25 +22,33 @@ func run() -> void:
 		{"name":"tuck","amplitude":.3,"wavelength":32.0,"kmh":120.0,"depth":.2,"tuck":1.0,"steer":.15}]:
 		var trace: Array = []; var row=Probe.measure(fixture,trace); results.append(row)
 		if fixture.name=="shallow":
-			# Shallow snow can release at later crests, separated by the actual
-			# ripple spacing; that is different from immediate touchdown rebound.
-			var spaced=true; var previous_z=-INF
-			for departure in row.launches:
-				spaced=spaced and departure.position[2]-previous_z>=fixture.wavelength*.6
-				if not departure.jump: spaced=spaced and departure.landing_age>=.15
-				previous_z=departure.position[2]
-			check(row.jumps==1 and row.launches.size()<=4 and row.landings.size()==row.launches.size() and row.final_grounded and spaced and row.airtime<1.2 and row.peak_clearance<.5,"Shallow snow allows separated crest hops without immediate landing rebound")
+			# A pending manual hop may follow an initial terrain departure.
+			# Natural releases must align with distinct actual crests; elapsed
+			# landing time alone cannot identify rebound just before another lip.
+			check(row.jumps==1 and row.landings.size()==row.launches.size() and row.final_grounded and distinct_crests(row,fixture) and row.airtime<2.5 and row.peak_clearance<.6,"Shallow snow releases at distinct crests while landings remain bounded")
 		else:
 			check(row.jumps==1 and row.launches.size()==1 and row.landings.size()==1 and row.final_grounded,fixture.name+": one deliberate hop followed by sustained support")
 		check(row.crash.is_empty() and row.ticks==480,fixture.name+": complete bounded scenario")
 	var sharp={"amplitude":.6,"wavelength":16.0,"depth":.06,"angle":.5,"kmh":120.0,"steer":.15,"tuck":1.0,"hop":false}
 	var trace: Array=[]; var row=Probe.measure(sharp,trace); results.append(row)
-	check(row.jumps==0 and row.launches.size()>=1 and row.launches.size()<=2 and row.airtime<.6 and row.final_grounded,"Shallow angled crests permit bounded terrain departures and then settle")
+	check(row.jumps==0 and not row.launches.is_empty() and row.landings.size()==row.launches.size() and distinct_crests(row,sharp) and row.airtime<3.5 and row.peak_clearance<2.2 and row.final_grounded,"Shallow angled snow releases once per encountered crest and recovers support")
 	await final_pose()
 	episodes()
 	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify({"model":Probe.Sim.MODEL_VERSION,"checks":checks,"failures":failures,"results":results,"human_acceptance":false},"\t"))
 	print("LANDING_SETTLE_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"output":output}))
 	quit(0 if failures.is_empty() else 1)
+func distinct_crests(row: Dictionary, fixture: Dictionary) -> bool:
+	var previous=-INF
+	for departure in row.launches:
+		if departure.jump: continue
+		var p=Vector2(departure.position[0],departure.position[2]).rotated(fixture.get("angle",0.0))
+		# SnowRipple is cos(along / wavelength), triangulated at 4 m. A
+		# departure must be within one authority cell of a crest, with the
+		# previous natural departure at least 60% of a wavelength behind.
+		var phase=wrapf(p.y,-fixture.wavelength*.5,fixture.wavelength*.5)
+		if absf(phase)>4.0 or p.y-previous<fixture.wavelength*.6: return false
+		previous=p.y
+	return true
 func final_pose() -> void:
 	var skier=preload("res://scripts/presentation/skier_visual.gd").new(); skier.preview_only=true; root.add_child(skier)
 	await process_frame

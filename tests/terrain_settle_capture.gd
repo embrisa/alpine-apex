@@ -65,7 +65,7 @@ func pack(value: Transform3D):
 	return {"origin":[value.origin.x,value.origin.y,value.origin.z],"basis":[[value.basis.x.x,value.basis.x.y,value.basis.x.z],[value.basis.y.x,value.basis.y.y,value.basis.y.z],[value.basis.z.x,value.basis.z.y,value.basis.z.z]]}
 func source_hashes():
 	var result={}
-	for file in ["scripts/core/ski_simulation.gd","scripts/core/snow_contact_assist.gd","scripts/core/ski_contact.gd","scripts/core/snow_contact_response.gd","scripts/core/snow_crush_contact.gd","scripts/core/ski_tuning.gd","scripts/core/rider_body.gd","config/ski_default.tres","scripts/presentation/skier_visual.gd","scripts/presentation/skier_animation.gd","scripts/presentation/skier_full_motion.gd","scripts/presentation/chase_camera.gd","assets/animation/apex_ski_motion.gd","assets/animation/steep_ski_motion.res","assets/graphics/models/skier_v7.glb","tests/terrain_settle_probe.gd","tests/terrain_settle_capture.gd"]:
+	for file in ["scripts/core/ski_simulation.gd","scripts/core/snow_contact_assist.gd","scripts/core/ski_contact.gd","scripts/core/snow_contact_response.gd","scripts/core/snow_crush_contact.gd","scripts/core/ski_tuning.gd","scripts/core/rider_body.gd","config/ski_default.tres","scripts/presentation/skier_visual.gd","scripts/presentation/skier_animation.gd","scripts/presentation/skier_full_motion.gd","scripts/presentation/pole_push_pose.gd","scripts/presentation/chase_camera.gd","assets/animation/apex_ski_motion.gd","assets/animation/steep_ski_motion.res","assets/graphics/models/skier_v7.glb","tests/terrain_settle_probe.gd","tests/terrain_settle_capture.gd"]:
 		result["res://"+file]=FileAccess.get_sha256("res://"+file)
 	if not reference.is_empty(): result[reference]=FileAccess.get_sha256(reference)
 	return result

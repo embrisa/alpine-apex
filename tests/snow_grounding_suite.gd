@@ -115,7 +115,7 @@ func run() -> void:
 	quit(0 if failures.is_empty() else 1)
 
 func contracts() -> void:
-	check(Sim.MODEL_VERSION==32 and Replay.VERSION==7 and Replay.INPUT_WIDTH==9,"Pole propulsion retains grounded snow with the held-preparation replay field")
+	check(Sim.MODEL_VERSION==34 and Replay.VERSION==7 and Replay.INPUT_WIDTH==9,"Pole propulsion retains grounded snow with the held-preparation replay field")
 	var field = Probe.SnowRipple.new(0,32,.20)
 	var sim = rider(Sim,field)
 	sim.velocity += sim.support_basis().y*1.0
@@ -138,7 +138,7 @@ func contracts() -> void:
 	sim.tuning.snow_contact_strength=0.0; assist.reset()
 	check(assist.advance(DT,sim,field,false)==Vector3.ZERO,"Zero retention adds no correction")
 	sim.tuning.snow_contact_strength=production.snow_contact_strength
-	assist.reset(); sim.velocity = before+sim.support_basis().y*8.0
+	assist.reset(); sim.velocity = before+sim.support_basis().y*10.0
 	delta = assist.advance(DT,sim,field,false)
 	check(absf(delta.length()-3.0)<.00001 and (sim.velocity+delta).length_squared()<sim.velocity.length_squared(),"Extreme separating velocity saturates at 3 m/s without adding energy")
 	sim.velocity = before

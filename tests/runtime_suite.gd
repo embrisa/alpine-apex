@@ -31,7 +31,7 @@ func run() -> void:
 	check(not game.active and game.hud.menu.visible,"Project opens at the start screen")
 	var dial_rect: Rect2 = game.hud.speed_dial.get_global_rect()
 	check(dial_rect.position.x>=0 and dial_rect.position.y>=0 and root.get_visible_rect().encloses(dial_rect),"Speed dial stays fully inside the viewport")
-	check(game.session.course_id==game.session.laboratory_identity() and game.session.course_id.contains("physics-v33-"),"Current physics and crash recovery use the laboratory benchmark identity")
+	check(game.session.course_id==game.session.laboratory_identity() and game.session.course_id.contains("physics-v34-"),"Current physics and crash recovery use the laboratory benchmark identity")
 	key(KEY_F2)
 	check(not game.active and game.hud.tuning_panel.visible,"Workbench pauses from the title screen")
 	var workbench_rect: Rect2 = game.hud.tuning_panel.get_global_rect()
