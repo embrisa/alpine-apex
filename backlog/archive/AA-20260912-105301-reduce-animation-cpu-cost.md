@@ -5,7 +5,7 @@ status: done
 priority: P1
 depends_on: ["AA-20260912-105300-reduce-streaming-frame-spikes"]
 created: "2026-09-12T10:53:00Z"
-updated: "2026-09-12T15:27:00Z"
+updated: "2026-09-13T14:15:08Z"
 source_thread: "01a09527-1988-7b50-b7c9-71ff6821cb00"
 ---
 
@@ -20,7 +20,7 @@ Increase rendered FPS by reducing repeated animation and final-pose computation,
 - The retained [v15/model-28 receipt](../../docs/V15_PERFORMANCE_BASELINE_RESULTS.json) records mean `animation_tick` 1.027 ms per fixed tick and `pose` 1.539 ms per rendered update. These have different cadences and overlapping scope boundaries; do not sum them into a claimed frame saving.
 - [Main](../../scripts/main.gd) separates fixed animation updates, visible pose updates and completed-pose ghost capture. The current ghost path can evaluate a completed pose before restoring normal interpolation; verify its actual cost on the implemented build.
 - [Animation](../../docs/ANIMATION.md#production-pipeline) identifies [SkierAnimation](../../scripts/presentation/skier_animation.gd), [SkierFullMotion](../../scripts/presentation/skier_full_motion.gd), [SkierVisual](../../scripts/presentation/skier_visual.gd) and the single final skeleton writer. Full motion samples retargeted clips and applies posture/anatomy/fitting; F8 procedural comparison remains live.
-- Related work: [pole pushing](AA-20260911-183812-slope-limited-pole-pushing.md) and [animated ghosts](AA-20260911-220556-animated-ghost-snow-tracks.md). Inspect their completed sources before fixing a baseline. This task does not author different motions or reopen the abandoned animator editor.
+- Related work: [pole pushing](../tasks/AA-20260911-183812-slope-limited-pole-pushing.md) and [animated ghosts](../tasks/AA-20260911-220556-animated-ghost-snow-tracks.md). Inspect their completed sources before fixing a baseline. This task does not author different motions or reopen the abandoned animator editor.
 
 Inspected during backlog authoring on 2026-09-12. The retained full-descent
 baseline is 92.568 average rendered FPS, frame p95/p99 16.311/23.198 ms, at
@@ -33,8 +33,8 @@ performed during authoring. Read [the baseline limits](../../docs/VALIDATION.md#
 
 The user selected all four FPS areas for separate backlog implementation.
 Priority is P1. Order: [streaming](AA-20260912-105300-reduce-streaming-frame-spikes.md),
-[animation CPU](AA-20260912-105301-reduce-animation-cpu-cost.md), [dense-scene GPU](AA-20260912-105302-reduce-dense-scene-gpu-cost.md),
-then [batch visibility](../archive/AA-20260912-105303-improve-spatial-batch-visibility.md). Dependencies serialize shared edits and
+[animation CPU](AA-20260912-105301-reduce-animation-cpu-cost.md), [dense-scene GPU](../tasks/AA-20260912-105302-reduce-dense-scene-gpu-cost.md),
+then [batch visibility](AA-20260912-105303-improve-spatial-batch-visibility.md). Dependencies serialize shared edits and
 performance attribution; they do not authorize this authoring task to dispatch.
 
 Own clip sampling, immutable lookup/index preparation, temporary-data allocation and repeated transform/fitting evaluation. Preserve 120 Hz physical state, source timing, action clocks, render interpolation, final anatomy, rigid boots/skis, fixed grips and the single skeleton writer. Keep ghost capture cadence and exact boundaries; never skip visible or recorded poses simply to reduce work.
@@ -236,3 +236,8 @@ Useful evidence is retained for unresolved findings and review. After push,
 only the superseded candidate1 raw dump was removed under the validation lock;
 its comparison/source and the final paired captures remain. Other tasks' outputs
 and initial unrelated untracked files were preserved.
+
+**Archived on 2026-09-13:** completed implementation and acceptance history remain
+`done`; the broader optimization path is not declared exhausted. Remaining work
+is scoped in the [new focused task](../tasks/AA-20260913-141128-reduce-pelvis-fitting-cpu-cost.md).
+This archival does not reopen implementation or invalidate completed dependencies.

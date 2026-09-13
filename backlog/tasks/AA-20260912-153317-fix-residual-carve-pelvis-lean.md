@@ -25,7 +25,7 @@ the task if the exaggerated held/released pose remains.
 
 ## Current state and evidence
 
-Observed during [animation CPU optimization](AA-20260912-105301-reduce-animation-cpu-cost.md),
+Observed during [animation CPU optimization](../archive/AA-20260912-105301-reduce-animation-cpu-cost.md),
 implemented at `50a5c83` with completion record `ef43412`. Authoring inspected
 `14a4397` on 2026-09-12; its only later changes are three unrelated UID files.
 Physics model 29, Godot 4.7.2 custom `ed1daf0bf`. No new engine run or fix was

@@ -5,7 +5,7 @@ status: done
 priority: P1
 depends_on: []
 created: "2026-09-12T10:53:00Z"
-updated: "2026-09-12T14:35:07Z"
+updated: "2026-09-13T14:15:08Z"
 source_thread: "01a09527-1988-7b50-b7c9-71ff6821cb00"
 ---
 
@@ -20,7 +20,7 @@ Make skiing through rock and forest boundaries smoother by reducing intermittent
 - The retained [v15/model-28 receipt](../../docs/V15_PERFORMANCE_BASELINE_RESULTS.json) reports medians of run scope maxima: collision preparation 25.941 ms, mineral streaming 19.238 ms and forest residency 13.762 ms. These are overlapping CPU scopes, not proven causes of particular slow frames or current model-29 measurements.
 - [Main](../../scripts/main.gd) measures `crash_collision.prepare(p)` under `collision_preparation`. [CrashCollision](../../scripts/world/crash_collision.gd) builds nearby terrain/obstacle bodies for ragdolls; this is distinct from the normal skiing support solver.
 - [MineralScenery](../../scripts/presentation/mineral_scenery.gd) checks macro texture residency every 0.5 seconds and changes at most two shared sources per frame. [DensityForest](../../scripts/presentation/density_forest.gd) already prepares immutable meshes/transforms before skiing and loads at most three regions per update. Count limits do not establish time bounds; do not propose these existing foundations as missing.
-- Related work: [crash recovery](AA-20260911-221843-crash-location-respawn.md), [colorful forests](AA-20260912-094935-colorful-forest-variety.md) and [terrain grass](AA-20260911-193341-terrain-grass.md). Preserve their ownership and current status.
+- Related work: [crash recovery](../tasks/AA-20260911-221843-crash-location-respawn.md), [colorful forests](../tasks/AA-20260912-094935-colorful-forest-variety.md) and [terrain grass](../tasks/AA-20260911-193341-terrain-grass.md). Preserve their ownership and current status.
 
 Inspected during backlog authoring on 2026-09-12. The retained full-descent
 baseline is 92.568 average rendered FPS, frame p95/p99 16.311/23.198 ms, at
@@ -33,8 +33,8 @@ performed during authoring. Read [the baseline limits](../../docs/VALIDATION.md#
 
 The user selected all four FPS areas for separate backlog implementation.
 Priority is P1. Order: [streaming](AA-20260912-105300-reduce-streaming-frame-spikes.md),
-[animation CPU](AA-20260912-105301-reduce-animation-cpu-cost.md), [dense-scene GPU](AA-20260912-105302-reduce-dense-scene-gpu-cost.md),
-then [batch visibility](../archive/AA-20260912-105303-improve-spatial-batch-visibility.md). Dependencies serialize shared edits and
+[animation CPU](AA-20260912-105301-reduce-animation-cpu-cost.md), [dense-scene GPU](../tasks/AA-20260912-105302-reduce-dense-scene-gpu-cost.md),
+then [batch visibility](AA-20260912-105303-improve-spatial-batch-visibility.md). Dependencies serialize shared edits and
 performance attribution; they do not authorize this authoring task to dispatch.
 
 Own runtime preparation scheduling, allocation/resource reuse, preload decisions and publication boundaries in the three measured systems. The later batch task owns spatial batch partitioning; the GPU task owns shader/pass cost. Keep existing visible ranges and collision coverage; moving work earlier must not replace a skiing hitch with unbounded startup or memory cost. Never delay required physical support or leave a crash without its collision neighborhood.
@@ -203,3 +203,8 @@ comparison. Engine worker SHA-256:
 launcher `0c4e9e4d32c3e550189f463efbf16bd7325cd26eae69b6718a40dc4088ef0b0b`.
 Evidence is retained for review and the unresolved visual finding. Only a
 redundant task-owned prototype is removed after push; other task outputs remain.
+
+**Archived on 2026-09-13:** completed implementation and acceptance history remain
+`done`; the broader optimization path is not declared exhausted. Remaining work
+is scoped in the [new focused task](../tasks/AA-20260913-141128-reduce-forest-publication-and-collision-bursts.md).
+This archival does not reopen implementation or invalidate completed dependencies.

@@ -1,21 +1,45 @@
 ---
 id: "AA-20260912-105302-reduce-dense-scene-gpu-cost"
-title: "Reduce dense-scene GPU cost while preserving visual quality"
-status: blocked
+title: "Reduce the largest remaining dense-scene GPU passes"
+status: ready
 priority: P1
 depends_on: ["AA-20260912-105301-reduce-animation-cpu-cost"]
 created: "2026-09-12T10:53:00Z"
-updated: "2026-09-13T00:22:09Z"
+updated: "2026-09-13T14:15:08Z"
 source_thread: "01a09527-1988-7b50-b7c9-71ff6821cb00"
 ---
 
-# Reduce dense-scene GPU cost while preserving visual quality
+# Reduce the largest remaining dense-scene GPU passes
 
 ## Outcome
 
 Raise actual rendered FPS in dense terrain and forest scenes by making expensive rendering passes cheaper while preserving the current 4K presentation, lighting, foliage and snow.
 
 ## Current state and evidence
+
+**Current focus, 2026-09-13:** the user requested backlog items for the remaining
+FPS work and authorized rewriting older items with a new focus. Reuse this ID
+and its rejected-candidate history. This is ready for later backlog dispatch;
+authoring does not resume the old Codex task or launch an implementation.
+Origin of the new direction: `01a09aec-9f0a-71a3-b543-b8b9765e660d`.
+
+The [latest diagnostics](../../artifacts/fps_next/REPORT.md), following `d768808`,
+measured median run GPU means of 10.394 ms in forest stress, 9.168 ms in rock
+stress and 7.801 ms in open stress at 4K High/Auto 75%, FG/GI off. These are
+15-second model-35/generator-15 observations, not current named-pass attribution.
+The 120-FPS GPU budget is 8.333 ms before considering other frame bottlenecks.
+CPU reductions did not remove this limit. Re-establish the current identity,
+shader/runtime hashes and fresh baseline; the latest session had baseline drift
+and an inconclusive ordinary-input FPS result. Its exact trace/camera/settings
+receipts are in `artifacts/fps_next/comparison.json` and `audit.json`.
+
+Prioritize materially expensive depth/moving/opaque geometry or reconstruction/
+post-processing work only after renewed named-pass measurements. The earlier
+powder reconstruction and zero-opacity/zero-coverage shader probes were too
+small or failed production comparisons. Revisit one only if new attribution
+changes its cost premise; do not repeat the same micro-optimizations by default.
+Missing local ignored artifacts require fresh diagnostics from the current
+producers; they are not shipped dependencies. Earlier evidence follows:
 
 - The retained [v15/model-28 receipt](../../docs/V15_PERFORMANCE_BASELINE_RESULTS.json) reports GPU mean 8.607 ms and p95 11.827 ms; sustained 120 FPS has an 8.333 ms total frame budget. GPU and CPU work overlap, and these measurements do not identify the dominant GPU pass.
 - [Rendering](../../docs/RENDERING.md) owns the current terrain/forest, snow, weather and native FidelityFX contracts. Candidate owners include [terrain surface shading](../../assets/graphics/alpine_surface_fragment.gdshaderinc), [forest geometry](../../assets/graphics/pc_forest_tree.gdshader), [forest impostors](../../assets/graphics/pc_tree_impostor.gdshader), and [powder](../../scripts/presentation/powder_surface.gd).
@@ -31,13 +55,18 @@ performed during authoring. Read [the baseline limits](../../docs/VALIDATION.md#
 
 ## Agreed decisions and scope
 
-The user selected all four FPS areas for separate backlog implementation.
-Priority is P1. Order: [streaming](AA-20260912-105300-reduce-streaming-frame-spikes.md),
-[animation CPU](AA-20260912-105301-reduce-animation-cpu-cost.md), [dense-scene GPU](AA-20260912-105302-reduce-dense-scene-gpu-cost.md),
-then [batch visibility](../archive/AA-20260912-105303-improve-spatial-batch-visibility.md). Dependencies serialize shared edits and
-performance attribution; they do not authorize this authoring task to dispatch.
+Priority remains P1. The earlier streaming, animation CPU and
+[spatial-batch work](../archive/AA-20260912-105303-improve-spatial-batch-visibility.md)
+are completed history. The existing completed animation prerequisite remains
+dependency-valid. New [terrain/snow query](AA-20260913-141128-reduce-terrain-and-snow-query-cost.md),
+[pelvis fitting](AA-20260913-141128-reduce-pelvis-fitting-cpu-cost.md) and
+[forest publication](AA-20260913-141128-reduce-forest-publication-and-collision-bursts.md)
+items own their CPU areas; do not absorb their work into GPU attribution.
+Reserve actual source/read scopes, classify this task FPS-sensitive and use
+FpsCritical for measurements. No dependency on those independent items is needed
+merely to serialize timing; rebaseline after overlapping changes.
 
-Own demonstrated GPU shader/pass bottlenecks in shadows, foliage, terrain/snow, weather or distant scenery. The fourth task owns spatial batch partitioning/culling. Preserve output/internal resolution, reconstruction provider, density, detail distances, shadow quality, enabled effects and physical identities. Temporary diagnostic feature toggles are allowed only for attribution; restored production visuals are required for accepted results.
+Own demonstrated GPU shader/pass bottlenecks in shadows, foliage, terrain/snow, weather or distant scenery. Preserve the completed spatial grouping and its visibility bounds unless a fresh GPU attribution explicitly justifies revisiting it. Preserve output/internal resolution, reconstruction provider, density, detail distances, shadow quality, enabled effects and physical identities. Temporary diagnostic feature toggles are allowed only for attribution; restored production visuals are required for accepted results.
 
 Preserve the production Node-independent 120 Hz solver, 4 m support, ordinary inputs,
 race/replay authority, current visual quality and personal settings/records.
@@ -61,6 +90,19 @@ Production physics, input/replay behavior and personal settings remain unchanged
 2. Compare open snow, a dense forest and a mineral-rich section. Use isolated diagnostic toggles or reduced resolution only to identify sensitivity; never count their quality changes as a delivered gain.
 3. Optimize the highest demonstrated cost: remove duplicate sampling/calculation, avoid unused shader work, share equivalent material inputs or eliminate redundant passes/copies without changing their visible result. Preserve history, barriers and pipeline-state contracts if touching native renderer integration.
 4. Establish correctness on High first, then exercise affected Low/Balanced/Ultra consumers and effect toggles. Keep terrain relief, track continuity, readable weather and shadows intact during motion.
+5. Rank the remaining passes by current cost and a defensible upper bound on
+   removable equivalent work. Distinguish geometry/overdraw, pixel shading,
+   bandwidth, synchronization and reconstruction before choosing a candidate.
+   Use the existing `-ProfileGpuPasses` collector separately from capture-free
+   acceptance, validate delayed query/frame IDs and reject missing/disjoint
+   timing. The engine marker named FSR2 does not itself identify the active
+   upscaler provider. A native kernel/renderer patch must include transfer,
+   barrier, runtime-selection and packaging costs, not just shader timings.
+6. Keep an ordinary-input control alongside the explicit forest/rock/open stress
+   workload. If run ranges overlap or the baseline drifts, use counterbalanced
+   trials or a return-to-original control before attributing a gain. Only a
+   repeated rendered-FPS or frame-tail improvement with matched visuals qualifies;
+   removing a fraction of a millisecond from one pass alone does not.
 
 ## Acceptance and verification
 
@@ -128,6 +170,15 @@ must be completed; do not claim user acceptance.
 None
 
 ## Completion record
+
+**Ready for renewed backlog work, 2026-09-13:** the user's new request authorizes
+the focused investigation above for later dispatch and supersedes the historical
+pause below for backlog eligibility only. No worker is claimed or launched and
+the former Codex task is not resumed. Preserve the following dated history;
+completion remains pending until an equivalent-quality production gain passes
+the acceptance gates. Record the new baseline, ranked pass evidence, successful
+and rejected candidates, actual tests, rendered comparisons, individual timing
+runs, remaining target gap, human acceptance and commit/push references.
 
 Initial investigation on 2026-09-12; reopened for continued manual implementation. **No production optimization
 was accepted or retained.** The tested GPU savings did not establish a rendered

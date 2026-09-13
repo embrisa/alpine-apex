@@ -59,7 +59,7 @@ did not reproduce the bounce, run an engine workload or establish its cause.
   comparison would not establish this current landing fix. `--contracts` runs
   its baseline-independent contracts.
 - No existing task directly owns this complaint. Preserve the completed
-  [animation CPU work](../tasks/AA-20260912-105301-reduce-animation-cpu-cost.md).
+  [animation CPU work](AA-20260912-105301-reduce-animation-cpu-cost.md).
   [Pole transitions](../tasks/AA-20260912-132147-finish-pole-transition-validation.md) and
   [residual carving pose](../tasks/AA-20260912-153317-fix-residual-carve-pelvis-lean.md)
   share presentation owners but have distinct defects; coordinate any overlap
