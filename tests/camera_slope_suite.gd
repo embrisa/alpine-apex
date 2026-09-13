@@ -35,16 +35,22 @@ func run() -> void:
 	camera = Camera.new(); root.add_child(camera)
 	for preset in camera.CameraSettings.BUILT_INS:
 		for close in [false,true]:
-			for slope in [-50,-30,-20,0,15,30,45]:
+			for slope in [-50,-30,-20,-15,-10,-5,0,5,10,15,30,45]:
 				for kmh in [0,120,200]:
 					reset(slope,close,preset,kmh)
 					camera.effects_enabled = true
 					camera.reset(); camera.update_camera(sim,field,sim.position,0)
 					var values = camera.settings.profile("first_person" if close else "chase")
 					var label = "%s / %s / %d deg / %d kmh" % [preset,close,slope,kmh]
-					check(absf(pitch()-clampf(values.rest_tilt+(slope if close else maxf(slope,-15))+15,-80,80))<.01,"Directional slope aim: "+label)
+					check(absf(pitch()-clampf(values.rest_tilt+(slope if close else maxf(slope,-15)+maxf(0,15-absf(slope)))+15,-80,80))<.01,"Directional slope aim: "+label)
 					var ahead = Vector3(0,field.sample(0,20).height+.1,20)
 					check(not camera.is_position_behind(ahead) and root.get_visible_rect().has_point(camera.unproject_position(ahead)),"20m forward terrain is visible: "+label)
+					if slope == 0:
+						var distant = camera.position + Vector3.BACK*10000
+						var horizon_y = camera.unproject_position(distant).y/root.size.y
+						check(horizon_y >= .15 and horizon_y <= .55,"Flat horizon has useful screen margin: "+label)
+						var far_ground = Vector3(0,.1,100)
+						check(root.get_visible_rect().has_point(camera.unproject_position(far_ground)),"100m flat terrain is visible: "+label)
 					if not close:
 						for height in [0.05,0.8,1.65]:
 							var point = Vector3.UP*height
@@ -82,17 +88,17 @@ func run() -> void:
 	reset(30)
 	sim.heading = PI/2; sim.velocity = Vector3.ZERO; camera.reset()
 	step(1)
-	check(absf(pitch()+30)<.01,"Traversing a slope uses cross-slope grade")
+	check(absf(pitch()+15)<.01,"Traversing a slope uses cross-slope grade")
 	sim.heading = PI; camera.reset(); step(1)
 	check(absf(pitch()+45)<.01,"Reversing direction follows the downhill grade")
 	reset()
 	field.bumps = true; sim.position.y = 5
 	step(1)
-	check(absf(pitch()+30)<.01,"Nearby bumps do not steer pitch")
+	check(absf(pitch()+15)<.01,"Nearby bumps do not steer pitch")
 	var state = [sim.position,sim.velocity,sim.ticks,sim.heading,sim.grounded]
 	camera.reset(); camera.update_camera(sim,field,sim.position,0,false,false,false,200)
 	check(state==[sim.position,sim.velocity,sim.ticks,sim.heading,sim.grounded],"Slope preview preserves simulation state")
-	check(absf(pitch()+30)<.01,"Preview shares the slope evaluator")
+	check(absf(pitch()+15)<.01,"Preview shares the slope evaluator")
 	print("CAMERA_SLOPE_RESULTS ",JSON.stringify({"checks":checks,"failures":failures}))
 	camera.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

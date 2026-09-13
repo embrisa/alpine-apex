@@ -347,12 +347,15 @@ func _stabilization_checks() -> void:
 		previous_y = camera.position.y
 	check(monotonic and absf(camera.position.y-2.0)<0.02,"Clearing an obstruction settles without repeated upward kicks")
 	reset()
+	update(0.1)
+	var unobstructed_boom: Vector3 = camera.position
+	reset()
 	var rocks = RockSurface.new()
 	camera.update_camera(sim,rocks,sim.position,1.0/120.0)
 	check(absf(camera.position.z)<3.0 and camera.position.y>=1.0,"Rock obstruction still retracts the stabilized boom")
 	rocks.blocked = false
 	for frame in 360: camera.update_camera(sim,rocks,sim.position,1.0/120.0)
-	check(absf(camera.position.z+3.0)<0.01,"Boom releases smoothly after rock obstruction clears")
+	check(camera.position.distance_to(unobstructed_boom)<0.01,"Boom releases smoothly after rock obstruction clears")
 
 func _bump_metrics(hz: int, strength: float, close: bool) -> Dictionary:
 	reset()
@@ -529,7 +532,7 @@ func _framing_checks() -> void:
 				camera.close_view = view=="first_person"
 				update(0.1)
 				var expected: Vector4 = camera.settings.framing(view,kmh)
-				check(absf(camera.fov-expected.x)<.001 and absf(rad_to_deg(optical_pitch())-(expected.w+15.0))<.001,"Live framing adds flat-ground correction to evaluator: %s / %s / %d" % [view,preset,kmh])
+				check(absf(camera.fov-expected.x)<.001 and absf(rad_to_deg(optical_pitch())-(expected.w+(15.0 if view=="first_person" else 30.0)))<.001,"Live framing adds flat-ground correction to evaluator: %s / %s / %d" % [view,preset,kmh])
 				if view=="chase": check(absf(camera.boom_distance-expected.y)<.001 and absf(camera.boom_height-expected.z)<.001,"Boom uses same speed progression")
 				var before = [sim.position,sim.velocity,sim.heading,sim.ticks]
 				camera.reset()
@@ -541,7 +544,7 @@ func _framing_checks() -> void:
 		configure({"rest_fov":endpoints.x,"fast_fov":endpoints.y,"rest_tilt":-55,"fast_tilt":-35})
 		update(.1)
 		check(absf(camera.fov-lerpf(endpoints.x,endpoints.y,pow(.5,1.6)))<.001,"Custom and reversed lens endpoints")
-		check(absf(rad_to_deg(optical_pitch())-(lerpf(-55,-35,pow(.5,1.6))+15.0))<.001,"Configured tilt interpolates independently of slope correction")
+		check(absf(rad_to_deg(optical_pitch())-(lerpf(-55,-35,pow(.5,1.6))+30.0))<.001,"Configured tilt interpolates independently of slope correction")
 		var pitch = optical_pitch()
 		configure({"rest_distance":12,"fast_distance":16,"rest_height":12,"fast_height":16})
 		update(3)
@@ -561,7 +564,7 @@ func _framing_checks() -> void:
 	configure({"rest_tilt":-35,"fast_tilt":-60})
 	camera.effects_enabled = false
 	update(.1)
-	check(camera.fov==55 and camera.boom_distance==3 and absf(rad_to_deg(optical_pitch())+20)<.001,"V keeps resting framing, chosen tilt and slope following")
+	check(camera.fov==55 and camera.boom_distance==3 and absf(rad_to_deg(optical_pitch())+5)<.001,"V keeps resting framing, chosen tilt and slope following")
 	reset(120)
 	camera.settings.set_value("shared","auto_recenter",false)
 	camera.settings.set_value("shared","invert_y",true)

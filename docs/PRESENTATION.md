@@ -260,10 +260,13 @@ profiles skip these queries.
 
 Add `strength * (aim_grade + 15°)` to reference tilt. First person uses filtered
 grade directly; chase clamps its minimum to −15° to retain steep-downhill
-framing. Uphill orbit adjustment shares that grade. Directional grade is bounded
-to ±65° and final optical pitch to ±80°. Zero strength restores absolute tilt.
-For Connected, default flat-ground aim is −30° chase/−10° first person; a 30°
-uphill gives 0°/+20°. Manual look applies after slope correction; recenter
+framing. Chase adds up to 15° more lift on flat terrain, fading linearly to zero
+at ±15° grade. The boom orbits with this lift to keep the skier and skis visible;
+the existing snow/solid clearance still wins. Uphill orbit adjustment shares the
+filtered grade. Directional grade is bounded to ±65° and final optical pitch to
+±80°. Zero strength restores absolute tilt and disables the extra flat lift.
+For Connected, default flat-ground aim is −15° chase/−10° first person; a 30°
+uphill retains 0°/+20°. Manual look applies after slope correction; recenter
 returns to the corrected aim.
 
 ### Look and motion

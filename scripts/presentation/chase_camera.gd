@@ -171,7 +171,10 @@ func update_camera(sim, field, rider_position: Vector3, dt: float, menu: bool = 
 		_update_slope(field,rider_position,orbit_forward,dt,sim.grounded,profile.slope_smoothing)
 	else:
 		slope_initialized = false
-	var uphill_orbit = maxf(0.0,slope_pitch) * slope_weight * UPHILL_ORBIT_GAIN
+	# Lift shallow chase framing enough to retain the horizon. Fade to zero
+	# at either 15-degree grade, preserving established downhill/uphill views.
+	var flat_lift = maxf(0.0,-SLOPE_REFERENCE-absf(slope_pitch)) if not close_view else 0.0
+	var uphill_orbit = (maxf(0.0,slope_pitch)+flat_lift) * slope_weight * UPHILL_ORBIT_GAIN
 	var distance_value = 30.0 if summit else boom_distance
 	var height_value = 45.0 if summit else boom_height
 	var chase = not close_view and not summit and not menu
@@ -186,7 +189,7 @@ func update_camera(sim, field, rider_position: Vector3, dt: float, menu: bool = 
 		var behind = rider_position - orbit_forward * distance_value
 		height_value = maxf(height_value, field.sample(behind.x, behind.z).height + preferred_clearance - rider_position.y)
 	var radius = Vector2(distance_value, height_value).length()
-	# Rotate the uphill boom around the skier as the aim rises. Simply tilting
+	# Rotate the boom around the skier as the shallow/uphill aim rises. Tilting
 	# from a high world-space boom would leave the skier below the screen.
 	var automatic_elevation = atan2(height_value,distance_value)-uphill_orbit
 	var automatic_height = rider_position.y + sin(automatic_elevation)*radius
@@ -233,7 +236,7 @@ func update_camera(sim, field, rider_position: Vector3, dt: float, menu: bool = 
 		# Chase already clears uphill snow on steep descents. Further downward
 		# rotation would crop the skier and replace the forward view with ground.
 		var aim_grade = slope_pitch if close_view else maxf(slope_pitch,SLOPE_REFERENCE)
-		var pitch = deg_to_rad(framing.w) + (aim_grade-SLOPE_REFERENCE)*slope_weight
+		var pitch = deg_to_rad(framing.w) + (aim_grade-SLOPE_REFERENCE+flat_lift)*slope_weight
 		look_at(position + smoothed_forward)
 		global_basis = Basis(Vector3.UP, look_yaw) * global_basis
 		rotate_object_local(Vector3.RIGHT, clampf(pitch + look_pitch, deg_to_rad(-80.0), deg_to_rad(80.0)))

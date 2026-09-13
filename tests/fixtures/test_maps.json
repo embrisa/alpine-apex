@@ -249,6 +249,11 @@
       "full_mountain": false,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
+    "tests/camera_flat_playtest.gd": {
+      "maps": ["flat-pad"],
+      "full_mountain": false,
+      "coverage": "Frozen production flat-ground camera framing and optional archived-camera comparison."
+    },
     "tests/camera_profiles_suite.gd": {
       "maps": [],
       "full_mountain": false,
