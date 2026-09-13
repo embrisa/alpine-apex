@@ -45,6 +45,15 @@ Never weaken a peer's classification or use performance acceptance under competi
 work. Keep existing engine/Blender workloads serial through the validation guard.
 Coordinate brief path-only commits; a peer's staged/dirty files remain theirs.
 
+Do not block implementation just because a test reads unfinished source left by
+an idle/released worker. Inspect it, declare the read dependency and preserve its
+bytes/index as the baseline under OPERATIONS. Run against that identified source
+and check for drift. Fixing or committing that other feature is not a prerequisite.
+Treat helper refusals as concrete diagnostics: resolve missing activity evidence
+or an unnecessarily broad scope autonomously, and stop only when the actual
+required work still conflicts or cannot be validated. Never omit a real stable
+input or bypass a live writer's reservation to make a check pass.
+
 ## Record and release
 
 Optional follow-ups: zero to three evidence-backed [ideas](ideas/README.md), no

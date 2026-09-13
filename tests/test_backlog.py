@@ -499,6 +499,64 @@ class BacklogTests(unittest.TestCase):
         self.assertIn("new.gd", result["reason"])
         self.assertEqual((self.root / "new.gd").read_text(), "user edit")
 
+    def test_dirty_read_input_can_dispatch_without_staging_or_changing_it(self):
+        self.parallel_tasks("snow", "poles")
+        pole = self.root / "poles.gd"
+        pole.write_text("staged candidate", encoding="utf-8")
+        self.run_git("add", "--", "poles.gd")
+        pole.write_text("unfinished pole candidate", encoding="utf-8")
+        index = self.run_git("ls-files", "--stage", "--", "poles.gd")
+        token = self.start_scoped("snow", self.write_scope("snow", reads=["poles.gd"]))
+        self.assertEqual(pole.read_text(), "unfinished pole candidate")
+        self.assertEqual(self.run_git("ls-files", "--stage", "--", "poles.gd"), index)
+        claim = self.call("status")["state"]["claim"]
+        self.assertIn("poles.gd", claim["dirty_baseline"])
+        self.assertEqual(claim["token"], token)
+
+    def test_new_dirty_read_scope_can_complete_with_input_preserved(self):
+        self.parallel_tasks("snow", "poles")
+        remote = self.base / "origin.git"
+        subprocess.run(["git", "init", "--bare", str(remote)], check=True, capture_output=True)
+        self.run_git("remote", "add", "origin", str(remote))
+        self.run_git("push", "-u", "origin", "main")
+        token = self.start_scoped("snow")
+        pole = self.root / "poles.gd"
+        pole.write_text("preserved candidate", encoding="utf-8")
+        self.run_git("add", "--", "poles.gd")
+        index = self.run_git("ls-files", "--stage", "--", "poles.gd")
+        scope = self.write_scope("snow", reads=["poles.gd"])
+        self.parallel_receipt()
+        result = self.call("scope", "--token", token, "--scope", scope, owner="worker-snow")
+        self.assertEqual(result["status"], "ok", result)
+        baseline = result["claim"]["dirty_baseline"]["poles.gd"]
+        # Repeated scope changes cannot bless modifications to an existing input.
+        pole.write_text("changed during validation", encoding="utf-8")
+        self.parallel_receipt()
+        result = self.call("scope", "--token", token, "--scope", scope, owner="worker-snow")
+        self.assertEqual(result["claim"]["dirty_baseline"]["poles.gd"], baseline)
+        self.finish_scoped("snow", token, "done")
+        paths = ["backlog/tasks/AA-snow.md", "backlog/archive/AA-snow.md"]
+        self.run_git("add", "--", *paths)
+        self.run_git("commit", "--only", "-m", "Snow delivered", "--", *paths)
+        self.run_git("push", "origin", "main")
+        rejected = self.call("release", "--token", token, owner="worker-snow", error=True)
+        self.assertIn("poles.gd", rejected["reason"])
+        pole.write_text("preserved candidate", encoding="utf-8")  # Restore fixture-only injected change.
+        self.assertEqual(self.call("release", "--token", token, owner="worker-snow")["status"], "ok")
+        self.assertEqual(self.run_git("ls-files", "--stage", "--", "poles.gd"), index)
+        self.assertEqual(self.run_git("show", "HEAD:poles.gd"), "base")
+
+    def test_active_dirty_writer_still_blocks_read_scope(self):
+        self.parallel_tasks("snow", "poles")
+        token = self.start_scoped("snow")
+        self.start_scoped("poles")
+        (self.root / "poles.gd").write_text("active candidate", encoding="utf-8")
+        self.parallel_receipt()
+        result = self.call("scope", "--token", token, "--scope",
+                           self.write_scope("snow", reads=["poles.gd"]), owner="worker-snow")
+        self.assertEqual(result["status"], "skipped")
+        self.assertIn("Reserved paths overlap", result["reason"])
+
     def test_incomplete_dirty_task_does_not_block_independent_queue(self):
         broken = self.task("AA-edited")
         self.task("AA-dependent", deps=["AA-edited"])

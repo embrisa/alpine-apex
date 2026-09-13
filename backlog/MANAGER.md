@@ -44,7 +44,7 @@ explicit priorities/dependencies, then oldest ready task within equal priority.
 Retired prerequisites are not completed; adjust justified scope/history coherently.
 
 Inspect existing changes and all worker reservations against candidate scope and validation needs. Choose
-an independent ready task when a candidate overlaps unfinished work; do not skip
+an independent ready task when a candidate would overwrite unfinished work; do not skip
 the whole queue because one file is dirty. Leave unrelated files and index entries
 untouched. Do not groom a task with someone else's uncommitted edits. If every
 candidate truly conflicts, name the affected paths and task IDs and the concrete
@@ -64,8 +64,9 @@ queue. Never fix someone else's task edit merely to clear validation. Commit/pus
 only owned grooming. No eligible task: release and finish. Refresh
 activity before prepare; reassess every peer and new edit. Pass `--scope FILE` to
 prepare. A path conflict or incompatible validation need skips that candidate;
-consider the next eligible task. Dirty candidate inputs/task records also skip
-only that candidate. Compatible workers' evolving reserved files are preserved
+consider the next eligible task. Dirty write targets/task records skip only that
+candidate. Preserved dirty read inputs are valid once active writers are excluded;
+follow OPERATIONS and pass their fingerprints to the worker. Compatible workers' evolving reserved files are preserved
 through prepare, accept and completion. Exhausted queue/no compatible candidate:
 release the manager claim and finish with the concrete reason.
 

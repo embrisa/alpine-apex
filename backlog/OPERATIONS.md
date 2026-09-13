@@ -102,6 +102,17 @@ required for concurrent dispatch; omitted/unclassified implementation scope is
 exclusive. `check`/`claim` may also take `--scope` to assess a candidate early.
 The manager itself reserves only its dispatch slot, and must groom disjoint paths.
 
+Uncommitted read inputs are allowed when no active writer owns them. Inspect
+and fingerprint the existing bytes; preserve their index entries and include
+their hashes in validation evidence. Prepare records them in `dirty_baseline`;
+scope expansion records newly added dirty read inputs without taking write
+ownership. A later scope call cannot refresh an already reserved input's
+baseline to hide drift. Changed inputs require re-evaluating affected evidence.
+An idle/released worker's unfinished source does not have to be fixed, committed
+or discarded before another task reads it. Dirty write targets and live writer
+conflicts still require coordination. No extra user approval is needed merely
+to use preserved source as a fixed test input.
+
 FPS-sensitive means measurements requiring quiet CPU/GPU, stable source/settings,
 focus and uncontended frame timing. Such a reservation is exclusive against all
 other active implementation work, even when files differ. Default a task requiring

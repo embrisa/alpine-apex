@@ -554,7 +554,10 @@ def operate(args):
             baseline = dirty_snapshot(root)
             if task["path"].relative_to(root).as_posix() in baseline:
                 return output("skipped", reason="Selected task has uncommitted edits; preserve it and select another eligible task")
-            overlaps = [p for p in baseline if covered(p, spec["write_paths"] + spec["read_paths"])]
+            # Reading preserved edits is valid: gate() already excludes active
+            # writers and baseline fingerprints protect the bytes/index. Dirty
+            # inputs do not imply that the candidate intends to overwrite them.
+            overlaps = [p for p in baseline if covered(p, spec["write_paths"])]
             if overlaps:
                 return output("skipped", reason="Candidate overlaps unfinished paths: " + ", ".join(overlaps))
             peers = {c.get("token", c["owner"]): scope_spec(root, c.get("scope"), c.get("task"))
@@ -621,11 +624,19 @@ def operate(args):
             reason = gate(data, {args.owner}, spec)
             if reason:
                 return output("skipped", reason=reason)
-            overlaps = [p for p in dirty_snapshot(root)
-                        if covered(p, spec["write_paths"] + spec["read_paths"])
+            dirty = dirty_snapshot(root)
+            overlaps = [p for p in dirty
+                        if covered(p, spec["write_paths"])
                         and not covered(p, old["write_paths"])]
             if overlaps:
                 return output("skipped", reason="Expanded scope overlaps unfinished paths: " + ", ".join(overlaps))
+            # A newly reserved read may have appeared/changed since dispatch.
+            # Preserve its current bytes and index as input, never owned output.
+            # Do not rebaseline existing reads or writes and hide later edits.
+            for path, value in dirty.items():
+                if (covered(path, spec["read_paths"])
+                        and not covered(path, spec["write_paths"] + old["read_paths"])):
+                    claim.setdefault("dirty_baseline", {})[path] = value
             claim["scope"] = spec
             for other in other_claims():
                 other.setdefault("peers", {})[claim["token"]] = spec
