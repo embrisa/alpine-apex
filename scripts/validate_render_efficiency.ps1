@@ -1,4 +1,7 @@
-param([string]$ProjectRoot = '', [switch]$NativeOnly)
+param([string]$ProjectRoot = '', [switch]$NativeOnly,
+    [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
+    [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
+)
 $ErrorActionPreference = 'Stop'
 $alpineRoot = Split-Path $PSScriptRoot -Parent
 if ($ProjectRoot) { $alpineRoot = (Resolve-Path -LiteralPath $ProjectRoot).Path }
@@ -13,7 +16,7 @@ foreach ($alpineSuite in $alpineSuites) {
     $alpineWaitLogged = $false
     while ($true) {
         try {
-            & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath pwsh -Arguments $alpineArgs -Label "fps_check_$alpineSuite" -TimeoutSeconds 600
+            & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath pwsh -Arguments $alpineArgs -Label "fps_check_$alpineSuite" -TimeoutSeconds 600 -FullMountain:$FullMountain -FullMountainReason $FullMountainReason
             $alpineExit = $LASTEXITCODE
             break
         } catch {

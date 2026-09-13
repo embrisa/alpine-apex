@@ -17,7 +17,7 @@ func fixture():
 	race.weather_preset = "thunderstorm"; race.time_band = "dusk"
 	return race
 func run() -> void:
-	set_meta("test_lab_fixture",true)
+	set_meta("test_map_fixture","short-course")
 	game = load("res://main.tscn").instantiate(); game.automated = true
 	root.add_child(game)
 	while not game.initialized: await process_frame
@@ -51,7 +51,7 @@ func run() -> void:
 		game.weather.set_preset("thunderstorm"); game.weather.set_time_of_day("dusk"); game.weather.set_automatic(false); game.weather.set_time_cycle(false); game.set_display_setting("weather_quality",2)
 		check(not game.session.eligible,"Restoring controls cannot undo practice before retry: "+option[0])
 		game.session.step(.1,race.finish+Vector3.FORWARD*2,race.finish+Vector3.BACK*2)
-		check(game.session.finished and game.session.personal_best<0 and game.session.history.is_empty() and game.session.best_replay==null,"Practice finish cannot write PB/history/ghost: "+option[0])
+		check(game.session.finished and game.session.personal_best<0 and game.session.history.is_empty() and game.session.ghost_runs.is_empty(),"Practice finish cannot write PB/history/ghost: "+option[0])
 		if option[0]=="manual_weather":
 			game.hud.show_result(game.session,80)
 			await capture("practice_finish")

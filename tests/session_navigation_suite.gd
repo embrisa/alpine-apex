@@ -6,7 +6,7 @@ var audit = Checks.new()
 func _initialize() -> void: call_deferred("run")
 
 func load_game():
-	set_meta("test_lab_fixture",true)
+	set_meta("test_map_fixture","short-course")
 	var game = load("res://main.tscn").instantiate()
 	game.automated = true
 	root.add_child(game)

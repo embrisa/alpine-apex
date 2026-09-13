@@ -1,4 +1,7 @@
-param([ValidateSet('contracts','banks','carving','mountain','visual','timing','solver')][string]$Stage = 'contracts')
+param([ValidateSet('contracts','banks','carving','mountain','visual','timing','solver')][string]$Stage = 'contracts',
+    [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
+    [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
+)
 $ErrorActionPreference = 'Stop'
 $snowProject = Split-Path $PSScriptRoot -Parent
 $snowJobs = switch ($Stage) {
@@ -33,7 +36,7 @@ foreach ($snowJob in $snowJobs) {
         if ((Get-Date) -gt $snowDeadline) { throw 'Other validation is still active after 15 minutes; existing processes were left running.' }
         if ($snowBusy.Count -gt 0 -or -not $snowLockFree) { Start-Sleep -Seconds 4; continue }
         try {
-            & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath pwsh -Arguments $snowArguments -Label $snowLabel -TimeoutSeconds 1200 -CollectGpuMemory:(!$snowJob.headless)
+            & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath pwsh -Arguments $snowArguments -Label $snowLabel -TimeoutSeconds 1200 -CollectGpuMemory:(!$snowJob.headless) -FullMountain:$FullMountain -FullMountainReason $FullMountainReason
         } catch {
             # Another queued task may acquire the shared guard after our probe.
             # Retry only resource contention; a real test failure still exits.

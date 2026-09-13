@@ -11,6 +11,12 @@ for the suspected subsystem. Trace input, completed simulation/session state and
 presentation separately; a visible pose or camera defect does not by itself
 justify changing skiing forces. Keep investigation within the requested scope.
 
+Use [targeted maps](../../../docs/VALIDATION.md#targeted-test-maps) for local
+reproductions. Exact-mountain case reruns retain their original surface and need
+`-FullMountain -FullMountainReason` on the case wrapper or owning guard. Inspect
+mode alone does not require loading a mountain; never substitute a compact map
+for an exact recorded case while claiming an equivalent rerun.
+
 ## Reproduce and locate
 
 For a supplied `.apexcase`, read

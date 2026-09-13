@@ -40,6 +40,9 @@ or racing-line attractor.
   `tests/runtime_suite.gd` through `./godotw --headless --script ...`.
   Camera/render/effect edits require rendered inspection. Keep automated,
   rendered, performance and human/controller/listening acceptance distinct.
+- Default automated checks to the smallest [targeted test map](docs/VALIDATION.md#targeted-test-maps).
+  Full mountains/scenery-rich laboratories require `-FullMountain` and a recorded
+  `-FullMountainReason`; missing fixtures never trigger an implicit cold bake.
 - Default to short, timed test descents for data collection; follow the
   [bounded descent policy](docs/VALIDATION.md#bounded-test-descents). Full runs
   require a specific coverage need, not routine iteration.

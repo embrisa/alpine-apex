@@ -252,6 +252,9 @@ func _ready() -> void:
 				current_mountain = MountainDefinition.from_field(field) if field.GENERATOR_ID=="alpine-drainage" else null
 			else: load_warning = rebuilt.error
 		else: load_warning = parsed.error
+	if field==null and get_tree().has_meta("test_map_fixture"):
+		field = preload("res://scripts/diagnostics/test_map.gd").create(get_tree().get_meta("test_map_fixture"))
+		if field==null: get_tree().quit(2); return
 	if field==null:
 		if get_tree().has_meta("standard_to_load") or get_tree().get_meta("test_lab_fixture",false) or "--test-lab" in OS.get_cmdline_user_args():
 			field = Terrain.new()
@@ -286,11 +289,19 @@ func _ready() -> void:
 	add_child(crash_collision)
 	if "--cloud-shadows-off" in OS.get_cmdline_user_args(): world.cloud_lighting.shadow_strength = 0.0
 	session = Session.new()
+	if get_tree().has_meta("test_map_fixture"):
+		var test_store = "user://targeted_tests/%d" % OS.get_process_id()
+		session.record_directory = test_store+"/races"
+		session.benchmark_path = test_store+"/benchmark.json"
 	if current_mountain:
 		session.configure_free(current_mountain.identity(),field.finish_z,field.finish_z if field.is_summit_mountain() else 0.0)
 		timed = false
 	else:
-		session.load_record()
+		if field.has_method("fixture_descriptor"):
+			session.course_id = field.fixture_identity+"-physics-v%d" % Simulation.MODEL_VERSION
+			session.finish_z = field.finish_z
+			session.eligible = false
+		else: session.load_record()
 	skier = Visual.new()
 	skier.lighting = world.cloud_lighting
 	skier.assets = world.assets
@@ -935,7 +946,7 @@ func start_run(is_timed: bool = false) -> void:
 		timed = false
 		restart()
 		return
-	if field.GENERATOR_ID!="laboratory" or field.seed_value != 849205174:
+	if not field.has_method("fixture_descriptor") and (field.GENERATOR_ID!="laboratory" or field.seed_value != 849205174):
 		active = false
 		effects.stop_audio()
 		transitioning = true
@@ -954,6 +965,9 @@ func start_run(is_timed: bool = false) -> void:
 			hud.toast("Could not load the original test face. Please try again.")
 		return
 	session.configure()
+	if field.has_method("fixture_descriptor"):
+		session.course_id = field.fixture_identity+"-physics-v%d" % Simulation.MODEL_VERSION
+		session.finish_z = field.finish_z
 	workshop.show_race(null)
 	timed = is_timed
 	restart()
@@ -1004,6 +1018,7 @@ func restart(preserve_return: bool = false) -> void:
 	session.reset()
 	if session.race: weather.begin_race(session.race.weather_preset,session.race.time_band,session.race.identity())
 	session.eligible = not physics_modified and not automated and "--test-lab" not in OS.get_cmdline_user_args() and (session.race != null or (field.GENERATOR_ID=="laboratory" and field.seed_value == 849205174))
+	if field.has_method("fixture_descriptor"): session.eligible = false
 	sim.surface_normal = field.contact_normal(sim.position.x,sim.position.z)
 	sim.prime_contacts(field)
 	skier.reset_animation(sim)

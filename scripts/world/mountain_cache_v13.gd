@@ -4,11 +4,15 @@ extends RefCounted
 const Terrain = preload("res://scripts/world/generators/alpine_massif_v13.gd")
 const DIRECTORY = "user://mountain_bake_cache_v13"
 static func generate(seed_value: int):
+	if not preload("res://scripts/diagnostics/test_world_policy.gd").require_full("Mountain generation/restoration"): return null
 	var begin = Time.get_ticks_usec()
 	var key = "%d|%s" % [seed_value,Engine.get_version_info().string]
 	for path in ["res://scripts/world/generators/alpine_massif_v13.gd","res://scripts/world/generators/alpine_face_v13.gd","res://scripts/world/heightfield_surface.gd","res://scripts/world/mountain_geology_v13.gd","res://scripts/world/mineral_catalog.gd","res://scripts/world/mineral_catalog_data.gd","res://scripts/world/mineral_collision.gd","res://assets/graphics/geology_v11/catalog.json","res://assets/graphics/geology_v11/catalog.res"]:
 		# Exported builds without source files simply reconstruct the generator.
-		if not FileAccess.file_exists(path): return Terrain.new(seed_value)
+		if not FileAccess.file_exists(path):
+			if preload("res://scripts/diagnostics/test_world_policy.gd").automated():
+				push_error("VALIDATION_CACHE_MISS: Missing legacy source identity; no cold bake started."); return null
+			return Terrain.new(seed_value)
 		key += "|"+FileAccess.get_sha256(path)
 	var path = DIRECTORY.path_join("default.bin" if seed_value==Terrain.DEFAULT_SEED else "recent.bin")
 	var file = FileAccess.open(path,FileAccess.READ)
@@ -27,6 +31,8 @@ static func generate(seed_value: int):
 			field.generation_ms = (Time.get_ticks_usec()-begin)/1000.0
 			field.generation_stages = {"cache_load_ms":field.generation_ms,"original_bake_ms":data.bake_ms}
 			return field
+	if preload("res://scripts/diagnostics/test_world_policy.gd").automated():
+		push_error("VALIDATION_CACHE_MISS: Prepare the exact legacy fixture explicitly; no cold bake started."); return null
 	var field = Terrain.new(seed_value)
 	if DirAccess.make_dir_recursive_absolute(DIRECTORY)==OK:
 		var temp = path+".%d.%d.tmp" % [OS.get_process_id(),Time.get_ticks_usec()]

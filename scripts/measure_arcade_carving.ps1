@@ -1,4 +1,7 @@
-param([switch]$Baseline,[switch]$Timing)
+param([switch]$Baseline,[switch]$Timing,
+    [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
+    [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
+)
 $ErrorActionPreference = 'Stop'
 $arcadeRoot = Split-Path $PSScriptRoot -Parent
 $arcadeLabel = 'arcade_' + $(if($Baseline){'before'}else{'after'}) + $(if($Timing){'_timing'}else{'_visual'})
@@ -15,5 +18,5 @@ if(-not $arcadeEngine){throw 'Set GODOT_BIN to the Godot console executable.'}
 $arcadeArgs = @('--path',$arcadeRoot,'--script','tests/arcade_carving_playtest.gd','--','--ui-staged-loading','--graphics-quality=high','--terrain-gi=off')
 if($Baseline){$arcadeArgs += '--reference-handling'}
 if($Timing){$arcadeArgs += '--timing'}
-& (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath $arcadeEngine -Arguments $arcadeArgs -Label $arcadeLabel -TimeoutSeconds 900 -CollectGpuMemory
+& (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath $arcadeEngine -Arguments $arcadeArgs -Label $arcadeLabel -TimeoutSeconds 900 -CollectGpuMemory -FullMountain:$FullMountain -FullMountainReason $FullMountainReason
 exit $LASTEXITCODE

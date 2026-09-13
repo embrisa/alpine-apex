@@ -44,6 +44,22 @@ PowerShell argument handling. Do not copy a full suite list from an old report.
 For missing/incompatible mountain fixtures, follow the preparation route in the
 execution guide; cold generation and warm-cache checks establish different things.
 
+## Select the smallest map
+
+Follow [targeted maps](../../../docs/VALIDATION.md#targeted-test-maps). Inspect
+`-PlanOnly` before engine work. Use pure logic/compact fixtures for local checks;
+the scenario catalog exposes supported terrain events. Keep required complete
+physics/runtime checks, including necessary headless laboratory calibration.
+The ordinary interface suite is compact; its full generation/reload assertions
+are explicitly selected with `interface_mountain_suite`.
+
+Full mountains and scenery-rich laboratory scenes require `-FullMountain` plus
+`-FullMountainReason` at the owning guard/batch. Record the specific assertion
+that needs that scale. Missing caches fail; prepare the exact recipe explicitly
+under Exclusive admission, never retry hoping for an automatic bake. Fixture
+boundaries cannot silently shorten required coverage. Report selected dimensions,
+object counts and setup versus execution time with the evidence.
+
 ## Collect only the needed evidence
 
 For riding data, follow [bounded descents](../../../docs/VALIDATION.md#bounded-test-descents):

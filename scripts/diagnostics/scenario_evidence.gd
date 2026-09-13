@@ -6,7 +6,7 @@ const Recorder = preload("res://scripts/diagnostics/case_recorder.gd")
 
 static func identity(extra: Array = []) -> Dictionary:
 	var hashes = Recorder.sources()
-	for path in extra + ["res://config/ski_default.tres", "res://scripts/diagnostics/scenarios.json", "res://tests/small_landing_probe.gd", "res://tests/planted_snow_probe.gd", "res://assets/graphics/models/skier_v7.glb"]:
+	for path in extra + ["res://config/ski_default.tres", "res://scripts/diagnostics/scenarios.json", "res://tests/fixtures/test_maps.json", "res://scripts/diagnostics/test_map.gd", "res://scripts/diagnostics/scenario_runner.gd", "res://tests/small_landing_probe.gd", "res://tests/planted_snow_probe.gd", "res://assets/graphics/models/skier_v7.glb"]:
 		hashes[path] = FileAccess.get_sha256(path)
 	return {"sources":hashes,"engine":Engine.get_version_info(),"engine_sha256":FileAccess.get_sha256(OS.get_executable_path()),
 		"build":preload("res://scripts/diagnostics/build_identity.gd").current()}

@@ -44,6 +44,7 @@ var tree_snow_statistics: Dictionary = {}
 var geology = preload("res://scripts/world/mountain_geology_v15.gd").new()
 
 func _init(mountain_seed: int = DEFAULT_SEED,bake_surface: bool = true,settings: Dictionary = {},context = null,restore_only: bool = false) -> void:
+	if bake_surface and not preload("res://scripts/diagnostics/test_world_policy.gd").require_full("Full mountain generator"): return
 	_height_query_script = load("res://scripts/world/generators/alpine_massif_v15.gd")
 	var begin = Time.get_ticks_usec()
 	generation_settings = Settings.canonical(settings)

@@ -38,6 +38,7 @@ static func parse_seed(value: String) -> Dictionary:
 	return {"seed":int(trimmed),"version":version,"error":""}
 
 static func generate(seed_number: int, version: int = CURRENT_VERSION, settings: Dictionary = {}, job = null):
+	if not preload("res://scripts/diagnostics/test_world_policy.gd").require_full("Mountain generation/restoration"): return null
 	if seed_number<0 or seed_number>MAX_SEED: return null
 	if version==15: return Cache.generate(seed_number,settings,job)
 	# Explicit comparison fixtures are loaded only when requested.

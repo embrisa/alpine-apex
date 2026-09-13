@@ -8,6 +8,9 @@ param(
     [switch]$IncludeFlight,
     [ValidateRange(10,3600)][int]$TimeoutSeconds = 1200,
     [switch]$Describe
+,
+    [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
+    [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
 )
 # One guarded workload per call. All paths are resolved from the project, not cwd.
 $ErrorActionPreference = 'Stop'
@@ -52,7 +55,7 @@ if ($Describe) {
 $reviewOldEngine = $env:GODOT_BIN
 try {
     if ($Engine) { $env:GODOT_BIN = (Get-Item -LiteralPath $Engine -ErrorAction Stop).FullName }
-    & (Join-Path $reviewRoot 'scripts/run_guarded.ps1') -FilePath $reviewTarget -Arguments $reviewArgs -Label "pose-$Revision-$Stage" -TimeoutSeconds $TimeoutSeconds
+    & (Join-Path $reviewRoot 'scripts/run_guarded.ps1') -FilePath $reviewTarget -Arguments $reviewArgs -Label "pose-$Revision-$Stage" -TimeoutSeconds $TimeoutSeconds -FullMountain:$FullMountain -FullMountainReason $FullMountainReason
     $reviewExit = $LASTEXITCODE
     # Godot can print SCRIPT ERROR while returning zero. Inspect the actual guard logs.
     $reviewLogRoot = Join-Path $reviewRoot "artifacts/guarded/pose-$Revision-$Stage"

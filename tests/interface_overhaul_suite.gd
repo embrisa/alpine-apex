@@ -24,7 +24,7 @@ func pad(button: int) -> void:
 	if "--nav-debug" in OS.get_cmdline_user_args():
 		print("NAV_AFTER ",button," scope=",game.navigation.scope()," popup=",game.navigation.top_popup()," focus=",root.gui_get_focus_owner()," options=",game.hud.graphics_quality.get_popup().visible," settings=",game.hud.weather_panel.visible)
 func run() -> void:
-	set_meta("test_lab_fixture",true)
+	set_meta("test_map_fixture","short-course")
 	native = DisplayServer.get_name()!="headless"
 	DirAccess.make_dir_recursive_absolute("res://artifacts/interface_overhaul/current")
 	game = load("res://main.tscn").instantiate()

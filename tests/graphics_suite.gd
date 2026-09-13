@@ -8,7 +8,7 @@ func check(value: bool, label: String) -> void:
 func _initialize() -> void:
 	call_deferred("run")
 func run() -> void:
-	set_meta("test_lab_fixture",true) # Explicit laboratory regression fixture.
+	set_meta("test_map_fixture","obstacle-patch") # Explicit laboratory regression fixture.
 	var game = load("res://main.tscn").instantiate()
 	game.automated = true
 	root.add_child(game)
@@ -93,10 +93,12 @@ func run() -> void:
 
 func _snow_effect_checks(game) -> void:
 	var stamps = game.effects.snow_tracks
-	var field = game.field
+	# Contact/track assertions need a clear slope; scenery coverage above uses
+	# the explicit 18-object patch. Neither test needs a mountain.
+	var field = preload("res://scripts/diagnostics/test_map.gd").create("smooth-slope")
 	var sim = game.sim
-	sim.reset(Vector3(0,field.sample(0,500).height,500))
-	sim.surface_normal = field.contact_normal(0,500)
+	sim.reset(Vector3(0,field.sample(0,100).height,100))
+	sim.surface_normal = field.contact_normal(0,100)
 	sim.ski_forward = Vector3.DOWN.slide(sim.surface_normal).normalized()
 	sim.snow_penetration = 0.04
 	stamps.reset()
@@ -133,7 +135,7 @@ func _snow_effect_checks(game) -> void:
 	check(stamps.written==count and not stamps.last_position.is_finite(),"Inactive play freezes impressions and breaks contact history")
 	stamps.reset()
 	for step in range(stamps.capacity):
-		var p = Vector3(0,0,500.0+step)
+		var p = Vector3(45*sin(step/30.0),0,160+45*cos(step/30.0))
 		p.y = field.sample(p.x,p.z).height
 		stamps.update_contact(sim,field,p,true)
 	check(stamps.written==stamps.capacity and stamps.tracks.instance_count==game.graphics.snow_track_capacity,"Long tracks wrap within the selected fixed allocation")
@@ -147,7 +149,7 @@ func _snow_effect_checks(game) -> void:
 	check(stamps.written==800 and stamps.capacity==4096 and game.effects.snow_budget().gpu_particles==1536,"High extends track history without clearing it and caps particles at 1536")
 	game.set_graphics_quality(1)
 	var surface_snapshot = field.heights.duplicate()
-	sim.reset(Vector3(0,field.sample(0,500).height,500))
+	sim.reset(Vector3(0,field.sample(0,100).height,100))
 	sim.prime_contacts(field)
 	sim.velocity = sim.ski_forward*40.0
 	for ski in sim.skis:

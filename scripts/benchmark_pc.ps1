@@ -31,10 +31,14 @@ param(
     [switch]$ThirdPerson,
     [switch]$VoiceBenchmark,
     [switch]$VoiceObserverOff,
-    [string]$ProjectRoot = ''
+    [string]$ProjectRoot = '',
+    [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
+    [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
 )
 $ErrorActionPreference = 'Stop'
 $alpineRoot = Split-Path $PSScriptRoot -Parent
+. (Join-Path $PSScriptRoot 'test_world_policy.ps1')
+Assert-TestWorldSelection ([bool]$FullMountain) $FullMountainReason (Get-TestWorldPlan @('scripts/benchmark_pc.ps1'))
 if ($ProjectRoot) { $alpineRoot = (Resolve-Path -LiteralPath $ProjectRoot).Path }
 . (Join-Path $PSScriptRoot "resolve_godot_engine.ps1")
 $alpineEngine = Get-AlpineGodotEngine -ProjectRoot $alpineRoot
@@ -116,6 +120,8 @@ $alpineStartInfo = [Diagnostics.ProcessStartInfo]::new()
 $alpineStartInfo.FileName = $alpineEngine
 $alpineStartInfo.WorkingDirectory = $alpineRoot
 $alpineStartInfo.UseShellExecute = $false
+$alpineStartInfo.Environment['ALPINE_FULL_MOUNTAIN'] = $(if ($FullMountain) {'1'} else {'0'})
+$alpineStartInfo.Environment['ALPINE_FULL_MOUNTAIN_REASON'] = $FullMountainReason
 $alpineStartInfo.CreateNoWindow = $true
 $alpineStartInfo.RedirectStandardOutput = $true
 $alpineStartInfo.RedirectStandardError = $true

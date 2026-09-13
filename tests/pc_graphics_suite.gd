@@ -8,7 +8,7 @@ func check(ok: bool, label: String) -> void:
 	print("PASS: " if ok else "FAIL: ",label)
 	if not ok: failures.append(label)
 func run() -> void:
-	set_meta("test_lab_fixture",true) # Explicit laboratory regression fixture.
+	set_meta("test_map_fixture","flat-pad") # Explicit laboratory regression fixture.
 	var settings = Settings.new()
 	check(settings.quality==7 and settings.upscaler=="auto" and not settings.frame_generation and settings.render_scale==.75 and settings.fps_limit==120 and not settings.terrain_gi,"PC defaults select High, automatic 75% upscaling, frame generation off and 120 FPS")
 	settings.apply_arguments(["--graphics-quality=low","--render-scale=0.1","--fps-limit=75","--upscaler=invalid"])

@@ -4,6 +4,7 @@ extends RefCounted
 const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
 
 static func load_standard(candidates: Array[String] = []):
+	if not preload("res://scripts/diagnostics/test_world_policy.gd").require_full("Standard mountain fixture restoration"): return null
 	var started := Time.get_ticks_usec()
 	var job = Cache.Job.new()
 	var settings: Dictionary = Cache.Settings.preset()
@@ -28,5 +29,5 @@ static func load_standard(candidates: Array[String] = []):
 		field.generation_stages.cache_source = "user" if path.begins_with("user://") else "fixture"
 		print("VALIDATION_CACHE_READY milliseconds=",field.generation_ms," path=",path)
 		return field
-	print("VALIDATION_CACHE_MISS Prepare the current Standard mountain explicitly (normal generation or tests/generation_v15_baseline.gd), then rerun. No cold generation was started.")
+	print("VALIDATION_CACHE_MISS Prepare the current Standard mountain explicitly (tests/prepare_validation_mountain.gd under an Exclusive guard with -FullMountain and -FullMountainReason), then rerun. No cold generation was started.")
 	return null

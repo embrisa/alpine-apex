@@ -1,5 +1,5 @@
 extends SceneTree
-## Production input, simulation and rendering on the explicit laboratory fixture.
+## Production input, simulation and rendering on the compact smooth slope.
 const Pad = preload("res://tests/controller_input_suite.gd")
 const DT = 1.0/120.0
 var output = "res://artifacts/controller_input_v1/visual"
@@ -15,7 +15,7 @@ func run() -> void:
 	if DisplayServer.get_name()=="headless": quit(2); return
 	for argument in OS.get_cmdline_user_args():
 		if argument.begins_with("--output="): output = argument.trim_prefix("--output=")
-	set_meta("test_lab_fixture",true)
+	set_meta("test_map_fixture","smooth-slope")
 	DirAccess.make_dir_recursive_absolute(output)
 	game = load("res://main.tscn").instantiate()
 	game.automated = true
@@ -79,7 +79,7 @@ func run() -> void:
 	caption.hide()
 	game._process(1.0/60.0)
 	await capture("07_controller_guide")
-	var result = {"model":game.sim.MODEL_VERSION,"replay":preload("res://scripts/racing/run_replay.gd").VERSION,"engine":Engine.get_version_info().string,"renderer":RenderingServer.get_current_rendering_method(),"driver":RenderingServer.get_current_rendering_driver_name(),"fixture":"laboratory","unranked":not game.session.eligible,"preferences_enabled":game.preferences_enabled,"hardware_output":game.effects.haptic_hardware_enabled,"cases":rows,"failures":failures}
+	var result = {"model":game.sim.MODEL_VERSION,"replay":preload("res://scripts/racing/run_replay.gd").VERSION,"engine":Engine.get_version_info().string,"renderer":RenderingServer.get_current_rendering_method(),"driver":RenderingServer.get_current_rendering_driver_name(),"fixture":game.field.fixture_id,"map":game.field.fixture_descriptor(),"unranked":not game.session.eligible,"preferences_enabled":game.preferences_enabled,"hardware_output":game.effects.haptic_hardware_enabled,"cases":rows,"failures":failures}
 	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
 	print("CONTROLLER_VISUAL_RESULTS ",JSON.stringify(result))
 	game.effects.stop_audio(); game.queue_free(); await process_frame

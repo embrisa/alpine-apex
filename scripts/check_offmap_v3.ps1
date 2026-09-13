@@ -1,4 +1,7 @@
-param([switch]$Views,[switch]$Quick,[switch]$FixedTiming,[switch]$Descents,[switch]$BoundaryMotion)
+param([switch]$Views,[switch]$Quick,[switch]$FixedTiming,[switch]$Descents,[switch]$BoundaryMotion,
+    [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
+    [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
+)
 $ErrorActionPreference='Stop'
 $offmapRoot=Split-Path $PSScriptRoot -Parent
 $offmapDeadline=(Get-Date).AddMinutes(20)
@@ -29,7 +32,7 @@ foreach ($offmapDirectory in @('scripts','tests','config','assets')) {
         ForEach-Object {$offmapBefore[$_.FullName]=(Get-FileHash -LiteralPath $_.FullName).Hash}
 }
 $offmapStarted=Get-Date
-& (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath $offmapEngine -Arguments $offmapArgs -Label $offmapLabel -TimeoutSeconds $(if ($Descents) {2400} else {1200}) -CollectGpuMemory
+& (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath $offmapEngine -Arguments $offmapArgs -Label $offmapLabel -TimeoutSeconds $(if ($Descents) {2400} else {1200}) -CollectGpuMemory -FullMountain:$FullMountain -FullMountainReason $FullMountainReason
 $offmapExit=$LASTEXITCODE
 $offmapChanged=@($offmapBefore.Keys | Where-Object {(Get-FileHash -LiteralPath $_).Hash -ne $offmapBefore[$_]})
 $offmapAudit=@{started=$offmapStarted.ToString('o');finished=(Get-Date).ToString('o');exit_code=$offmapExit;engine=$offmapEngine;engine_sha256=(Get-FileHash -LiteralPath $offmapEngine).Hash;cpu=(Get-CimInstance Win32_Processor).Name;ram_bytes=(Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory;changed_sources=$offmapChanged;source_sha256_before=$offmapBefore;arguments=$offmapArgs}

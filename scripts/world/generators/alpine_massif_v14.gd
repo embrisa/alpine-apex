@@ -31,6 +31,7 @@ var tree_snow_statistics: Dictionary = {}
 var geology = preload("res://scripts/world/mountain_geology_v13.gd").new()
 
 func _init(mountain_seed: int = DEFAULT_SEED,bake_surface: bool = true) -> void:
+	if bake_surface and not preload("res://scripts/diagnostics/test_world_policy.gd").require_full("Full mountain generator"): return
 	var begin = Time.get_ticks_usec()
 	seed_value = mountain_seed
 	X_MIN = MASK_ORIGIN.x

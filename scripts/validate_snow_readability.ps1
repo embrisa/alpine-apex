@@ -1,4 +1,7 @@
-param([switch]$Worker, [switch]$SkipNative, [switch]$FinalPass)
+param([switch]$Worker, [switch]$SkipNative, [switch]$FinalPass,
+    [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
+    [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
+)
 $ErrorActionPreference = 'Stop'
 $snowRoot = Split-Path $PSScriptRoot -Parent
 if (-not $Worker) {
@@ -16,7 +19,7 @@ if (-not $Worker) {
     if ($SkipNative) { $snowArguments += '-SkipNative' }
     if ($FinalPass) { $snowArguments += '-FinalPass' }
     $snowLabel = if ($FinalPass) { 'snow_readability_final' } else { 'snow_readability_validation' }
-    & "$PSScriptRoot/run_guarded.ps1" -FilePath 'pwsh' -Arguments $snowArguments -Label $snowLabel -TimeoutSeconds 1800 -CollectGpuMemory:(-not $SkipNative)
+    & "$PSScriptRoot/run_guarded.ps1" -FilePath 'pwsh' -Arguments $snowArguments -Label $snowLabel -TimeoutSeconds 1800 -CollectGpuMemory:(-not $SkipNative) -FullMountain:$FullMountain -FullMountainReason $FullMountainReason
     exit $LASTEXITCODE
 }
 $snowResults = @()

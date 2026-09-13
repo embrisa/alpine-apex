@@ -24,6 +24,8 @@ var finish_heading: float = 0.0
 var finish_base_y: float = NAN # Derived from the pinned support surface, never saved.
 
 static func mountain_reference(field, scenery_seed: int) -> Dictionary:
+	if field.has_method("fixture_descriptor"):
+		return preload("res://scripts/diagnostics/test_map.gd").to_reference(field,scenery_seed)
 	if field.GENERATOR_ID == "alpine-drainage":
 		return MountainDefinition.from_field(field).to_reference()
 	return {"generator":"laboratory", "version":Terrain.GENERATOR_VERSION,
@@ -63,7 +65,9 @@ static func decode(text_value: String) -> Dictionary:
 	if not conditions.weather is String or not conditions.weather in WeatherRules.PRESETS or not conditions.time is String or not conditions.time in WeatherRules.TIMES or not _number(conditions.rules) or conditions.rules!=WeatherRules.VERSION:
 		return {"error":"Unsupported weather, time band or weather rules."}
 	var m = data.mountain
-	if m is Dictionary and m.get("generator")=="alpine-drainage":
+	if m is Dictionary and m.get("generator")=="targeted-test":
+		if not preload("res://scripts/diagnostics/test_map.gd").valid_reference(m): return {"error":"Unsupported automated test fixture reference."}
+	elif m is Dictionary and m.get("generator")=="alpine-drainage":
 		var error = MountainDefinition.reference_error(m)
 		if not error.is_empty(): return {"error":error}
 	else:
@@ -178,6 +182,10 @@ static func _vector(value: Variant) -> bool:
 	return value is Array and value.size()==3 and value.all(func(v): return _number(v) and absf(float(v)) < 10000.0)
 
 static func reconstruct_surface(reference: Dictionary, job = null) -> Dictionary:
+	if reference.get("generator")=="targeted-test":
+		var maps=preload("res://scripts/diagnostics/test_map.gd")
+		if not maps.valid_reference(reference): return {"error":"Unsupported automated test fixture reference."}
+		return {"field":maps.create(reference.fixture,reference.options),"error":""}
 	if reference.generator == "alpine-drainage":
 		var error = MountainDefinition.reference_error(reference)
 		if not error.is_empty(): return {"error":error}

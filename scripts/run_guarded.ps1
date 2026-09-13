@@ -12,11 +12,21 @@ param(
     [ValidateSet('Shared','FpsCritical','Exclusive')][string]$WorkloadMode = 'Shared',
     # Exact, case-insensitive keys for shared output/cache writers. By default
     # invocations of the same producer serialize; isolated producers may narrow it.
-    [string[]]$ResourceKeys = @()
+    [string[]]$ResourceKeys = @(),
+    [switch]$FullMountain,
+    [string]$FullMountainReason = '',
+    [switch]$PlanOnly
 )
 # Functional runs share admission; measurements and mutations are exclusive.
 $ErrorActionPreference = 'Stop'
 $guardRoot = Split-Path $PSScriptRoot -Parent
+. (Join-Path $PSScriptRoot 'test_world_policy.ps1')
+$guardMapPlan = @(Get-TestWorldPlan (Get-TestWorldProducers $FilePath $Arguments))
+if ($PlanOnly) {
+    @{maps=$guardMapPlan;full_mountain=[bool]$FullMountain;full_mountain_reason=$FullMountainReason;file=$FilePath;arguments=$Arguments} | ConvertTo-Json -Depth 8
+    exit 0
+}
+Assert-TestWorldSelection ([bool]$FullMountain) $FullMountainReason $guardMapPlan
 if ($env:ALPINE_VALIDATION_ROOT -eq $guardRoot) { throw 'Nested validation guards are not allowed. Run the child directly inside the existing guard.' }
 $guardOut = Join-Path $guardRoot "artifacts/guarded/$Label"
 New-Item -ItemType Directory -Force $guardOut | Out-Null
@@ -92,6 +102,8 @@ try {
     $guardStartInfo.StandardOutputEncoding = [Text.UTF8Encoding]::new($false)
     $guardStartInfo.StandardErrorEncoding = [Text.UTF8Encoding]::new($false)
     $guardStartInfo.Environment['ALPINE_VALIDATION_ROOT'] = $guardRoot
+    $guardStartInfo.Environment['ALPINE_FULL_MOUNTAIN'] = $(if ($FullMountain) {'1'} else {'0'})
+    $guardStartInfo.Environment['ALPINE_FULL_MOUNTAIN_REASON'] = $FullMountainReason
     $guardStartInfo.Environment['ALPINE_VALIDATION_MODE'] = $WorkloadMode
     $guardStartInfo.Environment['ALPINE_VALIDATION_RESOURCES'] = ConvertTo-Json -InputObject @($guardWorkload.resources) -Compress
     $guardPayload = @{file=$FilePath;arguments=$Arguments;directory=$guardRoot} | ConvertTo-Json -Compress
@@ -190,7 +202,7 @@ try {
     if ($guardReason) { $guardExit=1 }
     if (-not $guardStart) { $guardWaitSeconds = $guardWait.Elapsed.TotalSeconds }
     try {
-        @{exit_code=$guardExit; stop_reason=$guardReason; workload_launched=$guardLaunched; workload_mode=$WorkloadMode; concurrent=($WorkloadMode -eq 'Shared'); resources=$guardWorkload.resources; requested=$guardRequested.ToString('o'); wait_seconds=$guardWaitSeconds; started=$(if ($guardStart) { $guardStart.ToString('o') } else { $null }); finished=(Get-Date).ToString('o'); samples=$guardSamples; background_driver_app_errors=$guardBackgroundErrors; file=$FilePath; arguments=$Arguments; limits=@{wait_seconds=$WaitTimeoutSeconds; workload_seconds=$TimeoutSeconds; gpu_monitoring=[bool]$CollectGpuMemory; gpu_mb=$MaximumGpuMB}} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $guardReceipt
+        @{full_mountain=[bool]$FullMountain;full_mountain_reason=$FullMountainReason;map_plan=$guardMapPlan;exit_code=$guardExit; stop_reason=$guardReason; workload_launched=$guardLaunched; workload_mode=$WorkloadMode; concurrent=($WorkloadMode -eq 'Shared'); resources=$guardWorkload.resources; requested=$guardRequested.ToString('o'); wait_seconds=$guardWaitSeconds; started=$(if ($guardStart) { $guardStart.ToString('o') } else { $null }); finished=(Get-Date).ToString('o'); samples=$guardSamples; background_driver_app_errors=$guardBackgroundErrors; file=$FilePath; arguments=$Arguments; limits=@{wait_seconds=$WaitTimeoutSeconds; workload_seconds=$TimeoutSeconds; gpu_monitoring=[bool]$CollectGpuMemory; gpu_mb=$MaximumGpuMB}} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $guardReceipt
     } finally {
         Close-ValidationLease $guardLease
     }

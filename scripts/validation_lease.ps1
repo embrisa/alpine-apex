@@ -128,7 +128,7 @@ function Get-ValidationWorkload([string]$File,[string[]]$TargetArguments,[string
     if (@($normalized | Where-Object { $_ -match '(^|/)(benchmark_[^/]+\.ps1|[^/]+_benchmark\.gd|[^/]+_cpu_suite\.gd|[^/]+_performance_suite\.gd|performance_descent\.gd|performance_gpu_profile\.gd)$' }).Count -or
         @($TargetArguments | Where-Object { $_ -in @('-ProfileFrameCosts','-ProfileGpuPasses','--profile-frame-costs','--gpu-profile','--case-performance') }).Count) { $mode='FpsCritical' }
     elseif ($mode -ne 'FpsCritical' -and (@($TargetArguments | Where-Object { $_ -in @('--import','--editor','--export-release','--export-debug','--export-pack','--background') }).Count -or
-        @($normalized | Where-Object { $_ -match '(^|/)(build_|install_|activate_|setup_)[^/]+\.ps1$' }).Count)) { $mode='Exclusive' }
+        @($normalized | Where-Object { $_ -match '(^|/)((build_|install_|activate_|setup_)[^/]+\.ps1|prepare_validation_mountain\.gd|interface_mountain_suite\.gd)$' }).Count)) { $mode='Exclusive' }
     $resources = @($ResourceKeys)
     if (-not $resources.Count) {
         # Reserve the producer, not the shared godotw/pwsh launcher.

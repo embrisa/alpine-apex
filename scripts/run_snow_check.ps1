@@ -4,6 +4,9 @@ param(
     [string]$Label = 'planted_check',
     [switch]$Native,
     [int]$TimeLimit = 900
+,
+    [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
+    [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
 )
 $ErrorActionPreference = 'Stop'
 $snowProject = Split-Path $PSScriptRoot -Parent
@@ -21,5 +24,5 @@ while ($true) {
 $snowArgs = @('--script',$Script)
 if (-not $Native) { $snowArgs = @('--headless') + $snowArgs }
 if ($UserArguments.Count) { $snowArgs += @('--') + $UserArguments }
-& "$PSScriptRoot/run_guarded.ps1" -FilePath "$snowProject/godotw.ps1" -Arguments $snowArgs -Label $Label -TimeoutSeconds $TimeLimit -CollectGpuMemory:$Native
+& "$PSScriptRoot/run_guarded.ps1" -FilePath "$snowProject/godotw.ps1" -Arguments $snowArgs -Label $Label -TimeoutSeconds $TimeLimit -CollectGpuMemory:$Native -FullMountain:$FullMountain -FullMountainReason $FullMountainReason
 exit $LASTEXITCODE

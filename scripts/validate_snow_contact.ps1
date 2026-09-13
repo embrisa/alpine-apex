@@ -1,4 +1,7 @@
-param([switch]$Worker,[ValidateSet('checks','visual','mountain','timing')][string]$Stage = 'checks')
+param([switch]$Worker,[ValidateSet('checks','visual','mountain','timing')][string]$Stage = 'checks',
+    [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
+    [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
+)
 $ErrorActionPreference = 'Stop'
 $snowRoot = Split-Path $PSScriptRoot -Parent
 if (-not $Worker) {
@@ -11,7 +14,7 @@ if (-not $Worker) {
         if ((Get-Date) -ge $snowDeadline) { throw 'Snow validation queue exceeded 30 minutes; other workloads left untouched.' }
         Start-Sleep -Seconds 2
     }
-    & "$PSScriptRoot/run_guarded.ps1" -FilePath pwsh -Arguments @('-NoProfile','-File',$PSCommandPath,'-Worker','-Stage',$Stage) -Label "snow-contact-$Stage" -TimeoutSeconds 1200
+    & "$PSScriptRoot/run_guarded.ps1" -FilePath pwsh -Arguments @('-NoProfile','-File',$PSCommandPath,'-Worker','-Stage',$Stage) -Label "snow-contact-$Stage" -TimeoutSeconds 1200 -FullMountain:$FullMountain -FullMountainReason $FullMountainReason
     exit $LASTEXITCODE
 }
 if ($Stage -eq 'checks') {

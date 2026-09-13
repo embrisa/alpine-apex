@@ -23,7 +23,7 @@ func key(code: Key) -> void:
 
 func run() -> void:
 	timing.mark("scene_setup")
-	set_meta("test_lab_fixture",true) # Explicit laboratory regression fixture.
+	set_meta("test_map_fixture","smooth-slope") # Explicit laboratory regression fixture.
 	game = load("res://main.tscn").instantiate()
 	root.add_child(game)
 	await process_frame
@@ -31,7 +31,7 @@ func run() -> void:
 	check(not game.active and game.hud.menu.visible,"Project opens at the start screen")
 	var dial_rect: Rect2 = game.hud.speed_dial.get_global_rect()
 	check(dial_rect.position.x>=0 and dial_rect.position.y>=0 and root.get_visible_rect().encloses(dial_rect),"Speed dial stays fully inside the viewport")
-	check(game.session.course_id==game.session.laboratory_identity() and game.session.course_id.contains("physics-v35-"),"Current physics and crash recovery use the laboratory benchmark identity")
+	check(game.session.course_id.begins_with(game.field.fixture_identity) and game.session.course_id.ends_with("physics-v%d" % game.sim.MODEL_VERSION),"Current physics uses the distinct targeted fixture identity")
 	key(KEY_F2)
 	check(not game.active and game.hud.tuning_panel.visible,"Workbench pauses from the title screen")
 	var workbench_rect: Rect2 = game.hud.tuning_panel.get_global_rect()
@@ -56,7 +56,7 @@ func run() -> void:
 	game.restart()
 	check(not game.session.eligible,"Restart preserves modified-physics ineligibility")
 	game.hud.restore_defaults()
-	check(game.session.eligible and absf(game.sim.tuning.ski_friction-0.022)<0.000001 and absf(game.sim.tuning.edge_grip-1.6)<0.000001,"Restore defaults uses exact tuning values before re-enabling benchmark records")
+	check(not game.physics_modified and not game.session.eligible and absf(game.sim.tuning.ski_friction-0.022)<0.000001 and absf(game.sim.tuning.edge_grip-1.6)<0.000001,"Restore defaults uses exact tuning values while targeted fixtures stay unranked")
 	game.start_speed_lab(150)
 	check(absf(game.sim.speed_kmh()-150.0)<0.01 and not game.session.eligible,"Speed lab initializes the chosen speed and remains unranked")
 	game.start_speed_lab(200)

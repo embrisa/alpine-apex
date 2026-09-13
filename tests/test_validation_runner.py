@@ -22,8 +22,10 @@ class ValidationRunnerTests(unittest.TestCase):
         (self.root / "scripts").mkdir()
         (self.root / "tests").mkdir()
         for name in ("run_guarded.ps1", "validation_lease.ps1", "guarded_job.cs", "guarded_child.ps1",
-                     "validation_output.cs", "test_pc_environment.ps1", "clean_artifacts.ps1", "versioning.py"):
+                     "validation_output.cs", "test_pc_environment.ps1", "test_world_policy.ps1", "clean_artifacts.ps1", "versioning.py"):
             shutil.copy2(PROJECT / "scripts" / name, self.root / "scripts" / name)
+        (self.root / "tests/fixtures").mkdir()
+        shutil.copy2(PROJECT / "tests/fixtures/test_maps.json", self.root / "tests/fixtures/test_maps.json")
         # These fixtures exercise process/lock ownership without launching an
         # engine. Unrelated real game jobs must not control their outcome.
         with (self.root / "scripts/validation_lease.ps1").open("a", encoding="utf-8") as f:
@@ -329,6 +331,43 @@ class ValidationRunnerTests(unittest.TestCase):
         result = self.run_ps("scripts/test_pc_environment.ps1", "-Suites", "ok,missing")
         self.assertNotEqual(result.returncode, 0)
         self.assertFalse((self.root / "visited").exists())
+
+    def test_full_mountain_requires_explicit_reason_before_launch(self):
+        self.fake_suites()
+        self.write("tests/interface_mountain_suite.gd", "fixture")
+        result = self.run_ps("scripts/test_pc_environment.ps1", "-Suites", "interface_mountain_suite")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("FullMountainReason", result.stdout + result.stderr)
+        self.assertFalse((self.root / "visited").exists())
+        result = self.run_ps("scripts/test_pc_environment.ps1", "-Suites", "interface_mountain_suite",
+                             "-FullMountain", "-FullMountainReason", "Verify actual mountain reload")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        plan = json.loads((self.root / "artifacts/pc_environment/regression/run.json").read_text())["plan"]
+        self.assertTrue(plan["full_mountain"])
+        self.assertEqual(plan["full_mountain_reason"], "Verify actual mountain reload")
+
+    def test_map_plan_is_read_only_and_describes_compact_runtime(self):
+        self.fake_suites()
+        result = self.run_ps("scripts/test_pc_environment.ps1", "-PlanOnly")
+        plan = json.loads(result.stdout)
+        runtime = next(row for row in plan["maps"] if row["producer"] == "tests/runtime_suite.gd")
+        self.assertEqual(runtime["maps"][0]["width_m"], 256)
+        self.assertEqual(runtime["maps"][0]["objects"], 0)
+        self.assertFalse(runtime["full_mountain"])
+        self.assertFalse((self.root / "visited").exists())
+        self.assertFalse((self.root / "artifacts").exists())
+
+    def test_guard_forwards_reason_and_rejects_partial_selection(self):
+        self.write("observe.ps1", "Set-Content full.txt $env:ALPINE_FULL_MOUNTAIN; Set-Content reason.txt $env:ALPINE_FULL_MOUNTAIN_REASON")
+        self.write("invoke.ps1", "& ./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','observe.ps1') -Label test -FullMountain -FullMountainReason 'Exact recorded route'")
+        result = self.run_ps("invoke.ps1")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual((self.root / "full.txt").read_text().strip(), "1")
+        self.assertEqual((self.root / "reason.txt").read_text().strip(), "Exact recorded route")
+        self.write("reject.ps1", "& ./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','observe.ps1') -Label partial -FullMountain")
+        result = self.run_ps("reject.ps1")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse((self.root / "artifacts/guarded/partial").exists())
 
     def test_single_suite_keeps_array_plan_and_results(self):
         self.fake_suites()

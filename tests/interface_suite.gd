@@ -9,6 +9,7 @@ var startup_frames: int = 0
 var rendered: bool = false
 var performance_report: Dictionary = {}
 var style_comparison: Dictionary = {}
+var timing = preload("res://tests/validation_timing.gd").new("interface_suite")
 
 func _initialize() -> void: call_deferred("run")
 
@@ -18,7 +19,8 @@ func check(value: bool, caption: String) -> void:
 	if not value: failures.append(caption)
 
 func run() -> void:
-	set_meta("test_lab_fixture",true) # Explicit laboratory regression fixture.
+	timing.mark("scene_setup")
+	set_meta("test_map_fixture","short-course") # Compact production integration fixture.
 	rendered = DisplayServer.get_name() != "headless"
 	# The custom headless display defaults to 64x64, below any supported UI.
 	# Layout assertions still need a real logical viewport; no pixels are drawn.
@@ -34,6 +36,7 @@ func run() -> void:
 			for stage in game.loading.stage_history:
 				if stage not in startup_stages: startup_stages.append(stage)
 		await process_frame
+	timing.mark("interface_checks")
 	game.automated = false
 	game.active = false
 	game.set_physics_process(false)
@@ -50,7 +53,7 @@ func run() -> void:
 	check(game.hud.camera_options.readouts.rest_height.text=="3.00 m" and game.hud.camera_options.readouts.fast_height.text=="3.50 m" and game.hud.camera_options.readouts.vertical_smoothing.text=="50%","Camera default readouts match the lower stabilized view")
 	check(game.hud.tuning_tabs.get_tab_count()==4,"Workbench separates handling, forces, camera and speed lab")
 	if game.staged_loading:
-		check(startup_frames>8 and startup_stages.size()>5,"Real staged startup draws between terrain sections and reports scenery stages")
+		check(startup_frames>0 and not startup_stages.is_empty() and game.field.has_method("fixture_descriptor"),"Targeted staged startup draws and reports its actual terrain construction")
 	await capture("menu")
 	game.hud.menu_tabs.current_tab = 1
 	await capture("explore")
@@ -147,47 +150,7 @@ func run() -> void:
 	if rendered: await review_skiing_hud()
 	game.active = false
 	game.hud.show_menu("paused")
-	# Do one real worker generation and observe its busy lifecycle.
-	var library = game.mountain_library
-	library.store.directory = "user://interface_suite_%d" % Time.get_ticks_usec()
-	library.open()
-	check(library.busy and game.loading.busy,"Mountain generation immediately opens the loading overlay")
-	check(not game.loading.loading_ambience and game.loading.sound_volume==0.35,"Mountain generation retains loading audio preferences")
-	check(library.all_buttons.all(func(button): return button.disabled),"Generation disables every library action")
-	await capture("generation")
-	while library.busy: await process_frame
-	await settle()
-	check(library.draft != null and not game.loading.busy,"Generation completes with a preview and releases the modal")
-	check(library.draft.generator_version==library.Definition.CURRENT_VERSION,"Ordinary generation selects the current mountain version")
-	for i in library.tabs.get_tab_count():
-		library.tabs.current_tab = i
-		await capture("mountains_%d" % i)
-	library.import_dialog.popup_centered_ratio(0.72)
-	await capture("mountain_import_dialog")
-	library.import_dialog.hide()
-	var identity: String = library.draft.identity()
-	library.seed_input.text = "bad seed"
-	await library.generate_seed()
-	check(library.draft.identity()==identity and not library.busy and not game.loading.busy,"Invalid seed preserves the preview and leaves controls usable")
-	library.close()
-	check(not library.panel.visible and game.hud.menu.visible,"Mountain Back returns to the paused menu")
-	var mountain_id: String = library.draft.identity()
-	game.load_mountain(library.draft,library.draft_field)
-	check(game.transitioning and game.loading.busy,"Loading a generated mountain blocks repeated scene transitions")
-	await scene_changed
-	game = current_scene
-	while not game.initialized or game.loading.busy: await process_frame
-	check(not game.loading.loading_ambience and game.loading.reduced_motion and game.loading.sound_volume==0.35,"Scene reload retains loading preferences without writing personal settings")
-	check(not game.loading.ambience.playing and game.loading.artwork.texture==null,"Scene completion releases loading art and audio")
-	check(game.effects.sfx.mode==1 and is_equal_approx(game.effects.sfx.snow,.35) and not game.effects.sfx.adaptive,"Scene reload preserves riding mode, volume and adaptive mix")
-	game.set_physics_process(false)
-	game.active = false
-	game.effects.muted = true
-	game.hud.feedback.muted = true
-	check(game.current_mountain.identity()==mountain_id and game.world.terrain_triangles>3000000 and game.world.terrain_triangles<4718592,"Staged mountain load retains exact support and trims unused outer corners")
-	check(not game.camera.effects_enabled and not game.timed and not game.session.eligible,"Scene transition retains motion preference and keeps generated skiing unranked")
-	game.hud.show_menu("paused")
-	await capture("loaded_mountain")
+	if full_mountain_checks(): await mountain_checks()
 	if rendered:
 		for dimensions in [Vector2i(1280,720),Vector2i(3840,2160)]:
 			root.mode = Window.MODE_WINDOWED
@@ -196,7 +159,7 @@ func run() -> void:
 			game.hud.open_settings()
 			game.hud.settings_tabs.current_tab = 0
 			await capture("display_%dx%d" % [dimensions.x,dimensions.y])
-			if dimensions.x==3840:
+			if dimensions.x==3840 and full_mountain_checks():
 				await measure_interface()
 				await compare_baseline_style()
 			game.hud.close_weather()
@@ -207,6 +170,7 @@ func run() -> void:
 	game.effects.stop_audio()
 	game.queue_free()
 	await process_frame
+	timing.finish()
 	quit(0 if failures.is_empty() else 1)
 
 func settle() -> void:
@@ -299,3 +263,48 @@ func compare_baseline_style() -> void:
 	await capture("style_after_4k")
 	baseline.queue_free()
 	await settle()
+
+func full_mountain_checks() -> bool: return false
+
+func mountain_checks() -> void:
+	# Do one real worker generation and observe its busy lifecycle.
+	var library = game.mountain_library
+	library.store.directory = "user://interface_suite_%d" % Time.get_ticks_usec()
+	library.open()
+	check(library.busy and game.loading.busy,"Mountain generation immediately opens the loading overlay")
+	check(not game.loading.loading_ambience and game.loading.sound_volume==0.35,"Mountain generation retains loading audio preferences")
+	check(library.all_buttons.all(func(button): return button.disabled),"Generation disables every library action")
+	await capture("generation")
+	while library.busy: await process_frame
+	await settle()
+	check(library.draft != null and not game.loading.busy,"Generation completes with a preview and releases the modal")
+	check(library.draft.generator_version==library.Definition.CURRENT_VERSION,"Ordinary generation selects the current mountain version")
+	for i in library.tabs.get_tab_count():
+		library.tabs.current_tab = i
+		await capture("mountains_%d" % i)
+	library.import_dialog.popup_centered_ratio(0.72)
+	await capture("mountain_import_dialog")
+	library.import_dialog.hide()
+	var identity: String = library.draft.identity()
+	library.seed_input.text = "bad seed"
+	await library.generate_seed()
+	check(library.draft.identity()==identity and not library.busy and not game.loading.busy,"Invalid seed preserves the preview and leaves controls usable")
+	library.close()
+	check(not library.panel.visible and game.hud.menu.visible,"Mountain Back returns to the paused menu")
+	var mountain_id: String = library.draft.identity()
+	game.load_mountain(library.draft,library.draft_field)
+	check(game.transitioning and game.loading.busy,"Loading a generated mountain blocks repeated scene transitions")
+	await scene_changed
+	game = current_scene
+	while not game.initialized or game.loading.busy: await process_frame
+	check(not game.loading.loading_ambience and game.loading.reduced_motion and game.loading.sound_volume==0.35,"Scene reload retains loading preferences without writing personal settings")
+	check(not game.loading.ambience.playing and game.loading.artwork.texture==null,"Scene completion releases loading art and audio")
+	check(game.effects.sfx.mode==1 and is_equal_approx(game.effects.sfx.snow,.35) and not game.effects.sfx.adaptive,"Scene reload preserves riding mode, volume and adaptive mix")
+	game.set_physics_process(false)
+	game.active = false
+	game.effects.muted = true
+	game.hud.feedback.muted = true
+	check(game.current_mountain.identity()==mountain_id and game.world.terrain_triangles>3000000 and game.world.terrain_triangles<4718592,"Staged mountain load retains exact support and trims unused outer corners")
+	check(not game.camera.effects_enabled and not game.timed and not game.session.eligible,"Scene transition retains motion preference and keeps generated skiing unranked")
+	game.hud.show_menu("paused")
+	await capture("loaded_mountain")

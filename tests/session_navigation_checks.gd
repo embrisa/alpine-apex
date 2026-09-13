@@ -108,6 +108,10 @@ func scene_checks(tree: SceneTree, game) -> void:
 	if anchors.size()!=32: return
 	# Actual pointer events use the production picker outside the drawer.
 	workshop.survey_height = 140.0
+	if game.field.has_method("fixture_descriptor"):
+		# Frame the middle of the compact map so actual pointer rays land on it.
+		workshop.focus_point = Vector3(0,game.field.sample(0,180).height,180)
+		workshop.survey_height = 100.0
 	workshop._update_survey()
 	var viewport_rect: Rect2 = game.get_viewport().get_visible_rect()
 	var terrain_left: float = tool.panel.get_global_rect().end.x+24.0
@@ -170,7 +174,7 @@ func scene_checks(tree: SceneTree, game) -> void:
 	# Aim the reticle at real terrain; the selected survey focus is a test camera only.
 	for point in anchors:
 		workshop.focus_point = point
-		workshop.survey_height = 140.0
+		workshop.survey_height = 45.0 if game.field.has_method("fixture_descriptor") else 140.0
 		tool.update_survey(0.0)
 		if tool.preview is Vector3 and tool.overlay.nearest(tool.target_screen())<0: break
 	check(tool.preview is Vector3,"Controller reticle is positioned over supported real terrain")

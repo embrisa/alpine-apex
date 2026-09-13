@@ -7,7 +7,7 @@ func check(value,label):
  if not value: failures.append(label)
  print("PASS: " if value else "FAIL: ",label)
 func run():
- set_meta("test_lab_fixture",true) # Exercise immediate lab restarts, not summit staging.
+ set_meta("test_map_fixture","smooth-slope") # Exercise immediate lab restarts, not summit staging.
  var game = load("res://main.tscn").instantiate()
  game.automated = true
  root.add_child(game)

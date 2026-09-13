@@ -37,6 +37,12 @@ GPU pass, loading stage, cold preparation or streaming hitch.
    Never nest guards or bypass a waiting measurement. If timing is blocked,
    continue independent non-timing work that does not disturb the measured system.
 
+For validation turnaround, follow [targeted maps](../../../docs/VALIDATION.md#targeted-test-maps)
+and measure setup and complete-check wall time separately. Small-fixture timing
+cannot establish production FPS. Production mountain benchmarks require both
+`-FullMountain` and a recorded `-FullMountainReason` at the owning guard; missing
+archives require explicit preparation rather than an implicit cold bake.
+
 ## Attribute and change
 
 Use [benchmark_pc.ps1](../../../scripts/benchmark_pc.ps1) for production frame

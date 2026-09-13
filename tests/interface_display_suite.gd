@@ -3,7 +3,7 @@ extends "res://tests/interface_performance_suite.gd"
 func run() -> void:
  output = "res://artifacts/interface_overhaul/display"
  DirAccess.make_dir_recursive_absolute(output)
- set_meta("test_lab_fixture",true)
+ set_meta("test_map_fixture","flat-pad")
  original_window = Output.capture_window(root)
  original_cap = Engine.max_fps
  game = load("res://main.tscn").instantiate()

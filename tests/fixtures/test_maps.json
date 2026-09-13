@@ -1,0 +1,1628 @@
+{
+  "schema": 1,
+  "maps": {
+    "flat-pad": {
+      "width_m": 128,
+      "length_m": 128,
+      "gradient": 0,
+      "depth": 0.06,
+      "objects": []
+    },
+    "smooth-slope": {
+      "width_m": 256,
+      "length_m": 512,
+      "gradient": 0.46,
+      "depth": 0.06,
+      "objects": []
+    },
+    "rough-snow": {
+      "width_m": 256,
+      "length_m": 512,
+      "gradient": 0.46,
+      "depth": 0.06,
+      "objects": []
+    },
+    "terrain-transitions": {
+      "width_m": 256,
+      "length_m": 512,
+      "gradient": 0.46,
+      "depth": 0.06,
+      "objects": []
+    },
+    "obstacle-patch": {
+      "width_m": 128,
+      "length_m": 256,
+      "gradient": 0.18,
+      "depth": 0.06,
+      "objects": [
+        {
+          "x": -40,
+          "z": 48,
+          "tree": true,
+          "family": "spruce"
+        },
+        {
+          "x": 0,
+          "z": 48,
+          "tree": true,
+          "family": "fir"
+        },
+        {
+          "x": 40,
+          "z": 48,
+          "tree": true,
+          "family": "pine"
+        },
+        {
+          "x": -40,
+          "z": 72,
+          "tree": true,
+          "family": "larch"
+        },
+        {
+          "x": 0,
+          "z": 72,
+          "tree": true,
+          "family": "birch"
+        },
+        {
+          "x": 40,
+          "z": 72,
+          "tree": true,
+          "family": "rowan"
+        },
+        {
+          "x": -40,
+          "z": 96,
+          "tree": true,
+          "family": "scots_pine"
+        },
+        {
+          "x": 0,
+          "z": 96,
+          "tree": true,
+          "family": "wind_pine"
+        },
+        {
+          "x": 40,
+          "z": 96,
+          "tree": true,
+          "family": "snag"
+        },
+        {
+          "x": -40,
+          "z": 120,
+          "tree": true,
+          "family": "split_snag"
+        },
+        {
+          "x": 0,
+          "z": 120,
+          "tree": true,
+          "family": "hollow_snag"
+        },
+        {
+          "x": 40,
+          "z": 120,
+          "tree": false,
+          "family": "rock_granite"
+        },
+        {
+          "x": -40,
+          "z": 144,
+          "tree": false,
+          "family": "rock_slate"
+        },
+        {
+          "x": 0,
+          "z": 144,
+          "tree": false,
+          "family": "rock_boulder"
+        },
+        {
+          "x": 40,
+          "z": 144,
+          "tree": false,
+          "family": "rock_limestone"
+        },
+        {
+          "x": -40,
+          "z": 168,
+          "tree": false,
+          "family": "rock_gneiss"
+        },
+        {
+          "x": 0,
+          "z": 168,
+          "tree": false,
+          "family": "rock_split_rock"
+        },
+        {
+          "x": 40,
+          "z": 168,
+          "tree": false,
+          "family": "rock_outcrop"
+        }
+      ]
+    },
+    "short-course": {
+      "width_m": 256,
+      "length_m": 512,
+      "gradient": 0.18,
+      "depth": 0.06,
+      "objects": []
+    }
+  },
+  "producers": {
+    "tests/action_animation_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/advanced_rider_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/airborne_control_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/airborne_pose_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/alpine_terrain_probe.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/alpine_v12_descent_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/alpine_v12_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/alpine_v13_descent_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/alpine_v13_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/alpine_v14_routes.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/alpine_v14_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/alpine_v15_route_audit.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/ambient_lighting_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/animation_cpu_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/arcade_air_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/arcade_air_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/arcade_carving_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/boot_posture_review.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/build_identity_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/camera_profiles_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/camera_slope_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/camera_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/carve_entry_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/carve_proportional_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/carve_residual_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/carve_response_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/carving_raised_ski_tracks_capture.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/compact_posture_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/competitive_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained benchmark route calibration and stored competitive replay integration; explicitly selected integration."
+    },
+    "tests/controller_input_playtest.gd": {
+      "maps": [
+        "smooth-slope"
+      ],
+      "full_mountain": false,
+      "coverage": "Production components on a compact authored fixture."
+    },
+    "tests/controller_input_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/controller_prompts_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/crash_recovery_lifecycle.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/crash_recovery_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/crash_replay_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/deep_tuck_probe.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/density_input_trace_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/density_lod_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/density_spatial_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/diagnostic_audio_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/downhill_contact_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/downhill_control_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/downhill_mountain_probe.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/downhill_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/equipment_asset_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/equipment_audio_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/equipment_gallery.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/equipment_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/exact_clock_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/fidelityfx_benchmark_probe.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/fidelityfx_game_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/fidelityfx_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/fidelityfx_settings_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/finish_beam_lab_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/finish_beam_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/firm_carve_capture.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/firm_carve_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/flavor_asset_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/flavor_integration_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/flavor_world_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/foliage_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/foliage_sight_mask_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/foliage_sight_settings_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/foliage_sight_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/forest_batch_visibility_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/forest_preparation_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/forest_submission_benchmark.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/fullscreen_generation_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/generated_descent_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generated_mountain_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/generation_baseline.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generation_job_lifetime_probe.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generation_openings_probe.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generation_render_profile.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generation_route_probe.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generation_v15_baseline.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit production mountain generation, restoration, loading or performance coverage."
+    },
+    "tests/generation_v15_cache_profile.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generation_v15_cancellation_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generation_v15_capacity_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generation_v15_contract_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/generation_v15_estimate_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generation_v15_loading_cancel_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generation_v15_probe.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generation_v15_scenery_integrity_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/generation_v15_smoke.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generation_v15_world_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/geology_asset_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/geology_collision_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/geology_contract_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/geology_descent_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/geology_generation_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/geology_jolt_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/geology_seating_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/ghost_archive_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/ghost_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/ghost_retry_cache_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/golden_sunlight_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/graphics_override_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/graphics_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/graphics_suite.gd": {
+      "maps": [
+        "obstacle-patch",
+        "smooth-slope"
+      ],
+      "full_mountain": false,
+      "coverage": "Production components on a compact authored fixture."
+    },
+    "tests/handling_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/handling_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/handling_upgrade_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/haptics_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/high_speed_balance_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/high_speed_balance_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/high_speed_turns_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/high_speed_turns_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/hud_dial_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/impact_recovery_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/impact_recovery_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/impact_warning_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/impact_warning_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/interface_art_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/interface_audio_capture.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/interface_feedback_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/interface_layout_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/interface_overhaul_suite.gd": {
+      "maps": [
+        "short-course"
+      ],
+      "full_mountain": false,
+      "coverage": "Production components on a compact authored fixture."
+    },
+    "tests/interface_performance_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/interface_settings_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/interface_suite.gd": {
+      "maps": [
+        "short-course"
+      ],
+      "full_mountain": false,
+      "coverage": "Production components on a compact authored fixture."
+    },
+    "tests/jump_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/jump_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/landing_absorption_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/landing_settle_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/lighting_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/loading_atmosphere_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/local_snow_boundary_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/local_snow_boundary_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/massif_contract_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/massif_v10_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/menu_camera_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/menu_camera_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/menu_navigation_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/mineral_asset_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/mineral_detail_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/mineral_vegetation_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/mountain_footprint_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/mountain_library_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/mountain_speed_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/mountain_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/mountain_zone_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/natural_audio_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/offmap_atmosphere_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/offmap_geometry_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/offmap_lifecycle_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/pc_graphics_suite.gd": {
+      "maps": [
+        "flat-pad"
+      ],
+      "full_mountain": false,
+      "coverage": "Production components on a compact authored fixture."
+    },
+    "tests/pelvis_balance_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/performance_descent.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit production mountain generation, restoration, loading or performance coverage."
+    },
+    "tests/performance_record.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/performance_recording_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/performance_stress_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/performance_stress_trace.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/performance_trace.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit production mountain generation, restoration, loading or performance coverage."
+    },
+    "tests/performance_trace_contract_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/physics_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Analytic surfaces plus retained headless laboratory route calibration; no rendered world.",
+      "additional_surfaces": [
+        {
+          "id": "laboratory-calibration",
+          "width_m": 768,
+          "length_m": 2048,
+          "cell_m": 4,
+          "objects_max": 1450,
+          "rendered_world": false,
+          "full_mountain": false
+        }
+      ]
+    },
+    "tests/planted_snow_baseline.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/planted_snow_calibration.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/planted_snow_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/playtest_bake_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/pole_push_contact_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/pole_push_pose_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/pole_push_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/pose_pole_mesh_audit.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/pose_reference_capture.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/pose_reference_render.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/powder_garden.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/powder_support_cache_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/powder_upload_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/powder_volume_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/presentation_comfort_review.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/presentation_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/race_beams_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/race_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Exact laboratory terrain/scenery seed reconstruction and return-to-benchmark identity; explicitly selected integration."
+    },
+    "tests/ragdoll_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/render_efficiency_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/retained_interface_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/rider_lifecycle_suite.gd": {
+      "maps": [
+        "smooth-slope"
+      ],
+      "full_mountain": false,
+      "coverage": "Production components on a compact authored fixture."
+    },
+    "tests/rock_terrain_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/runtime_suite.gd": {
+      "maps": [
+        "smooth-slope"
+      ],
+      "full_mountain": false,
+      "coverage": "Production components on a compact authored fixture."
+    },
+    "tests/scenario_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/scene_motion_blur_game_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/scene_motion_blur_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/scene_motion_blur_suite.gd": {
+      "maps": [
+        "smooth-slope"
+      ],
+      "full_mountain": false,
+      "coverage": "Production components on a compact authored fixture."
+    },
+    "tests/scene_motion_blur_ui_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/scenery_gallery.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/scenery_loading_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/scenery_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/sdfgi_lighting_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/session_navigation_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/session_navigation_suite.gd": {
+      "maps": [
+        "short-course"
+      ],
+      "full_mountain": false,
+      "coverage": "Production components on a compact authored fixture."
+    },
+    "tests/sfx_audio_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/sfx_device_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/sfx_lab_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/sfx_ragdoll_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/sfx_settings_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/ski_attachment_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/ski_attachment_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/skid_response_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/skier_animation_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/skier_animation_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/skier_asset_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/skier_hands_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/skier_motion_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/skier_voice_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/skier_voice_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/skier_voice_upgrade_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/small_landing_capture.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/snow_contact_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/snow_contact_visual_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/snow_coverage_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/snow_crush_mountain_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/snow_crush_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/snow_grounding_carving.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/snow_grounding_mountain.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/snow_grounding_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/snow_grounding_timing.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/snow_lab_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/snow_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/snow_readability_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/snow_response_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/ssil_lighting_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/steep_assistance_trace.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/steep_handling_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/steep_motion_gameplay_ui.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/steep_motion_probe.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/steep_motion_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/steep_pose_budget_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/steep_prediction_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/steering_recording_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/steering_snow_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/storm_audio_capture.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/streaming_collision_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/summit_descent_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/summit_mountain_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/summit_return_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/summit_view_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/technical_showcase_hazards.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/technical_showcase_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/technical_showcase_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/technical_showcase_v6_hazards.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/technical_showcase_v6_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/technical_showcase_v7_hazards.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/technical_showcase_v7_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/technical_showcase_v8_hazards.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/technical_showcase_v8_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/terrain_material_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/terrain_query_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/terrain_settle_capture.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/terrain_settle_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/test_case_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/test_case_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/thick_snow_control_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/tree_collection_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/tree_dynamics_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/tree_grounding_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/tree_grounding_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/tree_snow_v14_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/treedesigner_asset_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/treedesigner_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/tuck_contact_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/tuck_presentation_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/turn_anatomy_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/turn_anatomy_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/validation_mountain_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit production mountain generation, restoration, loading or performance coverage."
+    },
+    "tests/versioning_menu_capture.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/weather_lifecycle_suite.gd": {
+      "maps": [
+        "short-course"
+      ],
+      "full_mountain": false,
+      "coverage": "Authored race weather, practice, finish and application reload lifecycle."
+    },
+    "tests/weather_motion_review.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Retained scenery-rich laboratory or exact identity integration."
+    },
+    "tests/weather_sky_review.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/weather_submission_benchmark.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/weather_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/wilderness_fingerprint_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Mountain-specific integration."
+    },
+    "tests/wilderness_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/wind_audio_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/wind_device_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/windows_playtest_smoke.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/interface_display_suite.gd": {
+      "maps": [
+        "flat-pad"
+      ],
+      "full_mountain": false,
+      "coverage": "Production components on a compact authored fixture."
+    },
+    "tests/interface_mountain_suite.gd": {
+      "maps": [
+        "short-course"
+      ],
+      "full_mountain": true,
+      "coverage": "Explicit production mountain generation, restoration, loading or performance coverage.",
+      "additional_surfaces": [
+        {
+          "id": "v15-standard",
+          "width_m": 6144,
+          "length_m": 6144,
+          "cell_m": 4,
+          "tree_target": 200000,
+          "objects": "Recipe-dependent trees and geological placements",
+          "full_mountain": true
+        }
+      ]
+    },
+    "scripts/benchmark_pc.ps1": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit production mountain generation, restoration, loading or performance coverage."
+    },
+    "tests/targeted_map_suite.gd": {
+      "maps": [
+        "flat-pad",
+        "smooth-slope",
+        "rough-snow",
+        "terrain-transitions",
+        "obstacle-patch",
+        "short-course"
+      ],
+      "full_mountain": false,
+      "coverage": "Fixture determinism, collision, scenario parity, short-course timing and rendering."
+    },
+    "tests/prepare_validation_mountain.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit single Standard physical bake and archive publication.",
+      "additional_surfaces": [
+        {
+          "id": "v15-standard",
+          "width_m": 6144,
+          "length_m": 6144,
+          "cell_m": 4,
+          "tree_target": 200000,
+          "objects": "Recipe-dependent trees and geological placements",
+          "full_mountain": true
+        }
+      ]
+    }
+  }
+}

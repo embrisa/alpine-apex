@@ -58,7 +58,7 @@ func run() -> void:
 	check(effect._state.epoch>epoch,"View/configuration changes invalidate rendered history")
 	effect.suspend()
 	check(not effect.enabled and not effect.needs_motion_vectors and not effect.access_resolved_color and not effect.access_resolved_depth,"Suspend removes every blur-only request")
-	set_meta("test_lab_fixture",true)
+	set_meta("test_map_fixture","smooth-slope")
 	var game = load("res://main.tscn").instantiate()
 	game.automated = true
 	root.add_child(game)

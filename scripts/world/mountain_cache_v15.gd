@@ -20,6 +20,7 @@ static func path_for(seed_number: int, settings: Dictionary = {}) -> String:
 	return DIRECTORY.path_join(recipe_key(seed_number,settings)+".physical")
 
 static func generate(seed_number: int, settings: Dictionary = {}, context = null):
+	if not preload("res://scripts/diagnostics/test_world_policy.gd").require_full("Mountain generation/restoration"): return null
 	var job = context if context else Job.new()
 	var canonical = Settings.canonical(settings)
 	if canonical.is_empty() or job.is_cancelled(): return null
@@ -39,8 +40,11 @@ static func generate(seed_number: int, settings: Dictionary = {}, context = null
 		field.generation_stages = job.snapshot().timings_ms
 		field.generation_stages.original_bake_ms = data.meta.bake_ms
 		field.generation_stages.cache_source = "user" if candidate==path else "bundled"
-		Archive.touch(recipe_key(seed_number,canonical))
+		if not preload("res://scripts/diagnostics/test_world_policy.gd").automated(): Archive.touch(recipe_key(seed_number,canonical))
 		return field
+	if preload("res://scripts/diagnostics/test_world_policy.gd").automated():
+		push_error("VALIDATION_CACHE_MISS: Prepare this exact mountain explicitly with tests/prepare_validation_mountain.gd under an Exclusive guard. No cold bake was started.")
+		return null
 	var field = Terrain.new(seed_number,true,canonical,job)
 	if not field.valid or job.is_cancelled(): return null
 	job.begin_stage("physical_cache_write")
@@ -79,6 +83,7 @@ static func _grid_rows(grid: Dictionary) -> Array:
 	return rows
 
 static func restore(seed_number: int, settings: Dictionary, data: Dictionary, job):
+	if not preload("res://scripts/diagnostics/test_world_policy.gd").require_full("Mountain generation/restoration"): return null
 	var meta = data.get("meta")
 	if not meta is Dictionary or meta.get("schema")!=1 or meta.get("seed")!=seed_number or meta.get("settings")!=settings: return null
 	var field = Terrain.new(seed_number,false,settings,job,true)

@@ -29,3 +29,8 @@ inputs, physics and cameras. Separate mechanical checks, visual grading and user
 acceptance. Historical grades and sealed packages do not establish acceptance of
 a new revision. Detailed run output belongs in artifacts; update the owning guide
 with durable findings.
+
+Use the [targeted-map policy](../../../docs/VALIDATION.md#targeted-test-maps) for
+automated captures. Local pose checks use compact terrain; keep exact mountain
+reproductions explicitly selected with `-FullMountain` and `-FullMountainReason`
+on the owning guard or stage wrapper. This does not qualify production FPS.

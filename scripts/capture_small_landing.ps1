@@ -5,6 +5,9 @@ param(
     [switch]$Tuck,
     [switch]$Terrain,
     [string]$ReferenceAssist = ""
+,
+    [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
+    [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
 )
 # Native final-pose capture without taking focus or changing personal settings.
 $ErrorActionPreference = 'Stop'
@@ -36,7 +39,7 @@ try {
     }
     if ($Uneven) { $captureArgs += '--uneven' }
     if ($Tuck) { $captureArgs += '--tuck' }
-    & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath (Join-Path $captureRoot 'godotw.ps1') -Arguments $captureArgs -Label "small-landing-$View" -TimeoutSeconds 240
+    & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath (Join-Path $captureRoot 'godotw.ps1') -Arguments $captureArgs -Label "small-landing-$View" -TimeoutSeconds 240 -FullMountain:$FullMountain -FullMountainReason $FullMountainReason
     $captureCode = $LASTEXITCODE
 } finally {
     # Only immediate generated files/links are removed. Never recurse through a

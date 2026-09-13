@@ -1,4 +1,7 @@
-param([string[]]$Suites = @('physics_suite','runtime_suite','planted_snow_suite','tuck_contact_suite','downhill_contact_suite','arcade_carving_suite','skid_response_suite','high_speed_turns_suite','high_speed_balance_suite','jump_suite','airborne_control_suite','landing_absorption_suite','impact_recovery_suite','rock_terrain_suite','ski_attachment_suite','skier_anatomy_suite','snow_response_suite','competitive_suite','rider_lifecycle_suite','mountain_library_suite'))
+param([string[]]$Suites = @('physics_suite','runtime_suite','planted_snow_suite','tuck_contact_suite','downhill_contact_suite','arcade_carving_suite','skid_response_suite','high_speed_turns_suite','high_speed_balance_suite','jump_suite','airborne_control_suite','landing_absorption_suite','impact_recovery_suite','rock_terrain_suite','ski_attachment_suite','skier_anatomy_suite','snow_response_suite','competitive_suite','rider_lifecycle_suite','mountain_library_suite'),
+    [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
+    [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
+)
 $ErrorActionPreference = 'Stop'
 $snowProject = Split-Path $PSScriptRoot -Parent
 $snowResults = @()
@@ -17,7 +20,7 @@ foreach ($snowSuite in $Suites) {
             Start-Sleep -Milliseconds 1000
         }
     } while (-not $snowReady)
-    & "$PSScriptRoot/run_guarded.ps1" -FilePath "$snowProject/godotw.ps1" -Arguments @('--headless','--script',"tests/$snowSuite.gd") -Label "planted_$snowSuite" -TimeoutSeconds 900
+    & "$PSScriptRoot/run_guarded.ps1" -FilePath "$snowProject/godotw.ps1" -Arguments @('--headless','--script',"tests/$snowSuite.gd") -Label "planted_$snowSuite" -TimeoutSeconds 900 -FullMountain:$FullMountain -FullMountainReason $FullMountainReason
     $snowResults += @{suite=$snowSuite;exit_code=$LASTEXITCODE}
     $snowResults | ConvertTo-Json -Depth 4 | Set-Content (Join-Path $snowProject 'artifacts/planted_snow/regression.json')
     Write-Output "SNOW_REGRESSION $snowSuite exit=$LASTEXITCODE"

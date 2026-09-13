@@ -113,14 +113,87 @@ descent playback use `tests/validation_mountain.gd`. It reuses the production
 source/engine key, archive checksums and structural restore validation, and fails
 on a missing/incompatible Standard fixture without starting a cold bake. Prepare
 the current Standard mountain explicitly through normal generation or
-`tests/generation_v15_baseline.gd` under the guard before rerunning. Cold generation,
+`tests/prepare_validation_mountain.gd` under an Exclusive guard with full-mountain selection before rerunning. Cold generation,
 cancellation, determinism, capacity and export checks remain separately selected;
 the warm profile does not replace them or skip source/engine validation.
 
+## Targeted test maps
+
+Automated checks select the smallest surface that covers their assertion. Start
+with no map for pure logic, then a compact fixture for local integration. Full
+mountains and the scenery-rich laboratory require an explicit coverage reason;
+a short descent alone does not make a large map necessary.
+
+`tests/fixtures/test_maps.json` owns map dimensions, explicit object placements
+and producer requirements. `scripts/diagnostics/test_map.gd` constructs the same
+4 m triangulated surface used by the production 120 Hz solver. Maps use distinct
+`targeted-v1-*` identities; automated test race references reconstruct these maps
+and are rejected outside automated processes. Gameplay/save identities are unchanged.
+
+| Map | Extent | Population / use |
+|---|---|---|
+| `flat-pad` | 128 x 128 m | 0 objects; UI, input and settings |
+| `smooth-slope` | 256 x 512 m | 0 objects; handling, pose and camera |
+| `rough-snow` | 256 x 512 m | 0 objects; uneven snow and recovery |
+| `terrain-transitions` | 256 x 512 m | 0 objects; crest, compression, small drop |
+| `obstacle-patch` | 128 x 256 m | 18 explicit objects, all tree/rock families |
+| `short-course` | 256 x 512 m | 0 objects; session, finish and replay checks |
+
+Compact scene tests set SceneTree metadata `test_map_fixture` before adding the
+real main scene. Selection survives reload; records use disposable per-process
+paths and fixture attempts remain unranked. The production terrain, lighting,
+scenery, camera and skier components remain in use. The fixture path never builds
+distant terrain, wilderness, scrub, huts or randomly scattered obstacles. Object
+fixtures are capped at 64 placements. Add a needed terrain/event to this catalog
+before defaulting a new local check to a full world.
+
+```powershell
+./scripts/test_pc_environment.ps1 -Profile core -PlanOnly
+./scripts/test_pc_environment.ps1 -Suites targeted_map_suite,scenario_suite
+./scripts/scenario.ps1 -List
+./scripts/scenario.ps1 -Scenario compression -Capture -Output artifacts/my-task/compression
+```
+
+Batch and guard `-PlanOnly` show registered map dimensions/populations and full
+mountain requirements. Uncatalogued/inline producers remain explicitly labelled
+as producer-owned; the runtime gate still prevents accidental full-world loads.
+The core physics suite retains its necessary headless laboratory calibration,
+including route finish/speed/contact assertions, without constructing scenery.
+`interface_suite` covers local UI; `interface_mountain_suite` retains its separate
+generation, preview and full-mountain reload assertions. Neither replaces the other.
+
+For a necessary full world, supply both `-FullMountain` and a nonempty
+`-FullMountainReason` on the owning guard or batch. Child wrappers inherit the
+selection; no additional approval is needed. The guard, batch, recorder,
+benchmark and case wrappers preserve it. Receipts record the reason. Missing
+selection fails before registered producers launch, and generator/restoration/
+world entry points reject indirect loads too. Normal interactive startup is unaffected.
+
+Valid reasons include actual generator/cache contracts, mountain-scale streaming,
+dense production FPS, exact recorded-mountain reproduction and whole-route
+assertions. Finish, replay and UI work normally use a short course instead.
+
+```powershell
+./scripts/test_pc_environment.ps1 -Suites interface_mountain_suite -FullMountain -FullMountainReason 'Verify actual generation, preview and full mountain reload'
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/prepare_validation_mountain.gd') -Label prepare-standard -WorkloadMode Exclusive -FullMountain -FullMountainReason 'Explicit preparation of the current Standard validation archive'
+```
+
+Automated cache loading never falls back to a cold bake, even with full-world
+access. The explicit preparation command above bakes Standard once; retained
+legacy/custom recipes need their matching explicit preparation. Full scene cache
+publication uses Exclusive admission; uncontended timing uses FpsCritical.
+
+Keep setup time separate from simulation/capture time. Original hop, rough-snow
+and carving stimuli are unchanged; their default 4-6 second windows remain valid.
+An unexpected fixture boundary fails required scenario coverage rather than
+silently reporting an early pass. Local captures establish local behavior;
+they do not establish whole-mountain FPS or human/controller acceptance.
+
 ## Standard scenarios and synchronized comparison
 
-`scripts/scenario.ps1` adapts the existing small-landing/ripple fixtures to three
-named, bounded scenarios: `small-hop`, `rough-snow` and `steady-carve`. Discover
+`scripts/scenario.ps1` adapts the existing small-landing/ripple fixtures to
+named, bounded scenarios including `small-hop`, `rough-snow`, `steady-carve`,
+`crest`, `compression` and `small-drop`. Discover
 live defaults and inputs through `-List` or inspect a command with `-PlanOnly`.
 These are focused synthetic snow fixtures, using the production 120 Hz solver
 and shared 4 m surface, not a whole mountain or performance benchmark.
@@ -265,7 +338,7 @@ cold-start measurements or permit reusing old FPS results.
 while preserving full logs; the outer guard no longer hides this second layer.
 
 ```powershell
-./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','current-v15','-Version','15','-InputTrace','artifacts/current/input.json','-Upscaler','auto','-TerrainGI','off','-FrameGeneration','off','-FrameCap','0','-Repetitions','3','-ProfileFrameCosts') -Label current-v15 -TimeoutSeconds 2400 -CollectGpuMemory
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','current-v15','-Version','15','-InputTrace','artifacts/current/input.json','-Upscaler','auto','-TerrainGI','off','-FrameGeneration','off','-FrameCap','0','-Repetitions','3','-ProfileFrameCosts') -Label current-v15 -TimeoutSeconds 2400 -CollectGpuMemory -FullMountain -FullMountainReason 'Representative production mountain timing and exact route inputs'
 ```
 
 The example requires a separately prepared matching complete trace. Follow with
@@ -311,8 +384,8 @@ cannot silently consume each other's traces. Preserve current terrain/model and
 per-second trajectory checks. A changed driver requires regenerating fixtures.
 
 ```powershell
-./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','godotw.ps1','--headless','--script','tests/performance_stress_trace.gd','--','--stress-speed-kmh=170','--seconds=15','--trace-output=artifacts/high_speed_stress/open.json') -Label prepare-high-speed -TimeoutSeconds 300
-./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','high-speed-open','-InputTrace','artifacts/high_speed_stress/open.json','-ScenarioReplay','-StressSpeedKmh','170','-TrialStartSeconds','0','-TrialSeconds','15','-Repetitions','3','-FrameCap','0') -Label high-speed-open -TimeoutSeconds 900 -CollectGpuMemory
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','godotw.ps1','--headless','--script','tests/performance_stress_trace.gd','--','--stress-speed-kmh=170','--seconds=15','--trace-output=artifacts/high_speed_stress/open.json') -Label prepare-high-speed -TimeoutSeconds 300 -FullMountain -FullMountainReason 'Representative production mountain timing and exact route inputs'
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','high-speed-open','-InputTrace','artifacts/high_speed_stress/open.json','-ScenarioReplay','-StressSpeedKmh','170','-TrialStartSeconds','0','-TrialSeconds','15','-Repetitions','3','-FrameCap','0') -Label high-speed-open -TimeoutSeconds 900 -CollectGpuMemory -FullMountain -FullMountainReason 'Representative production mountain timing and exact route inputs'
 ```
 
 Receipts use `scope: speed_controlled_stress` and retain actual minimum/mean/
@@ -367,7 +440,7 @@ measure that instrumentation separately before comparing performance.
 Example with a validated current short scenario:
 
 ```powershell
-./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','gpu-attribution','-InputTrace',$fpsTracePath,'-ScenarioReplay','-TrialStartSeconds','0','-TrialSeconds','15','-Repetitions','1','-FrameCap','0','-ProfileGpuPasses') -Label gpu-attribution -TimeoutSeconds 600 -CollectGpuMemory
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','gpu-attribution','-InputTrace',$fpsTracePath,'-ScenarioReplay','-TrialStartSeconds','0','-TrialSeconds','15','-Repetitions','1','-FrameCap','0','-ProfileGpuPasses') -Label gpu-attribution -TimeoutSeconds 600 -CollectGpuMemory -FullMountain -FullMountainReason 'Representative production mountain timing and exact route inputs'
 ```
 
 ### Forest batch submission
@@ -409,9 +482,9 @@ active settings. Never infer ordinary gameplay from a modified scenario.
 
 ```powershell
 ./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode Inspect
-./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode Capture
-./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode Rerun
-./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode RerunCapture
+./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode Capture -FullMountain -FullMountainReason 'Reproduce the exact mountain recorded in this case'
+./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode Rerun -FullMountain -FullMountainReason 'Reproduce the exact mountain recorded in this case'
+./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode RerunCapture -FullMountain -FullMountainReason 'Reproduce the exact mountain recorded in this case'
 ```
 
 Each mode uses the workload guard and creates a fresh output folder under
@@ -459,7 +532,7 @@ Run focused contracts and required shared suites through the existing batch guar
 
 ```powershell
 ./scripts/test_pc_environment.ps1 -Suites test_case_suite,controller_input_suite,performance_recording_suite,performance_trace_contract_suite,physics_suite,runtime_suite -OutputDirectory artifacts/test_cases/regression
-./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/test_case_playtest.gd','--','--ui-staged-loading','--graphics-quality=high','--upscaler=auto','--render-scale=0.75','--fps-limit=120','--frame-generation=off','--terrain-gi=off','--benchmark-no-captures') -Label test-cases-native -TimeoutSeconds 600
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/test_case_playtest.gd','--','--ui-staged-loading','--graphics-quality=high','--upscaler=auto','--render-scale=0.75','--fps-limit=120','--frame-generation=off','--terrain-gi=off','--benchmark-no-captures') -Label test-cases-native -TimeoutSeconds 600 -FullMountain -FullMountainReason 'Exact mountain case-recording and replay integration'
 ```
 
 The native fixture exercises pause, controller focus/text entry, trimming/reopening,
@@ -724,7 +797,7 @@ and cameras remain separate acceptance.
 Original producing commands (use fresh output/guard labels for a new measurement):
 
 ```powershell
-./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','player-v15-4k-focused-20260912','-Version','15','-InputTrace','artifacts/player_recordings/player-20260911-221639/attempt_008.json','-Upscaler','auto','-RenderScale','0.75','-TerrainGI','off','-FrameGeneration','off','-FrameCap','120','-Repetitions','3','-ProfileFrameCosts') -Label player-v15-4k-focused -TimeoutSeconds 1200 -CollectGpuMemory
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','player-v15-4k-focused-20260912','-Version','15','-InputTrace','artifacts/player_recordings/player-20260911-221639/attempt_008.json','-Upscaler','auto','-RenderScale','0.75','-TerrainGI','off','-FrameGeneration','off','-FrameCap','120','-Repetitions','3','-ProfileFrameCosts') -Label player-v15-4k-focused -TimeoutSeconds 1200 -CollectGpuMemory -FullMountain -FullMountainReason 'Representative production mountain timing and exact route inputs'
 python tests/report_current_4k_baseline.py
 ```
 

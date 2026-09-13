@@ -38,12 +38,14 @@ func run() -> void:
 	var start = Time.get_ticks_usec()
 	var source = Evidence.identity()
 	var fixture: Dictionary = spec.fixture.duplicate(true)
-	var field = Probe.surface(fixture)
+	var field = preload("res://scripts/diagnostics/test_map.gd").create(spec.map,fixture)
+	if field==null: fail("Missing or invalid selected map: "+str(spec.get("map",""))); return
 	var sim = Probe.rider(field,fixture)
 	var report = Evidence.envelope(scenario,{"fixture":fixture,"ticks":roundi(seconds/DT),"input_producer":"tests/small_landing_probe.gd"},source)
 	report.identity.model=sim.MODEL_VERSION
 	report.tuning=Evidence.Recorder.tuning_data(sim.tuning)
 	report.requested_seconds=seconds; report.metrics=spec.metrics
+	report.map = field.fixture_descriptor()
 	report.camera={"view":view,"resolution":[1280,720],"fov":48,"capture_fps":capture_fps}
 	if capture: await prepare_scene(field,sim)
 	report.setup_seconds=(Time.get_ticks_usec()-start)/1000000.0
@@ -67,8 +69,12 @@ func run() -> void:
 			await capture_frame(report,sim,tick+1,field)
 			if (tick+1)*capture_fps>=next_capture*120: next_capture+=1
 		elif (tick+1)%120==0: await process_frame
-		if sim.crashed: stop_reason="crash"; break
-		if not field.ski_bounds().has_point(Vector2(sim.position.x,sim.position.z)): stop_reason="fixture_boundary"; break
+		if not field.ski_bounds().has_point(Vector2(sim.position.x,sim.position.z)):
+			report.failures.append("Fixture boundary reached before required coverage")
+			stop_reason="fixture_boundary"; break
+		if sim.crashed:
+			report.failures.append("Unexpected crash before required duration")
+			stop_reason="crash"; break
 	report.execution_seconds=(Time.get_ticks_usec()-sample_start)/1000000.0
 	report.actual_ticks=rows[-1].tick; report.actual_seconds=rows[-1].time
 	report.stop_reason=stop_reason; report.stable_sources=source.sources==Evidence.identity().sources
@@ -88,8 +94,8 @@ func prepare_scene(field,sim) -> void:
 	env.environment.ambient_light_source=Environment.AMBIENT_SOURCE_COLOR; env.environment.ambient_light_color=Color(.8,.87,1); env.environment.ambient_light_energy=.7; scene.add_child(env)
 	var builder=SurfaceTool.new(); builder.begin(Mesh.PRIMITIVE_TRIANGLES)
 	# Same triangulation and samples as support, across the bounded fixture.
-	for z in range(-128,768,4):
-		for x in range(-256,256,4):
+	for z in range(int(field.Z_MIN),int(field.bounds().end.y),4):
+		for x in range(int(field.X_MIN),int(field.bounds().end.x),4):
 			for offset in [Vector2(0,0),Vector2(4,0),Vector2(0,4),Vector2(4,0),Vector2(4,4),Vector2(0,4)]:
 				var p=Vector2(x,z)+offset; var sample: Dictionary=field.sample(p.x,p.y)
 				builder.set_color(Color(.84,.89,.95) if (x/4+z/4)%2==0 else Color(.79,.85,.92))

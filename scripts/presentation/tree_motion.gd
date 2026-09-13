@@ -21,7 +21,7 @@ func _init(library = null, definition_path: String = "res://assets/graphics/tree
 	assets = library
 	anchors.resize(SLOTS)
 	angles.resize(SLOTS*Dynamics.COUNT)
-	definitions = JSON.parse_string(FileAccess.get_file_as_string(definition_path))
+	definitions = {} if definition_path.is_empty() else JSON.parse_string(FileAccess.get_file_as_string(definition_path))
 
 func add_tree(transform_value: Transform3D, variant) -> void:
 	var id = trees.size()

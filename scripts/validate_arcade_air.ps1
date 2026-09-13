@@ -3,7 +3,10 @@ param([string[]]$Suites = @(
     'rider_lifecycle_suite','competitive_suite','airborne_control_suite','jump_suite',
     'tuck_contact_suite','landing_absorption_suite','rock_terrain_suite',
     'steep_upgrade_suite','steep_motion_suite','airborne_pose_suite','skier_animation_suite','ski_attachment_suite'
-), [ValidateRange(0,3600)][int]$LockWaitSeconds = 900)
+), [ValidateRange(0,3600)][int]$LockWaitSeconds = 900,
+    [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
+    [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
+)
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
 New-Item -ItemType Directory -Force 'artifacts/arcade_air_v27' | Out-Null
@@ -13,7 +16,7 @@ foreach ($airSuite in $Suites) {
     $airWaitStart = Get-Date
     while ($true) {
         try {
-            & ./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script',"tests/$airSuite.gd") -Label "air27_$airSuite" -TimeoutSeconds 600
+            & ./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script',"tests/$airSuite.gd") -Label "air27_$airSuite" -TimeoutSeconds 600 -FullMountain:$FullMountain -FullMountainReason $FullMountainReason
             break
         } catch {
             if ($_.Exception.Message -notmatch 'validation.lock.*being used' -or ((Get-Date)-$airWaitStart).TotalSeconds -gt $LockWaitSeconds) { throw }

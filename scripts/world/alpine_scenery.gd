@@ -25,6 +25,11 @@ func build(field, library, profile, terrain_snow: ShaderMaterial = null, checkpo
 	build_job = field.job if "job" in field else null
 	assets = library
 	quality = profile
+	obstacle_count = Obstacles.count(field)
+	if field.has_method("fixture_descriptor") and obstacle_count==0:
+		# Retain the live lifecycle component without loading any tree/rock assets.
+		tree_motion = preload("res://scripts/presentation/tree_motion.gd").new(assets,"")
+		return
 	tree_motion = preload("res://scripts/presentation/tree_motion.gd").new(assets,"res://assets/graphics/trees/branches.json")
 	powder_caps = preload("res://scripts/presentation/powder_caps.gd").new(assets.lighting)
 	contact_snow = preload("res://scripts/presentation/asset_snow_contacts.gd").new()
@@ -47,6 +52,7 @@ func build(field, library, profile, terrain_snow: ShaderMaterial = null, checkpo
 			await checkpoint.call("Placing trees · %d / %d" % [i,Obstacles.count(field)],100.0*i/maxi(1,Obstacles.count(field)))
 		var ob = Obstacles.record(field,i)
 		var family = _family(ob,art_rng)
+		if field.has_method("fixture_descriptor") and ob.get("fixture_family","") in TREE_FAMILIES+ROCK_FAMILIES: family = ob.fixture_family
 		if field.has_method("stand_density") and (field.environment_weight(ob.position.x,ob.position.z)>0 if field.has_method("environment_weight") else field.sector_weight(ob.position.x,ob.position.z)>0):
 			# Small coherent palettes keep dense stands legible and batched. The
 			# legacy random stream still advances once per obstacle above.
@@ -136,7 +142,7 @@ func build(field, library, profile, terrain_snow: ShaderMaterial = null, checkpo
 	var rng = RandomNumberGenerator.new()
 	rng.seed = field.seed_value+82091
 	var scrub_groups: Dictionary = {}
-	for i in range(600):
+	for i in range(0 if field.has_method("fixture_descriptor") else 600):
 		var x = rng.randf_range(field.X_MIN+64,-field.X_MIN-64) if field.is_summit_mountain() else rng.randf_range(-220,220)
 		var z = rng.randf_range(field.Z_MIN+64,-field.Z_MIN-64) if field.is_summit_mountain() else rng.randf_range(80,1550)
 		if field.is_summit_mountain() and Vector2(x,z).length()<1900: continue

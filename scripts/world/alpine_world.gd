@@ -37,6 +37,10 @@ const Atmosphere = preload("res://scripts/presentation/alpine_atmosphere.gd")
 var last_weather_state
 
 func build(field, checkpoint: Callable = Callable(), data_worker: Callable = Callable()) -> void:
+	if field.has_method("fixture_descriptor"):
+		await preload("res://scripts/diagnostics/test_world.gd").build(self,field,checkpoint)
+		return
+	if not preload("res://scripts/diagnostics/test_world_policy.gd").require_full("Production mountain or scenery-rich laboratory scene construction"): return
 	var start = Time.get_ticks_usec()
 	surface = field
 	# The full summit is 4300 m high. The old laboratory's fixed 2400 m layer

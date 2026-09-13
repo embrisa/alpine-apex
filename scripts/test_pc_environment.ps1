@@ -3,7 +3,9 @@ param(
     [ValidateSet('core','input','graphics','generation')][string]$Profile = 'core',
     [string[]]$Suites,
     [switch]$ContinueOnFailure,
-    [switch]$PlanOnly
+    [switch]$PlanOnly,
+    [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
+    [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
 )
 $ErrorActionPreference = 'Stop'
 $alpineRoot = Split-Path $PSScriptRoot -Parent
@@ -23,8 +25,11 @@ foreach ($alpineSuite in $alpineSelected) {
     if (-not $alpineSeen.Add($alpineSuite)) { throw "Duplicate suite: $alpineSuite" }
     if (-not (Test-Path -LiteralPath (Join-Path $alpineRoot "tests/$alpineSuite.gd"))) { throw "Missing suite: $alpineSuite" }
 }
-$alpinePlan = @{profile=$(if ($PSBoundParameters.ContainsKey('Suites')) {'explicit'} else {$Profile}); suites=@($alpineSelected); stop_on_failure=(-not $ContinueOnFailure)}
-if ($PlanOnly) { $alpinePlan | ConvertTo-Json -Depth 4; exit 0 }
+. (Join-Path $PSScriptRoot 'test_world_policy.ps1')
+$alpineMapPlan = @(Get-TestWorldPlan @($alpineSelected | ForEach-Object {"tests/$_.gd"}))
+$alpinePlan = @{profile=$(if ($PSBoundParameters.ContainsKey('Suites')) {'explicit'} else {$Profile}); suites=@($alpineSelected); stop_on_failure=(-not $ContinueOnFailure); maps=$alpineMapPlan;full_mountain=[bool]$FullMountain;full_mountain_reason=$FullMountainReason}
+if ($PlanOnly) { $alpinePlan | ConvertTo-Json -Depth 8; exit 0 }
+Assert-TestWorldSelection ([bool]$FullMountain) $FullMountainReason $alpineMapPlan
 . (Join-Path $PSScriptRoot 'validation_lease.ps1')
 $alpineMode = 'Shared'
 foreach ($alpineSuite in $alpineSelected) {
@@ -48,7 +53,7 @@ if ($env:ALPINE_VALIDATION_ROOT -ne $alpineRoot) {
     else { $alpineBatchArgs += @('-Profile',$Profile) }
     if ($ContinueOnFailure) { $alpineBatchArgs += '-ContinueOnFailure' }
     $alpineLabel = 'batch-' + [guid]::NewGuid().ToString('N').Substring(0,10)
-    & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath pwsh -Arguments $alpineBatchArgs -Label $alpineLabel -WorkloadMode $alpineMode -ResourceKeys $alpineKeys
+    & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath pwsh -Arguments $alpineBatchArgs -Label $alpineLabel -WorkloadMode $alpineMode -ResourceKeys $alpineKeys -FullMountain:$FullMountain -FullMountainReason $FullMountainReason
     exit $LASTEXITCODE
 }
 $alpineOutput = [IO.Path]::GetFullPath($OutputDirectory,$alpineRoot)

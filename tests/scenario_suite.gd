@@ -12,7 +12,7 @@ func run() -> void:
 	var catalog=JSON.parse_string(FileAccess.get_file_as_string("res://scripts/diagnostics/scenarios.json"))
 	for name_value in catalog.scenarios:
 		var fixture: Dictionary=catalog.scenarios[name_value].fixture
-		var field=Probe.surface(fixture)
+		var field=preload("res://scripts/diagnostics/test_map.gd").create(catalog.scenarios[name_value].map,fixture)
 		var observed=Probe.rider(field,fixture); var control=Probe.rider(field,fixture)
 		var previous=Evidence.Recorder.state(observed)
 		var events: Array=[]; var stable=true; var units=true
