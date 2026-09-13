@@ -147,7 +147,10 @@ try {
     while ($cleanupPending.Count) {
         $pendingPath = $cleanupPending.Pop()
         $pendingEntry = Get-Item -LiteralPath $pendingPath -Force
-        if (-not $pendingEntry.PSIsContainer) {
+        if ($pendingEntry.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+            # A selected link is itself a cleanup entry; never enumerate its target.
+            $pendingChildren = @($pendingEntry)
+        } elseif (-not $pendingEntry.PSIsContainer) {
             $pendingChildren = @($pendingEntry)
         } else {
             $pendingChildren = @(Get-ChildItem -LiteralPath $pendingPath -Force)

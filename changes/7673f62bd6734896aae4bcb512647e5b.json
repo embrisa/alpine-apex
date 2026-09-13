@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "id": "7673f62bd6734896aae4bcb512647e5b",
+  "summary": "Avoid traversing a selected artifact junction",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Artifact lifecycle junction safety"
+  ],
+  "owned_paths": [
+    "scripts/clean_artifacts.ps1"
+  ],
+  "read_paths": [
+    ".agents/skills/alpine-validation/SKILL.md",
+    "AGENTS.md",
+    "docs/DEVELOPMENT.md",
+    "tests/test_validation_runner.py"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "not_applicable",
+        "reason": "The helper acts only on ignored local artifact links and never accesses mountain files."
+      },
+      "races": {
+        "effect": "not_applicable",
+        "reason": "The cleanup path has no race-data behavior."
+      },
+      "records": {
+        "effect": "not_applicable",
+        "reason": "The cleanup path has no personal or ranked record behavior."
+      },
+      "ghosts": {
+        "effect": "not_applicable",
+        "reason": "The cleanup path has no replay or ghost payload behavior."
+      },
+      "caches": {
+        "effect": "not_applicable",
+        "reason": "The helper does not mutate Godot caches or user mountain bakes."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "PowerShell AST parse and git -c core.whitespace=cr-at-eol diff --check",
+      "result": "passed",
+      "details": "The junction-safe cleaner parses without PowerShell syntax errors and the changed script and note pass the repository whitespace check."
+    },
+    {
+      "kind": "automated",
+      "command": "python tests/test_validation_runner.py ValidationRunnerTests.test_cleanup_preserves_a_waiting_process_lease",
+      "result": "passed",
+      "details": "The cleaner retains an open validation lease and removes only the disposable sibling output."
+    },
+    {
+      "kind": "automated",
+      "command": "Isolated Windows junction cleanup probe",
+      "result": "passed",
+      "details": "A selected artifacts junction was unlinked while its external sentinel target remained present; the dry-run count never traversed the target."
+    },
+    {
+      "kind": "performance",
+      "command": "No performance measurement required",
+      "result": "not_required",
+      "details": "The helper changes local deletion safety only and launches no runtime workload."
+    },
+    {
+      "kind": "human",
+      "command": "No human acceptance required",
+      "result": "not_required",
+      "details": "Automated junction, retention, and lease probes cover the operator-visible cleanup contract."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-13T17:12:38.319925+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 10,
+      "commit": "5acffd421cdaa78097628a35a0c4ad9683c51690",
+      "modified": true,
+      "changes_sha256": "938a24b856f5e0b7f41fff19c6a9f6175bc3edf0d6529b85c3635fd5b4921407",
+      "source_sha256": "f32ad4db3e2b9833ee6a3cf6a1d9741779c8fe29cb71f107dc52e6068ab7bd94",
+      "categories": [
+        "Maintenance"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": "f4c3dc67d6eaa8116cb5f95dd9d5c90d3f3660711f2b3d154b082341652a1756",
+      "AGENTS.md": "7e8b75492bf8eae77b01ec1f0c76274c0263b08b65e9ec6073f9ecc337fb1c5b",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/DEVELOPMENT.md": "f7910ed445af8d376625080ce351f1364a28a40f135893f74925c6649794e2e1",
+      "project.godot": "ab7da5f47f5c39a842b849501ab3c8df818d481db9ea9283517a576cd4062c7d",
+      "scripts/clean_artifacts.ps1": "fac81589e7714da41ed98a55acc730e666101db3fd7c09cbc6e13eae6fbf7fb1",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "1232d9d3d85fbe23d9acbc30e3e1f3af5b98929764cb6b0942d19a83718d3c00",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f",
+      "tests/test_validation_runner.py": "3758594a690f76c79492edb703e72ef273941a4216b65f1f279ff795460720ab"
+    }
+  }
+}
