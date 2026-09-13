@@ -277,23 +277,26 @@ test API. Production uses no readback.
 Partial GPU uploads must match full uploads byte-for-byte. Native compilation
 caught a varying-limit failure in the end-cap shader; keep packed varyings within
 the engine's limit. Native GPU checks are required for compute/shader changes.
-The accepted raised-ski continuity fix does not clear loaded-track shape quality.
-Standard-world carving frames 217–225 retain conspicuous scalloped/triangular
-banks. Loaded response and bank-shaping formulas predate this task, but its
-XYZ-to-XZ retained-distance change can alter stamp spacing and join prominence
-on steep terrain. That contribution is unisolated; the boundary before/after
-pair shares the carving implementation and cannot prove the defect unaffected.
-See the [world-shape diagnosis](../artifacts/orchestration_20260912/carving/world_shape/REVIEW.md).
 Retained ribbons keep one width/depth per 0.70 m rectangle; adjacent sections
-do not share edge vertices or interpolate the prior style. Their shader adds
-a raised bank over High's reconstructed powder height, with a longitudinal
-fade only for live sections. The GPU atlas instead combines signed
-impressions by integer maximum with recess priority and area filtering.
-These are separate shape mechanisms; isolating their visible contribution
-and retained spacing belongs to the [loaded-ridge task](../backlog/tasks/AA-20260912-132147-review-loaded-track-ridge-shape.md).
-Headless geometry checks do not establish the visual result. Focused
-causal/chronological producers and
-their baseline limits are in [Validation](VALIDATION.md#snow-contact-and-local-boundary-producers).
+do not share edge vertices or interpolate the prior style. Their raised banks
+sit over High's reconstructed powder surface, whose signed impressions combine
+by integer maximum with recess priority and area filtering. To avoid duplicate
+stepped banks, `ski_track.gdshader` fades the overlay opacity for loaded depths
+from 12 to 35 mm inside the local High relief area. The existing 8-13 m radial
+fade restores the packed overlay toward the boundary. Marks at or below the
+12 mm cosmetic cap retain full ribbon visibility. Outside that area and with
+the local patch disabled, the original overlay remains; geometry, stamping,
+snow eligibility and atomic support publication are unchanged.
+
+Fixed-spacing, matched model-32 captures isolate the overlay's contribution to
+pronounced loaded banks on both turn signs and reversal. Small scallops and
+shallow/live segment shapes remain; no exhaustive art or performance acceptance
+is implied. The historical XYZ-to-XZ retained-distance change may also affect
+join prominence and was not independently varied. Boundary agreement alone
+cannot establish that it had no effect. See the [loaded-ridge correction](../backlog/tasks/AA-20260912-132147-review-loaded-track-ridge-shape.md)
+and [original-scale evidence](../artifacts/loaded_track_ridge_20260913/RESUMED_REVIEW.md).
+Headless geometry checks do not establish the visual result. Focused producers
+and their baseline limits are in [Validation](VALIDATION.md#snow-contact-and-local-boundary-producers).
 
 `snow_readability.gd` derives concavity from symmetric 4 m/12 m neighbors in the
 immutable support heights. Opposing planar slopes cancel; missing pairs and

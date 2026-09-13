@@ -1,11 +1,11 @@
 ---
 id: "AA-20260912-132147-review-loaded-track-ridge-shape"
 title: "Resolve pronounced loaded snow-track ridge shapes"
-status: "blocked"
+status: "done"
 priority: "P2"
 depends_on: []
 created: "2026-09-12T13:21:47Z"
-updated: "2026-09-13T01:12:30.938554Z"
+updated: "2026-09-13T07:42:12.542171Z"
 source_thread: null
 ---
 
@@ -33,10 +33,10 @@ Use one bounded matched ordinary carving passage and fixed shader dependencies t
 
 ## Acceptance and verification
 
-- [ ] Before/after neighboring frames establish the cause and show improved ridge shape on both turn signs/reversal without new seams.
-- [ ] Loaded tracks, lightly raised grounded continuation and jump/rock/teleport breaks retain accepted behavior; run only affected CPU/GPU checks.
-- [ ] Record actual art/performance limits and provenance; do not claim either that the old feature caused every ridge or that agreement between boundary modes proves it harmless.
-- [ ] Record exact changed-source verification and commit/push the owned work with updated authoritative documentation.
+- [x] Before/after neighboring frames establish the cause and show improved ridge shape on both turn signs/reversal without new seams.
+- [x] Loaded tracks, lightly raised grounded continuation and jump/rock/teleport breaks retain accepted behavior; run only affected CPU/GPU checks.
+- [x] Record actual art/performance limits and provenance; do not claim either that the old feature caused every ridge or that agreement between boundary modes proves it harmless.
+- [x] Record exact changed-source verification and commit/push the owned work with updated authoritative documentation.
 
 Human acceptance: actual controller feel, listening and subjective visual approval remain separate follow-ups, not an unattended worker completion gate. Do not revive the cancelled broad player-acceptance task or claim the user tested these features.
 
@@ -46,60 +46,45 @@ None
 
 ## Completion record
 
-Blocked on 2026-09-13 before fresh rendered isolation; no production correction applied.
+Completed on 2026-09-13 by direct user instruction after the dirty-read conflict
+was fixed in `3f5157a76a730597820cd9ca3c525aeec79dbbfb`. The original scheduled
+dispatch was released after blocked record `0f2fbd801c01ab9139d28a06dc7bcdf38e4fb97e`;
+this manual continuation took no replacement claim. The idle pole candidate and
+intentional ghost-selector task edits remained byte-for-byte unchanged.
 
-Exact dispatch accepted as worker `01a0984c-222b-72f3-baea-738f4131865d`, token
-`f4584f80-5f8c-425d-8de2-e1383da8cd5a`, original manager
-`01a09848-a968-7251-bd4c-3876c739af35`. Source baseline was pushed main
-`2f2d64c0e4b9c1c45d731ec7b9cf2575f4cb11d7`, simulation model 32.
+High's raised ribbon rectangles contributed duplicate stepped banks over the
+filtered powder surface. With stamp spacing and every other runtime input fixed,
+fading loaded overlay opacity from 12 to 35 mm inside the existing local relief
+fade improved both turn signs and reversal. The 12 mm shallow ribbon, physics,
+4 m support, snow permission, live/history placement, GPU stamping and boundary
+publication remain unchanged. Owning guide: `docs/RENDERING.md`.
 
-**Blocker:** atomic expansion to reserve the production capture dependency closure
-returned `skipped: Expanded scope overlaps unfinished paths: scripts/presentation/pole_push_pose.gd`.
-The pole worker was freshly verified idle after its blocked delivery, but its
-candidate remains deliberately uncommitted and peer-owned. The capture loads
-main -> skier_visual -> skier_animation -> skier_full_motion -> pole_push_pose,
-steps production animation, and consumes final rendered skis. Removing that
-dependency from the declared read scope would not make the capture independent.
-No skipped scope was bypassed, no peer file/reservation was changed, and no
-engine workload or comparative timing was launched.
+Paired 15-second aggregate native captures have identical complete runtime
+telemetry across 900 frames. Original 1920x1080 neighboring frames were inspected
+chronologically on left/right (158,160,162), reversal (188,190,192), plus left250.
+The final 20-second aggregate left/right/reversal/jump capture passed with 1,200
+frames, stable sources and unchanged physics. Jump frames88,90,96,98 show the
+airborne break and landing restart. Native verification passed 129 contact,
+22 boundary and 7 GPU checks. The original fixture's five false continuity
+failures at reversal263-265 were independently traced to rendered ski tips on
+rock; only its expected snow window changed. Runtime rejection was preserved.
 
-Independent investigation: current loaded response, SnowTracks, ribbon shader,
-compute shader and shared powder include match the earlier source diagnosis;
-PowderSurface itself has since changed. Retained ribbons have one width/depth
-per 0.70 m rectangle and no longitudinal bank fade, and add their raised lip over
-High's reconstructed powder height. Integer-max GPU impressions do not add
-repeated shallow depths. This supports a ribbon-bank/join hypothesis; spacing,
-overlap and GPU contributions remain unisolated. No speculative depth clamp or
-eligibility change was applied.
+Evidence: [resumed review](../../artifacts/loaded_track_ridge_20260913/RESUMED_REVIEW.md),
+[exact comparison](../../artifacts/loaded_track_ridge_20260913/comparison.json),
+[final capture results](../../artifacts/loaded_track_ridge_20260913/final/results.json).
+The comparison verifies all final manifest hashes and only two changed source
+paths among 673 snapshots: the shader and capture test. The test now records its
+shader includes and preserved pole dependency. Initial blocking evidence remains
+in [the historical investigation](../../artifacts/loaded_track_ridge_20260913/REVIEW.md).
 
-Evidence: [investigation](../../artifacts/loaded_track_ridge_20260913/REVIEW.md),
-[source/image manifest](../../artifacts/loaded_track_ridge_20260913/manifest.json),
-and exact source snapshots under that artifact directory. Three historical
-1920x1080 frames (217, 218, 223) were inspected in chronological order at original
-scale. They show the old scalloped/triangular banks; they are not fresh model-32
-before/after evidence and do not establish a correction. All implementation
-acceptance boxes remain open.
+Limits: small scallops and shallow/live segment shape remain; fixed current
+spacing does not exonerate the historical XYZ-to-XZ spacing change. Native High
+only was visually reviewed. Low/Balanced source behavior is unchanged. No
+performance, full-descent, multi-weather, human/controller/listening acceptance
+is claimed. No new ideas were proposed. Paired/final review evidence is retained;
+redundant rejected-candidate JPGs are eligible for cleanup after push, with an
+exact receipt in the evidence directory. The implementation delivery is the
+commit containing this completion record.
 
-Automated checks: source/hash/provenance inspection, task-record validation and
-owned-document whitespace/link verification. No CPU/GPU engine suite rerun;
-no implementation changed. Fresh bounded left/right/reversal rendering,
-affected correctness checks and changed-source verification remain outstanding.
-Measured performance and human/controller/listening acceptance were not run or
-claimed. Owning guide updated: `docs/RENDERING.md` explains the distinct ribbon
-bank and reconstructed powder mechanisms. No changes to solver, 4 m support,
-continuity/exclusion gates, boundary publication, records or preferences.
-
-Resume after an explicit resolution of the preserved pole candidate's ownership
-and a stable capture baseline, then obtain a successful fresh scope expansion
-before the matched 15-30 second causal capture. Resolve only this task; the
-paused dense-scene GPU work stays paused. No new idea proposals: this assigned
-task already covers the evidence-backed next steps.
-
-Delivery is the documentation/blocked-record commit containing this entry;
-no source implementation commit exists. Push and exact-token release are
-required before ending. Retain the small unresolved evidence bundle; no
-redundant task-owned captures or engine artifacts were generated, so no cleanup
-is due. Peer pole source and the incomplete ghost-selector feedback remain
-uncommitted and untouched.
-
-Worker: `01a0984c-222b-72f3-baea-738f4131865d`. Dispatch: `f4584f80-5f8c-425d-8de2-e1383da8cd5a`.
+Original worker: `01a0984c-222b-72f3-baea-738f4131865d`. Released dispatch:
+`f4584f80-5f8c-425d-8de2-e1383da8cd5a`.

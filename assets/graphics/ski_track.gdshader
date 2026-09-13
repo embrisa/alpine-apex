@@ -84,6 +84,11 @@ void fragment() {
  NORMAL=normalize((VIEW_MATRIX*vec4(n,0)).xyz);
  // Keep a cheap packed line visible behind the racer; fine relief fades first.
  ALPHA=(1.0-smoothstep(.72,.98,abs(x)))*(1.0-smoothstep(220.0,380.0,track_distance))*.94;
+ // The filtered High surface already carries loaded grooves and rounded
+ // banks. Its coarse overlay rectangles expose a second set of raised ends.
+ // Keep the full packed ribbon for <=12 mm cosmetic marks, which need it for
+ // readable continuity, and fade loaded overlays with the local relief area.
+ if(powder_patch_enabled) ALPHA*=1.0-powder_edge(imprint_world.xz)*smoothstep(.012,.035,imprint_depth);
  if(live_cap.x>0.5) ALPHA*=smoothstep(0.0,.08,live_cap.y)*(1.0-smoothstep(.88,1.0,live_cap.y));
  vec4 crystals=sample_crystals(imprint_world,n,crystal_density*mix(.45,.7,imprint_slip),track_distance);
  snow_glints=crystals.w;

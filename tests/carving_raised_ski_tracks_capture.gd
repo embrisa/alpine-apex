@@ -274,7 +274,12 @@ func continuous_snow_window(scenario: String, frame: int) -> bool:
 	# Right/reversal: buried entry, post-landing hold, and complete release.
 	# Left also includes its production switch transition and shallow hold.
 	# Air and rock-boundary coverage remain separate in the jump scenario.
-	if scenario=="right" or scenario=="reversal":
+	# Model 32 reaches a tip-on-rock crossing after the reversal. The old
+	# model-28 release window incorrectly required snow at frames 263-265;
+	# direct TestSlope material samples confirm rock at those rendered tips.
+	if scenario=="reversal":
+		return (frame>=34 and frame<=51) or (frame>=120 and frame<=153) or (frame>=240 and frame<263)
+	if scenario=="right":
 		return (frame>=34 and frame<=51) or (frame>=120 and frame<=153) or frame>=240
 	if scenario=="left": return frame>=106
 	return false
@@ -317,6 +322,10 @@ func source_hashes() -> Dictionary:
 		"scripts/presentation/skier_visual.gd","scripts/presentation/skier_full_motion.gd","scripts/presentation/speed_effects.gd",
 		"scripts/presentation/snow_response.gd","scripts/presentation/snow_tracks.gd","scripts/presentation/powder_surface.gd",
 		"assets/graphics/ski_track.gdshader","assets/graphics/powder_surface.gdshader","assets/graphics/powder_compute.gd",
+		"assets/graphics/powder_surface.gdshaderinc","assets/graphics/snow_crystals.gdshaderinc",
+		"assets/graphics/snow_readability.gdshaderinc","assets/cloud_light.gdshaderinc",
+		"assets/graphics/terrain_material.gdshaderinc","assets/graphics/alpine_surface_uniforms.gdshaderinc",
+		"assets/graphics/alpine_surface_fragment.gdshaderinc","scripts/presentation/pole_push_pose.gd",
 		"tests/carving_raised_ski_tracks_capture.gd"]:
 		result[path] = FileAccess.get_sha256("res://"+path)
 		if not reference_root.is_empty() and FileAccess.file_exists(reference_root+"/"+path):
