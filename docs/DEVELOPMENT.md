@@ -123,8 +123,8 @@ preserves their contracts does not require rewriting skill text.
 
 | Skill | Changes that require review |
 |---|---|
-| [Validation](../.agents/skills/alpine-validation/SKILL.md) | `scripts/test_pc_environment.ps1`, `scripts/run_guarded.ps1`, engine selection, test profiles/fixture preparation, result/log semantics, check-selection or bounded-descent policy |
-| [Bug investigation](../.agents/skills/alpine-bug-investigation/SKILL.md) | `scripts/test_case.ps1`, `scripts/diagnostics/case_tool.gd`, case/recording formats, recorded tuning or control replay, comparison/capture semantics, subsystem ownership |
+| [Validation](../.agents/skills/alpine-validation/SKILL.md) | `scripts/test_pc_environment.ps1`, `scripts/run_guarded.ps1`, `scripts/validation_lease.ps1`, `scripts/scenario.ps1`, scenario catalog/runner/evidence schema, engine selection, test profiles/fixture preparation, result/log semantics, check-selection or bounded-descent policy |
+| [Bug investigation](../.agents/skills/alpine-bug-investigation/SKILL.md) | `scripts/test_case.ps1`, `scripts/diagnostics/case_tool.gd`, `scripts/pose_review/compare_scenarios.py`, case/scenario evidence formats, recorded tuning or control replay, comparison/capture semantics, subsystem ownership |
 | [Performance](../.agents/skills/alpine-performance/SKILL.md) | `scripts/benchmark_pc.ps1`, trace producers/validators, profiling/result formats, runtime/cache identity, performance targets/method, workload exclusivity or engine strategy |
 
 These are dependency entry points, not an exhaustive file allowlist. Follow

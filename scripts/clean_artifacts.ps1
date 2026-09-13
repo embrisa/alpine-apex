@@ -11,7 +11,7 @@ if ((Get-Item -LiteralPath $cleanupRoot -Force).Attributes -band [IO.FileAttribu
 }
 $cleanupPrefix = $cleanupRoot + [IO.Path]::DirectorySeparatorChar
 # Keep the directory/import marker and its instructions available in a project copy.
-$cleanupKeep = @('.gdignore', 'README.md', 'validation.lock')
+$cleanupKeep = @('.gdignore', 'README.md', 'validation.lock', 'validation_leases')
 $cleanupLock = [IO.File]::Open((Join-Path $cleanupRoot 'validation.lock'), 'OpenOrCreate', 'ReadWrite', 'None')
 try {
     $cleanupActive = @(Get-Process -ErrorAction SilentlyContinue | Where-Object {
@@ -27,6 +27,7 @@ try {
     $cleanupFiles = 0
     while ($cleanupPending.Count) {
         foreach ($entry in Get-ChildItem -LiteralPath $cleanupPending.Pop() -Force) {
+            if ($entry.Parent.FullName -eq $cleanupRoot -and $entry.Name -eq 'validation_leases') { continue }
             $full = [IO.Path]::GetFullPath($entry.FullName)
             if (-not $full.StartsWith($cleanupPrefix, [StringComparison]::OrdinalIgnoreCase)) {
                 throw "Cleanup target is outside artifacts: $full"

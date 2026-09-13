@@ -25,13 +25,30 @@ foreach ($alpineSuite in $alpineSelected) {
 }
 $alpinePlan = @{profile=$(if ($PSBoundParameters.ContainsKey('Suites')) {'explicit'} else {$Profile}); suites=@($alpineSelected); stop_on_failure=(-not $ContinueOnFailure)}
 if ($PlanOnly) { $alpinePlan | ConvertTo-Json -Depth 4; exit 0 }
+. (Join-Path $PSScriptRoot 'validation_lease.ps1')
+$alpineMode = 'Shared'
+foreach ($alpineSuite in $alpineSelected) {
+    $classification = Get-ValidationWorkload './godotw.ps1' @('--script',"tests/$alpineSuite.gd") 'Shared' @()
+    if ($classification.mode -ne 'Shared') { $alpineMode = $classification.mode }
+}
+if ($env:ALPINE_VALIDATION_ROOT -eq $alpineRoot -and $alpineMode -eq 'FpsCritical' -and $env:ALPINE_VALIDATION_MODE -ne 'FpsCritical') {
+    throw 'Timing suites require a FpsCritical guard; run the batch directly or select that outer workload mode.'
+}
+$alpineKeys = @($alpineSelected | ForEach-Object { "script:tests/$_.gd" }) + @("output:$([IO.Path]::GetFullPath($OutputDirectory,$alpineRoot))")
+if ($env:ALPINE_VALIDATION_ROOT -eq $alpineRoot -and $env:ALPINE_VALIDATION_MODE -eq 'Shared') {
+    $inheritedKeys = @($env:ALPINE_VALIDATION_RESOURCES | ConvertFrom-Json)
+    if (@($alpineKeys | Where-Object { $_ -notin $inheritedKeys }).Count) {
+        throw 'Inherited shared guard does not reserve this batch suite/output scope. Run the batch directly or reserve its complete scope in the outer guard.'
+    }
+}
 # Direct calls own one guard; an outer guard passes its root to the child.
 if ($env:ALPINE_VALIDATION_ROOT -ne $alpineRoot) {
     $alpineBatchArgs = @('-NoProfile','-File',$PSCommandPath,'-OutputDirectory',$OutputDirectory)
     if ($PSBoundParameters.ContainsKey('Suites')) { $alpineBatchArgs += @('-Suites',($alpineSelected -join ',')) }
     else { $alpineBatchArgs += @('-Profile',$Profile) }
     if ($ContinueOnFailure) { $alpineBatchArgs += '-ContinueOnFailure' }
-    & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath pwsh -Arguments $alpineBatchArgs -Label "batch-$Profile"
+    $alpineLabel = 'batch-' + [guid]::NewGuid().ToString('N').Substring(0,10)
+    & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath pwsh -Arguments $alpineBatchArgs -Label $alpineLabel -WorkloadMode $alpineMode -ResourceKeys $alpineKeys
     exit $LASTEXITCODE
 }
 $alpineOutput = [IO.Path]::GetFullPath($OutputDirectory,$alpineRoot)

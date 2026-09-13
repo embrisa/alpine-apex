@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "scenarios": {
+    "small-hop": {
+      "description": "Ordinary jump and landing on the existing smooth snow fixture.",
+      "seconds": 4,
+      "fixture": {"amplitude": 0, "wavelength": 32, "depth": 0.2, "kmh": 60, "hop": true},
+      "metrics": ["speed_mps", "normal_speed_mps", "load_n", "clearance_m", "impact_speed_mps"]
+    },
+    "rough-snow": {
+      "description": "Bounded uneven-snow jump, contact loss and recovery on the existing ripple fixture.",
+      "seconds": 6,
+      "fixture": {"amplitude": 0.6, "wavelength": 16, "depth": 0.06, "angle": 0.5, "kmh": 120, "steer": 0.15, "tuck": 1, "hop": true},
+      "metrics": ["speed_mps", "normal_speed_mps", "load_n", "clearance_m", "slip_rad"]
+    },
+    "steady-carve": {
+      "description": "Sustained ordinary steering on the existing smooth snow fixture.",
+      "seconds": 6,
+      "fixture": {"amplitude": 0, "wavelength": 32, "depth": 0.06, "kmh": 60, "steer": 0.55, "hop": false},
+      "metrics": ["speed_mps", "slip_rad", "edge_rad", "body_roll_rad", "load_n"]
+    }
+  }
+}

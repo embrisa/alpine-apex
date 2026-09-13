@@ -42,7 +42,9 @@ starting comparative CPU/GPU/FPS timing, atomically update it with
 `scope --token TOKEN --scope FILE --snapshot FILE`. Skipped means that work must
 wait; continue independent allowed work or record the precise blocker and stop.
 Never weaken a peer's classification or use performance acceptance under competing
-work. Keep existing engine/Blender workloads serial through the validation guard.
+work. Use the validation guard: compatible functional runs may share admission;
+timing requires `FpsCritical`, and shared cache/import/build mutations require
+`Exclusive`. Reserve overlapping outputs and preserve existing workloads.
 Coordinate brief path-only commits; a peer's staged/dirty files remain theirs.
 
 Do not block implementation just because a test reads unfinished source left by

@@ -25,8 +25,11 @@ tests; a profile is a focused selection, not universal acceptance.
 3. Resolve the actual engine through the repository wrapper. Inspect preserved
    dirty read inputs and identify the bytes used; unrelated edits do not require
    cleanup. Recheck affected source for drift before claiming acceptance.
-4. Use the existing batch runner or an owning wrapper under the shared workload
-   guard. Never nest guards or interrupt another owner's workload. Choose fresh
+4. Use the existing batch runner or an owning wrapper under the workload guard.
+   Use `Shared` for isolated functional checks, `FpsCritical` for comparative
+   timing and `Exclusive` for imports/builds/shared cache mutations. Compatible
+   shared runs may overlap; reserve common outputs and wait for conflicting leases.
+   Never nest guards or interrupt another owner's workload. Choose fresh
    task-specific output directories so results cannot be confused with old runs.
 
 The batch runner supports a read-only plan before taking the guard:
@@ -47,6 +50,12 @@ For riding data, follow [bounded descents](../../../docs/VALIDATION.md#bounded-t
 state the question, event, measured window and clean stop condition; separate
 setup/warmup from riding. A guard timeout is a failure backstop, not a successful
 sample boundary. Required complete suites retain their full coverage.
+
+For small hops, uneven snow or sustained carving, discover the existing
+[standard scenarios](../../../docs/VALIDATION.md#standard-scenarios-and-synchronized-comparison)
+with `scripts/scenario.ps1 -List`. Use the common manifest/telemetry and synchronized
+comparison page; preserve stimulus, source/tuning identities and coverage limits.
+Nearest captured images do not necessarily represent the selected exact tick.
 
 Use [bug investigation](../alpine-bug-investigation/SKILL.md) for a reported defect
 or `.apexcase`, and [performance](../alpine-performance/SKILL.md) for comparative

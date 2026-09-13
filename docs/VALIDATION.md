@@ -3,19 +3,42 @@
 ## Execution
 
 Use [current source identities](ARCHITECTURE.md#current-identity), not the version
-embedded in an old filename. Run engine workloads serially through
-`scripts/run_guarded.ps1` or an owning wrapper; do not nest guards. Occupied
-`artifacts/validation.lock` means wait. The guard waits automatically (up to
+embedded in an old filename. Run engine workloads through
+`scripts/run_guarded.ps1` or an owning wrapper; do not nest guards. The guard
+admits compatible `-WorkloadMode Shared` runs concurrently by default.
+`FpsCritical` measurements and `Exclusive` mutations wait for all existing runs
+and block new admissions until finished. Queued exclusive requests also block
+new shared runs, so measurements cannot be starved by arriving checks.
+The guard waits automatically (up to
 `-WaitTimeoutSeconds 3600` by default), reports the owner when available, and
 records queue time separately from `-TimeoutSeconds` for the workload. A wait
 timeout writes a separate request receipt without replacing the active owner's
 logs. The guard owns only its launched process tree and records timeout/engine/
 driver failures. Existing user apps are preserved.
-Explicitly authorized concurrent functional checks cannot establish performance.
+Concurrent functional checks cannot establish performance. There is no fixed
+instance cap; choose a sensible memory budget for the fixtures being launched.
+
+Use `-WorkloadMode FpsCritical` for comparative FPS, CPU/GPU, loading or generation
+timing, even in a headless test. Known benchmark/profiling entry points are promoted
+automatically; this is a backstop, not a substitute for classifying new producers.
+Use `Exclusive` for imports, exports, builds and shared cache/native mutations.
+Unregistered scripted Godot/Blender workloads remain blockers and are preserved;
+exclusive work also waits for unregistered interactive Godot instances.
+
+Each request holds a process-owned lease under `artifacts/validation_leases/` and
+the original `validation.lock`. OS handle lifetime releases cancelled/dead owners;
+stale metadata is reclaimed at admission. Old exclusive guards remain compatible.
+Never delete either lock or live lease files to force admission. Unique labels
+protect guard logs; default resource reservations serialize the same producer.
+`-ResourceKeys @('output:ABSOLUTE_PATH', 'cache:KEY')` replaces that producer
+reservation only when all its shared writes are identified. Different scripts
+that write a common destination must reserve the same key or use `Exclusive`.
+The scenario wrapper reserves its fresh output; no session/cache writes occur.
 
 ```powershell
 ./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/physics_suite.gd') -Label physics
 ./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/runtime_suite.gd') -Label runtime
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/animation_cpu_suite.gd') -Label animation-cpu -WorkloadMode FpsCritical
 ```
 
 For a PowerShell target with named parameters, invoke native `pwsh` with
@@ -31,7 +54,12 @@ child output, not lifecycle notices. Engine/parse errors fail immediately;
 assertion failures also fail the final receipt even if the child exits zero.
 
 `scripts/test_pc_environment.ps1` owns one guard when invoked directly and reuses
-an inherited guard when wrapped. It runs the entire batch serially, stops after
+an inherited guard when wrapped. It reserves its suites and output directory;
+disjoint batches with distinct outputs may overlap. A batch containing a known
+timing suite requires exclusive admission; an inherited shared guard is rejected.
+An inherited shared guard must also reserve every selected suite and the output;
+use the direct batch wrapper when that outer scope has not been declared.
+It runs suites within each batch serially, stops after
 the first failing suite, and records subsequent suites as `not_run` in `run.json`.
 `-ContinueOnFailure` requests the rest of the assertion-failure inventory; engine
 errors/timeouts still stop the guard. `results.json` contains completed suites,
@@ -79,6 +107,53 @@ the current Standard mountain explicitly through normal generation or
 `tests/generation_v15_baseline.gd` under the guard before rerunning. Cold generation,
 cancellation, determinism, capacity and export checks remain separately selected;
 the warm profile does not replace them or skip source/engine validation.
+
+## Standard scenarios and synchronized comparison
+
+`scripts/scenario.ps1` adapts the existing small-landing/ripple fixtures to three
+named, bounded scenarios: `small-hop`, `rough-snow` and `steady-carve`. Discover
+live defaults and inputs through `-List` or inspect a command with `-PlanOnly`.
+These are focused synthetic snow fixtures, using the production 120 Hz solver
+and shared 4 m surface, not a whole mountain or performance benchmark.
+
+```powershell
+./scripts/scenario.ps1 -List
+./scripts/scenario.ps1 -Scenario small-hop -Capture -Output artifacts/scenarios/hop-before
+./scripts/scenario.ps1 -Scenario small-hop -Capture -Output artifacts/scenarios/hop-after
+python scripts/pose_review/compare_scenarios.py artifacts/scenarios/hop-before artifacts/scenarios/hop-after --output artifacts/scenarios/hop-review
+```
+
+Default windows are 4–6 seconds; `-Seconds` permits 0.25–60 seconds with a clean
+duration/crash/fixture-boundary stop. `-Capture` adds final production poses and
+images, `-CaptureFps` controls sampling (1–30, default 15), and `-View side|chase`
+selects the camera. The fixture uses the solver's constructed tuning, recorded
+in full, rather than silently assuming the default resource. Records/preferences
+are never created. Capture runs produce visual evidence; wall times are diagnostic
+only. Headless runs retain the same completed tick/input/state telemetry.
+
+Every run writes `manifest.json` and `telemetry.json` in the common
+`alpine-scenario-evidence` schema. Manifests record exact source/engine/model,
+fixture/input/tuning, requested and actual coverage, stop reason, source stability,
+events, camera and capture origins. Loads are summed ski forces in newtons;
+impact speed is metres/second. Changing a producer's meaning requires a schema
+review and updates to its comparer/tests and affected skills in the same milestone.
+
+Open the generated `index.html`, or serve the common artifact parent using
+`python scripts/pose_review/serve_review.py --root artifacts --port 8771`.
+Keep the two source evidence directories beside the review; images are linked,
+not duplicated. The page synchronizes telemetry by tick, shows nearest image
+times and offsets, plots selected metrics and jumps to contact/crash events or
+the first shared-state divergence. JSON records changed source/tuning, compared
+and unavailable fields, coverage and numeric tolerance (default `1e-6`).
+Different inputs, failed/source-drifting runs, unmatched tails, missing captures
+and camera/engine differences remain visible. No overlap or malformed evidence
+is rejected. Differences are observations, not automatic improvement/fix grades.
+
+Tool checks: `python tests/test_scenario_comparison.py` and
+`python tests/test_validation_runner.py`. Browser checks use
+`node tests/scenario_review_browser.test.cjs REVIEW/index.html INSPECTION_OUTPUT`
+with the installed Playwright runtime. Run `tests/scenario_suite.gd` through the
+guard for fixture determinism, telemetry units and event coverage.
 
 ## Bounded test descents
 
@@ -321,18 +396,37 @@ active settings. Never infer ordinary gameplay from a modified scenario.
 ./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode Inspect
 ./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode Capture
 ./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode Rerun
+./scripts/test_case.ps1 -Case 'C:\path\bug.apexcase' -Mode RerunCapture
 ```
 
 Each mode uses the workload guard and creates a fresh output folder under
 `artifacts/test_cases/` (or explicit `-Output`). Inspect exports metadata, notes,
 selected completed telemetry and all accepted control-event times to `result.json`.
-Capture reconstructs the recorded mountain and emits eight PNGs and a contact
+Capture reconstructs the recorded mountain and emits eight PNGs by default
+(`-CaptureFrames 2..120`) and a contact
 sheet with original timestamps; JSON distinguishes requested time from captured
 frame time. It preserves saved poses/camera using current rendering. Rerun retains
 recorded tuning and applies the launch-to-Out input/control prefix through the
 current production solver and diagnostic policy, reporting every selected tick's
 actual telemetry, trajectory difference, contact/impact state, speed injections,
 prevented damage and termination. The original file is never modified.
+
+`RerunCapture` adds captures of the actual current solver's completed final poses
+to Rerun, using saved camera/weather samples. It does not seek back to old poses
+between solver steps. Fresh crash captures remain fresh Jolt observations.
+The capture HUD is suppressed; the comparison page supplies telemetry from the
+correct state origin. This is a final-pose comparison against reconstructed
+terrain, not recreation of complete effect/audio history.
+Capture, Rerun and RerunCapture also emit the common scenario manifest/telemetry;
+compare Capture versus RerunCapture directories with `compare_scenarios.py`.
+The page identifies recorded poses versus current-solver poses, selected tick
+versus actual captured time, retained tuning and source changes. Rerun remains
+headless telemetry when visuals are unnecessary. A default-tuning change still
+requires a separate fixture using the new tuning; case reruns retain recorded values.
+Case wrappers retain a producer reservation because mountain preparation can share
+cache outputs. A bounded recording fixture can use `tests/test_case_playtest.gd`
+with `--recording-only --output=artifacts/...`; its report explicitly excludes the
+crash lifecycle. Omitting that flag retains the complete existing playtest.
 
 `comparison` distinguishes `matching_source_verification` from
 `changed_code_comparison` using source/engine identity and capture stability.

@@ -88,7 +88,7 @@ Save a task-specific ignored scope JSON, for example:
   "write_paths": ["scripts/ui/example.gd", "tests/example_suite.gd", "tests/example_suite.gd.uid", "docs/PRESENTATION.md"],
   "read_paths": ["scripts/core/session.gd"],
   "fps_sensitive": false,
-  "reason": "Current UI work has no comparative timing; engine checks use the serial guard."
+  "reason": "Current UI work has no comparative timing; isolated engine checks use the shared guard."
 }
 ```
 
@@ -122,9 +122,11 @@ means do not start that phase. Finish independent non-timing work while waiting;
 if nothing remains, record a precise blocked state and stop instead of spinning.
 An active worker may update scope with its own token/fresh snapshot; new paths
 are checked against every peer before editing, and old writes stay reserved until
-release. Drop FPS sensitivity only after measurement stops. All Godot/Blender
-and native engine workloads still use the existing serial validation guard;
-non-FPS-sensitive does not authorize simultaneous engine jobs. Avoid heavy
+release. Drop FPS sensitivity only after measurement stops. Godot/Blender
+and native engine workloads also follow the
+[shared/exclusive validation guard](../docs/VALIDATION.md#execution).
+Isolated non-FPS checks may overlap with compatible output reservations;
+measurements use `FpsCritical`, mutations use `Exclusive`. Avoid heavy
 background work during another worker's performance acceptance.
 
 ## Ownership and recovery

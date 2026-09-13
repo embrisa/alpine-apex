@@ -75,9 +75,11 @@ Structural skill validation separately requires PyYAML.
 
 For named-parameter PowerShell scripts, target native `pwsh` through the guard
 with `@('-NoProfile','-File',SCRIPT_PATH,...)`; direct string array splatting binds
-named-looking arguments positionally. Explicitly authorized isolated concurrent
-checks may use `scripts/run_guarded.ps1 -AllowConcurrent` with unique labels;
-timings are then contended. Keep stages sequential and preserve other workloads.
+named-looking arguments positionally. Isolated functional captures may use the
+guard's default `-WorkloadMode Shared` with unique labels and output reservations.
+Use `FpsCritical` for measurements and `Exclusive` for shared cache/import/build
+mutations. Follow [admission rules](../../../../docs/VALIDATION.md#execution);
+contended timings are not performance evidence. Preserve other workloads.
 
 ## Browser, assessment and seal
 

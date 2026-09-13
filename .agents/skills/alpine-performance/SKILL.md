@@ -31,7 +31,10 @@ GPU pass, loading stage, cold preparation or streaming hitch.
 4. Secure uncontended measurement time and stable inputs. Follow the existing
    [ownership protocol](../../../backlog/OPERATIONS.md#file-reservations-and-fps-sensitivity)
    when scheduled workers are involved; manual agents do not take scheduled
-   claims. Run engine workloads under the shared guard. If timing is blocked,
+   claims. Run measurements with `-WorkloadMode FpsCritical`; a queued exclusive
+   lease drains existing shared runs and blocks new ones. Functional checks can
+   use `Shared`, but their contended timings cannot establish performance.
+   Never nest guards or bypass a waiting measurement. If timing is blocked,
    continue independent non-timing work that does not disturb the measured system.
 
 ## Attribute and change

@@ -15,6 +15,9 @@ func check(value: bool, label: String) -> void:
 	checks += 1
 	if not value: failures.append(label); printerr("FAIL ",label)
 func run() -> void:
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--output="): output=arg.trim_prefix("--output=")
+	if not output.is_absolute_path(): output=ProjectSettings.globalize_path("res://"+output)
 	DirAccess.make_dir_recursive_absolute(output)
 	var field = preload("res://tests/validation_mountain.gd").load_standard()
 	if field==null: printerr("Missing warm mountain."); quit(2); return
@@ -81,9 +84,10 @@ func run() -> void:
 	check(changed,"Trim retains exact speed-control event")
 	cases.open_library(); cases.leave_mode()
 	check(not cases.recording_mode and game.world.ski_surface==cases.original_surface,"Leaving restores ordinary surface and simulator")
-	await crash_case(cases,field)
+	if "--recording-only" not in OS.get_cmdline_user_args(): await crash_case(cases,field)
 	if "--case-performance" in OS.get_cmdline_user_args(): await measure_capture(cases,field)
 	var report = {"checks":checks,"failures":failures,"recording":ProjectSettings.globalize_path(path),"clip":ProjectSettings.globalize_path(clip_path),"performance":performance,"scope":"Automated rendered lifecycle, not physical-controller acceptance"}
+	if "--recording-only" in OS.get_cmdline_user_args(): report.scope="Bounded recording/export fixture; crash lifecycle and human acceptance not exercised"
 	FileAccess.open(output+"/result.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
 	print("TEST_CASE_PLAYTEST ",JSON.stringify(report))
 	game.effects.stop_audio(); game.queue_free(); await process_frame; quit(0 if failures.is_empty() else 1)

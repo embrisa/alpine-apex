@@ -35,6 +35,12 @@ for each comparison rather than overwriting a previous result.
   solver. Inspect the comparison classification, first relevant divergence,
   contact/impact state, diagnostic interventions and termination against the
   user's notes. An exit code or trajectory difference is not a fix verdict.
+- Use `-Mode RerunCapture` when the candidate needs rendered evidence of newly
+  simulated poses. It retains recorded camera/weather samples and tuning. Compare
+  Capture and RerunCapture outputs with the
+  [synchronized comparer](../../../docs/VALIDATION.md#standard-scenarios-and-synchronized-comparison).
+  Inspect source/input/coverage warnings and actual image times; fresh Jolt motion
+  and nearest captured frames do not establish exact original crash reproduction.
 
 Rerun uses **recorded tuning**. A change to default tuning needs a separate
 identified fixture or recording using the new values to establish its effect;
@@ -44,7 +50,8 @@ Treat fresh crash motion separately. Reject incompatible cases through the
 existing checks; report the specific limitation without inventing missing inputs.
 
 Without a case, use the smallest existing fixture or supported recording that
-reproduces the trigger. Follow
+reproduces the trigger. Check `scripts/scenario.ps1 -List` for retained small-hop,
+rough-snow and steady-carve fixtures before adding a new harness. Follow
 [bounded descents](../../../docs/VALIDATION.md#bounded-test-descents) for riding
 samples. Retain source/runtime, terrain, input, settings and event timing so the
 comparison can be repeated. Modified diagnostic scenarios establish only their

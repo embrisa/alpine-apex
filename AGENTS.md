@@ -39,8 +39,11 @@ or racing-line attractor.
 - Default to short, timed test descents for data collection; follow the
   [bounded descent policy](docs/VALIDATION.md#bounded-test-descents). Full runs
   require a specific coverage need, not routine iteration.
-- Engine workloads share `artifacts/validation.lock`; use the existing guard,
-  avoid nested guards and wait for occupied workloads. Test/lab runs never write
+- Engine workloads use the guard's shared/exclusive `artifacts/validation.lock`:
+  ordinary isolated checks use `Shared`; FPS/CPU/GPU measurements use
+  `FpsCritical`; imports/builds/shared cache mutations use `Exclusive`.
+  Avoid nested guards, reserve overlapping outputs and wait for conflicting
+  workloads. Test/lab runs never write
   personal bests. See validation for cached mountain fixtures and isolation.
 
 ## Read for the task
