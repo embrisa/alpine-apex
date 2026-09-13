@@ -1,11 +1,11 @@
 ---
 id: "AA-20260913-141128-reduce-forest-publication-and-collision-bursts"
 title: "Reduce forest publication and remaining collision frame bursts"
-status: ready
+status: blocked
 priority: P1
 depends_on: []
 created: "2026-09-13T14:11:28Z"
-updated: "2026-09-13T14:11:28Z"
+updated: "2026-09-13T19:44:34Z"
 source_thread: "01a09aec-9f0a-71a3-b543-b8b9765e660d"
 ---
 
@@ -129,8 +129,52 @@ None
 
 ## Completion record
 
-Pending implementation. Record retained/rejected work, actual event correlation,
-per-run comparisons, correctness/rendered checks, resource tradeoffs, remaining
-acceptance, guide updates, commit/push references and cleanup. Record a blocker
-if no qualifying gain remains. No implementation or dispatch occurred during
-authoring; link any separate later proposals without silently promoting them.
+Investigated manually on 2026-09-13 from Dev 16 (`3a2d2dd2fc6a801fb331a40957f36a2e3e056411`). **Blocked: no production candidate met the required frame-time and control acceptance.** All experimental production, test and guide edits were restored to their exact original bytes; no runtime fix is retained. The [measurement report](../../artifacts/forest_bursts/REPORT.md) retains individual runs, source/runtime audits, event chronology, submission/memory/startup costs and rejected variants.
+
+Tested hidden per-batch forest staging, conservative immediate-detail coverage,
+cheaper packed tree queries/direct cylinder attachment, and optional terrain
+collision lookahead. Also isolated the tree change with original forest and
+terrain paths. Tree refresh CPU cost fell from roughly 6.1 to 3.2 ms per event;
+the 16-position diagnostic retained 1,895 attachments while reducing refresh
+work from about 87 to 47 ms. Those CPU results are promising attribution, not
+sufficient production FPS acceptance.
+
+The combined forest comparison appeared to improve median FPS/p95/p99 from
+80.709 / 17.421 / 24.839 to 83.382 / 16.504 / 21.589. Its rock control did not
+hold: 89.061 original FPS versus 87.261 candidate and 85.367 on confirmation.
+Final original-code controls exposed session drift (forest 76.327 FPS; rocks
+86.108 FPS), so these differences do not establish a code-caused regression or
+an accepted gain. Against that closing control, the tree-only candidate had
+77.434 FPS with worse forest p99 (25.734 versus 24.984 ms), and 81.226 rock FPS.
+No candidate established the required repeatable p95/p99 gain and stable controls.
+
+Chronology separates the costs: required forest collision frames above 25 ms
+fell from 8/6/7 to 2/1/2, but terrain lookahead added 5/1/2 separate slow frames.
+A single cold terrain cook still reached 12.067 ms in forest and 14.473 ms in
+rock confirmation. Smaller forest batches reduced the publication unit but
+increased total publication overhead and added about 2.1 seconds to cold forest
+submission. A 750 microsecond optional scheduler cannot bound a native cook.
+
+The rejected combined candidate passed 694 headless checks across streaming
+collision (42), geology collision (16), physics (56), runtime (192), density LOD
+(348), and density spatial (40), plus 3,495 native forest preparation checks.
+Lifecycle fixtures covered required collision, cancellation, re-entry, reverse
+and discontinuous travel, quality changes and teardown. Separate 4K stills and
+sampled forward/reverse views showed no added gaps; both 256-step scripted
+sequences recorded zero missing required-detail observations. These checks do
+not certify continuous motion, full-route performance or controller/crash feel.
+
+The separate normal 120-cap forest check measured 76.086 FPS, p95 17.307 ms and
+p99 25.781 ms; the global target remains unmet. Resume with a stable,
+counterbalanced timing environment and a smaller or cheaper largest native
+cook/upload operation. Preserve cold versus warmed re-entry distinctions and
+rerun the full affected matrix; do not ship the microbenchmark or the best
+isolated forest run as proof. Human/controller acceptance remains separate.
+
+No replacement domain contract or skill change is retained because the
+implementation was rejected. [Development note](../../changes/7516e9a7be084cc5bc81ca3fef168186.json)
+records the validated investigation milestone; its containing commit identifies
+delivery. Raw evidence, candidate patches and lifecycle fixtures remain under
+`artifacts/forest_bursts/` and `artifacts/pc_environment/forest-bursts-*` for the
+unresolved finding. Remove only unneeded task helpers after push, following the
+artifact lifecycle; preserve those evidence directories.

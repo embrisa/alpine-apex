@@ -1,0 +1,186 @@
+{
+  "schema": 1,
+  "id": "7516e9a7be084cc5bc81ca3fef168186",
+  "summary": "Record rejected forest streaming experiments and unresolved performance acceptance",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Forest streaming investigation",
+    "Performance evidence and blocked task disposition"
+  ],
+  "owned_paths": [
+    "backlog/tasks/AA-20260913-141128-reduce-forest-publication-and-collision-bursts.md"
+  ],
+  "read_paths": [
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "docs/WORLD.md",
+    "tests/density_spatial_suite.gd",
+    "tests/forest_preparation_suite.gd",
+    "tests/streaming_collision_suite.gd",
+    "scripts/presentation/density_forest.gd",
+    "scripts/world/alpine_scenery.gd",
+    "scripts/world/crash_collision.gd",
+    "docs/DEVELOPMENT.md",
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "artifacts/forest_bursts/REPORT.md",
+    "artifacts/forest_bursts/audit-final.json",
+    "artifacts/forest_bursts/restored-original.json",
+    "artifacts/forest_bursts/comparison.json",
+    "artifacts/forest_bursts/verify_disposition.py",
+    "scripts/backlog.py",
+    "scripts/backlog.ps1",
+    "scripts/versioning.py"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only the blocked task record is retained; all experimental production source was restored byte for byte."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only the blocked task record is retained; all experimental production source was restored byte for byte."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only the blocked task record is retained; all experimental production source was restored byte for byte."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No runtime or compatibility change is retained; investigation ran unranked and did not write personal records."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No runtime or compatibility change is retained; investigation ran unranked and did not write personal records."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No runtime or compatibility change is retained; investigation ran unranked and did not write personal records."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No runtime or compatibility change is retained; investigation ran unranked and did not write personal records."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No runtime or compatibility change is retained; investigation ran unranked and did not write personal records."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "python artifacts/forest_bursts/verify_disposition.py",
+      "result": "passed",
+      "details": "Verified nine source/test/guide files match original Dev 16 bytes, all 62 recorded production rows match the report, nine comparison pairs, six rejected-candidate suite receipts, 3495 native checks, 64 motion captures and task links/status. This verifies evidence and restoration, not a production performance gain."
+    },
+    {
+      "kind": "automated",
+      "command": "./scripts/backlog.ps1 validate --preserve-dirty",
+      "result": "passed",
+      "details": "Backlog metadata validation status ok; only this task disposition is owned. No scheduled claim was taken."
+    },
+    {
+      "kind": "automated",
+      "command": "git -c core.whitespace=cr-at-eol diff --check",
+      "result": "passed",
+      "details": "Task record whitespace check passed; original source byte restoration verified separately."
+    },
+    {
+      "kind": "performance",
+      "command": "No additional benchmark for the documentation-only disposition",
+      "result": "not_required",
+      "details": "The staged-publication, collision-query/attachment and terrain-lookahead candidates were rejected. Their measured CPU savings did not qualify as a repeatable net production improvement; control/environment drift and all individual results are retained in artifacts/forest_bursts/REPORT.md. No runtime change is shipped."
+    },
+    {
+      "kind": "rendered",
+      "command": "No additional render after exact source restoration",
+      "result": "not_required",
+      "details": "Rejected candidates had separate native stills and scripted forward/reverse captures. Detail/overview and matching motion samples were inspected without added visible gaps; automated coverage was zero-missing across 256 camera steps per version. These observations are not retained-code or continuous-motion acceptance."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Task remains blocked: no demonstrated net production performance gain. Future implementation needs stable counterbalanced timing and all original acceptance gates.",
+    "Continuous smoothness, visual comfort and controller/crash feel were not human-tested."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-13T19:46:33.314104+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 16,
+      "commit": "3a2d2dd2fc6a801fb331a40957f36a2e3e056411",
+      "modified": true,
+      "changes_sha256": "3fa4a640e2e7c32f79c42461e780d2d228a42ac4d29bfe083e3c12a5f4b5f606",
+      "source_sha256": "951a13b70eddd6dabe5b31d1554b8adbff7f761a603d9d2bedc9ea527e639e09",
+      "categories": [
+        "Presentation"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": "1eac5c05cc91a79f3bd248fc9e59d7e1a3c62944fc601193bbf84f9125be7c93",
+      ".agents/skills/alpine-validation/SKILL.md": "22324b84c7e2a45eddbb3acdfdca6165ba822c26acddf93ed01ea2cd3c32ba1b",
+      "artifacts/forest_bursts/REPORT.md": "bd2018e7f1c3322b6d1953594e1a9409316fed60531f803bf8ca586e4d921f96",
+      "artifacts/forest_bursts/audit-final.json": "1d15652471c8e39390f6d49f2031795dccd98059aab50671308a1908b6ad21ef",
+      "artifacts/forest_bursts/comparison.json": "a343d11af227e1b6e1248170012ddc00c68090ef15ded9d589131e028e59c9f4",
+      "artifacts/forest_bursts/restored-original.json": "ebe68b79bd57690d5641fc2cabd48fa4bc285c3f67a2177dc42160930e7495d2",
+      "artifacts/forest_bursts/verify_disposition.py": "2beba2d4796870c0747eeea11116a17501b05e380b5f732ef14122b0077d3c1e",
+      "backlog/tasks/AA-20260913-141128-reduce-forest-publication-and-collision-bursts.md": "7f2506c6537e90d95fb78864cfe285e79eb6011762d88fc5160ff4058e06c440",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/DEVELOPMENT.md": "f7910ed445af8d376625080ce351f1364a28a40f135893f74925c6649794e2e1",
+      "docs/RENDERING.md": "31e1f8b176a0384d6bdb2dea190448ab7df8e2ef7aaf57334ef9fc6b551c037b",
+      "docs/VALIDATION.md": "7512a2ab38f6860566f38d8ee3aa01f4308bb4bc2de2590d6f93a85353b12491",
+      "docs/WORLD.md": "e703c8511411c3803f4cb08c905d2c75421936c9f7b03c7d9f5ee8460190b11e",
+      "project.godot": "ab7da5f47f5c39a842b849501ab3c8df818d481db9ea9283517a576cd4062c7d",
+      "scripts/backlog.ps1": "22aea694c4eae99668e652e6e749b6090e2f609ab2fab241628298166fb5bc3a",
+      "scripts/backlog.py": "ba25d73a636125a009fba37c51b5a13a299879cabc1a39071348065a60ec00fd",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/presentation/density_forest.gd": "d53b1de7844c18e0d885f8f91c70193c3832d5796d24490a07739dfd2ffc4f8c",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "c8375d4142f40481877919f2ed0800dfb4217fe0eb421575cb0aa11b2c8f1407",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/versioning.py": "473da19ad5e09d0a78f27d0b52bd5cf57d359b50337ceacb4c340124939804e4",
+      "scripts/world/alpine_scenery.gd": "b1f6530fd8a660cfceb32468dbb8a11da786d001d6f0f2fbd501f7c86dd41f72",
+      "scripts/world/crash_collision.gd": "d384d728b1ef44e5d9690b13dffcdcd28b8364f4dbae2c04ead5b3a0c96ab80d",
+      "scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f",
+      "tests/density_spatial_suite.gd": "93b34842a98ae714da870a07c8acbb8134280082a9f7bcb2a714b11e69049c90",
+      "tests/forest_preparation_suite.gd": "375c1a7ddfd3526731d7f500866dd18bd30aeb4f8271f66823bb353745005b6f",
+      "tests/streaming_collision_suite.gd": "f7007a403ad3c6486721a2fcaf07b1cc8260ff89794fc46e083b57165cae1be2"
+    }
+  }
+}
