@@ -284,6 +284,13 @@ XYZ-to-XZ retained-distance change can alter stamp spacing and join prominence
 on steep terrain. That contribution is unisolated; the boundary before/after
 pair shares the carving implementation and cannot prove the defect unaffected.
 See the [world-shape diagnosis](../artifacts/orchestration_20260912/carving/world_shape/REVIEW.md).
+Retained ribbons keep one width/depth per 0.70 m rectangle; adjacent sections
+do not share edge vertices or interpolate the prior style. Their shader adds
+a raised bank over High's reconstructed powder height, with a longitudinal
+fade only for live sections. The GPU atlas instead combines signed
+impressions by integer maximum with recess priority and area filtering.
+These are separate shape mechanisms; isolating their visible contribution
+and retained spacing belongs to the [loaded-ridge task](../backlog/tasks/AA-20260912-132147-review-loaded-track-ridge-shape.md).
 Headless geometry checks do not establish the visual result. Focused
 causal/chronological producers and
 their baseline limits are in [Validation](VALIDATION.md#snow-contact-and-local-boundary-producers).

@@ -1,11 +1,11 @@
 ---
 id: "AA-20260912-132147-review-loaded-track-ridge-shape"
 title: "Resolve pronounced loaded snow-track ridge shapes"
-status: ready
-priority: P2
+status: "blocked"
+priority: "P2"
 depends_on: []
 created: "2026-09-12T13:21:47Z"
-updated: "2026-09-12T13:21:47Z"
+updated: "2026-09-13T01:12:30.938554Z"
 source_thread: null
 ---
 
@@ -46,4 +46,60 @@ None
 
 ## Completion record
 
-Pending implementation. Record actual results, remaining limits, source/provenance and commit/push references. No worker is dispatched by this authoring change.
+Blocked on 2026-09-13 before fresh rendered isolation; no production correction applied.
+
+Exact dispatch accepted as worker `01a0984c-222b-72f3-baea-738f4131865d`, token
+`f4584f80-5f8c-425d-8de2-e1383da8cd5a`, original manager
+`01a09848-a968-7251-bd4c-3876c739af35`. Source baseline was pushed main
+`2f2d64c0e4b9c1c45d731ec7b9cf2575f4cb11d7`, simulation model 32.
+
+**Blocker:** atomic expansion to reserve the production capture dependency closure
+returned `skipped: Expanded scope overlaps unfinished paths: scripts/presentation/pole_push_pose.gd`.
+The pole worker was freshly verified idle after its blocked delivery, but its
+candidate remains deliberately uncommitted and peer-owned. The capture loads
+main -> skier_visual -> skier_animation -> skier_full_motion -> pole_push_pose,
+steps production animation, and consumes final rendered skis. Removing that
+dependency from the declared read scope would not make the capture independent.
+No skipped scope was bypassed, no peer file/reservation was changed, and no
+engine workload or comparative timing was launched.
+
+Independent investigation: current loaded response, SnowTracks, ribbon shader,
+compute shader and shared powder include match the earlier source diagnosis;
+PowderSurface itself has since changed. Retained ribbons have one width/depth
+per 0.70 m rectangle and no longitudinal bank fade, and add their raised lip over
+High's reconstructed powder height. Integer-max GPU impressions do not add
+repeated shallow depths. This supports a ribbon-bank/join hypothesis; spacing,
+overlap and GPU contributions remain unisolated. No speculative depth clamp or
+eligibility change was applied.
+
+Evidence: [investigation](../../artifacts/loaded_track_ridge_20260913/REVIEW.md),
+[source/image manifest](../../artifacts/loaded_track_ridge_20260913/manifest.json),
+and exact source snapshots under that artifact directory. Three historical
+1920x1080 frames (217, 218, 223) were inspected in chronological order at original
+scale. They show the old scalloped/triangular banks; they are not fresh model-32
+before/after evidence and do not establish a correction. All implementation
+acceptance boxes remain open.
+
+Automated checks: source/hash/provenance inspection, task-record validation and
+owned-document whitespace/link verification. No CPU/GPU engine suite rerun;
+no implementation changed. Fresh bounded left/right/reversal rendering,
+affected correctness checks and changed-source verification remain outstanding.
+Measured performance and human/controller/listening acceptance were not run or
+claimed. Owning guide updated: `docs/RENDERING.md` explains the distinct ribbon
+bank and reconstructed powder mechanisms. No changes to solver, 4 m support,
+continuity/exclusion gates, boundary publication, records or preferences.
+
+Resume after an explicit resolution of the preserved pole candidate's ownership
+and a stable capture baseline, then obtain a successful fresh scope expansion
+before the matched 15-30 second causal capture. Resolve only this task; the
+paused dense-scene GPU work stays paused. No new idea proposals: this assigned
+task already covers the evidence-backed next steps.
+
+Delivery is the documentation/blocked-record commit containing this entry;
+no source implementation commit exists. Push and exact-token release are
+required before ending. Retain the small unresolved evidence bundle; no
+redundant task-owned captures or engine artifacts were generated, so no cleanup
+is due. Peer pole source and the incomplete ghost-selector feedback remain
+uncommitted and untouched.
+
+Worker: `01a0984c-222b-72f3-baea-738f4131865d`. Dispatch: `f4584f80-5f8c-425d-8de2-e1383da8cd5a`.
