@@ -1054,7 +1054,7 @@ Its historical `runtime_pose_accepted` remains false: that export receipt is
 provenance, not a runtime acceptance record. Source export does not clear contact,
 shaft/clothing, mechanical, timing or human acceptance.
 
-The uncommitted 2026-09-13 model-32 recovery candidate reproduces the current
+The committed-but-unvalidated 2026-09-13 model-32 recovery WIP snapshot reproduces the current
 D failures, then passes existing contact 87/87 and pose 36/36 with the unchanged
 14 cm bound. Worst brake/landing, steep10 and steep5 steps improve from
 15.18/14.20/14.13 cm to 13.54/13.20/13.64 cm. Paired solver/phase, torso/legs,
@@ -1074,7 +1074,7 @@ height (4 cm gate), 76.92 cm anchor residual (18 cm), 52.46 cm loaded tip step
 cancelling while the completed solver still has tiny positive thrust near the
 speed cap. Merely retaining contact until zero force fixes height but leaves
 anchor/step/stroke failures; that trial was rejected and restored. The task
-remains blocked; the recovery candidate is preserved locally and is not shipped.
+remains blocked; the recovery candidate is preserved as an explicit WIP snapshot and is not shipped.
 Affected anatomy/compact/attachment/landing/flight/settle checks pass; the full
 seven-suite set is 344/345. The sole failure is the previously baseline-reproduced
 120 Hz tuck hand-easing check. No assertion was relaxed.

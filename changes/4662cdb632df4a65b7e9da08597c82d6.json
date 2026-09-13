@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "id": "4662cdb632df4a65b7e9da08597c82d6",
+  "summary": "WIP snapshot: retain unvalidated pole recovery candidate",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Pole recovery presentation WIP"
+  ],
+  "owned_paths": [
+    "backlog/tasks/AA-20260912-132147-finish-pole-transition-validation.md",
+    "docs/ANIMATION.md",
+    "docs/VALIDATION.md",
+    "scripts/presentation/pole_push_pose.gd"
+  ],
+  "read_paths": [
+    "docs/DEVELOPMENT.md",
+    "scripts/presentation/skier_anatomy.gd",
+    "scripts/presentation/skier_full_motion.gd",
+    "scripts/presentation/skier_visual.gd",
+    "tests/pole_push_contact_suite.gd",
+    "tests/pole_push_playtest.gd",
+    "tests/pole_push_pose_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "This WIP changes no world source or generation behavior."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "This WIP changes no race definitions or race behavior."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "This presentation-only WIP changes no competitive-record data or format."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "This presentation-only WIP changes no ghost data or playback behavior."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "This WIP changes no cache producer, schema, or inputs."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "git diff --check -- scripts/presentation/pole_push_pose.gd",
+      "details": "Snapshot source passes whitespace integrity only; this is explicitly not functional or visual acceptance."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": ".\\scripts\\backlog.ps1 validate --preserve-dirty",
+      "details": "The blocked task remains valid and records the WIP's known failures without claiming completion."
+    }
+  ],
+  "outstanding_acceptance": [
+    "This is an explicitly unvalidated WIP snapshot, not an accepted production correction.",
+    "The expanded native eleven-case matrix has 89 shaft/clothing intersections in 9,900 frames.",
+    "The downhill speed-cap reproducer still fails four contact and stroke limits; the blocked task owns its repair and rerun.",
+    "Rendered chronology, full clothing clearance, controller feel and subjective visual approval remain unaccepted."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-13T15:27:08.298128+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 5,
+      "commit": "a835d6b3f57b0d6400e7a80234a99a2253897050",
+      "modified": true,
+      "changes_sha256": "2908f037ec104080d49d73191a22cf5991da5bae277d8040a13e2172f51ec082",
+      "source_sha256": "c6a3edb4c7fb7fbd4340c6f1c487f4b769e33a4c2953cbe055bd5a4044f11c1d",
+      "categories": [
+        "Maintenance"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      "backlog/tasks/AA-20260912-132147-finish-pole-transition-validation.md": "9310f3b1475a429194beab4b901070e5e91326761958cd39c35ce3d38e70f8c1",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/ANIMATION.md": "3b08e3ed6fb2a331fbe8bbf36ae2385d12c28a93d00688ac8c0f2fb34b486d3f",
+      "docs/DEVELOPMENT.md": "64837a45c9965396d7e97e1809adbf3a6537c6724746823e573e2dd248b4a155",
+      "docs/VALIDATION.md": "96f89689ef948a50c591f4cc06658ebf17985160c44f9631e75d42bf07a0e675",
+      "project.godot": "f92c86410aeff3c7038be456bc267092d7f1fa324f9411f0add1301bdc93c249",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/presentation/pole_push_pose.gd": "5e010fae19681e88336a2efef496ae47594a24bac4cafc96effbb8eb020c991d",
+      "scripts/presentation/skier_anatomy.gd": "8e84eaf8c2c4c7de618417bd91f750f2ef23e31c8c1ed43693a2333c6319cf99",
+      "scripts/presentation/skier_full_motion.gd": "ed8fd26a41d0015681c17348bffe72191d543b1942d2829e82e9b280e6654d01",
+      "scripts/presentation/skier_visual.gd": "c9f36aa3e803f742a99700a4f2cfb76cc1dddb5d90e40aa7765100ee1631ca4f",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "d7c78c78e58082e9da8f82ae0cd5c44015715333c1d6dcb15018f3eabd930fd6",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/world/mountain_definition.gd": "4192db36e8fb6a685f37dfcda6aba38d05cd1367b951f077d4560ce35ecf314f",
+      "tests/pole_push_contact_suite.gd": "0fefeda89b2a41345222961f114845554c98427c4b2fee906734a8e47d099501",
+      "tests/pole_push_playtest.gd": "c6f1d92edcf67357189069eccdb7dd4a4a64015ff54299d402180c51ff9a3777",
+      "tests/pole_push_pose_suite.gd": "474121a3e3213cc5bb83456c2ba4807bf56a1aed59b9872d807711bcadc59d63"
+    }
+  }
+}

@@ -104,7 +104,13 @@ static func connected_arm(prefix: String, shoulder: Basis, position: Vector3, wa
 	# The projected old elbow can cross the wrist axis during a loaded tuck.
 	# Bias the bend outward as contact takes ownership, with source-relative
 	# displacement still in the objective; carry fades on action cancellation.
-	hint = hint.lerp(Vector3(side,-.15,0.0).normalized()*hint.length(),carry_weight)
+	# Contact can rise to .89 in the first grounded sample after a fast
+	# landing. Preserve the source elbow longer while the arm takes ownership;
+	# wrists and poles retain the snow contact/aim weight. This reaches
+	# the unchanged outward hint at full carry before any loaded stroke.
+	var bend_weight = carry_weight*carry_weight
+	bend_weight *= bend_weight*carry_weight
+	hint = hint.lerp(Vector3(side,-.15,0.0).normalized()*hint.length(),bend_weight)
 	var context = {"position":position,"wanted":wanted,"shoulder":shoulder,"shoulder_inverse":shoulder.transposed(),"upper_rest":upper_rest,"lower_rest":lower_rest,"upper_length":upper_rest.length(),"lower_length":lower_rest.length(),"upper_frame":Anatomy.segment_frame(upper_rest.normalized(),axis).transposed(),"lower_frame":Anatomy.segment_frame(lower_rest.normalized(),axis).transposed(),"arm":prefix+"Arm","elbow":prefix+"ForeArm","direction":(wanted-position).normalized(),"hint":hint,"old_elbow":old_elbow}
 	# A hard winning probe/ternary interval can switch bend planes in one frame.
 	# Smooth the angular objective, then solve ONCE at that angle: averaging
@@ -172,7 +178,12 @@ static func fit_tips(joints: Dictionary, rotations: Dictionary, root_frame: Tran
 			wanted = joints[arm]+(wanted-joints[arm]).normalized()*minimum
 		# Blend the reach before IK, never independently slerp two parent-local
 		# arm rotations across competing bend planes during release.
-		wanted = old_wrist.lerp(wanted,weight)
+		# Retain up to 3 cm of the bounded reach during unloaded carry. Returning
+		# fully to the tracked wrist compounded source recovery with >14 cm
+		# steep release/approach steps. This fades with carry and is exactly the
+		# existing fit at full contact, leaving loaded strokes unchanged.
+		var reach_weight = weight+(1.0-weight)*carry_weight*.10
+		wanted = old_wrist.lerp(wanted,reach_weight)
 		# Unloaded hands still carry full shafts outside the jacket/hips. C's
 		# contact blend pulled them into tuck midway through recovery, causing
 		# actual-mesh hits even though loaded contact and fixed grips passed.

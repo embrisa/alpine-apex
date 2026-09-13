@@ -5,7 +5,7 @@ status: "blocked"
 priority: "P1"
 depends_on: []
 created: "2026-09-12T13:21:47Z"
-updated: "2026-09-13T01:05:11.839101Z"
+updated: "2026-09-13T15:26:39Z"
 source_thread: null
 ---
 
@@ -81,13 +81,13 @@ ed1daf0bf, D3D12 Forward+, RX9070; engine hashes in the evidence directory.
   single-pair diagnostics, not uncontended FPS/performance acceptance. Human
   controller feel, listening and subjective approval remain separate.
 
-Uncommitted owned source: scripts/presentation/pole_push_pose.gd, SHA256
-5e010fae19681e88336a2efef496ae47594a24bac4cafc96effbb8eb020c991d. Preserve it;
-this is an incomplete local candidate, not a shipped correction. It exactly
+Owned WIP source: scripts/presentation/pole_push_pose.gd, SHA256
+5e010fae19681e88336a2efef496ae47594a24bac4cafc96effbb8eb020c991d. The user
+requested this exact incomplete candidate be preserved in an explicitly
+unvalidated WIP snapshot, not treated as a shipped correction. It exactly
 matches the frozen native capture. Full-motion and standard test bytes are HEAD.
-Documentation and this blocked record are committed/pushed separately; delivery
-is the commit containing this record. No implementation commit is pending push.
-The unrelated in-progress ghost task edit is preserved, not owned or staged.
+The blocked record documents the known failures and remains the acceptance source;
+the WIP commit neither resolves those failures nor changes the task's blocked status.
 
 Maintained docs: Animation, Validation and the originating slope-limited-pole
 pushing task. Evidence: artifacts/pole_transitions_20260913/review.md, comparison.json,

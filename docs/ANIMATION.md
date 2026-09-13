@@ -189,7 +189,7 @@ at completed ticks on authoritative snow. The connected-arm fitter allows up to
 grips, and keeps unloaded shafts in an outboard carry lane. Separate completed-tick
 carry smooths cancellation independently of snow-contact weight; rendering only
 samples it. Unreachable `tip_gap_m` remains a reported visual miss, never a force
-or moved ski. The uncommitted 2026-09-13 recovery candidate retains ten percent
+or moved ski. The committed-but-unvalidated 2026-09-13 recovery WIP snapshot retains ten percent
 of bounded unloaded reach and uses fifth-power carry for elbow entry. It passes
 the original continuity suites but fails expanded downhill contact and native
 shaft/clothing gates. Do not treat it as an accepted production correction;
