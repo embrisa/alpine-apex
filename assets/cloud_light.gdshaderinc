@@ -32,10 +32,15 @@ void light() {
 	float lh = max(dot(LIGHT,halfway),0.0);
 	float fd90 = 0.5+2.0*ROUGHNESS*lh*lh;
 	float diffuse = (1.0+(fd90-1.0)*pow(1.0-nl,5.0))*(1.0+(fd90-1.0)*pow(1.0-nv,5.0));
+float lit_diffuse=nl*diffuse;
 #ifdef ALPINE_OFFMAP
- diffuse=mix(diffuse,1.0,offmap_blend);
+#ifdef ALPINE_OFFMAP_V3
+ lit_diffuse=mix(lit_diffuse,offmap_diffuse(dot(NORMAL,LIGHT),offmap_snow_coverage),offmap_blend);
+#else
+ lit_diffuse=mix(lit_diffuse,nl,offmap_blend);
 #endif
-	DIFFUSE_LIGHT += LIGHT_COLOR * visibility * nl * diffuse * (1.0-METALLIC) / PI;
+#endif
+	DIFFUSE_LIGHT += LIGHT_COLOR * visibility * lit_diffuse * (1.0-METALLIC) / PI;
 #ifdef ALPINE_NEEDLE_TRANSMISSION
 	// Restrained needle transmission still obeys tree/terrain and cloud shadows.
 	DIFFUSE_LIGHT += LIGHT_COLOR*visibility*max(-dot(NORMAL,LIGHT),0.0)*needle_transmission/PI;

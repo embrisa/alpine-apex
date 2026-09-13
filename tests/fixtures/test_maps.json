@@ -1658,6 +1658,11 @@
       ],
       "full_mountain": false,
       "coverage": "Authored local slope, rock, forest and combined rendering workloads; explicit selection, no mountain generation."
+    },
+    "tests/scenery_snow_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Matched material-only six-face ridges and apron continuity on current Standard; frozen shader baseline and capped captures, no timing acceptance."
     }
   }
 }

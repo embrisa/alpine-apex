@@ -48,6 +48,10 @@ func apply_quality(profile, checkpoint: Callable = Callable()) -> void:
 	if not enabled:
 		data.clear_cache()
 		return
+	# Material-only overrides must reach both resident and late-bound apron
+	# materials even when geometry tier is unchanged or a build is pending.
+	material.set_shader_parameter("offmap_snow_detail",profile.offmap_snow_detail)
+	if apron_material: apron_material.set_shader_parameter("offmap_snow_detail",profile.offmap_snow_detail)
 	if requested_level==profile.backdrop_tier:
 		if props: props.apply_quality(profile)
 		return

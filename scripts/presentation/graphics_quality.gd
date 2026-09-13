@@ -23,6 +23,7 @@ extends Resource
 @export var snow_crystal_density: float = 1.35
 @export var snow_sheen: float = .1008
 @export var snow_local_deformation: bool = false
+@export var offmap_snow_detail: bool = false
 @export var offmap_prop_density: float = .6
 @export var offmap_tree_distance_m: float = 4500.0
 

@@ -26,13 +26,13 @@ func check(value: bool,label: String) -> void:
 	checks+=1
 	if not value: failures.append(label)
 	print("PASS: " if value else "FAIL: ",label)
-func quality(level: int):
-	var q=Quality.preset(level); q.offmap_prop_density=0.0; return q
+func quality(level: int, snow: bool = false):
+	var q=Quality.preset(level); q.offmap_prop_density=0.0; q.offmap_snow_detail=snow; return q
 func checkpoint(_label: String,_percent: float) -> void:
 	stages+=1
 	if replace_during_checkpoint and stages==2:
 		replace_during_checkpoint=false
-		await world.apply_quality(quality(2))
+		await world.apply_quality(quality(2,true))
 	await process_frame
 func run() -> void:
 	var field=Field.new()
@@ -46,9 +46,16 @@ func run() -> void:
 		preset.groups=[]; preset.apron_count=0
 		levels.append(preset)
 	world.data.asset.levels=levels
-	await world.build(field,Mountain.new(),quality(0))
+	await world.build(field,Mountain.new(),quality(0,true))
+	check(world.material.get_shader_parameter("offmap_snow_detail")==true,"New scenery initializes the effective snow override")
 	var old_root=world.terrain_root
 	var old_triangles: int=world.triangles
+	world.apron_material=ShaderMaterial.new()
+	world.apron_material.shader=preload("res://assets/graphics/alpine_apron.gdshader")
+	for detail in [true,false,true]:
+		await world.apply_quality(quality(0,detail))
+		check(world.terrain_root==old_root and world.triangles==old_triangles,"Same-tier snow override leaves resident geometry intact")
+		check(world.material.get_shader_parameter("offmap_snow_detail")==detail and world.apron_material.get_shader_parameter("offmap_snow_detail")==detail,"Resident ridges and late-bound apron receive the same snow override")
 	field.job.cancelled=true
 	await world.apply_quality(quality(1),checkpoint)
 	check(world.terrain_root==old_root and world.level==0 and world.triangles==old_triangles,"Cancelled quality build retains complete active geometry")
@@ -59,6 +66,11 @@ func run() -> void:
 	stages=0; replace_during_checkpoint=true
 	await world.apply_quality(quality(0),checkpoint)
 	check(world.level==2 and world.get_child_count()==1 and world.ridge_nodes().size()==24,"Newest quality request wins during staged construction")
+	check(world.material.get_shader_parameter("offmap_snow_detail")==true and world.apron_material.get_shader_parameter("offmap_snow_detail")==true,"Replacement scenery retains the newest snow override")
+	for ridge in world.ridge_nodes():
+		check(ridge.material_override==world.material,"Replacement ridge owns the current shared material")
+	await world.apply_quality(quality(2))
+	check(not world.material.get_shader_parameter("offmap_snow_detail") and not world.apron_material.get_shader_parameter("offmap_snow_detail"),"Same-tier reset disables both material consumers")
 	var reference=weakref(world.props)
 	world.queue_free(); await process_frame; await process_frame
 	check(reference.get_ref()==null,"World destruction frees its background prop owner")

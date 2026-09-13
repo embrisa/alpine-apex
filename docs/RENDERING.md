@@ -415,6 +415,36 @@ distance-culling allowances. Near geometry/impostors use complementary dither;
 all background collision, shadow and GI contributions remain off. Own material
 copies rather than modifying imported resources.
 
+Distant snow is owned by `offmap_surface.gdshaderinc` for both ridges and
+apron. The cheap path keeps filtered source textures, a restrained cool hollow
+tint from authored mask alpha (`.5 + .35 * hollow`), and reduced directional
+wrap fill. This broad baked mask is not the playable 4 m readability map.
+`Distant snow deposits` (`offmap_snow_detail`) in the existing Scenery graphics
+group adds world-locked broad deposits and small lighting-normal drift variation.
+Projected footprint and distance fade unresolved detail; no new texture, mesh,
+shadow pass, fog change or per-frame terrain analysis is introduced. The apron
+blends color, lighting normal and diffuse response into the same distant owner;
+its protected collar, silhouette and all physical data remain unchanged.
+
+All ten presets, including recommended High, leave deposits **off** until the
+separate performance gate. Saved overrides, same-tier live edits, Scenery reset
+and replacement scenery apply to both materials. Playable snow quality and
+scenery coverage are independent. Diagnostics can explicitly select
+`--offmap-snow-detail=on` or `off` through PCGraphicsSettings.
+
+Material review uses `tests/scenery_snow_snapshot.py` to freeze the current
+production shaders before edits, then `tests/scenery_snow_playtest.gd` for matched
+baseline/cheap/enhanced captures. This does not reuse historical v2 geometry.
+Run the producer with explicit FullMountain admission and the current cached
+Standard fixture. Use Shared for read-only captures; use Exclusive when source
+changes require scenery preparation/cache refresh. Source/capture hashes, exact
+commands and acceptance limits are in
+[the functional evidence](../artifacts/scenery_snow/REPORT.md).
+Capture readbacks and the 1080p/30 cap are visual evidence only. Comparative 4K
+frame/GPU distributions, full descent, memory and startup cost remain a separate
+required gate before recommending enhanced defaults; large mountain shadows
+remain owned by their separate backlog task.
+
 Additional valley haze starts beyond 1 km/outside the protected collar and
 follows weather/time. A custom `FOG` output replaces automatic material fog,
 so compose base distance extinction/sun scattering with valley haze there;

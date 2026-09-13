@@ -23,6 +23,15 @@ func checkpoint(_label: String,_percent: float) -> void:
 
 func run() -> void:
 	var shared_asset=load(Data.DEFAULT_ASSET)
+	for tier in shared_asset.levels.size():
+		var limits=Vector2(1,0); var hollow_count=0; var samples=0
+		for arrays in shared_asset.levels[tier].terrain:
+			for mask in arrays[Mesh.ARRAY_COLOR]:
+				limits.x=minf(limits.x,mask.a); limits.y=maxf(limits.y,mask.a)
+				if mask.r>.64 and mask.a>.52: hollow_count+=1
+				samples+=1
+		check(limits.x>=.149 and limits.y<=.851 and hollow_count>0,"Tier %d contains bounded authored broad snow hollows" % tier)
+		print("SCENERY_SNOW_MASK ",JSON.stringify({"tier":tier,"alpha_min":limits.x,"alpha_max":limits.y,"snow_hollows":hollow_count,"vertices":samples}))
 	var authored_buffer: PackedFloat32Array=shared_asset.levels[2].groups[0].buffer.duplicate()
 	for seed in [849205174,638201943]:
 		stages = 0

@@ -1,10 +1,12 @@
 void fragment() {
 #ifdef ALPINE_OFFMAP
  FOG=offmap_fog(world_pos,CAMERA_POSITION_WORLD);
- vec3 distant_color=offmap_color(world_pos,normalize(world_n),offmap_masks,length(VERTEX));
+ vec3 distant_normal=normalize(world_n);
+ vec3 distant_color=offmap_color(world_pos,distant_normal,offmap_masks,length(VERTEX));
+ vec3 distant_view_normal=normalize((VIEW_MATRIX*vec4(distant_normal,0.0)).xyz);
  offmap_snow_coverage=offmap_snow_amount(normalize(world_n),offmap_masks);
  if(offmap_blend>.999) {
-  ALBEDO=distant_color; ROUGHNESS=1.0; SPECULAR=0.0;
+  ALBEDO=distant_color; NORMAL=distant_view_normal; ROUGHNESS=1.0; SPECULAR=0.0;
   snow_transmission=vec3(0); snow_glints=0.0; snow_large_glints=0.0; snow_sheen=0.0;
   snow_facet_normal=vec3(0,1,0); snow_large_facet_normal=vec3(0,1,0);
  } else {
@@ -140,6 +142,7 @@ void fragment() {
  }
 #ifdef ALPINE_OFFMAP
  ALBEDO=mix(ALBEDO,distant_color,offmap_blend);
+ NORMAL=normalize(mix(NORMAL,distant_view_normal,offmap_blend));
  ROUGHNESS=mix(ROUGHNESS,1.0,offmap_blend);
  SPECULAR*=1.0-offmap_blend;
  snow_transmission*=1.0-offmap_blend; snow_glints*=1.0-offmap_blend;

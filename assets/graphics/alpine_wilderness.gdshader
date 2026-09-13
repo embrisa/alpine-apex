@@ -14,7 +14,9 @@ void vertex() {
 void fragment() {
 	// Shared biome masks and filtered terrain textures. Godot supplies sun/moon,
 	// ambient light and atmospheric fog; no transparent layers.
-	ALBEDO = offmap_color(landscape_pos,normalize(landscape_normal),offmap_masks,length(VERTEX));
+	vec3 snow_normal = normalize(landscape_normal);
+	ALBEDO = offmap_color(landscape_pos,snow_normal,offmap_masks,length(VERTEX));
+	NORMAL = normalize((VIEW_MATRIX*vec4(snow_normal,0.0)).xyz);
 	offmap_snow_coverage = offmap_snow_amount(normalize(landscape_normal),offmap_masks);
 	ROUGHNESS = 1.0;
 	SPECULAR = 0.0;

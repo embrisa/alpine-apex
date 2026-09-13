@@ -11,6 +11,7 @@ const CONTROLS = {
 	"scrub_distance_m":["Ground foliage distance (m)", "Scenery",20.0,200.0,5.0],
 	"scrub_density":["Decorative ground foliage", "Scenery",0.0,1.0,.05],
 	"backdrop_tier":["Distant ridge detail", "Scenery",0,2,1],
+	"offmap_snow_detail":["Distant snow deposits", "Scenery",false,true,1],
 	"offmap_prop_density":["Distant decorative density", "Scenery",0.0,1.0,.05],
 	"offmap_tree_distance_m":["Distant trees (m)", "Scenery",1500.0,7500.0,250.0],
 	"shadow_quality":["Shadow filtering", "Lighting & shadows",0,5,1],
@@ -58,7 +59,7 @@ static func values(id: int) -> Dictionary:
 	var tier = 0 if id<4 else (1 if id<7 else 2)
 	var result = {"texture_tier":tier,"backdrop_tier":tier,"shadow_quality":0 if id<3 else (1 if id<7 else (2 if id<9 else 3)),
 		"contact_shading":id>1,"contact_intensity":.20,"indirect_lighting":id>=7,"indirect_intensity":.55,
-		"terrain_gi":false,"volumetric_shafts":id>=7,"shaft_strength":1.0,"fog_strength":1.0,
+		"offmap_snow_detail":false,"terrain_gi":false,"volumetric_shafts":id>=7,"shaft_strength":1.0,"fog_strength":1.0,
 		"highlight_glow":id>1,"snow_track_relief":id>=3,"snow_local_deformation":id>=7,
 		"weather_quality":1 if id<4 else 2,"weather_budget":.5 if id<4 else (1.0 if id<8 else 1.0+(id-7)*.15)}
 	for i in COLUMNS.size(): result[COLUMNS[i]] = TABLE[id-1][i]
