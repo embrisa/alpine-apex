@@ -752,9 +752,12 @@ The captured steering regression uses `steering_recording_suite.gd` and the
 15-second `steering_snow_suite.gd` neighbors. Frozen source/requested/final poses,
 paired chase/body playback, handling changes and rejected candidates are indexed
 in [Attempt 001 evidence](../artifacts/steering_jank/20260913/EVIDENCE.md).
-The recorded opposite-direction defect passes automated and rendered checks;
-controller acceptance remains separate. Existing tuck clothing contacts and a
-pole-push hand-snap check are retained findings, not cleared by this correction.
+The recorded opposite-direction defect passes automated and rendered checks.
+Fresh controller Attempt 005 confirms much smoother steering, with a smaller
+repeated rise toward center during sustained carving still reported. Its exact
+2,924-tick replay and rejected balance experiments are retained in the same
+evidence index; this is partial controller acceptance, not an all-clear. Existing
+tuck clothing contacts and a pole-push hand-snap check also remain open.
 
 Durable findings/limits are in [Animation](ANIMATION.md#retained-findings-and-acceptance).
 Reproduce with the animation skill, `tests/carve_entry_suite.gd`, production

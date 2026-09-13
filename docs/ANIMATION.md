@@ -311,6 +311,15 @@ recording; it does not migrate or accept an incompatible player replay. Use the
 ordinary `--input-trace` path for exact current-recording verification. The
 15-second uneven-snow neighbors are in `tests/steering_snow_suite.gd`.
 
+Fresh controller Attempt 005 (model 33, 24.367 seconds) confirms that the main
+wrong-direction jank is much smoother but retains repeated rises toward center
+during held carving. Exact replay traces this to physical bank/recovery cycling
+and fitted pelvis height, before clip or clearance changes. Earlier recovery
+and stance experiments remain rejected: they either retain the cycle or fail
+reversal continuity/leg anatomy. No follow-up physics or pose change was accepted.
+Keep the recording, full pose capture and candidate failures under
+`artifacts/steering_jank/20260913/controller-005/` for the unresolved balance work.
+
 ## Retained findings and acceptance
 
 - Downhill R1/R2 were rejected despite plausible metrics/provisional author
