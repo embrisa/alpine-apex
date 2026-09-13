@@ -408,13 +408,32 @@ func stand_density(x: float,z: float) -> float:
 	var hollow = channel_values(x,z).y
 	return density*edge*(1-smoothstep(2620,2800,z))*lerpf(.85,1.0,smoothstep(-.4,.35,texture))*(1-clearing_weight)*(1-hollow*.9)*(1-snow_gap(x,z))
 
+func channel_floor_weight(x: float,z: float) -> float:
+	# Runtime snow needs only the floor. Keep the full cut query for generation.
+	var floor_weight = 0.0
+	for id in channel_grid.get(Vector2i(floori(x/REGION_CELL),floori(z/REGION_CELL)),[]):
+		var channel: Dictionary = channels[id]
+		var start: Vector2 = channel.start
+		var finish: Vector2 = channel.finish
+		var t = (z-start.y)/(finish.y-start.y)
+		if t<0 or t>1: continue
+		var centre: float = lerpf(start.x,finish.x,t)+channel.bend*sin(t*PI)*sin(t*PI+channel.phase)
+		var width: float = channel.width*lerpf(.75,1.15,t)
+		var across = absf(x-centre)/width
+		if across>=.48: continue
+		var envelope = smoothstep(0,.13,t)*(1-smoothstep(.84,1,t))
+		floor_weight = maxf(floor_weight,(1-smoothstep(.16,.48,across))*envelope)
+	# channel_values returns Vector2: retain its float32 rounding at the API edge.
+	return Vector2(0.0,floor_weight).y
+
 func powder_region(x: float,z: float) -> float:
+	if z<=350 or z>=2740: return 0.0
 	var weight = 0.0
 	for bowl_id in bowl_grid.get(Vector2i(floori(x/REGION_CELL),floori(z/REGION_CELL)),[]):
 		var bowl: Dictionary = bowls[bowl_id]
 		var q: Vector2 = (Vector2(x,z)-bowl.position)/bowl.radius
 		weight = maxf(weight,(1-smoothstep(.35,1.1,q.length()))*.80)
-	return maxf(weight,channel_values(x,z).y*.65)*smoothstep(350,600,z)*(1-smoothstep(2500,2740,z))
+	return maxf(weight,channel_floor_weight(x,z)*.65)*smoothstep(350,600,z)*(1-smoothstep(2500,2740,z))
 func snow_relief_at(x: float,z: float) -> float:
 	# Continuous, non-repeating wind relief across the whole snowy face, also
 	# between trees and outside the sparse landmark banks. These are real grid

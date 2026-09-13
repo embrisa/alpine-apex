@@ -44,6 +44,7 @@ var tree_snow_statistics: Dictionary = {}
 var geology = preload("res://scripts/world/mountain_geology_v15.gd").new()
 
 func _init(mountain_seed: int = DEFAULT_SEED,bake_surface: bool = true,settings: Dictionary = {},context = null,restore_only: bool = false) -> void:
+	_height_query_script = load("res://scripts/world/generators/alpine_massif_v15.gd")
 	var begin = Time.get_ticks_usec()
 	generation_settings = Settings.canonical(settings)
 	job = context if context else Job.new()
@@ -247,7 +248,8 @@ func powder_region(x: float,z: float) -> float:
 	if environment_weight(x,z)<=0: return value
 	for face in adjacent_faces(Vector2(x,z)):
 		var q: Vector2 = face.to_local(Vector2(x,z))
-		value += face.powder_region(q.x,q.y)*face.sector_weight(q.x,q.y)
+		var weight: float = face.sector_weight(q.x,q.y)
+		if weight > 0.0: value += face.powder_region(q.x,q.y)*weight
 	return clampf(value,0,1)
 
 func snow_depth_at(x: float,z: float) -> float:

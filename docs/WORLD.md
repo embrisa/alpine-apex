@@ -127,6 +127,19 @@ physical reconstruction, scenery preparation and scene upload are different cost
 
 ## Physical snow
 
+The shared heightfield's `sample_height` preserves the exact triangle choice,
+clamping and arithmetic of `sample`, and omits its dictionary and unused normal.
+The four-metre contact stencil uses this narrower query. The base heightfield and
+current massif opt in by exact script identity before publication; derived
+adapters retain virtual `sample` dispatch, including inherited overrides. Heights,
+bounds and mutable adapter values are read on every call; no terrain results are
+cached and worker queries never mutate dispatch metadata.
+
+V15 powder queries skip faces with zero sector weight and snow outside the face's
+depth envelope. The narrow channel-floor query omits unused cut depth and keeps
+the full query's float32 result rounding. Continuous snow noise, bowl weights,
+tree deposits and material interpolation retain their existing equations.
+
 Most ordinary snowy terrain has roughly 19–27 cm of loose depth, with deeper
 sheltered deposits. Material/depth are physical inputs, including between trees;
 snowy appearance alone does not determine grip. Contact laws live in [Physics](PHYSICS.md#snow-contact-and-small-banks).

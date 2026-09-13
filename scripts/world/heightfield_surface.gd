@@ -97,12 +97,35 @@ func sample(x: float, z: float) -> Dictionary:
 		h = h11 + (1.0 - u) * (h01 - h11) + (1.0 - v) * (h10 - h11)
 	return {"height": h, "normal": Vector3(-dx, 1.0, -dz).normalized()}
 
+# Exact script identity opts into the baked triangle query. Derived adapters
+# retain virtual sample dispatch, even when they also carry a populated grid.
+var _height_query_script: Script
+
+func _init() -> void:
+	_height_query_script = load("res://scripts/world/heightfield_surface.gd")
+
+func sample_height(x: float, z: float) -> float:
+	if get_script() != _height_query_script: return sample(x,z).height
+	var gx = clampf((x - X_MIN) / CELL, 0.0, NX - 1.001)
+	var gz = clampf((z - Z_MIN) / CELL, 0.0, NZ - 1.001)
+	var ix = int(gx)
+	var iz = int(gz)
+	var u = gx - ix
+	var v = gz - iz
+	var h00 = heights[iz * NX + ix]
+	var h10 = heights[iz * NX + ix + 1]
+	var h01 = heights[(iz + 1) * NX + ix]
+	if u + v <= 1.0:
+		return h00 + u * (h10 - h00) + v * (h01 - h00)
+	var h11 = heights[(iz + 1) * NX + ix + 1]
+	return h11 + (1.0 - u) * (h01 - h11) + (1.0 - v) * (h10 - h11)
+
 func contact_normal(x: float, z: float) -> Vector3:
 	# A four-metre support stencil filters the 4 m mesh's normal discontinuities.
 	# This is a coarse-grid suspension approximation, not a rigid four-metre ski.
 	# Height collision remains exact; this supplies distributed ski support.
-	var dx: float = sample(x + 2.0,z).height - sample(x - 2.0,z).height
-	var dz: float = sample(x,z + 2.0).height - sample(x,z - 2.0).height
+	var dx: float = sample_height(x + 2.0,z) - sample_height(x - 2.0,z)
+	var dz: float = sample_height(x,z + 2.0) - sample_height(x,z - 2.0)
 	return Vector3(-dx,4.0,-dz).normalized()
 
 func sweep_obstacle(from: Vector3, to: Vector3) -> String:
