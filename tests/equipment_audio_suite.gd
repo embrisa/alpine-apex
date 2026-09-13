@@ -11,7 +11,61 @@ func check(value: bool, label: String) -> void:
 func pieces(x: float, metal: bool = false, shift: Vector3 = Vector3.ZERO) -> Array[Dictionary]:
 	var material = Contacts.Surface.METAL if metal else Contacts.Surface.CARBON
 	return [Contacts.proxy(0,Vector3(x,-.5,0)+shift,Vector3(x,.5,0)+shift,.009,material),Contacts.proxy(1,Vector3(0,0,-.5)+shift,Vector3(0,0,.5)+shift,.009,material)]
+func load_fixture() -> Dictionary:
+	return {"position":Vector3.ZERO,"velocity":Vector3(0,0,20),"grounded":true,"crashed":false,
+		"tuning":{"rider_mass":80.0},"landing_force":0.0,"obstacle_contact":{},
+		"skis":[{"grounded":true,"load_n":400.0,"landing_speed":0.0,"material_kind":0},
+			{"grounded":true,"load_n":400.0,"landing_speed":0.0,"material_kind":0}]}
+func sample_load(observer, sim: Dictionary, ticks: int = 1) -> Array:
+	var found: Array = []
+	for tick in ticks:
+		found.append_array(observer.sample(sim,1.0/120).filter(func(e): return e.kind==Events.Kind.EQUIPMENT))
+	return found
+func check_load_rattles() -> void:
+	var observer = Events.new()
+	var sim = load_fixture()
+	check(sample_load(observer,sim,20).is_empty(),"Steady skiing primes the load observer quietly")
+	sim.skis[0].load_n = 100.0
+	check(sample_load(observer,sim).is_empty(),"Unloading a supported ski does not trigger a binding rattle")
+	sample_load(observer,sim,60)
+	sim.skis[0].load_n = 700.0
+	var found = sample_load(observer,sim)
+	check(found.size()==1 and found[0].get("profile",0)==Events.EquipmentProfile.BINDING_RATTLE,"A distinct supported loading jolt produces one binding rattle")
+	for tick in 360:
+		sim.skis[0].load_n = 400.0 if tick%2==0 else 700.0
+		found.append_array(sample_load(observer,sim))
+	check(found.size()==1,"Three seconds of alternating ski pressure cannot repeat the same rattle episode")
+	check(sample_load(observer,sim,60).is_empty(),"Settling pressure does not play an expired rattle")
+	sim.skis[0].load_n = 1000.0
+	check(sample_load(observer,sim).size()==1,"Settled support rearms a later independent loading jolt")
+	sample_load(observer,sim,32)
+	sim.skis[0].load_n = 1300.0
+	check(sample_load(observer,sim,70).is_empty(),"A jolt inside the rattle tail is consumed without overlap or delayed playback")
+	sim.skis[0].load_n = 1600.0
+	check(sample_load(observer,sim).size()==1,"A fresh jolt can sound after the previous rattle tail finishes")
+	observer.reset(); sim = load_fixture(); sample_load(observer,sim,20)
+	found = []
+	for tick in 240:
+		sim.skis[0].grounded = tick%2!=0
+		sim.skis[0].load_n = 400.0 if sim.skis[0].grounded else 0.0
+		found.append_array(sample_load(observer,sim))
+	check(found.is_empty(),"Rapid loss and regain of ski contact cannot manufacture binding rattles")
+	observer.reset(); sim = load_fixture(); sample_load(observer,sim,20)
+	sim.skis[0].load_n = 700.0; sim.skis[0].landing_speed = 5.0
+	found = sample_load(observer,sim)
+	sim.skis[0].landing_speed = 0.0
+	found.append_array(sample_load(observer,sim,60))
+	check(found.is_empty(),"Pending paired landing audio suppresses the same loading jolt's rattle")
+	observer.reset(); sim = load_fixture(); sample_load(observer,sim,20)
+	sim.obstacle_contact = {"closing_speed_mps":5.0,"reason":"ROCK"}; sim.skis[0].load_n = 700.0
+	check(sample_load(observer,sim).is_empty(),"An obstacle impact suppresses a same-tick load rattle")
+	observer.reset(); sim = load_fixture(); sample_load(observer,sim,20)
+	sim.skis[0].load_n = 700.0; sim.position.z = 1000.0
+	check(sample_load(observer,sim,20).is_empty(),"Teleport discards the old load onset and primes quietly")
+	observer.reset(); sim.skis[0].load_n = 1000.0
+	check(sample_load(observer,sim,20).is_empty(),"Lifecycle reset cannot replay the previous load jolt")
 func run() -> void:
+	check_load_rattles()
 	var observer = Contacts.new()
 	var initial = pieces(-.3)
 	var original = initial.duplicate(true)

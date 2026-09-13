@@ -4,6 +4,10 @@ const Condition = preload("res://scripts/presentation/snow_condition.gd")
 enum Kind { LANDING, IMPACT, EQUIPMENT, NEAR_MISS }
 enum AudioMaterial { SNOW, ROCK, WOOD, GENERIC }
 enum EquipmentProfile { BINDING_RATTLE, SHAFT_TICK, METAL_CLINK, MIXED_KNOCK }
+const LOAD_JOLT_RATE = 6.0 # Change in nominal per-ski body weights per second.
+const LOAD_SETTLED_RATE = 2.0
+const LOAD_REARM_SECONDS = .12
+const LOAD_RATTLE_GAP_SECONDS = .50 # Longer than the native binding rattle's .43 s tail.
 var events: Array[Dictionary] = []
 var clock = 0.0
 var last_equipment = -60.0
@@ -13,6 +17,9 @@ var previous_force = 0.0
 var previous_position = Vector3.ZERO
 var initialized = false
 var previous_load = [0.0,0.0]
+var previous_grounded = [false,false]
+var load_rattle_armed = false
+var load_quiet_time = 0.0
 var pending_landing: Dictionary = {}
 var landing_until = 0.0
 
@@ -25,6 +32,9 @@ func reset() -> void:
 	previous_force = 0.0
 	initialized = false
 	previous_load = [0.0,0.0]
+	previous_grounded = [false,false]
+	load_rattle_armed = false
+	load_quiet_time = 0.0
 	pending_landing.clear()
 	landing_until = 0.0
 
@@ -45,14 +55,20 @@ func sample(sim, dt: float, near_passes: Array = []) -> Array[Dictionary]:
 	var landing_speed = 0.0
 	var material = AudioMaterial.SNOW
 	var change = 0.0
+	var load_activity = 0.0
+	var contact_changed = not initialized
 	for i in range(2):
 		var ski = sim.skis[i]
 		if ski.landing_speed>landing_speed:
 			landing_speed = ski.landing_speed
 			material = ski.material_kind
-		if initialized and ski.grounded:
-			change = maxf(change,absf(ski.load_n-previous_load[i])/maxf(sim.tuning.rider_mass*9.81*.5,1.0)/maxf(dt,.001))
+		if initialized and ski.grounded and previous_grounded[i]:
+			var rate: float = (ski.load_n-previous_load[i])/maxf(sim.tuning.rider_mass*9.81*.5,1.0)/maxf(dt,.001)
+			change = maxf(change,rate)
+			load_activity = maxf(load_activity,absf(rate))
+		contact_changed = contact_changed or ski.grounded!=previous_grounded[i]
 		previous_load[i] = ski.load_n
+		previous_grounded[i] = ski.grounded
 	# Bottom-outs raise this decaying telemetry without necessarily losing contact.
 	if initialized and sim.landing_force>maxf(0.0,previous_force-dt*12.0)+.1:
 		landing_speed = maxf(landing_speed,sim.landing_force)
@@ -72,9 +88,23 @@ func sample(sim, dt: float, near_passes: Array = []) -> Array[Dictionary]:
 		events.append(pending_landing.duplicate())
 		pending_landing.clear()
 		last_hit = clock
-	if not sim.crashed and sim.grounded and sim.velocity.length()>2 and change>6 and clock-last_equipment>.18 and clock-last_hit>.12:
-		events.append(_event(Kind.EQUIPMENT,AudioMaterial.GENERIC,minf(change*.25,8.0),0.0,clampf(change/40,0,1)))
-		last_equipment = clock
+	# One onset per pressure disturbance. Unloading consumes the episode quietly;
+	# rebounds, support flicker and cooldown expiry must not become new rattles.
+	if sim.crashed or not sim.grounded or sim.velocity.length()<=2 or contact_changed:
+		load_rattle_armed = false
+		load_quiet_time = 0.0
+	elif load_activity>LOAD_JOLT_RATE:
+		var onset = load_rattle_armed
+		load_rattle_armed = false
+		load_quiet_time = 0.0
+		if onset and change>LOAD_JOLT_RATE and pending_landing.is_empty() and obstacle.is_empty() and clock-last_equipment>=LOAD_RATTLE_GAP_SECONDS and clock-last_hit>.12:
+			events.append(_equipment(EquipmentProfile.BINDING_RATTLE,minf(change*.25,8.0),0.0,clampf(change/40,0,1)))
+			last_equipment = clock
+	elif load_activity<=LOAD_SETTLED_RATE:
+		load_quiet_time += maxf(0.0,dt)
+		if load_quiet_time>=LOAD_REARM_SECONDS: load_rattle_armed = true
+	else:
+		load_quiet_time = 0.0
 	if not sim.crashed and clock-last_near>=.25 and obstacle.is_empty() and not near_passes.is_empty():
 		var closest: Dictionary = near_passes[0]
 		for entry in near_passes:

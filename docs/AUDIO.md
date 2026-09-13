@@ -55,6 +55,12 @@ and rain remain separate. Per-ski controls use surface-relative forward/lateral
 speed, edge, load N, depth/penetration m, authoritative material and one of the
 existing snow-condition IDs. Unsupported/stationary contacts release to silence.
 Paired landing onsets coalesce; decaying landing-force display cannot retrigger.
+Load-driven binding rattles require a fresh positive loading jolt after 120 ms
+of settled pressure with unchanged support. Unloading consumes the disturbance
+quietly; contact loss/recovery clears readiness. Continuing pressure oscillation
+cannot retrigger, and a 500 ms minimum gap lets the 430 ms native rattle finish.
+Landing/obstacle onsets suppress their associated load rattle; suppressed jolts
+expire without delayed playback. Actual equipment contacts keep their own gating.
 
 Hard impacts combine broadband compression, a short material knock and grit/bark
 texture. Fixed pitched hard-impact oscillators were removed. Equipment profiles
