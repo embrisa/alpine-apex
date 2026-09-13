@@ -150,6 +150,9 @@ are in [Rendering](RENDERING.md#snow-presentation).
 
 [CrashCollision](../scripts/world/crash_collision.gd) owns the ragdoll-only
 terrain/obstacle neighborhood, separate from the 120 Hz skiing support solver.
+Obstacle refresh reads packed positions for distance/retirement checks and only
+expands a full tree record when publishing a new body. Resident body identity,
+exact cylinder dimensions, material tags and diagnostic filters remain intact.
 Mineral bodies still publish all authoritative convex pieces immediately inside
 the existing 175 m preparation / 240 m retention window. Jolt cooks convex
 resources lazily on first body attachment. A nearest-first 300 m lookahead warms

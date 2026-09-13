@@ -211,7 +211,7 @@ Paths in this table are under `tests/` unless noted.
 | Default-v15 routes | `alpine_v15_route_audit.gd`, then `python tests/report_v15_route_audit.py`; six surveys and one bounded ordinary-input pilot per face; human/multiple-seed acceptance separate |
 | Geology/assets | `geology_asset_suite.gd`, collision/seating/proxy checks as affected; source hashes plus native gallery/gameplay |
 | Trees | `density_lod_suite.gd`, `foliage_sight_suite.gd`, native mask/settings/stand review, actual near/mid/far transition and bounded dense-route cost |
-| Camera/UI | Camera/profile/menu-camera, interface/settings/retained-screen/HUD suites; native multi-size/controller/popup/display matrix |
+| Camera/UI | Camera/profile/menu-camera, interface/settings/retained-screen/HUD suites; native `hud_dial_suite.gd` paint/retention checks and multi-size/controller/popup/display matrix |
 | Graphics/native | Graphics/PC settings, FidelityFX settings plus actual DX12 provider/resize/fullscreen/HUD/history/shutdown tests |
 | Audio | Wind/SFX offline/native/lifecycle, equipment observer and voice fixtures; actual listening separate |
 | Packaging | `playtest_bake_suite.gd`, `scripts/test_windows_playtest.ps1` on the actual packaged executable/PCK with isolated APPDATA |
@@ -267,6 +267,12 @@ GPU/render-thread ms, draw calls and engine memory; `system.json` records source
 stability, engine hash and process/system/GPU allocation telemetry. Windows
 allocation and engine memory are not precise physical VRAM occupancy. Radial
 route sections are labels for that trace, not universal terrain classifications.
+The CPU `hud` scope covers HUD updates, not deferred CanvasItem `_draw()` calls.
+Likewise, engine submission and callbacks can fall outside main's explicit scopes.
+When attribution is incomplete, inspect a separately instrumented native script
+profile; its debugger/profiler output and overhead are excluded from acceptance
+timing. Inherited `super` calls can overlap profiler totals, so do not sum them.
+
 Keep the game window focused during the measured descents. The current baseline
 receipt producer rejects any unfocused measured frames, source drift, incomplete
 replays or changed personal settings/records; preserve rejected attempts as

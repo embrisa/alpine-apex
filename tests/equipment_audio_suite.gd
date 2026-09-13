@@ -1,6 +1,11 @@
 extends SceneTree
 const Contacts = preload("res://scripts/presentation/equipment_audio_contacts.gd")
 const Events = preload("res://scripts/presentation/riding_audio_events.gd")
+class CountingContacts extends Contacts:
+	var sweeps = 0
+	func _sweep(old_a: Dictionary, a: Dictionary, old_b: Dictionary, b: Dictionary, dt: float) -> Dictionary:
+		sweeps += 1
+		return super._sweep(old_a,a,old_b,b,dt)
 var checks = 0
 var failures: Array[String] = []
 func _initialize() -> void: run.call_deferred()
@@ -66,6 +71,17 @@ func check_load_rattles() -> void:
 	check(sample_load(observer,sim,20).is_empty(),"Lifecycle reset cannot replay the previous load jolt")
 func run() -> void:
 	check_load_rattles()
+	var separated = CountingContacts.new()
+	var distant: Array[Dictionary] = [Contacts.proxy(0,Vector3.ZERO,Vector3.UP,.01,0),Contacts.proxy(1,Vector3(4,0,0),Vector3(4,1,0),.01,0)]
+	separated.sample(distant,Vector3.ZERO,.016,"riding")
+	distant[0].b += Vector3(.5,0,.5)
+	check(separated.sample(distant,Vector3.ZERO,.016,"riding").is_empty() and separated.sweeps==0,"Separated swept bounds avoid narrow-phase work without a sound")
+	var margin = Contacts.new()
+	margin.sample(pieces(0),Vector3.ZERO,.016,"riding")
+	for frame in 8: margin.sample(pieces(-.035),Vector3.ZERO,.016,"riding")
+	check(margin.touching.size()==1,"Broad phase retains the full two-centimetre contact rearm margin")
+	for frame in 8: margin.sample(pieces(-.05),Vector3.ZERO,.016,"riding")
+	check(margin.touching.is_empty(),"Separated bounds still let the contact episode rearm")
 	var observer = Contacts.new()
 	var initial = pieces(-.3)
 	var original = initial.duplicate(true)

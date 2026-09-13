@@ -76,6 +76,10 @@ its PCM is not in the game. The first lower-frequency audition was rejected as g
 `equipment_audio_contacts.gd` observes final pole/ski transforms through twelve
 audio-only capsules, four equipment owners and six pairs. Remove whole-skier
 translation before bounded relative-motion sweeps (24 advancement steps/candidate).
+A conservative box around each capsule's previous/current endpoints, expanded by
+its radius and the full rearm margin, rejects separated pairs before closest-point
+and sweep work. Keep narrow-phase contact, closing speed, coalescing and rearm
+semantics unchanged; a current-pose-only box would miss crossings between frames.
 Stationary overlap is silent; closing speed must exceed .12 m/s and a pair
 rearms after 80 ms clear of a 2 cm margin. Coalesce over 25 ms, preferring actual
 piece contact over a same-jolt load rattle. Lifecycle, teleport, long-frame-gap

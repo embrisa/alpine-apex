@@ -5,7 +5,12 @@ var failures = []; var checks = 0
 class Field:
 	extends RefCounted
 	var geology = {"collision":Collision.new(),"catalog":{"records":{}}}
-	func nearby_obstacle_indices(_p, _radius) -> Array: return []
+	var obstacles: Array = []
+	func nearby_obstacle_indices(p: Vector3, radius: float) -> Array:
+		var ids = []
+		for i in obstacles.size():
+			if Vector2(p.x,p.z).distance_to(Vector2(obstacles[i].position.x,obstacles[i].position.z))<=radius: ids.append(i)
+		return ids
 class World:
 	extends Node3D
 	var surface = Field.new()
@@ -74,5 +79,22 @@ func run() -> void:
 	crash = Crash.new(); crash.world = world; root.add_child(crash)
 	crash.prepare(Vector3.ZERO); crash.prepare(Vector3(100,0,0))
 	check(crash.mineral_bodies[4].shape_owner_get_shape_count(crash.mineral_bodies[4].get_shape_owners()[0])==32,"Fast entry completes partially warmed collision immediately")
+	crash.queue_free(); world.queue_free(); await process_frame
+	# Exercise the position-only resident path, new publication and retirement.
+	world = World.new(); root.add_child(world)
+	world.surface.obstacles = [{"position":Vector3(160,2,0),"radius":.4,"height":12.0,"tree":true},{"position":Vector3(340,3,0),"radius":1.2,"height":3.0,"tree":false}]
+	crash = Crash.new(); crash.world = world; root.add_child(crash)
+	crash.prepare(Vector3.ZERO)
+	var first = crash.obstacles[0]
+	check(crash.obstacles.keys()==[0] and first.position==Vector3(160,8,0),"Obstacle publication keeps the original 175 m window and centered cylinder")
+	check(is_equal_approx(first.get_child(0).shape.radius,.4) and first.get_child(0).shape.height==12.0 and first.get_meta("audio_material")==2,"Tree radius, height and audio identity are unchanged")
+	crash.prepare(Vector3(180,0,0))
+	check(crash.obstacles.size()==2 and crash.obstacles[0]==first and crash.obstacles[1].get_meta("audio_material")==1,"Resident bodies are reused while new rock envelopes retain their identity")
+	crash.set_diagnostic_filter(false,true)
+	check(first.collision_layer==0 and crash.obstacles[1].collision_layer==8,"Diagnostic tree/rock filters remain independent")
+	crash.prepare(Vector3(1000,0,0)); await process_frame
+	check(crash.obstacles.is_empty(),"Discontinuous travel retires resident obstacles outside the query window")
+	crash.prepare(Vector3.ZERO)
+	check(crash.obstacles.keys()==[0] and crash.obstacles[0].collision_layer==0,"Reverse entry restores exact filtered coverage without duplicates")
 	crash.queue_free(); world.queue_free(); await process_frame
 	print("STREAMING_COLLISION ",JSON.stringify({"checks":checks,"failures":failures})); quit(0 if failures.is_empty() else 1)

@@ -165,6 +165,13 @@ for small screens and clamp whole widget rectangles on resolution changes.
 Timed instruments hide in free ski, debug defaults off, and H hides temporarily
 without overwriting persisted choices. Loading/reload handoffs retain layout.
 
+The speed dial retains its static background arc and threshold marks in separate
+CanvasItems, preserving background/fill/mark order. Only speed, tint or size changes
+redraw the moving arc; resize invalidates the static layers. Keep the existing
+80-point antialiased geometry, live numeric speed, inherited scale/opacity and
+input transparency. Native `tests/hud_dial_suite.gd` compares the original paint
+sequence and verifies retained drawing through updates and layout changes.
+
 Edit HUD freezes a real world image and reparents the actual composite instrument
 wrappers into an aspect-matched preview. Timed/free/low-reserve/near-finish sample
 states exercise hidden widgets, which remain list-selectable. Drag or controller

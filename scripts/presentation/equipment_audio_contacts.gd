@@ -67,6 +67,15 @@ func sample(proxies: Array[Dictionary], anchor: Vector3, dt: float, mode: String
 				break
 	if initialize: reset()
 	clock += dt
+	# Each linearly swept endpoint stays inside this union. Expanded boxes
+	# conservatively include capsule radii and the contact rearm margin, so
+	# separated pairs cannot touch at either endpoint or between frames.
+	var swept_bounds: Array[AABB] = []
+	for i in current.size():
+		var a: Dictionary = current[i]
+		var bounds = AABB(a.a,Vector3.ZERO).expand(a.b)
+		if not initialize: bounds = bounds.expand(previous[i].a).expand(previous[i].b)
+		swept_bounds.append(bounds.grow(a.radius+SEPARATION_M))
 	var near: Dictionary = {}
 	var candidates: Dictionary = {}
 	for i in current.size():
@@ -74,6 +83,7 @@ func sample(proxies: Array[Dictionary], anchor: Vector3, dt: float, mode: String
 			var a: Dictionary = current[i]
 			var b: Dictionary = current[j]
 			if a.owner==b.owner: continue
+			if not swept_bounds[i].intersects(swept_bounds[j]): continue
 			var key: int = mini(a.owner,b.owner)*4+maxi(a.owner,b.owner)
 			var pair = Geometry3D.get_closest_points_between_segments(a.a,a.b,b.a,b.b)
 			var gap: float = pair[0].distance_to(pair[1])-a.radius-b.radius

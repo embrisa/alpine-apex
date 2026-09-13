@@ -55,9 +55,12 @@ func prepare(center: Vector3) -> void:
 	for i in nearby: candidates[i]=true
 	for i in obstacles: candidates[i]=true
 	for i in candidates:
-		var obstacle: Dictionary = Obstacles.record(world.surface,i)
-		var distance_value = p.distance_to(Vector2(obstacle.position.x,obstacle.position.z))
+		# Most candidates already have a body or are only in the retain window.
+		# Read packed positions directly; expand a full record only on publication.
+		var position_value = Obstacles.position(world.surface,i)
+		var distance_value = p.distance_to(Vector2(position_value.x,position_value.z))
 		if distance_value<175.0 and not obstacles.has(i):
+			var obstacle: Dictionary = Obstacles.record(world.surface,i)
 			var shape = CylinderShape3D.new()
 			shape.radius = obstacle.radius
 			shape.height = obstacle.height

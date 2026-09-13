@@ -141,20 +141,50 @@ const TIME_IDS = ["dawn","day","dusk","night"]
 var time_of_day: OptionButton
 var time_cycle: CheckButton
 
-class SpeedDial:
+class SpeedDialStatic:
 	extends Control
-	var speed: float = 0.0
-	var tint = Color.WHITE
+	var marks = false
+	func _ready() -> void:
+		resized.connect(queue_redraw)
 	func _draw() -> void:
 		var center = size * 0.5
 		var radius = size.x * 0.46
 		var start = deg_to_rad(140.0)
 		var sweep = deg_to_rad(260.0)
-		draw_arc(center,radius,start,start+sweep,80,Color(1,1,1,.25),2.0,true)
-		draw_arc(center,radius,start,start+sweep*clampf(speed/200.0,0,1),80,tint,3.0,true)
+		if not marks:
+			draw_arc(center,radius,start,start+sweep,80,Color(1,1,1,.25),2.0,true)
+			return
 		for threshold in [60,90,120,150,165,200]:
 			var direction = Vector2.from_angle(start+sweep*threshold/200.0)
 			draw_line(center+direction*(radius-6),center+direction*radius,Color(1,1,1,.5),1.0,true)
+
+class SpeedDial:
+	extends Control
+	var speed: float = 0.0:
+		set(value):
+			if speed == value: return
+			speed = value
+			queue_redraw()
+	var tint = Color.WHITE:
+		set(value):
+			if tint == value: return
+			tint = value
+			queue_redraw()
+	func _ready() -> void:
+		# Keep the original background / fill / tick ordering. Canvas retains
+		# static drawing commands while only the changing speed arc redraws.
+		for marks in [false,true]:
+			var face = SpeedDialStatic.new()
+			face.marks = marks
+			face.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			face.show_behind_parent = not marks
+			add_child(face)
+			face.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		resized.connect(queue_redraw)
+	func _draw() -> void:
+		var start = deg_to_rad(140.0)
+		var sweep = deg_to_rad(260.0)
+		draw_arc(size*.5,size.x*.46,start,start+sweep*clampf(speed/200.0,0,1),80,tint,3.0,true)
 
 class SlimBar:
 	extends Control
@@ -927,7 +957,6 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 	band_label.text = ["MANEUVERING","ORDINARY SKIING","FAST","RACING","ELITE DOWNHILL","EXTREME RACING","EXTREME TERRAIN","EXCEPTIONAL SPEED"][mini(band,7)]
 	speed_dial.tint = Color("efa773") if band>=5 else WHITE
 	band_label.modulate = speed_dial.tint
-	speed_dial.queue_redraw()
 	timer_label.text = Session.format_time(session.elapsed) if timed else "FREE SKI"
 	pb_label.text = "PERSONAL BEST  " + Session.format_time(session.personal_best)
 	split_label.text = ""
