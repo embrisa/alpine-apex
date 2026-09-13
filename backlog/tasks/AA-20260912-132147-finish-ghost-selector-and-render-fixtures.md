@@ -5,7 +5,7 @@ status: ready
 priority: P1
 depends_on: ["AA-20260912-132147-finish-pole-transition-validation"]
 created: "2026-09-12T13:21:47Z"
-updated: "2026-09-12T13:21:47Z"
+updated: "2026-09-13T15:22:07Z"
 source_thread: null
 ---
 
@@ -13,7 +13,7 @@ source_thread: null
 
 ## Outcome
 
-Make Records selection reliable at 4K and complete trustworthy rendered evidence for ghost contact and outfit contrast.
+Make Records selection reliable at 4K, let the player choose Automatic fastest 1–10, and complete trustworthy rendered evidence for ghost contact and outfit contrast.
 
 ## Current state and evidence
 
@@ -25,15 +25,18 @@ Originating tasks: [AA-20260911-220556-animated-ghost-snow-tracks](AA-20260911-2
 
 The user explicitly requested this remaining work be saved for later, after stopping excessive agent/test usage. Authoring does not dispatch. Start with one worker and the smallest sufficient check; batch compatible checks, use the existing validation guard, and stop expanding coverage once the named criteria pass. Preserve120 Hz simulation,4 m terrain authority, personal records/preferences and current replay identities.
 
-Primary owners: `tests/ghost_playtest.gd`, `tests/ghost_focused_native.gd`, `scripts/ui/ghost_selector.gd`, `competitive_panel.gd` and Main input routing.
+Automatic selection must expose a player-chosen count from 1 through 10, defaulting to the current ten. Persist that setting with the existing ghost-selection preference; it applies on the next start or retry, freezes the resulting roster for the active attempt, and selects only the available compatible fastest runs when fewer than the requested count exist. Manual subsets, the explicit empty manual set, PB split comparisons, replay identity and the ten-run archive limit remain unchanged.
+
+Primary owners: `tests/ghost_playtest.gd`, `tests/ghost_focused_native.gd`, `scripts/ui/ghost_selector.gd`, `scripts/core/run_session.gd`, `scripts/racing/competitive_record.gd`, `competitive_panel.gd` and Main input routing.
 
 ## Implementation approach
 
-Diagnose logical canvas versus window/image coordinates and analytic-stage winding, shader ownership and shadow reception. These are hypotheses, not confirmed production bugs. The interrupted `ghost/native_v3_fix` directory contains investigation, not a completed patch. Fix the fixture first where warranted; change player UI only with a reproduced production failure. Add or use a selector-only rerun and recapture only lighting/contact images invalidated by the stage repair. Preserve accepted six-case physics/codec results and the completed15-second chronology. Keep textured/lit production materials, a real shadow caster and the existing10% probe-darkening gate; never replace shadow proof with a tint.
+Diagnose logical canvas versus window/image coordinates and analytic-stage winding, shader ownership and shadow reception. These are hypotheses, not confirmed production bugs. The interrupted `ghost/native_v3_fix` directory contains investigation, not a completed patch. Fix the fixture first where warranted; change player UI only with a reproduced production failure. Add an automatic-count selector that works with mouse, keyboard and controller, and extend the existing selection normalization, persistence and roster selection to clamp and honor 1–10. This is an intentional current selection-data schema change: reject/regenerate incompatible stored selection metadata rather than adding a migration or legacy path solely for it. Add or use a selector-only rerun and recapture only lighting/contact images invalidated by the stage repair. Preserve accepted six-case physics/codec results and the completed15-second chronology. Keep textured/lit production materials, a real shadow caster and the existing10% probe-darkening gate; never replace shadow proof with a tint.
 
 ## Acceptance and verification
 
 - [ ] Mouse, keyboard and controller selection/empty set/Back work at 1024x720 and3840x2160 with correctly transformed input coordinates.
+- [ ] Automatic fastest 1–10 can be set and persists for the next start/retry; every setting freezes the correct bounded roster for the attempt, while manual and empty selection behavior is unchanged.
 - [ ] Actual receiving snow/rock and shadow appear; inspect all ten colours against default/dark/light/cyan player outfits and required contact/re-entry images.
 - [ ] Preserve15% minimum opacity, depth occlusion, independent histories, exact clocks, accepted pose attachments and isolation; record fixture-versus-production fixes and close the corresponding original acceptance items.
 - [ ] Record exact changed-source verification and commit/push the owned work with updated authoritative documentation.

@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "id": "b4be9646f3d24d04a81890dfdcba3f9f",
+  "summary": "Plan configurable automatic ghost count",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Ghost selection backlog scope"
+  ],
+  "owned_paths": [
+    "backlog/tasks/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md"
+  ],
+  "read_paths": [
+    "backlog/README.md",
+    "docs/DEVELOPMENT.md",
+    "docs/PRESENTATION.md",
+    "docs/RACING.md",
+    "scripts/core/run_session.gd",
+    "scripts/racing/competitive_record.gd",
+    "scripts/ui/ghost_selector.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "This planning record does not change world source or generation behavior."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "This planning record does not change race definitions or behavior."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "This planning record does not change the record data currently shipped."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "This planning record does not change ghost data or presentation behavior."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "This planning record does not change cache producers, schemas, or inputs."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": ".\\scripts\\backlog.ps1 validate --preserve-dirty",
+      "details": "The refined ready task has no unresolved questions and validates against its existing dependency; the separate pole-animation candidate remains intentionally dirty outside this scope."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-13T15:22:44.493431+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 4,
+      "commit": "9aed88bb4b1899d82c41bd5f7d72ed236a343c94",
+      "modified": true,
+      "changes_sha256": "6235a8cd28c2bf9fe59371235711bbe24764073b9f11d9254f700e9aa758f49e",
+      "source_sha256": "c6a3edb4c7fb7fbd4340c6f1c487f4b769e33a4c2953cbe055bd5a4044f11c1d",
+      "categories": [
+        "Maintenance"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      "backlog/README.md": "5799009cbbd585356fb1c322770c2415b97fd94a64809d5703bbcb63cfd2928e",
+      "backlog/tasks/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md": "959b4b6c23eb0cb8d425b95e54e61e4a22fe0ba83159f07389eed8597d4915a7",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/DEVELOPMENT.md": "64837a45c9965396d7e97e1809adbf3a6537c6724746823e573e2dd248b4a155",
+      "docs/PRESENTATION.md": "c42cd1cc57a02af893ceaa5064d9c7360925fee76b2cfa2978f2ce371e19795e",
+      "docs/RACING.md": "6ae5f49478f8c367c0c79263d8be49f9b79c0f226e21745809269c8d6e4cc341",
+      "project.godot": "f92c86410aeff3c7038be456bc267092d7f1fa324f9411f0add1301bdc93c249",
+      "scripts/core/run_session.gd": "2a2ef5ef1af62dc35beca62527f13b26615907ff097ebdcb7ad3f89e9113e651",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "d7c78c78e58082e9da8f82ae0cd5c44015715333c1d6dcb15018f3eabd930fd6",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/ui/ghost_selector.gd": "2d6e2bc3d44ea527658fb0d03dd55924765e745fde8e52e70495d365139c00f9",
+      "scripts/world/mountain_definition.gd": "4192db36e8fb6a685f37dfcda6aba38d05cd1367b951f077d4560ce35ecf314f"
+    }
+  }
+}
