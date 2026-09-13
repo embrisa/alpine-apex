@@ -253,10 +253,14 @@ asset dependency or a substitute for maintained documentation. Retain useful
 source in `art_source/`, runtime assets in `assets/`, fixtures in `tests/fixtures/`.
 
 With Godot/Blender workloads closed, `./scripts/clean_artifacts.ps1 -WhatIf`
-previews cleanup; omit `-WhatIf` to remove output. The helper uses the validation
-lock, rejects unsafe roots/tracked surprises and unlinks junctions without
-traversing their targets. Preserve needed sealed evidence during active reviews.
-Missing historical captures require a new known baseline; never invent a receipt.
+previews cleanup; omit `-WhatIf` to remove output. Use `-TargetPath` only with
+literal existing repository-relative paths beneath `artifacts/` to narrow a
+cleanup, and `-KeepPath` to retain literal existing files or complete subtrees
+inside that target. With no target, the root remains the scope. The helper uses
+the validation lock, rejects paths outside the artifact root and unlinks junctions
+without traversing their targets. Preserve needed sealed evidence during active
+reviews. Missing historical captures require a new known baseline; never invent a
+receipt.
 
 Validation execution and output interpretation are owned by [Validation](VALIDATION.md).
 Do not turn subsystem documentation into a run-by-run changelog.
