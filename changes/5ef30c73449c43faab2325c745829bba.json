@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "id": "5ef30c73449c43faab2325c745829bba",
+  "summary": "Prepare generator-derived cosmetic rock pebbles with three geometry levels and an isolated native review",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Cosmetic rock asset preparation",
+    "Generator-derived pebble exports",
+    "Isolated native asset review"
+  ],
+  "owned_paths": [
+    "art_source/rocks/pebbles_v1/.gdignore",
+    "art_source/rocks/pebbles_v1/README.md",
+    "art_source/rocks/pebbles_v1/manifest.json",
+    "art_source/rocks/pebbles_v1/models/gravel_01_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_01_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_01_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_02_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_02_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_02_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_03_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_03_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/gravel_03_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_01_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_01_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_01_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_02_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_02_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_02_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_03_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_03_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/pebble_03_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_01_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_01_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_01_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_02_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_02_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_02_lod2.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_03_lod0.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_03_lod1.glb",
+    "art_source/rocks/pebbles_v1/models/shale_chip_03_lod2.glb",
+    "art_source/rocks/pebbles_v1/pebble_library.blend",
+    "art_source/rocks/pebbles_v1/recipes.json",
+    "docs/ASSETS.md",
+    "scripts/art/build_rock_pebbles.py",
+    "scripts/art/preview_rock_pebbles.gd",
+    "scripts/art/validate_rock_pebbles.py",
+    "scripts/prepare_rock_pebbles.ps1"
+  ],
+  "read_paths": [
+    ".agents/skills/alpine-validation/SKILL.md",
+    "art_source/blender/rock_generator.blend",
+    "docs/DEVELOPMENT.md",
+    "scripts/resolve_godot_engine.ps1",
+    "scripts/run_guarded.ps1",
+    "scripts/validation_lease.ps1"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only isolated cosmetic source assets and their authoring/review tools are added; production solver, terrain and persistence are untouched."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only isolated cosmetic source assets and their authoring/review tools are added; production solver, terrain and persistence are untouched."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only isolated cosmetic source assets and their authoring/review tools are added; production solver, terrain and persistence are untouched."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "The prepared-only pack is excluded from production import and changes no game data or cache keys."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "The prepared-only pack is excluded from production import and changes no game data or cache keys."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "The prepared-only pack is excluded from production import and changes no game data or cache keys."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "The prepared-only pack is excluded from production import and changes no game data or cache keys."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "The prepared-only pack is excluded from production import and changes no game data or cache keys."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "./scripts/prepare_rock_pebbles.ps1 -Mode Validate",
+      "result": "passed",
+      "details": "All 27 GLBs passed source/export hashes, embedded structure, one opaque mesh/material, collision-free metadata, dimensions/base, finite colors/unit normals, exact 80/40/16 triangle budgets, and closed connected topology. Evidence: artifacts/rock_pebbles_20260914/asset_validation.json."
+    },
+    {
+      "kind": "automated",
+      "command": "./scripts/prepare_rock_pebbles.ps1 -Mode Preview",
+      "result": "passed",
+      "details": "Godot 4.7.2 native GLTFDocument review completed 3147 checks with zero failures; all 27 unique meshes loaded, with no collision nodes. Repeated checks also cover the review arrangement. Evidence: artifacts/rock_pebbles_20260914/native/native_validation.json."
+    },
+    {
+      "kind": "rendered",
+      "command": "Inspect collection.png, lod_comparison.png and surface_detail.png from ./scripts/prepare_rock_pebbles.ps1 -Mode Preview",
+      "result": "passed",
+      "details": "Inspected all three OpenGL Compatibility captures on RX 9070. Distinct gravel, rounded pebble and thin chip silhouettes at 5-28 cm; opaque neutral stone palettes, no embedded pedestal/vegetation. LOD2 deliberately coarsens silhouette; distance/fade requires production review. Review-plane scatter is not terrain-placement acceptance."
+    },
+    {
+      "kind": "automated",
+      "command": "python -m py_compile scripts/art/build_rock_pebbles.py scripts/art/validate_rock_pebbles.py; PowerShell Parser.ParseFile(scripts/prepare_rock_pebbles.ps1); git -c core.whitespace=cr-at-eol diff --check",
+      "result": "passed",
+      "details": "Python and PowerShell parsed and owned changes passed whitespace checks. Guarded Blender 5.2.1 build/rebuild completed and source SHA256 remained f644a0d1b7505dbcd43687cba12630e39e6f7eac7f221ad067c9accf3df1687f."
+    },
+    {
+      "kind": "performance",
+      "command": "Deferred to authorized Astra integration task",
+      "result": "not_required",
+      "details": "This milestone prepares assets only. Triangle counts are not measured FPS evidence. Integration must use matched bounded on/off runs and report CPU/GPU/frame tails and residency separately from isolated asset review."
+    },
+    {
+      "kind": "human",
+      "command": "Production terrain and skiing-height review after integration",
+      "result": "not_required",
+      "details": "No runtime integration is included in this milestone; the user explicitly requested handoff after generator completion."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Authorized handoff: integrate cosmetic detail on exposed rock terrain with zero collision; inspect snow/rock boundaries, placement and LOD transitions; measure matched bounded 4K High on/off costs.",
+    "Human visual/controller acceptance after integration is separate from this asset-preparation milestone."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-13T22:52:03.885323+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 22,
+      "commit": "50208afd5c909fcad17acd5629db84c70ba6cd9e",
+      "modified": true,
+      "changes_sha256": "1870b39e8a3a02532c330be4011b6735e1d810090dd7bb466663c0012258c340",
+      "source_sha256": "a8671a573aab6dc057ec1d2f8d414da5660e0ab2424958e70a161eec2904b6c6",
+      "categories": [
+        "Presentation",
+        "Maintenance"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": "771a03c9f2fc2d84e0ab3d545783660f23ba555991ab05ac4396e5b492c4de7c",
+      "art_source/blender/rock_generator.blend": "f644a0d1b7505dbcd43687cba12630e39e6f7eac7f221ad067c9accf3df1687f",
+      "art_source/rocks/pebbles_v1/.gdignore": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "art_source/rocks/pebbles_v1/README.md": "0eb3ff540017aaf1c32cbf40d514b5a4b1fc8863e6fd56b99cddc312af4be571",
+      "art_source/rocks/pebbles_v1/manifest.json": "8c10e13631892783705e1ede281406dfb7b32a533bd50aed74bcb3fd3f2ed41c",
+      "art_source/rocks/pebbles_v1/models/gravel_01_lod0.glb": "2015f639c95aa4dc1613373dbf84b7c7706b3f538cefa8e10fc0acf3e33b4ee2",
+      "art_source/rocks/pebbles_v1/models/gravel_01_lod1.glb": "d5a2a92badcd4fa2d0c89056f214c7ab3b5432da307f56be6b3ddfba9ddade3f",
+      "art_source/rocks/pebbles_v1/models/gravel_01_lod2.glb": "98d0f8848e85165638a6eeb517c50394c9175921e30e34f5eab9f076a6cae47f",
+      "art_source/rocks/pebbles_v1/models/gravel_02_lod0.glb": "58589f1d23d9c5cf85e44ebe948eb186fb629d43d5b9d3ce137fa528d69b88d8",
+      "art_source/rocks/pebbles_v1/models/gravel_02_lod1.glb": "72ca6486d16ced4d5fa7e2ea0dd913a5ff4c34f0c5e02910278c2b2d5256d961",
+      "art_source/rocks/pebbles_v1/models/gravel_02_lod2.glb": "49206b1b1e3077ea61fbe539dcb33c1ff349c485e4e7f7c6b5266ec7448e7dfb",
+      "art_source/rocks/pebbles_v1/models/gravel_03_lod0.glb": "64dee68c62c06619473b82ebd8f50667cd4d44ac4add806f0c8aa157d1aa3916",
+      "art_source/rocks/pebbles_v1/models/gravel_03_lod1.glb": "a839bcbc27e54a4fc9881f7dfe635ad8b409d753c3bf605d3c8d6fd36a353fa4",
+      "art_source/rocks/pebbles_v1/models/gravel_03_lod2.glb": "c69af1cf76eafe0cccfa6f8224a7e1d826abe955b87ec2172e17a7fce14bf48d",
+      "art_source/rocks/pebbles_v1/models/pebble_01_lod0.glb": "cbc2c163e5bf347e90e569b3ade46b079af43482ad204457be0602ffb98e5de8",
+      "art_source/rocks/pebbles_v1/models/pebble_01_lod1.glb": "f50d8a1c0de8f314e6501d92ea785cb1c9fb6c3325c58e519590f93e95f3ba1a",
+      "art_source/rocks/pebbles_v1/models/pebble_01_lod2.glb": "109c5d2a60069813e01c2e78ca84e1b2ced0c00e2dd9a07868dfb9c434cc9bca",
+      "art_source/rocks/pebbles_v1/models/pebble_02_lod0.glb": "b6167a2e377cfd29058af53d2f37ccfde469c2c42d6f9e6d1beddc85af6a5c02",
+      "art_source/rocks/pebbles_v1/models/pebble_02_lod1.glb": "8cf532c671383f6110e817b6d8a4a1566f0bb2e4da35d1bebbce68a83a2587e7",
+      "art_source/rocks/pebbles_v1/models/pebble_02_lod2.glb": "0cc32ed8ef41fdfcc2d1382ebd8a70995aba9e6ffb4a5b1c8affe79f3bed31bf",
+      "art_source/rocks/pebbles_v1/models/pebble_03_lod0.glb": "f548a020c111a35cced72ff8539eea562a67c10fbcc74ebb9558435ef69af4c9",
+      "art_source/rocks/pebbles_v1/models/pebble_03_lod1.glb": "c45f5ae808ef7acabd073b89630a38fe632333d60f5f97cbf8adf2d5a0773259",
+      "art_source/rocks/pebbles_v1/models/pebble_03_lod2.glb": "a252341b6adc5ff3f792bff419e8b3168ef007648f1db88ef8e828f5d9c44a03",
+      "art_source/rocks/pebbles_v1/models/shale_chip_01_lod0.glb": "9decf034f7e4618dbf879d0f93cd547d875df4a8c15ac96b86e30b18efc2d83c",
+      "art_source/rocks/pebbles_v1/models/shale_chip_01_lod1.glb": "5072a4509c781472421fe6ab221ac046bf55c3dfaf90b8ff3b7e4da139a3ab33",
+      "art_source/rocks/pebbles_v1/models/shale_chip_01_lod2.glb": "e08f8e5323bb03b8251d000746b20e3f19d9e2b86fa0183d3f421e8028b7f954",
+      "art_source/rocks/pebbles_v1/models/shale_chip_02_lod0.glb": "4b15815457f51d1ce53e360d1bfd6222a9719582dc479aa6476fb6e76d491407",
+      "art_source/rocks/pebbles_v1/models/shale_chip_02_lod1.glb": "eae5fea6406f88d26fb3be23ed18a160bfcb006e4bbb44045f55d39bc93c9c1a",
+      "art_source/rocks/pebbles_v1/models/shale_chip_02_lod2.glb": "e2e9d0ac13c63dec9445f1a0d389f9ca162f2c4aa18c95f9b946a1b0b9e6ed87",
+      "art_source/rocks/pebbles_v1/models/shale_chip_03_lod0.glb": "964c35aa97b924b37ac630760606da09520ea6b2a3d919833190b337181b0bed",
+      "art_source/rocks/pebbles_v1/models/shale_chip_03_lod1.glb": "fd6582a554792a0e136be81fc87bdfb79d213c9071be5d24195637ada0dd9ecb",
+      "art_source/rocks/pebbles_v1/models/shale_chip_03_lod2.glb": "0f943fa32ac2257aa1272c59a1aa11e889330babd11a8bb8a89c0c7da06c3144",
+      "art_source/rocks/pebbles_v1/pebble_library.blend": "9c0d55c14eba403ba97f75f827034689f6c7282a276301560cefa67efda933a9",
+      "art_source/rocks/pebbles_v1/recipes.json": "eb84887c0eba7dab3b9dfd57d25333457c9bef32ccd8f6a463e3ede7e6a2b36a",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/ASSETS.md": "94740803705613e1e9488339266563ba47048fc20ede6773072ff4d83b3cc3d9",
+      "docs/DEVELOPMENT.md": "a5118f0e011f59b2f12cb9480b2aa153646f01d0b7734fd3651dc24645b2918d",
+      "project.godot": "ab7da5f47f5c39a842b849501ab3c8df818d481db9ea9283517a576cd4062c7d",
+      "scripts/art/build_rock_pebbles.py": "43814beabd392a0028cbf36e36be2b2342435396946ac47db0e345ec61cd2a96",
+      "scripts/art/preview_rock_pebbles.gd": "f8463113646b3172e538a08ed04defe3148e387042156d71b3c442ffdc8fbea2",
+      "scripts/art/validate_rock_pebbles.py": "80aad63597ff0674d7c5a50dfd05e9d5861c4c9624bc982d31cc525c4913b896",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/prepare_rock_pebbles.ps1": "b3721088cc77f564af4644cbaf1897f5ddddb628078299e9b356df4c0c3f13d6",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "c8375d4142f40481877919f2ed0800dfb4217fe0eb421575cb0aa11b2c8f1407",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/resolve_godot_engine.ps1": "f24d9bee14db3b84a5674b1a732c499bbdad9284c073367afecc373fcf849d93",
+      "scripts/run_guarded.ps1": "67d133122cf22b25514f559d6f9d89ea52b6da0fc8ad24b7b5400612b21bec71",
+      "scripts/validation_lease.ps1": "b946e947282711f0dd7ef8f41f66aacbbf3f62ed841247af8636555f037f84fa",
+      "scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f"
+    }
+  }
+}
