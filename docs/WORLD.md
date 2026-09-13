@@ -29,16 +29,44 @@ saturate placement. The user accepts roughly 600,000 trees where natural space
 limits the million-tree request. Synthetic capacity tests do not prove natural
 placement feasibility or skiable routes.
 
-## Default-v15 route audit
+## Current bounded default-v15 route evidence
 
-The current default-seed route evidence is produced by
+The current source-hashed route scenario is produced by
 [`alpine_v15_route_audit.gd`](../tests/alpine_v15_route_audit.gd), using
 `MountainDefinition.generate(849205174, 15)` with Standard settings and the
-source/engine-validated physical cache. The retained v13-named planner and pilot
-are test-only algorithms applied to that current field; no historical bake or
-saved route is loaded. Generator, model, recipe, source/engine/terrain hashes,
-per-face results and evidence hashes are in the
-[committed receipt](V15_ROUTE_AUDIT_RESULTS.json).
+source/engine-validated physical cache. It surveys all six faces, then performs
+three matched **15-second**, 170 km/h, full-tuck/no-brake speed-controlled
+probes on each face. The retained v13-named planner supplies test-only steering
+over the current field; it never loads a historical bake or saved route. The
+[current bounded receipt](CURRENT_V15_BOUNDED_ROUTE_RESULTS.json) records its
+model, generator, source/engine/terrain hashes and every probe.
+
+The 2026-09-13 receipt captured model 35 on generator 15: all 18 probes ran
+the exact 1,800-tick window, held 169.99997-170.00003 km/h, and travelled
+707.61-707.82 m. Those facts describe the source-hashed automated scenario
+only; the receipt, not this paragraph, carries the complete current identity.
+
+This is automated bounded route evidence only: the speed controller is a
+benchmark fixture, so it does not establish ordinary handling, full-route
+skiability, rendered quality, frame performance, player/controller acceptance,
+alternate-path coverage, or other seeds. Those acceptance types remain separate.
+
+Reproduce the current bounded scenario under the validation guard, then publish
+the receipt:
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/alpine_v15_route_audit.gd') -Label current-v15-bounded-route-audit -TimeoutSeconds 900 -FullMountain -FullMountainReason 'Current default-v15 route geometry and bounded speed-controlled probe evidence'
+python tests/report_v15_route_audit.py
+```
+
+## Historical default-v15 route audit (model 28)
+
+The following 2026-09-11 audit and its
+[model-28 receipt](V15_ROUTE_AUDIT_RESULTS.json) are preserved for provenance.
+Their recorded source identity has drifted and they are **not current route
+acceptance**. At capture, the audit used the same default seed and Standard
+settings with a then-current test-only planner/pilot; no historical bake or
+saved route was loaded.
 
 2026-09-11, model 28: all six surveys returned two paths, all twelve paths had
 finite support and zero tree/mineral sweep hits (13,962 support samples and
@@ -74,7 +102,7 @@ samples and production tree/mineral rider sweeps at intervals no longer than
 beyond the playable disk; the receipt separately records the first crossings
 of the 2,850 m base boundary and their separation.
 
-Each face gets one ordinary-input pilot attempt from its normal launch, using
+Each face received one ordinary-input pilot attempt from its normal launch, using
 the first swept-clear path. The fallback order is the first nonempty path, then
 an explicitly unsurveyed radial target. The pilot steps the unchanged solver at
 120 Hz, refreshes intent every 12 ticks, and pulses jump release for one tick.
@@ -82,21 +110,13 @@ It stops on a crash, the production base boundary, 800 simulation seconds, or
 30 seconds without a 2 m increase in maximum radius. No session, record store,
 rendered view or timing benchmark is involved. Pilot failure limits that
 attempt's evidence; it does not prove an unskiable mountain. User skiing and
-other seeds are separate acceptance work.
+other seeds were separate acceptance work and remain so.
 
-Reproduce under the shared validation guard, then validate/publish the receipt:
-
-```powershell
-./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/alpine_v15_route_audit.gd') -Label v15-route-audit -TimeoutSeconds 3600
-python tests/report_v15_route_audit.py
-```
-
-Detailed polylines, tick inputs, one-second position samples and logs remain in
-ignored `artifacts/v15_route_audit/` and `artifacts/guarded/v15-route-audit/`.
-The receipt producer rejects incomplete runs, engine/guard failures, missing
-faces, repeated attempts, changed sources and mismatched pilot evidence hashes.
-An audit may complete with reported crashes, stalls or missing graph paths;
-successful harness execution is separate from route acceptance.
+Detailed historical polylines, tick inputs, one-second position samples and logs
+remain in ignored `artifacts/v15_route_audit/` and
+`artifacts/guarded/v15-route-audit/`. The receipt's recorded producer command
+belongs to its model-28 source snapshot; rerunning the current producer creates
+the bounded current receipt above, not a replacement for that historical record.
 
 ## Deterministic jobs and packed data
 

@@ -714,29 +714,68 @@ dependency-hash optimization brought v15 cold mean to 130.843 s. These retain
 their original workloads; readiness includes scene submission and is not FPS.
 Producers/receipts are the v15 generation suites and `artifacts/generation_v15/`.
 
-Current default-v15 route coverage, per-face pilot outcomes, methodology and
-reproduction commands are in [World's route audit](WORLD.md#default-v15-route-audit)
-and its [source-hashed receipt](V15_ROUTE_AUDIT_RESULTS.json). This replaces the
-historical v13 pilot result (face index 3 completed; others crashed/stalled) as
-the current route acceptance evidence. Natural population saturation and
-synthetic million-tree capacity remain separate results; user skiing and other
-seeds remain open.
+Current default-v15 route scenario coverage, source identity and reproduction
+commands are in [World's bounded route evidence](WORLD.md#current-bounded-default-v15-route-evidence)
+and its [current source-hashed receipt](CURRENT_V15_BOUNDED_ROUTE_RESULTS.json).
+It contains six graph surveys and three matched 15-second 170 km/h
+speed-controlled probes per face. This is automated bounded scenario evidence,
+not route acceptance: ordinary player handling, rendered inspection, frame
+performance, controller acceptance, alternate-path coverage and other seeds
+remain separate. The [model-28 route receipt](V15_ROUTE_AUDIT_RESULTS.json) is
+historical provenance only and must not be used as current acceptance.
 
 ## Performance evidence
 
-### Current v15 player-descent baseline
+### Current bounded high-speed scenario
 
-This retained model-28 measurement predates the model-29 pole/recovery/ghost
-integration. Its receipt remains valid for its recorded sources; it does not
-measure the combined current build. Use bounded current diagnostics for new
-cost questions before requesting any additional full-route baseline.
+The [current bounded high-speed receipt](CURRENT_V15_BOUNDED_HIGH_SPEED_PERFORMANCE_RESULTS.json)
+uses the live source/runtime identity, three independently warmed 15-second
+capture-free 4K High repetitions, and the agreed 170 km/h full-tuck/no-brake
+control protocol. It is the current measured dense-forest scenario evidence;
+it is not a whole-route baseline, visual inspection, or human/controller
+acceptance. Its individual runs and medians remain the source of any current
+frame-time claim.
+
+On 2026-09-13, the source-hashed model-35/generator-15 receipt recorded the
+following focused, source-stable repetitions. These are per-run measurements;
+the median row is the median of run statistics, not a pooled distribution.
+
+| Run | Frames | Average FPS | Mean ms | p95 ms | p99 ms | 1%-low FPS |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 1,116 | 74.38 | 13.44 | 19.09 | 29.17 | 25.98 |
+| 2 | 1,177 | 78.42 | 12.75 | 17.49 | 23.66 | 35.51 |
+| 3 | 1,175 | 78.37 | 12.76 | 18.03 | 24.81 | 32.43 |
+| Median statistic | — | 78.37 | 12.76 | 18.03 | 24.81 | 32.43 |
+
+The run held the Standard seed's dense-forest trace at 170 km/h for exactly
+1,800 solver ticks per repetition, at 3840x2160 output and 2880x1620 internal
+pixels (High preset 7, Auto FSR 4.1.1 at 0.75 scale, frame cap 0, frame
+generation and terrain GI off). It used a warm, source/engine-validated
+physical archive; 50.27 seconds of one-time scene preparation is reported
+separately and is not included in the 15-second frame samples.
+
+Recreate the trace and measured receipt with fresh labels after rechecking
+source identity; this production-mountain request is intentionally explicit:
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/performance_stress_trace.gd','--','--stress-speed-kmh=170','--seconds=15','--origin=583.4906616210938,-997.8701171875','--trace-output=artifacts/current_high_speed_stress/dense_forest_170.json') -Label current-v15-high-speed-trace -TimeoutSeconds 300 -FullMountain -FullMountainReason 'Generate the current dense-forest bounded speed-controlled performance trace'
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','current-v15-high-speed-170','-InputTrace','artifacts/current_high_speed_stress/dense_forest_170.json','-ScenarioReplay','-StressSpeedKmh','170','-TrialStartSeconds','0','-TrialSeconds','15','-Repetitions','3','-FrameCap','0','-Upscaler','auto','-RenderScale','0.75','-TerrainGI','off','-FrameGeneration','off','-ProfileFrameCosts') -Label current-v15-high-speed-170 -WorkloadMode FpsCritical -TimeoutSeconds 1200 -CollectGpuMemory -FullMountain -FullMountainReason 'Current dense-forest 4K High speed-controlled performance evidence'
+python tests/report_current_bounded_high_speed.py --label current-v15-high-speed-170 --guard current-v15-high-speed-170 --trace artifacts/current_high_speed_stress/dense_forest_170.json --output docs/CURRENT_V15_BOUNDED_HIGH_SPEED_PERFORMANCE_RESULTS.json
+```
+
+### Historical v15 player-descent baseline (model 28)
+
+This retained model-28 measurement predates later pole/recovery/ghost and
+physics changes. Its [receipt](V15_PERFORMANCE_BASELINE_RESULTS.json) remains
+valid for its recorded sources, but it does not measure the combined current
+build and is not current performance acceptance.
 
 2026-09-12: three capture-free replays of the user's **attempt 8**, a complete
 122.025-second descent, reproduced all 14,643 solver ticks and 122 checkpoints.
 All three stayed focused; 1,008 source hashes and 32 personal settings/record
 files stayed unchanged. The [structured receipt](V15_PERFORMANCE_BASELINE_RESULTS.json)
 retains each run, medians of run statistics, full identities and raw-evidence
-hashes. This completes the [baseline audit](../backlog/archive/AA-20260911-153903-current-4k-performance-baseline.md).
+hashes. This completed the historical [baseline audit](../backlog/archive/AA-20260911-153903-current-4k-performance-baseline.md).
 
 Workload: default Standard seed 849205174, generator 15/model 28, launch face
 index 0, recorded chase-camera profile/look, clear/day, full production scenery
@@ -808,7 +847,7 @@ evidence directory holds before/after personal-file hashes, the observed worker
 binary identity and route provenance. Detailed samples stay in ignored
 `artifacts/pc_environment/player-v15-4k-focused-20260912/`.
 
-### Historical narrower workloads
+### Historical narrower workloads (including interface)
 
 Historical v14/model-26 full descents and model-28 short routes also missed tail
 targets. Model-28 snow-contact laboratory samples at 4K/.75 FSR4 met their short
@@ -817,9 +856,10 @@ not establish sustained skiing.
 
 2026-09-11 v15/model-28 interface protocol: preset 7 missed summit p95 and snowy
 forest mean/p95/p99 targets; Ultra also missed tails. Preserve the exact rows,
-identities and limits in [structured results](INTERFACE_PERFORMANCE_RESULTS.json).
-This data remains byte-preserved from the original report. Fixed views, short
-moving cases and UI cost are not a complete-descent result.
+identities and limits in the [historical structured results](INTERFACE_PERFORMANCE_RESULTS.json).
+This data remains byte-preserved from the original report and is not current
+interface or skiing performance acceptance. Fixed views, short moving cases and
+UI cost are not a complete-descent result.
 
 ## Presentation evidence
 

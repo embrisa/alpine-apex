@@ -1,0 +1,200 @@
+{
+  "schema": 1,
+  "id": "7e22877510444adb9482dabd1e9f947d",
+  "summary": "Reclassify historical model-28 receipts and publish current bounded route and high-speed performance evidence",
+  "categories": [
+    "Maintenance",
+    "World"
+  ],
+  "areas": [
+    "Validation-evidence classification",
+    "Bounded default-v15 route audit",
+    "Bounded dense-forest performance measurement",
+    "World and validation documentation"
+  ],
+  "owned_paths": [
+    "docs/CURRENT_V15_BOUNDED_HIGH_SPEED_PERFORMANCE_RESULTS.json",
+    "docs/CURRENT_V15_BOUNDED_ROUTE_RESULTS.json",
+    "docs/VALIDATION.md",
+    "docs/WORLD.md",
+    "tests/alpine_v15_route_audit.gd",
+    "tests/report_current_bounded_high_speed.py",
+    "tests/report_v15_route_audit.py"
+  ],
+  "read_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "AGENTS.md",
+    "docs/ARCHITECTURE.md",
+    "docs/DEVELOPMENT.md",
+    "docs/INTERFACE_PERFORMANCE_RESULTS.json",
+    "docs/RENDERING.md",
+    "docs/V15_PERFORMANCE_BASELINE_RESULTS.json",
+    "docs/V15_ROUTE_AUDIT_RESULTS.json",
+    "docs/VALIDATION.md",
+    "docs/WORLD.md",
+    "scripts/benchmark_pc.ps1",
+    "scripts/core/ski_simulation.gd",
+    "scripts/run_guarded.ps1",
+    "scripts/versioning.py",
+    "scripts/world/generation_sources.gd",
+    "scripts/world/mountain_definition.gd",
+    "tests/alpine_v13_pilot.gd",
+    "tests/alpine_v13_route_survey.gd",
+    "tests/performance_stress.gd",
+    "tests/performance_stress_trace.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "The current evidence fixtures exercise the existing 120 Hz solver and tuning without changing production physics or model identity."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "The audit and benchmark use the existing Standard v15 generator, source-validated physical archive and production scenery; no generation code or recipe changes."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Historical receipts remain byte-preserved provenance and new current receipts are documentation evidence, not runtime save, replay, race or cache formats."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No production mountain data or recipe changed; the current evidence records the existing v15 Standard archive identity."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Route probes are unranked automated fixtures and do not write race data."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Evidence runs do not write personal records."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Evidence runs use synthetic bounded control and do not create or migrate ghosts."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "The guarded runs read the existing source/engine-validated physical and preparation caches without baking or changing cache formats."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/alpine_v15_route_audit.gd') -Label current-v15-bounded-route-audit -TimeoutSeconds 900 -FullMountain -FullMountainReason 'Current default-v15 route geometry and bounded speed-controlled probe evidence'; python tests/report_v15_route_audit.py",
+      "result": "passed",
+      "details": "The source-hashed Standard v15 audit completed six graph surveys and 18 exact 1,800-tick, 170 km/h bounded probes. The route receipt validates guard state, current engine/source/terrain identity and every probe trace."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical current-v15-high-speed-170-focused guard invoking scripts/benchmark_pc.ps1 with the fresh 170 km/h dense-forest trace, 3 repetitions and 15-second windows; python tests/report_current_bounded_high_speed.py --label current-v15-high-speed-170-focused-20260913 --guard current-v15-high-speed-170-focused --trace artifacts/current_high_speed_stress/dense_forest_170.json --output docs/CURRENT_V15_BOUNDED_HIGH_SPEED_PERFORMANCE_RESULTS.json",
+      "result": "passed",
+      "details": "Three focused source-stable 4K High repetitions completed cleanly. Median run statistics: 12.7605 ms mean, 18.025 ms p95, 24.807 ms p99 and 78.3668 average FPS. This is dense-forest bounded scenario performance only, not full-route acceptance."
+    },
+    {
+      "kind": "automated",
+      "command": "python -m py_compile tests/report_v15_route_audit.py tests/report_current_bounded_high_speed.py; git diff --check; current-receipt link and historical-label inspection",
+      "result": "passed",
+      "details": "Receipt producers compile; diff whitespace is clean; World and Validation point current claims only to the two source-hashed bounded receipts and label model-28 route, baseline and interface receipts as historical provenance."
+    },
+    {
+      "kind": "rendered",
+      "command": "No rendered inspection requested or performed",
+      "result": "not_required",
+      "details": "The route audit is headless and the performance measurement is intentionally capture-free; this evidence-only milestone makes no visual-quality claim."
+    },
+    {
+      "kind": "human",
+      "command": "Human/controller route and performance acceptance",
+      "result": "pending",
+      "details": "Synthetic speed control and test-only steering are not player input, so no human/controller acceptance is implied."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Rendered visual inspection, ordinary controller handling, full-route skiability and player/controller performance acceptance remain separate from the new automated and bounded performance receipts.",
+    "The focus-lost first performance batch was rejected and is retained only as diagnostic artifact evidence; the fresh focused batch is the sole current performance receipt."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-13T17:51:12.243018+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 12,
+      "commit": "371327aff307c920a619da18e6a5cf29e22049e9",
+      "modified": true,
+      "changes_sha256": "769f0d7ba6eebfb66336efdb48690e6972d44e5e04bc98497728d3550ca388ab",
+      "source_sha256": "8261b9ad0d8b5cdf28aa077045047678b90ee0a02e2ee9e8bb702f3af643003e",
+      "categories": [
+        "Maintenance",
+        "World"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": "0d096170cf3fca7fec2dbd28813d6d8a92ec05a98a397d5fd21e45075016cc4b",
+      ".agents/skills/alpine-validation/SKILL.md": "56dbb5f2d48a05cbbbb7ef06f4e53288bef1dffb047ead5c306058dced2f6839",
+      "AGENTS.md": "07fec0f686950161712eb441e5dd655b340bb0c8eaf5a5f6903ae5305a9db59c",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/ARCHITECTURE.md": "7b602329129fe51e6ec71874a3ba9697f86eef571b317ec0ad375dc4513b96b9",
+      "docs/CURRENT_V15_BOUNDED_HIGH_SPEED_PERFORMANCE_RESULTS.json": "8d643ca2a249f76998c91898102e8c1ff8deeb8aad1c55f2382bfdf285743088",
+      "docs/CURRENT_V15_BOUNDED_ROUTE_RESULTS.json": "754be30ddcf93b64a629c96cd71b2ad55b211fb5127574d4a0e013331307799c",
+      "docs/DEVELOPMENT.md": "f7910ed445af8d376625080ce351f1364a28a40f135893f74925c6649794e2e1",
+      "docs/INTERFACE_PERFORMANCE_RESULTS.json": "bd6b3ebf43e8cf9f22b74542846edda270b1d27a605a904c550ad2deb3e69385",
+      "docs/RENDERING.md": "31e1f8b176a0384d6bdb2dea190448ab7df8e2ef7aaf57334ef9fc6b551c037b",
+      "docs/V15_PERFORMANCE_BASELINE_RESULTS.json": "7fd825e7d955006b44ae8b4ba66fd8d08a86b2c3d01ad51ab5bd241a145af828",
+      "docs/V15_ROUTE_AUDIT_RESULTS.json": "f609ecaed0a9f0ca49f73d25f1cb73369f271f6d0a87f417d846213c92c3f176",
+      "docs/VALIDATION.md": "a97c3f54fca8328a0beb765879ec9978fb0b2bd00d1b4e2f55f0c7da92385177",
+      "docs/WORLD.md": "e703c8511411c3803f4cb08c905d2c75421936c9f7b03c7d9f5ee8460190b11e",
+      "project.godot": "ab7da5f47f5c39a842b849501ab3c8df818d481db9ea9283517a576cd4062c7d",
+      "scripts/benchmark_pc.ps1": "9704ed0a41c30ac863d523469b4ddaa196f959e48029f3a20d034ec94c8a3fca",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "c8375d4142f40481877919f2ed0800dfb4217fe0eb421575cb0aa11b2c8f1407",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/run_guarded.ps1": "67d133122cf22b25514f559d6f9d89ea52b6da0fc8ad24b7b5400612b21bec71",
+      "scripts/versioning.py": "473da19ad5e09d0a78f27d0b52bd5cf57d359b50337ceacb4c340124939804e4",
+      "scripts/world/generation_sources.gd": "759a8c3b56a7965d4afac545acd388d60d2f20bfd7bf9cb741ce135dd1974701",
+      "scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f",
+      "tests/alpine_v13_pilot.gd": "937b2b3464206a55d410cc0949c0ca3bfe967dead57584a94d511543c766d0d6",
+      "tests/alpine_v13_route_survey.gd": "5f141402ffecbbd09d79fabf00b0ebe28c9ac2b8c8dce7abdd8c7456d6165388",
+      "tests/alpine_v15_route_audit.gd": "04108addd9e8c13b4747a58bd57460da7d43dd725484c6e8d82dd5e56f42ccdc",
+      "tests/performance_stress.gd": "9694c748c8ed9f2820848e8a88509b46c3b12f1d826ea3389e42420692e1c3e1",
+      "tests/performance_stress_trace.gd": "5d03fd109d110b21b770ff7d0ff4c60dee3923349b70594478b583299bf27bc3",
+      "tests/report_current_bounded_high_speed.py": "4d730d18c157c7f4694b285163cd293bfbdd7548b808e780fba643020c75e6f0",
+      "tests/report_v15_route_audit.py": "daca57b54ae216627f96ee717eb7578a97c5c54e0e9ff9f90e71b3fec54e97eb"
+    }
+  }
+}

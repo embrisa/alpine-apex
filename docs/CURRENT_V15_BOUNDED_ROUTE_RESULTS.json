@@ -1,0 +1,1204 @@
+{
+  "acceptance": {
+    "automated": "passed: six source-hashed graph surveys and three exact 15-second 170 km/h full-tuck/no-brake probes per face",
+    "human_controller": "not_run: synthetic benchmark-only steering/control is not player acceptance",
+    "performance": "not_measured: headless probes contain no rendered frame-time acceptance",
+    "rendered": "not_run: headless route audit has no rendered inspection"
+  },
+  "cache": {
+    "hit": true,
+    "source": "user"
+  },
+  "checks": 116,
+  "classification": "current_source_hashed_bounded_route_scenario",
+  "evidence": {
+    "audit": "artifacts/current_v15_bounded_route_audit/audit.json",
+    "audit_sha256": "a861fc2308252c1eb3fa9b58f0fe82fccdae57fab141fe1ec5537dc62f7309d3",
+    "checkout_head_at_receipt": "371327aff307c920a619da18e6a5cf29e22049e9",
+    "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/alpine_v15_route_audit.gd') -Label current-v15-bounded-route-audit -TimeoutSeconds 900 -FullMountain -FullMountainReason 'Current default-v15 route geometry and bounded speed-controlled probe evidence'",
+    "guard": "artifacts/guarded/current-v15-bounded-route-audit/guard.json",
+    "guard_exit_code": 0,
+    "guard_sha256": "cf7f8751ba20d595024e363020d115935c30826b133baa193e21f18fe7033b24",
+    "receipt_command": "python tests/report_v15_route_audit.py",
+    "receipt_producer_sha256": "daca57b54ae216627f96ee717eb7578a97c5c54e0e9ff9f90e71b3fec54e97eb",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "d3953a9195749f189d6a23fa9753061ec2189c969c4156a3130acf8082134c0a"
+  },
+  "faces": [
+    {
+      "base_boundary_endpoint_separation_m": 2156.3230094742476,
+      "branch_rejoin_status": "sampled_alternatives_and_graph_rejoins",
+      "distributed_alternatives": true,
+      "endpoint_separation_m": 2400.0,
+      "face_index": 0,
+      "face_label": 1,
+      "graph_continuity": "two_endpoint_paths",
+      "graph_rejoin_nodes": 34012,
+      "heading_radians": -0.003619074821472168,
+      "median_reachable_width_m": 1026.0,
+      "minimum_reachable_width_m": 354.0,
+      "paths": [
+        {
+          "base_boundary_local_xz": [
+            -1095.1763201586691,
+            2631.176320158669
+          ],
+          "exposed_rock_samples": 8,
+          "first_sweep_hit": {},
+          "length_m": 3074.494903564453,
+          "minimum_contact_normal_y": 0.5900718569755554,
+          "nonfinite_samples": 0,
+          "point_count": 232,
+          "reaches_base": true,
+          "status": "no_path",
+          "support_samples": 1147,
+          "sweep_hits": 0,
+          "sweep_segments": 916
+        },
+        {
+          "base_boundary_local_xz": [
+            1061.101724137129,
+            2645.1017241371287
+          ],
+          "exposed_rock_samples": 0,
+          "first_sweep_hit": {},
+          "length_m": 3108.2330660820007,
+          "minimum_contact_normal_y": 0.6136692762374878,
+          "nonfinite_samples": 0,
+          "point_count": 235,
+          "reaches_base": true,
+          "status": "no_path",
+          "support_samples": 1162,
+          "sweep_hits": 0,
+          "sweep_segments": 928
+        }
+      ],
+      "probes": [
+        {
+          "base_progress_percent": 20.671219675164473,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_0_1.json",
+          "evidence_sha256": "3116919ecb4b1dc2a80271b904dcefa1239cd3b2f2af15bb541e1790c285043d",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 589.1297607421875,
+          "path_index": 0,
+          "position": [
+            -219.21585083007812,
+            3924.748291015625,
+            546.8256225585938
+          ],
+          "repetition": 1,
+          "sampled_max_face_offset_degrees": 23.10328615276778,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 170.00001068115236,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1781,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.00001068115236,
+              "mean": 169.99999519348148,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.6878432333469
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        },
+        {
+          "base_progress_percent": 20.671219675164473,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_0_2.json",
+          "evidence_sha256": "927bf6b845b08a73770cb98ed69263ab1b0ab48d109929c7ed01dc59e203e12e",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 589.1297607421875,
+          "path_index": 0,
+          "position": [
+            -219.21585083007812,
+            3924.748291015625,
+            546.8256225585938
+          ],
+          "repetition": 2,
+          "sampled_max_face_offset_degrees": 23.10328615276778,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 170.00001068115236,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1781,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.00001068115236,
+              "mean": 169.99999519348148,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.6878432333469
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        },
+        {
+          "base_progress_percent": 20.671219675164473,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_0_3.json",
+          "evidence_sha256": "25e11d261b1577458eb7da8f9b4ff986248918503bbe98465926a781e69abb1a",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 589.1297607421875,
+          "path_index": 0,
+          "position": [
+            -219.21585083007812,
+            3924.748291015625,
+            546.8256225585938
+          ],
+          "repetition": 3,
+          "sampled_max_face_offset_degrees": 23.10328615276778,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 170.00001068115236,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1781,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.00001068115236,
+              "mean": 169.99999519348148,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.6878432333469
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        }
+      ],
+      "reachable_rows": 231,
+      "sampling": {
+        "across_m": 6.0,
+        "downhill_m": 12.0,
+        "refinement": 1,
+        "safe_samples": 54412
+      },
+      "survey_status": "surveyed",
+      "total_rows_after_start": 231
+    },
+    {
+      "base_boundary_endpoint_separation_m": 2188.392205177253,
+      "branch_rejoin_status": "sampled_alternatives_and_graph_rejoins",
+      "distributed_alternatives": true,
+      "endpoint_separation_m": 2400.0,
+      "face_index": 1,
+      "face_label": 2,
+      "graph_continuity": "two_endpoint_paths",
+      "graph_rejoin_nodes": 30180,
+      "heading_radians": 1.0435784763751255,
+      "median_reachable_width_m": 798.0,
+      "minimum_reachable_width_m": 354.0,
+      "paths": [
+        {
+          "base_boundary_local_xz": [
+            -1118.6428070144473,
+            2621.2856140288945
+          ],
+          "exposed_rock_samples": 0,
+          "first_sweep_hit": {},
+          "length_m": 3060.278292655945,
+          "minimum_contact_normal_y": 0.6005482077598572,
+          "nonfinite_samples": 0,
+          "point_count": 232,
+          "reaches_base": true,
+          "status": "no_path",
+          "support_samples": 1134,
+          "sweep_hits": 0,
+          "sweep_segments": 903
+        },
+        {
+          "base_boundary_local_xz": [
+            1069.6546014816442,
+            2641.6546014816445
+          ],
+          "exposed_rock_samples": 0,
+          "first_sweep_hit": {},
+          "length_m": 3125.0010023117065,
+          "minimum_contact_normal_y": 0.5932528376579285,
+          "nonfinite_samples": 0,
+          "point_count": 232,
+          "reaches_base": true,
+          "status": "no_path",
+          "support_samples": 1158,
+          "sweep_hits": 0,
+          "sweep_segments": 927
+        }
+      ],
+      "probes": [
+        {
+          "base_progress_percent": 19.308970668859647,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_1_1.json",
+          "evidence_sha256": "5eb89a8d295d588712409fe7b3458be289ccf4d63b55bd6d8a68eab3c439c955",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 550.3056640625,
+          "path_index": 0,
+          "position": [
+            383.45526123046875,
+            3866.62744140625,
+            394.71307373046875
+          ],
+          "repetition": 1,
+          "sampled_max_face_offset_degrees": 16.798621080248928,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 170.00001068115236,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1722,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.0000244140625,
+              "mean": 169.99999481964022,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.821014881134
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        },
+        {
+          "base_progress_percent": 19.308970668859647,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_1_2.json",
+          "evidence_sha256": "59f9f2195dbf3538d809c1587cec5e922989a60aa74aa11a201120c3a3daa251",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 550.3056640625,
+          "path_index": 0,
+          "position": [
+            383.45526123046875,
+            3866.62744140625,
+            394.71307373046875
+          ],
+          "repetition": 2,
+          "sampled_max_face_offset_degrees": 16.798621080248928,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 170.00001068115236,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1722,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.0000244140625,
+              "mean": 169.99999481964022,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.821014881134
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        },
+        {
+          "base_progress_percent": 19.308970668859647,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_1_3.json",
+          "evidence_sha256": "2967632ccedd45d3844f6d4ec97b27cf636eedfe58f96016909b91d032ad1afb",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 550.3056640625,
+          "path_index": 0,
+          "position": [
+            383.45526123046875,
+            3866.62744140625,
+            394.71307373046875
+          ],
+          "repetition": 3,
+          "sampled_max_face_offset_degrees": 16.798621080248928,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 170.00001068115236,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1722,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.0000244140625,
+              "mean": 169.99999481964022,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.821014881134
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        }
+      ],
+      "reachable_rows": 231,
+      "sampling": {
+        "across_m": 6.0,
+        "downhill_m": 12.0,
+        "refinement": 1,
+        "safe_samples": 51655
+      },
+      "survey_status": "surveyed",
+      "total_rows_after_start": 231
+    },
+    {
+      "base_boundary_endpoint_separation_m": 2185.7341940842593,
+      "branch_rejoin_status": "sampled_alternatives_and_graph_rejoins",
+      "distributed_alternatives": true,
+      "endpoint_separation_m": 2400.0,
+      "face_index": 2,
+      "face_label": 3,
+      "graph_continuity": "two_endpoint_paths",
+      "graph_rejoin_nodes": 32925,
+      "heading_radians": 2.090776027571723,
+      "median_reachable_width_m": 960.0,
+      "minimum_reachable_width_m": 354.0,
+      "paths": [
+        {
+          "base_boundary_local_xz": [
+            -1192.305553799025,
+            2588.61110759805
+          ],
+          "exposed_rock_samples": 0,
+          "first_sweep_hit": {},
+          "length_m": 3138.804356575012,
+          "minimum_contact_normal_y": 0.6617946624755859,
+          "nonfinite_samples": 0,
+          "point_count": 235,
+          "reaches_base": true,
+          "status": "no_path",
+          "support_samples": 1162,
+          "sweep_hits": 0,
+          "sweep_segments": 928
+        },
+        {
+          "base_boundary_local_xz": [
+            991.8433339125919,
+            2671.843333912592
+          ],
+          "exposed_rock_samples": 0,
+          "first_sweep_hit": {},
+          "length_m": 3178.5087175369263,
+          "minimum_contact_normal_y": 0.6249868273735046,
+          "nonfinite_samples": 0,
+          "point_count": 248,
+          "reaches_base": true,
+          "status": "no_path",
+          "support_samples": 1192,
+          "sweep_hits": 0,
+          "sweep_segments": 945
+        }
+      ],
+      "probes": [
+        {
+          "base_progress_percent": 20.50978489925987,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_2_1.json",
+          "evidence_sha256": "e73c536299a8606220b6d0688a7fac3b62dcbf6eb69c581faa7ec94f17d3ad20",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 584.5288696289062,
+          "path_index": 0,
+          "position": [
+            583.5587768554688,
+            3939.35791015625,
+            -33.66252136230469
+          ],
+          "repetition": 1,
+          "sampled_max_face_offset_degrees": 27.413867723697965,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 169.9999969482422,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1800,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.00001068115236,
+              "mean": 169.9999946212757,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.7851178348064
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        },
+        {
+          "base_progress_percent": 20.50978489925987,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_2_2.json",
+          "evidence_sha256": "3cfcab90c25e49706027cd01fb9d1b1c0cbb8369c86d2f81a2aa0c67057e026d",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 584.5288696289062,
+          "path_index": 0,
+          "position": [
+            583.5587768554688,
+            3939.35791015625,
+            -33.66252136230469
+          ],
+          "repetition": 2,
+          "sampled_max_face_offset_degrees": 27.413867723697965,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 169.9999969482422,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1800,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.00001068115236,
+              "mean": 169.9999946212757,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.7851178348064
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        },
+        {
+          "base_progress_percent": 20.50978489925987,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_2_3.json",
+          "evidence_sha256": "474854520e2382e33b146d4f9c29e5e872e9a6eb7904225a26afab91f0fa2b35",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 584.5288696289062,
+          "path_index": 0,
+          "position": [
+            583.5587768554688,
+            3939.35791015625,
+            -33.66252136230469
+          ],
+          "repetition": 3,
+          "sampled_max_face_offset_degrees": 27.413867723697965,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 169.9999969482422,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1800,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.00001068115236,
+              "mean": 169.9999946212757,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.7851178348064
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        }
+      ],
+      "reachable_rows": 231,
+      "sampling": {
+        "across_m": 6.0,
+        "downhill_m": 12.0,
+        "refinement": 1,
+        "safe_samples": 52661
+      },
+      "survey_status": "surveyed",
+      "total_rows_after_start": 231
+    },
+    {
+      "base_boundary_endpoint_separation_m": 2194.5310697423934,
+      "branch_rejoin_status": "sampled_alternatives_and_graph_rejoins",
+      "distributed_alternatives": true,
+      "endpoint_separation_m": 2400.0,
+      "face_index": 3,
+      "face_label": 4,
+      "graph_continuity": "two_endpoint_paths",
+      "graph_rejoin_nodes": 32785,
+      "heading_radians": 3.137973578768321,
+      "median_reachable_width_m": 996.0,
+      "minimum_reachable_width_m": 354.0,
+      "paths": [
+        {
+          "base_boundary_local_xz": [
+            -1116.2889022299362,
+            2622.2889022299364
+          ],
+          "exposed_rock_samples": 1,
+          "first_sweep_hit": {},
+          "length_m": 3070.967004776001,
+          "minimum_contact_normal_y": 0.585332989692688,
+          "nonfinite_samples": 0,
+          "point_count": 232,
+          "reaches_base": true,
+          "status": "no_path",
+          "support_samples": 1146,
+          "sweep_hits": 0,
+          "sweep_segments": 915
+        },
+        {
+          "base_boundary_local_xz": [
+            1078.1845979342309,
+            2638.184597934231
+          ],
+          "exposed_rock_samples": 0,
+          "first_sweep_hit": {},
+          "length_m": 3144.5939388275146,
+          "minimum_contact_normal_y": 0.5979971885681152,
+          "nonfinite_samples": 0,
+          "point_count": 242,
+          "reaches_base": true,
+          "status": "no_path",
+          "support_samples": 1174,
+          "sweep_hits": 0,
+          "sweep_segments": 933
+        }
+      ],
+      "probes": [
+        {
+          "base_progress_percent": 20.507026538514253,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_3_1.json",
+          "evidence_sha256": "15a4c16cd349b45d0da0f337c1a6a42f3f9008469c3d87770c99549d7d493397",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 584.4502563476562,
+          "path_index": 0,
+          "position": [
+            271.7458801269531,
+            3938.2421875,
+            -517.4324340820312
+          ],
+          "repetition": 1,
+          "sampled_max_face_offset_degrees": 27.500261352938832,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 169.99998321533204,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1800,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.00001068115236,
+              "mean": 169.99999467468297,
+              "min": 169.99998321533204
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.8106814324856
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        },
+        {
+          "base_progress_percent": 20.507026538514253,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_3_2.json",
+          "evidence_sha256": "ee3f2d28c17b99da7f7804a5e46f5fe27263c1e848d2eaf661b753b6b20f7c9b",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 584.4502563476562,
+          "path_index": 0,
+          "position": [
+            271.7458801269531,
+            3938.2421875,
+            -517.4324340820312
+          ],
+          "repetition": 2,
+          "sampled_max_face_offset_degrees": 27.500261352938832,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 169.99998321533204,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1800,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.00001068115236,
+              "mean": 169.99999467468297,
+              "min": 169.99998321533204
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.8106814324856
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        },
+        {
+          "base_progress_percent": 20.507026538514253,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_3_3.json",
+          "evidence_sha256": "436d994f457855cd58fefdc47b8ba13700f4f26179592557fc3ca98758e4c178",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 584.4502563476562,
+          "path_index": 0,
+          "position": [
+            271.7458801269531,
+            3938.2421875,
+            -517.4324340820312
+          ],
+          "repetition": 3,
+          "sampled_max_face_offset_degrees": 27.500261352938832,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 169.99998321533204,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1800,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.00001068115236,
+              "mean": 169.99999467468297,
+              "min": 169.99998321533204
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.8106814324856
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        }
+      ],
+      "reachable_rows": 231,
+      "sampling": {
+        "across_m": 6.0,
+        "downhill_m": 12.0,
+        "refinement": 1,
+        "safe_samples": 54947
+      },
+      "survey_status": "surveyed",
+      "total_rows_after_start": 231
+    },
+    {
+      "base_boundary_endpoint_separation_m": 1847.576894444202,
+      "branch_rejoin_status": "sampled_alternatives_and_graph_rejoins",
+      "distributed_alternatives": true,
+      "endpoint_separation_m": 2160.0,
+      "face_index": 4,
+      "face_label": 5,
+      "graph_continuity": "two_endpoint_paths",
+      "graph_rejoin_nodes": 23559,
+      "heading_radians": 4.185171129964918,
+      "median_reachable_width_m": 618.0,
+      "minimum_reachable_width_m": 318.0,
+      "paths": [
+        {
+          "base_boundary_local_xz": [
+            -1061.101724137129,
+            2645.1017241371287
+          ],
+          "exposed_rock_samples": 5,
+          "first_sweep_hit": {},
+          "length_m": 3096.6200819015503,
+          "minimum_contact_normal_y": 0.5390909910202026,
+          "nonfinite_samples": 0,
+          "point_count": 232,
+          "reaches_base": true,
+          "status": "no_path",
+          "support_samples": 1141,
+          "sweep_hits": 0,
+          "sweep_segments": 910
+        },
+        {
+          "base_boundary_local_xz": [
+            784.0346194101863,
+            2740.034619410186
+          ],
+          "exposed_rock_samples": 0,
+          "first_sweep_hit": {},
+          "length_m": 3402.352852344513,
+          "minimum_contact_normal_y": 0.6323935389518738,
+          "nonfinite_samples": 0,
+          "point_count": 264,
+          "reaches_base": true,
+          "status": "no_path",
+          "support_samples": 1272,
+          "sweep_hits": 0,
+          "sweep_segments": 1009
+        }
+      ],
+      "probes": [
+        {
+          "base_progress_percent": 18.68125728138706,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_4_1.json",
+          "evidence_sha256": "1c5e37b676af206445904b501cf79761816a669250571710ff642e6d660fb825",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 532.4158325195312,
+          "path_index": 0,
+          "position": [
+            -356.384765625,
+            3851.870361328125,
+            -395.5458068847656
+          ],
+          "repetition": 1,
+          "sampled_max_face_offset_degrees": 17.77395080906853,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 170.00001068115236,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1740,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.00001068115236,
+              "mean": 169.99999485015752,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.6089514791965
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        },
+        {
+          "base_progress_percent": 18.68125728138706,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_4_2.json",
+          "evidence_sha256": "85b242e5be59a93882f419aac88bd1dd9b01602bff2def42a61ec8dc801e2ec0",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 532.4158325195312,
+          "path_index": 0,
+          "position": [
+            -356.384765625,
+            3851.870361328125,
+            -395.5458068847656
+          ],
+          "repetition": 2,
+          "sampled_max_face_offset_degrees": 17.77395080906853,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 170.00001068115236,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1740,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.00001068115236,
+              "mean": 169.99999485015752,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.6089514791965
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        },
+        {
+          "base_progress_percent": 18.68125728138706,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_4_3.json",
+          "evidence_sha256": "fa9a293ed4dfa1ef5e4e7ce8bf8926cf94169e23ea5ddcaa0afed59d6e793d19",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 532.4158325195312,
+          "path_index": 0,
+          "position": [
+            -356.384765625,
+            3851.870361328125,
+            -395.5458068847656
+          ],
+          "repetition": 3,
+          "sampled_max_face_offset_degrees": 17.77395080906853,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 170.00001068115236,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1740,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.00001068115236,
+              "mean": 169.99999485015752,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.6089514791965
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        }
+      ],
+      "reachable_rows": 231,
+      "sampling": {
+        "across_m": 6.0,
+        "downhill_m": 12.0,
+        "refinement": 1,
+        "safe_samples": 52388
+      },
+      "survey_status": "surveyed",
+      "total_rows_after_start": 231
+    },
+    {
+      "base_boundary_endpoint_separation_m": 2266.909422989363,
+      "branch_rejoin_status": "sampled_alternatives_and_graph_rejoins",
+      "distributed_alternatives": true,
+      "endpoint_separation_m": 2400.0,
+      "face_index": 5,
+      "face_label": 6,
+      "graph_continuity": "two_endpoint_paths",
+      "graph_rejoin_nodes": 35632,
+      "heading_radians": 5.232368681161517,
+      "median_reachable_width_m": 1092.0,
+      "minimum_reachable_width_m": 354.0,
+      "paths": [
+        {
+          "base_boundary_local_xz": [
+            -1118.6428070144473,
+            2621.2856140288945
+          ],
+          "exposed_rock_samples": 0,
+          "first_sweep_hit": {},
+          "length_m": 3058.1408166885376,
+          "minimum_contact_normal_y": 0.6524232625961304,
+          "nonfinite_samples": 0,
+          "point_count": 232,
+          "reaches_base": true,
+          "status": "no_path",
+          "support_samples": 1136,
+          "sweep_hits": 0,
+          "sweep_segments": 905
+        },
+        {
+          "base_boundary_local_xz": [
+            1148.230337423268,
+            2608.460674846536
+          ],
+          "exposed_rock_samples": 0,
+          "first_sweep_hit": {},
+          "length_m": 3053.8653230667114,
+          "minimum_contact_normal_y": 0.6221335530281067,
+          "nonfinite_samples": 0,
+          "point_count": 232,
+          "reaches_base": true,
+          "status": "no_path",
+          "support_samples": 1138,
+          "sweep_hits": 0,
+          "sweep_segments": 907
+        }
+      ],
+      "probes": [
+        {
+          "base_progress_percent": 21.074878358004387,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_5_1.json",
+          "evidence_sha256": "24e60ab130cbb77a193771799cfa2f58a510d9d93d7aaa036cbcae5c0873e197",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 600.634033203125,
+          "path_index": 0,
+          "position": [
+            -599.693359375,
+            3964.824462890625,
+            33.60222625732422
+          ],
+          "repetition": 1,
+          "sampled_max_face_offset_degrees": 27.616217167483505,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 169.9999969482422,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1800,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.0000244140625,
+              "mean": 169.99999526214464,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.7611777186394
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        },
+        {
+          "base_progress_percent": 21.074878358004387,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_5_2.json",
+          "evidence_sha256": "a6c8a7da83beed5819a5fc3bb9af930bf2ec2274e3cde969c81e1ba49306d4d0",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 600.634033203125,
+          "path_index": 0,
+          "position": [
+            -599.693359375,
+            3964.824462890625,
+            33.60222625732422
+          ],
+          "repetition": 2,
+          "sampled_max_face_offset_degrees": 27.616217167483505,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 169.9999969482422,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1800,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.0000244140625,
+              "mean": 169.99999526214464,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.7611777186394
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        },
+        {
+          "base_progress_percent": 21.074878358004387,
+          "crash_reason": "",
+          "evidence": "res://artifacts/current_v15_bounded_route_audit/probe_5_3.json",
+          "evidence_sha256": "98c30160732971ff555e386b79757658898e6a1efbd833353f36a4c7953d0959",
+          "face_coverage_sampling": "One-second positions plus final position; not every tick",
+          "maximum_radius_m": 600.634033203125,
+          "path_index": 0,
+          "position": [
+            -599.693359375,
+            3964.824462890625,
+            33.60222625732422
+          ],
+          "repetition": 3,
+          "sampled_max_face_offset_degrees": 27.616217167483505,
+          "sampled_positions_outside_30_degree_half_sector": 0,
+          "simulation_seconds": 15.0,
+          "speed_kmh": 169.9999969482422,
+          "status": "bounded_complete",
+          "stress": {
+            "grounded_ticks": 1800,
+            "immortal": true,
+            "nonblocking_contacts": 0,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {},
+            "speed_kmh": {
+              "max": 170.0000244140625,
+              "mean": 169.99999526214464,
+              "min": 169.99996948242188
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.7611777186394
+          },
+          "target_kind": "survey_path",
+          "ticks": 1800
+        }
+      ],
+      "reachable_rows": 231,
+      "sampling": {
+        "across_m": 6.0,
+        "downhill_m": 12.0,
+        "refinement": 1,
+        "safe_samples": 53872
+      },
+      "survey_status": "surveyed",
+      "total_rows_after_start": 231
+    }
+  ],
+  "finished_utc": "2026-09-13T17:38:02",
+  "harness_failures": [],
+  "human_controller_acceptance": false,
+  "identity": {
+    "engine": "4.7.2-stable (custom_build)",
+    "engine_sha256": "a18ddc9f3ee8fa1915a47d54c3e0d05ec4b10f8ee9deb15d7206b4e23d29bcc9",
+    "generator": "alpine-drainage",
+    "height_sha256": "e12569ae88d5c3c564e66ad6e3e5ed3744baa71398a914db6c954c6eba24e40e",
+    "model": 35,
+    "obstacle_sha256": "b84df994471e299e83aebbb114ad3d156f6f6a0306dbf44d8f8e08824c0d4159",
+    "physical_source_signature": "038e230d2d5b145bc914fad6e64a42ca695e11e8dbd1c743a92e1aae76dd67ac",
+    "recipe_key": "e6e179e8efd470ebb93812df26fbfb450469c7d8bbb424d23b1fbc9a72c24366",
+    "scenery_seed": 849205174,
+    "scenery_version": 3,
+    "seed": 849205174,
+    "settings": {
+      "landform_complexity": 1.0,
+      "mineral_density": 1.0,
+      "snow_feature_density": 1.0,
+      "tree_population": 1.0,
+      "tree_spacing": 1.0
+    },
+    "source_sha256": {
+      "res://assets/graphics/geology_v11/catalog.json": "90cc75f3403ec375b1b201e63c43ae6bb52f1219ed7488ba2c52b3a982acf402",
+      "res://assets/graphics/geology_v11/catalog.res": "e88266c655c662373408d3d31c522f3600615e14895dad195b0b18582297acd3",
+      "res://config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "res://project.godot": "ab7da5f47f5c39a842b849501ab3c8df818d481db9ea9283517a576cd4062c7d",
+      "res://scripts/core/air_rotation.gd": "5f95903a670320085abe28ad753335ed276ef26d5f253d993d159bd458ed979a",
+      "res://scripts/core/crash_recovery.gd": "1ba8ea13aec8073fc0ed82c140fa3ef98652ce9081c2f73b17e829f6729b3453",
+      "res://scripts/core/impact_recovery.gd": "c7f169c5c80366a7b8f2cde4ae210646d02bc42c67e76ba3bae8b0299a0e1163",
+      "res://scripts/core/input_router.gd": "36107732953f99163a2be36442ab3d0a9f0cf961b0b1f5ed6c797bcdd52a2a3b",
+      "res://scripts/core/landing_assist.gd": "3f7db4af6fae9491453309ec7845e468ffb79d6ff379979b9e84bfcf9afc401a",
+      "res://scripts/core/pole_propulsion.gd": "6cb782f300158070b0b1251176b585f7750d7000e510a414dd06d158da677d43",
+      "res://scripts/core/rider_body.gd": "38a6ead3215a0dc62d6c7040b8405879c542f5aad82b54fdf29d65dd70dda1e8",
+      "res://scripts/core/rider_facing_pose.gd": "697caabfbb071e4d10c0850e987feacf53485aac176a3a281922c8e21b03834c",
+      "res://scripts/core/rider_input.gd": "01386276a82a34fc8d08c05ca1699a6828874b9b4ddcb18003c7e612604ea2ac",
+      "res://scripts/core/rider_motion_state.gd": "7f5508289e4316962019e5b4ff3f085bf6aa42a5617dbdefa9c6f1235f18e96b",
+      "res://scripts/core/run_session.gd": "2a2ef5ef1af62dc35beca62527f13b26615907ff097ebdcb7ad3f89e9113e651",
+      "res://scripts/core/ski_contact.gd": "350c8ff204267578bf3ee4b9c6f3b2b38dd4793fae7e5223a4fa3b49a98828d6",
+      "res://scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "res://scripts/core/ski_tuning.gd": "0282270657427bae9e88604299e0d743106ad9973681e406faa804ed7b8b308c",
+      "res://scripts/core/snow_contact_assist.gd": "e67bc0c58b0d31e9b543664e3ed06988ca98c31fb204ba07c9cecd18a2cf27f5",
+      "res://scripts/core/snow_contact_response.gd": "5fe08cd75c3e09b8cecabdfc5ecd7ae07caf00108ec1c7e3837b1048ab7f4595",
+      "res://scripts/core/snow_crush_contact.gd": "f702db7091fbbd582596dad6fb06fd9a52d015ddee4d202c5504aa9238887985",
+      "res://scripts/core/terrain_material.gd": "732def7ac8a307326653c3a5ead86bf321e5beb44a9f85e19fc9b9a579384c7a",
+      "res://scripts/core/tree_dynamics.gd": "123f2cefdf9b6e1aef0efe5d84abe2faf42814b09066ab22f7928a9a455a57b1",
+      "res://scripts/world/alpine_backdrop.gd": "b6e6d8300c35125248c026f68266c055e47fc3ec8cb9743fdd670e6474f4bdc9",
+      "res://scripts/world/alpine_scenery.gd": "930b6a2b8b4f9a98712706d8ef95010aa85a51e5846df3516d194e07c665aa6c",
+      "res://scripts/world/alpine_wilderness.gd": "f360bee03e451a8ed918e4219ed34b55e1c168dd1a35fd02991eb2aba376024a",
+      "res://scripts/world/alpine_world.gd": "2e28a9842eeda1f9ed16a5b7dc82aaef1057e239c353fa46def66ae29ebfdacd",
+      "res://scripts/world/crash_collision.gd": "d384d728b1ef44e5d9690b13dffcdcd28b8364f4dbae2c04ead5b3a0c96ab80d",
+      "res://scripts/world/flavor_layout.gd": "8c7ea21da181a8d96b85537180e9d35b2b8c25dda1b53bec7673633aa347ac39",
+      "res://scripts/world/generated_mountain.gd": "ca7eb1d41c37fac1d6890bbcc3ed1ea2104ec6cde761170616d5262174b5be15",
+      "res://scripts/world/generation_estimates.gd": "04a379c563a88648b2b0725f8a9740d32d478973e8538874b887ac57e9f0ff20",
+      "res://scripts/world/generation_job.gd": "221282375842d54a91ea0564d24e0f3f703514596193dc1d1428bda7260310ef",
+      "res://scripts/world/generation_settings.gd": "57d42e5dd8109b42c5fd9a838c340452385662e62c1af24ef9b409b61734b67e",
+      "res://scripts/world/generation_sources.gd": "759a8c3b56a7965d4afac545acd388d60d2f20bfd7bf9cb741ce135dd1974701",
+      "res://scripts/world/generators/alpine_face_v15.gd": "ee1029f44421c3e36c7efde74974fae2485b7539da857e12da5f9cda3f843adc",
+      "res://scripts/world/generators/alpine_massif_v15.gd": "92d9af947c43b025f7e936c947ed480edeac8e3294ae1cfd3d76bc2378cc7fe9",
+      "res://scripts/world/generators/tree_snow_v15.gd": "c887dbd121a13f1436b03a4a459475ed3c364f8e22a5e40cfa1f8a8be0ac27c7",
+      "res://scripts/world/heightfield_surface.gd": "69b66efc0c7489b50b79b505fe63d22e95ed4bbf8cd8d07bc89cf074d6914db7",
+      "res://scripts/world/mineral_catalog.gd": "cc52d8ea3a3c911190de005b1aef95805fb9c3f893a551fca7689a6ee7580ff7",
+      "res://scripts/world/mineral_catalog_data.gd": "c7b61ede875424de978eb90cb43766ca14aa490ed45e40975714ff1c4210699a",
+      "res://scripts/world/mineral_collision.gd": "ffed485a0f90f0a46a5f5663926c6ba93cb87e8163de7742c09417e9f18155d3",
+      "res://scripts/world/mountain_archive.gd": "4997dbfb71d5a086f87878a95e46c664471eba5b845a4d4cd32a99b1d449a1e3",
+      "res://scripts/world/mountain_cache.gd": "0708d4767ccd641b7e57852d1b1bbb3c003407a249335ea12256a5107a6b2c11",
+      "res://scripts/world/mountain_cache_v11.gd": "7bc52bd031ba03d0edb3c67a322acbb81bf5e54ad604cac9b9566add657eacc4",
+      "res://scripts/world/mountain_cache_v12.gd": "0f4c35995d3f48b8dbc3bc5b45331cb94a4e1fa3f8a65ce77404594e01abbf70",
+      "res://scripts/world/mountain_cache_v13.gd": "50b9643a96067669d6b90984a153535266a8b6ae307d3e5b4930265413273ca3",
+      "res://scripts/world/mountain_cache_v14.gd": "7c55ccfbb648c9c9ac49ebcb5129db561bdf719d2a307e2636a0b6f15303070f",
+      "res://scripts/world/mountain_cache_v15.gd": "f826da67bf3a27d39df934aef331095319e25d34988460e7e0fabeda1ca41c6e",
+      "res://scripts/world/mountain_data.gd": "da4b1c1a3aa1f27344b86129efd64474a3d829120a20f02fd5a070c03783c385",
+      "res://scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f",
+      "res://scripts/world/mountain_flavor.gd": "792672b6a3fafe6905f41b2ba8663bed16e1aa3a512978a3c89522ed941f9b9a",
+      "res://scripts/world/mountain_footprint.gd": "d8c56466bb878fd0eb7b3ff4d45afaaa951bc396fb1171a52eac558648e99a1c",
+      "res://scripts/world/mountain_geology.gd": "875f6b7625a138fc19ee2224f65240c58edd1e772c1ac5508a0577fc8d44d2f6",
+      "res://scripts/world/mountain_geology_v12.gd": "479d11d4631df4dd22b82bae2616858feea2d32a9d8bb869299f87a75d5c5168",
+      "res://scripts/world/mountain_geology_v13.gd": "c4ca47f6776299b3d847ac21069cff26317cc69157f30183be0f3d791e475264",
+      "res://scripts/world/mountain_geology_v15.gd": "ac872eb5754bcefe990685e78c678a09149d962b0f5d6e8bbc3aad175cdac5c5",
+      "res://scripts/world/mountain_preparation.gd": "399f6560fd9e5721aabc7cb12bb417b32a2301cbf3d11854329f80f79fd7ba1a",
+      "res://scripts/world/mountain_store.gd": "7539de32733eaedaf086c34d156b2717505e96b6fa7b8a73e8eadd2cf4cae7a2",
+      "res://scripts/world/mountain_zone.gd": "8dc45efa9612dcf15ab6165e651d3ad284fc3da8a418851d2e43b1a0f7549593",
+      "res://scripts/world/obstacle_access.gd": "6555b370590755ace8fcaee5baf1c164748d512e89dcbc4aadc86a37ed4a1ec4",
+      "res://scripts/world/packed_trees.gd": "71c357c1bedeb5d23170175759ffee1b38589aefea2c38f4a172b65600b896cf",
+      "res://scripts/world/prop_collision_surface.gd": "bdc34dbd5a041d548657c73fa2b23ac71fdc7806433fc10d45cb071bcc97abea",
+      "res://scripts/world/scenery_cache.gd": "7f4e71df691f0f7288f311ab6445d0f6d7e12c1f8186b7378d53bf9ac3d6e95b",
+      "res://scripts/world/terrain_preparation.gd": "5802dad2701c5f5ecd476bed27d55de89536b6351800493c12cd8d5d126f1f9f",
+      "res://scripts/world/test_slope.gd": "8d722fd858ad86fc154fd523a3d8d1b73cd6b627fa4c481719b889e9d6dff887",
+      "res://scripts/world/wilderness_asset.gd": "2370f5a5eddd865c439ff1a60f254cd32a46b8fbc20f7d47ed4a28116202cfc0",
+      "res://scripts/world/wilderness_atmosphere.gd": "71d2504b254b17667644950c5d958b4b7c8fc05e19b9c288b51c611a79e741f9",
+      "res://scripts/world/wilderness_data.gd": "6764ee6c48960173fc70c69faec5b8a34f95b787fe7d07530bfe8eced4cec46f",
+      "res://scripts/world/wilderness_instances.gd": "6f67d0270d7e762ec212684225ea1941ad8897218a9d018d979fa1f90d1c4a87",
+      "res://scripts/world/wilderness_props.gd": "ced7cc434a23396f9f0f25a74694b27c3041a6c1832c8a3b2d22ec0ea8c8637f",
+      "res://tests/alpine_v13_pilot.gd": "937b2b3464206a55d410cc0949c0ca3bfe967dead57584a94d511543c766d0d6",
+      "res://tests/alpine_v13_route_survey.gd": "5f141402ffecbbd09d79fabf00b0ebe28c9ac2b8c8dce7abdd8c7456d6165388",
+      "res://tests/alpine_v15_route_audit.gd": "04108addd9e8c13b4747a58bd57460da7d43dd725484c6e8d82dd5e56f42ccdc",
+      "res://tests/performance_stress.gd": "9694c748c8ed9f2820848e8a88509b46c3b12f1d826ea3389e42420692e1c3e1"
+    },
+    "version": 15
+  },
+  "method": {
+    "control": "Full tuck, no braking; benchmark-only driver regulates velocity before and after each unchanged 120 Hz production-solver tick while retaining support, pose and collision queries",
+    "edge_clearance_m": 1.5,
+    "graph_max_edge_grade": 1.5,
+    "graph_max_exposed_run_m": 30,
+    "graph_min_contact_normal_y": 0.6,
+    "graph_min_edge_drop_m": 0.2,
+    "intent_interval_ticks": 12,
+    "limitations": "Surveyed geometry and speed-controlled probes are automated bounded evidence only. They do not establish ordinary handling, dynamic skiability, rendered quality, frame performance, human/controller acceptance, alternate-path coverage or other seeds.",
+    "node_clearance_m": 1.8,
+    "obstacles": "Production tree and mineral swept rider contract",
+    "probe": "Three matched bounded speed-controlled route probes per face; retained route follower supplies steering only",
+    "probe_hz": 120,
+    "probe_repetitions": 3,
+    "probe_seconds": 15,
+    "rejoin_scope": "Reachable graph nodes with multiple accepted incoming edges; not independently skied branches",
+    "stop_condition": "Clean stop after exactly 1,800 simulation ticks; no base/finish completion is sought",
+    "stress_speed_kmh": 170.0,
+    "support_check_spacing_m": 4.0,
+    "survey": "Retained height-ordered graph, 6 x 12 m; one 3 x 6 m refinement if needed"
+  },
+  "performance_measurement": false,
+  "population": {
+    "minerals": 16022,
+    "trees": 200000
+  },
+  "rendered_inspection": false,
+  "schema": 2,
+  "started_utc": "2026-09-13T17:36:46",
+  "status": "complete",
+  "unranked": true
+}
