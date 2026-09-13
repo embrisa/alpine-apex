@@ -1,0 +1,4583 @@
+{
+  "schema": 1,
+  "scope": "Bounded Standard mountain grass-only performance; not a complete descent or human acceptance",
+  "aggregation": "Three independent launches per control, three warmed repetitions per launch. Medians of individual run statistics; percentiles are not pooled.",
+  "targets": {
+    "average_rendered_fps_min": 90,
+    "frame_p95_ms_max": 11.1,
+    "frame_p99_ms_max": 16.7
+  },
+  "habitats": {
+    "forest": {
+      "controls": {
+        "off": {
+          "summary": {
+            "average_fps": 81.2222554586094,
+            "median_fps": 87.1004267920913,
+            "mean": 12.3118964667215,
+            "p50": 11.481,
+            "p95": 17.126,
+            "p99": 22.631,
+            "slowest_one_percent_fps": 41.7347755016868,
+            "max": 29.666,
+            "gpu_ms_mean": 9.98071259971426,
+            "render_cpu_ms_mean": 1.56466984872128,
+            "draw_calls_mean": 1032.2428115016,
+            "submitted_primitives_mean": 12975275.1662689,
+            "submitted_objects_mean": 1474.94488817891,
+            "average_fps_range": [
+              61.0744171414729,
+              84.2768849607164
+            ],
+            "runs": 9
+          },
+          "target_met": false
+        },
+        "on": {
+          "summary": {
+            "average_fps": 73.3628502542066,
+            "median_fps": 74.0631017627018,
+            "mean": 13.6308771610555,
+            "p50": 13.502,
+            "p95": 18.12,
+            "p99": 23.575,
+            "slowest_one_percent_fps": 37.5008203304447,
+            "max": 35.519,
+            "gpu_ms_mean": 10.5512252910646,
+            "render_cpu_ms_mean": 1.81872626680383,
+            "draw_calls_mean": 1113.14642857143,
+            "submitted_primitives_mean": 13700023.3480176,
+            "submitted_objects_mean": 1555.80982142857,
+            "average_fps_range": [
+              70.4333721996476,
+              77.7038278547795
+            ],
+            "runs": 9
+          },
+          "target_met": false
+        }
+      },
+      "added_mean_ms": 1.318980694334,
+      "added_gpu_ms": 0.5705126913503413,
+      "settled_population_start_end": [
+        [
+          8778,
+          496,
+          261
+        ],
+        [
+          8081,
+          496,
+          261
+        ]
+      ],
+      "exact_state_matches_all_controls": true
+    },
+    "transition": {
+      "controls": {
+        "off": {
+          "summary": {
+            "average_fps": 75.282801043441,
+            "median_fps": 74.6937556020317,
+            "mean": 13.2832464539007,
+            "p50": 13.388,
+            "p95": 17.509,
+            "p99": 22.588,
+            "slowest_one_percent_fps": 34.4013026626608,
+            "max": 38.724,
+            "gpu_ms_mean": 10.9301699568419,
+            "render_cpu_ms_mean": 1.30714630029083,
+            "draw_calls_mean": 716.116738197425,
+            "submitted_primitives_mean": 10720568.8261618,
+            "submitted_objects_mean": 1165.15364806867,
+            "average_fps_range": [
+              73.5051884639621,
+              77.8351538296566
+            ],
+            "runs": 9
+          },
+          "target_met": false
+        },
+        "on": {
+          "summary": {
+            "average_fps": 70.717669487516,
+            "median_fps": 69.5265243690468,
+            "mean": 14.1407374881964,
+            "p50": 14.383,
+            "p95": 18.811,
+            "p99": 23.665,
+            "slowest_one_percent_fps": 38.1516563021334,
+            "max": 34.518,
+            "gpu_ms_mean": 11.4976161025712,
+            "render_cpu_ms_mean": 1.49889755618752,
+            "draw_calls_mean": 774.856392294221,
+            "submitted_primitives_mean": 10945179.0071942,
+            "submitted_objects_mean": 1223.86339754816,
+            "average_fps_range": [
+              65.9324232701414,
+              77.0393908947986
+            ],
+            "runs": 9
+          },
+          "target_met": false
+        }
+      },
+      "added_mean_ms": 0.8574910342957001,
+      "added_gpu_ms": 0.567446145729301,
+      "settled_population_start_end": [
+        [
+          1541,
+          496,
+          261
+        ],
+        [
+          3035,
+          496,
+          261
+        ]
+      ],
+      "exact_state_matches_all_controls": true
+    }
+  },
+  "environment": {
+    "environment": {
+      "weather_seed": 849205174,
+      "video": [
+        {
+          "Name": "AMD Radeon RX 9070",
+          "DriverVersion": "32.0.31041.1004",
+          "DriverDate": "2026-08-17T02:00:00+02:00",
+          "CurrentHorizontalResolution": 3840,
+          "CurrentVerticalResolution": 2160
+        }
+      ],
+      "logical_processors": 12,
+      "weather": "clear",
+      "os": {
+        "Caption": "Microsoft Windows 11 Pro",
+        "Version": "10.0.26200",
+        "BuildNumber": "26200"
+      },
+      "time_of_day": "day"
+    },
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+    "installed_ram_bytes": 17099018240,
+    "engine_path": "C:\\Users\\hp\\Downloads\\alpine-apex\\.tools\\godot-fsr\\bin\\godot.windows.template_debug.x86_64.console.exe",
+    "engine_sha256": "0C4E9E4D32C3E550189F463EFBF16BD7325CD26EAE69B6718A40DC4088EF0B0B"
+  },
+  "limitations": [
+    "Windows GPU allocation totals and engine video-memory monitors are not physical VRAM occupancy.",
+    "Three repeat visits per launch establish bounded observed residency, not an unlimited-duration leak proof.",
+    "Synthetic 170 km/h stress and GPU pass diagnostics are reported separately.",
+    "Standard second-seed visual/habitat controls retain the functional evidence; these timings cover the default Standard seed only.",
+    "The first constant-control forest attempt survived contacts and is excluded from matched acceptance. The surveyed-cell high-speed trace covered only 409 m and was rejected before FPS playback."
+  ],
+  "measured_utc_dates": [
+    "2026-09-13"
+  ],
+  "identity": {
+    "identity": {
+      "generator": 15,
+      "height": "e12569ae88d5c3c564e66ad6e3e5ed3744baa71398a914db6c954c6eba24e40e",
+      "model": 35,
+      "obstacles": "b84df994471e299e83aebbb114ad3d156f6f6a0306dbf44d8f8e08824c0d4159",
+      "sources": {
+        "res://config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "res://scripts/core/air_rotation.gd": "5f95903a670320085abe28ad753335ed276ef26d5f253d993d159bd458ed979a",
+        "res://scripts/core/crash_recovery.gd": "1ba8ea13aec8073fc0ed82c140fa3ef98652ce9081c2f73b17e829f6729b3453",
+        "res://scripts/core/impact_recovery.gd": "c7f169c5c80366a7b8f2cde4ae210646d02bc42c67e76ba3bae8b0299a0e1163",
+        "res://scripts/core/input_router.gd": "36107732953f99163a2be36442ab3d0a9f0cf961b0b1f5ed6c797bcdd52a2a3b",
+        "res://scripts/core/landing_assist.gd": "3f7db4af6fae9491453309ec7845e468ffb79d6ff379979b9e84bfcf9afc401a",
+        "res://scripts/core/pole_propulsion.gd": "6cb782f300158070b0b1251176b585f7750d7000e510a414dd06d158da677d43",
+        "res://scripts/core/rider_body.gd": "38a6ead3215a0dc62d6c7040b8405879c542f5aad82b54fdf29d65dd70dda1e8",
+        "res://scripts/core/rider_facing_pose.gd": "697caabfbb071e4d10c0850e987feacf53485aac176a3a281922c8e21b03834c",
+        "res://scripts/core/rider_input.gd": "01386276a82a34fc8d08c05ca1699a6828874b9b4ddcb18003c7e612604ea2ac",
+        "res://scripts/core/rider_motion_state.gd": "7f5508289e4316962019e5b4ff3f085bf6aa42a5617dbdefa9c6f1235f18e96b",
+        "res://scripts/core/ski_contact.gd": "350c8ff204267578bf3ee4b9c6f3b2b38dd4793fae7e5223a4fa3b49a98828d6",
+        "res://scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+        "res://scripts/core/ski_tuning.gd": "0282270657427bae9e88604299e0d743106ad9973681e406faa804ed7b8b308c",
+        "res://scripts/core/snow_contact_assist.gd": "e67bc0c58b0d31e9b543664e3ed06988ca98c31fb204ba07c9cecd18a2cf27f5",
+        "res://scripts/core/snow_contact_response.gd": "5fe08cd75c3e09b8cecabdfc5ecd7ae07caf00108ec1c7e3837b1048ab7f4595",
+        "res://scripts/core/snow_crush_contact.gd": "f702db7091fbbd582596dad6fb06fd9a52d015ddee4d202c5504aa9238887985",
+        "res://scripts/core/terrain_material.gd": "732def7ac8a307326653c3a5ead86bf321e5beb44a9f85e19fc9b9a579384c7a",
+        "res://scripts/core/tree_dynamics.gd": "123f2cefdf9b6e1aef0efe5d84abe2faf42814b09066ab22f7928a9a455a57b1",
+        "res://scripts/world/generators/alpine_face_v10.gd": "72e16805790db4b9675b7d8dd8c5037faee4c746b9a76976b439ad8f315fe339",
+        "res://scripts/world/generators/alpine_face_v12.gd": "dc857b62ce9e008671a7b67f18570f4fc5cce6e0e0f445d4a4121a5a919ebc9b",
+        "res://scripts/world/generators/alpine_face_v13.gd": "ddc488b596f9614f76a7f90f7cbdbbdf5c2ee4c52f9a364a1aeeda30e9f64ceb",
+        "res://scripts/world/generators/alpine_face_v14.gd": "2f57af2019421fe29674728ce3bdb5db4902065db0096e87adc50103860bf6ee",
+        "res://scripts/world/generators/alpine_face_v15.gd": "ee1029f44421c3e36c7efde74974fae2485b7539da857e12da5f9cda3f843adc",
+        "res://scripts/world/generators/alpine_massif_v10.gd": "c31370ed8359d90e1709a13eaaca3b2d4c7e9764e19a15e953c22e743cc42e7f",
+        "res://scripts/world/generators/alpine_massif_v11.gd": "ee623520b2ba11670b58e1ca1e38ec1f31a0b1c0c06da5dadf162c2025709d9a",
+        "res://scripts/world/generators/alpine_massif_v12.gd": "9b265a73a3a47cc9fae702d56ca4e25b1184e119185a68bc67a27d5c974bf8da",
+        "res://scripts/world/generators/alpine_massif_v13.gd": "ebd3e792f3f1d625d5003a13624a77bc791704369d09cd08a6b51089021398f1",
+        "res://scripts/world/generators/alpine_massif_v14.gd": "2e3a50f76d3fb8ecfeb4060fdf6a8289d01b9ba07935504bd06af965fb31e46d",
+        "res://scripts/world/generators/alpine_massif_v15.gd": "92d9af947c43b025f7e936c947ed480edeac8e3294ae1cfd3d76bc2378cc7fe9",
+        "res://scripts/world/generators/drainage_v1.gd": "0215cc55c6d5d82d42276aefd6edd20f84e7fdbe1a82d7a0e685fd68a16a37b6",
+        "res://scripts/world/generators/drainage_v2.gd": "1d7daf07bd945013cba067f448f24791d2bd6f1c8c58c80ac758ffd174d7707c",
+        "res://scripts/world/generators/drainage_v3.gd": "f69785ba338de18e884d21b78bb4e5ae5d421def725f3ba9a962d3327124629b",
+        "res://scripts/world/generators/technical_showcase_v5.gd": "da01d369bd5637683f0e8ae1efa992c55b2da4c09a747fbc154cacacbffb0edd",
+        "res://scripts/world/generators/technical_showcase_v6.gd": "c18a207ba6ade8e75712a09aa1cd8c9f72441a9a63599c3b6e0fe935c7f95a4a",
+        "res://scripts/world/generators/technical_showcase_v7.gd": "353313843a200809092daac44b39169a8c1a5da0016a081592b5a6049c150448",
+        "res://scripts/world/generators/technical_showcase_v8.gd": "89b333f348ddf7a77a4225e7d9ab38fc4c23bee4009447a2f9f9691fd4737d94",
+        "res://scripts/world/generators/technical_showcase_v9.gd": "6da34d6ef6f2da12233b74cad9a0d61b9c180fb28f3167a6863379ba6e771ed9",
+        "res://scripts/world/generators/tree_snow_v14.gd": "bb9ad7d3fdba54ec08b8e70aa95c6a6c622ff5f6d22b732bd4752affd60fb3db",
+        "res://scripts/world/generators/tree_snow_v15.gd": "c887dbd121a13f1436b03a4a459475ed3c364f8e22a5e40cfa1f8a8be0ac27c7",
+        "res://scripts/world/heightfield_surface.gd": "69b66efc0c7489b50b79b505fe63d22e95ed4bbf8cd8d07bc89cf074d6914db7",
+        "res://scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f"
+      }
+    },
+    "actual_pixels": [
+      3840,
+      2160
+    ],
+    "graphics_profile": {
+      "backdrop_tier": 2,
+      "contact_intensity": 0.2,
+      "contact_shading": true,
+      "fog_strength": 1.0,
+      "grain_budget": 256,
+      "highlight_glow": true,
+      "highlight_glow_intensity": 0.385,
+      "indirect_intensity": 0.55,
+      "indirect_lighting": true,
+      "mesh_lod_bias": 1.0,
+      "mist_budget": 128,
+      "normal_strength": 0.42,
+      "offmap_prop_density": 1.0,
+      "offmap_snow_detail": false,
+      "offmap_tree_distance_m": 6000.0,
+      "scrub_density": 1.0,
+      "scrub_distance_m": 130.0,
+      "shadow_distance_m": 220.0,
+      "shadow_quality": 2,
+      "shaft_strength": 1.0,
+      "snow_crystal_density": 1.75,
+      "snow_local_deformation": true,
+      "snow_sheen": 0.1584,
+      "snow_sparkle": 9.0,
+      "snow_track_capacity": 4096,
+      "snow_track_relief": true,
+      "spray_budget": 384,
+      "terrain_gi": false,
+      "texture_tier": 2,
+      "tree_far_m": 1300.0,
+      "tree_mid_m": 280.0,
+      "tree_near_m": 95.0,
+      "volumetric_shafts": true,
+      "weather_budget": 1.0,
+      "weather_quality": 2
+    },
+    "graphics_preset": 7,
+    "renderer": "forward_plus",
+    "rendering_driver": "d3d12",
+    "camera": {
+      "presets": {
+        "chase": {},
+        "first_person": {}
+      },
+      "profiles": {
+        "chase": {
+          "acceleration_time": 0.4,
+          "bank_strength": 35.0,
+          "blur_strength": 50.0,
+          "boom_response": 7.5,
+          "carve_strength": 50.0,
+          "chatter_strength": 0.0,
+          "compression_strength": 50.0,
+          "deceleration_time": 0.4,
+          "eye_height": 1.45,
+          "fast_distance": 4.5,
+          "fast_fov": 75.0,
+          "fast_height": 3.5,
+          "fast_tilt": -45.0,
+          "heading_response": 5.5,
+          "motion_blur_enabled": false,
+          "motion_blur_strength": 50.0,
+          "rest_distance": 3.0,
+          "rest_fov": 55.0,
+          "rest_height": 3.0,
+          "rest_tilt": -45.0,
+          "slope_follow": 100.0,
+          "slope_smoothing": 0.35,
+          "speed_exponent": 1.6,
+          "speed_full": 200.0,
+          "speed_start": 0.0,
+          "streak_strength": 50.0,
+          "tuck_lowering": 0.35,
+          "tuck_strength": 50.0,
+          "vertical_smoothing": 50.0
+        },
+        "first_person": {
+          "acceleration_time": 0.4,
+          "bank_strength": 35.0,
+          "blur_strength": 50.0,
+          "boom_response": 7.5,
+          "carve_strength": 50.0,
+          "chatter_strength": 0.0,
+          "compression_strength": 50.0,
+          "deceleration_time": 0.4,
+          "eye_height": 1.45,
+          "fast_distance": 4.5,
+          "fast_fov": 75.0,
+          "fast_height": 3.5,
+          "fast_tilt": -25.0,
+          "heading_response": 5.5,
+          "motion_blur_enabled": false,
+          "motion_blur_strength": 50.0,
+          "rest_distance": 3.0,
+          "rest_fov": 55.0,
+          "rest_height": 3.0,
+          "rest_tilt": -25.0,
+          "slope_follow": 100.0,
+          "slope_smoothing": 0.35,
+          "speed_exponent": 1.6,
+          "speed_full": 200.0,
+          "speed_start": 0.0,
+          "streak_strength": 50.0,
+          "tuck_lowering": 0.35,
+          "tuck_strength": 50.0,
+          "vertical_smoothing": 50.0
+        }
+      },
+      "selected": {
+        "chase": "Connected",
+        "first_person": "Connected"
+      },
+      "shared": {
+        "auto_recenter": true,
+        "forest_visibility": 60.0,
+        "forest_visibility_strength": 100.0,
+        "invert_y": false,
+        "mouse_sensitivity": 0.1,
+        "recenter_delay": 0.8,
+        "recenter_time": 0.35,
+        "stick_deadzone": 0.18,
+        "stick_exponent": 2.0,
+        "stick_pitch_speed": 100.0,
+        "stick_yaw_speed": 150.0
+      },
+      "version": 2
+    },
+    "weather": "clear",
+    "sdfgi": false,
+    "display": {
+      "output_pixels": [
+        3840,
+        2160
+      ],
+      "internal_pixels_from_viewport_scale": [
+        2880,
+        1620
+      ],
+      "viewport_scale": 0.75,
+      "preferences": {
+        "anisotropic": 2,
+        "custom": true,
+        "display_mode": "fullscreen",
+        "fps_limit": 120,
+        "frame_generation": false,
+        "monitor": -1,
+        "msaa": 1,
+        "overrides": {
+          "weather_quality": 2
+        },
+        "quality": 7,
+        "render_scale": 0.75,
+        "resolution": "(0, 0)",
+        "sharpness": 0.825,
+        "terrain_gi": false,
+        "upscaler": "auto",
+        "vsync": 0
+      },
+      "msaa": 0,
+      "fps_limit": 120
+    },
+    "engine_sha256": "0C4E9E4D32C3E550189F463EFBF16BD7325CD26EAE69B6718A40DC4088EF0B0B"
+  },
+  "runtime_sha256": "a18ddc9f3ee8fa1915a47d54c3e0d05ec4b10f8ee9deb15d7206b4e23d29bcc9",
+  "full_source_table_sha256": "d6aa34f8b0d93caf33051468b2101605ba7dddb2b2f4006a20324d573293454d",
+  "baseline_forest": {
+    "off": {
+      "average_fps": 76.8714662333903,
+      "median_fps": 78.2932080642004,
+      "mean": 13.0087280625543,
+      "p50": 12.7725,
+      "p95": 17.413,
+      "p99": 21.845,
+      "slowest_one_percent_fps": 42.4043252411746,
+      "max": 36.647,
+      "gpu_ms_mean": 10.4094700266443,
+      "render_cpu_ms_mean": 1.62381754866069,
+      "draw_calls_mean": 1036.93310165074,
+      "submitted_primitives_mean": 13015286.3254593,
+      "submitted_objects_mean": 1479.71155516942,
+      "average_fps_range": [
+        76.30173564753,
+        77.5631655864114
+      ],
+      "runs": 3
+    },
+    "on": {
+      "average_fps": 64.0574082626442,
+      "median_fps": 69.5265243690468,
+      "mean": 15.6109968717414,
+      "p50": 14.383,
+      "p95": 25.145,
+      "p99": 52.304,
+      "slowest_one_percent_fps": 17.5401669823897,
+      "max": 73.162,
+      "gpu_ms_mean": 11.5187507447286,
+      "render_cpu_ms_mean": 1.95573514320803,
+      "draw_calls_mean": 1183.44422110553,
+      "submitted_primitives_mean": 14806854.6834171,
+      "submitted_objects_mean": 1626.20100502513,
+      "average_fps_range": [
+        59.7938441869961,
+        66.4458039307868
+      ],
+      "runs": 3
+    }
+  },
+  "runtime_source_sha256": {
+    "assets\\graphics\\terrain_grass.gdshader": "9C031568FB3696DC315BC0A37383719AAC0EC31A5268FE07BEA9FC167BFD267F",
+    "scripts\\presentation\\grass_motion.gd": "FFE558FA8A522F214E50D2336ABBD5B23D9ABA5C8884515C688DCB813A140526",
+    "scripts\\benchmark_pc.ps1": "227D1CC27DB70F566DB34B9227F5BEDB508784BC100CF96BC7E90B1195B458E8",
+    "assets\\graphics\\grass_motion.gdshaderinc": "7CF134FF693271271A7D8028C6B65B0415DD69CD1777737A9F83E53378017722",
+    "tests\\performance_trace.gd": "1A639CD54C64E51ACC04A088208CAEBCA09DCB43703F38B8043340C4A2E6EFF7",
+    "scripts\\presentation\\terrain_grass.gd": "E12DF5A7A175BCD307BB9A1607AAEE3FF23E4416EE3D3033D9D85FFC4A5C4991",
+    "tests\\performance_descent.gd": "5D21CBF325117F1D13ACC266407BCDBE6B75D04A3A8D31B3B5212FE6FBD86834",
+    "tests\\camera_performance_descent.gd": "2CC40F770C6EEBE9FB4B1DFF7194A106DE4A228CC3D3FFC8121FC9B6D858AA77",
+    "scripts\\presentation\\grass_placement.gd": "2A0E5215848DB118D63512A0ED67B8B20DC4B82AFDBC46FAED06E416CB49C1F0"
+  },
+  "launches": {
+    "grass_candidate_forest_off_1": {
+      "trace_sha256": "4c415390a182150b678e4c38d8d9785ea408c25962ec5001ccf81d93ac6bfe8a",
+      "summary": {
+        "average_fps": 81.6804388962251,
+        "median_fps": 88.1678716275789,
+        "mean": 12.2428333333333,
+        "p50": 11.342,
+        "p95": 17.03,
+        "p99": 23.311,
+        "slowest_one_percent_fps": 39.1994861851965,
+        "max": 29.666,
+        "gpu_ms_mean": 9.82152932948431,
+        "render_cpu_ms_mean": 1.41641495506001,
+        "draw_calls_mean": 1032.41331142153,
+        "submitted_primitives_mean": 12972232.2606973,
+        "submitted_objects_mean": 1475.10271158587,
+        "average_fps_range": [
+          81.2222554586094,
+          84.2768849607164
+        ],
+        "runs": 3
+      },
+      "loading": {
+        "job_stages_ms": {
+          "distant_scenery": 8404.099,
+          "flavor": 281.2,
+          "forest_uploads": 5959.899,
+          "material_uploads": 92.452,
+          "mineral_uploads": 18316.676,
+          "preparation_cache_read": 3967.604,
+          "rider_and_interface": 4664.224,
+          "scene_submission": 34047.29,
+          "terrain_meshes_uploads": 992.996
+        },
+        "physical_cache_hit": true,
+        "physical_load_or_generation_seconds": 3.859601,
+        "physical_stages_ms": {
+          "cache_source": "user",
+          "original_bake_ms": 201010.446,
+          "physical_cache_read": 2371.288
+        },
+        "scene_build_ms": {
+          "distant_scenery_ms": 8404.092,
+          "flavor_ms": 281.197,
+          "forest_uploads_ms": 5959.896,
+          "material_uploads_ms": 92.445,
+          "mineral_uploads_ms": 18316.673,
+          "terrain_meshes_uploads_ms": 992.987
+        },
+        "scene_ready_seconds": 46.686894,
+        "scenery_cache_hit": true,
+        "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+      },
+      "rows": [
+        {
+          "run": 1,
+          "frame_ms": {
+            "average_fps": 81.6804388962251,
+            "count": 1224,
+            "max": 31.155,
+            "mean": 12.2428333333333,
+            "median_fps": 87.1004267920913,
+            "p50": 11.481,
+            "p95": 17.03,
+            "p99": 23.311,
+            "slowest_one_percent_fps": 39.1994861851965
+          },
+          "gpu_ms": {
+            "count": 1224,
+            "max": 13.6809997558594,
+            "mean": 9.792848038128,
+            "p95": 12.2760000228882,
+            "p99": 13.3549995422363
+          },
+          "render_cpu_ms": {
+            "count": 1224,
+            "max": 3.85500001907349,
+            "mean": 1.44193954317788,
+            "p95": 2.21600008010864,
+            "p99": 2.71000003814697
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1743.79296875,
+                1840.78125
+              ],
+              "first": 1840.78125,
+              "last": 1750.85546875
+            },
+            "private_mib": {
+              "range": [
+                5575.21484375,
+                5673.82421875
+              ],
+              "first": 5673.82421875,
+              "last": 5585.4921875
+            },
+            "system_free_mib": {
+              "range": [
+                3061.6875,
+                3081.29296875
+              ],
+              "first": 3076.38671875,
+              "last": 3081.29296875
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "AMDRSServ": 4.15320177883958,
+            "ChatGPT": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 2,
+          "frame_ms": {
+            "average_fps": 81.2222554586094,
+            "count": 1217,
+            "max": 29.666,
+            "mean": 12.3118964667215,
+            "median_fps": 88.1678716275789,
+            "p50": 11.342,
+            "p95": 17.674,
+            "p99": 23.883,
+            "slowest_one_percent_fps": 39.0563974379003
+          },
+          "gpu_ms": {
+            "count": 1217,
+            "max": 14.9799995422363,
+            "mean": 10.1051076534055,
+            "p95": 12.9139995574951,
+            "p99": 14.1339998245239
+          },
+          "render_cpu_ms": {
+            "count": 1217,
+            "max": 3.7409999370575,
+            "mean": 1.41641495506001,
+            "p95": 2.20600008964539,
+            "p99": 2.70799994468689
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1753.328125,
+                1753.375
+              ],
+              "first": 1753.328125,
+              "last": 1753.359375
+            },
+            "private_mib": {
+              "range": [
+                5587.80078125,
+                5587.875
+              ],
+              "first": 5587.875,
+              "last": 5587.80078125
+            },
+            "system_free_mib": {
+              "range": [
+                3077.42578125,
+                3199.0625
+              ],
+              "first": 3077.42578125,
+              "last": 3176.3125
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 3,
+          "frame_ms": {
+            "average_fps": 84.2768849607164,
+            "count": 1262,
+            "max": 28.986,
+            "mean": 11.8656497622821,
+            "median_fps": 89.1742464776173,
+            "p50": 11.214,
+            "p95": 15.916,
+            "p99": 18.645,
+            "slowest_one_percent_fps": 47.1552677875111
+          },
+          "gpu_ms": {
+            "count": 1262,
+            "max": 12.9910001754761,
+            "mean": 9.82152932948431,
+            "p95": 11.9429998397827,
+            "p99": 12.6230001449585
+          },
+          "render_cpu_ms": {
+            "count": 1262,
+            "max": 2.89100003242493,
+            "mean": 1.36644057209254,
+            "p95": 2.03500008583069,
+            "p99": 2.48399996757507
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1753.390625,
+                1753.390625
+              ],
+              "first": 1753.390625,
+              "last": 1753.390625
+            },
+            "private_mib": {
+              "range": [
+                5587.80078125,
+                5587.80078125
+              ],
+              "first": 5587.80078125,
+              "last": 5587.80078125
+            },
+            "system_free_mib": {
+              "range": [
+                3226.96484375,
+                3236.203125
+              ],
+              "first": 3234.07421875,
+              "last": 3226.96484375
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "Memory Compression": 0.0
+          }
+        }
+      ]
+    },
+    "grass_candidate_forest_off_2": {
+      "trace_sha256": "4c415390a182150b678e4c38d8d9785ea408c25962ec5001ccf81d93ac6bfe8a",
+      "summary": {
+        "average_fps": 83.6127102004836,
+        "median_fps": 87.1459694989107,
+        "mean": 11.9599041533546,
+        "p50": 11.475,
+        "p95": 16.318,
+        "p99": 18.543,
+        "slowest_one_percent_fps": 48.9669849520688,
+        "max": 27.368,
+        "gpu_ms_mean": 9.84815512409074,
+        "render_cpu_ms_mean": 1.56466984872128,
+        "draw_calls_mean": 1032.2428115016,
+        "submitted_primitives_mean": 12975275.1662689,
+        "submitted_objects_mean": 1474.94488817891,
+        "average_fps_range": [
+          79.4139384808914,
+          83.8427094762072
+        ],
+        "runs": 3
+      },
+      "loading": {
+        "job_stages_ms": {
+          "distant_scenery": 8312.002,
+          "flavor": 282.631,
+          "forest_uploads": 6031.673,
+          "material_uploads": 85.32,
+          "mineral_uploads": 19773.935,
+          "preparation_cache_read": 4023.159,
+          "rider_and_interface": 4909.906,
+          "scene_submission": 35476.911,
+          "terrain_meshes_uploads": 991.372
+        },
+        "physical_cache_hit": true,
+        "physical_load_or_generation_seconds": 3.838736,
+        "physical_stages_ms": {
+          "cache_source": "user",
+          "original_bake_ms": 201010.446,
+          "physical_cache_read": 2359.095
+        },
+        "scene_build_ms": {
+          "distant_scenery_ms": 8311.997,
+          "flavor_ms": 282.628,
+          "forest_uploads_ms": 6031.668,
+          "material_uploads_ms": 85.313,
+          "mineral_uploads_ms": 19773.931,
+          "terrain_meshes_uploads_ms": 991.374
+        },
+        "scene_ready_seconds": 48.428398,
+        "scenery_cache_hit": true,
+        "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+      },
+      "rows": [
+        {
+          "run": 1,
+          "frame_ms": {
+            "average_fps": 79.4139384808914,
+            "count": 1190,
+            "max": 31.321,
+            "mean": 12.5922478991597,
+            "median_fps": 82.525273364968,
+            "p50": 12.1175,
+            "p95": 17.126,
+            "p99": 19.642,
+            "slowest_one_percent_fps": 43.0616858650016
+          },
+          "gpu_ms": {
+            "count": 1190,
+            "max": 13.9770002365112,
+            "mean": 9.98071259971426,
+            "p95": 12.6899995803833,
+            "p99": 13.5530004501343
+          },
+          "render_cpu_ms": {
+            "count": 1190,
+            "max": 3.37700009346008,
+            "mean": 1.68060924465917,
+            "p95": 2.49799990653992,
+            "p99": 3.02500009536743
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1742.0625,
+                1839.03515625
+              ],
+              "first": 1839.03515625,
+              "last": 1749.80859375
+            },
+            "private_mib": {
+              "range": [
+                5573.65625,
+                5671.74609375
+              ],
+              "first": 5671.74609375,
+              "last": 5584.6875
+            },
+            "system_free_mib": {
+              "range": [
+                2979.83203125,
+                3088.91796875
+              ],
+              "first": 2984.06640625,
+              "last": 2986.28125
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "AMDRSServ": 4.140230055692056,
+            "ChatGPT": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 2,
+          "frame_ms": {
+            "average_fps": 83.6127102004836,
+            "count": 1252,
+            "max": 27.368,
+            "mean": 11.9599041533546,
+            "median_fps": 89.6499170738267,
+            "p50": 11.1545,
+            "p95": 16.318,
+            "p99": 18.543,
+            "slowest_one_percent_fps": 48.9669849520688
+          },
+          "gpu_ms": {
+            "count": 1252,
+            "max": 13.3240003585815,
+            "mean": 9.82828034036837,
+            "p95": 11.9729995727539,
+            "p99": 12.8020000457764
+          },
+          "render_cpu_ms": {
+            "count": 1252,
+            "max": 2.95600008964539,
+            "mean": 1.54774600505448,
+            "p95": 2.22900009155273,
+            "p99": 2.60899996757507
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1752.05078125,
+                1752.11328125
+              ],
+              "first": 1752.05078125,
+              "last": 1752.11328125
+            },
+            "private_mib": {
+              "range": [
+                5586.875,
+                5586.94921875
+              ],
+              "first": 5586.94921875,
+              "last": 5586.875
+            },
+            "system_free_mib": {
+              "range": [
+                2983.05078125,
+                3079.09375
+              ],
+              "first": 2983.05078125,
+              "last": 3077.87109375
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 3,
+          "frame_ms": {
+            "average_fps": 83.8427094762072,
+            "count": 1257,
+            "max": 25.588,
+            "mean": 11.9270954653938,
+            "median_fps": 87.1459694989107,
+            "p50": 11.475,
+            "p95": 15.797,
+            "p99": 17.438,
+            "slowest_one_percent_fps": 52.8934766068428
+          },
+          "gpu_ms": {
+            "count": 1257,
+            "max": 12.6429996490479,
+            "mean": 9.84815512409074,
+            "p95": 11.8629999160767,
+            "p99": 12.4840002059937
+          },
+          "render_cpu_ms": {
+            "count": 1257,
+            "max": 3.03299999237061,
+            "mean": 1.56466984872128,
+            "p95": 2.26500010490417,
+            "p99": 2.6949999332428
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1752.140625,
+                1752.15625
+              ],
+              "first": 1752.140625,
+              "last": 1752.15625
+            },
+            "private_mib": {
+              "range": [
+                5586.875,
+                5586.875
+              ],
+              "first": 5586.875,
+              "last": 5586.875
+            },
+            "system_free_mib": {
+              "range": [
+                3079.61328125,
+                3238.43359375
+              ],
+              "first": 3079.61328125,
+              "last": 3238.43359375
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "Memory Compression": 0.0
+          }
+        }
+      ]
+    },
+    "grass_candidate_forest_off_3": {
+      "trace_sha256": "4c415390a182150b678e4c38d8d9785ea408c25962ec5001ccf81d93ac6bfe8a",
+      "summary": {
+        "average_fps": 70.5271463394208,
+        "median_fps": 72.9873731844391,
+        "mean": 14.1789375,
+        "p50": 13.701,
+        "p95": 21.908,
+        "p99": 25.839,
+        "slowest_one_percent_fps": 34.5804293631857,
+        "max": 37.391,
+        "gpu_ms_mean": 10.6635615730624,
+        "render_cpu_ms_mean": 1.78887120984269,
+        "draw_calls_mean": 1031.58806818182,
+        "submitted_primitives_mean": 12998918.2964015,
+        "submitted_objects_mean": 1474.33712121212,
+        "average_fps_range": [
+          61.0744171414729,
+          75.3941632229542
+        ],
+        "runs": 3
+      },
+      "loading": {
+        "job_stages_ms": {
+          "distant_scenery": 8397.149,
+          "flavor": 291.544,
+          "forest_uploads": 6023.669,
+          "material_uploads": 94.305,
+          "mineral_uploads": 19679.966,
+          "preparation_cache_read": 4432.167,
+          "rider_and_interface": 4699.475,
+          "scene_submission": 35479.61,
+          "terrain_meshes_uploads": 993.016
+        },
+        "physical_cache_hit": true,
+        "physical_load_or_generation_seconds": 3.954084,
+        "physical_stages_ms": {
+          "cache_source": "user",
+          "original_bake_ms": 201010.446,
+          "physical_cache_read": 2443.261
+        },
+        "scene_build_ms": {
+          "distant_scenery_ms": 8397.135,
+          "flavor_ms": 291.541,
+          "forest_uploads_ms": 6023.663,
+          "material_uploads_ms": 94.294,
+          "mineral_uploads_ms": 19679.962,
+          "terrain_meshes_uploads_ms": 993.015
+        },
+        "scene_ready_seconds": 48.673749,
+        "scenery_cache_hit": true,
+        "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+      },
+      "rows": [
+        {
+          "run": 1,
+          "frame_ms": {
+            "average_fps": 70.5271463394208,
+            "count": 1056,
+            "max": 37.391,
+            "mean": 14.1789375,
+            "median_fps": 72.9873731844391,
+            "p50": 13.701,
+            "p95": 21.908,
+            "p99": 25.839,
+            "slowest_one_percent_fps": 34.5804293631857
+          },
+          "gpu_ms": {
+            "count": 1056,
+            "max": 16.4190006256104,
+            "mean": 10.5140833412156,
+            "p95": 13.1110000610352,
+            "p99": 15.289999961853
+          },
+          "render_cpu_ms": {
+            "count": 1056,
+            "max": 4.6269998550415,
+            "mean": 1.78887120984269,
+            "p95": 2.84999990463257,
+            "p99": 3.40100002288818
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1752.10546875,
+                1847.98828125
+              ],
+              "first": 1847.98828125,
+              "last": 1758.578125
+            },
+            "private_mib": {
+              "range": [
+                5584.1796875,
+                5680.38671875
+              ],
+              "first": 5680.38671875,
+              "last": 5593.80078125
+            },
+            "system_free_mib": {
+              "range": [
+                3028.21484375,
+                3067.48046875
+              ],
+              "first": 3067.48046875,
+              "last": 3052.609375
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 7.864945174882876,
+            "AMDRSServ": 3.930237529250203,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 2,
+          "frame_ms": {
+            "average_fps": 61.0744171414729,
+            "count": 915,
+            "max": 41.475,
+            "mean": 16.3734677595628,
+            "median_fps": 62.9564341475699,
+            "p50": 15.884,
+            "p95": 24.2,
+            "p99": 26.976,
+            "slowest_one_percent_fps": 34.1316731687504
+          },
+          "gpu_ms": {
+            "count": 915,
+            "max": 18.2129993438721,
+            "mean": 12.8503278659341,
+            "p95": 17.6280002593994,
+            "p99": 18.0590000152588
+          },
+          "render_cpu_ms": {
+            "count": 915,
+            "max": 4.10900020599365,
+            "mean": 2.01473333327497,
+            "p95": 3.14800000190735,
+            "p99": 3.69700002670288
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1760.61328125,
+                1760.63671875
+              ],
+              "first": 1760.6171875,
+              "last": 1760.6328125
+            },
+            "private_mib": {
+              "range": [
+                5595.796875,
+                5595.87109375
+              ],
+              "first": 5595.87109375,
+              "last": 5595.796875
+            },
+            "system_free_mib": {
+              "range": [
+                3045.17578125,
+                3106.97265625
+              ],
+              "first": 3106.97265625,
+              "last": 3091.30078125
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 4.14081020550046,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 3,
+          "frame_ms": {
+            "average_fps": 75.3941632229542,
+            "count": 1129,
+            "max": 26.959,
+            "mean": 13.2636262178919,
+            "median_fps": 76.3300511411343,
+            "p50": 13.101,
+            "p95": 18.091,
+            "p99": 22.631,
+            "slowest_one_percent_fps": 41.7347755016868
+          },
+          "gpu_ms": {
+            "count": 1129,
+            "max": 14.2740001678467,
+            "mean": 10.6635615730624,
+            "p95": 12.9469995498657,
+            "p99": 13.5369997024536
+          },
+          "render_cpu_ms": {
+            "count": 1129,
+            "max": 3.60199999809265,
+            "mean": 1.6273011533004,
+            "p95": 2.46700000762939,
+            "p99": 2.83100008964539
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1760.7265625,
+                1760.73828125
+              ],
+              "first": 1760.7265625,
+              "last": 1760.734375
+            },
+            "private_mib": {
+              "range": [
+                5595.796875,
+                5595.796875
+              ],
+              "first": 5595.796875,
+              "last": 5595.796875
+            },
+            "system_free_mib": {
+              "range": [
+                3130.03515625,
+                3168.96875
+              ],
+              "first": 3168.96875,
+              "last": 3130.03515625
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 4.139664257663566,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        }
+      ]
+    },
+    "grass_candidate_forest_on_1": {
+      "trace_sha256": "4c415390a182150b678e4c38d8d9785ea408c25962ec5001ccf81d93ac6bfe8a",
+      "summary": {
+        "average_fps": 72.4685354643313,
+        "median_fps": 71.9942404607631,
+        "mean": 13.7990921658986,
+        "p50": 13.89,
+        "p95": 18.198,
+        "p99": 23.575,
+        "slowest_one_percent_fps": 39.5207214328058,
+        "max": 29.087,
+        "gpu_ms_mean": 10.8758717103911,
+        "render_cpu_ms_mean": 1.81872626680383,
+        "draw_calls_mean": 1114.49226569609,
+        "submitted_primitives_mean": 13709203.3447005,
+        "submitted_objects_mean": 1557.27843494086,
+        "average_fps_range": [
+          70.4367855912265,
+          73.3628502542066
+        ],
+        "runs": 3
+      },
+      "loading": {
+        "job_stages_ms": {
+          "distant_scenery": 8378.331,
+          "flavor": 285.043,
+          "forest_uploads": 6144.947,
+          "material_uploads": 86.516,
+          "mineral_uploads": 19579.683,
+          "preparation_cache_read": 3958.148,
+          "rider_and_interface": 4718.366,
+          "scene_submission": 35469.238,
+          "terrain_meshes_uploads": 994.753
+        },
+        "physical_cache_hit": true,
+        "physical_load_or_generation_seconds": 3.778288,
+        "physical_stages_ms": {
+          "cache_source": "user",
+          "original_bake_ms": 201010.446,
+          "physical_cache_read": 2330.482
+        },
+        "scene_build_ms": {
+          "distant_scenery_ms": 8378.328,
+          "flavor_ms": 285.041,
+          "forest_uploads_ms": 6144.941,
+          "material_uploads_ms": 86.509,
+          "mineral_uploads_ms": 19579.68,
+          "terrain_meshes_uploads_ms": 994.739
+        },
+        "scene_ready_seconds": 48.053216,
+        "scenery_cache_hit": true,
+        "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+      },
+      "rows": [
+        {
+          "run": 1,
+          "frame_ms": {
+            "average_fps": 70.4367855912265,
+            "count": 1054,
+            "max": 35.519,
+            "mean": 14.1971271347249,
+            "median_fps": 71.56147130385,
+            "p50": 13.974,
+            "p95": 19.248,
+            "p99": 27.834,
+            "slowest_one_percent_fps": 32.3509430299893
+          },
+          "gpu_ms": {
+            "count": 1054,
+            "max": 16.2299995422363,
+            "mean": 10.7031603501915,
+            "p95": 13.0229997634888,
+            "p99": 14.6309995651245
+          },
+          "render_cpu_ms": {
+            "count": 1054,
+            "max": 9.7519998550415,
+            "mean": 1.89733207067457,
+            "p95": 2.65899991989136,
+            "p99": 3.20099997520447
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1766.7890625,
+                1863.515625
+              ],
+              "first": 1861.3359375,
+              "last": 1774.4921875
+            },
+            "private_mib": {
+              "range": [
+                5601.00390625,
+                5699.30078125
+              ],
+              "first": 5697.4609375,
+              "last": 5623.80859375
+            },
+            "system_free_mib": {
+              "range": [
+                3523.32421875,
+                3539.94921875
+              ],
+              "first": 3539.26171875,
+              "last": 3523.32421875
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4154.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 2,
+          "frame_ms": {
+            "average_fps": 72.4685354643313,
+            "count": 1085,
+            "max": 29.087,
+            "mean": 13.7990921658986,
+            "median_fps": 71.9942404607631,
+            "p50": 13.89,
+            "p95": 18.106,
+            "p99": 23.048,
+            "slowest_one_percent_fps": 40.8419379870865
+          },
+          "gpu_ms": {
+            "count": 1085,
+            "max": 13.7430000305176,
+            "mean": 10.9668451572893,
+            "p95": 13.2180004119873,
+            "p99": 13.5920000076294
+          },
+          "render_cpu_ms": {
+            "count": 1085,
+            "max": 3.40700006484985,
+            "mean": 1.81872626680383,
+            "p95": 2.61400008201599,
+            "p99": 3.14000010490417
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1777.7421875,
+                1777.8046875
+              ],
+              "first": 1777.7421875,
+              "last": 1777.8046875
+            },
+            "private_mib": {
+              "range": [
+                5626.9140625,
+                5626.98828125
+              ],
+              "first": 5626.98828125,
+              "last": 5626.91796875
+            },
+            "system_free_mib": {
+              "range": [
+                3519.47265625,
+                3627.609375
+              ],
+              "first": 3519.47265625,
+              "last": 3617.77734375
+            },
+            "windows_gpu_dedicated_mib": [
+              4154.76171875,
+              4154.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 3.9701346777670357,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 3,
+          "frame_ms": {
+            "average_fps": 73.3628502542066,
+            "count": 1099,
+            "max": 28.386,
+            "mean": 13.6308771610555,
+            "median_fps": 74.0631017627018,
+            "p50": 13.502,
+            "p95": 18.198,
+            "p99": 23.575,
+            "slowest_one_percent_fps": 39.5207214328058
+          },
+          "gpu_ms": {
+            "count": 1099,
+            "max": 14.4340000152588,
+            "mean": 10.8758717103911,
+            "p95": 13.2440004348755,
+            "p99": 13.6140003204346
+          },
+          "render_cpu_ms": {
+            "count": 1099,
+            "max": 3.68799996376038,
+            "mean": 1.77751046478803,
+            "p95": 2.59899997711182,
+            "p99": 3.00399994850159
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1779.83984375,
+                1779.87109375
+              ],
+              "first": 1779.83984375,
+              "last": 1779.87109375
+            },
+            "private_mib": {
+              "range": [
+                5629.00390625,
+                5629.00390625
+              ],
+              "first": 5629.00390625,
+              "last": 5629.00390625
+            },
+            "system_free_mib": {
+              "range": [
+                3604.12890625,
+                3619.09375
+              ],
+              "first": 3616.2734375,
+              "last": 3610.5078125
+            },
+            "windows_gpu_dedicated_mib": [
+              4154.76171875,
+              4154.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "Memory Compression": 0.0
+          }
+        }
+      ]
+    },
+    "grass_candidate_forest_on_2": {
+      "trace_sha256": "4c415390a182150b678e4c38d8d9785ea408c25962ec5001ccf81d93ac6bfe8a",
+      "summary": {
+        "average_fps": 74.7741969468226,
+        "median_fps": 79.2047839689517,
+        "mean": 13.3735973214286,
+        "p50": 12.6255,
+        "p95": 18.037,
+        "p99": 26.462,
+        "slowest_one_percent_fps": 20.1347932888904,
+        "max": 69.227,
+        "gpu_ms_mean": 10.4452776806695,
+        "render_cpu_ms_mean": 1.76194732327546,
+        "draw_calls_mean": 1113.14642857143,
+        "submitted_primitives_mean": 13682517.45625,
+        "submitted_objects_mean": 1555.80982142857,
+        "average_fps_range": [
+          70.4333721996476,
+          77.7038278547795
+        ],
+        "runs": 3
+      },
+      "loading": {
+        "job_stages_ms": {
+          "distant_scenery": 10062.65,
+          "flavor": 429.036,
+          "forest_uploads": 6542.99,
+          "material_uploads": 89.078,
+          "mineral_uploads": 22502.805,
+          "preparation_cache_read": 3930.684,
+          "rider_and_interface": 4968.453,
+          "scene_submission": 40619.046,
+          "terrain_meshes_uploads": 992.542
+        },
+        "physical_cache_hit": true,
+        "physical_load_or_generation_seconds": 3.813612,
+        "physical_stages_ms": {
+          "cache_source": "user",
+          "original_bake_ms": 201010.446,
+          "physical_cache_read": 2325.61
+        },
+        "scene_build_ms": {
+          "distant_scenery_ms": 10062.641,
+          "flavor_ms": 429.04,
+          "forest_uploads_ms": 6542.984,
+          "material_uploads_ms": 89.069,
+          "mineral_uploads_ms": 22502.781,
+          "terrain_meshes_uploads_ms": 992.531
+        },
+        "scene_ready_seconds": 53.574629,
+        "scenery_cache_hit": true,
+        "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+      },
+      "rows": [
+        {
+          "run": 1,
+          "frame_ms": {
+            "average_fps": 70.4333721996476,
+            "count": 1055,
+            "max": 69.227,
+            "mean": 14.1978151658768,
+            "median_fps": 73.6702519522617,
+            "p50": 13.574,
+            "p95": 20.354,
+            "p99": 38.739,
+            "slowest_one_percent_fps": 20.1347932888904
+          },
+          "gpu_ms": {
+            "count": 1055,
+            "max": 14.3100004196167,
+            "mean": 10.4647421823294,
+            "p95": 13.1470003128052,
+            "p99": 13.621000289917
+          },
+          "render_cpu_ms": {
+            "count": 1055,
+            "max": 11.2430000305176,
+            "mean": 1.93950521211489,
+            "p95": 2.84599995613098,
+            "p99": 3.43799996376038
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1758.84375,
+                1855.8359375
+              ],
+              "first": 1853.8671875,
+              "last": 1768.4453125
+            },
+            "private_mib": {
+              "range": [
+                5593.73046875,
+                5692.234375
+              ],
+              "first": 5690.578125,
+              "last": 5618.6953125
+            },
+            "system_free_mib": {
+              "range": [
+                2523.85546875,
+                2607.8515625
+              ],
+              "first": 2603.55078125,
+              "last": 2527.140625
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4154.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 8.30401062621059,
+            "Memory Compression": 0.0,
+            "codex": 0.0
+          }
+        },
+        {
+          "run": 2,
+          "frame_ms": {
+            "average_fps": 74.7741969468226,
+            "count": 1120,
+            "max": 79.5,
+            "mean": 13.3735973214286,
+            "median_fps": 79.2047839689517,
+            "p50": 12.6255,
+            "p95": 18.037,
+            "p99": 26.462,
+            "slowest_one_percent_fps": 18.0147991575079
+          },
+          "gpu_ms": {
+            "count": 1120,
+            "max": 15.0349998474121,
+            "mean": 10.4452776806695,
+            "p95": 13.0150003433228,
+            "p99": 13.9010000228882
+          },
+          "render_cpu_ms": {
+            "count": 1120,
+            "max": 5.61999988555908,
+            "mean": 1.76194732327546,
+            "p95": 2.63199996948242,
+            "p99": 3.15100002288818
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1770.6953125,
+                1770.72265625
+              ],
+              "first": 1770.69921875,
+              "last": 1770.72265625
+            },
+            "private_mib": {
+              "range": [
+                5620.67578125,
+                5620.75
+              ],
+              "first": 5620.75,
+              "last": 5620.67578125
+            },
+            "system_free_mib": {
+              "range": [
+                2637.17578125,
+                2999.86328125
+              ],
+              "first": 2637.17578125,
+              "last": 2913.73828125
+            },
+            "windows_gpu_dedicated_mib": [
+              4154.76171875,
+              4154.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 3,
+          "frame_ms": {
+            "average_fps": 77.7038278547795,
+            "count": 1164,
+            "max": 25.013,
+            "mean": 12.8693788659794,
+            "median_fps": 80.1603206412826,
+            "p50": 12.475,
+            "p95": 17.464,
+            "p99": 22.352,
+            "slowest_one_percent_fps": 43.3764205777739
+          },
+          "gpu_ms": {
+            "count": 1164,
+            "max": 16.6060009002686,
+            "mean": 10.3926864145548,
+            "p95": 12.8620004653931,
+            "p99": 15.3909997940063
+          },
+          "render_cpu_ms": {
+            "count": 1164,
+            "max": 3.89299988746643,
+            "mean": 1.71060996469353,
+            "p95": 2.62400007247925,
+            "p99": 3.12700009346008
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1772.24609375,
+                1772.265625
+              ],
+              "first": 1772.24609375,
+              "last": 1772.265625
+            },
+            "private_mib": {
+              "range": [
+                5622.1953125,
+                5622.1953125
+              ],
+              "first": 5622.1953125,
+              "last": 5622.1953125
+            },
+            "system_free_mib": {
+              "range": [
+                2978.85546875,
+                3001.828125
+              ],
+              "first": 2989.203125,
+              "last": 3001.828125
+            },
+            "windows_gpu_dedicated_mib": [
+              4154.76171875,
+              4154.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        }
+      ]
+    },
+    "grass_candidate_forest_on_3": {
+      "trace_sha256": "4c415390a182150b678e4c38d8d9785ea408c25962ec5001ccf81d93ac6bfe8a",
+      "summary": {
+        "average_fps": 74.97835942943,
+        "median_fps": 75.5686541222701,
+        "mean": 13.3371816562778,
+        "p50": 13.233,
+        "p95": 18.12,
+        "p99": 22.945,
+        "slowest_one_percent_fps": 37.5008203304447,
+        "max": 36.501,
+        "gpu_ms_mean": 10.5512252910646,
+        "render_cpu_ms_mean": 1.87230810127615,
+        "draw_calls_mean": 1111.513388735,
+        "submitted_primitives_mean": 13666506.498615,
+        "submitted_objects_mean": 1554.10156971376,
+        "average_fps_range": [
+          72.3061454214788,
+          75.7874364729341
+        ],
+        "runs": 3
+      },
+      "loading": {
+        "job_stages_ms": {
+          "distant_scenery": 8398.366,
+          "flavor": 283.107,
+          "forest_uploads": 6238.947,
+          "material_uploads": 139.18,
+          "mineral_uploads": 20298.52,
+          "preparation_cache_read": 4002.998,
+          "rider_and_interface": 4835.133,
+          "scene_submission": 36353.636,
+          "terrain_meshes_uploads": 995.557
+        },
+        "physical_cache_hit": true,
+        "physical_load_or_generation_seconds": 3.985099,
+        "physical_stages_ms": {
+          "cache_source": "user",
+          "original_bake_ms": 201010.446,
+          "physical_cache_read": 2416.871
+        },
+        "scene_build_ms": {
+          "distant_scenery_ms": 8398.358,
+          "flavor_ms": 283.106,
+          "forest_uploads_ms": 6238.941,
+          "material_uploads_ms": 139.171,
+          "mineral_uploads_ms": 20298.518,
+          "terrain_meshes_uploads_ms": 995.542
+        },
+        "scene_ready_seconds": 49.247212,
+        "scenery_cache_hit": true,
+        "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+      },
+      "rows": [
+        {
+          "run": 1,
+          "frame_ms": {
+            "average_fps": 72.3061454214788,
+            "count": 1083,
+            "max": 42.04,
+            "mean": 13.8300831024931,
+            "median_fps": 71.7978173463527,
+            "p50": 13.928,
+            "p95": 18.401,
+            "p99": 24.776,
+            "slowest_one_percent_fps": 33.8407393278614
+          },
+          "gpu_ms": {
+            "count": 1083,
+            "max": 15.0389995574951,
+            "mean": 10.5512252910646,
+            "p95": 13.0019998550415,
+            "p99": 14.3190002441406
+          },
+          "render_cpu_ms": {
+            "count": 1083,
+            "max": 8.33899974822998,
+            "mean": 1.90553185517108,
+            "p95": 2.65199995040894,
+            "p99": 3.17300009727478
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1760.8984375,
+                1857.80078125
+              ],
+              "first": 1855.859375,
+              "last": 1767.87109375
+            },
+            "private_mib": {
+              "range": [
+                5595.984375,
+                5696.0234375
+              ],
+              "first": 5694.5,
+              "last": 5618.3671875
+            },
+            "system_free_mib": {
+              "range": [
+                2947.875,
+                2998.66015625
+              ],
+              "first": 2957.05859375,
+              "last": 2993.1640625
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4154.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 7.9150566254232055,
+            "AMDRSServ": 4.081423484272373,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 2,
+          "frame_ms": {
+            "average_fps": 75.7874364729341,
+            "count": 1135,
+            "max": 36.501,
+            "mean": 13.1947991189427,
+            "median_fps": 77.3156022885418,
+            "p50": 12.934,
+            "p95": 18.12,
+            "p99": 22.945,
+            "slowest_one_percent_fps": 37.5008203304447
+          },
+          "gpu_ms": {
+            "count": 1135,
+            "max": 13.8809995651245,
+            "mean": 10.5121339243414,
+            "p95": 12.8090000152588,
+            "p99": 13.4029998779297
+          },
+          "render_cpu_ms": {
+            "count": 1135,
+            "max": 3.62700009346008,
+            "mean": 1.77953215979269,
+            "p95": 2.66000008583069,
+            "p99": 3.03900003433228
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1770.16796875,
+                1770.18359375
+              ],
+              "first": 1770.16796875,
+              "last": 1770.1796875
+            },
+            "private_mib": {
+              "range": [
+                5620.47265625,
+                5620.546875
+              ],
+              "first": 5620.546875,
+              "last": 5620.47265625
+            },
+            "system_free_mib": {
+              "range": [
+                3093.59375,
+                3117.96875
+              ],
+              "first": 3093.59375,
+              "last": 3100.25
+            },
+            "windows_gpu_dedicated_mib": [
+              4154.76171875,
+              4154.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 3,
+          "frame_ms": {
+            "average_fps": 74.97835942943,
+            "count": 1123,
+            "max": 24.318,
+            "mean": 13.3371816562778,
+            "median_fps": 75.5686541222701,
+            "p50": 13.233,
+            "p95": 17.856,
+            "p99": 20.106,
+            "slowest_one_percent_fps": 46.4135837088321
+          },
+          "gpu_ms": {
+            "count": 1123,
+            "max": 14.6219997406006,
+            "mean": 10.6484701618592,
+            "p95": 12.9790000915527,
+            "p99": 13.9230003356934
+          },
+          "render_cpu_ms": {
+            "count": 1123,
+            "max": 4.13399982452393,
+            "mean": 1.87230810127615,
+            "p95": 3.00399994850159,
+            "p99": 3.40300011634827
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1771.4765625,
+                1771.56640625
+              ],
+              "first": 1771.4765625,
+              "last": 1771.56640625
+            },
+            "private_mib": {
+              "range": [
+                5621.80078125,
+                5621.80078125
+              ],
+              "first": 5621.80078125,
+              "last": 5621.80078125
+            },
+            "system_free_mib": {
+              "range": [
+                3041.87109375,
+                3101.6015625
+              ],
+              "first": 3092.921875,
+              "last": 3089.72265625
+            },
+            "windows_gpu_dedicated_mib": [
+              4154.76171875,
+              4154.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 4.132434816378234,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        }
+      ]
+    },
+    "grass_candidate_transition_off_1": {
+      "trace_sha256": "f38f62d39a3829ded06afef2b5303eccdd47756918d4532c6981aefd66d5188c",
+      "summary": {
+        "average_fps": 75.3384290316002,
+        "median_fps": 75.1568900078915,
+        "mean": 13.2734384410983,
+        "p50": 13.3055,
+        "p95": 18.244,
+        "p99": 23.849,
+        "slowest_one_percent_fps": 34.5909048980721,
+        "max": 37.663,
+        "gpu_ms_mean": 10.8494092136278,
+        "render_cpu_ms_mean": 1.28723524071023,
+        "draw_calls_mean": 714.742249778565,
+        "submitted_primitives_mean": 10699178.6651904,
+        "submitted_objects_mean": 1163.75110717449,
+        "average_fps_range": [
+          74.6143944114218,
+          77.8351538296566
+        ],
+        "runs": 3
+      },
+      "loading": {
+        "job_stages_ms": {
+          "distant_scenery": 8283.754,
+          "flavor": 279.334,
+          "forest_uploads": 5871.371,
+          "material_uploads": 89.956,
+          "mineral_uploads": 20670.554,
+          "preparation_cache_read": 3955.011,
+          "rider_and_interface": 4775.938,
+          "scene_submission": 36187.719,
+          "terrain_meshes_uploads": 992.779
+        },
+        "physical_cache_hit": true,
+        "physical_load_or_generation_seconds": 3.838422,
+        "physical_stages_ms": {
+          "cache_source": "user",
+          "original_bake_ms": 201010.446,
+          "physical_cache_read": 2367.034
+        },
+        "scene_build_ms": {
+          "distant_scenery_ms": 8283.744,
+          "flavor_ms": 279.332,
+          "forest_uploads_ms": 5871.366,
+          "material_uploads_ms": 89.947,
+          "mineral_uploads_ms": 20670.55,
+          "terrain_meshes_uploads_ms": 992.78
+        },
+        "scene_ready_seconds": 48.863582,
+        "scenery_cache_hit": true,
+        "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+      },
+      "rows": [
+        {
+          "run": 1,
+          "frame_ms": {
+            "average_fps": 75.3384290316002,
+            "count": 1129,
+            "max": 43.433,
+            "mean": 13.2734384410983,
+            "median_fps": 74.6937556020317,
+            "p50": 13.388,
+            "p95": 18.244,
+            "p99": 23.849,
+            "slowest_one_percent_fps": 31.5697256853919
+          },
+          "gpu_ms": {
+            "count": 1129,
+            "max": 18.5270004272461,
+            "mean": 10.8494092136278,
+            "p95": 13.0120000839233,
+            "p99": 17.6669998168945
+          },
+          "render_cpu_ms": {
+            "count": 1129,
+            "max": 3.5,
+            "mean": 1.2892347219985,
+            "p95": 1.7960000038147,
+            "p99": 2.05299997329712
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1745.52734375,
+                1836.15625
+              ],
+              "first": 1836.15625,
+              "last": 1750.8671875
+            },
+            "private_mib": {
+              "range": [
+                5573.43359375,
+                5666.4921875
+              ],
+              "first": 5666.4921875,
+              "last": 5578.5859375
+            },
+            "system_free_mib": {
+              "range": [
+                3027.4609375,
+                3079.9453125
+              ],
+              "first": 3027.51171875,
+              "last": 3079.9453125
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 2,
+          "frame_ms": {
+            "average_fps": 74.6143944114218,
+            "count": 1118,
+            "max": 37.663,
+            "mean": 13.4022397137746,
+            "median_fps": 75.1568900078915,
+            "p50": 13.3055,
+            "p95": 20.594,
+            "p99": 25.003,
+            "slowest_one_percent_fps": 34.5909048980721
+          },
+          "gpu_ms": {
+            "count": 1118,
+            "max": 17.7229995727539,
+            "mean": 11.1798864012328,
+            "p95": 15.3520002365112,
+            "p99": 16.9459991455078
+          },
+          "render_cpu_ms": {
+            "count": 1118,
+            "max": 3.94700002670288,
+            "mean": 1.28723524071023,
+            "p95": 1.89199995994568,
+            "p99": 2.36100006103516
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1751.4296875,
+                1755.08984375
+              ],
+              "first": 1755.06640625,
+              "last": 1751.4296875
+            },
+            "private_mib": {
+              "range": [
+                5582.51953125,
+                5582.6875
+              ],
+              "first": 5582.6875,
+              "last": 5582.51953125
+            },
+            "system_free_mib": {
+              "range": [
+                2986.02734375,
+                3201.78515625
+              ],
+              "first": 3064.28125,
+              "last": 2986.02734375
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "chrome": 12.24832509053717,
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 3,
+          "frame_ms": {
+            "average_fps": 77.8351538296566,
+            "count": 1165,
+            "max": 33.553,
+            "mean": 12.8476652360515,
+            "median_fps": 76.8816790958715,
+            "p50": 13.007,
+            "p95": 16.816,
+            "p99": 20.263,
+            "slowest_one_percent_fps": 40.3795679386231
+          },
+          "gpu_ms": {
+            "count": 1165,
+            "max": 15.4060001373291,
+            "mean": 10.8238077266022,
+            "p95": 12.460000038147,
+            "p99": 13.8549995422363
+          },
+          "render_cpu_ms": {
+            "count": 1165,
+            "max": 2.01300001144409,
+            "mean": 1.22091502160985,
+            "p95": 1.68900001049042,
+            "p99": 1.83599996566772
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1751.8515625,
+                1751.88671875
+              ],
+              "first": 1751.8515625,
+              "last": 1751.88671875
+            },
+            "private_mib": {
+              "range": [
+                5583.203125,
+                5583.203125
+              ],
+              "first": 5583.203125,
+              "last": 5583.203125
+            },
+            "system_free_mib": {
+              "range": [
+                3110.35546875,
+                3132.0859375
+              ],
+              "first": 3110.35546875,
+              "last": 3129.80078125
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        }
+      ]
+    },
+    "grass_candidate_transition_off_2": {
+      "trace_sha256": "f38f62d39a3829ded06afef2b5303eccdd47756918d4532c6981aefd66d5188c",
+      "summary": {
+        "average_fps": 74.6421516381347,
+        "median_fps": 72.8650539201399,
+        "mean": 13.3972558139535,
+        "p50": 13.724,
+        "p95": 17.603,
+        "p99": 22.588,
+        "slowest_one_percent_fps": 33.2388795173715,
+        "max": 49.388,
+        "gpu_ms_mean": 11.1094521284103,
+        "render_cpu_ms_mean": 1.3540190923214,
+        "draw_calls_mean": 716.343971631206,
+        "submitted_primitives_mean": 10724926.793381,
+        "submitted_objects_mean": 1165.27127659574,
+        "average_fps_range": [
+          73.5051884639621,
+          75.282801043441
+        ],
+        "runs": 3
+      },
+      "loading": {
+        "job_stages_ms": {
+          "distant_scenery": 8498.657,
+          "flavor": 299.567,
+          "forest_uploads": 6288.367,
+          "material_uploads": 97.99,
+          "mineral_uploads": 20968.418,
+          "preparation_cache_read": 3896.515,
+          "rider_and_interface": 4569.496,
+          "scene_submission": 37146.24,
+          "terrain_meshes_uploads": 993.273
+        },
+        "physical_cache_hit": true,
+        "physical_load_or_generation_seconds": 4.263582,
+        "physical_stages_ms": {
+          "cache_source": "user",
+          "original_bake_ms": 201010.446,
+          "physical_cache_read": 2743.828
+        },
+        "scene_build_ms": {
+          "distant_scenery_ms": 8498.65,
+          "flavor_ms": 299.568,
+          "forest_uploads_ms": 6288.361,
+          "material_uploads_ms": 97.981,
+          "mineral_uploads_ms": 20968.412,
+          "terrain_meshes_uploads_ms": 993.268
+        },
+        "scene_ready_seconds": 49.580571,
+        "scenery_cache_hit": true,
+        "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+      },
+      "rows": [
+        {
+          "run": 1,
+          "frame_ms": {
+            "average_fps": 74.6421516381347,
+            "count": 1118,
+            "max": 49.388,
+            "mean": 13.3972558139535,
+            "median_fps": 72.8650539201399,
+            "p50": 13.724,
+            "p95": 17.603,
+            "p99": 22.117,
+            "slowest_one_percent_fps": 33.2388795173715
+          },
+          "gpu_ms": {
+            "count": 1118,
+            "max": 15.9010000228882,
+            "mean": 10.9301699568419,
+            "p95": 13.0640001296997,
+            "p99": 14.6510000228882
+          },
+          "render_cpu_ms": {
+            "count": 1118,
+            "max": 2.64599990844727,
+            "mean": 1.36985688825839,
+            "p95": 1.83500003814697,
+            "p99": 2.07599997520447
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1733.81640625,
+                1829.92578125
+              ],
+              "first": 1828.25,
+              "last": 1743.19921875
+            },
+            "private_mib": {
+              "range": [
+                5500.96484375,
+                5609.5
+              ],
+              "first": 5609.5,
+              "last": 5510.02734375
+            },
+            "system_free_mib": {
+              "range": [
+                3067.15625,
+                3103.44140625
+              ],
+              "first": 3103.44140625,
+              "last": 3085.62109375
+            },
+            "windows_gpu_dedicated_mib": [
+              4074.76171875,
+              4074.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "AMDRSServ": 4.136814174538941,
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 2,
+          "frame_ms": {
+            "average_fps": 75.282801043441,
+            "count": 1128,
+            "max": 35.255,
+            "mean": 13.2832464539007,
+            "median_fps": 74.0329446603739,
+            "p50": 13.5075,
+            "p95": 17.509,
+            "p99": 22.588,
+            "slowest_one_percent_fps": 39.7416790859414
+          },
+          "gpu_ms": {
+            "count": 1128,
+            "max": 16.496000289917,
+            "mean": 11.1094521284103,
+            "p95": 13.5780000686646,
+            "p99": 15.7760000228882
+          },
+          "render_cpu_ms": {
+            "count": 1128,
+            "max": 2.13299989700317,
+            "mean": 1.30425975154689,
+            "p95": 1.78400003910065,
+            "p99": 1.99800002574921
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1747.6328125,
+                1747.71875
+              ],
+              "first": 1747.6328125,
+              "last": 1747.7109375
+            },
+            "private_mib": {
+              "range": [
+                5514.6015625,
+                5514.67578125
+              ],
+              "first": 5514.67578125,
+              "last": 5514.6015625
+            },
+            "system_free_mib": {
+              "range": [
+                3175.3125,
+                3195.453125
+              ],
+              "first": 3175.3125,
+              "last": 3187.9921875
+            },
+            "windows_gpu_dedicated_mib": [
+              4074.76171875,
+              4074.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 3,
+          "frame_ms": {
+            "average_fps": 73.5051884639621,
+            "count": 1100,
+            "max": 51.779,
+            "mean": 13.6044818181818,
+            "median_fps": 72.7881500891655,
+            "p50": 13.7385,
+            "p95": 18.341,
+            "p99": 25.681,
+            "slowest_one_percent_fps": 28.8716941910151
+          },
+          "gpu_ms": {
+            "count": 1100,
+            "max": 18.7530002593994,
+            "mean": 11.1715445514159,
+            "p95": 14.9440002441406,
+            "p99": 17.8600006103516
+          },
+          "render_cpu_ms": {
+            "count": 1100,
+            "max": 4.18599987030029,
+            "mean": 1.3540190923214,
+            "p95": 1.91299998760223,
+            "p99": 2.32299995422363
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1749.25,
+                1749.32421875
+              ],
+              "first": 1749.25,
+              "last": 1749.32421875
+            },
+            "private_mib": {
+              "range": [
+                5516.04296875,
+                5516.04296875
+              ],
+              "first": 5516.04296875,
+              "last": 5516.04296875
+            },
+            "system_free_mib": {
+              "range": [
+                3181.5,
+                3196.5859375
+              ],
+              "first": 3196.5859375,
+              "last": 3186.93359375
+            },
+            "windows_gpu_dedicated_mib": [
+              4074.76171875,
+              4074.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 8.255878333979602,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        }
+      ]
+    },
+    "grass_candidate_transition_off_3": {
+      "trace_sha256": "f38f62d39a3829ded06afef2b5303eccdd47756918d4532c6981aefd66d5188c",
+      "summary": {
+        "average_fps": 76.3447215099384,
+        "median_fps": 75.4489210804285,
+        "mean": 13.0984825174825,
+        "p50": 13.254,
+        "p95": 17.074,
+        "p99": 20.804,
+        "slowest_one_percent_fps": 34.4013026626608,
+        "max": 38.724,
+        "gpu_ms_mean": 10.8053944703201,
+        "render_cpu_ms_mean": 1.30972377627671,
+        "draw_calls_mean": 716.402972027972,
+        "submitted_primitives_mean": 10765901.3802448,
+        "submitted_objects_mean": 1165.26573426573,
+        "average_fps_range": [
+          74.9359474479472,
+          77.6386206837571
+        ],
+        "runs": 3
+      },
+      "loading": {
+        "job_stages_ms": {
+          "distant_scenery": 8312.715,
+          "flavor": 281.869,
+          "forest_uploads": 5987.578,
+          "material_uploads": 85.91,
+          "mineral_uploads": 19946.093,
+          "preparation_cache_read": 4024.914,
+          "rider_and_interface": 4595.013,
+          "scene_submission": 35604.898,
+          "terrain_meshes_uploads": 990.76
+        },
+        "physical_cache_hit": true,
+        "physical_load_or_generation_seconds": 3.904317,
+        "physical_stages_ms": {
+          "cache_source": "user",
+          "original_bake_ms": 201010.446,
+          "physical_cache_read": 2407.326
+        },
+        "scene_build_ms": {
+          "distant_scenery_ms": 8312.708,
+          "flavor_ms": 281.867,
+          "forest_uploads_ms": 5987.573,
+          "material_uploads_ms": 85.902,
+          "mineral_uploads_ms": 19946.089,
+          "terrain_meshes_uploads_ms": 990.759
+        },
+        "scene_ready_seconds": 48.270408,
+        "scenery_cache_hit": true,
+        "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+      },
+      "rows": [
+        {
+          "run": 1,
+          "frame_ms": {
+            "average_fps": 74.9359474479472,
+            "count": 1123,
+            "max": 49.461,
+            "mean": 13.3447301869991,
+            "median_fps": 72.6532984597501,
+            "p50": 13.764,
+            "p95": 17.11,
+            "p99": 20.804,
+            "slowest_one_percent_fps": 34.2620245430302
+          },
+          "gpu_ms": {
+            "count": 1123,
+            "max": 15.1850004196167,
+            "mean": 10.8053944703201,
+            "p95": 12.5740003585815,
+            "p99": 13.5550003051758
+          },
+          "render_cpu_ms": {
+            "count": 1123,
+            "max": 2.84299993515015,
+            "mean": 1.34961442478194,
+            "p95": 1.86500000953674,
+            "p99": 2.1029999256134
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1734.04296875,
+                1830.53125
+              ],
+              "first": 1830.53125,
+              "last": 1746.59765625
+            },
+            "private_mib": {
+              "range": [
+                5565.37109375,
+                5662.17578125
+              ],
+              "first": 5662.17578125,
+              "last": 5577.48046875
+            },
+            "system_free_mib": {
+              "range": [
+                3174.2890625,
+                3185.7578125
+              ],
+              "first": 3180.1171875,
+              "last": 3181.91015625
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "AMDRSServ": 4.159189691358511,
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 2,
+          "frame_ms": {
+            "average_fps": 76.3447215099384,
+            "count": 1144,
+            "max": 38.724,
+            "mean": 13.0984825174825,
+            "median_fps": 75.4489210804285,
+            "p50": 13.254,
+            "p95": 17.074,
+            "p99": 23.938,
+            "slowest_one_percent_fps": 34.4013026626608
+          },
+          "gpu_ms": {
+            "count": 1144,
+            "max": 16.431999206543,
+            "mean": 11.0191075084926,
+            "p95": 13.1940002441406,
+            "p99": 15.7720003128052
+          },
+          "render_cpu_ms": {
+            "count": 1144,
+            "max": 3.57200002670288,
+            "mean": 1.30972377627671,
+            "p95": 1.79200005531311,
+            "p99": 2.2279999256134
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1749.9296875,
+                1750.0625
+              ],
+              "first": 1749.9296875,
+              "last": 1750.0625
+            },
+            "private_mib": {
+              "range": [
+                5580.80859375,
+                5580.8828125
+              ],
+              "first": 5580.8828125,
+              "last": 5580.80859375
+            },
+            "system_free_mib": {
+              "range": [
+                3179.5,
+                3296.9296875
+              ],
+              "first": 3179.5,
+              "last": 3296.9296875
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 8.303870784596047,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 3,
+          "frame_ms": {
+            "average_fps": 77.6386206837571,
+            "count": 1162,
+            "max": 25.765,
+            "mean": 12.8801876075731,
+            "median_fps": 76.1788679820218,
+            "p50": 13.127,
+            "p95": 16.433,
+            "p99": 18.764,
+            "slowest_one_percent_fps": 47.1061143736457
+          },
+          "gpu_ms": {
+            "count": 1162,
+            "max": 14.0659999847412,
+            "mean": 10.7695034477674,
+            "p95": 12.5830001831055,
+            "p99": 13.4280004501343
+          },
+          "render_cpu_ms": {
+            "count": 1162,
+            "max": 2.2279999256134,
+            "mean": 1.30714630029083,
+            "p95": 1.74600005149841,
+            "p99": 1.94099998474121
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1751.63671875,
+                1751.65234375
+              ],
+              "first": 1751.63671875,
+              "last": 1751.65234375
+            },
+            "private_mib": {
+              "range": [
+                5582.453125,
+                5582.453125
+              ],
+              "first": 5582.453125,
+              "last": 5582.453125
+            },
+            "system_free_mib": {
+              "range": [
+                3291.33203125,
+                3300.328125
+              ],
+              "first": 3292.41796875,
+              "last": 3300.17578125
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 4.099912102804411,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        }
+      ]
+    },
+    "grass_candidate_transition_on_1": {
+      "trace_sha256": "f38f62d39a3829ded06afef2b5303eccdd47756918d4532c6981aefd66d5188c",
+      "summary": {
+        "average_fps": 76.3160390184795,
+        "median_fps": 73.9207569485511,
+        "mean": 13.1034054290718,
+        "p50": 13.528,
+        "p95": 16.977,
+        "p99": 21.426,
+        "slowest_one_percent_fps": 39.2319688236621,
+        "max": 33.912,
+        "gpu_ms_mean": 10.96698248282,
+        "render_cpu_ms_mean": 1.30473292448057,
+        "draw_calls_mean": 774.856392294221,
+        "submitted_primitives_mean": 10945179.0071942,
+        "submitted_objects_mean": 1223.86339754816,
+        "average_fps_range": [
+          74.2330976677256,
+          77.0393908947986
+        ],
+        "runs": 3
+      },
+      "loading": {
+        "job_stages_ms": {
+          "distant_scenery": 8184.926,
+          "flavor": 284.93,
+          "forest_uploads": 5884.727,
+          "material_uploads": 85.393,
+          "mineral_uploads": 19665.585,
+          "preparation_cache_read": 3815.184,
+          "rider_and_interface": 4607.184,
+          "scene_submission": 35098.406,
+          "terrain_meshes_uploads": 992.872
+        },
+        "physical_cache_hit": true,
+        "physical_load_or_generation_seconds": 4.024708,
+        "physical_stages_ms": {
+          "cache_source": "user",
+          "original_bake_ms": 201010.446,
+          "physical_cache_read": 2378.687
+        },
+        "scene_build_ms": {
+          "distant_scenery_ms": 8184.917,
+          "flavor_ms": 284.928,
+          "forest_uploads_ms": 5884.724,
+          "material_uploads_ms": 85.386,
+          "mineral_uploads_ms": 19665.58,
+          "terrain_meshes_uploads_ms": 992.871
+        },
+        "scene_ready_seconds": 47.470334,
+        "scenery_cache_hit": true,
+        "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+      },
+      "rows": [
+        {
+          "run": 1,
+          "frame_ms": {
+            "average_fps": 74.2330976677256,
+            "count": 1112,
+            "max": 51.624,
+            "mean": 13.4710800359712,
+            "median_fps": 73.3756466228859,
+            "p50": 13.6285,
+            "p95": 18.126,
+            "p99": 23.665,
+            "slowest_one_percent_fps": 33.4280461307037
+          },
+          "gpu_ms": {
+            "count": 1112,
+            "max": 17.4379997253418,
+            "mean": 10.9772895707501,
+            "p95": 13.4490003585815,
+            "p99": 15.2829999923706
+          },
+          "render_cpu_ms": {
+            "count": 1112,
+            "max": 2.53600001335144,
+            "mean": 1.354574640449,
+            "p95": 1.86800003051758,
+            "p99": 2.10999989509583
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1750.93359375,
+                1839.140625
+              ],
+              "first": 1839.140625,
+              "last": 1758.94140625
+            },
+            "private_mib": {
+              "range": [
+                5522.7109375,
+                5611.83203125
+              ],
+              "first": 5611.83203125,
+              "last": 5530.3671875
+            },
+            "system_free_mib": {
+              "range": [
+                2962.51171875,
+                3064.265625
+              ],
+              "first": 3046.96875,
+              "last": 3064.265625
+            },
+            "windows_gpu_dedicated_mib": [
+              4074.76171875,
+              4074.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 2,
+          "frame_ms": {
+            "average_fps": 76.3160390184795,
+            "count": 1142,
+            "max": 27.448,
+            "mean": 13.1034054290718,
+            "median_fps": 73.9207569485511,
+            "p50": 13.528,
+            "p95": 16.908,
+            "p99": 19.419,
+            "slowest_one_percent_fps": 45.3333131851942
+          },
+          "gpu_ms": {
+            "count": 1142,
+            "max": 13.7430000305176,
+            "mean": 10.96698248282,
+            "p95": 12.6070003509521,
+            "p99": 13.0790004730225
+          },
+          "render_cpu_ms": {
+            "count": 1142,
+            "max": 2.42899990081787,
+            "mean": 1.30473292448057,
+            "p95": 1.79499995708466,
+            "p99": 2.01600003242493
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1762.9921875,
+                1763.13671875
+              ],
+              "first": 1762.9921875,
+              "last": 1763.13671875
+            },
+            "private_mib": {
+              "range": [
+                5534.359375,
+                5534.43359375
+              ],
+              "first": 5534.43359375,
+              "last": 5534.359375
+            },
+            "system_free_mib": {
+              "range": [
+                3060.859375,
+                3173.00390625
+              ],
+              "first": 3060.859375,
+              "last": 3164.60546875
+            },
+            "windows_gpu_dedicated_mib": [
+              4074.76171875,
+              4074.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 3,
+          "frame_ms": {
+            "average_fps": 77.0393908947986,
+            "count": 1154,
+            "max": 33.912,
+            "mean": 12.9803726169844,
+            "median_fps": 75.8639001631074,
+            "p50": 13.1815,
+            "p95": 16.977,
+            "p99": 21.426,
+            "slowest_one_percent_fps": 39.2319688236621
+          },
+          "gpu_ms": {
+            "count": 1154,
+            "max": 17.7880001068115,
+            "mean": 10.8876343240358,
+            "p95": 12.78600025177,
+            "p99": 15.2959995269775
+          },
+          "render_cpu_ms": {
+            "count": 1154,
+            "max": 2.24900007247925,
+            "mean": 1.28610052119301,
+            "p95": 1.74199998378754,
+            "p99": 1.94500005245209
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1764.6328125,
+                1764.65234375
+              ],
+              "first": 1764.6328125,
+              "last": 1764.65234375
+            },
+            "private_mib": {
+              "range": [
+                5535.8828125,
+                5535.8828125
+              ],
+              "first": 5535.8828125,
+              "last": 5535.8828125
+            },
+            "system_free_mib": {
+              "range": [
+                3151.08203125,
+                3158.234375
+              ],
+              "first": 3155.921875,
+              "last": 3158.234375
+            },
+            "windows_gpu_dedicated_mib": [
+              4074.76171875,
+              4074.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        }
+      ]
+    },
+    "grass_candidate_transition_on_2": {
+      "trace_sha256": "f38f62d39a3829ded06afef2b5303eccdd47756918d4532c6981aefd66d5188c",
+      "summary": {
+        "average_fps": 70.4758025173155,
+        "median_fps": 69.3962526023595,
+        "mean": 14.1892672985782,
+        "p50": 14.41,
+        "p95": 19.153,
+        "p99": 25.202,
+        "slowest_one_percent_fps": 34.0789392155648,
+        "max": 42.793,
+        "gpu_ms_mean": 11.597673263946,
+        "render_cpu_ms_mean": 1.51411184846507,
+        "draw_calls_mean": 775.305949008499,
+        "submitted_primitives_mean": 10941531.7090047,
+        "submitted_objects_mean": 1224.28151658768,
+        "average_fps_range": [
+          65.9324232701414,
+          70.717669487516
+        ],
+        "runs": 3
+      },
+      "loading": {
+        "job_stages_ms": {
+          "distant_scenery": 8300.069,
+          "flavor": 288.772,
+          "forest_uploads": 5888.969,
+          "material_uploads": 87.481,
+          "mineral_uploads": 18682.079,
+          "preparation_cache_read": 4072.764,
+          "rider_and_interface": 4674.466,
+          "scene_submission": 34240.524,
+          "terrain_meshes_uploads": 993.186
+        },
+        "physical_cache_hit": true,
+        "physical_load_or_generation_seconds": 3.897787,
+        "physical_stages_ms": {
+          "cache_source": "user",
+          "original_bake_ms": 201010.446,
+          "physical_cache_read": 2395.677
+        },
+        "scene_build_ms": {
+          "distant_scenery_ms": 8300.063,
+          "flavor_ms": 288.77,
+          "forest_uploads_ms": 5888.963,
+          "material_uploads_ms": 87.473,
+          "mineral_uploads_ms": 18682.077,
+          "terrain_meshes_uploads_ms": 993.178
+        },
+        "scene_ready_seconds": 46.877149,
+        "scenery_cache_hit": true,
+        "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+      },
+      "rows": [
+        {
+          "run": 1,
+          "frame_ms": {
+            "average_fps": 65.9324232701414,
+            "count": 988,
+            "max": 52.201,
+            "mean": 15.167044534413,
+            "median_fps": 67.272115708039,
+            "p50": 14.865,
+            "p95": 22.834,
+            "p99": 36.22,
+            "slowest_one_percent_fps": 23.9656428544039
+          },
+          "gpu_ms": {
+            "count": 988,
+            "max": 18.4570007324219,
+            "mean": 11.9506497909183,
+            "p95": 16.7399997711182,
+            "p99": 17.6849994659424
+          },
+          "render_cpu_ms": {
+            "count": 988,
+            "max": 4.47200012207031,
+            "mean": 1.57648583178819,
+            "p95": 2.20300006866455,
+            "p99": 2.7960000038147
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1748.3359375,
+                1842.0625
+              ],
+              "first": 1842.0625,
+              "last": 1758.765625
+            },
+            "private_mib": {
+              "range": [
+                5582.94921875,
+                5679.94140625
+              ],
+              "first": 5679.94140625,
+              "last": 5592.875
+            },
+            "system_free_mib": {
+              "range": [
+                3115.671875,
+                3152.921875
+              ],
+              "first": 3124.2421875,
+              "last": 3151.625
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 8.280042976735066,
+            "AMDRSServ": 4.140021488367533,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 2,
+          "frame_ms": {
+            "average_fps": 70.4758025173155,
+            "count": 1055,
+            "max": 30.801,
+            "mean": 14.1892672985782,
+            "median_fps": 69.3962526023595,
+            "p50": 14.41,
+            "p95": 18.811,
+            "p99": 22.957,
+            "slowest_one_percent_fps": 38.700643486154
+          },
+          "gpu_ms": {
+            "count": 1055,
+            "max": 16.3920001983643,
+            "mean": 11.4976161025712,
+            "p95": 14.7489995956421,
+            "p99": 15.8120002746582
+          },
+          "render_cpu_ms": {
+            "count": 1055,
+            "max": 3.21600008010864,
+            "mean": 1.51411184846507,
+            "p95": 2.00300002098083,
+            "p99": 2.30800008773804
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1763.42578125,
+                1763.4453125
+              ],
+              "first": 1763.4296875,
+              "last": 1763.42578125
+            },
+            "private_mib": {
+              "range": [
+                5597.390625,
+                5597.46484375
+              ],
+              "first": 5597.46484375,
+              "last": 5597.390625
+            },
+            "system_free_mib": {
+              "range": [
+                3145.14453125,
+                3231.38671875
+              ],
+              "first": 3145.14453125,
+              "last": 3227.47265625
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 3,
+          "frame_ms": {
+            "average_fps": 70.717669487516,
+            "count": 1059,
+            "max": 42.793,
+            "mean": 14.1407374881964,
+            "median_fps": 69.5265243690468,
+            "p50": 14.383,
+            "p95": 19.153,
+            "p99": 25.202,
+            "slowest_one_percent_fps": 34.0789392155648
+          },
+          "gpu_ms": {
+            "count": 1059,
+            "max": 18.2910003662109,
+            "mean": 11.597673263946,
+            "p95": 15.378999710083,
+            "p99": 17.6450004577637
+          },
+          "render_cpu_ms": {
+            "count": 1059,
+            "max": 2.68899989128113,
+            "mean": 1.47934560825287,
+            "p95": 1.97300004959106,
+            "p99": 2.21700000762939
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1764.5625,
+                1764.7734375
+              ],
+              "first": 1764.5625,
+              "last": 1764.7734375
+            },
+            "private_mib": {
+              "range": [
+                5598.52734375,
+                5598.75390625
+              ],
+              "first": 5598.52734375,
+              "last": 5598.75390625
+            },
+            "system_free_mib": {
+              "range": [
+                3224.53515625,
+                3231.7734375
+              ],
+              "first": 3224.53515625,
+              "last": 3231.1640625
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        }
+      ]
+    },
+    "grass_candidate_transition_on_3": {
+      "trace_sha256": "f38f62d39a3829ded06afef2b5303eccdd47756918d4532c6981aefd66d5188c",
+      "summary": {
+        "average_fps": 70.2114459072867,
+        "median_fps": 68.8562969083523,
+        "mean": 14.2426920152091,
+        "p50": 14.523,
+        "p95": 20.002,
+        "p99": 23.95,
+        "slowest_one_percent_fps": 38.1516563021334,
+        "max": 34.518,
+        "gpu_ms_mean": 11.5307672229586,
+        "render_cpu_ms_mean": 1.54976045779402,
+        "draw_calls_mean": 774.747180451128,
+        "submitted_primitives_mean": 10991509.2618817,
+        "submitted_objects_mean": 1223.6287593985,
+        "average_fps_range": [
+          68.7612870885777,
+          71.0126592078458
+        ],
+        "runs": 3
+      },
+      "loading": {
+        "job_stages_ms": {
+          "distant_scenery": 8471.593,
+          "flavor": 283.207,
+          "forest_uploads": 6010.855,
+          "material_uploads": 86.06,
+          "mineral_uploads": 20804.258,
+          "preparation_cache_read": 4069.31,
+          "rider_and_interface": 4574.382,
+          "scene_submission": 36647.209,
+          "terrain_meshes_uploads": 991.274
+        },
+        "physical_cache_hit": true,
+        "physical_load_or_generation_seconds": 3.858959,
+        "physical_stages_ms": {
+          "cache_source": "user",
+          "original_bake_ms": 201010.446,
+          "physical_cache_read": 2371.288
+        },
+        "scene_build_ms": {
+          "distant_scenery_ms": 8471.582,
+          "flavor_ms": 283.205,
+          "forest_uploads_ms": 6010.85,
+          "material_uploads_ms": 86.052,
+          "mineral_uploads_ms": 20804.255,
+          "terrain_meshes_uploads_ms": 991.265
+        },
+        "scene_ready_seconds": 49.352327,
+        "scenery_cache_hit": true,
+        "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+      },
+      "rows": [
+        {
+          "run": 1,
+          "frame_ms": {
+            "average_fps": 68.7612870885777,
+            "count": 1031,
+            "max": 49.794,
+            "mean": 14.5430669253152,
+            "median_fps": 68.8562969083523,
+            "p50": 14.523,
+            "p95": 21.055,
+            "p99": 25.599,
+            "slowest_one_percent_fps": 29.7355161004304
+          },
+          "gpu_ms": {
+            "count": 1031,
+            "max": 17.7479991912842,
+            "mean": 11.5307672229586,
+            "p95": 15.6470003128052,
+            "p99": 17.0370006561279
+          },
+          "render_cpu_ms": {
+            "count": 1031,
+            "max": 2.74799990653992,
+            "mean": 1.569147430382,
+            "p95": 2.08999991416931,
+            "p99": 2.41799998283386
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1754.171875,
+                1850.19140625
+              ],
+              "first": 1848.0390625,
+              "last": 1768.15625
+            },
+            "private_mib": {
+              "range": [
+                5589.95703125,
+                5687.48046875
+              ],
+              "first": 5685.7265625,
+              "last": 5603.421875
+            },
+            "system_free_mib": {
+              "range": [
+                3191.1953125,
+                3203.91015625
+              ],
+              "first": 3191.1953125,
+              "last": 3195.4375
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "AMDRSServ": 3.933073747319551,
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 2,
+          "frame_ms": {
+            "average_fps": 70.2114459072867,
+            "count": 1052,
+            "max": 34.518,
+            "mean": 14.2426920152091,
+            "median_fps": 68.1849174962498,
+            "p50": 14.666,
+            "p95": 18.333,
+            "p99": 22.481,
+            "slowest_one_percent_fps": 38.1516563021334
+          },
+          "gpu_ms": {
+            "count": 1052,
+            "max": 17.6380004882812,
+            "mean": 11.6085275701697,
+            "p95": 13.8190002441406,
+            "p99": 15.6280002593994
+          },
+          "render_cpu_ms": {
+            "count": 1052,
+            "max": 2.62700009346008,
+            "mean": 1.54976045779402,
+            "p95": 2.02600002288818,
+            "p99": 2.35199999809265
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1770.40234375,
+                1770.44921875
+              ],
+              "first": 1770.40234375,
+              "last": 1770.42578125
+            },
+            "private_mib": {
+              "range": [
+                5605.3671875,
+                5605.44140625
+              ],
+              "first": 5605.44140625,
+              "last": 5605.3671875
+            },
+            "system_free_mib": {
+              "range": [
+                3204.203125,
+                3224.3125
+              ],
+              "first": 3204.203125,
+              "last": 3217.109375
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 3.940999516928043,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        },
+        {
+          "run": 3,
+          "frame_ms": {
+            "average_fps": 71.0126592078458,
+            "count": 1064,
+            "max": 28.451,
+            "mean": 14.0819962406015,
+            "median_fps": 70.2173226134887,
+            "p50": 14.2415,
+            "p95": 20.002,
+            "p99": 23.95,
+            "slowest_one_percent_fps": 39.6450685138866
+          },
+          "gpu_ms": {
+            "count": 1064,
+            "max": 17.9099998474121,
+            "mean": 11.4883101412228,
+            "p95": 15.1180000305176,
+            "p99": 17.0799999237061
+          },
+          "render_cpu_ms": {
+            "count": 1064,
+            "max": 2.58400011062622,
+            "mean": 1.49889755618752,
+            "p95": 1.95799994468689,
+            "p99": 2.25300002098083
+          },
+          "memory": {
+            "working_set_mib": {
+              "range": [
+                1772.61328125,
+                1772.63671875
+              ],
+              "first": 1772.61328125,
+              "last": 1772.63671875
+            },
+            "private_mib": {
+              "range": [
+                5607.6484375,
+                5607.6484375
+              ],
+              "first": 5607.6484375,
+              "last": 5607.6484375
+            },
+            "system_free_mib": {
+              "range": [
+                3203.8671875,
+                3213.8671875
+              ],
+              "first": 3206.21875,
+              "last": 3211.21484375
+            },
+            "windows_gpu_dedicated_mib": [
+              4138.76171875,
+              4138.76171875
+            ],
+            "windows_gpu_shared_mib": [
+              245.23828125,
+              245.23828125
+            ]
+          },
+          "background_peak_machine_cpu_percent": {
+            "ChatGPT": 0.0,
+            "codex": 0.0,
+            "Memory Compression": 0.0
+          }
+        }
+      ]
+    }
+  },
+  "evidence_root": "artifacts/terrain_grass_performance_20260913/",
+  "raw_benchmark_root": "artifacts/pc_environment/grass_candidate_*",
+  "qualification": "The requested grass measurement and scoped optimizations are complete. Both controls miss the whole-game frame-time goals; no complete-descent, display-latency or human/controller acceptance is claimed.",
+  "supplemental_stress": {
+    "off": {
+      "summary": {
+        "average_fps": 80.6957225064838,
+        "median_fps": 84.7888756995082,
+        "mean": 12.3922305785124,
+        "p50": 11.794,
+        "p95": 17.478,
+        "p99": 24.216,
+        "slowest_one_percent_fps": 31.118568928827,
+        "max": 52.202,
+        "gpu_ms_mean": 9.84028412987615,
+        "render_cpu_ms_mean": 1.85241900574077,
+        "draw_calls_mean": 1214.13621533442,
+        "submitted_primitives_mean": 7684640.34628099,
+        "submitted_objects_mean": 1692.06198347107,
+        "average_fps_range": [
+          72.8246700344906,
+          81.7820427179762
+        ],
+        "runs": 3
+      },
+      "trace_sha256": "dc315b63dd01f96c00d59a6306e427a1a9b2c090b559c83e4e2c981f4e729432",
+      "rows": [
+        {
+          "run": 1,
+          "stress": {
+            "grounded_ticks": 1273,
+            "immortal": true,
+            "nonblocking_contacts": 44,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {
+              "IMPACT LIMIT / TREE IMPACT": 20
+            },
+            "speed_kmh": {
+              "max": 170.000010681152,
+              "mean": 169.999995246886,
+              "min": 169.999969482422
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.840404093266
+          },
+          "grass": {
+            "enabled": false,
+            "end": {
+              "distance_m": 130.0,
+              "ground_density": 0.0,
+              "ground_population": 0,
+              "inflight_cells": 0,
+              "mineral_population": 0,
+              "pending_cells": 0,
+              "prepare_cell_ms": {
+                "count": 0
+              },
+              "resident_cells": 0
+            },
+            "start": {
+              "distance_m": 130.0,
+              "ground_density": 0.0,
+              "ground_population": 0,
+              "inflight_cells": 0,
+              "mineral_population": 0,
+              "pending_cells": 0,
+              "prepare_cell_ms": {
+                "count": 0
+              },
+              "resident_cells": 0
+            }
+          },
+          "memory": {
+            "working_set_mib": {
+              "min": 1740.734375,
+              "max": 1834.1640625,
+              "first": 1828.02734375,
+              "last": 1764.05078125
+            },
+            "private_mib": {
+              "min": 5552.5078125,
+              "max": 5646.29296875,
+              "first": 5640.5859375,
+              "last": 5575.7734375
+            },
+            "system_free_mib": {
+              "min": 2925.07421875,
+              "max": 3206.6875,
+              "first": 3200.21484375,
+              "last": 2993.6328125
+            },
+            "windows_gpu_dedicated_mib": {
+              "min": 4118.76171875,
+              "max": 4118.76171875
+            },
+            "windows_gpu_shared_mib": {
+              "min": 245.23828125,
+              "max": 245.23828125
+            }
+          },
+          "stream_grass_us": null
+        },
+        {
+          "run": 2,
+          "stress": {
+            "grounded_ticks": 1273,
+            "immortal": true,
+            "nonblocking_contacts": 44,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {
+              "IMPACT LIMIT / TREE IMPACT": 20
+            },
+            "speed_kmh": {
+              "max": 170.000010681152,
+              "mean": 169.999995246886,
+              "min": 169.999969482422
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.840404093266
+          },
+          "grass": {
+            "enabled": false,
+            "end": {
+              "distance_m": 130.0,
+              "ground_density": 0.0,
+              "ground_population": 0,
+              "inflight_cells": 0,
+              "mineral_population": 0,
+              "pending_cells": 0,
+              "prepare_cell_ms": {
+                "count": 0
+              },
+              "resident_cells": 0
+            },
+            "start": {
+              "distance_m": 130.0,
+              "ground_density": 0.0,
+              "ground_population": 0,
+              "inflight_cells": 0,
+              "mineral_population": 0,
+              "pending_cells": 0,
+              "prepare_cell_ms": {
+                "count": 0
+              },
+              "resident_cells": 0
+            }
+          },
+          "memory": {
+            "working_set_mib": {
+              "min": 1766.17578125,
+              "max": 1770.1015625,
+              "first": 1766.17578125,
+              "last": 1770.1015625
+            },
+            "private_mib": {
+              "min": 5577.80859375,
+              "max": 5582.37109375,
+              "first": 5577.8515625,
+              "last": 5582.37109375
+            },
+            "system_free_mib": {
+              "min": 3012.96875,
+              "max": 3086.88671875,
+              "first": 3012.96875,
+              "last": 3067.5078125
+            },
+            "windows_gpu_dedicated_mib": {
+              "min": 4118.76171875,
+              "max": 4118.76171875
+            },
+            "windows_gpu_shared_mib": {
+              "min": 245.23828125,
+              "max": 245.23828125
+            }
+          },
+          "stream_grass_us": null
+        },
+        {
+          "run": 3,
+          "stress": {
+            "grounded_ticks": 1273,
+            "immortal": true,
+            "nonblocking_contacts": 44,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {
+              "IMPACT LIMIT / TREE IMPACT": 20
+            },
+            "speed_kmh": {
+              "max": 170.000010681152,
+              "mean": 169.999995246886,
+              "min": 169.999969482422
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.840404093266
+          },
+          "grass": {
+            "enabled": false,
+            "end": {
+              "distance_m": 130.0,
+              "ground_density": 0.0,
+              "ground_population": 0,
+              "inflight_cells": 0,
+              "mineral_population": 0,
+              "pending_cells": 0,
+              "prepare_cell_ms": {
+                "count": 0
+              },
+              "resident_cells": 0
+            },
+            "start": {
+              "distance_m": 130.0,
+              "ground_density": 0.0,
+              "ground_population": 0,
+              "inflight_cells": 0,
+              "mineral_population": 0,
+              "pending_cells": 0,
+              "prepare_cell_ms": {
+                "count": 0
+              },
+              "resident_cells": 0
+            }
+          },
+          "memory": {
+            "working_set_mib": {
+              "min": 1771.34375,
+              "max": 1772.3828125,
+              "first": 1771.359375,
+              "last": 1772.3828125
+            },
+            "private_mib": {
+              "min": 5582.921875,
+              "max": 5584.26171875,
+              "first": 5582.921875,
+              "last": 5584.26171875
+            },
+            "system_free_mib": {
+              "min": 3082.66796875,
+              "max": 3237.35546875,
+              "first": 3082.66796875,
+              "last": 3232.6328125
+            },
+            "windows_gpu_dedicated_mib": {
+              "min": 4118.76171875,
+              "max": 4118.76171875
+            },
+            "windows_gpu_shared_mib": {
+              "min": 245.23828125,
+              "max": 245.23828125
+            }
+          },
+          "stream_grass_us": null
+        }
+      ]
+    },
+    "on": {
+      "summary": {
+        "average_fps": 69.4499808362084,
+        "median_fps": 72.5163161711385,
+        "mean": 14.3988520653218,
+        "p50": 13.79,
+        "p95": 23.103,
+        "p99": 30.991,
+        "slowest_one_percent_fps": 28.5343709468223,
+        "max": 38.981,
+        "gpu_ms_mean": 10.4675015011427,
+        "render_cpu_ms_mean": 2.18281178646668,
+        "draw_calls_mean": 1295.2433460076,
+        "submitted_primitives_mean": 8023964.25072046,
+        "submitted_objects_mean": 1771.76140684411,
+        "average_fps_range": [
+          66.5590372986296,
+          70.2236268727664
+        ],
+        "runs": 3
+      },
+      "trace_sha256": "dc315b63dd01f96c00d59a6306e427a1a9b2c090b559c83e4e2c981f4e729432",
+      "rows": [
+        {
+          "run": 1,
+          "stress": {
+            "grounded_ticks": 1273,
+            "immortal": true,
+            "nonblocking_contacts": 44,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {
+              "IMPACT LIMIT / TREE IMPACT": 20
+            },
+            "speed_kmh": {
+              "max": 170.000010681152,
+              "mean": 169.999995246886,
+              "min": 169.999969482422
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.840404093266
+          },
+          "grass": {
+            "enabled": true,
+            "end": {
+              "distance_m": 130.0,
+              "ground_density": 1.0,
+              "ground_population": 7703,
+              "inflight_cells": 0,
+              "mineral_population": 496,
+              "pending_cells": 0,
+              "prepare_cell_ms": {
+                "count": 882,
+                "max": 19.768,
+                "mean": 8.21273015873016,
+                "p95": 13.707,
+                "p99": 15.985
+              },
+              "resident_cells": 261
+            },
+            "start": {
+              "distance_m": 130.0,
+              "ground_density": 1.0,
+              "ground_population": 468,
+              "inflight_cells": 0,
+              "mineral_population": 496,
+              "pending_cells": 0,
+              "prepare_cell_ms": {
+                "count": 276,
+                "max": 13.202,
+                "mean": 5.36825724637681,
+                "p95": 10.089,
+                "p99": 12.434
+              },
+              "resident_cells": 261
+            }
+          },
+          "memory": {
+            "working_set_mib": {
+              "min": 1750.0234375,
+              "max": 1840.1015625,
+              "first": 1840.1015625,
+              "last": 1778.375
+            },
+            "private_mib": {
+              "min": 5629.0234375,
+              "max": 5716.19921875,
+              "first": 5716.19921875,
+              "last": 5656.30859375
+            },
+            "system_free_mib": {
+              "min": 3117.71484375,
+              "max": 3143.7265625,
+              "first": 3143.7265625,
+              "last": 3117.71484375
+            },
+            "windows_gpu_dedicated_mib": {
+              "min": 4182.76171875,
+              "max": 4182.76171875
+            },
+            "windows_gpu_shared_mib": {
+              "min": 245.23828125,
+              "max": 245.23828125
+            }
+          },
+          "stream_grass_us": {
+            "count": 999,
+            "max": 5857.0,
+            "mean": 617.342342342342,
+            "p95": 2792.0,
+            "p99": 3901.0
+          }
+        },
+        {
+          "run": 2,
+          "stress": {
+            "grounded_ticks": 1273,
+            "immortal": true,
+            "nonblocking_contacts": 44,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {
+              "IMPACT LIMIT / TREE IMPACT": 20
+            },
+            "speed_kmh": {
+              "max": 170.000010681152,
+              "mean": 169.999995246886,
+              "min": 169.999969482422
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.840404093266
+          },
+          "grass": {
+            "enabled": true,
+            "end": {
+              "distance_m": 130.0,
+              "ground_density": 1.0,
+              "ground_population": 7703,
+              "inflight_cells": 0,
+              "mineral_population": 496,
+              "pending_cells": 0,
+              "prepare_cell_ms": {
+                "count": 883,
+                "max": 18.543,
+                "mean": 8.12679954699887,
+                "p95": 13.672,
+                "p99": 15.902
+              },
+              "resident_cells": 261
+            },
+            "start": {
+              "distance_m": 130.0,
+              "ground_density": 1.0,
+              "ground_population": 468,
+              "inflight_cells": 0,
+              "mineral_population": 496,
+              "pending_cells": 0,
+              "prepare_cell_ms": {
+                "count": 1143,
+                "max": 19.768,
+                "mean": 7.53809011373579,
+                "p95": 13.484,
+                "p99": 15.72
+              },
+              "resident_cells": 261
+            }
+          },
+          "memory": {
+            "working_set_mib": {
+              "min": 1781.19921875,
+              "max": 1784.81640625,
+              "first": 1781.19921875,
+              "last": 1784.81640625
+            },
+            "private_mib": {
+              "min": 5659.0234375,
+              "max": 5662.515625,
+              "first": 5659.06640625,
+              "last": 5662.515625
+            },
+            "system_free_mib": {
+              "min": 3113.01171875,
+              "max": 3206.1875,
+              "first": 3113.01171875,
+              "last": 3200.1875
+            },
+            "windows_gpu_dedicated_mib": {
+              "min": 4182.76171875,
+              "max": 4182.76171875
+            },
+            "windows_gpu_shared_mib": {
+              "min": 245.23828125,
+              "max": 245.23828125
+            }
+          },
+          "stream_grass_us": {
+            "count": 1054,
+            "max": 4504.0,
+            "mean": 552.001897533207,
+            "p95": 2562.0,
+            "p99": 3428.0
+          }
+        },
+        {
+          "run": 3,
+          "stress": {
+            "grounded_ticks": 1273,
+            "immortal": true,
+            "nonblocking_contacts": 44,
+            "obstacle_queries": 1800,
+            "obstacles": "queries_and_events_without_translation_stop",
+            "prevented_crashes": {
+              "IMPACT LIMIT / TREE IMPACT": 20
+            },
+            "speed_kmh": {
+              "max": 170.000010681152,
+              "mean": 169.999995246886,
+              "min": 169.999969482422
+            },
+            "target_speed_kmh": 170.0,
+            "ticks": 1800,
+            "travelled_m": 707.840404093266
+          },
+          "grass": {
+            "enabled": true,
+            "end": {
+              "distance_m": 130.0,
+              "ground_density": 1.0,
+              "ground_population": 7703,
+              "inflight_cells": 0,
+              "mineral_population": 496,
+              "pending_cells": 0,
+              "prepare_cell_ms": {
+                "count": 880,
+                "max": 18.997,
+                "mean": 8.174725,
+                "p95": 13.928,
+                "p99": 16.601
+              },
+              "resident_cells": 261
+            },
+            "start": {
+              "distance_m": 130.0,
+              "ground_density": 1.0,
+              "ground_population": 468,
+              "inflight_cells": 0,
+              "mineral_population": 496,
+              "pending_cells": 0,
+              "prepare_cell_ms": {
+                "count": 1144,
+                "max": 18.543,
+                "mean": 7.47728846153846,
+                "p95": 13.139,
+                "p99": 15.389
+              },
+              "resident_cells": 261
+            }
+          },
+          "memory": {
+            "working_set_mib": {
+              "min": 1786.56640625,
+              "max": 1788.87890625,
+              "first": 1786.56640625,
+              "last": 1788.87890625
+            },
+            "private_mib": {
+              "min": 5664.2109375,
+              "max": 5666.61328125,
+              "first": 5664.2109375,
+              "last": 5666.61328125
+            },
+            "system_free_mib": {
+              "min": 3201.78515625,
+              "max": 3205.94140625,
+              "first": 3205.203125,
+              "last": 3202.9296875
+            },
+            "windows_gpu_dedicated_mib": {
+              "min": 4182.76171875,
+              "max": 4182.76171875
+            },
+            "windows_gpu_shared_mib": {
+              "min": 245.23828125,
+              "max": 245.23828125
+            }
+          },
+          "stream_grass_us": {
+            "count": 1043,
+            "max": 4500.0,
+            "mean": 568.771812080537,
+            "p95": 2625.0,
+            "p99": 3665.0
+          }
+        }
+      ]
+    },
+    "scope": "170 km/h benchmark driver with collision queries retained but responses suppressed. Not ordinary handling or FPS acceptance."
+  },
+  "gpu_attribution": {
+    "scope": "One separate 15-second native diagnostic per control; trim 15 boundary frames at each end. Consecutive timestamps, no nested scope sums. Not acceptance timing or a pixel-overdraw count. FSR2 marker wraps the actual FSR 4.1.1 provider.",
+    "controls": {
+      "off": {
+        "retained_frames": 1087,
+        "trace_sha256": "4c415390a182150b678e4c38d8d9785ea408c25962ec5001ccf81d93ac6bfe8a",
+        "passes_ms": {
+          "Frame Begin": {
+            "mean": 0.015866767249310028,
+            "median": 0.01128,
+            "p95": 0.0312
+          },
+          "Prepare Render Frame": {
+            "mean": 0.07079263109475621,
+            "median": 0.070361,
+            "p95": 0.07564
+          },
+          "Update GPUParticles": {
+            "mean": 0.01212943146274149,
+            "median": 0.0116,
+            "p95": 0.020799
+          },
+          "Update Occlusion Buffer": {
+            "mean": 0.0012200128794848206,
+            "median": 0.00116,
+            "p95": 0.001679
+          },
+          "Update Visibility Dependencies": {
+            "mean": 0.0013225492180312787,
+            "median": 0.00124,
+            "p95": 0.001759
+          },
+          "Cull 3D Scene": {
+            "mean": 0.0012234664213431462,
+            "median": 0.00116,
+            "p95": 0.00168
+          },
+          "Cull DirectionalLight3D, Split 0": {
+            "mean": 0.0012291241950321988,
+            "median": 0.00116,
+            "p95": 0.001679
+          },
+          "Cull DirectionalLight3D, Split 1": {
+            "mean": 0.001247621895124195,
+            "median": 0.00116,
+            "p95": 0.00164
+          },
+          "Cull DirectionalLight3D, Split 2": {
+            "mean": 0.0013091747930082797,
+            "median": 0.00124,
+            "p95": 0.00176
+          },
+          "Cull DirectionalLight3D, Split 3": {
+            "mean": 0.005713705611775529,
+            "median": 0.00556,
+            "p95": 0.00672
+          },
+          "Render 3D Scene": {
+            "mean": 0.002898107635694572,
+            "median": 0.002999,
+            "p95": 0.003441
+          },
+          "Prepare 3D Scene": {
+            "mean": 0.001224473781048758,
+            "median": 0.00116,
+            "p95": 0.00168
+          },
+          "Setup 3D Scene": {
+            "mean": 0.003177998160073597,
+            "median": 0.00308,
+            "p95": 0.003959
+          },
+          "Setup Sky": {
+            "mean": 0.09480248022079117,
+            "median": 0.0874,
+            "p95": 0.1356
+          },
+          "Setup Sky Resolution Buffers": {
+            "mean": 0.03158385004599816,
+            "median": 0.02912,
+            "p95": 0.04508
+          },
+          "Render Depth Pre-Pass": {
+            "mean": 2.7240894820607178,
+            "median": 2.2768,
+            "p95": 4.55648
+          },
+          "Process Pre Opaque Compositor Effects": {
+            "mean": 0.007580948482060717,
+            "median": 0.00328,
+            "p95": 0.039361
+          },
+          "Setup Shadows": {
+            "mean": 0.010554983440662373,
+            "median": 0.01016,
+            "p95": 0.01292
+          },
+          "Render Directional/SpotLight Shadows": {
+            "mean": 0.507563611775529,
+            "median": 0.490079,
+            "p95": 0.7772
+          },
+          "Prepare Depth for SSAO/SSIL": {
+            "mean": 0.017174513339466423,
+            "median": 0.016081,
+            "p95": 0.021479
+          },
+          "Process SSAO": {
+            "mean": 0.1553159245630175,
+            "median": 0.144239,
+            "p95": 0.215601
+          },
+          "Process SSIL": {
+            "mean": 0.442710502299908,
+            "median": 0.431319,
+            "p95": 0.60936
+          },
+          "Pre Opaque Render": {
+            "mean": 0.007802611775528979,
+            "median": 0.00752,
+            "p95": 0.008561
+          },
+          "Update Volumetric Fog": {
+            "mean": 0.0012297598896044157,
+            "median": 0.00116,
+            "p95": 0.00168
+          },
+          "Render Fog": {
+            "mean": 0.06821977460901564,
+            "median": 0.06428,
+            "p95": 0.091201
+          },
+          "Filter Fog": {
+            "mean": 0.03510871665133394,
+            "median": 0.032881,
+            "p95": 0.04832
+          },
+          "Integrate Fog": {
+            "mean": 0.019835827966881325,
+            "median": 0.01896,
+            "p95": 0.025961
+          },
+          "Render Opaque Pass": {
+            "mean": 1.684279931922723,
+            "median": 1.47604,
+            "p95": 2.493041
+          },
+          "Render Motion Pass": {
+            "mean": 1.2363077571297147,
+            "median": 1.174679,
+            "p95": 2.009599
+          },
+          "Process Post Opaque Compositor Effects": {
+            "mean": 0.01676393284268629,
+            "median": 0.01172,
+            "p95": 0.094239
+          },
+          "Render Sky": {
+            "mean": 0.00832673781048758,
+            "median": 0.00788,
+            "p95": 0.01256
+          },
+          "Process Post Sky Compositor Effects": {
+            "mean": 0.002664201471941122,
+            "median": 0.002801,
+            "p95": 0.003319
+          },
+          "Copy Depth Texture": {
+            "mean": 0.032314727690892366,
+            "median": 0.033,
+            "p95": 0.03672
+          },
+          "Process Pre Transparent Compositor Effects": {
+            "mean": 0.007094213431462742,
+            "median": 0.007399,
+            "p95": 0.00768
+          },
+          "Render 3D Transparent Pass": {
+            "mean": 0.5162598914443423,
+            "median": 0.56288,
+            "p95": 1.07568
+          },
+          "Resolve": {
+            "mean": 0.008788998160073598,
+            "median": 0.00348,
+            "p95": 0.038881
+          },
+          "Copy Final Framebuffer (SSIL/SSR)": {
+            "mean": 0.09585810855565777,
+            "median": 0.089519,
+            "p95": 0.11876
+          },
+          "Process Post Transparent Compositor Effects": {
+            "mean": 0.0033987111315547376,
+            "median": 0.003201,
+            "p95": 0.005
+          },
+          "FSR2": {
+            "mean": 1.6346094783808647,
+            "median": 1.58468,
+            "p95": 1.999359
+          },
+          "Tonemap": {
+            "mean": 0.13923025896964122,
+            "median": 0.1315995,
+            "p95": 0.34636
+          },
+          "Glow": {
+            "mean": 0.45717580588776446,
+            "median": 0.426081,
+            "p95": 0.644
+          },
+          "Cull 2D Lights": {
+            "mean": 0.0012332575896964121,
+            "median": 0.001161,
+            "p95": 0.00164
+          },
+          "Cull CanvasItem Tree": {
+            "mean": 0.0012530222631094755,
+            "median": 0.001161,
+            "p95": 0.001641
+          },
+          "Render CanvasItems": {
+            "mean": 0.003464692364305428,
+            "median": 0.00236,
+            "p95": 0.00812
+          }
+        }
+      },
+      "on": {
+        "retained_frames": 1005,
+        "trace_sha256": "4c415390a182150b678e4c38d8d9785ea408c25962ec5001ccf81d93ac6bfe8a",
+        "passes_ms": {
+          "Frame Begin": {
+            "mean": 0.016777459701492536,
+            "median": 0.012079,
+            "p95": 0.03128
+          },
+          "Prepare Render Frame": {
+            "mean": 0.07197192537313434,
+            "median": 0.071799,
+            "p95": 0.07792
+          },
+          "Update GPUParticles": {
+            "mean": 0.0136015592039801,
+            "median": 0.01304,
+            "p95": 0.02252
+          },
+          "Update Occlusion Buffer": {
+            "mean": 0.0013212597014925372,
+            "median": 0.00124,
+            "p95": 0.00176
+          },
+          "Update Visibility Dependencies": {
+            "mean": 0.0014082179104477613,
+            "median": 0.00132,
+            "p95": 0.00184
+          },
+          "Cull 3D Scene": {
+            "mean": 0.0013598348258706467,
+            "median": 0.00124,
+            "p95": 0.00176
+          },
+          "Cull DirectionalLight3D, Split 0": {
+            "mean": 0.0013552059701492536,
+            "median": 0.00124,
+            "p95": 0.00176
+          },
+          "Cull DirectionalLight3D, Split 1": {
+            "mean": 0.0013244388059701492,
+            "median": 0.00124,
+            "p95": 0.00176
+          },
+          "Cull DirectionalLight3D, Split 2": {
+            "mean": 0.0014146199004975125,
+            "median": 0.00132,
+            "p95": 0.00184
+          },
+          "Cull DirectionalLight3D, Split 3": {
+            "mean": 0.0060310139303482585,
+            "median": 0.00584,
+            "p95": 0.00712
+          },
+          "Render 3D Scene": {
+            "mean": 0.0029967960199004974,
+            "median": 0.00308,
+            "p95": 0.003521
+          },
+          "Prepare 3D Scene": {
+            "mean": 0.0013188039800995025,
+            "median": 0.00124,
+            "p95": 0.00176
+          },
+          "Setup 3D Scene": {
+            "mean": 0.0033749273631840794,
+            "median": 0.003241,
+            "p95": 0.0042
+          },
+          "Setup Sky": {
+            "mean": 0.10354929651741293,
+            "median": 0.09572,
+            "p95": 0.14332
+          },
+          "Setup Sky Resolution Buffers": {
+            "mean": 0.03456733432835821,
+            "median": 0.03168,
+            "p95": 0.04788
+          },
+          "Render Depth Pre-Pass": {
+            "mean": 3.0053501004975125,
+            "median": 2.65828,
+            "p95": 4.76716
+          },
+          "Process Pre Opaque Compositor Effects": {
+            "mean": 0.008293037810945274,
+            "median": 0.00336,
+            "p95": 0.0582
+          },
+          "Setup Shadows": {
+            "mean": 0.011153841791044776,
+            "median": 0.010561,
+            "p95": 0.01352
+          },
+          "Render Directional/SpotLight Shadows": {
+            "mean": 0.5533427164179104,
+            "median": 0.522479,
+            "p95": 0.806639
+          },
+          "Prepare Depth for SSAO/SSIL": {
+            "mean": 0.01720001592039801,
+            "median": 0.01644,
+            "p95": 0.021199
+          },
+          "Process SSAO": {
+            "mean": 0.168339815920398,
+            "median": 0.15636,
+            "p95": 0.226039
+          },
+          "Process SSIL": {
+            "mean": 0.47348922288557216,
+            "median": 0.451561,
+            "p95": 0.6402
+          },
+          "Pre Opaque Render": {
+            "mean": 0.007914379104477611,
+            "median": 0.007761,
+            "p95": 0.00884
+          },
+          "Update Volumetric Fog": {
+            "mean": 0.0013378308457711442,
+            "median": 0.00124,
+            "p95": 0.00176
+          },
+          "Render Fog": {
+            "mean": 0.07310727462686567,
+            "median": 0.06808,
+            "p95": 0.095321
+          },
+          "Filter Fog": {
+            "mean": 0.038208735323383085,
+            "median": 0.03524,
+            "p95": 0.05088
+          },
+          "Integrate Fog": {
+            "mean": 0.021238678606965173,
+            "median": 0.01972,
+            "p95": 0.02708
+          },
+          "Render Opaque Pass": {
+            "mean": 1.871083215920398,
+            "median": 1.754,
+            "p95": 2.612321
+          },
+          "Render Motion Pass": {
+            "mean": 1.3503728776119404,
+            "median": 1.26092,
+            "p95": 2.08036
+          },
+          "Process Post Opaque Compositor Effects": {
+            "mean": 0.013833206965174129,
+            "median": 0.011919,
+            "p95": 0.06112
+          },
+          "Render Sky": {
+            "mean": 0.008992947263681592,
+            "median": 0.00876,
+            "p95": 0.01348
+          },
+          "Process Post Sky Compositor Effects": {
+            "mean": 0.002952508457711443,
+            "median": 0.002999,
+            "p95": 0.003839
+          },
+          "Copy Depth Texture": {
+            "mean": 0.033288769154228855,
+            "median": 0.0344,
+            "p95": 0.0378
+          },
+          "Process Pre Transparent Compositor Effects": {
+            "mean": 0.007475570149253732,
+            "median": 0.0074,
+            "p95": 0.0078
+          },
+          "Render 3D Transparent Pass": {
+            "mean": 0.5563463353233831,
+            "median": 0.648961,
+            "p95": 1.14604
+          },
+          "Resolve": {
+            "mean": 0.0074954358208955225,
+            "median": 0.003601,
+            "p95": 0.03424
+          },
+          "Copy Final Framebuffer (SSIL/SSR)": {
+            "mean": 0.09821562686567165,
+            "median": 0.091719,
+            "p95": 0.12152
+          },
+          "Process Post Transparent Compositor Effects": {
+            "mean": 0.0033736666666666667,
+            "median": 0.003321,
+            "p95": 0.00376
+          },
+          "FSR2": {
+            "mean": 1.7140110766169154,
+            "median": 1.62152,
+            "p95": 2.135921
+          },
+          "Tonemap": {
+            "mean": 0.15051903383084578,
+            "median": 0.12084,
+            "p95": 0.38348
+          },
+          "Glow": {
+            "mean": 0.5000947641791045,
+            "median": 0.455879,
+            "p95": 0.69408
+          },
+          "Cull 2D Lights": {
+            "mean": 0.0013336199004975124,
+            "median": 0.00124,
+            "p95": 0.00176
+          },
+          "Cull CanvasItem Tree": {
+            "mean": 0.0013556543283582089,
+            "median": 0.00124,
+            "p95": 0.00176
+          },
+          "Render CanvasItems": {
+            "mean": 0.003685544278606965,
+            "median": 0.00252,
+            "p95": 0.009001
+          }
+        }
+      }
+    },
+    "added_mean_ms": {
+      "Render Depth Pre-Pass": 0.28126061843679473,
+      "Render Opaque Pass": 0.18680328399767498,
+      "Render Motion Pass": 0.11406512048222561,
+      "FSR2": 0.07940159823605075
+    }
+  },
+  "rendered": {
+    "standard_frames": 82,
+    "standard_scope": "Bounded 1280x720 synthetic wind/bend/streaming sequence, separate from performance",
+    "lod_pixel_identical_pairs": 8,
+    "native_grass_checks": 104,
+    "headless_grass_checks": 101,
+    "human_acceptance": false
+  },
+  "placement_probe_ms": {
+    "mean": 6.715061728395062,
+    "max": 13.403,
+    "scope": "81 cells on the full Standard field in isolation, not rendered FPS"
+  },
+  "observations": [
+    "All 36 ordinary trials are focused, source-stable, warm-cache and exact-state matches; ground/mineral grass is zero in every off control.",
+    "Forest on population is 8778 at start and 8081 at end; transition is 1541 then 3035; all controls retain 200000 physical trees and independent mineral collision and the same terrain checksums. On controls retain 496 global mineral-grass instances; these counts are not frustum-visible counts.",
+    "Ordinary ground residency is 261 cells with no pending/inflight work at each recorded endpoint, identically across the three visits per launch.",
+    "Measured process working sets are about 1.69-1.82 GiB. End-of-trial working set grows by roughly 1-6 MiB over three visits in both controls; no unlimited-duration leak claim is made.",
+    "Desktop ChatGPT and AMD recording-service activity is retained in telemetry, including a slow forest-off launch. Background variation limits precision; no adverse valid run was discarded.",
+    "Median forest main-thread grass streaming/submission is about 0.10 ms/frame; preparation remains roughly 8 ms per cell in workers instead of blocking a frame with up to three cells.",
+    "Whole-game targets are missed even with grass removed. Further general renderer optimization is outside this grass milestone."
+  ]
+}

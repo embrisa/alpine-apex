@@ -3,6 +3,8 @@ extends SceneTree
 const Trace = preload("res://tests/performance_trace.gd")
 const Definition = preload("res://scripts/world/mountain_definition.gd")
 const Costs = preload("res://scripts/diagnostics/frame_costs.gd")
+var grass_enabled = true
+var grass_start: Dictionary = {}
 var game
 var field
 var trace: Dictionary
@@ -46,6 +48,7 @@ func run() -> void:
 		if arg.begins_with("--time-of-day="): time_of_day = arg.get_slice("=",1)
 		if arg.begins_with("--trial-seconds="): trial_seconds = clampi(int(arg.get_slice("=",1)),1,60)
 		if arg.begins_with("--trial-start-seconds="): trial_start_seconds = maxi(0,int(arg.get_slice("=",1)))
+		if arg.begins_with("--grass="): grass_enabled = arg.get_slice("=",1)=="on"
 		if arg=="--scenario-replay": scenario_replay = true
 		if arg=="--cold-collision": cold_collision = true
 		if arg.begins_with("--stress-speed-kmh="): stress_speed_kmh = float(arg.get_slice("=",1))
@@ -61,6 +64,8 @@ func run() -> void:
 	var physical_seconds = (Time.get_ticks_usec()-physical_started)/1000000.0
 	if not Trace.matches(field,trace.identity):
 		printerr("Benchmark rejects stale or unsuccessful input traces"); quit(2); return
+	if trace.has("scenario_origin") and not field.bounds().has_point(Vector2(trace.scenario_origin[0],trace.scenario_origin[1])):
+		printerr("Scenario origin outside terrain"); quit(2); return
 	if trial_seconds>0:
 		trial_end_tick = (trial_start_seconds+trial_seconds)*120
 		if trial_end_tick>trace.result.ticks: printerr("Requested short trial exceeds trace coverage"); quit(2); return
@@ -84,12 +89,18 @@ func run() -> void:
 		"scenery_cache_hit":game.world.preparation.cache_hit if game.world.preparation else false,
 		"scene_build_ms":game.world.build_timings.duplicate(),"job_stages_ms":game.generation_job.snapshot().timings_ms}
 	print("PERFORMANCE_LOADING ",JSON.stringify(loading_report))
+	# Change only the two grass consumers after normal profile application.
+	var grass_profile = game.graphics.duplicate(true)
+	if not grass_enabled: grass_profile.scrub_density = 0.0
+	game.world.grass.apply_quality(grass_profile)
+	game.world.minerals.apply_quality(grass_profile)
 	await configure_comparison()
 	game.benchmark_input = input_at_tick
 	game.benchmark_no_captures = true
 	game.effects.frame_costs = game.frame_costs
 	game.world.scenery.density_forest.frame_costs = game.frame_costs
 	game.world.minerals.frame_costs = game.frame_costs
+	game.world.grass.frame_costs = game.frame_costs
 	game.crash_collision.frame_costs = game.frame_costs
 	game.skier.animation.full_motion.frame_costs = game.frame_costs
 	game.camera_settings.load_preferences() # Read only; current user camera geometry.
@@ -136,9 +147,13 @@ func run() -> void:
 		game.hud.hide_menu(); game.effects.reset()
 		root.grab_focus()
 		for i in 240: await process_frame
+		grass_start = grass_metadata()
+		if grass_enabled and grass_start.ground_population==0: failures.append("Grass-on warmup has no ground vegetation")
+		if not grass_enabled and (grass_start.ground_population!=0 or grass_start.mineral_population!=0): failures.append("Grass-off control retained vegetation")
 		frames.clear(); gpu.clear(); cpu.clear(); draws.clear(); primitives.clear(); objects.clear(); sections.clear()
 		chronology.clear()
 		game.frame_samples.clear(); game.draw_samples.clear(); game.gpu_samples.clear(); game.render_cpu_samples.clear()
+		game.world.grass.preparation_samples.clear()
 		game.frame_costs.reset(); previous_frame = 0; peak_video = 0; peak_static = 0
 		unfocused_frames = 0; forest_coverage.clear()
 		var start_status = game.display_settings.fsr_status()
@@ -178,6 +193,8 @@ func run() -> void:
 			FileAccess.open(output+"/streaming_events_%d.json" % (repetition+1),FileAccess.WRITE).store_string(JSON.stringify({"event_fields":["scope","process_frame","begin_us","end_us"],"frame_fields":["process_frame","begin_us","end_us","tick","x","y","z"],"events":game.frame_costs.events,"frames":chronology}))
 		var row = {"run":repetition+1,"finished":game.session.finished,"crash":game.sim.crash_reason,"exact_trace":exact,"ticks":game.sim.ticks,"wall_seconds":elapsed,"frame_ms":frame_stats(frames),"gpu_ms":Costs.stats(gpu),"render_cpu_ms":Costs.stats(cpu),"draw_calls":Costs.stats(draws),"submitted_primitives":Costs.stats(primitives),"submitted_objects":Costs.stats(objects),"cpu_scopes_us":game.frame_costs.report(),"sections":section_report,"peak_video_bytes":peak_video,"peak_engine_static_bytes":peak_static,"snow":game.effects.snow_budget(),"forest":game.world.scenery.density_forest.report(),"fsr_begin":start_status,"fsr_end":end_status}
 		row.merge({"started_unix_seconds":started_unix,"ended_unix_seconds":ended_unix,"unfocused_frames":unfocused_frames,"forest_coverage":forest_coverage.duplicate(true)})
+		row.grass = {"enabled":grass_enabled,"start":grass_start,"end":grass_metadata()}
+		row.final_state = Trace.Inputs.state(game.sim)
 		row.merge(comparison_metadata())
 		row.collision_streaming = game.crash_collision.report()
 		row.cold_collision = cold_collision
@@ -207,10 +224,23 @@ func create_simulation(tuning):
 	return Trace.Stress.create(tuning,stress_speed_kmh) if stress_speed_kmh>0.0 else Trace.Simulation.new(tuning)
 
 func trace_start() -> Vector3:
+	if trace.has("scenario_origin"):
+		var at = Vector2(trace.scenario_origin[0],trace.scenario_origin[1])
+		return Vector3(at.x,field.sample(at.x,at.y).height,at.y)
 	if stress_speed_kmh>0.0:
 		var start: Array = trace.stress.start
 		return Vector3(start[0],start[1],start[2])
 	return field.launch_point(trace.heading)
+
+func grass_metadata() -> Dictionary:
+	var minerals = 0
+	for batch in game.world.minerals.batches:
+		if batch.get_meta("category")=="grass" and batch.visible:
+			minerals += batch.multimesh.visible_instance_count if batch.multimesh.visible_instance_count>=0 else batch.multimesh.instance_count
+	return {"ground_population":game.world.grass.population(),"mineral_population":minerals,
+		"resident_cells":game.world.grass.cells.size(),"pending_cells":game.world.grass.pending.size(),
+		"inflight_cells":game.world.grass.work.size(),"prepare_cell_ms":Costs.stats(game.world.grass.preparation_samples),
+		"ground_density":game.world.grass.density,"distance_m":game.world.grass.distance_m}
 
 func configure_comparison() -> void: pass
 func prepare_comparison_trial(_index: int) -> void: pass

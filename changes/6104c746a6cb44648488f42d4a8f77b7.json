@@ -1,0 +1,255 @@
+{
+  "schema": 1,
+  "id": "6104c746a6cb44648488f42d4a8f77b7",
+  "summary": "Reduce grass streaming spikes with bounded background preparation and invisible-LOD culling; validate and complete the grass performance handoff",
+  "categories": [
+    "Presentation",
+    "Maintenance"
+  ],
+  "areas": [
+    "Grass streaming and rendering",
+    "Matched production grass diagnostics",
+    "Terrain-grass backlog completion"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    "backlog/archive/AA-20260911-193341-terrain-grass.md",
+    "backlog/tasks/AA-20260911-193341-terrain-grass.md",
+    "docs/RENDERING.md",
+    "docs/TERRAIN_GRASS_PERFORMANCE_RESULTS.json",
+    "docs/VALIDATION.md",
+    "docs/WORLD.md",
+    "scripts/benchmark_pc.ps1",
+    "scripts/presentation/terrain_grass.gd",
+    "tests/fixtures/test_maps.json",
+    "tests/performance_descent.gd",
+    "tests/performance_trace.gd",
+    "tests/performance_trace_contract_suite.gd",
+    "tests/terrain_grass_lod_playtest.gd",
+    "tests/terrain_grass_lod_playtest.gd.uid",
+    "tests/terrain_grass_suite.gd",
+    "tests/terrain_grass_trace.gd",
+    "tests/terrain_grass_trace.gd.uid"
+  ],
+  "read_paths": [
+    "assets/graphics/grass/alpine_tuft_02_dusted_lod1.res",
+    "assets/graphics/grass/alpine_tuft_02_dusted_lod2.res",
+    "assets/graphics/grass/alpine_tuft_02_green_lod1.res",
+    "assets/graphics/grass/alpine_tuft_02_green_lod2.res",
+    "assets/graphics/grass/alpine_tuft_02_snow_lod1.res",
+    "assets/graphics/grass/alpine_tuft_02_snow_lod2.res",
+    "assets/graphics/grass/forest_fan_02_dusted_lod1.res",
+    "assets/graphics/grass/forest_fan_02_dusted_lod2.res",
+    "assets/graphics/grass/forest_fan_02_green_lod1.res",
+    "assets/graphics/grass/forest_fan_02_green_lod2.res",
+    "assets/graphics/grass/forest_fan_02_snow_lod1.res",
+    "assets/graphics/grass/forest_fan_02_snow_lod2.res",
+    "assets/graphics/grass/manifest.json",
+    "assets/graphics/grass/meadow_clump_02_dusted_lod1.res",
+    "assets/graphics/grass/meadow_clump_02_dusted_lod2.res",
+    "assets/graphics/grass/meadow_clump_02_green_lod1.res",
+    "assets/graphics/grass/meadow_clump_02_green_lod2.res",
+    "assets/graphics/grass/meadow_clump_02_snow_lod1.res",
+    "assets/graphics/grass/meadow_clump_02_snow_lod2.res",
+    "assets/graphics/grass_motion.gdshaderinc",
+    "assets/graphics/mineral_grass.gdshader",
+    "assets/graphics/terrain_grass.gdshader",
+    "scripts/main.gd",
+    "scripts/presentation/graphics_quality.gd",
+    "scripts/presentation/grass_motion.gd",
+    "scripts/presentation/grass_placement.gd",
+    "scripts/presentation/mineral_scenery.gd",
+    "scripts/world/generation_sources.gd",
+    "tests/alpine_v13_pilot.gd",
+    "tests/alpine_v13_route_survey.gd",
+    "tests/performance_gpu_profile.gd",
+    "tests/performance_stress.gd",
+    "tests/performance_stress_trace.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only completed field/state are read for presentation; solver, tuning, collision response and 120 Hz inputs are unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "The exact 4 m field, placement streams and physical trees/minerals are unchanged; worker output equals synchronous placement."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "No gameplay schema changes. Local benchmark origins are explicit diagnostic metadata, not saved-game migration."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Physical/gameplay identity and source-owned schema remain unchanged."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Physical/gameplay identity and source-owned schema remain unchanged."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Physical/gameplay identity and source-owned schema remain unchanged."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Physical/gameplay identity and source-owned schema remain unchanged."
+      },
+      "caches": {
+        "effect": "regenerate",
+        "reason": "Grass presentation source changes scenery identity; High scenery was explicitly refreshed. Physical archive identity and bytes remain unchanged."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "./scripts/test_pc_environment.ps1 -Suites terrain_grass_suite,performance_trace_contract_suite -OutputDirectory artifacts/terrain_grass_performance_20260913/delivery_regression",
+      "details": "118 checks passed (101 grass, 17 origin/trace preflight) on final source. The grass test original LF formatting was restored after measurements; production and benchmark producer bytes stayed identical."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--path','.','--script','res://tests/terrain_grass_suite.gd') -Label grass_delivery_native -TimeoutSeconds 90 -WorkloadMode Shared",
+      "details": "104 native DX12 checks passed, including worker boundedness, populations/transforms, teardown, density off and conservative LOD envelope."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "Guarded terrain_grass_playtest.gd --motion-only (grass_async_rendered), and terrain_grass_lod_playtest.gd (grass_delivery_lod)",
+      "details": "Reviewed 82 Standard 1280x720 frames/contact sheets for motion, snow, seating, streaming and density restoration. Eight native old/new LOD image pairs are byte-identical; nonblank vegetation was inspected. This is bounded agent inspection, not 4K or human acceptance."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "Guarded scripts/benchmark_pc.ps1 with terrain_grass_trace.gd inputs; exact reproduction in docs/VALIDATION.md#terrain-grass-performance and docs/TERRAIN_GRASS_PERFORMANCE_RESULTS.json",
+      "details": "36 ordinary 15-second 4K High trials: 3 launches per habitat/control, 3 repetitions, source/focus/state valid. Added grass mean 1.319 ms forest and 0.857 ms transition. Optimized forest median 73.36 FPS versus diagnostic synchronous 64.06; p99 23.575 versus 52.304 ms. Six separately labelled 170 km/h stress trials and two GPU attribution captures passed their validity gates. The whole-game targets remain missed in both controls; measurement completion is not target attainment."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "python tests/test_runtime_grass_assets.py; python scripts/backlog.py validate --preserve-dirty; PowerShell parser; scoped Markdown links; git -c core.whitespace=cr-at-eol diff --check; scripts/versioning.py check",
+      "details": "18 vegetation-only assets audited. Static checks, backlog, note and staged owned paths verified before commit. Source-identified raw results and runtime/harness hashes verified against the final candidate."
+    },
+    {
+      "kind": "human",
+      "result": "pending",
+      "command": "User visual/controller review",
+      "details": "Natural appearance, snow readability, temporal smoothness and skiing feel require user review."
+    }
+  ],
+  "outstanding_acceptance": [
+    "The whole-game 90-120 FPS and p95/p99 goals are missed even with grass removed; the scoped grass task required measurement and correction of its demonstrated costs, not unrelated renderer optimization.",
+    "Human/controller assessment of natural appearance, snow readability and skiing smoothness remains pending. No complete-descent or latency acceptance is claimed."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-13T22:46:27.668749+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 21,
+      "commit": "80ff518c1db3b9138567d2bbb963fc65ab271759",
+      "modified": true,
+      "changes_sha256": "304d4966e71f94adc3a073d418556d9bdcf226b0d3d9990f10405a6b0761433d",
+      "source_sha256": "0e8029f6f39bea47f39c4dbfb58e582903c534a816b15163351223ac2e3bede9",
+      "categories": [
+        "Maintenance",
+        "Presentation"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": "61e7f5de256b59196a18a22139f37998362e5a28b33ab39f474d1b83847cd79b",
+      "assets/graphics/grass/alpine_tuft_02_dusted_lod1.res": "3e2908799d8dbfe5941f01ec74627241ecc17db908d3876f6ffac410eb490fb9",
+      "assets/graphics/grass/alpine_tuft_02_dusted_lod2.res": "280abccac7c2fdb4be422b070b98c8f9e1e9067f809b742c6d6e558757ae9f73",
+      "assets/graphics/grass/alpine_tuft_02_green_lod1.res": "34e319b497b285f0da587b7bc8e6fdcdba28d8799e9d282957c56cd523caac31",
+      "assets/graphics/grass/alpine_tuft_02_green_lod2.res": "52c511c60bdc7bae026c4d347b9c8e1455eb5030994c5585506bd5bf8026735d",
+      "assets/graphics/grass/alpine_tuft_02_snow_lod1.res": "28a50c3a8578d0b05b458b17a9cd4f28146f35d01036f35a18f108e7f2d3774f",
+      "assets/graphics/grass/alpine_tuft_02_snow_lod2.res": "666c6e9f963ae6c267f7c2fd490de8f9531c2bd28f5652ee1917956b02db61ed",
+      "assets/graphics/grass/forest_fan_02_dusted_lod1.res": "63ae1c3648b38ce6c0dd075eaabb86b9c35da67c921d50d0bed51f5bb8ef005e",
+      "assets/graphics/grass/forest_fan_02_dusted_lod2.res": "4c5d3380ba670ac50ddfed510141c6b4db6f81aff6c3391e9be78987d7bdda29",
+      "assets/graphics/grass/forest_fan_02_green_lod1.res": "13152fa4842e232ba05a0ed2b55b38a8da71a388537ebb526a73dbeb351ac7fe",
+      "assets/graphics/grass/forest_fan_02_green_lod2.res": "fd15bcad6b459ac2fc2c06e5f376102e17c7b9e655c29cefbe950a318a648720",
+      "assets/graphics/grass/forest_fan_02_snow_lod1.res": "6e3e69556dd501abb8cb7af73213ee48bfd1c97cfe5b3f17ae8f82fc552bc321",
+      "assets/graphics/grass/forest_fan_02_snow_lod2.res": "7fd2221eb7f90d2c682950b32100635fae9cc67d44591b156f2f2e55b7a75330",
+      "assets/graphics/grass/manifest.json": "6b3cd4c700dc7e0d471e9c88ab57e03d8d71932c2945e299945e5910926a33c8",
+      "assets/graphics/grass/meadow_clump_02_dusted_lod1.res": "0d88792b98a5ca37a5017911a456a5683b62cc3b22394069155e4855a806a429",
+      "assets/graphics/grass/meadow_clump_02_dusted_lod2.res": "612b92d33e359f46a6f2bc9720941de8eb6f01bbfc8d8daf89579c9f8949e67e",
+      "assets/graphics/grass/meadow_clump_02_green_lod1.res": "60b13393d7eaf59101e6931b816b25b3965b294fbf3ad0fb729a1a68cd114bbd",
+      "assets/graphics/grass/meadow_clump_02_green_lod2.res": "3303a617c5fd4e42f591e1985f782f79f39d77327b1ed1e9c26940ac8b01db2f",
+      "assets/graphics/grass/meadow_clump_02_snow_lod1.res": "5a8b162a174d486c8a9c392272bed465f5a5c8af9ffb42ec4572c1d3b2d98f40",
+      "assets/graphics/grass/meadow_clump_02_snow_lod2.res": "4f48238bb2160025037583e3af5d898ca110fc9b6a09f3206a3e9cfd6c39f045",
+      "assets/graphics/grass_motion.gdshaderinc": "7cf134ff693271271a7d8028c6b65b0415dd69cd1777737a9f83e53378017722",
+      "assets/graphics/mineral_grass.gdshader": "8a305cb6fbae4abe2c8fb8221211441a1ceb095080da0b78f83394cdd00b7673",
+      "assets/graphics/terrain_grass.gdshader": "9c031568fb3696dc315bc0a37383719aac0ec31a5268fe07bea9fc167bfd267f",
+      "backlog/archive/AA-20260911-193341-terrain-grass.md": "ea13e7fcdac90551d923694e3058959b4cdcf89b54c011db3e6650e54c4ca4e8",
+      "backlog/tasks/AA-20260911-193341-terrain-grass.md": null,
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/RENDERING.md": "015e882d1aa370a8ecd7355a238cacca85d8b57ea180f391362133d90b770ba9",
+      "docs/TERRAIN_GRASS_PERFORMANCE_RESULTS.json": "b9f3f77ae8a0bc49aa74240949275c9d94abf8a6cfb1f7ca659f027ecb1d5430",
+      "docs/VALIDATION.md": "459bc455eef9f5559a3a30df659db569dbecaef57b1e69b127bf4466e007b435",
+      "docs/WORLD.md": "6c9ef444d6681041e0319e5122f76a3d375e9a804fc45330a214541f5a67cf35",
+      "project.godot": "ab7da5f47f5c39a842b849501ab3c8df818d481db9ea9283517a576cd4062c7d",
+      "scripts/benchmark_pc.ps1": "227d1cc27db70f566db34b9227f5bedb508784bc100cf96bc7e90b1195b458e8",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/main.gd": "86ecf397adca7b5abb1d592a4ee6a692b8a08f86127306be9501c28931fe6a67",
+      "scripts/presentation/graphics_quality.gd": "251a1005b1d946e16b2cf101cfe68c0287b5235e9e4dfe70785b4fde74e6100a",
+      "scripts/presentation/grass_motion.gd": "ffe558fa8a522f214e50d2336abbd5b23d9aba5c8884515c688dcb813a140526",
+      "scripts/presentation/grass_placement.gd": "2a0e5215848db118d63512a0ed67b8b20dc4b82afdbc46faed06e416cb49c1f0",
+      "scripts/presentation/mineral_scenery.gd": "db6c2521e322bb9ae09d5a9e9fe382567f27b94534270a96dbc9a10332138e12",
+      "scripts/presentation/terrain_grass.gd": "e12df5a7a175bcd307bb9a1607aaee3ff23e4416ee3d3033d9d85ffc4a5c4991",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "c8375d4142f40481877919f2ed0800dfb4217fe0eb421575cb0aa11b2c8f1407",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/world/generation_sources.gd": "fe6dbed50922fc34597b0a2d6aafca94829e6d6fbf6dfaa91acfedb6dc989058",
+      "scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f",
+      "tests/alpine_v13_pilot.gd": "937b2b3464206a55d410cc0949c0ca3bfe967dead57584a94d511543c766d0d6",
+      "tests/alpine_v13_route_survey.gd": "5f141402ffecbbd09d79fabf00b0ebe28c9ac2b8c8dce7abdd8c7456d6165388",
+      "tests/fixtures/test_maps.json": "a96f2307b19d340a3f75ea8a5f636af66938ce2fa11e6d11faf97075f3eba1e9",
+      "tests/performance_descent.gd": "5d21cbf325117f1d13acc266407bcdbe6b75d04a3a8d31b3b5212fe6fbd86834",
+      "tests/performance_gpu_profile.gd": "02901e4a1e5312441572866514702b4eeb272c7749070b9e8222261ac889196d",
+      "tests/performance_stress.gd": "9694c748c8ed9f2820848e8a88509b46c3b12f1d826ea3389e42420692e1c3e1",
+      "tests/performance_stress_trace.gd": "5d03fd109d110b21b770ff7d0ff4c60dee3923349b70594478b583299bf27bc3",
+      "tests/performance_trace.gd": "1a639cd54c64e51acc04a088208caebca09dcb43703f38b8043340c4a2e6eff7",
+      "tests/performance_trace_contract_suite.gd": "d803cc2dd53517230ac2ce62550cfa3d759e46e84cc413072893cc3e52df2821",
+      "tests/terrain_grass_lod_playtest.gd": "520e63a70cd03da69d02661f959d83c50fba3fc94c058b17d18863d4ad33bf54",
+      "tests/terrain_grass_lod_playtest.gd.uid": "db0f1bb633a3732212ac413beafe57b4ec7330e03f6e76e429002130e81f543b",
+      "tests/terrain_grass_suite.gd": "2aa942af2f5cc82d4a78f826179fad7147684242e7599625131f7e14f25c1665",
+      "tests/terrain_grass_trace.gd": "dae32ca9d3364739abd2d6b7798d9754e2077d6f08b27b063eb42a78537c9607",
+      "tests/terrain_grass_trace.gd.uid": "13c399e419407c920fcfd1ff3b1bd46d7e69d7151bf49e046d086b2c40fb54bc"
+    }
+  }
+}

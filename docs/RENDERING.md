@@ -477,6 +477,12 @@ paused. The same decorative density/distance controls govern independent mineral
 overlays; zero density releases ground cells and hides mineral grass. Bounds add
 .65 m for deformation; grass casts no shadow, has no collision and uses no GI
 contribution. All physical trees/minerals and other scenery budgets remain intact.
+Near-detail batches stop submission at 26 m plus their conservative AABB half
+diagonal: this removes only geometry already fully rejected by the shader. The
+18-26 m blend and authored meshes stay unchanged. `terrain_grass_lod_playtest.gd`
+compares the old unlimited near submission with this bound in eight frozen native
+views; each pair must have identical pixels. CPU preparation ownership is in
+[World](WORLD.md#terrain-grass).
 
 The functional producer `tests/terrain_grass_playtest.gd` uses the explicitly
 selected 256 x 512 m `perf-mixed` map by default (384 trees, 48 minerals) and
@@ -507,8 +513,9 @@ cold-bake implicitly. Prepare the default with the maintained validation produce
 under Exclusive/full-mountain admission. Pass `--seed=638201943` to its survey and
 rendered review. Shared rendering is appropriate after scenery preparation is warm.
 
-Functional evidence is retained under `artifacts/terrain_grass_20260913/`. No added
-frame cost, p95/p99, GPU/CPU comparison, 4K performance target or repeated-travel
-memory acceptance was measured in this pass. The [task](../backlog/tasks/AA-20260911-193341-terrain-grass.md#exact-remaining-performance-validation-handoff)
-owns the exact remaining off/on performance handoff. Human/controller visual and
-skiing acceptance remain separate.
+Functional evidence is retained under `artifacts/terrain_grass_20260913/`;
+the performance follow-up retains its measurements, rejected diagnostics and
+rendered comparisons under `artifacts/terrain_grass_performance_20260913/`.
+[Validation](VALIDATION.md#terrain-grass-performance) owns the measured cost,
+target assessment and exact grass-only benchmark commands. Human/controller
+visual and skiing acceptance remain separate.

@@ -21,6 +21,12 @@ static func preflight_error(data, version: int, require_complete: bool = true, s
 	var stress_error = Stress.preflight_error(data.get("stress"),stress_speed_kmh)
 	if not stress_error.is_empty(): return stress_error
 	if stress_speed_kmh>0.0 and require_complete: return "Stress traces require explicit scenario playback"
+	if data.has("scenario_origin"):
+		if require_complete or stress_speed_kmh>0.0: return "Local ordinary origin requires scenario playback without a stress driver"
+		var origin = data.scenario_origin
+		if not origin is Array or origin.size()!=2: return "Invalid scenario origin"
+		for value in origin:
+			if not (value is int or value is float) or not is_finite(float(value)): return "Invalid scenario origin"
 	var decode_error = Inputs.expand(data)
 	if not decode_error.is_empty(): return decode_error
 	var expected = data.get("identity")

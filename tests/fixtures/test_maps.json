@@ -937,6 +937,16 @@
       "full_mountain": true,
       "coverage": "Mountain-specific integration."
     },
+    "tests/terrain_grass_lod_playtest.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Inline 256 m grass habitat; paired native pixel proof of conservative near LOD culling."
+    },
+    "tests/terrain_grass_trace.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Bounded ordinary-input launches at surveyed production grass habitats."
+    },
     "tests/performance_trace.gd": {
       "maps": [],
       "full_mountain": true,

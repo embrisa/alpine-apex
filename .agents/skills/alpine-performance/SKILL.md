@@ -59,6 +59,12 @@ Use [benchmark_pc.ps1](../../../scripts/benchmark_pc.ps1) for production frame
 measurements; consult the measurement guide for its guarded invocation. Select
 an explicit compatible `-InputTrace`, event window, fresh `-Label`, repetitions
 and effective settings. Do not rely on its historical default trace path.
+For terrain grass, follow the [grass comparison](../../../docs/VALIDATION.md#terrain-grass-performance):
+`-Grass off` isolates ground and mineral grass only. Validate zero/off and
+nonzero/on populations, unchanged effective settings and identical final states.
+Local ordinary traces require explicit scenario playback; they cannot establish
+complete-descent or stress-driver acceptance. Use fresh producer-identified
+traces, and reject surviving obstacle contacts for the clear grass workloads.
 Use `-ProfileFrameCosts` for CPU attribution and the
 [GPU attribution route](../../../docs/VALIDATION.md#native-gpu-pass-attribution)
 only when GPU pass evidence is needed. Capture visual comparisons separately

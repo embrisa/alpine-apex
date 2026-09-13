@@ -5,6 +5,17 @@ const Motion = preload("res://scripts/presentation/grass_motion.gd")
 const MANIFEST = "res://assets/graphics/grass/manifest.json"
 const MAX_CELLS = 625
 const CELLS_PER_FRAME = 3
+class CellWork extends RefCounted:
+	var id: int
+	var key: Vector2i
+	var source
+	var items: Array = []
+	var milliseconds = 0.0
+	func run() -> void:
+		var started=Time.get_ticks_usec()
+		items=source.cell(key)
+		milliseconds=(Time.get_ticks_usec()-started)/1000.0
+
 var field
 var assets
 var quality
@@ -19,6 +30,10 @@ var distance_m = 85.0
 var density = 1.0
 var built = false
 var stream_time = 0.0
+var wanted: Dictionary = {}
+var work: Dictionary = {}
+var frame_costs
+var preparation_samples = PackedFloat64Array()
 func build(surface, library, profile) -> void:
 	field=surface; assets=library
 	var catalog: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(MANIFEST))
@@ -52,15 +67,17 @@ func _process(dt: float) -> void:
 	# Residency may change while wind/interaction is paused (menus or camera
 	# review). Fade newly submitted cells without advancing either animation.
 	stream_time+=maxf(0,dt)
+	var started=frame_costs.begin() if frame_costs else 0
 	for material in materials: material.set_shader_parameter("grass_stream_time",stream_time)
 	var camera=get_viewport().get_camera_3d()
-	if camera: stream(camera.global_position)
-func stream(camera_position: Vector3, budget: int = CELLS_PER_FRAME) -> void:
+	if camera: stream(camera.global_position,CELLS_PER_FRAME,true)
+	if frame_costs: frame_costs.end("stream_grass",started)
+func stream(camera_position: Vector3, budget: int = CELLS_PER_FRAME, asynchronous: bool = false) -> void:
 	if density<=0 or not built: return
 	var key=Vector2i(floori(camera_position.x/Placement.CELL),floori(camera_position.z/Placement.CELL))
 	if key!=last_cell:
 		last_cell=key; pending.clear()
-		var wanted: Dictionary = {}
+		wanted.clear()
 		var reach=ceili(distance_m/Placement.CELL)+1
 		var keys: Array[Vector2i] = []
 		for z in range(-reach,reach+1):
@@ -72,15 +89,34 @@ func stream(camera_position: Vector3, budget: int = CELLS_PER_FRAME) -> void:
 		keys.sort_custom(func(a,b): return a.distance_squared_to(key)<b.distance_squared_to(key) if a.distance_squared_to(key)!=b.distance_squared_to(key) else (a.y<b.y if a.y!=b.y else a.x<b.x))
 		for at in keys.slice(0,MAX_CELLS):
 			wanted[at]=true
-			if not cells.has(at): pending.append(at)
+			if not cells.has(at) and not work.has(at): pending.append(at)
 		for at in cells.keys():
 			if not wanted.has(at):
 				for batch in cells[at]: batch.free()
 				cells.erase(at)
-	for i in mini(budget,pending.size()): _create_cell(pending.pop_front())
-func _create_cell(key: Vector2i) -> void:
+	var submitted=0
+	for at in work.keys():
+		var job: CellWork=work[at]
+		if not WorkerThreadPool.is_task_completed(job.id): continue
+		WorkerThreadPool.wait_for_task_completion(job.id)
+		work.erase(at)
+		if frame_costs and frame_costs.enabled and preparation_samples.size()<200000: preparation_samples.append(job.milliseconds)
+		if wanted.has(at) and not cells.has(at):
+			_create_cell(at,job.items); submitted+=1
+	var admission=budget-work.size() if asynchronous else budget-submitted
+	for i in mini(maxi(0,admission),pending.size()):
+		var at: Vector2i=pending.pop_front()
+		if asynchronous:
+			# Each job owns its RNG/noise and output; only frozen terrain/ecology
+			# and collision broad-phase bounds are read. No scene/GPU work here.
+			var job=CellWork.new(); job.key=at
+			job.source=Placement.new(field,placement.heights)
+			job.id=WorkerThreadPool.add_task(job.run,false,"Grass cell")
+			work[at]=job
+		else: _create_cell(at,placement.cell(at))
+func _create_cell(key: Vector2i, items: Array) -> void:
 	var groups: Dictionary = {}
-	for item in placement.cell(key):
+	for item in items:
 		if item.rank>=density: continue
 		if not groups.has(item.asset): groups[item.asset]=[]
 		groups[item.asset].append(item)
@@ -102,10 +138,17 @@ func _create_cell(key: Vector2i) -> void:
 			batch.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			batch.gi_mode=GeometryInstance3D.GI_MODE_DISABLED
 			batch.visibility_range_end=distance_m+Placement.CELL*2
+			# The near shader is fully discarded beyond 26 m. Include the entire
+			# root envelope when culling a batch, preserving the 18-26 m blend.
+			if lod==0: batch.visibility_range_end=26.0+mm.custom_aabb.size.length()*.5
 			batch.set_instance_shader_parameter("grass_birth",stream_time)
 			add_child(batch); batches.append(batch)
 	cells[key]=batches
 func _clear_cells() -> void:
+	# Quality/cancellation/teardown are boundaries. Retire every task before
+	# releasing its frozen inputs; normal frames only collect completed tasks.
+	for job in work.values(): WorkerThreadPool.wait_for_task_completion(job.id)
+	work.clear(); wanted.clear()
 	for batches in cells.values():
 		for batch in batches: batch.free()
 	cells.clear(); pending.clear()
@@ -115,6 +158,7 @@ func population() -> int:
 		for batch in batches: count+=batch.multimesh.instance_count
 	return count/2
 func _exit_tree() -> void:
+	_clear_cells()
 	motion.reset()
 	if assets:
 		for material in materials:

@@ -106,9 +106,26 @@ func run() -> void:
 			for i in batch.multimesh.instance_count: subset=subset and poses.has(str(batch.multimesh.get_instance_transform(i).origin))
 	check(grass.population()<full,"Lower density reduces resident population")
 	if DisplayServer.get_name()!="headless": check(subset,"Native density changes retain a stable subset")
+	grass.apply_quality(Quality.numbered(7,{"scrub_distance_m":35.0}))
+	grass.stream(Vector3.ZERO,3,true)
+	check(grass.work.size()<=3 and not grass.work.is_empty(),"Async cell preparation has at most three isolated jobs")
+	var deadline=Time.get_ticks_msec()+5000
+	while (not grass.pending.is_empty() or not grass.work.is_empty()) and Time.get_ticks_msec()<deadline:
+		await create_timer(.01).timeout
+		grass.stream(Vector3.ZERO,3,true)
+	check(grass.pending.is_empty() and grass.work.is_empty() and grass.population()==full,"Async preparation reaches the exact synchronous population")
+	var conservative=true; var matching=true
+	for batches in grass.cells.values():
+		for batch in batches:
+			var envelope: AABB=batch.multimesh.custom_aabb
+			if batch.material_override==grass.materials[0]: conservative=conservative and batch.visibility_range_end>=26.0+envelope.size.length()*.5-.001
+			for i in batch.multimesh.instance_count: matching=matching and poses.has(str(batch.multimesh.get_instance_transform(i).origin))
+	check(conservative,"Near LOD culling encloses every root through the complete blend range")
+	if DisplayServer.get_name()!="headless": check(matching,"Native async transforms equal synchronous vegetation")
+	grass.stream(Vector3(160,0,0),3,true)
 	grass.apply_quality(Quality.numbered(1,{"scrub_density":0.0}))
 	grass.stream(Vector3.ZERO,Grass.MAX_CELLS)
-	check(grass.population()==0 and grass.cells.is_empty() and grass.pending.is_empty(),"Density zero releases residency and has a real off path")
+	check(grass.population()==0 and grass.cells.is_empty() and grass.pending.is_empty() and grass.work.is_empty(),"Density zero releases residency and has a real off path")
 	grass.apply_quality(Quality.numbered(7,{"scrub_distance_m":35.0}))
 	grass.stream(Vector3.ZERO,1)
 	field.job.cancel(); grass._process(.016)

@@ -30,4 +30,11 @@ func run() -> void:
 	check(Trace.preflight_error(changed,15,false).is_empty(),"Explicit scenario playback accepts a short clip")
 	changed.result.crash = "TREE IMPACT"
 	check(Trace.preflight_error(changed,15,false).is_empty(),"Explicit scenario playback retains a captured crash")
+	changed = current.duplicate(true); changed.scenario_origin = [1608,1416]
+	check(not Trace.preflight_error(changed,15).is_empty(),"Local origins cannot claim a complete descent")
+	check(Trace.preflight_error(changed,15,false).is_empty(),"Explicit ordinary scenario accepts a finite local origin")
+	changed.scenario_origin = [NAN,1416]
+	check(not Trace.preflight_error(changed,15,false).is_empty(),"Nonfinite local origin rejected")
+	changed.scenario_origin = [1608]
+	check(not Trace.preflight_error(changed,15,false).is_empty(),"Incomplete local origin rejected")
 	quit(0 if failures.is_empty() else 1)

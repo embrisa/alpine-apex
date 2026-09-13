@@ -10,6 +10,7 @@ param(
     [ValidateSet('auto','fsr4','fsr3','fsr2','native')][string]$Upscaler = 'auto',
     [ValidateSet('on','off')][string]$TerrainGI = 'off',
     [ValidateSet('on','off')][string]$FrameGeneration = 'off',
+    [ValidateSet('on','off')][string]$Grass = 'on',
     [switch]$ProfileFrameCosts,
     [switch]$ProfileGpuPasses,
     [switch]$ScenarioReplay,
@@ -84,6 +85,8 @@ if ($Version -ge 14) {
     }
 }
 elseif (-not $ThirdPerson) { $alpineArgs += '--pov-forest' }
+if ($Grass -eq 'off' -and $alpinePlaytest -notin @('tests/performance_descent.gd','tests/performance_gpu_profile.gd')) { throw 'Grass isolation requires the production trace benchmark.' }
+$alpineArgs += "--grass=$Grass"
 if ($ProfileFrameCosts) { $alpineArgs += '--profile-frame-costs' }
 if ($ScenarioReplay) { $alpineArgs += '--scenario-replay' }
 if ($StressSpeedKmh -gt 0) { $alpineArgs += "--stress-speed-kmh=$StressSpeedKmh" }

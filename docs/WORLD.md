@@ -275,10 +275,18 @@ normal below .70 are excluded. Ordinary open snow has sparse growth; sheltered
 forest pockets admit taller coated blades. The physical snow mantle is unchanged.
 
 `presentation/terrain_grass.gd` prepares only cells near the active camera,
-submitting three cells per frame and retaining at most 625 cells (including empty
+preparing up to three cells concurrently on low priority worker pool jobs,
+submitting at most three completed cells per frame and retaining at most 625 cells (including empty
 ones). It neither scans the whole mountain each frame nor persists grass data.
 New worlds own fresh residency and swept influence; cancellation drops pending
-cells. Existing physical/scenery payload schemas remain unchanged. Grass scripts,
+cells. Every job owns its placement RNG/noise and result and reads the completed,
+immutable terrain/ecology and mineral broad-phase bounds. It creates no nodes,
+resources or GPU uploads. The main thread only collects completed jobs, discards
+obsolete cells and submits their unchanged transforms. Density changes,
+cancellation and teardown join the bounded outstanding jobs before releasing
+inputs; ordinary frames never wait for unfinished preparation. Explicit synchronous
+`stream` calls remain available for finite QA population/readback checks.
+Existing physical/scenery payload schemas remain unchanged. Grass scripts,
 shaders, runtime manifest and every mesh enter generation source identity and
 export receipts. The existing `generation_sources.gd` self-hash rule also
 invalidates physical caches when that source list changes, despite unchanged

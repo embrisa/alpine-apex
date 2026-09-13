@@ -409,6 +409,51 @@ receipt producer rejects any unfocused measured frames, source drift, incomplete
 replays or changed personal settings/records; preserve rejected attempts as
 diagnostic evidence and use a fresh label for replacements.
 
+### Terrain grass performance
+
+The [terrain-grass receipt](TERRAIN_GRASS_PERFORMANCE_RESULTS.json) owns the
+individual 4K High trials, medians, identity, preparation, CPU/GPU and memory
+results from the completed grass follow-up. The bounded optimization reduced
+forest spikes while retaining populations and pixels. Both controls still miss
+the whole-game goals. The receipt discloses desktop workload variation, small
+observed allocation growth and separately labelled high-speed/GPU diagnostics;
+it is not complete-descent or human acceptance.
+
+`tests/terrain_grass_trace.gd` uses the ordinary route pilot and production solver
+to produce two collision-free 15-second traces at the surveyed Standard forest
+origin `(1608,1416)` and rock/snow transition `(-244,-2224)`. It rejects surviving
+obstacle contacts as well as crashes; failed search attempts stay in the output.
+No velocity, contact, obstacle or position override occurs after the local launch.
+`scenario_origin` is a finite XZ launch on exact terrain support; it requires
+`-ScenarioReplay`, cannot mix with a stress driver, and cannot claim a complete
+descent. Runtime playback checks terrain bounds, initial state, checkpoints and
+the independent solver endpoint. Regenerate after relevant identity changes.
+
+The production benchmark accepts `-Grass on|off` (default on). After ordinary
+graphics application, off clones the effective profile and changes only
+`scrub_density` for `world.grass` and `world.minerals`. Other scrub, trees,
+minerals, shadows, textures, tracks, weather and simulation retain their settings.
+Warmup must show zero ground/mineral grass off and nonzero ground grass on.
+Receipts retain start/end populations, resident/pending/inflight cells, worker
+preparation milliseconds, exact final state and the normal CPU/GPU/streaming
+telemetry. `stream_grass` measures main-thread streaming/submission in microseconds;
+worker preparation statistics are separate and must not be summed with frame time.
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/terrain_grass_trace.gd','--','--output=artifacts/grass-current/traces') -Label grass-inputs -WorkloadMode Shared -TimeoutSeconds 300 -FullMountain -FullMountainReason 'Current bounded ordinary inputs through production grass habitats'
+# Repeat independently with fresh labels; pair on/off for each habitat.
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','grass-forest-on-1','-InputTrace','artifacts/grass-current/traces/forest.json','-ScenarioReplay','-TrialStartSeconds','0','-TrialSeconds','15','-Repetitions','3','-Grass','on','-FrameCap','120','-Upscaler','auto','-RenderScale','0.75','-TerrainGI','off','-FrameGeneration','off','-ProfileFrameCosts') -Label grass-forest-on-1 -WorkloadMode FpsCritical -TimeoutSeconds 600 -CollectGpuMemory -FullMountain -FullMountainReason 'Matched production grass-only 4K High cost'
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/terrain_grass_lod_playtest.gd') -Label grass-lod-pixels -WorkloadMode Shared -TimeoutSeconds 120
+```
+
+Keep three independently launched matched pairs and three warmed repetitions per
+launch separate in reports. Reset/replay revisits the same cells; retain per-trial
+memory, streaming chronology and identical settled populations. Use the existing
+explicit 170 km/h stress route separately for fast traversal; its collision
+policy cannot substitute for ordinary-input evidence. GPU pass captures are
+separate from acceptance timings and only attribute pass time, not exact overdraw
+pixel counts. Follow the same source/focus/personal-data validity gates above.
+
 ### Immortal high-speed stress trials
 
 For high-speed rendering/streaming investigations, the user-selected workload
@@ -775,13 +820,13 @@ historical provenance only and must not be used as current acceptance.
 
 ## Performance evidence
 
-### Current bounded high-speed scenario
+### Bounded high-speed scenario recorded on 2026-09-13
 
-The [current bounded high-speed receipt](CURRENT_V15_BOUNDED_HIGH_SPEED_PERFORMANCE_RESULTS.json)
-uses the live source/runtime identity, three independently warmed 15-second
+The [recorded bounded high-speed receipt](CURRENT_V15_BOUNDED_HIGH_SPEED_PERFORMANCE_RESULTS.json)
+uses its recorded source/runtime identity, three independently warmed 15-second
 capture-free 4K High repetitions, and the agreed 170 km/h full-tuck/no-brake
-control protocol. It is the current measured dense-forest scenario evidence;
-it is not a whole-route baseline, visual inspection, or human/controller
+control protocol. Its source table predates subsequent presentation changes;
+revalidate it before a new comparison. It is not a whole-route baseline, visual inspection, or human/controller
 acceptance. Its individual runs and medians remain the source of any current
 frame-time claim.
 
