@@ -143,8 +143,9 @@ Compact scene tests set SceneTree metadata `test_map_fixture` before adding the
 real main scene. Selection survives reload; records use disposable per-process
 paths and fixture attempts remain unranked. The production terrain, lighting,
 scenery, camera and skier components remain in use. The fixture path never builds
-distant terrain, wilderness, scrub, huts or randomly scattered obstacles. Object
-fixtures are capped at 64 placements. Add a needed terrain/event to this catalog
+distant terrain, wilderness, scrub, huts or randomly scattered obstacles. Routine object
+fixtures are capped at 64 placements; explicitly selected performance maps below
+have their own bounded populations. Add a needed terrain/event to this catalog
 before defaulting a new local check to a full world.
 
 ```powershell
@@ -188,6 +189,54 @@ and carving stimuli are unchanged; their default 4-6 second windows remain valid
 An unexpected fixture boundary fails required scenario coverage rather than
 silently reporting an early pass. Local captures establish local behavior;
 they do not establish whole-mountain FPS or human/controller acceptance.
+
+## Targeted rendering and FPS maps
+
+For local slope, rock, tree/forest or combined rendering work, select an authored
+performance map before using a mountain. `tests/fixtures/performance_maps.json`
+owns four 256 x 512 m maps (8,385 height samples each):
+
+| Selection | Trees | Rocks | Intended checks |
+|---|---:|---:|---|
+| `slopes` | 0 | 0 | Terrain shading, crest/compression, contact and snow effects |
+| `rocks` | 0 | 48 | Real mineral meshes/hulls, textures, shadows and macro texture residency |
+| `vegetation` | 384 | 0 | Production forest batches, crowns, shadows, wind, LOD and local residency |
+| `mixed` | 384 | 48 | The exact same rocks and trees together; combined rendering cost |
+
+The common terrain has a clear 24 m central lane, a crest at z=196 m, compression
+at z=286 m and outboard ripple strips. Trees have explicit anchors and species
+palettes; rocks include 46 medium/large samples and two distant macro boulders.
+The component-only and combined maps share identical terrain and placements.
+There is no full-world generation, distant terrain, random scattering, wilderness
+or scenery-preparation cache. Only the selected production components load. These
+performance fixtures allow at most 448 placements and never replace the smaller
+routine functional fixtures.
+
+```powershell
+./scripts/benchmark_targeted.ps1 -Map rocks -PlanOnly
+./scripts/benchmark_targeted.ps1 -Map vegetation -Output artifacts/my-task/vegetation
+./scripts/benchmark_targeted.ps1 -Map mixed -Capture -Resolution 1280x720 -FrameCap 60 -Output artifacts/my-task/mixed-captures
+./scripts/test_pc_environment.ps1 -Suites performance_map_suite,targeted_map_suite
+```
+
+Use `-Map slopes`, `rocks`, `vegetation` or `mixed`. The owning wrapper reserves
+FpsCritical admission (including native captures); do not add another guard.
+Default measurement is three independently launched scenes at 4K High, FSR Auto
+0.75, uncapped, with three seconds of preparation and six seconds of ordinary
+120 Hz skiing per scene. `-Seconds` accepts 4–10 seconds. The runner rejects a
+crash, early boundary, incomplete tick window, source drift, wrong output pixels,
+focus loss, invalid timing samples or an end state different from the reference.
+No personal preferences or records are written. Captures use a separate run and
+produce detail/overview images; they never count as FPS evidence.
+
+`plan.json`, per-trial `results.json`/`samples.json` and `summary.json` record
+fixture identity/population, source and engine hashes, effective graphics/output,
+setup time, complete process time, ordinary-input coverage, FPS and frame tails.
+Compare matched maps/settings using medians of the individual trial statistics.
+Local component FPS is distinct from whole-mountain FPS: retain the explicitly
+justified production benchmark for mountain-scale streaming, dense-scene
+acceptance and exact route/data reproductions. Human/controller acceptance is
+reported separately.
 
 ## Standard scenarios and synchronized comparison
 

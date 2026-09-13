@@ -11,7 +11,7 @@ func check(ok: bool,label: String) -> void:
 	if not ok: failures.append(label)
 
 func run() -> void:
-	for id in Maps.catalog():
+	for id in Maps.catalog(false):
 		var a=Maps.create(id); var b=Maps.create(id)
 		check(a.heights==b.heights and a.obstacles==b.obstacles and a.fixture_identity==b.fixture_identity,id+": deterministic data and identity")
 		check(a.CELL==4 and a.heights.size()==a.NX*a.NZ and a.heights.size()<=8385,id+": bounded authoritative 4 m grid")

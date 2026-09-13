@@ -1,0 +1,7080 @@
+{
+  "schema": 1,
+  "maps": {
+    "perf-slopes": {
+      "kind": "performance",
+      "width_m": 256,
+      "length_m": 512,
+      "gradient": 0.28,
+      "depth": 0.06,
+      "object_limit": 448,
+      "design": {
+        "lane": "24 m clear central lane; ordinary input starts at z=64, 60 km/h",
+        "terrain": "Shared smooth slope, crest at z=196, compression at z=286, outboard ripple strips",
+        "vegetation": "Four species palettes, 11 m lateral / 16 m downhill anchors; nearby crowns, shadow overlap and 32 m production streaming cells",
+        "rocks": "46 medium/large samples and two distant macro boulders; real mineral hulls and textures",
+        "comparison": "Identical terrain and exact same component placements across component-only and mixed maps"
+      },
+      "objects": []
+    },
+    "perf-rocks": {
+      "kind": "performance",
+      "width_m": 256,
+      "length_m": 512,
+      "gradient": 0.28,
+      "depth": 0.06,
+      "object_limit": 448,
+      "design": {
+        "lane": "24 m clear central lane; ordinary input starts at z=64, 60 km/h",
+        "terrain": "Shared smooth slope, crest at z=196, compression at z=286, outboard ripple strips",
+        "vegetation": "Four species palettes, 11 m lateral / 16 m downhill anchors; nearby crowns, shadow overlap and 32 m production streaming cells",
+        "rocks": "46 medium/large samples and two distant macro boulders; real mineral hulls and textures",
+        "comparison": "Identical terrain and exact same component placements across component-only and mixed maps"
+      },
+      "objects": [
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 12,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 0
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 12,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 47
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 28,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 94
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 28,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 141
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 44,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 188
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 44,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 235
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 60,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 282
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 60,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 329
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 76,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 16
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 76,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 63
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 92,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 110
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 92,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 157
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 108,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 204
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 108,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 251
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 124,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 298
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 124,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 345
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 140,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 32
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 140,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 79
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 156,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 126
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 156,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 173
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 172,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 220
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 172,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 267
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 188,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 314
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 188,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 1
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 204,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 48
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 204,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 95
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 220,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 142
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 220,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 189
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 236,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 236
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 236,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 283
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 252,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 330
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 252,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 17
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 268,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 64
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 268,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 111
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 284,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 158
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 284,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 205
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 300,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 252
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 300,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 299
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 316,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 346
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 316,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 33
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 332,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 80
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 332,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 127
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 348,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 174
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 348,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 221
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 364,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 268
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 364,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 315
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -90,
+          "z": 416,
+          "asset": "mineral_huge_boulders_block_01",
+          "scale": 1.0,
+          "yaw": 0
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 90,
+          "z": 416,
+          "asset": "mineral_huge_boulders_block_01",
+          "scale": 1.0,
+          "yaw": 0
+        }
+      ]
+    },
+    "perf-vegetation": {
+      "kind": "performance",
+      "width_m": 256,
+      "length_m": 512,
+      "gradient": 0.28,
+      "depth": 0.06,
+      "object_limit": 448,
+      "design": {
+        "lane": "24 m clear central lane; ordinary input starts at z=64, 60 km/h",
+        "terrain": "Shared smooth slope, crest at z=196, compression at z=286, outboard ripple strips",
+        "vegetation": "Four species palettes, 11 m lateral / 16 m downhill anchors; nearby crowns, shadow overlap and 32 m production streaming cells",
+        "rocks": "46 medium/large samples and two distant macro boulders; real mineral hulls and textures",
+        "comparison": "Identical terrain and exact same component placements across component-only and mixed maps"
+      },
+      "objects": [
+        {
+          "tree": true,
+          "x": -30,
+          "z": 8,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 0
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 53
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 106
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 8,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 159
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 212
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 8,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 265
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 318
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 8,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 11
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 8,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 0
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 53
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 106
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 8,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 159
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 212
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 8,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 265
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 318
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 8,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 11
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 24,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 137
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 190
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 243
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 24,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 296
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 349
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 24,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 42
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 95
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 24,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 148
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 24,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 137
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 190
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 243
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 24,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 296
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 349
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 24,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 42
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 95
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 24,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 148
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 40,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 274
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 327
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 20
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 40,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 73
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 126
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 40,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 179
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 232
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 40,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 285
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 40,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 274
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 327
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 20
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 40,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 73
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 126
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 40,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 179
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 232
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 40,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 285
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 56,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 51
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 104
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 157
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 56,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 210
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 263
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 56,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 316
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 9
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 56,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 62
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 56,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 51
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 104
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 157
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 56,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 210
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 263
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 56,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 316
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 9
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 56,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 62
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 72,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 188
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 241
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 294
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 72,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 347
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 40
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 72,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 93
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 146
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 72,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 199
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 72,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 188
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 241
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 294
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 72,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 347
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 40
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 72,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 93
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 146
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 72,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 199
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 88,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 325
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 18
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 71
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 88,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 124
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 177
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 88,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 230
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 283
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 88,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 336
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 88,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 325
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 18
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 71
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 88,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 124
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 177
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 88,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 230
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 283
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 88,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 336
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 104,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 102
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 155
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 208
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 104,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 261
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 314
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 104,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 7
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 60
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 104,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 113
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 104,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 102
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 155
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 208
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 104,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 261
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 314
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 104,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 7
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 60
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 104,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 113
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 120,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 239
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 292
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 345
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 120,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 38
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 91
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 120,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 144
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 197
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 120,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 250
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 120,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 239
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 292
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 345
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 120,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 38
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 91
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 120,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 144
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 197
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 120,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 250
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 136,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 16
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 69
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 122
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 136,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 175
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 228
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 136,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 281
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 334
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 136,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 27
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 136,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 16
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 69
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 122
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 136,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 175
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 228
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 136,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 281
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 334
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 136,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 27
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 152,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 153
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 206
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 259
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 152,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 312
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 5
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 152,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 58
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 111
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 152,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 164
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 152,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 153
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 206
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 259
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 152,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 312
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 5
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 152,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 58
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 111
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 152,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 164
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 168,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 290
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 343
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 36
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 168,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 89
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 142
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 168,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 195
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 248
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 168,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 301
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 168,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 290
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 343
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 36
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 168,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 89
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 142
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 168,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 195
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 248
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 168,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 301
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 184,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 67
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 120
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 173
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 184,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 226
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 279
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 184,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 332
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 25
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 184,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 78
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 184,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 67
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 120
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 173
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 184,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 226
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 279
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 184,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 332
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 25
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 184,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 78
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 200,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 204
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 257
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 310
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 200,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 3
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 56
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 200,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 109
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 162
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 200,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 215
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 200,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 204
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 257
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 310
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 200,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 3
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 56
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 200,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 109
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 162
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 200,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 215
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 216,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 341
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 34
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 87
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 216,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 140
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 193
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 216,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 246
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 299
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 216,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 352
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 216,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 341
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 34
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 87
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 216,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 140
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 193
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 216,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 246
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 299
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 216,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 352
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 232,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 118
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 171
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 224
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 232,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 277
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 330
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 232,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 23
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 76
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 232,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 129
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 232,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 118
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 171
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 224
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 232,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 277
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 330
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 232,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 23
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 76
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 232,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 129
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 248,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 255
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 308
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 1
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 248,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 54
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 107
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 248,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 160
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 213
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 248,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 266
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 248,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 255
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 308
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 1
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 248,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 54
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 107
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 248,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 160
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 213
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 248,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 266
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 264,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 32
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 85
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 138
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 264,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 191
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 244
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 264,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 297
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 350
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 264,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 43
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 264,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 32
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 85
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 138
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 264,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 191
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 244
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 264,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 297
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 350
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 264,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 43
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 280,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 169
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 222
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 275
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 280,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 328
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 21
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 280,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 74
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 127
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 280,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 180
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 280,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 169
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 222
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 275
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 280,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 328
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 21
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 280,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 74
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 127
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 280,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 180
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 296,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 306
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 359
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 52
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 296,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 105
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 158
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 296,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 211
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 264
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 296,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 317
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 296,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 306
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 359
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 52
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 296,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 105
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 158
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 296,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 211
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 264
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 296,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 317
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 312,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 83
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 136
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 189
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 312,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 242
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 295
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 312,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 348
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 41
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 312,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 94
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 312,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 83
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 136
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 189
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 312,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 242
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 295
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 312,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 348
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 41
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 312,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 94
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 328,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 220
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 273
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 326
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 328,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 19
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 72
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 328,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 125
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 178
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 328,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 231
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 328,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 220
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 273
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 326
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 328,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 19
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 72
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 328,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 125
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 178
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 328,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 231
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 344,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 357
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 50
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 103
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 344,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 156
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 209
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 344,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 262
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 315
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 344,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 8
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 344,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 357
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 50
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 103
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 344,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 156
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 209
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 344,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 262
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 315
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 344,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 8
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 360,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 134
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 187
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 240
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 360,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 293
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 346
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 360,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 39
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 92
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 360,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 145
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 360,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 134
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 187
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 240
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 360,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 293
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 346
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 360,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 39
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 92
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 360,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 145
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 376,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 271
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 324
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 17
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 376,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 70
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 123
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 376,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 176
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 229
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 376,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 282
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 376,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 271
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 324
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 17
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 376,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 70
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 123
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 376,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 176
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 229
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 376,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 282
+        }
+      ]
+    },
+    "perf-mixed": {
+      "kind": "performance",
+      "width_m": 256,
+      "length_m": 512,
+      "gradient": 0.28,
+      "depth": 0.06,
+      "object_limit": 448,
+      "design": {
+        "lane": "24 m clear central lane; ordinary input starts at z=64, 60 km/h",
+        "terrain": "Shared smooth slope, crest at z=196, compression at z=286, outboard ripple strips",
+        "vegetation": "Four species palettes, 11 m lateral / 16 m downhill anchors; nearby crowns, shadow overlap and 32 m production streaming cells",
+        "rocks": "46 medium/large samples and two distant macro boulders; real mineral hulls and textures",
+        "comparison": "Identical terrain and exact same component placements across component-only and mixed maps"
+      },
+      "objects": [
+        {
+          "tree": true,
+          "x": -30,
+          "z": 8,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 0
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 53
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 106
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 8,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 159
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 212
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 8,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 265
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 318
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 8,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 11
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 8,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 0
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 53
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 106
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 8,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 159
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 212
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 8,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 265
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 8,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 318
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 8,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 11
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 24,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 137
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 190
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 243
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 24,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 296
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 349
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 24,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 42
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 95
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 24,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 148
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 24,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 137
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 190
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 243
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 24,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 296
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 349
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 24,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 42
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 24,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 95
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 24,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 148
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 40,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 274
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 327
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 20
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 40,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 73
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 126
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 40,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 179
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 232
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 40,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 285
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 40,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 274
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 327
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 20
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 40,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 73
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 126
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 40,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 179
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 40,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 232
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 40,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 285
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 56,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 51
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 104
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 157
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 56,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 210
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 263
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 56,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 316
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 9
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 56,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 62
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 56,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 51
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 104
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 157
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 56,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 210
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 263
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 56,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 316
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 56,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 9
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 56,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 62
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 72,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 188
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 241
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 294
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 72,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 347
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 40
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 72,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 93
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 146
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 72,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 199
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 72,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 188
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 241
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 294
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 72,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 347
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 40
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 72,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 93
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 72,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 146
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 72,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 199
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 88,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 325
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 18
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 71
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 88,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 124
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 177
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 88,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 230
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 283
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 88,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 336
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 88,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 325
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.0,
+          "yaw": 18
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.12,
+          "yaw": 71
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 88,
+          "family": "spruce",
+          "scale": 0.96,
+          "yaw": 124
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.08,
+          "yaw": 177
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 88,
+          "family": "spruce",
+          "scale": 0.92,
+          "yaw": 230
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 88,
+          "family": "spruce",
+          "scale": 1.04,
+          "yaw": 283
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 88,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 336
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 104,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 102
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 155
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 208
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 104,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 261
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 314
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 104,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 7
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 60
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 104,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 113
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 104,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 102
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 155
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 208
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 104,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 261
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 314
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 104,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 7
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 104,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 60
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 104,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 113
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 120,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 239
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 292
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 345
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 120,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 38
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 91
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 120,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 144
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 197
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 120,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 250
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 120,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 239
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 292
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 345
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 120,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 38
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 91
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 120,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 144
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 120,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 197
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 120,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 250
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 136,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 16
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 69
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 122
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 136,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 175
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 228
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 136,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 281
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 334
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 136,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 27
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 136,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 16
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 69
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 122
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 136,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 175
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 228
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 136,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 281
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 136,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 334
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 136,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 27
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 152,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 153
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 206
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 259
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 152,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 312
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 5
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 152,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 58
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 111
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 152,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 164
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 152,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 153
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 206
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 259
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 152,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 312
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 5
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 152,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 58
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 152,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 111
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 152,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 164
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 168,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 290
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 343
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 36
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 168,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 89
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 142
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 168,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 195
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 248
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 168,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 301
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 168,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 290
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 343
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 36
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 168,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 89
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 142
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 168,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 195
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 168,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 248
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 168,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 301
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 184,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 67
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 120
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 173
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 184,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 226
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 279
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 184,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 332
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 25
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 184,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 78
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 184,
+          "family": "fir",
+          "scale": 0.88,
+          "yaw": 67
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.0,
+          "yaw": 120
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.12,
+          "yaw": 173
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 184,
+          "family": "fir",
+          "scale": 0.96,
+          "yaw": 226
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.08,
+          "yaw": 279
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 184,
+          "family": "fir",
+          "scale": 0.92,
+          "yaw": 332
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 184,
+          "family": "fir",
+          "scale": 1.04,
+          "yaw": 25
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 184,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 78
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 200,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 204
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 257
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 310
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 200,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 3
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 56
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 200,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 109
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 162
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 200,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 215
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 200,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 204
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 257
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 310
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 200,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 3
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 56
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 200,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 109
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 200,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 162
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 200,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 215
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 216,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 341
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 34
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 87
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 216,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 140
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 193
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 216,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 246
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 299
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 216,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 352
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 216,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 341
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 34
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 87
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 216,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 140
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 193
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 216,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 246
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 216,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 299
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 216,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 352
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 232,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 118
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 171
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 224
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 232,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 277
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 330
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 232,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 23
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 76
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 232,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 129
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 232,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 118
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 171
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 224
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 232,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 277
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 330
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 232,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 23
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 232,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 76
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 232,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 129
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 248,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 255
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 308
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 1
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 248,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 54
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 107
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 248,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 160
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 213
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 248,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 266
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 248,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 255
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 308
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 1
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 248,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 54
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 107
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 248,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 160
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 248,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 213
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 248,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 266
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 264,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 32
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 85
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 138
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 264,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 191
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 244
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 264,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 297
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 350
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 264,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 43
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 264,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 32
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 85
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 138
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 264,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 191
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 244
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 264,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 297
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 264,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 350
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 264,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 43
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 280,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 169
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 222
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 275
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 280,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 328
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 21
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 280,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 74
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 127
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 280,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 180
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 280,
+          "family": "pine",
+          "scale": 0.88,
+          "yaw": 169
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.0,
+          "yaw": 222
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.12,
+          "yaw": 275
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 280,
+          "family": "pine",
+          "scale": 0.96,
+          "yaw": 328
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.08,
+          "yaw": 21
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 280,
+          "family": "pine",
+          "scale": 0.92,
+          "yaw": 74
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 280,
+          "family": "pine",
+          "scale": 1.04,
+          "yaw": 127
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 280,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 180
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 296,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 306
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 359
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 52
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 296,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 105
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 158
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 296,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 211
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 264
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 296,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 317
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 296,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 306
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 359
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 52
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 296,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 105
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 158
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 296,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 211
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 296,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 264
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 296,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 317
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 312,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 83
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 136
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 189
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 312,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 242
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 295
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 312,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 348
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 41
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 312,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 94
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 312,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 83
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 136
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 189
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 312,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 242
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 295
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 312,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 348
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 312,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 41
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 312,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 94
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 328,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 220
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 273
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 326
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 328,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 19
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 72
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 328,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 125
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 178
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 328,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 231
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 328,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 220
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 273
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 326
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 328,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 19
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 72
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 328,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 125
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 328,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 178
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 328,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 231
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 344,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 357
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 50
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 103
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 344,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 156
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 209
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 344,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 262
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 315
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 344,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 8
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 344,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 357
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 50
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 103
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 344,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 156
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 209
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 344,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 262
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 344,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 315
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 344,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 8
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 360,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 134
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 187
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 240
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 360,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 293
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 346
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 360,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 39
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 92
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 360,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 145
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 360,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 134
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 187
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 240
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 360,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 293
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 346
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 360,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 39
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 360,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 92
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 360,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 145
+        },
+        {
+          "tree": true,
+          "x": -30,
+          "z": 376,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 271
+        },
+        {
+          "tree": true,
+          "x": -41,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 324
+        },
+        {
+          "tree": true,
+          "x": -52,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 17
+        },
+        {
+          "tree": true,
+          "x": -63,
+          "z": 376,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 70
+        },
+        {
+          "tree": true,
+          "x": -74,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 123
+        },
+        {
+          "tree": true,
+          "x": -85,
+          "z": 376,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 176
+        },
+        {
+          "tree": true,
+          "x": -96,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 229
+        },
+        {
+          "tree": true,
+          "x": -107,
+          "z": 376,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 282
+        },
+        {
+          "tree": true,
+          "x": 30,
+          "z": 376,
+          "family": "birch",
+          "scale": 0.88,
+          "yaw": 271
+        },
+        {
+          "tree": true,
+          "x": 41,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.0,
+          "yaw": 324
+        },
+        {
+          "tree": true,
+          "x": 52,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.12,
+          "yaw": 17
+        },
+        {
+          "tree": true,
+          "x": 63,
+          "z": 376,
+          "family": "birch",
+          "scale": 0.96,
+          "yaw": 70
+        },
+        {
+          "tree": true,
+          "x": 74,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.08,
+          "yaw": 123
+        },
+        {
+          "tree": true,
+          "x": 85,
+          "z": 376,
+          "family": "birch",
+          "scale": 0.92,
+          "yaw": 176
+        },
+        {
+          "tree": true,
+          "x": 96,
+          "z": 376,
+          "family": "birch",
+          "scale": 1.04,
+          "yaw": 229
+        },
+        {
+          "tree": true,
+          "x": 107,
+          "z": 376,
+          "family": "spruce",
+          "scale": 0.88,
+          "yaw": 282
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 12,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 0
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 12,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 47
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 28,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 94
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 28,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 141
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 44,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 188
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 44,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 235
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 60,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 282
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 60,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 329
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 76,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 16
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 76,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 63
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 92,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 110
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 92,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 157
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 108,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 204
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 108,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 251
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 124,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 298
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 124,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 345
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 140,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 32
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 140,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 79
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 156,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 126
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 156,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 173
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 172,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 220
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 172,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 267
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 188,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 314
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 188,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 1
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 204,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 48
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 204,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 95
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 220,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 142
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 220,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 189
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 236,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 236
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 236,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 283
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 252,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 330
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 252,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 17
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 268,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 64
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 268,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 111
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 284,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 158
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 284,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 205
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 300,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 252
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 300,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 299
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 316,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 346
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 316,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 33
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 332,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 80
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 332,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 127
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 348,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 174
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 348,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 221
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 364,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 268
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 364,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 315
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -90,
+          "z": 416,
+          "asset": "mineral_huge_boulders_block_01",
+          "scale": 1.0,
+          "yaw": 0
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 90,
+          "z": 416,
+          "asset": "mineral_huge_boulders_block_01",
+          "scale": 1.0,
+          "yaw": 0
+        }
+      ]
+    }
+  }
+}

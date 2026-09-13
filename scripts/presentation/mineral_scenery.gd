@@ -23,7 +23,7 @@ var macro_timer=0.0
 func build(source, assets, profile, checkpoint: Callable = Callable(), preparation = null) -> void:
 	field=source; library=assets; quality=profile
 	if not "geology" in field: return
-	stream_macro_textures="GENERATOR_VERSION" in field and field.GENERATOR_VERSION>=13
+	stream_macro_textures=("performance_fixture" in field and field.performance_fixture) or ("GENERATOR_VERSION" in field and field.GENERATOR_VERSION>=13)
 	rows=field.geology.catalog.records
 	support_height=ImageTexture.create_from_image(Image.create_from_data(field.NX,field.NZ,false,Image.FORMAT_RF,field.heights.to_byte_array()))
 	exposure=ImageTexture.create_from_image(field.exposure_image)

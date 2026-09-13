@@ -22,10 +22,11 @@ class ValidationRunnerTests(unittest.TestCase):
         (self.root / "scripts").mkdir()
         (self.root / "tests").mkdir()
         for name in ("run_guarded.ps1", "validation_lease.ps1", "guarded_job.cs", "guarded_child.ps1",
-                     "validation_output.cs", "test_pc_environment.ps1", "test_world_policy.ps1", "clean_artifacts.ps1", "versioning.py"):
+                     "validation_output.cs", "benchmark_targeted.ps1", "test_pc_environment.ps1", "test_world_policy.ps1", "clean_artifacts.ps1", "versioning.py"):
             shutil.copy2(PROJECT / "scripts" / name, self.root / "scripts" / name)
         (self.root / "tests/fixtures").mkdir()
-        shutil.copy2(PROJECT / "tests/fixtures/test_maps.json", self.root / "tests/fixtures/test_maps.json")
+        for catalog in ("test_maps.json", "performance_maps.json"):
+            shutil.copy2(PROJECT / "tests/fixtures" / catalog, self.root / "tests/fixtures" / catalog)
         # These fixtures exercise process/lock ownership without launching an
         # engine. Unrelated real game jobs must not control their outcome.
         with (self.root / "scripts/validation_lease.ps1").open("a", encoding="utf-8") as f:
@@ -355,6 +356,32 @@ class ValidationRunnerTests(unittest.TestCase):
         self.assertEqual(runtime["maps"][0]["objects"], 0)
         self.assertFalse(runtime["full_mountain"])
         self.assertFalse((self.root / "visited").exists())
+        self.assertFalse((self.root / "artifacts").exists())
+
+    def test_targeted_performance_plans_are_bounded_and_do_not_launch(self):
+        for name, trees, rocks in [("slopes", 0, 0), ("rocks", 0, 48), ("vegetation", 384, 0), ("mixed", 384, 48)]:
+            result = self.run_ps("scripts/benchmark_targeted.ps1", "-Map", name, "-PlanOnly")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            plan = json.loads(result.stdout)
+            self.assertEqual((plan["trees"], plan["rocks"], plan["objects"]), (trees, rocks, trees+rocks))
+            self.assertEqual((plan["width_m"], plan["length_m"], plan["height_samples"]), (256, 512, 8385))
+            self.assertEqual((plan["repetitions"], plan["seconds"], plan["workload_mode"]), (3, 6, "FpsCritical"))
+            self.assertFalse(plan["full_mountain"])
+        self.assertFalse((self.root / "artifacts").exists())
+
+    def test_targeted_measurement_rejects_shared_admission_before_launch(self):
+        self.env["ALPINE_VALIDATION_ROOT"] = str(self.root)
+        self.env["ALPINE_VALIDATION_MODE"] = "Shared"
+        result = self.run_ps("scripts/benchmark_targeted.ps1", "-Map", "mixed")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("FpsCritical", result.stdout + result.stderr)
+        self.assertFalse((self.root / "artifacts").exists())
+
+    def test_missing_performance_catalog_never_falls_back(self):
+        (self.root / "tests/fixtures/performance_maps.json").unlink()
+        result = self.run_ps("scripts/benchmark_targeted.ps1", "-Map", "rocks", "-PlanOnly")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("performance_maps.json", result.stdout + result.stderr)
         self.assertFalse((self.root / "artifacts").exists())
 
     def test_guard_forwards_reason_and_rejects_partial_selection(self):

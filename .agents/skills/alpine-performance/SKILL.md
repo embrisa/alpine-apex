@@ -45,6 +45,16 @@ archives require explicit preparation rather than an implicit cold bake.
 
 ## Attribute and change
 
+For local slopes, rocks, vegetation or combined rendering, use the
+[targeted FPS maps](../../../docs/VALIDATION.md#targeted-rendering-and-fps-maps):
+`scripts/benchmark_targeted.ps1 -Map vegetation -PlanOnly`, then a fresh output
+for measurement. Select the corresponding component map; `mixed` combines the
+same placements. The wrapper owns FpsCritical admission and three independent
+short trials by default. Capture separately with `-Capture`; inspect detail and
+overview images. Read actual population, pixels, complete duration, source/focus
+validity and per-trial frame tails. These are local production-component results;
+keep full-mountain FPS and human acceptance separate.
+
 Use [benchmark_pc.ps1](../../../scripts/benchmark_pc.ps1) for production frame
 measurements; consult the measurement guide for its guarded invocation. Select
 an explicit compatible `-InputTrace`, event window, fresh `-Label`, repetitions

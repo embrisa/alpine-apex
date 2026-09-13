@@ -1623,6 +1623,36 @@
           "full_mountain": true
         }
       ]
+    },
+    "scripts/benchmark_targeted.ps1": {
+      "maps": [
+        "perf-slopes",
+        "perf-rocks",
+        "perf-vegetation",
+        "perf-mixed"
+      ],
+      "full_mountain": false,
+      "coverage": "Authored local slope, rock, forest and combined rendering workloads; explicit selection, no mountain generation."
+    },
+    "tests/targeted_performance.gd": {
+      "maps": [
+        "perf-slopes",
+        "perf-rocks",
+        "perf-vegetation",
+        "perf-mixed"
+      ],
+      "full_mountain": false,
+      "coverage": "Authored local slope, rock, forest and combined rendering workloads; explicit selection, no mountain generation."
+    },
+    "tests/performance_map_suite.gd": {
+      "maps": [
+        "perf-slopes",
+        "perf-rocks",
+        "perf-vegetation",
+        "perf-mixed"
+      ],
+      "full_mountain": false,
+      "coverage": "Authored local slope, rock, forest and combined rendering workloads; explicit selection, no mountain generation."
     }
   }
 }

@@ -1,0 +1,239 @@
+{
+  "schema": 1,
+  "id": "f0f156646a314304b9100c288b880b20",
+  "summary": "Add purpose-built slope, rock, forest and mixed performance maps with guarded short benchmarks",
+  "categories": [
+    "World",
+    "Maintenance"
+  ],
+  "areas": [
+    "Designed compact performance maps",
+    "Production forest and mineral rendering on fixtures",
+    "Guarded native benchmark and separate captures"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "AGENTS.md",
+    "docs/VALIDATION.md",
+    "scripts/benchmark_targeted.ps1",
+    "scripts/diagnostics/performance_map.gd",
+    "scripts/diagnostics/performance_map.gd.uid",
+    "scripts/diagnostics/test_map.gd",
+    "scripts/diagnostics/test_world.gd",
+    "scripts/presentation/mineral_scenery.gd",
+    "scripts/test_world_policy.ps1",
+    "scripts/world/alpine_scenery.gd",
+    "tests/fixtures/performance_maps.json",
+    "tests/fixtures/test_maps.json",
+    "tests/performance_map_suite.gd",
+    "tests/performance_map_suite.gd.uid",
+    "tests/targeted_map_suite.gd",
+    "tests/targeted_performance.gd",
+    "tests/targeted_performance.gd.uid",
+    "tests/test_validation_runner.py"
+  ],
+  "read_paths": [
+    "assets/graphics/geology_v11/catalog.res",
+    "assets/graphics/trees/branches.json",
+    "scripts/core/run_session.gd",
+    "scripts/core/ski_simulation.gd",
+    "scripts/diagnostics/scenario_evidence.gd",
+    "scripts/main.gd",
+    "scripts/presentation/alpine_assets.gd",
+    "scripts/presentation/density_forest.gd",
+    "scripts/presentation/display_settings.gd",
+    "scripts/presentation/pc_graphics_settings.gd",
+    "scripts/run_guarded.ps1",
+    "scripts/test_pc_environment.ps1",
+    "scripts/validation_lease.ps1",
+    "scripts/world/alpine_world.gd",
+    "scripts/world/heightfield_surface.gd",
+    "scripts/world/mineral_catalog.gd",
+    "scripts/world/mineral_collision.gd",
+    "scripts/world/prop_collision_surface.gd",
+    "tests/forest_preparation_suite.gd",
+    "tests/geology_collision_suite.gd",
+    "tests/graphics_suite.gd",
+    "tests/pc_graphics_suite.gd",
+    "tests/physics_suite.gd",
+    "tests/runtime_suite.gd",
+    "tests/scenario_suite.gd",
+    "tests/test_scenario_comparison.py",
+    "scripts/world/crash_collision.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only explicit automated fixture selection and producers change; production solver, generation algorithms and persistent schemas retain their identities."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only explicit automated fixture selection and producers change; production solver, generation algorithms and persistent schemas retain their identities."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only explicit automated fixture selection and producers change; production solver, generation algorithms and persistent schemas retain their identities."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Existing gameplay identities and data remain unchanged; new fixtures have isolated automated-only identities."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Existing gameplay identities and data remain unchanged; new fixtures have isolated automated-only identities."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Existing gameplay identities and data remain unchanged; new fixtures have isolated automated-only identities."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Existing gameplay identities and data remain unchanged; new fixtures have isolated automated-only identities."
+      },
+      "caches": {
+        "effect": "regenerate",
+        "reason": "Physical mountain archives are unchanged. Existing source-hashed scenery preparation invalidates because fixture opt-in was added in scenery sources; targeted maps use no preparation cache."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "./scripts/test_pc_environment.ps1 -Suites physics_suite,runtime_suite,performance_map_suite,targeted_map_suite,scenario_suite,graphics_suite,pc_graphics_suite,geology_collision_suite -OutputDirectory artifacts/targeted_performance_maps/regression",
+      "details": "Complete physics 56 and runtime 192, targeted/scenario/graphics and mineral-collision checks passed. Later fixture-only fixes were rechecked in regression-fixed (runtime 192, targeted 43) and map-contract-final (50 map assertions). Final unique suite counts: 420. Physics/scenario/graphics/mineral solver inputs stayed unchanged during those fixture-only fixes."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "python -X utf8 -m unittest discover -s tests -p test_validation_runner.py -v; python -X utf8 -m unittest discover -s tests -p test_scenario_comparison.py -v",
+      "details": "27 runner tests and 11 comparison tests passed; targeted wrapper tests rerun after cross-trial source/settings matching. Runner coverage includes map plans, missing catalogs, full-mountain reason rejection and forwarded reasons."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @(\"--script\",\"tests/forest_preparation_suite.gd\") -Label targeted-perf-forest-components -WorkloadMode FpsCritical",
+      "details": "3533 production forest batch/residency assertions passed. Native fixture captures inspected in rendered-slopes, rendered-vegetation, final-rocks and final-mixed; real terrain/components, seated minerals, no trunk intersections, no distant/scattered world and isolated unranked storage."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "./scripts/benchmark_targeted.ps1 -Map <slopes|rocks|vegetation|mixed> -Output artifacts/targeted_performance_maps/measured-<map>",
+      "details": "Three independent 6-second ordinary-input trials per map at 3840x2160 High, FSR Auto 0.75, uncapped. All 12 reached exactly 720 ticks and the reference end state, positive CPU/GPU samples, matching native presents, zero focus loss and stable source/settings. Setup/process medians and FPS/tails are in verification-summary.json. New local workloads; not a like-for-like optimization comparison or whole-mountain FPS acceptance."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "quick_validate.py .agents/skills/alpine-performance; quick_validate.py .agents/skills/alpine-validation; python -X utf8 artifacts/targeted_performance_maps/verify_links.py; git -c core.whitespace=cr-at-eol diff --check",
+      "details": "Both skill validators passed with task-local PyYAML; 25 local skill links/anchors and current CLI plans checked. Owned source/documents decode as UTF-8 and diff whitespace check passed."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Local component FPS is not whole-mountain performance acceptance or human/controller acceptance."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-13T18:11:31.917469+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 13,
+      "commit": "fee6de54cb5397be7f13be50b80913dfeb30e554",
+      "modified": true,
+      "changes_sha256": "c9ab8b54eea3e35c39085f543961291ef50570e7938c41bb2db34e7421df47ef",
+      "source_sha256": "efce0132afb363a1e34a7628d4049bf71ec50a546ac1ce3225a674233c821b01",
+      "categories": [
+        "Maintenance",
+        "World"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": "1eac5c05cc91a79f3bd248fc9e59d7e1a3c62944fc601193bbf84f9125be7c93",
+      ".agents/skills/alpine-validation/SKILL.md": "22324b84c7e2a45eddbb3acdfdca6165ba822c26acddf93ed01ea2cd3c32ba1b",
+      "AGENTS.md": "17aef67c957730640490ecedb66f76fc606b1e1dbc8970f4d193c04a4adbd95d",
+      "assets/graphics/geology_v11/catalog.res": "e88266c655c662373408d3d31c522f3600615e14895dad195b0b18582297acd3",
+      "assets/graphics/trees/branches.json": "b3dbca48930045d780a69021607da69a6bb29f81e576f131812f49a9ec898684",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/VALIDATION.md": "7512a2ab38f6860566f38d8ee3aa01f4308bb4bc2de2590d6f93a85353b12491",
+      "project.godot": "ab7da5f47f5c39a842b849501ab3c8df818d481db9ea9283517a576cd4062c7d",
+      "scripts/benchmark_targeted.ps1": "ac217eda891d85338a2fb0627518b05a294e6a334d4805d180ba828aa058d48a",
+      "scripts/core/run_session.gd": "2a2ef5ef1af62dc35beca62527f13b26615907ff097ebdcb7ad3f89e9113e651",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/diagnostics/performance_map.gd": "36bfa8ca2d3b23af2e8e56fe205b80c089bb95bf91155b24e264e0cb9427868d",
+      "scripts/diagnostics/performance_map.gd.uid": "3532c9576fdf285663cc6a264c372cc8bbf321518bd7fe284953f1ede010f40a",
+      "scripts/diagnostics/scenario_evidence.gd": "baeddb48e2618033e0ce1359d0c94bee690dd8f43fbcf87677888c50cc153328",
+      "scripts/diagnostics/test_map.gd": "7602de8973e6582db68d8bfd402cdab21cfff1e4ca6abe53b0b9aea8df3fe6b1",
+      "scripts/diagnostics/test_world.gd": "7589212c8cc8e308df424a535723ac7ea93674045b9da2f21254acbb4fb3b56b",
+      "scripts/main.gd": "179e566a3eb721f734953fd9b4c9b4549edcf8001ced7ae5048966dc30d6c514",
+      "scripts/presentation/alpine_assets.gd": "0b369504897f83a6a5134e24e29a59daeb27dfa94329f142c20c4eb7fa57a279",
+      "scripts/presentation/density_forest.gd": "d53b1de7844c18e0d885f8f91c70193c3832d5796d24490a07739dfd2ffc4f8c",
+      "scripts/presentation/display_settings.gd": "35a8d7faab355da36c1a8d7a25b1376e0864f4a7c7c11df92dd11f1b5d7baa38",
+      "scripts/presentation/mineral_scenery.gd": "dc5b193901462967401c53ab3adc33faffbb17116867d462f5d103448d6824b5",
+      "scripts/presentation/pc_graphics_settings.gd": "80f9d8d8affa35428b283834cd2214dc2e07852fddb47cd4dc4ba404de232072",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "c8375d4142f40481877919f2ed0800dfb4217fe0eb421575cb0aa11b2c8f1407",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/run_guarded.ps1": "67d133122cf22b25514f559d6f9d89ea52b6da0fc8ad24b7b5400612b21bec71",
+      "scripts/test_pc_environment.ps1": "e121ab6b8ac14a487a40bcaaec030f08e9b5e55c711d26b476dc3bdd814d27ea",
+      "scripts/test_world_policy.ps1": "75d7efbc682484c4276b3631f868873222d233d1aafa30c427280c6cfbd4cc56",
+      "scripts/validation_lease.ps1": "b946e947282711f0dd7ef8f41f66aacbbf3f62ed841247af8636555f037f84fa",
+      "scripts/world/alpine_scenery.gd": "b1f6530fd8a660cfceb32468dbb8a11da786d001d6f0f2fbd501f7c86dd41f72",
+      "scripts/world/alpine_world.gd": "2e28a9842eeda1f9ed16a5b7dc82aaef1057e239c353fa46def66ae29ebfdacd",
+      "scripts/world/crash_collision.gd": "d384d728b1ef44e5d9690b13dffcdcd28b8364f4dbae2c04ead5b3a0c96ab80d",
+      "scripts/world/heightfield_surface.gd": "69b66efc0c7489b50b79b505fe63d22e95ed4bbf8cd8d07bc89cf074d6914db7",
+      "scripts/world/mineral_catalog.gd": "cc52d8ea3a3c911190de005b1aef95805fb9c3f893a551fca7689a6ee7580ff7",
+      "scripts/world/mineral_collision.gd": "ffed485a0f90f0a46a5f5663926c6ba93cb87e8163de7742c09417e9f18155d3",
+      "scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f",
+      "scripts/world/prop_collision_surface.gd": "bdc34dbd5a041d548657c73fa2b23ac71fdc7806433fc10d45cb071bcc97abea",
+      "tests/fixtures/performance_maps.json": "8ea796f69807226eda81e4bdec65536e9e792ed9d907bacaf54c7894a6833ff3",
+      "tests/fixtures/test_maps.json": "6627cc73a9cdb6e5852c829139d99a93613c221a003b8aad145e0fd2014a5121",
+      "tests/forest_preparation_suite.gd": "375c1a7ddfd3526731d7f500866dd18bd30aeb4f8271f66823bb353745005b6f",
+      "tests/geology_collision_suite.gd": "bcff1948383aed614710a060b275a28b4ec3707bfee62fe2a36dcbed7fbdfc00",
+      "tests/graphics_suite.gd": "f01d2111925d3a9971193ef9744abfceda58e3ddcd97edc3229a0ac3bc455e16",
+      "tests/pc_graphics_suite.gd": "a145a1064ccd8be7173e385a9b6055a63bd0eef3874cf7f87e976e3e02b9bea3",
+      "tests/performance_map_suite.gd": "8f60e53882b867a2c0bea2155521672267f0a035025f33e52fdb04bf2ed1975f",
+      "tests/performance_map_suite.gd.uid": "162c9c95d8d61ef01e3a705ba3a0b856d77aa9383e85b068b6355d10191a7dd0",
+      "tests/physics_suite.gd": "99f6c27d889be1070532a48df1fa8a510385ce48c2f83d1d7c825df4a701c530",
+      "tests/runtime_suite.gd": "ac94e4cc79d3fe1539539f41b61a77bbb29062a30fc471bc5869e76d78a6d030",
+      "tests/scenario_suite.gd": "c77e94d2f913dc7e2fbb61ff70ace6ca7bcac3c37a2c83111a0fa0821d96c383",
+      "tests/targeted_map_suite.gd": "9c0d9ae202df679a219d9f8ba70ed9057b7bcdbe98e793232999e71ee1a4854f",
+      "tests/targeted_performance.gd": "c8661a62867d66cf64d0a5ad335c502084a9b03c28a93a14d50f0b62706d3964",
+      "tests/targeted_performance.gd.uid": "8c4a8eecb44231a195754f70ae5ed581f5825d6bb9b0e28489b6db2df0e96fd9",
+      "tests/test_scenario_comparison.py": "04be23cfaf9a450622810b7d13c142a676e592bfa1a2b392478cb7b1de5a2631",
+      "tests/test_validation_runner.py": "2c273af5010a57e2ebe6c6bca546cf5326cf32de8f14dc1b2c7f45212cd24561"
+    }
+  }
+}

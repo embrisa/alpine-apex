@@ -29,6 +29,10 @@ static func build(world,field,checkpoint: Callable = Callable()) -> void:
 	if checkpoint.is_valid(): await checkpoint.call("Building targeted test terrain…",-1.0)
 	await world._terrain(checkpoint)
 	await world._vegetation(checkpoint)
+	if "geology" in field and not field.geology.placements.is_empty():
+		world.minerals=preload("res://scripts/presentation/mineral_scenery.gd").new()
+		world.add_child(world.minerals)
+		await world.minerals.build(field,world.assets,world.quality,checkpoint)
 	world.flavor = preload("res://scripts/world/mountain_flavor.gd").new()
 	world.add_child(world.flavor)
 	world.flavor.surface = preload("res://scripts/world/prop_collision_surface.gd").new(field)

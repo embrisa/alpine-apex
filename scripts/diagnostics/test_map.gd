@@ -8,10 +8,15 @@ var fixture_spec: Dictionary
 var fixture_options: Dictionary
 var fixture_identity: String
 
-static func catalog() -> Dictionary:
+static func catalog(include_performance: bool = true) -> Dictionary:
 	var data=JSON.parse_string(FileAccess.get_file_as_string(CATALOG))
 	if not data is Dictionary or not data.get("maps") is Dictionary:
 		push_error("Missing or invalid targeted test map catalog: "+CATALOG); return {}
+	if include_performance:
+		var performance=JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/performance_maps.json"))
+		if not performance is Dictionary or not performance.get("maps") is Dictionary:
+			push_error("Missing or invalid performance test map catalog"); return {}
+		data.maps.merge(performance.maps)
 	return data.maps
 
 static func to_reference(field,scenery_seed: int) -> Dictionary:
@@ -25,6 +30,7 @@ static func valid_reference(value: Dictionary) -> bool:
 	if value.get("engine")!=Engine.get_version_info().string or value.get("seed")!=849205174: return false
 	if not value.get("fixture") is String or not catalog().has(value.fixture) or not value.get("options") is Dictionary or not value.get("identity") is String: return false
 	if not valid_options(value.options): return false
+	if catalog()[value.fixture].get("kind","")=="performance" and not value.options.is_empty(): return false
 	var scenery=value.get("scenery_seed")
 	if not (scenery is int or scenery is float) or not is_finite(scenery) or scenery<0 or scenery>2147483647 or scenery!=floor(scenery): return false
 	return value.identity=="targeted-v%d-%s-%s" % [GENERATOR_VERSION,value.fixture,JSON.stringify([catalog()[value.fixture],value.options],"",true).sha256_text().left(16)]
@@ -33,6 +39,10 @@ static func create(id: String, options: Dictionary = {}):
 	if not catalog().has(id) or not valid_options(options):
 		push_error("Unknown targeted test map or invalid options: "+id)
 		return null
+	if catalog()[id].get("kind","")=="performance":
+		if not options.is_empty():
+			push_error("Performance maps use their exact authored recipe"); return null
+		return load("res://scripts/diagnostics/performance_map.gd").new(id,options)
 	return load("res://scripts/diagnostics/test_map.gd").new(id,options)
 
 static func valid_options(options: Dictionary) -> bool:
@@ -64,12 +74,13 @@ func _init(id: String = "smooth-slope", options: Dictionary = {}) -> void:
 			var p = Vector2(X_MIN+x*CELL,Z_MIN+z*CELL)
 			heights[z*NX+x] = _height(p)
 	for placement in fixture_spec.get("objects",[]):
+		if placement.get("kind","")=="mineral": continue
 		var p = Vector3(placement.x,0,placement.z)
 		p.y = sample(p.x,p.z).height
 		add_obstacle({"position":p,"radius":.6 if placement.tree else 1.35,
-			"height":11.0 if placement.tree else 2.0,"scale":1.0,"yaw":0.0,
+			"height":11.0*placement.get("scale",1.0) if placement.tree else 2.0,"scale":placement.get("scale",1.0),"yaw":deg_to_rad(placement.get("yaw",0.0)),
 			"tree":placement.tree,"fixture_family":placement.family})
-	assert(obstacles.size()<=64)
+	assert(fixture_spec.get("objects",[]).size()<=(448 if fixture_spec.get("kind","")=="performance" else 64))
 	fixture_identity = "targeted-v%d-%s-%s" % [GENERATOR_VERSION,id,JSON.stringify([fixture_spec,fixture_options],"",true).sha256_text().left(16)]
 
 func _height(p: Vector2) -> float:

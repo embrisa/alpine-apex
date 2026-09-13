@@ -46,6 +46,9 @@ or racing-line attractor.
 - Default to short, timed test descents for data collection; follow the
   [bounded descent policy](docs/VALIDATION.md#bounded-test-descents). Full runs
   require a specific coverage need, not routine iteration.
+- Local slope, rock, tree/forest and mixed rendering checks use the explicitly
+  selected [targeted FPS maps](docs/VALIDATION.md#targeted-rendering-and-fps-maps).
+  Keep their production-component measurements separate from whole-mountain FPS.
 - Engine workloads use the guard's shared/exclusive `artifacts/validation.lock`:
   ordinary isolated checks use `Shared`; FPS/CPU/GPU measurements use
   `FpsCritical`; imports/builds/shared cache mutations use `Exclusive`.

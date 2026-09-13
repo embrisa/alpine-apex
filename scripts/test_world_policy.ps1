@@ -2,6 +2,8 @@
 function Get-TestWorldPlan([string[]]$Producers) {
     $root = Split-Path $PSScriptRoot -Parent
     $catalog = Get-Content -LiteralPath (Join-Path $root 'tests/fixtures/test_maps.json') -Raw | ConvertFrom-Json -AsHashtable
+    $performance = Get-Content -LiteralPath (Join-Path $root 'tests/fixtures/performance_maps.json') -Raw | ConvertFrom-Json -AsHashtable
+    foreach ($id in $performance.maps.Keys) { $catalog.maps[$id]=$performance.maps[$id] }
     $plans = foreach ($producer in $Producers) {
         $name = $producer.Replace('res://','').Replace('\','/')
         if ([IO.Path]::IsPathRooted($name)) { $name = [IO.Path]::GetRelativePath($root,$name).Replace('\','/') }

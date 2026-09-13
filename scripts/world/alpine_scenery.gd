@@ -35,8 +35,9 @@ func build(field, library, profile, terrain_snow: ShaderMaterial = null, checkpo
 	contact_snow = preload("res://scripts/presentation/asset_snow_contacts.gd").new()
 	add_child(contact_snow)
 	obstacle_count = Obstacles.count(field)
-	dense_woodlands = "GENERATOR_ID" in field and "GENERATOR_VERSION" in field and field.GENERATOR_ID=="alpine-drainage" and field.GENERATOR_VERSION>=12
-	if dense_woodlands and field.GENERATOR_VERSION>=13:
+	var performance_forest: bool = "performance_fixture" in field and field.performance_fixture
+	dense_woodlands = performance_forest or "GENERATOR_ID" in field and "GENERATOR_VERSION" in field and field.GENERATOR_ID=="alpine-drainage" and field.GENERATOR_VERSION>=12
+	if dense_woodlands and (performance_forest or field.GENERATOR_VERSION>=13):
 		density_forest=preload("res://scripts/presentation/density_forest.gd").new()
 		density_forest.job = build_job
 		add_child(density_forest)

@@ -60,6 +60,14 @@ under Exclusive admission, never retry hoping for an automatic bake. Fixture
 boundaries cannot silently shorten required coverage. Report selected dimensions,
 object counts and setup versus execution time with the evidence.
 
+For local scenery/FPS work, use the explicitly selected
+[targeted rendering maps](../../../docs/VALIDATION.md#targeted-rendering-and-fps-maps)
+through `scripts/benchmark_targeted.ps1 -Map rocks -PlanOnly`. Slopes, rocks,
+vegetation and mixed maps preserve the production components and shared terrain.
+Run `performance_map_suite` for their terrain, population, collision and bounded
+input contracts. Use the performance skill for native measurements and inspect
+separate captures; local fixture FPS does not establish mountain-scale acceptance.
+
 ## Collect only the needed evidence
 
 For riding data, follow [bounded descents](../../../docs/VALIDATION.md#bounded-test-descents):
