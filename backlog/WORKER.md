@@ -10,13 +10,15 @@ Verify helper status matches task ID, token and original manager. Collect a fres
 native snapshot, including recorded owners, then `accept --token TOKEN` as your
 own `CODEX_THREAD_ID`. It excludes self/manager, checks other activity, Git state,
 the existing-change baseline and unchanged ready-task hash, then marks in_progress.
-Unrelated pre-existing edits do not prevent acceptance. Skipped/failed acceptance:
+Unrelated pre-existing edits and evolving compatible peer writes do not prevent
+acceptance. Skipped/failed acceptance:
 make no source/task changes, report/end, preserve reservation for reconciliation;
 never bypass it or create a replacement worker.
 
 Fetch/re-evaluate the baseline before edits; block if intervening changes invalidate
-the assignment. Inspect the claim's `dirty_baseline` and the manager's scope
-assessment. Preserve unrelated working bytes and staged entries; stage and commit
+the assignment. Inspect your token across `claim` and `workers`, its
+`dirty_baseline`, declared scope and peer reservations. Preserve unrelated working
+bytes and staged entries; stage and commit
 only owned paths. With unrelated staged changes, use explicit path-only commits
 so they are not swept into your commit. A conflict with your actual task requires
 reconciliation; an unrelated dirty path alone does not.
@@ -33,6 +35,16 @@ Before major phases, recheck native activity if another task may have started.
 Manual agents do not claim; overlap requires preserving work and recording a
 blocker, not termination/overwrite. Snapshot checks cannot exclude later starts.
 
+Compatible non-FPS-sensitive workers are expected, including more than two.
+Follow OPERATIONS file/read reservations; reserve every file you may edit,
+including UIDs, owning guides and idea proposals. Before expanding scope or
+starting comparative CPU/GPU/FPS timing, atomically update it with
+`scope --token TOKEN --scope FILE --snapshot FILE`. Skipped means that work must
+wait; continue independent allowed work or record the precise blocker and stop.
+Never weaken a peer's classification or use performance acceptance under competing
+work. Keep existing engine/Blender workloads serial through the validation guard.
+Coordinate brief path-only commits; a peer's staged/dirty files remain theirs.
+
 ## Record and release
 
 Optional follow-ups: zero to three evidence-backed [ideas](ideas/README.md), no
@@ -46,8 +58,11 @@ commits, maintained guides, outstanding human acceptance and idea links (or none
 task's defined completion criteria are met; it moves the task to archive. Commit/
 push the completion record and ideas, then `release --token TOKEN`. Done release
 requires HEAD equal to upstream, a committed completion record and no uncommitted
-changes beyond the preserved dispatch baseline. The checkout may still contain
-the user's unrelated pre-existing edits. Report delivery and idea links.
+changes beyond the preserved baseline and compatible peer reservations. The
+checkout may contain both pre-existing edits and ongoing peers' owned files.
+Your token releases only your reservation. Report delivery and idea links.
+Use `validate --preserve-dirty` when unrelated task records are being edited;
+inspect its unavailable-task report and do not repair or commit those records.
 
 Decision/tool/verification/interruption/push blocker: `record --outcome blocked`
 with exact reason, checks, remaining work and uncommitted/unpushed changes.

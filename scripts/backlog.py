@@ -126,13 +126,25 @@ def parse_task(path):
     return {**metadata, "path": path, "body": body, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
 
 
-def load_tasks(root):
+def load_tasks(root, dirty_paths=(), unavailable=None):
     tasks = {}
+    unavailable = unavailable if unavailable is not None else {}
+    for relative in dirty_paths:
+        path = root / relative
+        if (path.parent in {root / "backlog/tasks", root / "backlog/archive"}
+                and path.suffix == ".md" and not path.exists()):
+            unavailable[path.stem] = f"Uncommitted task deletion: {relative}"
     for folder in ("tasks", "archive"):
         for path in sorted((root / "backlog" / folder).glob("*.md")):
             if path.is_symlink() or not path.resolve().is_relative_to(root / "backlog"):
                 raise ValueError("Task files must remain inside backlog")
-            task = parse_task(path)
+            try:
+                task = parse_task(path)
+            except (ValueError, TypeError, KeyError) as error:
+                if path.relative_to(root).as_posix() not in dirty_paths:
+                    raise
+                unavailable[path.stem] = f"Preserved incomplete task edit: {error}"
+                continue
             if task["id"] in tasks:
                 raise ValueError(f"Duplicate task ID: {task['id']}")
             if folder == "archive" and task["status"] not in {"done", "retired"}:
@@ -141,6 +153,8 @@ def load_tasks(root):
     visited, pending = set(), set()
 
     def visit(task_id):
+        if task_id in unavailable and task_id not in tasks:
+            return
         if task_id not in tasks:
             raise ValueError(f"Missing dependency: {task_id}")
         if task_id in pending:
@@ -160,7 +174,7 @@ def load_tasks(root):
 
 def eligible(tasks):
     return sorted((t for t in tasks.values() if t["status"] == "ready" and
-                   all(tasks[d]["status"] == "done" for d in t["depends_on"])),
+                   all(d in tasks and tasks[d]["status"] == "done" for d in t["depends_on"])),
                   key=lambda t: (t["priority"], t["created"], t["id"]))
 
 
@@ -222,13 +236,14 @@ def dirty_snapshot(root):
     return result
 
 
-def delivery_problem(root, claim, task):
+def delivery_problem(root, claim, task, peer_paths=()):
     problem = workspace_problem(root)
     if problem:
         return problem
     baseline = claim.get("dirty_baseline", {})
     dirty = dirty_snapshot(root)
-    changed = [path for path, value in dirty.items() if baseline.get(path) != value]
+    changed = [path for path, value in dirty.items()
+               if baseline.get(path) != value and not covered(path, peer_paths)]
     # The terminal record must always be committed, even if it was present before.
     task_path = task["path"].relative_to(root).as_posix()
     if task_path in dirty and task_path not in changed:
@@ -271,22 +286,103 @@ def thread_status(thread):
     return status.get("type") if isinstance(status, dict) else status
 
 
-def activity_problem(root, data, exempt):
+def scope_spec(root, value=None, task=None):
+    # Missing classification remains exclusive, including already-running work.
+    if value is None:
+        value = {"write_paths": [], "read_paths": [], "fps_sensitive": True,
+                 "reason": "Unclassified work requires exclusive execution"}
+    if (not isinstance(value, dict) or type(value.get("fps_sensitive")) is not bool
+            or not isinstance(value.get("reason"), str) or not value["reason"].strip()):
+        raise ValueError("Scope requires fps_sensitive boolean and an evidence-based reason")
+    result = {"fps_sensitive": value["fps_sensitive"], "reason": value["reason"]}
+    for key in ("write_paths", "read_paths"):
+        paths = value.get(key, [])
+        if not isinstance(paths, list):
+            raise ValueError("Scope paths must be lists")
+        normalized = []
+        for path in paths:
+            if not isinstance(path, str) or not path or "\\" in path:
+                raise ValueError("Use literal repository-relative scope paths with forward slashes")
+            clean = path.rstrip("/")
+            if (not clean or any(p in {"", ".", ".."} for p in clean.split("/"))
+                    or any(c in path for c in ":*?[]") or Path(path).is_absolute()
+                    or not (root / clean).resolve().is_relative_to(root)
+                    or clean.casefold().startswith((".git/", "backlog/.runtime/"))
+                    or clean.casefold() in {".git", "backlog/.runtime"}):
+                raise ValueError("Unsafe or non-literal scope path: " + path)
+            normalized.append(clean)
+        result[key] = sorted(set(normalized))
+    if task:
+        result["write_paths"] = sorted(set(result["write_paths"] + [
+            f"backlog/{folder}/{task}.md" for folder in ("tasks", "archive")]))
+    return result
+
+
+def covered(path, paths):
+    path = path.replace("\\", "/").casefold()
+    return any(path == p.casefold() or path.startswith(p.casefold() + "/") for p in paths)
+
+
+def scope_conflict(first, second):
+    if first["fps_sensitive"] or second["fps_sensitive"]:
+        return "FPS-sensitive or unclassified work requires exclusive execution"
+    for writes, other in ((first["write_paths"], second["write_paths"] + second["read_paths"]),
+                          (second["write_paths"], first["read_paths"])):
+        for path in writes:
+            for peer in other:
+                if covered(path, [peer]) or covered(peer, [path]):
+                    return f"Reserved paths overlap: {path} / {peer}"
+    return None
+
+
+def observed_work(root, data):
+    """Manual/unclassified work needs a real current-turn inspection, not a title guess."""
+    inspections = {item["thread"]["id"]: item for item in data.get("inspections", [])}
+    result = {}
+    for item in data.get("work", []):
+        inspection = inspections.get(item.get("thread_id"))
+        turns = inspection.get("turns", []) if inspection else []
+        if (not turns or item.get("turn_id") != turns[0].get("id")
+                or turns[0].get("status") != "inProgress"
+                or thread_status(inspection["thread"]) != "active"):
+            raise ValueError("Work classification requires an exact current active-turn inspection")
+        if item["thread_id"] in result:
+            raise ValueError("Duplicate work classification")
+        result[item["thread_id"]] = scope_spec(root, item.get("scope"))
+    return result
+
+
+def activity_problem(root, data, exempt, candidate=None, reservations=()):
+    candidate = scope_spec(root, candidate)
+    observed = observed_work(root, data)
+    reserved = {c.get("worker") or c["owner"]: c for c in reservations}
     read_only = set()
     for item in data.get("read_only", []):
         if not item.get("reason") or not item.get("turn_id"):
             raise ValueError("Read-only exemptions need current-turn evidence")
         read_only.add(item["thread_id"])
     for t in data["all_threads"].values():
-        if t["id"] in exempt or t["id"] in read_only:
+        if t["id"] in exempt:
             continue
         same_project = data.get("project_id") and t.get("projectId") == data["project_id"]
         cwd = t.get("cwd")
         same_path = cwd and Path(cwd).resolve().is_relative_to(root)
         if not (same_project or same_path):
             continue
-        if thread_status(t) not in {"idle", "notLoaded"}:
+        if thread_status(t) in {"idle", "notLoaded"}:
+            continue
+        if thread_status(t) != "active":
             return f"Project task is active or uncertain: {t.get('title', t['id'])} ({t['id']})"
+        reservation = reserved.get(t["id"])
+        if t["id"] in read_only and not reservation and not candidate["fps_sensitive"]:
+            continue
+        peer = reservation.get("scope") if reservation else None
+        peer = peer or observed.get(t["id"])
+        if peer is None:
+            return f"Inspect unclassified active work: {t.get('title', t['id'])} ({t['id']})"
+        problem = scope_conflict(candidate, scope_spec(root, peer))
+        if problem:
+            return f"{problem}: {t.get('title', t['id'])} ({t['id']})"
     return None
 
 
@@ -324,8 +420,60 @@ def operate(args):
             "version": 1, "revision": 0, "claim": None, "last_dispatch": None}
         if state.get("version") != 1 or not {"revision", "claim", "last_dispatch"} <= state.keys():
             raise ValueError("Unknown/corrupt state; preserve it and investigate")
-        claim = state["claim"]
-        tasks = load_tasks(root)
+        workers = state.setdefault("workers", [])
+        receipts = state.setdefault("receipts", {})
+        if not isinstance(workers, list) or not isinstance(receipts, dict):
+            raise ValueError("Corrupt ownership collections; preserve state")
+        claims = ([state["claim"]] if state["claim"] else []) + workers
+        claim = next((c for c in claims if (c.get("token") == args.token if args.token
+                     else c["owner"] == args.owner)), None)
+        # Recovery without a token is unambiguous only for one outstanding claim.
+        if args.action == "recover" and not args.token and not claim:
+            if len(claims) > 1:
+                raise ValueError("Multiple reservations: recover the exact --token")
+            claim = claims[0] if claims else None
+        unavailable = {}
+        dirty_paths = dirty_snapshot(root) if args.action != "validate" or args.preserve_dirty else ()
+        tasks = load_tasks(root, dirty_paths, unavailable)
+
+        def remove_claim():
+            if state["claim"] is claim:
+                state["claim"] = None
+            else:
+                workers.remove(claim)
+
+        def remember(receipt):
+            state["last_dispatch"] = receipt
+            receipts[receipt["token"]] = receipt
+
+        def other_claims():
+            return [c for c in claims if c is not claim]
+
+        def peer_paths(data=None):
+            # Persist the identities/scopes observed at prepare so peers may finish
+            # or commit independently without making their leftovers our output.
+            peers = dict(claim.get("peers", {})) if claim else {}
+            for other in other_claims():
+                if other.get("scope"):
+                    peers[other.get("token", other["owner"])] = other["scope"]
+            if data:
+                for thread_id, spec in observed_work(root, data).items():
+                    if thread_id != args.owner:
+                        peers[thread_id] = spec
+            own = scope_spec(root, claim.get("scope") if claim else None)
+            return [p for spec in peers.values()
+                    if not scope_conflict({**own, "fps_sensitive": False}, {**spec, "fps_sensitive": False})
+                    for p in spec["write_paths"]]
+
+        def candidate_scope(task_id=None):
+            if args.scope:
+                return scope_spec(root, json.loads(Path(args.scope).read_text(encoding="utf-8")), task_id)
+            if claim and claim.get("scope"):
+                return scope_spec(root, claim["scope"], task_id)
+            if args.action in {"claim", "check"}:
+                return scope_spec(root, {"write_paths": [], "read_paths": [], "fps_sensitive": False,
+                                         "reason": "Manager inspection; candidate classified at prepare"})
+            return scope_spec(root, task=task_id)
 
         def save():
             state["revision"] += 1
@@ -342,18 +490,34 @@ def operate(args):
             if not claim or not args.token or claim.get("token") != args.token:
                 raise ValueError("Dispatch token does not match the current claim")
 
-        def gate(data, exempt):
-            return activity_problem(root, data, exempt) or workspace_problem(root)
+        def gate(data, exempt, spec):
+            problem = workspace_problem(root) or activity_problem(root, data, exempt, spec, claims)
+            if problem:
+                return problem
+            for other in other_claims():
+                if other["role"] != "worker":
+                    return "Manager or uncertain dispatch reservation is occupied"
+                thread = data["all_threads"].get(other["owner"])
+                if not thread:
+                    return "Inspect recorded worker outside listing: " + other["owner"]
+                if thread_status(thread) != "active":
+                    return "Reconcile stopped/uncertain worker: " + other["owner"]
+                other_scope = other.get("scope") or observed_work(root, data).get(other["owner"])
+                problem = scope_conflict(spec, scope_spec(root, other_scope))
+                if problem:
+                    return f"{problem}: {other.get('task', other['owner'])}"
+            return None
 
         if args.action in {"status", "validate", "check"}:
-            result = output(state=state, tasks=[{k: t[k] for k in ("id", "title", "status", "priority", "depends_on")}
+            result = output(state=state, unavailable_tasks=unavailable,
+                            tasks=[{k: t[k] for k in ("id", "title", "status", "priority", "depends_on")}
                                                for t in tasks.values()], eligible=[t["id"] for t in eligible(tasks)])
             if args.action == "check":
                 result["existing_changes"] = dirty_snapshot(root)
                 data = snapshot(args.snapshot)
-                reason = gate(data, {args.owner})
-                if claim:
-                    reason = reason or "Scheduled-work claim is occupied"
+                reason = gate(data, {args.owner}, candidate_scope())
+                if claim and claim["role"] != "worker":
+                    reason = reason or "Caller already owns a manager/dispatch reservation"
                 if reason:
                     result.update(status="skipped", reason=reason)
             return result
@@ -362,11 +526,17 @@ def operate(args):
 
         if args.action == "claim":
             data = snapshot(args.snapshot)
-            if claim:
+            if any(c["role"] != "worker" for c in claims) or claim:
                 return output("skipped", reason="Scheduled-work claim is occupied", claim=claim)
-            reason = gate(data, {args.owner})
+            reason = gate(data, {args.owner}, candidate_scope())
             if reason:
                 return output("skipped", reason=reason)
+            if state["claim"]:
+                workers.append(state["claim"])
+            # Keep original active tokens intact while freeing the manager slot.
+            for other in claims:
+                if not other.get("scope") and other["owner"] in observed_work(root, data):
+                    other["scope"] = scope_spec(root, observed_work(root, data)[other["owner"]], other.get("task"))
             state["claim"] = {"role": "manager", "owner": args.owner, "manager": args.owner, "created": now()}
             save()
             return output(claim=state["claim"])
@@ -374,7 +544,8 @@ def operate(args):
         if args.action == "prepare":
             owner("manager")
             data = snapshot(args.snapshot)
-            reason = gate(data, {args.owner})
+            spec = candidate_scope(args.task)
+            reason = gate(data, {args.owner}, spec)
             if reason:
                 return output("skipped", reason=reason)
             if args.task not in {t["id"] for t in eligible(tasks)}:
@@ -383,13 +554,22 @@ def operate(args):
             baseline = dirty_snapshot(root)
             if task["path"].relative_to(root).as_posix() in baseline:
                 return output("skipped", reason="Selected task has uncommitted edits; preserve it and select another eligible task")
+            overlaps = [p for p in baseline if covered(p, spec["write_paths"] + spec["read_paths"])]
+            if overlaps:
+                return output("skipped", reason="Candidate overlaps unfinished paths: " + ", ".join(overlaps))
+            peers = {c.get("token", c["owner"]): scope_spec(root, c.get("scope"), c.get("task"))
+                     for c in other_claims()}
+            peers.update(observed_work(root, data))
             claim.update(role="dispatch", token=str(uuid.uuid4()), task=args.task,
-                         task_sha256=task["sha256"], worker=None, prepared=now(), dirty_baseline=baseline)
+                         task_sha256=task["sha256"], worker=None, prepared=now(), dirty_baseline=baseline,
+                         scope=spec, peers=peers)
+            for other in other_claims():
+                other.setdefault("peers", {})[claim["token"]] = spec
             save()
             return output(claim=claim)
 
         if args.action == "attach":
-            previous = state.get("last_dispatch")
+            previous = receipts.get(args.token) or state.get("last_dispatch")
             if not claim and previous and previous.get("token") == args.token and previous.get("worker") == args.worker and previous.get("manager") == args.owner:
                 return output(reason="Worker already finished; receipt preserved", receipt=previous)
             token()
@@ -404,20 +584,53 @@ def operate(args):
             if claim["role"] != "dispatch" or (claim.get("worker") and claim["worker"] != args.owner):
                 raise ValueError("Dispatch is already accepted or assigned to another worker")
             data = snapshot(args.snapshot)
-            reason = gate(data, {args.owner, claim["manager"]})
+            reason = gate(data, {args.owner, claim["manager"]}, scope_spec(root, claim.get("scope")))
             if reason:
                 return output("skipped", reason=reason)
             task = tasks[claim["task"]]
             if task["sha256"] != claim["task_sha256"] or task["id"] not in {t["id"] for t in eligible(tasks)}:
                 raise ValueError("Task changed after dispatch; do not implement stale instructions")
-            if dirty_snapshot(root) != claim.get("dirty_baseline", {}):
+            baseline, dirty = claim.get("dirty_baseline", {}), dirty_snapshot(root)
+            allowed = peer_paths(data)
+            changed = [p for p in set(baseline) | set(dirty)
+                       if baseline.get(p) != dirty.get(p) and not covered(p, allowed)]
+            if changed:
                 return output("skipped", reason="Existing edits changed after prepare; reconcile the reservation before implementation")
+            claim.setdefault("peers", {}).update(observed_work(root, data))
             # Persist ownership before touching the task, so a crash still leaves
             # an identifiable worker. Recovery never depends on elapsed time.
             claim.update(role="worker", owner=args.owner, worker=args.owner, accepted=now())
             save()
             path = save_task(root, task, "in_progress", f"Worker `{args.owner}` accepted dispatch `{args.token}` at {now()}.")
             return output(claim=claim, task_path=str(path))
+
+        if args.action == "scope":
+            token()
+            owner("worker")
+            if not args.scope:
+                raise ValueError("Scope update requires --scope")
+            data = snapshot(args.snapshot)
+            spec = candidate_scope(claim["task"])
+            reason = gate(data, {args.owner}, spec)
+            if reason:
+                return output("skipped", reason=reason)
+            old = scope_spec(root, claim.get("scope"), claim["task"])
+            # Keep every previous write reservation until completion: a phase
+            # change cannot hide already-dirty owned files as somebody else's.
+            spec["write_paths"] = sorted(set(spec["write_paths"] + old["write_paths"]))
+            reason = gate(data, {args.owner}, spec)
+            if reason:
+                return output("skipped", reason=reason)
+            overlaps = [p for p in dirty_snapshot(root)
+                        if covered(p, spec["write_paths"] + spec["read_paths"])
+                        and not covered(p, old["write_paths"])]
+            if overlaps:
+                return output("skipped", reason="Expanded scope overlaps unfinished paths: " + ", ".join(overlaps))
+            claim["scope"] = spec
+            for other in other_claims():
+                other.setdefault("peers", {})[claim["token"]] = spec
+            save()
+            return output(claim=claim)
 
         if args.action == "record":
             owner("worker")
@@ -435,18 +648,18 @@ def operate(args):
         if args.action == "release":
             owner()
             if claim["role"] == "manager":
-                state["claim"] = None
+                remove_claim()
             elif claim["role"] == "worker":
                 token()
                 task = tasks[claim["task"]]
                 if task["status"] not in TERMINAL:
                     raise ValueError("Record completion or a blocker before releasing a worker")
                 if task["status"] == "done":
-                    problem = delivery_problem(root, claim, task)
+                    problem = delivery_problem(root, claim, task, peer_paths())
                     if problem:
                         raise ValueError("Done requires committed/pushed worker delivery: " + problem)
-                state["last_dispatch"] = {**claim, "outcome": task["status"], "released": now(), "head": git(root, "rev-parse", "HEAD")}
-                state["claim"] = None
+                remember({**claim, "outcome": task["status"], "released": now(), "head": git(root, "rev-parse", "HEAD")})
+                remove_claim()
             else:
                 raise ValueError("Prepared dispatch cannot be released blindly; reconcile the worker first")
             save()
@@ -455,8 +668,13 @@ def operate(args):
         if args.action == "recover":
             data = snapshot(args.snapshot)
             if not claim:
+                if args.token:
+                    raise ValueError("Recovery token does not match an outstanding reservation")
                 return output(reason="No claim to recover")
-            problem = activity_problem(root, data, {args.owner, claim["owner"], claim.get("worker")})
+            recovery_scope = scope_spec(root, {"write_paths": [], "read_paths": [], "fps_sensitive": False,
+                                               "reason": "Recover only the stopped task record"}, claim.get("task"))
+            problem = workspace_problem(root) or activity_problem(
+                root, data, {args.owner, claim["owner"], claim.get("worker")}, recovery_scope, claims)
             if problem:
                 return output("skipped", reason=problem)
             stopped(data, claim["owner"])
@@ -466,14 +684,14 @@ def operate(args):
                 stopped(data, claim["worker"])
             if claim.get("task"):
                 task = tasks[claim["task"]]
-                completed = task["status"] == "done" and not delivery_problem(root, claim, task)
+                completed = task["status"] == "done" and not delivery_problem(root, claim, task, peer_paths(data))
                 if not completed:
                     old_record = re.search(r"^## Completion record\s*\n(.*)\Z", task["body"], re.M | re.S)
                     note = (old_record[1].strip() + "\n\n" if old_record else "")
                     note += f"Recovery {now()}: the recorded worker stopped before verified delivery. Investigate before any explicit retry; preserve unfinished changes."
                     save_task(root, task, "blocked", note)
-                state["last_dispatch"] = {**claim, "outcome": "done" if completed else "blocked", "recovered": now()}
-            state["claim"] = None
+                remember({**claim, "outcome": "done" if completed else "blocked", "recovered": now()})
+            remove_claim()
             save()
             return output(state=state, next="Commit/push any recovery record before another dispatch; preserve unrelated edits")
         raise ValueError("Unknown action")
@@ -481,11 +699,14 @@ def operate(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=("status", "validate", "check", "claim", "prepare", "attach", "accept", "record", "release", "recover"))
+    parser.add_argument("action", choices=("status", "validate", "check", "claim", "prepare", "attach", "accept", "scope", "record", "release", "recover"))
     parser.add_argument("--root", default=str(Path(__file__).resolve().parent.parent))
     parser.add_argument("--owner", default=os.environ.get("CODEX_THREAD_ID"))
     parser.add_argument("--snapshot")
     parser.add_argument("--task")
+    parser.add_argument("--scope", help="JSON write/read path reservations and FPS sensitivity")
+    parser.add_argument("--preserve-dirty", action="store_true",
+                        help="Validate usable queue while reporting incomplete unrelated task edits")
     parser.add_argument("--token")
     parser.add_argument("--worker")
     parser.add_argument("--record")

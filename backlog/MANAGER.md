@@ -8,9 +8,12 @@ Astra xhigh worker, directly in this checkout on main.
 ## Preflight
 
 1. Identify self via `CODEX_THREAD_ID`, resolve the local project and inspect
-   native activity/known claim owners using OPERATIONS. Busy or unknown intent:
-   finish successfully before grooming. Inspect a turn before exempting read-only
-   activity; waiting implementations still block.
+   native activity and every recorded owner using OPERATIONS. Active work is not
+   a blanket stop: inspect its current turn, file reservations and FPS sensitivity.
+   Classify unregistered/manual work with exact current-turn evidence. Multiple
+   independent non-FPS-sensitive workers may run together; there is no two-worker
+   ceiling. Unknown activity after inspection or an exclusive FPS reservation
+   blocks dispatch. Do not start benchmarks or builds merely to classify work.
 2. Inspect helper status and recorded owners, including those outside the recent
    listing. Reconcile stopped/uncertain dispatches through the protocol; verify
    the original child/token before attach as the original manager. If unresolved,
@@ -19,12 +22,14 @@ Astra xhigh worker, directly in this checkout on main.
    Fetch/fast-forward when safe. `check` requires main and a fresh activity
    snapshot, not a globally clean checkout. Existing edits/deletions/untracked
    files are context to preserve, not grounds to skip the run. Missing native
-   tools, unknown activity, unresolved Git operations or an occupied claim block
-   dispatch; do not manufacture idle state.
+   tools, unresolved Git operations or an uncertain prepared dispatch block
+   dispatch; do not manufacture idle state. An accepted compatible worker keeps
+   its own reservation and does not occupy the manager's dispatch slot.
 
 ## Groom and select
 
-Acquire `claim`; stop on skipped. Inspect the queue/dependencies, but investigate
+Acquire `claim`; stop on skipped after resolving inspectable missing activity
+evidence. This is one bounded pass, not a polling/retry loop. Inspect the queue/dependencies, but investigate
 at most eight new/changed/stale task files per run. Editorial authority permits
 reprioritizing, splitting, merging, reshaping or retiring within adopted direction;
 preserve user intent, explicit constraints, IDs/replacement links and reasons.
@@ -38,29 +43,44 @@ Prefer correctness, skiing response, performance and racing depth; respect
 explicit priorities/dependencies, then oldest ready task within equal priority.
 Retired prerequisites are not completed; adjust justified scope/history coherently.
 
-Inspect existing changes against candidate scope and validation needs. Choose
+Inspect existing changes and all worker reservations against candidate scope and validation needs. Choose
 an independent ready task when a candidate overlaps unfinished work; do not skip
 the whole queue because one file is dirty. Leave unrelated files and index entries
 untouched. Do not groom a task with someone else's uncommitted edits. If every
 candidate truly conflicts, name the affected paths and task IDs and the concrete
 conflict. A deleted archived idea or unrelated UID alone is not a conflict.
+Write the candidate's ignored scope JSON as specified in OPERATIONS: reserve
+source/assets, tests, UIDs, owning guides and any proposed idea paths, plus inputs
+that must stay stable. Prefer narrow complete file lists over whole directories.
+Classify actual work/validation needs, not words in the title: an animation task
+with required comparative CPU timing is FPS-sensitive during those measurements.
+Shared owning guides are real write conflicts; defer that candidate or agree a
+smaller complete scope, never silently let two workers edit the same guide.
 
-Validate and commit/push grooming. No eligible task: release and finish. Refresh
-activity before prepare; newly busy checkout: release and finish. Reassess new
-edits for overlap. `prepare` snapshots existing changes and refuses only a dirty
-selected task record; choose another eligible task in that case.
+Validate grooming with `validate --preserve-dirty`; inspect `unavailable_tasks`
+and preserve those unfinished records. Malformed/deleted dirty task records and
+their dependents are unavailable candidates, not a reason to abandon the whole
+queue. Never fix someone else's task edit merely to clear validation. Commit/push
+only owned grooming. No eligible task: release and finish. Refresh
+activity before prepare; reassess every peer and new edit. Pass `--scope FILE` to
+prepare. A path conflict or incompatible validation need skips that candidate;
+consider the next eligible task. Dirty candidate inputs/task records also skip
+only that candidate. Compatible workers' evolving reserved files are preserved
+through prepare, accept and completion. Exhausted queue/no compatible candidate:
+release the manager claim and finish with the concrete reason.
 
 ## Dispatch
 
-1. `prepare --task TASK_ID` with fresh snapshot freezes the hash and returns the
-   token. Skipped: release manager claim/end. Prepared reservations cannot be
-   blindly released/retried.
+1. `prepare --task TASK_ID --scope FILE` with fresh snapshot freezes the hash,
+   scope and baseline and returns the token. Skipped candidate: consider the next
+   task; global activity/ownership blocker: release manager claim/end. Prepared
+   reservations cannot be blindly released/retried.
 2. Native `create_thread`: resolved project, `environment.type: local`,
    `model: gpt-6-astra`, `thinking: xhigh`. Independent task creation and use of
    this checkout are explicitly authorized for this scheduled role.
 3. Include task ID and full token in title/initial message. Supply repository
-   root, original manager ID, exact task file, existing-change paths and why the
-   task can proceed independently, and concise outcome; require
+   root, original manager ID, exact task file, scope JSON and peer reservations,
+   existing-change paths and why the task can proceed independently, and concise outcome; require
    `backlog/WORKER.md` and acceptance before editing.
 4. `attach` the actual worker thread ID. Acceptance may race ahead safely.
    Uncertain response or queued setup ID: preserve reservation/receipt and
@@ -69,3 +89,7 @@ selected task record; choose another eligible task in that case.
    created-task directive with the returned identity, and end. No supervision,
    follow-up prompts, polling loop or persistent goal. Later managers inspect
    only to avoid collisions/reconcile stopped ownership.
+
+Each wake may add at most one worker to the compatible set. Keep doing useful
+independent work on later wakes; never repeat a no-op just because another worker
+exists or an unrelated file is dirty. Do not automatically restart blocked tasks.
