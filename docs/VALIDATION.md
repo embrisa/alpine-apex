@@ -738,7 +738,7 @@ records passed and incomplete compound checklist items. Historical `PROGRESS.md`
 checkpoints and private proposals are not current acceptance. Crash's completed
 105-check native review and subsequent lossless-codec checks are distinguished
 below. Navigation/ghost/finish retain their separate owning reviews and limits;
-pole E remains separately in flight. No additional matrix is requested here.
+pole transition validation is recorded separately below. No additional matrix is requested here.
 
 ## Animation evidence
 
@@ -820,10 +820,45 @@ coverage remains required; prior failed tuck-neighbor audits are not superseded.
 The Blender source/export command belongs to [Assets](ASSETS.md#pole-action-source).
 The editable `pole_push.blend` and `export_provenance.json` now exist; the receipt
 identifies Blender 5.2.1 LTS and matching source/blend/runtime/builder hashes.
-Its `runtime_pose_accepted` is false. Pole contact_e fitting is still in flight;
-final fitting documentation must follow that integrated revision and its actual
-review. Source export does not clear contact, shaft/clothing, mechanical, timing
-or human acceptance.
+Its historical `runtime_pose_accepted` remains false: that export receipt is
+provenance, not a runtime acceptance record. Source export does not clear contact,
+shaft/clothing, mechanical, timing or human acceptance.
+
+The uncommitted 2026-09-13 model-32 recovery candidate reproduces the current
+D failures, then passes existing contact 87/87 and pose 36/36 with the unchanged
+14 cm bound. Worst brake/landing, steep10 and steep5 steps improve from
+15.18/14.20/14.13 cm to 13.54/13.20/13.64 cm. Paired solver/phase, torso/legs,
+fixed-grip, wrist-limit and both loaded-stroke checks pass in those fixtures.
+
+The expanded native eleven-case matrix captures 900 frames per case (9,900
+total), including 38 airborne frames and actual landing. All-frame maximum
+joint step is 13.75 cm. Actual skinned-clothing audit fails in 89 frames:
+cutoff 15-19 and 84 downhill frames, including cancellation 179-181. The other
+86 intersections occur with pole fitting inactive. This wider matrix has no
+matched full-mesh D baseline, so it does not establish a clipping regression
+count. The previous 720-frame smoke does not clear this broader coverage.
+
+The retained downhill reproducer also fails four existing limits: 23.89 cm tip
+height (4 cm gate), 76.92 cm anchor residual (18 cm), 52.46 cm loaded tip step
+(10 cm), and 3.64 cm minimum loaded wrist sweep (12 cm). Presentation begins
+cancelling while the completed solver still has tiny positive thrust near the
+speed cap. Merely retaining contact until zero force fixes height but leaves
+anchor/step/stroke failures; that trial was rejected and restored. The task
+remains blocked; the recovery candidate is preserved locally and is not shipped.
+Affected anatomy/compact/attachment/landing/flight/settle checks pass; the full
+seven-suite set is 344/345. The sole failure is the previously baseline-reproduced
+120 Hz tuck hand-easing check. No assertion was relaxed.
+
+Detailed source/engine/authoring hashes, old/new neighbors, rejected patch,
+reproducer and regression receipts are in `artifacts/pole_transitions_20260913/`.
+`artifacts/pose_review/revisions/20260913-poles-final/` contains the candidate's
+native chronology, videos, selected pixel neighborhoods, full mesh report and
+frozen 181-source snapshot; its directory name is not an acceptance claim.
+Contact fitting averages 0.517-0.610 ms and total final fitting 1.426-1.539 ms
+in the earlier paired diagnostic sample. These scopes overlap and are not
+summed; they establish neither an FPS gain nor uncontended performance acceptance.
+Controller feel, listening and subjective user approval remain separate. No
+physics/input/session owner or editable asset changed.
 
 ## Audio evidence
 

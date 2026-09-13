@@ -187,3 +187,15 @@ follow-up ideas were proposed during authoring.
 ## Checkpoint disposition — 2026-09-12T13:21:47Z
 
 Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-pole-transition-validation](AA-20260912-132147-finish-pole-transition-validation.md), [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.
+
+### Pole follow-up, 2026-09-13
+
+The linked transition worker reproduced current model-32 D failures and tested
+an uncommitted recovery candidate: original contact 87/87 and pose 36/36 pass
+unchanged bounds. Expanded 11 x 15-second native coverage fails shaft/clothing
+clearance in 89/9,900 frames, and the downhill speed-cap reproducer fails four
+contact/stroke limits. The follow-up remains blocked; no production candidate
+was committed. See [Validation](../../docs/VALIDATION.md#pole-propulsion-and-animation-producers)
+and `artifacts/pole_transitions_20260913/review.md` for exact source/evidence,
+remaining gates and rejected trial. Original closure remains with the existing
+integration-record task; do not repeat the completed force/model matrices.

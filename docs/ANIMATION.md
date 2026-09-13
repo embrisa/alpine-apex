@@ -189,9 +189,12 @@ at completed ticks on authoritative snow. The connected-arm fitter allows up to
 grips, and keeps unloaded shafts in an outboard carry lane. Separate completed-tick
 carry smooths cancellation independently of snow-contact weight; rendering only
 samples it. Unreachable `tip_gap_m` remains a reported visual miss, never a force
-or moved ski. The current D fitting still has three joint-step failures; the
-unapplied E candidate and remaining chronological acceptance are tracked in the
-[integration follow-ups](../backlog/REMAINING_20260912.md).
+or moved ski. The uncommitted 2026-09-13 recovery candidate retains ten percent
+of bounded unloaded reach and uses fifth-power carry for elbow entry. It passes
+the original continuity suites but fails expanded downhill contact and native
+shaft/clothing gates. Do not treat it as an accepted production correction;
+[Validation](VALIDATION.md#pole-propulsion-and-animation-producers) owns the
+retained evidence and exact remaining limits.
 
 Source/export ownership is in [Assets](ASSETS.md#pole-action-source). Bounded
 probe/chase/front/side captures and enabled/disabled comparisons are in
