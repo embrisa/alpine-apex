@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "id": "a588878a3008442dba0c0f6fa62a1116",
+  "summary": "Retire orphaned graphics, wind, golden sunlight, and snow-readability report scripts",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Reporting-tool retirement"
+  ],
+  "owned_paths": [
+    "scripts/art/build_graphics_report.py",
+    "scripts/report_snow_readability.py",
+    "scripts/report_wind.py",
+    "scripts/review_golden_sunlight.py"
+  ],
+  "read_paths": [],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "not_applicable",
+        "reason": "Retiring standalone report scripts does not modify mountain data or generation."
+      },
+      "races": {
+        "effect": "not_applicable",
+        "reason": "This maintenance work does not create or interpret race data."
+      },
+      "records": {
+        "effect": "not_applicable",
+        "reason": "No competitive record behavior is changed."
+      },
+      "ghosts": {
+        "effect": "not_applicable",
+        "reason": "No ghost or replay payload behavior is changed."
+      },
+      "caches": {
+        "effect": "not_applicable",
+        "reason": "The deleted scripts do not define cache formats or cache contents."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "PowerShell Test-Path check for the four required historical report inputs",
+      "result": "passed",
+      "details": "The graphics presentation, wind DSP, golden baseline fixture, and snow reference shader inputs are absent, so none of the reports has a current producer input set."
+    },
+    {
+      "kind": "automated",
+      "command": "rg -n -i --glob '!artifacts/**' --glob '!changes/**' --glob '!\\.git/**' build_graphics_report|report_wind|review_golden_sunlight|report_snow_readability .",
+      "result": "passed",
+      "details": "No active source, documentation, or test reference remains after retirement."
+    },
+    {
+      "kind": "automated",
+      "command": "git -c core.whitespace=cr-at-eol diff --check",
+      "result": "passed",
+      "details": "The shared working-tree diff has no whitespace errors."
+    },
+    {
+      "kind": "rendered",
+      "command": "No rendered acceptance run",
+      "result": "not_required",
+      "details": "This removes unproducible reporting helpers and does not alter rendering behavior; the attempted bounded native producer smoke failed before capture because its frozen reference shaders are absent."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-13T17:02:27.428543+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 8,
+      "commit": "045bf644d57ff09edb4b508423a803e51ab39b0e",
+      "modified": true,
+      "changes_sha256": "f6b2b8be803fd885a5214d97eecc332bcef494cffd0fd6605440999cbd8d632a",
+      "source_sha256": "070864f546094bb165f9bf242319ae42d802283d07fcd46ef2d2037f53e19e14",
+      "categories": [
+        "World"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "project.godot": "ab7da5f47f5c39a842b849501ab3c8df818d481db9ea9283517a576cd4062c7d",
+      "scripts/art/build_graphics_report.py": null,
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "1232d9d3d85fbe23d9acbc30e3e1f3af5b98929764cb6b0942d19a83718d3c00",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/report_snow_readability.py": null,
+      "scripts/report_wind.py": null,
+      "scripts/review_golden_sunlight.py": null,
+      "scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f"
+    }
+  }
+}
