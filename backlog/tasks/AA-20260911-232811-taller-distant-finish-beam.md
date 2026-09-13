@@ -5,7 +5,7 @@ status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-11T23:28:11Z"
-updated: "2026-09-12T13:21:47Z"
+updated: "2026-09-13T20:38:41Z"
 source_thread: "01a092cb-8276-7610-94d6-c817b99b24ed"
 ---
 
@@ -117,11 +117,34 @@ None.
 
 ## Completion record
 
-Pending implementation. Record final parameters, rendered/automated/performance
-checks actually performed, remaining human acceptance, documentation and commit/
-push references. If blocked, record the exact limitation and remaining work.
-Link any separately proposed follow-up ideas, or note that none were proposed.
+The [shared acceptance follow-up](../archive/AA-20260912-132147-finish-beam-navigation-acceptance.md)
+completed its explicitly authorized functional/rendered pass on 2026-09-13.
+Evidence: `artifacts/beam_navigation_acceptance_20260913/REVIEW.md` and its final
+`regression-shared-final/`, `navigation-shared-final/`, `amber-shared-final/`.
+The guarded batch passed 478 checks; native navigation passed 207; all 30 final
+images were reviewed. Physics 35 / 120 Hz, world 15 / 4 m, race 6, replay 7 and
+archive 4 are preserved. Concurrent grass/snow read inputs were pinned and
+preserved, never staged by this acceptance task.
+
+The missing amber view now passes at 499.493561 m horizontal range, using a
+fully race-valid test finish 4 m from the original point-only anchor. Observer,
+heading and normal Connected 60 km/h framing remain exact. Both 1080p/4K pairs
+show the shaft with natural occlusion. Geometry remains 2,000 m with 1,600-2,000 m
+fade; start remains 800 m. Historical distant/start/close/laboratory/weather
+matrices are retained, with pale-snow contrast and occlusion limits explicit.
+
+Still blocked: original matched old/new near/far frame/GPU cost and variance
+require separately authorized performance evidence. The user's non-FPS pass
+excluded this work; still captures and structural checks cannot satisfy it.
+
+Keep this parent blocked; do not redispatch it wholesale. The existing integration
+closure task owns remaining criterion reconciliation. Physical-controller feel,
+listening and subjective visual approval remain separate, unperformed human
+follow-ups. Delivery is the commit containing development note
+`changes/6764cc850279435984cbd8f4c0361ae9.json`; its full pushed hash/Dev ID is in
+`artifacts/beam_navigation_acceptance_20260913/delivery.json`. Retain needed
+evidence for unresolved original acceptance. No new task was dispatched.
 
 ## Checkpoint disposition — 2026-09-12T13:21:47Z
 
-Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-beam-navigation-acceptance](AA-20260912-132147-finish-beam-navigation-acceptance.md), [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.
+Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-beam-navigation-acceptance](../archive/AA-20260912-132147-finish-beam-navigation-acceptance.md), [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.

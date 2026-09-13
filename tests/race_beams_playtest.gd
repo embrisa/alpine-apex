@@ -8,6 +8,7 @@ const Race = preload("res://scripts/racing/race_definition.gd")
 const Chase = preload("res://scripts/presentation/chase_camera.gd")
 const CameraSettings = preload("res://scripts/presentation/camera_settings.gd")
 const SAMPLE_SECONDS = 15.0
+const Evidence = preload("res://tests/session_navigation_evidence.gd")
 const LandmarkProbe = preload("res://tests/session_navigation_landmark_probe.gd")
 const NAVIGATION_SELECTION = "res://artifacts/orchestration_20260912/navigation/landmark-preflight-parent-v4/selection.json"
 const NAVIGATION_SELECTION_SHA256 = "92783bbe89933fc195141b156dc78efcc3d1fa206304091a15180968af35a9b4"
@@ -111,7 +112,7 @@ func run() -> void:
 	for path in ["scripts/presentation/race_beams.gd","assets/graphics/race_beam.gdshader",
 			"assets/graphics/race_beam_base.gdshader","scripts/racing/race_workshop.gd",
 			"scripts/world/alpine_world.gd","scripts/main.gd","scripts/presentation/chase_camera.gd",
-			"scripts/presentation/camera_settings.gd","tests/race_beams_playtest.gd",
+			"scripts/presentation/camera_settings.gd","tests/race_beams_playtest.gd","tests/session_navigation_evidence.gd",
 			"scripts/core/ski_simulation.gd","config/ski_default.tres","scripts/racing/race_definition.gd",
 			"tests/fixtures/finish_beam_800m/race_beams.gd","tests/fixtures/finish_beam_800m/race_beam.gdshader"]:
 		sources[path] = FileAccess.get_sha256("res://"+path)
@@ -157,6 +158,7 @@ func run() -> void:
 	check(game.field.GENERATOR_VERSION==Definition.CURRENT_VERSION and game.field.seed_value==Definition.DEFAULT_SEED,"Current default Standard terrain fixture")
 	game.set_graphics_quality(2)
 	game.display_settings.frame_generation = false
+	if navigation_500m: game.display_settings.fps_limit = 60
 	game.display_settings.apply_viewport(root)
 	await set_resolution(Vector2i(3840,2160))
 	race = game.workshop.suggested_race
@@ -328,10 +330,12 @@ func _navigation_500m_review() -> void:
 		and saved.selection.failures.is_empty(),"Navigation selected a shared finish endpoint, never a navigation-only fallback")
 	check(native.failures.is_empty() and native.coverage_failures.is_empty() and native.captures.size()==8
 		and native.selection==saved.selection and native.sources==saved.sources,"Matching successful native navigation selection receipt")
-	check(native.engine==Engine.get_version_info(),"Same identified native engine as navigation v4")
+	check(Evidence.same_engine(native.engine,Engine.get_version_info()),"Same identified native engine as navigation v4 after JSON numeric normalization")
 	check(saved.height_sha256==game.field.height_checksum and saved.obstacle_sha256==game.field.obstacle_checksum
 		and native.mountain_identity==Definition.from_field(game.field).identity(),"Pinned navigation terrain, obstacles and mountain identity")
-	navigation_sources = saved.sources.duplicate(true)
+	var current_inputs = Evidence.current_sources(saved.sources)
+	check(current_inputs.errors.is_empty(),"Pinned current source/runtime inputs: "+str(current_inputs.errors))
+	navigation_sources = current_inputs.sources
 	for path in navigation_sources:
 		check(FileAccess.get_sha256("res://"+path)==navigation_sources[path],"Navigation source retained: "+path)
 	var plan: Dictionary = {}
@@ -342,8 +346,9 @@ func _navigation_500m_review() -> void:
 	navigation_provenance = {"selection_path":NAVIGATION_SELECTION,"selection_sha256":NAVIGATION_SELECTION_SHA256,
 		"native_report_path":NAVIGATION_REPORT,"native_report_sha256":NAVIGATION_REPORT_SHA256,
 		"finish_harness_baseline_sha256":NAVIGATION_FINISH_BASELINE,"current_harness_sha256":sources["tests/race_beams_playtest.gd"],
-		"acknowledged_change":"exact fixture-only route addition; all 98 imported source identities must match",
-		"plan":plan.duplicate(true),"violet_pixels":"Parent reviewed native v4; amber remains unaccepted until fresh pixel inspection"}
+		"current_inputs":current_inputs,
+		"acknowledged_change":"Explicit captured current inputs; old selection/report hashes stay immutable; current terrain, endpoints, camera and pixels revalidated",
+		"plan":plan.duplicate(true),"violet_pixels":"Historical native v4 only; current amber requires fresh pixel inspection"}
 	plan.position = LandmarkProbe.vec(plan.position); plan.anchor = LandmarkProbe.vec(plan.anchor)
 	check(plan.kmh==60.0 and plan.distance_m==500.0 and not plan.ridge,"Retain exact 60 km/h observer and 500 m role")
 	check(Race.point_error(plan.anchor,game.field).is_empty() and Race.point_error(plan.position,game.field).is_empty(),
@@ -356,29 +361,53 @@ func _navigation_500m_review() -> void:
 	race.start = suggested.start; race.heading = suggested.heading
 	race.finish = plan.anchor
 	race.finish_heading = Race.Flavor.downhill_heading(game.field,race.finish,float(plan.heading))
-	var race_error: String = race.validate_surface(game.field)
-	check(race_error.is_empty(),"Actual authored race endpoints and gate seating: "+race_error)
-	if not failures.is_empty(): return
-	race_fixtures.navigation_upper_500m = race.to_data()
-	await game.play_custom_race(race)
-	game.active = false; game.session.eligible = false; game.hud.root.hide()
-	game.set_graphics_quality(2); set_weather("clear","day")
-	check(_gate_count()==2,"Upper fixture has one actual collidable gate pair")
 	var probe = LandmarkProbe.new()
 	probe.field = game.field; probe.sim = game.sim; probe.camera = game.camera
 	probe.style = Beams.visual_style(true)
 	check(probe.prepare_tree_bounds().is_empty(),"Production seated tree bounds ready for wider amber shaft")
 	if not failures.is_empty(): return
+	# V4 checked point_error only, omitting the wider physical gate clearing.
+	# Preserve that failed anchor, then try at most 32 nearby fixes, without moving
+	# the observer or changing camera heading, terrain, props, or gate rules.
+	var original_anchor: Vector3 = plan.anchor
+	var attempts: Array = []
+	var qualified = false
+	var offsets: Array[Vector2] = [Vector2.ZERO]
+	for radius in [4.0,8.0,12.0,16.0]:
+		for direction in 8: offsets.append(Vector2.from_angle(TAU*direction/8.0)*radius)
+	for offset in offsets:
+		var p = original_anchor+Vector3(offset.x,0,offset.y)
+		p.y = game.field.sample(p.x,p.z).height
+		race.finish = p
+		race.finish_heading = Race.Flavor.downhill_heading(game.field,p,float(plan.heading))
+		var error: String = race.validate_surface(game.field)
+		var candidate: Dictionary = plan.duplicate(true)
+		candidate.anchor = p
+		candidate.distance_m = Vector2(candidate.position.x-p.x,candidate.position.z-p.z).length()
+		var geometry: Dictionary = probe.evaluate(candidate) if error.is_empty() else {}
+		attempts.append({"anchor":p,"offset_m":offset,"race_error":error,"geometry_issues":geometry.get("issues",[])})
+		if error.is_empty() and geometry.issues.is_empty():
+			plan = candidate; qualified = true; break
+	navigation_provenance.finish_clearing = {"original_anchor":original_anchor,"attempts":attempts,"candidate_limit":33,"selected":plan.anchor if qualified else null}
+	check(qualified,"Actual authored race and amber exposure qualify within the bounded 16 m clearing correction")
+	if not qualified: return
+	navigation_provenance.plan = LandmarkProbe.json_safe(plan)
+	navigation_provenance.horizontal_distance_m = Vector2(plan.position.x-plan.anchor.x,plan.position.z-plan.anchor.z).length()
+	race_fixtures.navigation_upper_500m = race.to_data()
+	await game.play_custom_race(race)
+	game.active = false; game.session.eligible = false; game.hud.root.hide()
+	game.set_graphics_quality(2); set_weather("clear","day")
+	check(_gate_count()==2,"Upper fixture has one actual collidable gate pair")
 	var point = {"position":plan.position,"heading":plan.heading,"kmh":plan.kmh,
-		"require_visible":true,"min_visible_samples":3,"selection":"exact navigation v4 shared upper 500 m fixture"}
+		"require_visible":true,"min_visible_samples":3,"selection":"navigation v4 observer with bounded gate-clearing correction"}
 	approaches = {"finish_500m":point}
-	search_stop_reason = "pinned_navigation_500m_no_search"
+	search_stop_reason = "pinned_observer_bounded_gate_clearing"
 	for pixels in [Vector2i(1920,1080),Vector2i(3840,2160)]:
 		await set_resolution(pixels)
 		var geometry: Dictionary = probe.evaluate(plan)
 		check(geometry.issues.is_empty(),"Actual viewport amber height/fade/radius terrain and tree-bound exposure: "+str(geometry.issues))
 		riding_view(point)
-		check(_navigation_camera_matches(plan.selection_probe.camera),"Reproduce exact v4 production Connected camera without manual aim")
+		check(_navigation_camera_matches(LandmarkProbe.json_safe(geometry.camera)),"Reproduce current production Connected camera at the exact v4 observer without manual aim")
 		if not failures.is_empty(): return
 		select_variant("proposed")
 		var beam = game.workshop.markers.get_node("FinishBeam")
@@ -394,7 +423,7 @@ func _navigation_500m_review() -> void:
 			row.navigation_plan = navigation_provenance.plan.duplicate(true)
 			row.amber_probe = LandmarkProbe.json_safe(geometry)
 			row.image_sha256 = FileAccess.get_sha256(output+"/"+row.label+".png")
-			row.normal_camera_matches_navigation = _navigation_camera_matches(plan.selection_probe.camera)
+			row.normal_camera_matches_navigation = _navigation_camera_matches(LandmarkProbe.json_safe(geometry.camera))
 			check(row.normal_camera_matches_navigation and beam.is_visible_in_tree()==shown,"Held camera and actual shown/hidden beam: "+row.label)
 		check(captures[first].foliage_aid==captures[first+1].foliage_aid
 			and captures[first].camera==captures[first+1].camera and captures[first].weather==captures[first+1].weather,
@@ -405,8 +434,8 @@ func _navigation_500m_review() -> void:
 		"Exactly four unranked 500 m images; no timing or additional matrix")
 	if failures.is_empty():
 		selected_fixture_data = {"race_code":race.share_text(),"approaches":approaches.duplicate(true),
-			"roles":["500m"],"predicate":"Pinned v4 observer; both actual viewports pass current amber frustum, terrain and seated tree bounds; no search"}
-	coverage_gaps.append("Only current amber shown/hidden at the independent upper 500 m anchor. Prior lower 2 km/ridge, start, 800 m before/after and twelve weather images remain separate unchanged evidence. Amber pixels require parent inspection.")
+			"roles":["500m"],"predicate":"Pinned v4 observer; both actual viewports pass current amber frustum, terrain and seated tree bounds after bounded clearing correction"}
+	coverage_gaps.append("Only current amber shown/hidden at the independent upper 500 m anchor. Prior lower 2 km/ridge, start, 800 m before/after and twelve weather images remain separate historical evidence; current source drift is recorded. Amber pixels require parent inspection.")
 
 func _navigation_camera_matches(expected: Dictionary) -> bool:
 	if camera!=game.camera or root.get_camera_3d()!=camera: return false
@@ -415,7 +444,7 @@ func _navigation_camera_matches(expected: Dictionary) -> bool:
 		if camera.global_basis[axis].distance_to(LandmarkProbe.vec(expected.basis[axis]))>.0001: return false
 	return absf(camera.fov-float(expected.fov))<.001 and absf(camera.near-float(expected.near))<.0001 \
 		and absf(camera.far-float(expected.far))<.01 and camera.keep_aspect==int(expected.keep_aspect) \
-		and game.camera_settings.snapshot()==expected.settings
+		and JSON.parse_string(JSON.stringify(game.camera_settings.snapshot()))==JSON.parse_string(JSON.stringify(expected.settings))
 
 func _lower_finish_fixture() -> Dictionary:
 	var original = race

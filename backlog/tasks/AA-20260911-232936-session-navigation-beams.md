@@ -5,7 +5,7 @@ status: blocked
 priority: P2
 depends_on: ["AA-20260911-232811-taller-distant-finish-beam"]
 created: "2026-09-11T23:29:36Z"
-updated: "2026-09-12T13:21:47Z"
+updated: "2026-09-13T20:38:41Z"
 source_thread: "01a092cb-8276-7610-94d6-c817b99b24ed"
 ---
 
@@ -150,11 +150,34 @@ None.
 
 ## Completion record
 
-Pending implementation. Record delivered controls/lifecycle, visual tuning,
-verification actually performed, remaining human acceptance, guide updates and
-commit/push references. If blocked, record the exact blocker and unfinished work.
-Link separately proposed follow-up ideas or note that none were proposed.
+The [shared acceptance follow-up](../archive/AA-20260912-132147-finish-beam-navigation-acceptance.md)
+completed its explicitly authorized functional/rendered pass on 2026-09-13.
+Evidence: `artifacts/beam_navigation_acceptance_20260913/REVIEW.md` and its final
+`regression-shared-final/`, `navigation-shared-final/`, `amber-shared-final/`.
+The guarded batch passed 478 checks; native navigation passed 207; all 30 final
+images were reviewed. Physics 35 / 120 Hz, world 15 / 4 m, race 6, replay 7 and
+archive 4 are preserved. Concurrent grass/snow read inputs were pinned and
+preserved, never staged by this acceptance task.
+
+Five stable ordered landmarks persist through 1,800 ordinary-input ticks / 15
+seconds. Map keyboard/pointer and simulated-controller flows, new-app empty state,
+scene rebuild/mountain reset, nonzero race state/identity, retry/summit/free-ski
+lifetime, marker bounds and personal data isolation pass. All five shader clocks
+freeze/restore under Reduced Motion while steady shafts remain visible. 0/5/32
+near/far views prove count/visibility only; close dense clusters overlap.
+
+Still blocked: original screenshot-free same-scene 0/5/32 near/far frame/GPU cost
+and variance remain unmeasured. The user explicitly excluded benchmarks during
+this pass; functional count captures are not performance evidence.
+
+Keep this parent blocked; do not redispatch it wholesale. The existing integration
+closure task owns remaining criterion reconciliation. Physical-controller feel,
+listening and subjective visual approval remain separate, unperformed human
+follow-ups. Delivery is the commit containing development note
+`changes/6764cc850279435984cbd8f4c0361ae9.json`; its full pushed hash/Dev ID is in
+`artifacts/beam_navigation_acceptance_20260913/delivery.json`. Retain needed
+evidence for unresolved original acceptance. No new task was dispatched.
 
 ## Checkpoint disposition — 2026-09-12T13:21:47Z
 
-Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-beam-navigation-acceptance](AA-20260912-132147-finish-beam-navigation-acceptance.md), [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.
+Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-beam-navigation-acceptance](../archive/AA-20260912-132147-finish-beam-navigation-acceptance.md), [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.

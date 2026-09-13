@@ -86,6 +86,12 @@ or `.apexcase`, and [performance](../alpine-performance/SKILL.md) for comparativ
 timing. Headless stage duration does not establish rendered FPS. Keep test
 preferences and records isolated as specified by the selected producer.
 
+For beam/navigation acceptance, use the selective
+[beacon producers](../../../docs/VALIDATION.md#beacon-and-navigation-producers).
+Capture the current-input note before native execution and preserve historical
+source/engine mismatch receipts. The `counts` follow-up exercises 0/5/32 markers
+without timing; do not run the legacy cost matrix during a functional-only pass.
+
 Read `run.json`, `results.json`, relevant logs and emitted captures. Confirm the
 expected suites actually ran; `not_run`, engine errors, incomplete output or a
 timeout cannot be reported as a pass. Inspect rendered output when required;

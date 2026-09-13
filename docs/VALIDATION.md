@@ -971,8 +971,8 @@ upward view does not establish distant riding usefulness. Existing output paths
 are refused.
 
 ```powershell
-./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/race_beams_playtest.gd','--','--output=artifacts/finish-current-review','--views-only','--distant-only') -Label finish-review -TimeoutSeconds 900
-./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/session_navigation_playtest.gd','--','--navigation-smoke') -Label navigation-review -TimeoutSeconds 900
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/race_beams_playtest.gd','--','--output=artifacts/finish-current-review','--views-only','--distant-only') -Label finish-review -WorkloadMode Shared -FullMountain -FullMountainReason 'Fixed distant views require the current Standard mountain and production scenery.' -TimeoutSeconds 900
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/session_navigation_playtest.gd','--','--navigation-smoke') -Label navigation-review -WorkloadMode Shared -FullMountain -FullMountainReason 'Native map and riding visibility require current Standard terrain and scenery.' -TimeoutSeconds 900
 ```
 
 `--diagnostics-only --search-seconds=30 --candidate-limit=6` performs bounded
@@ -982,12 +982,41 @@ bundle before native capture. `--distant-only --selection-report=PATH` reuses
 that source-pinned selection. `--500m-only` restricts it to four images;
 `--weather-only` produces twelve matched images covering Low Clear/Dusk,
 Balanced Clear/Night and High Snowfall/Day at 1080p/4K. Both subsets require
-`--distant-only` and the selection report. These are still producers, not proof
-of visibility: the accepted 2 km/ridge pose has real added amber extent, but
-the forest-obstructed 500 m view remains visually unaccepted. The weather review
-records pale, low-contrast snowfall visibility. Preserve rejected views and use
-the shared navigation landmark proposal for its outstanding fixture correction.
+`--distant-only` and the selection report. These are producers, not proof
+of visibility. Preserve accepted historical 2 km/ridge and twelve weather images;
+the weather review records pale, low-contrast snowfall visibility. The old
+forest-obstructed 500 m view remains a rejected control.
 See [finish review](../artifacts/orchestration_20260912/finish/WEATHER_NATIVE_REVIEW.md).
+
+`--views-only --distant-only --navigation-500m` produces exactly four amber
+hidden/shown 1080p/4K stills at the pinned navigation observer. Its old point-only
+qualification omitted the gate's wider clearing. The route records that rejected
+anchor and checks at most 33 candidates within 16 m, retaining the observer and
+heading and enforcing complete race/gate plus shaft/terrain/tree predicates.
+Record the selected anchor and actual distance, never call a shifted endpoint
+identical to the historical point. All four stills need pixel inspection.
+
+`--navigation-input-note=changes/ID.json` explicitly revalidates historical
+coordinates against a development note captured before the run. Include every
+historical source, current producer dependency and resolved executable in its
+owned/read inputs. Missing inputs, changed captured bytes, runtime mismatch and
+real engine-version changes fail. Engine dictionaries normalize JSON numeric
+types before comparison; this does not waive build/hash/timestamp differences.
+Reports retain old/new source hashes and current camera geometry. Old accepted
+pixels are historical evidence, not current-source certification.
+
+`session_navigation_playtest.gd --navigation-followup=ui,chronology,counts,reduced-motion`
+uses one cached Main load and requires that captured input note plus a fresh
+`--navigation-output=artifacts/PATH`. It selects native keyboard/controller map
+views and race-state checks, a five-point 15-second input chronology, capped
+1080p near/far 0/5/32 render ownership, and normal/reduced/normal shader phase
+checks. These follow-ups never call the timing producer; `cost` is deliberately
+not a supported follow-up selector. Use the Shared guard with `-FullMountain`
+and a reason naming this fixed Standard terrain/route, not a benchmark guard.
+The count images are functional evidence; matched screenshot-free frame/GPU
+cost and variance remain a separately authorized performance requirement.
+Physical-controller comfort and subjective visual approval remain separate.
+
 Ordinary start/close/fade and broader capture routes remain separate.
 `--timings-only` uses one warmed 15-second
 baseline/proposed pair per near/far view (four samples), not repeated ABBA;

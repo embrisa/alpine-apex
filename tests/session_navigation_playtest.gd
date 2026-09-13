@@ -2,7 +2,7 @@ extends SceneTree
 ## Cached current-mountain UI, native visibility, bounded chronology and paired cost.
 ## --navigation-smoke narrows the matrix; --navigation-views-only skips timing.
 ## --navigation-preflight-only reuses the lower finish fixture before any Main load.
-const OUTPUT = "res://artifacts/session_navigation_render_verified"
+var OUTPUT = "res://artifacts/session_navigation_render_verified"
 const Checks = preload("res://tests/session_navigation_checks.gd")
 const Fixture = preload("res://tests/validation_mountain.gd")
 const Mountain = preload("res://scripts/world/mountain_definition.gd")
@@ -20,6 +20,9 @@ var chronology: Dictionary = {}
 var view_searches: Array = []
 var view_cache: Dictionary = {}
 var camera_settle_trace: Array = []
+var followup_tasks: Array[String] = []
+var followup_evidence: Dictionary = {}
+var followup
 
 func _initialize() -> void: call_deferred("run")
 
@@ -29,10 +32,25 @@ func run() -> void:
 		var preflight = load("res://tests/session_navigation_landmark_preflight.gd").new()
 		await preflight.run(self)
 		return
+	for argument in OS.get_cmdline_user_args():
+		if argument.begins_with("--navigation-followup="):
+			for task in argument.trim_prefix("--navigation-followup=").split(","):
+				if task not in ["chronology","counts","reduced-motion","ui"]:
+					printerr("Unknown navigation follow-up: ",task); quit(2); return
+				if task not in followup_tasks: followup_tasks.append(task)
+		if argument.begins_with("--navigation-output="): OUTPUT = argument.trim_prefix("--navigation-output=")
+	if not followup_tasks.is_empty():
+		if not OUTPUT.begins_with("res://"): OUTPUT = "res://"+OUTPUT
+		var resolved = ProjectSettings.globalize_path(OUTPUT).simplify_path().replace("\\","/")
+		var artifacts = ProjectSettings.globalize_path("res://artifacts/").simplify_path().replace("\\","/").trim_suffix("/")+"/"
+		if not resolved.begins_with(artifacts) or DirAccess.dir_exists_absolute(OUTPUT):
+			printerr("Follow-up needs a fresh output inside artifacts: ",OUTPUT); quit(2); return
+		followup = load("res://tests/session_navigation_followup.gd").new()
 	smoke = "--navigation-smoke" in OS.get_cmdline_user_args()
 	DirAccess.make_dir_recursive_absolute(OUTPUT)
 	for path in ["scripts/main.gd","scripts/ui/hud.gd","scripts/ui/menu_navigation.gd","scripts/racing/race_workshop.gd","scripts/racing/session_navigation.gd","scripts/presentation/session_navigation_beams.gd","scripts/ui/session_navigation_panel.gd","scripts/ui/session_navigation_input.gd","scripts/ui/session_navigation_overlay.gd","scripts/presentation/race_beams.gd","assets/graphics/race_beam.gdshader","tests/session_navigation_playtest.gd","tests/session_navigation_checks.gd","scripts/presentation/chase_camera.gd","scripts/presentation/camera_settings.gd"]:
 		sources[path] = FileAccess.get_sha256("res://"+path)
+	if followup!=null and not followup.prepare(self): quit(2); return
 	var field = Fixture.load_standard()
 	if field==null: quit(2); return
 	set_meta("test_lab_fixture",true)
@@ -40,6 +58,7 @@ func run() -> void:
 	root.size = Vector2i(1920,1080)
 	game = load("res://main.tscn").instantiate()
 	game.automated = true
+	game.benchmark_no_captures = true
 	root.add_child(game)
 	current_scene = game
 	while not game.initialized or (game.loading and game.loading.busy): await process_frame
@@ -56,8 +75,13 @@ func run() -> void:
 	game.set_process(false)
 	game.active = false
 	game.display_settings.frame_generation = false
+	if followup!=null: game.display_settings.fps_limit = 60
 	game.display_settings.apply_viewport(root)
 	audit.check(field.cache_hit and field.GENERATOR_VERSION==15,"Native navigation uses a validated warm v15 Standard fixture")
+	if followup!=null:
+		followup_evidence = await followup.run(self,followup_tasks)
+		finish()
+		return
 	await audit.scene_checks(self,game)
 	game.workshop.navigation_state.clear_points()
 	markers = Checks.supported_points(game,32)
@@ -277,6 +301,9 @@ func capture_view() -> Dictionary:
 	return result
 
 func draw_frame(dt: float) -> void:
+	if followup!=null:
+		game.world.assets.update_foliage_sight(game.presentation_camera,game.skier.global_position,dt,true,
+			game.camera_settings.shared.forest_visibility,game.camera_settings.shared.forest_visibility_strength)
 	call_group("race_beam_vfx","update_effect",dt,true,game.hud.feedback.reduced_motion)
 	game.weather_effects.update_weather(game.weather.state,game.presentation_camera,game.sim.position,game.field,dt,false,true,0.0,game.graphics.weather_quality)
 	await process_frame
@@ -288,8 +315,8 @@ func capture(label: String) -> void:
 		await process_frame
 	await RenderingServer.frame_post_draw
 	var image = root.get_texture().get_image()
-	image.save_png(OUTPUT+"/"+label+".png")
-	captures.append({"label":label,"view":capture_view(),"pixels":[image.get_width(),image.get_height()],
+	audit.check(image.save_png(OUTPUT+"/"+label+".png")==OK,"Saved "+label)
+	captures.append({"label":label,"image_sha256":FileAccess.get_sha256(OUTPUT+"/"+label+".png"),"view":capture_view(),"pixels":[image.get_width(),image.get_height()],
 		"weather":game.weather.state.label,"time":game.weather.state.time_label,"quality":game.graphics.label(),
 		"points":game.workshop.navigation_state.count(),"display":game.display_settings.report(root,image.get_size())})
 	print("NAVIGATION_CAPTURE ",label)
@@ -311,6 +338,11 @@ func marked_descent() -> void:
 			if result.error.is_empty(): break
 	audit.check(model.count()==5,"Bounded descent has five supported longitudinal landmarks")
 	var retained = model.points()
+	var origin: Vector3 = game.sim.position
+	var ordered: Array = []
+	for entry in retained: ordered.append((entry.position-origin).dot(basis.z))
+	var sorted = ordered.duplicate(); sorted.sort()
+	audit.check(ordered==sorted and ordered.size()==5,"Five stable IDs follow increasing downhill distance")
 	view_description = {}
 	game.automated = true
 	game.benchmark_input = func(_tick):
@@ -326,7 +358,8 @@ func marked_descent() -> void:
 		if tick%2==0:
 			game._process(1.0/60.0)
 			await process_frame
-		if tick%240==0:
+		if tick%240==0 or tick==1799:
+			audit.check(model.points()==retained,"Chronology retains exact IDs and anchors at tick %d" % (tick+1))
 			await RenderingServer.frame_post_draw
 			var label = "descent_%04d" % tick
 			root.get_texture().get_image().save_png(OUTPUT+"/"+label+".png")
@@ -335,7 +368,7 @@ func marked_descent() -> void:
 			stopped = "crash" if game.sim.crashed else "session stopped"
 			break
 	audit.check(model.points()==retained,"Passing landmarks does not remove or move them")
-	chronology = {"points":capture_view().personal_points,"ticks":game.sim.ticks-initial_tick,"seconds":float(game.sim.ticks-initial_tick)/120.0,"stop":stopped,"frames":frames,
+	chronology = {"points":capture_view().personal_points,"ticks":game.sim.ticks-initial_tick,"seconds":float(game.sim.ticks-initial_tick)/120.0,"stop":stopped,"frames":frames,"ordered_distances_m":ordered,"start_position":vector(origin),"distance_m":game.sim.position.distance_to(origin),
 		"scope":"Ordinary-input marked 15 s descent with periodic captures; not a screenshot-free performance sample"}
 	game.active = false
 	game.automated = false
@@ -401,7 +434,7 @@ static func vector(value: Vector3) -> Array: return [value.x,value.y,value.z]
 func finish() -> void:
 	for path in sources: audit.check(FileAccess.get_sha256("res://"+path)==sources[path],"Reviewed source remained unchanged: "+path)
 	FileAccess.open(OUTPUT+"/report.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":audit.checks,"failures":audit.failures,
-		"sources":sources,"view_searches":view_searches,"visual_acceptance":"pending actual pixel review","captures":captures,"samples":samples,"chronology":chronology,"engine":Engine.get_version_info(),
+		"sources":sources,"followup_tasks":followup_tasks,"followup_evidence":followup_evidence,"view_searches":view_searches,"visual_acceptance":"pending actual pixel review","captures":captures,"samples":samples,"chronology":chronology,"engine":Engine.get_version_info(),
 		"device":RenderingServer.get_video_adapter_name(),"mountain_identity":game.workshop.navigation_state.mountain_identity,
 		"height_sha256":game.field.height_checksum,"obstacle_sha256":game.field.obstacle_checksum,
 		"scope":"Native visibility and bounded diagnostic cost only; physical-controller comfort and route usefulness require user acceptance"},"\t"))
