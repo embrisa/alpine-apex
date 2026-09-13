@@ -1,11 +1,11 @@
 ---
 id: "AA-20260912-105302-reduce-dense-scene-gpu-cost"
 title: "Reduce dense-scene GPU cost while preserving visual quality"
-status: in_progress
+status: blocked
 priority: P1
 depends_on: ["AA-20260912-105301-reduce-animation-cpu-cost"]
 created: "2026-09-12T10:53:00Z"
-updated: "2026-09-12T17:18:41Z"
+updated: "2026-09-13T00:22:09Z"
 source_thread: "01a09527-1988-7b50-b7c9-71ff6821cb00"
 ---
 
@@ -235,3 +235,13 @@ Receipts: `artifacts/high_speed_stress/rock_candidates.json`,
 capture had 27 unfocused frames and is visual-only evidence; its separate
 three capture-free timing repetitions passed. Evidence is retained while GPU
 optimization and visual review remain active.
+
+**Paused by the user on 2026-09-13:** this investigation did not deliver an
+accepted production GPU optimization and is paused for now. Status is `blocked`
+pending an explicit user decision to resume; do not automatically retry it or
+treat it as an active implementation. This supersedes the reopening instruction
+above. Preserve the profiler, workload fixtures, rejected-candidate findings and
+unresolved acceptance evidence. The user reports gains from the other three FPS
+areas (streaming, animation CPU and spatial batch visibility); their completed
+results remain separate and are not attributed to this investigation. Independent
+eligible backlog work can proceed when the normal activity/ownership checks pass.
