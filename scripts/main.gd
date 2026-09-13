@@ -721,6 +721,7 @@ func _process(dt: float) -> void:
 	get_tree().call_group("race_beam_vfx","update_effect",dt,active or not workshop.mode.is_empty(),hud.feedback.reduced_motion)
 	var trees_started = frame_costs.begin()
 	world.scenery.tree_motion.update(p,sim.velocity,dt,active)
+	if world.grass: world.grass.update_actor(p,sim.velocity,dt,active)
 	world.assets.update_foliage_sight(presentation_camera,p,dt,(active and presentation_camera==camera) or presentation_camera==camera_preview,camera_settings.shared.forest_visibility,camera_settings.shared.forest_visibility_strength)
 	frame_costs.end(&"interactive_trees",trees_started)
 	var weather_anchor: Vector3 = menu_camera.focus_point if menu_view else p
@@ -939,6 +940,7 @@ func start_run(is_timed: bool = false) -> void:
 	_leave_race_weather()
 	_cancel_summit_return()
 	if world and world.scenery: world.scenery.tree_motion.reset()
+	if world and world.grass: world.grass.reset()
 	if transitioning: return
 	if current_mountain and (not is_timed or (not get_tree().get_meta("test_lab_fixture",false) and "--test-lab" not in OS.get_cmdline_user_args())):
 		session.configure_free(current_mountain.identity(),field.finish_z,field.finish_z if field.is_summit_mountain() else 0.0)
@@ -1008,6 +1010,7 @@ func restart(preserve_return: bool = false) -> void:
 	if not preserve_return: _cancel_summit_return()
 	summit_drop_armed = true
 	if world and world.scenery: world.scenery.tree_motion.reset()
+	if world and world.grass: world.grass.reset()
 	summit_ready = not timed and session.race==null and field.is_summit_mountain()
 	if skier.ragdoll.running: camera.close_view = skier.ragdoll.saved_close_view
 	skier.ragdoll.stop()

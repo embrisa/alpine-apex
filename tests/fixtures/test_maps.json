@@ -250,7 +250,9 @@
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
     "tests/camera_flat_playtest.gd": {
-      "maps": ["flat-pad"],
+      "maps": [
+        "flat-pad"
+      ],
       "full_mountain": false,
       "coverage": "Frozen production flat-ground camera framing and optional archived-camera comparison."
     },
@@ -1663,6 +1665,50 @@
       "maps": [],
       "full_mountain": true,
       "coverage": "Matched material-only six-face ridges and apron continuity on current Standard; frozen shader baseline and capped captures, no timing acceptance."
+    },
+    "tests/terrain_grass_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Pure grass habitat, deformation, assets and bounded residency on a 256 x 256 m, 4 m grid adapter; no rendered mountain."
+    },
+    "tests/terrain_grass_playtest.gd": {
+      "maps": [
+        "perf-mixed"
+      ],
+      "full_mountain": false,
+      "coverage": "Capped functional grass review on the local mixed map; optional --standard requires explicit full-mountain admission and compatible physical cache."
+    },
+    "tests/terrain_grass_survey.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Actual Standard habitat and unchanged physical output across six sectors; no implicit preparation or timing.",
+      "additional_surfaces": [
+        {
+          "id": "v15-standard",
+          "width_m": 6144,
+          "length_m": 6144,
+          "cell_m": 4,
+          "tree_target": 200000,
+          "objects": "Recipe-dependent trees and geological placements",
+          "full_mountain": true
+        }
+      ]
+    },
+    "tests/terrain_grass_prepare_second.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit alternate Standard seed 638201943 physical cache preparation.",
+      "additional_surfaces": [
+        {
+          "id": "v15-standard",
+          "width_m": 6144,
+          "length_m": 6144,
+          "cell_m": 4,
+          "tree_target": 200000,
+          "objects": "Recipe-dependent trees and geological placements",
+          "full_mountain": true
+        }
+      ]
     }
   }
 }

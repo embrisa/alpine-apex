@@ -100,6 +100,15 @@ verifies structure, scope and input hashes, not the truth of prose assertions.
 Historical checks verify delivered files; hashes of preserved dirty read inputs
 remain observations and must not be represented as committed dependencies.
 
+For LFS assets, capture hashes the hydrated working file. Staged checks verify
+the canonical SHA-256 v1 pointer's content OID **and byte size** against that
+tested file; an unhydrated pointer is not accepted as the working asset.
+Historical checks compare the committed pointer's content OID with the note's
+tested hash. They do not fetch or certify remote LFS-object availability; the
+normal LFS push remains required. Malformed or unsupported pointers do not gain
+content-hash equivalence. The format is defined by the
+[Git LFS specification](https://github.com/git-lfs/git-lfs/blob/main/docs/spec.md).
+
 The worker's done release checks its scoped commits since acceptance. Record
 terminal backlog changes before final note capture/commit when possible. If a
 separate administrative commit is needed, give it its own Maintenance note.

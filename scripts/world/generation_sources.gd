@@ -11,6 +11,9 @@ const PHYSICAL = [
 	"res://scripts/world/mineral_catalog_data.gd","res://scripts/world/mineral_collision.gd","res://scripts/world/mountain_cache_v15.gd","res://scripts/world/mountain_archive.gd",
 	"res://assets/graphics/geology_v11/catalog.json","res://assets/graphics/geology_v11/catalog.res"]
 const SCENERY = [
+	"res://scripts/presentation/terrain_grass.gd","res://scripts/presentation/grass_placement.gd","res://scripts/presentation/grass_motion.gd",
+	"res://assets/graphics/terrain_grass.gdshader","res://assets/graphics/grass_motion.gdshaderinc","res://assets/graphics/mineral_grass.gdshader",
+	"res://assets/graphics/grass/manifest.json","res://assets/graphics/geology_v11/textures/grass.png",
 	"res://scripts/world/mountain_footprint.gd",
 	"res://scripts/world/mountain_preparation.gd","res://scripts/world/scenery_cache.gd","res://scripts/world/terrain_preparation.gd",
 	"res://scripts/world/mountain_data.gd","res://scripts/world/alpine_world.gd","res://scripts/world/alpine_scenery.gd",
@@ -28,7 +31,7 @@ static func dependencies(scenery: bool = false) -> Array:
 	if scenery:
 		paths.append_array(SCENERY)
 		# Include prepared footprints and actual tree mesh assets, not only filenames.
-		for directory in ["res://assets/graphics/trees/models","res://assets/graphics/trees/textures","res://assets/graphics/geology_v11/meshes"]:
+		for directory in ["res://assets/graphics/grass","res://assets/graphics/trees/models","res://assets/graphics/trees/textures","res://assets/graphics/geology_v11/meshes"]:
 			for name in DirAccess.get_files_at(directory):
 				if name.get_extension() in ["res","glb","import","png"]: paths.append(directory.path_join(name))
 	paths.sort()

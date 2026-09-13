@@ -177,12 +177,23 @@ the validation guard; package READMEs explain rebuild protection and interactive
 review. These assets contain vegetation and attached snow only: no rocks,
 pebbles, pedestals, ground chunks or collision. Direct GLTFDocument review
 explicitly enables the imported vertex-color material flag, required by the
-observed Godot 4.7.2 path. No game importer or rendering shader is changed.
+observed Godot 4.7.2 path. The source packs remain sealed and excluded from imports.
 
-Terrain selection, production materials, wind/skier interaction, LOD transitions
-and dense-scene performance remain separate integration work. The terrain-grass
-backlog task retains its original implementation scope; preparing the additional
-plants does not dispatch or authorize their game integration.
+The terrain grass runtime selects `alpine_tuft_02`, `forest_fan_02` and
+`meadow_clump_02`, each in green/dusted/snow finishes at source LOD1/LOD2.
+`assets/graphics/grass/manifest.json` records the 18 independent material-free
+ArrayMeshes and source GLB hashes. `scripts/art/build_runtime_grass.gd` converts
+only the single vegetation mesh, preserving colors, root-to-tip UV0 and root
+pivots in UV1; no combined mineral scene is loaded. It refuses modified prior
+runtime exports. Run it through an Exclusive guard. Original GLBs, Blender files,
+imports and UIDs are not rewritten. Geometry is opaque, double-sided blades with
+attached snow strips, so terrain grass needs no alpha-card texture derivative.
+The source library's prepared-only status describes that sealed package; runtime
+selection and its provenance are owned by the separate runtime manifest.
+
+Placement and burial are in [World](WORLD.md#terrain-grass); shader and review
+contracts are in [Rendering](RENDERING.md#terrain-grass). The small-plant pack
+remains unintegrated. Grass performance acceptance remains a separate task gate.
 
 ## Minerals
 
@@ -203,9 +214,11 @@ separate in [World](WORLD.md#geology-and-collision).
 
 Base GLBs are bare, portable PBR. Optional moss/moss_grass scenes share meshes;
 `optional_moss_material` can override surface 0 without mutating shared bare
-material. No vegetation on glacier ice. Existing grass is static crossed cards
-on nearby small/medium/large stones, not the pending wind/skier-reactive terrain
-grass system. Godot adds metre-scale object-space mineral detail and snow treatment.
+material. No vegetation on glacier ice. The existing independent grass-overlay
+meshes on nearby small/medium/large stones retain their surface-fitted roots;
+`mineral_grass.gdshader` now shares terrain grass wind, temporary swept bending,
+distance fading and coating treatment. Supporting minerals remain separate world
+assets. Godot adds metre-scale object-space mineral detail and snow treatment.
 
 ```powershell
 ./scripts/art/prepare_mineral_review.ps1 -Validate -Capture

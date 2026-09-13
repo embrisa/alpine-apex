@@ -33,6 +33,7 @@ static func build(world,field,checkpoint: Callable = Callable()) -> void:
 		world.minerals=preload("res://scripts/presentation/mineral_scenery.gd").new()
 		world.add_child(world.minerals)
 		await world.minerals.build(field,world.assets,world.quality,checkpoint)
+	world._build_grass()
 	world.flavor = preload("res://scripts/world/mountain_flavor.gd").new()
 	world.add_child(world.flavor)
 	world.flavor.surface = preload("res://scripts/world/prop_collision_surface.gd").new(field)

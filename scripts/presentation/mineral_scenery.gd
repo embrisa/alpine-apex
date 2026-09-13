@@ -60,6 +60,7 @@ func build(source, assets, profile, checkpoint: Callable = Callable(), preparati
 					grass_material.shader=preload("res://assets/graphics/mineral_grass.gdshader")
 					grass_material.set_shader_parameter("grass_texture",load(ROOT+"/textures/grass.png"))
 					library.lighting.register(grass_material)
+					library.wind_receivers.append(grass_material); library.wind_ready=false
 				_batch(grassy,load(rows[id].grass),grass_material,"grass")
 		index+=1
 		if checkpoint.is_valid() and index%12==0:
@@ -107,7 +108,7 @@ func _batch(items: Array, mesh: Mesh, material: Material, category: String) -> v
 		mm.set_instance_custom_data(i,Color(placed.snow,placed.moss,1.0 if placed.solid else 0.0,float(placed.id%251)/251.0))
 		var box: AABB=placed.pose*mesh.get_aabb()
 		bounds=box if i==0 else bounds.merge(box)
-	mm.custom_aabb=bounds.grow(.15)
+	mm.custom_aabb=bounds.grow(.65 if category=="grass" else .15)
 	_instance(mm,material,category)
 
 func _instance(mm: MultiMesh, material: Material, category: String) -> void:
@@ -133,8 +134,10 @@ func apply_quality(profile) -> void:
 		batch.visibility_range_end_margin=16.0
 		batch.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if category in ["small","grass"] else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		if category=="grass":
-			batch.visible=profile.level>0
-			batch.visibility_range_end=60.0 if profile.texture_tier==2 else 35.0
+			batch.visible=profile.scrub_density>0
+			batch.multimesh.visible_instance_count=floori(batch.multimesh.instance_count*profile.scrub_density)
+			batch.visibility_range_end=profile.scrub_distance_m+32.0
+	if grass_material: grass_material.set_shader_parameter("grass_distance",profile.scrub_distance_m)
 
 func _process(dt: float) -> void:
 	if not macro_ready or not stream_macro_textures or quality.texture_tier!=2: return
@@ -183,6 +186,7 @@ func _prepared_batches(preparation, checkpoint: Callable) -> void:
 			if not grass_material:
 				grass_material = ShaderMaterial.new(); grass_material.shader = preload("res://assets/graphics/mineral_grass.gdshader")
 				grass_material.set_shader_parameter("grass_texture",load(ROOT+"/textures/grass.png")); library.lighting.register(grass_material)
+				library.wind_receivers.append(grass_material); library.wind_ready=false
 			var grassy: Array = []
 			for placed_id in group.grass: grassy.append(field.geology.placements[placed_id])
 			_batch(grassy,load(rows[id].grass),grass_material,"grass")

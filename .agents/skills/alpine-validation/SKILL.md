@@ -117,3 +117,7 @@ Report the final Dev ID after push. Preserve unrelated dirty inputs; do not refr
 evidence hashes without repeating affected checks. Recorded case identity and
 current rerun identity are different observations. A version label is neither
 performance evidence nor human/controller acceptance.
+
+For asset milestones, follow the LFS pointer/hydration validation boundary in
+[Development](../../../docs/DEVELOPMENT.md#milestone-workflow) before recording
+the staged or delivered-note check as passed.

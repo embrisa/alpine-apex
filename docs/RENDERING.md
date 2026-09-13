@@ -453,3 +453,62 @@ Stage replacement batches hidden, then swap atomically. Cancellation preserves
 the active owner; newer requests supersede older builds. Reapply current weather
 after replacement. Visual seams, seating, memory, loading and frame times need
 separate checks.
+
+## Terrain grass
+
+`terrain_grass.gd` owns camera residency and shared opaque blade materials;
+`grass_motion.gd` owns sixteen recent swept skier segments. Placement and the
+coverage/coating/burial distinction belong to [World](WORLD.md#terrain-grass);
+sealed art and runtime conversion belong to [Assets](ASSETS.md#prepared-ground-vegetation).
+
+Grass consumes the existing weather wind registry and cloud-light field. UV0.y
+anchors each blade root and carries its snow strips through deformation. Nearby
+grass bends away from the skier's swept path, gated by horizontal distance and
+height, then recovers over 1.25 active seconds. Sweeps join high-speed endpoints
+without per-tuft state; short aligned segments coalesce without cutting corners.
+Pause holds interaction and wind follows the existing presentation weather clock.
+Retry, teleport (over 30 m), scene replacement and teardown clear old influence.
+Camera movement only selects residency; it cannot flatten grass or feed physics.
+
+The two authored blade LODs cross-dither over 18â€“26 m, with complementary coverage;
+individual roots fade over the last 22% of the existing ground-foliage distance.
+A separate residency clock fades new cells over .35 seconds even when wind is
+paused. The same decorative density/distance controls govern independent mineral
+overlays; zero density releases ground cells and hides mineral grass. Bounds add
+.65 m for deformation; grass casts no shadow, has no collision and uses no GI
+contribution. All physical trees/minerals and other scenery budgets remain intact.
+
+The functional producer `tests/terrain_grass_playtest.gd` uses the explicitly
+selected 256 x 512 m `perf-mixed` map by default (384 trees, 48 minerals) and
+accepts `--standard --seed=N` for required production habitat review. Captures
+use 1280 x 720, a 60 FPS cap, isolated preferences and no performance statistics.
+Production chase and first-person cameras are exercised at a stable 60 km/h pose.
+The 15-second chronological influence sequence is synthetic visual stimulus,
+advanced over 900 rendered steps with one saved sample every fifteen steps;
+physics/runtime suites separately verify 120 Hz skiing and real scene lifecycle.
+`--motion-only` skips repeat habitat stills; moving observer captures leave cell
+submission to the normal three-cell process budget. This is functional evidence.
+Source/export and local behavior checks are in `tests/test_runtime_grass_assets.py`
+and `tests/terrain_grass_suite.gd`. Native MultiMesh readback is checked natively;
+the headless dummy renderer is not geometry-submission evidence.
+
+```powershell
+python tests/test_runtime_grass_assets.py
+./scripts/test_pc_environment.ps1 -Suites terrain_grass_suite,graphics_override_suite,scenery_loading_suite,physics_suite,runtime_suite -OutputDirectory artifacts/grass-checks
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/terrain_grass_suite.gd') -Label grass-native-check -WorkloadMode Shared -TimeoutSeconds 180
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/terrain_grass_playtest.gd','--','--graphics-quality=high','--upscaler=native','--frame-generation=off','--output=artifacts/grass-local') -Label grass-local -WorkloadMode Shared -TimeoutSeconds 300
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/terrain_grass_survey.gd') -Label grass-standard-survey -WorkloadMode Shared -FullMountain -FullMountainReason 'Actual Standard grass habitats across six faces' -TimeoutSeconds 300
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/terrain_grass_playtest.gd','--','--standard','--graphics-quality=high','--upscaler=native','--frame-generation=off','--output=artifacts/grass-standard') -Label grass-standard -WorkloadMode Exclusive -FullMountain -FullMountainReason 'Production grass habitats, forest, material transitions and bounded interaction; prepare current scenery if needed' -TimeoutSeconds 900
+```
+
+Standard/alternate surveys require current compatible physical caches; they never
+cold-bake implicitly. Prepare the default with the maintained validation producer;
+`tests/terrain_grass_prepare_second.gd` explicitly prepares Standard seed 638201943
+under Exclusive/full-mountain admission. Pass `--seed=638201943` to its survey and
+rendered review. Shared rendering is appropriate after scenery preparation is warm.
+
+Functional evidence is retained under `artifacts/terrain_grass_20260913/`. No added
+frame cost, p95/p99, GPU/CPU comparison, 4K performance target or repeated-travel
+memory acceptance was measured in this pass. The [task](../backlog/tasks/AA-20260911-193341-terrain-grass.md#exact-remaining-performance-validation-handoff)
+owns the exact remaining off/on performance handoff. Human/controller visual and
+skiing acceptance remain separate.

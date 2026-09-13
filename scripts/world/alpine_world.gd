@@ -9,6 +9,7 @@ var mountain_seed: int = -1
 var assets
 var scenery
 var minerals
+var grass
 var flavor
 var ski_surface
 var wilderness
@@ -131,6 +132,7 @@ func build(field, checkpoint: Callable = Callable(), data_worker: Callable = Cal
 	build_timings.mineral_uploads_ms = (Time.get_ticks_usec()-step_start)/1000.0
 	_end_submission("mineral_uploads")
 	if _cancelled(): return
+	_build_grass()
 	step_start = Time.get_ticks_usec()
 	_begin_submission("flavor")
 	if checkpoint.is_valid(): await checkpoint.call("Placing mountain huts and rare discoveries…",-1.0)
@@ -376,6 +378,7 @@ func apply_graphics(profile) -> void:
 	if wilderness: wilderness.apply_quality(profile)
 	if flavor: flavor.apply_quality(profile)
 	if minerals: minerals.apply_quality(profile)
+	if grass: grass.apply_quality(profile)
 	if scenery:
 		scenery.apply_quality(profile)
 	if sun:
@@ -500,3 +503,9 @@ func _begin_submission(name: String, work: int = 0) -> void:
 
 func _end_submission(name: String) -> void:
 	if build_job: build_job.end_stage(name)
+
+func _build_grass() -> void:
+	grass=preload("res://scripts/presentation/terrain_grass.gd").new()
+	add_child(grass)
+	grass.build(surface,assets,quality)
+	grass.bind_minerals(minerals)

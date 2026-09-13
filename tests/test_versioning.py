@@ -136,6 +136,45 @@ class VersioningTests(unittest.TestCase):
         self.write(v.TUNING, "peer changed tested dependency")
         self.assertTrue(any(v.TUNING in p for p in v.check_note(self.root, note_path)))
 
+    def stage_asset_pointer(self, asset, pointer, hydrated):
+        # Real Git index/commit blobs, no LFS installation or network required.
+        (self.root / asset).write_bytes(pointer)
+        self.git("add", asset)
+        (self.root / asset).write_bytes(hydrated)
+
+    def test_lfs_staged_content_and_historical_note_hash(self):
+        self.note(); self.commit()
+        asset = "assets/grass.res"
+        self.write(asset, "hydrated mesh payload")
+        hydrated = (self.root / asset).read_bytes()
+        pointer = f"version https://git-lfs.github.com/spec/v1\noid sha256:{v.sha(hydrated)}\nsize {len(hydrated)}\n".encode()
+        note = self.note([asset])
+        self.stage_asset_pointer(asset, pointer, hydrated)
+        self.git("add", note)
+        self.assertEqual(v.check_note(self.root, note, staged=True), [])
+        self.git("commit", "-m", "LFS asset fixture")
+        self.assertEqual(v.check_commit(self.root), [])
+        self.write(asset, "unrelated later worktree bytes")
+        self.assertEqual(v.check_commit(self.root), [])
+
+    def test_lfs_rejects_wrong_oid_size_malformed_and_unhydrated(self):
+        self.note(); self.commit()
+        asset = "assets/grass.res"
+        self.write(asset, "hydrated mesh payload")
+        hydrated = (self.root / asset).read_bytes()
+        pointer = f"version https://git-lfs.github.com/spec/v1\noid sha256:{v.sha(hydrated)}\nsize {len(hydrated)}\n".encode()
+        note = self.note([asset])
+        self.git("add", note)
+        for corrupt in [pointer.replace(v.sha(hydrated).encode(), b"0"*64), pointer.replace(b"size 21", b"size 22"), pointer.rstrip(b"\n"), pointer+b"extra invalid\n"]:
+            with self.subTest(pointer=corrupt):
+                self.stage_asset_pointer(asset, corrupt, hydrated)
+                self.assertTrue(any("Index differs" in p for p in v.check_note(self.root, note, staged=True)))
+        self.stage_asset_pointer(asset, pointer, pointer)
+        self.assertTrue(any("Index differs" in p for p in v.check_note(self.root, note, staged=True)))
+        self.stage_asset_pointer(asset, pointer.replace(v.sha(hydrated).encode(), b"0"*64), hydrated)
+        self.git("commit", "-m", "Invalid asset pointer fixture")
+        self.assertTrue(any("Tested input changed" in p for p in v.check_commit(self.root)))
+
     def test_changed_behavior_requires_identity_bump(self):
         self.note(); self.commit()
         owner = v.OWNERS["physics"][0]

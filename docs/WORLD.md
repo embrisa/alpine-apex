@@ -254,6 +254,36 @@ edge chunks retain exact triangles; preview uses the same outline. Scenery
 identity/cache validation covers this retained layout. The authored, nonphysical
 outer background and its adaptive connector are in [Rendering](RENDERING.md#background).
 
+## Terrain grass
+
+`presentation/grass_placement.gd` reads the immutable 4 m heightfield and existing
+habitat functions. Each 16 m cell uses a private seed and at most 160 candidates;
+cluster noise leaves gaps and forest suitability raises patch density. Candidate
+rank, scale, shape and orientation remain stable across streaming and graphics
+changes. No tree, mineral, obstacle index, terrain sample, solver or race data is
+added or changed by grass. The existing mineral overlay owns elevated rock grass;
+terrain tufts are excluded beneath mineral bounds to avoid duplicate vegetation.
+
+Snow **coverage** is `1-smoothstep(.42,.58,rock_fraction_at)`, matching the terrain
+contact-material shader. It selects green, mixed or snow-strip geometry. **Coating**
+is snow attached to blades, retaining their green base and shading. **Burial** is
+the physical mantle depth multiplied by snowy coverage, lowering the authored
+root beneath the visible surface. Raw mantle depth is never treated as exposed
+ground cover. Blades with less than 7.5 cm remaining above snow are suppressed;
+snowy depth above 29 cm, deep powder regions, ice-mask areas and slopes with up
+normal below .70 are excluded. Ordinary open snow has sparse growth; sheltered
+forest pockets admit taller coated blades. The physical snow mantle is unchanged.
+
+`presentation/terrain_grass.gd` prepares only cells near the active camera,
+submitting three cells per frame and retaining at most 625 cells (including empty
+ones). It neither scans the whole mountain each frame nor persists grass data.
+New worlds own fresh residency and swept influence; cancellation drops pending
+cells. Existing physical/scenery payload schemas remain unchanged. Grass scripts,
+shaders, runtime manifest and every mesh enter generation source identity and
+export receipts. The existing `generation_sources.gd` self-hash rule also
+invalidates physical caches when that source list changes, despite unchanged
+generator/model versions and physical outputs; regenerate rather than bypass it.
+
 ## Caches and export
 
 `user://mountain_cache_v15/<recipe SHA>.physical` stores final heights, snow,

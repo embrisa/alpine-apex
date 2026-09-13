@@ -78,9 +78,31 @@ def content(root, path, ref=None):
     return target.read_bytes() if target.is_file() else None
 
 
+def lfs_pointer(data):
+    # Git stores canonical pointer text; evidence hashes the hydrated asset.
+    # Fail closed for malformed/unsupported pointers, without running filters
+    # or fetching remote objects during a read-only milestone check.
+    if data is None or len(data) >= 1024:
+        return None
+    match = re.fullmatch(rb"version https://git-lfs.github.com/spec/v1\noid sha256:([0-9a-f]{64})\nsize (0|[1-9][0-9]*)\n", data)
+    return (match[1].decode(), int(match[2])) if match else None
+
+
 def file_hash(root, path, ref=None):
     data = content(root, path, ref)
+    pointer = lfs_pointer(data) if ref else None
+    if pointer:
+        return pointer[0]
     return sha(data) if data is not None else None
+
+
+def index_matches_worktree(root, path):
+    staged = content(root, path, ":")
+    working = content(root, path)
+    pointer = lfs_pointer(staged)
+    if pointer:
+        return working is not None and pointer == (sha(working), len(working))
+    return staged == working
 
 
 def identities(root, ref=None, overlay=None):
@@ -321,7 +343,7 @@ def check_note(root, path, commit=None, staged=False):
             if changed - set(owned) - {path}: problems.append("Commit includes changes outside its milestone scope")
         if staged:
             for p in owned + [path]:
-                if content(root, p, ":") != content(root, p):
+                if not index_matches_worktree(root, p):
                     problems.append("Index differs from checked working bytes: " + p)
     except (KeyError, TypeError, AttributeError, ValueError) as error:
         problems.append("Malformed milestone note: " + str(error))
