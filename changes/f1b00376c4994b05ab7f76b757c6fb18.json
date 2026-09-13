@@ -1,0 +1,162 @@
+{
+  "schema": 1,
+  "id": "f1b00376c4994b05ab7f76b757c6fb18",
+  "summary": "Track generated Godot script UID sidecars",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Godot script identity metadata"
+  ],
+  "owned_paths": [
+    "scripts/diagnostics/scenario_runner.gd.uid",
+    "tests/animation_cpu_suite.gd.uid",
+    "tests/carve_residual_capture.gd.uid",
+    "tests/carve_residual_suite.gd.uid",
+    "tests/diagnostic_audio_suite.gd.uid",
+    "tests/firm_carve_capture.gd.uid",
+    "tests/firm_carve_suite.gd.uid",
+    "tests/hud_dial_suite.gd.uid",
+    "tests/scenario_suite.gd.uid",
+    "tests/steering_recording_capture.gd.uid",
+    "tests/steering_recording_fixture.gd.uid",
+    "tests/steering_recording_suite.gd.uid",
+    "tests/steering_snow_suite.gd.uid",
+    "tests/streaming_collision_suite.gd.uid"
+  ],
+  "read_paths": [
+    "docs/DEVELOPMENT.md",
+    "project.godot",
+    "scripts/diagnostics/scenario_runner.gd",
+    "tests/animation_cpu_suite.gd",
+    "tests/carve_residual_capture.gd",
+    "tests/carve_residual_suite.gd",
+    "tests/diagnostic_audio_suite.gd",
+    "tests/firm_carve_capture.gd",
+    "tests/firm_carve_suite.gd",
+    "tests/hud_dial_suite.gd",
+    "tests/scenario_suite.gd",
+    "tests/steering_recording_capture.gd",
+    "tests/steering_recording_fixture.gd",
+    "tests/steering_recording_suite.gd",
+    "tests/steering_snow_suite.gd",
+    "tests/streaming_collision_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Script identity sidecars do not alter generated mountain data or its producer."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Script identity sidecars do not alter race definitions or behavior."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Script identity sidecars do not alter competitive-record data or format."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Script identity sidecars do not alter ghost data or presentation behavior."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Script identity sidecars do not alter cache producers, schemas, or inputs."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "PowerShell UID-sidecar format, uniqueness, and tracked-companion validation",
+      "details": "All 14 generated sidecars contain one unique uid:// value and each companion .gd script is already tracked."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-13T15:20:31.907835+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 3,
+      "commit": "2b7d60e25ea17269a0be39d66a6620da5fe22d06",
+      "modified": true,
+      "changes_sha256": "12ac9e1a99592ac82eac12091c10d97f3205974f22bb1237503ba354957c2f28",
+      "source_sha256": "a7006875da90a46efa72bb0485aea11188b36541d04ab9d44bb4d738eeba489d",
+      "categories": [
+        "Maintenance"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/DEVELOPMENT.md": "64837a45c9965396d7e97e1809adbf3a6537c6724746823e573e2dd248b4a155",
+      "project.godot": "f92c86410aeff3c7038be456bc267092d7f1fa324f9411f0add1301bdc93c249",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/diagnostics/scenario_runner.gd": "62abe41f23ba7058fcbd165d7bf9e9d0df368c1982570f59f1a7375e300117f9",
+      "scripts/diagnostics/scenario_runner.gd.uid": "347f50d6f7bd8311aab072b21f1edf726697083d6d05f69d5f3a9f9696073267",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "d7c78c78e58082e9da8f82ae0cd5c44015715333c1d6dcb15018f3eabd930fd6",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/world/mountain_definition.gd": "4192db36e8fb6a685f37dfcda6aba38d05cd1367b951f077d4560ce35ecf314f",
+      "tests/animation_cpu_suite.gd": "82e82094b9eddf1c5e2f8e6f1b16be865a9666977d367433d8666f2bf526e3d8",
+      "tests/animation_cpu_suite.gd.uid": "beb3706f4ae0856821cc61bfcfb8d595d4b2b4a584da8c23f2c0e9edda77d8dd",
+      "tests/carve_residual_capture.gd": "89bb1a31e149d037ec264c7ae4c7b4fe5f8499689d6cc92ebc0261504c34ff79",
+      "tests/carve_residual_capture.gd.uid": "51ed191e82a399937bdf157ce9d7808978540e5682f3d57536905c71f76e99b8",
+      "tests/carve_residual_suite.gd": "8ae5c1ee8e1c40cfa63ce0adc4b0af493b6a1a7af4c48c1df816d3dc6b7360c8",
+      "tests/carve_residual_suite.gd.uid": "00a312af193a67670edbab3fa869983c850366de75ff47fc33f32d69a1fc9d57",
+      "tests/diagnostic_audio_suite.gd": "7c41d6d38224874eeb910c21e9b2f5faf16e6b0cad9a0da08649145126712265",
+      "tests/diagnostic_audio_suite.gd.uid": "2cc8d8f5e543cb371c6af279597f80f125538f2a0529e2581c7dfd767dc9eed7",
+      "tests/firm_carve_capture.gd": "5830f8b9a965990b650d5ebddc477d998f2de742e58e40c42f3da0352a950e6f",
+      "tests/firm_carve_capture.gd.uid": "995f1444d29aa161b179e9145b6d3802fff59d3ad0f9a77a3ec857b82f8633e0",
+      "tests/firm_carve_suite.gd": "b5e89d0051ff45412809262ae8be1eaaa46b657782e8b46ad074ecc1d37a7811",
+      "tests/firm_carve_suite.gd.uid": "0aef0b8443aa41f5d22baa495146e1f690fb8d1e963b8d4c6d427ef27e39fd95",
+      "tests/hud_dial_suite.gd": "753154c488721a82dd89ec8c8f573c098285951f98604955bb365ee954f50be5",
+      "tests/hud_dial_suite.gd.uid": "e9a8809f23d366fa4bdb556c88345042ce83122b62acbba456d829c3f081ad47",
+      "tests/scenario_suite.gd": "fe98b65afd5d0e7aac7fee68073c04cb17bc0b52c583d9ec4cbb81c96a99398a",
+      "tests/scenario_suite.gd.uid": "db3458ad5d4da0ddd1b05da00d93c816a4f9909e7df989804c6ebee17c543036",
+      "tests/steering_recording_capture.gd": "fb5f72b5704db36620c0845ba5957e4a3d480d41e2f3364c0e85eb695fd25708",
+      "tests/steering_recording_capture.gd.uid": "74ffd969380336e2d496390ce588dcb329c8099c547621525106cf30e0a63f1c",
+      "tests/steering_recording_fixture.gd": "737cdad6624bfabbb1faaad9bac7e394d91fa633b3c8fbf61d2cb8e6eaef8b0b",
+      "tests/steering_recording_fixture.gd.uid": "014f63c46afda5db4075d4d7fcf979344254dff74467b3d276aae0513d55d915",
+      "tests/steering_recording_suite.gd": "0246fd1f39dbdc4ba3c730f75a5bde4f63c6e48e58c722db7c88ddc0ef16389c",
+      "tests/steering_recording_suite.gd.uid": "af10f2e9ebf554caabe58e124622609b64ab6af565f608482d5956ddec233ad3",
+      "tests/steering_snow_suite.gd": "354652ad402414e8286add0368e6a42c89a322343bebba2516279acf0ebd870a",
+      "tests/steering_snow_suite.gd.uid": "ce80221043d6a1e71d80cc020cd67e7c12c11ec114212808bed78e90db2a882a",
+      "tests/streaming_collision_suite.gd": "f7007a403ad3c6486721a2fcaf07b1cc8260ff89794fc46e083b57165cae1be2",
+      "tests/streaming_collision_suite.gd.uid": "9d3bcc84baeb8db56537075a8965c9d41dfe578308674d3a535bf16741e4d766"
+    }
+  }
+}
