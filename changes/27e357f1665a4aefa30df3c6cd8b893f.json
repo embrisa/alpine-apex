@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "id": "27e357f1665a4aefa30df3c6cd8b893f",
+  "summary": "Clear obsolete MCP setup status from project settings",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "MCP project setup status",
+    "backlog manager runtime receipt"
+  ],
+  "owned_paths": [
+    "project.godot"
+  ],
+  "read_paths": [
+    ".mcp.json",
+    "addons/godot_mcp_toolkit/plugin.gd",
+    "backlog/.runtime/installation.json",
+    "docs/DEVELOPMENT.md"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Removing a stale editor setup message changes no solver, tuning, tick rate, or input behavior."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "The project-status cleanup changes no mountain recipe or generated data."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "The cleanup changes no race definition or race behavior."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "The cleanup changes no competitive record format or selection."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "The cleanup changes no replay payload or ghost presentation data."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "The cleanup changes no cache producer, schema, or invalidation identity."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "PowerShell static MCP status check plus git diff --check -- project.godot",
+      "details": "Confirmed .mcp.json contains the Godot MCP server, Node v24.19.0 meets the addon's Node 22+ requirement, the stale mcp_toolkit section is absent, and the owned diff has no whitespace errors."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-13T16:03:13.354947+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 6,
+      "commit": "0f25e1fb17d957c4a0cdde2c78ffa34fd42ae8ba",
+      "modified": true,
+      "changes_sha256": "0e3a273387737e9abfa4b3855a82b709f5e3534937306f0482da3f6c05751e09",
+      "source_sha256": "dc1c11a23dbb270473b6496df3553ac4a4d08c75391f7a52d0367f98c77bc472",
+      "categories": [
+        "Presentation"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      ".mcp.json": "b8e08094a4154a9a94b0cacad93f14ee5a05bf44c9645cec013c388863d97450",
+      "addons/godot_mcp_toolkit/plugin.gd": "22657f4631f752b241324eef4f47c22dfc43284e5d6de3641b7aa0c3e986a75d",
+      "backlog/.runtime/installation.json": "155574518729cf4f94bb2b6f72f81d593cbd507ce0c63dda2d0c43b5b53a8cd5",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/DEVELOPMENT.md": "64837a45c9965396d7e97e1809adbf3a6537c6724746823e573e2dd248b4a155",
+      "project.godot": "ab7da5f47f5c39a842b849501ab3c8df818d481db9ea9283517a576cd4062c7d",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "d7c78c78e58082e9da8f82ae0cd5c44015715333c1d6dcb15018f3eabd930fd6",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/world/mountain_definition.gd": "4192db36e8fb6a685f37dfcda6aba38d05cd1367b951f077d4560ce35ecf314f"
+    }
+  }
+}

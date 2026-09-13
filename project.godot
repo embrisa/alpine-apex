@@ -42,12 +42,6 @@ enabled=PackedStringArray("res://addons/godot_mcp_toolkit/plugin.cfg", "res://ad
 joypads/ignore_joypad_on_unfocused_application=true
 buffering/use_accumulated_input=false
 
-[mcp_toolkit]
-
-status="No .mcp.json found — use Project > Tools > MCP Toolkit > Write .mcp.json to create one.
-
-NODE.JS v20.19.6 FOUND BUT 22+ REQUIRED — Update from https://nodejs.org"
-
 [physics]
 
 common/physics_ticks_per_second=120
