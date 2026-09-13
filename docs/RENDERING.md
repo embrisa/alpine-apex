@@ -293,7 +293,7 @@ pronounced loaded banks on both turn signs and reversal. Small scallops and
 shallow/live segment shapes remain; no exhaustive art or performance acceptance
 is implied. The historical XYZ-to-XZ retained-distance change may also affect
 join prominence and was not independently varied. Boundary agreement alone
-cannot establish that it had no effect. See the [loaded-ridge correction](../backlog/tasks/AA-20260912-132147-review-loaded-track-ridge-shape.md)
+cannot establish that it had no effect. See the [loaded-ridge correction](../backlog/archive/AA-20260912-132147-review-loaded-track-ridge-shape.md)
 and [original-scale evidence](../artifacts/loaded_track_ridge_20260913/RESUMED_REVIEW.md).
 Headless geometry checks do not establish the visual result. Focused producers
 and their baseline limits are in [Validation](VALIDATION.md#snow-contact-and-local-boundary-producers).

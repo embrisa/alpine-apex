@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "id": "94dddc679c4b4453b91efd09a87fc72c",
+  "summary": "Archive completed loaded-ridge and residual-pelvis backlog records",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Backlog archival and maintained-record links"
+  ],
+  "owned_paths": [
+    "backlog/REMAINING_20260912.md",
+    "backlog/archive/AA-20260912-132147-review-loaded-track-ridge-shape.md",
+    "backlog/archive/AA-20260912-153317-fix-residual-carve-pelvis-lean.md",
+    "backlog/archive/AA-20260912-173304-weighted-small-landings-without-rebound.md",
+    "backlog/tasks/AA-20260911-225724-carving-raised-ski-tracks.md",
+    "backlog/tasks/AA-20260912-005323-subtle-local-snow-boundary.md",
+    "backlog/tasks/AA-20260912-132147-review-loaded-track-ridge-shape.md",
+    "backlog/tasks/AA-20260912-153317-fix-residual-carve-pelvis-lean.md",
+    "docs/ANIMATION.md",
+    "docs/RENDERING.md"
+  ],
+  "read_paths": [
+    "backlog/OPERATIONS.md",
+    "docs/DEVELOPMENT.md"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "This administrative move changes no world source or generation identity."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "This administrative move changes no race definitions or behavior."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "This administrative move changes no competitive-record format or contents."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "This administrative move changes no ghost format, data, or presentation behavior."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "This administrative move changes no cache producer, schema, or inputs."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": ".\\scripts\\backlog.ps1 validate --preserve-dirty",
+      "details": "Validated the archive moves and maintained backlog references. The preserved incomplete ghost-selector edit and retained pole-animation candidate remain outside this milestone."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-13T15:18:40.758511+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 2,
+      "commit": "3c9ebf41d8120f5a0f23b53cee40725fc40e0850",
+      "modified": true,
+      "changes_sha256": "c326c23d344d1c2473aba4261a587902951bd01284df870d0e113e5e2624a63b",
+      "source_sha256": "a7006875da90a46efa72bb0485aea11188b36541d04ab9d44bb4d738eeba489d",
+      "categories": [
+        "Maintenance"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      "backlog/OPERATIONS.md": "5232a0be86db505292dcc1fa0637ee75cc81d15723bfe77faadbca01cdd3b530",
+      "backlog/REMAINING_20260912.md": "1b723a14881683968a6719d8e84c8a8db86ff93722b5d616892e07819ac3bac6",
+      "backlog/archive/AA-20260912-132147-review-loaded-track-ridge-shape.md": "b8242871267ce5b6a64c364f867c43a57d9ed58e72705b11c14bcd89e5db664a",
+      "backlog/archive/AA-20260912-153317-fix-residual-carve-pelvis-lean.md": "0f34b2df6d4b6971bdb76daf00d5380d9e292d4081ac7d265833f96128c60028",
+      "backlog/archive/AA-20260912-173304-weighted-small-landings-without-rebound.md": "c49cca2a6be89a77f16f70487de4b1c7ecb0e4d69cfcb9797cbf4c508dd2a5d8",
+      "backlog/tasks/AA-20260911-225724-carving-raised-ski-tracks.md": "3d8b28f647668811e9f67ce48aac6b91f4f0a32523e07d13fc2d4a640a4559ba",
+      "backlog/tasks/AA-20260912-005323-subtle-local-snow-boundary.md": "9aa3f9bfd41d1fab551d42e586c7a1a7ffd844e8b379aaf314b05c594d720897",
+      "backlog/tasks/AA-20260912-132147-review-loaded-track-ridge-shape.md": null,
+      "backlog/tasks/AA-20260912-153317-fix-residual-carve-pelvis-lean.md": null,
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/ANIMATION.md": "11e5dfdd1b7cabbbc4e18f1ee40bfd4f1eab1f8c148043341204ae19ed4dedd5",
+      "docs/DEVELOPMENT.md": "64837a45c9965396d7e97e1809adbf3a6537c6724746823e573e2dd248b4a155",
+      "docs/RENDERING.md": "31e1f8b176a0384d6bdb2dea190448ab7df8e2ef7aaf57334ef9fc6b551c037b",
+      "project.godot": "f92c86410aeff3c7038be456bc267092d7f1fa324f9411f0add1301bdc93c249",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "d7c78c78e58082e9da8f82ae0cd5c44015715333c1d6dcb15018f3eabd930fd6",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/world/mountain_definition.gd": "4192db36e8fb6a685f37dfcda6aba38d05cd1367b951f077d4560ce35ecf314f"
+    }
+  }
+}

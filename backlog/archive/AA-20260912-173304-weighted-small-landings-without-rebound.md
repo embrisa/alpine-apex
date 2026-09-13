@@ -61,7 +61,7 @@ did not reproduce the bounce, run an engine workload or establish its cause.
 - No existing task directly owns this complaint. Preserve the completed
   [animation CPU work](AA-20260912-105301-reduce-animation-cpu-cost.md).
   [Pole transitions](../tasks/AA-20260912-132147-finish-pole-transition-validation.md) and
-  [residual carving pose](../tasks/AA-20260912-153317-fix-residual-carve-pelvis-lean.md)
+  [residual carving pose](AA-20260912-153317-fix-residual-carve-pelvis-lean.md)
   share presentation owners but have distinct defects; coordinate any overlap
   without absorbing or rewriting those tasks.
 
