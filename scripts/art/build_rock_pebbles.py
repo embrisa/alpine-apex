@@ -8,7 +8,9 @@ import argparse
 import hashlib
 import json
 import random
+import struct
 import sys
+import time
 from pathlib import Path
 
 import bpy
@@ -44,6 +46,149 @@ def fit(mesh, dimensions):
     mesh.update()
 
 
+def stone_material():
+    material = bpy.data.materials.new('CosmeticPebble_TexturedPBR')
+    material.use_nodes = True
+    material.use_backface_culling = True
+    material.diffuse_color = (1, 1, 1, 1)
+    nodes, links = material.node_tree.nodes, material.node_tree.links
+    bsdf = nodes.get('Principled BSDF')
+    bsdf.inputs['Metallic'].default_value = 0
+    images = []
+    uv_node = nodes.new('ShaderNodeUVMap')
+    uv_node.uv_map = 'StoneUV'
+    work = ROOT / 'artifacts/rock_pebble_textures_20260914/texture_work'
+    work.mkdir(parents=True, exist_ok=True)
+    for source_name, label, colorspace in [
+            ('ROCK_Base Color.jpeg', 'Pebble_Albedo', 'sRGB'),
+            ('ROCK_Normal.jpeg', 'Pebble_Normal', 'Non-Color'),
+            ('ROCK_Roughness.jpeg', 'Pebble_Roughness', 'Non-Color')]:
+        img = bpy.data.images[source_name].copy()
+        img.name = label
+        img.colorspace_settings.name = colorspace
+        img.scale(1024, 1024)
+        # A copied packed image can retain the original encoded 2K payload.
+        # Save/reload the resized pixels before the portable glTF export.
+        img.file_format = 'PNG'
+        img.filepath_raw = str(work / (label + '.png'))
+        img.save()
+        resized = bpy.data.images.load(img.filepath_raw, check_existing=False)
+        resized.colorspace_settings.name = colorspace
+        resized.pack()
+        bpy.data.images.remove(img)
+        img = resized
+        tex = nodes.new('ShaderNodeTexImage')
+        tex.image = img
+        tex.extension = 'REPEAT'
+        links.new(uv_node.outputs['UV'], tex.inputs['Vector'])
+        images.append(img)
+        if label.endswith('Albedo'):
+            tint = nodes.new('ShaderNodeVertexColor')
+            tint.layer_name = 'Color'
+            mix = nodes.new('ShaderNodeMixRGB')
+            mix.blend_type = 'MULTIPLY'
+            mix.inputs[0].default_value = 1
+            links.new(tex.outputs['Color'], mix.inputs[1])
+            links.new(tint.outputs['Color'], mix.inputs[2])
+            links.new(mix.outputs[0], bsdf.inputs['Base Color'])
+        elif label.endswith('Normal'):
+            normal = nodes.new('ShaderNodeNormalMap')
+            normal.uv_map = 'StoneUV'
+            normal.inputs['Strength'].default_value = .22
+            links.new(tex.outputs['Color'], normal.inputs['Color'])
+            links.new(normal.outputs['Normal'], bsdf.inputs['Normal'])
+        else:
+            links.new(tex.outputs['Color'], bsdf.inputs['Roughness'])
+    return material, images
+
+
+def stone_uv(mesh, dimensions, seed):
+    for existing in list(mesh.uv_layers):
+        mesh.uv_layers.remove(existing)
+    uv = mesh.uv_layers.new(name='StoneUV')
+    uv.active_render = True
+    rng = random.Random(seed)
+    shift = Vector((rng.random(), rng.random()))
+    # Metre-scaled box projection avoids the stretched poles of spherical UVs,
+    # particularly on flat chips and coarse LODs. Small grit samples a small
+    # part of the source stone texture instead of shrinking a whole cliff onto it.
+    for polygon in mesh.polygons:
+        axis = max(range(3), key=lambda i: abs(polygon.normal[i]))
+        axes = [(1, 2), (0, 2), (0, 1)][axis]
+        for loop in polygon.loop_indices:
+            p = mesh.vertices[mesh.loops[loop].vertex_index].co
+            uv.data[loop].uv = (p[axes[0]] / .23 + shift.x, p[axes[1]] / .23 + shift.y)
+
+
+def share_glb_textures(path, texture_hashes):
+    """Keep GLB geometry embedded and reuse three byte-identical PBR maps."""
+    raw = path.read_bytes()
+    json_size = struct.unpack_from('<I', raw, 12)[0]
+    doc = json.loads(raw[20:20 + json_size])
+    binary = raw[28 + json_size:]
+    material = doc['materials'][0]
+    pbr = material['pbrMetallicRoughness']
+    roles = {'albedo': pbr['baseColorTexture']['index'],
+             'normal': material['normalTexture']['index'],
+             'metallic_roughness': pbr['metallicRoughnessTexture']['index']}
+    removed = set()
+    for role, texture in roles.items():
+        image = doc['images'][doc['textures'][texture]['source']]
+        index = image['bufferView']
+        removed.add(index)
+        view = doc['bufferViews'][index]
+        data = binary[view.get('byteOffset', 0):view.get('byteOffset', 0) + view['byteLength']]
+        ext = '.png' if image['mimeType'] == 'image/png' else '.jpg'
+        filename = 'stone_' + role + ext
+        digest = hashlib.sha256(data).hexdigest()
+        if role in texture_hashes:
+            assert texture_hashes[role]['sha256'] == digest, 'Unexpected per-mesh texture duplication'
+        else:
+            texture_path = PACK / 'textures' / filename
+            texture_path.parent.mkdir(exist_ok=True)
+            texture_path.write_bytes(data)
+            texture_hashes[role] = {'path': 'textures/' + filename, 'sha256': digest,
+                                    'bytes': len(data), 'size': [1024, 1024]}
+        image.pop('bufferView')
+        image.pop('mimeType')
+        image['uri'] = '../textures/' + filename
+    views, remap, packed = [], {}, bytearray()
+    for index, view in enumerate(doc['bufferViews']):
+        if index in removed:
+            continue
+        while len(packed) % 4:
+            packed.append(0)
+        start = view.get('byteOffset', 0)
+        new = dict(view, byteOffset=len(packed))
+        packed.extend(binary[start:start + view['byteLength']])
+        remap[index] = len(views)
+        views.append(new)
+    for acc in doc['accessors']:
+        if 'bufferView' in acc:
+            acc['bufferView'] = remap[acc['bufferView']]
+    doc['bufferViews'] = views
+    doc['buffers'] = [{'byteLength': len(packed)}]
+    while len(packed) % 4:
+        packed.append(0)
+    encoded = json.dumps(doc, separators=(',', ':')).encode()
+    encoded += b' ' * (-len(encoded) % 4)
+    data = struct.pack('<III', 0x46546C67, 2, 28 + len(encoded) + len(packed))
+    data += struct.pack('<II', len(encoded), 0x4E4F534A) + encoded
+    data += struct.pack('<II', len(packed), 0x004E4942) + packed
+    # Exporters/Windows scanners can briefly hold the just-written GLB. Build
+    # the compact payload separately and replace it only after a complete write.
+    pending = path.with_suffix('.compact.tmp')
+    pending.write_bytes(data)
+    for attempt in range(20):
+        try:
+            pending.replace(path)
+            break
+        except OSError:
+            if attempt == 19:
+                raise
+            time.sleep(.1)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--rebuild', action='store_true')
@@ -76,16 +221,8 @@ def main():
     for obj in list(bpy.data.objects):
         if obj != generator:
             bpy.data.objects.remove(obj, do_unlink=True)
-    material = bpy.data.materials.new('CosmeticPebble_VertexPBR')
-    material.use_nodes = True
-    material.use_backface_culling = True
-    material.diffuse_color = (1, 1, 1, 1)
-    bsdf = material.node_tree.nodes.get('Principled BSDF')
-    bsdf.inputs['Roughness'].default_value = 0.93
-    bsdf.inputs['Metallic'].default_value = 0
-    color = material.node_tree.nodes.new('ShaderNodeVertexColor')
-    color.layer_name = 'Color'
-    material.node_tree.links.new(color.outputs['Color'], bsdf.inputs['Base Color'])
+    material, retained_images = stone_material()
+    texture_hashes = {}
     model_dir = PACK / 'models'
     model_dir.mkdir(exist_ok=True)
     records, library = [], []
@@ -113,12 +250,16 @@ def main():
             mesh = obj.data
             # Keep LOD extents/base identical; placement can share one transform.
             fit(mesh, entry['dimensions_blender_xyz_m'])
+            stone_uv(mesh, entry['dimensions_blender_xyz_m'], entry['seed'])
             mesh.materials.append(material)
+            for existing in list(mesh.color_attributes):
+                mesh.color_attributes.remove(existing)
             colors = mesh.color_attributes.new(name='Color', type='FLOAT_COLOR', domain='POINT')
             for vertex in mesh.vertices:
                 p = vertex.co / max(entry['dimensions_blender_xyz_m'])
                 variation = 0.91 + 0.18 * (0.5 + 0.5 * noise.noise(p * 5 + Vector((entry['seed'] % 41, 3, 7))))
-                colors.data[vertex.index].color = tuple(c * variation for c in entry['linear_color']) + (1,)
+                tint = max(entry['linear_color'])
+                colors.data[vertex.index].color = tuple(c / tint * variation for c in entry['linear_color']) + (1,)
             mesh.color_attributes.active_color = colors
             for polygon in mesh.polygons:
                 polygon.use_smooth = entry['smooth']
@@ -134,7 +275,10 @@ def main():
                                       export_yup=True, export_apply=True, export_extras=True,
                                       export_animations=False, export_cameras=False, export_lights=False,
                                       export_materials='EXPORT', export_normals=True,
-                                      export_all_vertex_colors=True)
+                                      export_tangents=True, export_texcoords=True,
+                                      export_vertex_color='NAME', export_vertex_color_name='Color',
+                                      export_all_vertex_colors=False)
+            share_glb_textures(path, texture_hashes)
             dims = entry['dimensions_blender_xyz_m']
             models.append({'file': path.name, 'sha256': sha(path), 'bytes': path.stat().st_size,
                            'lod': lod, 'triangles': triangle_count(mesh),
@@ -147,7 +291,8 @@ def main():
     for block in list(bpy.data.node_groups):
         bpy.data.node_groups.remove(block)
     for block in list(bpy.data.images):
-        bpy.data.images.remove(block)
+        if block not in retained_images:
+            bpy.data.images.remove(block)
     for index, obj in enumerate(library):
         obj.location = ((index // 3) * 0.38, (index % 3) * 0.3, 0)
         obj.asset_mark()
@@ -156,16 +301,27 @@ def main():
     bpy.context.scene.unit_settings.scale_length = 1
     bpy.ops.wm.save_as_mainfile(filepath=str(PACK / 'pebble_library.blend'), compress=True)
     assert sha(SOURCE) == source_hash, 'Original generator changed'
-    outputs = sorted(model_dir.glob('*.glb')) + [PACK / 'pebble_library.blend']
+    outputs = sorted(model_dir.glob('*.glb')) + [PACK / t['path'] for t in texture_hashes.values()] + [PACK / 'pebble_library.blend']
+    # Replaced encoded image files were hash-checked before authoring. Remove
+    # only those obsolete generated texture files from this owned package.
+    if previous_path.exists():
+        current = {p.resolve() for p in outputs}
+        for record in previous['files']:
+            old = (PACK / record['path']).resolve()
+            if old.parent == (PACK / 'textures').resolve() and old not in current:
+                old.unlink()
     manifest = {
         'version': recipe['version'], 'status': 'prepared_only_not_integrated',
         'source': SOURCE.relative_to(ROOT).as_posix(), 'source_sha256': source_hash,
         'source_branch': recipe['source_branch'], 'source_preserved': True,
         'builder': Path(__file__).relative_to(ROOT).as_posix(), 'builder_sha256': sha(Path(__file__)),
         'recipe_sha256': sha(PACK / 'recipes.json'), 'blender_version': bpy.app.version_string,
+        'field_presets_sha256': sha(PACK / 'field_presets.json'),
         'collision': False, 'vegetation': False, 'terrain_or_pedestal_geometry': False,
-        'material': {'name': material.name, 'opaque': True, 'roughness': 0.93,
-                     'metallic': 0, 'vertex_color': 'COLOR_0', 'textures': 0, 'surfaces_per_mesh': 1},
+        'material': {'name': material.name, 'opaque': True, 'normal_strength': .22,
+                     'metallic': 0, 'vertex_color': 'COLOR_0 tint', 'textures': texture_hashes, 'surfaces_per_mesh': 1,
+                     'source_images': ['ROCK_Base Color.jpeg', 'ROCK_Normal.jpeg', 'ROCK_Roughness.jpeg'],
+                     'sharing': 'All GLBs reference the same ../textures files. Preserve the models/textures directory relationship.'},
         'coordinates': 'GLB metres Y-up; base y=0; centered XZ; identity node transforms',
         'assets': records,
         'files': [{'path': p.relative_to(PACK).as_posix(), 'sha256': sha(p), 'bytes': p.stat().st_size} for p in outputs],

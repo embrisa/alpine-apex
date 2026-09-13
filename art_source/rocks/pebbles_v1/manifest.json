@@ -1,25 +1,60 @@
 {
-  "version": "rock-pebbles-v1",
+  "version": "rock-pebbles-v1-textured-gravel",
   "status": "prepared_only_not_integrated",
   "source": "art_source/blender/rock_generator.blend",
   "source_sha256": "f644a0d1b7505dbcd43687cba12630e39e6f7eac7f221ad067c9accf3df1687f",
   "source_branch": "Set Position.006",
   "source_preserved": true,
   "builder": "scripts/art/build_rock_pebbles.py",
-  "builder_sha256": "43814beabd392a0028cbf36e36be2b2342435396946ac47db0e345ec61cd2a96",
-  "recipe_sha256": "eb84887c0eba7dab3b9dfd57d25333457c9bef32ccd8f6a463e3ede7e6a2b36a",
+  "builder_sha256": "89678b4cb37dbba2cf2d82f1124454ed4f8a675cdf9520b781f170c0878018ab",
+  "recipe_sha256": "d12c8719031738e8b3d4c3054a58e18a1e6f4dce69ab1285f2256df22789b5a8",
   "blender_version": "5.2.1 LTS",
+  "field_presets_sha256": "2d25ba8e79e36497c3fe7b42f78851ea1f5d1120adb1c74c2b5014b4b895c37c",
   "collision": false,
   "vegetation": false,
   "terrain_or_pedestal_geometry": false,
   "material": {
-    "name": "CosmeticPebble_VertexPBR",
+    "name": "CosmeticPebble_TexturedPBR",
     "opaque": true,
-    "roughness": 0.93,
+    "normal_strength": 0.22,
     "metallic": 0,
-    "vertex_color": "COLOR_0",
-    "textures": 0,
-    "surfaces_per_mesh": 1
+    "vertex_color": "COLOR_0 tint",
+    "textures": {
+      "albedo": {
+        "path": "textures/stone_albedo.png",
+        "sha256": "673b040d4a3ac370f935dfbb5dfc426b50c0f31bb751bcc6de858962586b2dbc",
+        "bytes": 1304142,
+        "size": [
+          1024,
+          1024
+        ]
+      },
+      "normal": {
+        "path": "textures/stone_normal.png",
+        "sha256": "3b6a078d7dd57df24bcc877c64777bb61b379bcaa1e6033a8083478013b7596e",
+        "bytes": 2560818,
+        "size": [
+          1024,
+          1024
+        ]
+      },
+      "metallic_roughness": {
+        "path": "textures/stone_metallic_roughness.png",
+        "sha256": "567a799fa8d4177c15addf01117bf5ef3ab977384eaaf6713e2f6c649c7a7552",
+        "bytes": 255207,
+        "size": [
+          1024,
+          1024
+        ]
+      }
+    },
+    "surfaces_per_mesh": 1,
+    "source_images": [
+      "ROCK_Base Color.jpeg",
+      "ROCK_Normal.jpeg",
+      "ROCK_Roughness.jpeg"
+    ],
+    "sharing": "All GLBs reference the same ../textures files. Preserve the models/textures directory relationship."
   },
   "coordinates": "GLB metres Y-up; base y=0; centered XZ; identity node transforms",
   "assets": [
@@ -29,8 +64,8 @@
       "models": [
         {
           "file": "gravel_01_lod0.glb",
-          "sha256": "2015f639c95aa4dc1613373dbf84b7c7706b3f538cefa8e10fc0acf3e33b4ee2",
-          "bytes": 10376,
+          "sha256": "3f143d4c07a4e50d033759c38a57463ecc18ffec4cdc02b744051713d94141ba",
+          "bytes": 15920,
           "lod": 0,
           "triangles": 80,
           "dimensions_godot_xyz_m": [
@@ -41,8 +76,8 @@
         },
         {
           "file": "gravel_01_lod1.glb",
-          "sha256": "d5a2a92badcd4fa2d0c89056f214c7ab3b5432da307f56be6b3ddfba9ddade3f",
-          "bytes": 5816,
+          "sha256": "7675956bb140ea4bbaf4ebeb6b7edfd31226c169d09d9d6ca55bbce7a6985eb3",
+          "bytes": 8952,
           "lod": 1,
           "triangles": 40,
           "dimensions_godot_xyz_m": [
@@ -53,8 +88,8 @@
         },
         {
           "file": "gravel_01_lod2.glb",
-          "sha256": "98d0f8848e85165638a6eeb517c50394c9175921e30e34f5eab9f076a6cae47f",
-          "bytes": 3072,
+          "sha256": "38f333b5ab5efb56100cea624bf6fad970cb92cd6cdd97bd65769faa4ac9cfa2",
+          "bytes": 4768,
           "lod": 2,
           "triangles": 16,
           "dimensions_godot_xyz_m": [
@@ -71,8 +106,8 @@
       "models": [
         {
           "file": "gravel_02_lod0.glb",
-          "sha256": "58589f1d23d9c5cf85e44ebe948eb186fb629d43d5b9d3ce137fa528d69b88d8",
-          "bytes": 10380,
+          "sha256": "b69dc1d901135be212b793b1d8bf5b13d37355818186ec9df20e4dbad8a4c2bc",
+          "bytes": 15924,
           "lod": 0,
           "triangles": 80,
           "dimensions_godot_xyz_m": [
@@ -83,8 +118,8 @@
         },
         {
           "file": "gravel_02_lod1.glb",
-          "sha256": "72ca6486d16ced4d5fa7e2ea0dd913a5ff4c34f0c5e02910278c2b2d5256d961",
-          "bytes": 5820,
+          "sha256": "fb3b2b45504e91a2d6679bd283a985a3003b50128293e549696f545a69d6f48b",
+          "bytes": 8956,
           "lod": 1,
           "triangles": 40,
           "dimensions_godot_xyz_m": [
@@ -95,8 +130,8 @@
         },
         {
           "file": "gravel_02_lod2.glb",
-          "sha256": "49206b1b1e3077ea61fbe539dcb33c1ff349c485e4e7f7c6b5266ec7448e7dfb",
-          "bytes": 3076,
+          "sha256": "23e069d64f7931bd78b2d149d6e268325ed743d1edb88c3427d03d451db1f162",
+          "bytes": 4772,
           "lod": 2,
           "triangles": 16,
           "dimensions_godot_xyz_m": [
@@ -113,8 +148,8 @@
       "models": [
         {
           "file": "gravel_03_lod0.glb",
-          "sha256": "64dee68c62c06619473b82ebd8f50667cd4d44ac4add806f0c8aa157d1aa3916",
-          "bytes": 10376,
+          "sha256": "de6b8af20663902c6eb78cbe95f75e1d5756308302ea50825c4a7fb3e4512f89",
+          "bytes": 15920,
           "lod": 0,
           "triangles": 80,
           "dimensions_godot_xyz_m": [
@@ -125,8 +160,8 @@
         },
         {
           "file": "gravel_03_lod1.glb",
-          "sha256": "a839bcbc27e54a4fc9881f7dfe635ad8b409d753c3bf605d3c8d6fd36a353fa4",
-          "bytes": 5816,
+          "sha256": "c42ebc8e06ef053ce707078b9225b544ac8c3cc58311752c648cbcd5dae59d12",
+          "bytes": 8956,
           "lod": 1,
           "triangles": 40,
           "dimensions_godot_xyz_m": [
@@ -137,8 +172,8 @@
         },
         {
           "file": "gravel_03_lod2.glb",
-          "sha256": "c69af1cf76eafe0cccfa6f8224a7e1d826abe955b87ec2172e17a7fce14bf48d",
-          "bytes": 3072,
+          "sha256": "d64a162e5257d7205f4b5360579fc376d0563cba317fedc7122c476e32b48eca",
+          "bytes": 4768,
           "lod": 2,
           "triangles": 16,
           "dimensions_godot_xyz_m": [
@@ -155,8 +190,8 @@
       "models": [
         {
           "file": "pebble_01_lod0.glb",
-          "sha256": "cbc2c163e5bf347e90e569b3ade46b079af43482ad204457be0602ffb98e5de8",
-          "bytes": 3240,
+          "sha256": "2ac112832ffa5bef498fd3503848cd2cbcb762430ba442407f3d3d49e880fb75",
+          "bytes": 7172,
           "lod": 0,
           "triangles": 80,
           "dimensions_godot_xyz_m": [
@@ -167,8 +202,8 @@
         },
         {
           "file": "pebble_01_lod1.glb",
-          "sha256": "f50d8a1c0de8f314e6501d92ea785cb1c9fb6c3325c58e519590f93e95f3ba1a",
-          "bytes": 2280,
+          "sha256": "24567ec086a54260d84a003f16cfceaa8d620394797664ca0036e8090df78be7",
+          "bytes": 4968,
           "lod": 1,
           "triangles": 40,
           "dimensions_godot_xyz_m": [
@@ -179,8 +214,8 @@
         },
         {
           "file": "pebble_01_lod2.glb",
-          "sha256": "109c5d2a60069813e01c2e78ca84e1b2ced0c00e2dd9a07868dfb9c434cc9bca",
-          "bytes": 1700,
+          "sha256": "213ad55efcd9d2239b3b241ba9b61681e34c66907ac457da68f0659d49fa31a3",
+          "bytes": 3588,
           "lod": 2,
           "triangles": 16,
           "dimensions_godot_xyz_m": [
@@ -197,8 +232,8 @@
       "models": [
         {
           "file": "pebble_02_lod0.glb",
-          "sha256": "b6167a2e377cfd29058af53d2f37ccfde469c2c42d6f9e6d1beddc85af6a5c02",
-          "bytes": 3240,
+          "sha256": "7fd5d70a29bac4086540dee743c7aaf7013ef104c280541ec7b175813c13d2f8",
+          "bytes": 6664,
           "lod": 0,
           "triangles": 80,
           "dimensions_godot_xyz_m": [
@@ -209,8 +244,8 @@
         },
         {
           "file": "pebble_02_lod1.glb",
-          "sha256": "8cf532c671383f6110e817b6d8a4a1566f0bb2e4da35d1bebbce68a83a2587e7",
-          "bytes": 2280,
+          "sha256": "b5560c2787aee1dfc7d2bb9fec38922bde2b5bed39a5b7bdc3914bf9c2caaf27",
+          "bytes": 4968,
           "lod": 1,
           "triangles": 40,
           "dimensions_godot_xyz_m": [
@@ -221,8 +256,8 @@
         },
         {
           "file": "pebble_02_lod2.glb",
-          "sha256": "0cc32ed8ef41fdfcc2d1382ebd8a70995aba9e6ffb4a5b1c8affe79f3bed31bf",
-          "bytes": 1700,
+          "sha256": "93844fb6b8721640e354b93237897de9c910cd0e87c4ecb6ed34c160baf14889",
+          "bytes": 3644,
           "lod": 2,
           "triangles": 16,
           "dimensions_godot_xyz_m": [
@@ -239,8 +274,8 @@
       "models": [
         {
           "file": "pebble_03_lod0.glb",
-          "sha256": "f548a020c111a35cced72ff8539eea562a67c10fbcc74ebb9558435ef69af4c9",
-          "bytes": 3240,
+          "sha256": "e00acb8c721d00fdf0d86678a04fc185ca2580061a5dc4ce52c137d1aa5ad72f",
+          "bytes": 6720,
           "lod": 0,
           "triangles": 80,
           "dimensions_godot_xyz_m": [
@@ -251,8 +286,8 @@
         },
         {
           "file": "pebble_03_lod1.glb",
-          "sha256": "c45f5ae808ef7acabd073b89630a38fe632333d60f5f97cbf8adf2d5a0773259",
-          "bytes": 2280,
+          "sha256": "b1d898f0d90a530396197eb8be877ec98a46cc9fec569df67a0522563d8869d3",
+          "bytes": 4744,
           "lod": 1,
           "triangles": 40,
           "dimensions_godot_xyz_m": [
@@ -263,8 +298,8 @@
         },
         {
           "file": "pebble_03_lod2.glb",
-          "sha256": "a252341b6adc5ff3f792bff419e8b3168ef007648f1db88ef8e828f5d9c44a03",
-          "bytes": 1700,
+          "sha256": "086bf56c95f2a0b198dd160e8286e51340e62fe8f62c5e993b9ba06ded990065",
+          "bytes": 3588,
           "lod": 2,
           "triangles": 16,
           "dimensions_godot_xyz_m": [
@@ -281,8 +316,8 @@
       "models": [
         {
           "file": "shale_chip_01_lod0.glb",
-          "sha256": "9decf034f7e4618dbf879d0f93cd547d875df4a8c15ac96b86e30b18efc2d83c",
-          "bytes": 10380,
+          "sha256": "85d6329a099d9c9e3594914135cbea4b808ab2725098c880d7cebfe188c04d33",
+          "bytes": 15924,
           "lod": 0,
           "triangles": 80,
           "dimensions_godot_xyz_m": [
@@ -293,8 +328,8 @@
         },
         {
           "file": "shale_chip_01_lod1.glb",
-          "sha256": "5072a4509c781472421fe6ab221ac046bf55c3dfaf90b8ff3b7e4da139a3ab33",
-          "bytes": 5820,
+          "sha256": "e500e684dc5d8fe26dd2437e4859d84b5a992cd431bea10bcc6e9ced2bdb1021",
+          "bytes": 8956,
           "lod": 1,
           "triangles": 40,
           "dimensions_godot_xyz_m": [
@@ -305,8 +340,8 @@
         },
         {
           "file": "shale_chip_01_lod2.glb",
-          "sha256": "e08f8e5323bb03b8251d000746b20e3f19d9e2b86fa0183d3f421e8028b7f954",
-          "bytes": 3076,
+          "sha256": "f3387a64955aa637a903005205aa6ceabd7618686ad32f8866dbb6656111d4cd",
+          "bytes": 4772,
           "lod": 2,
           "triangles": 16,
           "dimensions_godot_xyz_m": [
@@ -323,8 +358,8 @@
       "models": [
         {
           "file": "shale_chip_02_lod0.glb",
-          "sha256": "4b15815457f51d1ce53e360d1bfd6222a9719582dc479aa6476fb6e76d491407",
-          "bytes": 10380,
+          "sha256": "5671c9f20f64d205cd18a3311671619a338dad5bad50d3c0a1d60fc2d061c0b3",
+          "bytes": 15924,
           "lod": 0,
           "triangles": 80,
           "dimensions_godot_xyz_m": [
@@ -335,8 +370,8 @@
         },
         {
           "file": "shale_chip_02_lod1.glb",
-          "sha256": "eae5fea6406f88d26fb3be23ed18a160bfcb006e4bbb44045f55d39bc93c9c1a",
-          "bytes": 5820,
+          "sha256": "c4f40b1cc6039377f81c967af57507060e017106141772b4ecf81651137d4271",
+          "bytes": 8956,
           "lod": 1,
           "triangles": 40,
           "dimensions_godot_xyz_m": [
@@ -347,8 +382,8 @@
         },
         {
           "file": "shale_chip_02_lod2.glb",
-          "sha256": "e2e9d0ac13c63dec9445f1a0d389f9ca162f2c4aa18c95f9b946a1b0b9e6ed87",
-          "bytes": 3076,
+          "sha256": "5e22a7027087f2e4bbfc620fa4478829728f43f91eae705b474aeaf9285802b9",
+          "bytes": 4772,
           "lod": 2,
           "triangles": 16,
           "dimensions_godot_xyz_m": [
@@ -365,8 +400,8 @@
       "models": [
         {
           "file": "shale_chip_03_lod0.glb",
-          "sha256": "964c35aa97b924b37ac630760606da09520ea6b2a3d919833190b337181b0bed",
-          "bytes": 10380,
+          "sha256": "4888e2cef4f681eaf25a0b88d6b1598d9d27f8df18d9a9d19ed66fb262994f5c",
+          "bytes": 15924,
           "lod": 0,
           "triangles": 80,
           "dimensions_godot_xyz_m": [
@@ -377,8 +412,8 @@
         },
         {
           "file": "shale_chip_03_lod1.glb",
-          "sha256": "fd6582a554792a0e136be81fc87bdfb79d213c9071be5d24195637ada0dd9ecb",
-          "bytes": 5820,
+          "sha256": "54839d77046e0cbb3e06ad9b8803bc0c44afe55fa690f66d0c93403cec2787fc",
+          "bytes": 8960,
           "lod": 1,
           "triangles": 40,
           "dimensions_godot_xyz_m": [
@@ -389,8 +424,8 @@
         },
         {
           "file": "shale_chip_03_lod2.glb",
-          "sha256": "0f943fa32ac2257aa1272c59a1aa11e889330babd11a8bb8a89c0c7da06c3144",
-          "bytes": 3076,
+          "sha256": "6a135d5c9dd292fdd0eb5654466c4d75145b3342cf0920ffb87b044cd6d9cc68",
+          "bytes": 4772,
           "lod": 2,
           "triangles": 16,
           "dimensions_godot_xyz_m": [
@@ -400,148 +435,334 @@
           ]
         }
       ]
+    },
+    {
+      "id": "grit_01",
+      "seed": 91431,
+      "models": [
+        {
+          "file": "grit_01_lod0.glb",
+          "sha256": "d5e8d090949eba5fb42d1499de03ed5927284e30fa1b01dbb1b198003969481d",
+          "bytes": 15920,
+          "lod": 0,
+          "triangles": 80,
+          "dimensions_godot_xyz_m": [
+            0.015,
+            0.009,
+            0.012
+          ]
+        },
+        {
+          "file": "grit_01_lod1.glb",
+          "sha256": "5af03ae78999591d997213928d6f988e2a251d37dd833303a58a1f6a38c99ddb",
+          "bytes": 8956,
+          "lod": 1,
+          "triangles": 40,
+          "dimensions_godot_xyz_m": [
+            0.015,
+            0.009,
+            0.012
+          ]
+        },
+        {
+          "file": "grit_01_lod2.glb",
+          "sha256": "e3274e7cf84ad74a28b0521753b29fb19ab12a330b068d9989c82bb5f9938f2f",
+          "bytes": 4768,
+          "lod": 2,
+          "triangles": 16,
+          "dimensions_godot_xyz_m": [
+            0.015,
+            0.009,
+            0.012
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grit_02",
+      "seed": 91432,
+      "models": [
+        {
+          "file": "grit_02_lod0.glb",
+          "sha256": "44c3bd4884278b2ff1f926ccf89e031a96d1542408cc8800a57febe135522c64",
+          "bytes": 15920,
+          "lod": 0,
+          "triangles": 80,
+          "dimensions_godot_xyz_m": [
+            0.023,
+            0.013,
+            0.018
+          ]
+        },
+        {
+          "file": "grit_02_lod1.glb",
+          "sha256": "f3c3f9e5c0c1cdf5664119a94f54b96b8cb0a8e8f53959367767429337feaada",
+          "bytes": 8956,
+          "lod": 1,
+          "triangles": 40,
+          "dimensions_godot_xyz_m": [
+            0.023,
+            0.013,
+            0.018
+          ]
+        },
+        {
+          "file": "grit_02_lod2.glb",
+          "sha256": "c2a4157ae349958515a58d29dc3f6a76f261308d529521cbde46349cc3ef740f",
+          "bytes": 4768,
+          "lod": 2,
+          "triangles": 16,
+          "dimensions_godot_xyz_m": [
+            0.023,
+            0.013,
+            0.018
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grit_03",
+      "seed": 91433,
+      "models": [
+        {
+          "file": "grit_03_lod0.glb",
+          "sha256": "1062b286d37aae3a33eb9ba09c677dbd6f49769c76eee63a52d519622964ea36",
+          "bytes": 15920,
+          "lod": 0,
+          "triangles": 80,
+          "dimensions_godot_xyz_m": [
+            0.032,
+            0.018,
+            0.022
+          ]
+        },
+        {
+          "file": "grit_03_lod1.glb",
+          "sha256": "a77930d12b4ee6e4266c27d240d56305740664ca97955f7785cde7663717c3ab",
+          "bytes": 8956,
+          "lod": 1,
+          "triangles": 40,
+          "dimensions_godot_xyz_m": [
+            0.032,
+            0.018,
+            0.022
+          ]
+        },
+        {
+          "file": "grit_03_lod2.glb",
+          "sha256": "c63fff264a428fc0841e2b77e30c14d76fdfc769a954294948f798c2cad0fe71",
+          "bytes": 4768,
+          "lod": 2,
+          "triangles": 16,
+          "dimensions_godot_xyz_m": [
+            0.032,
+            0.018,
+            0.022
+          ]
+        }
+      ]
     }
   ],
   "files": [
     {
       "path": "models/gravel_01_lod0.glb",
-      "sha256": "2015f639c95aa4dc1613373dbf84b7c7706b3f538cefa8e10fc0acf3e33b4ee2",
-      "bytes": 10376
+      "sha256": "3f143d4c07a4e50d033759c38a57463ecc18ffec4cdc02b744051713d94141ba",
+      "bytes": 15920
     },
     {
       "path": "models/gravel_01_lod1.glb",
-      "sha256": "d5a2a92badcd4fa2d0c89056f214c7ab3b5432da307f56be6b3ddfba9ddade3f",
-      "bytes": 5816
+      "sha256": "7675956bb140ea4bbaf4ebeb6b7edfd31226c169d09d9d6ca55bbce7a6985eb3",
+      "bytes": 8952
     },
     {
       "path": "models/gravel_01_lod2.glb",
-      "sha256": "98d0f8848e85165638a6eeb517c50394c9175921e30e34f5eab9f076a6cae47f",
-      "bytes": 3072
+      "sha256": "38f333b5ab5efb56100cea624bf6fad970cb92cd6cdd97bd65769faa4ac9cfa2",
+      "bytes": 4768
     },
     {
       "path": "models/gravel_02_lod0.glb",
-      "sha256": "58589f1d23d9c5cf85e44ebe948eb186fb629d43d5b9d3ce137fa528d69b88d8",
-      "bytes": 10380
+      "sha256": "b69dc1d901135be212b793b1d8bf5b13d37355818186ec9df20e4dbad8a4c2bc",
+      "bytes": 15924
     },
     {
       "path": "models/gravel_02_lod1.glb",
-      "sha256": "72ca6486d16ced4d5fa7e2ea0dd913a5ff4c34f0c5e02910278c2b2d5256d961",
-      "bytes": 5820
+      "sha256": "fb3b2b45504e91a2d6679bd283a985a3003b50128293e549696f545a69d6f48b",
+      "bytes": 8956
     },
     {
       "path": "models/gravel_02_lod2.glb",
-      "sha256": "49206b1b1e3077ea61fbe539dcb33c1ff349c485e4e7f7c6b5266ec7448e7dfb",
-      "bytes": 3076
+      "sha256": "23e069d64f7931bd78b2d149d6e268325ed743d1edb88c3427d03d451db1f162",
+      "bytes": 4772
     },
     {
       "path": "models/gravel_03_lod0.glb",
-      "sha256": "64dee68c62c06619473b82ebd8f50667cd4d44ac4add806f0c8aa157d1aa3916",
-      "bytes": 10376
+      "sha256": "de6b8af20663902c6eb78cbe95f75e1d5756308302ea50825c4a7fb3e4512f89",
+      "bytes": 15920
     },
     {
       "path": "models/gravel_03_lod1.glb",
-      "sha256": "a839bcbc27e54a4fc9881f7dfe635ad8b409d753c3bf605d3c8d6fd36a353fa4",
-      "bytes": 5816
+      "sha256": "c42ebc8e06ef053ce707078b9225b544ac8c3cc58311752c648cbcd5dae59d12",
+      "bytes": 8956
     },
     {
       "path": "models/gravel_03_lod2.glb",
-      "sha256": "c69af1cf76eafe0cccfa6f8224a7e1d826abe955b87ec2172e17a7fce14bf48d",
-      "bytes": 3072
+      "sha256": "d64a162e5257d7205f4b5360579fc376d0563cba317fedc7122c476e32b48eca",
+      "bytes": 4768
+    },
+    {
+      "path": "models/grit_01_lod0.glb",
+      "sha256": "d5e8d090949eba5fb42d1499de03ed5927284e30fa1b01dbb1b198003969481d",
+      "bytes": 15920
+    },
+    {
+      "path": "models/grit_01_lod1.glb",
+      "sha256": "5af03ae78999591d997213928d6f988e2a251d37dd833303a58a1f6a38c99ddb",
+      "bytes": 8956
+    },
+    {
+      "path": "models/grit_01_lod2.glb",
+      "sha256": "e3274e7cf84ad74a28b0521753b29fb19ab12a330b068d9989c82bb5f9938f2f",
+      "bytes": 4768
+    },
+    {
+      "path": "models/grit_02_lod0.glb",
+      "sha256": "44c3bd4884278b2ff1f926ccf89e031a96d1542408cc8800a57febe135522c64",
+      "bytes": 15920
+    },
+    {
+      "path": "models/grit_02_lod1.glb",
+      "sha256": "f3c3f9e5c0c1cdf5664119a94f54b96b8cb0a8e8f53959367767429337feaada",
+      "bytes": 8956
+    },
+    {
+      "path": "models/grit_02_lod2.glb",
+      "sha256": "c2a4157ae349958515a58d29dc3f6a76f261308d529521cbde46349cc3ef740f",
+      "bytes": 4768
+    },
+    {
+      "path": "models/grit_03_lod0.glb",
+      "sha256": "1062b286d37aae3a33eb9ba09c677dbd6f49769c76eee63a52d519622964ea36",
+      "bytes": 15920
+    },
+    {
+      "path": "models/grit_03_lod1.glb",
+      "sha256": "a77930d12b4ee6e4266c27d240d56305740664ca97955f7785cde7663717c3ab",
+      "bytes": 8956
+    },
+    {
+      "path": "models/grit_03_lod2.glb",
+      "sha256": "c63fff264a428fc0841e2b77e30c14d76fdfc769a954294948f798c2cad0fe71",
+      "bytes": 4768
     },
     {
       "path": "models/pebble_01_lod0.glb",
-      "sha256": "cbc2c163e5bf347e90e569b3ade46b079af43482ad204457be0602ffb98e5de8",
-      "bytes": 3240
+      "sha256": "2ac112832ffa5bef498fd3503848cd2cbcb762430ba442407f3d3d49e880fb75",
+      "bytes": 7172
     },
     {
       "path": "models/pebble_01_lod1.glb",
-      "sha256": "f50d8a1c0de8f314e6501d92ea785cb1c9fb6c3325c58e519590f93e95f3ba1a",
-      "bytes": 2280
+      "sha256": "24567ec086a54260d84a003f16cfceaa8d620394797664ca0036e8090df78be7",
+      "bytes": 4968
     },
     {
       "path": "models/pebble_01_lod2.glb",
-      "sha256": "109c5d2a60069813e01c2e78ca84e1b2ced0c00e2dd9a07868dfb9c434cc9bca",
-      "bytes": 1700
+      "sha256": "213ad55efcd9d2239b3b241ba9b61681e34c66907ac457da68f0659d49fa31a3",
+      "bytes": 3588
     },
     {
       "path": "models/pebble_02_lod0.glb",
-      "sha256": "b6167a2e377cfd29058af53d2f37ccfde469c2c42d6f9e6d1beddc85af6a5c02",
-      "bytes": 3240
+      "sha256": "7fd5d70a29bac4086540dee743c7aaf7013ef104c280541ec7b175813c13d2f8",
+      "bytes": 6664
     },
     {
       "path": "models/pebble_02_lod1.glb",
-      "sha256": "8cf532c671383f6110e817b6d8a4a1566f0bb2e4da35d1bebbce68a83a2587e7",
-      "bytes": 2280
+      "sha256": "b5560c2787aee1dfc7d2bb9fec38922bde2b5bed39a5b7bdc3914bf9c2caaf27",
+      "bytes": 4968
     },
     {
       "path": "models/pebble_02_lod2.glb",
-      "sha256": "0cc32ed8ef41fdfcc2d1382ebd8a70995aba9e6ffb4a5b1c8affe79f3bed31bf",
-      "bytes": 1700
+      "sha256": "93844fb6b8721640e354b93237897de9c910cd0e87c4ecb6ed34c160baf14889",
+      "bytes": 3644
     },
     {
       "path": "models/pebble_03_lod0.glb",
-      "sha256": "f548a020c111a35cced72ff8539eea562a67c10fbcc74ebb9558435ef69af4c9",
-      "bytes": 3240
+      "sha256": "e00acb8c721d00fdf0d86678a04fc185ca2580061a5dc4ce52c137d1aa5ad72f",
+      "bytes": 6720
     },
     {
       "path": "models/pebble_03_lod1.glb",
-      "sha256": "c45f5ae808ef7acabd073b89630a38fe632333d60f5f97cbf8adf2d5a0773259",
-      "bytes": 2280
+      "sha256": "b1d898f0d90a530396197eb8be877ec98a46cc9fec569df67a0522563d8869d3",
+      "bytes": 4744
     },
     {
       "path": "models/pebble_03_lod2.glb",
-      "sha256": "a252341b6adc5ff3f792bff419e8b3168ef007648f1db88ef8e828f5d9c44a03",
-      "bytes": 1700
+      "sha256": "086bf56c95f2a0b198dd160e8286e51340e62fe8f62c5e993b9ba06ded990065",
+      "bytes": 3588
     },
     {
       "path": "models/shale_chip_01_lod0.glb",
-      "sha256": "9decf034f7e4618dbf879d0f93cd547d875df4a8c15ac96b86e30b18efc2d83c",
-      "bytes": 10380
+      "sha256": "85d6329a099d9c9e3594914135cbea4b808ab2725098c880d7cebfe188c04d33",
+      "bytes": 15924
     },
     {
       "path": "models/shale_chip_01_lod1.glb",
-      "sha256": "5072a4509c781472421fe6ab221ac046bf55c3dfaf90b8ff3b7e4da139a3ab33",
-      "bytes": 5820
+      "sha256": "e500e684dc5d8fe26dd2437e4859d84b5a992cd431bea10bcc6e9ced2bdb1021",
+      "bytes": 8956
     },
     {
       "path": "models/shale_chip_01_lod2.glb",
-      "sha256": "e08f8e5323bb03b8251d000746b20e3f19d9e2b86fa0183d3f421e8028b7f954",
-      "bytes": 3076
+      "sha256": "f3387a64955aa637a903005205aa6ceabd7618686ad32f8866dbb6656111d4cd",
+      "bytes": 4772
     },
     {
       "path": "models/shale_chip_02_lod0.glb",
-      "sha256": "4b15815457f51d1ce53e360d1bfd6222a9719582dc479aa6476fb6e76d491407",
-      "bytes": 10380
+      "sha256": "5671c9f20f64d205cd18a3311671619a338dad5bad50d3c0a1d60fc2d061c0b3",
+      "bytes": 15924
     },
     {
       "path": "models/shale_chip_02_lod1.glb",
-      "sha256": "eae5fea6406f88d26fb3be23ed18a160bfcb006e4bbb44045f55d39bc93c9c1a",
-      "bytes": 5820
+      "sha256": "c4f40b1cc6039377f81c967af57507060e017106141772b4ecf81651137d4271",
+      "bytes": 8956
     },
     {
       "path": "models/shale_chip_02_lod2.glb",
-      "sha256": "e2e9d0ac13c63dec9445f1a0d389f9ca162f2c4aa18c95f9b946a1b0b9e6ed87",
-      "bytes": 3076
+      "sha256": "5e22a7027087f2e4bbfc620fa4478829728f43f91eae705b474aeaf9285802b9",
+      "bytes": 4772
     },
     {
       "path": "models/shale_chip_03_lod0.glb",
-      "sha256": "964c35aa97b924b37ac630760606da09520ea6b2a3d919833190b337181b0bed",
-      "bytes": 10380
+      "sha256": "4888e2cef4f681eaf25a0b88d6b1598d9d27f8df18d9a9d19ed66fb262994f5c",
+      "bytes": 15924
     },
     {
       "path": "models/shale_chip_03_lod1.glb",
-      "sha256": "fd6582a554792a0e136be81fc87bdfb79d213c9071be5d24195637ada0dd9ecb",
-      "bytes": 5820
+      "sha256": "54839d77046e0cbb3e06ad9b8803bc0c44afe55fa690f66d0c93403cec2787fc",
+      "bytes": 8960
     },
     {
       "path": "models/shale_chip_03_lod2.glb",
-      "sha256": "0f943fa32ac2257aa1272c59a1aa11e889330babd11a8bb8a89c0c7da06c3144",
-      "bytes": 3076
+      "sha256": "6a135d5c9dd292fdd0eb5654466c4d75145b3342cf0920ffb87b044cd6d9cc68",
+      "bytes": 4772
+    },
+    {
+      "path": "textures/stone_albedo.png",
+      "sha256": "673b040d4a3ac370f935dfbb5dfc426b50c0f31bb751bcc6de858962586b2dbc",
+      "bytes": 1304142
+    },
+    {
+      "path": "textures/stone_normal.png",
+      "sha256": "3b6a078d7dd57df24bcc877c64777bb61b379bcaa1e6033a8083478013b7596e",
+      "bytes": 2560818
+    },
+    {
+      "path": "textures/stone_metallic_roughness.png",
+      "sha256": "567a799fa8d4177c15addf01117bf5ef3ab977384eaaf6713e2f6c649c7a7552",
+      "bytes": 255207
     },
     {
       "path": "pebble_library.blend",
-      "sha256": "9c0d55c14eba403ba97f75f827034689f6c7282a276301560cefa67efda933a9",
-      "bytes": 203000
+      "sha256": "57335bcf271f74c02f2ed30f9b637e3fb4159d7b659087029195c3961c9795e7",
+      "bytes": 4275652
     }
   ]
 }

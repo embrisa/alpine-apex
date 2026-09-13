@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 PACK = ROOT / 'art_source/rocks/pebbles_v1'
-OUT = ROOT / 'artifacts/rock_pebbles_20260914'
+OUT = ROOT / 'artifacts/rock_pebble_textures_20260914'
 
 
 def sha(path):
@@ -17,7 +17,7 @@ def sha(path):
 def accessor(doc, binary, index):
     acc = doc['accessors'][index]
     view = doc['bufferViews'][acc['bufferView']]
-    widths = {'SCALAR': 1, 'VEC3': 3, 'VEC4': 4}
+    widths = {'SCALAR': 1, 'VEC2': 2, 'VEC3': 3, 'VEC4': 4}
     formats = {5126: 'f', 5125: 'I', 5123: 'H', 5121: 'B'}
     fmt = '<' + formats[acc['componentType']] * widths[acc['type']]
     stride = view.get('byteStride', struct.calcsize(fmt))
@@ -32,6 +32,12 @@ def main():
     assert sha(ROOT / manifest['source']) == manifest['source_sha256']
     assert sha(ROOT / manifest['builder']) == manifest['builder_sha256']
     assert sha(PACK / 'recipes.json') == manifest['recipe_sha256']
+    assert sha(PACK / 'field_presets.json') == manifest['field_presets_sha256']
+    presets = json.loads((PACK / 'field_presets.json').read_text())
+    asset_ids = {a['id'] for a in manifest['assets']}
+    for preset in presets['presets']:
+        assert abs(sum(m['fraction'] for m in preset['population_mix']) - 1) < 1e-6
+        assert all(name in asset_ids for m in preset['population_mix'] for name in m['assets'])
     for record in manifest['files']:
         path = PACK / record['path']
         assert sha(path) == record['sha256'] and path.stat().st_size == record['bytes'], path
@@ -49,7 +55,13 @@ def main():
             assert kind == 0x004E4942
             binary = raw[28+length:28+length+binary_length]
             assert len(doc['meshes']) == len(doc['nodes']) == len(doc['materials']) == 1
-            assert all(not doc.get(key) for key in ['animations', 'skins', 'images', 'textures', 'cameras', 'extensionsRequired'])
+            assert all(not doc.get(key) for key in ['animations', 'skins', 'cameras', 'extensionsRequired'])
+            assert len(doc['images']) == len(doc['textures']) == 3
+            for image in doc['images']:
+                assert 'bufferView' not in image
+                image_path = (path.parent / image['uri']).resolve()
+                assert image_path.parent == (PACK / 'textures').resolve()
+                assert image_path.is_file()
             assert all('uri' not in buffer for buffer in doc['buffers'])
             node = doc['nodes'][0]
             assert node['extras']['asset_role'] == 'cosmetic_rock_pebble'
@@ -61,15 +73,26 @@ def main():
             assert material.get('alphaMode', 'OPAQUE') == 'OPAQUE'
             assert not material.get('doubleSided', False)
             assert material['pbrMetallicRoughness']['metallicFactor'] == 0
-            assert abs(material['pbrMetallicRoughness']['roughnessFactor'] - .93) < 1e-5
+            assert all(key in material['pbrMetallicRoughness'] for key in ['baseColorTexture', 'metallicRoughnessTexture'])
+            assert abs(material['normalTexture']['scale'] - .22) < 1e-5
+            for role, texture in [('albedo', material['pbrMetallicRoughness']['baseColorTexture']),
+                                  ('normal', material['normalTexture']),
+                                  ('metallic_roughness', material['pbrMetallicRoughness']['metallicRoughnessTexture'])]:
+                assert texture.get('texCoord', 0) == 0
+                image = doc['images'][doc['textures'][texture['index']]['source']]
+                image_path = (path.parent / image['uri']).resolve()
+                assert sha(image_path) == manifest['material']['textures'][role]['sha256']
             assert len(doc['meshes'][0]['primitives']) == 1
             primitive = doc['meshes'][0]['primitives'][0]
             attrs = primitive['attributes']
-            assert all(key in attrs for key in ['POSITION', 'NORMAL', 'COLOR_0'])
+            assert all(key in attrs for key in ['POSITION', 'NORMAL', 'COLOR_0', 'TEXCOORD_0', 'TANGENT'])
             positions = accessor(doc, binary, attrs['POSITION'])
             normals = accessor(doc, binary, attrs['NORMAL'])
             colors = accessor(doc, binary, attrs['COLOR_0'])
-            assert all(math.isfinite(v) for row in positions + normals + colors for v in row)
+            uvs = accessor(doc, binary, attrs['TEXCOORD_0'])
+            tangents = accessor(doc, binary, attrs['TANGENT'])
+            assert all(math.isfinite(v) for row in positions + normals + colors + uvs + tangents for v in row)
+            assert max(uv[0] for uv in uvs) - min(uv[0] for uv in uvs) > .02
             assert all(abs(sum(v*v for v in normal) - 1) < .001 for normal in normals)
             lower = [min(p[i] for p in positions) for i in range(3)]
             upper = [max(p[i] for p in positions) for i in range(3)]
@@ -102,7 +125,7 @@ def main():
     OUT.mkdir(exist_ok=True)
     report = {'result': 'passed', 'models_checked': len(checked), 'files': checked,
               'manifest_sha256': sha(PACK / 'manifest.json'),
-              'checks': 'Source/export hashes, embedded GLB, identity transforms, one opaque mesh/material, no collision/vegetation, dimensions/base, normals/colors, exact LOD triangles, closed connected topology',
+              'checks': 'Source/export and shared PBR map hashes, embedded geometry and relative texture links, UVs/tangents, field preset references, identity transforms, one opaque mesh/material, no collision/vegetation, dimensions/base, normals/colors, exact LOD triangles, closed connected topology',
               'scope': 'Prepared assets only; no runtime placement or performance acceptance'}
     (OUT / 'asset_validation.json').write_text(json.dumps(report, indent=2) + '\n')
     print('PEBBLE_VALIDATION', len(checked), 'models passed')

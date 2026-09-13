@@ -199,8 +199,10 @@ remains unintegrated. Grass performance acceptance remains a separate task gate.
 
 Cosmetic rock-terrain detail is prepared in
 [`art_source/rocks/pebbles_v1/`](../art_source/rocks/pebbles_v1/README.md).
-`scripts/prepare_rock_pebbles.ps1` builds, checks and previews nine standalone
-gravel/pebble/shale shapes extracted from the supplied generator's stone branch.
+`scripts/prepare_rock_pebbles.ps1` builds, checks and previews twelve standalone
+grit/gravel/pebble/shale shapes extracted from the supplied generator's stone branch,
+with shared source-derived albedo, normal and roughness textures. Field presets
+describe dense gravel beds with irregular edges and sparse rock accents.
 The package README owns rebuild commands and the integration contract; its
 manifest owns dimensions, detail levels and source/export hashes. The pack has
 no collision and remains outside production imports until runtime integration.

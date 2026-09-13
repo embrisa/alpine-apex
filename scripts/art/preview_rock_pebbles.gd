@@ -11,6 +11,9 @@ var subtitle: Label
 var failures: Array[String] = []
 var checks := 0
 var captures: Array[String] = []
+var templates: Dictionary = {}
+var shared_material: StandardMaterial3D
+var gravel_count := 0
 
 func _initialize() -> void:
 	call_deferred("run")
@@ -22,6 +25,7 @@ func check(ok: bool, label: String) -> void:
 		printerr("FAIL: ", label)
 
 func load_asset(model: Dictionary) -> Node3D:
+	if templates.has(model.file): return templates[model.file].duplicate() as Node3D
 	var doc := GLTFDocument.new()
 	var state := GLTFState.new()
 	var path := asset_root.path_join("models").path_join(model.file)
@@ -47,8 +51,26 @@ func load_asset(model: Dictionary) -> Node3D:
 		if mat != null:
 			# Direct GLTFDocument needs the COLOR_0 switch in the current editor.
 			mat.vertex_color_use_as_albedo = true
+			mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 			check(mat.transparency == BaseMaterial3D.TRANSPARENCY_DISABLED, "Opaque")
 			check(mat.cull_mode == BaseMaterial3D.CULL_BACK, "Backface culling")
+			check(mat.albedo_texture != null and mat.normal_texture != null and mat.roughness_texture != null, "Three PBR maps")
+			check(mat.normal_enabled, "Normal map enabled")
+			if mat.albedo_texture != null: check(mat.albedo_texture.get_size() == Vector2(1024,1024), "Shared 1K albedo")
+			var uv = arrays[Mesh.ARRAY_TEX_UV]
+			check(uv != null and not uv.is_empty(), "Mapped stone UV")
+			if shared_material == null:
+				# Direct GLTFDocument has no editor texture-import stage. Generate
+				# mipmaps once for this isolated review, including normal renormalization.
+				for property in ["albedo_texture","normal_texture","roughness_texture"]:
+					var tex: Texture2D = mat.get(property)
+					if tex != null:
+						var pixels := tex.get_image()
+						pixels.generate_mipmaps(property == "normal_texture")
+						mat.set(property,ImageTexture.create_from_image(pixels))
+				shared_material = mat
+			child.mesh.surface_set_material(0,shared_material)
+	templates[model.file] = node.duplicate()
 	return node
 
 func reset_display() -> void:
@@ -129,14 +151,14 @@ func run() -> void:
 			var node := load_asset(model)
 			node.free()
 	reset_display()
-	heading.text = "ROCK DETAIL  /  GRAVEL, PEBBLES & SHALE CHIPS"
-	subtitle.text = "Actual relative sizes, 5-28 cm  |  80 triangles each  |  Cosmetic meshes, no collision"
+	heading.text = "TEXTURED ROCK DETAIL  /  GRIT, GRAVEL, PEBBLES & SHALE"
+	subtitle.text = "Actual relative sizes, 1.5-28 cm  |  Shared albedo, normal & roughness maps  |  No collision"
 	for i in catalog.assets.size():
 		var record: Dictionary = catalog.assets[i]
-		var p := Vector3((i%3-1)*.44, 0, (i/3-1)*.37)
+		var p := Vector3((i%3-1)*.44, 0, (i/3-1.5)*.34)
 		add_model(record,0,p,.3)
 		label("%s / %.0f cm" % [record.id,record.models[0].dimensions_godot_xyz_m[0]*100],p+Vector3(0,-.03,.15))
-	camera.size = 1.45
+	camera.size = 1.6
 	camera.position = Vector3(0,1.7,2.5)
 	camera.look_at(Vector3.ZERO)
 	await capture("collection")
@@ -152,31 +174,62 @@ func run() -> void:
 	camera.size = 1.15
 	await capture("lod_comparison")
 	reset_display()
-	heading.text = "SURFACE DETAIL  /  ISOLATED ARRANGEMENT"
-	subtitle.text = "Visual density example on a review plane  |  Production rock masking, snow and FPS remain integration work"
+	heading.text = "STONE SURFACE DETAIL"
+	subtitle.text = "Generator-sourced rock textures  |  Close asset view; actual placement remains integration work"
+	add_model(catalog.assets[5],0,Vector3(-.17,0,0),.3)
+	add_model(catalog.assets[8],0,Vector3(.17,0,0),-.25)
+	camera.size = .57
+	camera.position = Vector3(0,.7,1.1)
+	camera.look_at(Vector3.ZERO)
+	await capture("texture_detail")
+	reset_display()
+	heading.text = "GRAVEL BED  /  DENSE CORE & IRREGULAR EDGES"
+	subtitle.text = "Mostly 1.5-3 cm grit with larger accents  |  Review plane only; production terrain and FPS remain integration work"
 	var floor_node := MeshInstance3D.new()
 	var plane := PlaneMesh.new()
-	plane.size = Vector2(2.3,2.3)
+	plane.size = Vector2(1.8,1.6)
 	floor_node.mesh = plane
 	var material := StandardMaterial3D.new()
-	material.albedo_color = Color(.31,.32,.33)
+	material.albedo_color = Color(.22,.215,.21)
 	material.roughness = 1
 	floor_node.material_override = material
 	display.add_child(floor_node)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 914
-	for i in 220:
-		var selected := rng.randi_range(0,5) if i%7 != 0 else rng.randi_range(6,8)
+	var placed: Array[Vector3] = []
+	# Larger accents first, then fill their gaps with grit. This is an authoring
+	# arrangement, not the production scatter algorithm or a cost benchmark.
+	for i in 45000:
+		if placed.size() >= 1700: break
+		var selected := rng.randi_range(9,11)
+		if placed.size() < 8: selected = rng.randi_range(3,8)
+		elif placed.size() < 210: selected = rng.randi_range(0,2)
 		var record: Dictionary = catalog.assets[selected]
-		add_model(record,0,Vector3(rng.randf_range(-1,1),-.004,rng.randf_range(-1,1)),rng.randf_range(0,TAU))
-	camera.size = 2.1
-	camera.position = Vector3(0,2.2,2.8)
+		var x := rng.randf_range(-.76,.76)
+		var z := rng.randf_range(-.64,.64)
+		var angle := atan2(z/.64,x/.76)
+		var boundary := .90 + .075*sin(angle*5) + .055*cos(angle*9)
+		var distance := Vector2(x/.76,z/.64).length()
+		if distance > boundary or rng.randf() > clampf((boundary-distance)*7,0,1): continue
+		var radius: float = record.models[0].dimensions_godot_xyz_m[0]*.40
+		var clear := true
+		for previous in placed:
+			if Vector2(x-previous.x,z-previous.z).length_squared() < pow(radius+previous.y,2):
+				clear = false
+				break
+		if not clear: continue
+		placed.append(Vector3(x,radius,z))
+		add_model(record,0,Vector3(x,-.001,z),rng.randf_range(0,TAU))
+	gravel_count = placed.size()
+	camera.size = 1.60
+	camera.position = Vector3(0,1.8,2.2)
 	camera.look_at(Vector3.ZERO)
-	await capture("surface_detail")
-	var report := {"checks":checks,"failures":failures,"models_checked":27,"captures":captures,
+	await capture("gravel_field")
+	var report := {"checks":checks,"failures":failures,"models_checked":templates.size(),"captures":captures,"gravel_arrangement_stones":gravel_count,
 		"manifest_sha256":FileAccess.get_sha256(asset_root.path_join("manifest.json")),
 		"engine":Engine.get_version_info(),"adapter":RenderingServer.get_video_adapter_name(),
 		"renderer":"gl_compatibility","scope":"Isolated asset review; no game terrain or performance acceptance"}
 	FileAccess.open(output.path_join("native_validation.json"),FileAccess.WRITE).store_string(JSON.stringify(report,"\t")+"\n")
 	print("PEBBLE_NATIVE_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"captures":captures.size()}))
+	for template in templates.values(): template.free()
 	quit(0 if failures.is_empty() else 1)

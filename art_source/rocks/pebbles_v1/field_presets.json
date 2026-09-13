@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "status": "authoring_guidance_runtime_measurement_pending",
+  "intent": "Dense natural gravel beds on exposed rock, with irregular patch edges and sparse larger accents; entirely cosmetic",
+  "presets": [
+    {
+      "id": "gravel_bed",
+      "patch_width_m": [2.0, 6.0],
+      "core_stones_per_m2_starting_point": 1100,
+      "edge_falloff_m": [0.4, 1.2],
+      "population_mix": [
+        {"assets": ["grit_01", "grit_02", "grit_03"], "fraction": 0.74},
+        {"assets": ["gravel_01", "gravel_02", "gravel_03"], "fraction": 0.22},
+        {"assets": ["pebble_01", "pebble_02", "pebble_03"], "fraction": 0.035},
+        {"assets": ["shale_chip_01", "shale_chip_02", "shale_chip_03"], "fraction": 0.005}
+      ]
+    },
+    {
+      "id": "sparse_rock_accents",
+      "core_stones_per_m2_starting_point": 8,
+      "population_mix": [
+        {"assets": ["grit_01", "grit_02", "grit_03"], "fraction": 0.2},
+        {"assets": ["gravel_01", "gravel_02", "gravel_03"], "fraction": 0.55},
+        {"assets": ["pebble_01", "pebble_02", "pebble_03"], "fraction": 0.2},
+        {"assets": ["shale_chip_01", "shale_chip_02", "shale_chip_03"], "fraction": 0.05}
+      ]
+    }
+  ],
+  "placement": "Deterministic clustered fields from shared rock surface data. Vary core density and edge shape; reject snow/grass and implausible steep faces. Seat along terrain normals, avoid overlapping/stacked silhouettes, and fill gaps with smaller stones.",
+  "performance_boundary": "Densities are starting points for appearance, not approved runtime budgets. Use bounded batches and residency; measure dense and sparse modes independently and preserve the gravel-bed appearance when choosing a representation."
+}
