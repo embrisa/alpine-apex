@@ -5,7 +5,7 @@ status: done
 priority: P2
 depends_on: []
 created: "2026-09-12T17:33:04Z"
-updated: "2026-09-12T23:50:27Z"
+updated: "2026-09-13T10:27:21Z"
 source_thread: "01a096ab-35cf-76e3-b11a-44ff6cf61ca8"
 ---
 
@@ -19,8 +19,9 @@ locate the problem in **small hops and uneven snow**. Landing should produce a
 short, readable leg/body compression followed by a controlled return to riding.
 Ordinary reachable bumps should avoid immediate touchdown rebound while allowing
 occasional natural terrain departures. The latest agreed rough-snow target is
-about 2.5 hops (two to three in bounded regression samples), softened from the
-model-31 one-hop result that the user found too heavy.
+about 3.5 hops (three to four in bounded regression samples). The user now
+prioritizes medium-lip airtime at speed while keeping snow resistance and
+absorbed landings; the earlier one-hop and 2.5-hop targets felt too grounded.
 Preserve intentional jumps and natural departure over genuine terrain lips.
 
 ## Current state and evidence
@@ -122,6 +123,25 @@ did not reproduce the bounce, run an engine workload or establish its cause.
    so it alone cannot prove current gameplay-camera acceptance.
 
 ## Acceptance and verification
+
+Latest feedback: high-speed downhill skiing still feels too grounded and muddy
+over medium lips. Aim around 3.5 rough-test departures while preserving landing
+absorption. Model 34 trial is implemented and pushed as `c3b2a15`.
+
+- [x] Rough world: four departures; obstacle-free companion: three, averaging
+  3.5 across two distinct scenarios. Smooth snow remains grounded.
+- [x] A 0.8 m / 16 m lip now gives .725/.900 seconds of flight at 120/160 km/h,
+  then at least one second of supported recovery. A 0.3 m bank stays absorbed.
+- [x] 983 checks pass, including full physics/runtime, jumps/drops, current
+  steering, snow/impact/replay contracts and bounded landing/terrain checks.
+- [x] Matched before/after side and current chase captures each match all 1,800
+  headless ticks. Prior settings are frozen on the current solver. Human feel
+  remains pending; no animation-clearance or scene-performance claim.
+- [x] Existing stress driver and unrelated dirty work are preserved. Source,
+  failed/intermediate checks, final evidence and comparison are retained under
+  `artifacts/snow_retention_airtime_20260913`.
+
+### Previous model-32 verification (historical)
 
 The latest user feedback supersedes the one-hop target below: model 31 feels too
 heavy. Model 32 softens eligible snow retention to 40%, preserving the terrain
@@ -291,3 +311,44 @@ Evidence: `artifacts/snow_retention_balance_20260913/RESULTS.md`, `verification.
 `guard_receipts`. Comparison retains `artifacts/snow_settle_20260913/native_after`.
 Post-push cleanup only removes regenerable comparison frames and duplicate guard
 history copies under the new task root; final review evidence remains retained.
+
+### Medium-lip airtime trial, 2026-09-13
+
+The user described high-speed support as muddy and medium lips as lacking air,
+while stressing that snow resistance and absorbed landings must remain. They
+requested a next target around 3.5 hops. Pushed implementation `c3b2a15` reduces
+snow_contact_strength .4 to .3 and convex lip threshold 10 to 8 degrees. Existing
+snow friction, suspension/rebound damping, crush and force ownership remain.
+Model 34 rejects model 33 recordings; replay remains 7. No gameplay hop quota.
+
+Current-branch baseline b5ed456 already includes model-33 steering and diagnostic
+cases. Ordinary 15-second rough-world/contact-only samples give four/three
+departures (1.925/2.908 s air), respectively, versus two/three (1.508/1.550 s).
+One world departure is only .042 s; these are physical support-loss counts,
+not identical-sized hops. World obstacle paths differ, preventing causal world
+speed comparisons. The isolated medium lip changes from no flight to .725/.900 s
+at 120/160 km/h, followed by continuously supported final seconds. Small banks
+and smooth snow remain supported. The user's forced-speed driver is untouched.
+
+All 983 functional checks pass: physics 56, runtime 192, jump 90, handling 84,
+tuck/contact 213, landing absorption 155, rock 32, snow response 33, steering
+snow 16, terrain settle 22, landing settle 21, grounding contracts 30, crush
+contracts 18, quick crush 21. The periodic shallow-crest tests now check distinct
+actual crest positions and bounded flight instead of suppressing subsequent
+medium crests by a landing timer/count. The isolated lip, flat and smooth-hop
+cases separately reject touchdown rebound. Full 648-bank matrix not rerun.
+
+Source hashes remain stable for three 210-frame native captures, including the
+preserved dirty pole-push source. Before uses frozen .4/10-degree assistance on
+the current solver and matches the fresh baseline at all 1,800 ticks; after/chase
+match final headless rows. All paired side frames plus chase frames 170/182/195
+inspected. Existing overlaps remain visible; human/controller feel and scene
+FPS are not accepted by these checks. The repeated-crest case is substantially
+more airborne by design and still needs the user's judgement.
+
+Evidence: `artifacts/snow_retention_airtime_20260913/RESULTS.md`, `verification.json`,
+`native_comparison.json`, `before_after.mp4`, `baseline`, scouting and lip traces,
+`terrain_final`, `landing_final`, `regression`, contracts, `native_before`,
+`native_after`, `native_chase`, `review_sheets`, `final_source`, `guard_receipts`
+and `delivery.json`. Cleanup is limited to regenerable comparison_frames under
+this task root after push, with its actual outcome recorded in cleanup.json.
