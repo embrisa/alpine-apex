@@ -10,9 +10,9 @@ func check(ok: bool, label: String) -> void:
 func _initialize() -> void:
 	var manifest: Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://assets/graphics/trees/manifest.json"))
 	var assets=Assets.new(Lighting.new(),Quality.preset(2))
-	check(manifest.assets.size()==24,"24 distinct trees")
+	check(manifest.assets.size()==30,"24 preserved trees plus six colorful variants")
 	for family in manifest.families:
-		check(manifest.assets.filter(func(a): return a.family==family).size()==4,"Four "+family+" variants")
+		check(manifest.assets.filter(func(a): return a.family==family).size()==(3 if family in ["golden","maple"] else 4),"Catalog variants for "+family)
 	for record in manifest.assets:
 		var previous=0
 		for lod in 3:
@@ -22,8 +22,8 @@ func _initialize() -> void:
 			check(triangles==int(record.models[lod].triangles),record.id+" exported triangle count")
 			check(mesh.surface_get_material(0) is ShaderMaterial,record.id+" production shader")
 			if lod<2:
-				var living=record.family in ["spruce","fir","pine"]
-				check(triangles<=([30000,6000][lod] if living else 140000),record.id+" authored visible budget")
+				var living=record.family in ["spruce","fir","pine","golden","maple"]
+				check(triangles<=([30000,8000 if record.has("foliage_type") else 6000][lod] if living else 140000),record.id+" authored visible budget")
 				var array=mesh.surface_get_arrays(0)
 				var positions: PackedVector3Array=array[Mesh.ARRAY_VERTEX]
 				var colors: PackedColorArray=array[Mesh.ARRAY_COLOR]
@@ -42,7 +42,7 @@ func _initialize() -> void:
 						if colors[i].a>.25 and colors[i].a<.36: fracture_positions[key]=true
 						else: bark_positions[key]=true
 				check(valid,record.id+" finite geometry and branch tags")
-				check(has_foliage==(record.family in ["spruce","fir","pine"]),record.id+" living / bare material separation")
+				check(has_foliage==(record.family in ["spruce","fir","pine","golden","maple"]),record.id+" living / bare material separation")
 				check(radius<=.48,record.id+" normalized trunk collision envelope")
 				check(absf(mesh.get_aabb().size.y-float(record.models[lod].dimensions_blender_xyz_m[2]))<.015,record.id+" actual LOD height metadata")
 				if lod==1: check(triangles<previous*.65,record.id+" lower mid-detail budget")

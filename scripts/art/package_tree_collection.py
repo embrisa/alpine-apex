@@ -9,6 +9,7 @@ manifest=json.loads((root/'assets/graphics/trees/manifest.json').read_text())
 source=root/'art_source/blender/tree_collection'
 report=[]; catalog=['# Blender Asset Catalog Definition File','VERSION 1','']
 for family in manifest['families']:
+    if family in ('golden','maple'): continue # Preserved prepared libraries have their own verified packer.
     bpy.ops.wm.read_factory_settings(use_empty=True)
     cid=str(uuid.uuid5(uuid.NAMESPACE_URL,'alpine-apex/trees/'+family))
     catalog.append(cid+':Trees/'+family+':'+family)

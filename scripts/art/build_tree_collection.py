@@ -46,7 +46,7 @@ manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else 
     'version':2, 'source':str(SOURCE.relative_to(ROOT)), 'source_sha256':source_hash,
     'families':FAMILIES, 'assets':[], 'needle_geometry':'Opaque tapered V-section needles on radial shoots; no leaf cards',
 }
-manifest['families'] = FAMILIES
+manifest['families'].update(FAMILIES) # Preserve separately packed broadleaf families.
 manifest['blender'] = bpy.app.version_string
 for previous in manifest['assets']:
     if 'nominal_height_m' not in previous:
@@ -355,7 +355,7 @@ def build(family, variant):
     record={'id':name,'family':family,'variant':variant,'height_m':round(models[0]['dimensions_blender_xyz_m'][2],3),'nominal_height_m':height,'seed':seed,'preset':preset,'settings':settings,
             'models':models,'branches':branches,'shoot_count':len(shoots),'woody_components':component_count,'fracture_ring_vertices':len(cut_boundary),'source_blend':(EDIT/f'{name}.blend').relative_to(ROOT).as_posix(), 'atlas_complete':not opt.skip_atlas}
     manifest['assets']=[a for a in manifest['assets'] if a['id']!=name]+[record]
-    manifest['assets'].sort(key=lambda a:(list(FAMILIES).index(a['family']),a['variant']))
+    manifest['assets'].sort(key=lambda a:(list(manifest['families']).index(a['family']),a['variant']))
     manifest_path.write_text(json.dumps(manifest,indent=2)+'\n')
     (BASE/'branches.json').write_text(json.dumps({a['id']:{'branches':a['branches']} for a in manifest['assets']},indent=2)+'\n')
     print('TREE_BUILT',name,'shoots',len(shoots),'triangles',[m['triangles'] for m in models],flush=True)

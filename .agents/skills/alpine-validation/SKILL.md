@@ -67,6 +67,10 @@ vegetation and mixed maps preserve the production components and shared terrain.
 Run `performance_map_suite` for their terrain, population, collision and bounded
 input contracts. Use the performance skill for native measurements and inspect
 separate captures; local fixture FPS does not establish mountain-scale acceptance.
+Inspect its riding, detail and overview images. The default diagnostic
+`-Camera scenery` shows the approaching terrain and crowns; `-Camera riding`
+retains the existing riding configuration. Record framing and keep comparisons
+matched; these diagnostic profiles never save personal camera preferences.
 
 ## Collect only the needed evidence
 

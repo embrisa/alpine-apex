@@ -1,0 +1,202 @@
+{
+  "schema": 1,
+  "task": "AA-20260912-094935-colorful-forest-variety",
+  "date_utc": "2026-09-14T00:33:56.527465+00:00",
+  "functional_and_rendered": "passed",
+  "human_acceptance": "pending",
+  "assets": {
+    "existing_asset_import_files_byte_identical": 324,
+    "original_metadata_entries_unchanged": {
+      "assets/graphics/trees/manifest.json": 24,
+      "assets/graphics/trees/branches.json": 24
+    },
+    "new_resources": 69,
+    "new_resource_bytes": 16559708,
+    "physical_generator_sha256": "fe6dbed50922fc34597b0a2d6aafca94829e6d6fbf6dfaa91acfedb6dc989058"
+  },
+  "automated": {
+    "colorful_forest_suite": 200,
+    "tree_collection_suite": 699,
+    "density_lod_suite": 384,
+    "grounding_headless": 474,
+    "foliage_sight": 232,
+    "forest_preparation_native": 3845,
+    "grounding_native": 474,
+    "total": 6308,
+    "final_catalog_serialization_recheck": 899,
+    "catalog_decoded_values_equal_frozen_candidate": true
+  },
+  "physical": {
+    "signature": "37879c6e6bc245d624528933cb5a406d797914cf4d93e6f597ebd055dfc8f6f6",
+    "default_arrays_sha256": "24b0e801dcbb7cbc299b7364db03daf234be77ac5053d21ad27b8d7cbaca9875",
+    "default_visual_assignment_sha256": "7760acd50ce25b4916ff9d769b92f2300a9d2dc7ce94158827890f5d202b0441",
+    "trees_per_standard_seed": 200000,
+    "solver_hz": 120,
+    "terrain_cell_m": 4,
+    "seeds": [
+      849205174,
+      638201943
+    ],
+    "unchanged": true
+  },
+  "rendered": {
+    "default_final_captures": 37,
+    "second_seed_captures": 33,
+    "second_seed_qualification": "Placement and physical identity reviewed; precedes final normal-mip/resource repack. Final native materials checked on default seed; geometry and distribution unchanged.",
+    "matched_habitats": [
+      {
+        "habitat": "woodland",
+        "physical_trees_within_50m": 163,
+        "position": [
+          1608.0,
+          2644.17529296875,
+          1416.0
+        ]
+      },
+      {
+        "habitat": "edge",
+        "physical_trees_within_50m": 23,
+        "position": [
+          1651.87414550781,
+          2642.05737304688,
+          1140.44384765625
+        ]
+      },
+      {
+        "habitat": "scattered",
+        "physical_trees_within_50m": 4,
+        "position": [
+          1462.6474609375,
+          2956.98754882812,
+          662.831359863281
+        ]
+      }
+    ],
+    "matched_camera_transforms_and_physical_bytes": true,
+    "chronological_sequences": 2,
+    "seconds_each": 6,
+    "saved_frames_each": 60,
+    "review": "Evergreen backbone; visible golden/orange/red pockets at forest edges and distant stands. Rounded and lobed textured leaves remain distinct. Roots, quality tiers, aid 0/50/100, daylight/snowfall and cosmetic branch contact reviewed. No full-descent or human acceptance.",
+    "clip": "artifacts/colorful_forest_variety/render_standard_final/forest_motion_review.mp4"
+  },
+  "performance": {
+    "scope": "Frozen reconstruction of nine forest changes; three 15-second ordinary-input Standard repetitions and three independently launched six-second local vegetation trials per arm. One Standard process per arm; each repetition has 240 static warmup frames.",
+    "pixels": [
+      3840,
+      2160
+    ],
+    "quality": "High preset 7",
+    "upscaler": "Auto FSR 4.1.1, scale 0.75",
+    "frame_generation": false,
+    "terrain_gi": false,
+    "cap": 120,
+    "engine_sha256": "a18ddc9f3ee8fa1915a47d54c3e0d05ec4b10f8ee9deb15d7206b4e23d29bcc9",
+    "trace_sha256": "9650aefda0bcad8abe65733c27b5ce308d6f4a256fd058c6bc01c89da0bd825a",
+    "baseline_revision": "7d4cfbf9ce93d48be948390e47ab875b1db39c32",
+    "baseline_overrides": {
+      "assets/graphics/pc_forest_tree.gdshader": "ebf2fe6836613b22b92bfc98bed6c6e0e0c650489eee239dc64b3802aca3ec01",
+      "assets/graphics/pc_tree_impostor.gdshader": "0e080ccf90e405204bf30f564e722095f0a002f0f1661355e709531f1f4a4f93",
+      "assets/graphics/trees/manifest.json": "426ad81b327cd36bc96ae5463f84563c6c07cbd38de83d36d4d08aced0e1bcf3",
+      "assets/graphics/trees/branches.json": "b3dbca48930045d780a69021607da69a6bb29f81e576f131812f49a9ec898684",
+      "scripts/presentation/alpine_assets.gd": "0b369504897f83a6a5134e24e29a59daeb27dfa94329f142c20c4eb7fa57a279",
+      "scripts/presentation/forest_placement.gd": "4122956fc305df9203957b1dc37abf0c4261f3b541d7d146e68995457a01d5e2",
+      "scripts/presentation/tree_motion.gd": "60c756c3da23a3aef749a62dbe84e56f723fd2a66449e7dfe732384b2f0250aa",
+      "scripts/world/alpine_scenery.gd": "b1f6530fd8a660cfceb32468dbb8a11da786d001d6f0f2fbd501f7c86dd41f72",
+      "scripts/world/alpine_world.gd": "7a08cc17d2050ad58d57e4752d8e83f6c19d20ba4660118923c37841226870d8"
+    },
+    "snapshot_receipt_sha256": "20c4876ae5c532eb8da90a327eab0481ed765838ff535f32c87d3ef88763a767",
+    "all_runs_exact_focused_source_stable": true,
+    "all_ticks": 1800,
+    "same_final_state": true,
+    "cache_hits": true,
+    "production": {
+      "baseline": {
+        "cache_hit": true,
+        "individual_fps": [
+          43.6074718498075,
+          63.0598608421177,
+          70.7843621851506
+        ],
+        "median": {
+          "average_fps": 63.0598608421177,
+          "mean": 15.8579480932203,
+          "p95": 22.579,
+          "p99": 30.827
+        },
+        "gpu_mean_ms": 12.7202976669295,
+        "render_cpu_mean_ms": 2.24267796275474,
+        "draw_calls_mean": 1333.26800847458,
+        "primitives_mean": 14031609.7105666,
+        "peak_video_bytes": 3784285152,
+        "forest_cpu_us": 17.2336152219873,
+        "interactive_tree_cpu_us": 497.513742071882,
+        "rows_sha256": "e5eb9da50462c66dbbbeec39839d7296a6e6773c203260ce8c02ba35619d441f"
+      },
+      "candidate": {
+        "cache_hit": true,
+        "individual_fps": [
+          67.0592616855438,
+          68.2400418663685,
+          68.6107354890465
+        ],
+        "median": {
+          "average_fps": 68.2400418663685,
+          "mean": 14.654152791381,
+          "p95": 18.81,
+          "p99": 24.504
+        },
+        "gpu_mean_ms": 12.1057561272856,
+        "render_cpu_mean_ms": 2.32261830574117,
+        "draw_calls_mean": 1619.55501460565,
+        "primitives_mean": 13736867.211295,
+        "peak_video_bytes": 3843534528,
+        "forest_cpu_us": 25.0772238514174,
+        "interactive_tree_cpu_us": 457.732160312805,
+        "rows_sha256": "4d1d266408ae7598dc28bc5af2325ced6d82f2eb828d0cfd4f76e52d162cfb89"
+      }
+    },
+    "local": {
+      "baseline": {
+        "individual_fps": [
+          108.40129182272587,
+          119.86926073721514,
+          119.8568328397284
+        ],
+        "median_fps": 119.8568328397284,
+        "median_frame_ms": {
+          "mean": 8.343287373004358,
+          "p95": 8.964,
+          "p99": 9.716
+        },
+        "median_gpu_ms": 4.940214799346703,
+        "median_render_cpu_ms": 0.6989143686301477
+      },
+      "candidate": {
+        "individual_fps": [
+          114.72190122914337,
+          119.73999018062477,
+          119.83643023995693
+        ],
+        "median_fps": 119.73999018062477,
+        "median_frame_ms": {
+          "mean": 8.351428779069758,
+          "p95": 9.182,
+          "p99": 10.98
+        },
+        "median_gpu_ms": 5.019654033759295,
+        "median_render_cpu_ms": 0.7502921500005001
+      }
+    },
+    "targets_met": false,
+    "precise_delta_conclusive": false,
+    "assessment": "No repeatable regression beyond observed run variation established. Baseline 43.61/63.06/70.78 FPS is too variable for a precise speedup claim; candidate 67.06/68.24/68.61. Local medians 119.86/119.74 FPS are near the cap. Both dense Standard samples miss the 90-120 FPS and 11.1/16.7 ms frame-tail targets. More draw submissions and about 56.5 MiB extra engine video allocation are explicit; fewer submitted primitives do not establish an optimization.",
+    "rejected_or_preliminary": {
+      "artifacts/pc_environment/colorful_baseline_forest": "Rejected source drift from concurrent pebble preparation scripts; no comparison claim.",
+      "artifacts/colorful_forest_variety/frozen_v1/*/artifacts/pc_environment/colorful_frozen_measure_*": "Preliminary: scenery cache misses after warming both arms into one shared slot. Retained, excluded from final warm-cache table."
+    },
+    "source_qualification": "Both arms share observed frozen startup dependencies, which can differ from subsequently committed startup code. Final delivered catalog restores original whitespace only; decoded catalog/branch values and all resource bytes equal the timed candidate. New comparison-only capture mode was added after timing and cannot affect measured gameplay.",
+    "handoff": "For a precise delta or the wider frame budget, retain these receipts, alternate baseline/candidate order in fresh process pairs with compare_forest.ps1 -Arm baseline|candidate and unique labels, keep all repetitions including the slower first repetition, and attribute its whole-scene CPU/GPU spread before claiming a gain. Preserve this ordinary trace, 4K High, full density/ranges and solver. Check hashes first; create a new explicit snapshot if any input changed. No physical regeneration is needed for this art comparison."
+  },
+  "evidence_root": "artifacts/colorful_forest_variety",
+  "not_implemented": "The separately pushed natural-forest generation task owns the later 15 percent physical population reduction and sparse upper trees."
+}

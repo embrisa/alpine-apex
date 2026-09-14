@@ -132,6 +132,17 @@ not populate the old dictionary obstacle list. Collision, snow, previews,
 forest preparation and motion use indexed access; returned dictionaries are
 bounded query results.
 
+Visual species assignment stays in `ForestPlacement.warm_asset`, shared with the
+direct scenery path. Coherent noise forms broadleaf pockets within living conifer
+stands; a separate noise channel gives golden birch or maple local dominance with
+soft mixed edges. Bare/dead trees retain their existing assignment. A dominant
+variant plus minority per-tree silhouettes avoids repeated neighboring crowns.
+These rules consume position/seed without advancing physical random streams.
+Changing the art or visual assignment refreshes scenery preparation only; physical
+tree positions, dimensions, candidate/ecology IDs and the 4 m support grid remain
+unchanged. The separately queued 15% population reduction and sparse upper trees
+require a future physical generator revision and regenerated fixtures.
+
 Indexed landforms and an 8 m ecology filter narrow candidates before exact
 surface/material/protection checks. Rebuild normals after support mutations;
 reuse them inside an immutable stage. Tree-snow tiles read the same inputs,

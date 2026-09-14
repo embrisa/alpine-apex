@@ -1,11 +1,16 @@
 param(
-    [ValidatePattern('^forest_(spruce|fir|pine)_0[1-4]$')][string]$Asset,
+    [ValidatePattern('^forest_((spruce|fir|pine)_0[1-4]|(golden|maple)_0[1-3])$')][string]$Asset,
     [switch]$BakeNeedles,
     [switch]$Resume
 )
 $ErrorActionPreference='Stop'
 $foliageRoot=Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Set-Location -LiteralPath $foliageRoot
+if ($Asset -match '^forest_(golden|maple)_') {
+    if ($BakeNeedles) { throw 'Needle baking is not a broadleaf operation.' }
+    & ./scripts/art/integrate_colorful_trees.ps1 -Asset $Asset
+    exit $LASTEXITCODE
+}
 . ./scripts/resolve_godot_engine.ps1
 $foliageBlender='C:\Program Files\Blender Foundation\Blender 5.2\blender.exe'
 $foliageEditor=Get-AlpineGodotEngine -ProjectRoot $foliageRoot -InvocationArguments @('--editor')

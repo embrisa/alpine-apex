@@ -227,7 +227,18 @@ Default measurement is three independently launched scenes at 4K High, FSR Auto
 crash, early boundary, incomplete tick window, source drift, wrong output pixels,
 focus loss, invalid timing samples or an end state different from the reference.
 No personal preferences or records are written. Captures use a separate run and
-produce detail/overview images; they never count as FPS evidence.
+produce riding/detail/overview images; they never count as FPS evidence.
+
+The explicit default is `-Camera scenery`: an in-memory chase profile with 12°
+downward tilt, 68° FOV, 5 m distance, 3 m height and no slope-follow tilt. It shows
+the approaching terrain and tree crowns instead of aiming into nearby snow.
+`-Camera riding` retains the scene's existing camera configuration. Reports record
+the profile, settings and rendered transform. Neither writes personal preferences.
+Use matched camera profiles for timing; older snow-facing trials are not scenery-
+framed baselines. `tests/scenery_trace.gd -- --input=PATH --output=FRESH_PATH`
+adds the same presentation framing to a preserved compatible ordinary-input trace,
+records its source hash, and refuses to overwrite an output or reframe a recorded
+camera-sample/stress trace. Exact replay validation still applies.
 
 `plan.json`, per-trial `results.json`/`samples.json` and `summary.json` record
 fixture identity/population, source and engine hashes, effective graphics/output,
@@ -237,6 +248,70 @@ Local component FPS is distinct from whole-mountain FPS: retain the explicitly
 justified production benchmark for mountain-scale streaming, dense-scene
 acceptance and exact route/data reproductions. Human/controller acceptance is
 reported separately.
+
+## Colorful tree checks
+
+[The integration receipt](COLORFUL_FOREST_RESULTS.json) records the delivered
+assets, matched views, valid timing pair, rejected/preliminary runs and remaining
+performance/human acceptance limits. Raw review media and frozen inputs remain
+under `artifacts/colorful_forest_variety/`.
+
+`colorful_forest_suite.gd` uses two inline 512 m/4 m fixtures with 961 trees each
+for deterministic assignment, same-stand silhouette variety, complete catalog
+participation, physical-byte preservation, quality/material receiver registration
+and scenery-only source dependencies. Run it with the affected collection,
+density-LOD, grounding and foliage-sight suites; forest preparation also requires
+its native-renderer check described below.
+
+`colorful_forest_playtest.gd` defaults to `perf-vegetation`. It uses actual game
+materials and forest residency at 1920×1080, native rendering and 60 FPS cap;
+captures do not establish timing. `--standard` requires FullMountain and a warm
+physical seed archive, then permits explicit scenery refresh under Exclusive.
+It does not bake a missing physical mountain. Optional `--seed=638201943` selects
+the second prepared seed. The receipt compares physical bytes before/after and
+records family populations, selected tree indices, camera transforms and source
+identity. Inspect material closeups, roots, dominant pockets, strength 0/50/100,
+quality tiers, daylight/snowfall and both six-second chronological LOD sequences.
+For a frozen old/new catalog pair, `--standard --comparison-only` selects three
+identical woodland, edge and scattered-tree views from physical positions and
+ecology alone. Copy the current producer to a new `artifacts/` path in each
+snapshot after timing; preserve all frozen timing inputs. Compare its positions,
+camera transforms and physical hashes before judging the images.
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/colorful_forest_suite.gd') -Label colorful-contract -WorkloadMode Shared -TimeoutSeconds 120
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/colorful_forest_playtest.gd','--','--standard','--graphics-quality=high','--upscaler=native','--frame-generation=off','--output=artifacts/colorful-current') -Label colorful-current -WorkloadMode Exclusive -FullMountain -FullMountainReason 'Actual new forest families on unchanged physical Standard, with scenery refresh and bounded visual review' -TimeoutSeconds 900
+```
+
+The separately authored natural-forest generation task owns the later population
+reduction and sparse upper-altitude placement. This art producer does not change
+the physical tree population or certify a regenerated world.
+
+For a shared-checkout tree comparison, `snapshot_forest_comparison.py` freezes
+private code/metadata copies and immutable binary inputs under a fresh artifacts
+directory. The baseline overrides exactly nine forest source/catalog paths from
+an explicit Git revision; the candidate retains the captured working source.
+All other runtime inputs and the scenery-framed ordinary trace are identical.
+It never changes the live checkout or Git state. `compare_forest.ps1 -Mode Measure`
+warms each arm's scenery immediately before its timing, under a separate
+Exclusive lease, then owns a FpsCritical pass of three
+warmed 15-second Standard repetitions and three six-second local vegetation
+trials per arm. Binary/source hashes are checked around timing.
+The shared physical archive has one scenery slot; preparing both arms in advance
+does not keep both scenery versions warm. A cache miss during timing is rejected.
+Keep snapshot code and receipts until the comparison is reviewed; never treat a
+source-drift run as the baseline.
+If the live copy drifts during freezing, retain it and inspect the reported
+paths. Explicit `--resume-candidate` freezes that observed copy and records its
+differences from live source; it refuses a drift in any forest override path.
+This reconstructs an isolated comparison, not a claim that all copied files
+came from one atomic checkout revision.
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath python -Arguments @('scripts/snapshot_forest_comparison.py','--output','artifacts/forest-pair','--baseline','BASELINE_COMMIT','--trace','artifacts/current/forest_trace.json') -Label forest-freeze -WorkloadMode Exclusive -TimeoutSeconds 180
+./scripts/compare_forest.ps1 -Snapshot artifacts/forest-pair -Mode Prepare -Label forest-pair-prepare
+./scripts/compare_forest.ps1 -Snapshot artifacts/forest-pair -Mode Measure -Label forest-pair-measure
+```
 
 ## Standard scenarios and synchronized comparison
 

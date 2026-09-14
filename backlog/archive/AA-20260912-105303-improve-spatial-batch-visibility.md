@@ -21,7 +21,7 @@ Increase rendered FPS in dense scenes by submitting fewer unnecessary instances 
 - [DensityForest](../../scripts/presentation/density_forest.gd) partitions detail into 32 m regions and distant groups into 192 m cells, with 128 m loading and 192 m retention radii. Near/mid/shadow geometry shares prepared placement data. Reverify these values at implementation.
 - [MineralScenery](../../scripts/presentation/mineral_scenery.gd) uploads prepared MultiMesh buffers with explicit bounds. [World](../../docs/WORLD.md) owns physical placement; presentation batching must preserve that identity.
 - Godot MultiMesh frustum visibility applies to the whole batch, not individual instances. Smaller spatial groups can reject more off-screen work but create more draw calls; the optimum must be measured. [Official reference](https://docs.godotengine.org/en/stable/tutorials/performance/using_multimesh.html).
-- Related work: [colorful forests](../tasks/AA-20260912-094935-colorful-forest-variety.md) and [terrain grass](../tasks/AA-20260911-193341-terrain-grass.md). Optimize installed assets; do not absorb their art/placement work.
+- Related work: [colorful forests](AA-20260912-094935-colorful-forest-variety.md) and [terrain grass](AA-20260911-193341-terrain-grass.md). Optimize installed assets; do not absorb their art/placement work.
 
 Inspected during backlog authoring on 2026-09-12. The retained full-descent
 baseline is 92.568 average rendered FPS, frame p95/p99 16.311/23.198 ms, at

@@ -7,6 +7,7 @@ param(
     [ValidateSet('auto','fsr4','fsr3','fsr2','native')][string]$Upscaler='auto',
     [ValidateSet('0.5','0.67','0.75','1.0')][string]$RenderScale='0.75',
     [ValidateSet(0,60,120)][int]$FrameCap=0,
+    [ValidateSet('riding','scenery')][string]$Camera='scenery',
     [switch]$Capture,
     [switch]$PlanOnly,
     [string]$Output=''
@@ -20,11 +21,11 @@ if ($Capture) { $Repetitions=1 }
 if (-not $Output) { $Output="artifacts/targeted_performance/$Map-$([DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss'))-$([guid]::NewGuid().ToString('N').Substring(0,8))" }
 $destination=[IO.Path]::GetFullPath($Output,$taskRoot)
 $mode='FpsCritical' # Native capture runs also reserve the GPU exclusively.
-$plan=@{map="perf-$Map";width_m=$spec.width_m;length_m=$spec.length_m;cell_m=4;height_samples=8385;objects=@($spec.objects).Count;trees=@($spec.objects | Where-Object tree).Count;rocks=@($spec.objects | Where-Object kind -eq 'mineral').Count;design=$spec.design;full_mountain=$false;seconds=$Seconds;repetitions=$Repetitions;warmup_seconds=3;workload_mode=$mode;resolution=$Resolution;quality='High';render_scale=$RenderScale;upscaler=$Upscaler;frame_cap=$FrameCap;capture=[bool]$Capture;output=$destination}
+$plan=@{map="perf-$Map";width_m=$spec.width_m;length_m=$spec.length_m;cell_m=4;height_samples=8385;objects=@($spec.objects).Count;trees=@($spec.objects | Where-Object tree).Count;rocks=@($spec.objects | Where-Object kind -eq 'mineral').Count;design=$spec.design;full_mountain=$false;seconds=$Seconds;repetitions=$Repetitions;warmup_seconds=3;workload_mode=$mode;resolution=$Resolution;quality='High';render_scale=$RenderScale;upscaler=$Upscaler;frame_cap=$FrameCap;capture=[bool]$Capture;camera=$Camera;output=$destination}
 if ($PlanOnly) { $plan | ConvertTo-Json -Depth 6; exit 0 }
 if (Test-Path -LiteralPath $destination) { throw 'Choose a fresh output directory; existing evidence is preserved.' }
 if ($env:ALPINE_VALIDATION_ROOT -ne $taskRoot) {
-    $child=@('-NoProfile','-File',(Join-Path $PSScriptRoot 'benchmark_targeted.ps1'),'-Map',$Map,'-Seconds',"$Seconds",'-Repetitions',"$Repetitions",'-Resolution',$Resolution,'-Upscaler',$Upscaler,'-RenderScale',$RenderScale,'-FrameCap',"$FrameCap",'-Output',$destination)
+    $child=@('-NoProfile','-File',(Join-Path $PSScriptRoot 'benchmark_targeted.ps1'),'-Map',$Map,'-Seconds',"$Seconds",'-Repetitions',"$Repetitions",'-Resolution',$Resolution,'-Upscaler',$Upscaler,'-RenderScale',$RenderScale,'-FrameCap',"$FrameCap",'-Camera',$Camera,'-Output',$destination)
     if ($Capture) { $child+='-Capture' }
     & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath pwsh -Arguments $child -Label ([IO.Path]::GetFileName($destination) -replace '[^a-zA-Z0-9_-]','_') -WorkloadMode $mode -ResourceKeys @("output:$destination") -TimeoutSeconds 1200
     exit $LASTEXITCODE
@@ -38,6 +39,7 @@ for ($trial=1;$trial -le $Repetitions;$trial++) {
     $trialOutput=Join-Path $destination "trial-$trial"
     $arguments=@('--script','tests/targeted_performance.gd','--',"--map=perf-$Map","--output=$trialOutput","--seconds=$Seconds","--benchmark-resolution=$Resolution",'--graphics-quality=high',"--render-scale=$RenderScale","--upscaler=$Upscaler","--fps-limit=$FrameCap",'--terrain-gi=off','--frame-generation=off','--benchmark-no-captures')
     if ($Capture) { $arguments+='--capture-map' }
+    if ($Camera -eq 'scenery') { $arguments+='--scenery-camera' }
     $trialStarted=[Diagnostics.Stopwatch]::StartNew()
     Push-Location $taskRoot
     try { & ./godotw.ps1 @arguments; $code=$LASTEXITCODE } finally { Pop-Location }

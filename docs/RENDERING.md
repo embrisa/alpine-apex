@@ -141,6 +141,16 @@ curved branch sprays and baked needle textures; source/authoring contracts are
 in [Assets](ASSETS.md#trees). Do not interpret all stored instance triangles as
 visible-frame work. Camera forest visibility assistance must remain cosmetic.
 
+Golden birch and maple near/mid meshes share `FC_Broadleaf`, the production tree
+wind/contact shader with textured broad leaves and roughness. It participates in
+the same wind, branch-contact and canopy-sight registries as conifers. Its far
+cards use authored canopy masks, so warm colors do not evade assistance or fade
+the trunk. Both geometry and cards derive restrained leaf tint variation from
+the same tree anchor; wood and snow remain neutral. Keep their grading functions
+identical when editing either shader. No color variation changes tree transforms
+or physics. All quality tiers retain every physical tree and existing distance
+bands; prepared source and conversion limits are in [Assets](ASSETS.md#trees).
+
 `forest_placement.gd` owns the 384 m distant-card partition; the direct
 `density_forest.gd` path reads the same constant. Detailed geometry and shadow
 proxies retain 32 m regions, 128 m loading and 192 m retention. Regrouping changes

@@ -58,7 +58,7 @@ func build(field, checkpoint: Callable = Callable(), data_worker: Callable = Cal
 		if _cancelled(): return
 		if not cached:
 			preload("res://scripts/world/generation_estimates.gd").configure_scenery(build_job,field,false)
-			build_job.begin_stage("tree_assets",24)
+			build_job.begin_stage("tree_assets",assets.tree_ids().size())
 			var asset_start = Time.get_ticks_usec()
 			var metadata: Dictionary = await preload("res://scripts/presentation/forest_placement.gd").metadata_async(assets,checkpoint,build_job)
 			build_timings.tree_assets_ms = (Time.get_ticks_usec()-asset_start)/1000.0

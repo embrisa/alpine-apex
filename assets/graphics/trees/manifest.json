@@ -68,6 +68,16 @@
       ],
       "radius": 0.24,
       "leaf": 0
+    },
+    "golden": {
+      "foliage_type": "rounded",
+      "label": "Golden birch",
+      "variants": 3
+    },
+    "maple": {
+      "foliage_type": "lobed",
+      "label": "Autumn maple",
+      "variants": 3
     }
   },
   "assets": [
@@ -4710,6 +4720,1614 @@
       "fracture_ring_vertices": 24,
       "source_blend": "art_source/blender/tree_collection/forest_broken_04.blend",
       "atlas_complete": true
+    },
+    {
+      "atlas_complete": true,
+      "branches": [
+        {
+          "center": [
+            -0.06330294907093048,
+            0.4306347966194153,
+            0.07191061973571777
+          ],
+          "pivot_y": 0.22652491927146912,
+          "radius": 0.5694040060043335
+        },
+        {
+          "center": [
+            0.07890065759420395,
+            0.7528274655342102,
+            0.05567584186792374
+          ],
+          "pivot_y": 0.22652491927146912,
+          "radius": 0.809669554233551
+        },
+        {
+          "center": [
+            1.9810028076171875,
+            2.389580726623535,
+            -0.3461247384548187
+          ],
+          "pivot_y": 0.22656595706939697,
+          "radius": 1.795314588546753
+        },
+        {
+          "center": [
+            -0.0595952607691288,
+            2.0529873371124268,
+            -0.15279389917850494
+          ],
+          "pivot_y": 0.22652491927146912,
+          "radius": 1.795314588546753
+        },
+        {
+          "center": [
+            -1.070624828338623,
+            4.742927551269531,
+            0.5661472678184509
+          ],
+          "pivot_y": 3.059617042541504,
+          "radius": 1.6970293521881104
+        },
+        {
+          "center": [
+            1.1678178310394287,
+            5.304527282714844,
+            0.3709849715232849
+          ],
+          "pivot_y": 3.059617042541504,
+          "radius": 1.2430063486099243
+        },
+        {
+          "center": [
+            1.2318497896194458,
+            4.922824382781982,
+            -0.6466382741928101
+          ],
+          "pivot_y": 3.059617042541504,
+          "radius": 1.795314588546753
+        },
+        {
+          "center": [
+            -0.9425002336502075,
+            4.719150066375732,
+            -1.1930915117263794
+          ],
+          "pivot_y": 3.059617042541504,
+          "radius": 1.795314588546753
+        },
+        {
+          "center": [
+            -0.5171506404876709,
+            6.586142063140869,
+            0.716499924659729
+          ],
+          "pivot_y": 5.8931565284729,
+          "radius": 1.795314588546753
+        },
+        {
+          "center": [
+            1.1483922004699707,
+            6.326221466064453,
+            0.2041124552488327
+          ],
+          "pivot_y": 5.8931565284729,
+          "radius": 1.5364115238189697
+        },
+        {
+          "center": [
+            0.7024286985397339,
+            6.294132709503174,
+            -0.5367878675460815
+          ],
+          "pivot_y": 5.8931565284729,
+          "radius": 1.795314588546753
+        },
+        {
+          "center": [
+            -0.7329803705215454,
+            6.487756729125977,
+            -0.6455017328262329
+          ],
+          "pivot_y": 5.8931565284729,
+          "radius": 1.795314588546753
+        }
+      ],
+      "crown_center": [
+        0.24064373970031738,
+        4.2254414558410645,
+        -0.559535026550293
+      ],
+      "crown_radius": 5.752615451812744,
+      "family": "maple",
+      "foliage_type": "lobed",
+      "height_m": 8.549117088317871,
+      "id": "forest_maple_01",
+      "models": [
+        {
+          "bytes": 832623,
+          "dimensions_blender_xyz_m": [
+            6.0030107498168945,
+            4.821492671966553,
+            8.549117088317871
+          ],
+          "path": "assets/graphics/trees/models/forest_maple_01_lod0.res",
+          "sha256": "cda329edc7ee5096a814e03d43fc13d3df42ce1c5347619c5021fc4073b50164",
+          "triangles": 27530
+        },
+        {
+          "bytes": 132958,
+          "dimensions_blender_xyz_m": [
+            5.744501113891602,
+            4.973826885223389,
+            8.549117088317871
+          ],
+          "path": "assets/graphics/trees/models/forest_maple_01_lod1.res",
+          "sha256": "550bd5c51478fecd4b07f0c98cd51bcaf37d54167a514aec43a19862e47c9d72",
+          "triangles": 6396
+        },
+        {
+          "bytes": 1398,
+          "dimensions_blender_xyz_m": [
+            9.8314847946167,
+            9.999999747378752e-06,
+            9.8314847946167
+          ],
+          "path": "assets/graphics/trees/models/forest_maple_01_lod2.res",
+          "sha256": "55fe12e336d97d08e0f1cb94b4c7598e356ae31c2d4d88bbbe75960e75503fc7",
+          "triangles": 2
+        }
+      ],
+      "nominal_height_m": 8.5,
+      "palette_srgb": [
+        0.76,
+        0.36,
+        0.095
+      ],
+      "prepared_manifest_sha256": "ed4aae5a83e98c25f281016ec4ddab325317da1b3f3421aa532d0ebc0f37710b",
+      "prepared_source": {
+        "attachment_sites": 210.0,
+        "authoring": {
+          "art_source/trees/colorful_v1/textures/bake.json": "39a5a33123f4a1b2967cf49e270dbed36f71656cdee4b842ab41f6da5d209e38",
+          "art_source/trees/colorful_v1/textures/provenance.json": "5d949a47179e64a00b1dbf2fb63ef1689f0a7b1b4cb15b7d5471738e757b0881",
+          "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94",
+          "scripts/art/bake_colorful_leaf_maps.py": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+          "scripts/art/colorful_tree_geometry.py": "c802af9cdf9bda5f04038f4b8997c99378bdf819c1064cb8d8ce981283651039",
+          "scripts/art/prepare_colorful_trees.py": "fae0ff409c461cd632611500bfae80219e0c22dc2c6742052287744db06bd793"
+        },
+        "blend": "autumn_maple_01.blend",
+        "blend_sha256": "522f60847268f898df7049ed6889da88fbf69103e182897749adaf49d8b51299",
+        "family": "autumn_maple",
+        "id": "autumn_maple_01",
+        "leaf_sample": {
+          "bytes": 2532616.0,
+          "dimensions_blender_xyz_m": [
+            1.3799999952316284,
+            0.08295000344514847,
+            1.2000000476837158
+          ],
+          "file": "autumn_maple_01_leaf.glb",
+          "sha256": "4525d7d9acaa04e058a67e2556cc3471f933b688999e7135d3f488d68413851c",
+          "surfaces": 1.0,
+          "triangles": 16.0
+        },
+        "leaf_type": "lobed",
+        "models": [
+          {
+            "bytes": 6628948.0,
+            "dimensions_blender_xyz_m": [
+              6.0030107498168945,
+              4.821492671966553,
+              8.549117088317871
+            ],
+            "file": "autumn_maple_01_lod0.glb",
+            "leaf_count": 1260.0,
+            "sha256": "7a1d38a03bb952c3c9edecc2eac6bef2621a50b3133843795620bfcdc87da2b4",
+            "surfaces": 3.0,
+            "triangles": 27530.0
+          },
+          {
+            "bytes": 3934528.0,
+            "dimensions_blender_xyz_m": [
+              5.834616661071777,
+              4.72927188873291,
+              8.592607498168945
+            ],
+            "file": "autumn_maple_01_lod1.glb",
+            "leaf_count": 420.0,
+            "sha256": "2a4edfa22737d96882ace1ae4c7e753d5b023de42e78fb7d22085c216d128826",
+            "surfaces": 3.0,
+            "triangles": 9020.0
+          },
+          {
+            "bytes": 3566640.0,
+            "dimensions_blender_xyz_m": [
+              5.744501113891602,
+              4.973826885223389,
+              8.549117088317871
+            ],
+            "file": "autumn_maple_01_lod2.glb",
+            "leaf_count": 159.0,
+            "sha256": "a477909f05f26590411a03e6d78b0668340504ba6b2202fbc3ca04f0e6992579",
+            "surfaces": 3.0,
+            "triangles": 6396.0
+          }
+        ],
+        "nominal_height_m": 8.5,
+        "palette_srgb": [
+          0.76,
+          0.36,
+          0.095
+        ],
+        "seed": 2111.0,
+        "source_preset": "MapleTree_LowPoly.032",
+        "source_settings": {
+          "Socket_102": false,
+          "Socket_174": true,
+          "Socket_24": 16.0,
+          "Socket_25": 10.0,
+          "Socket_40": 2122.0,
+          "Socket_47": 2111.0,
+          "Socket_50": 5.0,
+          "Socket_57": 10.0
+        }
+      },
+      "runtime_builder": "scripts/art/integrate_colorful_trees.gd",
+      "runtime_builder_sha256": "c7f940b08a5895e34eabca4c77167473bbfecacc8f46d1b132c04727d17eba1d",
+      "seed": 2111.0,
+      "shadow": {
+        "bytes": 38224,
+        "dimensions_blender_xyz_m": [
+          5.744501113891602,
+          4.882904052734375,
+          8.549117088317871
+        ],
+        "path": "assets/graphics/trees/models/forest_maple_01_shadow.res",
+        "sha256": "19ae6abcf4a6be53d6cc9de3a2060a6ee56fe4a6665e6e2a0e6ed1375800406c",
+        "triangles": 1307
+      },
+      "source_blend": "art_source/trees/colorful_v1/blends/autumn_maple_01.blend",
+      "variant": 1
+    },
+    {
+      "atlas_complete": true,
+      "branches": [
+        {
+          "center": [
+            -0.12179236114025116,
+            1.0630860328674316,
+            0.1329018473625183
+          ],
+          "pivot_y": 0.306474894285202,
+          "radius": 1.3250088691711426
+        },
+        {
+          "center": [
+            0.18863961100578308,
+            2.354893684387207,
+            0.13835746049880981
+          ],
+          "pivot_y": 0.306474894285202,
+          "radius": 2.432848205566406
+        },
+        {
+          "center": [
+            2.7493181228637695,
+            2.959385871887207,
+            -1.3614633083343506
+          ],
+          "pivot_y": 0.30664530396461487,
+          "radius": 2.432848205566406
+        },
+        {
+          "center": [
+            -0.07291476428508759,
+            2.0808145999908447,
+            -0.14051106572151184
+          ],
+          "pivot_y": 0.306474894285202,
+          "radius": 2.1693074703216553
+        },
+        {
+          "center": [
+            -1.0616978406906128,
+            5.972452640533447,
+            1.1351585388183594
+          ],
+          "pivot_y": 4.139711380004883,
+          "radius": 2.432848205566406
+        },
+        {
+          "center": [
+            1.4741101264953613,
+            6.342077255249023,
+            1.252687931060791
+          ],
+          "pivot_y": 4.139711380004883,
+          "radius": 2.432848205566406
+        },
+        {
+          "center": [
+            1.242785096168518,
+            6.1982903480529785,
+            -1.5892581939697266
+          ],
+          "pivot_y": 4.139711380004883,
+          "radius": 2.432848205566406
+        },
+        {
+          "center": [
+            -1.085595965385437,
+            6.392514228820801,
+            -0.8521130084991455
+          ],
+          "pivot_y": 4.139711380004883,
+          "radius": 2.432848205566406
+        },
+        {
+          "center": [
+            -0.557173490524292,
+            8.890676498413086,
+            0.7505406141281128
+          ],
+          "pivot_y": 7.973266124725342,
+          "radius": 2.432848205566406
+        },
+        {
+          "center": [
+            1.0294785499572754,
+            8.809404373168945,
+            0.7532177567481995
+          ],
+          "pivot_y": 7.973266124725342,
+          "radius": 2.432848205566406
+        },
+        {
+          "center": [
+            0.9668119549751282,
+            8.829381942749023,
+            -0.9664732217788696
+          ],
+          "pivot_y": 7.973266124725342,
+          "radius": 2.432848205566406
+        },
+        {
+          "center": [
+            -0.6063039898872375,
+            9.040489196777344,
+            -1.1035575866699219
+          ],
+          "pivot_y": 7.973266124725342,
+          "radius": 2.432848205566406
+        }
+      ],
+      "crown_center": [
+        0.6340043544769287,
+        5.7075042724609375,
+        0.22332549095153809
+      ],
+      "crown_radius": 7.9412150382995605,
+      "family": "maple",
+      "foliage_type": "lobed",
+      "height_m": 11.584991455078125,
+      "id": "forest_maple_02",
+      "models": [
+        {
+          "bytes": 852805,
+          "dimensions_blender_xyz_m": [
+            7.928916931152344,
+            7.427774906158447,
+            11.584991455078125
+          ],
+          "path": "assets/graphics/trees/models/forest_maple_02_lod0.res",
+          "sha256": "2965225d218553fbefb00f7ccfc1faf830c2316e167c7b114a02fb5c42ac3fa7",
+          "triangles": 28360
+        },
+        {
+          "bytes": 148825,
+          "dimensions_blender_xyz_m": [
+            7.786508560180664,
+            8.041179656982422,
+            11.584991455078125
+          ],
+          "path": "assets/graphics/trees/models/forest_maple_02_lod1.res",
+          "sha256": "a310cd71f57378a8e667be0de373cfdc5aced89619072f3386a855446c9f624c",
+          "triangles": 7226
+        },
+        {
+          "bytes": 1394,
+          "dimensions_blender_xyz_m": [
+            13.32274055480957,
+            9.999999747378752e-06,
+            13.32274055480957
+          ],
+          "path": "assets/graphics/trees/models/forest_maple_02_lod2.res",
+          "sha256": "1970393887a37930b70ebe1b84d7b69afe00f0744798ae7a17533c53c8a45bec",
+          "triangles": 2
+        }
+      ],
+      "nominal_height_m": 11.5,
+      "palette_srgb": [
+        0.63,
+        0.16,
+        0.1
+      ],
+      "prepared_manifest_sha256": "ed4aae5a83e98c25f281016ec4ddab325317da1b3f3421aa532d0ebc0f37710b",
+      "prepared_source": {
+        "attachment_sites": 210.0,
+        "authoring": {
+          "art_source/trees/colorful_v1/textures/bake.json": "39a5a33123f4a1b2967cf49e270dbed36f71656cdee4b842ab41f6da5d209e38",
+          "art_source/trees/colorful_v1/textures/provenance.json": "5d949a47179e64a00b1dbf2fb63ef1689f0a7b1b4cb15b7d5471738e757b0881",
+          "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94",
+          "scripts/art/bake_colorful_leaf_maps.py": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+          "scripts/art/colorful_tree_geometry.py": "c802af9cdf9bda5f04038f4b8997c99378bdf819c1064cb8d8ce981283651039",
+          "scripts/art/prepare_colorful_trees.py": "fae0ff409c461cd632611500bfae80219e0c22dc2c6742052287744db06bd793"
+        },
+        "blend": "autumn_maple_02.blend",
+        "blend_sha256": "8a19804a32b5973a862dadcc2ce87670a71a2e853f8cf75ea981e565d80b4412",
+        "family": "autumn_maple",
+        "id": "autumn_maple_02",
+        "leaf_sample": {
+          "bytes": 2532616.0,
+          "dimensions_blender_xyz_m": [
+            1.3799999952316284,
+            0.08295000344514847,
+            1.2000000476837158
+          ],
+          "file": "autumn_maple_02_leaf.glb",
+          "sha256": "aaa69d0a27d56f2f3f250407c367a6c11c9a1a3df46e51f10467a7afaa889e1f",
+          "surfaces": 1.0,
+          "triangles": 16.0
+        },
+        "leaf_type": "lobed",
+        "models": [
+          {
+            "bytes": 6667632.0,
+            "dimensions_blender_xyz_m": [
+              7.928916931152344,
+              7.427774906158447,
+              11.584991455078123
+            ],
+            "file": "autumn_maple_02_lod0.glb",
+            "leaf_count": 1260.0,
+            "sha256": "d89529b725d720225cfe0eaa6cf254f255db006c9d9deaa21e812678dd96d791",
+            "surfaces": 3.0,
+            "triangles": 28360.0
+          },
+          {
+            "bytes": 3973204.0,
+            "dimensions_blender_xyz_m": [
+              8.153332710266113,
+              7.599117755889893,
+              11.584991455078123
+            ],
+            "file": "autumn_maple_02_lod1.glb",
+            "leaf_count": 420.0,
+            "sha256": "962ead01b1f10599049f8154f78c155395df618e3cb43de3e68068430f3ee46e",
+            "surfaces": 3.0,
+            "triangles": 9850.0
+          },
+          {
+            "bytes": 3605320.0,
+            "dimensions_blender_xyz_m": [
+              7.786508560180664,
+              8.041179656982422,
+              11.584991455078123
+            ],
+            "file": "autumn_maple_02_lod2.glb",
+            "leaf_count": 159.0,
+            "sha256": "3933d93d5e328c004b1c50389059f0224efb470e737353e4b1bf5da325c7d607",
+            "surfaces": 3.0,
+            "triangles": 7226.0
+          }
+        ],
+        "nominal_height_m": 11.5,
+        "palette_srgb": [
+          0.63,
+          0.16,
+          0.1
+        ],
+        "seed": 2137.0,
+        "source_preset": "MapleTree_LowPoly.033",
+        "source_settings": {
+          "Socket_102": false,
+          "Socket_174": true,
+          "Socket_24": 16.0,
+          "Socket_25": 10.0,
+          "Socket_40": 2148.0,
+          "Socket_47": 2137.0,
+          "Socket_50": 5.0,
+          "Socket_57": 10.0
+        }
+      },
+      "runtime_builder": "scripts/art/integrate_colorful_trees.gd",
+      "runtime_builder_sha256": "c7f940b08a5895e34eabca4c77167473bbfecacc8f46d1b132c04727d17eba1d",
+      "seed": 2137.0,
+      "shadow": {
+        "bytes": 43142,
+        "dimensions_blender_xyz_m": [
+          7.750800132751465,
+          8.041179656982422,
+          11.584991455078125
+        ],
+        "path": "assets/graphics/trees/models/forest_maple_02_shadow.res",
+        "sha256": "9fe2c84439c0b8f84fcbfb064edea2deac1b914303112b571f7c6b4b108fd87f",
+        "triangles": 1447
+      },
+      "source_blend": "art_source/trees/colorful_v1/blends/autumn_maple_02.blend",
+      "variant": 2
+    },
+    {
+      "atlas_complete": true,
+      "branches": [
+        {
+          "center": [
+            -0.12877245247364044,
+            1.2539787292480469,
+            0.1397077590227127
+          ],
+          "pivot_y": 0.35977497696876526,
+          "radius": 1.44919753074646
+        },
+        {
+          "center": [
+            0.3356502950191498,
+            3.160409927368164,
+            0.24123866856098175
+          ],
+          "pivot_y": 0.35977497696876526,
+          "radius": 2.8198013877868653
+        },
+        {
+          "center": [
+            1.0335716009140015,
+            3.924440860748291,
+            -3.619136333465576
+          ],
+          "pivot_y": 0.35986876487731934,
+          "radius": 2.8198013877868653
+        },
+        {
+          "center": [
+            -0.15878207981586456,
+            0.7302090525627136,
+            -0.15506131947040558
+          ],
+          "pivot_y": 0.35977497696876526,
+          "radius": 1.4899581670761108
+        },
+        {
+          "center": [
+            -3.2400500774383545,
+            7.113419532775879,
+            1.0320780277252197
+          ],
+          "pivot_y": 4.85993766784668,
+          "radius": 2.8198013877868653
+        },
+        {
+          "center": [
+            1.654242753982544,
+            7.736588001251221,
+            1.3846144676208496
+          ],
+          "pivot_y": 4.85993766784668,
+          "radius": 2.8198013877868653
+        },
+        {
+          "center": [
+            2.065568208694458,
+            6.868074417114258,
+            -2.6063690185546875
+          ],
+          "pivot_y": 4.85993766784668,
+          "radius": 2.8198013877868653
+        },
+        {
+          "center": [
+            -3.293529510498047,
+            7.5176873207092285,
+            -1.2106624841690063
+          ],
+          "pivot_y": 4.85993766784668,
+          "radius": 2.8198013877868653
+        },
+        {
+          "center": [
+            -1.3779691457748413,
+            10.373858451843262,
+            1.3604114055633545
+          ],
+          "pivot_y": 9.359518051147461,
+          "radius": 2.8198013877868653
+        },
+        {
+          "center": [
+            1.661311149597168,
+            9.935227394104004,
+            1.2532926797866821
+          ],
+          "pivot_y": 9.359518051147461,
+          "radius": 2.8198013877868653
+        },
+        {
+          "center": [
+            1.4993858337402344,
+            10.147509574890137,
+            -1.6344915628433228
+          ],
+          "pivot_y": 9.359518051147461,
+          "radius": 2.8198013877868653
+        },
+        {
+          "center": [
+            -1.662114143371582,
+            10.077130317687988,
+            -1.2465662956237793
+          ],
+          "pivot_y": 9.359518051147461,
+          "radius": 2.8198013877868653
+        }
+      ],
+      "crown_center": [
+        -0.28154611587524414,
+        6.608919143676758,
+        -1.131990909576416
+      ],
+      "crown_radius": 10.307124137878418,
+      "family": "maple",
+      "foliage_type": "lobed",
+      "height_m": 13.42762565612793,
+      "id": "forest_maple_03",
+      "models": [
+        {
+          "bytes": 907703,
+          "dimensions_blender_xyz_m": [
+            11.502540588378906,
+            10.598947525024414,
+            13.42762565612793
+          ],
+          "path": "assets/graphics/trees/models/forest_maple_03_lod0.res",
+          "sha256": "4a0a9c33aa1879921fa0468dcfa5ac131bc06726c28f18ba59e449df164b56a2",
+          "triangles": 28940
+        },
+        {
+          "bytes": 210002,
+          "dimensions_blender_xyz_m": [
+            11.069557189941406,
+            10.330986022949219,
+            13.177522659301758
+          ],
+          "path": "assets/graphics/trees/models/forest_maple_03_lod1.res",
+          "sha256": "fdfaea7ceb24c1760a7ef5e28a79c06aa14a5c3aacc5e2481c1499767fd12bf7",
+          "triangles": 7806
+        },
+        {
+          "bytes": 1394,
+          "dimensions_blender_xyz_m": [
+            15.44176959991455,
+            9.999999747378752e-06,
+            15.441770553588867
+          ],
+          "path": "assets/graphics/trees/models/forest_maple_03_lod2.res",
+          "sha256": "58ee30e302c4db9aacb6fd6076e0db436732b871810c2b2d829fa4d3e67729f2",
+          "triangles": 2
+        }
+      ],
+      "nominal_height_m": 13.5,
+      "palette_srgb": [
+        0.83,
+        0.47,
+        0.1
+      ],
+      "prepared_manifest_sha256": "ed4aae5a83e98c25f281016ec4ddab325317da1b3f3421aa532d0ebc0f37710b",
+      "prepared_source": {
+        "attachment_sites": 210.0,
+        "authoring": {
+          "art_source/trees/colorful_v1/textures/bake.json": "39a5a33123f4a1b2967cf49e270dbed36f71656cdee4b842ab41f6da5d209e38",
+          "art_source/trees/colorful_v1/textures/provenance.json": "5d949a47179e64a00b1dbf2fb63ef1689f0a7b1b4cb15b7d5471738e757b0881",
+          "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94",
+          "scripts/art/bake_colorful_leaf_maps.py": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+          "scripts/art/colorful_tree_geometry.py": "c802af9cdf9bda5f04038f4b8997c99378bdf819c1064cb8d8ce981283651039",
+          "scripts/art/prepare_colorful_trees.py": "fae0ff409c461cd632611500bfae80219e0c22dc2c6742052287744db06bd793"
+        },
+        "blend": "autumn_maple_03.blend",
+        "blend_sha256": "f3c46a84b9a1e8d63025c64959bbc95dc4038091fda19521f892aee214f2d941",
+        "family": "autumn_maple",
+        "id": "autumn_maple_03",
+        "leaf_sample": {
+          "bytes": 2532616.0,
+          "dimensions_blender_xyz_m": [
+            1.3799999952316284,
+            0.08295000344514847,
+            1.2000000476837158
+          ],
+          "file": "autumn_maple_03_leaf.glb",
+          "sha256": "af3713c7e55a5c075b1fe417e132ac3ebeeec11b76a94774cb06a57cdad45ba1",
+          "surfaces": 1.0,
+          "triangles": 16.0
+        },
+        "leaf_type": "lobed",
+        "models": [
+          {
+            "bytes": 6788820.0,
+            "dimensions_blender_xyz_m": [
+              11.502540588378906,
+              10.598947525024414,
+              13.42762565612793
+            ],
+            "file": "autumn_maple_03_lod0.glb",
+            "leaf_count": 1260.0,
+            "sha256": "7018319a725f496901c7396c75f941bb2963122b875b7134476521433d8aafe2",
+            "surfaces": 3.0,
+            "triangles": 28940.0
+          },
+          {
+            "bytes": 4094392.0,
+            "dimensions_blender_xyz_m": [
+              11.42698097229004,
+              10.766000747680664,
+              13.5667085647583
+            ],
+            "file": "autumn_maple_03_lod1.glb",
+            "leaf_count": 420.0,
+            "sha256": "5dc3f16b97995514537e23dfe4d6d2b357da4197b8de4e4b2fb0d003482fd82f",
+            "surfaces": 3.0,
+            "triangles": 10430.0
+          },
+          {
+            "bytes": 3726508.0,
+            "dimensions_blender_xyz_m": [
+              11.069558143615724,
+              10.33098602294922,
+              13.177522659301758
+            ],
+            "file": "autumn_maple_03_lod2.glb",
+            "leaf_count": 159.0,
+            "sha256": "df1cfc35e3d7cb904551706ef175b463d0989a2871868d8faf9f31b6d673b0dc",
+            "surfaces": 3.0,
+            "triangles": 7806.0
+          }
+        ],
+        "nominal_height_m": 13.5,
+        "palette_srgb": [
+          0.83,
+          0.47,
+          0.1
+        ],
+        "seed": 2163.0,
+        "source_preset": "MapleTree_LowPoly.034",
+        "source_settings": {
+          "Socket_102": false,
+          "Socket_174": true,
+          "Socket_24": 16.0,
+          "Socket_25": 10.0,
+          "Socket_40": 2174.0,
+          "Socket_47": 2163.0,
+          "Socket_50": 5.0,
+          "Socket_57": 10.0
+        }
+      },
+      "runtime_builder": "scripts/art/integrate_colorful_trees.gd",
+      "runtime_builder_sha256": "c7f940b08a5895e34eabca4c77167473bbfecacc8f46d1b132c04727d17eba1d",
+      "seed": 2163.0,
+      "shadow": {
+        "bytes": 58431,
+        "dimensions_blender_xyz_m": [
+          10.956733703613281,
+          10.330986022949219,
+          12.68526554107666
+        ],
+        "path": "assets/graphics/trees/models/forest_maple_03_shadow.res",
+        "sha256": "eff295aac1f6453089968b3947b05b6a8758df4be59d578b77ef1f28a198f9b6",
+        "triangles": 1756
+      },
+      "source_blend": "art_source/trees/colorful_v1/blends/autumn_maple_03.blend",
+      "variant": 3
+    },
+    {
+      "atlas_complete": true,
+      "branches": [
+        {
+          "center": [
+            -1.2499884366989136,
+            2.3896641731262207,
+            0.33741697669029236
+          ],
+          "pivot_y": 0.21289387345314026,
+          "radius": 1.6917238998413084
+        },
+        {
+          "center": [
+            0.6696648597717285,
+            2.266456365585327,
+            1.2987436056137085
+          ],
+          "pivot_y": 0.21289387345314026,
+          "radius": 1.6917238998413084
+        },
+        {
+          "center": [
+            0.10398005694150925,
+            2.115898847579956,
+            -0.13749827444553375
+          ],
+          "pivot_y": 0.2132008969783783,
+          "radius": 1.6917238998413084
+        },
+        {
+          "center": [
+            -0.04730893298983574,
+            2.1030821800231934,
+            -0.03694136068224907
+          ],
+          "pivot_y": 0.2132008969783783,
+          "radius": 1.6917238998413084
+        },
+        {
+          "center": [
+            -0.5642331838607788,
+            4.148170471191406,
+            0.8138724565505981
+          ],
+          "pivot_y": 2.8799266815185547,
+          "radius": 1.6917238998413084
+        },
+        {
+          "center": [
+            0.7809280157089233,
+            4.334934234619141,
+            0.6913251280784607
+          ],
+          "pivot_y": 2.8799266815185547,
+          "radius": 1.6917238998413084
+        },
+        {
+          "center": [
+            0.6255921125411987,
+            4.218645095825195,
+            -0.7983304858207703
+          ],
+          "pivot_y": 2.8799266815185547,
+          "radius": 1.6917238998413084
+        },
+        {
+          "center": [
+            -0.8684033155441284,
+            4.060742378234863,
+            -0.5044676661491394
+          ],
+          "pivot_y": 2.8799266815185547,
+          "radius": 1.6917238998413084
+        },
+        {
+          "center": [
+            -0.4009464979171753,
+            5.92965841293335,
+            0.36354073882102966
+          ],
+          "pivot_y": 5.546471118927002,
+          "radius": 1.162793755531311
+        },
+        {
+          "center": [
+            0.4068085253238678,
+            5.960272312164307,
+            0.3443216383457184
+          ],
+          "pivot_y": 5.546471118927002,
+          "radius": 1.6917238998413084
+        },
+        {
+          "center": [
+            0.4637940227985382,
+            5.821113586425781,
+            -0.29782232642173767
+          ],
+          "pivot_y": 5.546471118927002,
+          "radius": 1.1471022367477417
+        },
+        {
+          "center": [
+            -0.4729869067668915,
+            5.83658504486084,
+            -0.2977354824542999
+          ],
+          "pivot_y": 5.546471118927002,
+          "radius": 1.35490882396698
+        }
+      ],
+      "crown_center": [
+        -0.2093207836151123,
+        3.972086191177368,
+        0.18663334846496582
+      ],
+      "crown_radius": 5.312868118286133,
+      "family": "golden",
+      "foliage_type": "rounded",
+      "height_m": 8.055828094482422,
+      "id": "forest_golden_01",
+      "models": [
+        {
+          "bytes": 609312,
+          "dimensions_blender_xyz_m": [
+            4.6437668800354,
+            5.1425018310546875,
+            8.055828094482422
+          ],
+          "path": "assets/graphics/trees/models/forest_golden_01_lod0.res",
+          "sha256": "7606c6b680fdfde7db0bc0653457fd3062590a1b3a04e7657729b17fceec951f",
+          "triangles": 21380
+        },
+        {
+          "bytes": 158545,
+          "dimensions_blender_xyz_m": [
+            4.254622459411621,
+            5.057168483734131,
+            8.055828094482422
+          ],
+          "path": "assets/graphics/trees/models/forest_golden_01_lod1.res",
+          "sha256": "d2bd8218c0845838bf85122c91e70e8af6ee592b6f313d9b9434026d66aad4d2",
+          "triangles": 7329
+        },
+        {
+          "bytes": 1398,
+          "dimensions_blender_xyz_m": [
+            9.264202117919922,
+            9.999999747378752e-06,
+            9.264202117919922
+          ],
+          "path": "assets/graphics/trees/models/forest_golden_01_lod2.res",
+          "sha256": "0a865d490d34c64092e5e65280978b9ec209ebc1024ebe0c80af0f2b1b82ce92",
+          "triangles": 2
+        }
+      ],
+      "nominal_height_m": 8.0,
+      "palette_srgb": [
+        0.88,
+        0.67,
+        0.16
+      ],
+      "prepared_manifest_sha256": "ed4aae5a83e98c25f281016ec4ddab325317da1b3f3421aa532d0ebc0f37710b",
+      "prepared_source": {
+        "attachment_sites": 210.0,
+        "authoring": {
+          "art_source/trees/colorful_v1/textures/bake.json": "39a5a33123f4a1b2967cf49e270dbed36f71656cdee4b842ab41f6da5d209e38",
+          "art_source/trees/colorful_v1/textures/provenance.json": "5d949a47179e64a00b1dbf2fb63ef1689f0a7b1b4cb15b7d5471738e757b0881",
+          "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94",
+          "scripts/art/bake_colorful_leaf_maps.py": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+          "scripts/art/colorful_tree_geometry.py": "c802af9cdf9bda5f04038f4b8997c99378bdf819c1064cb8d8ce981283651039",
+          "scripts/art/prepare_colorful_trees.py": "fae0ff409c461cd632611500bfae80219e0c22dc2c6742052287744db06bd793"
+        },
+        "blend": "golden_birch_01.blend",
+        "blend_sha256": "a2ae31ae08fbc741d8f10297d997416426b30e0057ff86c5fd06df765e6feec4",
+        "family": "golden_birch",
+        "id": "golden_birch_01",
+        "leaf_sample": {
+          "bytes": 2531684.0,
+          "dimensions_blender_xyz_m": [
+            1.0,
+            0.07250000536441803,
+            1.090000033378601
+          ],
+          "file": "golden_birch_01_leaf.glb",
+          "sha256": "d7c76957a91146c18d7622776540f82652919dab53b8380b871c8943903c28b7",
+          "surfaces": 1.0,
+          "triangles": 10.0
+        },
+        "leaf_type": "rounded",
+        "models": [
+          {
+            "bytes": 5569124.0,
+            "dimensions_blender_xyz_m": [
+              4.6437668800354,
+              5.1425018310546875,
+              8.055828094482422
+            ],
+            "file": "golden_birch_01_lod0.glb",
+            "leaf_count": 1260.0,
+            "sha256": "13eda14a3845a688ed3c7cdc0d6b8e111cb05c7082f6077ef56757ce2173d427",
+            "surfaces": 3.0,
+            "triangles": 21380.0
+          },
+          {
+            "bytes": 3819688.0,
+            "dimensions_blender_xyz_m": [
+              4.449321269989014,
+              4.890869140625,
+              8.055828094482422
+            ],
+            "file": "golden_birch_01_lod1.glb",
+            "leaf_count": 420.0,
+            "sha256": "1ffb70a8c8725c3970cc0aa6dc0ee8b13440479cac356dbe4c6846ba1a726964",
+            "surfaces": 3.0,
+            "triangles": 9170.0
+          },
+          {
+            "bytes": 3569264.0,
+            "dimensions_blender_xyz_m": [
+              4.254622459411621,
+              5.057168483734131,
+              8.055828094482422
+            ],
+            "file": "golden_birch_01_lod2.glb",
+            "leaf_count": 159.0,
+            "sha256": "897c9de7373afdb770c0e9cee81b623b31037c5b1a0b8b6eaae752cb0744d77a",
+            "surfaces": 3.0,
+            "triangles": 7329.0
+          }
+        ],
+        "nominal_height_m": 8.0,
+        "palette_srgb": [
+          0.88,
+          0.67,
+          0.16
+        ],
+        "seed": 1901.0,
+        "source_preset": "BirchTree_LowPoly.032",
+        "source_settings": {
+          "Socket_102": false,
+          "Socket_174": true,
+          "Socket_24": 16.0,
+          "Socket_25": 10.0,
+          "Socket_40": 1912.0,
+          "Socket_47": 1901.0,
+          "Socket_50": 5.0,
+          "Socket_57": 10.0
+        }
+      },
+      "runtime_builder": "scripts/art/integrate_colorful_trees.gd",
+      "runtime_builder_sha256": "c7f940b08a5895e34eabca4c77167473bbfecacc8f46d1b132c04727d17eba1d",
+      "seed": 1901.0,
+      "shadow": {
+        "bytes": 60388,
+        "dimensions_blender_xyz_m": [
+          4.254622459411621,
+          5.057168483734131,
+          8.055828094482422
+        ],
+        "path": "assets/graphics/trees/models/forest_golden_01_shadow.res",
+        "sha256": "3ff60eecf7b97e794db13d89244e009834d9d1bdb4423ef4c3722e96dcf3dc5f",
+        "triangles": 1738
+      },
+      "source_blend": "art_source/trees/colorful_v1/blends/golden_birch_01.blend",
+      "variant": 1
+    },
+    {
+      "atlas_complete": true,
+      "branches": [
+        {
+          "center": [
+            -0.043002672493457794,
+            2.329930543899536,
+            0.05378243699669838
+          ],
+          "pivot_y": 0.2931506335735321,
+          "radius": 2.349072389602661
+        },
+        {
+          "center": [
+            0.07435767352581024,
+            2.455960750579834,
+            0.11329551041126251
+          ],
+          "pivot_y": 0.2931506335735321,
+          "radius": 2.349072389602661
+        },
+        {
+          "center": [
+            0.13851435482501984,
+            2.427030086517334,
+            -0.16976067423820496
+          ],
+          "pivot_y": 0.2931506335735321,
+          "radius": 2.349072389602661
+        },
+        {
+          "center": [
+            -0.0427715890109539,
+            2.3789737224578857,
+            -0.043482933193445206
+          ],
+          "pivot_y": 0.2931506335735321,
+          "radius": 2.349072389602661
+        },
+        {
+          "center": [
+            -0.8549805283546448,
+            6.054781436920166,
+            1.020639419555664
+          ],
+          "pivot_y": 3.9595329761505127,
+          "radius": 2.349072389602661
+        },
+        {
+          "center": [
+            0.8205750584602356,
+            5.930825233459473,
+            0.8066433668136597
+          ],
+          "pivot_y": 3.9595329761505127,
+          "radius": 2.349072389602661
+        },
+        {
+          "center": [
+            0.9768489599227905,
+            5.8714470863342285,
+            -1.0302116870880127
+          ],
+          "pivot_y": 3.9595329761505127,
+          "radius": 2.349072389602661
+        },
+        {
+          "center": [
+            -0.8867198824882507,
+            6.2212677001953125,
+            -0.8528931140899658
+          ],
+          "pivot_y": 3.9595329761505127,
+          "radius": 2.349072389602661
+        },
+        {
+          "center": [
+            -0.6078023314476013,
+            8.141661643981934,
+            0.4481884837150574
+          ],
+          "pivot_y": 7.626581192016602,
+          "radius": 1.9908363819122314
+        },
+        {
+          "center": [
+            0.5069872736930847,
+            8.51660442352295,
+            0.2899351418018341
+          ],
+          "pivot_y": 7.626581192016602,
+          "radius": 2.349072389602661
+        },
+        {
+          "center": [
+            0.48707276582717896,
+            8.261528015136719,
+            -0.3404180705547333
+          ],
+          "pivot_y": 7.626581192016602,
+          "radius": 2.06886887550354
+        },
+        {
+          "center": [
+            -0.4235517680644989,
+            8.38134479522705,
+            -0.3392470180988312
+          ],
+          "pivot_y": 7.626581192016602,
+          "radius": 2.1973164081573486
+        }
+      ],
+      "crown_center": [
+        0.006676197052001953,
+        5.515036106109619,
+        0.07351016998291016
+      ],
+      "crown_radius": 7.186131000518799,
+      "family": "golden",
+      "foliage_type": "rounded",
+      "height_m": 11.18605899810791,
+      "id": "forest_golden_02",
+      "models": [
+        {
+          "bytes": 608164,
+          "dimensions_blender_xyz_m": [
+            6.082562446594238,
+            6.666064262390137,
+            11.18605899810791
+          ],
+          "path": "assets/graphics/trees/models/forest_golden_02_lod0.res",
+          "sha256": "758298d83c07dd25d9f80c31318a6ffa4c70066dace5a5360c05be668fe2e9bf",
+          "triangles": 21379
+        },
+        {
+          "bytes": 158393,
+          "dimensions_blender_xyz_m": [
+            6.328765869140625,
+            5.793461799621582,
+            11.077993392944336
+          ],
+          "path": "assets/graphics/trees/models/forest_golden_02_lod1.res",
+          "sha256": "61f1cada8287e3c328a818fb09ecaed930242746ce6b25e3e89403383c7fed26",
+          "triangles": 7328
+        },
+        {
+          "bytes": 1394,
+          "dimensions_blender_xyz_m": [
+            12.863967895507812,
+            9.999999747378752e-06,
+            12.863967895507812
+          ],
+          "path": "assets/graphics/trees/models/forest_golden_02_lod2.res",
+          "sha256": "6185ef0e5095c7b0c2bb45e9530333c766dfdd6becf03c4b6d49a535c8199c30",
+          "triangles": 2
+        }
+      ],
+      "nominal_height_m": 11.0,
+      "palette_srgb": [
+        0.83,
+        0.57,
+        0.11
+      ],
+      "prepared_manifest_sha256": "ed4aae5a83e98c25f281016ec4ddab325317da1b3f3421aa532d0ebc0f37710b",
+      "prepared_source": {
+        "attachment_sites": 210.0,
+        "authoring": {
+          "art_source/trees/colorful_v1/textures/bake.json": "39a5a33123f4a1b2967cf49e270dbed36f71656cdee4b842ab41f6da5d209e38",
+          "art_source/trees/colorful_v1/textures/provenance.json": "5d949a47179e64a00b1dbf2fb63ef1689f0a7b1b4cb15b7d5471738e757b0881",
+          "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94",
+          "scripts/art/bake_colorful_leaf_maps.py": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+          "scripts/art/colorful_tree_geometry.py": "c802af9cdf9bda5f04038f4b8997c99378bdf819c1064cb8d8ce981283651039",
+          "scripts/art/prepare_colorful_trees.py": "fae0ff409c461cd632611500bfae80219e0c22dc2c6742052287744db06bd793"
+        },
+        "blend": "golden_birch_02.blend",
+        "blend_sha256": "4311ec501193d0cadf6a4481bb908c4bdef36493b6020ee49b7a120bf6cfa8c2",
+        "family": "golden_birch",
+        "id": "golden_birch_02",
+        "leaf_sample": {
+          "bytes": 2531684.0,
+          "dimensions_blender_xyz_m": [
+            1.0,
+            0.07250000536441803,
+            1.090000033378601
+          ],
+          "file": "golden_birch_02_leaf.glb",
+          "sha256": "bebb6f30a310a464fde65fb943b15c87005b1420f2ea7952396699860c426027",
+          "surfaces": 1.0,
+          "triangles": 10.0
+        },
+        "leaf_type": "rounded",
+        "models": [
+          {
+            "bytes": 5573584.0,
+            "dimensions_blender_xyz_m": [
+              6.082562446594238,
+              6.666064262390137,
+              11.18605899810791
+            ],
+            "file": "golden_birch_02_lod0.glb",
+            "leaf_count": 1260.0,
+            "sha256": "ded602cf5ef608bfe87a53d501be49c54fb45768da630a13540cda93e4c151ae",
+            "surfaces": 3.0,
+            "triangles": 21379.0
+          },
+          {
+            "bytes": 3824152.0,
+            "dimensions_blender_xyz_m": [
+              6.039752006530762,
+              6.424013614654541,
+              11.077993392944336
+            ],
+            "file": "golden_birch_02_lod1.glb",
+            "leaf_count": 420.0,
+            "sha256": "72e0b6f0bba5b2d0d1b9d974010cf812e311aaba38b0200912f8a55c535af938",
+            "surfaces": 3.0,
+            "triangles": 9169.0
+          },
+          {
+            "bytes": 3573728.0,
+            "dimensions_blender_xyz_m": [
+              6.328765869140625,
+              5.793461799621582,
+              11.077993392944336
+            ],
+            "file": "golden_birch_02_lod2.glb",
+            "leaf_count": 159.0,
+            "sha256": "2ccafb79790b9ca4de1d38e106c5f67f1c648330b73dba87a792101a2fa52edf",
+            "surfaces": 3.0,
+            "triangles": 7328.0
+          }
+        ],
+        "nominal_height_m": 11.0,
+        "palette_srgb": [
+          0.83,
+          0.57,
+          0.11
+        ],
+        "seed": 1927.0,
+        "source_preset": "BirchTree_LowPoly.042",
+        "source_settings": {
+          "Socket_102": false,
+          "Socket_174": true,
+          "Socket_24": 16.0,
+          "Socket_25": 10.0,
+          "Socket_40": 1938.0,
+          "Socket_47": 1927.0,
+          "Socket_50": 5.0,
+          "Socket_57": 10.0
+        }
+      },
+      "runtime_builder": "scripts/art/integrate_colorful_trees.gd",
+      "runtime_builder_sha256": "c7f940b08a5895e34eabca4c77167473bbfecacc8f46d1b132c04727d17eba1d",
+      "seed": 1927.0,
+      "shadow": {
+        "bytes": 63449,
+        "dimensions_blender_xyz_m": [
+          6.328765869140625,
+          5.628386497497559,
+          11.077993392944336
+        ],
+        "path": "assets/graphics/trees/models/forest_golden_02_shadow.res",
+        "sha256": "0f82f02b250d3851c33d18320b65a36562635841591d2df26ca4b2e0d7002db0",
+        "triangles": 1710
+      },
+      "source_blend": "art_source/trees/colorful_v1/blends/golden_birch_02.blend",
+      "variant": 2
+    },
+    {
+      "atlas_complete": true,
+      "branches": [
+        {
+          "center": [
+            -1.8076081275939941,
+            4.226528644561768,
+            0.46001267433166504
+          ],
+          "pivot_y": 0.37305256724357605,
+          "radius": 2.96175630569458
+        },
+        {
+          "center": [
+            1.8150689601898193,
+            3.962618112564087,
+            1.2649346590042114
+          ],
+          "pivot_y": 0.37305256724357605,
+          "radius": 2.96175630569458
+        },
+        {
+          "center": [
+            1.4001868963241577,
+            3.7658119201660156,
+            -1.825817584991455
+          ],
+          "pivot_y": 0.37305256724357605,
+          "radius": 2.96175630569458
+        },
+        {
+          "center": [
+            -2.0505216121673584,
+            3.6394906044006348,
+            -0.13632234930992126
+          ],
+          "pivot_y": 0.37305256724357605,
+          "radius": 2.96175630569458
+        },
+        {
+          "center": [
+            -1.4817734956741333,
+            7.297699451446533,
+            0.8411145210266113
+          ],
+          "pivot_y": 5.039627552032471,
+          "radius": 2.96175630569458
+        },
+        {
+          "center": [
+            1.3072470426559448,
+            7.560860633850098,
+            1.1782593727111816
+          ],
+          "pivot_y": 5.039627552032471,
+          "radius": 2.96175630569458
+        },
+        {
+          "center": [
+            1.2253252267837524,
+            7.084403991699219,
+            -1.636112928390503
+          ],
+          "pivot_y": 5.039627552032471,
+          "radius": 2.96175630569458
+        },
+        {
+          "center": [
+            -1.67929208278656,
+            6.813594818115234,
+            -0.8627375960350037
+          ],
+          "pivot_y": 5.039627552032471,
+          "radius": 2.96175630569458
+        },
+        {
+          "center": [
+            -0.7548550367355347,
+            10.521138191223145,
+            0.950146496295929
+          ],
+          "pivot_y": 9.706202507019043,
+          "radius": 2.674884557723999
+        },
+        {
+          "center": [
+            0.7257596254348755,
+            10.615429878234863,
+            0.793811559677124
+          ],
+          "pivot_y": 9.706202507019043,
+          "radius": 2.96175630569458
+        },
+        {
+          "center": [
+            0.8239681124687195,
+            10.907958984375,
+            -0.673037588596344
+          ],
+          "pivot_y": 9.706202507019043,
+          "radius": 2.96175630569458
+        },
+        {
+          "center": [
+            -0.5614511370658875,
+            10.40718936920166,
+            -0.810863733291626
+          ],
+          "pivot_y": 9.706202507019043,
+          "radius": 2.96175630569458
+        }
+      ],
+      "crown_center": [
+        -0.23767900466918945,
+        6.948199272155762,
+        -0.27391910552978516
+      ],
+      "crown_radius": 9.032366752624512,
+      "family": "golden",
+      "foliage_type": "rounded",
+      "height_m": 14.103601455688477,
+      "id": "forest_golden_03",
+      "models": [
+        {
+          "bytes": 609025,
+          "dimensions_blender_xyz_m": [
+            8.24832534790039,
+            7.706371307373047,
+            14.103601455688477
+          ],
+          "path": "assets/graphics/trees/models/forest_golden_03_lod0.res",
+          "sha256": "91527e52b7adf1a8a2a021b36643aa03bf8d613aea2027dce1c0200301d8693f",
+          "triangles": 21380
+        },
+        {
+          "bytes": 159030,
+          "dimensions_blender_xyz_m": [
+            8.350918769836426,
+            7.478672981262207,
+            14.103601455688477
+          ],
+          "path": "assets/graphics/trees/models/forest_golden_03_lod1.res",
+          "sha256": "6773eaf1f34c72d7a458aa80313cbab0cfaaab9e1d88cfa79bb95dde584c2452",
+          "triangles": 7329
+        },
+        {
+          "bytes": 1394,
+          "dimensions_blender_xyz_m": [
+            16.219141006469727,
+            9.999999747378752e-06,
+            16.219141006469727
+          ],
+          "path": "assets/graphics/trees/models/forest_golden_03_lod2.res",
+          "sha256": "f2554dee1a6c712a8b464f8b7a51e0200b7c003847d43f73c2bd9710b4f585a5",
+          "triangles": 2
+        }
+      ],
+      "nominal_height_m": 14.0,
+      "palette_srgb": [
+        0.82,
+        0.71,
+        0.23
+      ],
+      "prepared_manifest_sha256": "ed4aae5a83e98c25f281016ec4ddab325317da1b3f3421aa532d0ebc0f37710b",
+      "prepared_source": {
+        "attachment_sites": 210.0,
+        "authoring": {
+          "art_source/trees/colorful_v1/textures/bake.json": "39a5a33123f4a1b2967cf49e270dbed36f71656cdee4b842ab41f6da5d209e38",
+          "art_source/trees/colorful_v1/textures/provenance.json": "5d949a47179e64a00b1dbf2fb63ef1689f0a7b1b4cb15b7d5471738e757b0881",
+          "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94",
+          "scripts/art/bake_colorful_leaf_maps.py": "3eb7421a711b6afb43a33c8ca087febf48da4270390305e1fbe14ec12c364e11",
+          "scripts/art/colorful_tree_geometry.py": "c802af9cdf9bda5f04038f4b8997c99378bdf819c1064cb8d8ce981283651039",
+          "scripts/art/prepare_colorful_trees.py": "fae0ff409c461cd632611500bfae80219e0c22dc2c6742052287744db06bd793"
+        },
+        "blend": "golden_birch_03.blend",
+        "blend_sha256": "4cbf4d8dbb9d23117c605ac1a23972b57b33fa6a478510ff55a586220bfd509f",
+        "family": "golden_birch",
+        "id": "golden_birch_03",
+        "leaf_sample": {
+          "bytes": 2531684.0,
+          "dimensions_blender_xyz_m": [
+            1.0,
+            0.07250000536441803,
+            1.090000033378601
+          ],
+          "file": "golden_birch_03_leaf.glb",
+          "sha256": "e58dfbeeb515d5fd4af6d3e61041004cf1ff3a79c738f52fd35a2f2983816617",
+          "surfaces": 1.0,
+          "triangles": 10.0
+        },
+        "leaf_type": "rounded",
+        "models": [
+          {
+            "bytes": 5571088.0,
+            "dimensions_blender_xyz_m": [
+              8.248326301574707,
+              7.706371307373047,
+              14.103601455688477
+            ],
+            "file": "golden_birch_03_lod0.glb",
+            "leaf_count": 1260.0,
+            "sha256": "5b189c15819eed832fd2c2c93be85f3c6c9b04f84d7f9703d6e495fd04720acb",
+            "surfaces": 3.0,
+            "triangles": 21380.0
+          },
+          {
+            "bytes": 3821652.0,
+            "dimensions_blender_xyz_m": [
+              8.110576629638672,
+              8.003259658813477,
+              14.103601455688477
+            ],
+            "file": "golden_birch_03_lod1.glb",
+            "leaf_count": 420.0,
+            "sha256": "31f63b31337a8760e8804d1071cf1c7a3954dce281ccaecbb120313e935daf49",
+            "surfaces": 3.0,
+            "triangles": 9170.0
+          },
+          {
+            "bytes": 3571232.0,
+            "dimensions_blender_xyz_m": [
+              8.350918769836426,
+              7.478672981262207,
+              14.103601455688477
+            ],
+            "file": "golden_birch_03_lod2.glb",
+            "leaf_count": 159.0,
+            "sha256": "551f384a6b19b8384ec7507075c14614041b15d8b5a3c8882709a81ff1d50733",
+            "surfaces": 3.0,
+            "triangles": 7329.0
+          }
+        ],
+        "nominal_height_m": 14.0,
+        "palette_srgb": [
+          0.82,
+          0.71,
+          0.23
+        ],
+        "seed": 1953.0,
+        "source_preset": "BirchTree_LowPoly.054",
+        "source_settings": {
+          "Socket_102": false,
+          "Socket_174": true,
+          "Socket_24": 16.0,
+          "Socket_25": 10.0,
+          "Socket_40": 1964.0,
+          "Socket_47": 1953.0,
+          "Socket_50": 5.0,
+          "Socket_57": 10.0
+        }
+      },
+      "runtime_builder": "scripts/art/integrate_colorful_trees.gd",
+      "runtime_builder_sha256": "c7f940b08a5895e34eabca4c77167473bbfecacc8f46d1b132c04727d17eba1d",
+      "seed": 1953.0,
+      "shadow": {
+        "bytes": 68040,
+        "dimensions_blender_xyz_m": [
+          8.350918769836426,
+          7.478672981262207,
+          14.103601455688477
+        ],
+        "path": "assets/graphics/trees/models/forest_golden_03_shadow.res",
+        "sha256": "f67b54f48701409d448f71c84a9700564e1a43ad04cac84560173b460ffa3c13",
+        "triangles": 1821
+      },
+      "source_blend": "art_source/trees/colorful_v1/blends/golden_birch_03.blend",
+      "variant": 3
     }
   ],
   "needle_geometry": "Curved needle sprays with baked albedo, normal, occlusion and coverage-preserving mipmaps",

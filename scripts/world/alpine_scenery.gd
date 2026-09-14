@@ -41,6 +41,7 @@ func build(field, library, profile, terrain_snow: ShaderMaterial = null, checkpo
 		density_forest=preload("res://scripts/presentation/density_forest.gd").new()
 		density_forest.job = build_job
 		add_child(density_forest)
+	var warm=preload("res://scripts/presentation/forest_placement.gd").warm_noise(field.seed_value)
 	var art_rng = RandomNumberGenerator.new()
 	art_rng.seed = field.seed_value+61217+SCENERY_VERSION
 	var groups: Dictionary = {}
@@ -75,7 +76,8 @@ func build(field, library, profile, terrain_snow: ShaderMaterial = null, checkpo
 		var variant = 1+posmod(hash("%s_%d_%d_%d" % [family,floori(ob.position.x/cell),floori(ob.position.z/cell),field.seed_value]),variant_count)
 		var asset_id = "%s_%d" % [family,variant]
 		if ob.tree:
-			asset_id = "forest_%s_%02d" % [COLLECTION_FAMILY[family],variant]
+			asset_id = preload("res://scripts/presentation/forest_placement.gd").warm_asset(ob.position,field.seed_value,warm,"forest_%s_%02d" % [COLLECTION_FAMILY[family],variant])
+			family=asset_id.get_slice("_",1)
 		elif not ob.tree:
 			var kind = "buttress" if family in ["rock_outcrop","rock_split_rock"] else ("ledge" if family in ["rock_slate","rock_gneiss","rock_limestone"] else "boulder")
 			asset_id = "pc_rock_%s_%d" % [kind,1+(variant-1)%2]

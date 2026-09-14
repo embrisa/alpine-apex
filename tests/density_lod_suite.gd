@@ -13,7 +13,7 @@ func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	var library=Assets.new(Clouds.new(),Quality.preset(2))
 	var manifest=JSON.parse_string(FileAccess.get_file_as_string("res://assets/graphics/trees/manifest.json"))
-	check(manifest.version==3 and manifest.assets.size()==24,"Current collection retains 24 variants")
+	check(manifest.version==3 and manifest.assets.size()==30,"Current collection retains 24 original and six colorful variants")
 	for row in manifest.assets:
 		var living=row.family in ["spruce","fir","pine"]
 		for lod in 3:

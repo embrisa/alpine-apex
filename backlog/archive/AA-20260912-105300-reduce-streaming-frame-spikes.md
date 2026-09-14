@@ -20,7 +20,7 @@ Make skiing through rock and forest boundaries smoother by reducing intermittent
 - The retained [v15/model-28 receipt](../../docs/V15_PERFORMANCE_BASELINE_RESULTS.json) reports medians of run scope maxima: collision preparation 25.941 ms, mineral streaming 19.238 ms and forest residency 13.762 ms. These are overlapping CPU scopes, not proven causes of particular slow frames or current model-29 measurements.
 - [Main](../../scripts/main.gd) measures `crash_collision.prepare(p)` under `collision_preparation`. [CrashCollision](../../scripts/world/crash_collision.gd) builds nearby terrain/obstacle bodies for ragdolls; this is distinct from the normal skiing support solver.
 - [MineralScenery](../../scripts/presentation/mineral_scenery.gd) checks macro texture residency every 0.5 seconds and changes at most two shared sources per frame. [DensityForest](../../scripts/presentation/density_forest.gd) already prepares immutable meshes/transforms before skiing and loads at most three regions per update. Count limits do not establish time bounds; do not propose these existing foundations as missing.
-- Related work: [crash recovery](../tasks/AA-20260911-221843-crash-location-respawn.md), [colorful forests](../tasks/AA-20260912-094935-colorful-forest-variety.md) and [terrain grass](../tasks/AA-20260911-193341-terrain-grass.md). Preserve their ownership and current status.
+- Related work: [crash recovery](../tasks/AA-20260911-221843-crash-location-respawn.md), [colorful forests](AA-20260912-094935-colorful-forest-variety.md) and [terrain grass](AA-20260911-193341-terrain-grass.md). Preserve their ownership and current status.
 
 Inspected during backlog authoring on 2026-09-12. The retained full-descent
 baseline is 92.568 average rendered FPS, frame p95/p99 16.311/23.198 ms, at
@@ -133,26 +133,26 @@ owners gained diagnostic subscopes, not speculative streaming rewrites.
 
 **Demonstrated cause and gain:** formation 24003 (`mineral_large_outcrop_03`) has
 124 convex pieces. Native first attachment cooked them together, taking
-11.4–13.2 ms in three fresh-collision-owner trials. With bounded warming, mineral
-publication took 0.40–0.45 ms and warmup slices peaked at 1.051 ms (one native cook
-is not preemptible). The corresponding frame intervals near ticks 3347–3349 were
+11.4â€“13.2 ms in three fresh-collision-owner trials. With bounded warming, mineral
+publication took 0.40â€“0.45 ms and warmup slices peaked at 1.051 ms (one native cook
+is not preemptible). The corresponding frame intervals near ticks 3347â€“3349 were
 26.478/25.930/28.069 ms before and 15.921/16.495/18.052 ms after. Collision events
 above 5 ms fell from one per trial to zero. Setting the final transform before
 attachment was tested and rejected: it did not remove the cook stall.
 
 **Matched scenario measurements:** default seed 849205174, generator 15/model 29,
-3840×2160 output / 2880×1620 internal, High, Auto FSR 4.1.1, clear/day, FG/GI off,
+3840Ã—2160 output / 2880Ã—1620 internal, High, Auto FSR 4.1.1, clear/day, FG/GI off,
 current saved camera, 240 warmup frames, three focused capture-free repetitions.
 All endpoints reproduced exactly; no measured source drift or other engine jobs.
 An offline 180-second ordinary-control prefix was freshly simulated on model 29
 to reach the first forest boundary; measured windows were only 15 seconds.
 The historical recording supplied control values, never a relabeled trajectory.
 
-| Window | Median rendered FPS before → after | Frame p95 ms | Frame p99 ms |
+| Window | Median rendered FPS before â†’ after | Frame p95 ms | Frame p99 ms |
 |---|---:|---:|---:|
-| Rock 15–30 s, fresh collision owner each trial | 72.11 → 80.56 | 19.870 → 16.389 | 23.723 → 18.892 |
-| First forest residency 165–180 s | 77.84 → 75.36 | 17.580 → 18.753 | 25.338 → 24.254 |
-| Opening control 0–15 s | 101.65 → 104.97 | 14.157 → 13.777 | 15.855 → 15.689 |
+| Rock 15â€“30 s, fresh collision owner each trial | 72.11 â†’ 80.56 | 19.870 â†’ 16.389 | 23.723 â†’ 18.892 |
+| First forest residency 165â€“180 s | 77.84 â†’ 75.36 | 17.580 â†’ 18.753 | 25.338 â†’ 24.254 |
+| Opening control 0â€“15 s | 101.65 â†’ 104.97 | 14.157 â†’ 13.777 | 15.855 â†’ 15.689 |
 
 Accept the repeatable collision-event gain, not a general FPS uplift. Forest mean
 was about 3% lower, within the observed run spread; its p99 improved. Background
@@ -160,7 +160,7 @@ application/telemetry activity and whole-section variation remain recorded.
 The initial `streaming-before-forest` attempt is diagnostic only: repetitions
 2/3 lost focus and were rejected. The benchmark now reacquires focus before each
 warmup and fails unfocused trials. A separate unprofiled 120-cap check reproduced
-all three endpoints at 72.67/76.48/75.63 FPS. The global 90–120 FPS / 11.1 ms p95 /
+all three endpoints at 72.67/76.48/75.63 FPS. The global 90â€“120 FPS / 11.1 ms p95 /
 16.7 ms p99 target is still unmet in the rock and forest samples.
 
 **Resource/startup evidence:** rock cache counts stayed at 13 records / 205 pieces
@@ -168,7 +168,7 @@ and forest at 25 records / 411 pieces across re-entry, with empty final queues.
 Queue peaks were 4/14 records; shape point payloads were 104,508/235,260 bytes,
 excluding native Jolt allocations. Process private-byte peaks stayed around
 5.9 GB across variants; no monotonic re-entry accumulation appeared. Matched
-cached scene setup was 55–61 seconds; no startup gain is claimed. The catalog
+cached scene setup was 55â€“61 seconds; no startup gain is claimed. The catalog
 cache is world-owned and bounded by shared records, not visited placements.
 Enabled event timing added about 0.75 microseconds per begin/end call in the
 isolated diagnostic; this is not an FPS measurement. Both A/B arms used it.
@@ -181,7 +181,7 @@ and three re-entries without duplicate batches. Backlog tests: 23 passed.
 The forest suite requires native GPU readback, so it ran separately from the
 headless batch rather than using the task's headless example for that suite.
 
-**Rendered review:** inspected 15 native frames through the 165–180 s section
+**Rendered review:** inspected 15 native frames through the 165â€“180 s section
 and a close macro-rock view. Rock detail, forest coverage and publication were
 continuous in the sampled views; timing runs contained no capture readback.
 The capture also shows intermittent ski/snow occlusion outside the changed

@@ -77,13 +77,14 @@ func apply_quality(profile) -> void:
 		if named_materials.has(id):
 			named_materials[id].set_shader_parameter("albedo_texture",load("res://assets/graphics/textures/spruce_impostor_%d%s.png" % [i,quality.texture_suffix]))
 	for id in named_materials:
-		if id in ["PC_Conifer","TD_Conifer","FC_Tree"]:
+		if id in ["PC_Conifer","TD_Conifer","FC_Tree","FC_Broadleaf"]:
 			named_materials[id].set_shader_parameter("bark_texture",texture("bark","albedo"))
-			if id=="FC_Tree":
+			if id in ["FC_Tree","FC_Broadleaf"]:
 				named_materials[id].set_shader_parameter("bark_normal",texture("bark","normal"))
-				_set_foliage(named_materials[id])
+				if id=="FC_Broadleaf": _set_broadleaf(named_materials[id])
+				else: _set_foliage(named_materials[id])
 		elif id.begins_with("FC_Impostor_"):
-			named_materials[id].set_shader_parameter("albedo_texture",load("res://assets/graphics/trees/textures/forest_%s_atlas%s.png" % [id.trim_prefix("FC_Impostor_"),quality.texture_suffix]))
+			_set_collection_impostor(named_materials[id],id)
 		elif id.begins_with("TD_Impostor_"):
 			named_materials[id].set_shader_parameter("albedo_texture",load("res://assets/graphics/textures/td_%s_atlas%s.png" % [id.trim_prefix("TD_Impostor_"),quality.texture_suffix]))
 		elif id.begins_with("PC_Impostor_"):
@@ -132,14 +133,15 @@ func material_for(source: Material) -> ShaderMaterial:
 		if not named_materials.has(id):
 			var mat = ShaderMaterial.new()
 			mat.resource_name = id
-			if id=="FC_Tree":
+			if id in ["FC_Tree","FC_Broadleaf"]:
 				mat.shader = preload("res://assets/graphics/pc_forest_tree.gdshader")
 				mat.set_shader_parameter("bark_texture",texture("bark","albedo"))
 				mat.set_shader_parameter("bark_normal",texture("bark","normal"))
-				_set_foliage(mat)
+				if id=="FC_Broadleaf": _set_broadleaf(mat)
+				else: _set_foliage(mat)
 			else:
 				mat.shader = preload("res://assets/graphics/pc_tree_impostor.gdshader")
-				mat.set_shader_parameter("albedo_texture",load("res://assets/graphics/trees/textures/forest_%s_atlas%s.png" % [id.trim_prefix("FC_Impostor_"),quality.texture_suffix]))
+				_set_collection_impostor(mat,id)
 				mat.set_shader_parameter("card_crop",1.0)
 				if id.begins_with("FC_Impostor_spruce_") or id.begins_with("FC_Impostor_fir_") or id.begins_with("FC_Impostor_pine_"):
 					mat.set_shader_parameter("foliage_color_grade",NEEDLE_COLOR_GRADE)
@@ -260,11 +262,19 @@ func mesh(id: String) -> Mesh:
 	if meshes.has(id):
 		return meshes[id]
 	var directory = "trees/models" if id.begins_with("forest_") else "models"
-	var scene: PackedScene = load("res://assets/graphics/%s/%s.glb" % [directory,id])
-	var root = scene.instantiate()
-	var node = _find_mesh(root)
-	assert(node!=null,"Asset has no mesh: "+id)
-	var result: Mesh = node.mesh.duplicate()
+	var path="res://assets/graphics/%s/%s.glb" % [directory,id]
+	if id.begins_with("forest_"):
+		var record=tree_record(id.get_slice("_lod",0).trim_suffix("_shadow"))
+		path="res://"+(record.shadow.path if id.ends_with("_shadow") else record.models[int(id.get_slice("_lod",1))].path)
+	var resource=load(path)
+	var root: Node
+	var result: Mesh
+	if resource is Mesh: result=resource.duplicate()
+	else:
+		root=resource.instantiate()
+		var node=_find_mesh(root)
+		assert(node!=null,"Asset has no mesh: "+id)
+		result=node.mesh.duplicate()
 	# The left ski has baked mirrored geometry/UV placement but shares the
 	# right ski's materials, avoiding a second resident set of PBR textures.
 	var shared: Mesh = mesh("ski_detailed_v1") if id=="ski_detailed_v1_left" else null
@@ -277,7 +287,7 @@ func mesh(id: String) -> Mesh:
 			result.surface_set_material(i,material_for(source))
 	if id.begins_with("forest_"):
 		result.set_meta("forest_asset",id.get_slice("_lod",0).trim_suffix("_shadow"))
-	root.free()
+	if root: root.free()
 	meshes[id] = result
 	return result
 
@@ -296,6 +306,22 @@ func _set_foliage(mat: ShaderMaterial) -> void:
 	mat.set_shader_parameter("foliage_texture",load("res://assets/graphics/trees/textures/foliage_color%s.res" % suffix))
 	mat.set_shader_parameter("foliage_normal_ao",load("res://assets/graphics/trees/textures/foliage_normal_ao%s.res" % suffix))
 
+func _set_broadleaf(mat: ShaderMaterial) -> void:
+	var suffix: String=["_low","_balanced",""][quality.texture_tier]
+	mat.set_shader_parameter("broadleaf",true)
+	mat.set_shader_parameter("foliage_texture",load("res://assets/graphics/trees/textures/broadleaf_albedo%s.res" % suffix))
+	mat.set_shader_parameter("foliage_normal_ao",load("res://assets/graphics/trees/textures/broadleaf_normal%s.res" % suffix))
+	mat.set_shader_parameter("leaf_roughness",load("res://assets/graphics/trees/textures/broadleaf_roughness%s.res" % suffix))
+
+func _set_collection_impostor(mat: ShaderMaterial,id: String) -> void:
+	var stem="forest_"+id.trim_prefix("FC_Impostor_")
+	var colorful=tree_record(stem).has("foliage_type")
+	var suffix: String=["_low","_balanced",""][quality.texture_tier] if colorful else quality.texture_suffix
+	mat.set_shader_parameter("albedo_texture",load("res://assets/graphics/trees/textures/%s_atlas%s.%s" % [stem,suffix,"res" if colorful else "png"]))
+	if colorful:
+		mat.set_shader_parameter("authored_canopy",true)
+		mat.set_shader_parameter("canopy_texture",load("res://assets/graphics/trees/textures/%s_canopy%s.res" % [stem,suffix]))
+
 func tree_shadow(id: String) -> Mesh:
 	return mesh(id+"_shadow") if tree_record(id).has("shadow") else mesh(id+"_lod1")
 
@@ -307,11 +333,18 @@ func tree_render_bounds(id: String) -> AABB:
 	# Conservative swept displacement for the existing .32-radian canopy spring.
 	return box.grow(float(tree_record(id).height_m)*.34)
 
-func tree_record(id: String) -> Dictionary:
+func _load_tree_catalog() -> void:
 	if tree_collection.is_empty():
 		var manifest: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/graphics/trees/manifest.json"))
 		for record in manifest.assets: tree_collection[record.id] = record
+
+func tree_record(id: String) -> Dictionary:
+	_load_tree_catalog()
 	return tree_collection[id]
+
+func tree_ids() -> PackedStringArray:
+	_load_tree_catalog()
+	return PackedStringArray(tree_collection.keys())
 
 func update_wind(state, dt: float, animate: bool) -> void:
 	if animate:
@@ -333,10 +366,10 @@ func update_wind(state, dt: float, animate: bool) -> void:
 
 func _remember_material(id: String, mat: ShaderMaterial) -> void:
 	named_materials[id] = mat
-	if id=="FC_Tree" or id.begins_with("FC_Impostor_spruce_") or id.begins_with("FC_Impostor_fir_") or id.begins_with("FC_Impostor_pine_"):
+	if id in ["FC_Tree","FC_Broadleaf"] or (id.begins_with("FC_Impostor_") and tree_record("forest_"+id.trim_prefix("FC_Impostor_")).has("foliage_type")) or id.begins_with("FC_Impostor_spruce_") or id.begins_with("FC_Impostor_fir_") or id.begins_with("FC_Impostor_pine_"):
 		if not sight_receivers.has(mat): sight_receivers.append(mat)
 		mat.set_shader_parameter("foliage_sight_parameters",foliage_sight.parameters)
-	if id in ["Needles","Spruce","PC_Conifer","TD_Conifer","FC_Tree"] or (id.begins_with("Tree_") and not id.ends_with("snag")):
+	if id in ["Needles","Spruce","PC_Conifer","TD_Conifer","FC_Tree","FC_Broadleaf"] or (id.begins_with("Tree_") and not id.ends_with("snag")):
 		if not wind_receivers.has(mat): wind_receivers.append(mat)
 		# Quality invalidates submissions, but the last observed state is still
 		# valid for a material registered before the next normal update.

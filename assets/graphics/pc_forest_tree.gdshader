@@ -10,6 +10,8 @@ uniform sampler2D bark_normal : hint_normal,filter_linear_mipmap_anisotropic,rep
 uniform sampler2D foliage_texture : source_color,filter_linear_mipmap_anisotropic,repeat_disable;
 uniform sampler2D foliage_normal_ao : hint_normal,filter_linear_mipmap_anisotropic,repeat_disable;
 uniform vec3 foliage_color_grade = vec3(1.0);
+uniform bool broadleaf = false;
+uniform sampler2D leaf_roughness : filter_linear_mipmap_anisotropic,repeat_disable;
 uniform float wind_time=0.0;
 uniform float wind_strength=0.0;
 uniform vec2 wind_direction=vec2(1.0,0.0);
@@ -17,8 +19,15 @@ uniform float snow_coverage : hint_range(0.0,1.0)=1.0;
 uniform vec4 contact_anchors[4];
 uniform vec4 contact_angles[48];
 varying flat float lod_coverage;
+varying flat vec3 leaf_variation;
 varying vec3 world_normal;
 varying vec3 local_position;
+// Keep this grading identical to pc_tree_impostor: LODs share the same anchor.
+vec3 tree_leaf_variation(vec2 anchor) {
+ float a=fract(sin(dot(anchor,vec2(.1031,.11369)))*43758.5453)*2.0-1.0;
+ float b=fract(sin(dot(anchor,vec2(.0717,.0973)))*22578.1459)*2.0-1.0;
+ return vec3(1.0+.055*a+.025*b,1.0+.055*a,1.0+.055*a-.025*b);
+}
 vec3 bend(vec3 p,vec3 a) {
  float sx=sin(a.x),cx=cos(a.x),sy=sin(a.y),cy=cos(a.y),sz=sin(a.z),cz=cos(a.z);
  vec3 q=vec3(p.x*cz-p.y*sz,p.x*sz+p.y*cz,p.z);
@@ -26,6 +35,7 @@ vec3 bend(vec3 p,vec3 a) {
  return vec3(q.x*cy+q.z*sy,q.y,-q.x*sy+q.z*cy);
 }
 void vertex() {
+ leaf_variation=tree_leaf_variation(MODEL_MATRIX[3].xz);
  local_position=VERTEX;
  lod_coverage=pc_lod_coverage(MAIN_CAM_INV_VIEW_MATRIX[3].xyz,MODEL_MATRIX[3].xyz,MODEL_MATRIX);
  // Per-tree distance can hide part of a regional batch. Collapse those
@@ -74,11 +84,11 @@ void fragment() {
   vec4 needles=texture(foliage_texture,UV);
   if(needles.a<.5) discard;
   ALPHA=needles.a;
-  tint*=needles.rgb*foliage_color_grade;
+  tint*=needles.rgb*foliage_color_grade*leaf_variation;
   vec4 detail=texture(foliage_normal_ao,UV);
   NORMAL_MAP=detail.rgb;
-  NORMAL_MAP_DEPTH=.4;
-  AO=mix(.60,1.0,detail.a);
+  NORMAL_MAP_DEPTH=broadleaf?.24:.4;
+  AO=broadleaf?1.0:mix(.60,1.0,detail.a);
   AO_LIGHT_AFFECT=.15;
  }
  if(wood) {
@@ -102,7 +112,7 @@ void fragment() {
  float dust=smoothstep(.72,.97,world_normal.y)*snow_coverage*.08;
  if(mask>.65 && mask<.8) dust*=.15;
  ALBEDO=mix(tint,vec3(.75,.81,.86),dust*(snow?0.0:1.0));
- ROUGHNESS=snow?.83:.91;
+ ROUGHNESS=snow?.83:((broadleaf && !wood)?mix(.62,.97,texture(leaf_roughness,UV).r):.91);
  SPECULAR=.16;
  needle_transmission=(!wood && !snow)?.12:0.0;
  if(!FRONT_FACING) NORMAL=-NORMAL;

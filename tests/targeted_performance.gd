@@ -8,6 +8,7 @@ var output=""
 var map_id=""
 var seconds=6
 var capture=false
+var scenery_camera=false
 var recording=false
 var previous_frame=0
 var samples={"frame_ms":[],"render_cpu_ms":[],"gpu_ms":[],"draw_calls":[],"primitives":[]}
@@ -25,6 +26,7 @@ func run() -> void:
 		elif arg.begins_with("--output="): output=arg.trim_prefix("--output=")
 		elif arg.begins_with("--seconds="): seconds=int(arg.get_slice("=",1))
 		elif arg=="--capture-map": capture=true
+		elif arg=="--scenery-camera": scenery_camera=true
 	check(map_id in ["perf-slopes","perf-rocks","perf-vegetation","perf-mixed"],"Select a known performance map")
 	check(seconds>=4 and seconds<=10,"Select 4-10 seconds")
 	check(DisplayServer.get_name()!="headless","Native rendering required")
@@ -75,6 +77,8 @@ func run() -> void:
 	report.actual_pixels=[pixels.x,pixels.y]
 	report.display=game.display_settings.report(root,pixels)
 	report.graphics=game.graphics.snapshot()
+	report.camera_profile="scenery" if scenery_camera else "riding"
+	report.camera=game.camera_settings.snapshot()
 	report.warmup_seconds=(Time.get_ticks_usec()-warm_started)/1000000.0
 	if capture:
 		await captures()
@@ -102,6 +106,7 @@ func prepare_start() -> void:
 	game.start_run(false); game.set_physics_process(false)
 	reset_sim(game.sim); game.previous_position=game.sim.position
 	game.skier.reset_animation(game.sim)
+	if scenery_camera: preload("res://tests/scenery_camera.gd").configure(game.camera_settings)
 	game.camera.close_view=false; game.camera.reset(); game.menu_camera.leave()
 	game.camera.update_camera(game.sim,game.field,game.sim.position,1.0/60.0)
 	game.camera.make_current(); game.hud.hide_menu(); game.active=true
@@ -160,6 +165,9 @@ func sample_frame() -> void:
 	previous_frame=now
 
 func captures() -> void:
+	await RenderingServer.frame_post_draw
+	check(root.get_texture().get_image().save_png(output.path_join("riding.png"))==OK,"Riding camera capture saved")
+	report.riding_camera=str(game.camera.global_transform)
 	# Freeze the main camera selector only for visual inspection, outside timing.
 	game.set_process(false); game.hud.hide()
 	var camera=Camera3D.new(); game.add_child(camera)
@@ -178,13 +186,13 @@ func captures() -> void:
 func collect_sources() -> Dictionary:
 	var result={}
 	for folder in ["res://scripts","res://assets/graphics","res://config"]: hash_folder(folder,result)
-	for path in ["res://main.tscn","res://project.godot","res://tests/fixtures/test_maps.json","res://tests/fixtures/performance_maps.json","res://tests/targeted_performance.gd"]:
+	for path in ["res://main.tscn","res://project.godot","res://tests/fixtures/test_maps.json","res://tests/fixtures/performance_maps.json","res://tests/targeted_performance.gd","res://tests/scenery_camera.gd"]:
 		result[path]=FileAccess.get_sha256(path)
 	return result
 
 func hash_folder(folder: String,result: Dictionary) -> void:
 	for name in DirAccess.get_files_at(folder):
-		if name.get_extension() in ["gd","gdshader","gdshaderinc","tres"]:
+		if name.get_extension() in ["gd","gdshader","gdshaderinc","tres","res","json"]:
 			var path=folder.path_join(name); result[path]=FileAccess.get_sha256(path)
 	for directory in DirAccess.get_directories_at(folder): hash_folder(folder.path_join(directory),result)
 

@@ -1,10 +1,13 @@
 # Prepared colorful trees
 
-This is an authoring asset pack, **not integrated into Alpine Apex**. It is
-excluded from Godot's production import scan by `.gdignore`. No production tree
-manifest, forest placement, collision data or shader registration is changed.
-Integration remains deferred in
-[`AA-20260912-094935-colorful-forest-variety`](../../../backlog/tasks/AA-20260912-094935-colorful-forest-variety.md).
+This authoring asset pack stays excluded from Godot's production import scan by
+`.gdignore`. The user resumed integration on 2026-09-14: production uses separate
+packed derivatives, leaving these source assets and their hashes unchanged. See
+[`AA-20260912-094935-colorful-forest-variety`](../../../backlog/archive/AA-20260912-094935-colorful-forest-variety.md).
+`./scripts/art/integrate_colorful_trees.ps1` rebuilds all runtime derivatives;
+`-Asset forest_golden_01` selects one. The owning [Assets guide](../../../docs/ASSETS.md#trees)
+describes production material conversion and detail levels. Original preparation
+evidence below remains isolated asset evidence; it is not mountain acceptance.
 
 ## Contents and ownership
 
@@ -58,8 +61,8 @@ under `artifacts/colorful_tree_preparation/native_project/`, load GLBs directly,
 and write captures plus `native_validation.json` under the task's artifacts.
 The isolated project has no game scene, autoloads, player profile or race state.
 Escape closes interactive review. Native preview uses portable PBR materials;
-production wind, visibility assistance, lighting and batching integration are
-separate future work.
+production wind, visibility assistance, lighting and batching use the separate
+runtime conversion described in [Assets](../../../docs/ASSETS.md#trees).
 
 The isolated preview uses stock Godot Forward+ and explicitly applies GLB vertex
 colors to its portable materials. An initial custom-runtime Compatibility-mode
@@ -67,7 +70,7 @@ startup crash occurred before asset loading; its logs are retained in
 `artifacts/colorful_tree_preparation/startup_crash/`. This pack does not change
 the game's selected renderer. Reduced geometry retains the near woody skeleton:
 aggressive trunk simplification was rejected after native review showed breaks.
-Use the directional atlases for future production far rendering, not the coarse
+Production far rendering uses the directional atlases; do not use the coarse
 inspection mesh as evidence of an optimized forest. Re-bake after rebuilding a
 tree; atlas receipts pin their source GLB hashes and the verifier rejects stale
 atlases.
@@ -82,13 +85,11 @@ That checks all GLB dimensions, triangle counts, textured leaf materials, vertex
 branch UV metadata against the manifest. Validation logs and review images are
 evidence, not dependencies. Completion evidence is recorded in the backlog item.
 
-## Future integration handoff
+## Production integration
 
-Use the existing production pipeline when integration is explicitly resumed.
-Convert these material roles into its batching/mask contract; register new leaf
-and impostor materials for wind and visibility assistance; verify snow masking,
-terrain seating, quality tiers, LOD transitions and source/scenery cache identity.
-Fit visual selection to existing physical trees rather than adding obstacles.
-Keep coherent warm-colored stands among the evergreens. Measure the actual
-mixed forest in matched bounded descents before making performance claims.
+The user resumed integration on 2026-09-14. The converter at the top of this
+document produces separate runtime derivatives while preserving this source pack.
+[Assets](../../../docs/ASSETS.md#trees) owns its conversion and material contract;
+[Validation](../../../docs/VALIDATION.md#colorful-tree-checks) owns the current
+mountain review and matched performance commands.
 Neither isolated asset checks nor the preview establish player acceptance.

@@ -1,6 +1,6 @@
 extends Node3D
 ## Standalone collection review: no game session, input simulation or records.
-const FAMILY = ["spruce","fir","pine","birch","dead","broken"]
+var FAMILY: Array = []
 const Dynamics = preload("res://scripts/core/tree_dynamics.gd")
 var assets
 var manifest: Dictionary
@@ -33,6 +33,7 @@ func _ready() -> void:
 	get_viewport().msaa_3d=Viewport.MSAA_4X
 	Engine.max_fps = 120
 	manifest = JSON.parse_string(FileAccess.get_file_as_string("res://assets/graphics/trees/manifest.json"))
+	FAMILY=manifest.families.keys()
 	assets = load("res://scripts/presentation/alpine_assets.gd").new(load("res://scripts/presentation/cloud_lighting.gd").new(),load("res://scripts/presentation/graphics_quality.gd").preset(2))
 	var env = WorldEnvironment.new(); env.environment=Environment.new()
 	env.environment.background_mode=Environment.BG_COLOR
@@ -53,7 +54,9 @@ func _ready() -> void:
 	var style=StyleBoxFlat.new(); style.bg_color=Color(.02,.025,.035,.90); style.content_margin_left=16; style.content_margin_right=16; style.content_margin_top=10; style.content_margin_bottom=10; panel.add_theme_stylebox_override("panel",style)
 	var box=VBoxContainer.new(); panel.add_child(box)
 	heading=Label.new(); heading.add_theme_font_size_override("font_size",28); box.add_child(heading)
-	var help=Label.new(); help.text="1 Spruce   2 Fir   3 Pine   4 Winter birch   5 Dead snags   6 Broken crowns   A All trees\nDrag: orbit   Wheel: zoom   Left/Right: select   F: close view   L: detail   S: snow   W: wind   Space: branch response   Esc: close"; help.add_theme_font_size_override("font_size",17); box.add_child(help)
+	var keys=PackedStringArray()
+	for i in FAMILY.size(): keys.append("%d %s" % [i+1,manifest.families[FAMILY[i]].label])
+	var help=Label.new(); help.text="   ".join(keys)+"   A All trees\nDrag: orbit   Wheel: zoom   Left/Right: select   F: close view   L: detail   S: snow   W: wind   Space: branch response   Esc: close"; help.add_theme_font_size_override("font_size",15); box.add_child(help)
 	status=Label.new(); box.add_child(status)
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--category="): category=arg.trim_prefix("--category=")
@@ -73,12 +76,13 @@ func show_category(value: String) -> void:
 		node.multimesh.instance_count=1
 		var target_height=4.5 if category=="all" else 10.5
 		var scale_value=target_height/float(record.height_m)
-		var p=Vector3((int(record.variant)-2.5)*8,0,0)
-		if category=="all": p=Vector3((FAMILY.find(record.family)-2.5)*6,0,(int(record.variant)-2.5)*8)
+		var family_count=manifest.assets.filter(func(a): return a.family==record.family).size()
+		var p=Vector3((int(record.variant)-(family_count+1)*.5)*8,0,0)
+		if category=="all": p=Vector3((FAMILY.find(record.family)-(FAMILY.size()-1)*.5)*6,0,(int(record.variant)-2.5)*8)
 		var transform_value=Transform3D(Basis.IDENTITY.scaled(Vector3.ONE*scale_value),p)
 		node.multimesh.set_instance_transform(0,transform_value)
 		display.add_child(node)
-		var label=Label3D.new(); label.text="%s %02d / %s m" % [record.family.capitalize(),record.variant,str(record.height_m)]
+		var label=Label3D.new(); label.text="%s %02d / %.2f m" % [record.family.capitalize(),record.variant,record.height_m]
 		label.font_size=36; label.pixel_size=.011
 		label.billboard=BaseMaterial3D.BILLBOARD_ENABLED; label.no_depth_test=true
 		label.position=p+Vector3(0,-.1,1.8 if category=="all" else 2.7); display.add_child(label)
@@ -86,7 +90,7 @@ func show_category(value: String) -> void:
 		springs.append(Dynamics.new(record.branches))
 		index+=1
 	focus=Vector3(0,3.4,0) if category=="all" else Vector3(0,5.2,0)
-	distance=30 if category=="all" else 22
+	distance=38 if category=="all" else 22
 	pitch=.65 if category=="all" else .12
 	focused=false
 	selected=clampi(selected,0,maxi(0,records.size()-1))
@@ -117,8 +121,9 @@ func _process(dt: float) -> void:
 	while ticks>=Dynamics.DT:
 		for spring in springs: spring.step(Vector3(100,100,100),Vector3(100,100,100),Vector3.ZERO)
 		ticks-=Dynamics.DT
-	if assets.named_materials.has("FC_Tree"):
-		var mat: ShaderMaterial=assets.named_materials.FC_Tree
+	for material_id in ["FC_Tree","FC_Broadleaf"]:
+		if not assets.named_materials.has(material_id): continue
+		var mat: ShaderMaterial=assets.named_materials[material_id]
 		mat.set_shader_parameter("snow_coverage",1.0 if snow else 0.0)
 		var anchors=PackedVector4Array(); anchors.resize(4)
 		var angles=PackedVector4Array(); angles.resize(48)
@@ -131,7 +136,7 @@ func _process(dt: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if automated: return
 	if event is InputEventKey and event.pressed:
-		if event.keycode>=KEY_1 and event.keycode<=KEY_6: show_category(FAMILY[event.keycode-KEY_1])
+		if event.keycode>=KEY_1 and event.keycode<=KEY_1+FAMILY.size()-1: show_category(FAMILY[event.keycode-KEY_1])
 		if event.keycode==KEY_A: show_category("all")
 		if event.keycode==KEY_ESCAPE: get_tree().quit()
 		if event.keycode==KEY_L: lod=(lod+1)%3; show_category(category)
@@ -169,7 +174,7 @@ func capture_all() -> void:
 		if only!="" and family!=only: continue
 		if not manifest.assets.any(func(a): return a.family==family): continue
 		show_category(family); await capture(family)
-		if family in ["spruce","birch","dead","broken"]:
+		if family in ["spruce","birch","dead","broken","golden","maple"]:
 			focus=records[0].anchor+Vector3(0,9.0 if family=="broken" else 4.0,0)
 			distance=4.5 if family=="broken" else 9.0
 			update_camera(); await capture(family+"_detail")

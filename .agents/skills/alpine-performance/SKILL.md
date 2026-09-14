@@ -51,9 +51,16 @@ For local slopes, rocks, vegetation or combined rendering, use the
 for measurement. Select the corresponding component map; `mixed` combines the
 same placements. The wrapper owns FpsCritical admission and three independent
 short trials by default. Capture separately with `-Capture`; inspect detail and
-overview images. Read actual population, pixels, complete duration, source/focus
+overview images. The targeted wrapper defaults to its explicitly recorded
+`-Camera scenery` profile; compare it only with the same framing. Use `-Camera riding`
+to inspect the existing riding configuration. Neither profile writes preferences.
+Read actual population, pixels, complete duration, source/focus
 validity and per-trial frame tails. These are local production-component results;
 keep full-mountain FPS and human acceptance separate.
+When concurrent source edits invalidate a forest baseline, use the explicit
+[frozen forest comparison](../../../docs/VALIDATION.md#colorful-tree-checks)
+with an identified pre-change revision. Inspect its enumerated overrides and
+before/after binary hashes; do not silently reinterpret a drifting run as valid.
 
 Use [benchmark_pc.ps1](../../../scripts/benchmark_pc.ps1) for production frame
 measurements; consult the measurement guide for its guarded invocation. Select

@@ -96,7 +96,7 @@ func update(actor: Vector3, velocity: Vector3, dt: float, active: bool) -> void:
 
 func _upload() -> void:
 	if assets:
-		for id in ["TD_Conifer","FC_Tree"]:
+		for id in ["TD_Conifer","FC_Tree","FC_Broadleaf"]:
 			if not assets.named_materials.has(id): continue
 			var material: ShaderMaterial = assets.named_materials[id]
 			material.set_shader_parameter("contact_anchors",anchors)

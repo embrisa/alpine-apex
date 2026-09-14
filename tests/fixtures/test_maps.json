@@ -1719,6 +1719,28 @@
           "full_mountain": true
         }
       ]
+    },
+    "tests/scenery_trace.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Metadata-only framing of an existing compatible ordinary input trace."
+    },
+    "scripts/art/integrate_colorful_trees.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Isolated 512-pixel source conversion and eight-view canopy masks; no mountain."
+    },
+    "tests/colorful_forest_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Inline 512 m 4 m terrain fixture, 961 unchanged physical trees per seed; catalog and packed assignment contracts."
+    },
+    "tests/colorful_forest_playtest.gd": {
+      "maps": [
+        "perf-vegetation"
+      ],
+      "full_mountain": false,
+      "coverage": "Capped production tree materials and scenery; optional --standard explicitly restores a warm physical seed and requires full-mountain admission. No implicit physical bake or timing evidence."
     }
   }
 }

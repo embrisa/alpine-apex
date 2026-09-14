@@ -14,26 +14,47 @@ var far_groups: Dictionary = {}
 var family_counts: Dictionary = {}
 
 static func metadata(library) -> Dictionary:
-	var contacts = Contacts.new()
-	var result: Dictionary = {}
-	for family in FAMILY.values():
-		for variant in range(1,5):
-			var asset = "forest_%s_%02d" % [family,variant]
-			result[asset] = {"height_m":float(library.tree_record(asset).height_m),"footprint":contacts.root_footprint(asset,library),"render_bounds":library.tree_render_bounds(asset)}
+	var contacts=Contacts.new(); var result: Dictionary={}
+	for asset in library.tree_ids():
+		result[asset]={"height_m":float(library.tree_record(asset).height_m),"footprint":contacts.root_footprint(asset,library),"render_bounds":library.tree_render_bounds(asset)}
 	contacts.free()
 	return result
 
-static func metadata_async(library, checkpoint: Callable, job) -> Dictionary:
-	var contacts = Contacts.new(); var result: Dictionary = {}
-	for family in FAMILY.values():
-		for variant in range(1,5):
-			if job.is_cancelled(): contacts.free(); return {}
-			var asset = "forest_%s_%02d" % [family,variant]
-			result[asset] = {"height_m":float(library.tree_record(asset).height_m),"footprint":contacts.root_footprint(asset,library),"render_bounds":library.tree_render_bounds(asset)}
-			job.advance()
-			if checkpoint.is_valid(): await checkpoint.call("Preparing tree roots · %d / 24" % result.size(),100.0*result.size()/24)
+static func metadata_async(library,checkpoint: Callable,job) -> Dictionary:
+	var contacts=Contacts.new(); var result: Dictionary={}; var ids=library.tree_ids()
+	for asset in ids:
+		if job.is_cancelled(): contacts.free(); return {}
+		result[asset]={"height_m":float(library.tree_record(asset).height_m),"footprint":contacts.root_footprint(asset,library),"render_bounds":library.tree_render_bounds(asset)}
+		job.advance()
+		if checkpoint.is_valid(): await checkpoint.call("Preparing tree roots Â· %d / %d" % [result.size(),ids.size()],100.0*result.size()/ids.size())
 	contacts.free()
 	return result
+
+static func warm_noise(seed_value: int) -> FastNoiseLite:
+	var noise=FastNoiseLite.new(); noise.seed=seed_value+47219
+	noise.frequency=.006; noise.fractal_octaves=2
+	return noise
+
+static func warm_asset(position: Vector3,seed_value: int,noise: FastNoiseLite,original: String) -> String:
+	# Replace only living conifers. The physical candidate and bare/dead accents
+	# are unchanged. Soft patch edges mix into the evergreen backbone.
+	var original_family=original.get_slice("_",1)
+	if not original_family in ["spruce","fir","pine"]: return original
+	# A dominant silhouette keeps batching and stand character; independent
+	# minority variants stop adjacent crowns from repeating the same outline.
+	var individual=posmod(hash(Vector3(position.x,seed_value,position.z)),10000)
+	if individual<3800:
+		original="forest_%s_%02d" % [original_family,1+posmod(hash(Vector3(position.z,position.x,seed_value)),4)]
+	var patch=smoothstep(-.08,.27,noise.get_noise_2d(position.x,position.z))*.80
+	var rank=float(posmod(hash(Vector2(position.x,position.z)),10000))/10000.0
+	if rank>=patch: return original
+	# A second coherent noise channel blends families across stand boundaries;
+	# the small minority of the other family avoids rectangular monocultures.
+	var birch_share=.07+.86*smoothstep(-.12,.12,noise.get_noise_2d(position.x+17031,position.z-11093))
+	var family="golden" if float(individual)/10000.0<birch_share else "maple"
+	var variant=1+posmod(hash("%s:%d:%d:%d" % [family,seed_value,floori(position.x/48),floori(position.z/48)]),3)
+	if individual%100<38: variant=1+posmod(hash(Vector3(position.z,position.x,seed_value+53)),3)
+	return "forest_%s_%02d" % [family,variant]
 
 func build(field, metadata_values: Dictionary, job) -> void:
 	assets = PackedStringArray(metadata_values.keys()); assets.sort()
@@ -65,6 +86,7 @@ func _trees(field, metadata_values: Dictionary, lookup: Dictionary, first: int, 
 	var values = PackedFloat32Array(); values.resize((last-first)*12)
 	var indices = PackedInt32Array(); indices.resize(last-first)
 	var seated = PackedVector3Array(); seated.resize(last-first)
+	var warm=warm_noise(field.seed_value)
 	for i in range(first,last):
 		if i%128==0 and job.is_cancelled(): break
 		var p: Vector3 = field.tree_data.positions[i]
@@ -73,7 +95,7 @@ func _trees(field, metadata_values: Dictionary, lookup: Dictionary, first: int, 
 		var family: String = ["spruce","fir","pine"][posmod(region+mixed,3)]
 		if posmod(hash(Vector2(p.x,p.z)),7)==0: family = ["birch","snag","split_snag"][posmod(region,3)]
 		var variant = 1+posmod(hash("%s_%d_%d_%d" % [family,floori(p.x/48),floori(p.z/48),field.seed_value]),4)
-		var asset = "forest_%s_%02d" % [FAMILY[family],variant]
+		var asset = warm_asset(p,field.seed_value,warm,"forest_%s_%02d" % [FAMILY[family],variant])
 		var scale_value: float = field.tree_data.dimensions[i].z*10.5/metadata_values[asset].height_m
 		var pose = Transform3D(Basis(Vector3.UP,field.tree_data.yaws[i]).scaled(Vector3.ONE*scale_value),p)
 		var shift = 0.0

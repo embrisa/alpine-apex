@@ -119,21 +119,31 @@ acceptance. Verify generated files and receipts before claiming authoring comple
 
 ## Trees
 
-Prepared-only colorful trees are stored in `art_source/trees/colorful_v1/`, outside
-production tree discovery and excluded from Godot import with `.gdignore`. See
-its README and manifest for the six birch/maple variants, portable materials,
-leaf-type samples, detail levels, source hashes and isolated preview commands.
-The authoring wrapper is `./scripts/prepare_colorful_trees.ps1`; forest selection,
-production shader conversion and performance validation remain deferred under
-`AA-20260912-094935-colorful-forest-variety`. Asset preparation does not authorize
-integration.
+Colorful tree sources stay in `art_source/trees/colorful_v1/`, excluded from Godot
+import by `.gdignore`. Its README and manifest own six birch/maple variants,
+portable materials, leaf samples, source hashes and authoring commands. Following
+the user's resumed integration, `scripts/art/integrate_colorful_trees.ps1` packs
+new production `.res` derivatives without rewriting these sources or the existing
+tree assets/imports. The production manifest records their source and output hashes.
 
-The collection has 24 variants: four each spruce, fir, pine, winter birch,
-dead snag and broken crown. Revision 3 rebuilds twelve living conifers with
+The collection has 30 variants: four each spruce, fir, pine, winter birch,
+dead snag and broken crown, plus three golden birches and three autumn maples.
+Revision 3 rebuilds twelve living conifers with
 curved branch sprays, needle textures, richer greens and moderate upper snow;
 bare/dead/broken geometry retains its established variants. Source manifests
 own seeds, masks, physics proxies and export hashes. Tree population, placement
 and collision are [World](WORLD.md) contracts, separate from art revisions.
+
+Broadleaf packing combines the source wood/leaf/snow surfaces into one production
+surface with role alpha 0/.7/1, preserving RGB, UVs and branch pivots. Near geometry
+uses source LOD0 (21,379–28,940 triangles); middle uses the coarse source LOD2
+(6,396–7,806); distant trees use two-triangle, eight-view cards. Separate simplified
+shadow resources remain below 2,000 triangles. Shared leaf albedo/normal/roughness
+and per-variant atlas/canopy masks use mipmapped BC7 resources at Low/Balanced/High
+tiers. The canopy mask is baked from material roles, retaining opaque woody
+impostor pixels during visibility assistance. Resource UIDs survive repacking.
+The existing conifer rebuild/package scripts preserve these separately packed
+families; `rebuild_foliage.ps1 -Asset forest_golden_01` routes to their converter.
 
 GLBs carry UVs, vertex masks and twelve branch tags in one surface. Godot applies
 foliage textures to alpha-.7 vertices; wood/snow retain their masks. A GLB
@@ -149,7 +159,7 @@ Wind/contact bend branches cosmetically without changing collision envelopes.
 ```
 
 The rebuild runner serializes authoring, packing, import and Blender roundtrip.
-Resume verifies source/authoring identity and export hashes. Gallery keys 1–6
+Resume verifies source/authoring identity and export hashes. Gallery keys 1–8
 select families, A all, L near/mid/far, S snow, W wind and Space branch response;
 comparison display height is normalized while labels retain actual metres.
 `tests/density_lod_suite.gd` and `tests/foliage_playtest.gd` validate the runtime.
