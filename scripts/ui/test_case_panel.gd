@@ -41,8 +41,13 @@ func build(controller, root: Control) -> void:
 	toolbar.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT); toolbar.position = Vector2(-590,78); toolbar.size = Vector2(570,86)
 	record_status = label(toolbar,"")
 	record_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	button(toolbar,"Test Controls · F9",owner.open_controls)
-	button(toolbar,"Save & review · F10",func(): owner.save_recording("manual",true))
+	record_status.add_theme_color_override("font_color",owner.game.hud.HUD_WHITE)
+	record_status.add_theme_color_override("font_shadow_color",Color(0,0,0,.5))
+	record_status.add_theme_constant_override("shadow_offset_y",1)
+	var controls = button(toolbar,"Test Controls",owner.open_controls)
+	controls.fixed_key = KEY_F9; controls.fixed_pad = JOY_BUTTON_START; controls.refresh_prompt()
+	var save = button(toolbar,"Save & review",func(): owner.save_recording("manual",true))
+	save.fixed_key = KEY_F10; save.refresh_prompt()
 	toolbar.hide()
 
 func clear(page: String) -> void:
@@ -61,7 +66,7 @@ func row() -> HFlowContainer:
 	var result = HFlowContainer.new(); result.add_theme_constant_override("h_separation",8); result.add_theme_constant_override("v_separation",6); content.add_child(result); return result
 
 func button(parent: Node, text_value: String, action: Callable) -> Button:
-	var result = Button.new(); result.text = text_value; result.custom_minimum_size.y = 38; result.pressed.connect(action); parent.add_child(result); return result
+	var result = owner.game.hud._button(text_value); result.custom_minimum_size.y = 38; result.pressed.connect(action); parent.add_child(result); return result
 
 func library(entries: Array) -> void:
 	clear("library")

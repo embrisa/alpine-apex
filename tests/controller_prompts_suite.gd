@@ -72,6 +72,20 @@ func run() -> void:
 	hud.set_input_family(nav.family,nav.device_label())
 	hud.open_settings()
 	hud.settings_tabs.current_tab = 3
+	hud.show_menu("crashed")
+	for family in ["keyboard","xbox","playstation","gamepad"]:
+		hud.set_input_family(family)
+		check(hud.primary.prompt==Prompts.binding("begin_run",family) and hud.crash_restart.prompt==Prompts.binding("restart",family),"Action badges use live bindings for "+family)
+	var original_retry = InputMap.action_get_events("restart")
+	InputMap.action_erase_events("restart")
+	var remapped = InputEventKey.new(); remapped.physical_keycode = KEY_T
+	InputMap.action_add_event("restart",remapped)
+	hud.set_input_family("keyboard")
+	check(hud.crash_restart.prompt=="T","Visible retry badge follows a changed action mapping")
+	InputMap.action_erase_events("restart")
+	for event in original_retry: InputMap.action_add_event("restart",event)
+	hud.set_input_family(nav.family,nav.device_label())
+	hud.open_settings()
 	var notes: Dictionary = hud.settings_pages.control_notes
 	check("R2" in notes.Skiing.text and "□" in notes["Air control"].text and "R3" in notes.Camera.text,"PlayStation prompts reach all Controls sections")
 	use_pad(5)

@@ -39,6 +39,7 @@ var camera_options = preload("res://scripts/ui/camera_settings_panel.gd").new()
 var display_controls: Dictionary = {}
 var fidelityfx_display_settings
 var fidelityfx_status_label: Label
+var compact_menu = preload("res://scripts/ui/compact_menu.gd").new()
 var menu_tabs: TabContainer
 var settings_tabs: TabContainer
 var tuning_tabs: TabContainer
@@ -73,10 +74,13 @@ const Session = preload("res://scripts/core/run_session.gd")
 const Art = preload("res://scripts/ui/alpine_art.gd")
 const AlpineTheme = preload("res://scripts/ui/alpine_theme.gd")
 const INK = Color("102832")
-const WHITE = Art.WHITE
-const MUTED = Art.MUTED
+const WHITE = AlpineTheme.WHITE
+const HUD_WHITE = Art.WHITE
+const HUD_MUTED = Art.MUTED
+const HUD_ACCENT = AlpineTheme.HUD_ACCENT
+const MUTED = AlpineTheme.MUTED
 # Kept as an alias for panels that consume the HUD's established accent contract.
-const LIME = Art.ICE
+const LIME = AlpineTheme.ICE
 var root = Control.new()
 var menu_fade: ColorRect
 var menu_backgrounds: Array[Control] = []
@@ -101,7 +105,6 @@ const Prompts = preload("res://scripts/ui/controller_prompts.gd")
 var input_family = "keyboard"
 var primary: Button
 var crash_restart: Button
-var crash_pause: Button
 var crash_clock: Label
 var crash_availability: Label
 var secondary: Button
@@ -121,6 +124,8 @@ var band_label: Label
 var impact_bar: SlimBar
 var impact_label: Label
 var telemetry_timer: float = 0.0
+var last_status_category = ""
+var last_split_index = -1
 var menu_mode: String = "title"
 var normal_font: SystemFont
 var mono_font: SystemFont
@@ -234,14 +239,15 @@ func _ready() -> void:
 	register_menu_background(menu)
 	menu_art_ready = true
 	feedback.preferences_changed.connect(_sync_menu_backdrop)
+	feedback.preferences_changed.connect(func(): get_tree().call_group("alpine_action_buttons","refresh_prompt"))
 	root.visibility_changed.connect(_sync_menu_backdrop)
-	toast_label = _label("",20,LIME)
+	toast_label = _label("",20,HUD_ACCENT)
 	toast_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
 	toast_label.position = Vector2(-280,137)
 	toast_label.size = Vector2(560,36)
 	toast_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	root.add_child(toast_label)
-	summit_return_label = _label("",18,WHITE)
+	summit_return_label = _label("",18,HUD_WHITE)
 	summit_return_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
 	summit_return_label.position = Vector2(-260,179)
 	summit_return_label.size = Vector2(520,30)
@@ -254,7 +260,7 @@ func _ready() -> void:
 	hud_editor = preload("res://scripts/ui/hud_editor.gd").new()
 	root.add_child(hud_editor)
 	hud_editor.setup(self)
-	ui_notice = _label("",18,LIME)
+	ui_notice = _label("",18,HUD_ACCENT)
 	ui_notice.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
 	ui_notice.position = Vector2(-300,74)
 	ui_notice.size = Vector2(600,26)
@@ -304,7 +310,7 @@ func _style(bg: Color, border: Color = Color(0.55,0.69,0.73,0.2), padding: int =
 
 func _panel(parent: Control = root) -> PanelContainer:
 	var panel = PanelContainer.new()
-	panel.add_theme_stylebox_override("panel",_style(Color(0.025,0.055,0.09,0.95),Color(0.55,0.72,0.83,0.25)))
+	panel.add_theme_stylebox_override("panel",_style(AlpineTheme.PANEL,AlpineTheme.EDGE))
 	parent.add_child(panel)
 	panel.visibility_changed.connect(func():
 		if panel.visible: feedback.reveal(panel)
@@ -352,18 +358,13 @@ func _note(parent: Control, text: String) -> Label:
 	return label
 
 func _button(text_value: String, main_button: bool = false) -> Button:
-	var button = Button.new()
-	button.text = text_value
-	button.custom_minimum_size.y = 50
+	var button = preload("res://scripts/ui/action_button.gd").new()
+	button.text = text_value.replace("↗","").strip_edges()
+	button.custom_minimum_size.y = 46
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	button.add_theme_font_size_override("font_size",17)
-	if main_button:
-		button.theme_type_variation = "AlpinePrimary"
-		button.text = text_value.replace("↗","").strip_edges()
-		button.icon = AlpineTheme.icon("chevrons",Color.WHITE)
-		button.icon_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		for state in ["icon_normal_color","icon_hover_color","icon_focus_color","icon_pressed_color"]:
-			button.add_theme_color_override(state,INK)
+	button.add_theme_font_size_override("font_size",16)
+	button.configure(self,main_button)
+	button.menu_back = button.text.to_lower() in ["back","cancel"]
 	button.mouse_entered.connect(func():
 		if not button.disabled: feedback.play("hover")
 	)
@@ -399,17 +400,18 @@ func set_background_fade(alpha: float) -> void:
 func _sync_menu_backdrop() -> void:
 	if not menu_art_ready: return
 	var background_visible = has_menu_background()
-	var title_screen = menu_mode == "title" and menu.visible and background_visible
+	var compact = menu.visible and not menu.get_meta("screen_profile","").is_empty()
+	var full_screen = background_visible and not compact
 	hero_logo.visible = false
-	header_logo.visible = background_visible
+	header_logo.visible = full_screen
 	if not background_visible or feedback.reduced_motion: set_background_fade(0.0)
 	# Shared shell owns responsive menu bounds.
-	mode_label.visible = not hero_logo.visible
+	mode_label.visible = not compact and not hero_logo.visible
 	if camera_options.preview_active:
 		header_logo.hide()
 		mode_label.hide()
-	for shade in menu_edge_shading: shade.visible = background_visible
-	footer.visible = background_visible
+	for shade in menu_edge_shading: shade.visible = full_screen
+	footer.visible = full_screen
 	footer_controls.text = Prompts.menu(input_family)
 	widget_layout.menu_visible = background_visible
 	layout_widgets()
@@ -418,12 +420,13 @@ func set_input_family(family: String, device_name: String = "") -> void:
 	input_family = family
 	footer_controls.text = Prompts.menu(family)
 	settings_pages.refresh_controls(family,device_name)
+	get_tree().call_group("alpine_action_buttons","refresh_prompt")
 
 func _build_header() -> void:
 	header_logo = Art.logo(Vector2(315,60),true)
 	header_logo.position = Vector2(37,24)
 	root.add_child(header_logo)
-	mode_label = _label("PHYSICS LAB   /   01",12,LIME,true)
+	mode_label = _label("PHYSICS LAB   /   01",12,HUD_ACCENT,true)
 	mode_label.position = Vector2(43,100)
 	mode_label.size.x = 455
 	mode_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -434,13 +437,13 @@ func _build_header() -> void:
 	top_right.position = Vector2(-265,32)
 	top_right.size.x = 220
 	root.add_child(top_right)
-	conditions = _label("AIGUILLE  /  NORTH FACE",12,WHITE,true)
+	conditions = _label("AIGUILLE  /  NORTH FACE",12,HUD_WHITE,true)
 	conditions.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	top_right.add_child(conditions)
-	altitude_label = _label("2 850 m   ·   CLEAR",12,MUTED)
+	altitude_label = _label("2 850 m   ·   CLEAR",12,HUD_MUTED)
 	altitude_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	top_right.add_child(altitude_label)
-	fps_label = _label("120 Hz PHYSICS",11,LIME,true)
+	fps_label = _label("120 Hz PHYSICS",11,HUD_ACCENT,true)
 	fps_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	top_right.add_child(fps_label)
 	progress = SlimBar.new()
@@ -449,15 +452,15 @@ func _build_header() -> void:
 	progress.size = Vector2(360,3)
 	progress.add_theme_font_size_override("font_size",1)
 	progress.add_theme_stylebox_override("background",_style(Color(1,1,1,0.17),Color.TRANSPARENT,0))
-	progress.add_theme_stylebox_override("fill",_style(LIME,Color.TRANSPARENT,0))
+	progress.add_theme_stylebox_override("fill",_style(HUD_ACCENT,Color.TRANSPARENT,0))
 	root.add_child(progress)
 	hud_controls.append(progress)
-	var course_label = _label("START                            FINISH",10,WHITE,true)
+	var course_label = _label("START                            FINISH",10,HUD_WHITE,true)
 	course_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
 	course_label.position = Vector2(-180,56)
 	root.add_child(course_label)
 	hud_controls.append(course_label)
-	split_label = _label("",12,LIME,true)
+	split_label = _label("",12,HUD_ACCENT,true)
 	split_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
 	split_label.position = Vector2(-195,78)
 	split_label.size = Vector2(390,46)
@@ -470,7 +473,7 @@ func _build_header() -> void:
 	footer.offset_bottom = 0
 	footer.add_theme_stylebox_override("panel",_style(Color(0.03,0.08,0.11,0.82),Color.TRANSPARENT,10))
 	root.add_child(footer)
-	footer_controls = _label(Prompts.menu(input_family),11,MUTED,true)
+	footer_controls = _label(Prompts.menu(input_family),11,HUD_MUTED,true)
 	footer_controls.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	footer.add_child(footer_controls)
 
@@ -480,10 +483,10 @@ func _build_instruments() -> void:
 	timer_box.position = Vector2(44,-191)
 	root.add_child(timer_box)
 	hud_controls.append(timer_box)
-	timer_box.add_child(_label("D E S C E N T   T I M E",11,MUTED))
-	timer_label = _label("00:00.000",43,WHITE,true)
+	timer_box.add_child(_label("D E S C E N T   T I M E",11,HUD_MUTED))
+	timer_label = _label("00:00.000",43,HUD_WHITE,true)
 	timer_box.add_child(timer_label)
-	pb_label = _label("PERSONAL BEST    —",11,LIME,true)
+	pb_label = _label("PERSONAL BEST    —",11,HUD_ACCENT,true)
 	timer_box.add_child(pb_label)
 	var speed_box = VBoxContainer.new()
 	speed_box.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
@@ -495,20 +498,20 @@ func _build_instruments() -> void:
 	speed_dial.custom_minimum_size = Vector2(180,180)
 	speed_dial.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	speed_box.add_child(speed_dial)
-	speed_label = _label("0",54,WHITE)
+	speed_label = _label("0",54,HUD_WHITE)
 	speed_label.position = Vector2(0,47)
 	speed_label.size = Vector2(180,70)
 	speed_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	speed_dial.add_child(speed_label)
-	var units = _label("km/h",12,WHITE)
+	var units = _label("km/h",12,HUD_WHITE)
 	units.position = Vector2(0,112)
 	units.size.x = 180
 	units.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	speed_dial.add_child(units)
-	band_label = _label("MANEUVERING",10,WHITE,true)
+	band_label = _label("MANEUVERING",10,HUD_WHITE,true)
 	band_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	speed_box.add_child(band_label)
-	state_label = _label("READY",13,WHITE,true)
+	state_label = _label("READY",13,HUD_WHITE,true)
 	state_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	state_label.position = Vector2(-250,-122)
 	state_label.size = Vector2(500,28)
@@ -521,7 +524,7 @@ func _build_instruments() -> void:
 	impact_bar.size = Vector2(170,3)
 	root.add_child(impact_bar)
 	hud_controls.append(impact_bar)
-	impact_label = _label("IMPACT RESERVE",9,MUTED)
+	impact_label = _label("IMPACT RESERVE",9,HUD_MUTED)
 	impact_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	impact_label.position = Vector2(-100,-92)
 	impact_label.size.x = 200
@@ -530,92 +533,7 @@ func _build_instruments() -> void:
 	hud_controls.append(impact_label)
 
 func _build_menu() -> void:
-	menu = _panel()
-	menu.name = "DescentMenu"
-	menu.add_theme_stylebox_override("panel",_style(Color(.025,.055,.09,.82),Color(.55,.72,.83,.25)))
-	var shell = _window(menu)
-	menu_location = _label("MOUNTAIN",12,LIME,true)
-	shell.add_child(menu_location)
-	crash_clock = _label("",20,WHITE,true)
-	crash_clock.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	shell.add_child(crash_clock)
-	crash_clock.hide()
-	menu_tabs = _tabs(shell)
-	var ride = _tab(menu_tabs,"Ride")
-	menu_title = _label("Alpine Apex",48,WHITE)
-	ride.add_child(menu_title)
-	var identity_pending = BuildIdentity.worker!=null and not BuildIdentity.poll_background()
-	build_version_label = _label("Development build" if identity_pending else BuildIdentity.short_label(),12,MUTED)
-	build_version_label.name = "BuildVersion"
-	build_version_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	if not identity_pending: build_version_label.tooltip_text = BuildIdentity.current().get("warning","")
-	else: _finish_build_identity.call_deferred()
-	ride.add_child(build_version_label)
-	menu_description = _label("",20,MUTED)
-	menu_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	ride.add_child(menu_description)
-	crash_availability = _label("",16,MUTED)
-	crash_availability.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	ride.add_child(crash_availability)
-	crash_availability.hide()
-	menu_specs = _label("",15,WHITE,true)
-	menu_specs.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	ride.add_child(menu_specs)
-	var space = Control.new()
-	space.custom_minimum_size.y = 28
-	ride.add_child(space)
-	var actions = HFlowContainer.new()
-	actions.add_theme_constant_override("h_separation",20)
-	actions.add_theme_constant_override("v_separation",16)
-	shell.add_child(actions)
-	primary = _button("Drop in",true)
-	primary.custom_minimum_size = Vector2(290,64)
-	primary.pressed.connect(_primary_pressed)
-	actions.add_child(primary)
-	crash_restart = _button("TRY AGAIN")
-	crash_restart.pressed.connect(func(): restart_requested.emit())
-	actions.add_child(crash_restart)
-	crash_restart.hide()
-	crash_pause = _button("PAUSE")
-	crash_pause.pressed.connect(func(): crash_pause_requested.emit())
-	actions.add_child(crash_pause)
-	crash_pause.hide()
-	secondary = _button("Create & share races")
-	secondary.custom_minimum_size = Vector2(290,64)
-	secondary.pressed.connect(func(): races_requested.emit())
-	actions.add_child(secondary)
-	navigation_button = _button("Map / Navigation")
-	navigation_button.pressed.connect(func(): navigation_requested.emit())
-	actions.add_child(navigation_button)
-	menu_tabs.tab_changed.connect(func(index): actions.visible = index==0)
-	var explore = _tab(menu_tabs,"Explore")
-	explore.add_child(_label("Mountains & races",32,WHITE))
-	var mountains_button = _button("Mountains  ·  Create & library",true)
-	mountains_button.pressed.connect(func(): mountains_requested.emit())
-	explore.add_child(mountains_button)
-	var races_button = _button("Races  ·  Create & share")
-	races_button.pressed.connect(func(): races_requested.emit())
-	explore.add_child(races_button)
-	records_button = _button("Records & ghost selection")
-	records_button.pressed.connect(func(): competition_requested.emit())
-	explore.add_child(records_button)
-	var tools = _tab(menu_tabs,"Tools")
-	tools.add_child(_label("Settings & tools",32,WHITE))
-	weather_button = _button("Settings",true)
-	weather_button.pressed.connect(open_settings)
-	tools.add_child(weather_button)
-	var workbench = _button("Physics Workbench")
-	workbench.pressed.connect(func(): workbench_requested.emit())
-	tools.add_child(workbench)
-	_note(tools,"Physics tuning and speed tests are unranked.")
-	copy_build_button = _button("Copy build details")
-	copy_build_button.name = "CopyBuildDetails"
-	copy_build_button.disabled = identity_pending
-	copy_build_button.pressed.connect(func(): DisplayServer.clipboard_set(BuildIdentity.details()))
-	tools.add_child(copy_build_button)
-	var quit_button = _button("Quit game")
-	quit_button.pressed.connect(func(): quit_requested.emit())
-	tools.add_child(quit_button)
+	compact_menu.build(self)
 
 func open_settings() -> void:
 	weather_panel.show()
@@ -758,67 +676,52 @@ func close_weather() -> void:
 	feedback.play("back")
 	menu.visible = true
 	weather_panel.visible = false
-	menu_tabs.current_tab = 2
-	weather_button.grab_focus()
+	compact_menu.refresh()
+	weather_button.grab_focus.call_deferred()
 
 func _primary_pressed() -> void:
 	if menu_mode == "paused":
 		resume_requested.emit()
 	elif menu_mode=="crashed":
-		if not primary.disabled: respawn_requested.emit()
+		if compact_menu.crash_paused: crash_pause_requested.emit()
+		elif not primary.disabled: respawn_requested.emit()
 	elif menu_mode=="finished":
 		restart_requested.emit()
 	else:
 		start_requested.emit(mountain_seed_value<0)
 
 func show_menu(kind: String, detail: String = "") -> void:
+	if kind!="crashed" or menu_mode!="crashed": compact_menu.crash_paused = false
 	menu_mode = kind
 	menu.visible = true
 	weather_panel.visible = false
 	competition.panel.visible = false
-	weather_button.visible = true
 	menu_tabs.current_tab = 0
-	secondary.visible = kind == "title"
-	navigation_button.visible = kind in ["title","paused"]
+	menu_description.text = detail
+	menu_title.add_theme_color_override("font_color",WHITE)
 	primary.disabled = false
-	crash_restart.visible = kind=="crashed"
-	crash_pause.visible = kind=="crashed"
-	crash_clock.visible = kind=="crashed"
-	crash_availability.visible = kind=="crashed"
-	match kind:
-		"title":
-			menu_title.text = "Ready to ski"
-			menu_description.text = ""
-			primary.text = "DROP IN"
-		"paused":
-			menu_title.text = "Paused"
-			menu_description.text = ""
-			primary.text = "RESUME"
-		"crashed":
-			menu_title.text = "Crashed"
-			menu_description.text = detail
-			primary.text = "RESPAWN HERE"
-		"finished":
-			menu_title.text = "Race complete"
-			menu_description.text = detail
-			primary.text = "TRY AGAIN"
-	if kind=="title" and not mountain_name.is_empty():
-		menu_title.text = "Ready to ski"
-		menu_description.text = ""
-		primary.text = "DROP IN"
-	primary.grab_focus()
+	compact_menu.refresh()
+	if not compact_menu.is_crash_actions(): primary.grab_focus()
 	_sync_menu_backdrop()
 
 func update_crash_recovery(session, unavailable: String = "", focus_paused: bool = false) -> void:
 	if not session.recovering: return
 	var paused: bool = session.recovery_paused or focus_paused
+	if compact_menu.crash_paused!=session.recovery_paused:
+		compact_menu.crash_paused = session.recovery_paused
+		compact_menu.refresh()
+		if session.recovery_paused: primary.grab_focus.call_deferred()
 	crash_clock.text = "%s  /  %s" % [Session.format_time(session.elapsed),"PAUSED" if paused else "CLOCK RUNNING"]
-	crash_availability.text = unavailable if not unavailable.is_empty() else "Respawn from rest near the crash start. Keep this attempt; no added time penalty."
-	crash_pause.text = "CONTINUE CLOCK" if session.recovery_paused else "PAUSE"
-	primary.disabled = paused or not unavailable.is_empty()
-	if primary.disabled and primary.has_focus():
-		if session.recovery_paused: crash_pause.grab_focus()
-		else: crash_restart.grab_focus()
+	crash_availability.text = unavailable
+	if compact_menu.is_crash_actions():
+		primary.disabled = paused or not unavailable.is_empty()
+		primary.text = "Stand Up" if unavailable.is_empty() else "Stand Up · "+unavailable
+		primary.tooltip_text = unavailable
+		primary.clip_text = not unavailable.is_empty()
+		primary.custom_minimum_size.x = minf(400,root.size.x*.45) if not unavailable.is_empty() else 0.0
+	else:
+		primary.disabled = false
+		primary.clip_text = false
 
 func hide_menu() -> void:
 	menu.visible = false
@@ -842,7 +745,9 @@ func close_competition() -> void:
 func show_result(session, peak_kmh: float) -> void:
 	show_menu("finished",session.result_text(peak_kmh))
 	if session.new_best:
-		menu_title.text = "PERSONAL\nBEST."
+		menu_title.text = "Personal best!"
+		menu_title.add_theme_color_override("font_color",AlpineTheme.SUCCESS)
+		feedback.emphasize(menu_title)
 
 func _build_debug() -> void:
 	debug_panel = _panel()
@@ -858,11 +763,11 @@ func _build_debug() -> void:
 	var column = VBoxContainer.new()
 	column.add_theme_constant_override("separation",14)
 	debug_panel.add_child(column)
-	column.add_child(_label("LIVE TELEMETRY / F3",12,LIME,true))
-	debug_text = _label("",12,WHITE,true)
+	column.add_child(_label("LIVE TELEMETRY / F3",12,HUD_ACCENT,true))
+	debug_text = _label("",12,HUD_WHITE,true)
 	debug_text.add_theme_constant_override("line_spacing",6)
 	column.add_child(debug_text)
-	column.add_child(_label("GREEN velocity  ·  ORANGE fall line\nBLUE normal  ·  PURPLE gravity\nWHITE ski heading",10,MUTED))
+	column.add_child(_label("GREEN velocity  ·  ORANGE fall line\nBLUE normal  ·  PURPLE gravity\nWHITE ski heading",10,HUD_MUTED))
 	debug_panel.visible = false
 
 func build_tuning(values) -> void:
@@ -970,7 +875,7 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 		if sim.speed_kmh()>=threshold:
 			band += 1
 	band_label.text = ["MANEUVERING","ORDINARY SKIING","FAST","RACING","ELITE DOWNHILL","EXTREME RACING","EXTREME TERRAIN","EXCEPTIONAL SPEED"][mini(band,7)]
-	speed_dial.tint = Color("efa773") if band>=5 else WHITE
+	speed_dial.tint = AlpineTheme.HUD_WARNING if band>=5 else HUD_WHITE
 	band_label.modulate = speed_dial.tint
 	timer_label.text = Session.format_time(session.elapsed) if timed else "FREE SKI"
 	pb_label.text = "PERSONAL BEST  " + Session.format_time(session.personal_best)
@@ -980,10 +885,13 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 			var index: int = session.latest_split
 			var delta: float = session.split_delta(index)
 			split_label.text = "%d%% APPROACH  /  %s\n%s" % [(index+1)*25,Session.format_time(session.split_times[index]),"NO PREVIOUS SPLIT" if not is_finite(delta) else Session.format_delta(delta)+( " AHEAD OF PB" if delta<0 else " BEHIND PB" if delta>0 else " LEVEL WITH PB")]
-			split_label.modulate = Color("ffa96b") if is_finite(delta) and delta>0 else LIME
+			split_label.modulate = AlpineTheme.HUD_WARNING if is_finite(delta) and delta>0 else AlpineTheme.HUD_SUCCESS
 		else:
 			split_label.text = "%d GHOSTS %s / G" % [session.reference_ghosts.size(),"ON" if ghost_enabled else "OFF"] if not session.reference_ghosts.is_empty() else "NO GHOSTS THIS ATTEMPT"
-			split_label.modulate = WHITE
+			split_label.modulate = HUD_WHITE
+	if session.latest_split!=last_split_index:
+		last_split_index = session.latest_split
+		if last_split_index>=0: feedback.emphasize(split_label)
 	progress.value = session.progress_percent(sim.position)
 	altitude_label.text = "%s m  ·  %s" % [str(roundi(sim.position.y + (1491.5 if mountain_seed_value<0 else 0.0))),weather_label.to_upper()]
 	var status = "DEEP TUCK" if sim.effective_tuck > 0.8 else "CLEAN LINE"
@@ -999,14 +907,14 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 		status = "CARVING"
 	var reserve: float = sim.impacts.reserve
 	var recovering: bool = reserve<1.0 and sim.grounded and sim.rock_contact==0.0 and minf(sim.impacts.since_hit,sim.impacts.since_rock)>=sim.tuning.impact_recovery_delay
-	var tint = LIME
+	var tint = HUD_ACCENT
 	impact_label.text = "IMPACT RESERVE"
 	if sim.grounded and intent.jump_held:
 		status = "JUMP READY  /  RELEASE TO HOP"
 	elif sim.grounded and sim.time_since_landing<.15 and sim.landing_force>2.5:
 		status = "LANDING  /  ABSORBING IMPACT"
 	if reserve<1.0:
-		tint = Color("85d5ca") if recovering else Color("efa773")
+		tint = AlpineTheme.HUD_SUCCESS if recovering else AlpineTheme.HUD_WARNING
 		if recovering:
 			status = "RECOVERING  /  KEEP YOUR LINE SMOOTH"
 		elif sim.impacts.since_hit<.55:
@@ -1014,19 +922,23 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 		else:
 			status = "IMPACT  /  FIND A SMOOTH LINE"
 		if reserve<=.30:
-			tint = Color("ee8b83")
+			tint = AlpineTheme.HUD_DANGER
 			status = "LOW IMPACT RESERVE  /  FIND SMOOTH SNOW"
 	if sim.grounded and sim.rock_contact>0.0:
 		impact_label.text = "ROCK  /  RESERVE %d%%" % roundi(reserve*100.0)
 		status = "ROCK  /  RESERVE DRAINING — FIND SNOW" if sim.rock_wear_rate>0.0 else "ROCK  /  REDUCED GRIP"
-		tint = Color("ee8b83") if reserve<=.30 else Color("efa773")
+		tint = AlpineTheme.HUD_DANGER if reserve<=.30 else AlpineTheme.HUD_WARNING
 	if sim.crashed:
 		status = sim.crash_reason
-		tint = Color("ee8b83")
+		tint = AlpineTheme.HUD_DANGER
 	impact_bar.value = reserve*100.0
 	impact_bar.tint = tint
 	impact_label.add_theme_color_override("font_color",tint)
-	state_label.modulate = WHITE if reserve==1.0 and not sim.crashed else tint
+	state_label.modulate = HUD_WHITE if reserve==1.0 and not sim.crashed else tint
+	var category = status.get_slice("  /  ",0)
+	if category!=last_status_category:
+		last_status_category = category
+		if reserve<=.30 or category in ["RECOVERING","JUMP READY","LANDING"]: feedback.emphasize(state_label)
 	state_label.text = status
 	mode_label.text = ("TIMED DESCENT" if timed else "FREE SKI") + ("  /  LAB VALUES" if not session.eligible else "  /  01")
 	if not mountain_name.is_empty() and not session.race:

@@ -64,9 +64,20 @@ func resize() -> void:
 	if hud.has_method("layout_widgets"): hud.layout_widgets()
 
 func _layout(panel: Control) -> void:
+	if not is_inside_tree() or not is_instance_valid(panel) or not panel.is_inside_tree(): return
 	if panel.has_meta("preview_layout") and panel.get_meta("preview_layout"): return
 	var logical = Vector2(get_window().content_scale_size)
 	var edge = maxf(24.0,logical.x*safe_area)
+	var profile: String = panel.get_meta("screen_profile","")
+	if profile in ["compact_card","crash_actions"]:
+		var available = logical-Vector2(edge*2,maxf(24,logical.y*safe_area)*2)
+		var desired: float = panel.get_meta("content_height",440.0)
+		var width = minf(420.0,available.x*.36) if profile=="compact_card" else minf(820.0,available.x)
+		var height = minf(desired,available.y*.75) if profile=="compact_card" else clampf(desired,58.0,available.y*.20)
+		panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+		panel.position = Vector2(edge,maxf(24,(logical.y-height)*.5)) if profile=="compact_card" else Vector2((logical.x-width)*.5,logical.y-maxf(32,logical.y*safe_area)-height)
+		panel.size = Vector2(width,height)
+		return
 	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	panel.offset_left = edge
 	panel.offset_right = -edge

@@ -72,7 +72,7 @@ Resolve nested popups/dialogs before the parent page; Back must not resume a run
 while dismissing a child scope. Text entry owns typing and can use the controller
 keyboard. Shoulder navigation keeps the selected small-screen category visible.
 Endpoint terrain picking remains explicit pointer input. The controls footer is
-menu-only, including summit staging; the Controls page retains the full shortcut
+menu-only, including summit staging; compact start/pause cards and crash actions omit it. The Controls page retains the full shortcut
 inventory.
 
 Weather settings expose six conditions, time bands, independent automatic and
@@ -154,11 +154,28 @@ separate from those automated and rendered checks.
 
 ## Visual language and HUD
 
-`alpine_theme.gd` and `angular_style_box.gd` own cached styles/icons and the shared
-navy/cold-white/ice-blue angular language. Opposing clipped corners use a 2:1
-slope and scale down for small controls. Focus/hover/selected styling preserves
-content margins and the full native rectangular hit target. Photography appears
-only during actual loading; ordinary menus show the loaded world.
+`alpine_theme.gd` and `angular_style_box.gd` own cached white translucent panels,
+navy/slate text, cyan selection and green/amber/red semantic accents. Opposing
+clipped corners retain their 2:1 slope and full rectangular hit targets. World
+HUD and photographic loading use their separate bright text palette; menu ink
+colors must never darken those overlays. Color supplements descriptive status.
+
+`compact_menu.gd` retains Ride, Explore and Tools pages inside a content-sized
+left card: at most 420 logical pixels / 36% of usable width and 75% of usable
+height. Overflow scrolls. Start leads with Drop in; pause with Resume and Try
+again. Settings has its own entry and Quit Game a separate bottom entry; Tools
+contains diagnostics, Test Cases and build details. Settings and specialized
+workspaces retain larger layouts and return to their originating card/focus.
+Compact cards omit full-screen branding, edge shading and navigation footers.
+
+`action_button.gd` keeps native click/focus behavior and a separate bind badge.
+Gameplay shortcut badges read InputMap; logical Back uses Esc/controller east.
+Unbound actions fall back to a focused confirm badge. Device changes refresh
+existing buttons without changing text, focus or row geometry. Direct restart
+is available in the compact pause card; child tools/popups retain input priority.
+Primary cards pulse gently, presses flash their border, and important HUD
+status/split changes briefly emphasize the existing readout. Reduced Motion
+settles all transitions. Photography remains limited to loading.
 
 **HUD backgrounds default off.** Optional backgrounds use the Interface & HUD
 preference. Keep normal-weight text, an 11-logical-pixel minimum and a faint
@@ -190,12 +207,22 @@ second approximate HUD for this editor.
 
 ## Crash recovery controls
 
-The crash shell offers RESPAWN HERE, separate TRY AGAIN and explicit PAUSE /
-CONTINUE CLOCK through the existing mouse/keyboard/controller focus path. Its
-running/paused time stays visible. Incidental settings subpages do not pause the
-attempt; explicit Pause and focus loss do. When no local spot qualifies, recovery
-is disabled with an explanation and full restart remains available. The HUD only
-emits intent; [Racing](RACING.md#crash-location-recovery) owns placement and timing.
+The crash view shows only two bottom-centered text actions: **Stand Up** and
+**Try again**, each with its current device bind. Enter/controller south invokes
+existing local recovery; R/controller north restarts. Both are clickable. The
+minimal view uses direct actions rather than focus selection. An unavailable
+Stand Up stays disabled with its reason on the same line (full reason also in
+its tooltip); Try again remains available. No tabs, clock block or footer appears.
+
+Esc/controller Menu or east opens the compact crash-pause card and explicitly
+holds the recovery clock/ragdoll. Return to crash/Back resumes the action view;
+Settings and Tools retain that explicit pause until returning. Focus loss still
+holds the clock and disables recovery independently. The underlying clock keeps
+running through incidental subpages that did not request pause and through the
+ragdoll settle cap. The pause card shows the retained time and paused status.
+Menu/crash ownership and camera/audio lifecycle remain active even when the
+large working panels are hidden. [Racing](RACING.md#crash-location-recovery) owns
+placement, eligibility and exact timing.
 
 Local recovery stops the ragdoll, restores the previous riding view and resets
 pose/camera interpolation, player tracks/powder, particles, audio/voice observers,

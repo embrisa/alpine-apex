@@ -92,7 +92,7 @@ func _free_ski_choices() -> void:
 	_ticks(30)
 	_crash()
 	await _capture("free-crash")
-	check(game.hud.primary.text=="RESPAWN HERE" and game.hud.crash_restart.text=="TRY AGAIN","Both free-ski choices are explicit")
+	check(game.hud.primary.text=="Stand Up" and game.hud.crash_restart.text=="Try again","Both free-ski choices are explicit")
 	await _keyboard_confirm(game.hud.primary)
 	check(game.active and not game.sim.crashed and game.session.recovery_count==1,"Keyboard confirms free-ski local recovery")
 	_ticks(30)
@@ -103,7 +103,6 @@ func _free_ski_choices() -> void:
 	check(game.active and not game.sim.crashed and game.session.attempt_id==mouse_attempt+1 and game.session.elapsed==0.0 and game.sim.position.distance_to(game.field.spawn_point())<.01,"Mouse Try Again returns to original start with fresh attempt")
 	_ticks(30)
 	_crash()
-	game.hud.primary.grab_focus()
 	var button = InputEventJoypadButton.new(); button.device=17; button.button_index=JOY_BUTTON_A; button.pressed=true
 	game.navigation.route(button)
 	button.pressed=false; game.navigation.route(button)
@@ -111,7 +110,7 @@ func _free_ski_choices() -> void:
 	check(game.active and not game.sim.crashed,"Simulated controller confirms local recovery through menu navigation")
 	_ticks(30)
 	_crash()
-	game.hud.crash_restart.grab_focus()
+	button.button_index = JOY_BUTTON_Y # Dedicated Try again bind; no focus selection on crash overlay.
 	button.pressed=true; game.navigation.route(button)
 	button.pressed=false; game.navigation.route(button)
 	await process_frame
@@ -218,7 +217,6 @@ func _timed_attempt() -> void:
 	# Deliberately move the presentation body: placement must remain onset-owned.
 	game.skier.ragdoll.bodies.Hips.global_position += Vector3(14,0,14)
 	for action in ["jump","steer_right","grab","flip_forward"]: Input.action_press(action)
-	game.hud.primary.grab_focus()
 	var button = InputEventJoypadButton.new(); button.device=17; button.button_index=JOY_BUTTON_A; button.pressed=true
 	game.navigation.route(button)
 	button.pressed=false; game.navigation.route(button)
@@ -314,9 +312,9 @@ func _ghost_review(replay) -> void:
 	game.set_process(main_processing)
 
 func _keyboard_confirm(control: Control) -> void:
-	control.grab_focus()
+	var code = KEY_R if control==game.hud.crash_restart else KEY_ENTER
 	for pressed in [true,false]:
-		var event = InputEventKey.new(); event.keycode=KEY_ENTER; event.physical_keycode=KEY_ENTER; event.pressed=pressed
+		var event = InputEventKey.new(); event.keycode=code; event.physical_keycode=code; event.pressed=pressed
 		root.push_input(event)
 		await process_frame
 

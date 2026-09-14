@@ -105,7 +105,7 @@ the comparison reference for the next attempt. Missing comparisons remain unknow
 
 ## Crash-location recovery
 
-RESPAWN HERE continues the same attempt at rest near the frozen authoritative
+Stand Up continues the same attempt at rest near the frozen authoritative
 crash-onset position; TRY AGAIN resets the whole attempt. `RunSession` accounts
 for the onset tick once, then advances inactive crash ticks at 120 Hz without
 skiing, splits or finish sweeps. Time continues through crash subpages and the

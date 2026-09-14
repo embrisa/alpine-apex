@@ -56,7 +56,7 @@ var pending_events: Array = []
 func setup(value) -> void:
 	game = value; ui.build(self,game.hud.root)
 	var entry: Button = game.hud._button("Test Cases")
-	game.hud.weather_button.get_parent().add_child(entry)
+	game.hud.compact_menu.tools.add_child(entry)
 	entry.pressed.connect(open_library)
 	view_camera = Camera3D.new(); view_camera.far = 12000; view_camera.near = .05; add_child(view_camera)
 	if get_tree().has_meta("test_case_open"):

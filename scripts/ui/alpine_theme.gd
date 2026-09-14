@@ -2,15 +2,22 @@ extends RefCounted
 ## One presentation theme, shared by all UI roots and their native popup controls.
 const AngularBox = preload("res://scripts/ui/angular_style_box.gd")
 const Art = preload("res://scripts/ui/alpine_art.gd")
-const ICE = Art.ICE
-const WHITE = Art.WHITE
-const MUTED = Art.MUTED
+const ICE = Color("007fa7")
+const WHITE = Color("173247")
+const MUTED = Color("506778")
 const INK = Color("102832")
-const PANEL = Color(0.025,0.055,0.09,0.95)
-const FIELD = Color("102532")
-const HOVER = Color("294756")
-const EDGE = Color("476777")
-const DISABLED = Color("7b929e")
+const PANEL = Color(0.956,0.980,1.0,0.95)
+const FIELD = Color("e4eff6")
+const HOVER = Color("c7effa")
+const EDGE = Color("9ab9cc")
+const DISABLED = Color("748795")
+const SUCCESS = Color("18794e")
+const WARNING = Color("a35408")
+const DANGER = Color("bf3044")
+const HUD_SUCCESS = Color("76f2b3")
+const HUD_WARNING = Color("ffd072")
+const HUD_DANGER = Color("ff8193")
+const HUD_ACCENT = Color("78e6ff")
 const PANEL_CUT = Vector2(24,12)
 const CONTROL_CUT = Vector2(12,6)
 static var shared: Theme
@@ -44,6 +51,13 @@ static func create() -> Theme:
 		theme.set_stylebox(state+"_mirrored","OptionButton",theme.get_stylebox(state,"OptionButton"))
 	theme.set_type_variation("AlpinePrimary","Button")
 	button_styles(theme,"AlpinePrimary",true)
+	theme.set_type_variation("AlpineTextAction","Button")
+	button_styles(theme,"AlpineTextAction",false)
+	for state in ["normal","disabled"]: theme.set_stylebox(state,"AlpineTextAction",box(Color.TRANSPARENT,Color.TRANSPARENT,12))
+	for state in ["hover","pressed","hover_pressed"]: theme.set_stylebox(state,"AlpineTextAction",box(Color(1,1,1,.12),Color.TRANSPARENT,12))
+	for state in ["font_color","font_hover_color","font_pressed_color","font_hover_pressed_color","font_focus_color"]: theme.set_color(state,"AlpineTextAction",Color.TRANSPARENT)
+	theme.set_color("font_disabled_color","AlpineTextAction",Color.TRANSPARENT)
+	theme.set_constant("shadow_offset_y","AlpineTextAction",1)
 	for type in ["CheckButton","CheckBox"]:
 		button_styles(theme,type,false)
 		for state in ["normal","pressed"]:
@@ -81,13 +95,13 @@ static func create() -> Theme:
 			theme.set_icon(name,type,icon("right" if name.begins_with("increment") else "left",ICE))
 	for type in ["LineEdit","TextEdit","CodeEdit"]:
 		theme.set_stylebox("normal",type,box(FIELD,EDGE,10))
-		theme.set_stylebox("read_only",type,box(FIELD,Color("324b58"),10))
+		theme.set_stylebox("read_only",type,box(FIELD,Color("bbcbd6"),10))
 		theme.set_stylebox("focus",type,focus(10))
 		theme.set_color("font_color",type,WHITE)
 		theme.set_color("font_placeholder_color",type,MUTED)
 		theme.set_color("font_uneditable_color" if type=="LineEdit" else "font_readonly_color",type,DISABLED)
 		theme.set_color("caret_color",type,ICE)
-		theme.set_color("selection_color",type,Color("376174"))
+		theme.set_color("selection_color",type,Color("b2e8f7"))
 		theme.set_color("font_selected_color",type,WHITE)
 		theme.set_icon("clear",type,icon("close",MUTED))
 	for type in ["Panel","PanelContainer","PopupPanel","PopupMenu","TooltipPanel","AcceptDialog","Window"]:
@@ -128,7 +142,7 @@ static func create() -> Theme:
 	theme.set_icon("arrow","OptionButton",icon("down",ICE))
 	theme.set_constant("arrow_margin","OptionButton",14)
 	for type in ["HSlider","VSlider"]:
-		var rail = box(Color("284152"),Color.TRANSPARENT,2,Vector2(4,2))
+		var rail = box(Color("b7cfdd"),Color.TRANSPARENT,2,Vector2(4,2))
 		theme.set_stylebox("slider",type,rail)
 		theme.set_stylebox("grabber_area",type,box(ICE,Color.TRANSPARENT,2,Vector2(4,2)))
 		theme.set_stylebox("grabber_area_highlight",type,box(WHITE,Color.TRANSPARENT,2,Vector2(4,2)))
@@ -144,7 +158,7 @@ static func create() -> Theme:
 		for name in ["increment","decrement","increment_highlight","decrement_highlight","increment_pressed","decrement_pressed"]:
 			var forward = name.begins_with("increment")
 			theme.set_icon(name,type,icon(("down" if forward else "up") if type=="VScrollBar" else ("right" if forward else "left"),MUTED))
-	theme.set_stylebox("background","ProgressBar",box(Color("284152"),Color.TRANSPARENT,0,Vector2(6,3)))
+	theme.set_stylebox("background","ProgressBar",box(Color("b7cfdd"),Color.TRANSPARENT,0,Vector2(6,3)))
 	theme.set_stylebox("fill","ProgressBar",box(ICE,Color.TRANSPARENT,0,Vector2(6,3)))
 	for type in ["HSeparator","VSeparator"]:
 		theme.set_stylebox("separator",type,box(EDGE,Color.TRANSPARENT,1,Vector2.ZERO))
@@ -169,16 +183,14 @@ static func create() -> Theme:
 	return shared
 
 static func button_styles(theme: Theme, type: String, primary: bool, padding: float = 14.0) -> void:
-	theme.set_stylebox("normal",type,box(ICE if primary else FIELD,Color.TRANSPARENT if primary else EDGE,padding))
-	theme.set_stylebox("hover",type,box(Color("d5f1fc") if primary else HOVER,ICE,padding))
-	theme.set_stylebox("pressed",type,box(Color("83bdcf") if primary else Color("365e70"),WHITE,padding))
-	theme.set_stylebox("hover_pressed",type,box(Color("83bdcf") if primary else Color("365e70"),WHITE,padding))
-	theme.set_stylebox("disabled",type,box(Color("172b36"),Color("324b58"),padding))
-	theme.set_stylebox("focus",type,focus(padding,primary))
-	for state in ["font_color","font_hover_color","font_focus_color"]:
-		theme.set_color(state,type,INK if primary else WHITE)
-	for state in ["font_pressed_color","font_hover_pressed_color"]:
-		theme.set_color(state,type,INK if primary else WHITE)
+	theme.set_stylebox("normal",type,box(Color("60dafa") if primary else FIELD,ICE if primary else EDGE,padding))
+	theme.set_stylebox("hover",type,box(Color("a1edff") if primary else HOVER,ICE,padding,CONTROL_CUT,2))
+	theme.set_stylebox("pressed",type,box(Color("47c9eb") if primary else Color("b0e4f4"),ICE,padding,CONTROL_CUT,2,ICE))
+	theme.set_stylebox("hover_pressed",type,theme.get_stylebox("pressed",type))
+	theme.set_stylebox("disabled",type,box(Color("e2e8ee"),Color("c7d3dd"),padding))
+	theme.set_stylebox("focus",type,box(Color.TRANSPARENT,ICE,padding,CONTROL_CUT,3,ICE))
+	for state in ["font_color","font_hover_color","font_focus_color","font_pressed_color","font_hover_pressed_color"]:
+		theme.set_color(state,type,INK)
 	theme.set_color("font_disabled_color",type,DISABLED)
 	theme.set_color("icon_disabled_color",type,DISABLED)
 	theme.set_constant("h_separation",type,12)
@@ -206,10 +218,10 @@ static func icon(kind: String, tint: Color, checked: bool = false) -> Texture2D:
 		"switch":
 			dimensions = Vector2i(44,24)
 			var x = 24 if checked else 4
-			path = '<path fill="#102532" d="M9 3 H42 V17 L35 21 H2 V7 Z"/><path fill="%s" stroke="none" d="M%d 6 H%d V15 L%d 18 H%d V9 Z"/>' % [color,x+5,x+16,x+11,x]
+			path = '<path fill="#e4eff6" d="M9 3 H42 V17 L35 21 H2 V7 Z"/><path fill="%s" stroke="none" d="M%d 6 H%d V15 L%d 18 H%d V9 Z"/>' % [color,x+5,x+16,x+11,x]
 		"check":
 			dimensions = Vector2i(22,22)
-			path = '<path fill="#102532" d="M8 2 H20 V16 L14 20 H2 V6 Z"/>'
+			path = '<path fill="#e4eff6" d="M8 2 H20 V16 L14 20 H2 V6 Z"/>'
 			if checked: path += '<path d="M6 10 L10 14 L16 7"/>'
 	var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d"><g fill="none" stroke="%s" stroke-width="1.5" stroke-linejoin="miter">%s</g></svg>' % [dimensions.x,dimensions.y,dimensions.x,dimensions.y,color,path]
 	var image = Image.new()

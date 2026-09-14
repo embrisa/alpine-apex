@@ -1032,6 +1032,17 @@ UI cost are not a complete-descent result.
 
 ## Presentation evidence
 
+`tests/bright_ui_suite.gd` uses the short-course fixture (256 x 512 m, 4 m cells,
+zero objects), isolated records and controlled focus. It exercises direct crash
+shortcuts, pause/settings return, unavailable recovery, device badges and compact
+bounds. Native mode captures start/pause/crash/settings/HUD at 720p, 1080p, 4K and
+ultrawide, plus night, enlarged UI, Reduced Motion and device variants. Output is
+`artifacts/bright_ui/native/`; headless output is `artifacts/bright_ui/functional/`.
+Run it under the existing Shared guard with `--headless --script` for logic or
+`--script` for native rendering. Reserve the producer/output; screenshots and
+simulated controller input are not FPS or physical-controller acceptance.
+
+
 2026-09-11 interface delivery inspected five output sizes, retained screens,
 controller/mouse navigation, HUD editing and output recovery. The final native
 matrix passed 125 checks with 111 captures; retained-screen checks passed 248,

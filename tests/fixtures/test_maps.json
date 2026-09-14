@@ -1763,6 +1763,11 @@
       "maps": [],
       "full_mountain": false,
       "coverage": "Scheduling spies, worker teardown and identical decorative meshes from a planar sampler. No mountain generation."
+    },
+    "tests/bright_ui_suite.gd": {
+      "maps": ["short-course"],
+      "full_mountain": false,
+      "coverage": "Compact UI, direct crash actions and multi-size native captures on 256 x 512 m terrain with zero objects; no performance claim."
     }
   }
 }

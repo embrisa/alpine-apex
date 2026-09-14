@@ -50,6 +50,8 @@ Follow [targeted maps](../../../docs/VALIDATION.md#targeted-test-maps). Inspect
 `-PlanOnly` before engine work. Use pure logic/compact fixtures for local checks;
 the scenario catalog exposes supported terrain events. Keep required complete
 physics/runtime checks, including necessary headless laboratory calibration.
+Compact menu/crash changes also use the native/headless `bright_ui_suite` in
+[presentation evidence](../../../docs/VALIDATION.md#presentation-evidence).
 The ordinary interface suite is compact; its full generation/reload assertions
 are explicitly selected with `interface_mountain_suite`.
 

@@ -44,6 +44,7 @@ var last_any_at: int = -1000000
 var last_action_at: int = -1000000
 var priority_until: int = -1
 var active_reveals: Dictionary = {}
+var active_emphasis: Dictionary = {}
 
 func _ready() -> void:
 	persist = DisplayServer.get_name() != "headless" and "--script" not in OS.get_cmdline_args() and "-s" not in OS.get_cmdline_args() and "--autoplay" not in OS.get_cmdline_user_args()
@@ -154,6 +155,7 @@ func cancel_transitions() -> void:
 		var control = active_reveals[key].get_ref()
 		if is_instance_valid(control): cancel_reveal(control)
 	active_reveals.clear()
+	for key in active_emphasis.keys(): _end_emphasis(key)
 
 func _complete_reveal(key: int) -> void:
 	var ref = active_reveals.get(key)
@@ -211,3 +213,29 @@ func _tone(id: String) -> AudioStreamWAV:
 func _exit_tree() -> void:
 	cancel_transitions()
 	cancel_sounds()
+
+func emphasize(control: Control) -> void:
+	if not is_instance_valid(control) or not control.is_visible_in_tree() or reduced_motion: return
+	var key = control.get_instance_id()
+	_end_emphasis(key)
+	var original_scale = control.scale
+	var original_tint = control.self_modulate
+	var tween = control.create_tween()
+	active_emphasis[key] = {"control":weakref(control),"scale":original_scale,"tint":original_tint,"tween":tween}
+	control.pivot_offset = control.size*.5
+	control.scale = original_scale*1.06
+	control.self_modulate = Color(1.25,1.25,1.25,1.0)
+	tween.set_parallel(true)
+	tween.tween_property(control,"scale",original_scale,.55).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(control,"self_modulate",original_tint,.55)
+	tween.chain().tween_callback(_end_emphasis.bind(key))
+
+func _end_emphasis(key: int) -> void:
+	if not active_emphasis.has(key): return
+	var entry = active_emphasis[key]
+	active_emphasis.erase(key)
+	if entry.tween.is_valid(): entry.tween.kill()
+	var control = entry.control.get_ref()
+	if is_instance_valid(control):
+		control.scale = entry.scale
+		control.self_modulate = entry.tint

@@ -756,7 +756,7 @@ func _process(dt: float) -> void:
 	vectors.update_vectors(sim)
 	var hud_started = frame_costs.begin()
 	hud.widget_layout.menu_visible = hud.has_menu_background() or workshop.is_survey_open() or hud.camera_options.preview_active
-	hud.footer.visible = hud.has_menu_background() or workshop.is_survey_open() or summit_ready
+	hud.footer.visible = (hud.has_menu_background() and not hud.menu.visible) or workshop.is_survey_open() or (summit_ready and not hud.menu.visible)
 	hud.update_hud(sim,session,intent,navigation.device_label(),frame_ms,cpu_tick_ms,dt,timed,weather.state.label+" · "+weather.state.time_label)
 	hud.update_summit_return(mountain_zone.distance_to_boundary(sim.position),active and not summit_ready and not returning_to_summit)
 	if workshop and not workshop.mode.is_empty():
@@ -1088,6 +1088,8 @@ func _invalidate_crash_recovery() -> void:
 func toggle_crash_pause() -> void:
 	if not session.recovering or transitioning or returning_to_summit: return
 	session.recovery_paused = not session.recovery_paused
+	hud.menu_tabs.current_tab = 0
+	hud.menu.show()
 	if skier.ragdoll.running:
 		skier.ragdoll.set_frozen(session.recovery_paused or not application_focused or skier.ragdoll.elapsed>=15.0)
 	if session.recovery_paused:
@@ -1230,6 +1232,9 @@ func play_custom_race(race) -> void:
 
 func resume() -> void:
 	set_camera_preview(false)
+	if session.recovering and session.recovery_paused:
+		toggle_crash_pause()
+		return
 	if sim.crashed or session.finished:
 		hud.show_menu("crashed" if sim.crashed else "finished",sim.crash_reason if sim.crashed else Session.format_time(session.elapsed))
 		return

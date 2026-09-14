@@ -25,7 +25,7 @@ func setup(owner_hud) -> void:
 	hud = owner_hud
 	name = "HUDEditor"
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_theme_stylebox_override("panel",hud._style(Color(.015,.035,.06,.97),hud.MUTED,24))
+	add_theme_stylebox_override("panel",hud._style(hud.AlpineTheme.PANEL,hud.MUTED,24))
 	var shell = VBoxContainer.new()
 	shell.add_theme_constant_override("separation",16)
 	add_child(shell)

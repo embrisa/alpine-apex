@@ -147,6 +147,7 @@ func scope() -> Node:
 func ensure_focus() -> Control:
 	var current_scope = scope()
 	if current_scope==null: return null
+	if current_scope==game.hud.menu and game.hud.compact_menu.is_crash_actions(): return null
 	var viewport: Viewport = current_scope if current_scope is Window else get_viewport()
 	var focus = viewport.gui_get_focus_owner()
 	if focus and focus.is_visible_in_tree() and (focus==current_scope or current_scope.is_ancestor_of(focus)) and not (focus is BaseButton and focus.disabled): return focus
@@ -161,6 +162,19 @@ func route(event: InputEvent) -> bool:
 		if game.workshop.navigation_panel.route_event(event): return true
 	var current_scope = _sync_scope()
 	if current_scope==null: cancel_repeat(); return false
+	if current_scope==game.hud.menu:
+		var hud = game.hud
+		if hud.compact_menu.is_crash_actions():
+			if _pressed(event,"pause_run") or (event is InputEventJoypadButton and event.pressed and event.button_index==JOY_BUTTON_B):
+				game.toggle_crash_pause()
+			elif _pressed(event,"begin_run") and not hud.primary.disabled:
+				hud._primary_pressed()
+			elif _pressed(event,"restart"):
+				hud.restart_requested.emit()
+			return event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion
+		if _pressed(event,"restart") and hud.crash_restart.is_visible_in_tree():
+			hud.restart_requested.emit()
+			return true
 	if event is InputEventJoypadMotion:
 		if event.axis==JOY_AXIS_LEFT_X: stick.x = event.axis_value
 		elif event.axis==JOY_AXIS_LEFT_Y: stick.y = event.axis_value
@@ -310,4 +324,14 @@ func back() -> void:
 	elif hud.competition.panel.visible: hud.close_competition()
 	elif hud.tuning_panel.visible: game.close_workbench()
 	elif hud.weather_panel.visible: hud.close_weather()
+	elif hud.menu.visible and hud.menu_tabs.current_tab!=0: hud.compact_menu.back_home()
+	elif hud.menu_mode=="crashed": game.toggle_crash_pause()
 	elif hud.menu_mode=="paused": game.resume()
+
+func _pressed(event: InputEvent, action: String) -> bool:
+	if event.is_action_pressed(action): return true
+	# Logical menu bindings apply to whichever pad is active, including pad 2+.
+	if not event is InputEventJoypadButton or not event.pressed or not InputMap.has_action(action): return false
+	for mapped in InputMap.action_get_events(action):
+		if mapped is InputEventJoypadButton and mapped.is_match(event): return true
+	return false

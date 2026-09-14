@@ -96,7 +96,7 @@ func run() -> void:
 	check(is_equal_approx(game.hud.weather_panel.modulate.a,1.0),"Reduced motion shows panels immediately")
 	game.hud.close_weather()
 	await settle()
-	check(game.hud.menu.visible and game.hud.weather_button.has_focus(),"Back restores the Tools tab and settings-button focus")
+	check(game.hud.menu.visible and game.hud.weather_button.has_focus(),"Back restores the originating compact menu and settings-button focus")
 	game.open_workbench()
 	for i in game.hud.tuning_tabs.get_tab_count():
 		game.hud.tuning_tabs.current_tab = i
