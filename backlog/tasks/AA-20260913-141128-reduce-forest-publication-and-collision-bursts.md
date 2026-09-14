@@ -1,11 +1,11 @@
 ---
 id: "AA-20260913-141128-reduce-forest-publication-and-collision-bursts"
 title: "Reduce forest publication and remaining collision frame bursts"
-status: blocked
+status: ready
 priority: P1
-depends_on: []
+depends_on: ["AA-20260914-094136-establish-repeatable-rendering-baseline"]
 created: "2026-09-13T14:11:28Z"
-updated: "2026-09-13T19:44:34Z"
+updated: "2026-09-14T09:41:36Z"
 source_thread: "01a09aec-9f0a-71a3-b543-b8b9765e660d"
 ---
 
@@ -19,6 +19,34 @@ and implement smaller or cheaper work units while preserving visible forest
 coverage, detail and immediate required crash collision.
 
 ## Current state and evidence
+
+**Reauthored as ready for later dispatch, 2026-09-14:** the user's request for
+larger FPS gains and thorough revised tasks authorizes this new investigation
+direction. The previous blocked experiment is preserved verbatim in the dated
+completion history. No runtime work is resumed by authoring. Origin:
+01a09c68-b71e-7cc1-b01a-291cd5c446e8; inspected Dev 31 / 36b25d3.
+
+Newer raw colorful-forest candidate trial 2 records forest_residency mean
+25.077 microseconds but maximum 12,638 microseconds; one forest-region unit
+reached 4,125 microseconds and collision_preparation reached 8,699 microseconds.
+These nested maxima must not be added or equated to a frame percentile. The
+[forest receipt](../../docs/COLORFUL_FOREST_RESULTS.json) links the frozen run;
+production.json and streaming_events provide exact chronology. This reinforces
+the distinction between steady GPU-bound FPS and rare publication stalls.
+
+The prior [blocked report](../../artifacts/forest_bursts/REPORT.md) measured
+12.067/14.473 ms cold terrain cooks in forest/rock confirmation. Its 750-microsecond
+optional scheduler could not preempt one native cook. Smaller publication units
+added about 2.1 seconds to cold forest submission; stronger queue scheduling
+alone did not establish a repeatable production gain. Tree-only refresh savings
+also failed the control/frame-tail gate. Do not replay those candidates unchanged.
+
+The [repeatability prerequisite](AA-20260914-094136-establish-repeatable-rendering-baseline.md) now addresses the repeated
+source-stable performance drift visible in both this history and the
+[gravel off/all/off controls](../../docs/ROCK_GRAVEL_RESULTS.json). Fresh matched
+before/after runs remain required after any later rendering change.
+
+Earlier source/evidence observations follow; treat their timings as dated leads:
 
 - The 2026-09-13 [FPS report](../../artifacts/fps_next/REPORT.md) records the
   `d768808` packed-position improvement: forest obstacle refresh fell from
@@ -68,26 +96,69 @@ FpsCritical under the existing guard. Ordinary isolated correctness checks may
 use Shared; import/cache mutation uses Exclusive. Wait for conflicts, never nest
 guards. No new task depends on this one merely to serialize timing.
 
+The revised hypothesis is bounded reuse and smaller/cheaper native operations,
+including supported native preparation or an equivalent derived collision
+representation. A renderer/kernel change may be appropriate when measured;
+blanket engine rewrites and repeating the failed staging/lookahead experiment
+are not the plan. The [baseline task](AA-20260914-094136-establish-repeatable-rendering-baseline.md) is a required evidence
+dependency; [tree selection](AA-20260914-094136-select-forest-lods-before-submission.md) is a coordinated independent owner.
+Physical generation, the deferred 15-percent thinning and new art integration
+remain outside scope. Human/controller acceptance is a separate follow-up.
+
 ## Implementation approach
 
-1. Correlate per-frame/event timestamps for scan, eviction, allocation, buffer
-   upload, batch configuration, residency texture update and collision attachment
-   with slow frames. Separate cold first encounter, warmed re-entry and reversal;
-   distinguish resident scans from new-body publication and native cook costs.
-2. Test smaller bounded preparation/publication units, reduced redundant work,
-   resource reuse and immutable off-thread preparation where supported. Engine
-   scene mutation/uploads stay on supported threads. Account for the largest
-   non-preemptible operation rather than claiming an absolute time guarantee.
-3. Stage region work so the mask reports ready only when required batches are
-   usable. Prefetch must finish before the original visible boundary; retain a
-   correctness path for discontinuous travel. Cancel obsolete work without
-   starvation, duplicate batches, gaps or unbounded queues.
-4. Preserve immediate physical coverage at required distances and on crash,
-   teleport/recovery and reverse entry. Budget optional preparation only; do not
-   leave required collision pending to improve a frame-time graph. Recheck
-   reload, quality changes, teardown and interrupted generation.
+1. Use fresh CPU chronology to separate scan/eviction, allocation, immutable
+   preparation, buffer upload, scene attachment/configuration, residency-mask
+   publication and native collision cooking. Count events and their largest
+   indivisible operation at the same route intervals as slow frames. Separate
+   first encounter, warm re-entry, reversal and cold process start.
+2. Prioritize avoiding allocation/upload/cook work, not only moving it earlier.
+   Prototype bounded reuse of prepared MultiMeshes, buffers and metadata with
+   explicit eviction/reset; count retained bytes and actual engine uploads.
+   The current immutable placement data and prepared assets already exist.
+   Do not duplicate full-population buffers or retain every visited region.
+3. For terrain collision, inspect the exact cost of create_trimesh_shape and
+   native first attachment separately. Evaluate bounded reuse of prepared/cooked
+   shapes, serialized derived shape data if supported, or smaller exact triangle
+   partitions that reduce the largest unavoidable cook. Creating a resource on
+   a worker does not prove native cooking occurred there; verify the engine's
+   thread-safety and first-use behavior. Include seams, body count, broad-phase,
+   memory, cache/version and startup costs before selecting a representation.
+   Current render meshes also supply crash terrain; any new collision source
+   must retain exact 4 m triangle support and trimmed footprint ownership.
+4. For tree/mineral attachment, reuse stable shape/resource identities where
+   equivalent, reduce demonstrated redundant refresh work and preserve immediate
+   original required coverage. Mineral convex warmup already exists. Do not
+   defer required bodies or shrink radii to make a graph smoother. Keep solver
+   obstacle queries separate from Godot crash/ragdoll-body preparation.
+5. Only then apply bounded publication, optional lookahead and atomic readiness
+   to the cheaper units. Masks/fallbacks may publish only after all required
+   batches are usable. Use cancellation and a correctness path for reverse,
+   teleport/recovery, rapidly changed quality and 170 km/h travel. A time budget
+   is a scheduler policy, not a hard deadline on a native operation.
+6. Share buffer lifetime rules with [tree selection](AA-20260914-094136-select-forest-lods-before-submission.md), without
+   absorbing its visibility algorithm. If source changes under another owner,
+   refresh the baseline. Coordinate render-topology/collision-source changes
+   with the [GPU task](AA-20260912-105302-reduce-dense-scene-gpu-cost.md); neither owner may silently coarsen collision.
+7. Validate one smaller/cheaper-native-operation hypothesis against controlled
+   before/after forest/rock/open and ordinary traces. Include cold versus warm
+   re-entry, largest event, frame p95/p99, mean FPS, memory and startup. A lower
+   per-event CPU cost with worse complete frame behavior remains rejected.
 
 ## Acceptance and verification
+
+- [ ] The current baseline/return controls are usable and the retained
+  change demonstrably reduces the largest relevant native operation or avoids
+  it through verified reuse. Report event counts, first-use cost, CPU/upload
+  savings and complete-frame behavior; smaller queues alone do not pass.
+- [ ] Bounded pools/caches retain exact resource identity and reset correctly
+  across quality change, recovery, reload, eviction, seed/source invalidation
+  and teardown. Repeated traversal does not grow memory or reuse stale masks,
+  transforms, instance history or collision. Report cold-load/startup tradeoffs.
+- [ ] Collision representation changes, if selected, pass differential exact
+  triangle/edge/footprint and crash-contact coverage, including non-coplanar
+  seams, tree/mineral contacts, reverse travel and cold recovery. No gap or
+  deferred required collision may be used to claim a performance improvement.
 
 - [ ] Current chronology identifies the retained cause and shows repeatably fewer
   or shorter correlated slow frames, with improved p95/p99 beyond run variation
@@ -128,6 +199,15 @@ feel remain separate follow-ups, not worker-completion gates.
 None
 
 ## Completion record
+
+Current milestone: pending the 2026-09-14 investigation direction above.
+Status is ready for later dispatch after the baseline dependency completes.
+Record new evidence, actual validation, remaining acceptance and Dev/commit/push
+here. No runtime optimization or new measurement was delivered by this authoring
+revision. Earlier status transitions below are dated history, not current dispatch
+instructions. Keep the rejected experiments and their provenance intact.
+
+### Prior investigation history (retained)
 
 Investigated manually on 2026-09-13 from Dev 16 (`3a2d2dd2fc6a801fb331a40957f36a2e3e056411`). **Blocked: no production candidate met the required frame-time and control acceptance.** All experimental production, test and guide edits were restored to their exact original bytes; no runtime fix is retained. The [measurement report](../../artifacts/forest_bursts/REPORT.md) retains individual runs, source/runtime audits, event chronology, submission/memory/startup costs and rejected variants.
 
