@@ -91,6 +91,7 @@ func run() -> void:
 	check(game.sim.ticks==0 and game.session.elapsed==0,"Boot has not advanced solver or race time")
 	check(game.hud.feedback.reduced_motion==reduced,"Startup accessibility preference reaches the real interface")
 	check(not game.loading.busy and not game.loading.overlay.visible,"Loading relinquishes its input shield when ready")
+	check(game.world.defer_startup_cosmetics and game.world.grass==null,"Interactive menu precedes optional grass admission")
 	game.navigation.ensure_focus()
 	check(root.gui_get_focus_owner()!=null,"Keyboard/controller focus is restored on readiness")
 	game.hud.primary.grab_focus()
@@ -115,6 +116,10 @@ func run() -> void:
 	mouse = mouse.duplicate(); mouse.pressed = false; root.push_input(mouse,true)
 	await process_frame
 	check(game.hud.weather_panel.visible,"Pointer opens the existing Settings action from the ready menu")
+	for i in 30:
+		if not game.world.startup_cosmetics_pending and not game.world.startup_cosmetics_running: break
+		await process_frame
+	check(game.world.grass!=null and not game.world.startup_cosmetics_running,"Optional grass completes while ready menu actions remain available")
 	game.hud.close_weather(); game.hud.menu_tabs.current_tab = 0
 	while is_instance_valid(boot) and not boot.sequence.complete: await process_frame
 	if finished_at==0: finished_at = Time.get_ticks_usec()

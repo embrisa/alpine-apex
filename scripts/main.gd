@@ -269,7 +269,7 @@ func _ready() -> void:
 			field = Terrain.new()
 		else:
 			if staged_loading:
-				loading.stage("Shaping six alpine faces, forests and powder…")
+				loading.stage("Generating terrain…")
 				field = await _generate_mountain(MountainDefinition.DEFAULT_SEED)
 			else: field = MountainDefinition.generate(MountainDefinition.DEFAULT_SEED,MountainDefinition.CURRENT_VERSION,{},generation_job)
 			if field==null: _cancel_startup(); return
@@ -283,6 +283,7 @@ func _ready() -> void:
 	display_settings.apply_viewport(get_viewport())
 	if preferences_enabled: display_settings.apply_display(get_window())
 	world = World.new()
+	world.defer_startup_cosmetics = is_instance_valid(startup_cover)
 	world.quality = graphics
 	world.mountain_seed = mountain_seed
 	add_child(world)
@@ -528,6 +529,10 @@ func _ready() -> void:
 		var scene_ms = 0.0
 		for value in world.build_timings.values(): scene_ms += value
 		GenerationEstimates.record(field,scene_ms)
+	if world.startup_cosmetics_pending:
+		var cosmetics = preload("res://scripts/presentation/menu_cosmetics.gd").new()
+		add_child(cosmetics)
+		cosmetics.start(world)
 	print("ALPINE APEX | terrain %.1f ms | %d triangles | %d obstacles | 120 Hz" % [world.generation_ms,world.terrain_triangles,Obstacles.count(field)])
 	if "--autoplay" in OS.get_cmdline_user_args():
 		display_settings.apply_display(get_window(),benchmark_resolution)

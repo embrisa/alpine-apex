@@ -11,8 +11,9 @@ var material: ShaderMaterial
 var build_ms: float = 0.0
 var triangle_sources: Array = []
 
-func build(surface, assets, mountain, shared_landscape = null, checkpoint: Callable = Callable()) -> void:
+func build(surface, assets, mountain, shared_landscape = null, checkpoint: Callable = Callable(), work_budget_usec: int = 0) -> void:
 	var begin = Time.get_ticks_usec()
+	var slice_started = begin
 	landscape = shared_landscape
 	triangles = 0
 	triangle_sources.clear()
@@ -32,6 +33,8 @@ func build(surface, assets, mountain, shared_landscape = null, checkpoint: Calla
 			var wx = mountain.ORIGIN.x+x*STEP
 			var wz = mountain.ORIGIN.y+z*STEP
 			points[z*nx+x] = Vector3(wx,_height(Vector2(wx,wz),mountain),wz)
+		if work_budget_usec>0 and checkpoint.is_valid() and Time.get_ticks_usec()-slice_started>=work_budget_usec:
+			await checkpoint.call(); slice_started = Time.get_ticks_usec()
 	for cz in range(0,nz-1,32):
 		for cx in range(0,nx-1,32):
 			if not trimmed and physical_bounds.encloses(Rect2(mountain.ORIGIN+Vector2(cx,cz)*STEP,Vector2.ONE*1024.0)): continue
@@ -50,6 +53,8 @@ func build(surface, assets, mountain, shared_landscape = null, checkpoint: Calla
 						normals.append(surface.render_normal(p.x,p.y))
 					else:
 						normals.append(landscape.normal_at(p) if landscape else Vector3(-dx,STEP*2.0,-dz).normalized())
+				if work_budget_usec>0 and checkpoint.is_valid() and Time.get_ticks_usec()-slice_started>=work_budget_usec:
+					await checkpoint.call(); slice_started = Time.get_ticks_usec()
 			for z in range(32):
 				for x in range(32):
 					var p: Vector3 = vertices[z*33+x]
@@ -59,6 +64,8 @@ func build(surface, assets, mountain, shared_landscape = null, checkpoint: Calla
 						continue
 					var a = z*33+x
 					indices.append_array(PackedInt32Array([a,a+1,a+33,a+1,a+34,a+33]))
+				if work_budget_usec>0 and checkpoint.is_valid() and Time.get_ticks_usec()-slice_started>=work_budget_usec:
+					await checkpoint.call(); slice_started = Time.get_ticks_usec()
 			if indices.is_empty(): continue
 			var arrays = []
 			arrays.resize(Mesh.ARRAY_MAX)
@@ -72,6 +79,8 @@ func build(surface, assets, mountain, shared_landscape = null, checkpoint: Calla
 					var sample: Dictionary = landscape.sample_at(Vector2(v.x,v.z))
 					masks.append(sample.mask)
 					uvs.append(Vector2(sample.blend,0))
+					if work_budget_usec>0 and checkpoint.is_valid() and Time.get_ticks_usec()-slice_started>=work_budget_usec:
+						await checkpoint.call(); slice_started = Time.get_ticks_usec()
 				arrays[Mesh.ARRAY_COLOR] = masks
 				arrays[Mesh.ARRAY_TEX_UV] = uvs
 			var mesh = ArrayMesh.new()

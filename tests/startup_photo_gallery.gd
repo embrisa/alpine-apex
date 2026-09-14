@@ -4,10 +4,12 @@ func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	root.mode = Window.MODE_WINDOWED; root.size = Vector2i(1920,1080); Engine.max_fps = 60
 	var output = "res://artifacts/startup_20260914/photos"
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--output="): output = "res://"+arg.get_slice("=",1)
 	DirAccess.make_dir_recursive_absolute(output)
 	var entries = Sequence.Photos.catalog()
 	if "--snow-motion" in OS.get_cmdline_user_args():
-		await capture_snow(entries[5]); quit(); return
+		await capture_snow(entries[5],output+"/snow"); quit(); return
 	for i in entries.size():
 		var opening = Sequence.new()
 		opening.photo_texture = load(Sequence.Photos.DIRECTORY+entries[i].file)
@@ -21,9 +23,8 @@ func run() -> void:
 	print("STARTUP_PHOTO_GALLERY ",entries.size()," supplied photographs")
 	quit()
 
-func capture_snow(entry: Dictionary) -> void:
+func capture_snow(entry: Dictionary, output: String) -> void:
 	root.size = Vector2i(1280,720)
-	var output = "res://artifacts/startup_20260914/directional_snow"
 	DirAccess.make_dir_recursive_absolute(output)
 	var opening = Sequence.new()
 	opening.photo_texture = load(Sequence.Photos.DIRECTORY+entry.file)

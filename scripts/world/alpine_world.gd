@@ -21,6 +21,12 @@ var generation_ms: float = 0.0
 var preparation
 var build_timings: Dictionary = {}
 var build_job
+## Startup alone may submit optional scenery after the menu owns input.
+var defer_startup_cosmetics: bool = false
+var startup_cosmetics_pending: bool = false
+var startup_vistas_pending: bool = false
+var startup_cosmetics_running: bool = false
+var startup_cosmetics_ms: float = 0.0
 var terrain_triangles: int = 0
 const terrain_renderer: String = "legacy"
 var terrain_chunks: Array[MeshInstance3D] = []
@@ -109,12 +115,15 @@ func build(field, checkpoint: Callable = Callable(), data_worker: Callable = Cal
 	build_timings.terrain_meshes_uploads_ms = (Time.get_ticks_usec()-step_start)/1000.0
 	_end_submission("terrain_meshes_uploads")
 	if _cancelled(): return
-	step_start = Time.get_ticks_usec()
-	_begin_submission("distant_scenery")
-	if checkpoint.is_valid(): await checkpoint.call("Building the distant peaks…",-1.0)
-	await _vistas(checkpoint,data_worker)
-	build_timings.distant_scenery_ms = (Time.get_ticks_usec()-step_start)/1000.0
-	_end_submission("distant_scenery")
+	if defer_startup_cosmetics:
+		startup_cosmetics_pending = true; startup_vistas_pending = true
+	else:
+		step_start = Time.get_ticks_usec()
+		_begin_submission("distant_scenery")
+		if checkpoint.is_valid(): await checkpoint.call("Preparing distant scenery…",-1.0)
+		await _vistas(checkpoint,data_worker)
+		build_timings.distant_scenery_ms = (Time.get_ticks_usec()-step_start)/1000.0
+		_end_submission("distant_scenery")
 	if _cancelled(): return
 	step_start = Time.get_ticks_usec()
 	_begin_submission("forest_uploads")
@@ -135,7 +144,7 @@ func build(field, checkpoint: Callable = Callable(), data_worker: Callable = Cal
 	_build_grass()
 	step_start = Time.get_ticks_usec()
 	_begin_submission("flavor")
-	if checkpoint.is_valid(): await checkpoint.call("Placing mountain huts and rare discoveries…",-1.0)
+	if checkpoint.is_valid(): await checkpoint.call("Preparing structures…",-1.0)
 	flavor=preload("res://scripts/world/mountain_flavor.gd").new()
 	add_child(flavor); flavor.build(field,assets,quality,snow_material)
 	ski_surface=flavor.surface
@@ -334,24 +343,31 @@ func _terrain(checkpoint: Callable = Callable()) -> void:
 func _vistas(checkpoint: Callable = Callable(), data_worker: Callable = Callable()) -> void:
 	backdrop = preload("res://scripts/world/alpine_backdrop.gd").new()
 	add_child(backdrop)
+	var slice_budget = 2000 if startup_cosmetics_running else 0
 	if surface.is_summit_mountain():
-		wilderness = preload("res://scripts/world/alpine_wilderness.gd").new()
-		add_child(wilderness)
-		wilderness.prepare(surface,mountain)
-		await backdrop.build(surface,assets,mountain,wilderness.data,checkpoint)
+		# Keep the candidate private until its initial upload completes. A menu
+		# quality change must not start a second build on its shared sampler.
+		var candidate = preload("res://scripts/world/alpine_wilderness.gd").new()
+		add_child(candidate)
+		candidate.prepare(surface,mountain)
+		await backdrop.build(surface,assets,mountain,candidate.data,checkpoint,slice_budget)
 		# The joining collar must use the same snow/stone decision as the
 		# retained support mesh. A separate procedural mask exposes its cut edge.
 		for parameter in ["contact_material_enabled","contact_material","contact_material_origin","contact_material_size"]:
 			backdrop.material.set_shader_parameter(parameter,snow_material.get_shader_parameter(parameter))
 		snow_readability.bind(backdrop.material)
-		wilderness.apron_material = backdrop.material
-		wilderness.apron_sources = backdrop.triangle_sources
-		wilderness.worker = data_worker
-		wilderness.apron_triangles = backdrop.triangles
-		wilderness.apron_build_ms = backdrop.build_ms
-		await wilderness.apply_quality(quality,checkpoint)
+		candidate.apron_material = backdrop.material
+		candidate.apron_sources = backdrop.triangle_sources
+		candidate.worker = data_worker
+		candidate.apron_triangles = backdrop.triangles
+		candidate.apron_build_ms = backdrop.build_ms
+		while not _cancelled():
+			await candidate.apply_quality(quality,checkpoint)
+			if candidate.requested_level==quality.backdrop_tier or not candidate.enabled: break
+		wilderness = candidate
+		if startup_cosmetics_running: wilderness.worker = Callable()
 	else:
-		await backdrop.build(surface,assets,mountain,null,checkpoint)
+		await backdrop.build(surface,assets,mountain,null,checkpoint,slice_budget)
 
 func _vegetation(checkpoint: Callable = Callable()) -> void:
 	scenery = preload("res://scripts/world/alpine_scenery.gd").new()
@@ -492,6 +508,7 @@ func _configure_submission_stages() -> void:
 	if not build_job: return
 	# Broad stage weights are refined by measured work as each upload completes.
 	var weights = {"material_uploads":.02,"terrain_meshes_uploads":.30,"distant_scenery":.05,"forest_uploads":.20,"mineral_uploads":.40,"flavor":.03}
+	if defer_startup_cosmetics: weights.erase("distant_scenery")
 	build_job.mutex.lock()
 	var predicted_ms = float(build_job.expected_stages.get("scene_submission",50000.0))
 	build_job.expected_stages.erase("scene_submission")
@@ -505,7 +522,26 @@ func _end_submission(name: String) -> void:
 	if build_job: build_job.end_stage(name)
 
 func _build_grass() -> void:
+	if defer_startup_cosmetics and not startup_cosmetics_running:
+		startup_cosmetics_pending = true
+		return
 	grass=preload("res://scripts/presentation/terrain_grass.gd").new()
 	add_child(grass)
 	grass.build(surface,assets,quality)
 	grass.bind_minerals(minerals)
+
+func finish_startup_cosmetics(checkpoint: Callable = Callable(), data_worker: Callable = Callable()) -> void:
+	if not startup_cosmetics_pending or startup_cosmetics_running: return
+	startup_cosmetics_pending = false
+	if _cancelled(): return
+	startup_cosmetics_running = true
+	var started = Time.get_ticks_usec()
+	_build_grass()
+	if checkpoint.is_valid(): await checkpoint.call()
+	if startup_vistas_pending and not _cancelled(): await _vistas(checkpoint,data_worker)
+	startup_vistas_pending = false
+	startup_cosmetics_ms = (Time.get_ticks_usec()-started)/1000.0
+	startup_cosmetics_running = false
+	# This duration includes cooperative waits and is separate from menu-ready
+	# loading estimates. The completed GenerationJob is never re-opened.
+	print("STARTUP_COSMETICS_COMPLETE ",startup_cosmetics_ms," ms elapsed")

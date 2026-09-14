@@ -1583,3 +1583,47 @@ The 90-120 FPS, p95 <=11.1 ms and p99 <=16.7 ms targets remain **unmet**, includ
 in the pre-change baseline. This is not regression-free performance acceptance.
 No full-descent/forest-coverage or generated-frame throughput claim is made.
 The before/after isolated submission means above remain a separate CPU measure.
+
+## Startup evidence
+
+Startup checks use the compact short-course fixture (256 x 512 m, 4 m grid,
+zero objects) and the actual startup/main scenes. No full mountain or cold bake:
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/startup_suite.gd') -Label startup-functional
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/startup_suite.gd','--','--startup-capture','--startup-reduced','--startup-fullscreen','--startup-output=artifacts/my-startup/reduced') -Label startup-render
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/startup_suite.gd','--','--startup-timing','--startup-fullscreen','--startup-output=artifacts/my-startup/timing') -Label startup-timing -WorkloadMode FpsCritical
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/startup_audio_capture.gd') -Label startup-audio
+```
+
+Use `--startup-timing` without `--startup-capture` for timing and repeat in fresh
+processes. Timing skips unit/optional-effect setup before the actual entry scene;
+fullscreen timing starts in the project window mode without a harness mode switch. Capture at
+explicit `--startup-size=1920x1080` or use native fullscreen. Select
+`--startup-skip=key|mouse|controller` for event-injection coverage. Report engine
+startup separately from the scene-to-menu timer, and sequence dismissal separately
+from interactive readiness. A short-course fixture and two-frame injected input
+observation cannot establish ordinary full-mountain startup or hardware latency.
+`--startup-stages` emits actual stage timestamps. Warm asset caches, first-use
+shader compilation and screenshot readbacks materially affect these values.
+
+`menu_cosmetics_suite.gd` checks deferred admission, cancellation/teardown, a
+separate data worker, optional-resource failure and exact vertex/normal/index
+equality with the original decorative mesh path. It uses spies and a planar
+sampler, with no generated mountain. Run it with `startup_suite`, `runtime_suite`
+and `interface_suite` after scheduling changes.
+
+`startup_photo_gallery.gd -- --snow-motion --output=artifacts/my-startup/weather`
+writes 60 native 1280x720 frames at explicit 30 Hz presentation time under Shared
+admission. Omit `--snow-motion` for all six static 1920x1080 photograph compositions.
+Use fresh output paths and inspect the rendered files. This is motion-review
+evidence, not actual loading timing.
+
+The audio producer records a pre-Master-gain WAV effect tap and separately measures
+post-gain bus peaks. Validate dispatch count, completion, interface mute, Master
+attenuation and Master mute; reserve perceived balance/quality for listening.
+
+The timing fixture bypasses distant scenery entirely. Its startup/menu timings
+cannot demonstrate whole-mountain savings from deferring that work. Cooperative
+CPU loop yields and main-thread resource/mesh submission are not asynchronous
+GPU streaming or a hard frame-time guarantee.

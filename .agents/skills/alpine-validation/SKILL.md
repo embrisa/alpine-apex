@@ -125,3 +125,8 @@ performance evidence nor human/controller acceptance.
 For asset milestones, follow the LFS pointer/hydration validation boundary in
 [Development](../../../docs/DEVELOPMENT.md#milestone-workflow) before recording
 the staged or delivered-note check as passed.
+
+For opening, loading handoff, reduced motion or startup audio, follow
+[startup evidence](../../../docs/VALIDATION.md#startup-evidence). Use the compact
+startup and cosmetic scheduling suites; separate rendered captures, clean entry
+timings and native mixer evidence from human listening/controller acceptance.

@@ -377,7 +377,7 @@ status and a skip instruction.
 No tagline or invented location is shown.
 
 The reveal uses monotonic wall time for 1.85 seconds plus a .28-second dissolve;
-clamped engine frame deltas cannot lengthen it after a main-thread stall. Readiness always
+elapsed time remains real-time even when the engine clamps its frame delta. Main-thread stalls can still delay a presented frame or dissolve. Readiness always
 wins: a ready menu immediately receives input, with no minimum display timer.
 After .45 seconds, a fresh key, mouse button or controller button accelerates the
 handoff; mouse movement, axes and key repeat do not. Skip cannot expose an absent
@@ -391,30 +391,21 @@ Optional audio/shader failures retain the brand, a solid background and working
 handoff. Main-scene failures expose Retry/Quit. Development build identification
 runs separately from menu construction; Copy build details becomes available
 when its frozen result is ready. It never supplies a placeholder identity to
-records or cases. The evidence commands and acceptance boundaries below cover startup.
+records or cases. See [startup evidence](VALIDATION.md#startup-evidence) for commands and acceptance boundaries.
 
 Fullscreen is the supported project window mode from process creation. Startup
 applies the saved Display preference before creating the opening or loading
 resources. Explicit windowed choices remain authoritative. Reapplying an already
 matching display state no longer toggles through Windowed during initialization.
 
-Startup evidence commands use the existing guard (standalone producer-owned
-short-course fixture, 256 x 512 m, zero objects; no full mountain or cold bake):
+The startup path defers only distant decorative scenery and terrain-grass setup
+until the existing menu releases its loading shield and restores focus. Terrain,
+forest/mineral collision, structures, rider setup and camera preparation remain
+essential. Direct-main scene loads retain their normal build order.
 
-```powershell
-./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/startup_suite.gd','--','--ui-staged-loading') -Label startup-functional
-./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/startup_suite.gd','--','--ui-staged-loading','--startup-capture','--startup-reduced','--startup-fullscreen','--startup-output=artifacts/my-startup/reduced') -Label startup-render
-./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/startup_suite.gd','--','--ui-staged-loading','--startup-timing','--startup-fullscreen','--startup-output=artifacts/my-startup/timing') -Label startup-timing -WorkloadMode FpsCritical
-./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/startup_audio_capture.gd') -Label startup-audio
-```
-
-Use `--startup-timing` without `--startup-capture` for timing and repeat in fresh
-processes. Timing skips unit/optional-effect setup before the actual entry scene;
-fullscreen timing starts in the project window mode without a harness mode switch. Capture at
-explicit `--startup-size=1920x1080` or use native fullscreen. Select
-`--startup-skip=key|mouse|controller` for event-injection coverage. Report engine
-startup separately from the scene-to-menu timer, and sequence dismissal separately
-from interactive readiness. A short-course fixture and two-frame injected input
-observation cannot establish ordinary full-mountain startup or hardware latency.
-`--startup-stages` emits actual stage timestamps. Warm asset caches, first-use
-shader compilation and screenshot readbacks materially affect these values.
+`menu_cosmetics.gd` owns optional threaded resource reads and pure data work,
+independently of LoadingOverlay. Decorative mesh loops yield cooperatively at
+a 2 ms CPU budget between samples/rows; GPU submission still occurs on the main
+thread. A menu quality change is applied before publishing the initial wilderness
+candidate. Neither cosmetic completion nor its elapsed duration reopens loading
+progress, blocks menu actions or advances simulation.

@@ -16,7 +16,8 @@ float flakes(vec2 uv, float cells, float depth) {
 	float travel = travel_distance()*depth;
 	vec2 field = (uv+vec2(travel*1.8,-travel))*cells;
 	vec2 seed = random_cell(floor(field)+depth*31.0);
-	float present = step(0.22,fract(seed.x*17.31+seed.y*11.97));
+	// Retain 70% of the previously thinned (78%) population.
+	float present = step(0.454,fract(seed.x*17.31+seed.y*11.97));
 	vec2 p = fract(field)-mix(vec2(0.20),vec2(0.80),seed);
 	// Each near flake carries a short soft streak; distant snow stays fine.
 	p = vec2(dot(p,vec2(0.486,0.874))*1.6,dot(p,vec2(-0.874,0.486))*0.65);

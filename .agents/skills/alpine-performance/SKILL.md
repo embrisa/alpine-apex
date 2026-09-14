@@ -126,3 +126,8 @@ Report the final Dev ID after push. Preserve unrelated dirty inputs; do not refr
 evidence hashes without repeating affected checks. Recorded case identity and
 current rerun identity are different observations. A version label is neither
 performance evidence nor human/controller acceptance.
+
+For startup/loading responsiveness, follow
+[startup timing](../../../docs/VALIDATION.md#startup-evidence). Exclude capture
+readbacks and unit preambles, report engine/entry/reveal/menu timings separately,
+and keep compact readiness measurements separate from production mountain cost.

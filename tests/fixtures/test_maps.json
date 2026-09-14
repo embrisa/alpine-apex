@@ -1741,6 +1741,28 @@
       ],
       "full_mountain": false,
       "coverage": "Capped production tree materials and scenery; optional --standard explicitly restores a warm physical seed and requires full-mountain admission. No implicit physical bake or timing evidence."
+    },
+    "tests/startup_suite.gd": {
+      "maps": [
+        "short-course"
+      ],
+      "full_mountain": false,
+      "coverage": "Actual opening through interactive main menu, skip/accessibility/recovery and cosmetic scheduling. Captures and timing selected separately; no mountain bake."
+    },
+    "tests/startup_photo_gallery.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Isolated photographic startup compositions and explicit-time snow motion frames; no world or performance claim."
+    },
+    "tests/startup_audio_capture.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Isolated native Master bus capture, dispatch/mute/gain and completion checks; listening remains separate."
+    },
+    "tests/menu_cosmetics_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Scheduling spies, worker teardown and identical decorative meshes from a planar sampler. No mountain generation."
     }
   }
 }
