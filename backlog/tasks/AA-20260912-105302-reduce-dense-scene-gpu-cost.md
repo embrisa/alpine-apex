@@ -1,11 +1,11 @@
 ---
 id: "AA-20260912-105302-reduce-dense-scene-gpu-cost"
 title: "Reduce the largest remaining dense-scene GPU passes"
-status: ready
+status: blocked
 priority: P1
 depends_on: ["AA-20260912-105301-reduce-animation-cpu-cost", "AA-20260914-094136-establish-repeatable-rendering-baseline"]
 created: "2026-09-12T10:53:00Z"
-updated: "2026-09-14T09:41:36Z"
+updated: "2026-09-14T13:37:31Z"
 source_thread: "01a09527-1988-7b50-b7c9-71ff6821cb00"
 ---
 
@@ -226,12 +226,43 @@ None
 
 ## Completion record
 
-Current milestone: pending the 2026-09-14 investigation direction above.
-Status is ready for later dispatch after the baseline dependency completes.
-Record new evidence, actual validation, remaining acceptance and Dev/commit/push
-here. No runtime optimization or new measurement was delivered by this authoring
-revision. Earlier status transitions below are dated history, not current dispatch
-instructions. Keep the rejected experiments and their provenance intact.
+**Manual investigation, 2026-09-14: blocked; candidate rejected.** The user's
+current request authorized this bounded implementation attempt. The broader
+rendering-baseline prerequisite remains blocked; this narrow fresh A/B/A does
+not close it. No production optimization is retained.
+
+[Investigation and next gate](../../docs/DENSE_GPU_ENCODING.md) and
+[individual trials/native intervals](../../docs/DENSE_GPU_ENCODING_RESULTS.json)
+record Dev 34 source `4163162`, the unchanged model-35 ordinary forest trace,
+4K High/0.75/FSR 4.1.1, three warmed 15-second before/candidate/return repetitions,
+six local vegetation timings and two separate native GPU profiles.
+
+Full vertex compression failed normal/tangent preservation and was stopped.
+The UV-only refinement passed 355,860 focused checks and reduced ten render
+meshes' vertex/attribute streams by 20%, while retaining original resources.
+It added approximately 244 ms of one-time production setup. Dense median FPS
+was 69.33 before, 70.19 candidate and 69.56 after restoration; candidate GPU mean
+was only 0.42% lower than the return, with worse p95/p99 and first-repetition
+spikes of 96.388 ms (ordinary) and 88.222 ms (profiled). Local median FPS fell
+1.05%. Shared depth/opaque intervals fell about 0.117 ms in separate profiles;
+this does not establish a reliable net benefit or per-object bandwidth cause.
+
+Original runtime bytes were restored and temporary runtime scripts/includes
+removed. Original source assets/imports/UIDs, 120 Hz solver, shared 4 m support,
+collision, replay and records remain unchanged. Native local detail/overview/
+riding stills showed no gross discrepancy, but full motion/weather/quality and
+open/mineral/stress/capped-production acceptance was stopped after the failed
+primary performance gate. Human/controller acceptance is untested. The restored
+sample remains 69.56 FPS, p95 17.943 ms and p99 22.840 ms against the task targets.
+
+Next gate: measured pass/object coverage and a new substantial removable-cost
+premise, plus the unresolved baseline and remaining candidate acceptance matrix.
+Do not repeat this storage mechanism from byte-count savings alone. Detailed
+negative evidence and exact candidate sources remain under
+`artifacts/dense_gpu_20260914/` and `artifacts/pc_environment/dgp-forest-*`.
+Delivery identity and final verification are recorded in
+[the development note](../../changes/a04955ba95af4528bb9f5dae1e39f228.json);
+find its containing commit through `scripts/versioning.py history`. All earlier dated history below is preserved.
 
 ### Prior investigation history (retained)
 
