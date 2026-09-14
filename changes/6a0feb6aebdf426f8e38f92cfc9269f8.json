@@ -1,0 +1,282 @@
+{
+  "schema": 1,
+  "id": "6a0feb6aebdf426f8e38f92cfc9269f8",
+  "summary": "Reject slower CPU forest LOD selection and retain source-matched return evidence",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Forest submission experiment and measured rejection",
+    "Source-matched return controls and retained diagnostic evidence"
+  ],
+  "owned_paths": [
+    "backlog/tasks/AA-20260914-094136-select-forest-lods-before-submission.md",
+    "docs/FOREST_SELECTION.md",
+    "docs/FOREST_SELECTION_RESULTS.json"
+  ],
+  "read_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    ".tools/godot-fsr/servers/rendering/renderer_rd/forward_clustered/render_forward_clustered.cpp",
+    ".tools/godot-fsr/servers/rendering/renderer_rd/storage_rd/mesh_storage.cpp",
+    "artifacts/forest_selection_20260914/baseline-capture/plan.json",
+    "artifacts/forest_selection_20260914/baseline-capture/summary.json",
+    "artifacts/forest_selection_20260914/baseline-capture/trial-1/detail.png",
+    "artifacts/forest_selection_20260914/baseline-capture/trial-1/overview.png",
+    "artifacts/forest_selection_20260914/baseline-capture/trial-1/results.json",
+    "artifacts/forest_selection_20260914/baseline-capture/trial-1/riding.png",
+    "artifacts/forest_selection_20260914/candidate-capture/plan.json",
+    "artifacts/forest_selection_20260914/candidate-capture/summary.json",
+    "artifacts/forest_selection_20260914/candidate-capture/trial-1/detail.png",
+    "artifacts/forest_selection_20260914/candidate-capture/trial-1/overview.png",
+    "artifacts/forest_selection_20260914/candidate-capture/trial-1/results.json",
+    "artifacts/forest_selection_20260914/candidate-capture/trial-1/riding.png",
+    "artifacts/forest_selection_20260914/local-mixed-before/summary.json",
+    "artifacts/forest_selection_20260914/local-mixed-candidate/summary.json",
+    "artifacts/forest_selection_20260914/local-vegetation-before/summary.json",
+    "artifacts/forest_selection_20260914/local-vegetation-cached-ranges/summary.json",
+    "artifacts/forest_selection_20260914/local-vegetation-candidate-fixed/summary.json",
+    "artifacts/forest_selection_20260914/local-vegetation-conservative/summary.json",
+    "artifacts/forest_selection_20260914/local-vegetation-return/summary.json",
+    "artifacts/forest_selection_20260914/logic-3/forest_selection_suite.log",
+    "artifacts/forest_selection_20260914/plan.json",
+    "artifacts/forest_selection_20260914/regressions/colorful_forest_suite.log",
+    "artifacts/forest_selection_20260914/regressions/density_lod_suite.log",
+    "artifacts/forest_selection_20260914/regressions/density_spatial_suite.log",
+    "artifacts/forest_selection_20260914/regressions/foliage_sight_suite.log",
+    "artifacts/forest_selection_20260914/rejected_candidate/scripts/presentation/density_forest.gd",
+    "artifacts/forest_selection_20260914/rejected_candidate/scripts/presentation/forest_lod_selection.gd",
+    "artifacts/forest_selection_20260914/rejected_candidate/scripts/presentation/forest_lod_selection.gd.uid",
+    "artifacts/forest_selection_20260914/rejected_candidate/scripts/world/alpine_scenery.gd",
+    "artifacts/forest_selection_20260914/rejected_candidate/source_hashes.json",
+    "artifacts/forest_selection_20260914/rejected_candidate/tests/forest_selection_native_suite.gd",
+    "artifacts/forest_selection_20260914/rejected_candidate/tests/forest_selection_native_suite.gd.uid",
+    "artifacts/forest_selection_20260914/rejected_candidate/tests/forest_selection_suite.gd",
+    "artifacts/forest_selection_20260914/rejected_candidate/tests/forest_selection_suite.gd.uid",
+    "artifacts/forest_selection_20260914/report.py",
+    "artifacts/guarded/fs-native-uniforms-fixed/stdout.log",
+    "artifacts/guarded/fs-regression-native-preparation/stdout.log",
+    "artifacts/pc_environment/fs-forest-before/production.json",
+    "artifacts/pc_environment/fs-forest-before/system.json",
+    "artifacts/pc_environment/fs-forest-candidate-gpu/gpu_passes.json",
+    "artifacts/pc_environment/fs-forest-candidate-gpu/production.json",
+    "artifacts/pc_environment/fs-forest-candidate-gpu/system.json",
+    "artifacts/pc_environment/fs-forest-candidate/production.json",
+    "artifacts/pc_environment/fs-forest-candidate/system.json",
+    "artifacts/pc_environment/fs-forest-return-gpu/gpu_passes.json",
+    "artifacts/pc_environment/fs-forest-return-gpu/production.json",
+    "artifacts/pc_environment/fs-forest-return-gpu/system.json",
+    "artifacts/pc_environment/fs-forest-return/production.json",
+    "artifacts/pc_environment/fs-forest-return/system.json",
+    "assets/graphics/pc_forest_tree.gdshader",
+    "assets/graphics/pc_lod.gdshaderinc",
+    "docs/DEVELOPMENT.md",
+    "docs/RENDERING.md",
+    "docs/RENDERING_BASELINE.md",
+    "docs/VALIDATION.md",
+    "scripts/benchmark_pc.ps1",
+    "scripts/benchmark_targeted.ps1",
+    "scripts/presentation/alpine_assets.gd",
+    "scripts/presentation/density_forest.gd",
+    "scripts/presentation/forest_placement.gd",
+    "scripts/rendering_baseline_report.py",
+    "scripts/run_guarded.ps1",
+    "scripts/world/alpine_scenery.gd",
+    "tests/performance_descent.gd",
+    "tests/targeted_performance.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Documentation-only delivery; rejected rendering experiment restored to Dev 33 and no solver, world, data or runtime behavior ships."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Documentation-only delivery; rejected rendering experiment restored to Dev 33 and no solver, world, data or runtime behavior ships."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Documentation-only delivery; rejected rendering experiment restored to Dev 33 and no solver, world, data or runtime behavior ships."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Existing compatible physical archive and unranked harnesses; no save/schema or compatibility-key change. Source-specific scenery preparation restored for baseline."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Existing compatible physical archive and unranked harnesses; no save/schema or compatibility-key change. Source-specific scenery preparation restored for baseline."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Existing compatible physical archive and unranked harnesses; no save/schema or compatibility-key change. Source-specific scenery preparation restored for baseline."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Existing compatible physical archive and unranked harnesses; no save/schema or compatibility-key change. Source-specific scenery preparation restored for baseline."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Existing compatible physical archive and unranked harnesses; no save/schema or compatibility-key change. Source-specific scenery preparation restored for baseline."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "python artifacts/forest_selection_20260914/report.py --verify",
+      "result": "passed",
+      "details": "After final note capture, deterministically reproduced all 21 local and nine dense timing trials plus two separate native profiles. Checked source-identical baseline return, matching engine/trace/camera/graphics/physical identity and numeric endpoints, source stability/focus/cache validity, archived runtime hashes, actual regression logs and byte-for-byte runtime restoration. This verifies a rejected result, not an optimization pass."
+    },
+    {
+      "kind": "automated",
+      "command": "python scripts/backlog.py validate --preserve-dirty; scoped Markdown link/whitespace and archived logic receipt checks; git -c core.whitespace=cr-at-eol diff --check",
+      "result": "passed",
+      "details": "After capture, backlog validated with target blocked; 16 local links resolve; 23,121-check pure selector receipt confirmed; experimental scripts/UIDs absent from runtime and unrelated pre-existing UIDs preserved. See artifacts/forest_selection_20260914/final_verification.json."
+    },
+    {
+      "kind": "performance",
+      "command": "Retained FpsCritical local and fs-forest-before/candidate/return timing receipts; separate fs-forest-candidate-gpu and fs-forest-return-gpu profiles",
+      "result": "not_required",
+      "details": "No further timing required for documentation-only delivery after restoring the runtime. Earlier experiment failed acceptance: 70.13 to 59.14 FPS despite 22.83% fewer primitives; baseline return 69.80 FPS. Required full candidate acceptance was stopped and remains blocked. Measurements precede the final note capture; raw producer source receipts identify those measured bytes."
+    },
+    {
+      "kind": "rendered",
+      "command": "Retained native baseline-capture and candidate-capture PNGs plus candidate native suites",
+      "result": "not_required",
+      "details": "No rendered runtime change ships. Earlier matching local detail/overview and candidate riding still inspected; no gross silhouette discrepancy at those views. Native candidate selection passed 1,957 checks including 14 temporal GPU buffer inspections, and affected forest suites passed. These do not establish full chronological FSR, motion-blur, wind/contact/canopy/weather or controller acceptance."
+    }
+  ],
+  "outstanding_acceptance": [
+    "No optimization is accepted. Backlog task remains blocked on a faster complete candidate and the remaining controls/visual matrix; this milestone accepts only the rejected-investigation documentation.",
+    "Human continuous visual comfort and controller feel are untested."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-14T12:42:15.268568+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 33,
+      "commit": "e362ce7fa94f8f9fd72c0a70fd7d12dfb340d4ab",
+      "modified": true,
+      "changes_sha256": "6c4e43ec75b9020d104f8e8d30bb0668ad3c4ae96759816104e93ea8fe6e990c",
+      "source_sha256": "d6a9a7efb9c66d5c45aa2c46d37f59083416cbd1487472ec4d44153c35cde2a6",
+      "categories": [
+        "Maintenance"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": "e3e664c958eb54691bc3d0cf5a318e7b224a889c4ce1f2d83dff02bb9b5492ed",
+      ".agents/skills/alpine-validation/SKILL.md": "c5f652078814ef3c68785a7db05bfbda352a2205efe9a59d682ba1b231ddad8e",
+      ".tools/godot-fsr/servers/rendering/renderer_rd/forward_clustered/render_forward_clustered.cpp": "fd1ac63af6527ff60c73dff670567a506ee7ad9f259d7cfd64022ea39123eb58",
+      ".tools/godot-fsr/servers/rendering/renderer_rd/storage_rd/mesh_storage.cpp": "d610f7f4b89ab4b10b038fabf3522bd9497add4fd9438ea5770597a6857a3bad",
+      "artifacts/forest_selection_20260914/baseline-capture/plan.json": "c1f930a0bac8b4257548ea3ce57a9fdd8c4491943521d4f57752734be8c01a6a",
+      "artifacts/forest_selection_20260914/baseline-capture/summary.json": "b1a537757f84245d18a6b3ffd953b74fb6bff8175490a628c18f39796e3253c6",
+      "artifacts/forest_selection_20260914/baseline-capture/trial-1/detail.png": "09be2526b65d1256d7a434e84c5aeedd053a8f4b9a354cce4343c1a37fc0b2c9",
+      "artifacts/forest_selection_20260914/baseline-capture/trial-1/overview.png": "88c80ef4f1097a74c8f8b17e25fcb834e9865dc421c07ac37e1b17dc57910ace",
+      "artifacts/forest_selection_20260914/baseline-capture/trial-1/results.json": "78d4671994c54eb04fad63ed1f17fee831c0902ca4ad1d3195a20e46a6f16fec",
+      "artifacts/forest_selection_20260914/baseline-capture/trial-1/riding.png": "534431b44bcccf6ce3e98b30d4750b45490015dbf2fd3dc5deeb0de8992e42fe",
+      "artifacts/forest_selection_20260914/candidate-capture/plan.json": "56d9b0545b2ba316c7132b35e1962e2b5e86032cfdd5cd391eb61c4fd282dcb2",
+      "artifacts/forest_selection_20260914/candidate-capture/summary.json": "9522ee0801095b764db4f99565a27cc7405ba89e7c17d9c180df72b2db84eb86",
+      "artifacts/forest_selection_20260914/candidate-capture/trial-1/detail.png": "2d0221afba6084c9fec0cd6fae209e341a4ff06ff93b682a943be53272d1a465",
+      "artifacts/forest_selection_20260914/candidate-capture/trial-1/overview.png": "c52fa7a68353dbd6f1f266887608e25721c6d2f6da980a1ad4d89012a46b8290",
+      "artifacts/forest_selection_20260914/candidate-capture/trial-1/results.json": "4e97dce8fe7743c4432e55ccd7e7133a9331734cc3f988b64429803d1ef3cbae",
+      "artifacts/forest_selection_20260914/candidate-capture/trial-1/riding.png": "2faea4065d6c14c62a6e8a93bd6312de16043b5e0dcac6057d639b64706054e3",
+      "artifacts/forest_selection_20260914/local-mixed-before/summary.json": "bb2f17d5d470bc4064a0a1284ceb9fb6c358bed2d42f422467b53e26d24f4581",
+      "artifacts/forest_selection_20260914/local-mixed-candidate/summary.json": "6ef05836bef1a558cc0dc2302a1955a334cfd032d3070f1f3f666a35c4e82508",
+      "artifacts/forest_selection_20260914/local-vegetation-before/summary.json": "6ec7fb65bf6b143b870b67415ffeb6aa64ab579c9cc802e1511abffcc824cb43",
+      "artifacts/forest_selection_20260914/local-vegetation-cached-ranges/summary.json": "f6520396ed07478db6f9cc825965e7b7f640464833a0e9eb450126a7a19c89d7",
+      "artifacts/forest_selection_20260914/local-vegetation-candidate-fixed/summary.json": "640a490f798101248f1c5e808c4c697e61ba1e9bad3454ff45980e0d4b9a1863",
+      "artifacts/forest_selection_20260914/local-vegetation-conservative/summary.json": "d78d4547e69e8746a56325c85daf0e7e15166b987a63a776328b341e6e4c2579",
+      "artifacts/forest_selection_20260914/local-vegetation-return/summary.json": "12bcf48355a5b57ec49e1591274459559a1e9d51096a91788938fa54252e87d8",
+      "artifacts/forest_selection_20260914/logic-3/forest_selection_suite.log": "9493ce53db1d0d76d6611b3ff57153081fba5db11727323d0d4fe32fd9c3902a",
+      "artifacts/forest_selection_20260914/plan.json": "8f893d5cdd277859163d6992860eb9afc296cbfdfa134ab7e2ebaffde043aef0",
+      "artifacts/forest_selection_20260914/regressions/colorful_forest_suite.log": "45e5ec1864a0b22f8b67be72672a75e4218b00806f3dfe3e3b86eb298b721f14",
+      "artifacts/forest_selection_20260914/regressions/density_lod_suite.log": "9f2c0f2ce758f903f6754de9b1458f1125decf37c88d9937532a7294db9c564c",
+      "artifacts/forest_selection_20260914/regressions/density_spatial_suite.log": "08e4ff4c9e1269c025606f9f5a5b452839ca96ce715d5b5936f435f5253d8071",
+      "artifacts/forest_selection_20260914/regressions/foliage_sight_suite.log": "cc8ac21b0c42d443c868a80887ea4fa2024b84d57f1fcc224f85ce1f07a5059f",
+      "artifacts/forest_selection_20260914/rejected_candidate/scripts/presentation/density_forest.gd": "7362b95578e7ffb3b763368fbd379aa130f030e63a1b1a3587f6f8397fc4ce4f",
+      "artifacts/forest_selection_20260914/rejected_candidate/scripts/presentation/forest_lod_selection.gd": "534fa4416b33727d35e4d9a6ed5ae82116b6e0d72af95cf823dc0ac6f02713b2",
+      "artifacts/forest_selection_20260914/rejected_candidate/scripts/presentation/forest_lod_selection.gd.uid": "9af9d355ba365e47ca811fac8578648c2971a074c591005f4e9a5b7330ba6c91",
+      "artifacts/forest_selection_20260914/rejected_candidate/scripts/world/alpine_scenery.gd": "501808ca2e9c71ce7a2b8557e13235ff7f5fbaa62af90bde4d03dd3858deb938",
+      "artifacts/forest_selection_20260914/rejected_candidate/source_hashes.json": "1f17547eee11015f50b0b9f06668f95bc855d22c6cc09ca093a07fa8c931f8d8",
+      "artifacts/forest_selection_20260914/rejected_candidate/tests/forest_selection_native_suite.gd": "cd70e7fb47db3e9a89e81bd52fa60eed0099229603a94743c38f22f8e1527d47",
+      "artifacts/forest_selection_20260914/rejected_candidate/tests/forest_selection_native_suite.gd.uid": "bd0f20465c84cccde4f2935897c07a0dd7a6ac4475e257c84708816b983c78f4",
+      "artifacts/forest_selection_20260914/rejected_candidate/tests/forest_selection_suite.gd": "6614bd70529d7a24e6e7e56b19f195c4998098f79e37f1cbbf6d26189dcc487a",
+      "artifacts/forest_selection_20260914/rejected_candidate/tests/forest_selection_suite.gd.uid": "57195585a0b759c0281b2a5d8cb662f9849a0711a2be6c38aab52a7937a683fe",
+      "artifacts/forest_selection_20260914/report.py": "7fd193696639b77d8aebf6e0db18bfb93130206c36043f49c9d562a0b14a906a",
+      "artifacts/guarded/fs-native-uniforms-fixed/stdout.log": "f5d4e93635bd594e0cd89fa62fe30219a7ae8cbba3fbe64a6b7c54bdb844de34",
+      "artifacts/guarded/fs-regression-native-preparation/stdout.log": "099d5368624be7f134e6d22d856a34e5ca1b44507659cfdc4a8038a15347ac01",
+      "artifacts/pc_environment/fs-forest-before/production.json": "09fff26bb32a50201d1d72fbb9d7e10d94150c39f48400f4c2fc3ae9c223b465",
+      "artifacts/pc_environment/fs-forest-before/system.json": "a3251e67f05f64c410cc79eeb8b3f1fd50fe03482c4228514a32d723b2d641c1",
+      "artifacts/pc_environment/fs-forest-candidate-gpu/gpu_passes.json": "2605b42686e99ce127cf35abadad6f10ec815c1b12bbb1bebb72f4716fc16175",
+      "artifacts/pc_environment/fs-forest-candidate-gpu/production.json": "3584245bddae1827fc56b97c9a8a3de91473e1590d243981d868fb09bf88ec9d",
+      "artifacts/pc_environment/fs-forest-candidate-gpu/system.json": "41dc2eabb612d6ba6f16bdbcccc2d309dc1db1f4860b3986fbcbb2144b1a5cd4",
+      "artifacts/pc_environment/fs-forest-candidate/production.json": "da7868abf0e66d77373982402af596fa8db132e94a427c207079f70f27ba5fd3",
+      "artifacts/pc_environment/fs-forest-candidate/system.json": "cc7c2e5bddddc286d69ca2c4b67c100c74ddfc0b60f929a6b33e2d12bf965045",
+      "artifacts/pc_environment/fs-forest-return-gpu/gpu_passes.json": "872c2617905776700a38e8de444ffe8c4f08452a1fc713e7ac367a00dff4df8a",
+      "artifacts/pc_environment/fs-forest-return-gpu/production.json": "8b574126cc2e74728f765ab8d597fc0eca892048463a3b31ed8b31a1ac93b2bd",
+      "artifacts/pc_environment/fs-forest-return-gpu/system.json": "afd998c434db6622d86d939bd574489e28cada382896432ba0757848551fafdb",
+      "artifacts/pc_environment/fs-forest-return/production.json": "ad8bf0919c6416a49816fbd4fd5c4fb6d286581edee06fad5c0755049dbd54a6",
+      "artifacts/pc_environment/fs-forest-return/system.json": "4ad849d9b0515cfaf4c185c8ebd5356c61b8578f3cc6ecd6d92fc34b8c466f4d",
+      "assets/graphics/pc_forest_tree.gdshader": "37a43b04ba085d8c627a68d574dad11f78fdfc821c24bd589b91ea467215dbaa",
+      "assets/graphics/pc_lod.gdshaderinc": "a9bd54c2982ec579d3491699d4040b5bf81b3e1233eab15ec787100997d5dc66",
+      "backlog/tasks/AA-20260914-094136-select-forest-lods-before-submission.md": "be4e5d451b0340a7d76d34ad0141733936e9153196518e56453a80983cdd149e",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/DEVELOPMENT.md": "a5118f0e011f59b2f12cb9480b2aa153646f01d0b7734fd3651dc24645b2918d",
+      "docs/FOREST_SELECTION.md": "6d2358486a2c694c0fef9686a31f76d84f38217e528de6fe57a6c03fd77153e7",
+      "docs/FOREST_SELECTION_RESULTS.json": "a077652dbecd1c07c657d91ed3f3c64cfe3a35dfb3a51c093df99a6afe290207",
+      "docs/RENDERING.md": "37a263d208c30bb0b8dea9839a6abbd354952ef84994fb0d11e13950a938ed9e",
+      "docs/RENDERING_BASELINE.md": "3514e83e17aa73f8aeb704e57bb6b8d0110f4825e2372898ec2603ecd43d3ab1",
+      "docs/VALIDATION.md": "272cfeab3fd7ac90d6c635b04c7dfbc780027020fc654945b2ddf8904b96d584",
+      "project.godot": "72cb6f901c83a06dc0b06b1d9198444dfb5a7155b4b6ab6ec2d1c311cd3458bd",
+      "scripts/benchmark_pc.ps1": "e0ada1031548b727eb0a0d40185b390cbfb5309fa3127d56cc30e53128096753",
+      "scripts/benchmark_targeted.ps1": "6a483663fb5d631d70c7636e98121971c81756eaf70194341524026cf484afd4",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/presentation/alpine_assets.gd": "10f55c42beea3628b8988dadd01e45b40e109a4eb359173a122709f40a7916a3",
+      "scripts/presentation/density_forest.gd": "d53b1de7844c18e0d885f8f91c70193c3832d5796d24490a07739dfd2ffc4f8c",
+      "scripts/presentation/forest_placement.gd": "fb77da4243855ccf50b1e1eb22481b5106d0f482625a426257ad0f74cb82feae",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "c8375d4142f40481877919f2ed0800dfb4217fe0eb421575cb0aa11b2c8f1407",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/rendering_baseline_report.py": "03fedfe5d1e71106642c35bfd67497889af97c897c0cab541110bfb06b23b52c",
+      "scripts/run_guarded.ps1": "67d133122cf22b25514f559d6f9d89ea52b6da0fc8ad24b7b5400612b21bec71",
+      "scripts/world/alpine_scenery.gd": "ea9f744729356f5247d6fd3f002c4c5b728fc19835680ec75ef95abb374ddec3",
+      "scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f",
+      "tests/performance_descent.gd": "596afc23ed80151febd17b219d62be33b1d093bfbd24ef017adfeabc31ef25a3",
+      "tests/targeted_performance.gd": "5ea93e6a70314f87fb20c508c0d5fb135d9354ab8c93427b3c8f4b825952d72d"
+    }
+  }
+}

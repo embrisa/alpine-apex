@@ -1,11 +1,11 @@
 ---
 id: "AA-20260914-094136-select-forest-lods-before-submission"
 title: "Select forest instances and LODs before geometry submission"
-status: ready
+status: blocked
 priority: P1
 depends_on: ["AA-20260914-094136-establish-repeatable-rendering-baseline"]
 created: "2026-09-14T09:41:36Z"
-updated: "2026-09-14T09:41:36Z"
+updated: "2026-09-14T12:41:16Z"
 source_thread: "01a09c68-b71e-7cc1-b01a-291cd5c446e8"
 ---
 
@@ -116,7 +116,7 @@ engine abstraction, hide trees through physics or combine candidate gains.
   duplicated or assigned the wrong state across region/LOD boundaries, forward
   and reverse travel, teleport/recovery, rapid camera turns, quality changes,
   delayed jobs, cancellation, re-entry and teardown. Bounds include displacement.
-- [ ] Run affected density_lod_suite, density_spatial_suite, colorful_forest_suite,
+- [x] Run affected density_lod_suite, density_spatial_suite, colorful_forest_suite,
   foliage_sight_suite and native forest_preparation_suite through the targeted
   guarded validation workflow. Add focused selection/motion-history coverage.
   Only physics/input/session edits add mandatory physics_suite/runtime_suite;
@@ -129,7 +129,7 @@ engine abstraction, hide trees through physics or combine candidate gains.
 - [ ] Queues and retained buffers remain bounded across repeated traversal and
   quality changes. Disclose video allocation, upload bandwidth where available,
   and any cold-start cost. Preserve LFS budget and existing asset bytes.
-- [ ] Update Rendering/World only for changed ownership/contracts, Validation
+- [x] Update Rendering/World only for changed ownership/contracts, Validation
   and relevant skills for new commands. Commit/push validated owned work with a
   captured development note. If no candidate passes, retain blocked findings,
   exact remaining gate and rejected evidence without shipping the experiment.
@@ -143,6 +143,37 @@ None
 
 ## Completion record
 
-Pending implementation. Record the actual selected algorithm, evidence identities,
-individual trials and controls, visual/automated checks, remaining acceptance,
-Dev ID and commit/push. No performance improvement is established by authoring.
+Blocked after a measured rejected candidate on 2026-09-14. The CPU near/mid
+selector removed 22.83% of submitted primitives but reduced dense median FPS
+from 70.13 to 59.14, increased GPU mean 12.65%, and worsened p95/p99 about 39%.
+An exact-source baseline return recovered 69.80 FPS, with mean frame/GPU
+variation below 1%. The original runtime is restored byte-for-byte to Dev 33
+(e362ce7); the experiment and its new UIDs are archived outside runtime.
+
+[Investigation report](../../docs/FOREST_SELECTION.md) and
+[individual receipt](../../docs/FOREST_SELECTION_RESULTS.json) retain the 21 local
+and nine dense timing trials, two native profiles, invalid attempts, selection
+costs, memory limitations and source/engine/trace hashes. Artifacts remain under
+artifacts/forest_selection_20260914 and artifacts/pc_environment/fs-forest-*.
+The baseline prerequisite remains blocked; this narrow rejection does not close it.
+
+All five affected suites passed; focused selection passed 23,121 checks and the
+final native fixture passed 1,957, including 14 current/previous buffer readbacks.
+Native local detail/overview comparisons and a candidate riding still were
+inspected separately. No full chronological FSR, wind/contact/canopy/weather
+acceptance is claimed. Open/mineral/stress, candidate return, normal-cap
+production comparisons and the complete per-LOD diagnostic inventory were not
+completed after the dense pilot failed. Other acceptance boxes remain unchecked.
+
+The next gate is a substantially cheaper required-list path and attribution of
+publication/temporal-renderer costs, then matched FPS/GPU/tail improvement before
+resuming the full acceptance matrix. CPU copying was only 11-15 microseconds per
+subset versus about 5.8 ms per selection update; a native packing rewrite alone
+is not justified. No solver, physical placement, asset, input or race changes ship.
+
+Delivery records this rejected investigation, not a completed optimization.
+
+Delivery Dev 34; note: changes/6a0feb6aebdf426f8e38f92cfc9269f8.json. The commit
+carrying this unique note identifies the report milestone; measured runtime
+remains Dev 33 plus the archived candidate. Raw and rejected-source evidence is
+retained for the blocked finding; disposable owned helpers are cleaned after push.
