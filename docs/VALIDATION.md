@@ -518,6 +518,42 @@ labels within each resolved frame, excludes four boundary frames per end, and
 counts absent intervals as zero. On the pinned renderer, the timestamp precedes
 the named pass. Do not add nested scope totals.
 
+### Dense-forest A/A controls
+
+The [unchanged forest control receipt](FOREST_REPEATABILITY_RESULTS.json) records
+five processes measured at Dev 35 with 4K High, Auto 0.75, FG/GI off and no cap.
+Its numerical spread passes with the explicit Codex-connected exception; it does
+not certify zero desktop activity or uniquely explain the process-median drift.
+Detailed evidence and the executed driver remain in
+`artifacts/forest_repeatability_20260914/REPORT.md`.
+
+For this method, run five fresh processes using the compatible ordinary forest
+trace and the unchanged `benchmark_pc.ps1` with `-ScenarioReplay`,
+`-TrialStartSeconds 0 -TrialSeconds 15 -Repetitions 4`, `-FrameCap 0`,
+`-Upscaler auto -RenderScale 0.75`, `-FrameGeneration off -TerrainGI off`, and
+`-ProfileFrameCosts`. Keep one FpsCritical owner, fresh labels, an explicit
+FullMountain reason, and fixed inter-process rest. Preserve traversal 1 as both
+first-entry evidence and deterministic full-route prewarm; only traversals 2-4
+are the three warmed acceptance repetitions. The harness additionally renders
+240 stationary warmup frames before each traversal. A warm re-entry can still
+perform collision, region and publication work; retain these costs.
+
+Record raw per-run frame/GPU p50 medians as well as the existing medians of run
+means, without pooling percentiles. Apply the 3% median and 15% p95/p99 spread
+limits to the five process values; exclude a separate ETW diagnostic. Freeze
+engine/imported-asset/trace/configuration inputs before timing and rehash after
+the complete matrix. Sensor polling needs effective CPU clocks and GPU
+clock/power/temperature; its wall-clock cadence limits hitch-level attribution.
+Audit actual ETW event loss and GPU queue/residency decoder coverage. Allocation
+counters and a partial GPU packet table do not establish physical residency or
+full GPU busy time.
+
+The current `benchmark_pc.ps1` background CPU percentages are quantized because
+`[Math]::Max(0, double_delta)` selects an integer overload in PowerShell. Retain
+them as coarse observations, not precise scheduling or zero-activity proof.
+Use separately recorded ETW context switches/ReadyThread events for precise
+scheduling, and qualify any remaining uncertainty about unrecorded controls.
+
 ### Terrain grass performance
 
 The [terrain-grass receipt](TERRAIN_GRASS_PERFORMANCE_RESULTS.json) owns the

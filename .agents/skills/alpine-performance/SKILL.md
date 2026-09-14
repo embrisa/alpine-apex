@@ -113,6 +113,14 @@ occupancy or an optimization gain. Follow the predeclared finite drift budget.
 Enabled grass may have zero population on a naturally bare-snow route; feature-cost
 comparisons still require independently qualified nonzero on-arm coverage.
 
+For five-process unchanged forest controls, follow
+[dense-forest A/A controls](../../../docs/VALIDATION.md#dense-forest-aa-controls):
+retain the first route traversal separately and accept only the three warmed
+repetitions. Check both raw p50 and run-mean spread definitions. The existing
+background CPU logger is quantized; do not use it as precise scheduling or
+zero-activity evidence. A separately recorded ETW diagnostic requires verified
+decoder coverage and cannot by itself explain every unrecorded control.
+
 Use [validation](../alpine-validation/SKILL.md) for affected regression checks and
 rendered inspection. Deliver the measured bottleneck, actual change, comparable
 before/after values and units, evidence paths, visual/behavior checks and remaining

@@ -1,0 +1,765 @@
+{
+  "schema": 1,
+  "measured_date": "2026-09-14",
+  "measured_dev": 35,
+  "measured_commit": "2465e6150b7f5af03b3037b0c828bf5f8c033968",
+  "outcome": "qualified_numeric_repeatability_pass; individual-process causal attribution unresolved; no optimization",
+  "scope": "Existing ordinary-input 15-second Standard dense-forest route; not whole-mountain or human acceptance",
+  "method": {
+    "fresh_control_processes": 5,
+    "stored_traversals_per_process": 4,
+    "first_entry_and_route_prewarm": 1,
+    "warmed_acceptance_runs": [
+      2,
+      3,
+      4
+    ],
+    "stationary_warmup_frames_before_each_traversal": 240,
+    "ticks_per_traversal": 1800,
+    "seconds_per_traversal": 15,
+    "spread_formula": "100*(max/min-1)",
+    "statistic": "Median of three per-run statistics per process; percentiles never pooled"
+  },
+  "configuration": {
+    "output_pixels": [
+      3840,
+      2160
+    ],
+    "quality": "High (7)",
+    "upscaler": "Auto",
+    "active_provider": "4.1.1",
+    "render_scale": 0.75,
+    "internal_pixels": [
+      2880,
+      1620
+    ],
+    "frame_generation": false,
+    "terrain_gi": false,
+    "frame_cap": 0,
+    "vsync": 0,
+    "cpu": "AMD Ryzen 5 5600X",
+    "gpu": "AMD Radeon RX 9070",
+    "driver": "32.0.31041.1004"
+  },
+  "identity": {
+    "trace": "artifacts/dense_gpu_20260914/traces/forest.json",
+    "trace_sha256": "5eefea368f5d6fcbab00929738e3c992160152b3875315d2063c47cffb9dfbd0",
+    "model": 35,
+    "generator": 15,
+    "rendering_child_sha256": "a18ddc9f3ee8fa1915a47d54c3e0d05ec4b10f8ee9deb15d7206b4e23d29bcc9",
+    "integrity_files_checked": 19324,
+    "integrity_bytes_checked": 37497290208,
+    "changed_inputs": [],
+    "physical_and_scenery_cache_hits": true,
+    "all_traversals_focused_and_exact": true
+  },
+  "gate": {
+    "frame_mean_ms": {
+      "values": [
+        16.3713238512035,
+        16.5331975717439,
+        16.080238453276,
+        16.1095344086022,
+        16.4483901098901
+      ],
+      "min": 16.080238453276,
+      "max": 16.5331975717439,
+      "spread_percent_of_min": 2.8168681688648833,
+      "limit_percent": 3,
+      "pass": true
+    },
+    "gpu_mean_ms": {
+      "values": [
+        13.1199040617415,
+        13.1920154721005,
+        13.1601267465331,
+        13.126782694307,
+        13.0833326173865
+      ],
+      "min": 13.0833326173865,
+      "max": 13.1920154721005,
+      "spread_percent_of_min": 0.830697024163185,
+      "limit_percent": 3,
+      "pass": true
+    },
+    "frame_p50_ms": {
+      "values": [
+        15.9535,
+        16.024,
+        15.786999999999999,
+        15.722000000000001,
+        16.147
+      ],
+      "min": 15.722000000000001,
+      "max": 16.147,
+      "spread_percent_of_min": 2.7032184200483256,
+      "limit_percent": 3,
+      "pass": true
+    },
+    "gpu_p50_ms": {
+      "values": [
+        13.1840000152588,
+        13.1450004577637,
+        13.15199995040895,
+        13.14650011062625,
+        13.0475001335144
+      ],
+      "min": 13.0475001335144,
+      "max": 13.1840000152588,
+      "spread_percent_of_min": 1.046176511573882,
+      "limit_percent": 3,
+      "pass": true
+    },
+    "frame_p95_ms": {
+      "values": [
+        23.518,
+        23.864,
+        22.296,
+        22.181,
+        22.648
+      ],
+      "min": 22.181,
+      "max": 23.864,
+      "spread_percent_of_min": 7.587574951535103,
+      "limit_percent": 15,
+      "pass": true
+    },
+    "frame_p99_ms": {
+      "values": [
+        27.075,
+        30.88,
+        28.849,
+        29.995,
+        28.234
+      ],
+      "min": 27.075,
+      "max": 30.88,
+      "spread_percent_of_min": 14.053554939981527,
+      "limit_percent": 15,
+      "pass": true
+    }
+  },
+  "controls": [
+    {
+      "label": "forest-aa-cleanA1",
+      "valid": true,
+      "warmed_process_medians": {
+        "fps": 61.0824151479043,
+        "frame_mean_ms": 16.3713238512035,
+        "frame_p50_ms": 15.9535,
+        "frame_p95_ms": 23.518,
+        "frame_p99_ms": 27.075,
+        "frame_max_ms": 32.75,
+        "gpu_mean_ms": 13.1199040617415,
+        "gpu_p50_ms": 13.1840000152588,
+        "invalid_gpu_samples": 0,
+        "render_cpu_mean_ms": 2.48266739866144
+      },
+      "traversals": [
+        {
+          "run": 1,
+          "role": "first_entry_and_route_prewarm",
+          "fps": 59.5513725389661,
+          "frame_mean_ms": 16.7922242152466,
+          "frame_p50_ms": 15.934000000000001,
+          "frame_p95_ms": 25.38,
+          "frame_p99_ms": 31.611,
+          "frame_max_ms": 52.673,
+          "gpu_mean_ms": 13.3549820521487,
+          "gpu_p50_ms": 13.243500232696551,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.56706838583732
+        },
+        {
+          "run": 2,
+          "role": "warmed",
+          "fps": 62.3690433723943,
+          "frame_mean_ms": 16.0335952890792,
+          "frame_p50_ms": 15.8265,
+          "frame_p95_ms": 21.163,
+          "frame_p99_ms": 25.699,
+          "frame_max_ms": 32.569,
+          "gpu_mean_ms": 13.0772751536563,
+          "gpu_p50_ms": 13.2279996871948,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.45157708575435
+        },
+        {
+          "run": 3,
+          "role": "warmed",
+          "fps": 61.0824151479043,
+          "frame_mean_ms": 16.3713238512035,
+          "frame_p50_ms": 15.9535,
+          "frame_p95_ms": 23.518,
+          "frame_p99_ms": 27.075,
+          "frame_max_ms": 32.75,
+          "gpu_mean_ms": 13.1844693743165,
+          "gpu_p50_ms": 13.1840000152588,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.48266739866144
+        },
+        {
+          "run": 4,
+          "role": "warmed",
+          "fps": 59.1881523222465,
+          "frame_mean_ms": 16.8952731376975,
+          "frame_p50_ms": 16.2245,
+          "frame_p95_ms": 24.285,
+          "frame_p99_ms": 30.714,
+          "frame_max_ms": 36.606,
+          "gpu_mean_ms": 13.1199040617415,
+          "gpu_p50_ms": 12.98150014877315,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.58795033687932
+        }
+      ],
+      "sensor_medians": {
+        "Core Effective Clocks (avg)": 1006.9,
+        "GPU Clock (Effective)": 2746.7,
+        "GPU Temperature": 51.0,
+        "GPU Hot Spot Temperature": 66.0,
+        "Total Board Power (TBP) [W]": 243.149
+      }
+    },
+    {
+      "label": "forest-aa-cleanA2",
+      "valid": true,
+      "warmed_process_medians": {
+        "fps": 60.4843676282591,
+        "frame_mean_ms": 16.5331975717439,
+        "frame_p50_ms": 16.024,
+        "frame_p95_ms": 23.864,
+        "frame_p99_ms": 30.88,
+        "frame_max_ms": 38.145,
+        "gpu_mean_ms": 13.1920154721005,
+        "gpu_p50_ms": 13.1450004577637,
+        "invalid_gpu_samples": 0,
+        "render_cpu_mean_ms": 2.43440507368799
+      },
+      "traversals": [
+        {
+          "run": 1,
+          "role": "first_entry_and_route_prewarm",
+          "fps": 60.4738627759946,
+          "frame_mean_ms": 16.5360695364238,
+          "frame_p50_ms": 15.912500000000001,
+          "frame_p95_ms": 24.764,
+          "frame_p99_ms": 31.263,
+          "frame_max_ms": 42.724,
+          "gpu_mean_ms": 13.3484072779978,
+          "gpu_p50_ms": 13.2670001983643,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.45428807819653
+        },
+        {
+          "run": 2,
+          "role": "warmed",
+          "fps": 60.4843676282591,
+          "frame_mean_ms": 16.5331975717439,
+          "frame_p50_ms": 16.024,
+          "frame_p95_ms": 23.864,
+          "frame_p99_ms": 31.66,
+          "frame_max_ms": 38.145,
+          "gpu_mean_ms": 13.1920154721005,
+          "gpu_p50_ms": 13.1450004577637,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.43440507368799
+        },
+        {
+          "run": 3,
+          "role": "warmed",
+          "fps": 58.3409658313517,
+          "frame_mean_ms": 17.140614416476,
+          "frame_p50_ms": 16.2785,
+          "frame_p95_ms": 24.93,
+          "frame_p99_ms": 30.88,
+          "frame_max_ms": 38.252,
+          "gpu_mean_ms": 13.2910812244808,
+          "gpu_p50_ms": 13.1215000152588,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.51161899419344
+        },
+        {
+          "run": 4,
+          "role": "warmed",
+          "fps": 61.4583067515023,
+          "frame_mean_ms": 16.2711934782609,
+          "frame_p50_ms": 15.832,
+          "frame_p95_ms": 23.23,
+          "frame_p99_ms": 27.477,
+          "frame_max_ms": 32.524,
+          "gpu_mean_ms": 13.1654804260834,
+          "gpu_p50_ms": 13.18650007247925,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.39559891249823
+        }
+      ],
+      "sensor_medians": {
+        "Core Effective Clocks (avg)": 993.3,
+        "GPU Clock (Effective)": 2729.7,
+        "GPU Temperature": 51.0,
+        "GPU Hot Spot Temperature": 66.0,
+        "Total Board Power (TBP) [W]": 242.636
+      }
+    },
+    {
+      "label": "forest-aa-cleanA3",
+      "valid": true,
+      "warmed_process_medians": {
+        "fps": 62.1881325271187,
+        "frame_mean_ms": 16.080238453276,
+        "frame_p50_ms": 15.786999999999999,
+        "frame_p95_ms": 22.296,
+        "frame_p99_ms": 28.849,
+        "frame_max_ms": 43.901,
+        "gpu_mean_ms": 13.1601267465331,
+        "gpu_p50_ms": 13.15199995040895,
+        "invalid_gpu_samples": 0,
+        "render_cpu_mean_ms": 2.4637959160943
+      },
+      "traversals": [
+        {
+          "run": 1,
+          "role": "first_entry_and_route_prewarm",
+          "fps": 57.9784499384505,
+          "frame_mean_ms": 17.2477877739331,
+          "frame_p50_ms": 16.253,
+          "frame_p95_ms": 26.466,
+          "frame_p99_ms": 34.654,
+          "frame_max_ms": 46.237,
+          "gpu_mean_ms": 13.2670553706784,
+          "gpu_p50_ms": 13.1719999313354,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.61093655754538
+        },
+        {
+          "run": 2,
+          "role": "warmed",
+          "fps": 62.5054759070774,
+          "frame_mean_ms": 15.9985982905983,
+          "frame_p50_ms": 15.786999999999999,
+          "frame_p95_ms": 22.296,
+          "frame_p99_ms": 27.264,
+          "frame_max_ms": 34.514,
+          "gpu_mean_ms": 13.0800256331762,
+          "gpu_p50_ms": 13.139500141143799,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.45723290601347
+        },
+        {
+          "run": 3,
+          "role": "warmed",
+          "fps": 62.1881325271187,
+          "frame_mean_ms": 16.080238453276,
+          "frame_p50_ms": 15.795,
+          "frame_p95_ms": 22.109,
+          "frame_p99_ms": 28.849,
+          "frame_max_ms": 43.901,
+          "gpu_mean_ms": 13.1601267465331,
+          "gpu_p50_ms": 13.2159996032715,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.4637959160943
+        },
+        {
+          "run": 4,
+          "role": "warmed",
+          "fps": 60.6567577039092,
+          "frame_mean_ms": 16.4862092511013,
+          "frame_p50_ms": 15.7145,
+          "frame_p95_ms": 24.444,
+          "frame_p99_ms": 33.252,
+          "frame_max_ms": 61.448,
+          "gpu_mean_ms": 13.2332400834508,
+          "gpu_p50_ms": 13.15199995040895,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.50429845932822
+        }
+      ],
+      "sensor_medians": {
+        "Core Effective Clocks (avg)": 1040.5,
+        "GPU Clock (Effective)": 2725.0,
+        "GPU Temperature": 51.0,
+        "GPU Hot Spot Temperature": 67.0,
+        "Total Board Power (TBP) [W]": 243.21
+      }
+    },
+    {
+      "label": "forest-aa-cleanA4",
+      "valid": true,
+      "warmed_process_medians": {
+        "fps": 62.0750404472286,
+        "frame_mean_ms": 16.1095344086022,
+        "frame_p50_ms": 15.722000000000001,
+        "frame_p95_ms": 22.181,
+        "frame_p99_ms": 29.995,
+        "frame_max_ms": 36.985,
+        "gpu_mean_ms": 13.126782694307,
+        "gpu_p50_ms": 13.14650011062625,
+        "invalid_gpu_samples": 0,
+        "render_cpu_mean_ms": 2.46255212413504
+      },
+      "traversals": [
+        {
+          "run": 1,
+          "role": "first_entry_and_route_prewarm",
+          "fps": 61.1734878110824,
+          "frame_mean_ms": 16.3469508733624,
+          "frame_p50_ms": 15.895,
+          "frame_p95_ms": 23.784,
+          "frame_p99_ms": 30.185,
+          "frame_max_ms": 40.492,
+          "gpu_mean_ms": 13.1715043653047,
+          "gpu_p50_ms": 13.15749979019165,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.4725698714173
+        },
+        {
+          "run": 2,
+          "role": "warmed",
+          "fps": 62.0750404472286,
+          "frame_mean_ms": 16.1095344086022,
+          "frame_p50_ms": 15.722000000000001,
+          "frame_p95_ms": 22.181,
+          "frame_p99_ms": 29.995,
+          "frame_max_ms": 36.985,
+          "gpu_mean_ms": 13.1483580732858,
+          "gpu_p50_ms": 13.18800020217895,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.43989569961384
+        },
+        {
+          "run": 3,
+          "role": "warmed",
+          "fps": 60.2679639290222,
+          "frame_mean_ms": 16.5925631929047,
+          "frame_p50_ms": 16.086,
+          "frame_p95_ms": 24.156,
+          "frame_p99_ms": 31.103,
+          "frame_max_ms": 40.082,
+          "gpu_mean_ms": 13.126782694307,
+          "gpu_p50_ms": 13.07049989700315,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.53059534698791
+        },
+        {
+          "run": 4,
+          "role": "warmed",
+          "fps": 62.7361867263844,
+          "frame_mean_ms": 15.9397638297872,
+          "frame_p50_ms": 15.677,
+          "frame_p95_ms": 21.95,
+          "frame_p99_ms": 27.013,
+          "frame_max_ms": 35.921,
+          "gpu_mean_ms": 13.0721031909293,
+          "gpu_p50_ms": 13.14650011062625,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.46255212413504
+        }
+      ],
+      "sensor_medians": {
+        "Core Effective Clocks (avg)": 1030.9499999999998,
+        "GPU Clock (Effective)": 2721.2,
+        "GPU Temperature": 51.0,
+        "GPU Hot Spot Temperature": 66.0,
+        "Total Board Power (TBP) [W]": 243.986
+      }
+    },
+    {
+      "label": "forest-aa-cleanA5",
+      "valid": true,
+      "warmed_process_medians": {
+        "fps": 60.796223418772,
+        "frame_mean_ms": 16.4483901098901,
+        "frame_p50_ms": 16.147,
+        "frame_p95_ms": 22.648,
+        "frame_p99_ms": 28.234,
+        "frame_max_ms": 37.342,
+        "gpu_mean_ms": 13.0833326173865,
+        "gpu_p50_ms": 13.0475001335144,
+        "invalid_gpu_samples": 0,
+        "render_cpu_mean_ms": 2.50195384772269
+      },
+      "traversals": [
+        {
+          "run": 1,
+          "role": "first_entry_and_route_prewarm",
+          "fps": 57.6268540338497,
+          "frame_mean_ms": 17.3530208574739,
+          "frame_p50_ms": 16.026,
+          "frame_p95_ms": 26.57,
+          "frame_p99_ms": 35.181,
+          "frame_max_ms": 61.272,
+          "gpu_mean_ms": 13.414914251617,
+          "gpu_p50_ms": 13.1680002212524,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.57325839858204
+        },
+        {
+          "run": 2,
+          "role": "warmed",
+          "fps": 61.4414210812997,
+          "frame_mean_ms": 16.2756652173913,
+          "frame_p50_ms": 15.968,
+          "frame_p95_ms": 22.648,
+          "frame_p99_ms": 28.234,
+          "frame_max_ms": 34.832,
+          "gpu_mean_ms": 13.0833326173865,
+          "gpu_p50_ms": 13.0475001335144,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.44322173789791
+        },
+        {
+          "run": 3,
+          "role": "warmed",
+          "fps": 60.796223418772,
+          "frame_mean_ms": 16.4483901098901,
+          "frame_p50_ms": 16.147,
+          "frame_p95_ms": 22.248,
+          "frame_p99_ms": 26.908,
+          "frame_max_ms": 37.342,
+          "gpu_mean_ms": 13.0581967028943,
+          "gpu_p50_ms": 13.022500038147001,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.50195384772269
+        },
+        {
+          "run": 4,
+          "role": "warmed",
+          "fps": 58.6519432030079,
+          "frame_mean_ms": 17.0497334851937,
+          "frame_p50_ms": 16.287,
+          "frame_p95_ms": 25.31,
+          "frame_p99_ms": 30.117,
+          "frame_max_ms": 45.69,
+          "gpu_mean_ms": 13.2099328051939,
+          "gpu_p50_ms": 13.11199998855595,
+          "invalid_gpu_samples": 0,
+          "render_cpu_mean_ms": 2.58346924844255
+        }
+      ],
+      "sensor_medians": {
+        "Core Effective Clocks (avg)": 1000.1,
+        "GPU Clock (Effective)": 2721.9,
+        "GPU Temperature": 51.0,
+        "GPU Hot Spot Temperature": 66.0,
+        "Total Board Power (TBP) [W]": 241.7275
+      }
+    }
+  ],
+  "explanation": {
+    "confirmed": [
+      "Inputs, settings, route endpoints and cache-hit state match.",
+      "GPU timing and clock/thermal medians remain comparatively stable.",
+      "First-entry forest work coincides with some large frame hitches around tick 1087.",
+      "The diagnostic contains substantial compositor work, queue synchronization and Codex background work.",
+      "No Godot paging operations occur in the four diagnostic riding windows."
+    ],
+    "unresolved": "Exact causes of the small warmed median differences between the five unrecorded control processes cannot be proved by one separately instrumented diagnostic. CPU execution, scheduling and presentation remain candidates. Whole-CPU effective clocks include idle time and are not the active game thread clock."
+  },
+  "diagnostic": {
+    "label": "forest-aa-cleanetw",
+    "acceptance_included": false,
+    "trace": "artifacts/forest_repeatability_20260914/diagnostic.etl",
+    "wpr_profiles": [
+      "GeneralProfile",
+      "GPU",
+      "Power"
+    ],
+    "lost_events": 0,
+    "lost_buffers": 0,
+    "provider_events": 11311516,
+    "selected_events": 2571823,
+    "selected_counts_match_xperf": true,
+    "queue_start_stop_pairs": 648254,
+    "unmatched_queue_stops": 218,
+    "precise_cpu": {
+      "scope": "ETW diagnostic warmed block including two stationary warmup gaps",
+      "trace_relative_seconds": [
+        88.780788,
+        140.590788
+      ],
+      "godot_cpu_seconds": 68.35553879999999,
+      "godot_ready_seconds_sum_across_threads": 3.0905931,
+      "godot_ready_max_ms": 0.631,
+      "dwm_cpu_seconds": 48.3604574,
+      "codex_cpu_seconds": 16.0070222
+    },
+    "traversals": [
+      {
+        "run": 1,
+        "role": "first_entry",
+        "render_queue_submission_to_completion_ms": {
+          "count": 3790,
+          "min": 0.1544,
+          "median": 13.3685,
+          "p95": 19.1591,
+          "p99": 20.3111,
+          "max": 22.2141,
+          "sum": 43880.9851
+        },
+        "wait_command_submission_to_completion_ms": {
+          "count": 3073,
+          "min": 4.9849,
+          "median": 13.5237,
+          "p95": 19.2854,
+          "p99": 20.244,
+          "max": 21.9954,
+          "sum": 43357.8568
+        },
+        "godot_cpu_sync_wait_requests": 4552,
+        "godot_gpu_sync_wait_requests": 5311,
+        "godot_paging_operations": 0,
+        "adapter_resident_segment_start_bytes": {
+          "ffff8088f2554000/segment-4": 573464576,
+          "ffff8088f2554000/segment-1": 6223908864
+        },
+        "adapter_resident_segment_end_bytes": {
+          "ffff8088f2554000/segment-4": 573464576,
+          "ffff8088f2554000/segment-1": 6223908864
+        }
+      },
+      {
+        "run": 2,
+        "role": "warmed",
+        "render_queue_submission_to_completion_ms": {
+          "count": 3720,
+          "min": 0.1593,
+          "median": 13.399650000000001,
+          "p95": 19.5389,
+          "p99": 20.5241,
+          "max": 21.4024,
+          "sum": 43516.6131
+        },
+        "wait_command_submission_to_completion_ms": {
+          "count": 3022,
+          "min": 5.2472,
+          "median": 13.56605,
+          "p95": 19.6597,
+          "p99": 20.44,
+          "max": 21.2246,
+          "sum": 43051.3926
+        },
+        "godot_cpu_sync_wait_requests": 4469,
+        "godot_gpu_sync_wait_requests": 5214,
+        "godot_paging_operations": 0,
+        "adapter_resident_segment_start_bytes": {
+          "ffff8088f2554000/segment-4": 573464576,
+          "ffff8088f2554000/segment-1": 6223908864
+        },
+        "adapter_resident_segment_end_bytes": {
+          "ffff8088f2554000/segment-4": 573464576,
+          "ffff8088f2554000/segment-1": 6232559616
+        }
+      },
+      {
+        "run": 3,
+        "role": "warmed",
+        "render_queue_submission_to_completion_ms": {
+          "count": 3780,
+          "min": 0.171,
+          "median": 13.40965,
+          "p95": 19.5221,
+          "p99": 20.668,
+          "max": 21.1492,
+          "sum": 43648.6634
+        },
+        "wait_command_submission_to_completion_ms": {
+          "count": 3069,
+          "min": 4.7372,
+          "median": 13.5233,
+          "p95": 19.7103,
+          "p99": 20.5942,
+          "max": 21.0464,
+          "sum": 43183.0625
+        },
+        "godot_cpu_sync_wait_requests": 4541,
+        "godot_gpu_sync_wait_requests": 5298,
+        "godot_paging_operations": 0,
+        "adapter_resident_segment_start_bytes": {
+          "ffff8088f2554000/segment-4": 573464576,
+          "ffff8088f2554000/segment-1": 6250414080
+        },
+        "adapter_resident_segment_end_bytes": {
+          "ffff8088f2554000/segment-4": 573464576,
+          "ffff8088f2554000/segment-1": 6224957440
+        }
+      },
+      {
+        "run": 4,
+        "role": "warmed",
+        "render_queue_submission_to_completion_ms": {
+          "count": 3755,
+          "min": 0.1667,
+          "median": 13.3582,
+          "p95": 19.1527,
+          "p99": 20.6271,
+          "max": 21.4986,
+          "sum": 43530.0909
+        },
+        "wait_command_submission_to_completion_ms": {
+          "count": 3048,
+          "min": 2.4786,
+          "median": 13.5273,
+          "p95": 19.3023,
+          "p99": 20.5413,
+          "max": 21.346,
+          "sum": 43071.4673
+        },
+        "godot_cpu_sync_wait_requests": 4511,
+        "godot_gpu_sync_wait_requests": 5263,
+        "godot_paging_operations": 0,
+        "adapter_resident_segment_start_bytes": {
+          "ffff8088f2554000/segment-4": 573464576,
+          "ffff8088f2554000/segment-1": 6224957440
+        },
+        "adapter_resident_segment_end_bytes": {
+          "ffff8088f2554000/segment-4": 573464576,
+          "ffff8088f2554000/segment-1": 6224957440
+        }
+      }
+    ],
+    "local_residency_approx_gb": [
+      6.22,
+      6.25
+    ],
+    "nonlocal_residency_approx_gb": 0.5735,
+    "decoder_limits": [
+      "WPA GPU Utilization (FM) under-represents this trace; not used as total GPU busy time.",
+      "Queue event lifetimes include queueing and execution, not isolated GPU execution.",
+      "CPU request-to-notification join did not validate; no duration is claimed.",
+      "Residency events are adapter-wide, not Godot-only.",
+      "Hardware DMA Info event intervals are retained without a GPU busy-time claim."
+    ]
+  },
+  "environment_qualifications": [
+    "Codex remained connected as requested; brief status updates and log checks occurred. Strict zero ChatGPT activity was not achieved.",
+    "The unchanged benchmark background-CPU logger rounds CPU-second deltas via the integer Math.Max overload; its percentages are coarse.",
+    "HWiNFO 8.52-6060 polling is approximately two seconds and cannot attribute clocks to individual hitches.",
+    "No other Godot/Blender, browser, capture, overlay or remote rendering was observed in the accepted-set checks."
+  ],
+  "rejected_attempts": [
+    {
+      "label": "forest-aa-A1",
+      "reason": "AMD capture/overlay workers restarted"
+    },
+    {
+      "label": "forest-aa-qA1",
+      "reason": "AMD capture/overlay workers restarted despite service stop"
+    }
+  ],
+  "evidence_directory": "artifacts/forest_repeatability_20260914",
+  "report": "artifacts/forest_repeatability_20260914/REPORT.md",
+  "evidence_sha256": {
+    "results.json": "ea38d4e7c7a03c8edd2a896b638965488118b287f20a63b3a2968d4c90849f6f",
+    "summary.json": "4c862b372181e64dafbf22bd66a6d9648efedd0a2096949ad00c14d7c197e45a",
+    "traversals.csv": "14aaab7a4641d700cff5076cc48311a85c2c85823dfcd82ea747d4aeea6e4a50",
+    "sensors-measured.csv": "ea867a967769ee626820dd4f301ef246045f711ca6c74070d5cddfa532a98fd1",
+    "integrity_before.json": "216f0f11db6b355d547c17c8c9f5e2fac634bcb2f73e619e3e0b8ca7f5ff46c3",
+    "integrity_after.json": "100e265ab05311a079d64f94415ecdf8e0a417e47f3e325c9fd27d83873fe44b",
+    "gpu-analysis.json": "8d756791f4d2baf1d006bf289010eaa8eeadb5ad7f3dd43c2d70747888034ae6",
+    "diagnostic.wpaProfile": "852d440d9058b6f5c4dcb887ddaa63d35033979ee99d0d207116ec27719caa00",
+    "etw-timespan.txt": "5b03aab5f4664c41be7ec69e9a95d72b571f30c612cee8ec7e034bf9985438f1",
+    "etw-tracestats.txt": "2b56b83c1e0dacb7f7899a325ae61f3506b2d02c7e779e889f06d8681a49ca7a"
+  },
+  "changes": "Documentation and evidence only; no rendering, engine, physics, replay or benchmark code changes."
+}
