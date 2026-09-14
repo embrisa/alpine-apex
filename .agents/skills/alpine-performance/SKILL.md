@@ -104,6 +104,15 @@ percentiles. Separate rendered and generated frames, CPU and GPU scopes, and
 allocation telemetry from physical VRAM occupancy. Repeat only to resolve changed
 code, failed trials, noise or a remaining question.
 
+For a repeated rendering baseline, use the maintained
+[receipt audit](../../../docs/VALIDATION.md#rendering-baseline-receipt-audit)
+on an explicit manifest after the guarded measurements. Preserve invalid attempts,
+keep profiles separate, and inspect the identity-matched return-control range.
+The table does not certify route coverage, frozen binary integrity, physical VRAM
+occupancy or an optimization gain. Follow the predeclared finite drift budget.
+Enabled grass may have zero population on a naturally bare-snow route; feature-cost
+comparisons still require independently qualified nonzero on-arm coverage.
+
 Use [validation](../alpine-validation/SKILL.md) for affected regression checks and
 rendered inspection. Deliver the measured bottleneck, actual change, comparable
 before/after values and units, evidence paths, visual/behavior checks and remaining

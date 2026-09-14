@@ -1,11 +1,11 @@
 ---
 id: "AA-20260914-094136-establish-repeatable-rendering-baseline"
 title: "Establish repeatable current rendering costs and comparison controls"
-status: ready
+status: blocked
 priority: P1
 depends_on: []
 created: "2026-09-14T09:41:36Z"
-updated: "2026-09-14T09:41:36Z"
+updated: "2026-09-14T11:09:14Z"
 source_thread: "01a09c68-b71e-7cc1-b01a-291cd5c446e8"
 ---
 
@@ -164,27 +164,27 @@ isolated checks Shared. Every full-mountain guard needs the explicit reason.
 
 ## Acceptance and verification
 
-- [ ] Retained variation is analyzed and a fresh identity-matched baseline has
+- [x] Retained variation is analyzed and a fresh identity-matched baseline has
   complete ordinary/stress coverage, effective pixel/provider settings, warmup,
   cache, focus, source and endpoint validity. Reject and retain invalid attempts.
-- [ ] A machine-readable run table and concise report contain all individual
+- [x] A machine-readable run table and concise report contain all individual
   trials, medians of run statistics, frame p95/p99/max, rendered FPS, GPU and
   render CPU timing, cadence-labelled CPU scopes, submissions, memory and
   startup/re-entry observations. Percentiles are not pooled; generated frames
   and local-component results are not whole-mountain acceptance.
-- [ ] Counterbalanced or return-control evidence either establishes usable
+- [x] Counterbalanced or return-control evidence either establishes usable
   repeatability or quantifies the unresolved drift. If no trustworthy comparison
   is possible within the bound, record blocked with the exact external evidence
   needed; do not mark optimization prerequisites done from unstable timing.
-- [ ] The ranked report names a concrete first experiment and its kill criterion.
+- [x] The ranked report names a concrete first experiment and its kill criterion.
   Tree selection is the leading hypothesis, not a mandatory conclusion. Preserve
   earlier accepted CPU/query work and rejected GPU/publication evidence.
-- [ ] Any tooling change receives focused schema/identity/failure checks and a
+- [x] Any tooling change receives focused schema/identity/failure checks and a
   bounded native smoke check; shader/camera changes receive separate rendered
   inspection. Physics/input/session changes require physics_suite and
   runtime_suite under the guard. Update Validation and affected skills only if
   the maintained commands/evidence contract changes.
-- [ ] Commit/push owned tooling/docs with a captured development note and scoped
+- [x] Commit/push owned tooling/docs with a captured development note and scoped
   versioning checks. Link retained raw evidence and clean only disposable owned
   artifacts after push. No runtime speedup is claimed for this baseline milestone.
 
@@ -197,8 +197,47 @@ None
 
 ## Completion record
 
-Pending investigation. Record actual commands, runtime/source identities,
-measurements, remaining uncertainty, report path, Dev ID and commit/push. No
-checks or FPS gains were performed or established during backlog authoring.
-This dependency supplies a methodology and dated baseline; downstream tasks must
-refresh their own before measurements after source changes.
+Bounded investigation delivered; **blocked for total-frame comparisons**, not
+accepted as a repeatable optimization prerequisite. The allowed A1/A2, controls,
+A3 and one A4/A5 follow-up sequence exhausted the finite timing budget. Forest
+process-median frame/GPU spread is 11.576% / 1.132%; p95/p99 spread is 25.537% /
+20.692%. The 3% frame/GPU and 15% tail gates fail overall. No runtime speedup is
+claimed and no downstream task was dispatched.
+
+The [report](../../docs/RENDERING_BASELINE.md) and
+[individual receipt](../../docs/RENDERING_BASELINE_RESULTS.json) retain all 49
+historical/current timing and profile trials, two rejected visual attempts,
+profiles, CPU events, return controls, memory, route limitations and a provisional
+ranking. Tree selection remains the first experiment, supported by a separate
+per-asset/LOD candidate inventory; exact native vertex-versus-cutout attribution
+and removable forest milliseconds remain unmeasured.
+
+Missing external evidence: controlled quiet-background A/A returns with
+synchronized CPU scheduling, effective frequency and queue/wait telemetry; add
+GPU clock/power/utilization/residency evidence only if testing GPU-pressure
+hypotheses. Recorded background activity is correlation, not a diagnosed cause.
+The independent mineral warmup native access violation is retained unresolved;
+one retry passed. These findings are not product questions or permission gates.
+
+Runtime was frozen at Dev 32 / 7c447b368a6e79f9161856ac035fdc4045b67c46,
+model 35 / generator 15 / Standard seed 849205174. All current timing rows are
+4K High, 0.75 scale, actual Auto FSR 4.1.1, FG/GI off, exact, focused and cache-hit.
+Final source/hydrated-asset and executable hashes match. The open-only frozen
+harness override permits naturally empty bare-snow vegetation; it changes no
+renderer or solver code. The live benchmark receives that same assertion fix.
+
+Commands and guard invocations are retained under
+artifacts/rendering_baseline_20260914/{plan.json,run.ps1,sequence.ps1,manifest.json}.
+The maintained scripts/rendering_baseline_report.py reads those receipts without
+launching a benchmark. Focused Python/schema checks and real native receipt
+validation cover the tooling; separate native PNGs qualify the cameras. No
+physics/input/session behavior changed. Continuous smoothness, controller feel
+and full-descent acceptance remain unclaimed.
+
+Delivery Dev 33; note: changes/57671900152042b886575504569f98c5.json (the commit carrying
+this unique note identifies the tooling milestone; runtime measurements remain
+Dev 32). Owned source/docs are committed and pushed with scoped versioning
+checks. The checked acceptance items above record the completed bounded
+investigation and delivery, **not** a passing repeatability gate. Frozen/raw
+artifacts remain for the active blocked findings; disposable owned inspection
+helpers are cleaned after push. Downstream work must refresh current controls.

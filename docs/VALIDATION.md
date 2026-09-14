@@ -484,6 +484,40 @@ receipt producer rejects any unfocused measured frames, source drift, incomplete
 replays or changed personal settings/records; preserve rejected attempts as
 diagnostic evidence and use a fresh label for replacements.
 
+### Rendering baseline receipt audit
+
+Use [rendering_baseline_report.py](../scripts/rendering_baseline_report.py) to
+build a machine-readable table from existing production receipts. The manifest
+has a `runs` array; each entry supplies `label`, repository-relative output `path`,
+`workload`, `phase`, and expected `repetitions` (default three). Give unchanged
+return controls the same `control_group`. Keep native profiles in a separate
+phase and omit their control group. Missing/invalid runs remain visible with
+reasons; the analyzer never launches or repairs a run.
+
+```powershell
+python scripts/rendering_baseline_report.py --manifest artifacts/rendering-baseline/manifest.json --output artifacts/rendering-baseline/results.json
+python -m unittest discover -s tests -p test_rendering_baseline_report.py
+```
+
+The table retains individual distributions, invocation-counted CPU scopes,
+one-second completed-tick bins, streaming events, measured-window system samples,
+startup and first-encounter/re-entry labels. GPU samples lag those CPU bins.
+Comparison identity includes source/engine receipts, trace, camera, quality,
+provider, cap, feature switches and collision mode. Match the executable behind
+the launcher separately, preserve physical/scenery receipts and personal-data
+hashes, and verify frozen binary inputs before/after the complete matrix.
+
+For this bounded baseline method, predeclare process-median frame/GPU spread
+at most 3% and p95/p99 spread at most 15%; permit at most one additional return
+sequence when those gates fail. These observed ranges are not confidence
+intervals. The analyzer reports the gate result without declaring an optimization
+or accepting a historical run as current. Review route coverage and visual
+qualification separately; scalar validity alone does not establish suitability.
+Native interval aggregation uses the starting timestamp label, sums repeated
+labels within each resolved frame, excludes four boundary frames per end, and
+counts absent intervals as zero. On the pinned renderer, the timestamp precedes
+the named pass. Do not add nested scope totals.
+
 ### Terrain grass performance
 
 The [terrain-grass receipt](TERRAIN_GRASS_PERFORMANCE_RESULTS.json) owns the
@@ -508,7 +542,9 @@ The production benchmark accepts `-Grass on|off` (default on). After ordinary
 graphics application, off clones the effective profile and changes only
 `scrub_density` for `world.grass` and `world.minerals`. Other scrub, trees,
 minerals, shadows, textures, tracks, weather and simulation retain their settings.
-Warmup must show zero ground/mineral grass off and nonzero ground grass on.
+For grass cost comparisons, qualify zero ground/mineral grass off and nonzero
+ground grass on. The general benchmark permits enabled vegetation to be naturally
+absent on bare-snow routes; an empty on-arm cannot establish grass cost.
 Receipts retain start/end populations, resident/pending/inflight cells, worker
 preparation milliseconds, exact final state and the normal CPU/GPU/streaming
 telemetry. `stream_grass` measures main-thread streaming/submission in microseconds;
