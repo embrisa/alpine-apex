@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "provenance": "User downloads, 2026-09-14. Authors and source IDs retained from supplied filenames; provider license pages checked 2026-09-14. Individual page retrieval unavailable in automated browser.",
+  "preparation": "EXIF orientation, proportional fit within 3840x2160, Lanczos, JPEG 90 / 4:4:4; no crop or generated image edits.",
+  "photos": [
+    {
+      "file": "gio-almonte-jlFllcwVJqg-unsplash.jpg",
+      "author": "Gio Almonte",
+      "provider": "Unsplash",
+      "source_id": "jlFllcwVJqg",
+      "source_page": "https://unsplash.com/photos/jlFllcwVJqg",
+      "license": "https://unsplash.com/license",
+      "source": "art_source/photography/startup_20260914/gio-almonte-jlFllcwVJqg-unsplash.jpg",
+      "source_sha256": "ed2fe7309deb3004a05bba0b6eff27bac724a7e7a90c4d23e3d4b50d3b0ba91c",
+      "source_pixels": [
+        6000,
+        3376
+      ],
+      "runtime_sha256": "ef7c5809349352680138930cafa1d9ff1a5bf1b94dc4954db853d3f6206ede3c",
+      "runtime_pixels": [
+        3839,
+        2160
+      ],
+      "bytes": 1799518,
+      "focus": [
+        0.5,
+        0.46
+      ],
+      "credit": "Photo: Gio Almonte / Unsplash"
+    },
+    {
+      "file": "khaled-ali-DxkbYY8uehU-unsplash.jpg",
+      "author": "Khaled Ali",
+      "provider": "Unsplash",
+      "source_id": "DxkbYY8uehU",
+      "source_page": "https://unsplash.com/photos/DxkbYY8uehU",
+      "license": "https://unsplash.com/license",
+      "source": "art_source/photography/startup_20260914/khaled-ali-DxkbYY8uehU-unsplash.jpg",
+      "source_sha256": "af769c6cc56cb098e917cfea3813e9bc42f1f19e7ba4d9fa7dc519597431a92f",
+      "source_pixels": [
+        6000,
+        4000
+      ],
+      "runtime_sha256": "b49b3f91324390ef1441596093f657d4544cda9c0cb2c5e3500f041d36d0e47c",
+      "runtime_pixels": [
+        3240,
+        2160
+      ],
+      "bytes": 2080170,
+      "focus": [
+        0.5,
+        0.46
+      ],
+      "credit": "Photo: Khaled Ali / Unsplash"
+    },
+    {
+      "file": "pexels-leon-aschemann-734730704-30607344.jpg",
+      "author": "Leon Aschemann",
+      "provider": "Pexels",
+      "source_id": "30607344",
+      "source_page": "https://www.pexels.com/photo/30607344/",
+      "license": "https://www.pexels.com/license/",
+      "source": "art_source/photography/startup_20260914/pexels-leon-aschemann-734730704-30607344.jpg",
+      "source_sha256": "6144792a092885647cf2220f4d0a4582147f2a71fae185398b239038b0abcc9e",
+      "source_pixels": [
+        4710,
+        3138
+      ],
+      "runtime_sha256": "acd7cad1b30b70937f541610a152d82b896894f74a26d262fe7f830445fbf615",
+      "runtime_pixels": [
+        3242,
+        2160
+      ],
+      "bytes": 1832598,
+      "focus": [
+        0.5,
+        0.46
+      ],
+      "credit": "Photo: Leon Aschemann / Pexels"
+    },
+    {
+      "file": "pexels-radoslaw-krupa-3227938-11258013.jpg",
+      "author": "Radoslaw Krupa",
+      "provider": "Pexels",
+      "source_id": "11258013",
+      "source_page": "https://www.pexels.com/photo/11258013/",
+      "license": "https://www.pexels.com/license/",
+      "source": "art_source/photography/startup_20260914/pexels-radoslaw-krupa-3227938-11258013.jpg",
+      "source_sha256": "560860ac16aec5e1f40a0beed45eb355266ea6b2ed0ca378d5bfde6458519c50",
+      "source_pixels": [
+        4282,
+        2676
+      ],
+      "runtime_sha256": "3795430ebb19c80fd03c82a79a8773d3470c7e82b1442f65442bf9203f01d9ad",
+      "runtime_pixels": [
+        3456,
+        2160
+      ],
+      "bytes": 2575840,
+      "focus": [
+        0.5,
+        0.46
+      ],
+      "credit": "Photo: Radoslaw Krupa / Pexels"
+    },
+    {
+      "file": "sanjeev-shakya-UHrlQWfAi84-unsplash.jpg",
+      "author": "Sanjeev Shakya",
+      "provider": "Unsplash",
+      "source_id": "UHrlQWfAi84",
+      "source_page": "https://unsplash.com/photos/UHrlQWfAi84",
+      "license": "https://unsplash.com/license",
+      "source": "art_source/photography/startup_20260914/sanjeev-shakya-UHrlQWfAi84-unsplash.jpg",
+      "source_sha256": "1afad0d57dd0b11df6e19a5a8423cb65058a1fd3aa0fa40cb428a439367b6407",
+      "source_pixels": [
+        6192,
+        4128
+      ],
+      "runtime_sha256": "0fd03df450b016167fc29e1d2b17ec0931318e66b6c2616377e23c2948de9c01",
+      "runtime_pixels": [
+        3240,
+        2160
+      ],
+      "bytes": 1202033,
+      "focus": [
+        0.5,
+        0.46
+      ],
+      "credit": "Photo: Sanjeev Shakya / Unsplash"
+    },
+    {
+      "file": "xandro-vandewalle-Qaz5eJdE06k-unsplash.jpg",
+      "author": "Xandro Vandewalle",
+      "provider": "Unsplash",
+      "source_id": "Qaz5eJdE06k",
+      "source_page": "https://unsplash.com/photos/Qaz5eJdE06k",
+      "license": "https://unsplash.com/license",
+      "source": "art_source/photography/startup_20260914/xandro-vandewalle-Qaz5eJdE06k-unsplash.jpg",
+      "source_sha256": "4cc8484974276dcfdacc13e0749ce34f16cd63315c082f9cfaae7a7115281dc5",
+      "source_pixels": [
+        4903,
+        3789
+      ],
+      "runtime_sha256": "b4d0ac1d15bcd4de8fb889bc4cfd0ec055b66f911e94de477db3bbebb8f9450e",
+      "runtime_pixels": [
+        2795,
+        2160
+      ],
+      "bytes": 951084,
+      "focus": [
+        0.5,
+        0.46
+      ],
+      "credit": "Photo: Xandro Vandewalle / Unsplash"
+    }
+  ]
+}

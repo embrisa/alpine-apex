@@ -105,6 +105,13 @@ func apply(window: Window, requested_pixels: Vector2i = Vector2i.ZERO, exact_out
 	_apply_window_state(window,plan)
 
 static func _apply_window_state(window: Window, state: Dictionary) -> void:
+	# Startup applies saved display state before world initialization. Reapplying
+	# the same state must not briefly leave fullscreen during the loading handoff.
+	if window.current_screen==state.screen and window.mode==state.mode:
+		if state.mode in [Window.MODE_FULLSCREEN,Window.MODE_EXCLUSIVE_FULLSCREEN]:
+			window.borderless = state.borderless
+			return
+		if window.position==state.position and window.size==state.size and window.borderless==state.borderless: return
 	# Godot Windows infers fullscreen from a borderless native-sized rectangle.
 	# Drop the borderless flag before restoring Windowed so a native-sized
 	# pre-fullscreen rectangle cannot immediately re-enter fullscreen.

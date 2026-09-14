@@ -1,0 +1,360 @@
+{
+  "schema": 1,
+  "id": "5f4c0864e12f4176b94c8f3563ff6911",
+  "summary": "Add photographic Alpine Apex opening, immediate fullscreen and responsive startup handoff",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "startup",
+    "branding",
+    "loading",
+    "display",
+    "interface audio",
+    "build identity"
+  ],
+  "owned_paths": [
+    "art_source/photography/startup_20260914/README.md",
+    "art_source/photography/startup_20260914/gio-almonte-jlFllcwVJqg-unsplash.jpg",
+    "art_source/photography/startup_20260914/khaled-ali-DxkbYY8uehU-unsplash.jpg",
+    "art_source/photography/startup_20260914/pexels-leon-aschemann-734730704-30607344.jpg",
+    "art_source/photography/startup_20260914/pexels-radoslaw-krupa-3227938-11258013.jpg",
+    "art_source/photography/startup_20260914/sanjeev-shakya-UHrlQWfAi84-unsplash.jpg",
+    "art_source/photography/startup_20260914/xandro-vandewalle-Qaz5eJdE06k-unsplash.jpg",
+    "assets/audio/interface/startup_ice.wav",
+    "assets/audio/interface/startup_ice.wav.import",
+    "assets/images/branding/startup_atmosphere.gdshader",
+    "assets/images/branding/startup_atmosphere.gdshader.uid",
+    "assets/images/branding/startup_ice_light.gdshader",
+    "assets/images/branding/startup_ice_light.gdshader.uid",
+    "assets/images/branding/startup_snow.gdshader",
+    "assets/images/branding/startup_snow.gdshader.uid",
+    "assets/images/startup/gio-almonte-jlFllcwVJqg-unsplash.jpg",
+    "assets/images/startup/gio-almonte-jlFllcwVJqg-unsplash.jpg.import",
+    "assets/images/startup/khaled-ali-DxkbYY8uehU-unsplash.jpg",
+    "assets/images/startup/khaled-ali-DxkbYY8uehU-unsplash.jpg.import",
+    "assets/images/startup/manifest.json",
+    "assets/images/startup/pexels-leon-aschemann-734730704-30607344.jpg",
+    "assets/images/startup/pexels-leon-aschemann-734730704-30607344.jpg.import",
+    "assets/images/startup/pexels-radoslaw-krupa-3227938-11258013.jpg",
+    "assets/images/startup/pexels-radoslaw-krupa-3227938-11258013.jpg.import",
+    "assets/images/startup/sanjeev-shakya-UHrlQWfAi84-unsplash.jpg",
+    "assets/images/startup/sanjeev-shakya-UHrlQWfAi84-unsplash.jpg.import",
+    "assets/images/startup/xandro-vandewalle-Qaz5eJdE06k-unsplash.jpg",
+    "assets/images/startup/xandro-vandewalle-Qaz5eJdE06k-unsplash.jpg.import",
+    "docs/AUDIO.md",
+    "docs/PRESENTATION.md",
+    "project.godot",
+    "scripts/art/prepare_startup_photos.py",
+    "scripts/diagnostics/build_identity.gd",
+    "scripts/main.gd",
+    "scripts/presentation/display_settings.gd",
+    "scripts/tools/generate_startup_audio.py",
+    "scripts/ui/hud.gd",
+    "scripts/ui/loading_overlay.gd",
+    "scripts/ui/startup.gd",
+    "scripts/ui/startup.gd.uid",
+    "scripts/ui/startup_art.gd",
+    "scripts/ui/startup_art.gd.uid",
+    "scripts/ui/startup_photos.gd",
+    "scripts/ui/startup_photos.gd.uid",
+    "scripts/ui/startup_sequence.gd",
+    "scripts/ui/startup_sequence.gd.uid",
+    "scripts/ui/startup_state.gd",
+    "scripts/ui/startup_state.gd.uid",
+    "scripts/ui/startup_weather.gd",
+    "scripts/ui/startup_weather.gd.uid",
+    "startup.tscn",
+    "tests/startup_audio_capture.gd",
+    "tests/startup_audio_capture.gd.uid",
+    "tests/startup_photo_gallery.gd",
+    "tests/startup_photo_gallery.gd.uid",
+    "tests/startup_suite.gd",
+    "tests/startup_suite.gd.uid"
+  ],
+  "read_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "AGENTS.md",
+    "assets/images/branding/alpine_apex_ice.svg",
+    "assets/images/branding/alpine_apex_ice.svg.import",
+    "docs/ARCHITECTURE.md",
+    "docs/DEVELOPMENT.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "export_presets.cfg",
+    "scripts/diagnostics/test_world.gd",
+    "scripts/presentation/alpine_assets.gd",
+    "scripts/presentation/forest_placement.gd",
+    "scripts/presentation/skier_equipment.gd",
+    "scripts/presentation/skier_visual.gd",
+    "scripts/presentation/tree_motion.gd",
+    "scripts/ui/alpine_art.gd",
+    "scripts/ui/interface_feedback.gd",
+    "scripts/ui/menu_navigation.gd",
+    "scripts/world/alpine_scenery.gd",
+    "scripts/world/alpine_world.gd",
+    "scripts/world/generation_job.gd",
+    "scripts/world/generation_sources.gd",
+    "tests/build_identity_suite.gd",
+    "tests/fixtures/test_maps.json",
+    "tests/interface_display_native_checks.gd",
+    "tests/interface_display_suite.gd",
+    "tests/interface_settings_suite.gd",
+    "tests/interface_suite.gd",
+    "tests/physics_suite.gd",
+    "tests/runtime_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Presentation-only startup, display and resource scheduling; no solver, physical terrain, session or serialized data behavior changes."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Presentation-only startup, display and resource scheduling; no solver, physical terrain, session or serialized data behavior changes."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Presentation-only startup, display and resource scheduling; no solver, physical terrain, session or serialized data behavior changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No compatibility key, schema or authoritative content change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No compatibility key, schema or authoritative content change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No compatibility key, schema or authoritative content change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No compatibility key, schema or authoritative content change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No compatibility key, schema or authoritative content change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "./scripts/test_pc_environment.ps1 -Suites physics_suite,runtime_suite,interface_suite,interface_settings_suite,startup_suite -OutputDirectory artifacts/startup_20260914/final_regression",
+      "details": "505 checks passed: physics 56, runtime 192, interface 83, settings 115, startup 59. Startup covers automatic/early-ready transitions, deliberate key/mouse/pad skip, real menu focus/actions, unchanged solver/session time, optional-resource fallback and controller recovery. No production mountain or implicit cold bake."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "./scripts/test_pc_environment.ps1 -Suites runtime_suite,interface_suite,build_identity_suite,interface_settings_suite,startup_suite -OutputDirectory artifacts/startup_20260914/snow_regression",
+      "details": "Build identity 13 checks passed on unchanged identity implementation; other checks superseded by final_regression. Readiness runs exercise the background identity worker."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/interface_display_suite.gd') -Label startup-native-display-final-20260914",
+      "details": "Native flat-pad matrix: six rows, zero failures. Keep/Revert/real 15-second timeout and native fullscreen/windowed recovery pass, including unchanged FG transitions. Earlier borderless-bit failure retained in artifacts/startup_20260914/display_rejected.json and fixed."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/startup_suite.gd','--','--startup-capture','--startup-reduced','--startup-fullscreen','--startup-output=artifacts/startup_20260914/snow_reduced_fullscreen') -Label startup-snow-reduced-20260914",
+      "details": "58 checks passed; inspected native 3840x2160 calm opening, loading and menu. No snow, gusts, scale or light-sweep motion. Final density/direction shader changes do not execute in reduced motion."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/startup_suite.gd','--','--startup-capture','--startup-output=artifacts/startup_20260914/final_render') -Label startup-final-render-20260914",
+      "details": "Final 1920x1080 native startup: 59 checks passed. Inspected final white directional reduced-density snow, legible approved logo and live-world focused main menu. Screenshot readback timings are excluded from performance evidence."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/startup_photo_gallery.gd','--','--snow-motion') -Label startup-snow-density-final-20260914",
+      "details": "Inspected 60 rendered 1280x720 frames of the final white, consistently diagonal snow with 22 percent thinning. Earlier six-photo 1920x1080 gallery inspected all supplied compositions; actual 1920x1080 startup-to-menu capture and controller skip passed 57 checks in directional_normal. Captures and fixed presentation-time clips are not performance evidence."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/startup_audio_capture.gd') -Label startup-audio-final-20260914",
+      "details": "Native mixer: one dispatch, stream ends; interface mute dispatches zero and records zero samples. Master mute meters silence; Master -6.0206 dB gives about 6.2 dB lower sampled peak (meter sampling tolerance). WAV effect tap is before Master gain; bus meters are after gain. Live mute/zero/ambience-off/missing-resource/teardown gates also pass in startup_suite. Listening remains pending."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "Three separate run_guarded FpsCritical runs of ./godotw.ps1 --script tests/startup_suite.gd -- --startup-timing --startup-fullscreen --startup-output=artifacts/startup_20260914/final_timing_N (N=1,2,3)",
+      "details": "Completed without readbacks or unit preamble, actual 3840x2160, preset 7, 75 percent render scale, FG off, 120 FPS cap, compact 256x512 m / zero-object fixture. Engine-to-menu 6.123/6.659/7.565 s; scene-to-menu 4.529/4.892/5.793 s; reveal dismissal 3.204/2.566/2.514 s. Median menu p95 8.534 ms. Injected keyboard/pad/mouse actions work immediately; two-frame observation is not hardware latency. Measurements do not meet the desired reveal envelope consistently and do not establish ordinary full-mountain performance."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "python -m py_compile scripts/tools/generate_startup_audio.py scripts/art/prepare_startup_photos.py; SHA-256 provenance comparison of six masters and six runtime photos; scoped git diff --check",
+      "details": "Python sources compile, all 12 image hashes match manifest, owned whitespace check passes. Supported boot splash settings verified in local engine source. Export include_filter includes the photo JSON manifest. Validation/performance skills reviewed; existing guard/fixture/acceptance contracts retained for this startup milestone."
+    },
+    {
+      "kind": "human",
+      "result": "pending",
+      "command": "Play the startup on desktop with real mouse, keyboard and controller; listen to the original sting and assess comfort",
+      "details": "User requested and guided photographic backgrounds, bright directional snow and 22 percent lower density. No final listening, physical-controller or comfort acceptance claimed."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "Read-only docs/VALIDATION.md drift review; scoped whitespace and versioning validation",
+      "details": "Concurrent tree task added frozen-comparison guidance after startup checks. Reviewed documentation-only change; no owned runtime or other tested dependency changed. Recaptured inputs before static validation; functional results remain applicable."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human listening, physical-controller and comfort acceptance remain separate.",
+    "Compact native reveal timings reached 2.51 to 3.20 seconds; the 1.5 to 2.5 second target is not consistently met under current main-thread initialization stalls.",
+    "Full-mountain ordinary warm startup is not established by the compact fixture. Nonessential world cosmetics still await the separately coordinated scheduling milestone; live-world menu and gameplay authority remain unchanged."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-14T00:29:05.083120+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 26,
+      "commit": "7d4cfbf9ce93d48be948390e47ab875b1db39c32",
+      "modified": true,
+      "changes_sha256": "2dace72a50879306056a7b58dfd55db7103c4303de42797245d369a1c4103338",
+      "source_sha256": "ef68cff4debc93959387e5484c3f53bf759745766d1faa491d044af5545fe60f",
+      "categories": [
+        "Maintenance"
+      ],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": ""
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": "e1535eecb50d89f862b66333fbb5e911e2a4237fa3cfa3ca7119087096a2259c",
+      ".agents/skills/alpine-validation/SKILL.md": "4a10b744a1aef001b877d09c11f251d1ea11aed4f05fe0a84f82adf187980a19",
+      "AGENTS.md": "17aef67c957730640490ecedb66f76fc606b1e1dbc8970f4d193c04a4adbd95d",
+      "art_source/photography/startup_20260914/README.md": "9031dbdea528d3322534359acda2f05fca322c0b4f8269534c35c145b4977300",
+      "art_source/photography/startup_20260914/gio-almonte-jlFllcwVJqg-unsplash.jpg": "ed2fe7309deb3004a05bba0b6eff27bac724a7e7a90c4d23e3d4b50d3b0ba91c",
+      "art_source/photography/startup_20260914/khaled-ali-DxkbYY8uehU-unsplash.jpg": "af769c6cc56cb098e917cfea3813e9bc42f1f19e7ba4d9fa7dc519597431a92f",
+      "art_source/photography/startup_20260914/pexels-leon-aschemann-734730704-30607344.jpg": "6144792a092885647cf2220f4d0a4582147f2a71fae185398b239038b0abcc9e",
+      "art_source/photography/startup_20260914/pexels-radoslaw-krupa-3227938-11258013.jpg": "560860ac16aec5e1f40a0beed45eb355266ea6b2ed0ca378d5bfde6458519c50",
+      "art_source/photography/startup_20260914/sanjeev-shakya-UHrlQWfAi84-unsplash.jpg": "1afad0d57dd0b11df6e19a5a8423cb65058a1fd3aa0fa40cb428a439367b6407",
+      "art_source/photography/startup_20260914/xandro-vandewalle-Qaz5eJdE06k-unsplash.jpg": "4cc8484974276dcfdacc13e0749ce34f16cd63315c082f9cfaae7a7115281dc5",
+      "assets/audio/interface/startup_ice.wav": "70e5102db977eb38389c015e9d9dc9099ab1c5e5fd1d454f64df98cc643cf80f",
+      "assets/audio/interface/startup_ice.wav.import": "d885dcaa0542b1ead01d49afb10c640eff856583ecf3f8eb7c7484d2491f310d",
+      "assets/images/branding/alpine_apex_ice.svg": "8f40f94bad4dfec85651446758d245a0cf8ba813540894227c0d79c111f2148d",
+      "assets/images/branding/alpine_apex_ice.svg.import": "8fcffa70bbdf1ed75d6445e88197e97f9025d6b72d313d7bd743c73ee51377a4",
+      "assets/images/branding/startup_atmosphere.gdshader": "1258d560c22bb778cfb5edd4250f896b49d24442c9e9b523eef3098bfe4c5aa9",
+      "assets/images/branding/startup_atmosphere.gdshader.uid": "476985cf383884e170377a4f7d0d1f186c01434d561d71fa67bc21e9f37b0a36",
+      "assets/images/branding/startup_ice_light.gdshader": "71a661699da306331cf99a24702a9ba7c8c7cd346307522913adaee1bff90a1a",
+      "assets/images/branding/startup_ice_light.gdshader.uid": "d710c503feacdb24601f332f125385b0fbc964820de422f889df966bfd4ffb61",
+      "assets/images/branding/startup_snow.gdshader": "d57e102cf4f62409cef93143053f909421a0bc293979bb8c77af9a67d89f9e26",
+      "assets/images/branding/startup_snow.gdshader.uid": "f6787fcd55e89d7d68228017995fb8ab23fee2d2ac1680200754ad3269a1e488",
+      "assets/images/startup/gio-almonte-jlFllcwVJqg-unsplash.jpg": "ef7c5809349352680138930cafa1d9ff1a5bf1b94dc4954db853d3f6206ede3c",
+      "assets/images/startup/gio-almonte-jlFllcwVJqg-unsplash.jpg.import": "51c22d25f8440e03d7d14b7affb08b8f32251c803cd37b4fefdd05b8e1279445",
+      "assets/images/startup/khaled-ali-DxkbYY8uehU-unsplash.jpg": "b49b3f91324390ef1441596093f657d4544cda9c0cb2c5e3500f041d36d0e47c",
+      "assets/images/startup/khaled-ali-DxkbYY8uehU-unsplash.jpg.import": "afc4fc35af9a04d279932d03a5f32725d64bbc3af9e6a2f0ad3ec7c656941a38",
+      "assets/images/startup/manifest.json": "4074c4cd5f17ff325a6bd910dcdc24594ecb587e0e77ce9cb3529892280c550e",
+      "assets/images/startup/pexels-leon-aschemann-734730704-30607344.jpg": "acd7cad1b30b70937f541610a152d82b896894f74a26d262fe7f830445fbf615",
+      "assets/images/startup/pexels-leon-aschemann-734730704-30607344.jpg.import": "b47cd12f002589226614e81083e8022a2d3b5988b20854ee10ca60b948660774",
+      "assets/images/startup/pexels-radoslaw-krupa-3227938-11258013.jpg": "3795430ebb19c80fd03c82a79a8773d3470c7e82b1442f65442bf9203f01d9ad",
+      "assets/images/startup/pexels-radoslaw-krupa-3227938-11258013.jpg.import": "ecdf82a6b006802b2cdfd9c8049de6940a123362c4dfb56308c084da7d980a71",
+      "assets/images/startup/sanjeev-shakya-UHrlQWfAi84-unsplash.jpg": "0fd03df450b016167fc29e1d2b17ec0931318e66b6c2616377e23c2948de9c01",
+      "assets/images/startup/sanjeev-shakya-UHrlQWfAi84-unsplash.jpg.import": "e2944092676387d79c2f7065b78117437b7b1907fcd7ef8bd325d2419d62c2b2",
+      "assets/images/startup/xandro-vandewalle-Qaz5eJdE06k-unsplash.jpg": "b4d0ac1d15bcd4de8fb889bc4cfd0ec055b66f911e94de477db3bbebb8f9450e",
+      "assets/images/startup/xandro-vandewalle-Qaz5eJdE06k-unsplash.jpg.import": "c09bfd9a3328c40b7be21bfefe27628b78c24fc1feec0dc632dbdac4c879e6b2",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/ARCHITECTURE.md": "7b602329129fe51e6ec71874a3ba9697f86eef571b317ec0ad375dc4513b96b9",
+      "docs/AUDIO.md": "c1ac97bc00ff5572a9ae952b2ec4b907981cc07edb37470451f743ec895ede68",
+      "docs/DEVELOPMENT.md": "a5118f0e011f59b2f12cb9480b2aa153646f01d0b7734fd3651dc24645b2918d",
+      "docs/PRESENTATION.md": "a528ba1a31c034fdc2f1df4761f976e8dc1e45c5dd7b19e6c3bdb31fcdac61a9",
+      "docs/RENDERING.md": "9649623d64366f53e7834ec4f5f8282bc8f0b4e794fc3a7d02fe2702a59bc833",
+      "docs/VALIDATION.md": "89583543a192d7d11d6784a25e49f51bb8a1a2311533d462bd800694bc676a2d",
+      "export_presets.cfg": "9ea82b0411512901efbf58868cab38883666a9c3a8400b0de490d4fe6dd9d47c",
+      "project.godot": "72cb6f901c83a06dc0b06b1d9198444dfb5a7155b4b6ab6ec2d1c311cd3458bd",
+      "scripts/art/prepare_startup_photos.py": "451284bd40134714f97087dcaf13139a25da2cc2fe28413173a12ca350032419",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/diagnostics/build_identity.gd": "1353dfa9fa8691831abd9ad372bc0765b8c42aadb104df54a80b3b044f20ffa1",
+      "scripts/diagnostics/test_world.gd": "61a817af99e212bb64651060bccd94f84b444d155eb325a4921d630c00221445",
+      "scripts/main.gd": "e846c8d05c6b5ca715247e63cfee17c2ee78f4e592db5c0e3c5116b0566094ce",
+      "scripts/presentation/alpine_assets.gd": "10f55c42beea3628b8988dadd01e45b40e109a4eb359173a122709f40a7916a3",
+      "scripts/presentation/display_settings.gd": "9ef846c72028a2f035781049eacd964cba7f044fabdac5872f2325e742b32fdb",
+      "scripts/presentation/forest_placement.gd": "fb77da4243855ccf50b1e1eb22481b5106d0f482625a426257ad0f74cb82feae",
+      "scripts/presentation/skier_equipment.gd": "2b587d24c562a99bcd8f5eba785c03ea02fe83d5bc7960493ca1f74c7f00a89f",
+      "scripts/presentation/skier_visual.gd": "c9f36aa3e803f742a99700a4f2cfb76cc1dddb5d90e40aa7765100ee1631ca4f",
+      "scripts/presentation/tree_motion.gd": "32b79417924c4381ceb58bc44ae1be2d0f68040963bcff739a2380c482f5794c",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "c8375d4142f40481877919f2ed0800dfb4217fe0eb421575cb0aa11b2c8f1407",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/tools/generate_startup_audio.py": "d92996e7c3cde2a42a21bcff25b98d81236e784a97cecb35a14c4df2811a02f9",
+      "scripts/ui/alpine_art.gd": "bcae703fde5b4d88ea09a07b1bd6074be941517cd8fd1601b8f7c6b7e75ddbe2",
+      "scripts/ui/hud.gd": "c03c52785a677f3353674514f5dad39b8f86e27fc866bdb718df17aee8a72815",
+      "scripts/ui/interface_feedback.gd": "0ceb3fe411c91f4f62ad6643f63956032630f87ba4f65f81db4aa819acb0857a",
+      "scripts/ui/loading_overlay.gd": "29e8a5133aa33ac2ebe2a0777a444f33f5b5fe6d3b3e6a54441afc5da049ea1b",
+      "scripts/ui/menu_navigation.gd": "b747b7894312fbfabf30f4953851de0a177bca29517c66dc55aba4cf30e9c9d3",
+      "scripts/ui/startup.gd": "98df67527358b6110428c313998ea3144c6d7af0ef0f0aea42edefc7fb5b0bda",
+      "scripts/ui/startup.gd.uid": "cf1daacdaa4a99c681b6a18d9c19187942e6895233d28baaa81854b6cc867771",
+      "scripts/ui/startup_art.gd": "b67bd84af9b65772bce67c3514dc6b1ae4b33d2d42b5d072883ae36beee5c13b",
+      "scripts/ui/startup_art.gd.uid": "d2d64d10cc517257c74942c0606c78bb647499bfb36dda4b19ee07f5cb217f21",
+      "scripts/ui/startup_photos.gd": "674b434f4ef8b474948452e4f5acd8f2b97887f0ae224d6f5fc2843101048a83",
+      "scripts/ui/startup_photos.gd.uid": "d2c52ddf22a9ccd7c264bdb4821fca237495b2bc08d00d1f7c561c74bbcc59ff",
+      "scripts/ui/startup_sequence.gd": "269b1bfd3011d5457b644a65fba99a5168573cab81c149a3dc792860230e85ac",
+      "scripts/ui/startup_sequence.gd.uid": "a6da5d4817c72f32c9092f1af077699f4a4ec41346c6d8bddc1ea2a7b12a4a2a",
+      "scripts/ui/startup_state.gd": "4f43ee115a413d5c6aaf5a31744757c90b83282dabb065bf553aec410b625efc",
+      "scripts/ui/startup_state.gd.uid": "2b548b53a10ffa4991bf877d22533892eff922b6a1ed3f21bcbf971d020f1f49",
+      "scripts/ui/startup_weather.gd": "18a7bf1c99a06d1a8f2db250f2f023768a23c41a7ea67b92f1ea96e99e6f7de9",
+      "scripts/ui/startup_weather.gd.uid": "c4142435e9d4879b6517ccb6a346afd86da58a2a5b5b2241a313ea787fbfc9be",
+      "scripts/world/alpine_scenery.gd": "ea9f744729356f5247d6fd3f002c4c5b728fc19835680ec75ef95abb374ddec3",
+      "scripts/world/alpine_world.gd": "797f7495942dacf470f8e388d7d6bd528d1bb5dcd78276fb906d83b9cbda75b3",
+      "scripts/world/generation_job.gd": "221282375842d54a91ea0564d24e0f3f703514596193dc1d1428bda7260310ef",
+      "scripts/world/generation_sources.gd": "fe6dbed50922fc34597b0a2d6aafca94829e6d6fbf6dfaa91acfedb6dc989058",
+      "scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f",
+      "startup.tscn": "bc2a0ec10edde746c76fee9c006471537dd42a13491e8f3a54558a559b1c10fe",
+      "tests/build_identity_suite.gd": "779ddf89e0f775db0e08142dc1dfe3cb0cf775123923e427aeb342d8335f5e53",
+      "tests/fixtures/test_maps.json": "458b4a597e3c557bd1067e2a241a73f78163c69e815af0e4066c1fbcdafe0d2d",
+      "tests/interface_display_native_checks.gd": "30d2de8e797e8a4209a1b1c2c1eb559836953a5ff69dbda1f80b8103c93fcf52",
+      "tests/interface_display_suite.gd": "89d863bb03c4d2927f61a52c19254f4fd5e92b265ff734a3a9c608df0825a495",
+      "tests/interface_settings_suite.gd": "cfd8a639c79ad98b3185c27e536c055b3fba1a3833d771476e5dd2cdb3f3c1cf",
+      "tests/interface_suite.gd": "a1d29b62339bf507374fa9d8965fda05f1248c0ab328f30c4ab304336d7ea191",
+      "tests/physics_suite.gd": "99f6c27d889be1070532a48df1fa8a510385ce48c2f83d1d7c825df4a701c530",
+      "tests/runtime_suite.gd": "ac94e4cc79d3fe1539539f41b61a77bbb29062a30fc471bc5869e76d78a6d030",
+      "tests/startup_audio_capture.gd": "9805bfc056bc83f37ece7d5d8322f1882a20cd739f059fbed7a731893293482a",
+      "tests/startup_audio_capture.gd.uid": "352d0991e9ae839a69374d3c23efe7f309c9b43da7290a1f15136f4d6c7683a7",
+      "tests/startup_photo_gallery.gd": "5db2f66ac81ba3a32fe586d950e92dd79e48ceb6a03fd29be5a4e957e8669074",
+      "tests/startup_photo_gallery.gd.uid": "dd49ada5b617c54d58e4c0afa1642f2991c1cd41d46e7fa1131a2df25986f3a8",
+      "tests/startup_suite.gd": "4c888df196a9c1cdfe86f1790d867636c755c1ffbd3cbec22bd63c17df86def2",
+      "tests/startup_suite.gd.uid": "9992e9ecf32d769c704f9f94c030917b166b7841411647814338d94627e220f3"
+    }
+  }
+}

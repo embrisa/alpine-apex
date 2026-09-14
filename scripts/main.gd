@@ -161,15 +161,24 @@ func _ready() -> void:
 	# must select their surface explicitly.
 	field = null
 	preferences_enabled = not automated and "--autoplay" not in OS.get_cmdline_user_args() and "--script" not in OS.get_cmdline_args() and "-s" not in OS.get_cmdline_args() and DisplayServer.get_name()!="headless"
-	staged_loading = preferences_enabled or "--ui-staged-loading" in OS.get_cmdline_user_args()
-	loading = preload("res://scripts/ui/loading_overlay.gd").new()
-	add_child(loading)
+	staged_loading = preferences_enabled or "--ui-staged-loading" in OS.get_cmdline_user_args() or get_tree().has_meta("startup_sequence")
+	if get_tree().has_meta("startup_loading"):
+		loading = get_tree().get_meta("startup_loading")
+		get_tree().remove_meta("startup_loading")
+		loading.reparent(self)
+	else:
+		loading = preload("res://scripts/ui/loading_overlay.gd").new()
+		add_child(loading)
+	var startup_cover = get_tree().get_meta("startup_sequence") if get_tree().has_meta("startup_sequence") else null
+	if is_instance_valid(startup_cover):
+		loading.set_startup_cover(not startup_cover.complete)
+		loading.apply_preferences(startup_cover.preferences)
 	generation_job = GenerationJob.new()
 	loading.attach_job(generation_job)
 	var reload_feedback: Dictionary = get_tree().get_meta("world_reload_settings",{}).get("interface",{})
 	if not reload_feedback.is_empty(): loading.apply_preferences(reload_feedback)
 	if staged_loading:
-		loading.begin("Preparing your descent", "Opening the mountain…")
+		loading.begin("Loading", "Loading terrain…")
 		await loading.draw_frame()
 	if preferences_enabled: display_settings.load_preferences()
 	if preferences_enabled: camera_settings.load_preferences()
@@ -383,12 +392,14 @@ func _ready() -> void:
 		await _loading_checkpoint("Preparing the mountain interface…",-1.0)
 		if generation_job.is_cancelled(): _cancel_startup(); return
 	hud = HUD.new()
-	hud.feedback.pending_preferences = reload_settings.get("interface",{}).duplicate()
+	hud.feedback.pending_preferences = reload_settings.get("interface",startup_cover.preferences if is_instance_valid(startup_cover) else {}).duplicate()
 	add_child(hud)
 	loading.configure_feedback(hud.feedback)
+	if staged_loading: await _loading_checkpoint("Preparing controls…",-1.0)
 	if not automated and not "--autoplay" in OS.get_cmdline_user_args(): skier.appearance.load_preferences()
 	hud.build_skier_controls(skier.appearance,not automated and not "--autoplay" in OS.get_cmdline_user_args())
 	hud.build_tuning(sim.tuning)
+	if staged_loading: await _loading_checkpoint("Preparing menus…",-1.0)
 	hud.start_requested.connect(start_run)
 	hud.restart_requested.connect(restart)
 	hud.respawn_requested.connect(respawn_here)
@@ -503,11 +514,16 @@ func _ready() -> void:
 	if not load_warning.is_empty(): hud.toast(load_warning)
 	elif not effects.wind.available: hud.toast("Procedural wind unavailable · using Original")
 	if staged_loading:
-		await _loading_checkpoint("Ready. Finding your fall line…",100.0)
+		await _loading_checkpoint("Ready",100.0)
 		if generation_job.is_cancelled(): _cancel_startup(); return
 		_present_camera(0.0,sim.position)
+		if is_instance_valid(startup_cover):
+			startup_cover.menu_ready = true
+			startup_cover.destination_ready = true
+			startup_cover._paint()
 		loading.finish()
-		hud.feedback.play("ready")
+		if not is_instance_valid(startup_cover): hud.feedback.play("ready")
+		navigation.ensure_focus()
 	if "tree_data" in field:
 		var scene_ms = 0.0
 		for value in world.build_timings.values(): scene_ms += value
@@ -827,6 +843,11 @@ func _sync_camera_controls() -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if allowed else Input.MOUSE_MODE_VISIBLE
 
 func _input(event: InputEvent) -> void:
+	var opening = get_tree().get_meta("startup_sequence") if get_tree().has_meta("startup_sequence") else null
+	if is_instance_valid(opening) and not opening.complete and not opening.menu_ready:
+		if navigation: navigation._device_used(event)
+		opening._input(event)
+		return
 	if test_cases and not event.has_meta("menu_owned"):
 		navigation._device_used(event)
 		if test_cases.route(event): get_viewport().set_input_as_handled(); return
@@ -1253,6 +1274,7 @@ func set_motion_effects(value: bool) -> void:
 	hud.sync_interface(effects.muted,value)
 
 func _loading_checkpoint(message: String, percent: float) -> void:
+	if "--startup-stages" in OS.get_cmdline_user_args(): print("STARTUP_STAGE ",Time.get_ticks_msec()," ",message)
 	loading.stage(message,percent)
 	await loading.draw_frame()
 
@@ -1603,6 +1625,8 @@ func _cancel_summit_return() -> void:
 	return_paused = false
 
 func _exit_tree() -> void:
+	if preload("res://scripts/diagnostics/build_identity.gd").worker!=null:
+		preload("res://scripts/diagnostics/build_identity.gd").current()
 	_checkpoint_weather()
 	if camera_controls_active and DisplayServer.get_name() != "headless":
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

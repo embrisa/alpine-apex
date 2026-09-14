@@ -362,3 +362,59 @@ new reveals, lifecycle and reduced motion cancel obsolete tweens.
 
 Continuous camera comfort, real-controller menu/HUD editing and listening remain
 separate from [native interface evidence](VALIDATION.md#presentation-evidence).
+
+## Startup
+
+`startup.tscn` owns a one-shot presentation above the existing loading/menu flow.
+The approved `assets/images/branding/alpine_apex_ice.svg` stays authoritative.
+Each launch randomly selects one of the six supplied photographs in
+`assets/images/startup/manifest.json`, using a private presentation RNG. Only the
+chosen texture is loaded and shared with the remaining loading screen. A single
+light sweep, four depths of white directional snow and icy wind gusts frame the unchanged
+logo. Snow uses one optional canvas pass; static glacial facets
+serve only as a missing-photo fallback. Copy is limited to factual loading/error
+status and a skip instruction.
+No tagline or invented location is shown.
+
+The reveal uses monotonic wall time for 1.85 seconds plus a .28-second dissolve;
+clamped engine frame deltas cannot lengthen it after a main-thread stall. Readiness always
+wins: a ready menu immediately receives input, with no minimum display timer.
+After .45 seconds, a fresh key, mouse button or controller button accelerates the
+handoff; mouse movement, axes and key repeat do not. Skip cannot expose an absent
+destination or cancel the mountain job. Longer initialization uses the existing
+photography/tips/progress/elapsed/error flow. Reduced Motion keeps the logo and
+static photography, removes snow, gusts, scale and light movement, and retains soft opacity
+transitions. The main-menu world and camera own their existing behavior.
+
+The opening does not recur on world reload: the current scene becomes `main.tscn`.
+Optional audio/shader failures retain the brand, a solid background and working
+handoff. Main-scene failures expose Retry/Quit. Development build identification
+runs separately from menu construction; Copy build details becomes available
+when its frozen result is ready. It never supplies a placeholder identity to
+records or cases. The evidence commands and acceptance boundaries below cover startup.
+
+Fullscreen is the supported project window mode from process creation. Startup
+applies the saved Display preference before creating the opening or loading
+resources. Explicit windowed choices remain authoritative. Reapplying an already
+matching display state no longer toggles through Windowed during initialization.
+
+Startup evidence commands use the existing guard (standalone producer-owned
+short-course fixture, 256 x 512 m, zero objects; no full mountain or cold bake):
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/startup_suite.gd','--','--ui-staged-loading') -Label startup-functional
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/startup_suite.gd','--','--ui-staged-loading','--startup-capture','--startup-reduced','--startup-fullscreen','--startup-output=artifacts/my-startup/reduced') -Label startup-render
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/startup_suite.gd','--','--ui-staged-loading','--startup-timing','--startup-fullscreen','--startup-output=artifacts/my-startup/timing') -Label startup-timing -WorkloadMode FpsCritical
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/startup_audio_capture.gd') -Label startup-audio
+```
+
+Use `--startup-timing` without `--startup-capture` for timing and repeat in fresh
+processes. Timing skips unit/optional-effect setup before the actual entry scene;
+fullscreen timing starts in the project window mode without a harness mode switch. Capture at
+explicit `--startup-size=1920x1080` or use native fullscreen. Select
+`--startup-skip=key|mouse|controller` for event-injection coverage. Report engine
+startup separately from the scene-to-menu timer, and sequence dismissal separately
+from interactive readiness. A short-course fixture and two-frame injected input
+observation cannot establish ordinary full-mountain startup or hardware latency.
+`--startup-stages` emits actual stage timestamps. Warm asset caches, first-use
+shader compilation and screenshot readbacks materially affect these values.

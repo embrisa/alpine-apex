@@ -544,10 +544,12 @@ func _build_menu() -> void:
 	var ride = _tab(menu_tabs,"Ride")
 	menu_title = _label("Alpine Apex",48,WHITE)
 	ride.add_child(menu_title)
-	build_version_label = _label(BuildIdentity.short_label(),12,MUTED)
+	var identity_pending = BuildIdentity.worker!=null and not BuildIdentity.poll_background()
+	build_version_label = _label("Development build" if identity_pending else BuildIdentity.short_label(),12,MUTED)
 	build_version_label.name = "BuildVersion"
 	build_version_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	build_version_label.tooltip_text = BuildIdentity.current().get("warning","")
+	if not identity_pending: build_version_label.tooltip_text = BuildIdentity.current().get("warning","")
+	else: _finish_build_identity.call_deferred()
 	ride.add_child(build_version_label)
 	menu_description = _label("",20,MUTED)
 	menu_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -608,6 +610,7 @@ func _build_menu() -> void:
 	_note(tools,"Physics tuning and speed tests are unranked.")
 	copy_build_button = _button("Copy build details")
 	copy_build_button.name = "CopyBuildDetails"
+	copy_build_button.disabled = identity_pending
 	copy_build_button.pressed.connect(func(): DisplayServer.clipboard_set(BuildIdentity.details()))
 	tools.add_child(copy_build_button)
 	var quit_button = _button("Quit game")
@@ -1154,3 +1157,11 @@ func set_mountain(mountain) -> void:
 	conditions.custom_minimum_size.x = 220
 	menu_specs.text = "MOUNTAIN SEED: %d\nFREE SKI / CREATE YOUR OWN RACES" % mountain_seed_value if mountain else "1.55 km     /     600 m VERTICAL\nTIMED LAB FIXTURE"
 	if menu.visible: show_menu(menu_mode)
+
+func _finish_build_identity() -> void:
+	while is_inside_tree() and not BuildIdentity.poll_background():
+		await get_tree().process_frame
+	if not is_inside_tree(): return
+	build_version_label.text = BuildIdentity.short_label()
+	build_version_label.tooltip_text = BuildIdentity.current().get("warning","")
+	copy_build_button.disabled = false

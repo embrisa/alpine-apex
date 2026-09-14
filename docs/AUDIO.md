@@ -168,3 +168,20 @@ Loading uses this recording with its own player, −12 dB trim plus UI volume,
 independent ambience toggle and mute/fades.
 
 Rebuild/test commands and listening gates are in [Validation](VALIDATION.md#audio-evidence).
+
+## Startup cue
+
+`startup_sequence.gd` owns one non-looping `assets/audio/interface/startup_ice.wav`
+player on Master. The original 2.13-second, 24 kHz stereo PCM16 asset is generated
+by `python scripts/tools/generate_startup_audio.py`: fixed-seed filtered wind,
+inharmonic ice texture and one restrained low impact at .82 seconds. It uses no
+external recordings, licensed samples or runtime synthesis. Asset peak is -8 dBFS;
+the player adds -9 dB trim and existing interface volume. Master bus settings are
+never changed. Mute, zero volume, Loading ambience Off, focus loss and dismissal
+silence it. An unavailable optional clip is consumed silently without later retry.
+
+The loading-wind player waits while the opening covers it, then resumes only if
+real loading remains. Menu readiness suppresses the ordinary loading-ready cue
+for this first handoff. The sting fades with the visual dissolve; scene exit
+stops it and scene reload does not replay it. Automated cue admission and native
+mixer evidence do not establish human listening quality.

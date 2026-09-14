@@ -11,7 +11,10 @@ config_version=5
 [application]
 
 config/name="Alpine Apex"
-run/main_scene="res://main.tscn"
+run/main_scene="res://startup.tscn"
+boot_splash/show_image=false
+boot_splash/minimum_display_time=0
+boot_splash/bg_color=Color(0.027451, 0.0784314, 0.129412, 1)
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -21,6 +24,7 @@ MCPRuntimeServer="*res://addons/godot_mcp_toolkit/runtime/mcp_runtime_server.gd"
 
 [display]
 
+window/size/mode=3
 window/size/viewport_width=1440
 window/size/viewport_height=900
 window/size/window_width_override=1440

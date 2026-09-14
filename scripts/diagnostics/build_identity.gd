@@ -3,6 +3,19 @@ extends RefCounted
 const MANIFEST = "res://config/build_identity.json"
 const Sources = preload("res://scripts/world/generation_sources.gd")
 static var cached: Dictionary = {}
+static var worker: Thread
+
+static func begin_background() -> void:
+	if not cached.is_empty() or worker!=null: return
+	worker = Thread.new()
+	if worker.start(_resolve)!=OK: worker = null
+
+static func poll_background() -> bool:
+	if worker:
+		if worker.is_alive(): return false
+		cached = worker.wait_to_finish()
+		worker = null
+	return not cached.is_empty()
 
 static func valid(value: Variant) -> bool:
 	if not value is Dictionary or value.get("schema")!=1: return false
@@ -28,6 +41,12 @@ static func decode_package(text: String) -> Dictionary:
 
 static func current() -> Dictionary:
 	if not cached.is_empty(): return cached.duplicate(true)
+	if worker:
+		cached = worker.wait_to_finish(); worker = null
+	else: cached = _resolve()
+	return cached.duplicate(true)
+
+static func _resolve() -> Dictionary:
 	var value: Dictionary = {}
 	var packaged = OS.has_feature("generation_export")
 	if packaged and FileAccess.file_exists(MANIFEST):
@@ -49,8 +68,7 @@ static func current() -> Dictionary:
 	value.engine_sha256 = Sources.engine_identity()
 	if packaged and value.get("packaged_engine_sha256")!=value.engine_sha256:
 		value.warning = "Packaged engine identity does not match the running executable."
-	cached = value
-	return cached.duplicate(true)
+	return value
 
 static func short_label() -> String:
 	var value = current()

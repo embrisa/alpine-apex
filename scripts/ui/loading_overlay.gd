@@ -59,6 +59,24 @@ var cancel_button: Button
 var retry_button: Button
 var quit_button: Button
 var worker_snapshot_active: bool = false
+var startup_cover: bool = false
+var startup_photo: TextureRect
+var startup_photo_credit: String = ""
+var startup_weather
+
+func use_startup_photo(texture: Texture2D, focus: Vector2, credit: String) -> void:
+	startup_photo = preload("res://scripts/ui/startup_photos.gd").background(texture,focus)
+	startup_photo_credit = credit
+	overlay.add_child(startup_photo); overlay.move_child(startup_photo,1)
+	startup_weather = preload("res://scripts/ui/startup_weather.gd").new()
+	overlay.add_child(startup_weather); overlay.move_child(startup_weather,2)
+	snow.hide()
+	artwork.hide()
+
+func set_startup_cover(value: bool) -> void:
+	if startup_cover == value: return
+	startup_cover = value
+	_sync_audio()
 
 func _ready() -> void:
 	layer = 100
@@ -168,7 +186,7 @@ func begin(caption: String, message: String) -> void:
 		var index: int = int(get_tree().get_meta("alpine_loading_photo",first)) + 1
 		if index % Art.PHOTOS.size() == artwork.last_photo_index: index += 1
 		get_tree().set_meta("alpine_loading_photo",index % Art.PHOTOS.size())
-		artwork.show_photo(index)
+		if not startup_photo: artwork.show(); artwork.show_photo(index)
 		_update_photo_caption()
 		tip_start = posmod(index,Content.COUNT)
 		tip_device = _device()
@@ -197,6 +215,9 @@ func finish() -> void:
 	job = null
 	overlay.hide()
 	artwork.release_photo()
+	if startup_photo: startup_photo.queue_free(); startup_photo = null
+	if startup_weather: startup_weather.queue_free(); startup_weather = null
+	snow.show()
 	snow.update_motion(phase,false)
 	outgoing_tip.hide()
 	_fade_out_audio()
@@ -234,10 +255,14 @@ func _process(dt: float) -> void:
 	if not busy: return
 	var visual_delta = clampf(dt,0.0,0.05)
 	if not reduced_motion: phase += visual_delta
-	if artwork.advance_loading(visual_delta):
+	if not startup_photo and artwork.advance_loading(visual_delta):
 		artwork.show_photo(artwork.next_photo())
 		_update_photo_caption()
 	snow.update_motion(phase,atmosphere_enabled and not reduced_motion)
+	if startup_weather: startup_weather.update_visual(phase,atmosphere_enabled and not reduced_motion)
+	if startup_photo and startup_photo.material:
+		startup_photo.material.set_shader_parameter("reveal_time",1.85)
+		startup_photo.material.set_shader_parameter("reduced_motion",reduced_motion)
 	pulse.position.x = maxf(0.0,bar.size.x-pulse.size.x)*(0.5 if reduced_motion else (sin(phase*2.8)*0.5+0.5))
 	_update_wait_feedback((Time.get_ticks_msec()-started)/1000.0,visual_delta)
 	if job:
@@ -262,7 +287,7 @@ func _device() -> String:
 
 func _update_photo_caption() -> void:
 	# A photo index supports review without inventing locations or image subjects.
-	art_caption.text = "Photo %02d / %02d" % [artwork.photo_index+1,Art.PHOTOS.size()]
+	art_caption.text = startup_photo_credit if startup_photo else "Photo %02d / %02d" % [artwork.photo_index+1,Art.PHOTOS.size()]
 
 func _update_wait_feedback(wait_seconds: float, visual_delta: float) -> void:
 	var second = int(maxf(wait_seconds,0.0))
@@ -309,7 +334,7 @@ func apply_preferences(values: Dictionary) -> void:
 	if ambience: _sync_audio()
 
 func _sync_audio() -> void:
-	if not busy or not audio_enabled or sound_muted or sound_volume <= 0.001 or not loading_ambience or DisplayServer.get_name() == "headless":
+	if startup_cover or not busy or not audio_enabled or sound_muted or sound_volume <= 0.001 or not loading_ambience or DisplayServer.get_name() == "headless":
 		_stop_audio()
 		return
 	var target = WindAudio.LOADING_VOLUME_DB + linear_to_db(sound_volume)
@@ -347,6 +372,24 @@ func _stop_audio() -> void:
 
 func _input(event: InputEvent) -> void:
 	if busy:
+		var opening = get_tree().get_meta("startup_sequence") if get_tree().has_meta("startup_sequence") else null
+		if is_instance_valid(opening) and not opening.complete:
+			opening._input(event)
+			return
+		if is_instance_valid(opening) and not opening.menu_ready and event is InputEventJoypadButton:
+			# MenuNavigation does not own input until the main interface exists.
+			# Give startup Cancel/Retry/Quit the same deliberate-button access.
+			get_viewport().set_input_as_handled()
+			if not event.pressed: return
+			var buttons = [cancel_button,retry_button,quit_button].filter(func(button): return button.visible and not button.disabled)
+			if buttons.is_empty(): return
+			var focus = get_viewport().gui_get_focus_owner()
+			var index = maxi(0,buttons.find(focus))
+			if event.button_index in [JOY_BUTTON_DPAD_LEFT,JOY_BUTTON_DPAD_UP]: buttons[posmod(index-1,buttons.size())].grab_focus()
+			elif event.button_index in [JOY_BUTTON_DPAD_RIGHT,JOY_BUTTON_DPAD_DOWN]: buttons[(index+1)%buttons.size()].grab_focus()
+			elif event.button_index==JOY_BUTTON_A: buttons[index].pressed.emit()
+			elif event.button_index==JOY_BUTTON_B and cancel_button.visible: cancel_job()
+			return
 		if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE: cancel_job()
 		# Let the cancel/retry controls receive pointer and keyboard GUI events.
 		if not (event is InputEventMouse or event is InputEventKey): get_viewport().set_input_as_handled()
@@ -360,5 +403,5 @@ func cancel_job() -> void:
 
 func cancelled_startup() -> void:
 	worker_snapshot_active = false; job = null
-	begin("Mountain loading cancelled", "Choose Retry to open the mountain again.")
+	begin("Loading cancelled", "Choose Retry to restart loading.")
 	cancel_button.hide(); retry_button.show(); quit_button.show(); retry_button.grab_focus()
