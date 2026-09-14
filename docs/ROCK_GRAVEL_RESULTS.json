@@ -1,0 +1,1038 @@
+{
+  "schema": 1,
+  "milestone_note": "changes/91a5eb315bc84af4ad8d6cf43530d100.json",
+  "summary": "Embedded centimetre gravel beds and sparse accents on existing exposed rock, kept separate from vegetation and physical collision.",
+  "acceptance": {
+    "automated": "262 affected checks passed",
+    "rendered": "16 final native captures inspected",
+    "performance": "27 matched bounded trials passed validity checks; see scope and target limits",
+    "human": "pending"
+  },
+  "identity": {
+    "base_commit": "b3575a7cf0a1586d1d56975819c20cf4e38b7b94",
+    "snapshot": "artifacts\\rock_gravel\\frozen_v3\\snapshot.json",
+    "snapshot_sha256": "f1fb0c8bd39a1a233032056eb2201010ba4b1c9c28094ba39e37f2db8b829c2e",
+    "source_manifest_sha256": "3499916ddf9989cb33070643e06922d90dbba57718ecd621acf40d85bc1ff906",
+    "physical_signature": "37879c6e6bc245d624528933cb5a406d797914cf4d93e6f597ebd055dfc8f6f6",
+    "generator": 15,
+    "physics": 35,
+    "tick_hz": 120,
+    "terrain_cell_m": 4,
+    "physical_trees": 200000,
+    "physical_regeneration": false,
+    "driver_exception": "The checkout comparison driver adds GODOT_BIN to pin the custom engine for nested Standard runs. The unused frozen copy is retained. Final test-map catalog adds only the missing perf-gravel suite-plan listing; all executable scene/asset/fixture values match the frozen runtime."
+  },
+  "source": {
+    "pack": "art_source/rocks/pebbles_v1",
+    "source_milestone": "9fb3badb48ec425534d61bc7b78f2624d403ed3d",
+    "runtime_manifest": "assets/graphics/gravel/manifest.json",
+    "preservation_receipt": "artifacts/rock_gravel/source_before.json",
+    "source_geometry_modified": false,
+    "existing_assets_imports_uids_modified": false
+  },
+  "functional_contract": {
+    "width_cm": [
+      1,
+      10
+    ],
+    "dominant_width_cm": [
+      1,
+      3
+    ],
+    "maximum_exposed_height_cm": 1,
+    "dense_core_stones_per_m2": 1100,
+    "sparse_stones_per_m2": 8,
+    "collision": false,
+    "grass_assets_contain_gravel": false,
+    "shared_resources": 19,
+    "shared_tiles": 8,
+    "per_stone_triangles_near_far": [
+      80,
+      16
+    ],
+    "worker_limit": 2,
+    "resident_cell_limit": 49,
+    "high_distance_m": 16,
+    "maps_or_tree_count_changed": false
+  },
+  "automated": {
+    "command": "scripts/test_pc_environment.ps1 -Suites rock_gravel_suite,performance_map_suite,terrain_grass_suite -OutputDirectory artifacts/rock_gravel/halo_regression",
+    "counts": {
+      "rock_gravel_suite": 96,
+      "performance_map_suite": 65,
+      "terrain_grass_suite": 101
+    },
+    "guard": "artifacts/guarded/batch-c699dab25a",
+    "results": "artifacts/rock_gravel/halo_regression/results.json",
+    "coverage": [
+      "Source/resource hashes, packing dimensions and non-overlap",
+      "Material-free single-surface meshes, UV roots and tangents",
+      "Exposed rock versus snow, steep terrain, grass and mineral exclusions",
+      "Adjacent publication halo with roots beyond the core margin",
+      "No collision nodes, mode isolation, resident and worker bounds, deterministic regeneration",
+      "Existing terrain, mineral placements, physical RNG and grass placement unchanged"
+    ]
+  },
+  "rendered": {
+    "review": "artifacts/rock_gravel/rendered_review.json",
+    "capture_directory": "artifacts/rock_gravel/frozen_v3/project/artifacts/gravel_render_v3",
+    "guard": "artifacts/guarded/gravel_render_v3",
+    "pixels": [
+      1920,
+      1080
+    ],
+    "upscaler": "native",
+    "cap": 60,
+    "captures": 16,
+    "findings": [
+      "All 16 images inspected at native output. Close-up stones are embedded and legible; no visible pedestal, stacking or floating stones.",
+      "Off comparison removes only gravel. Snow edge and nearby grass remain clear.",
+      "Three quality settings, 3.5/4.5/5.5/10/14/18 m views, cloud and snowfall render successfully. Far views are partly occluded by unchanged terrain.",
+      "Static LOD inspection does not establish motion stability or human acceptance."
+    ],
+    "rejected_history": [
+      "Initial local fixture drew snow despite logical rock; corrected texture fixture in render_v2.",
+      "Old Standard lod_4.5 view was below terrain; final playtest clamps camera clearance.",
+      "Warm initial material superseded by restrained slate grading.",
+      "frozen_v1/v2 local measurements preceded complete halo search. gravel_final_local_all was explicitly stopped during post-run hash verification after all trial windows completed; it is not a valid final comparison.",
+      "gravel_v3_standard_off selected the stock engine from the copied project and stopped on a physical-cache identity miss before measuring. Driver fixed to pin the custom engine; replacement labels gravel_v3b_standard_* preserve the same frozen scene and trace. No cold bake occurred."
+    ]
+  },
+  "performance": {
+    "receipt": "artifacts/rock_gravel/performance_results.json",
+    "receipt_sha256": "7ae6e26a64e03b462c833ea1ea22428bb979765519e1ea19e4525814e4677a5c",
+    "settings": {
+      "output_pixels": [
+        3840,
+        2160
+      ],
+      "internal_pixels": [
+        2880,
+        1620
+      ],
+      "quality": 7,
+      "upscaler": "Auto FSR 4.1.1",
+      "fps_cap": 120,
+      "frame_generation": false,
+      "terrain_gi": false,
+      "grass": "on",
+      "camera": "scenery",
+      "driver": "d3d12",
+      "gpu": "AMD Radeon RX 9070"
+    },
+    "local": {
+      "off": {
+        "runs": [
+          {
+            "fps": 118.7098344058641,
+            "p95_ms": 9.054,
+            "p99_ms": 10.136,
+            "max_ms": 53.943,
+            "frames": 683,
+            "gpu_mean_ms": 5.327390915827381,
+            "render_cpu_mean_ms": 0.6366046858217845,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\gravel_local\\gravel_v3_local_off\\trial-1\\results.json",
+            "setup_seconds": 9.021017,
+            "execution_seconds": 5.807235,
+            "population_start": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            }
+          },
+          {
+            "fps": 119.42008771031719,
+            "p95_ms": 8.977,
+            "p99_ms": 11.476,
+            "max_ms": 27.284,
+            "frames": 687,
+            "gpu_mean_ms": 5.302634643154894,
+            "render_cpu_mean_ms": 0.6344643365781554,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\gravel_local\\gravel_v3_local_off\\trial-2\\results.json",
+            "setup_seconds": 8.696452,
+            "execution_seconds": 5.803571,
+            "population_start": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            }
+          },
+          {
+            "fps": 119.37264974220051,
+            "p95_ms": 9.011,
+            "p99_ms": 10.848,
+            "max_ms": 27.782,
+            "frames": 686,
+            "gpu_mean_ms": 5.318642858861139,
+            "render_cpu_mean_ms": 0.6158965016245495,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\gravel_local\\gravel_v3_local_off\\trial-3\\results.json",
+            "setup_seconds": 8.438173,
+            "execution_seconds": 5.800689,
+            "population_start": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            }
+          }
+        ],
+        "median_of_runs": {
+          "fps": 119.37264974220051,
+          "p95_ms": 9.011,
+          "p99_ms": 10.848,
+          "gpu_mean_ms": 5.318642858861139,
+          "render_cpu_mean_ms": 0.6344643365781554
+        },
+        "delta_vs_off": {
+          "fps": 0.0,
+          "p95_ms": 0.0,
+          "p99_ms": 0.0,
+          "gpu_mean_ms": 0.0,
+          "render_cpu_mean_ms": 0.0
+        }
+      },
+      "all": {
+        "runs": [
+          {
+            "fps": 117.3750351473021,
+            "p95_ms": 9.333,
+            "p99_ms": 12.09,
+            "max_ms": 92.103,
+            "frames": 675,
+            "gpu_mean_ms": 5.8921348225628885,
+            "render_cpu_mean_ms": 0.7201644439167446,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\gravel_local\\gravel_v3_local_all\\trial-1\\results.json",
+            "setup_seconds": 9.091417,
+            "execution_seconds": 5.804916,
+            "population_start": {
+              "batches": 250,
+              "cells": 29,
+              "dense": 100925,
+              "jobs": 0,
+              "sparse": 7386
+            },
+            "population_end": {
+              "batches": 170,
+              "cells": 22,
+              "dense": 33275,
+              "jobs": 2,
+              "sparse": 6522
+            }
+          },
+          {
+            "fps": 118.65316479480573,
+            "p95_ms": 9.419,
+            "p99_ms": 12.255,
+            "max_ms": 30.964,
+            "frames": 682,
+            "gpu_mean_ms": 5.901280062639119,
+            "render_cpu_mean_ms": 0.7165777128725108,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\gravel_local\\gravel_v3_local_all\\trial-2\\results.json",
+            "setup_seconds": 8.596166,
+            "execution_seconds": 5.800996,
+            "population_start": {
+              "batches": 250,
+              "cells": 29,
+              "dense": 100925,
+              "jobs": 0,
+              "sparse": 7386
+            },
+            "population_end": {
+              "batches": 170,
+              "cells": 22,
+              "dense": 33275,
+              "jobs": 2,
+              "sparse": 6522
+            }
+          },
+          {
+            "fps": 118.71202672935286,
+            "p95_ms": 9.423,
+            "p99_ms": 11.23,
+            "max_ms": 32.964,
+            "frames": 682,
+            "gpu_mean_ms": 5.88198239782339,
+            "render_cpu_mean_ms": 0.6950219940842072,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\gravel_local\\gravel_v3_local_all\\trial-3\\results.json",
+            "setup_seconds": 8.545107,
+            "execution_seconds": 5.803704,
+            "population_start": {
+              "batches": 250,
+              "cells": 29,
+              "dense": 100925,
+              "jobs": 0,
+              "sparse": 7386
+            },
+            "population_end": {
+              "batches": 170,
+              "cells": 22,
+              "dense": 33275,
+              "jobs": 2,
+              "sparse": 6522
+            }
+          }
+        ],
+        "median_of_runs": {
+          "fps": 118.65316479480573,
+          "p95_ms": 9.419,
+          "p99_ms": 12.09,
+          "gpu_mean_ms": 5.8921348225628885,
+          "render_cpu_mean_ms": 0.7165777128725108
+        },
+        "delta_vs_off": {
+          "fps": -0.7194849473947755,
+          "p95_ms": 0.40800000000000125,
+          "p99_ms": 1.241999999999999,
+          "gpu_mean_ms": 0.5734919637017493,
+          "render_cpu_mean_ms": 0.08211337629435544
+        }
+      },
+      "dense": {
+        "runs": [
+          {
+            "fps": 117.13010391386588,
+            "p95_ms": 9.211,
+            "p99_ms": 10.633,
+            "max_ms": 105.743,
+            "frames": 674,
+            "gpu_mean_ms": 5.857816014162511,
+            "render_cpu_mean_ms": 0.7391231456655423,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\gravel_local\\gravel_v3_local_dense\\trial-1\\results.json",
+            "setup_seconds": 9.146201,
+            "execution_seconds": 5.807881,
+            "population_start": {
+              "batches": 74,
+              "cells": 29,
+              "dense": 100925,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 34,
+              "cells": 22,
+              "dense": 33275,
+              "jobs": 2,
+              "sparse": 0
+            }
+          },
+          {
+            "fps": 117.29507124022301,
+            "p95_ms": 10.144,
+            "p99_ms": 14.085,
+            "max_ms": 29.832,
+            "frames": 674,
+            "gpu_mean_ms": 5.836313058077758,
+            "render_cpu_mean_ms": 0.6739955490084714,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\gravel_local\\gravel_v3_local_dense\\trial-2\\results.json",
+            "setup_seconds": 8.58516,
+            "execution_seconds": 5.802692,
+            "population_start": {
+              "batches": 74,
+              "cells": 29,
+              "dense": 100925,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 34,
+              "cells": 22,
+              "dense": 33275,
+              "jobs": 2,
+              "sparse": 0
+            }
+          },
+          {
+            "fps": 119.0411642608187,
+            "p95_ms": 9.213,
+            "p99_ms": 10.901,
+            "max_ms": 30.251,
+            "frames": 685,
+            "gpu_mean_ms": 5.84240291762526,
+            "render_cpu_mean_ms": 0.641462773693739,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\gravel_local\\gravel_v3_local_dense\\trial-3\\results.json",
+            "setup_seconds": 8.381893,
+            "execution_seconds": 5.804777,
+            "population_start": {
+              "batches": 74,
+              "cells": 29,
+              "dense": 100925,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 34,
+              "cells": 22,
+              "dense": 33275,
+              "jobs": 2,
+              "sparse": 0
+            }
+          }
+        ],
+        "median_of_runs": {
+          "fps": 117.29507124022301,
+          "p95_ms": 9.213,
+          "p99_ms": 10.901,
+          "gpu_mean_ms": 5.84240291762526,
+          "render_cpu_mean_ms": 0.6739955490084714
+        },
+        "delta_vs_off": {
+          "fps": -2.0775785019774986,
+          "p95_ms": 0.20199999999999996,
+          "p99_ms": 0.05299999999999905,
+          "gpu_mean_ms": 0.5237600587641209,
+          "render_cpu_mean_ms": 0.03953121243031599
+        }
+      },
+      "sparse": {
+        "runs": [
+          {
+            "fps": 118.89283786411367,
+            "p95_ms": 9.207,
+            "p99_ms": 11.583,
+            "max_ms": 34.998,
+            "frames": 683,
+            "gpu_mean_ms": 5.3974670533030835,
+            "render_cpu_mean_ms": 0.708925328265172,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\gravel_local\\gravel_v3_local_sparse\\trial-1\\results.json",
+            "setup_seconds": 9.122175,
+            "execution_seconds": 5.799318,
+            "population_start": {
+              "batches": 176,
+              "cells": 29,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 7386
+            },
+            "population_end": {
+              "batches": 136,
+              "cells": 22,
+              "dense": 0,
+              "jobs": 2,
+              "sparse": 6522
+            }
+          },
+          {
+            "fps": 119.03042410679332,
+            "p95_ms": 9.126,
+            "p99_ms": 10.849,
+            "max_ms": 29.705,
+            "frames": 684,
+            "gpu_mean_ms": 5.36838596187837,
+            "render_cpu_mean_ms": 0.6748698823458967,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\gravel_local\\gravel_v3_local_sparse\\trial-2\\results.json",
+            "setup_seconds": 8.758085,
+            "execution_seconds": 5.799916,
+            "population_start": {
+              "batches": 176,
+              "cells": 29,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 7386
+            },
+            "population_end": {
+              "batches": 136,
+              "cells": 22,
+              "dense": 0,
+              "jobs": 2,
+              "sparse": 6522
+            }
+          },
+          {
+            "fps": 116.88826734016577,
+            "p95_ms": 10.541,
+            "p99_ms": 14.306,
+            "max_ms": 30.438,
+            "frames": 672,
+            "gpu_mean_ms": 5.442898806361925,
+            "render_cpu_mean_ms": 0.7453586310148239,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\gravel_local\\gravel_v3_local_sparse\\trial-3\\results.json",
+            "setup_seconds": 8.394292,
+            "execution_seconds": 5.801162,
+            "population_start": {
+              "batches": 176,
+              "cells": 29,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 7386
+            },
+            "population_end": {
+              "batches": 136,
+              "cells": 22,
+              "dense": 0,
+              "jobs": 2,
+              "sparse": 6522
+            }
+          }
+        ],
+        "median_of_runs": {
+          "fps": 118.89283786411367,
+          "p95_ms": 9.207,
+          "p99_ms": 11.583,
+          "gpu_mean_ms": 5.3974670533030835,
+          "render_cpu_mean_ms": 0.708925328265172
+        },
+        "delta_vs_off": {
+          "fps": -0.479811878086835,
+          "p95_ms": 0.1960000000000015,
+          "p99_ms": 0.7349999999999994,
+          "gpu_mean_ms": 0.07882419444194433,
+          "render_cpu_mean_ms": 0.07446099168701659
+        }
+      },
+      "identical_end_state": "(0.0, -41.77019, 149.2544)",
+      "sample_targets_met": true
+    },
+    "standard": {
+      "off": {
+        "runs": [
+          {
+            "fps": 82.0699838108617,
+            "p95_ms": 16.577,
+            "p99_ms": 18.423,
+            "max_ms": 25.505,
+            "frames": 1230,
+            "gpu_mean_ms": 9.52623739397623,
+            "render_cpu_mean_ms": 1.94378292744722,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_off\\production.json",
+            "run": 1,
+            "wall_seconds": 15.008964,
+            "population_start": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            }
+          },
+          {
+            "fps": 86.5050114547442,
+            "p95_ms": 15.401,
+            "p99_ms": 17.091,
+            "max_ms": 20.681,
+            "frames": 1297,
+            "gpu_mean_ms": 9.13212567728671,
+            "render_cpu_mean_ms": 1.81345797963756,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_off\\production.json",
+            "run": 2,
+            "wall_seconds": 15.012334,
+            "population_start": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            }
+          },
+          {
+            "fps": 85.2384539078396,
+            "p95_ms": 16.331,
+            "p99_ms": 17.66,
+            "max_ms": 22.392,
+            "frames": 1278,
+            "gpu_mean_ms": 9.23401096132067,
+            "render_cpu_mean_ms": 1.85485445940065,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_off\\production.json",
+            "run": 3,
+            "wall_seconds": 15.011039,
+            "population_start": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            }
+          }
+        ],
+        "median_of_runs": {
+          "fps": 85.2384539078396,
+          "p95_ms": 16.331,
+          "p99_ms": 17.66,
+          "gpu_mean_ms": 9.23401096132067,
+          "render_cpu_mean_ms": 1.85485445940065
+        },
+        "delta_vs_off": {
+          "fps": 0.0,
+          "p95_ms": 0.0,
+          "p99_ms": 0.0,
+          "gpu_mean_ms": 0.0,
+          "render_cpu_mean_ms": 0.0
+        }
+      },
+      "all": {
+        "runs": [
+          {
+            "fps": 90.0848118475274,
+            "p95_ms": 15.301,
+            "p99_ms": 17.07,
+            "max_ms": 26.516,
+            "frames": 1350,
+            "gpu_mean_ms": 8.73747333809182,
+            "render_cpu_mean_ms": 1.86518592392957,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_all\\production.json",
+            "run": 1,
+            "wall_seconds": 15.003591,
+            "population_start": {
+              "batches": 108,
+              "cells": 29,
+              "dense": 12375,
+              "jobs": 0,
+              "sparse": 332
+            },
+            "population_end": {
+              "batches": 116,
+              "cells": 29,
+              "dense": 12925,
+              "jobs": 0,
+              "sparse": 338
+            }
+          },
+          {
+            "fps": 92.7271702099402,
+            "p95_ms": 14.823,
+            "p99_ms": 16.533,
+            "max_ms": 22.936,
+            "frames": 1388,
+            "gpu_mean_ms": 8.51367075367688,
+            "render_cpu_mean_ms": 1.81346109466525,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_all\\production.json",
+            "run": 2,
+            "wall_seconds": 14.991133,
+            "population_start": {
+              "batches": 108,
+              "cells": 29,
+              "dense": 12375,
+              "jobs": 0,
+              "sparse": 332
+            },
+            "population_end": {
+              "batches": 116,
+              "cells": 29,
+              "dense": 12925,
+              "jobs": 0,
+              "sparse": 338
+            }
+          },
+          {
+            "fps": 91.2291325029793,
+            "p95_ms": 15.259,
+            "p99_ms": 18.364,
+            "max_ms": 31.081,
+            "frames": 1368,
+            "gpu_mean_ms": 8.63781798304173,
+            "render_cpu_mean_ms": 1.81080336128062,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_all\\production.json",
+            "run": 3,
+            "wall_seconds": 15.012572,
+            "population_start": {
+              "batches": 108,
+              "cells": 29,
+              "dense": 12375,
+              "jobs": 0,
+              "sparse": 332
+            },
+            "population_end": {
+              "batches": 116,
+              "cells": 29,
+              "dense": 12925,
+              "jobs": 0,
+              "sparse": 338
+            }
+          }
+        ],
+        "median_of_runs": {
+          "fps": 91.2291325029793,
+          "p95_ms": 15.259,
+          "p99_ms": 17.07,
+          "gpu_mean_ms": 8.63781798304173,
+          "render_cpu_mean_ms": 1.81346109466525
+        },
+        "delta_vs_off": {
+          "fps": 5.990678595139698,
+          "p95_ms": -1.0719999999999992,
+          "p99_ms": -0.5899999999999999,
+          "gpu_mean_ms": -0.5961929782789408,
+          "render_cpu_mean_ms": -0.041393364735399896
+        }
+      },
+      "dense": {
+        "runs": [
+          {
+            "fps": 84.7250478729877,
+            "p95_ms": 16.019,
+            "p99_ms": 19.338,
+            "max_ms": 106.768,
+            "frames": 1270,
+            "gpu_mean_ms": 9.24488503876634,
+            "render_cpu_mean_ms": 1.89842834378791,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_dense\\production.json",
+            "run": 1,
+            "wall_seconds": 15.009041,
+            "population_start": {
+              "batches": 30,
+              "cells": 29,
+              "dense": 12375,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 34,
+              "cells": 29,
+              "dense": 12925,
+              "jobs": 0,
+              "sparse": 0
+            }
+          },
+          {
+            "fps": 88.3096734776503,
+            "p95_ms": 15.569,
+            "p99_ms": 17.75,
+            "max_ms": 20.508,
+            "frames": 1324,
+            "gpu_mean_ms": 8.94861329106046,
+            "render_cpu_mean_ms": 1.79161404617964,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_dense\\production.json",
+            "run": 2,
+            "wall_seconds": 15.010668,
+            "population_start": {
+              "batches": 30,
+              "cells": 29,
+              "dense": 12375,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 34,
+              "cells": 29,
+              "dense": 12925,
+              "jobs": 0,
+              "sparse": 0
+            }
+          },
+          {
+            "fps": 86.1061861487586,
+            "p95_ms": 15.63,
+            "p99_ms": 18.566,
+            "max_ms": 26.812,
+            "frames": 1290,
+            "gpu_mean_ms": 9.17539224735526,
+            "render_cpu_mean_ms": 1.85977906820386,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_dense\\production.json",
+            "run": 3,
+            "wall_seconds": 15.004904,
+            "population_start": {
+              "batches": 30,
+              "cells": 29,
+              "dense": 12375,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 34,
+              "cells": 29,
+              "dense": 12925,
+              "jobs": 0,
+              "sparse": 0
+            }
+          }
+        ],
+        "median_of_runs": {
+          "fps": 86.1061861487586,
+          "p95_ms": 15.63,
+          "p99_ms": 18.566,
+          "gpu_mean_ms": 9.17539224735526,
+          "render_cpu_mean_ms": 1.85977906820386
+        },
+        "delta_vs_off": {
+          "fps": 0.8677322409189969,
+          "p95_ms": -0.7009999999999987,
+          "p99_ms": 0.9059999999999988,
+          "gpu_mean_ms": -0.05861871396541041,
+          "render_cpu_mean_ms": 0.0049246088032099955
+        }
+      },
+      "sparse": {
+        "runs": [
+          {
+            "fps": 90.0045416238288,
+            "p95_ms": 15.352,
+            "p99_ms": 18.978,
+            "max_ms": 42.03,
+            "frames": 1348,
+            "gpu_mean_ms": 8.73427670433543,
+            "render_cpu_mean_ms": 1.85817730028834,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_sparse\\production.json",
+            "run": 1,
+            "wall_seconds": 14.99701,
+            "population_start": {
+              "batches": 78,
+              "cells": 29,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 332
+            },
+            "population_end": {
+              "batches": 82,
+              "cells": 29,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 338
+            }
+          },
+          {
+            "fps": 91.2568834573551,
+            "p95_ms": 15.331,
+            "p99_ms": 17.895,
+            "max_ms": 24.226,
+            "frames": 1368,
+            "gpu_mean_ms": 8.68593494271674,
+            "render_cpu_mean_ms": 1.82867689953561,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_sparse\\production.json",
+            "run": 2,
+            "wall_seconds": 15.007662,
+            "population_start": {
+              "batches": 78,
+              "cells": 29,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 332
+            },
+            "population_end": {
+              "batches": 82,
+              "cells": 29,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 338
+            }
+          },
+          {
+            "fps": 92.8911323936202,
+            "p95_ms": 14.935,
+            "p99_ms": 16.987,
+            "max_ms": 22.205,
+            "frames": 1392,
+            "gpu_mean_ms": 8.53676795034573,
+            "render_cpu_mean_ms": 1.7905179609855,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_sparse\\production.json",
+            "run": 3,
+            "wall_seconds": 15.004067,
+            "population_start": {
+              "batches": 78,
+              "cells": 29,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 332
+            },
+            "population_end": {
+              "batches": 82,
+              "cells": 29,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 338
+            }
+          }
+        ],
+        "median_of_runs": {
+          "fps": 91.2568834573551,
+          "p95_ms": 15.331,
+          "p99_ms": 17.895,
+          "gpu_mean_ms": 8.68593494271674,
+          "render_cpu_mean_ms": 1.82867689953561
+        },
+        "delta_vs_off": {
+          "fps": 6.018429549515503,
+          "p95_ms": -1.0,
+          "p99_ms": 0.23499999999999943,
+          "gpu_mean_ms": -0.5480760186039308,
+          "render_cpu_mean_ms": -0.02617755986504
+        }
+      },
+      "off_repeat": {
+        "runs": [
+          {
+            "fps": 82.3513408265274,
+            "p95_ms": 16.896,
+            "p99_ms": 19.556,
+            "max_ms": 22.958,
+            "frames": 1235,
+            "gpu_mean_ms": 9.40554251110988,
+            "render_cpu_mean_ms": 2.0311465590589,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_off_repeat\\production.json",
+            "run": 1,
+            "wall_seconds": 15.014461,
+            "population_start": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            }
+          },
+          {
+            "fps": 79.5798291748592,
+            "p95_ms": 16.832,
+            "p99_ms": 22.009,
+            "max_ms": 37.396,
+            "frames": 1193,
+            "gpu_mean_ms": 9.73748616180995,
+            "render_cpu_mean_ms": 2.04838306725974,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_off_repeat\\production.json",
+            "run": 2,
+            "wall_seconds": 15.013886,
+            "population_start": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            }
+          },
+          {
+            "fps": 81.0551538258566,
+            "p95_ms": 16.248,
+            "p99_ms": 17.637,
+            "max_ms": 19.63,
+            "frames": 1214,
+            "gpu_mean_ms": 9.71361121864256,
+            "render_cpu_mean_ms": 2.00229818689371,
+            "result": "artifacts\\rock_gravel\\frozen_v3\\project\\artifacts\\pc_environment\\gravel_v3b_standard_off_repeat\\production.json",
+            "run": 3,
+            "wall_seconds": 15.001121,
+            "population_start": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            },
+            "population_end": {
+              "batches": 0,
+              "cells": 0,
+              "dense": 0,
+              "jobs": 0,
+              "sparse": 0
+            }
+          }
+        ],
+        "median_of_runs": {
+          "fps": 81.0551538258566,
+          "p95_ms": 16.832,
+          "p99_ms": 19.556,
+          "gpu_mean_ms": 9.71361121864256,
+          "render_cpu_mean_ms": 2.0311465590589
+        },
+        "delta_vs_off": {
+          "fps": -4.183300081982992,
+          "p95_ms": 0.5010000000000012,
+          "p99_ms": 1.8960000000000008,
+          "gpu_mean_ms": 0.4796002573218896,
+          "render_cpu_mean_ms": 0.1762920996582502
+        }
+      },
+      "identical_end_state": [
+        1800,
+        -944.448608398438,
+        3306.31811523438,
+        877.8447265625,
+        -0.385802239179611,
+        -0.00212426367215812,
+        -0.0654293149709702,
+        -1.97985080956185
+      ],
+      "sample_targets_met": false
+    },
+    "scope_limits": [
+      "The local perf-gravel fixture retains all 48 perf-rocks minerals and exact 4 m terrain, but has a separately authored rock/snow material edge. It measures this production component, not mountain-scale FPS.",
+      "Standard uses one unchanged warm 200000-tree mountain. A surveyed 15-second ordinary-input shelf-to-snow route travels 41.67 m, peaks near 49 km/h, and slows substantially after leaving the rock. It is not sustained gravel, dense-forest or full-route acceptance.",
+      "A second Standard off control follows the four-mode matrix to check baseline variation. All 4 modes use the same frozen runtime, camera, settings, input and final state within each scope. Local and Standard are different workloads.",
+      "Reported values are medians of three per-run statistics; percentiles are never pooled. The 120 FPS cap limits FPS sensitivity; GPU cost is reported separately.",
+      "Resident stone counts include hidden patch-edge, faded and culled stones and are not visible pixel counts.",
+      "Guard GPU allocation telemetry is not physical VRAM occupancy or GPU utilization."
+    ],
+    "conclusion": {
+      "local": "At 4K High, all-gravel median FPS is 118.65 versus 119.37 off; GPU mean rises 0.5735 ms. Median p95 is 9.419 versus 9.011 ms and p99 is 12.090 versus 10.848 ms. These local component samples meet the stated frame targets.",
+      "standard": "All-gravel median is 91.23 FPS, p95 15.259 ms and p99 17.070 ms. Off controls produce 85.24 then 81.06 FPS; the all-gravel GPU result is unexpectedly lower than both controls. This experiment does not establish a causal mountain speedup or a reliable isolated mountain gravel cost. Whole-mountain frame-tail targets remain missed.",
+      "human": "Pending; agent inspection and automated riding do not establish player acceptance."
+    }
+  },
+  "performance_handoff": {
+    "broader_forest_gate": "docs/COLORFUL_FOREST_RESULTS.json",
+    "reason": "The earlier dense Standard forest sample misses whole-game targets. This gravel shelf sample cannot close that independent gate.",
+    "commands": [
+      "scripts/compare_gravel.ps1 -Snapshot artifacts/rock_gravel/frozen_v3 -Scope standard -Prepare -Label UNIQUE_prepare",
+      "scripts/compare_gravel.ps1 -Snapshot artifacts/rock_gravel/frozen_v3 -Scope local -Gravel all -Label UNIQUE_local_all",
+      "scripts/compare_gravel.ps1 -Snapshot artifacts/rock_gravel/frozen_v3 -Scope standard -Gravel all -Label UNIQUE_standard_all"
+    ],
+    "comparison": "For a new change, preserve or generate a fresh identified snapshot, then repeat off/all and relevant dense/sparse arms with fresh labels. All wrappers own their guards. Prepare scenery explicitly; reject missing physical archives, measured cache misses, focus loss, source drift or state mismatch. Do not regenerate the physical map for this comparison.",
+    "remaining_gate": "Stable mountain-wide comparative performance and broader frame-time targets; functional/rendered gravel integration is complete.",
+    "next_steps": [
+      "Preserve frozen_v3 and all 27 raw trials. Inspect the existing per-frame CPU scopes, streaming_events and system.json background samples at matching trace ticks to attribute the off/all/off variation before another timing sweep.",
+      "For a focused suspected bottleneck, use the same trace, explicit custom GODOT_BIN, warm Standard scenery, 4K High Auto FSR .75, 120 cap, grass on, GI/FG off, ordinary 15-second input and 240-frame per-repetition warmup. Compare three warmed off/all repetitions with a final repeated off control using fresh labels under FpsCritical.",
+      "Retain first-run hitches and mode populations. Require matching physics endpoints, complete coverage, native focus, actual output/upscaler, unchanged source/assets and cache hits. Do not count these shelf-to-snow windows as dense-forest or full-descent acceptance.",
+      "Follow docs/COLORFUL_FOREST_RESULTS.json for the separate dense-forest workload. Do not regenerate the map or reduce scenery to close this gate."
+    ]
+  },
+  "deferred_map_task": "backlog/tasks/AA-20260913-232221-natural-forest-generation.md",
+  "retention": "Keep frozen_v3, the route/survey, raw timing and guard receipts, final rendered review and source preservation records. Superseded v1/v2 project copies may be removed after push while retaining their snapshot receipts and raw artifacts; those preliminary results are not acceptance.",
+  "delivery_audit": "artifacts/rock_gravel/delivery_audit.json"
+}

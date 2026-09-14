@@ -11,6 +11,7 @@ param(
     [ValidateSet('on','off')][string]$TerrainGI = 'off',
     [ValidateSet('on','off')][string]$FrameGeneration = 'off',
     [ValidateSet('on','off')][string]$Grass = 'on',
+    [ValidateSet('all','off','dense','sparse')][string]$Gravel = 'all',
     [switch]$ProfileFrameCosts,
     [switch]$ProfileGpuPasses,
     [switch]$ScenarioReplay,
@@ -87,6 +88,8 @@ if ($Version -ge 14) {
 elseif (-not $ThirdPerson) { $alpineArgs += '--pov-forest' }
 if ($Grass -eq 'off' -and $alpinePlaytest -notin @('tests/performance_descent.gd','tests/performance_gpu_profile.gd')) { throw 'Grass isolation requires the production trace benchmark.' }
 $alpineArgs += "--grass=$Grass"
+if ($Gravel -ne 'all' -and $alpinePlaytest -notin @('tests/performance_descent.gd','tests/performance_gpu_profile.gd')) { throw 'Gravel isolation requires the production trace benchmark.' }
+$alpineArgs += "--gravel=$Gravel"
 if ($ProfileFrameCosts) { $alpineArgs += '--profile-frame-costs' }
 if ($ScenarioReplay) { $alpineArgs += '--scenario-replay' }
 if ($StressSpeedKmh -gt 0) { $alpineArgs += "--stress-speed-kmh=$StressSpeedKmh" }

@@ -3,6 +3,9 @@ extends SceneTree
 const Trace = preload("res://tests/performance_trace.gd")
 const Definition = preload("res://scripts/world/mountain_definition.gd")
 const Costs = preload("res://scripts/diagnostics/frame_costs.gd")
+var gravel_mode = "all"
+var gravel_start: Dictionary = {}
+var gravel_coverage: Array = []
 var grass_enabled = true
 var grass_start: Dictionary = {}
 var game
@@ -49,6 +52,7 @@ func run() -> void:
 		if arg.begins_with("--trial-seconds="): trial_seconds = clampi(int(arg.get_slice("=",1)),1,60)
 		if arg.begins_with("--trial-start-seconds="): trial_start_seconds = maxi(0,int(arg.get_slice("=",1)))
 		if arg.begins_with("--grass="): grass_enabled = arg.get_slice("=",1)=="on"
+		if arg.begins_with("--gravel="): gravel_mode = arg.get_slice("=",1)
 		if arg=="--scenario-replay": scenario_replay = true
 		if arg=="--cold-collision": cold_collision = true
 		if arg.begins_with("--stress-speed-kmh="): stress_speed_kmh = float(arg.get_slice("=",1))
@@ -94,6 +98,7 @@ func run() -> void:
 	if not grass_enabled: grass_profile.scrub_density = 0.0
 	game.world.grass.apply_quality(grass_profile)
 	game.world.minerals.apply_quality(grass_profile)
+	game.world.minerals.gravel.set_mode(gravel_mode)
 	await configure_comparison()
 	game.benchmark_input = input_at_tick
 	game.benchmark_no_captures = true
@@ -147,6 +152,8 @@ func run() -> void:
 		game.hud.hide_menu(); game.effects.reset()
 		root.grab_focus()
 		for i in 240: await process_frame
+		gravel_coverage.clear()
+		gravel_start = game.world.minerals.gravel.population()
 		grass_start = grass_metadata()
 		if grass_enabled and grass_start.ground_population==0: failures.append("Grass-on warmup has no ground vegetation")
 		if not grass_enabled and (grass_start.ground_population!=0 or grass_start.mineral_population!=0): failures.append("Grass-off control retained vegetation")
@@ -171,6 +178,8 @@ func run() -> void:
 				if not Trace.Inputs.matches_state(game.sim,checkpoints[checkpoint]):
 					failures.append("Recorded trajectory diverged at tick %d" % game.sim.ticks); break
 				checkpoint += 1
+			if game.sim.ticks%120==0:
+				gravel_coverage.append({"tick":game.sim.ticks,"population":game.world.minerals.gravel.population(),"rock":field.rock_fraction_at(game.sim.position.x,game.sim.position.z)})
 			var progress = game.sim.ticks/2400
 			if progress!=last_progress:
 				last_progress = progress
@@ -193,6 +202,7 @@ func run() -> void:
 			FileAccess.open(output+"/streaming_events_%d.json" % (repetition+1),FileAccess.WRITE).store_string(JSON.stringify({"event_fields":["scope","process_frame","begin_us","end_us"],"frame_fields":["process_frame","begin_us","end_us","tick","x","y","z"],"events":game.frame_costs.events,"frames":chronology}))
 		var row = {"run":repetition+1,"finished":game.session.finished,"crash":game.sim.crash_reason,"exact_trace":exact,"ticks":game.sim.ticks,"wall_seconds":elapsed,"frame_ms":frame_stats(frames),"gpu_ms":Costs.stats(gpu),"render_cpu_ms":Costs.stats(cpu),"draw_calls":Costs.stats(draws),"submitted_primitives":Costs.stats(primitives),"submitted_objects":Costs.stats(objects),"cpu_scopes_us":game.frame_costs.report(),"sections":section_report,"peak_video_bytes":peak_video,"peak_engine_static_bytes":peak_static,"snow":game.effects.snow_budget(),"forest":game.world.scenery.density_forest.report(),"fsr_begin":start_status,"fsr_end":end_status}
 		row.merge({"started_unix_seconds":started_unix,"ended_unix_seconds":ended_unix,"unfocused_frames":unfocused_frames,"forest_coverage":forest_coverage.duplicate(true)})
+		row.gravel = {"mode":gravel_mode,"start":gravel_start,"end":game.world.minerals.gravel.population(),"coverage":gravel_coverage.duplicate(true)}
 		row.grass = {"enabled":grass_enabled,"start":grass_start,"end":grass_metadata()}
 		row.final_state = Trace.Inputs.state(game.sim)
 		row.merge(comparison_metadata())

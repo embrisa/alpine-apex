@@ -529,3 +529,32 @@ rendered comparisons under `artifacts/terrain_grass_performance_20260913/`.
 [Validation](VALIDATION.md#terrain-grass-performance) owns the measured cost,
 target assessment and exact grass-only benchmark commands. Human/controller
 visual and skiing acceptance remain separate.
+
+## Cosmetic rock gravel
+
+`rock_gravel.gd` streams shared dense/sparse MultiMeshes in 8 m cells, capped at
+49 resident cells and two private low-priority placement jobs. Main-thread
+publication collects completed jobs; quality/reset/teardown joins outstanding
+work before releasing frozen field inputs. New cells fade in over 0.4 seconds.
+There is no per-stone Node, material, collision or shadow caster.
+
+Two shared opaque PBR materials use authored normal detail at strength 0.22,
+restrained slate colour grading, real lighting/shadow reception and the existing
+cloud registry. Near and far meshes share each stone root and placement mask.
+Complementary dither blends 80/16-triangle representations over 3.5-5.5 m. The
+final 28 percent of the 8/12/16 m Low/Balanced/High range fades out. Batch culling
+includes the entire root envelope. Existing scenery, grass and tree ranges are
+preserved.
+
+A 128-square R8 texture covers a repeating 64 m grass-exclusion window, larger
+than the resident diameter. Worker-produced half-metre samples are published
+before their corresponding geometry. Each 16-square cell includes a one-texel
+halo and the complete grass-root search margin, so neighboring publications agree.
+Smooth filtering avoids tile-shaped cuts
+around grass. This scene-owned texture never changes terrain materials.
+
+Geometry packing and dimensions belong to [Assets](ASSETS.md#runtime-gravel-assets);
+placement and solver boundaries belong to [World](WORLD.md#cosmetic-rock-gravel).
+Use [cosmetic gravel checks](VALIDATION.md#cosmetic-gravel-checks) for matched
+off/dense/sparse/all measurements, separate local and mountain scopes, and the
+current acceptance receipt.

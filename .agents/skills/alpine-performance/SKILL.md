@@ -131,3 +131,8 @@ For startup/loading responsiveness, follow
 [startup timing](../../../docs/VALIDATION.md#startup-evidence). Exclude capture
 readbacks and unit preambles, report engine/entry/reveal/menu timings separately,
 and keep compact readiness measurements separate from production mountain cost.
+
+For cosmetic gravel, follow [gravel checks](../../../docs/VALIDATION.md#cosmetic-gravel-checks).
+Select `-Map gravel`; isolate `-Gravel off|dense|sparse|all` while keeping grass
+and physical minerals unchanged. Frozen local and Standard comparisons have
+separate scopes; reject measured cache misses and underground review cameras.

@@ -132,3 +132,8 @@ For opening, loading handoff, reduced motion or startup audio, follow
 [startup evidence](../../../docs/VALIDATION.md#startup-evidence). Use the compact
 startup and cosmetic scheduling suites; separate rendered captures, clean entry
 timings and native mixer evidence from human listening/controller acceptance.
+
+For cosmetic gravel, follow [gravel checks](../../../docs/VALIDATION.md#cosmetic-gravel-checks).
+Select `-Map gravel`; isolate `-Gravel off|dense|sparse|all` while keeping grass
+and physical minerals unchanged. Frozen local and Standard comparisons have
+separate scopes; reject measured cache misses and underground review cameras.

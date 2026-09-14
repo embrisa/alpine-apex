@@ -7075,6 +7075,450 @@
           "yaw": 0
         }
       ]
+    },
+    "perf-gravel": {
+      "kind": "performance",
+      "width_m": 256,
+      "length_m": 512,
+      "gradient": 0.28,
+      "depth": 0.06,
+      "object_limit": 448,
+      "design": "Exposed-rock gravel and snow boundary with the exact perf-rocks mineral population and production 4 m support.",
+      "objects": [
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 12,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 0
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 12,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 47
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 28,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 94
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 28,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 141
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 44,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 188
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 44,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 235
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 60,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 282
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 60,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 329
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 76,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 16
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 76,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 63
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 92,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 110
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 92,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 157
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 108,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 204
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 108,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 251
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 124,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 298
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 124,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 345
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 140,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 32
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 140,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 79
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 156,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 126
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 156,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 173
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 172,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 220
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 172,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 267
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 188,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 314
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 188,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 1
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 204,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 48
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 204,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 95
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 220,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 142
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 220,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 189
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 236,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 236
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 236,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 283
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 252,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 330
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 252,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 17
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 268,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 64
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 268,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 111
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 284,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 158
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 284,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 205
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 300,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 252
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 300,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 299
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 316,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 346
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 316,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 33
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 332,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 80
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 332,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 127
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 348,
+          "asset": "mineral_large_sedimentary_01",
+          "scale": 1.0,
+          "yaw": 174
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 348,
+          "asset": "mineral_large_rounded_01",
+          "scale": 1.0,
+          "yaw": 221
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -22,
+          "z": 364,
+          "asset": "mineral_medium_rounded_01",
+          "scale": 1.0,
+          "yaw": 268
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 22,
+          "z": 364,
+          "asset": "mineral_medium_fractured_01",
+          "scale": 1.0,
+          "yaw": 315
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": -90,
+          "z": 416,
+          "asset": "mineral_huge_boulders_block_01",
+          "scale": 1.0,
+          "yaw": 0
+        },
+        {
+          "kind": "mineral",
+          "tree": false,
+          "x": 90,
+          "z": 416,
+          "asset": "mineral_huge_boulders_block_01",
+          "scale": 1.0,
+          "yaw": 0
+        }
+      ],
+      "material": "rock-gravel-edge"
     }
   }
 }

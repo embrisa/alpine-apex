@@ -9,6 +9,7 @@ var map_id=""
 var seconds=6
 var capture=false
 var scenery_camera=false
+var gravel_mode="all"
 var recording=false
 var previous_frame=0
 var samples={"frame_ms":[],"render_cpu_ms":[],"gpu_ms":[],"draw_calls":[],"primitives":[]}
@@ -27,7 +28,8 @@ func run() -> void:
 		elif arg.begins_with("--seconds="): seconds=int(arg.get_slice("=",1))
 		elif arg=="--capture-map": capture=true
 		elif arg=="--scenery-camera": scenery_camera=true
-	check(map_id in ["perf-slopes","perf-rocks","perf-vegetation","perf-mixed"],"Select a known performance map")
+		elif arg.begins_with("--gravel="): gravel_mode=arg.get_slice("=",1)
+	check(map_id in ["perf-slopes","perf-rocks","perf-vegetation","perf-mixed","perf-gravel"],"Select a known performance map")
 	check(seconds>=4 and seconds<=10,"Select 4-10 seconds")
 	check(DisplayServer.get_name()!="headless","Native rendering required")
 	check(capture or OS.get_environment("ALPINE_VALIDATION_MODE")=="FpsCritical","FPS measurement requires the owning FpsCritical guard")
@@ -44,6 +46,7 @@ func run() -> void:
 		if Time.get_ticks_usec()-started>180000000:
 			check(false,"Scene startup exceeded 180 seconds"); await finish(); return
 		await process_frame
+	if game.world.minerals and game.world.minerals.gravel: game.world.minerals.gravel.set_mode(gravel_mode)
 	game.set_physics_process(false); game.active=false
 	game.benchmark_no_captures=true; game.effects.haptic_hardware_enabled=false
 	game.set_audio_muted(true)
@@ -74,6 +77,8 @@ func run() -> void:
 	await RenderingServer.frame_post_draw
 	var pixels=root.get_texture().get_image().get_size()
 	check(pixels==game.benchmark_resolution,"Requested output resolution is actually rendered")
+	report.gravel_mode=gravel_mode
+	report.gravel_start=game.world.minerals.gravel.population() if game.world.minerals and game.world.minerals.gravel else {}
 	report.actual_pixels=[pixels.x,pixels.y]
 	report.display=game.display_settings.report(root,pixels)
 	report.graphics=game.graphics.snapshot()
@@ -147,6 +152,7 @@ func measure(reference) -> void:
 	report.unfocused_frames=unfocused_frames
 	for kind in samples: report[kind]=Costs.stats(samples[kind])
 	if not samples.frame_ms.is_empty(): report.average_fps=1000.0/report.frame_ms.mean
+	report.gravel_end=game.world.minerals.gravel.population() if game.world.minerals and game.world.minerals.gravel else {}
 	report.cpu_scopes_us=game.frame_costs.report()
 	report.forest={} if game.world.scenery.density_forest==null else game.world.scenery.density_forest.report()
 	Evidence.write(output.path_join("samples.json"),samples)

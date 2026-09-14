@@ -1638,3 +1638,61 @@ The timing fixture bypasses distant scenery entirely. Its startup/menu timings
 cannot demonstrate whole-mountain savings from deferring that work. Cooperative
 CPU loop yields and main-thread resource/mesh submission are not asynchronous
 GPU streaming or a hard frame-time guarantee.
+
+## Cosmetic gravel checks
+
+`rock_gravel_suite` checks immutable source/resources, centimetre limits, packing
+clearances, material attributes, habitat exclusions, halo agreement between
+adjacent cells, bounded workers/batches, mode isolation and unchanged physical
+data. `performance_map_suite` includes `perf-gravel`: the exact 48 mineral
+placements and 4 m geometry of `perf-rocks`, with a separately authored exposed
+rock/snow material boundary. Existing performance-map recipes remain unchanged.
+
+```powershell
+./scripts/test_pc_environment.ps1 -Suites rock_gravel_suite,performance_map_suite,terrain_grass_suite -OutputDirectory artifacts/my-gravel/regression
+./scripts/benchmark_targeted.ps1 -Map gravel -Gravel all -Camera scenery -PlanOnly
+./scripts/benchmark_targeted.ps1 -Map gravel -Gravel dense -Output artifacts/my-gravel/dense
+```
+
+The targeted wrapper defaults to three independent six-second ordinary-input
+trials. `-Gravel off|dense|sparse|all` affects only cosmetic gravel. Preserve grass,
+physical minerals, all other scenery and display settings. Check zero/nonzero
+populations, identical final states, actual pixels, stable sources, focus and
+complete duration. Keep each run and compare medians of per-run statistics.
+
+For capped native review, use `tests/rock_gravel_playtest.gd` through the guard
+with `--graphics-quality=high --upscaler=native --render-scale=1.0 --fps-limit=60`.
+Select a fresh `--output=artifacts/...`; it defaults to the local gravel map.
+`--standard` requires explicit `-FullMountain` and a reason and restores the warm
+physical archive. It reads the surveyed route below. Views show actual terrain,
+centimetre detail, the snow edge, LOD, quality and weather. Camera clearance is
+checked against terrain; an underground capture cannot pass visual acceptance.
+Captures are not performance or human/controller evidence.
+
+`tests/rock_gravel_trace.gd` restores the current Standard physical fixture under
+an Exclusive guard with `-FullMountain` and a reason. It surveys existing exposed
+rock and records one 15-second ordinary-input route to
+`artifacts/rock_gravel/standard_trace.json`. It never regenerates terrain. Coverage
+records include rock fraction, speed and every 120-tick checkpoint; reject crashes
+and obstacle contact. Its shelf-to-snow route is a qualified local mountain sample,
+not sustained dense-forest or full-descent acceptance.
+
+When other tasks are editing runtime inputs, freeze one observed project copy:
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath python -Arguments @('scripts/snapshot_gravel_comparison.py','--output','artifacts/my-gravel/frozen') -Label gravel-freeze -WorkloadMode Exclusive -TimeoutSeconds 600
+./scripts/compare_gravel.ps1 -Snapshot artifacts/my-gravel/frozen -Scope local -Gravel off -Label gravel-local-off
+./scripts/compare_gravel.ps1 -Snapshot artifacts/my-gravel/frozen -Scope local -Gravel all -Label gravel-local-all
+./scripts/compare_gravel.ps1 -Snapshot artifacts/my-gravel/frozen -Scope standard -Prepare -Label gravel-standard-prepare
+./scripts/compare_gravel.ps1 -Snapshot artifacts/my-gravel/frozen -Scope standard -Gravel off -Label gravel-standard-off
+./scripts/compare_gravel.ps1 -Snapshot artifacts/my-gravel/frozen -Scope standard -Gravel all -Label gravel-standard-all
+```
+
+Repeat dense and sparse modes separately with fresh labels. These wrappers own
+their guard; never nest them. Standard uses three 15-second repetitions with
+240-frame warmups, 4K High, Auto FSR at 0.75, no frame generation/GI and cap 120.
+Preparation has a separate Exclusive lease; measured scenery cache misses are
+rejected. All modes share one identified runtime, engine and trace. Source and
+binary hashes are checked before/after measurement. Inspect snapshot drift and
+any explicit premeasurement updates; do not claim an atomic live-checkout
+revision. The retained acceptance receipt is [ROCK_GRAVEL_RESULTS.json](ROCK_GRAVEL_RESULTS.json).

@@ -11,10 +11,10 @@ func check(ok: bool,label: String) -> void:
 func run() -> void:
 	var baseline=Maps.create("perf-slopes")
 	var combined=Maps.create("perf-mixed")
-	for id in ["perf-slopes","perf-rocks","perf-vegetation","perf-mixed"]:
+	for id in ["perf-slopes","perf-rocks","perf-vegetation","perf-mixed","perf-gravel"]:
 		var field=Maps.create(id); var repeated=Maps.create(id)
 		var trees=384 if id in ["perf-vegetation","perf-mixed"] else 0
-		var rocks=48 if id in ["perf-rocks","perf-mixed"] else 0
+		var rocks=48 if id in ["perf-rocks","perf-mixed","perf-gravel"] else 0
 		var description=field.fixture_descriptor()
 		check(field.heights==baseline.heights and field.heights==repeated.heights,id+": common deterministic terrain")
 		check(field.obstacles==repeated.obstacles and field.fixture_identity==repeated.fixture_identity,id+": deterministic vegetation and identity")

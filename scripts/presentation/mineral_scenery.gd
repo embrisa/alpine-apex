@@ -10,6 +10,7 @@ var batches: Array[MultiMeshInstance3D] = []
 var materials: Dictionary = {}
 var rows: Dictionary = {}
 var mesh_cache: Dictionary = {}
+var gravel
 var grass_material: ShaderMaterial
 var support_height: ImageTexture
 var exposure: ImageTexture
@@ -30,7 +31,7 @@ func build(source, assets, profile, checkpoint: Callable = Callable(), preparati
 	if preparation:
 		macro_bounds = preparation.macro_bounds
 		await _prepared_batches(preparation,checkpoint)
-		if not field.job.is_cancelled(): apply_quality(profile); macro_ready = true
+		if not field.job.is_cancelled(): apply_quality(profile); macro_ready = true; _build_gravel()
 		return
 	var groups: Dictionary={}
 	for placed in field.geology.placements:
@@ -67,6 +68,7 @@ func build(source, assets, profile, checkpoint: Callable = Callable(), preparati
 			await checkpoint.call("Seating mineral scenery · %d / %d regions" % [index,groups.size()],100.0*index/groups.size())
 	apply_quality(profile)
 	macro_ready=true
+	_build_gravel()
 
 func _material(row: Dictionary) -> ShaderMaterial:
 	var material=ShaderMaterial.new()
@@ -138,6 +140,7 @@ func apply_quality(profile) -> void:
 			batch.multimesh.visible_instance_count=floori(batch.multimesh.instance_count*profile.scrub_density)
 			batch.visibility_range_end=profile.scrub_distance_m+32.0
 	if grass_material: grass_material.set_shader_parameter("grass_distance",profile.scrub_distance_m)
+	if gravel: gravel.apply_quality(profile)
 
 func _process(dt: float) -> void:
 	if not macro_ready or not stream_macro_textures or quality.texture_tier!=2: return
@@ -194,3 +197,7 @@ func _prepared_batches(preparation, checkpoint: Callable) -> void:
 		field.job.advance()
 		if checkpoint.is_valid() and index%12==0: await checkpoint.call("Placing mineral scenery · %d / %d regions" % [index,preparation.minerals.size()],100.0*index/preparation.minerals.size())
 	preparation.minerals.clear()
+
+func _build_gravel() -> void:
+	gravel=preload("res://scripts/presentation/rock_gravel.gd").new()
+	add_child(gravel); gravel.build(field,library,quality,support_height)

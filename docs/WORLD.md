@@ -342,3 +342,30 @@ checkpoints; the entire physical mountain exists before skiing. Cancelled previe
 retain the previous draft. Startup frees partial scenes and offers Retry/Quit
 after joining workers. A completed physical cache may survive later scenery
 cancellation. Tests and current coverage are in [Validation](VALIDATION.md#mountain-evidence).
+
+## Cosmetic rock gravel
+
+`gravel_placement.gd` reads the completed 4 m field and mineral collision index.
+Private seeded 12 m regions select irregular gravel beds and sparse surrounding
+accents. No generator RNG, height, tree, obstacle or mineral placement is written.
+There is no physical-map regeneration or compatibility-version change.
+
+Each half-metre tile checks its centre and corners: contact rock fraction >=0.60
+(the terrain shader is fully rock at 0.58), normal.y >=0.78, in-bounds and no ice
+exposure. Mineral envelopes exclude covered terrain. A filtered, bounded mask
+excludes existing grass roots with rounded gaps; it uses the same deterministic
+grass candidates and never reduces their density. Bed edges select individual
+stones rather than cutting visible tiles into squares.
+
+The vertex shader seats each stone along the exact triangle normal and clamps
+exposure at triangle creases. Burial is at least 30 percent of source height and
+at least source height minus 1 cm. These are render vertices only: gravel owns
+no contact surface, collider, obstacle proxy or skiing response.
+
+`mineral_scenery.gd` attaches the scene-owned streamer after mineral submission
+and forwards quality changes. Gravel cells/materials are never persisted in
+scenery or physical caches. Changing this wrapper refreshes scenery preparation
+once; independent gravel implementation/resources are runtime inputs, not cache
+payload dependencies. The generation dependency owner and physical signature
+remain unchanged. See [Rendering](RENDERING.md#cosmetic-rock-gravel) for residency
+and [Validation](VALIDATION.md#cosmetic-gravel-checks) for evidence.

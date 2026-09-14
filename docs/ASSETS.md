@@ -216,8 +216,32 @@ describe dense gravel beds with irregular edges and sparse rock accents.
 The package enforces small, low cosmetic dimensions and a runtime burial limit
 so the detail does not read as a collision obstacle.
 The package README owns rebuild commands and the integration contract; its
-manifest owns dimensions, detail levels and source/export hashes. The pack has
-no collision and remains outside production imports until runtime integration.
+manifest owns dimensions, detail levels and source/export hashes. The preserved
+source remains outside production imports. Runtime integration is described
+below; the source manifest retains its historical preparation status.
+
+### Runtime gravel assets
+
+`scripts/art/integrate_rock_gravel.ps1` owns Exclusive admission and uses the
+stock editor to convert the final `rock-pebbles-v1-cosmetic-scale` package. It
+checks manifest/model/texture hashes first; sources, imports and UIDs are
+preserved. `assets/graphics/gravel/manifest.json` records each embedded stone,
+resource hash, and size/clearance audit.
+
+Eight shared half-metre tiles contain four dense and four sparse arrangements.
+Dense tiles retain 275 stones (1,100/m2 core), predominantly grit and gravel with
+rare flat accents. Sparse tiles contain two embedded stones (8/m2). Source LOD0
+and LOD2 provide 80 and 16 triangles per stone. Circumscribed-circle packing
+prevents overlaps within and across tiles; no stone is enlarged. Widths remain
+1-10 cm and normal-direction exposed height stays at most 1 cm.
+
+The 16 material-free meshes share three 1024-square BC7 mipmapped PBR resources.
+Normal mips are renormalized; source UVs, tangents and vertex tints are retained.
+UV2 carries each stone root for exact runtime terrain seating. The pack contains
+no collision resources, pedestal/terrain surfaces or vegetation. Vegetation-only
+grass resources remain separate and unchanged. Placement belongs to
+[World](WORLD.md#cosmetic-rock-gravel); LOD and lighting belong to
+[Rendering](RENDERING.md#cosmetic-rock-gravel).
 
 The immutable supplied generator is now
 [`art_source/blender/rock_generator.blend`](../art_source/blender/rock_generator.blend).

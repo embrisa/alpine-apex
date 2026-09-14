@@ -68,3 +68,13 @@ func fixture_descriptor() -> Dictionary:
 	result.objects=result.trees+result.rocks
 	result.design=fixture_spec.design
 	return result
+
+func rock_fraction_at(x: float,z: float) -> float:
+	if fixture_spec.get("material","")=="rock-gravel-edge":
+		var gx=clampf((x-X_MIN)/CELL,0,NX-1.001); var ix=int(gx)
+		return lerpf(_rock_vertex(ix,0),_rock_vertex(ix+1,0),gx-ix)
+	return super.rock_fraction_at(x,z)
+
+func _rock_vertex(ix: int,iz: int) -> float:
+	if fixture_spec.get("material","")=="rock-gravel-edge": return roundf(smoothstep(-8.0,0.0,X_MIN+ix*CELL)*255)/255.0
+	return super._rock_vertex(ix,iz)

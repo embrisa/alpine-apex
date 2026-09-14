@@ -1666,7 +1666,8 @@
         "perf-slopes",
         "perf-rocks",
         "perf-vegetation",
-        "perf-mixed"
+        "perf-mixed",
+        "perf-gravel"
       ],
       "full_mountain": false,
       "coverage": "Authored local slope, rock, forest and combined rendering workloads; explicit selection, no mountain generation."
@@ -1765,9 +1766,38 @@
       "coverage": "Scheduling spies, worker teardown and identical decorative meshes from a planar sampler. No mountain generation."
     },
     "tests/bright_ui_suite.gd": {
-      "maps": ["short-course"],
+      "maps": [
+        "short-course"
+      ],
       "full_mountain": false,
       "coverage": "Compact UI, direct crash actions and multi-size native captures on 256 x 512 m terrain with zero objects; no performance claim."
+    },
+    "tests/rock_gravel_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Inline 128 m terrain plus explicit perf-gravel component fixture; centimetre assets, exclusions, workers and physical identity."
+    },
+    "tests/rock_gravel_playtest.gd": {
+      "maps": [
+        "perf-gravel"
+      ],
+      "full_mountain": false,
+      "coverage": "Capped native actual terrain review; optional --standard requires explicit full-mountain admission and warm physical archive."
+    },
+    "tests/rock_gravel_trace.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Warm Standard-only exposed-rock survey and one bounded ordinary-input route; no physical generation."
+    },
+    "tests/prepare_gravel_comparison.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit scenery preparation over a compatible warm Standard physical archive; no cold physical fallback."
+    },
+    "scripts/art/integrate_rock_gravel.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Isolated source conversion to shared centimetre meshes and BC7 textures; no world."
     }
   }
 }
