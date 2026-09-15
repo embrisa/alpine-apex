@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "id": "66b1d28be89e445fbc1b95464fca0b8f",
+  "summary": "Preserve the remote proprietary license alongside performance workflow changes",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "shared checkout integration"
+  ],
+  "owned_paths": [
+    "LICENSE"
+  ],
+  "read_paths": [],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Merge only the existing remote LICENSE; no gameplay, asset or runtime change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Merge only the existing remote LICENSE; no gameplay, asset or runtime change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Merge only the existing remote LICENSE; no gameplay, asset or runtime change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Merge only the existing remote LICENSE; no gameplay, asset or runtime change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Merge only the existing remote LICENSE; no gameplay, asset or runtime change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "git diff --quiet origin/main -- LICENSE; git diff --cached --check",
+      "result": "passed",
+      "details": "Remote license retained exactly, no whitespace errors or merge conflicts. Shared dirty game files remain unstaged."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-15T22:57:34.220154+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "a1141805e7da0deab81acbdf18c8bafb8eefa658",
+      "dev": 41,
+      "modified": true
+    },
+    "inputs": {
+      "LICENSE": {
+        "size": 1072,
+        "mtime_ns": 1789513024613136200
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 41854,
+        "mtime_ns": 1789298203030046200
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18345,
+        "mtime_ns": 1789216227754129500
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      }
+    }
+  }
+}
