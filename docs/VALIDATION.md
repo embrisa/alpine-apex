@@ -249,6 +249,27 @@ justified production benchmark for mountain-scale streaming, dense-scene
 acceptance and exact route/data reproductions. Human/controller acceptance is
 reported separately.
 
+## Premium tree source review
+
+The prepared family at `art_source/trees/premium_lod_v1/` has a separate native
+source review. Its `prepare.ps1 -Mode Build|Bake|Review` owns Exclusive admission
+and never loads the game scene or changes production imports. Use `-Sample`
+for three medium conifers during iteration; final review covers all 30 IDs.
+`-Mode Audit` independently checks GLB structure, actual counts/bounds, portable
+materials, source hashes, atlas framing/coverage and complete catalog membership.
+The package README retains the guarded Blender source/roundtrip command.
+
+Run Bake after geometry changes, then Review after far-material finalization.
+Run `python art_source/trees/premium_lod_v1/report.py` to generate
+`artifacts/premium_tree_review/review.html` from the native captures. Inspect
+all family tiers, close branches, the mixed stand, distant slope, elevated and
+backlit views, and the chronological near/mid and mid/far transitions. Native
+receipts identify the sealed source manifest and separate assets from production
+placement, wind, visibility assistance, residency, physical terrain and skiing.
+The capped isolated review is not performance evidence. Production integration
+requires its own conversion, grounding/LOD/material regression, rendered review
+and matched FpsCritical timing. Asset triangle reductions do not establish FPS.
+
 ## Colorful tree checks
 
 [The integration receipt](COLORFUL_FOREST_RESULTS.json) records the delivered

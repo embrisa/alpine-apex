@@ -124,6 +124,12 @@ evidence hashes without repeating affected checks. Recorded case identity and
 current rerun identity are different observations. A version label is neither
 performance evidence nor human/controller acceptance.
 
+For the isolated full tree-family source pack, follow
+[the source review](../../../docs/VALIDATION.md#premium-tree-source-review).
+Bake after recipe changes, finalize portable far assets, then capture the sealed
+manifest. Keep all-family/transition inspection and independent source audits
+separate from production integration and measured forest FPS.
+
 For asset milestones, follow the LFS pointer/hydration validation boundary in
 [Development](../../../docs/DEVELOPMENT.md#milestone-workflow) before recording
 the staged or delivered-note check as passed.

@@ -119,6 +119,14 @@ acceptance. Verify generated files and receipts before claiming authoring comple
 
 ## Trees
 
+The complete prepared replacement family is
+[`art_source/trees/premium_lod_v1/`](../art_source/trees/premium_lod_v1/README.md).
+It contains original seeded recipes, editable near/mid/far and shadow sources,
+portable GLBs, and eight-view albedo/normal/canopy atlases for all 30 current IDs.
+It remains excluded from runtime imports. Its README and manifest own the
+representation, material/provenance and rebuild contracts;
+[Validation](VALIDATION.md#premium-tree-source-review) owns review execution.
+
 Colorful tree sources stay in `art_source/trees/colorful_v1/`, excluded from Godot
 import by `.gdignore`. Its README and manifest own six birch/maple variants,
 portable materials, leaf samples, source hashes and authoring commands. Following

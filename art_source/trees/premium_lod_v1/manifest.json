@@ -1,0 +1,3329 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "forest_birch_01",
+      "family": "birch",
+      "variant": 1,
+      "seed": 2313,
+      "height_m": 6.042,
+      "models": [
+        {
+          "path": "models/forest_birch_01_lod0.glb",
+          "bytes": 245340,
+          "sha256": "301bc9b32eb7b2d603f2825373e7f5db89043aec553e71479ec206147c97cf25",
+          "lod": 0,
+          "triangles": 6866,
+          "bounds_min": [
+            -0.9911547303199768,
+            -0.026989566162228584,
+            -1.0765924453735352
+          ],
+          "bounds_max": [
+            1.3474030494689941,
+            6.0421319007873535,
+            1.1996490955352783
+          ]
+        },
+        {
+          "path": "models/forest_birch_01_lod1.glb",
+          "bytes": 91644,
+          "sha256": "137e4306ee2d2c7214a8a474651c576c11df4ddcf024b3b3636a5212173bb47e",
+          "lod": 1,
+          "triangles": 2166,
+          "bounds_min": [
+            -0.9680332541465759,
+            -0.027854766696691513,
+            -1.0639280080795288
+          ],
+          "bounds_max": [
+            1.303880214691162,
+            6.042120456695557,
+            1.1769347190856934
+          ]
+        },
+        {
+          "path": "models/forest_birch_01_lod2.glb",
+          "bytes": 22308,
+          "sha256": "d4892f479d829bd4625690f3e9a04d1f610298b18a460106c2297568dff4dffa",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -3.3987081050872803,
+            -0.39113685488700867,
+            -0.0
+          ],
+          "bounds_max": [
+            3.3987081050872803,
+            6.40627908706665,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_birch_01.blend",
+        "bytes": 397199,
+        "sha256": "6f97f8398b0f31d04b4641800c3266666aa2af0475daba4644f0df1164909d43"
+      },
+      "shadow": {
+        "path": "models/forest_birch_01_shadow.glb",
+        "bytes": 67780,
+        "sha256": "170b910260ab5b46a9926651403ffae5124a4e1a5dd285154a7ad3ba9b0701a1",
+        "lod": -1,
+        "triangles": 1380,
+        "bounds_min": [
+          -0.9680332541465759,
+          -0.027854766696691513,
+          -1.0639280080795288
+        ],
+        "bounds_max": [
+          1.303880214691162,
+          6.04203462600708,
+          1.1769347190856934
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 6.797416042983532,
+        "center_z": 3.0075711673125625,
+        "color": {
+          "path": "impostors/forest_birch_01_color.png",
+          "bytes": 101687,
+          "sha256": "805e2a8a1d6b9747bb28fb1af4f986af79bc829e9b9d16b9bd6eb96eaa5e4f42"
+        },
+        "normal": {
+          "path": "impostors/forest_birch_01_normal.png",
+          "bytes": 175541,
+          "sha256": "6c975290be32320962c901e0d7e18c01a546d16f1f1be02a1cf0ecab3cac4037"
+        },
+        "canopy": {
+          "path": "impostors/forest_birch_01_canopy.png",
+          "bytes": 38493,
+          "sha256": "ec0585d831e8254daed9436f0152b722162d10d275f1e0c76398a197d49316be"
+        },
+        "near_sha256": "301bc9b32eb7b2d603f2825373e7f5db89043aec553e71479ec206147c97cf25",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        8136,
+        2683,
+        2
+      ]
+    },
+    {
+      "id": "forest_birch_02",
+      "family": "birch",
+      "variant": 2,
+      "seed": 2386,
+      "height_m": 10.07,
+      "models": [
+        {
+          "path": "models/forest_birch_02_lod0.glb",
+          "bytes": 245332,
+          "sha256": "c224dd53a6b609d9b08909acdd82a2eee08f6249811bad34b3773b2b08513e91",
+          "lod": 0,
+          "triangles": 6866,
+          "bounds_min": [
+            -2.687934160232544,
+            -0.05130394175648689,
+            -2.383021831512451
+          ],
+          "bounds_max": [
+            2.651034355163574,
+            10.47449016571045,
+            2.1297407150268555
+          ]
+        },
+        {
+          "path": "models/forest_birch_02_lod1.glb",
+          "bytes": 91644,
+          "sha256": "7bdcc89a9abd8a1829221897ce252e68c1b84301ea8e821e368287a48ca0a5d7",
+          "lod": 1,
+          "triangles": 2166,
+          "bounds_min": [
+            -2.5995140075683594,
+            -0.04518026486039162,
+            -2.3512766361236572
+          ],
+          "bounds_max": [
+            2.609278440475464,
+            10.344155311584473,
+            2.0585250854492188
+          ]
+        },
+        {
+          "path": "models/forest_birch_02_lod2.glb",
+          "bytes": 23504,
+          "sha256": "de21ac1c67348884524d21e742e1cbbfea2af8f61cd9052d9c9a8b1ec8d0be39",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -5.894444465637207,
+            -0.6828516125679016,
+            -0.0
+          ],
+          "bounds_max": [
+            5.894444465637207,
+            11.106038093566895,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_birch_02.blend",
+        "bytes": 398842,
+        "sha256": "fa72783a4caf78985471eea76c26d16cf63d5b807cd992b330f482cc4250a0d0"
+      },
+      "shadow": {
+        "path": "models/forest_birch_02_shadow.glb",
+        "bytes": 67776,
+        "sha256": "de28c9e68f1ca02aaf3588886516a9b2c3ab2168bd9a44a15e0f43b17b5288df",
+        "lod": -1,
+        "triangles": 1380,
+        "bounds_min": [
+          -2.5995140075683594,
+          -0.04518026486039162,
+          -2.3512766361236572
+        ],
+        "bounds_max": [
+          2.609278440475464,
+          10.344155311584473,
+          2.0585250854492188
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 11.788889400362969,
+        "center_z": 5.211593111976981,
+        "color": {
+          "path": "impostors/forest_birch_02_color.png",
+          "bytes": 113059,
+          "sha256": "602b7004c152c59ed7142fe231eab0a4033e2a4e045afaa45317ec4af674bc35"
+        },
+        "normal": {
+          "path": "impostors/forest_birch_02_normal.png",
+          "bytes": 186946,
+          "sha256": "7e5d16e61002357eb3619b038187ce5946b045efe22538b4a685e970fd29b5b3"
+        },
+        "canopy": {
+          "path": "impostors/forest_birch_02_canopy.png",
+          "bytes": 42751,
+          "sha256": "b4f9c1cd933e3025cc1e49f143f8cfcd92d18eb45311ad108605e9983cd19e16"
+        },
+        "near_sha256": "c224dd53a6b609d9b08909acdd82a2eee08f6249811bad34b3773b2b08513e91",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        9012,
+        2972,
+        2
+      ]
+    },
+    {
+      "id": "forest_birch_03",
+      "family": "birch",
+      "variant": 3,
+      "seed": 2459,
+      "height_m": 14.124,
+      "models": [
+        {
+          "path": "models/forest_birch_03_lod0.glb",
+          "bytes": 245336,
+          "sha256": "ef7898b941032d3ef688dd4b1d960614e5ccd3dda8858810bda6393312e3920b",
+          "lod": 0,
+          "triangles": 6866,
+          "bounds_min": [
+            -2.8423819541931152,
+            -0.05987708270549774,
+            -2.4096970558166504
+          ],
+          "bounds_max": [
+            2.220729351043701,
+            14.302446365356445,
+            2.889759063720703
+          ]
+        },
+        {
+          "path": "models/forest_birch_03_lod1.glb",
+          "bytes": 91644,
+          "sha256": "41da03a2fa853bcadc26de44376f550e2326ee9b08fd9c0dd4d05b09a610ea94",
+          "lod": 1,
+          "triangles": 2166,
+          "bounds_min": [
+            -2.8335442543029785,
+            -0.06058806553483009,
+            -2.3612921237945557
+          ],
+          "bounds_max": [
+            2.167633295059204,
+            14.12452220916748,
+            2.861311197280884
+          ]
+        },
+        {
+          "path": "models/forest_birch_03_lod2.glb",
+          "bytes": 20904,
+          "sha256": "3bc59ecedc1794be464deff00d573b1a3592e0d3612a049b40c601fd5f2e9c65",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -8.042901039123535,
+            -0.9216164946556091,
+            -0.0
+          ],
+          "bounds_max": [
+            8.042901039123535,
+            15.164185523986816,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_birch_03.blend",
+        "bytes": 396421,
+        "sha256": "9f095fd60157d6ce13adf47d3b65191587407ddf9446fc83fc18b9aa144bc94a"
+      },
+      "shadow": {
+        "path": "models/forest_birch_03_shadow.glb",
+        "bytes": 67776,
+        "sha256": "1142a33c8f468e284d4f1f9de098083c971d953768e162e1c636f022cb7fb9cc",
+        "lod": -1,
+        "triangles": 1380,
+        "bounds_min": [
+          -2.8335442543029785,
+          -0.06058806553483009,
+          -2.3612921237945557
+        ],
+        "bounds_max": [
+          2.167633295059204,
+          14.12408447265625,
+          2.861311197280884
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 16.08580226182938,
+        "center_z": 7.121284641325474,
+        "color": {
+          "path": "impostors/forest_birch_03_color.png",
+          "bytes": 94734,
+          "sha256": "7224e0b29658a13847002c65c621a4db154788271d87f109432d4d9881840ba8"
+        },
+        "normal": {
+          "path": "impostors/forest_birch_03_normal.png",
+          "bytes": 167695,
+          "sha256": "f4bdaeaec4d321023343ee1b3b9eab1e145ca2597b864f117cb2912aa4dbbd06"
+        },
+        "canopy": {
+          "path": "impostors/forest_birch_03_canopy.png",
+          "bytes": 36170,
+          "sha256": "e064a8c1ed386d46dca265cdc57d4f4f6c34815d47a35e88ff5a82f82c8e7164"
+        },
+        "near_sha256": "ef7898b941032d3ef688dd4b1d960614e5ccd3dda8858810bda6393312e3920b",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        8736,
+        2882,
+        2
+      ]
+    },
+    {
+      "id": "forest_birch_04",
+      "family": "birch",
+      "variant": 4,
+      "seed": 2532,
+      "height_m": 17.209,
+      "models": [
+        {
+          "path": "models/forest_birch_04_lod0.glb",
+          "bytes": 245340,
+          "sha256": "ca3fc322bcaaf10ebc55933fc71ee1a1e6668ec3a668c7bae27a1dec06c12f15",
+          "lod": 0,
+          "triangles": 6866,
+          "bounds_min": [
+            -4.133503437042236,
+            -0.07600343227386475,
+            -3.5126121044158936
+          ],
+          "bounds_max": [
+            3.1781656742095947,
+            17.616334915161133,
+            4.186119556427002
+          ]
+        },
+        {
+          "path": "models/forest_birch_04_lod1.glb",
+          "bytes": 91644,
+          "sha256": "545bb25b266a54f85395c928d57ca3842b5053899e16430cc8a4afb741d63809",
+          "lod": 1,
+          "triangles": 2166,
+          "bounds_min": [
+            -4.084599494934082,
+            -0.08089523762464523,
+            -3.4450106620788574
+          ],
+          "bounds_max": [
+            3.0968751907348633,
+            17.394561767578125,
+            4.102598190307617
+          ]
+        },
+        {
+          "path": "models/forest_birch_04_lod2.glb",
+          "bytes": 23124,
+          "sha256": "c90849ce55594cc46b4418aaa1ee88ace14afdbd1f93d07e1b8f1fcb11396522",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -9.907709121704102,
+            -1.1375436782836914,
+            -0.0
+          ],
+          "bounds_max": [
+            9.907709121704102,
+            18.677875518798828,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_birch_04.blend",
+        "bytes": 399786,
+        "sha256": "0d881424540692978c2aa9b72f7e60a468b3eff9f444ecb7a71df7f640579777"
+      },
+      "shadow": {
+        "path": "models/forest_birch_04_shadow.glb",
+        "bytes": 67776,
+        "sha256": "4571419df403581d104fa3685d67bab1f67d18130e050e850b24de7b66c06c81",
+        "lod": -1,
+        "triangles": 1380,
+        "bounds_min": [
+          -4.084599494934082,
+          -0.08089523762464523,
+          -3.4450106620788574
+        ],
+        "bounds_max": [
+          3.0968751907348633,
+          17.394561767578125,
+          4.102598190307617
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 19.8154189491272,
+        "center_z": 8.770165741443634,
+        "color": {
+          "path": "impostors/forest_birch_04_color.png",
+          "bytes": 108037,
+          "sha256": "09c100f2ad2465ba8d765d202eb3f7517e18165bc0fbdff61dc86de424d4a872"
+        },
+        "normal": {
+          "path": "impostors/forest_birch_04_normal.png",
+          "bytes": 185330,
+          "sha256": "93855df673fa5d768151365e2690e542bc13d8246d893b60deb0c6183534b975"
+        },
+        "canopy": {
+          "path": "impostors/forest_birch_04_canopy.png",
+          "bytes": 40454,
+          "sha256": "a5f8e548018243b8f1261742ce6b8888a8e073784fc264327c4f10d6de925d6f"
+        },
+        "near_sha256": "ca3fc322bcaaf10ebc55933fc71ee1a1e6668ec3a668c7bae27a1dec06c12f15",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        7812,
+        2577,
+        2
+      ]
+    },
+    {
+      "id": "forest_broken_01",
+      "family": "broken",
+      "variant": 1,
+      "seed": 2935,
+      "height_m": 3.945,
+      "models": [
+        {
+          "path": "models/forest_broken_01_lod0.glb",
+          "bytes": 648996,
+          "sha256": "d20dfaf1cfd914a0ae796ef12c43f2b076f8cc608cccfecab28f0b345c7eb676",
+          "lod": 0,
+          "triangles": 1726,
+          "bounds_min": [
+            -0.5844852328300476,
+            -0.020116187632083893,
+            -0.6950109004974365
+          ],
+          "bounds_max": [
+            0.7646756172180176,
+            3.95971941947937,
+            0.5002532005310059
+          ]
+        },
+        {
+          "path": "models/forest_broken_01_lod1.glb",
+          "bytes": 620184,
+          "sha256": "07d9b0f6b741bf3014168242ccad5b34f614da72c4ac7ec6991bc97686b48b4b",
+          "lod": 1,
+          "triangles": 798,
+          "bounds_min": [
+            -0.5844116806983948,
+            -0.017986426129937172,
+            -0.6948805451393127
+          ],
+          "bounds_max": [
+            0.7645570635795593,
+            3.95971941947937,
+            0.5001881122589111
+          ]
+        },
+        {
+          "path": "models/forest_broken_01_lod2.glb",
+          "bytes": 22924,
+          "sha256": "1bc5b3af1abf211314d296b5292bf7e97b0869295c5cd7a464d38e8cd1f537b5",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -2.228708028793335,
+            -0.2589063346385956,
+            -0.0
+          ],
+          "bounds_max": [
+            2.228708028793335,
+            4.198509693145752,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_broken_01.blend",
+        "bytes": 776054,
+        "sha256": "72d6f75582e58c0b8b307b1c44e46b05739cfb75dcb1b68062f3d2122a2d0f24"
+      },
+      "shadow": {
+        "path": "models/forest_broken_01_shadow.glb",
+        "bytes": 620188,
+        "sha256": "17b72de26462ed3df751636a81b6e6b5c5c49d6ba92551c28c81db152ee0f2ad",
+        "lod": -1,
+        "triangles": 798,
+        "bounds_min": [
+          -0.5844116806983948,
+          -0.017986426129937172,
+          -0.6948805451393127
+        ],
+        "bounds_max": [
+          0.7645570635795593,
+          3.95971941947937,
+          0.5001881122589111
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 4.457415879964829,
+        "center_z": 1.9698016159236431,
+        "color": {
+          "path": "impostors/forest_broken_01_color.png",
+          "bytes": 104062,
+          "sha256": "e6465ac71a5bdc52cb08f93732cf648477072c2a6b611c059ff5cd350c6170bb"
+        },
+        "normal": {
+          "path": "impostors/forest_broken_01_normal.png",
+          "bytes": 112920,
+          "sha256": "28824532d9c26f08fe4690db73dafb98d2803e3d0ae533bfba040e511c62dafa"
+        },
+        "canopy": {
+          "path": "impostors/forest_broken_01_canopy.png",
+          "bytes": 22734,
+          "sha256": "47d4567be0945b77b1fbe5c7272b9250e3d53ac153a28276ea45589eec84117c"
+        },
+        "near_sha256": "d20dfaf1cfd914a0ae796ef12c43f2b076f8cc608cccfecab28f0b345c7eb676",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        804,
+        272,
+        2
+      ]
+    },
+    {
+      "id": "forest_broken_02",
+      "family": "broken",
+      "variant": 2,
+      "seed": 3008,
+      "height_m": 7.045,
+      "models": [
+        {
+          "path": "models/forest_broken_02_lod0.glb",
+          "bytes": 652196,
+          "sha256": "e60d678281d61fde4401e563f968ba3b17bb8dcc4c34f790ff6c4131e440cfdd",
+          "lod": 0,
+          "triangles": 1820,
+          "bounds_min": [
+            -1.3333231210708618,
+            -0.03055434115231037,
+            -1.043419599533081
+          ],
+          "bounds_max": [
+            1.1710795164108276,
+            7.028810977935791,
+            1.2562376260757446
+          ]
+        },
+        {
+          "path": "models/forest_broken_02_lod1.glb",
+          "bytes": 621912,
+          "sha256": "1e70615513ca99d0c79d3fdf4bc988fd257f4e00f653028aa5bc789d2cef25a3",
+          "lod": 1,
+          "triangles": 846,
+          "bounds_min": [
+            -1.2985550165176392,
+            -0.03243640065193176,
+            -1.0432347059249878
+          ],
+          "bounds_max": [
+            1.1711214780807495,
+            7.028810977935791,
+            1.2173956632614136
+          ]
+        },
+        {
+          "path": "models/forest_broken_02_lod2.glb",
+          "bytes": 24500,
+          "sha256": "cbe07785adc31bfbfb7cb36387d73353f2fa8abbfb4194ac5c86d1d167fa5ce8",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -3.953244686126709,
+            -0.45411625504493713,
+            -0.0
+          ],
+          "bounds_max": [
+            3.953244686126709,
+            7.452373027801514,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_broken_02.blend",
+        "bytes": 781709,
+        "sha256": "696601db968cfdb4475c18a1b008d7ec026f22fdba6e44bf70bcc3022da3a809"
+      },
+      "shadow": {
+        "path": "models/forest_broken_02_shadow.glb",
+        "bytes": 621916,
+        "sha256": "b302397e9e525e98bdddbd8bd953045874d0493033236a64a1ba73708a4b41cf",
+        "lod": -1,
+        "triangles": 846,
+        "bounds_min": [
+          -1.2985550165176392,
+          -0.03243640065193176,
+          -1.0432347059249878
+        ],
+        "bounds_max": [
+          1.1711214780807495,
+          7.028810977935791,
+          1.2173956632614136
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 7.906489157378674,
+        "center_z": 3.4991283183917403,
+        "color": {
+          "path": "impostors/forest_broken_02_color.png",
+          "bytes": 112569,
+          "sha256": "43d81170cd167884e3d7596e892917f32190ad63e97c5b17f13856ec9a195b03"
+        },
+        "normal": {
+          "path": "impostors/forest_broken_02_normal.png",
+          "bytes": 123418,
+          "sha256": "c9ff5d912bb0e3632d08540c2287ae467c951cf4ef5bcab0324248dd5425ebfd"
+        },
+        "canopy": {
+          "path": "impostors/forest_broken_02_canopy.png",
+          "bytes": 24265,
+          "sha256": "1018d6921427779a507f2a21db9915a900b8fcfccdcee2d2045bd7124c4004c8"
+        },
+        "near_sha256": "e60d678281d61fde4401e563f968ba3b17bb8dcc4c34f790ff6c4131e440cfdd",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        1542,
+        516,
+        2
+      ]
+    },
+    {
+      "id": "forest_broken_03",
+      "family": "broken",
+      "variant": 3,
+      "seed": 3081,
+      "height_m": 10.36,
+      "models": [
+        {
+          "path": "models/forest_broken_03_lod0.glb",
+          "bytes": 655404,
+          "sha256": "e9a5f97830203da08a7758a26e19fb2c6494d1935d7d4530e4a320cb1d7a3755",
+          "lod": 0,
+          "triangles": 1914,
+          "bounds_min": [
+            -1.4661648273468018,
+            -0.044650640338659286,
+            -1.7180492877960205
+          ],
+          "bounds_max": [
+            1.8732048273086548,
+            10.046278953552246,
+            1.4151943922042847
+          ]
+        },
+        {
+          "path": "models/forest_broken_03_lod1.glb",
+          "bytes": 623640,
+          "sha256": "350b30ba903d2a68faff4b95e7ae3898915d151443063c0805ee9af746b86ee0",
+          "lod": 1,
+          "triangles": 894,
+          "bounds_min": [
+            -1.4659748077392578,
+            -0.048397526144981384,
+            -1.686223030090332
+          ],
+          "bounds_max": [
+            1.873018503189087,
+            10.046278953552246,
+            1.4150831699371338
+          ]
+        },
+        {
+          "path": "models/forest_broken_03_lod2.glb",
+          "bytes": 26272,
+          "sha256": "e7dce8aaf9578a1258182d6674678dba3953fb4804079b6c7b8e4a59ebe9348b",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -5.650920391082764,
+            -0.6501064300537109,
+            -0.0
+          ],
+          "bounds_max": [
+            5.650920391082764,
+            10.651734352111816,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_broken_03.blend",
+        "bytes": 787520,
+        "sha256": "cdbec478c583c531690bbfe5c4a3d79aa5e723835d316a314943f0b33d1dc8bf"
+      },
+      "shadow": {
+        "path": "models/forest_broken_03_shadow.glb",
+        "bytes": 623644,
+        "sha256": "21fefd4209607b1e531c0c41f83738a56e1befeeeb80ea81ff7b49de933f8249",
+        "lod": -1,
+        "triangles": 894,
+        "bounds_min": [
+          -1.4659748077392578,
+          -0.048397526144981384,
+          -1.686223030090332
+        ],
+        "bounds_max": [
+          1.873018503189087,
+          10.046278953552246,
+          1.4150831699371338
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 11.301841145157814,
+        "center_z": 5.000814156606793,
+        "color": {
+          "path": "impostors/forest_broken_03_color.png",
+          "bytes": 124241,
+          "sha256": "94a6b5de216a1295a3807611c6f364bc6237a3b44a79fe5dccc49f555f7e56e8"
+        },
+        "normal": {
+          "path": "impostors/forest_broken_03_normal.png",
+          "bytes": 131677,
+          "sha256": "a4b09c394e4fb61b6b97e1dd11356dec7112ac845853cb6a4ea948a7775873dc"
+        },
+        "canopy": {
+          "path": "impostors/forest_broken_03_canopy.png",
+          "bytes": 25554,
+          "sha256": "8a0873c7687408126a04bf0862c85d7e92d14d3577d3c3d735764252241e072f"
+        },
+        "near_sha256": "e9a5f97830203da08a7758a26e19fb2c6494d1935d7d4530e4a320cb1d7a3755",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        1638,
+        547,
+        2
+      ]
+    },
+    {
+      "id": "forest_broken_04",
+      "family": "broken",
+      "variant": 4,
+      "seed": 3154,
+      "height_m": 14.05,
+      "models": [
+        {
+          "path": "models/forest_broken_04_lod0.glb",
+          "bytes": 658608,
+          "sha256": "2865af25f18d573469cb828ce8afac42c4bd4ef37a79420cb72372efb13b62fa",
+          "lod": 0,
+          "triangles": 2008,
+          "bounds_min": [
+            -1.7346891164779663,
+            -0.0634080171585083,
+            -2.0940868854522705
+          ],
+          "bounds_max": [
+            1.7895143032073975,
+            14.08537483215332,
+            1.8315880298614502
+          ]
+        },
+        {
+          "path": "models/forest_broken_04_lod1.glb",
+          "bytes": 625364,
+          "sha256": "cd4b2dd69c461a90b1135f96c554612ef66fd48ffefbc0e5b066e2c898c93675",
+          "lod": 1,
+          "triangles": 942,
+          "bounds_min": [
+            -1.7349175214767456,
+            -0.05900892615318298,
+            -1.9329335689544678
+          ],
+          "bounds_max": [
+            1.7897144556045532,
+            14.08537483215332,
+            1.8313474655151367
+          ]
+        },
+        {
+          "path": "models/forest_broken_04_lod2.glb",
+          "bytes": 24624,
+          "sha256": "feee657699f9eaa44154ad519f20fd22ce5068988f33e063edbfde980088c7ac",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -7.923318386077881,
+            -0.9123349785804749,
+            -0.0
+          ],
+          "bounds_max": [
+            7.923318386077881,
+            14.934301376342773,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_broken_04.blend",
+        "bytes": 790756,
+        "sha256": "bbdc41e6279ff0bd83b474bfd33f1d9c4bac8ad51fbfb03a99653d2aaed7af49"
+      },
+      "shadow": {
+        "path": "models/forest_broken_04_shadow.glb",
+        "bytes": 625372,
+        "sha256": "b7ce1f18960fa71794e43637021af534a897440fbe7276dc1539788b7ca100fe",
+        "lod": -1,
+        "triangles": 942,
+        "bounds_min": [
+          -1.7349175214767456,
+          -0.05900892615318298,
+          -1.9329335689544678
+        ],
+        "bounds_max": [
+          1.7897144556045532,
+          14.08537483215332,
+          1.8313474655151367
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 15.84663679122925,
+        "center_z": 7.010983407497406,
+        "color": {
+          "path": "impostors/forest_broken_04_color.png",
+          "bytes": 115028,
+          "sha256": "fafe060d8942074301de02c2d47745c0894fa25fbd1d059fbd48bfe2937b9aa9"
+        },
+        "normal": {
+          "path": "impostors/forest_broken_04_normal.png",
+          "bytes": 120093,
+          "sha256": "43f2df15671b746990e672b3601c3ea9691f000f43eb63846f6192be88f941db"
+        },
+        "canopy": {
+          "path": "impostors/forest_broken_04_canopy.png",
+          "bytes": 24242,
+          "sha256": "05820a8e645f826fc1e5af33679be2609a3d7d6f0a7135eb60de80079be31be6"
+        },
+        "near_sha256": "2865af25f18d573469cb828ce8afac42c4bd4ef37a79420cb72372efb13b62fa",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        1872,
+        624,
+        2
+      ]
+    },
+    {
+      "id": "forest_dead_01",
+      "family": "dead",
+      "variant": 1,
+      "seed": 2624,
+      "height_m": 5.031,
+      "models": [
+        {
+          "path": "models/forest_dead_01_lod0.glb",
+          "bytes": 672976,
+          "sha256": "3aae3ecbf8a284463469ef821e5d09708e3f946c1641de8bd346fdb799fc9fde",
+          "lod": 0,
+          "triangles": 2426,
+          "bounds_min": [
+            -0.8896179795265198,
+            -0.022406069561839104,
+            -0.5566890239715576
+          ],
+          "bounds_max": [
+            0.9213696122169495,
+            5.031050682067871,
+            0.7858914732933044
+          ]
+        },
+        {
+          "path": "models/forest_dead_01_lod1.glb",
+          "bytes": 630736,
+          "sha256": "e98eaaf7e570db03608d52743e79f7efa7c26e1d73e37a76d20df786fb9afc74",
+          "lod": 1,
+          "triangles": 1086,
+          "bounds_min": [
+            -0.8895816206932068,
+            -0.0226653590798378,
+            -0.5565606355667114
+          ],
+          "bounds_max": [
+            0.921221911907196,
+            5.031044006347656,
+            0.7857785224914551
+          ]
+        },
+        {
+          "path": "models/forest_dead_01_lod2.glb",
+          "bytes": 26844,
+          "sha256": "1c8ba00ad289e766c2130fa4bebe11353beb311eb250e13a5fd10d09a6dc7703",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -2.8299357891082764,
+            -0.32561346888542175,
+            -0.0
+          ],
+          "bounds_max": [
+            2.8299357891082764,
+            5.334258079528809,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_dead_01.blend",
+        "bytes": 807953,
+        "sha256": "a4e26c845f64a9b0c525c6f3b676ddfd440347f07aed6df9e5660a8abb9b269f"
+      },
+      "shadow": {
+        "path": "models/forest_dead_01_shadow.glb",
+        "bytes": 630744,
+        "sha256": "5ae443d96eddb45a91443391e2b4f363a48ca0fd762502ed2b12c4a973cab734",
+        "lod": -1,
+        "triangles": 1086,
+        "bounds_min": [
+          -0.8895816206932068,
+          -0.0226653590798378,
+          -0.5565606355667114
+        ],
+        "bounds_max": [
+          0.921221911907196,
+          5.031044006347656,
+          0.7857785224914551
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 5.659871561825276,
+        "center_z": 2.504322306253016,
+        "color": {
+          "path": "impostors/forest_dead_01_color.png",
+          "bytes": 131528,
+          "sha256": "8690c7fa58763f63764742518dbc3d0a02df85a16121553ff03bdaee9a3085f1"
+        },
+        "normal": {
+          "path": "impostors/forest_dead_01_normal.png",
+          "bytes": 146627,
+          "sha256": "01315dc78d413807df49511dbd2d722dcb5547c71431440841a1bd23c1f0de33"
+        },
+        "canopy": {
+          "path": "impostors/forest_dead_01_canopy.png",
+          "bytes": 29937,
+          "sha256": "347e3815c541329b5fb5cd18541d173e15fa91786b16df97903361b7d161b27a"
+        },
+        "near_sha256": "3aae3ecbf8a284463469ef821e5d09708e3f946c1641de8bd346fdb799fc9fde",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        2490,
+        821,
+        2
+      ]
+    },
+    {
+      "id": "forest_dead_02",
+      "family": "dead",
+      "variant": 2,
+      "seed": 2697,
+      "height_m": 8.051,
+      "models": [
+        {
+          "path": "models/forest_dead_02_lod0.glb",
+          "bytes": 677332,
+          "sha256": "c041318b76c164207cdad9377ff1151032744ccb06cc2de0444b421e3cac692a",
+          "lod": 0,
+          "triangles": 2552,
+          "bounds_min": [
+            -1.250893235206604,
+            -0.034198515117168427,
+            -1.2074893712997437
+          ],
+          "bounds_max": [
+            1.3866139650344849,
+            8.051172256469727,
+            1.1452622413635254
+          ]
+        },
+        {
+          "path": "models/forest_dead_02_lod1.glb",
+          "bytes": 632920,
+          "sha256": "eb8f423af8eb91c883770056a0107142a58cf849b89e1431fb404b6c733bd073",
+          "lod": 1,
+          "triangles": 1146,
+          "bounds_min": [
+            -1.2508292198181152,
+            -0.034467242658138275,
+            -1.207229495048523
+          ],
+          "bounds_max": [
+            1.3865758180618286,
+            8.051163673400879,
+            1.1451241970062256
+          ]
+        },
+        {
+          "path": "models/forest_dead_02_lod2.glb",
+          "bytes": 26708,
+          "sha256": "d3da1fa4b7d80eff5fad1b421bb53e9f60148dbbe0dffdbf83d46335aa57457f",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -4.527807712554932,
+            -0.5193207859992981,
+            -0.0
+          ],
+          "bounds_max": [
+            4.527807712554932,
+            8.536294937133789,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_dead_02.blend",
+        "bytes": 815161,
+        "sha256": "18c8d41142c7b56fc23df647dd7725abb0f95086bb006113169477b95409b134"
+      },
+      "shadow": {
+        "path": "models/forest_dead_02_shadow.glb",
+        "bytes": 632928,
+        "sha256": "12043c76fb7b69b7158940b8338dc567e0e46330fa4281f655d2cb561196ea7f",
+        "lod": -1,
+        "triangles": 1146,
+        "bounds_min": [
+          -1.2508292198181152,
+          -0.034467242658138275,
+          -1.207229495048523
+        ],
+        "bounds_max": [
+          1.3865758180618286,
+          8.051163673400879,
+          1.1451241970062256
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 9.055615264177323,
+        "center_z": 4.008486870676279,
+        "color": {
+          "path": "impostors/forest_dead_02_color.png",
+          "bytes": 134177,
+          "sha256": "134fc04f58db987970d81adcb6f5e7e7517b5021ddbb6a2af3ffabea692d6cf5"
+        },
+        "normal": {
+          "path": "impostors/forest_dead_02_normal.png",
+          "bytes": 147268,
+          "sha256": "830d2bfba1b6d6f1373ee2588fcc4dffafb70d20aa6f11900731108ed5a43831"
+        },
+        "canopy": {
+          "path": "impostors/forest_dead_02_canopy.png",
+          "bytes": 30414,
+          "sha256": "718306302d29f49fcb647e6d2407edb5612075b1c0a2c3f8797eb0b90ea373b3"
+        },
+        "near_sha256": "c041318b76c164207cdad9377ff1151032744ccb06cc2de0444b421e3cac692a",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        3438,
+        1133,
+        2
+      ]
+    },
+    {
+      "id": "forest_dead_03",
+      "family": "dead",
+      "variant": 3,
+      "seed": 2770,
+      "height_m": 12.057,
+      "models": [
+        {
+          "path": "models/forest_dead_03_lod0.glb",
+          "bytes": 681232,
+          "sha256": "aec722d8ea98ee44ee65ea93b04e4f77dc8da271552ceacb327e9409a16f5803",
+          "lod": 0,
+          "triangles": 2666,
+          "bounds_min": [
+            -1.478877067565918,
+            -0.05790138989686966,
+            -2.1311261653900146
+          ],
+          "bounds_max": [
+            2.343679189682007,
+            12.057243347167969,
+            2.1082985401153564
+          ]
+        },
+        {
+          "path": "models/forest_dead_03_lod1.glb",
+          "bytes": 635108,
+          "sha256": "83b73de6de000ab122e0c92ea9168109fbab9c9f8c1fc0600694f1ae10bd5ae1",
+          "lod": 1,
+          "triangles": 1206,
+          "bounds_min": [
+            -1.4392300844192505,
+            -0.05270369350910187,
+            -2.130948781967163
+          ],
+          "bounds_max": [
+            2.3438360691070557,
+            12.057223320007324,
+            2.1082258224487305
+          ]
+        },
+        {
+          "path": "models/forest_dead_03_lod2.glb",
+          "bytes": 28192,
+          "sha256": "0d5c9bc64c9bd85a1ddea12f6c1f934b2dfb55551525b031e9635248f09d8ee7",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -6.784481048583984,
+            -0.7848100662231445,
+            -0.0
+          ],
+          "bounds_max": [
+            6.784481048583984,
+            12.784152030944824,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_dead_03.blend",
+        "bytes": 820778,
+        "sha256": "50fda478e68bb7bc2da36db0052880b72e73be5cc6a0403ceb8517ba781691b4"
+      },
+      "shadow": {
+        "path": "models/forest_dead_03_shadow.glb",
+        "bytes": 635112,
+        "sha256": "8f1c92ad89bd8bca9d99dd24b2e05c340b110f79353fb2c99375f69ca05a5aac",
+        "lod": -1,
+        "triangles": 1206,
+        "bounds_min": [
+          -1.4392300844192505,
+          -0.05270369350910187,
+          -2.130948781967163
+        ],
+        "bounds_max": [
+          2.3438360691070557,
+          12.057223320007324,
+          2.1082258224487305
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 13.56896210551262,
+        "center_z": 5.9996709786355495,
+        "color": {
+          "path": "impostors/forest_dead_03_color.png",
+          "bytes": 140728,
+          "sha256": "8fa37e8a934628ddcebd3c5a5e7f75fe91188d8953a05f205a7b6f9534207369"
+        },
+        "normal": {
+          "path": "impostors/forest_dead_03_normal.png",
+          "bytes": 156345,
+          "sha256": "6fb0bec82ca05a939d20277ae17815ca200130d17ad09ad4e9e408b7be595ede"
+        },
+        "canopy": {
+          "path": "impostors/forest_dead_03_canopy.png",
+          "bytes": 31418,
+          "sha256": "773eef8b105cf0758232b12f48fb9f2fad3008ecd838fb7aeecd16ebb558b59a"
+        },
+        "near_sha256": "aec722d8ea98ee44ee65ea93b04e4f77dc8da271552ceacb327e9409a16f5803",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        4338,
+        1431,
+        2
+      ]
+    },
+    {
+      "id": "forest_dead_04",
+      "family": "dead",
+      "variant": 4,
+      "seed": 2843,
+      "height_m": 16.123,
+      "models": [
+        {
+          "path": "models/forest_dead_04_lod0.glb",
+          "bytes": 685588,
+          "sha256": "f1d80075e92c6dfe2257cbadb041cf5a560e78119301b33991fed9eaa9d4de99",
+          "lod": 0,
+          "triangles": 2792,
+          "bounds_min": [
+            -2.576890707015991,
+            -0.07589700818061829,
+            -2.5286786556243896
+          ],
+          "bounds_max": [
+            2.9415416717529297,
+            16.123342514038086,
+            3.1947498321533203
+          ]
+        },
+        {
+          "path": "models/forest_dead_04_lod1.glb",
+          "bytes": 637288,
+          "sha256": "f5c27699e3640ed7fa242f195536afa1c81352c6690e0fb916792e0cc92f04d4",
+          "lod": 1,
+          "triangles": 1266,
+          "bounds_min": [
+            -2.5767478942871094,
+            -0.07489343732595444,
+            -2.5282609462738037
+          ],
+          "bounds_max": [
+            2.9409992694854736,
+            16.123363494873047,
+            3.194340467453003
+          ]
+        },
+        {
+          "path": "models/forest_dead_04_lod2.glb",
+          "bytes": 29028,
+          "sha256": "c8c30b98fab847344e9023cbbae5dc206a7ffcc8d0ffe86665aa6279f82cfbff",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -9.071574211120605,
+            -1.047851324081421,
+            -0.0
+          ],
+          "bounds_max": [
+            9.071574211120605,
+            17.09529685974121,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_dead_04.blend",
+        "bytes": 827536,
+        "sha256": "32ffdac3ffe1c26fb7f79ca317195b61068528f49e8882d8a7ce1891dd45917e"
+      },
+      "shadow": {
+        "path": "models/forest_dead_04_shadow.glb",
+        "bytes": 637292,
+        "sha256": "f1914ba81d2cbd3d3de12b6707371d8cf54fbf5b9cc9cce23a7850fad4bf16bf",
+        "lod": -1,
+        "triangles": 1266,
+        "bounds_min": [
+          -2.5767478942871094,
+          -0.07489343732595444,
+          -2.5282609462738037
+        ],
+        "bounds_max": [
+          2.9409992694854736,
+          16.123363494873047,
+          3.194340467453003
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 18.14314826488495,
+        "center_z": 8.023722752928734,
+        "color": {
+          "path": "impostors/forest_dead_04_color.png",
+          "bytes": 148015,
+          "sha256": "3d3d864de7f5eda3072ea7409978856adf4f4505eba3c366814930990cdc63a1"
+        },
+        "normal": {
+          "path": "impostors/forest_dead_04_normal.png",
+          "bytes": 165451,
+          "sha256": "f95bea5a4fdc961aadc77b151d4a3e0b2951c15e0282befbe4157feb0b5d41ad"
+        },
+        "canopy": {
+          "path": "impostors/forest_dead_04_canopy.png",
+          "bytes": 33475,
+          "sha256": "41971d1188ffab16387ba13d5f50b48f5f632ea0bb18f1be27fa1cc8bcd1eb51"
+        },
+        "near_sha256": "f1d80075e92c6dfe2257cbadb041cf5a560e78119301b33991fed9eaa9d4de99",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        3468,
+        1144,
+        2
+      ]
+    },
+    {
+      "id": "forest_fir_01",
+      "family": "fir",
+      "variant": 1,
+      "seed": 1691,
+      "height_m": 7.038,
+      "models": [
+        {
+          "path": "models/forest_fir_01_lod0.glb",
+          "bytes": 4306940,
+          "sha256": "4a458a3452c440fd889c5fdde327a7818f7383465d3692a7ae9b8bfe37bf1f46",
+          "lod": 0,
+          "triangles": 24146,
+          "bounds_min": [
+            -2.1128458976745605,
+            -0.028635457158088684,
+            -1.9416905641555786
+          ],
+          "bounds_max": [
+            2.1857640743255615,
+            7.108903408050537,
+            1.689143180847168
+          ]
+        },
+        {
+          "path": "models/forest_fir_01_lod1.glb",
+          "bytes": 3437872,
+          "sha256": "19f962f837ec6da87dfe3b3d4a69dc6b6839cf6a236d889ef0b942b47fe2ca4b",
+          "lod": 1,
+          "triangles": 3708,
+          "bounds_min": [
+            -2.1128458976745605,
+            -0.032251354306936264,
+            -1.9416905641555786
+          ],
+          "bounds_max": [
+            2.1857640743255615,
+            7.108903408050537,
+            1.689143180847168
+          ]
+        },
+        {
+          "path": "models/forest_fir_01_lod2.glb",
+          "bytes": 115912,
+          "sha256": "0300cc55d75836248585f76dcc35636805fcf7fab35c3a337ae9af8de3337a47",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -3.9970216751098633,
+            -0.45688778162002563,
+            -0.0
+          ],
+          "bounds_max": [
+            3.9970216751098633,
+            7.537155628204346,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_fir_01.blend",
+        "bytes": 4303358,
+        "sha256": "68c4eacdc192189cd00e675364590e3e0f6b6a19d8c4fcd8ad42309865476529"
+      },
+      "shadow": {
+        "path": "models/forest_fir_01_shadow.glb",
+        "bytes": 3336024,
+        "sha256": "eea90276638f318d9886ee99deec10a92801cb41ee9015c82ed0933ae9b25598",
+        "lod": -1,
+        "triangles": 1325,
+        "bounds_min": [
+          -2.110128402709961,
+          0.001162379514425993,
+          -1.9470205307006836
+        ],
+        "bounds_max": [
+          2.168982744216919,
+          7.129979610443115,
+          1.6713520288467407
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 7.994043529033662,
+        "center_z": 3.540133975446224,
+        "color": {
+          "path": "impostors/forest_fir_01_color.png",
+          "bytes": 747282,
+          "sha256": "6caed5d1f36ce571de054c74ca6a0974d5c06870f93bb85ed1c1f0943d642915"
+        },
+        "normal": {
+          "path": "impostors/forest_fir_01_normal.png",
+          "bytes": 964100,
+          "sha256": "a44eb4c70ef75f0ace9638ea26658053b15ee2820ed93c7af762f4d1e9308f00"
+        },
+        "canopy": {
+          "path": "impostors/forest_fir_01_canopy.png",
+          "bytes": 50313,
+          "sha256": "de5aa5c1aa8ebc4a0ce039f3d7f4677bd51f33734603e243d95de11a94ca42a0"
+        },
+        "near_sha256": "4a458a3452c440fd889c5fdde327a7818f7383465d3692a7ae9b8bfe37bf1f46",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21316,
+        5966,
+        2
+      ]
+    },
+    {
+      "id": "forest_fir_02",
+      "family": "fir",
+      "variant": 2,
+      "seed": 1764,
+      "height_m": 11.199,
+      "models": [
+        {
+          "path": "models/forest_fir_02_lod0.glb",
+          "bytes": 4385516,
+          "sha256": "d382dce8fb8ff6a5edfb36e4910b19223201c36b9ae25872197b4e6aa888d12c",
+          "lod": 0,
+          "triangles": 25818,
+          "bounds_min": [
+            -2.8590056896209717,
+            -0.05445884168148041,
+            -2.7691047191619873
+          ],
+          "bounds_max": [
+            2.7703144550323486,
+            11.311822891235352,
+            2.8605260848999023
+          ]
+        },
+        {
+          "path": "models/forest_fir_02_lod1.glb",
+          "bytes": 3453628,
+          "sha256": "07b29d951901c8d3d134a44a0ec92066e8c5d710bed5d8a87c01b98ddc552cbf",
+          "lod": 1,
+          "triangles": 3950,
+          "bounds_min": [
+            -2.8590056896209717,
+            -0.050375472754240036,
+            -2.7691047191619873
+          ],
+          "bounds_max": [
+            2.7703144550323486,
+            11.311822891235352,
+            2.8605260848999023
+          ]
+        },
+        {
+          "path": "models/forest_fir_02_lod2.glb",
+          "bytes": 105400,
+          "sha256": "053b0de6761e7a298eb60db5faf3d04dda126d36b7ff5e9b218feafbfe3a9e28",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -6.36511754989624,
+            -0.7364357709884644,
+            -0.0
+          ],
+          "bounds_max": [
+            6.36511754989624,
+            11.993800163269043,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_fir_02.blend",
+        "bytes": 4347236,
+        "sha256": "69530e6d0fa4486a1640516a42c11191ea4c7fc3615fe4a8271b0b6670c7e30d"
+      },
+      "shadow": {
+        "path": "models/forest_fir_02_shadow.glb",
+        "bytes": 3334720,
+        "sha256": "21d609549a4e672ea175f70f37564ed7cc35505bc69c6382c11838d1cb081c78",
+        "lod": -1,
+        "triangles": 1324,
+        "bounds_min": [
+          -2.9453816413879395,
+          0.0021897691767662764,
+          -2.757171869277954
+        ],
+        "bounds_max": [
+          2.7436420917510986,
+          11.26195240020752,
+          2.8913347721099854
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 12.730235540866852,
+        "center_z": 5.628682024776936,
+        "color": {
+          "path": "impostors/forest_fir_02_color.png",
+          "bytes": 711516,
+          "sha256": "4ee516537aaf856018a7107f7eda1067d172f4688e53b1abbbbc1d0aeb5b6a46"
+        },
+        "normal": {
+          "path": "impostors/forest_fir_02_normal.png",
+          "bytes": 908309,
+          "sha256": "dc452450665ec36491c0f506027120912d6069f95a6b957a5f25cb1f46697345"
+        },
+        "canopy": {
+          "path": "impostors/forest_fir_02_canopy.png",
+          "bytes": 47151,
+          "sha256": "82263dcd4f19a8cf8c1d58152a418d264ea0485ee7e336ab0412aa9a9129a799"
+        },
+        "near_sha256": "d382dce8fb8ff6a5edfb36e4910b19223201c36b9ae25872197b4e6aa888d12c",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21315,
+        5966,
+        2
+      ]
+    },
+    {
+      "id": "forest_fir_03",
+      "family": "fir",
+      "variant": 3,
+      "seed": 1837,
+      "height_m": 15.342,
+      "models": [
+        {
+          "path": "models/forest_fir_03_lod0.glb",
+          "bytes": 4493412,
+          "sha256": "1c64961419900724c633f0ac6a2d7dd8a8251aa92d8606a4682e08d43697c872",
+          "lod": 0,
+          "triangles": 28426,
+          "bounds_min": [
+            -3.578240394592285,
+            -0.07385276257991791,
+            -3.2978675365448
+          ],
+          "bounds_max": [
+            3.6465470790863037,
+            15.496561050415039,
+            3.576136827468872
+          ]
+        },
+        {
+          "path": "models/forest_fir_03_lod1.glb",
+          "bytes": 3475300,
+          "sha256": "2fd5d00bd9fd75c05955263d7d5c37bb8d55e1d19321f9baa775b2273026f699",
+          "lod": 1,
+          "triangles": 4348,
+          "bounds_min": [
+            -3.578240394592285,
+            -0.06748887896537781,
+            -3.2978675365448
+          ],
+          "bounds_max": [
+            3.6465470790863037,
+            15.496561050415039,
+            3.576136827468872
+          ]
+        },
+        {
+          "path": "models/forest_fir_03_lod2.glb",
+          "bytes": 93444,
+          "sha256": "dfbd00feb973840739f2883a674aeabb121dfde678e300240eeb44e098c7ce23",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -8.71943187713623,
+            -1.008077621459961,
+            -0.0
+          ],
+          "bounds_max": [
+            8.71943187713623,
+            16.4307861328125,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_fir_03.blend",
+        "bytes": 4429898,
+        "sha256": "5ba496a1268d64d11ffb8050f31921a67db1ad66d6d455a47e38699ac6bf53d1"
+      },
+      "shadow": {
+        "path": "models/forest_fir_03_shadow.glb",
+        "bytes": 3332616,
+        "sha256": "f5e281be96da67b7d6080c4a4726c6cc4812b22e1266c562ba4a84b2477a3223",
+        "lod": -1,
+        "triangles": 1310,
+        "bounds_min": [
+          -3.621528148651123,
+          0.008734933100640774,
+          -3.2670700550079346
+        ],
+        "bounds_max": [
+          3.7084617614746094,
+          15.393838882446289,
+          3.6762568950653076
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 17.438863470554352,
+        "center_z": 7.711354143917561,
+        "color": {
+          "path": "impostors/forest_fir_03_color.png",
+          "bytes": 616365,
+          "sha256": "3670be7f332d24745d6b129f7804622651a7fc6e322d00efb48e679e472e81c5"
+        },
+        "normal": {
+          "path": "impostors/forest_fir_03_normal.png",
+          "bytes": 798036,
+          "sha256": "ba7953df7894fd8de3b35f252ac57ad7cc625fc7b53ee57718a6f61cfc7df79a"
+        },
+        "canopy": {
+          "path": "impostors/forest_fir_03_canopy.png",
+          "bytes": 44321,
+          "sha256": "e39a79b662f180a66ba7bea30aefadb0529dc12c4d283058bcbbbf492ae5eaa1"
+        },
+        "near_sha256": "1c64961419900724c633f0ac6a2d7dd8a8251aa92d8606a4682e08d43697c872",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21316,
+        5965,
+        2
+      ]
+    },
+    {
+      "id": "forest_fir_04",
+      "family": "fir",
+      "variant": 4,
+      "seed": 1910,
+      "height_m": 20.548,
+      "models": [
+        {
+          "path": "models/forest_fir_04_lod0.glb",
+          "bytes": 4455876,
+          "sha256": "f77056fe5d69ed8ea67b7da7d5fae1bb976b6a6806be6469069fae38ae4feb64",
+          "lod": 0,
+          "triangles": 27482,
+          "bounds_min": [
+            -5.991170883178711,
+            -0.08940205723047256,
+            -6.540914535522461
+          ],
+          "bounds_max": [
+            5.721553802490234,
+            20.859481811523438,
+            6.20540189743042
+          ]
+        },
+        {
+          "path": "models/forest_fir_04_lod1.glb",
+          "bytes": 3467812,
+          "sha256": "f8b7d864e2fc491d77866bd8816d4f9dbdcaf70413d54dcf947997a94fa7c0bd",
+          "lod": 1,
+          "triangles": 4204,
+          "bounds_min": [
+            -5.991170883178711,
+            -0.09463170915842056,
+            -6.540914535522461
+          ],
+          "bounds_max": [
+            5.721553802490234,
+            20.859481811523438,
+            6.20540189743042
+          ]
+        },
+        {
+          "path": "models/forest_fir_04_lod2.glb",
+          "bytes": 123908,
+          "sha256": "5d737ba0554125c9062db0fa62c324129f9c727730c4965e1904a26be15bd86e",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -11.731374740600586,
+            -1.3463350534439087,
+            -0.0
+          ],
+          "bounds_max": [
+            11.731374740600586,
+            22.11641502380371,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_fir_04.blend",
+        "bytes": 4427910,
+        "sha256": "fc633200b5ec99f82d8cf0b55fe9e377a76ff4768ad27f9a2d07c317c80ece8f"
+      },
+      "shadow": {
+        "path": "models/forest_fir_04_shadow.glb",
+        "bytes": 3333324,
+        "sha256": "fa72a73d485e94683e3be1b38492372a93e86ddea8fc9b40f6bfcc4183dcb0ba",
+        "lod": -1,
+        "triangles": 1316,
+        "bounds_min": [
+          -6.000425815582275,
+          0.0011437400244176388,
+          -6.743910312652588
+        ],
+        "bounds_max": [
+          5.775241374969482,
+          20.562637329101562,
+          6.422872543334961
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 23.462749933004382,
+        "center_z": 10.385039877146482,
+        "color": {
+          "path": "impostors/forest_fir_04_color.png",
+          "bytes": 841206,
+          "sha256": "b290f354b6d332b0f444dba826da056296f52bea0d674d77f954a3962946c63f"
+        },
+        "normal": {
+          "path": "impostors/forest_fir_04_normal.png",
+          "bytes": 1084874,
+          "sha256": "3509430a6d3d5d6d93f35d8265921b0eb2a75e2fc3d58e863f709c5771d5154f"
+        },
+        "canopy": {
+          "path": "impostors/forest_fir_04_canopy.png",
+          "bytes": 47690,
+          "sha256": "6bc3a3f9774d86386e93537765b4863063b37a99d90a3f895a3aa8db6e7c76ef"
+        },
+        "near_sha256": "f77056fe5d69ed8ea67b7da7d5fae1bb976b6a6806be6469069fae38ae4feb64",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21172,
+        5912,
+        2
+      ]
+    },
+    {
+      "id": "forest_golden_01",
+      "family": "golden",
+      "variant": 1,
+      "seed": 1901,
+      "height_m": 8.055828094482422,
+      "models": [
+        {
+          "path": "models/forest_golden_01_lod0.glb",
+          "bytes": 2828916,
+          "sha256": "f59c4a3c968daf17f65ba2ee9288cba25256737485ad22c674271b49f8653173",
+          "lod": 0,
+          "triangles": 15538,
+          "bounds_min": [
+            -2.3263299465179443,
+            -0.037367939949035645,
+            -2.153686761856079
+          ],
+          "bounds_max": [
+            2.0823822021484375,
+            8.056126594543457,
+            2.4054551124572754
+          ]
+        },
+        {
+          "path": "models/forest_golden_01_lod1.glb",
+          "bytes": 2186164,
+          "sha256": "6d41caf288e1348d52963989f6d49de65ad497572b4a3f8cc9e0f015e7312465",
+          "lod": 1,
+          "triangles": 3490,
+          "bounds_min": [
+            -2.3073484897613525,
+            -0.034055471420288086,
+            -2.1468088626861572
+          ],
+          "bounds_max": [
+            2.1807947158813477,
+            8.056083679199219,
+            2.444681406021118
+          ]
+        },
+        {
+          "path": "models/forest_golden_01_lod2.glb",
+          "bytes": 105596,
+          "sha256": "01d758e4f3b56b0937936ce557455fa4abde77d163c371fd93061dc8e5f25be0",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -4.5323567390441895,
+            -0.5229775905609131,
+            -0.0
+          ],
+          "bounds_max": [
+            4.5323567390441895,
+            8.541736602783203,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_golden_01.blend",
+        "bytes": 2847687,
+        "sha256": "6f1a6286bc393c6103e32ce59f06050ed715ea83a7dd2f2c25683ec6eef60589"
+      },
+      "shadow": {
+        "path": "models/forest_golden_01_shadow.glb",
+        "bytes": 2101420,
+        "sha256": "0a118c309745d37d2ecc74ad9bb28cd8db682921348376195eeb86c6abfe5e5b",
+        "lod": -1,
+        "triangles": 1365,
+        "bounds_min": [
+          -2.3157765865325928,
+          0.00028855534037575126,
+          -2.1468088626861572
+        ],
+        "bounds_max": [
+          2.1807947158813477,
+          8.050507545471191,
+          2.444681406021118
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 9.064713878631594,
+        "center_z": 4.009379327297211,
+        "color": {
+          "path": "impostors/forest_golden_01_color.png",
+          "bytes": 759756,
+          "sha256": "9211b80bc60abf26558bb696dab4eb5442f79c0386191b8335df50e4725d3603"
+        },
+        "normal": {
+          "path": "impostors/forest_golden_01_normal.png",
+          "bytes": 708446,
+          "sha256": "5097fd4ea5e5e21a7784a1584e6669e1686ba4e050c6025de13ac22759088b1e"
+        },
+        "canopy": {
+          "path": "impostors/forest_golden_01_canopy.png",
+          "bytes": 31671,
+          "sha256": "098ea8d6953c26c8c410192aa8d726a602dd187462b52f1b5f7c332363ce2a70"
+        },
+        "near_sha256": "f59c4a3c968daf17f65ba2ee9288cba25256737485ad22c674271b49f8653173",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21380,
+        7329,
+        2
+      ]
+    },
+    {
+      "id": "forest_golden_02",
+      "family": "golden",
+      "variant": 2,
+      "seed": 1927,
+      "height_m": 11.18605899810791,
+      "models": [
+        {
+          "path": "models/forest_golden_02_lod0.glb",
+          "bytes": 2828912,
+          "sha256": "05c592b4455b183f11e315607d6d86edc40b05184ff671086f8c16d395e49c9b",
+          "lod": 0,
+          "triangles": 15538,
+          "bounds_min": [
+            -3.337005853652954,
+            -0.0465983971953392,
+            -3.732246160507202
+          ],
+          "bounds_max": [
+            3.681964635848999,
+            11.18624496459961,
+            3.092510938644409
+          ]
+        },
+        {
+          "path": "models/forest_golden_02_lod1.glb",
+          "bytes": 2186160,
+          "sha256": "f959a7907865dfe1578ca33d34821d7aa70a509f151c4854738d81057bccbc76",
+          "lod": 1,
+          "triangles": 3490,
+          "bounds_min": [
+            -3.2538278102874756,
+            -0.05122797563672066,
+            -3.60800838470459
+          ],
+          "bounds_max": [
+            3.8223259449005127,
+            11.186253547668457,
+            3.0994625091552734
+          ]
+        },
+        {
+          "path": "models/forest_golden_02_lod2.glb",
+          "bytes": 119196,
+          "sha256": "d77b13f51fb9a5f2ba5700d50f7e56466a6f3f64a63a90b15a363e6dc967b4cb",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -6.2903923988342285,
+            -0.7205690145492554,
+            -0.0
+          ],
+          "bounds_max": [
+            6.2903923988342285,
+            11.860215187072754,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_golden_02.blend",
+        "bytes": 2859460,
+        "sha256": "f3df1320ba7ccebd98524a24a4f2c76c933dbc4a9e334213596a859f0469ed6a"
+      },
+      "shadow": {
+        "path": "models/forest_golden_02_shadow.glb",
+        "bytes": 2101608,
+        "sha256": "c1880f4393c8099a87118113bbc9c403087824df8839885e0c9b2ef250e8e535",
+        "lod": -1,
+        "triangles": 1365,
+        "bounds_min": [
+          -3.2722084522247314,
+          0.0017692757537588477,
+          -3.5972001552581787
+        ],
+        "bounds_max": [
+          3.8223259449005127,
+          11.179061889648438,
+          3.1183295249938965
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 12.580784565210344,
+        "center_z": 5.569823283702135,
+        "color": {
+          "path": "impostors/forest_golden_02_color.png",
+          "bytes": 843785,
+          "sha256": "28711fc0902d5d90052d46fd049aa08efad3f8b13bd1c2dbefdfceb53fa4935e"
+        },
+        "normal": {
+          "path": "impostors/forest_golden_02_normal.png",
+          "bytes": 766053,
+          "sha256": "64887fd9fcb5556d48690c28c2466a00f80b4c849917563d6e8f8f13426a96b1"
+        },
+        "canopy": {
+          "path": "impostors/forest_golden_02_canopy.png",
+          "bytes": 31411,
+          "sha256": "028516b3498ebbfa2b81a85f408e8806e45838f183993bd76c00753ee0f7515b"
+        },
+        "near_sha256": "05c592b4455b183f11e315607d6d86edc40b05184ff671086f8c16d395e49c9b",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21379,
+        7328,
+        2
+      ]
+    },
+    {
+      "id": "forest_golden_03",
+      "family": "golden",
+      "variant": 3,
+      "seed": 1953,
+      "height_m": 14.103601455688477,
+      "models": [
+        {
+          "path": "models/forest_golden_03_lod0.glb",
+          "bytes": 2835680,
+          "sha256": "36d14eea01f3601839d34790cd3fc87390db387c74ab956286f11b311a6fe315",
+          "lod": 0,
+          "triangles": 15754,
+          "bounds_min": [
+            -3.1145179271698,
+            -0.06551806628704071,
+            -3.3344151973724365
+          ],
+          "bounds_max": [
+            3.5893311500549316,
+            14.10375690460205,
+            3.2384867668151855
+          ]
+        },
+        {
+          "path": "models/forest_golden_03_lod1.glb",
+          "bytes": 2187528,
+          "sha256": "43e4de16dc28219d32b8f9eb39af4ee88909d518c4e60918f51ac063b6f0aae0",
+          "lod": 1,
+          "triangles": 3526,
+          "bounds_min": [
+            -3.2341439723968506,
+            -0.05962574481964111,
+            -3.450824499130249
+          ],
+          "bounds_max": [
+            3.5443806648254395,
+            14.10378360748291,
+            3.2158637046813965
+          ]
+        },
+        {
+          "path": "models/forest_golden_03_lod2.glb",
+          "bytes": 90880,
+          "sha256": "032fab5ff04a238e988ebed3e2d0e030803888bc1cae233a9ebb5f74e97799c3",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -7.934793949127197,
+            -0.9156745672225952,
+            -0.0
+          ],
+          "bounds_max": [
+            7.934793949127197,
+            14.953913688659668,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_golden_03.blend",
+        "bytes": 2839529,
+        "sha256": "3ecac51e7dbcb44631ea6607f351197f393918b87f6f04e48fced8814ba43168"
+      },
+      "shadow": {
+        "path": "models/forest_golden_03_shadow.glb",
+        "bytes": 2101584,
+        "sha256": "9ab379ce8ae7761e03b1733aecb20b8e611b85020b998930b95e034ddca3f264",
+        "lod": -1,
+        "triangles": 1362,
+        "bounds_min": [
+          -3.2427785396575928,
+          0.000633592891972512,
+          -3.450824499130249
+        ],
+        "bounds_max": [
+          3.5443806648254395,
+          14.095048904418945,
+          3.2158637046813965
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 15.869587967395784,
+        "center_z": 7.019119419157505,
+        "color": {
+          "path": "impostors/forest_golden_03_color.png",
+          "bytes": 632340,
+          "sha256": "0b28041bdcc77ad00e59c1c8575f3c53ad8e221a67c1847b57923f75c123c8d8"
+        },
+        "normal": {
+          "path": "impostors/forest_golden_03_normal.png",
+          "bytes": 617221,
+          "sha256": "8966f3440c8555a7edbe5d34dcb697690b7391cea2928c5e60822a6ae9736ddc"
+        },
+        "canopy": {
+          "path": "impostors/forest_golden_03_canopy.png",
+          "bytes": 31313,
+          "sha256": "54b232a6ba1e44c6e4241aa3e06f1e967cd53d73e43c36c660dadf939e8917b3"
+        },
+        "near_sha256": "36d14eea01f3601839d34790cd3fc87390db387c74ab956286f11b311a6fe315",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21380,
+        7329,
+        2
+      ]
+    },
+    {
+      "id": "forest_maple_01",
+      "family": "maple",
+      "variant": 1,
+      "seed": 2111,
+      "height_m": 8.549117088317871,
+      "models": [
+        {
+          "path": "models/forest_maple_01_lod0.glb",
+          "bytes": 3446664,
+          "sha256": "70cff3a5dfd5ad2f271a8452591ee5ef7bfe758f49a92bbf77898fcdda34ef9f",
+          "lod": 0,
+          "triangles": 16490,
+          "bounds_min": [
+            -2.915632724761963,
+            -0.03271520137786865,
+            -2.5534324645996094
+          ],
+          "bounds_max": [
+            2.797189474105835,
+            8.516402244567871,
+            2.434877395629883
+          ]
+        },
+        {
+          "path": "models/forest_maple_01_lod1.glb",
+          "bytes": 2799468,
+          "sha256": "2481ff4f12fe15fe0ced5c32cc4fc8c350b3623429b551c9cbb31753b65a7e98",
+          "lod": 1,
+          "triangles": 3942,
+          "bounds_min": [
+            -2.8957533836364746,
+            -0.033439744263887405,
+            -2.513395309448242
+          ],
+          "bounds_max": [
+            2.830791473388672,
+            8.500252723693848,
+            2.3947458267211914
+          ]
+        },
+        {
+          "path": "models/forest_maple_01_lod2.glb",
+          "bytes": 132432,
+          "sha256": "fa51362dc6941e71a660b3b7d58ee51e4e08cec4a3c705044f96dda7415439b3",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -4.787505626678467,
+            -0.5456622242927551,
+            -0.0
+          ],
+          "bounds_max": [
+            4.787505626678467,
+            9.029349327087402,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_maple_01.blend",
+        "bytes": 3483368,
+        "sha256": "6cb70c6ba505d6ca9347e10fed8aa85a3568f56bf949bce7823971ffac6605e6"
+      },
+      "shadow": {
+        "path": "models/forest_maple_01_shadow.glb",
+        "bytes": 2689968,
+        "sha256": "a3089cca242695d40d81932523caf0c4799e5b940c11e207d5d829917ab0ae2e",
+        "lod": -1,
+        "triangles": 1364,
+        "bounds_min": [
+          -2.8825480937957764,
+          -0.0003079364832956344,
+          -2.513395309448242
+        ],
+        "bounds_max": [
+          2.830791473388672,
+          8.451385498046875,
+          2.388282299041748
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 9.57501153945923,
+        "center_z": 4.241843521595001,
+        "color": {
+          "path": "impostors/forest_maple_01_color.png",
+          "bytes": 938755,
+          "sha256": "63479b68e20c70634d1ad3a2cd2fa886207e8714c7b272a202d3b49a105dfec1"
+        },
+        "normal": {
+          "path": "impostors/forest_maple_01_normal.png",
+          "bytes": 938132,
+          "sha256": "521e96926e8b221835c320428ebb6f2a576edfb1964e37b86ed427c19e693abd"
+        },
+        "canopy": {
+          "path": "impostors/forest_maple_01_canopy.png",
+          "bytes": 41255,
+          "sha256": "ad76d54517b5dfbf64b16c67c1eaf62c0adb899a3d1e823b9e50bf1bcda47e45"
+        },
+        "near_sha256": "70cff3a5dfd5ad2f271a8452591ee5ef7bfe758f49a92bbf77898fcdda34ef9f",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        27530,
+        6396,
+        2
+      ]
+    },
+    {
+      "id": "forest_maple_02",
+      "family": "maple",
+      "variant": 2,
+      "seed": 2137,
+      "height_m": 11.584991455078125,
+      "models": [
+        {
+          "path": "models/forest_maple_02_lod0.glb",
+          "bytes": 3446668,
+          "sha256": "35d15591bca48e56fa6fd4e311332e1015e38e0426fbd0e018f88e9cd2f0b819",
+          "lod": 0,
+          "triangles": 16490,
+          "bounds_min": [
+            -4.534587860107422,
+            -0.05083976313471794,
+            -4.277614593505859
+          ],
+          "bounds_max": [
+            4.209016799926758,
+            11.534152030944824,
+            4.104887962341309
+          ]
+        },
+        {
+          "path": "models/forest_maple_02_lod1.glb",
+          "bytes": 2799468,
+          "sha256": "31b03d56536b2875ce2983e6db7fb5bac1a603502bd536494849ecb76c3d298a",
+          "lod": 1,
+          "triangles": 3942,
+          "bounds_min": [
+            -4.592145919799805,
+            -0.049342840909957886,
+            -4.324395656585693
+          ],
+          "bounds_max": [
+            4.223605155944824,
+            11.358677864074707,
+            4.030352592468262
+          ]
+        },
+        {
+          "path": "models/forest_maple_02_lod2.glb",
+          "bytes": 155172,
+          "sha256": "886e7e5060233bd314546e34b56d5b511ab45b9c349bbc3962fdb9661f0828f9",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -6.487595558166504,
+            -0.7459392547607422,
+            -0.0
+          ],
+          "bounds_max": [
+            6.487595558166504,
+            12.229251861572266,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_maple_02.blend",
+        "bytes": 3508117,
+        "sha256": "eead07d6cc5803373eb2a7ff0f1360bff22d3a5cd3405d551c9fe3b62893d46e"
+      },
+      "shadow": {
+        "path": "models/forest_maple_02_shadow.glb",
+        "bytes": 2690020,
+        "sha256": "1d2732cc34c22f455fd20eec0bbd413c9d88fc772dcaf167f556dbe701755b81",
+        "lod": -1,
+        "triangles": 1364,
+        "bounds_min": [
+          -4.572071075439453,
+          0.00036697048926725984,
+          -4.324395656585693
+        ],
+        "bounds_max": [
+          4.223605155944824,
+          11.315053939819336,
+          4.030352592468262
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 12.975190809369089,
+        "center_z": 5.741656133905053,
+        "color": {
+          "path": "impostors/forest_maple_02_color.png",
+          "bytes": 1066645,
+          "sha256": "1a81b4a28c9d43a31dbc4289e643e82e1c8fc3503d89b10c5d1449d65acb8366"
+        },
+        "normal": {
+          "path": "impostors/forest_maple_02_normal.png",
+          "bytes": 1042370,
+          "sha256": "3c9c080363f24211e48c76a56ff5c072b68ea261581b8c77bc115b887eabe5c6"
+        },
+        "canopy": {
+          "path": "impostors/forest_maple_02_canopy.png",
+          "bytes": 41781,
+          "sha256": "eb54c3d431fbaaa39167ac29e890ca28e4386a5235fa056a61d6b6b3e3e1812a"
+        },
+        "near_sha256": "35d15591bca48e56fa6fd4e311332e1015e38e0426fbd0e018f88e9cd2f0b819",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        28360,
+        7226,
+        2
+      ]
+    },
+    {
+      "id": "forest_maple_03",
+      "family": "maple",
+      "variant": 3,
+      "seed": 2163,
+      "height_m": 13.42762565612793,
+      "models": [
+        {
+          "path": "models/forest_maple_03_lod0.glb",
+          "bytes": 3439900,
+          "sha256": "55a4d09d579af64beecf56b5e62e9eb007fa8097e152625896a9b7535859cb41",
+          "lod": 0,
+          "triangles": 16274,
+          "bounds_min": [
+            -3.1294379234313965,
+            -0.05822654813528061,
+            -3.845486879348755
+          ],
+          "bounds_max": [
+            4.483213901519775,
+            13.369399070739746,
+            3.5832955837249756
+          ]
+        },
+        {
+          "path": "models/forest_maple_03_lod1.glb",
+          "bytes": 2798100,
+          "sha256": "1e72a03c7f7d36602e8314fc00bd27c91495d9a6f51246aef788a9e2d0267d40",
+          "lod": 1,
+          "triangles": 3906,
+          "bounds_min": [
+            -3.22408390045166,
+            -0.05299966782331467,
+            -3.618741512298584
+          ],
+          "bounds_max": [
+            4.657151222229004,
+            13.301604270935059,
+            3.4595582485198975
+          ]
+        },
+        {
+          "path": "models/forest_maple_03_lod2.glb",
+          "bytes": 115544,
+          "sha256": "4127f47cda39332aaa8ccfcca02dccf2b379bead5b4079812a4e59d8e6536b15",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -7.51947021484375,
+            -0.8638840913772583,
+            -0.0
+          ],
+          "bounds_max": [
+            7.51947021484375,
+            14.175056457519531,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_maple_03.blend",
+        "bytes": 3453395,
+        "sha256": "accfa9ff594cd3909e0b5f57d546b45ea824301b0f040778171b356116092570"
+      },
+      "shadow": {
+        "path": "models/forest_maple_03_shadow.glb",
+        "bytes": 2690280,
+        "sha256": "5126247e946b5089e3d8cecfa27f9802cb6d4bd6a98471ab589c10a8781dc264",
+        "lod": -1,
+        "triangles": 1367,
+        "bounds_min": [
+          -3.2126243114471436,
+          0.0005482546985149384,
+          -3.618741512298584
+        ],
+        "bounds_max": [
+          4.657151222229004,
+          13.235928535461426,
+          3.4595582485198975
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 15.038940693140031,
+        "center_z": 6.655586261302233,
+        "color": {
+          "path": "impostors/forest_maple_03_color.png",
+          "bytes": 801469,
+          "sha256": "389e4bba7c05769c7bef9498382346c08490f8fa937827c6b71880879033e204"
+        },
+        "normal": {
+          "path": "impostors/forest_maple_03_normal.png",
+          "bytes": 808025,
+          "sha256": "6484e0abd4b5df2573d7a2af31c3b52bf3a99e771c80d9ae4e3e646eba1c9f6d"
+        },
+        "canopy": {
+          "path": "impostors/forest_maple_03_canopy.png",
+          "bytes": 40510,
+          "sha256": "afef88293638fc4479e447a674a62bd09bb1c4c88149b8285a84f86d6f28f8e5"
+        },
+        "near_sha256": "55a4d09d579af64beecf56b5e62e9eb007fa8097e152625896a9b7535859cb41",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        28940,
+        7806,
+        2
+      ]
+    },
+    {
+      "id": "forest_pine_01",
+      "family": "pine",
+      "variant": 1,
+      "seed": 2002,
+      "height_m": 6.138,
+      "models": [
+        {
+          "path": "models/forest_pine_01_lod0.glb",
+          "bytes": 3848252,
+          "sha256": "37aa7c776ae60a01779d2c245f35693a5b1b653acd0b2d903ff1b4237e10c589",
+          "lod": 0,
+          "triangles": 14102,
+          "bounds_min": [
+            -2.0696263313293457,
+            -0.028173789381980896,
+            -2.311218738555908
+          ],
+          "bounds_max": [
+            2.043405532836914,
+            6.351835250854492,
+            2.1445209980010986
+          ]
+        },
+        {
+          "path": "models/forest_pine_01_lod1.glb",
+          "bytes": 3362528,
+          "sha256": "77cda0fb4becc8b4df6b03297fd9f46cf4b70b017ff95825614804db4b075716",
+          "lod": 1,
+          "triangles": 2576,
+          "bounds_min": [
+            -2.0696263313293457,
+            -0.025917768478393555,
+            -2.311218738555908
+          ],
+          "bounds_max": [
+            2.043405532836914,
+            6.34364652633667,
+            2.1445209980010986
+          ]
+        },
+        {
+          "path": "models/forest_pine_01_lod2.glb",
+          "bytes": 102732,
+          "sha256": "b66b192c7f27f724160e389741630b7a998631cec096d02c839c7962b8cfb844",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -3.572805166244507,
+            -0.41097432374954224,
+            -0.0
+          ],
+          "bounds_max": [
+            3.572805166244507,
+            6.734635829925537,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_pine_01.blend",
+        "bytes": 3939176,
+        "sha256": "362a8bf899180c545d979af04493ac0d1f1eeb42ecac1f3521741155b4cce982"
+      },
+      "shadow": {
+        "path": "models/forest_pine_01_shadow.glb",
+        "bytes": 3317400,
+        "sha256": "bbcbbd0c8b294d8963d2699307958c19b3865702d1e1fda29b77138bcc3c482d",
+        "lod": -1,
+        "triangles": 1350,
+        "bounds_min": [
+          -2.0653507709503174,
+          -0.00010055047459900379,
+          -2.2873189449310303
+        ],
+        "bounds_max": [
+          2.043405532836914,
+          6.355135440826416,
+          2.1445209980010986
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 7.1456101250648505,
+        "center_z": 3.1618307307362556,
+        "color": {
+          "path": "impostors/forest_pine_01_color.png",
+          "bytes": 668164,
+          "sha256": "a365bea6feedf12e57058bf9e184417e9119a9f6fdcabd2d2a7bc0265d6c762e"
+        },
+        "normal": {
+          "path": "impostors/forest_pine_01_normal.png",
+          "bytes": 864960,
+          "sha256": "ff3650338241831741f366e20d1edc153d406d9d362fb29719eaa6c323aa307e"
+        },
+        "canopy": {
+          "path": "impostors/forest_pine_01_canopy.png",
+          "bytes": 42887,
+          "sha256": "4cc797b277d21a1ea24b55d0b928af9386327148a483f7be3831d17e1364401f"
+        },
+        "near_sha256": "37aa7c776ae60a01779d2c245f35693a5b1b653acd0b2d903ff1b4237e10c589",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21315,
+        5966,
+        2
+      ]
+    },
+    {
+      "id": "forest_pine_02",
+      "family": "pine",
+      "variant": 2,
+      "seed": 2075,
+      "height_m": 10.09,
+      "models": [
+        {
+          "path": "models/forest_pine_02_lod0.glb",
+          "bytes": 3843732,
+          "sha256": "2c7a560ae9cc583a9aabf8762ccfe3c3f3882d3ea7c58d026690ebbeeed737e0",
+          "lod": 0,
+          "triangles": 13958,
+          "bounds_min": [
+            -4.125665187835693,
+            -0.0461314357817173,
+            -3.9816102981567383
+          ],
+          "bounds_max": [
+            4.2743425369262695,
+            10.584307670593262,
+            4.3171067237854
+          ]
+        },
+        {
+          "path": "models/forest_pine_02_lod1.glb",
+          "bytes": 3361616,
+          "sha256": "817cb41d5ca89ce1d96df36375edb6745281c7af0bac4cbd3f318a36657515ed",
+          "lod": 1,
+          "triangles": 2552,
+          "bounds_min": [
+            -4.125665187835693,
+            -0.04257510229945183,
+            -3.9816102981567383
+          ],
+          "bounds_max": [
+            4.2743425369262695,
+            10.584307670593262,
+            4.3171067237854
+          ]
+        },
+        {
+          "path": "models/forest_pine_02_lod2.glb",
+          "bytes": 116816,
+          "sha256": "a14cecb7a0dcaf108a3584167c3171a0ae9781ee62620698c3cfaf47ed9efa6c",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -5.953045845031738,
+            -0.6839577555656433,
+            -0.0
+          ],
+          "bounds_max": [
+            5.953045845031738,
+            11.22213363647461,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_pine_02.blend",
+        "bytes": 3947977,
+        "sha256": "004b60f116833c7e9712f902513bc3ec90b04cc4be73ef322c30aee576087c06"
+      },
+      "shadow": {
+        "path": "models/forest_pine_02_shadow.glb",
+        "bytes": 3316680,
+        "sha256": "e43096ae64445e324af0eab0e3ccca768a9b61d42984bd30992bcfd0174f81c5",
+        "lod": -1,
+        "triangles": 1351,
+        "bounds_min": [
+          -4.090761184692383,
+          -0.00031185810803435743,
+          -3.9605445861816406
+        ],
+        "bounds_max": [
+          4.278735637664795,
+          10.584307670593262,
+          4.3171067237854
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 11.906091799139977,
+        "center_z": 5.269088117405772,
+        "color": {
+          "path": "impostors/forest_pine_02_color.png",
+          "bytes": 767806,
+          "sha256": "1ea91da1196dbb6bf9182ba49455d8f392d61a90f845190d508db629cc60240c"
+        },
+        "normal": {
+          "path": "impostors/forest_pine_02_normal.png",
+          "bytes": 989811,
+          "sha256": "8ff1aff608327cc97632f99aba20b2df0a2fe92b38bd80129e71252331be19e2"
+        },
+        "canopy": {
+          "path": "impostors/forest_pine_02_canopy.png",
+          "bytes": 42089,
+          "sha256": "9a31015d3269b66baf333b58b72b60ee0e01ec71960f89a461e9e3610acb1435"
+        },
+        "near_sha256": "2c7a560ae9cc583a9aabf8762ccfe3c3f3882d3ea7c58d026690ebbeeed737e0",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21315,
+        5965,
+        2
+      ]
+    },
+    {
+      "id": "forest_pine_03",
+      "family": "pine",
+      "variant": 3,
+      "seed": 2148,
+      "height_m": 13.087,
+      "models": [
+        {
+          "path": "models/forest_pine_03_lod0.glb",
+          "bytes": 3852768,
+          "sha256": "50740e4d7a42bd44d6241c92c1351cc30c2365682c7cc413d40bb9379a9a5006",
+          "lod": 0,
+          "triangles": 14246,
+          "bounds_min": [
+            -3.26781964302063,
+            -0.06362207978963852,
+            -4.617696285247803
+          ],
+          "bounds_max": [
+            3.936713695526123,
+            13.335301399230957,
+            3.8781042098999023
+          ]
+        },
+        {
+          "path": "models/forest_pine_03_lod1.glb",
+          "bytes": 3363440,
+          "sha256": "22a7ca8f6138c134b2339cb2759256bf2f3fa73e58f81adde11cc52e39a2b5ff",
+          "lod": 1,
+          "triangles": 2600,
+          "bounds_min": [
+            -3.26781964302063,
+            -0.05888476222753525,
+            -4.617696285247803
+          ],
+          "bounds_max": [
+            3.936713695526123,
+            13.17890453338623,
+            3.8781042098999023
+          ]
+        },
+        {
+          "path": "models/forest_pine_03_lod2.glb",
+          "bytes": 89840,
+          "sha256": "f4e2d3b210f14a3f45885870b104126e7a4ebf8b5fb1b40ce96625bf8c3e928f",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -7.503396987915039,
+            -0.8675574660301208,
+            -0.0
+          ],
+          "bounds_max": [
+            7.503396987915039,
+            14.139236450195312,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_pine_03.blend",
+        "bytes": 3933386,
+        "sha256": "e99f09582edec40631330c65aa9c591e5aea34617bdc1c8ce513426ec6b1f4cb"
+      },
+      "shadow": {
+        "path": "models/forest_pine_03_shadow.glb",
+        "bytes": 3317468,
+        "sha256": "5657c6dc376a91bcf54bef04b7b5b291704116375ea4018956aed29f846474b6",
+        "lod": -1,
+        "triangles": 1347,
+        "bounds_min": [
+          -3.26781964302063,
+          0.0024950311053544283,
+          -4.617696285247803
+        ],
+        "bounds_max": [
+          3.924989938735962,
+          13.17890453338623,
+          3.8814330101013184
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 15.006794296503069,
+        "center_z": 6.635839659720659,
+        "color": {
+          "path": "impostors/forest_pine_03_color.png",
+          "bytes": 589115,
+          "sha256": "d2a717fb1861e815c0edf80ea14681efe63e8500bdb997d176d098bb1ecd2ac3"
+        },
+        "normal": {
+          "path": "impostors/forest_pine_03_normal.png",
+          "bytes": 766301,
+          "sha256": "ad88b66a292d931dc8795b01978193deb953f647d584143567bb018c76edcb31"
+        },
+        "canopy": {
+          "path": "impostors/forest_pine_03_canopy.png",
+          "bytes": 42387,
+          "sha256": "9be13c70ce70aeb6f6d393f66c1c0d04450fef7f0c6980ef80e9ccb9a93e80ad"
+        },
+        "near_sha256": "50740e4d7a42bd44d6241c92c1351cc30c2365682c7cc413d40bb9379a9a5006",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21316,
+        5965,
+        2
+      ]
+    },
+    {
+      "id": "forest_pine_04",
+      "family": "pine",
+      "variant": 4,
+      "seed": 2221,
+      "height_m": 16.401,
+      "models": [
+        {
+          "path": "models/forest_pine_04_lod0.glb",
+          "bytes": 3843732,
+          "sha256": "58302dfa869971148fdbacdf46b53d94dce082d8b7d8dd658e43ddce2c116a37",
+          "lod": 0,
+          "triangles": 13958,
+          "bounds_min": [
+            -5.544508457183838,
+            -0.0690368041396141,
+            -7.040605545043945
+          ],
+          "bounds_max": [
+            5.657602310180664,
+            17.12985610961914,
+            5.868359088897705
+          ]
+        },
+        {
+          "path": "models/forest_pine_04_lod1.glb",
+          "bytes": 3361612,
+          "sha256": "8db2ed8cf046e0553ad5d1bb74e8df23705bfe9ddb33cf8c911b6fb87451c06b",
+          "lod": 1,
+          "triangles": 2552,
+          "bounds_min": [
+            -5.482278823852539,
+            -0.07084257155656815,
+            -7.040605545043945
+          ],
+          "bounds_max": [
+            5.657602310180664,
+            17.12985610961914,
+            5.868359088897705
+          ]
+        },
+        {
+          "path": "models/forest_pine_04_lod2.glb",
+          "bytes": 108256,
+          "sha256": "dd3a91508109161d9e1e0b31ec00cd8a8041d185f03490406ded0f5ae56815ae",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -9.631380081176758,
+            -1.1009703874588013,
+            -0.0
+          ],
+          "bounds_max": [
+            9.631380081176758,
+            18.161788940429688,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_pine_04.blend",
+        "bytes": 3939890,
+        "sha256": "bf32730307b63ee9dc6fba0b30d06ab3c93a093bd08b3d9d1254851ff217cbd1"
+      },
+      "shadow": {
+        "path": "models/forest_pine_04_shadow.glb",
+        "bytes": 3316720,
+        "sha256": "04aed77ae07768dc5120f3e9f49035948571366ddf0858dc63be502653b3bdca",
+        "lod": -1,
+        "triangles": 1351,
+        "bounds_min": [
+          -5.429405212402344,
+          -0.0006451386143453419,
+          -7.000781536102295
+        ],
+        "bounds_max": [
+          5.601056098937988,
+          17.12985610961914,
+          5.816786289215088
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 19.262760063409807,
+        "center_z": 8.530409652739763,
+        "color": {
+          "path": "impostors/forest_pine_04_color.png",
+          "bytes": 708931,
+          "sha256": "5daeafb1c57bcdd82a4266938585c36fe6f8b74d55c22356c4cd12a10d70922e"
+        },
+        "normal": {
+          "path": "impostors/forest_pine_04_normal.png",
+          "bytes": 918199,
+          "sha256": "5176f655899d9897fb12609957fa185222efd903ca89b38d3634cfc2cbf1df4e"
+        },
+        "canopy": {
+          "path": "impostors/forest_pine_04_canopy.png",
+          "bytes": 42743,
+          "sha256": "e15e31d674872105617dc21f64fb85e4b09709004b367836ca88760ebcd1f0a0"
+        },
+        "near_sha256": "58302dfa869971148fdbacdf46b53d94dce082d8b7d8dd658e43ddce2c116a37",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21315,
+        5965,
+        2
+      ]
+    },
+    {
+      "id": "forest_spruce_01",
+      "family": "spruce",
+      "variant": 1,
+      "seed": 1380,
+      "height_m": 6.038,
+      "models": [
+        {
+          "path": "models/forest_spruce_01_lod0.glb",
+          "bytes": 4288896,
+          "sha256": "0764f68e529c92cbe8570d9a17142225f2810ca7682627e69d07bced22ad8030",
+          "lod": 0,
+          "triangles": 23570,
+          "bounds_min": [
+            -1.6224524974822998,
+            -0.02498152107000351,
+            -1.8986297845840454
+          ],
+          "bounds_max": [
+            1.8051847219467163,
+            6.099480152130127,
+            1.5631033182144165
+          ]
+        },
+        {
+          "path": "models/forest_spruce_01_lod1.glb",
+          "bytes": 3434228,
+          "sha256": "06f3243a4eb9f5c5ba4ce42b3cce0bf36934472e25a8eb0406277771e456f628",
+          "lod": 1,
+          "triangles": 3612,
+          "bounds_min": [
+            -1.6224524974822998,
+            -0.02759324572980404,
+            -1.8986297845840454
+          ],
+          "bounds_max": [
+            1.8051847219467163,
+            6.09882926940918,
+            1.5631033182144165
+          ]
+        },
+        {
+          "path": "models/forest_spruce_01_lod2.glb",
+          "bytes": 119856,
+          "sha256": "0f85c0d213fd87a4f59059c2405075dde47284fb7a83b9ee1d9e8dc4abd1a55b",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -3.4296984672546387,
+            -0.3924492299556732,
+            -0.0
+          ],
+          "bounds_max": [
+            3.4296984672546387,
+            6.46694803237915,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_spruce_01.blend",
+        "bytes": 4278361,
+        "sha256": "c310256c1705a219e4faa5c1e27e2b7c0217cea53bcbe05f4a22e7c17254fece"
+      },
+      "shadow": {
+        "path": "models/forest_spruce_01_shadow.glb",
+        "bytes": 3336076,
+        "sha256": "6de27e9142c905c5874bfbdaee736fea84b8b7b3e771056e4d2c181454f6da4f",
+        "lod": -1,
+        "triangles": 1333,
+        "bounds_min": [
+          -1.6307893991470337,
+          0.000968370761256665,
+          -1.9387290477752686
+        ],
+        "bounds_max": [
+          1.7908118963241577,
+          6.088263988494873,
+          1.5467615127563477
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 6.859397073984146,
+        "center_z": 3.0372493155300617,
+        "color": {
+          "path": "impostors/forest_spruce_01_color.png",
+          "bytes": 797118,
+          "sha256": "ffd5d629e4071ff0e52450d9de82cb125986a8dd13fa6d3f7673bd9776968a5a"
+        },
+        "normal": {
+          "path": "impostors/forest_spruce_01_normal.png",
+          "bytes": 1001600,
+          "sha256": "19edfe2b906ac24b58a3835b916c16e0074f1b8bece1f9ae280c22c75b666696"
+        },
+        "canopy": {
+          "path": "impostors/forest_spruce_01_canopy.png",
+          "bytes": 55666,
+          "sha256": "b0eb43099303009901c74c8d4e5686fd6ab32327243155c00a5cb5b209e5e352"
+        },
+        "near_sha256": "0764f68e529c92cbe8570d9a17142225f2810ca7682627e69d07bced22ad8030",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21316,
+        5965,
+        2
+      ]
+    },
+    {
+      "id": "forest_spruce_02",
+      "family": "spruce",
+      "variant": 2,
+      "seed": 1453,
+      "height_m": 10.567,
+      "models": [
+        {
+          "path": "models/forest_spruce_02_lod0.glb",
+          "bytes": 4362960,
+          "sha256": "5d53e6fb076235cae7b0c99441512f117160f75a9da970594f26f3e042b9de20",
+          "lod": 0,
+          "triangles": 25098,
+          "bounds_min": [
+            -3.152507781982422,
+            -0.05138205364346504,
+            -2.7077279090881348
+          ],
+          "bounds_max": [
+            2.802311658859253,
+            10.696684837341309,
+            2.8625833988189697
+          ]
+        },
+        {
+          "path": "models/forest_spruce_02_lod1.glb",
+          "bytes": 3449068,
+          "sha256": "0240c02a78bdad771344738147ecc0daf44b4f4b2cbca9941196029ef165df1d",
+          "lod": 1,
+          "triangles": 3830,
+          "bounds_min": [
+            -3.152507781982422,
+            -0.047425393015146255,
+            -2.7077279090881348
+          ],
+          "bounds_max": [
+            2.802311658859253,
+            10.673456192016602,
+            2.8625833988189697
+          ]
+        },
+        {
+          "path": "models/forest_spruce_02_lod2.glb",
+          "bytes": 110432,
+          "sha256": "d31c28f09b30d95411e03a2ef8c49826faa4688ccd4dc69c092e8be0b3b80426",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -6.018917560577393,
+            -0.6962660551071167,
+            -0.0
+          ],
+          "bounds_max": [
+            6.018917560577393,
+            11.341568946838379,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_spruce_02.blend",
+        "bytes": 4339088,
+        "sha256": "ca98ffb407bead93d8e4521f413f6df7a381e602156694ea3309b52f1d4c20e1"
+      },
+      "shadow": {
+        "path": "models/forest_spruce_02_shadow.glb",
+        "bytes": 3335260,
+        "sha256": "ca12ade1b3c4c35f81c95a8893ec1b11076b7b87e7bbf8708d6499f02cfffba8",
+        "lod": -1,
+        "triangles": 1334,
+        "bounds_min": [
+          -3.233948230743408,
+          0.0023218838032335043,
+          -2.687096118927002
+        ],
+        "bounds_max": [
+          2.7693285942077637,
+          10.626399040222168,
+          2.955660820007324
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 12.037834917902948,
+        "center_z": 5.322651391848922,
+        "color": {
+          "path": "impostors/forest_spruce_02_color.png",
+          "bytes": 735548,
+          "sha256": "28ac34a66a3a1dd0c50d6367f5b64553297b83b3589f6cfe3e64b2eeee6ad5c9"
+        },
+        "normal": {
+          "path": "impostors/forest_spruce_02_normal.png",
+          "bytes": 928438,
+          "sha256": "85710c33e760fdd807293c2367efd4179681494e667c6a96105685334a330112"
+        },
+        "canopy": {
+          "path": "impostors/forest_spruce_02_canopy.png",
+          "bytes": 52551,
+          "sha256": "c3f8039bc66e636834d0df72b21160d98bcb1ea00ba21b90d1018b5993a64ef8"
+        },
+        "near_sha256": "5d53e6fb076235cae7b0c99441512f117160f75a9da970594f26f3e042b9de20",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21315,
+        5965,
+        2
+      ]
+    },
+    {
+      "id": "forest_spruce_03",
+      "family": "spruce",
+      "variant": 3,
+      "seed": 1526,
+      "height_m": 14.186,
+      "models": [
+        {
+          "path": "models/forest_spruce_03_lod0.glb",
+          "bytes": 4448304,
+          "sha256": "e2d2491da2d340ce415a387d557ee5d8cd93931a2c452f0765f41d8e51e9d9b4",
+          "lod": 0,
+          "triangles": 26986,
+          "bounds_min": [
+            -3.2381417751312256,
+            -0.06957491487264633,
+            -3.2810256481170654
+          ],
+          "bounds_max": [
+            3.1323254108428955,
+            14.346090316772461,
+            3.2266130447387695
+          ]
+        },
+        {
+          "path": "models/forest_spruce_03_lod1.glb",
+          "bytes": 3466192,
+          "sha256": "8a24c223ed845c4577bf2c1fb4af9632cbea8a5a357b02e8f45f13f83d9aca96",
+          "lod": 1,
+          "triangles": 4108,
+          "bounds_min": [
+            -3.2381417751312256,
+            -0.0667475163936615,
+            -3.2810256481170654
+          ],
+          "bounds_max": [
+            3.1323254108428955,
+            14.3289155960083,
+            3.2266130447387695
+          ]
+        },
+        {
+          "path": "models/forest_spruce_03_lod2.glb",
+          "bytes": 91880,
+          "sha256": "be44d14294f84cc15b3c883eab013810b3fe738fba3bbf69effec340008265f3",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -8.072772979736328,
+            -0.9345148205757141,
+            -0.0
+          ],
+          "bounds_max": [
+            8.072772979736328,
+            15.211030006408691,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_spruce_03.blend",
+        "bytes": 4384779,
+        "sha256": "a06c1ac1dd9835c5136b181b174bac417e893952612777d60b88e200021094de"
+      },
+      "shadow": {
+        "path": "models/forest_spruce_03_shadow.glb",
+        "bytes": 3333892,
+        "sha256": "d73eb1465945b9f05646ee674096272721096aeca29543069859eceefec34a9b",
+        "lod": -1,
+        "triangles": 1330,
+        "bounds_min": [
+          -3.2077808380126953,
+          0.002463056705892086,
+          -3.324162483215332
+        ],
+        "bounds_max": [
+          3.266587018966675,
+          14.265743255615234,
+          3.2066547870635986
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 16.145545059442522,
+        "center_z": 7.138257700949907,
+        "color": {
+          "path": "impostors/forest_spruce_03_color.png",
+          "bytes": 607934,
+          "sha256": "ee4f08ea54137f2c4c4cbc63a709958b7424193e7d1ef6a59d90ebe49897dece"
+        },
+        "normal": {
+          "path": "impostors/forest_spruce_03_normal.png",
+          "bytes": 773605,
+          "sha256": "575c537414368295c25b8c862debd40e95d371c00637695f63a12b9c50639f6a"
+        },
+        "canopy": {
+          "path": "impostors/forest_spruce_03_canopy.png",
+          "bytes": 49241,
+          "sha256": "ae313b9fbf0de15fb11031789b6a7a4f43830e33ba5dc399d494eda69ab8156c"
+        },
+        "near_sha256": "e2d2491da2d340ce415a387d557ee5d8cd93931a2c452f0765f41d8e51e9d9b4",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21315,
+        5966,
+        2
+      ]
+    },
+    {
+      "id": "forest_spruce_04",
+      "family": "spruce",
+      "variant": 4,
+      "seed": 1599,
+      "height_m": 18.477,
+      "models": [
+        {
+          "path": "models/forest_spruce_04_lod0.glb",
+          "bytes": 4413020,
+          "sha256": "64b0318c2bde607b82c1d845d4081b4334472dafc934d6b7067c69a6a1ebcf70",
+          "lod": 0,
+          "triangles": 26114,
+          "bounds_min": [
+            -5.578707218170166,
+            -0.08143734186887741,
+            -5.488351345062256
+          ],
+          "bounds_max": [
+            5.629676342010498,
+            18.67941665649414,
+            5.636257648468018
+          ]
+        },
+        {
+          "path": "models/forest_spruce_04_lod1.glb",
+          "bytes": 3459160,
+          "sha256": "7de252d8fa545598f0c4572f68710e0c87daae1a17f5759d3a8a9551d170ed15",
+          "lod": 1,
+          "triangles": 3976,
+          "bounds_min": [
+            -5.578707218170166,
+            -0.07655622065067291,
+            -5.488351345062256
+          ],
+          "bounds_max": [
+            5.629676342010498,
+            18.663145065307617,
+            5.636257648468018
+          ]
+        },
+        {
+          "path": "models/forest_spruce_04_lod2.glb",
+          "bytes": 130744,
+          "sha256": "336bcda83fe7f25fb64f89864b8de541a6a4c2d37f5ab93ad3dd7c4fad295609",
+          "lod": 2,
+          "triangles": 2,
+          "bounds_min": [
+            -10.506077766418457,
+            -1.207088589668274,
+            -0.0
+          ],
+          "bounds_max": [
+            10.506077766418457,
+            19.80506706237793,
+            -0.0
+          ]
+        }
+      ],
+      "source_blend": {
+        "path": "blends/forest_spruce_04.blend",
+        "bytes": 4401176,
+        "sha256": "a4b6dcc583da6d669d72fec07c0f10821d89e88f8be033b111c258b2ed6cebbe"
+      },
+      "shadow": {
+        "path": "models/forest_spruce_04_shadow.glb",
+        "bytes": 3334352,
+        "sha256": "c009409bcf8d2b52027b7166922c5a40e184c3f2cf5f2f488662b83bb399dd47",
+        "lod": -1,
+        "triangles": 1335,
+        "bounds_min": [
+          -5.8228631019592285,
+          -0.0006520366296172142,
+          -5.535775661468506
+        ],
+        "bounds_max": [
+          5.591208457946777,
+          18.7401180267334,
+          5.658689498901367
+        ]
+      },
+      "impostor": {
+        "views": 8,
+        "tile_size": 512,
+        "ortho_scale": 21.01215647816658,
+        "center_z": 9.298989657312632,
+        "color": {
+          "path": "impostors/forest_spruce_04_color.png",
+          "bytes": 886008,
+          "sha256": "ec651f8a1cd797ec2d46936bd5a258f36ef2316e7c9a825877f7a1f712050599"
+        },
+        "normal": {
+          "path": "impostors/forest_spruce_04_normal.png",
+          "bytes": 1118741,
+          "sha256": "aa4bf4acd19da5819d05d2cd7ae96425f35cea0d8265c41b96f6f2d077708570"
+        },
+        "canopy": {
+          "path": "impostors/forest_spruce_04_canopy.png",
+          "bytes": 52300,
+          "sha256": "4cca9cc5a0cbc37c8fe37938a8dd35f9ce2c993ae94248a59e5ff0ff9cec5779"
+        },
+        "near_sha256": "64b0318c2bde607b82c1d845d4081b4334472dafc934d6b7067c69a6a1ebcf70",
+        "portable_preview": "The GLB embeds azimuth zero; far.gdshader previews all eight views with directional normals."
+      },
+      "baseline_triangles": [
+        21316,
+        5965,
+        2
+      ]
+    }
+  ],
+  "status": "prepared; not installed in the live forest",
+  "authorship": "Original deterministic branch and crown recipes; existing bark derivative retained",
+  "coordinate_system": "GLB Y up; Blender Z up; metres",
+  "blender": "5.2.1 LTS",
+  "input_hashes": {
+    "assets/graphics/trees/manifest.json": "96c594e1e923f9be1195c62859a03e232fd1a78c9f72d8c86e2f5121ebeeea39",
+    "assets/graphics/textures/bark_albedo_low.jpg": "5caf209551c4cd6e4da35cb835aa4317265d4fa1d5e6e69587f5d501f2b09a94",
+    "assets/graphics/trees/textures/foliage_color.png": "34417f6878c01dec4bbcc6d8df42c7e16618c92d4b5478acf82fc240d13b57de",
+    "assets/graphics/trees/textures/foliage_normal_ao.png": "0e69c26bac29afb6f7c2d37791bf5221c9a810084219cbc7b5dd073fcdf4a5b0",
+    "art_source/trees/colorful_v1/textures/leaf_albedo.png": "2316c289005643237b473c70375f663a480a4c9f20d4fbf42798f71edd8c9204",
+    "art_source/trees/colorful_v1/textures/leaf_normal.png": "25b524217fea12f305ab4ee194f33c42e988cc1026ba54e9960bc7c681161513",
+    "scripts/world/packed_trees.gd": "71c357c1bedeb5d23170175759ffee1b38589aefea2c38f4a172b65600b896cf",
+    "scripts/presentation/forest_placement.gd": "fb77da4243855ccf50b1e1eb22481b5106d0f482625a426257ad0f74cb82feae",
+    "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+    "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8"
+  },
+  "authoring_hashes": {
+    "geometry.py": "4e8fe34603f326826ba3c9c56ca85d61c1bd4cadd7e1fec76f3714e030adc7c7",
+    "build.py": "3953f1c2c115fab37d0fbfb9e7405bff6d3027b1b9fa568fd1883abae324c21b"
+  },
+  "review_producer_hashes": {
+    "review.gd": "c7628cbdf2e3dc074af5a7809343792fdc2572dfe346a9f13435b2a07c463810",
+    "far.gdshader": "6f5d4ee97cd0d043b7fc04275acb5d496981c3dc1aa560a7192972e5aeefabda"
+  }
+}
