@@ -398,10 +398,9 @@ effects, audio or local frame cost.
 - Start near the relevant feature using a supported test launch/fixture, or reuse
   a matching short recording. During measurement, use ordinary inputs and the
   unchanged solver. Do not teleport through a route to claim descent performance.
-- One sample is enough for an initial diagnostic. For a performance comparison,
-  use three independently warmed repetitions of the same bounded scenario before
-  and after, with matched identities/settings and the performance method below.
-  Repeat only for changed code, failures, noise or an unresolved question.
+- One sample is enough for an initial diagnostic and candidate screening against
+  a saved matching baseline. Follow the experiment budget below; repeated
+  before/after runs are not the default.
 - Going beyond **60 seconds of measured riding per sample**, or choosing a full
   descent, requires a recorded coverage reason before launch. Valid reasons
   include finish/record/replay completion, an issue that appears only after
@@ -447,16 +446,59 @@ Paths in this table are under `tests/` unless noted.
 
 Fixtures stay unranked and use disposable preferences/records. Generated evidence
 belongs in ignored `artifacts/`, not personal bests. Source snapshots, actual
-commands, hashes, coverage and missing evidence accompany new claims. Historical
+commands, versions/settings, coverage and missing evidence accompany new claims. Historical
 missing output must be regenerated from a known baseline; a path is not a receipt.
 
 ## Performance method
 
 Apply [the rendering target](RENDERING.md#performance-policy). Finish source edits,
-resolve/hash the exact runtime and record driver/OS, recipe/seed/model, camera,
+identify the runtime path/version and record driver/OS, recipe/seed/model, camera,
 physical/scenery cache status, actual pixels and effective settings. Warm up the
 workload; exclude screenshot/readback/video encoding and GPU validation layers
 from timing. Capture visuals separately.
+
+### Reusable baselines and experiment budget
+
+Reuse a saved baseline instead of rerunning the original setup for every change.
+The current dense-forest reference is
+[DENSE_FOREST_BASELINE.json](DENSE_FOREST_BASELINE.json): six already completed,
+valid warmed original-forest trials from the matching capture-free control and
+return processes. No new runs were needed to create it. Retain each trial, the
+arithmetic average of run mean frame times, FPS derived as 1000 / average ms,
+the observed range and separately aggregated run p95/p99 values. Do not average
+unrelated routes, settings, profiled runs, candidates or invalid trials together.
+
+Baseline matching uses the recorded source/Dev version and relevant intervening
+changes, runtime build/path, GPU/driver, route/event, camera, actual output/internal
+pixels, graphics, density, cache state and profiling mode. A new candidate is
+compared against this reference; its intended edit is not a reason to remeasure
+the unchanged original. Documentation-only changes and age alone do not expire
+the reference. Create a replacement reference when an accepted production change
+alters that original workload, the engine/driver/hardware or settings change, or
+repeatable observations indicate drift. Prefer existing qualified results first.
+
+Default budget: **one hypothesis, one candidate, one focused visual check and one
+15-second warmed candidate sample**. Include only the warmup needed by that route.
+Reject visibly poor candidates before timing. A clear loss or result within the
+saved baseline's observed variation can end the experiment immediately. A promising
+gain gets at most one confirmation sample; add a short fresh original control only
+if the comparison is ambiguous or drift is suspected. Beyond that budget, state
+the specific unresolved question before running more. Do not automatically run
+A/A matrices, A/B/A return cycles, every map, native pass profiling or RenderDoc.
+Collect extra attribution only if it will decide the next change.
+
+Skip manual/source/asset/snapshot/executable hash verification and before/after
+hash inventories. Existing runtime compatibility checks still enforce usable
+replays/caches; this policy does not change those formats. Use versions, Git
+status/diffs, paths, settings and existing receipts for task bookkeeping. Hash
+audits are opt-in only on explicit user request. This section supersedes older
+repeat-count, fresh-control and hash-audit recipes below and in linked skills.
+
+Report the saved baseline date/profile, actual candidate frame time/FPS and its
+distance from the observed control range. Do not describe a historical average as
+a simultaneously measured control. Preserve small timing summaries, representative
+images and unique source assets; retire duplicate project/import copies and large
+captures once their useful data has been extracted.
 
 For a full-descent baseline justified under the bounded descent policy, generate
 ordinary-input traces with `tests/performance_trace.gd` under the guard.
@@ -476,9 +518,10 @@ scope, never complete-descent acceptance. Loading/pre-roll are separate costs.
 
 Playback rejects stale source/model/generator identity and unsuccessful traces
 before mountain/scene setup, then still verifies terrain identity and exact
-replay completion. Use `-Repetitions 3` in one invocation to reuse the loaded
-scene across the existing independently warmed trials. This does not replace
-cold-start measurements or permit reusing old FPS results.
+replay completion. Use the fewest repetitions needed for warmup and the selected
+sample; `-Repetitions` reuses the loaded scene. Saved FPS baselines can be reused
+under the policy above. This does not replace a specifically requested cold-start
+measurement.
 `scripts/benchmark_pc.ps1` relays the engine's loading, trace and per-run progress
 while preserving full logs; the outer guard no longer hides this second layer.
 
@@ -524,9 +567,9 @@ The table retains individual distributions, invocation-counted CPU scopes,
 one-second completed-tick bins, streaming events, measured-window system samples,
 startup and first-encounter/re-entry labels. GPU samples lag those CPU bins.
 Comparison identity includes source/engine receipts, trace, camera, quality,
-provider, cap, feature switches and collision mode. Match the executable behind
-the launcher separately, preserve physical/scenery receipts and personal-data
-hashes, and verify frozen binary inputs before/after the complete matrix.
+provider, cap, feature switches and collision mode. Identify the executable behind
+the launcher and preserve existing physical/scenery receipts. Do not add binary
+or personal-data hash audits.
 
 For this bounded baseline method, predeclare process-median frame/GPU spread
 at most 3% and p95/p99 spread at most 15%; permit at most one additional return
@@ -548,7 +591,7 @@ not certify zero desktop activity or uniquely explain the process-median drift.
 Detailed evidence and the executed driver remain in
 `artifacts/forest_repeatability_20260914/REPORT.md`.
 
-For this method, run five fresh processes using the compatible ordinary forest
+The historical qualification used five fresh processes with the ordinary forest
 trace and the unchanged `benchmark_pc.ps1` with `-ScenarioReplay`,
 `-TrialStartSeconds 0 -TrialSeconds 15 -Repetitions 4`, `-FrameCap 0`,
 `-Upscaler auto -RenderScale 0.75`, `-FrameGeneration off -TerrainGI off`, and
@@ -561,9 +604,9 @@ perform collision, region and publication work; retain these costs.
 
 Record raw per-run frame/GPU p50 medians as well as the existing medians of run
 means, without pooling percentiles. Apply the 3% median and 15% p95/p99 spread
-limits to the five process values; exclude a separate ETW diagnostic. Freeze
-engine/imported-asset/trace/configuration inputs before timing and rehash after
-the complete matrix. Sensor polling needs effective CPU clocks and GPU
+limits to the five process values; exclude a separate ETW diagnostic. This is a
+reference procedure, not a required rerun for each candidate. No rehash is needed.
+Sensor polling needs effective CPU clocks and GPU
 clock/power/temperature; its wall-clock cadence limits hitch-level attribution.
 Audit actual ETW event loss and GPU queue/residency decoder coverage. Allocation
 counters and a partial GPU packet table do not establish physical residency or

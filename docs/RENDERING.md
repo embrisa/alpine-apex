@@ -14,6 +14,9 @@ physical generation, cache decoding, scenery preparation, scene/GPU submission
 and steady skiing. Source/engine/settings identity, actual internal/output
 pixels, p95/p99, CPU/GPU costs and memory accompany comparisons. Neither a
 language change nor a short capped scene proves complete-descent performance.
+Reuse the [saved baseline and small experiment budget](VALIDATION.md#reusable-baselines-and-experiment-budget).
+Fresh original-control runs, broad experiment matrices and hash audits are not
+default requirements for each candidate.
 
 ## Graphics and display
 

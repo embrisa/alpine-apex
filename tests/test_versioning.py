@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 SPEC = importlib.util.spec_from_file_location("versioning", Path(__file__).resolve().parents[1] / "scripts/versioning.py")
 v = importlib.util.module_from_spec(SPEC)
@@ -76,6 +77,37 @@ class VersioningTests(unittest.TestCase):
         self.assertEqual(v.identity(self.root)["dev"], 3)
         self.assertIn("## Dev 3", v.markdown(v.history(self.root)))
         self.assertEqual(v.history(self.root)[-1]["commit"], first["commit"])
+
+    def test_metadata_receipt_skips_file_hash_audits_and_preserves_scope(self):
+        self.note(); self.commit()
+        self.write("owned.md", "small policy update")
+        self.write("peer.txt", "unrelated work")
+        with patch.object(v, "file_hash", side_effect=AssertionError("No file hash audit")):
+            path = v.create_note(self.root, {"write_paths": ["owned.md"], "read_paths": []}, "Policy", ["Maintenance"])
+            v.capture_inputs(self.root, path, metadata_only=True)
+            note = v.read_json(self.root / path)
+            note["areas"] = ["instructions"]
+            note["checks"] = [{"kind": "automated", "command": "static review", "result": "passed", "details": "Documentation review"}]
+            note["compatibility"]["data"] = {key: {"effect": "preserved", "reason": "Policy only"} for key in v.DATA}
+            v.save(self.root / path, note)
+            self.assertEqual(v.check_note(self.root, path), [])
+            self.git("add", "owned.md", path)
+            self.assertEqual(v.check_note(self.root, path, staged=True), [])
+            self.git("commit", "-m", "Metadata policy", "--", "owned.md", path)
+            self.assertEqual(v.check_commit(self.root), [])
+        self.assertIn("peer.txt", self.git("status", "--porcelain"))
+
+    def test_metadata_receipt_detects_edits_without_content_hashing(self):
+        self.note(); self.commit()
+        self.write("owned.md", "before")
+        path = self.note(["owned.md"])
+        v.capture_inputs(self.root, path, metadata_only=True)
+        self.git("add", "owned.md", path)
+        self.write("owned.md", "changed after recording metadata")
+        with patch.object(v, "file_hash", side_effect=AssertionError("No file hash audit")):
+            problems = v.check_note(self.root, path, staged=True)
+        self.assertTrue(any("Tested input changed" in p for p in problems))
+        self.assertTrue(any("Index differs" in p for p in problems))
 
     def test_missing_notes_and_append_only(self):
         self.commit()

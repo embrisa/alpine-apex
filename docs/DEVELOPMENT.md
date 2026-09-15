@@ -68,12 +68,12 @@ shared counter or changelog. Unrelated dirty/staged files remain untouched.
    python scripts/versioning.py note --scope artifacts/my-change/scope.json --summary "Describe resulting behavior" --category Presentation
    ```
 
-3. Run `python scripts/versioning.py capture --note changes/ID.json` immediately
-   before final verification. This records actual input hashes and expected
+3. Run `python scripts/versioning.py capture --note changes/ID.json --metadata-only` immediately
+   before final verification. This records scoped file sizes/timestamps and expected
    before/after compatibility values. Then execute the required checks and fill
    `checks` with their actual commands, results and evidence references. Capture
    does not run tests or certify a pass. Re-capturing after code changes requires
-   repeating affected checks; do not refresh hashes merely to silence drift.
+   repeating affected checks; do not refresh metadata merely to silence drift.
 4. Run `python scripts/versioning.py check --note changes/ID.json`. After staging
    only owned paths, repeat with `--staged`; unrelated staged files are excluded.
    Commit exactly those source paths and the new note, then push. Use
@@ -96,11 +96,15 @@ Check entries have `kind` (`automated`, `rendered`, `performance`, `human`),
 failed or pending required non-human checks block it. `not_required` needs an
 explanation. Separately pending human acceptance must be recorded in
 `outstanding_acceptance` and must not be a task completion gate. The checker
-verifies structure, scope and input hashes, not the truth of prose assertions.
-Historical checks verify delivered files; hashes of preserved dirty read inputs
-remain observations and must not be represented as committed dependencies.
+verifies structure, scope and the recorded verification mode, not the truth of
+prose assertions. Metadata mode checks size/time drift before commit and scoped
+Git index agreement; delivered checks establish path presence and compatibility,
+not content-hash identity. This intentionally skips hash audits under the user's
+economical validation policy. The older hash mode remains available only for an
+explicit request; omit `--metadata-only` to opt in. Existing runtime identity,
+replay/cache keys and export formats are unchanged.
 
-For LFS assets, capture hashes the hydrated working file. Staged checks verify
+In opt-in hash mode, LFS capture hashes the hydrated working file. Staged checks verify
 the canonical SHA-256 v1 pointer's content OID **and byte size** against that
 tested file; an unhydrated pointer is not accepted as the working asset.
 Historical checks compare the committed pointer's content OID with the note's

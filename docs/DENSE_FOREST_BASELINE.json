@@ -1,0 +1,422 @@
+{
+  "schema": 1,
+  "baseline_id": "dense-forest-dev40-4k-high-auto75-20260916",
+  "recorded_dates": [
+    "2026-09-15",
+    "2026-09-16"
+  ],
+  "scope": "15-second dense-forest ordinary-input route; reusable original-forest reference, not whole-descent FPS",
+  "source_commit": "54e60613ba1c213fb76fa6f5436f402e0268a109",
+  "source_dev": 40,
+  "runtime": {
+    "path": "artifacts/depth_order_20260915/engine/bin/godot.windows.template_debug.x86_64.console.exe",
+    "kind": "Private depth-order diagnostic engine with ordering, stats, audit and readback disabled; retain this build for matching comparisons. Installed production engine is a different build.",
+    "disabled_environment_flags": {
+      "ALPINE_DEPTH_ORDER": "off",
+      "ALPINE_DEPTH_STATS": "",
+      "ALPINE_DEPTH_AUDIT": "",
+      "ALPINE_DEPTH_READBACK": "",
+      "ALPINE_NATIVE_TREES": "",
+      "ALPINE_MESHY_TREE": "off"
+    }
+  },
+  "hardware": {
+    "cpu": "Ryzen 5 5600X",
+    "gpu": "Radeon RX 9070",
+    "memory_gb": 16,
+    "installed_ram_bytes": 17099018240
+  },
+  "workload": {
+    "trace": "artifacts/dense_gpu_20260914/traces/forest.json",
+    "scenario_replay": true,
+    "trial_start_seconds": 0,
+    "trial_seconds": 15,
+    "cache_state": "physical and scenery hits",
+    "first_traversal_excluded": true,
+    "stationary_warmup_frames": 240,
+    "cpu_scopes": false,
+    "gpu_pass_profiling": false,
+    "capture_free": true,
+    "original_forest": true
+  },
+  "configuration": {
+    "output_pixels": [
+      3840,
+      2160
+    ],
+    "internal_pixels": [
+      2880,
+      1620
+    ],
+    "upscaler": "Auto FSR 4.1.1",
+    "frame_generation": false,
+    "terrain_gi": false,
+    "cap": 0,
+    "preset": 7,
+    "display_preferences": {
+      "anisotropic": 2,
+      "custom": true,
+      "display_mode": "fullscreen",
+      "fps_limit": 0,
+      "frame_generation": false,
+      "monitor": -1,
+      "msaa": 1,
+      "overrides": {
+        "weather_quality": 2
+      },
+      "quality": 7,
+      "render_scale": 0.75,
+      "resolution": "(0, 0)",
+      "sharpness": 0.825,
+      "terrain_gi": false,
+      "upscaler": "auto",
+      "vsync": 0
+    },
+    "graphics": {
+      "backdrop_tier": 2,
+      "contact_intensity": 0.2,
+      "contact_shading": true,
+      "fog_strength": 1.0,
+      "grain_budget": 256,
+      "highlight_glow": true,
+      "highlight_glow_intensity": 0.385,
+      "indirect_intensity": 0.55,
+      "indirect_lighting": true,
+      "mesh_lod_bias": 1.0,
+      "mist_budget": 128,
+      "normal_strength": 0.42,
+      "offmap_prop_density": 1.0,
+      "offmap_snow_detail": false,
+      "offmap_tree_distance_m": 6000.0,
+      "scrub_density": 1.0,
+      "scrub_distance_m": 130.0,
+      "shadow_distance_m": 220.0,
+      "shadow_quality": 2,
+      "shaft_strength": 1.0,
+      "snow_crystal_density": 1.75,
+      "snow_local_deformation": true,
+      "snow_sheen": 0.1584,
+      "snow_sparkle": 9.0,
+      "snow_track_capacity": 4096,
+      "snow_track_relief": true,
+      "spray_budget": 384,
+      "terrain_gi": false,
+      "texture_tier": 2,
+      "tree_far_m": 1300.0,
+      "tree_mid_m": 280.0,
+      "tree_near_m": 95.0,
+      "volumetric_shafts": true,
+      "weather_budget": 1.0,
+      "weather_quality": 2
+    },
+    "camera": {
+      "presets": {
+        "chase": {},
+        "first_person": {}
+      },
+      "profiles": {
+        "chase": {
+          "acceleration_time": 0.4,
+          "bank_strength": 35.0,
+          "blur_strength": 50.0,
+          "boom_response": 7.5,
+          "carve_strength": 50.0,
+          "chatter_strength": 0.0,
+          "compression_strength": 50.0,
+          "deceleration_time": 0.4,
+          "eye_height": 1.45,
+          "fast_distance": 5.0,
+          "fast_fov": 68.0,
+          "fast_height": 3.0,
+          "fast_tilt": -12.0,
+          "heading_response": 5.5,
+          "motion_blur_enabled": false,
+          "motion_blur_strength": 50.0,
+          "rest_distance": 5.0,
+          "rest_fov": 68.0,
+          "rest_height": 3.0,
+          "rest_tilt": -12.0,
+          "slope_follow": 0.0,
+          "slope_smoothing": 0.35,
+          "speed_exponent": 1.6,
+          "speed_full": 200.0,
+          "speed_start": 0.0,
+          "streak_strength": 50.0,
+          "tuck_lowering": 0.35,
+          "tuck_strength": 50.0,
+          "vertical_smoothing": 50.0
+        },
+        "first_person": {
+          "acceleration_time": 0.4,
+          "bank_strength": 35.0,
+          "blur_strength": 50.0,
+          "boom_response": 7.5,
+          "carve_strength": 50.0,
+          "chatter_strength": 0.0,
+          "compression_strength": 50.0,
+          "deceleration_time": 0.4,
+          "eye_height": 1.45,
+          "fast_distance": 4.5,
+          "fast_fov": 75.0,
+          "fast_height": 3.5,
+          "fast_tilt": -25.0,
+          "heading_response": 5.5,
+          "motion_blur_enabled": false,
+          "motion_blur_strength": 50.0,
+          "rest_distance": 3.0,
+          "rest_fov": 55.0,
+          "rest_height": 3.0,
+          "rest_tilt": -25.0,
+          "slope_follow": 100.0,
+          "slope_smoothing": 0.35,
+          "speed_exponent": 1.6,
+          "speed_full": 200.0,
+          "speed_start": 0.0,
+          "streak_strength": 50.0,
+          "tuck_lowering": 0.35,
+          "tuck_strength": 50.0,
+          "vertical_smoothing": 50.0
+        }
+      },
+      "selected": {
+        "chase": "Custom",
+        "first_person": "Connected"
+      },
+      "shared": {
+        "auto_recenter": true,
+        "forest_visibility": 60.0,
+        "forest_visibility_strength": 100.0,
+        "invert_y": false,
+        "mouse_sensitivity": 0.1,
+        "recenter_delay": 0.8,
+        "recenter_time": 0.35,
+        "stick_deadzone": 0.18,
+        "stick_exponent": 2.0,
+        "stick_pitch_speed": 100.0,
+        "stick_yaw_speed": 150.0
+      },
+      "version": 2
+    }
+  },
+  "aggregation": {
+    "trial_count": 6,
+    "method": "Arithmetic average of six warmed per-run mean frame times; FPS is 1000 divided by that average. Percentiles summarized separately as medians of run percentiles, never pooled.",
+    "mean_frame_ms": 13.900193200144066,
+    "rendered_fps": 71.94144610807537,
+    "run_mean_frame_ms_range": [
+      13.7139166666667,
+      14.139954674221
+    ],
+    "median_run_p50_ms": 14.23775,
+    "median_run_p95_ms": 17.301000000000002,
+    "median_run_p99_ms": 20.2675,
+    "mean_gpu_ms": 11.724477822682887,
+    "range_is_confidence_interval": false
+  },
+  "runs": [
+    {
+      "process": "clean-off-r1",
+      "run": 2,
+      "frame_ms": {
+        "average_fps": 72.9186288867149,
+        "count": 1092,
+        "max": 25.126,
+        "mean": 13.7139166666667,
+        "median_fps": 71.311416957855,
+        "p50": 14.023,
+        "p95": 16.963,
+        "p99": 18.657,
+        "slowest_one_percent_fps": 49.3889243092285
+      },
+      "gpu_ms": {
+        "count": 1092,
+        "mean": 11.665858042545807,
+        "p50": 11.7059998512268,
+        "p95": 12.5979995727539,
+        "p99": 12.9580001831055
+      },
+      "render_cpu_ms": {
+        "count": 1092,
+        "mean": 1.9996959704619188,
+        "p50": 1.90600001811981,
+        "p95": 2.9210000038147,
+        "p99": 3.56599998474121
+      }
+    },
+    {
+      "process": "clean-off-r1",
+      "run": 3,
+      "frame_ms": {
+        "average_fps": 72.2297421632066,
+        "count": 1081,
+        "max": 29.29,
+        "mean": 13.8447123034228,
+        "median_fps": 70.2938282018839,
+        "p50": 14.226,
+        "p95": 17.216,
+        "p99": 19.939,
+        "slowest_one_percent_fps": 44.7746005902106
+      },
+      "gpu_ms": {
+        "count": 1081,
+        "mean": 11.679183167731951,
+        "p50": 11.7340002059937,
+        "p95": 12.6879997253418,
+        "p99": 13.0150003433228
+      },
+      "render_cpu_ms": {
+        "count": 1081,
+        "mean": 2.0062830730459407,
+        "p50": 1.90699994564056,
+        "p95": 2.89299988746643,
+        "p99": 3.36899995803833
+      }
+    },
+    {
+      "process": "clean-off-r1",
+      "run": 4,
+      "frame_ms": {
+        "average_fps": 71.7698313442374,
+        "count": 1074,
+        "max": 26.083,
+        "mean": 13.9334310986965,
+        "median_fps": 70.1779009789817,
+        "p50": 14.2495,
+        "p95": 17.386,
+        "p99": 20.219,
+        "slowest_one_percent_fps": 44.8118107637969
+      },
+      "gpu_ms": {
+        "count": 1074,
+        "mean": 11.720920863764245,
+        "p50": 11.7709999084473,
+        "p95": 12.9119997024536,
+        "p99": 13.96399974823
+      },
+      "render_cpu_ms": {
+        "count": 1074,
+        "mean": 2.047966479145171,
+        "p50": 1.94999998807907,
+        "p95": 2.93899989128113,
+        "p99": 3.5699999332428
+      }
+    },
+    {
+      "process": "clean-return-r1",
+      "run": 2,
+      "frame_ms": {
+        "average_fps": 72.7424588313754,
+        "count": 1089,
+        "max": 29.141,
+        "mean": 13.747129476584,
+        "median_fps": 70.9370788110946,
+        "p50": 14.097,
+        "p95": 16.829,
+        "p99": 20.316,
+        "slowest_one_percent_fps": 44.8309871783377
+      },
+      "gpu_ms": {
+        "count": 1089,
+        "mean": 11.742496783849402,
+        "p50": 11.7969999313354,
+        "p95": 12.7770004272461,
+        "p99": 13.3219995498657
+      },
+      "render_cpu_ms": {
+        "count": 1089,
+        "mean": 2.1143314973053524,
+        "p50": 2.03299999237061,
+        "p95": 2.98300004005432,
+        "p99": 3.56299996376038
+      }
+    },
+    {
+      "process": "clean-return-r1",
+      "run": 3,
+      "frame_ms": {
+        "average_fps": 71.3164264433831,
+        "count": 1068,
+        "max": 27.295,
+        "mean": 14.0220149812734,
+        "median_fps": 69.9839037021485,
+        "p50": 14.289,
+        "p95": 17.678,
+        "p99": 21.687,
+        "slowest_one_percent_fps": 41.5527115033016
+      },
+      "gpu_ms": {
+        "count": 1068,
+        "mean": 11.750980317369383,
+        "p50": 11.78599977493285,
+        "p95": 13.0059995651245,
+        "p99": 14.2690000534058
+      },
+      "render_cpu_ms": {
+        "count": 1068,
+        "mean": 2.132808988125583,
+        "p50": 2.03500008583069,
+        "p95": 3.07800006866455,
+        "p99": 3.66100001335144
+      }
+    },
+    {
+      "process": "clean-return-r1",
+      "run": 4,
+      "frame_ms": {
+        "average_fps": 70.7215845481551,
+        "count": 1059,
+        "max": 29.225,
+        "mean": 14.139954674221,
+        "median_fps": 69.4927032661571,
+        "p50": 14.39,
+        "p95": 17.919,
+        "p99": 21.105,
+        "slowest_one_percent_fps": 42.450227108715
+      },
+      "gpu_ms": {
+        "count": 1059,
+        "mean": 11.787427760836534,
+        "p50": 11.8179998397827,
+        "p95": 13.0530004501343,
+        "p99": 14.1850004196167
+      },
+      "render_cpu_ms": {
+        "count": 1059,
+        "mean": 2.178649669891264,
+        "p50": 2.07299995422363,
+        "p95": 3.00799989700317,
+        "p99": 3.61500000953674
+      }
+    }
+  ],
+  "evidence": [
+    "artifacts/meshy7_tree_20260915/timing_summary.json",
+    "artifacts/meshy7_tree_20260915/REPORT.md"
+  ],
+  "reuse_policy": "docs/VALIDATION.md#reusable-baselines-and-experiment-budget",
+  "limitations": [
+    "Historical saved average, not a simultaneous original-control measurement.",
+    "Match the named runtime and effective workload; use existing matching results or refresh only when relevant conditions change.",
+    "Raw RenderDoc captures were removed during disk cleanup; these capture-free timings and original rows remain."
+  ],
+  "environment": {
+    "logical_processors": 12,
+    "weather_seed": 849205174,
+    "time_of_day": "day",
+    "os": {
+      "Caption": "Microsoft Windows 11 Pro",
+      "Version": "10.0.26200",
+      "BuildNumber": "26200"
+    },
+    "video": [
+      {
+        "Name": "AMD Radeon RX 9070",
+        "DriverVersion": "32.0.31041.1004",
+        "DriverDate": "2026-08-17T02:00:00+02:00",
+        "CurrentHorizontalResolution": 3840,
+        "CurrentVerticalResolution": 2160
+      }
+    ],
+    "weather": "clear"
+  }
+}

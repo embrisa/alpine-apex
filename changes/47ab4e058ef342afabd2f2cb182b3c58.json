@@ -1,0 +1,178 @@
+{
+  "schema": 1,
+  "id": "47ab4e058ef342afabd2f2cb182b3c58",
+  "summary": "Reuse saved performance baselines and reduce experiment and verification overhead",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "agent instructions",
+    "performance baseline reuse",
+    "development note metadata"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "AGENTS.md",
+    "docs/DENSE_FOREST_BASELINE.json",
+    "docs/DEVELOPMENT.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "scripts/versioning.py",
+    "tests/test_versioning.py"
+  ],
+  "read_paths": [],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Instructions, saved performance reference and milestone bookkeeping only; runtime formats and gameplay remain unchanged."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Instructions, saved performance reference and milestone bookkeeping only; runtime formats and gameplay remain unchanged."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Instructions, saved performance reference and milestone bookkeeping only; runtime formats and gameplay remain unchanged."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Instructions, saved performance reference and milestone bookkeeping only; runtime formats and gameplay remain unchanged."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Instructions, saved performance reference and milestone bookkeeping only; runtime formats and gameplay remain unchanged."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "python tests/test_versioning.py",
+      "result": "passed",
+      "details": "17 tests passed, including metadata-only notes skipping content-hash audits, detecting edits and preserving unrelated work. Evidence: artifacts/cleanup_20260916/versioning_tests.log."
+    },
+    {
+      "kind": "automated",
+      "command": "quick_validate.py for alpine-performance and alpine-validation using the existing .tools/backlog-skill-check PyYAML dependency",
+      "result": "passed",
+      "details": "Both skills valid; local skill links/anchors, baseline source paths and six-trial aggregation arithmetic passed static checks."
+    },
+    {
+      "kind": "automated",
+      "command": "git diff --check",
+      "result": "passed",
+      "details": "No whitespace errors in owned changes."
+    },
+    {
+      "kind": "rendered",
+      "command": "No game run required",
+      "result": "not_required",
+      "details": "Instructions, saved historical baseline and development bookkeeping only; no rendering or gameplay implementation changes."
+    },
+    {
+      "kind": "performance",
+      "command": "Reuse existing clean-off-r1 and clean-return-r1 original-forest receipts",
+      "result": "not_required",
+      "details": "No new performance measurement. Saved arithmetic mean of six existing warmed trial means: 13.900193200144066 ms, 71.94144610807537 rendered FPS; runtime/profile and historical comparison limits are explicit."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-15T22:53:21.693209+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "54e60613ba1c213fb76fa6f5436f402e0268a109",
+      "dev": 40,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": {
+        "size": 10580,
+        "mtime_ns": 1789512657308112000
+      },
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 9566,
+        "mtime_ns": 1789512657321458500
+      },
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/DENSE_FOREST_BASELINE.json": {
+        "size": 12466,
+        "mtime_ns": 1789512773013255600
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 16860,
+        "mtime_ns": 1789512772622855600
+      },
+      "docs/RENDERING.md": {
+        "size": 37950,
+        "mtime_ns": 1789512657294467500
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789512657279656900
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 41854,
+        "mtime_ns": 1789298203030046200
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18345,
+        "mtime_ns": 1789216227754129500
+      },
+      "scripts/versioning.py": {
+        "size": 26579,
+        "mtime_ns": 1789512772607340300
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/test_versioning.py": {
+        "size": 15890,
+        "mtime_ns": 1789512586782135700
+      }
+    }
+  }
+}

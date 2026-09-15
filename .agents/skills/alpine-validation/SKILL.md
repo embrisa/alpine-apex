@@ -76,6 +76,11 @@ matched; these diagnostic profiles never save personal camera preferences.
 
 ## Collect only the needed evidence
 
+Apply the [small experiment budget and reusable baseline policy](../../../docs/VALIDATION.md#reusable-baselines-and-experiment-budget)
+for performance work. Existing valid averages are reusable; do not automatically
+repeat original controls, broad matrices or content-hash verification. Static
+instruction changes need static checks only, with no game run.
+
 For riding data, follow [bounded descents](../../../docs/VALIDATION.md#bounded-test-descents):
 state the question, event, measured window and clean stop condition; separate
 setup/warmup from riding. A guard timeout is a failure backstop, not a successful
@@ -117,10 +122,12 @@ Follow [development versioning](../../../docs/DEVELOPMENT.md#internal-developmen
 for each committed milestone, including documentation/backlog authoring. Use
 `python scripts/versioning.py identity --json` to identify the current checkout;
 keep Dev labels separate from compatibility and evidence source/runtime hashes.
-Reserve a unique note and all owned/read inputs, capture hashes before final
+Reserve a unique note and all owned/read inputs, capture scoped metadata with
+`python scripts/versioning.py capture --note changes/ID.json --metadata-only` before final
 verification, record actual checks, and run the scoped note check before commit.
 Report the final Dev ID after push. Preserve unrelated dirty inputs; do not refresh
-evidence hashes without repeating affected checks. Recorded case identity and
+evidence after an affected check without rerunning that check. Skip hash audits.
+Recorded case identity and
 current rerun identity are different observations. A version label is neither
 performance evidence nor human/controller acceptance.
 

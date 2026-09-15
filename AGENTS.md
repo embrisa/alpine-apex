@@ -13,7 +13,7 @@ or racing-line attractor.
   completed work before ending; report the exact blocker and unpushed commit on
   failure. Stage only owned changes; no force-push/history rewriting.
 - Give every validated milestone one new [development note](docs/DEVELOPMENT.md#internal-development-versions).
-  Capture its owned/read input hashes before verification; run `scripts/versioning.py check`
+  Capture scoped file metadata with `scripts/versioning.py capture --metadata-only` before verification; run `scripts/versioning.py check`
   on the note and staged owned paths before committing. Report the final Dev ID
   after pushing. Dev IDs never replace gameplay compatibility checks.
 - After a successful commit and push, remove unneeded artifacts from your task
@@ -55,6 +55,24 @@ or racing-line attractor.
   Avoid nested guards, reserve overlapping outputs and wait for conflicting
   workloads. Test/lab runs never write
   personal bests. See validation for cached mountain fixtures and isolation.
+
+## Keep performance work economical
+
+- Reuse the saved average baseline for a matching workload. Do not rerun the
+  original setup before and after every candidate. Follow the
+  [baseline reuse policy](docs/VALIDATION.md#reusable-baselines-and-experiment-budget).
+- Default to one bottleneck hypothesis, one candidate and one short warmed
+  candidate measurement. Reject poor visuals before timing. Expand only when
+  a specific result or failure requires it; do not launch a broad matrix by habit.
+- Skip source, asset, snapshot and executable hash verification. Use recorded
+  versions/paths, Git status, settings and existing receipts. Do not add hash
+  audits or repeatedly scan the whole repository. Existing runtime replay/cache
+  compatibility checks stay in place; do not alter gameplay formats for this policy.
+- These defaults override older fresh-baseline, repetition and manual hash-audit
+  recipes in skills and guides. Hash audits require an explicit user request.
+- Keep compact reports, timings, useful images and unique source assets. Retire
+  redundant frozen assets/import caches and large captures after the experiment;
+  do not accumulate full project copies for each variant.
 
 ## Read for the task
 

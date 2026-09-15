@@ -16,7 +16,7 @@ GPU pass, loading stage, cold preparation or streaming hitch.
 
 1. Identify the exact source and runtime through
    [engine selection](../../../docs/DEVELOPMENT.md#checkout-and-engine-selection).
-   Record dirty input hashes where relevant, recipe/seed/model, trace, cache
+   Record Git status and relevant changes, recipe/seed/model, trace, cache
    state, camera, actual output pixels and effective settings. Verify identities
    from current producers rather than historical filenames or benchmark defaults.
 2. Choose the shortest representative scenario under
@@ -24,8 +24,10 @@ GPU pass, loading stage, cold preparation or streaming hitch.
    supported ordinary-input replay for gameplay measurements. For loading or
    generation, measure the relevant stages and requested populations directly;
    a warm-cache run cannot establish cold-generation improvement.
-3. Collect a fresh baseline before edits. Use the guide's independently warmed
-   repetitions for comparisons. Separate setup/pre-roll from measured riding and
+3. Reuse the saved matching average baseline under the
+   [experiment budget](../../../docs/VALIDATION.md#reusable-baselines-and-experiment-budget).
+   Start with one candidate and one short warmed sample; do not rerun the original
+   setup before and after each edit. Separate setup/pre-roll from measured riding and
    define a clean stop. Preserve the selected quality, scenery, effects, physics
    and input behavior unless the user explicitly requests those tradeoffs.
 4. Secure uncontended measurement time and stable inputs. Follow the existing
@@ -60,7 +62,7 @@ keep full-mountain FPS and human acceptance separate.
 When concurrent source edits invalidate a forest baseline, use the explicit
 [frozen forest comparison](../../../docs/VALIDATION.md#colorful-tree-checks)
 with an identified pre-change revision. Inspect its enumerated overrides and
-before/after binary hashes; do not silently reinterpret a drifting run as valid.
+recorded versions/settings; skip binary and snapshot hash audits.
 
 Use [benchmark_pc.ps1](../../../scripts/benchmark_pc.ps1) for production frame
 measurements; consult the measurement guide for its guarded invocation. Select
@@ -104,7 +106,7 @@ percentiles. Separate rendered and generated frames, CPU and GPU scopes, and
 allocation telemetry from physical VRAM occupancy. Repeat only to resolve changed
 code, failed trials, noise or a remaining question.
 
-For a repeated rendering baseline, use the maintained
+Only when a new baseline is actually needed, use the maintained
 [receipt audit](../../../docs/VALIDATION.md#rendering-baseline-receipt-audit)
 on an explicit manifest after the guarded measurements. Preserve invalid attempts,
 keep profiles separate, and inspect the identity-matched return-control range.
@@ -113,7 +115,8 @@ occupancy or an optimization gain. Follow the predeclared finite drift budget.
 Enabled grass may have zero population on a naturally bare-snow route; feature-cost
 comparisons still require independently qualified nonzero on-arm coverage.
 
-For five-process unchanged forest controls, follow
+Five-process unchanged forest controls are a historical qualification procedure,
+not a default candidate gate. If explicitly needed, follow
 [dense-forest A/A controls](../../../docs/VALIDATION.md#dense-forest-aa-controls):
 retain the first route traversal separately and accept only the three warmed
 repetitions. Check both raw p50 and run-mean spread definitions. The existing
@@ -137,10 +140,12 @@ Follow [development versioning](../../../docs/DEVELOPMENT.md#internal-developmen
 for each committed milestone, including documentation/backlog authoring. Use
 `python scripts/versioning.py identity --json` to identify the current checkout;
 keep Dev labels separate from compatibility and evidence source/runtime hashes.
-Reserve a unique note and all owned/read inputs, capture hashes before final
+Reserve a unique note and all owned/read inputs, capture scoped metadata with
+`python scripts/versioning.py capture --note changes/ID.json --metadata-only` before final
 verification, record actual checks, and run the scoped note check before commit.
 Report the final Dev ID after push. Preserve unrelated dirty inputs; do not refresh
-evidence hashes without repeating affected checks. Recorded case identity and
+evidence after an affected check without rerunning that check. Skip hash audits.
+Recorded case identity and
 current rerun identity are different observations. A version label is neither
 performance evidence nor human/controller acceptance.
 

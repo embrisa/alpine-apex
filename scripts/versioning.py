@@ -211,7 +211,9 @@ def label(value):
 
 
 def expand(root, paths):
-    known = tracked_paths(root) | set(dirty_snapshot(root))
+    # Scope expansion needs names, not a content audit of every dirty asset.
+    untracked = git(root, "ls-files", "--others", "--exclude-standard", "-z").decode("utf-8").split("\0")
+    known = tracked_paths(root) | {p for p in untracked if p}
     result = set()
     for value in paths:
         value = safe_path(value)
@@ -239,12 +241,29 @@ def create_note(root, scope, summary, categories, reserved_path=None):
     return path
 
 
-def capture_inputs(root, path):
+def input_metadata(root, path):
+    target = root / safe_path(path)
+    if not target.resolve().is_relative_to(root.resolve()):
+        raise ValueError("Scope resolves outside checkout: " + path)
+    if not target.exists():
+        return None
+    info = target.lstat()
+    return {"size": info.st_size, "mtime_ns": info.st_mtime_ns}
+
+
+def capture_inputs(root, path, metadata_only=False):
     note = read_json(root / safe_path(path))
     paths = expand(root, note["owned_paths"] + note["read_paths"] + [p for p, _ in OWNERS.values()] + [TUNING, "project.godot"])
+    if metadata_only:
+        build = {"commit": git(root, "rev-parse", "HEAD").decode().strip(),
+                 "dev": len(revisions(root)), "modified": bool(git(root, "status", "--porcelain"))}
+    else:
+        build = identity(root)
     note["evidence"] = {"captured_utc": datetime.now(timezone.utc).isoformat(),
-                        "build": identity(root),
-                        "inputs": {p: file_hash(root, p) for p in paths if not is_note(p)}}
+                        "verification": "metadata" if metadata_only else "hashes",
+                        "build": build,
+                        "inputs": {p: input_metadata(root, p) if metadata_only else file_hash(root, p)
+                                   for p in paths if not is_note(p)}}
     note["compatibility"]["before"] = identities(root, "HEAD")
     note["compatibility"]["after"] = identities(root, "HEAD", note["owned_paths"])
     save(root / path, note)
@@ -327,6 +346,7 @@ def check_note(root, path, commit=None, staged=False):
         if any(c.get("result") == "pending" for c in checks) and not note.get("outstanding_acceptance"):
             problems.append("Pending acceptance must be explained")
         inputs = note.get("evidence", {}).get("inputs", {})
+        metadata_only = note.get("evidence", {}).get("verification") == "metadata"
         required_inputs = set(owned) | {safe_path(p) for p in note.get("read_paths", [])} | {p for p, _ in OWNERS.values()} | {TUNING, "project.godot"}
         if not required_inputs <= set(inputs): problems.append("Evidence is missing owned/identity inputs")
         if any(is_note(p) for p in inputs): problems.append("Evidence cannot hash its own notes")
@@ -335,15 +355,28 @@ def check_note(root, path, commit=None, staged=False):
             # Historical checks must verify delivered files against the commit.
             # Preserved dirty read dependencies remain identified observations.
             if commit and p not in owned: continue
-            if file_hash(root, p, commit) != expected: problems.append("Tested input changed: " + p)
+            if metadata_only:
+                if expected is not None and (not isinstance(expected, dict) or set(expected) != {"size", "mtime_ns"}):
+                    problems.append("Invalid input metadata: " + p)
+                elif not commit and input_metadata(root, p) != expected:
+                    problems.append("Tested input changed: " + p)
+                elif commit and (bool(git(root, "ls-tree", commit, "--", p)) != (expected is not None)):
+                    problems.append("Delivered input presence changed: " + p)
+            elif file_hash(root, p, commit) != expected:
+                problems.append("Tested input changed: " + p)
         existing = content(root, path, before_ref)
         if existing is not None: problems.append("Milestone notes are append-only; create a new note")
         if commit:
             changed = set(changed_paths(root, commit))
             if changed - set(owned) - {path}: problems.append("Commit includes changes outside its milestone scope")
         if staged:
+            unstaged = set(git(root, "diff", "--name-only", "--no-renames", "-z", "--", *owned, path).decode().split("\0")) if metadata_only else set()
             for p in owned + [path]:
-                if not index_matches_worktree(root, p):
+                if metadata_only:
+                    mismatch = p in unstaged or bool(git(root, "ls-files", "--", p)) != (root / p).exists()
+                else:
+                    mismatch = not index_matches_worktree(root, p)
+                if mismatch:
                     problems.append("Index differs from checked working bytes: " + p)
     except (KeyError, TypeError, AttributeError, ValueError) as error:
         problems.append("Malformed milestone note: " + str(error))
@@ -399,6 +432,7 @@ def main():
     parser.add_argument("--category", action="append", choices=sorted(CATEGORIES))
     parser.add_argument("--commit")
     parser.add_argument("--staged", action="store_true")
+    parser.add_argument("--metadata-only", action="store_true", help="Capture scoped file size/time instead of content hashes")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--engine", type=Path)
     args = parser.parse_args()
@@ -410,7 +444,7 @@ def main():
             result = {"note": create_note(root, read_json(args.scope), args.summary, args.category, args.note)}
         elif args.action == "capture":
             if not args.note: raise ValueError("capture requires --note; run before verification")
-            result = capture_inputs(root, args.note)
+            result = capture_inputs(root, args.note, metadata_only=args.metadata_only)
         elif args.action == "check":
             problems = check_note(root, args.note, staged=args.staged) if args.note else check_commit(root, args.commit or "HEAD")
             result = {"status": "incomplete" if problems else "ok", "problems": problems}
