@@ -109,6 +109,22 @@ class VersioningTests(unittest.TestCase):
         self.assertTrue(any("Tested input changed" in p for p in problems))
         self.assertTrue(any("Index differs" in p for p in problems))
 
+    def test_merge_commit_uses_first_parent_milestone_scope(self):
+        self.note(); self.commit()
+        self.git("switch", "-c", "peer")
+        self.write("LICENSE", "Existing remote license")
+        self.commit()
+        self.git("switch", "main")
+        self.write("policy.md", "Local policy")
+        self.note(["policy.md"]); self.commit()
+        self.git("merge", "--no-commit", "peer")
+        merge_note = self.note(["LICENSE"])
+        v.capture_inputs(self.root, merge_note, metadata_only=True)
+        self.commit()
+        self.assertEqual(v.added_notes(self.root, "HEAD"), [merge_note])
+        self.assertEqual(set(v.changed_paths(self.root, "HEAD")), {"LICENSE", merge_note})
+        self.assertEqual(v.check_commit(self.root), [])
+
     def test_missing_notes_and_append_only(self):
         self.commit()
         self.assertIn("no milestone note", v.identity(self.root)["warning"])

@@ -38,6 +38,8 @@ commit distance. Earlier history stays unnumbered. Keep one milestone and one
 new `changes/<uuid>.json` note per commit. Never edit old notes or reset the
 baseline; corrections receive a new milestone. No per-commit tags or Git hooks
 are installed. Full commit hashes remain the exact committed identities.
+Merge milestones compare their note and changed paths with the first parent,
+matching Dev numbering; include the integrated files in that milestone's scope.
 
 `python scripts/versioning.py identity` prints the current Dev ID, Git hash,
 modified state/fingerprint and source-owned compatibility identities; add

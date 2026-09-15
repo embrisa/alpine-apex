@@ -175,11 +175,11 @@ def revisions(root, ref="HEAD"):
 
 
 def changed_paths(root, commit):
-    return [p for p in git(root, "diff-tree", "--no-commit-id", "--name-only", "--no-renames", "-r", "-z", commit).decode().split("\0") if p]
+    return [p for p in git(root, "diff", "--name-only", "--no-renames", "-z", commit + "^1", commit).decode().split("\0") if p]
 
 
 def added_notes(root, commit):
-    return [p for p in git(root, "diff-tree", "--no-commit-id", "--name-only", "--diff-filter=A", "-r", "-z", commit, "--", "changes").decode().split("\0") if p.endswith(".json")]
+    return [p for p in git(root, "diff", "--name-only", "--diff-filter=A", "-z", commit + "^1", commit, "--", "changes").decode().split("\0") if p.endswith(".json")]
 
 
 def identity(root):

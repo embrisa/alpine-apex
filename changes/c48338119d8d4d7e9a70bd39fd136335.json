@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "id": "c48338119d8d4d7e9a70bd39fd136335",
+  "summary": "Recognize first-parent milestone notes when integrating remote commits",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "development milestone integration"
+  ],
+  "owned_paths": [
+    "docs/DEVELOPMENT.md",
+    "scripts/versioning.py",
+    "tests/test_versioning.py"
+  ],
+  "read_paths": [],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Development note lookup only; no runtime format or game behavior change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Development note lookup only; no runtime format or game behavior change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Development note lookup only; no runtime format or game behavior change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Development note lookup only; no runtime format or game behavior change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Development note lookup only; no runtime format or game behavior change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "python tests/test_versioning.py VersioningTests.test_merge_commit_uses_first_parent_milestone_scope VersioningTests.test_baseline_successive_history_and_independent_notes VersioningTests.test_metadata_receipt_skips_file_hash_audits_and_preserves_scope",
+      "result": "passed",
+      "details": "Three focused tests passed after explicit first-parent diff correction; merge scope, ordinary history and metadata-only notes work. Evidence: artifacts/cleanup_20260916/merge_check_fix_tests.log."
+    },
+    {
+      "kind": "automated",
+      "command": "python scripts/versioning.py check --commit f58d5a3; python scripts/versioning.py check --commit a114180; git diff --check",
+      "result": "passed",
+      "details": "Both delivered milestones pass scoped metadata checks; no whitespace errors. No game or performance run is needed for this bookkeeping correction."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-15T23:00:14.852685+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "f58d5a3be3d86c6aec41a53b05a0b62c4073bd49",
+      "dev": 42,
+      "modified": true
+    },
+    "inputs": {
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 17017,
+        "mtime_ns": 1789513140276939400
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 41854,
+        "mtime_ns": 1789298203030046200
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18345,
+        "mtime_ns": 1789216227754129500
+      },
+      "scripts/versioning.py": {
+        "size": 26551,
+        "mtime_ns": 1789513214131790700
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/test_versioning.py": {
+        "size": 16647,
+        "mtime_ns": 1789513106508437600
+      }
+    }
+  }
+}
