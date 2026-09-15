@@ -1,0 +1,227 @@
+{
+  "schema": 1,
+  "id": "15ba76f3b3f740f383c0eba865f0d774",
+  "summary": "Prepare isolated low-cost foliage source candidates with labelled LOD previews",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Isolated foliage source art",
+    "LOD and material candidates",
+    "Source-only visual review"
+  ],
+  "owned_paths": [
+    "art_source/performance_candidates/foliage_v1/.gdignore",
+    "art_source/performance_candidates/foliage_v1/README.md",
+    "art_source/performance_candidates/foliage_v1/audit.py",
+    "art_source/performance_candidates/foliage_v1/audit_blender.py",
+    "art_source/performance_candidates/foliage_v1/build.py",
+    "art_source/performance_candidates/foliage_v1/foliage_candidates.blend",
+    "art_source/performance_candidates/foliage_v1/manifest.json",
+    "art_source/performance_candidates/foliage_v1/models/alpine_blade_dusted_lod0.glb",
+    "art_source/performance_candidates/foliage_v1/models/alpine_blade_dusted_lod1.glb",
+    "art_source/performance_candidates/foliage_v1/models/alpine_blade_dusted_lod2.glb",
+    "art_source/performance_candidates/foliage_v1/models/alpine_blade_green_lod0.glb",
+    "art_source/performance_candidates/foliage_v1/models/alpine_blade_green_lod1.glb",
+    "art_source/performance_candidates/foliage_v1/models/alpine_blade_green_lod2.glb",
+    "art_source/performance_candidates/foliage_v1/models/alpine_rosette_dusted_lod0.glb",
+    "art_source/performance_candidates/foliage_v1/models/alpine_rosette_dusted_lod1.glb",
+    "art_source/performance_candidates/foliage_v1/models/alpine_rosette_dusted_lod2.glb",
+    "art_source/performance_candidates/foliage_v1/models/alpine_rosette_green_lod0.glb",
+    "art_source/performance_candidates/foliage_v1/models/alpine_rosette_green_lod1.glb",
+    "art_source/performance_candidates/foliage_v1/models/alpine_rosette_green_lod2.glb",
+    "art_source/performance_candidates/foliage_v1/models/fern_spray_dusted_lod0.glb",
+    "art_source/performance_candidates/foliage_v1/models/fern_spray_dusted_lod1.glb",
+    "art_source/performance_candidates/foliage_v1/models/fern_spray_dusted_lod2.glb",
+    "art_source/performance_candidates/foliage_v1/models/fern_spray_green_lod0.glb",
+    "art_source/performance_candidates/foliage_v1/models/fern_spray_green_lod1.glb",
+    "art_source/performance_candidates/foliage_v1/models/fern_spray_green_lod2.glb",
+    "art_source/performance_candidates/foliage_v1/models/meadow_tuft_dusted_lod0.glb",
+    "art_source/performance_candidates/foliage_v1/models/meadow_tuft_dusted_lod1.glb",
+    "art_source/performance_candidates/foliage_v1/models/meadow_tuft_dusted_lod2.glb",
+    "art_source/performance_candidates/foliage_v1/models/meadow_tuft_green_lod0.glb",
+    "art_source/performance_candidates/foliage_v1/models/meadow_tuft_green_lod1.glb",
+    "art_source/performance_candidates/foliage_v1/models/meadow_tuft_green_lod2.glb",
+    "art_source/performance_candidates/foliage_v1/previews/grass.png",
+    "art_source/performance_candidates/foliage_v1/previews/plants.png"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "artifacts/scenery_cost_inventory_20260914/REPORT.md",
+    "assets/graphics/grass/manifest.json",
+    "docs/ASSETS.md",
+    "docs/RENDERING.md",
+    "docs/WORLD.md",
+    "scripts/presentation/grass_motion.gd",
+    "scripts/presentation/grass_placement.gd",
+    "scripts/presentation/terrain_grass.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only isolated source art was added; the 120 Hz solver, skier influence implementation and physics inputs were not edited."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "No generator, terrain, vegetation placement, mineral or 4 m heightfield authority file was edited."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "No save, replay, race, record, ghost, cache or compatibility schema was edited."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Source-only art; no terrain or mountain data change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Source-only art; no race identity or rules change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Source-only art; no record eligibility or storage change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Source-only art; no replay schema or ghost playback change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Source-only art; no production import, generation or runtime cache change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "python art_source/performance_candidates/foliage_v1/audit.py",
+      "result": "passed",
+      "details": "After input capture, all 24 independent GLBs passed hash, hierarchy, attribute, triangle-index, opaque double-sided material, no texture/collision data, above-ground bound and monotonic LOD checks."
+    },
+    {
+      "kind": "automated",
+      "command": "./scripts/run_guarded.ps1 -FilePath 'C:\\Program Files\\Blender Foundation\\Blender 5.2\\blender.exe' -Arguments @('--background','--factory-startup','art_source/performance_candidates/foliage_v1/foliage_candidates.blend','--python-exit-code','1','--python','art_source/performance_candidates/foliage_v1/audit_blender.py') -Label foliage-candidate-audit -WorkloadMode Exclusive -TimeoutSeconds 300",
+      "result": "passed",
+      "details": "After input capture, guarded Blender 5.2.1 source inspection and all 24 GLB reimports passed; see artifacts/guarded/foliage-candidate-audit/guard.json and stdout.log."
+    },
+    {
+      "kind": "rendered",
+      "command": "Guarded Blender source build rendered previews/grass.png and previews/plants.png; inspected both after input capture",
+      "result": "passed",
+      "details": "Both labelled isolated art sheets show distinct grass/tuft and rosette/fern forms, sparse coarse LODs and restrained selected snow tips or leaves. No ground, runtime scene, motion or skiing acceptance is inferred."
+    },
+    {
+      "kind": "performance",
+      "command": "No FPS benchmark for source-only candidate preparation",
+      "result": "not_required",
+      "details": "The pack is unintegrated. Prior scenery inventory classified grass as a small mixed opportunity with no consistent frame-tail benefit; no FPS gain is claimed."
+    },
+    {
+      "kind": "human",
+      "command": "Future in-game human/controller review if integration is authorized",
+      "result": "pending",
+      "details": "Human perception of snowy coverage, terrain seating and motion is not established by isolated source previews."
+    }
+  ],
+  "outstanding_acceptance": [
+    "The selected meadow_tuft candidate has not been integrated or measured; no FPS gain or equivalent production ground coverage is established.",
+    "Labelled source previews are isolated art inspection only; no terrain seating, weather/skier motion, LOD transition, skiing or human/controller acceptance is claimed."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-14T21:52:50.560515+00:00",
+    "build": {
+      "schema": 1,
+      "dev": 37,
+      "commit": "6574556996d160dc6cd03e1f254926da8c7df766",
+      "modified": true,
+      "changes_sha256": "f9a723dfea9b3579286650cbf9df8bdea9b2ff32da090204d4e3f4044bfa31ce",
+      "source_sha256": "83eb748dbf4a235bc185b1430b603c91d246693b188a9fa206d2f4f7880a6b15",
+      "categories": [],
+      "compatibility": {
+        "physics": 35,
+        "world": 15,
+        "replay": 7,
+        "race": 6,
+        "archive": 4,
+        "mountain_file": 2,
+        "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+        "tick_hz": 120
+      },
+      "warning": "This commit has no milestone note; validation is undocumented"
+    },
+    "inputs": {
+      "AGENTS.md": "17aef67c957730640490ecedb66f76fc606b1e1dbc8970f4d193c04a4adbd95d",
+      "art_source/performance_candidates/foliage_v1/.gdignore": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "art_source/performance_candidates/foliage_v1/README.md": "b33d3851ea2fc727036959f4d0df5ce7153215f541ae7769cfa0e25f4d635b24",
+      "art_source/performance_candidates/foliage_v1/audit.py": "d975f6a840c93d91f7778d6d6694231802f982fa9b6827e83c88c90f4bb0b9d5",
+      "art_source/performance_candidates/foliage_v1/audit_blender.py": "5f982e229770ed5a7c4f1488414681aeb297f07c3e3934618e341adb03a5faff",
+      "art_source/performance_candidates/foliage_v1/build.py": "51a42472531ca7d17b5aba33bc6ebf3cb4dc192cb729fa530adb4380588c376d",
+      "art_source/performance_candidates/foliage_v1/foliage_candidates.blend": "e0a197129197c63842dc2209b53afed60de8ec347c7b49613888ec31f055cdb3",
+      "art_source/performance_candidates/foliage_v1/manifest.json": "f6f7e3be91bf5e1bd8fa4de27752a6274b795086142237d8c3fa0c4c39d256e0",
+      "art_source/performance_candidates/foliage_v1/models/alpine_blade_dusted_lod0.glb": "56bf857cc1b51753ef08499ca0d38ab72962296da8d41cb91224d13e15683beb",
+      "art_source/performance_candidates/foliage_v1/models/alpine_blade_dusted_lod1.glb": "959e303238fc664dd8d7b0e516a29902270d070d426cf5197ae5c66565f55c97",
+      "art_source/performance_candidates/foliage_v1/models/alpine_blade_dusted_lod2.glb": "24dff95d81cbe1ace8fa1f75d3cda90179c1a68cb916fef9d06b070f28c102dd",
+      "art_source/performance_candidates/foliage_v1/models/alpine_blade_green_lod0.glb": "0365cb2f1f58986f999e4f27e04a377841a7e8354267d8c1d7cc61ed01ae375f",
+      "art_source/performance_candidates/foliage_v1/models/alpine_blade_green_lod1.glb": "d748a23bb831062e0a5a15c93e391d1a16d9f8bd2fce86ac6f76af5a539f3034",
+      "art_source/performance_candidates/foliage_v1/models/alpine_blade_green_lod2.glb": "95f2d6d187886ff71283adfb610d9b706d3f0ae9b375446b589c6fd9278cb110",
+      "art_source/performance_candidates/foliage_v1/models/alpine_rosette_dusted_lod0.glb": "50eb767cefb63249197b8e1a025fafbb0236f0cd6109322608eff22598744c5c",
+      "art_source/performance_candidates/foliage_v1/models/alpine_rosette_dusted_lod1.glb": "24e3fcad1ccbe888a2e2bf8c5e821894e8569e179ed296c199f6bac3a1cd2c28",
+      "art_source/performance_candidates/foliage_v1/models/alpine_rosette_dusted_lod2.glb": "5d580cccf5d0a16eb6d64d88d5c46e3fc230aae00b4ae325de3ee8d70cd8e02d",
+      "art_source/performance_candidates/foliage_v1/models/alpine_rosette_green_lod0.glb": "47fdd387b1f536bcf98e658bb1ff73d1384054a93c9f791a228ef1683364ff85",
+      "art_source/performance_candidates/foliage_v1/models/alpine_rosette_green_lod1.glb": "c5ebf959f6427fe93984130407fb157f0b07e487f45792dae60105b8f8948bbd",
+      "art_source/performance_candidates/foliage_v1/models/alpine_rosette_green_lod2.glb": "063ffa5c2ddb0e6077dadbb53dc9e1e74e5c881ec2a9a9b122cb79a51b353d2f",
+      "art_source/performance_candidates/foliage_v1/models/fern_spray_dusted_lod0.glb": "6cb6df8ec65622fe8b11b6c035d89d63fe100ae8c9a408bf212a719ea0d439dd",
+      "art_source/performance_candidates/foliage_v1/models/fern_spray_dusted_lod1.glb": "7ad7860d0bede4b1c84a7544c4719266c4ed38f5cdea0001c4c33b1d35ec2f4f",
+      "art_source/performance_candidates/foliage_v1/models/fern_spray_dusted_lod2.glb": "ebad0a72008428e1781a259a506a40c3416f1b138af5eb264544f8f4f0e23fb5",
+      "art_source/performance_candidates/foliage_v1/models/fern_spray_green_lod0.glb": "aa25f0c64ffa4598ee89a8d521d84c32cec83f0c7dba5b58b88fde9d7281df64",
+      "art_source/performance_candidates/foliage_v1/models/fern_spray_green_lod1.glb": "9c48151f5a30bb7347ddf7d1478daf065507127e2fc20d0cc7f0b8b1a1696b7b",
+      "art_source/performance_candidates/foliage_v1/models/fern_spray_green_lod2.glb": "1bffb8c999ab5f3c481421484dcb5ea24f6dcc6fa51fb219604b5d6a299fc672",
+      "art_source/performance_candidates/foliage_v1/models/meadow_tuft_dusted_lod0.glb": "4f6623a8c8acb3d9534646b363492c9bdd0d54ba049e443ad3c9f180ff7faa96",
+      "art_source/performance_candidates/foliage_v1/models/meadow_tuft_dusted_lod1.glb": "63dac4cb2ec442c676fe46e7be4ffef7baf484760625f29bee4775dadf532439",
+      "art_source/performance_candidates/foliage_v1/models/meadow_tuft_dusted_lod2.glb": "ddc2a799e9d336813bd8903f10d46a694a1490899e7ff14cb107176ea3e6ec22",
+      "art_source/performance_candidates/foliage_v1/models/meadow_tuft_green_lod0.glb": "110a67a19ade7b1edd0b64244a2c947766610b40fe45a2533ef2a5367708eade",
+      "art_source/performance_candidates/foliage_v1/models/meadow_tuft_green_lod1.glb": "0d1de5c66a5878ea03f143a371468c79df6843a1f647a06f6591610491c1b3ee",
+      "art_source/performance_candidates/foliage_v1/models/meadow_tuft_green_lod2.glb": "5cae5c1ec06fe173131d60c2f95df03118da89d6930f206db2eb0fa643659076",
+      "art_source/performance_candidates/foliage_v1/previews/grass.png": "aaa83cf3d03e003a2bbcc1b9b1c3d3c4f755e7ec1f766fa44b1924991ac0a4d5",
+      "art_source/performance_candidates/foliage_v1/previews/plants.png": "ab9d51c2c97f64851984147f5fca80608fbff49a3d8f44de919f6658b7931f63",
+      "artifacts/scenery_cost_inventory_20260914/REPORT.md": "9d40cf36559f14ac9484dfc6bc8611eaa3ac3b49ba0ce711de06f9d07619582a",
+      "assets/graphics/grass/manifest.json": "6b3cd4c700dc7e0d471e9c88ab57e03d8d71932c2945e299945e5910926a33c8",
+      "config/ski_default.tres": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "docs/ASSETS.md": "964af5068443960159b68929f37ca2948ce7efb1a613b99b173af4bab195a334",
+      "docs/RENDERING.md": "37a263d208c30bb0b8dea9839a6abbd354952ef84994fb0d11e13950a938ed9e",
+      "docs/WORLD.md": "93baf62d1d747469d3f2f415df1fea79f1b242a5043b4b2d71dd120324514aea",
+      "project.godot": "72cb6f901c83a06dc0b06b1d9198444dfb5a7155b4b6ab6ec2d1c311cd3458bd",
+      "scripts/core/ski_simulation.gd": "58f6122f1b572e5db9ef4974874b185a569d2384d2aea9dd2b29cae17ba1e80d",
+      "scripts/presentation/grass_motion.gd": "ffe558fa8a522f214e50d2336abbd5b23d9aba5c8884515c688dcb813a140526",
+      "scripts/presentation/grass_placement.gd": "2a0e5215848db118d63512a0ed67b8b20dc4b82afdbc46faed06e416cb49c1f0",
+      "scripts/presentation/terrain_grass.gd": "e12df5a7a175bcd307bb9a1607aaee3ff23e4416ee3d3033d9d85ffc4a5c4991",
+      "scripts/racing/competitive_record.gd": "b01d287fb39b3e8e8b868093d669dc8a997408ea05b60c27ae74c9bcc525fc11",
+      "scripts/racing/race_definition.gd": "c8375d4142f40481877919f2ed0800dfb4217fe0eb421575cb0aa11b2c8f1407",
+      "scripts/racing/run_replay.gd": "fcdbbc6482f2ee8c01d38dbf4c631be5a537bbdee426f3f462190d9eff736cbd",
+      "scripts/world/mountain_definition.gd": "b99933dd8a0d7a53c5a9e5bba56c565d9e8dfdd1c0e8831c83fdb3e2d821a29f"
+    }
+  }
+}

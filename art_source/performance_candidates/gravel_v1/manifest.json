@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "units": "metres",
+  "cell_size_m": 8.0,
+  "purpose": "Source-only 8 m cosmetic cluster templates, not runtime replacements",
+  "seed": 20260914,
+  "collision": false,
+  "terrain_write_back": false,
+  "vegetation": false,
+  "source_objects": 4,
+  "shared_materials": 1,
+  "textures_shared": [
+    "art_source/rocks/pebbles_v1/textures/stone_albedo.png",
+    "art_source/rocks/pebbles_v1/textures/stone_normal.png",
+    "art_source/rocks/pebbles_v1/textures/stone_metallic_roughness.png"
+  ],
+  "source_hashes": {
+    "art_source/rocks/pebbles_v1/manifest.json": "3499916ddf9989cb33070643e06922d90dbba57718ecd621acf40d85bc1ff906",
+    "art_source/rocks/pebbles_v1/textures/stone_albedo.png": "673b040d4a3ac370f935dfbb5dfc426b50c0f31bb751bcc6de858962586b2dbc",
+    "art_source/rocks/pebbles_v1/textures/stone_normal.png": "3b6a078d7dd57df24bcc877c64777bb61b379bcaa1e6033a8083478013b7596e",
+    "art_source/rocks/pebbles_v1/textures/stone_metallic_roughness.png": "567a799fa8d4177c15addf01117bf5ef3ab977384eaaf6713e2f6c649c7a7552",
+    "art_source/rocks/pebbles_v1/models/grit_01_lod0.glb": "8694a2951d5853e8b26964a9c1fdd5a7a1b90f96c2fd9063956dcf876eb60b30",
+    "art_source/rocks/pebbles_v1/models/grit_01_lod2.glb": "d9cb921ced5c494491811cb6565c65bef0bbec33155ab249743dd36cf3b2a5fa",
+    "art_source/rocks/pebbles_v1/models/grit_02_lod0.glb": "1e1559e718123d3675dcc0c5fc1ea30a46e29cc821e9188fb9fe4c43bad9b666",
+    "art_source/rocks/pebbles_v1/models/grit_02_lod2.glb": "cc0d5511d1abd2e4a01450363915dd140d5d357d3ed6c708e11ecc65ee5929d6",
+    "art_source/rocks/pebbles_v1/models/grit_03_lod0.glb": "2c1e01b1a04ee8415d0b04758b502391248ce28bfcf2d20c45372d1ed7dfa460",
+    "art_source/rocks/pebbles_v1/models/grit_03_lod2.glb": "b109236fa70b614ab23a62bf0b8971efdf3aea5a3a4ae89f199cd2e212ecc415",
+    "art_source/rocks/pebbles_v1/models/gravel_01_lod0.glb": "461b3d20c689da729384da2bf2835b721287e0dd77cf3bdff83c569516933b84",
+    "art_source/rocks/pebbles_v1/models/gravel_01_lod2.glb": "6b4c005083dca78abd9457db2ffab431a8118aaaa0b21162ebd46e0fecd5292f",
+    "art_source/rocks/pebbles_v1/models/gravel_02_lod0.glb": "7a63e07e1c30284a1ecbb7da00cb6dcddcbdb75629176947385b32cb6c099e6c",
+    "art_source/rocks/pebbles_v1/models/gravel_02_lod2.glb": "75cac14a12f70a636b93d8394c5e12573455d3a7cf80981190101da3c44e492d",
+    "art_source/rocks/pebbles_v1/models/gravel_03_lod0.glb": "664478be090b3fcc1a2ebb6019d984bf02ea909055fc03f3e3af05882734156c",
+    "art_source/rocks/pebbles_v1/models/gravel_03_lod2.glb": "64a56279c25505b5081b8f1573f7bc90e4bd95aebdea3d2006cf4b62f1017a8a",
+    "art_source/rocks/pebbles_v1/models/pebble_01_lod0.glb": "2bbf34272caf4b97a82ee39c18700eb04b80f00ad39adc747489a9aeafd3ca2e",
+    "art_source/rocks/pebbles_v1/models/pebble_01_lod2.glb": "88411a1998074da27b494a516dbafa4fa5228ca5b29ddfb8c06a557ad9cd2e25",
+    "art_source/rocks/pebbles_v1/models/pebble_02_lod0.glb": "6d1026e44778467c25b8e5780e6250e6b06598fe839f73495e44a3f87d9f706c",
+    "art_source/rocks/pebbles_v1/models/pebble_02_lod2.glb": "1eefdcd9d7af89056b5b642151728e0d1e45b6d5cc6649c18cbd6a8fa9558b2a",
+    "art_source/rocks/pebbles_v1/models/pebble_03_lod0.glb": "f5ff541f72127a5433b16aeff13e8cb512f1f207391615873a0f6909e8021ae2",
+    "art_source/rocks/pebbles_v1/models/pebble_03_lod2.glb": "3537ad616ff201c02baac63ce62b11dcabc689e0d7d593e49449043a72f9e8d8",
+    "art_source/rocks/pebbles_v1/models/shale_chip_01_lod0.glb": "570b7760beb7d0b12d0ac36e8908d651adcbca64666fb54e398d3a4ec51fc89b",
+    "art_source/rocks/pebbles_v1/models/shale_chip_01_lod2.glb": "0e49f09b9675f1137167c88fa18aabe49fa699f74168c26192c4f6e0210b1d8d",
+    "art_source/rocks/pebbles_v1/models/shale_chip_02_lod0.glb": "7c7e07ef19aae3e640e5e8fec29b64eec58c75c53e85574c259457e73558c34f",
+    "art_source/rocks/pebbles_v1/models/shale_chip_02_lod2.glb": "0f9aa8c077f537fa8f68e63ef432c1c697691d27ff967246e422fe73836d3e90",
+    "art_source/rocks/pebbles_v1/models/shale_chip_03_lod0.glb": "1524d87bae69cfea643a21b3d9fe46dec142cad05342db6681f178c522df2254",
+    "art_source/rocks/pebbles_v1/models/shale_chip_03_lod2.glb": "4b8bd00f9061ec81e9371ad2257cdc68bb0f69420ee32a4fdff5ca1223d23217"
+  },
+  "payloads": {
+    "dense": {
+      "stones": 3300,
+      "lods": {
+        "lod0": {
+          "vertices": 792000,
+          "triangles": 264000,
+          "material_slots": 1,
+          "bounds_min_m": [
+            2.3881,
+            2.55133,
+            -0.006
+          ],
+          "bounds_max_m": [
+            4.75388,
+            4.885,
+            0.01
+          ],
+          "family_counts": {
+            "grit": 2766,
+            "gravel": 504,
+            "pebble": 27,
+            "shale_chip": 3
+          }
+        },
+        "lod2": {
+          "vertices": 158400,
+          "triangles": 52800,
+          "material_slots": 1,
+          "bounds_min_m": [
+            2.38882,
+            2.5517,
+            -0.006
+          ],
+          "bounds_max_m": [
+            4.75337,
+            4.88486,
+            0.01
+          ],
+          "family_counts": null
+        }
+      }
+    },
+    "sparse": {
+      "stones": 440,
+      "lods": {
+        "lod0": {
+          "vertices": 105600,
+          "triangles": 35200,
+          "material_slots": 1,
+          "bounds_min_m": [
+            0.17361,
+            0.14181,
+            -0.006
+          ],
+          "bounds_max_m": [
+            5.37871,
+            7.84466,
+            0.01
+          ],
+          "family_counts": {
+            "grit": 82,
+            "gravel": 263,
+            "pebble": 74,
+            "shale_chip": 21
+          }
+        },
+        "lod2": {
+          "vertices": 21120,
+          "triangles": 7040,
+          "material_slots": 1,
+          "bounds_min_m": [
+            0.17399,
+            0.14266,
+            -0.006
+          ],
+          "bounds_max_m": [
+            5.38035,
+            7.84361,
+            0.01
+          ],
+          "family_counts": null
+        }
+      }
+    }
+  },
+  "blend_sha256": "40c536b67ed34d3b11d40ceb4dec5b953dc91aa8c3fd8326477827c2f41a4777",
+  "preview_sha256": {
+    "dense_8m_cell.png": "9574c7871147d14c2056015023a0fb362cd5d2498015f72bf86dbf81ebb52529",
+    "dense_detail.png": "3121687102dc73676c1261621b51f598123a4589dd87cf2f29ba1281f44834b9",
+    "sparse_8m_cell.png": "7f87a73a4079ee87cc02d1cb39e01e04d7f6de58fd1473eb61c4327f3a5f1592",
+    "sparse_detail.png": "5e3d4166484e3d6035c54e4e6752e69e94080073bb7e0ea1a6ee342f76681f93"
+  }
+}

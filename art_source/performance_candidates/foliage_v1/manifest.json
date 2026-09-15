@@ -1,0 +1,673 @@
+{
+  "schema": 1,
+  "units": "metres",
+  "source": "Original procedural meshes authored for this pack; no vendor models or copied geometry",
+  "coordinate_system": "Blender Z-up source; exported glTF Y-up",
+  "collisions": 0,
+  "materials": [
+    {
+      "name": "FoliageVertexOpaque",
+      "slots_per_mesh": 1,
+      "opaque": true,
+      "double_sided": true,
+      "textures": [],
+      "vertex_color": "COLOR_0"
+    }
+  ],
+  "records": [
+    {
+      "id": "alpine_blade_green_lod0",
+      "family": "grass",
+      "shape": "alpine_blade",
+      "finish": "green",
+      "lod": 0,
+      "triangles": 108,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1044,
+          -0.093,
+          0.0
+        ],
+        "max": [
+          0.0976,
+          0.1015,
+          0.25
+        ]
+      },
+      "glb": "models/alpine_blade_green_lod0.glb",
+      "sha256": "0365cb2f1f58986f999e4f27e04a377841a7e8354267d8c1d7cc61ed01ae375f",
+      "bytes": 10616
+    },
+    {
+      "id": "alpine_blade_green_lod1",
+      "family": "grass",
+      "shape": "alpine_blade",
+      "finish": "green",
+      "lod": 1,
+      "triangles": 44,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.095,
+          -0.0928,
+          0.0
+        ],
+        "max": [
+          0.0946,
+          0.0949,
+          0.25
+        ]
+      },
+      "glb": "models/alpine_blade_green_lod1.glb",
+      "sha256": "d748a23bb831062e0a5a15c93e391d1a16d9f8bd2fce86ac6f76af5a539f3034",
+      "bytes": 5108
+    },
+    {
+      "id": "alpine_blade_green_lod2",
+      "family": "grass",
+      "shape": "alpine_blade",
+      "finish": "green",
+      "lod": 2,
+      "triangles": 12,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.0984,
+          -0.0767,
+          0.0
+        ],
+        "max": [
+          0.0879,
+          0.0906,
+          0.25
+        ]
+      },
+      "glb": "models/alpine_blade_green_lod2.glb",
+      "sha256": "95f2d6d187886ff71283adfb610d9b706d3f0ae9b375446b589c6fd9278cb110",
+      "bytes": 2348
+    },
+    {
+      "id": "alpine_blade_dusted_lod0",
+      "family": "grass",
+      "shape": "alpine_blade",
+      "finish": "dusted",
+      "lod": 0,
+      "triangles": 108,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1044,
+          -0.093,
+          0.0
+        ],
+        "max": [
+          0.0976,
+          0.1015,
+          0.25
+        ]
+      },
+      "glb": "models/alpine_blade_dusted_lod0.glb",
+      "sha256": "56bf857cc1b51753ef08499ca0d38ab72962296da8d41cb91224d13e15683beb",
+      "bytes": 10620
+    },
+    {
+      "id": "alpine_blade_dusted_lod1",
+      "family": "grass",
+      "shape": "alpine_blade",
+      "finish": "dusted",
+      "lod": 1,
+      "triangles": 44,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.095,
+          -0.0928,
+          0.0
+        ],
+        "max": [
+          0.0946,
+          0.0949,
+          0.25
+        ]
+      },
+      "glb": "models/alpine_blade_dusted_lod1.glb",
+      "sha256": "959e303238fc664dd8d7b0e516a29902270d070d426cf5197ae5c66565f55c97",
+      "bytes": 5108
+    },
+    {
+      "id": "alpine_blade_dusted_lod2",
+      "family": "grass",
+      "shape": "alpine_blade",
+      "finish": "dusted",
+      "lod": 2,
+      "triangles": 12,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.0984,
+          -0.0767,
+          0.0
+        ],
+        "max": [
+          0.0879,
+          0.0906,
+          0.25
+        ]
+      },
+      "glb": "models/alpine_blade_dusted_lod2.glb",
+      "sha256": "24dff95d81cbe1ace8fa1f75d3cda90179c1a68cb916fef9d06b070f28c102dd",
+      "bytes": 2348
+    },
+    {
+      "id": "meadow_tuft_green_lod0",
+      "family": "grass",
+      "shape": "meadow_tuft",
+      "finish": "green",
+      "lod": 0,
+      "triangles": 144,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1629,
+          -0.1658,
+          0.0
+        ],
+        "max": [
+          0.1675,
+          0.1677,
+          0.36
+        ]
+      },
+      "glb": "models/meadow_tuft_green_lod0.glb",
+      "sha256": "110a67a19ade7b1edd0b64244a2c947766610b40fe45a2533ef2a5367708eade",
+      "bytes": 13728
+    },
+    {
+      "id": "meadow_tuft_green_lod1",
+      "family": "grass",
+      "shape": "meadow_tuft",
+      "finish": "green",
+      "lod": 1,
+      "triangles": 56,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1498,
+          -0.1593,
+          0.0
+        ],
+        "max": [
+          0.1674,
+          0.1493,
+          0.36
+        ]
+      },
+      "glb": "models/meadow_tuft_green_lod1.glb",
+      "sha256": "0d1de5c66a5878ea03f143a371468c79df6843a1f647a06f6591610491c1b3ee",
+      "bytes": 6156
+    },
+    {
+      "id": "meadow_tuft_green_lod2",
+      "family": "grass",
+      "shape": "meadow_tuft",
+      "finish": "green",
+      "lod": 2,
+      "triangles": 16,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1545,
+          -0.1608,
+          0.0
+        ],
+        "max": [
+          0.1374,
+          0.152,
+          0.36
+        ]
+      },
+      "glb": "models/meadow_tuft_green_lod2.glb",
+      "sha256": "5cae5c1ec06fe173131d60c2f95df03118da89d6930f206db2eb0fa643659076",
+      "bytes": 2704
+    },
+    {
+      "id": "meadow_tuft_dusted_lod0",
+      "family": "grass",
+      "shape": "meadow_tuft",
+      "finish": "dusted",
+      "lod": 0,
+      "triangles": 144,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1629,
+          -0.1658,
+          0.0
+        ],
+        "max": [
+          0.1675,
+          0.1677,
+          0.36
+        ]
+      },
+      "glb": "models/meadow_tuft_dusted_lod0.glb",
+      "sha256": "4f6623a8c8acb3d9534646b363492c9bdd0d54ba049e443ad3c9f180ff7faa96",
+      "bytes": 13732
+    },
+    {
+      "id": "meadow_tuft_dusted_lod1",
+      "family": "grass",
+      "shape": "meadow_tuft",
+      "finish": "dusted",
+      "lod": 1,
+      "triangles": 56,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1498,
+          -0.1593,
+          0.0
+        ],
+        "max": [
+          0.1674,
+          0.1493,
+          0.36
+        ]
+      },
+      "glb": "models/meadow_tuft_dusted_lod1.glb",
+      "sha256": "63dac4cb2ec442c676fe46e7be4ffef7baf484760625f29bee4775dadf532439",
+      "bytes": 6156
+    },
+    {
+      "id": "meadow_tuft_dusted_lod2",
+      "family": "grass",
+      "shape": "meadow_tuft",
+      "finish": "dusted",
+      "lod": 2,
+      "triangles": 16,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1545,
+          -0.1608,
+          0.0
+        ],
+        "max": [
+          0.1374,
+          0.152,
+          0.36
+        ]
+      },
+      "glb": "models/meadow_tuft_dusted_lod2.glb",
+      "sha256": "ddc2a799e9d336813bd8903f10d46a694a1490899e7ff14cb107176ea3e6ec22",
+      "bytes": 2708
+    },
+    {
+      "id": "alpine_rosette_green_lod0",
+      "family": "plant",
+      "shape": "alpine_rosette",
+      "finish": "green",
+      "lod": 0,
+      "triangles": 20,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1478,
+          -0.1484,
+          0.0
+        ],
+        "max": [
+          0.1478,
+          0.1484,
+          0.155
+        ]
+      },
+      "glb": "models/alpine_rosette_green_lod0.glb",
+      "sha256": "47fdd387b1f536bcf98e658bb1ff73d1384054a93c9f791a228ef1683364ff85",
+      "bytes": 3856
+    },
+    {
+      "id": "alpine_rosette_green_lod1",
+      "family": "plant",
+      "shape": "alpine_rosette",
+      "finish": "green",
+      "lod": 1,
+      "triangles": 14,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1442,
+          -0.1498,
+          0.0
+        ],
+        "max": [
+          0.1478,
+          0.1385,
+          0.155
+        ]
+      },
+      "glb": "models/alpine_rosette_green_lod1.glb",
+      "sha256": "c5ebf959f6427fe93984130407fb157f0b07e487f45792dae60105b8f8948bbd",
+      "bytes": 3100
+    },
+    {
+      "id": "alpine_rosette_green_lod2",
+      "family": "plant",
+      "shape": "alpine_rosette",
+      "finish": "green",
+      "lod": 2,
+      "triangles": 8,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1478,
+          -0.1478,
+          0.0
+        ],
+        "max": [
+          0.1478,
+          0.1478,
+          0.155
+        ]
+      },
+      "glb": "models/alpine_rosette_green_lod2.glb",
+      "sha256": "063ffa5c2ddb0e6077dadbb53dc9e1e74e5c881ec2a9a9b122cb79a51b353d2f",
+      "bytes": 2340
+    },
+    {
+      "id": "alpine_rosette_dusted_lod0",
+      "family": "plant",
+      "shape": "alpine_rosette",
+      "finish": "dusted",
+      "lod": 0,
+      "triangles": 20,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1478,
+          -0.1484,
+          0.0
+        ],
+        "max": [
+          0.1478,
+          0.1484,
+          0.155
+        ]
+      },
+      "glb": "models/alpine_rosette_dusted_lod0.glb",
+      "sha256": "50eb767cefb63249197b8e1a025fafbb0236f0cd6109322608eff22598744c5c",
+      "bytes": 3856
+    },
+    {
+      "id": "alpine_rosette_dusted_lod1",
+      "family": "plant",
+      "shape": "alpine_rosette",
+      "finish": "dusted",
+      "lod": 1,
+      "triangles": 14,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1442,
+          -0.1498,
+          0.0
+        ],
+        "max": [
+          0.1478,
+          0.1385,
+          0.155
+        ]
+      },
+      "glb": "models/alpine_rosette_dusted_lod1.glb",
+      "sha256": "24e3fcad1ccbe888a2e2bf8c5e821894e8569e179ed296c199f6bac3a1cd2c28",
+      "bytes": 3100
+    },
+    {
+      "id": "alpine_rosette_dusted_lod2",
+      "family": "plant",
+      "shape": "alpine_rosette",
+      "finish": "dusted",
+      "lod": 2,
+      "triangles": 8,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1478,
+          -0.1478,
+          0.0
+        ],
+        "max": [
+          0.1478,
+          0.1478,
+          0.155
+        ]
+      },
+      "glb": "models/alpine_rosette_dusted_lod2.glb",
+      "sha256": "5d580cccf5d0a16eb6d64d88d5c46e3fc230aae00b4ae325de3ee8d70cd8e02d",
+      "bytes": 2344
+    },
+    {
+      "id": "fern_spray_green_lod0",
+      "family": "plant",
+      "shape": "fern_spray",
+      "finish": "green",
+      "lod": 0,
+      "triangles": 45,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1819,
+          -0.1741,
+          0.0
+        ],
+        "max": [
+          0.196,
+          0.1987,
+          0.41
+        ]
+      },
+      "glb": "models/fern_spray_green_lod0.glb",
+      "sha256": "aa25f0c64ffa4598ee89a8d521d84c32cec83f0c7dba5b58b88fde9d7281df64",
+      "bytes": 7012
+    },
+    {
+      "id": "fern_spray_green_lod1",
+      "family": "plant",
+      "shape": "fern_spray",
+      "finish": "green",
+      "lod": 1,
+      "triangles": 21,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.138,
+          -0.1896,
+          0.0
+        ],
+        "max": [
+          0.196,
+          0.1504,
+          0.41
+        ]
+      },
+      "glb": "models/fern_spray_green_lod1.glb",
+      "sha256": "9c48151f5a30bb7347ddf7d1478daf065507127e2fc20d0cc7f0b8b1a1696b7b",
+      "bytes": 3976
+    },
+    {
+      "id": "fern_spray_green_lod2",
+      "family": "plant",
+      "shape": "fern_spray",
+      "finish": "green",
+      "lod": 2,
+      "triangles": 15,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1324,
+          -0.1896,
+          0.0
+        ],
+        "max": [
+          0.196,
+          0.1499,
+          0.41
+        ]
+      },
+      "glb": "models/fern_spray_green_lod2.glb",
+      "sha256": "1bffb8c999ab5f3c481421484dcb5ea24f6dcc6fa51fb219604b5d6a299fc672",
+      "bytes": 3220
+    },
+    {
+      "id": "fern_spray_dusted_lod0",
+      "family": "plant",
+      "shape": "fern_spray",
+      "finish": "dusted",
+      "lod": 0,
+      "triangles": 45,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1819,
+          -0.1741,
+          0.0
+        ],
+        "max": [
+          0.196,
+          0.1987,
+          0.41
+        ]
+      },
+      "glb": "models/fern_spray_dusted_lod0.glb",
+      "sha256": "6cb6df8ec65622fe8b11b6c035d89d63fe100ae8c9a408bf212a719ea0d439dd",
+      "bytes": 7012
+    },
+    {
+      "id": "fern_spray_dusted_lod1",
+      "family": "plant",
+      "shape": "fern_spray",
+      "finish": "dusted",
+      "lod": 1,
+      "triangles": 21,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.138,
+          -0.1896,
+          0.0
+        ],
+        "max": [
+          0.196,
+          0.1504,
+          0.41
+        ]
+      },
+      "glb": "models/fern_spray_dusted_lod1.glb",
+      "sha256": "7ad7860d0bede4b1c84a7544c4719266c4ed38f5cdea0001c4c33b1d35ec2f4f",
+      "bytes": 3980
+    },
+    {
+      "id": "fern_spray_dusted_lod2",
+      "family": "plant",
+      "shape": "fern_spray",
+      "finish": "dusted",
+      "lod": 2,
+      "triangles": 15,
+      "material_slots": 1,
+      "opaque_surfaces": 1,
+      "alpha_tested_surfaces": 0,
+      "texture_dependencies": [],
+      "bounds_blender_m": {
+        "min": [
+          -0.1324,
+          -0.1896,
+          0.0
+        ],
+        "max": [
+          0.196,
+          0.1499,
+          0.41
+        ]
+      },
+      "glb": "models/fern_spray_dusted_lod2.glb",
+      "sha256": "ebad0a72008428e1781a259a506a40c3416f1b138af5eb264544f8f4f0e23fb5",
+      "bytes": 3224
+    }
+  ],
+  "build_py_sha256": "51a42472531ca7d17b5aba33bc6ebf3cb4dc192cb729fa530adb4380588c376d",
+  "source_blend_sha256": "e0a197129197c63842dc2209b53afed60de8ec347c7b49613888ec31f055cdb3",
+  "preview_sha256": {
+    "grass.png": "aaa83cf3d03e003a2bbcc1b9b1c3d3c4f755e7ec1f766fa44b1924991ac0a4d5",
+    "plants.png": "ab9d51c2c97f64851984147f5fca80608fbff49a3d8f44de919f6658b7931f63"
+  }
+}
