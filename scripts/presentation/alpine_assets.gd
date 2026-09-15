@@ -315,24 +315,12 @@ func _set_broadleaf(mat: ShaderMaterial) -> void:
 
 func _set_collection_impostor(mat: ShaderMaterial,id: String) -> void:
 	var stem="forest_"+id.trim_prefix("FC_Impostor_")
-	var record:=tree_record(stem)
-	var colorful=record.has("foliage_type")
-	var premium=bool(record.get("premium_tree",false))
-	var tiered=colorful or premium
-	var suffix: String=["_low","_balanced",""][quality.texture_tier] if tiered else quality.texture_suffix
-	var albedo_path="res://assets/graphics/trees/textures/%s_atlas%s.%s" % [stem,suffix,"res" if tiered else "png"]
-	mat.set_shader_parameter("albedo_texture",load(albedo_path))
+	var colorful=tree_record(stem).has("foliage_type")
+	var suffix: String=["_low","_balanced",""][quality.texture_tier] if colorful else quality.texture_suffix
+	mat.set_shader_parameter("albedo_texture",load("res://assets/graphics/trees/textures/%s_atlas%s.%s" % [stem,suffix,"res" if colorful else "png"]))
 	if colorful:
 		mat.set_shader_parameter("authored_canopy",true)
 		mat.set_shader_parameter("canopy_texture",load("res://assets/graphics/trees/textures/%s_canopy%s.res" % [stem,suffix]))
-	elif premium:
-		# The premium family supplies coverage-associated eight-view color,
-		# normal, and canopy atlases. Keep the existing renderer-owned LOD,
-		# visibility and lighting paths; only bind its authored far data here.
-		mat.set_shader_parameter("authored_canopy",true)
-		mat.set_shader_parameter("canopy_texture",load("res://assets/graphics/trees/textures/%s_canopy%s.res" % [stem,suffix]))
-		mat.set_shader_parameter("authored_normal",true)
-		mat.set_shader_parameter("normal_texture",load("res://assets/graphics/trees/textures/%s_normal%s.res" % [stem,suffix]))
 
 func tree_shadow(id: String) -> Mesh:
 	return mesh(id+"_shadow") if tree_record(id).has("shadow") else mesh(id+"_lod1")
@@ -343,10 +331,7 @@ func tree_render_bounds(id: String) -> AABB:
 	var half_width: float = maxf(absf(card.position.x),absf(card.end.x))
 	box = box.merge(AABB(Vector3(-half_width,card.position.y,-half_width),Vector3(half_width*2,card.size.y,half_width*2)))
 	# Conservative swept displacement for the existing .32-radian canopy spring.
-	# Converted premium trees record their measured source pivot radius; legacy
-	# catalog entries retain the established height-derived margin.
-	var record := tree_record(id)
-	return box.grow(maxf(float(record.height_m)*.34, float(record.get("motion_padding_m", 0.0))))
+	return box.grow(float(tree_record(id).height_m)*.34)
 
 func _load_tree_catalog() -> void:
 	if tree_collection.is_empty():
@@ -381,11 +366,7 @@ func update_wind(state, dt: float, animate: bool) -> void:
 
 func _remember_material(id: String, mat: ShaderMaterial) -> void:
 	named_materials[id] = mat
-	var collection_canopy=false
-	if id.begins_with("FC_Impostor_"):
-		var record:=tree_record("forest_"+id.trim_prefix("FC_Impostor_"))
-		collection_canopy=record.has("foliage_type") or bool(record.get("premium_tree",false))
-	if id in ["FC_Tree","FC_Broadleaf"] or collection_canopy or id.begins_with("FC_Impostor_spruce_") or id.begins_with("FC_Impostor_fir_") or id.begins_with("FC_Impostor_pine_"):
+	if id in ["FC_Tree","FC_Broadleaf"] or (id.begins_with("FC_Impostor_") and tree_record("forest_"+id.trim_prefix("FC_Impostor_")).has("foliage_type")) or id.begins_with("FC_Impostor_spruce_") or id.begins_with("FC_Impostor_fir_") or id.begins_with("FC_Impostor_pine_"):
 		if not sight_receivers.has(mat): sight_receivers.append(mat)
 		mat.set_shader_parameter("foliage_sight_parameters",foliage_sight.parameters)
 	if id in ["Needles","Spruce","PC_Conifer","TD_Conifer","FC_Tree","FC_Broadleaf"] or (id.begins_with("Tree_") and not id.ends_with("snag")):

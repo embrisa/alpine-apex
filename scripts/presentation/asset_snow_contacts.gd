@@ -14,19 +14,12 @@ func root_footprint(id: String, library) -> PackedVector3Array:
 	if footprints.has(id): return footprints[id]
 	var points = PackedVector3Array()
 	# Include both woody LODs: decimation may alter the bottom ring slightly.
-	# A tree is normalized to 10.5 m in AlpineScenery. Restrict this sample to
-	# that normalized trunk/root disc, rather than treating a snow-laden low
-	# bough as a root on steep terrain. The full crown still remains in render
-	# bounds, wind, shadows and collision-owned obstacle identity.
-	var height_m := float(library.tree_record(id).height_m)
-	var normalized_root_radius := .65 * height_m / 10.5
 	for lod in 2:
 		var mesh: Mesh = library.mesh(id+"_lod%d" % lod)
 		var box = mesh.get_aabb()
 		var unique: Dictionary = {}
 		for p in mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]:
 			if p.y > box.position.y + maxf(.025,box.size.y*.008): continue
-			if Vector2(p.x,p.z).length() > normalized_root_radius: continue
 			var key = Vector3i((p*10000).round())
 			if not unique.has(key): points.append(p); unique[key] = true
 	footprints[id] = points
