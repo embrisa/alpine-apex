@@ -44,7 +44,10 @@ foreach ($forestArm in $forestArms) {
         if ($LASTEXITCODE -ne 0) { throw "Frozen preparation failed: $forestArm" }
         continue
     }
-    & (Join-Path $PSScriptRoot 'benchmark_pc.ps1') -ProjectRoot $forestProject -Label "${Label}_${forestArm}" -InputTrace (Join-Path $forestProject $forestReceipt.trace) -ScenarioReplay -TrialStartSeconds 0 -TrialSeconds 15 -Repetitions 3 -FrameCap 120 -Upscaler auto -RenderScale 0.75 -TerrainGI off -FrameGeneration off -ProfileFrameCosts
+    # Native resolved timestamps retain pass attribution alongside the matched
+    # production frame distributions.  The profile does not change the frozen
+    # replay, forest inputs, settings, repetition count, or warm-cache policy.
+    & (Join-Path $PSScriptRoot 'benchmark_pc.ps1') -ProjectRoot $forestProject -Label "${Label}_${forestArm}" -InputTrace (Join-Path $forestProject $forestReceipt.trace) -ScenarioReplay -TrialStartSeconds 0 -TrialSeconds 15 -Repetitions 3 -FrameCap 120 -Upscaler auto -RenderScale 0.75 -TerrainGI off -FrameGeneration off -ProfileFrameCosts -ProfileGpuPasses
     if ($LASTEXITCODE -ne 0) { throw "Frozen production measurement failed: $forestArm" }
     $forestProduction=Get-Content -LiteralPath (Join-Path $forestProject "artifacts/pc_environment/${Label}_${forestArm}/production.json") -Raw | ConvertFrom-Json -AsHashtable
     if (-not $forestProduction.loading.scenery_cache_hit) { throw "Scenery cache changed between preparation and timing: $forestArm. Preserve the rejected run and use a fresh label." }
