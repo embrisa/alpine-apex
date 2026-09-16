@@ -1,0 +1,1000 @@
+{
+  "schema": 1,
+  "id": "166b476762ab4265923b781e280dea41",
+  "summary": "Author eleven further ready performance backlog tasks (HUD, terrain LOD, foliage pre-pass, powder, presentation probing, streaming, environment passes, finish/crash hitches, physics catch-up, vertex shaders, interface hitches) and fix cross-links in the shared uniform task",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Performance backlog authoring",
+    "Solver, animation and recording CPU",
+    "Shader uniform publication and GPU passes",
+    "Interface and streaming hitches"
+  ],
+  "owned_paths": [
+    "backlog/tasks/AA-20260916-084503-publish-shared-shader-uniforms-globally.md",
+    "backlog/tasks/AA-20260916-084504-reduce-hud-frame-cost.md",
+    "backlog/tasks/AA-20260916-084505-fix-terrain-mesh-lod-selection.md",
+    "backlog/tasks/AA-20260916-084506-cut-foliage-depth-prepass-cost.md",
+    "backlog/tasks/AA-20260916-084507-reduce-powder-patch-render-cost.md",
+    "backlog/tasks/AA-20260916-084508-reduce-presentation-terrain-probing.md",
+    "backlog/tasks/AA-20260916-084509-reduce-grass-gravel-texture-streaming-hitches.md",
+    "backlog/tasks/AA-20260916-084510-trim-environment-and-screen-passes.md",
+    "backlog/tasks/AA-20260916-084511-reduce-finish-crash-restart-hitches.md",
+    "backlog/tasks/AA-20260916-084512-bound-physics-catch-up-steps.md",
+    "backlog/tasks/AA-20260916-084513-reduce-vertex-shader-transcendentals.md",
+    "backlog/tasks/AA-20260916-084514-reduce-menu-and-loading-interface-hitches.md"
+  ],
+  "read_paths": [
+    ".agents/skills/alpine-animation/SKILL.md",
+    ".agents/skills/alpine-backlog/SKILL.md",
+    "AGENTS.md",
+    "assets/cloud_field.gdshaderinc",
+    "assets/cloud_light.gdshaderinc",
+    "assets/graphics/alpine_surface.gdshader",
+    "assets/graphics/alpine_surface_fragment.gdshaderinc",
+    "assets/graphics/mineral_world.gdshader",
+    "assets/graphics/pc_forest_tree.gdshader",
+    "assets/graphics/pc_lod.gdshaderinc",
+    "assets/graphics/pc_tree_impostor.gdshader",
+    "assets/graphics/powder_surface.gdshader",
+    "assets/graphics/ski_track.gdshader",
+    "assets/speed_periphery.gdshader",
+    "backlog/README.md",
+    "docs/ANIMATION.md",
+    "docs/ARCHITECTURE.md",
+    "docs/AUDIO.md",
+    "docs/CURRENT_V15_BOUNDED_HIGH_SPEED_PERFORMANCE_RESULTS.json",
+    "docs/DENSE_FOREST_BASELINE.json",
+    "docs/DENSE_GPU_ENCODING.md",
+    "docs/INTERFACE_PERFORMANCE_RESULTS.json",
+    "docs/PHYSICS.md",
+    "docs/PRESENTATION.md",
+    "docs/RACING.md",
+    "docs/RENDERING.md",
+    "docs/RENDERING_BASELINE.md",
+    "docs/RENDERING_BASELINE_RESULTS.json",
+    "docs/V15_PERFORMANCE_BASELINE_RESULTS.json",
+    "docs/VALIDATION.md",
+    "docs/WORLD.md",
+    "project.godot",
+    "scripts/core/crash_recovery.gd",
+    "scripts/core/landing_assist.gd",
+    "scripts/core/rider_body.gd",
+    "scripts/core/rider_facing_pose.gd",
+    "scripts/core/run_session.gd",
+    "scripts/core/ski_contact.gd",
+    "scripts/core/ski_simulation.gd",
+    "scripts/core/terrain_material.gd",
+    "scripts/diagnostics/frame_costs.gd",
+    "scripts/main.gd",
+    "scripts/presentation/alpine_assets.gd",
+    "scripts/presentation/alpine_atmosphere.gd",
+    "scripts/presentation/cloud_lighting.gd",
+    "scripts/presentation/equipment_audio_contacts.gd",
+    "scripts/presentation/forest_placement.gd",
+    "scripts/presentation/ghost_pose.gd",
+    "scripts/presentation/graphics_presets.gd",
+    "scripts/presentation/grass_motion.gd",
+    "scripts/presentation/mineral_scenery.gd",
+    "scripts/presentation/pole_push_pose.gd",
+    "scripts/presentation/powder_surface.gd",
+    "scripts/presentation/procedural_sfx.gd",
+    "scripts/presentation/race_beams.gd",
+    "scripts/presentation/render_state_cache.gd",
+    "scripts/presentation/rock_gravel.gd",
+    "scripts/presentation/skier_anatomy.gd",
+    "scripts/presentation/skier_animation.gd",
+    "scripts/presentation/skier_full_motion.gd",
+    "scripts/presentation/skier_pose_writer.gd",
+    "scripts/presentation/skier_visual.gd",
+    "scripts/presentation/skier_voice.gd",
+    "scripts/presentation/snow_response.gd",
+    "scripts/presentation/snow_tracks.gd",
+    "scripts/presentation/speed_effects.gd",
+    "scripts/presentation/terrain_grass.gd",
+    "scripts/presentation/tree_motion.gd",
+    "scripts/presentation/weather_controller.gd",
+    "scripts/presentation/weather_effects.gd",
+    "scripts/presentation/weather_state.gd",
+    "scripts/racing/competitive_record.gd",
+    "scripts/racing/run_replay.gd",
+    "scripts/ui/action_button.gd",
+    "scripts/ui/compact_menu.gd",
+    "scripts/ui/competitive_panel.gd",
+    "scripts/ui/hud.gd",
+    "scripts/ui/hud_editor.gd",
+    "scripts/ui/hud_layout.gd",
+    "scripts/ui/interface_feedback.gd",
+    "scripts/ui/loading_overlay.gd",
+    "scripts/ui/menu_navigation.gd",
+    "scripts/ui/screen_shell.gd",
+    "scripts/ui/session_navigation_overlay.gd",
+    "scripts/ui/session_navigation_panel.gd",
+    "scripts/ui/settings_pages.gd",
+    "scripts/world/alpine_world.gd",
+    "scripts/world/generators/alpine_massif_v15.gd",
+    "scripts/world/heightfield_surface.gd",
+    "scripts/world/mountain_flavor.gd",
+    "scripts/world/prop_collision_surface.gd",
+    "scripts/world/scenery_cache.gd",
+    "scripts/world/terrain_preparation.gd",
+    "tests/animation_cpu_suite.gd",
+    "tests/camera_profiles_suite.gd",
+    "tests/camera_slope_suite.gd",
+    "tests/camera_suite.gd",
+    "tests/carving_raised_ski_tracks_gpu_suite.gd",
+    "tests/colorful_forest_suite.gd",
+    "tests/competitive_suite.gd",
+    "tests/controller_prompts_suite.gd",
+    "tests/crash_recovery_suite.gd",
+    "tests/crash_replay_suite.gd",
+    "tests/density_lod_suite.gd",
+    "tests/equipment_audio_suite.gd",
+    "tests/exact_clock_suite.gd",
+    "tests/finish_beam_suite.gd",
+    "tests/flavor_integration_suite.gd",
+    "tests/foliage_sight_suite.gd",
+    "tests/forest_preparation_suite.gd",
+    "tests/generated_mountain_suite.gd",
+    "tests/ghost_archive_suite.gd",
+    "tests/ghost_retry_cache_suite.gd",
+    "tests/golden_sunlight_suite.gd",
+    "tests/graphics_override_suite.gd",
+    "tests/graphics_suite.gd",
+    "tests/hud_dial_suite.gd",
+    "tests/impact_warning_suite.gd",
+    "tests/interface_feedback_suite.gd",
+    "tests/interface_layout_suite.gd",
+    "tests/interface_performance_suite.gd",
+    "tests/interface_powder_native_checks.gd",
+    "tests/interface_settings_suite.gd",
+    "tests/interface_suite.gd",
+    "tests/landing_settle_suite.gd",
+    "tests/macos_compatibility_suite.gd",
+    "tests/menu_navigation_suite.gd",
+    "tests/mineral_asset_suite.gd",
+    "tests/mineral_detail_suite.gd",
+    "tests/pc_graphics_suite.gd",
+    "tests/performance_descent.gd",
+    "tests/performance_recording_suite.gd",
+    "tests/performance_trace_contract_suite.gd",
+    "tests/physics_suite.gd",
+    "tests/pole_push_pose_suite.gd",
+    "tests/powder_support_cache_suite.gd",
+    "tests/powder_upload_suite.gd",
+    "tests/powder_volume_suite.gd",
+    "tests/race_suite.gd",
+    "tests/render_efficiency_suite.gd",
+    "tests/retained_interface_suite.gd",
+    "tests/rock_gravel_suite.gd",
+    "tests/runtime_suite.gd",
+    "tests/scene_motion_blur_suite.gd",
+    "tests/scenery_loading_suite.gd",
+    "tests/session_navigation_suite.gd",
+    "tests/sfx_audio_suite.gd",
+    "tests/ski_attachment_suite.gd",
+    "tests/skier_anatomy_suite.gd",
+    "tests/skier_animation_suite.gd",
+    "tests/skier_motion_suite.gd",
+    "tests/skier_voice_suite.gd",
+    "tests/snow_contact_visual_suite.gd",
+    "tests/snow_crush_suite.gd",
+    "tests/snow_grounding_suite.gd",
+    "tests/snow_response_suite.gd",
+    "tests/startup_suite.gd",
+    "tests/streaming_collision_suite.gd",
+    "tests/summit_return_suite.gd",
+    "tests/terrain_grass_suite.gd",
+    "tests/terrain_query_suite.gd",
+    "tests/tree_collection_suite.gd",
+    "tests/tree_dynamics_suite.gd",
+    "tests/turn_anatomy_suite.gd",
+    "tests/weather_lifecycle_suite.gd",
+    "tests/weather_suite.gd",
+    "tests/wind_audio_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Backlog task authoring only; no runtime, generator, settings or data change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Backlog task authoring only; no runtime, generator, settings or data change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Backlog task authoring only; no runtime, generator, settings or data change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Backlog task authoring only; no runtime, generator, settings or data change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Backlog task authoring only; no runtime, generator, settings or data change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "python3 scripts/backlog.py validate",
+      "result": "passed",
+      "details": "status ok; 62 tasks parsed, 15 AA-20260916 tasks ready with resolved dependencies and no open questions (four were committed earlier in a75212c). Output retained at artifacts/backlog_perf_20260916/validate.json."
+    },
+    {
+      "kind": "automated",
+      "command": "python3 markdown link check over backlog/tasks/AA-20260916-*.md (repository-relative targets must exist)",
+      "result": "passed",
+      "details": "0 broken links after correcting one task cross-reference (084513) and the cloud include paths (assets/cloud_field.gdshaderinc, assets/cloud_light.gdshaderinc)."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Task authoring only; the fifteen tasks' implementation, automated/rendered/performance verification and human review remain pending.",
+    "Source inspected read-only at Dev 43 a9c2acb across scripts/core, scripts/presentation, scripts/ui, runtime scripts/world and assets shaders; cost figures quoted in tasks come from committed Windows receipts (docs/*RESULTS.json, DENSE_FOREST_BASELINE.json) and per-call counts are analytic and labelled as such. One audit claim (production massif skipping the allocation-free height path) was verified false and excluded.",
+    "Local macOS probe (artifacts/mac_probe, ignored) is a diagnostic observation only: frame times were invalid because the main thread blocked in CAMetalLayer nextDrawable one-second waits with an occluded window; it is not project performance evidence and changed no source."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T13:56:19.669499+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "a75212c3bc2f320e080bb071aff940e00dfb6e72",
+      "dev": 45,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-animation/SKILL.md": {
+        "size": 2630,
+        "mtime_ns": 1789566979291760931
+      },
+      ".agents/skills/alpine-backlog/SKILL.md": {
+        "size": 3759,
+        "mtime_ns": 1789511896314584836
+      },
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789544258451225404
+      },
+      "assets/cloud_field.gdshaderinc": {
+        "size": 1387,
+        "mtime_ns": 1789511896536625786
+      },
+      "assets/cloud_light.gdshaderinc": {
+        "size": 3557,
+        "mtime_ns": 1789511896537052461
+      },
+      "assets/graphics/alpine_surface.gdshader": {
+        "size": 352,
+        "mtime_ns": 1788638302763762083
+      },
+      "assets/graphics/alpine_surface_fragment.gdshaderinc": {
+        "size": 8305,
+        "mtime_ns": 1789511896537598013
+      },
+      "assets/graphics/mineral_world.gdshader": {
+        "size": 6602,
+        "mtime_ns": 1789511896793730681
+      },
+      "assets/graphics/pc_forest_tree.gdshader": {
+        "size": 5702,
+        "mtime_ns": 1789511896995003552
+      },
+      "assets/graphics/pc_lod.gdshaderinc": {
+        "size": 1756,
+        "mtime_ns": 1789511896995155930
+      },
+      "assets/graphics/pc_tree_impostor.gdshader": {
+        "size": 3481,
+        "mtime_ns": 1789511896995480437
+      },
+      "assets/graphics/powder_surface.gdshader": {
+        "size": 2771,
+        "mtime_ns": 1789511896995948488
+      },
+      "assets/graphics/ski_track.gdshader": {
+        "size": 5585,
+        "mtime_ns": 1789548168553558467
+      },
+      "assets/speed_periphery.gdshader": {
+        "size": 2585,
+        "mtime_ns": 1789511897064856898
+      },
+      "backlog/README.md": {
+        "size": 2320,
+        "mtime_ns": 1789511897066099839
+      },
+      "backlog/tasks/AA-20260916-084503-publish-shared-shader-uniforms-globally.md": {
+        "size": 6577,
+        "mtime_ns": 1789566041418189466
+      },
+      "backlog/tasks/AA-20260916-084504-reduce-hud-frame-cost.md": {
+        "size": 7035,
+        "mtime_ns": 1789565749357107570
+      },
+      "backlog/tasks/AA-20260916-084505-fix-terrain-mesh-lod-selection.md": {
+        "size": 5380,
+        "mtime_ns": 1789565749359909893
+      },
+      "backlog/tasks/AA-20260916-084506-cut-foliage-depth-prepass-cost.md": {
+        "size": 5922,
+        "mtime_ns": 1789565749362687048
+      },
+      "backlog/tasks/AA-20260916-084507-reduce-powder-patch-render-cost.md": {
+        "size": 5839,
+        "mtime_ns": 1789565749365546330
+      },
+      "backlog/tasks/AA-20260916-084508-reduce-presentation-terrain-probing.md": {
+        "size": 6500,
+        "mtime_ns": 1789565865528701315
+      },
+      "backlog/tasks/AA-20260916-084509-reduce-grass-gravel-texture-streaming-hitches.md": {
+        "size": 5290,
+        "mtime_ns": 1789565865530747713
+      },
+      "backlog/tasks/AA-20260916-084510-trim-environment-and-screen-passes.md": {
+        "size": 5641,
+        "mtime_ns": 1789565865532632442
+      },
+      "backlog/tasks/AA-20260916-084511-reduce-finish-crash-restart-hitches.md": {
+        "size": 4940,
+        "mtime_ns": 1789565865534637547
+      },
+      "backlog/tasks/AA-20260916-084512-bound-physics-catch-up-steps.md": {
+        "size": 3793,
+        "mtime_ns": 1789565946193527846
+      },
+      "backlog/tasks/AA-20260916-084513-reduce-vertex-shader-transcendentals.md": {
+        "size": 5224,
+        "mtime_ns": 1789566062879092090
+      },
+      "backlog/tasks/AA-20260916-084514-reduce-menu-and-loading-interface-hitches.md": {
+        "size": 5251,
+        "mtime_ns": 1789565946200706800
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/ANIMATION.md": {
+        "size": 23115,
+        "mtime_ns": 1789511897080136659
+      },
+      "docs/ARCHITECTURE.md": {
+        "size": 8101,
+        "mtime_ns": 1789511897080441457
+      },
+      "docs/AUDIO.md": {
+        "size": 12253,
+        "mtime_ns": 1789548168555995545
+      },
+      "docs/CURRENT_V15_BOUNDED_HIGH_SPEED_PERFORMANCE_RESULTS.json": {
+        "size": 188058,
+        "mtime_ns": 1789511897081190222
+      },
+      "docs/DENSE_FOREST_BASELINE.json": {
+        "size": 12466,
+        "mtime_ns": 1789544258452033583
+      },
+      "docs/DENSE_GPU_ENCODING.md": {
+        "size": 10634,
+        "mtime_ns": 1789511897081500728
+      },
+      "docs/INTERFACE_PERFORMANCE_RESULTS.json": {
+        "size": 416497,
+        "mtime_ns": 1789511897082878838
+      },
+      "docs/PHYSICS.md": {
+        "size": 14942,
+        "mtime_ns": 1789511897083039383
+      },
+      "docs/PRESENTATION.md": {
+        "size": 28054,
+        "mtime_ns": 1789511897083165761
+      },
+      "docs/RACING.md": {
+        "size": 19943,
+        "mtime_ns": 1789511897083383932
+      },
+      "docs/RENDERING.md": {
+        "size": 37950,
+        "mtime_ns": 1789548168556439085
+      },
+      "docs/RENDERING_BASELINE.md": {
+        "size": 18330,
+        "mtime_ns": 1789511897083642520
+      },
+      "docs/RENDERING_BASELINE_RESULTS.json": {
+        "size": 586250,
+        "mtime_ns": 1789511897084525955
+      },
+      "docs/V15_PERFORMANCE_BASELINE_RESULTS.json": {
+        "size": 182276,
+        "mtime_ns": 1789511897085432723
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789544258453961269
+      },
+      "docs/WORLD.md": {
+        "size": 23068,
+        "mtime_ns": 1789511897086245822
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789546451377313344
+      },
+      "scripts/core/crash_recovery.gd": {
+        "size": 8478,
+        "mtime_ns": 1789511897110223048
+      },
+      "scripts/core/landing_assist.gd": {
+        "size": 6033,
+        "mtime_ns": 1789511897110672640
+      },
+      "scripts/core/rider_body.gd": {
+        "size": 20851,
+        "mtime_ns": 1789511897111167817
+      },
+      "scripts/core/rider_facing_pose.gd": {
+        "size": 2511,
+        "mtime_ns": 1789511897111244110
+      },
+      "scripts/core/run_session.gd": {
+        "size": 10855,
+        "mtime_ns": 1789511897112030001
+      },
+      "scripts/core/ski_contact.gd": {
+        "size": 6440,
+        "mtime_ns": 1789511897112194962
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 41854,
+        "mtime_ns": 1789511897112392591
+      },
+      "scripts/core/terrain_material.gd": {
+        "size": 366,
+        "mtime_ns": 1789511897113477113
+      },
+      "scripts/diagnostics/frame_costs.gd": {
+        "size": 1278,
+        "mtime_ns": 1789511897115294024
+      },
+      "scripts/main.gd": {
+        "size": 87309,
+        "mtime_ns": 1789511897118263208
+      },
+      "scripts/presentation/alpine_assets.gd": {
+        "size": 19987,
+        "mtime_ns": 1789511897122795506
+      },
+      "scripts/presentation/alpine_atmosphere.gd": {
+        "size": 4123,
+        "mtime_ns": 1789511897122900633
+      },
+      "scripts/presentation/cloud_lighting.gd": {
+        "size": 2062,
+        "mtime_ns": 1789511897123896070
+      },
+      "scripts/presentation/equipment_audio_contacts.gd": {
+        "size": 6984,
+        "mtime_ns": 1789511897124852672
+      },
+      "scripts/presentation/forest_placement.gd": {
+        "size": 8152,
+        "mtime_ns": 1789511897125237930
+      },
+      "scripts/presentation/ghost_pose.gd": {
+        "size": 6497,
+        "mtime_ns": 1789511897126098697
+      },
+      "scripts/presentation/graphics_presets.gd": {
+        "size": 5399,
+        "mtime_ns": 1789511897126409244
+      },
+      "scripts/presentation/grass_motion.gd": {
+        "size": 2613,
+        "mtime_ns": 1789511897126740501
+      },
+      "scripts/presentation/mineral_scenery.gd": {
+        "size": 10458,
+        "mtime_ns": 1789511897127870399
+      },
+      "scripts/presentation/pole_push_pose.gd": {
+        "size": 15061,
+        "mtime_ns": 1789511897128624705
+      },
+      "scripts/presentation/powder_surface.gd": {
+        "size": 17100,
+        "mtime_ns": 1789511897128892835
+      },
+      "scripts/presentation/procedural_sfx.gd": {
+        "size": 11327,
+        "mtime_ns": 1789511897129057839
+      },
+      "scripts/presentation/race_beams.gd": {
+        "size": 5435,
+        "mtime_ns": 1789511897129326344
+      },
+      "scripts/presentation/render_state_cache.gd": {
+        "size": 774,
+        "mtime_ns": 1789511897129431179
+      },
+      "scripts/presentation/rock_gravel.gd": {
+        "size": 6861,
+        "mtime_ns": 1789511897129819354
+      },
+      "scripts/presentation/skier_anatomy.gd": {
+        "size": 8587,
+        "mtime_ns": 1789511897130546910
+      },
+      "scripts/presentation/skier_animation.gd": {
+        "size": 20532,
+        "mtime_ns": 1789511897130718247
+      },
+      "scripts/presentation/skier_full_motion.gd": {
+        "size": 47038,
+        "mtime_ns": 1789511897131198548
+      },
+      "scripts/presentation/skier_pose_writer.gd": {
+        "size": 688,
+        "mtime_ns": 1789511897131337176
+      },
+      "scripts/presentation/skier_visual.gd": {
+        "size": 19776,
+        "mtime_ns": 1789511897132004314
+      },
+      "scripts/presentation/skier_voice.gd": {
+        "size": 11071,
+        "mtime_ns": 1789511897132115524
+      },
+      "scripts/presentation/snow_response.gd": {
+        "size": 11129,
+        "mtime_ns": 1789511897132505991
+      },
+      "scripts/presentation/snow_tracks.gd": {
+        "size": 13725,
+        "mtime_ns": 1789511897132958125
+      },
+      "scripts/presentation/speed_effects.gd": {
+        "size": 11201,
+        "mtime_ns": 1789511897133258339
+      },
+      "scripts/presentation/terrain_grass.gd": {
+        "size": 7623,
+        "mtime_ns": 1789511897133498927
+      },
+      "scripts/presentation/tree_motion.gd": {
+        "size": 4242,
+        "mtime_ns": 1789511897133854851
+      },
+      "scripts/presentation/weather_controller.gd": {
+        "size": 10010,
+        "mtime_ns": 1789511897134982915
+      },
+      "scripts/presentation/weather_effects.gd": {
+        "size": 6262,
+        "mtime_ns": 1789511897135144668
+      },
+      "scripts/presentation/weather_state.gd": {
+        "size": 1212,
+        "mtime_ns": 1789511897135928184
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789511897136445444
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18345,
+        "mtime_ns": 1789511897137639509
+      },
+      "scripts/ui/action_button.gd": {
+        "size": 4743,
+        "mtime_ns": 1789511897140844906
+      },
+      "scripts/ui/compact_menu.gd": {
+        "size": 8983,
+        "mtime_ns": 1789511897141955678
+      },
+      "scripts/ui/competitive_panel.gd": {
+        "size": 5304,
+        "mtime_ns": 1789511897142514564
+      },
+      "scripts/ui/hud.gd": {
+        "size": 47882,
+        "mtime_ns": 1789511897143480125
+      },
+      "scripts/ui/hud_editor.gd": {
+        "size": 9512,
+        "mtime_ns": 1789511897143606628
+      },
+      "scripts/ui/hud_layout.gd": {
+        "size": 2783,
+        "mtime_ns": 1789511897143871633
+      },
+      "scripts/ui/interface_feedback.gd": {
+        "size": 9549,
+        "mtime_ns": 1789511897144164639
+      },
+      "scripts/ui/loading_overlay.gd": {
+        "size": 16774,
+        "mtime_ns": 1789511897144452019
+      },
+      "scripts/ui/menu_navigation.gd": {
+        "size": 15065,
+        "mtime_ns": 1789511897144826860
+      },
+      "scripts/ui/screen_shell.gd": {
+        "size": 4644,
+        "mtime_ns": 1789511897146091677
+      },
+      "scripts/ui/session_navigation_overlay.gd": {
+        "size": 1813,
+        "mtime_ns": 1789511897146321098
+      },
+      "scripts/ui/session_navigation_panel.gd": {
+        "size": 12188,
+        "mtime_ns": 1789511897146466184
+      },
+      "scripts/ui/settings_pages.gd": {
+        "size": 16495,
+        "mtime_ns": 1789511897146720606
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 26995,
+        "mtime_ns": 1789511897149769583
+      },
+      "scripts/world/generators/alpine_massif_v15.gd": {
+        "size": 23453,
+        "mtime_ns": 1789511897153241569
+      },
+      "scripts/world/heightfield_surface.gd": {
+        "size": 8958,
+        "mtime_ns": 1789511897154650555
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      },
+      "scripts/world/mountain_flavor.gd": {
+        "size": 1795,
+        "mtime_ns": 1789511897156580094
+      },
+      "scripts/world/prop_collision_surface.gd": {
+        "size": 4674,
+        "mtime_ns": 1789511897158606842
+      },
+      "scripts/world/scenery_cache.gd": {
+        "size": 8833,
+        "mtime_ns": 1789511897158881681
+      },
+      "scripts/world/terrain_preparation.gd": {
+        "size": 3728,
+        "mtime_ns": 1789511897159350190
+      },
+      "tests/animation_cpu_suite.gd": {
+        "size": 3546,
+        "mtime_ns": 1789511897163169224
+      },
+      "tests/camera_profiles_suite.gd": {
+        "size": 5798,
+        "mtime_ns": 1789511897165146222
+      },
+      "tests/camera_slope_suite.gd": {
+        "size": 5354,
+        "mtime_ns": 1789511897165731900
+      },
+      "tests/camera_suite.gd": {
+        "size": 28151,
+        "mtime_ns": 1789511897165881778
+      },
+      "tests/carving_raised_ski_tracks_gpu_suite.gd": {
+        "size": 4394,
+        "mtime_ns": 1789511897167909735
+      },
+      "tests/colorful_forest_suite.gd": {
+        "size": 6985,
+        "mtime_ns": 1789511897168237450
+      },
+      "tests/competitive_suite.gd": {
+        "size": 19262,
+        "mtime_ns": 1789511897168688084
+      },
+      "tests/controller_prompts_suite.gd": {
+        "size": 10125,
+        "mtime_ns": 1789511897169098051
+      },
+      "tests/crash_recovery_suite.gd": {
+        "size": 13050,
+        "mtime_ns": 1789511897169646603
+      },
+      "tests/crash_replay_suite.gd": {
+        "size": 7951,
+        "mtime_ns": 1789511897169930942
+      },
+      "tests/density_lod_suite.gd": {
+        "size": 5201,
+        "mtime_ns": 1789511897170695291
+      },
+      "tests/equipment_audio_suite.gd": {
+        "size": 9849,
+        "mtime_ns": 1789511897172553452
+      },
+      "tests/exact_clock_suite.gd": {
+        "size": 20798,
+        "mtime_ns": 1789511897173211799
+      },
+      "tests/finish_beam_suite.gd": {
+        "size": 4790,
+        "mtime_ns": 1789511897174264153
+      },
+      "tests/flavor_integration_suite.gd": {
+        "size": 5908,
+        "mtime_ns": 1789511897180352357
+      },
+      "tests/foliage_sight_suite.gd": {
+        "size": 7344,
+        "mtime_ns": 1789511897181759385
+      },
+      "tests/forest_preparation_suite.gd": {
+        "size": 7547,
+        "mtime_ns": 1789511897182495650
+      },
+      "tests/generated_mountain_suite.gd": {
+        "size": 10954,
+        "mtime_ns": 1789511897183374917
+      },
+      "tests/ghost_archive_suite.gd": {
+        "size": 9409,
+        "mtime_ns": 1789511897187966717
+      },
+      "tests/ghost_retry_cache_suite.gd": {
+        "size": 16726,
+        "mtime_ns": 1789511897188564187
+      },
+      "tests/golden_sunlight_suite.gd": {
+        "size": 7955,
+        "mtime_ns": 1789511897188965195
+      },
+      "tests/graphics_override_suite.gd": {
+        "size": 9868,
+        "mtime_ns": 1789511897189114615
+      },
+      "tests/graphics_suite.gd": {
+        "size": 10458,
+        "mtime_ns": 1789511897189442454
+      },
+      "tests/hud_dial_suite.gd": {
+        "size": 5148,
+        "mtime_ns": 1789511897190428516
+      },
+      "tests/impact_warning_suite.gd": {
+        "size": 2750,
+        "mtime_ns": 1789511897191039070
+      },
+      "tests/interface_feedback_suite.gd": {
+        "size": 12250,
+        "mtime_ns": 1789511897191745833
+      },
+      "tests/interface_layout_suite.gd": {
+        "size": 5763,
+        "mtime_ns": 1789511897191904878
+      },
+      "tests/interface_performance_suite.gd": {
+        "size": 29666,
+        "mtime_ns": 1789511897193115611
+      },
+      "tests/interface_powder_native_checks.gd": {
+        "size": 5840,
+        "mtime_ns": 1789511897193296698
+      },
+      "tests/interface_settings_suite.gd": {
+        "size": 10172,
+        "mtime_ns": 1789511897193487701
+      },
+      "tests/interface_suite.gd": {
+        "size": 17573,
+        "mtime_ns": 1789511897193656080
+      },
+      "tests/landing_settle_suite.gd": {
+        "size": 7647,
+        "mtime_ns": 1789511897194185299
+      },
+      "tests/macos_compatibility_suite.gd": {
+        "size": 1299,
+        "mtime_ns": 1789548168554562882
+      },
+      "tests/menu_navigation_suite.gd": {
+        "size": 10285,
+        "mtime_ns": 1789511897196312216
+      },
+      "tests/mineral_asset_suite.gd": {
+        "size": 4120,
+        "mtime_ns": 1789511897196475761
+      },
+      "tests/mineral_detail_suite.gd": {
+        "size": 4536,
+        "mtime_ns": 1789511897196639389
+      },
+      "tests/pc_graphics_suite.gd": {
+        "size": 6418,
+        "mtime_ns": 1789511897199785493
+      },
+      "tests/performance_descent.gd": {
+        "size": 19669,
+        "mtime_ns": 1789511897200115208
+      },
+      "tests/performance_recording_suite.gd": {
+        "size": 3856,
+        "mtime_ns": 1789511897201718073
+      },
+      "tests/performance_trace_contract_suite.gd": {
+        "size": 3121,
+        "mtime_ns": 1789511897202461213
+      },
+      "tests/physics_suite.gd": {
+        "size": 18419,
+        "mtime_ns": 1789511897203258604
+      },
+      "tests/pole_push_pose_suite.gd": {
+        "size": 5759,
+        "mtime_ns": 1789511897205027930
+      },
+      "tests/powder_support_cache_suite.gd": {
+        "size": 2483,
+        "mtime_ns": 1789511897206617045
+      },
+      "tests/powder_upload_suite.gd": {
+        "size": 6010,
+        "mtime_ns": 1789511897206877175
+      },
+      "tests/powder_volume_suite.gd": {
+        "size": 6237,
+        "mtime_ns": 1789511897207151848
+      },
+      "tests/race_suite.gd": {
+        "size": 16385,
+        "mtime_ns": 1789511897208371372
+      },
+      "tests/render_efficiency_suite.gd": {
+        "size": 9859,
+        "mtime_ns": 1789511897208473207
+      },
+      "tests/retained_interface_suite.gd": {
+        "size": 6228,
+        "mtime_ns": 1789511897209551270
+      },
+      "tests/rock_gravel_suite.gd": {
+        "size": 7307,
+        "mtime_ns": 1789511897210167116
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41041,
+        "mtime_ns": 1789511897211065425
+      },
+      "tests/scene_motion_blur_suite.gd": {
+        "size": 7906,
+        "mtime_ns": 1789511897211686813
+      },
+      "tests/scenery_loading_suite.gd": {
+        "size": 2143,
+        "mtime_ns": 1789511897212051445
+      },
+      "tests/session_navigation_suite.gd": {
+        "size": 1919,
+        "mtime_ns": 1789511897213869398
+      },
+      "tests/sfx_audio_suite.gd": {
+        "size": 13329,
+        "mtime_ns": 1789511897214085444
+      },
+      "tests/ski_attachment_suite.gd": {
+        "size": 6215,
+        "mtime_ns": 1789511897215639433
+      },
+      "tests/skier_anatomy_suite.gd": {
+        "size": 5803,
+        "mtime_ns": 1789511897215884396
+      },
+      "tests/skier_animation_suite.gd": {
+        "size": 17208,
+        "mtime_ns": 1789511897216232903
+      },
+      "tests/skier_motion_suite.gd": {
+        "size": 7088,
+        "mtime_ns": 1789511897217735516
+      },
+      "tests/skier_voice_suite.gd": {
+        "size": 8143,
+        "mtime_ns": 1789511897218562699
+      },
+      "tests/snow_contact_visual_suite.gd": {
+        "size": 17725,
+        "mtime_ns": 1789511897219461259
+      },
+      "tests/snow_crush_suite.gd": {
+        "size": 10765,
+        "mtime_ns": 1789511897220119647
+      },
+      "tests/snow_grounding_suite.gd": {
+        "size": 14545,
+        "mtime_ns": 1789511897221249711
+      },
+      "tests/snow_response_suite.gd": {
+        "size": 4619,
+        "mtime_ns": 1789511897222167562
+      },
+      "tests/startup_suite.gd": {
+        "size": 14676,
+        "mtime_ns": 1789511897222719157
+      },
+      "tests/streaming_collision_suite.gd": {
+        "size": 7610,
+        "mtime_ns": 1789511897225884303
+      },
+      "tests/summit_return_suite.gd": {
+        "size": 8006,
+        "mtime_ns": 1789511897226640401
+      },
+      "tests/terrain_grass_suite.gd": {
+        "size": 10058,
+        "mtime_ns": 1789511897230115845
+      },
+      "tests/terrain_query_suite.gd": {
+        "size": 7882,
+        "mtime_ns": 1789511897230509478
+      },
+      "tests/tree_collection_suite.gd": {
+        "size": 4876,
+        "mtime_ns": 1789511897232483642
+      },
+      "tests/tree_dynamics_suite.gd": {
+        "size": 2362,
+        "mtime_ns": 1789511897232615228
+      },
+      "tests/turn_anatomy_suite.gd": {
+        "size": 6986,
+        "mtime_ns": 1789511897234899482
+      },
+      "tests/weather_lifecycle_suite.gd": {
+        "size": 7953,
+        "mtime_ns": 1789511897235676247
+      },
+      "tests/weather_suite.gd": {
+        "size": 11102,
+        "mtime_ns": 1789511897236326302
+      },
+      "tests/wind_audio_suite.gd": {
+        "size": 4488,
+        "mtime_ns": 1789511897237168235
+      }
+    }
+  }
+}
