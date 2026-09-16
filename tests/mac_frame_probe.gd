@@ -8,6 +8,9 @@ extends SceneTree
 ## timer, so GPU attribution comes from comparing labelled configurations.
 ## Options after `--`: --probe-label=NAME --probe-seconds=N --probe-capture
 ## --probe-menu pauses into the menu after warm-up and measures that state.
+## --probe-stall=MS busy-waits the main thread for MS every --probe-stall-every=S
+## seconds (default 4) and records the frame times and solver ticks of the 16
+## frames after each stall; --probe-steps=N sets Engine.max_physics_steps_per_frame.
 ## --probe-set=graphics_key=value (repeatable; PCGraphicsSettings keys or preset
 ## CONTROLS) plus any ordinary game arguments such as --graphics-quality=low,
 ## --upscaler=fsr2, --render-scale=0.5 or --cloud-shadows-off.
@@ -15,6 +18,8 @@ var game
 var frames = PackedFloat64Array(); var rcpu = PackedFloat64Array(); var draws = PackedFloat64Array(); var prims = PackedFloat64Array()
 var overrides: Dictionary = {}
 var last_usec = 0; var seconds = 25; var warm = 240; var warm_left = 0; var measuring = false; var end_usec = 0; var label = "probe"; var capture = false; var menu = false
+var stall_ms = 0; var stall_every = 4.0; var next_stall_usec = 0; var steps = 0
+var episodes: Array = []; var episode: Array = []; var last_ticks = 0
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	for arg in OS.get_cmdline_user_args():
@@ -22,6 +27,9 @@ func run() -> void:
 		if arg.begins_with("--probe-label="): label = arg.get_slice("=",1).validate_filename()
 		if arg=="--probe-capture": capture = true
 		if arg=="--probe-menu": menu = true
+		if arg.begins_with("--probe-stall="): stall_ms = int(arg.get_slice("=",1))
+		if arg.begins_with("--probe-stall-every="): stall_every = float(arg.get_slice("=",1))
+		if arg.begins_with("--probe-steps="): steps = int(arg.get_slice("=",1))
 		if arg.begins_with("--probe-set="):
 			var raw: String = arg.get_slice("=",2)
 			overrides[arg.get_slice("=",1)] = (raw=="true") if raw in ["true","false"] else (int(raw) if raw.is_valid_int() else float(raw))
@@ -43,6 +51,7 @@ func run() -> void:
 		game.apply_graphics_configuration()
 		for i in 6: await process_frame
 	game.display_settings.apply_viewport(root)
+	if steps>0: Engine.max_physics_steps_per_frame = steps
 	game.start_run(false)
 	game.session.eligible = false
 	warm_left = warm
@@ -56,9 +65,17 @@ func measure() -> void:
 				game.active = false
 				game.hud.show_menu("paused")
 			game.frame_costs.reset(); measuring = true; end_usec = now+seconds*1000000; last_usec = now
+			next_stall_usec = now+int(stall_every*1000000.0); last_ticks = game.sim.ticks
 		return
 	if not measuring: return
 	frames.append((now-last_usec)/1000.0); last_usec = now
+	var ticks_now: int = game.sim.ticks
+	if episode.size()<16 and not episodes.is_empty(): episode.append([snappedf(frames[-1],.01),ticks_now-last_ticks])
+	last_ticks = ticks_now
+	if stall_ms>0 and now>=next_stall_usec and end_usec-now>1500000:
+		next_stall_usec = now+int(stall_every*1000000.0)
+		episode = []; episodes.append(episode)
+		OS.delay_msec(stall_ms) # One deliberate main-thread stall; the next frame catches up.
 	var c = RenderingServer.viewport_get_measured_render_time_cpu(root.get_viewport_rid()); if c>0.0: rcpu.append(c)
 	draws.append(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
 	prims.append(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME))
@@ -83,7 +100,8 @@ func finish() -> void:
 		"crashed":game.sim.crashed,"crash_reason":game.sim.crash_reason,"ticks":game.sim.ticks,"peak_kmh":game.sim.peak_speed*3.6,
 		"frame_ms":Costs.stats(frames),"fps_mean":1000.0/Costs.stats(frames).mean if frames.size()>0 else 0.0,"render_cpu_ms":Costs.stats(rcpu),"draw_calls":Costs.stats(draws),"primitives":Costs.stats(prims),
 		"lighting":{"sdfgi":game.world.environment.sdfgi_enabled,"ssao":game.world.environment.ssao_enabled,"ssil":game.world.environment.ssil_enabled,"glow":game.world.environment.glow_enabled,"volumetric_fog":game.world.environment.volumetric_fog_enabled},
-		"cpu_scopes_us":game.frame_costs.report()}
+		"cpu_scopes_us":game.frame_costs.report(),
+		"stall":{"ms":stall_ms,"max_physics_steps_per_frame":Engine.max_physics_steps_per_frame,"episodes_frame_ms_and_ticks":episodes}}
 	var f = FileAccess.open("res://artifacts/mac_probe/%s.json" % label,FileAccess.WRITE); f.store_string(JSON.stringify(data,"\t")); f.close()
 	print("MAC_FRAME_PROBE_DONE ",label)
 	quit(0)

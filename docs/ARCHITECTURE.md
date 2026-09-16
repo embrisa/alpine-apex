@@ -61,8 +61,13 @@ and both skis share the same explicit interpolation fraction. Inactive sessions
 hold completed skiing state. An unpaused crashed attempt advances session time
 and inactive replay ticks without stepping skiing; explicit pause/focus loss
 holds that clock too. Resume clears presentation/contact history without advancing
-the solver. Catch-up is bounded at 24 steps. Interpolation can add one solver tick
-(about 8.33 ms); render cadence does not change the time step.
+the solver. Catch-up is bounded at 24 steps (200 ms). Lower caps were measured
+on 2026-09-16 (M4 MacBook, injected 100 ms main-thread stalls,
+`tests/mac_frame_probe.gd --probe-stall=100 --probe-steps=N`): 8 and 6 steps
+spread the same recovery over two frames (about 120 + 42 ms instead of
+124 + 31 ms), raised the run's p99 from 33 to 46 ms and dropped four to six
+solver ticks of clock per stall, so 24 stays. Interpolation can add one solver
+tick (about 8.33 ms); render cadence does not change the time step.
 
 Mass/COM and ski forces belong to physics. Pose fitting, camera motion, sound,
 weather appearance and visual tracks cannot feed back into them. Crashes transfer

@@ -1,0 +1,151 @@
+{
+  "schema": 1,
+  "id": "d0e32e4ab9ad4f448eaed5d414fcbd85",
+  "summary": "Measure physics catch-up caps with injected stalls and keep 24 steps per frame",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Physics catch-up bound evidence",
+    "macOS frame probe stall injection",
+    "Architecture documentation"
+  ],
+  "owned_paths": [
+    "backlog/archive/AA-20260916-084512-bound-physics-catch-up-steps.md",
+    "backlog/tasks/AA-20260916-084512-bound-physics-catch-up-steps.md",
+    "docs/ARCHITECTURE.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "tests/mac_frame_probe.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "project.godot",
+    "scripts/main.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Documentation and probe tooling only; project.godot, solver, replay and race identity unchanged."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Documentation and probe tooling only; project.godot, solver, replay and race identity unchanged."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Documentation and probe tooling only; project.godot, solver, replay and race identity unchanged."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Documentation and probe tooling only; project.godot, solver, replay and race identity unchanged."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Documentation and probe tooling only; project.godot, solver, replay and race identity unchanged."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "performance",
+      "command": "scripts/mac_frame_probe.sh stall_{24,8,6} --probe-seconds=22 --probe-stall=100 --probe-stall-every=4 --probe-steps=N",
+      "result": "passed",
+      "details": "Apple M4, five 100 ms stalls per run. Stalled frame / next frame ms: 24 steps 122-126 / 27-36 (p99 33.2 ms, 24.6 ticks over four frames); 8 steps 118-123 / 39-45 (p99 46.0, 20.4 ticks); 6 steps 116-118 / 37-46 (p99 45.7, 18.2 ticks). Lower caps defer and partly drop ticks without saving frame time; 24 kept."
+    },
+    {
+      "kind": "automated",
+      "command": "python3 scripts/backlog.py validate",
+      "result": "passed",
+      "details": "Task archived as done with the measured decision; no runtime change, so the listed physics/clock suites were not rerun (runtime_suite 192/192 passed at Dev 68 on the same tree)."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human playtest of stall feel is a follow-up, not a gate; the setting is unchanged."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T19:19:07.622831+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "335a6896e28b82ece81c15668948bfa90c8bfa99",
+      "dev": 68,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789544258451225404
+      },
+      "backlog/archive/AA-20260916-084512-bound-physics-catch-up-steps.md": {
+        "size": 5412,
+        "mtime_ns": 1789586327306622758
+      },
+      "backlog/tasks/AA-20260916-084512-bound-physics-catch-up-steps.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/ARCHITECTURE.md": {
+        "size": 8468,
+        "mtime_ns": 1789586327277455693
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 41826,
+        "mtime_ns": 1789586327340681709
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789546451377313344
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789574833688637752
+      },
+      "scripts/main.gd": {
+        "size": 87866,
+        "mtime_ns": 1789584296018424094
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789511897136445444
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789581307436015366
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      },
+      "tests/mac_frame_probe.gd": {
+        "size": 7320,
+        "mtime_ns": 1789586116394450796
+      }
+    }
+  }
+}

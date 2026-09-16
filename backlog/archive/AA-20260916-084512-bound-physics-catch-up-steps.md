@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084512-bound-physics-catch-up-steps"
 title: "Bound physics catch-up after a long frame so hitches do not cascade"
-status: ready
+status: done
 priority: P2
 depends_on: []
 created: "2026-09-16T08:45:12Z"
-updated: "2026-09-16T08:45:12Z"
+updated: "2026-09-16T19:18:47Z"
 source_thread: null
 ---
 
@@ -80,5 +80,31 @@ None
 
 ## Completion record
 
-Pending implementation. Record measured post-hitch costs per setting, the
-chosen value, tests and commit/push references.
+### Delivery, 2026-09-16: measured; setting kept at 24 (Fable, macOS checkout)
+
+Implemented manually; no scheduled claim. `tests/mac_frame_probe.gd` gained
+`--probe-stall=MS`, `--probe-stall-every=S` and `--probe-steps=N`: it
+busy-waits the main thread for MS every S seconds and records the frame time
+and solver tick count of the 16 frames after each stall.
+
+Apple M4 MacBook, Metal, Standard mountain free ski, five 100 ms stalls per
+22 s run, frame ms / solver ticks for the stalled frame and the next three:
+
+| Cap | Stalled frame | +1 | +2 | +3 | Run p99 | Ticks in 4 frames |
+| --- | --- | --- | --- | --- | --- | --- |
+| 24 (current) | 122-126 / 12-13 | 27-36 / 5-7 | 23-24 / 3 | 25-27 / 3 | 33.2 ms | 24.6 |
+| 8 | 118-123 / 8 | 39-45 / 6-7 | 21-23 / 3-4 | 26-27 / 3 | 46.0 ms | 20.4 |
+| 6 | 116-118 / 6 | 37-46 / 5-6 | 21-24 / 3-4 | 24-30 / 3-4 | 45.7 ms | 18.2 |
+
+Godot does not save the capped work: the leftover accumulator is carried into
+the next frame (and partly dropped, so the race clock slips four to six ticks
+per stall at 6-8 steps), the stalled frame shortens by only 4-8 ms, the
+following frame lengthens by 10-15 ms and the run p99 rises from 33 to 46 ms.
+Four-frame recovery totals are 205 ms (24) versus 209 ms (8 and 6). The
+premise that catch-up ticks cascade into further late frames did not hold:
+with 24 steps the frame after recovery is already normal. Decision: keep
+`max_physics_steps_per_frame=24`; no runtime, replay 7, race 6 or clock change.
+[Architecture](../../docs/ARCHITECTURE.md) documents the bound and evidence.
+Automated: none required (setting unchanged); the probe artifacts are
+`artifacts/mac_probe/stall_{24,8,6}.json` (ignored). Human playtest of stall
+feel remains a follow-up, not a gate.
