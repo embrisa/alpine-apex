@@ -5,7 +5,7 @@ status: ready
 priority: P1
 depends_on: []
 created: "2026-09-16T08:45:07Z"
-updated: "2026-09-16T08:45:07Z"
+updated: "2026-09-16T14:41:25Z"
 source_thread: null
 ---
 
@@ -108,5 +108,23 @@ None
 
 ## Completion record
 
-Pending implementation. Record dispatch counts, GPU/CPU timings before/after,
-stills, tests, chosen constants, guide updates and commit/push references.
+Subdivision-only candidate retained after Windows review: 512 -> 256,
+524,288 -> 131,072 triangles, same 32 m extent/maps/shader/shadows/track semantics.
+Chase, low-angle, production first-person and moving recenter-frame comparisons
+passed; 269 checks passed (support 24, response 33, runtime 192, uploads 13,
+cosmetic GPU tracks 7). The full legacy volume/interface-mountain matrix was not
+needed for this isolated constant; broader shader/gating work still requires
+its affected checks. The full task acceptance list is not complete.
+
+Three clean candidate observations saved 0.346-0.397 ms GPU. Initial 92.38 and
+91.31 FPS samples had worse p99 versus saved 91.06; one same-process comparison
+resolved the larger p99 difference: 90.74 -> 93.26 FPS, 11.021 -> 10.723 ms,
+GPU 9.931 -> 9.585 ms, p95 13.398 -> 13.147, p99 15.025 -> 15.078. Maximum
+frame time still grew 18.439 -> 23.316 ms; hitch improvement and sustained
+90-120 FPS remain unproven. Reuse 92.28 FPS / 10.837 ms, the average of the two
+cache-hit candidate samples.
+
+Atlas dispatch gating, height/gradient packing, shadow and AABB proposals remain
+unimplemented. This task remains ready for those separate hypotheses. Source
+and mesh budgets are in Rendering; compact evidence is
+`artifacts/powder_mesh_20260916/REPORT.md` and `reusable_baseline.json`.

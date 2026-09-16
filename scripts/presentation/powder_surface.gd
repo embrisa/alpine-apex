@@ -4,7 +4,7 @@ extends Node3D
 const EXTENT_M = 32.0
 const RESOLUTION = 1024
 const IMPRINT_RESOLUTION = 256 # filtered relief spans multiple mesh vertices
-const SUBDIVISIONS = 512
+const SUBDIVISIONS = 256
 const SUPPORT_SIZE = 9 # 32 m / authoritative 4 m grid + both end vertices
 const SUPPORT_BYTES = SUPPORT_SIZE*SUPPORT_SIZE*16
 const FULL_RADIUS_M = 8.0

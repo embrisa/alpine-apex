@@ -46,7 +46,8 @@ per candidate; zero unfocused frames and exact trace completion.
 | Plus LOD1 mesh normals | 84.07 | 11.895 | 10.280 | 17.585 |
 | Plus exact tick query reuse | 87.67 | 11.407 | 10.171 | 15.133 |
 | Plus native skeletal tracking | 88.29 | 11.326 | 10.246 | 15.894 |
-| Plus forest material ordering (enabled) | **91.06** | **10.982** | **9.943** | **15.128** |
+| Plus forest material ordering | 91.06 | 10.982 | 9.943 | 15.128 |
+| Plus smaller powder mesh (two-run reference) | **92.28** | **10.837** | **9.588** | **16.192** |
 
 The LOD1 material change gained 4.81 FPS (6.1%) and saved 0.722 ms/frame / 0.770 ms GPU
 in these samples. The p99 increased 0.378 ms. These are short samples, not a
@@ -94,7 +95,7 @@ its regenerated, unchanged input route is
 `artifacts/solver_queries_20260916/forest.json`.
 The native-tracking clean receipt is
 `artifacts/pc_environment/native-tracking-20260916/production.json`, row 2.
-The newest clean reference is `artifacts/pc_environment/forest-order-20260916/production.json`,
+The pre-powder clean reference is `artifacts/pc_environment/forest-order-20260916/production.json`,
 row 2, using that same trace. Native profile summaries are under
 `artifacts/pc_environment/{current-gpu,forest-order-gpu}-20260916/summary.json`.
 Compact evidence is `artifacts/native_tracking_20260916/` and
@@ -106,11 +107,40 @@ bounds: production groups had empty `transforms`, while poses were in
 The historical 71.94 FPS reference is an older engine/import context and remains
 historical context, not an exact attribution baseline for this milestone.
 
+## Powder mesh refinement and current free-ski reference
+
+The local 32 m snow mesh now uses 256 subdivisions: **524,288 -> 131,072
+triangles (-75%)**. Texture resolutions, visible relief shader, shadows, track
+budgets, recenter mapping and simulation are unchanged. Production rough-snow
+captures passed for chase, low-angle, first-person and adjacent recenter frames;
+269 support/response/runtime/native-upload checks passed.
+
+Saved-reference comparisons gave 92.38 and 91.31 FPS versus 91.06, with
+GPU savings of 0.397 and 0.353 ms, but worse p99. One same-process old/new
+mesh comparison specifically checked that regression: **90.74 -> 93.26 FPS**,
+**11.021 -> 10.723 ms**, GPU **9.931 -> 9.585 ms**. P95 improved 13.398 -> 13.147;
+p99 was nearly equal, 15.025 -> 15.078 ms. Maximum frame time still grew
+18.439 -> 23.316 ms. Keep the consistent GPU saving; do not claim improved
+hitches or sustained 90-120 FPS. No isolated powder/depth-pass attribution.
+
+Reuse the average of the two cache-hit clean candidates: **92.28 FPS /
+10.837 ms**, GPU **9.588 ms**. Median run p95/p99: **13.375/16.192 ms**.
+This combines `powder-mesh-confirm-20260916` row 2 and
+`powder-mesh-tail-pair-20260916` row 3 under `artifacts/pc_environment/`;
+row 1 is warmup, and row 2 of the pair is the old mesh. The initial
+`powder-mesh-20260916` row 2 rebuilt scenery during startup and is supplemental.
+All samples match effective settings/camera and 1,800 final-state ticks,
+with zero unfocused frames.
+Both reference candidates hit physical/scenery caches. Detailed compact evidence
+and the aggregation definition: `artifacts/powder_mesh_20260916/`.
+Earlier 91.06 FPS and timed 82.72 FPS receipts describe the previous 512 mesh;
+timed recording and Mac have not been measured with 256. Human review remains open.
+
 ## Timed recording reference
 
-The 91.06 FPS reference above is free skiing. A new timed-recording diagnostic
-on the same route produced **82.65 FPS / 12.099 ms**. Timed HUD/session/audio
-paths also differ, so this is not an isolated capture-toggle FPS attribution.
+The historical 91.06 FPS reference is free skiing with the 512 powder mesh.
+A timed-recording diagnostic on the same route produced **82.65 FPS / 12.099 ms**.
+Timed HUD/session/audio paths also differ, so this is not an isolated capture-toggle FPS attribution.
 `ghost_capture` costs **1.208 ms per 30 Hz sample**, including another completed
 pose solve; the regular rendered pose is about **0.846 ms per solve**.
 
@@ -167,6 +197,12 @@ The preparation regression now compares actual placements across subdivided
 detail and regional shadow batches instead of assuming three nodes per region.
 Compact evidence: `artifacts/prepared_crowns_20260916/`.
 
+Earlier terrain LOD selection (`lod_bias=0.25`, existing indices) also failed
+the dense route: **91.06 -> 90.68 FPS**, GPU 9.943 -> 9.923 ms, with 1.74%
+fewer primitives. World source restored. Open-snow stills and native wireframe
+were reviewed; two foliage-obscured views were inadequate for ridge acceptance.
+Open-route timing remains untested. Evidence: `artifacts/terrain_lod_20260916/`.
+
 Tracker equality, matched rendered poses, anatomy/attachment/pole checks and
 physics/runtime checks passed on Windows. Four older procedural assertions
 (one in `skier_motion_suite`, three in `skier_animation_suite`) failed identically
@@ -191,7 +227,10 @@ All four were written against Dev 43 and older scope measurements. Use the
 enabled implementation and current matching reference, not their old 72 FPS
 number as an exact control. Their strict pixel/physics acceptance language must
 also be read alongside the user's newer permission to accept small changes
-for worthwhile gains. The missing shader task may overlap the rejected wind
-polynomial and retained contact/tint work; its full scope cannot be assessed
-without the file. Solver-query reuse and native tracking address parts of these
-new tasks; their other proposals remain investigations.
+for worthwhile gains. The later `62e615d` batch supplies eleven additional tasks,
+including the
+vertex-transcendental, terrain LOD and powder-render proposals. Terrain LOD and
+powder subdivision have now been tested. The shader proposals still need
+comparison with the rejected wind polynomial and retained contact/tint work.
+Solver-query reuse and native tracking address parts of the earlier tasks;
+their other proposals remain investigations.

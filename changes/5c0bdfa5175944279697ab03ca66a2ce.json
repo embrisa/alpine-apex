@@ -1,0 +1,200 @@
+{
+  "schema": 1,
+  "id": "5c0bdfa5175944279697ab03ca66a2ce",
+  "summary": "Reduce local powder mesh geometry and record rejected terrain LOD experiment",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Local snow presentation",
+    "Dense-route performance"
+  ],
+  "owned_paths": [
+    "scripts/presentation/powder_surface.gd",
+    "docs/RENDERING.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "backlog/tasks/AA-20260916-084505-fix-terrain-mesh-lod-selection.md",
+    "backlog/tasks/AA-20260916-084507-reduce-powder-patch-render-cost.md"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "assets/graphics/powder_surface.gdshader",
+    "assets/graphics/powder_surface.gdshaderinc",
+    "assets/graphics/powder_compute.gd",
+    "scripts/world/alpine_world.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only local presentation mesh subdivisions change; authority, simulation and serialized formats are unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only local presentation mesh subdivisions change; authority, simulation and serialized formats are unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only local presentation mesh subdivisions change; authority, simulation and serialized formats are unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No schema or authority change; GPU patch is rebuilt normally from the same live snow data."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No schema or authority change; GPU patch is rebuilt normally from the same live snow data."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No schema or authority change; GPU patch is rebuilt normally from the same live snow data."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No schema or authority change; GPU patch is rebuilt normally from the same live snow data."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No schema or authority change; GPU patch is rebuilt normally from the same live snow data."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "rendered",
+      "command": "Shared powder-mesh-completed-visual, first-person and recenter-20260916 on targeted rough-snow",
+      "result": "passed",
+      "details": "Matched 4K High Auto .75 prescribed clean/carve/skid captures, native groove crops and adjacent Z104->108 recenter frames passed inspection. Corrected invalid initial completed-pose fixture; excluded its zero-track captures and intermediate body-obscured eye-level view. Production first-person body-hidden assertion passed. Not human/controller acceptance."
+    },
+    {
+      "kind": "automated",
+      "command": "Shared powder-mesh-checks-20260916 via godotw: powder_support_cache, snow_response, runtime, powder_upload, carving_raised_ski_tracks_gpu suites",
+      "result": "passed",
+      "details": "269 checks:24+33+192+13+7. Native upload/live-track correctness; compact support/response/runtime fixtures. Runtime source metadata captured before verification at2026-09-16T14:18:32Z; no subsequent runtime edit. Performance/validation skill dependencies reviewed; no commands or assumptions change."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical powder-mesh-20260916 and powder-mesh-confirm-20260916, then powder-mesh-tail-pair-20260916 to resolve worse p99",
+      "result": "passed",
+      "details": "GPU savings .346-.397ms across three candidate observations. Initial92.38 and91.31FPS vs saved91.06 had worse p99. One same-process old/new pair:90.7384->93.2565FPS,11.0207->10.7231ms,GPU9.93093->9.58485ms,p95 13.398->13.147,p99 15.025->15.078,max18.439->23.316. Exact1800ticks/finalstate,focus0,failures[],matched settings/camera/forest. Pair and confirmation hit both caches. Reuse mean of two cache-hit candidate runs92.2829FPS/10.8375ms; no sustained90-120FPS or improved-hitch claim."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical terrain-lod-20260916; saved forest-order control reused",
+      "result": "passed",
+      "details": "Rejected lod_bias=.25 candidate:91.06->90.68FPS, primitives-1.74%,GPU9.943->9.923ms. Terrain runtime restored; open-route benefit remains untested."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human/controller review, timed-recording and Mac performance with the smaller patch remain unmeasured.",
+    "Sustained90-120FPS and improved hitch behavior remain unproven; candidate p99 varied15.078-17.306ms and maximum23.316ms in the paired candidate.",
+    "Remaining powder gating/gradient/shadow proposals and terrain open-route LOD work are separate unimplemented hypotheses."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T14:41:25.528962+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "b0fd328c18c2e0217dd2c7f18b91b2db19c9307d",
+      "dev": 52,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "assets/graphics/powder_compute.gd": {
+        "size": 4803,
+        "mtime_ns": 1789081869253202000
+      },
+      "assets/graphics/powder_surface.gdshader": {
+        "size": 2771,
+        "mtime_ns": 1789206461567894800
+      },
+      "assets/graphics/powder_surface.gdshaderinc": {
+        "size": 3412,
+        "mtime_ns": 1789205914210505300
+      },
+      "backlog/tasks/AA-20260916-084505-fix-terrain-mesh-lod-selection.md": {
+        "size": 5978,
+        "mtime_ns": 1789569685035744300
+      },
+      "backlog/tasks/AA-20260916-084507-reduce-powder-patch-render-cost.md": {
+        "size": 7006,
+        "mtime_ns": 1789569685042012900
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 16218,
+        "mtime_ns": 1789569685043016200
+      },
+      "docs/RENDERING.md": {
+        "size": 39967,
+        "mtime_ns": 1789569632628991900
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789512657279656900
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/presentation/powder_surface.gd": {
+        "size": 17100,
+        "mtime_ns": 1789568311931137000
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18224,
+        "mtime_ns": 1789566331946877700
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 26995,
+        "mtime_ns": 1789568204922632700
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      }
+    }
+  }
+}

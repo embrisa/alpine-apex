@@ -300,7 +300,10 @@ only nine new knots (17 diagonally), with the same 1,296-byte upload. Reset,
 world replacement, non-grid moves and non-overlap rebuild all 81 knots.
 Replacement normals
 and cloud transmission use the base triangle interpolation, keeping noise/depth
-world-fixed. Mesh/atlas dimensions remain in PowderSurface's constants.
+world-fixed. The 32 m mesh uses 256 subdivisions (12.5 cm spacing), 66,049
+vertices and 131,072 triangles. The 1024 atlas and 256 filtered imprint map
+retain their previous resolution. This grid still follows every authoritative
+4 m diagonal. Mesh/atlas dimensions remain in PowderSurface's constants.
 
 Impression reconstruction, support upload, storage/visual centers, bounds and
 material ownership publish in one render-thread transaction. Register extra

@@ -5,7 +5,7 @@ status: ready
 priority: P1
 depends_on: []
 created: "2026-09-16T08:45:05Z"
-updated: "2026-09-16T08:45:05Z"
+updated: "2026-09-16T14:41:25Z"
 source_thread: null
 ---
 
@@ -99,5 +99,13 @@ None
 
 ## Completion record
 
-Pending implementation. Record measured primitives/GPU before/after, chosen
-keys, rendered evidence, tests, guide updates and commit/push references.
+Partly investigated on Windows at Dev 52. Runtime terrain `lod_bias=0.25`
+using the existing LOD indices reduced dense-route primitives by 1.74%, but
+91.06 -> 90.68 FPS and GPU 9.943 -> 9.923 ms showed no useful gain. Restored
+`alpine_world.gd`; no production terrain change retained. Native wireframe
+confirmed LOD selection, and open-snow stills passed; two foliage-obscured views
+do not establish ridge quality. Current mountain has 478 retained chunks.
+Do not repeat this same dense-route candidate. Open-route timing, ridge-motion
+review and alternative keys remain untested; this task remains ready.
+Compact local evidence: `artifacts/terrain_lod_20260916/REPORT.md` and
+`artifacts/pc_environment/terrain-lod-20260916/production.json` row 2.
