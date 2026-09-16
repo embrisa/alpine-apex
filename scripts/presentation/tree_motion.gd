@@ -16,6 +16,10 @@ var accumulator = 0.0
 var anchors = PackedVector4Array()
 var angles = PackedVector4Array()
 var tick_count = 0
+var uploaded_anchors = PackedVector4Array()
+var uploaded_angles = PackedVector4Array()
+var uploaded_materials: Dictionary = {}
+var uploaded_active = false
 
 func _init(library = null, definition_path: String = "res://assets/graphics/treedesigner_branches.json") -> void:
 	assets = library
@@ -95,18 +99,29 @@ func update(actor: Vector3, velocity: Vector3, dt: float, active: bool) -> void:
 	_upload()
 
 func _upload() -> void:
-	if assets:
-		var contact_active=false
+	if not assets: return
+	var anchors_changed = anchors!=uploaded_anchors
+	var angles_changed = angles!=uploaded_angles
+	if angles_changed:
+		uploaded_active = false
 		for value in angles:
 			if value!=Vector4.ZERO:
-				contact_active=true
+				uploaded_active = true
 				break
-		for id in ["TD_Conifer","FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"]:
-			if not assets.named_materials.has(id): continue
-			var material: ShaderMaterial = assets.named_materials[id]
-			material.set_shader_parameter("contact_anchors",anchors)
+	for id in ["TD_Conifer","FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"]:
+		if not assets.named_materials.has(id):
+			uploaded_materials.erase(id)
+			continue
+		var material: ShaderMaterial = assets.named_materials[id]
+		var new_material = uploaded_materials.get(id)!=material
+		if anchors_changed or new_material: material.set_shader_parameter("contact_anchors",anchors)
+		if angles_changed or new_material:
 			material.set_shader_parameter("contact_angles",angles)
-			material.set_shader_parameter("contact_active",contact_active)
+			material.set_shader_parameter("contact_active",uploaded_active)
+		uploaded_materials[id] = material
+	# Keep independent snapshots: script-side packed arrays share assignments.
+	if anchors_changed: uploaded_anchors = anchors.duplicate()
+	if angles_changed: uploaded_angles = angles.duplicate()
 
 func bind_prepared(placement_data, tree_data) -> void:
 	prepared = placement_data; physical_trees = tree_data

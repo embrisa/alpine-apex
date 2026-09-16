@@ -1,0 +1,191 @@
+{
+  "schema": 1,
+  "id": "5238c69423364bf0bf16b6127cfa8640",
+  "summary": "Avoid impossible canopy contacts and unchanged shader uploads",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Nearby canopy contact rejection",
+    "Branch shader publication"
+  ],
+  "owned_paths": [
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RENDERING.md",
+    "scripts/core/tree_dynamics.gd",
+    "scripts/presentation/tree_motion.gd",
+    "tests/tree_dynamics_suite.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "assets/graphics/treedesigner_branches.json",
+    "assets/graphics/trees/branches.json"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Canopy responses are one-way presentation; no skier forces, terrain, input or collision authority changes. Existing 120 Hz branch integration and contact output match the frozen original."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "No gameplay or cache format changes. Runtime diagnostic trace regenerated after its core-folder identity changed."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No schema, physical generator, replay or race-identity changes."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No schema, physical generator, replay or race-identity changes."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No schema, physical generator, replay or race-identity changes."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No schema, physical generator, replay or race-identity changes."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No schema, physical generator, replay or race-identity changes."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "scripts/test_pc_environment.ps1 -Suites tree_dynamics_suite,runtime_suite -OutputDirectory artifacts/canopy_idle_20260916/regression",
+      "result": "passed",
+      "details": "221 checks passed (29 canopy, 192 runtime). Includes swept contact, outside-canopy continuation, varied actor radius, 30/60/144/240 FPS schedules at fixed 120 Hz, pause/reset and initial/late/replaced/removed shader materials. Initial focused check caught shared packed-array assignments; independent snapshots fixed it before final review/timing."
+    },
+    {
+      "kind": "automated",
+      "command": "Shared native artifacts/canopy_idle_20260916/oracle.gd; FpsCritical paired.gd output comparison",
+      "result": "passed",
+      "details": "9000 exact angle/velocity/contact/impact comparisons across all 30 authored variants with 7308 impulses; 40320 exact full-motion and shader-uniform comparisons. Swept crossings, separated bodies, actor radii and existing motion are covered. No skier forces or physical collision path changes."
+    },
+    {
+      "kind": "rendered",
+      "command": "Shared native artifacts/canopy_idle_20260916/visual.gd; inspect six old/candidate rest, contact and recovery PNGs",
+      "result": "passed",
+      "details": "Production forest_spruce_01 MultiMesh/forest shader at 1280x720, fixed camera/light/wind. All 241 frame states match; peak response 0.10026 rad in both. Paired stills show the same silhouette and branch response. This compact visual check does not establish full-forest motion/controller acceptance."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical artifacts/canopy_idle_20260916/paired.gd; canopy-idle-current-20260916 native route using saved matched arguments and two repetitions",
+      "result": "passed",
+      "details": "Four nearby spruce springs/five shader receivers, full update CPU, 1200 updates/arm/case after 60 warmup with alternating order: outside canopies 214.769 to148.449 us (-30.88%); brush/recovery 222.463 to183.780 us (-17.39%). One clean capture/profile-free warmed route 107.0078 FPS /9.3451 ms, GPU7.6161 ms, p95 13.247 ms, p99 15.820 ms. Inside saved Dev63 101.343-109.221 FPS range, so no meaningful route FPS gain established. Physical cache hit; scenery rebuilt before warmup. Retain verified CPU saving under user policy, no new control or matrix."
+    },
+    {
+      "kind": "automated",
+      "command": "Shared guarded artifacts/canopy_idle_20260916/refresh_trace.gd; route recording validation; static diff/guide review",
+      "result": "passed",
+      "details": "Existing trace preflight includes every core script, so the first candidate attempt correctly stopped before loading. Replayed unchanged 1800 inputs to all 15 old checkpoints and regenerated compatible identity without bypassing runtime checks. Candidate preserved all 301 recording roots/physical samples, focus loss zero, exact endpoint, same camera/output/settings. Final documentation-only edits do not change tested runtime inputs."
+    },
+    {
+      "kind": "human",
+      "command": "Full-route skiing and continuous forest motion review",
+      "result": "pending",
+      "details": "No visual or physical change intended; matched compact rendering and CPU/output evidence passed. Sustained full-route target and human/controller review remain separate."
+    }
+  ],
+  "outstanding_acceptance": [
+    "No meaningful dense-route FPS gain is established; the retained improvement is 38.68-66.32 us per canopy update in the measured compact cases.",
+    "Sustained full-route 90-120 FPS and human continuous forest motion/controller acceptance remain unproven."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T17:35:09.100606+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "02f43783bc3906fa713b9fb283de85cb7f2a1f5e",
+      "dev": 63,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "assets/graphics/treedesigner_branches.json": {
+        "size": 8630,
+        "mtime_ns": 1788776836276363300
+      },
+      "assets/graphics/trees/branches.json": {
+        "size": 77910,
+        "mtime_ns": 1789482663057396800
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 36454,
+        "mtime_ns": 1789580108596818600
+      },
+      "docs/RENDERING.md": {
+        "size": 42773,
+        "mtime_ns": 1789579983408641000
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/core/tree_dynamics.gd": {
+        "size": 3233,
+        "mtime_ns": 1789579594342601200
+      },
+      "scripts/presentation/tree_motion.gd": {
+        "size": 5148,
+        "mtime_ns": 1789579613516718800
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789576668695286100
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/tree_dynamics_suite.gd": {
+        "size": 4849,
+        "mtime_ns": 1789579594343604200
+      }
+    }
+  }
+}

@@ -37,7 +37,28 @@ Snapshot for Fable's next experiments. Current contracts and commands remain in
 
 ## Windows measurements to reuse
 
-### Reuse displayed ghost rigs, 16 September (current source)
+### Canopy contact CPU, 16 September (current source)
+
+Nearby-tree motion rejects disjoint swept canopy bounds and publishes only
+changed contact arrays. The 120 Hz spring response is retained. With four nearby
+trees and five shader receivers, paired native CPU measured **214.77 -> 148.45 us**
+outside canopies (-30.9%) and **222.46 -> 183.78 us** during brushing/recovery
+(-17.4%), 1,200 measured updates per arm after warmup. All 9,000 authored-family
+spring comparisons and 40,320 motion/uniform comparisons matched; 221 regressions
+passed. Matched instanced-tree rest/contact/recovery stills were inspected.
+
+One clean warmed timed route measured **107.01 FPS / 9.345 ms**, GPU **7.616 ms**,
+p95 **13.247 ms**, p99 **15.820 ms**, at the same 4K High/Auto75%/FG-off settings.
+This is inside the Dev63 reference's 101.34-109.22 FPS range: retain the verified
+CPU saving, with no meaningful route-FPS gain established and no extra control
+run. Physical cache hit; scenery rebuilt before warmup, so no startup comparison.
+Latest compatible trace: `artifacts/canopy_idle_20260916/forest.json` (same 1,800
+inputs/camera, all 15 checkpoints matched). The first stale-trace attempt stopped
+before loading. Evidence: `artifacts/canopy_idle_20260916/summary.json`, paired
+source/review files, and `artifacts/pc_environment/canopy-idle-current-20260916/`.
+[Rendering](RENDERING.md) owns the canopy bounds/publication contract.
+
+### Reuse displayed ghost rigs, 16 September (Dev63 timed reference)
 
 Routine 20 Hz ghost records now reuse a recent displayed local rig at the current
 recorded root. The live rider stays unchanged; ghost limbs may lag by up to 25 ms.

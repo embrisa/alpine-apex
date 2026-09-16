@@ -223,6 +223,15 @@ Prepared shader-tree bounds already include the complete envelope and use the
 node's default zero extra margin. Ordinary rocks, scrub and non-shader cards
 retain their existing margins and quality behavior.
 
+`tree_motion.gd` owns each world's branch-contact shader state. Authored branch
+bounds reject disjoint swept riders before per-branch contact tests; existing
+120 Hz spring responses still integrate and contacts clear after separation.
+No epsilon sleep or physical collision change is involved. Publish only changed
+anchor/angle arrays, using independent packed-array snapshots; late or replaced
+materials receive the complete current state. Keep preview/world registries
+separate. `tests/tree_dynamics_suite.gd` checks contact, pause/reset and material
+replacement behavior.
+
 `foliage_sight.gd` owns canopy-aid activation and bounded depth; `alpine_assets.gd`
 submits its state to resident geometry and late streamed/fallback conifer
 materials. `foliage_sight.gdshaderinc` scales removal by activation, normalized

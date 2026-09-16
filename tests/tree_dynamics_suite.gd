@@ -23,6 +23,13 @@ func _initialize() -> void:
 	var swept = Dynamics.new(branch)
 	swept.step(Vector3(2,1,-2),Vector3(2,1,2),Vector3(0,0,120))
 	check(swept.impacts==1,"Swept contact catches a branch crossed between samples")
+	var old_angle = swept.angles[0]
+	swept.step(Vector3(100,100,100),Vector3(101,100,100),Vector3.ZERO)
+	check(swept.touching[0]==0 and swept.angles[0]!=old_angle,"Outside canopy clears contact and keeps a moving spring integrating")
+	var large_actor = Dynamics.new(branch)
+	large_actor.step(Vector3(2,1,2),Vector3(2,1,2),Vector3(0,0,1),3.0)
+	check(large_actor.impacts==1,"Canopy rejection includes the supplied actor radius")
+	check_material_publication()
 	var poses: Array = []
 	for fps in [30,60,144,240]:
 		var motion = Motion.new()
@@ -46,3 +53,37 @@ func _initialize() -> void:
 	check(error<.012,"Cross-frame-rate canopy response agrees within 0.012 radians")
 	print("TREE_DYNAMICS_RESULT checks=",checks," failures=",failures.size()," schedule_error_rad=",error)
 	quit(0 if failures.is_empty() else 1)
+
+func contact_material() -> ShaderMaterial:
+	var shader = Shader.new()
+	shader.code = "shader_type spatial; uniform vec4 contact_anchors[4]; uniform vec4 contact_angles[48]; uniform bool contact_active = false;"
+	var material = ShaderMaterial.new()
+	material.shader = shader
+	return material
+
+func check_material_publication() -> void:
+	var library = {"named_materials":{"FC_Tree":contact_material()}}
+	var motion = Motion.new(library,"")
+	motion.reset()
+	var material: ShaderMaterial = library.named_materials.FC_Tree
+	check(material.get_shader_parameter("contact_angles")==motion.angles,"Initial rest state reaches material")
+	motion.anchors[0] = Vector4(1,2,3,1)
+	motion.angles[0] = Vector4(.1,.2,0,0)
+	motion._upload()
+	check(material.get_shader_parameter("contact_anchors")==motion.anchors and material.get_shader_parameter("contact_angles")==motion.angles and material.get_shader_parameter("contact_active")==true,"Changed anchors and bend reach material")
+	motion.angles[0] = Vector4(.2,.1,0,0)
+	check(motion.uploaded_angles[0]!=motion.angles[0],"Later packed-array writes preserve previous publication")
+	motion._upload()
+	var late = contact_material()
+	library.named_materials.FC_Tree_Mid = late
+	motion._upload()
+	check(late.get_shader_parameter("contact_angles")==motion.angles and late.get_shader_parameter("contact_anchors")==motion.anchors and late.get_shader_parameter("contact_active")==true,"Late material receives current moving state")
+	var replacement = contact_material()
+	library.named_materials.FC_Tree = replacement
+	motion._upload()
+	check(replacement.get_shader_parameter("contact_angles")==motion.angles,"Replaced material receives unchanged current state")
+	motion.reset()
+	check(replacement.get_shader_parameter("contact_active")==false and replacement.get_shader_parameter("contact_angles")==motion.angles,"Reset clears previously moving material")
+	library.named_materials.clear()
+	motion._upload()
+	check(motion.uploaded_materials.is_empty(),"Removed materials are released from publication receipt")

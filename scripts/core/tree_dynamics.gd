@@ -11,6 +11,7 @@ var branches: Array = []
 var centers: Array[Vector3] = []
 var levers: Array[Vector3] = []
 var radii: Array[float] = []
+var contact_bounds = AABB()
 var impacts = 0
 
 func _init(definitions: Array = []) -> void:
@@ -24,17 +25,24 @@ func _init(definitions: Array = []) -> void:
 		centers.append(c)
 		levers.append(c-Vector3(0,b.pivot_y,0))
 		radii.append(minf(float(b.radius),1.8))
+		var extent = Vector3.ONE*maxf(radii[-1],0.0)
+		var bounds = AABB(c-extent,extent*2.0)
+		contact_bounds = bounds if centers.size()==1 else contact_bounds.merge(bounds)
 
 func impulse(index: int, value: Vector3) -> void:
 	velocities[index] = (velocities[index]+value).limit_length(5.0)
 	impacts += 1
 
 func step(from: Vector3, to: Vector3, velocity: Vector3, actor_radius: float = .55) -> void:
+	# Reject only disjoint swept bounds; a segment crossing the canopy still
+	# reaches the exact per-branch test. Existing spring motion always advances.
+	var swept_bounds = AABB(from,Vector3.ZERO).expand(to)
+	var possible = not centers.is_empty() and contact_bounds.grow(maxf(actor_radius*.7,0.0)+.0001).intersects(swept_bounds)
 	var segment=to-from
 	var denominator=maxf(segment.length_squared(),.000001)
 	for i in COUNT:
 		var force = Vector3.ZERO
-		if i<centers.size():
+		if possible and i<centers.size():
 			var c: Vector3=centers[i]
 			var t = clampf((c-from).dot(segment)/denominator,0,1)
 			var separation = from+segment*t-c
@@ -48,6 +56,8 @@ func step(from: Vector3, to: Vector3, velocity: Vector3, actor_radius: float = .
 					impulse(i,axis*clampf(velocity.length()*.085,.15,3.0))
 				force = axis*(1.0-separation.length()/reach)*7.0
 			touching[i] = int(contact)
+		elif i<centers.size():
+			touching[i] = 0
 		# An untouched, unforced spring is exactly at rest; no epsilon or sleep
 		# threshold is used, so every nonzero response retains the original math.
 		if force==Vector3.ZERO and angles[i]==Vector3.ZERO and velocities[i]==Vector3.ZERO: continue
