@@ -1,8 +1,11 @@
 // One horizontal cloud layer shared by the sky and all sunlight receivers.
 // xy = accumulated wind displacement in metres, z = cover, w = shadow strength.
-uniform vec4 cloud_params = vec4(0.0);
-uniform vec3 cloud_sun_direction = vec3(-0.775,0.407,0.484);
-uniform float cloud_layer_height_m = 2400.0;
+// Published once per frame as global shader parameters by cloud_lighting.gd
+// (defaults live in project.godot [shader_globals]); every receiver material
+// reads the same values without a per-material write.
+global uniform vec4 cloud_params;
+global uniform vec3 cloud_sun_direction;
+global uniform float cloud_layer_height_m;
 const float CLOUD_SCALE_PER_M = 0.003;
 float cloud_hash(vec2 p) { return fract(sin(dot(p,vec2(127.1,311.7))) * 43758.5453); }
 float cloud_noise(vec2 p) {

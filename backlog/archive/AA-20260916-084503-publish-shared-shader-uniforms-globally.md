@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084503-publish-shared-shader-uniforms-globally"
 title: "Publish per-frame shared shader inputs as global uniforms and change-gate material writes"
-status: ready
+status: done
 priority: P1
 depends_on: []
 created: "2026-09-16T08:45:03Z"
-updated: "2026-09-16T08:45:03Z"
+updated: "2026-09-16T20:49:03Z"
 source_thread: null
 ---
 
@@ -120,5 +120,46 @@ None
 
 ## Completion record
 
-Pending implementation. Record counts, timings, tests, rendered evidence, guide
-updates and commit/push references.
+### Delivery, 2026-09-16: cloud inputs published as global shader parameters (Fable, macOS checkout)
+
+Implemented manually; no scheduled claim. Astra's part (cloud parameter,
+direction and height change gates; wind direction/strength gates; exact-rest
+skipping in tree contact work) is in place, and this checkout's earlier
+delivery under `AA-20260916-084508` already change-gates the spray uniforms
+and the equipment mode string.
+
+Delivered: `cloud_params`, `cloud_sun_direction` and `cloud_layer_height_m`
+are global shader parameters (`project.godot` `[shader_globals]`, declared
+`global uniform` in `assets/cloud_field.gdshaderinc`). `cloud_lighting.gd`
+writes each once per change through `RenderingServer.global_shader_parameter_set`
+instead of once per registered material; on the Standard mountain the
+registry holds 174 receivers, so the animated wind offset formerly issued
+174 material writes per frame. The registry remains for diagnostics and late
+registration, which now needs no copy. Pause behaviour is unchanged: the
+controller stops advancing the offset, so the globals hold. All four
+`CloudLighting` handles (world, effects, weather, skier) are one shared
+instance, so world and preview state were never separate publishers.
+
+Measured on the Apple M4 MacBook (`scripts/mac_frame_probe.sh`, interleaved
+baseline/candidate pairs, 20 s, microseconds mean per frame):
+
+| Scope | Baseline pair | Candidate pair |
+| --- | --- | --- |
+| `weather_world` | 173.2 / 166.8 | 70.3 / 69.4 |
+| whole frame (ms, GPU-bound, noise +/-1.5) | 25.81 / 24.88 | 25.00 / 24.78 |
+
+Not done, with reasons: the wind receiver registry writes `wind_time` to
+8 materials per animated frame; that is small enough that it was left
+per material, and the terrain grass/gravel/beam time uniforms and weather
+particle parameters were left as they are (the weather effects already skip
+disabled volumes). `render_state_cache.gd` compare-and-set remains the
+mechanism for the remaining material writes.
+
+Automated (macOS, Godot 4.7.2): render_efficiency_suite 361/361,
+weather_suite 44/44 and runtime_suite 192/192 with the two suites updated to
+inspect the publisher state, because the headless renderer does not read
+globals back. A rendered still (`artifacts/mac_probe/cloud_cand_1.png`)
+shows sky clouds and ground shade as before; Windows D3D12 and the custom
+FidelityFX engine must compile the `global uniform` declarations (Godot 4.4+
+feature, already used by the project's reserved global buffer setting) and a
+Windows rerun remains a follow-up.

@@ -704,10 +704,10 @@ func _lighting_checks() -> void:
 	check(weather.state.sun_energy<noon_energy,"Weather reduces the strength of daylight")
 	weather.set_preset("cloudy")
 	game._process(0.1)
-	var sky_params = game.world.weather_material.get_shader_parameter("cloud_params")
-	var snow_params = game.world.snow_material.get_shader_parameter("cloud_params")
-	var rider_params = game.skier.material_probe().get_shader_parameter("cloud_params")
-	check(sky_params==snow_params and snow_params==rider_params and snow_params.w>0.0,"Sky, snow and skier share the same moving cloud field")
+	# Cloud inputs are global shader parameters; receivers only register. The
+	# headless renderer does not read globals back, so inspect the publisher.
+	var clouds = game.world.cloud_lighting
+	check(game.world.weather_material in clouds.materials and game.world.snow_material in clouds.materials and game.skier.material_probe() in game.skier.lighting.materials and game.skier.lighting.parameters==clouds.parameters and clouds.parameters.w>0.0,"Sky, snow and skier share the same moving cloud field")
 	var offset: Vector2 = game.world.cloud_offset
 	game.world.update_weather(weather.state,10.0,false)
 	check(offset==game.world.cloud_offset,"Paused clouds do not move their ground shadows")
@@ -717,7 +717,7 @@ func _lighting_checks() -> void:
 	weather.set_quality(0)
 	weather.set_time_of_day("night")
 	game._process(0.1)
-	check(game.world.snow_material.get_shader_parameter("cloud_params").w==0.0 and game.world.moon.visible,"Effects Off removes cloud shadows while retaining selected time of day")
+	check(game.world.cloud_lighting.parameters.w==0.0 and game.world.moon.visible,"Effects Off removes cloud shadows while retaining selected time of day")
 	weather.set_quality(2)
 	weather.set_time_of_day("day")
 	weather.set_time_cycle(true)

@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084502-reduce-recording-tick-cost"
 title: "Stop re-solving the skier pose and rebuilding replay snapshots on every recording tick"
-status: ready
+status: done
 priority: P1
 depends_on: []
 created: "2026-09-16T08:45:02Z"
-updated: "2026-09-16T08:45:02Z"
+updated: "2026-09-16T20:49:03Z"
 source_thread: null
 ---
 
@@ -112,5 +112,21 @@ None
 
 ## Completion record
 
-Pending implementation. Record scope timings before/after, identity evidence,
-tests run, rejected strategies and commit/push references.
+### Delivery, 2026-09-16: reviewed; no further change retained (Fable, macOS checkout)
+
+Implemented manually; no scheduled claim. Astra's part is in place: direct
+typed snapshot field access, routine presentation capture at 20 Hz and reuse
+of a recent displayed rig for routine ghost samples
+(`main.gd` `_capture_ghost_pose`, commits `4831748` and `02f4378`), which
+removed the extra full pose solve on capture ticks.
+
+Reviewed and left as is, with reasons: `run_replay.record` still builds one
+snapshot per 120 Hz tick although only every sixth is stored, because the
+finish tick interpolates between the previous tick's complete snapshot and
+the current one (`last_fraction`), and the previous solver state cannot be
+reconstructed after the tick has advanced; deferring the snapshot would change
+the recorded finish endpoint. The per-tick input row append is a nine-float
+copy. `GhostPose.capture` runs at 20 Hz behind the reuse path. Recorded replay
+and ghost pose bytes are untouched; replay 7 and archive 4 identities hold.
+The finish save and retry roster costs were measured under the hitch task
+(`AA-20260916-084511`): 17 ms per 150 s run and 9 ms per retry on the M4.

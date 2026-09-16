@@ -1,5 +1,7 @@
 extends RefCounted
-## A world-owned material registry: no global render settings or solver state.
+## Cloud shade publication. The three cloud inputs are global shader
+## parameters written once per change; the registry only records receivers
+## (diagnostics, late registration) and never writes them per material.
 const SURFACE_SHADER = preload("res://assets/weather_lit.gdshader")
 var materials: Array[ShaderMaterial] = []
 var shadow_strength: float = 0.88
@@ -10,12 +12,8 @@ var state_ready = false
 var last_height_m = NAN
 
 func register(material: ShaderMaterial) -> ShaderMaterial:
-	if not materials.has(material):
-		materials.append(material)
-		material.set_shader_parameter("cloud_layer_height_m",height_m)
-		if state_ready:
-			material.set_shader_parameter("cloud_params",parameters)
-			material.set_shader_parameter("cloud_sun_direction",last_sun_direction)
+	# Late receivers read the current globals immediately; nothing to copy.
+	if not materials.has(material): materials.append(material)
 	return material
 
 func material(color: Color, roughness: float = 0.65, vertex_color: bool = false, emission: bool = false) -> ShaderMaterial:
@@ -35,11 +33,9 @@ func update(state, offset_m: Vector2, sun_direction: Vector3) -> void:
 	var changed_height = height_m!=last_height_m
 	parameters = next
 	if not changed_parameters and not changed_direction and not changed_height: return
-	for receiver in materials:
-		if changed_parameters: receiver.set_shader_parameter("cloud_params",parameters)
-		if changed_direction:
-			receiver.set_shader_parameter("cloud_sun_direction",sun_direction)
-		if changed_height: receiver.set_shader_parameter("cloud_layer_height_m",height_m)
+	if changed_parameters: RenderingServer.global_shader_parameter_set(&"cloud_params",parameters)
+	if changed_direction: RenderingServer.global_shader_parameter_set(&"cloud_sun_direction",sun_direction)
+	if changed_height: RenderingServer.global_shader_parameter_set(&"cloud_layer_height_m",height_m)
 	last_sun_direction = sun_direction
 	last_height_m = height_m
 	state_ready = true

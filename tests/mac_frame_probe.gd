@@ -101,6 +101,7 @@ func finish() -> void:
 		"frame_ms":Costs.stats(frames),"fps_mean":1000.0/Costs.stats(frames).mean if frames.size()>0 else 0.0,"render_cpu_ms":Costs.stats(rcpu),"draw_calls":Costs.stats(draws),"primitives":Costs.stats(prims),
 		"lighting":{"sdfgi":game.world.environment.sdfgi_enabled,"ssao":game.world.environment.ssao_enabled,"ssil":game.world.environment.ssil_enabled,"glow":game.world.environment.glow_enabled,"volumetric_fog":game.world.environment.volumetric_fog_enabled},
 		"cpu_scopes_us":game.frame_costs.report(),
+		"cloud_receivers":{"world":game.world.cloud_lighting.materials.size(),"effects":game.effects.lighting.materials.size(),"weather":game.weather_effects.lighting.materials.size(),"skier":game.skier.lighting.materials.size(),"wind":game.world.assets.wind_receivers.size()},
 		"stall":{"ms":stall_ms,"max_physics_steps_per_frame":Engine.max_physics_steps_per_frame,"episodes_frame_ms_and_ticks":episodes}}
 	var f = FileAccess.open("res://artifacts/mac_probe/%s.json" % label,FileAccess.WRITE); f.store_string(JSON.stringify(data,"\t")); f.close()
 	print("MAC_FRAME_PROBE_DONE ",label)

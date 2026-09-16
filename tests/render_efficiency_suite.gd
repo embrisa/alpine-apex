@@ -28,11 +28,13 @@ func run() -> void:
 	clouds.update(weather.state,Vector2(12,34),weather.state.sun_direction)
 	var late = ShaderMaterial.new(); late.shader = Clouds.SURFACE_SHADER
 	clouds.register(late)
-	check(late.get_shader_parameter("cloud_params")==clouds.parameters,"Late material gets current cloud position immediately")
-	check(late.get_shader_parameter("cloud_sun_direction")==clouds.last_sun_direction,"Late material gets current sun direction")
+	# Cloud inputs are global shader parameters (not readable back headless);
+	# a late receiver needs no copy and the publisher state stays authoritative.
+	check(late in clouds.materials and clouds.parameters.x==12.0 and clouds.parameters.y==34.0,"Late material joins the registry under the current cloud position")
+	check(clouds.last_sun_direction==weather.state.sun_direction,"Publisher retains the current sun direction")
 	clouds.update(weather.state,Vector2(12,34),weather.state.sun_direction)
 	clouds.update(weather.state,Vector2(13,34),weather.state.sun_direction)
-	check(late.get_shader_parameter("cloud_params").x==13.0,"Moving clouds retain every update")
+	check(clouds.parameters.x==13.0,"Moving clouds retain every update")
 	await check_atmosphere(weather)
 	await check_tracks(clouds)
 	check_transforms()

@@ -1,0 +1,244 @@
+{
+  "schema": 1,
+  "id": "99f1dca63fcb4c889bd43d1c83c740de",
+  "summary": "Publish cloud inputs as global shader parameters, sweep obstacles once, and close the four partly implemented performance tasks with measurements",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Global cloud shader parameters",
+    "Solver obstacle sweep",
+    "Performance task records"
+  ],
+  "owned_paths": [
+    "assets/cloud_field.gdshaderinc",
+    "backlog/archive/AA-20260916-084500-reduce-solver-terrain-query-redundancy.md",
+    "backlog/archive/AA-20260916-084501-index-skier-pose-by-bone.md",
+    "backlog/archive/AA-20260916-084502-reduce-recording-tick-cost.md",
+    "backlog/archive/AA-20260916-084503-publish-shared-shader-uniforms-globally.md",
+    "backlog/tasks/AA-20260916-084500-reduce-solver-terrain-query-redundancy.md",
+    "backlog/tasks/AA-20260916-084501-index-skier-pose-by-bone.md",
+    "backlog/tasks/AA-20260916-084502-reduce-recording-tick-cost.md",
+    "backlog/tasks/AA-20260916-084503-publish-shared-shader-uniforms-globally.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RENDERING.md",
+    "project.godot",
+    "scripts/core/ski_simulation.gd",
+    "scripts/presentation/cloud_lighting.gd",
+    "tests/mac_frame_probe.gd",
+    "tests/render_efficiency_suite.gd",
+    "tests/runtime_suite.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "assets/weather_sky.gdshader",
+    "scripts/world/alpine_world.gd",
+    "scripts/world/heightfield_surface.gd",
+    "scripts/world/prop_collision_surface.gd",
+    "tests/physics_suite.gd",
+    "tests/solver_tick_benchmark.gd",
+    "tests/weather_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "_resolve_obstacle reads the reason from the single contact sweep that the former reason-only call already performed internally; the paired solver benchmark (6000 ticks, three passes) reproduces the identical state digest 1cc6806dd5c7... before and after. project.godot gains only a [shader_globals] section; physics settings are untouched."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "No schema, generator, replay or race identity change; shader uniform publication is presentation-only."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Presentation and record changes only; solver digest identical, formats untouched."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Presentation and record changes only; solver digest identical, formats untouched."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Presentation and record changes only; solver digest identical, formats untouched."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Presentation and record changes only; solver digest identical, formats untouched."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Presentation and record changes only; solver digest identical, formats untouched."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "ALPINE_FULL_MOUNTAIN=1 ./godotw --headless --script tests/solver_tick_benchmark.gd -- --ticks=6000 --label={obst_base,obst_cand}",
+      "result": "passed",
+      "details": "Identical state_sha256 across all passes; 328/316/305 -> 311/302/302 us per tick (noise; the route hits no obstacle)."
+    },
+    {
+      "kind": "automated",
+      "command": "ALPINE_FULL_MOUNTAIN=1 ./godotw --headless --script tests/{render_efficiency_suite,weather_suite,runtime_suite}.gd",
+      "result": "passed",
+      "details": "361, 44 and 192 checks with the two suites updated to inspect the cloud publisher state (headless RenderingServer does not read globals back). The reverted pose candidate had earlier passed animation_cpu 72, skier_anatomy 84, turn_anatomy 32, ski_attachment 20, pole_push_pose 36, skier_tracking 515130, render_knee 4000, carve_residual 276, physics 56 and runtime 192, with the four baseline failures of skier_motion/skier_animation already recorded by the small-landings task."
+    },
+    {
+      "kind": "performance",
+      "command": "scripts/mac_frame_probe.sh cloud_{base,cand}_{1,2} --probe-seconds=20 (interleaved); pose_{base,cand}_{1,2}",
+      "result": "passed",
+      "details": "Apple M4: weather_world 173.2/166.8 -> 70.3/69.4 us per frame with 174 cloud receivers; whole frame 25.81/24.88 -> 25.00/24.78 ms (inside noise). Pose candidate: pose 342.6/330.2 -> 338.9/342.8, pose_writer 19.7/19.0 -> 22.0/22.0 us, rejected and reverted."
+    },
+    {
+      "kind": "human",
+      "command": "Rendered still artifacts/mac_probe/cloud_cand_1.png; Windows D3D12/FidelityFX shader compile",
+      "result": "pending",
+      "details": "Clear-weather still looks as before; cloud-shadow stills and the custom Windows engine compile of global uniforms remain a follow-up."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Windows compile and rendered cloud-shadow comparison pending. One probe run aborted on a worker thread (SIGABRT, 22:39), matching the earlier non-reproducible engine race; report retained under ~/Library/Logs/DiagnosticReports."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T20:49:04.138464+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "9da0528377b7fb1853eafcd637de8b66804d3ccc",
+      "dev": 73,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789544258451225404
+      },
+      "assets/cloud_field.gdshaderinc": {
+        "size": 1570,
+        "mtime_ns": 1789591161005466558
+      },
+      "assets/weather_sky.gdshader": {
+        "size": 2270,
+        "mtime_ns": 1789511897065439159
+      },
+      "backlog/archive/AA-20260916-084500-reduce-solver-terrain-query-redundancy.md": {
+        "size": 10885,
+        "mtime_ns": 1789591743415148800
+      },
+      "backlog/archive/AA-20260916-084501-index-skier-pose-by-bone.md": {
+        "size": 10177,
+        "mtime_ns": 1789591743456193091
+      },
+      "backlog/archive/AA-20260916-084502-reduce-recording-tick-cost.md": {
+        "size": 7186,
+        "mtime_ns": 1789591743496313122
+      },
+      "backlog/archive/AA-20260916-084503-publish-shared-shader-uniforms-globally.md": {
+        "size": 8996,
+        "mtime_ns": 1789591743535452476
+      },
+      "backlog/tasks/AA-20260916-084500-reduce-solver-terrain-query-redundancy.md": null,
+      "backlog/tasks/AA-20260916-084501-index-skier-pose-by-bone.md": null,
+      "backlog/tasks/AA-20260916-084502-reduce-recording-tick-cost.md": null,
+      "backlog/tasks/AA-20260916-084503-publish-shared-shader-uniforms-globally.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 43677,
+        "mtime_ns": 1789591743576233056
+      },
+      "docs/RENDERING.md": {
+        "size": 44058,
+        "mtime_ns": 1789591161006781738
+      },
+      "project.godot": {
+        "size": 1819,
+        "mtime_ns": 1789591161007218118
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789591161009132679
+      },
+      "scripts/presentation/cloud_lighting.gd": {
+        "size": 2063,
+        "mtime_ns": 1789591161009908478
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 16580,
+        "mtime_ns": 1789588761959243502
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789581307436015366
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 26995,
+        "mtime_ns": 1789511897149769583
+      },
+      "scripts/world/heightfield_surface.gd": {
+        "size": 8958,
+        "mtime_ns": 1789574592484552873
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      },
+      "scripts/world/prop_collision_surface.gd": {
+        "size": 4830,
+        "mtime_ns": 1789588761960957180
+      },
+      "tests/mac_frame_probe.gd": {
+        "size": 7592,
+        "mtime_ns": 1789591161011285242
+      },
+      "tests/physics_suite.gd": {
+        "size": 18419,
+        "mtime_ns": 1789511897203258604
+      },
+      "tests/render_efficiency_suite.gd": {
+        "size": 10008,
+        "mtime_ns": 1789591161011799831
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41125,
+        "mtime_ns": 1789591161012432587
+      },
+      "tests/solver_tick_benchmark.gd": {
+        "size": 2434,
+        "mtime_ns": 1789581307438610161
+      },
+      "tests/weather_suite.gd": {
+        "size": 11102,
+        "mtime_ns": 1789511897236326302
+      }
+    }
+  }
+}

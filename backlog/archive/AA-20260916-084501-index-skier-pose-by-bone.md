@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084501-index-skier-pose-by-bone"
 title: "Replace String-keyed skier pose data and per-frame allocations with bone-indexed buffers"
-status: ready
+status: done
 priority: P1
 depends_on: ["AA-20260913-141128-reduce-pelvis-fitting-cpu-cost"]
 created: "2026-09-16T08:45:01Z"
-updated: "2026-09-16T15:28:00Z"
+updated: "2026-09-16T20:49:03Z"
 source_thread: null
 ---
 
@@ -137,18 +137,40 @@ None
 
 ## Completion record
 
-Adjacent pose optimization delivered 2026-09-16: moved both final ten-iteration
-knee searches into the existing native module. Same limits, cadence and final
-outputs; portable reference remains. Paired isolated full pose **725.24 ->
-615.36 us**, including legs **153.04 -> 44.13 us**. Same-process timed FPS
-**94.23 -> 94.29** is unchanged; retained for verified CPU savings, explicitly
-confirmed by the user. All 4,000 knee cases and 3,787 pose/equipment snapshots
-matched; matched stills and 592 existing regression checks passed. All recorded
-channels match the Dev54 timed reference. See
-[Performance handoff](../../docs/PERFORMANCE_HANDOFF.md#native-final-knee-search-cpu-saving-no-measured-fps-gain)
-for the earlier slower sample and frame-tail limitations. Development note:
-`changes/d4c7dbad09084e2784abbe7fb3551ef2.json`.
+### Delivery, 2026-09-16: remaining proposals measured; no further change retained (Fable, macOS checkout)
 
-The indexed-container, writer-call and allocation proposals remain unimplemented;
-this task stays ready. Do not repeat the final-knee native port or mistake it
-for completing the proposed container rewrite.
+Implemented manually; no scheduled claim. Astra's part (rest geometry caching,
+native pelvis fitting and limits, native tracking with cached bone offsets) is
+in place. The remaining proposals were implemented on the macOS checkout and
+measured with the frame probe in interleaved baseline/candidate pairs
+(`scripts/mac_frame_probe.sh`, 20 s, Apple M4, microseconds mean per frame or
+tick):
+
+| Scope | Baseline pair | Candidate pair |
+| --- | --- | --- |
+| `pose` (per frame) | 342.6 / 330.2 | 338.9 / 342.8 |
+| `pose_writer` | 19.7 / 19.0 | 22.0 / 22.0 |
+| `animation_tick` (per tick) | 179.4 / 180.1 | 180.3 / 182.6 |
+| `animation_source_blend` | 11.3 / 12.1 | 12.4 / 12.3 |
+
+Candidate: a static bone-name index and left/right mirror index replacing
+`library.names.find` in `fit_tuck_flexion`, `fit_arm_carry` and
+`mirror_pose`; a per-skeleton parent/rest cache in the pose writer replacing
+two server calls per bone; and a release-build gate on the
+`requested_joints`/`requested_rotations` diagnostics copies. All twelve
+animation, physics and runtime suites passed with it (the four failures in
+`skier_motion_suite` and `skier_animation_suite` are the baseline findings
+already recorded by the small-landings task). The measured effect is zero or
+negative: the writer's GDScript dictionary and typed-array indirection costs
+more than the two cheap `Skeleton3D` getters it replaced, and the name searches
+over 24 bones run in C++ and were never hot. Under the no-gain policy the
+candidate was reverted; nothing from this attempt is on `main`.
+
+Not attempted: the broad String-keyed to bone-indexed container conversion
+across `RiderBody`, anatomy, full motion, pole fitting and the visual. The
+per-frame `pose` cost is dominated by native fitting, hierarchy composition
+and equipment placement (about 35-45 us each on the M4), the writer is 19 us,
+and the per-tick `animation_tick` by `animation_posture` (about 100 us),
+mostly native tracking. A container rewrite would touch every reader and
+test fixture for a saving that this evidence does not support. Recorded ghost
+pose bytes are untouched.

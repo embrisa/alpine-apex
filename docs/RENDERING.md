@@ -248,7 +248,14 @@ canopy mask. Texture-quality/LOD changes retain the selected aid state. Player
 controls belong to [Presentation](PRESENTATION.md#forest-visibility).
 
 Cloud lighting shares a per-world registry across terrain, skier, tracks, trees,
-rocks, markers and sky. Sky/view and directional-receiver rays project onto the
+rocks, markers and sky. Its three inputs (`cloud_params`, `cloud_sun_direction`,
+`cloud_layer_height_m`) are global shader parameters declared in
+`project.godot` and written once per change by `cloud_lighting.gd`; receiver
+materials declare them `global uniform` through `cloud_field.gdshaderinc` and
+receive no per-material writes (174 receivers on the Standard mountain). The
+paused clock still freezes the wind offset, so the globals hold. The headless
+renderer does not read globals back; suites inspect the publisher state.
+Sky/view and directional-receiver rays project onto the
 same layer at `max(2400 m, summit + 1200 m)` with shared wind offset/coverage.
 Transmission affects directional light only, retaining object shadows and
 ambient fill. Surface cloud transmission is vertex sampled/interpolated; material

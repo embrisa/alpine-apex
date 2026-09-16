@@ -566,13 +566,16 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 func _resolve_obstacle(surface, from: Vector3) -> void:
 	if crashed: return
 	# Keep the reason-only API for older surfaces and obstacle-free test adapters.
-	var reason: String = surface.sweep_obstacle(from,position)
-	if reason.is_empty(): return
 	if not surface.has_method("sweep_obstacle_contact"):
-		crash(reason) # No contact geometry: cannot safely infer a glancing hit.
+		var reason_only: String = surface.sweep_obstacle(from,position)
+		if not reason_only.is_empty(): crash(reason_only) # No contact geometry: cannot safely infer a glancing hit.
 		return
+	# One sweep supplies both the reason and the contact; the former reason-only
+	# call re-ran the identical sweep on every hit tick.
 	var hit: Dictionary = surface.sweep_obstacle_contact(from,position)
-	if hit.is_empty() or hit.get("boundary",false):
+	var reason: String = hit.get("reason","")
+	if reason.is_empty(): return
+	if hit.get("boundary",false):
 		crash(reason)
 		return
 	var normal: Vector3 = hit.normal

@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084500-reduce-solver-terrain-query-redundancy"
 title: "Remove redundant terrain queries and per-tick overhead inside the 120 Hz solver"
-status: ready
+status: done
 priority: P1
 depends_on: []
 created: "2026-09-16T08:45:00Z"
-updated: "2026-09-16T08:45:00Z"
+updated: "2026-09-16T20:49:03Z"
 source_thread: null
 ---
 
@@ -157,7 +157,28 @@ None
 
 ## Completion record
 
-Pending implementation. Record measured counts and scope timings before/after,
-tests actually run, exact-replay evidence, retained/rejected changes, guide
-updates and commit/push references. If no production gain survives, record the
-blocked finding rather than success.
+### Delivery, 2026-09-16: one redundant sweep removed; the remaining proposals were measured and rejected (Fable, macOS checkout)
+
+Implemented manually; no scheduled claim. Astra's part (native hip fitting,
+allocation-free heights, exact tick-local query reuse, removal of the unread
+curvature probes) is in place.
+
+Delivered: `_resolve_obstacle` performs one `sweep_obstacle_contact` and reads
+its `reason`, instead of a reason-only sweep followed by a second identical
+contact sweep on every hit tick. `sweep_obstacle` is defined as
+`sweep_obstacle_contact(...).get("reason","")` on every surface, so the
+decision path is unchanged; surfaces without the contact API keep the
+reason-only call. Paired `tests/solver_tick_benchmark.gd` runs (6000 ticks,
+three passes) produce the same state digest
+`1cc6806dd5c7...` before and after; means 328/316/305 -> 311/302/302 us per
+tick are within run noise because the benchmark route hits no obstacle.
+
+Measured earlier on this checkout and rejected under the no-gain policy (see
+[Performance handoff](../../docs/PERFORMANCE_HANDOFF.md), solver attribution):
+a byte lookup table replacing the four `Image.get_pixel` reads in
+`rock_fraction_at` and per-surface capability flags replacing the
+`has_method("...")` checks both landed at the noise floor of the paired
+benchmark, and the byte table cannot reproduce the float32 `Color.r`
+quantisation bit for bit. Editing `heightfield_surface.gd` also invalidates
+the physical mountain cache. Nothing further from this task is retained.
+Solver 35, replay 7 and race 6 identities are untouched.

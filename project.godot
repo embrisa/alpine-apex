@@ -53,6 +53,21 @@ common/max_physics_steps_per_frame=24
 jolt_physics_3d/simulation/velocity_steps=32
 jolt_physics_3d/simulation/position_steps=12
 
+[shader_globals]
+
+cloud_layer_height_m={
+"type": "float",
+"value": 2400.0
+}
+cloud_params={
+"type": "vec4",
+"value": Vector4(0, 0, 0, 0)
+}
+cloud_sun_direction={
+"type": "vec3",
+"value": Vector3(-0.775, 0.407, 0.484)
+}
+
 [rendering]
 
 rendering_device/driver.windows="d3d12"
