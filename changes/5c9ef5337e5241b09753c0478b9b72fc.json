@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "id": "5c9ef5337e5241b09753c0478b9b72fc",
+  "summary": "Integrate Fable Mac startup fixes and performance investigations without replacing local gains",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Mac startup integration",
+    "Fable task handoff",
+    "Merge milestone bookkeeping"
+  ],
+  "owned_paths": [
+    "addons/alpine_wind/alpine_wind.gdextension",
+    "addons/alpine_wind/alpine_wind.gdextension.uid",
+    "addons/alpine_wind/alpine_wind.windows.gdextension.cfg",
+    "assets/graphics/ski_track.gdshader",
+    "backlog/tasks/AA-20260916-084500-reduce-solver-terrain-query-redundancy.md",
+    "backlog/tasks/AA-20260916-084501-index-skier-pose-by-bone.md",
+    "backlog/tasks/AA-20260916-084502-reduce-recording-tick-cost.md",
+    "backlog/tasks/AA-20260916-084503-publish-shared-shader-uniforms-globally.md",
+    "docs/AUDIO.md",
+    "docs/DEVELOPMENT.md",
+    "scripts/presentation/procedural_wind.gd",
+    "scripts/setup_macos.sh",
+    "scripts/versioning.py",
+    "tests/live_forest_restoration_playtest.gd.uid",
+    "tests/macos_compatibility_suite.gd",
+    "tests/test_versioning.py"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "docs/VALIDATION.md",
+    "scripts/core/skier_kernel.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Integrates platform loading and a vertex-local shader variable; no solver, generator or gameplay format change."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Integrates platform loading and a vertex-local shader variable; no solver, generator or gameplay format change."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Integrates platform loading and a vertex-local shader variable; no solver, generator or gameplay format change."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No gameplay schema, eligibility, generation or replay behavior change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No gameplay schema, eligibility, generation or replay behavior change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No gameplay schema, eligibility, generation or replay behavior change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No gameplay schema, eligibility, generation or replay behavior change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No gameplay schema, eligibility, generation or replay behavior change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "python -m unittest discover -s tests -p test_versioning.py",
+      "result": "passed",
+      "details": "18 disposable-repository tests passed, including a merge containing an existing peer milestone note. The verifier preserves the peer note and requires one new integration note, without treating inherited notes as owned source inputs."
+    },
+    {
+      "kind": "automated",
+      "command": "Guard fable-merge-checks-r2-20260916: macos_compatibility_suite, wind_audio_suite, native_loading.gd",
+      "result": "passed",
+      "details": "Four platform contract checks, 19 Windows native wind checks and native skier manual loader check passed. Initial attempt encountered the old wind descriptor in the ignored .godot/extension_list.cfg; an Exclusive guard removed that exact stale cache entry and the second attempt passed with no engine errors."
+    },
+    {
+      "kind": "rendered",
+      "command": "Retained Fable macOS inspection in changes/b50d07d12ffb4b58b0fc9d89549a6820.json; source integration review",
+      "result": "passed",
+      "details": "Fable recorded Godot 4.7.2 Metal on Apple M4 reaching play and user confirmation. That is prior upstream evidence, not a new local Mac test. Merged shader only moves an unused varying to a vertex-local variable; current Windows forest/pose visual evidence belongs to preceding milestone."
+    },
+    {
+      "kind": "performance",
+      "command": "No new performance experiment for upstream compatibility/task merge",
+      "result": "not_required",
+      "details": "No additional FPS gain claimed. The 84.07 FPS Windows sample and its limitations remain in docs/PERFORMANCE_HANDOFF.md. Mac user-observed FPS is not a matched performance control."
+    },
+    {
+      "kind": "automated",
+      "command": "git -c core.whitespace=cr-at-eol diff --cached --check; versioning.py check on staged integration note",
+      "result": "passed",
+      "details": "Scoped merge and preserved local source reviewed; no merge conflicts. Four new Fable task files exist; the fifth referenced vertex-transcendental file is missing."
+    }
+  ],
+  "outstanding_acceptance": [
+    "No new Mac playtest or benchmark on this Windows machine. Fable task investigations remain unimplemented; overlap review is in docs/PERFORMANCE_HANDOFF.md."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T09:04:15.372779+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "4b82ca33c42d1a46c04837330faf426fb267e73d",
+      "dev": 45,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "addons/alpine_wind/alpine_wind.gdextension": null,
+      "addons/alpine_wind/alpine_wind.gdextension.uid": null,
+      "addons/alpine_wind/alpine_wind.windows.gdextension.cfg": {
+        "size": 191,
+        "mtime_ns": 1789549319384704000
+      },
+      "assets/graphics/ski_track.gdshader": {
+        "size": 5585,
+        "mtime_ns": 1789549319385708400
+      },
+      "backlog/tasks/AA-20260916-084500-reduce-solver-terrain-query-redundancy.md": {
+        "size": 9576,
+        "mtime_ns": 1789549319386711400
+      },
+      "backlog/tasks/AA-20260916-084501-index-skier-pose-by-bone.md": {
+        "size": 8176,
+        "mtime_ns": 1789549319387714700
+      },
+      "backlog/tasks/AA-20260916-084502-reduce-recording-tick-cost.md": {
+        "size": 6147,
+        "mtime_ns": 1789549319387714700
+      },
+      "backlog/tasks/AA-20260916-084503-publish-shared-shader-uniforms-globally.md": {
+        "size": 6586,
+        "mtime_ns": 1789549319388717800
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/AUDIO.md": {
+        "size": 12253,
+        "mtime_ns": 1789549319389762700
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 19328,
+        "mtime_ns": 1789549421191702500
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789512657279656900
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 41854,
+        "mtime_ns": 1789298203030046200
+      },
+      "scripts/core/skier_kernel.gd": {
+        "size": 766,
+        "mtime_ns": 1789549245082380300
+      },
+      "scripts/presentation/procedural_wind.gd": {
+        "size": 5525,
+        "mtime_ns": 1789549319390766100
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18345,
+        "mtime_ns": 1789216227754129500
+      },
+      "scripts/setup_macos.sh": {
+        "size": 3616,
+        "mtime_ns": 1789549319391768600
+      },
+      "scripts/versioning.py": {
+        "size": 27235,
+        "mtime_ns": 1789549421190699100
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/live_forest_restoration_playtest.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789549319391768600
+      },
+      "tests/macos_compatibility_suite.gd": {
+        "size": 1299,
+        "mtime_ns": 1789549319392772000
+      },
+      "tests/test_versioning.py": {
+        "size": 16701,
+        "mtime_ns": 1789549421191702500
+      }
+    }
+  }
+}

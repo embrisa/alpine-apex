@@ -113,6 +113,7 @@ class VersioningTests(unittest.TestCase):
         self.note(); self.commit()
         self.git("switch", "-c", "peer")
         self.write("LICENSE", "Existing remote license")
+        peer_note = self.note(["LICENSE"])
         self.commit()
         self.git("switch", "main")
         self.write("policy.md", "Local policy")
@@ -122,7 +123,7 @@ class VersioningTests(unittest.TestCase):
         v.capture_inputs(self.root, merge_note, metadata_only=True)
         self.commit()
         self.assertEqual(v.added_notes(self.root, "HEAD"), [merge_note])
-        self.assertEqual(set(v.changed_paths(self.root, "HEAD")), {"LICENSE", merge_note})
+        self.assertEqual(set(v.changed_paths(self.root, "HEAD")), {"LICENSE", merge_note, peer_note})
         self.assertEqual(v.check_commit(self.root), [])
 
     def test_missing_notes_and_append_only(self):

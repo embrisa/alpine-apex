@@ -29,6 +29,26 @@ The resolver validates the activation receipt against exact executable hashes.
 `godotw-fsr.ps1` explicitly selects the custom runtime. The shell `godotw` keeps
 the existing stock-engine path on other platforms.
 
+### macOS / Apple Silicon development
+
+Install stock Godot 4.7.2 or newer in `/Applications`, then launch locally with
+`./godotw`. macOS uses the stock Metal renderer: the Windows FidelityFX runtime
+and the Windows native-wind DLL are intentionally unavailable, and wind uses the
+existing Original recording fallback. The first local import is large and can
+take several minutes.
+
+If a copied or stale `.godot` cache leaves startup waiting on imported resources,
+rebuild it with a recoverable cache move:
+
+```sh
+./scripts/setup_macos.sh --rebuild-cache --cache-backup /absolute/new/cache-backup
+```
+
+The backup path must be a new absolute path whose parent already exists. The
+helper preserves local edits to tracked `.import` sidecars and restores clean
+Windows workflow sidecars after the host-specific cache is rebuilt. It does not
+build, validate, or package Windows-native components.
+
 ## Internal development versions
 
 `Dev N` identifies one committed, validated milestone, including documentation
@@ -40,6 +60,8 @@ baseline; corrections receive a new milestone. No per-commit tags or Git hooks
 are installed. Full commit hashes remain the exact committed identities.
 Merge milestones compare their note and changed paths with the first parent,
 matching Dev numbering; include the integrated files in that milestone's scope.
+Unchanged notes inherited from another merge parent remain historical records;
+the merge adds one new note describing its own integration and verification.
 
 `python scripts/versioning.py identity` prints the current Dev ID, Git hash,
 modified state/fingerprint and source-owned compatibility identities; add
@@ -177,7 +199,9 @@ and copies it into `addons/alpine_wind`. CMake/VS 2022 are required; the script
 pins godot-cpp `godot-4.5-stable`, commit
 `e83fd0904c13356ed1d4c3d09f8bb9132bdc6b77`, under `.tools/wind`.
 An engine holding the DLL must release it before replacement; the build does
-not close applications. The stream/thread contracts live in [Audio](AUDIO.md).
+not close applications. Its `alpine_wind.windows.gdextension.cfg` configuration
+is manually loaded on Windows so macOS/Linux do not auto-discover a missing DLL.
+The stream/thread contracts live in [Audio](AUDIO.md).
 
 ## Windows packaging
 

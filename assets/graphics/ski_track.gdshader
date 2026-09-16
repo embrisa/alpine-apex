@@ -15,7 +15,6 @@ varying float imprint_depth;
 varying float track_distance;
 varying vec3 imprint_world;
 varying float imprint_slip;
-varying float berm_side;
 varying float imprint_width;
 varying float crystal_density;
 varying vec2 live_cap;
@@ -41,7 +40,8 @@ void vertex() {
  imprint_depth=COLOR.r;
  live_cap=vec2(COLOR.g<0.0 ? 1.0 : 0.0,t.y);
  imprint_slip=COLOR.g<0.0 ? -COLOR.g-1.0 : COLOR.g;
- berm_side=COLOR.b*2.0-1.0;
+ // Vertex-only packing: keeping this local avoids exceeding Metal's varying limit.
+ float berm_side=COLOR.b*2.0-1.0;
  crystal_density=COLOR.a;
  imprint_width=length(MODEL_MATRIX[0].xyz);
  float spread=max(imprint_width*.14,.12);

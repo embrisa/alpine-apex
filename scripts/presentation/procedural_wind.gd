@@ -1,7 +1,9 @@
 extends Node
 ## Presentation-only airflow and sound preferences. One stream owns each sound.
 const SETTINGS_PATH = "user://wind_v1.cfg"
-const EXTENSION = "res://addons/alpine_wind/alpine_wind.gdextension"
+## This remains a manually loaded Windows configuration. Keeping it out of
+## Godot's .gdextension discovery prevents macOS/Linux from reporting a missing DLL.
+const EXTENSION = "res://addons/alpine_wind/alpine_wind.windows.gdextension.cfg"
 const LIBRARY = "res://addons/alpine_wind/bin/alpine_wind.windows.x86_64.dll"
 enum Mode { PROCEDURAL, ORIGINAL }
 var mode: int = Mode.PROCEDURAL

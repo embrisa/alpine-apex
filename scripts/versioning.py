@@ -178,8 +178,21 @@ def changed_paths(root, commit):
     return [p for p in git(root, "diff", "--name-only", "--no-renames", "-z", commit + "^1", commit).decode().split("\0") if p]
 
 
+def inherited_notes(root, commit):
+    # A merge carries its peers' immutable notes as well as its own milestone.
+    # Only unchanged notes from another parent are inherited, never rewrites.
+    parents = git(root, "rev-list", "--parents", "-n", "1", commit).decode().split()[2:]
+    result = set()
+    for parent in parents:
+        for path in git(root, "ls-tree", "-r", "--name-only", parent, "--", "changes").decode().splitlines():
+            if is_note(path) and content(root, path, commit) == content(root, path, parent):
+                result.add(path)
+    return result
+
+
 def added_notes(root, commit):
-    return [p for p in git(root, "diff", "--name-only", "--diff-filter=A", "-z", commit + "^1", commit, "--", "changes").decode().split("\0") if p.endswith(".json")]
+    inherited = inherited_notes(root, commit)
+    return [p for p in git(root, "diff", "--name-only", "--diff-filter=A", "-z", commit + "^1", commit, "--", "changes").decode().split("\0") if p.endswith(".json") and p not in inherited]
 
 
 def identity(root):
@@ -368,7 +381,7 @@ def check_note(root, path, commit=None, staged=False):
         if existing is not None: problems.append("Milestone notes are append-only; create a new note")
         if commit:
             changed = set(changed_paths(root, commit))
-            if changed - set(owned) - {path}: problems.append("Commit includes changes outside its milestone scope")
+            if changed - set(owned) - {path} - inherited_notes(root, commit): problems.append("Commit includes changes outside its milestone scope")
         if staged:
             unstaged = set(git(root, "diff", "--name-only", "--no-renames", "-z", "--", *owned, path).decode().split("\0")) if metadata_only else set()
             for p in owned + [path]:
