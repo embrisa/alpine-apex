@@ -61,6 +61,9 @@ void vertex() {
  track_distance=length((MODELVIEW_MATRIX*vec4(VERTEX,1)).xyz);
 }
 void fragment() {
+ // Beyond the 380 m fade the ribbon is fully transparent: skip its crystal
+ // and lighting work instead of blending an invisible fragment.
+ if(track_distance>=380.0) discard;
  if(contact_rock(imprint_world.xz)>=.5) discard;
  vec3 view_world=normalize(INV_VIEW_MATRIX[3].xyz-imprint_world);
  float x=UV.x*2.0-1.0;

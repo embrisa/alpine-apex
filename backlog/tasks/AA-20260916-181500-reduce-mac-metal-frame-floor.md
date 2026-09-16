@@ -5,7 +5,7 @@ status: ready
 priority: P2
 depends_on: []
 created: "2026-09-16T18:15:00Z"
-updated: "2026-09-16T18:15:00Z"
+updated: "2026-09-16T19:40:00Z"
 source_thread: null
 ---
 
@@ -107,5 +107,34 @@ None
 
 ## Completion record
 
-Pending implementation. Record the attribution table, retained and rejected
-changes, probe results, tests and branch/commit references.
+Partial delivery, 2026-09-16, branch `fable/mac-metal-frame-floor` (Fable, macOS
+M4). Repeatable probe: `tests/mac_frame_probe.gd` through
+`scripts/mac_frame_probe.sh LABEL [args]` (focused launch, policy flags, JSON
+under `artifacts/mac_probe/`). Attribution at Auto = bilinear 0.75 + MSAA 2x,
+20 s runs, run noise about +/-1.5 ms, reference 26.3-27.5 ms:
+
+| Toggle | Frame ms delta |
+| --- | ---: |
+| Local snow deformation off (two runs) | -4.0 |
+| Powder patch draw hidden (diagnostic) | -5.0 |
+| Powder atlas compute skipped (diagnostic) | -0.1 |
+| Powder shadow casting off (two runs) | -0.2 |
+| Powder mesh trimmed to the handover disc (-17% patch triangles) | -0.2 |
+| Powder 128 / 64 subdivisions | -1.6 / -2.5 |
+| Glow off alone / shafts off alone / both | -2.0 / -1.9 / 0.0 |
+| MSAA off, cloud shadows, weather 0, snow detail, normals, shadows 60 m, backdrop | inside noise |
+
+Delivered: `PowderSurface.mesh_subdivisions` returns 128 on Metal (25 cm) and 256
+elsewhere; the powder mesh omits quads outside the 13.5 m handover reach plus
+the storage offset (exact, fragments were always discarded); `ski_track.gdshader`
+discards fully faded fragments beyond 380 m early (exact). Rejected: powder
+shadow casting off and glow/shafts defaults (not attributable above noise).
+Remaining floor: about 2.5 ms of powder fill plus terrain and forest fill that
+no single toggle isolates; Xcode Metal capture is unavailable on this machine
+(Command Line Tools only). A grass worker crash (`propagate_notification` from
+`stand_density` on a worker thread, signal 11) was observed once; log retained
+in `artifacts/mac_floor_20260916/`. Rows in
+[MAC_PERFORMANCE_BASELINE.json](../../docs/MAC_PERFORMANCE_BASELINE.json).
+Human acceptance of the 25 cm Metal relief is pending (capture
+`artifacts/mac_probe/final_metal_powder.png`). Task remains ready for the
+remaining fill attribution.

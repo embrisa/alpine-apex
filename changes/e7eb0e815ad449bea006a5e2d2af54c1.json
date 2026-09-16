@@ -1,0 +1,174 @@
+{
+  "schema": 1,
+  "id": "e7eb0e815ad449bea006a5e2d2af54c1",
+  "summary": "Integrate the Fable macOS Metal frame-floor attribution, 128 powder subdivisions on Metal, exact powder disc trim and early ski-track discard",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Metal powder patch geometry",
+    "Ski track fragment discard",
+    "macOS frame probe tooling",
+    "Performance handoff documentation"
+  ],
+  "owned_paths": [
+    "assets/graphics/ski_track.gdshader",
+    "backlog/tasks/AA-20260916-181500-reduce-mac-metal-frame-floor.md",
+    "docs/MAC_PERFORMANCE_BASELINE.json",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RENDERING.md",
+    "scripts/mac_frame_probe.sh",
+    "scripts/presentation/powder_surface.gd",
+    "tests/mac_frame_probe.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "docs/DEVELOPMENT.md",
+    "scripts/presentation/pc_graphics_settings.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Presentation-only integration: powder mesh density on Metal, mesh quads outside the handover disc, shader discard and probe tooling; no physics, generator, format or data change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Presentation-only integration: powder mesh density on Metal, mesh quads outside the handover disc, shader discard and probe tooling; no physics, generator, format or data change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Presentation-only integration: powder mesh density on Metal, mesh quads outside the handover disc, shader discard and probe tooling; no physics, generator, format or data change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Presentation-only integration: powder mesh density on Metal, mesh quads outside the handover disc, shader discard and probe tooling; no physics, generator, format or data change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Presentation-only integration: powder mesh density on Metal, mesh quads outside the handover disc, shader discard and probe tooling; no physics, generator, format or data change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "./godotw --headless --script tests/macos_compatibility_suite.gd; ./godotw --headless --script tests/fidelityfx_settings_suite.gd",
+      "result": "passed",
+      "details": "12 and 23 checks passed on the merged tree (macOS arm64, Godot 4.7.2 headless): Metal Auto resolves to bilinear, packaged Mac skier kernel cfg/dylib present, upscaler preferences round-trip."
+    },
+    {
+      "kind": "performance",
+      "command": "scripts/mac_frame_probe.sh (branch da5d499, recorded in inherited note changes/526dd387461d4048a5dd8cb7ceb09b71.json)",
+      "result": "passed",
+      "details": "Branch attribution: 128 Metal subdivisions -1.6 ms of a 26.3-27.5 ms frame; disc trim and track discard inside the +/-1.5 ms noise. Not rerun on the merged tree; the merge only resolved the handoff document conflict (kept the native-kernel integration paragraph, dropped the superseded Windows-only wording)."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Visual acceptance of the 25 cm Metal powder relief on the MacBook remains with the user; Windows keeps 256 subdivisions and is unaffected."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T18:16:02.953149+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "bdf4db20db5b0a15b957952b4f2b416c8be73a33",
+      "dev": 64,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789544258451225404
+      },
+      "assets/graphics/ski_track.gdshader": {
+        "size": 5762,
+        "mtime_ns": 1789582526858278444
+      },
+      "backlog/tasks/AA-20260916-181500-reduce-mac-metal-frame-floor.md": {
+        "size": 7805,
+        "mtime_ns": 1789582526858491240
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 20655,
+        "mtime_ns": 1789581307430376565
+      },
+      "docs/MAC_PERFORMANCE_BASELINE.json": {
+        "size": 28239,
+        "mtime_ns": 1789582526858846955
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 37652,
+        "mtime_ns": 1789582526884814385
+      },
+      "docs/RENDERING.md": {
+        "size": 43098,
+        "mtime_ns": 1789582526859276755
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789546451377313344
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789574833688637752
+      },
+      "scripts/mac_frame_probe.sh": {
+        "size": 948,
+        "mtime_ns": 1789582526859407591
+      },
+      "scripts/presentation/pc_graphics_settings.gd": {
+        "size": 8460,
+        "mtime_ns": 1789576560267629664
+      },
+      "scripts/presentation/powder_surface.gd": {
+        "size": 18288,
+        "mtime_ns": 1789582526859578720
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789511897136445444
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789581307436015366
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      },
+      "tests/mac_frame_probe.gd": {
+        "size": 5779,
+        "mtime_ns": 1789582526859705847
+      }
+    }
+  }
+}

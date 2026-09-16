@@ -792,5 +792,500 @@
    "primitives_mean": 3647342,
    "render_cpu_ms_p95": 1.17
   }
+ },
+ "frame_floor_matrix_20260916": {
+  "scope": "Dev 60+ main with the Metal bilinear default; 20 s runs, one per row; run-to-run noise about +/-1.5 ms, so only repeated deltas above 2 ms are attributable.",
+  "conclusions": [
+   "Only the local powder patch is a robust single-feature cost: -4.0 ms in two runs; hiding its draw entirely saves 5.0 ms. Its per-frame compute dispatch costs nothing (26.2 vs 26.3 ms). Trimming 17 percent of its triangles or removing its shadow pass changed nothing; halving its subdivisions saved 1.6 ms and quartering 2.5 ms, so micro-triangle overshading on the tile-based GPU is about half of its cost and fill the rest.",
+   "Glow and sun shafts each read about -2 ms alone but 0 together; MSAA 2x, cloud shadows, weather quality, snow detail, normal strength, shadow distance and the distant backdrop are inside noise.",
+   "Delivered on Metal: 128 powder subdivisions (25 cm) and the exact disc trim; other platforms keep 256."
+  ],
+  "runs": {
+   "floor_base": {
+    "description": "Auto (bilinear 0.75 + MSAA 2x) reference for the frame-floor matrix",
+    "frame_ms": {
+     "mean": 27.48,
+     "p95": 30.39,
+     "p99": 31.66,
+     "max": 49.63
+    },
+    "rendered_fps_mean": 36.39,
+    "frames": 728,
+    "ticks": 3105,
+    "draw_calls_mean": 835,
+    "primitives_mean": 3398688,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   },
+   "confirm_base": {
+    "description": "Reference repeat",
+    "frame_ms": {
+     "mean": 26.46,
+     "p95": 29.18,
+     "p99": 30.34,
+     "max": 45.47
+    },
+    "rendered_fps_mean": 37.8,
+    "frames": 757,
+    "ticks": 3106,
+    "draw_calls_mean": 836,
+    "primitives_mean": 3398891,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   },
+   "confirm_base2": {
+    "description": "Reference repeat 2",
+    "frame_ms": {
+     "mean": 26.31,
+     "p95": 28.38,
+     "p99": 29.7,
+     "max": 45.22
+    },
+    "rendered_fps_mean": 38.01,
+    "frames": 761,
+    "ticks": 3106,
+    "draw_calls_mean": 837,
+    "primitives_mean": 3400967,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   },
+   "base_3": {
+    "description": "Reference repeat 3",
+    "frame_ms": {
+     "mean": 26.29,
+     "p95": 28.32,
+     "p99": 29.45,
+     "max": 45.24
+    },
+    "rendered_fps_mean": 38.03,
+    "frames": 761,
+    "ticks": 3104,
+    "draw_calls_mean": 837,
+    "primitives_mean": 3401186,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   },
+   "base_4": {
+    "description": "Reference repeat 4",
+    "frame_ms": {
+     "mean": 27.04,
+     "p95": 29.72,
+     "p99": 30.49,
+     "max": 61.72
+    },
+    "rendered_fps_mean": 36.98,
+    "frames": 740,
+    "ticks": 3105,
+    "draw_calls_mean": 835,
+    "primitives_mean": 3398761,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   },
+   "floor_msaa_off": {
+    "description": "MSAA off",
+    "frame_ms": {
+     "mean": 26.8,
+     "p95": 28.68,
+     "p99": 30.09,
+     "max": 46.43
+    },
+    "rendered_fps_mean": 37.31,
+    "frames": 747,
+    "ticks": 3125,
+    "draw_calls_mean": 841,
+    "primitives_mean": 3410236,
+    "msaa_3d": 0,
+    "scaling_3d_mode": 0,
+    "overrides": {
+     "msaa": 0
+    }
+   },
+   "floor_snow_detail_off": {
+    "description": "Snow crystals, sparkle and sheen off",
+    "frame_ms": {
+     "mean": 29.62,
+     "p95": 32.13,
+     "p99": 32.84,
+     "max": 50.12
+    },
+    "rendered_fps_mean": 33.76,
+    "frames": 676,
+    "ticks": 3178,
+    "draw_calls_mean": 849,
+    "primitives_mean": 3428162,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {
+     "snow_crystal_density": 0.0
+    }
+   },
+   "floor_normal_off": {
+    "description": "Normal strength 0",
+    "frame_ms": {
+     "mean": 29.21,
+     "p95": 31.49,
+     "p99": 32.56,
+     "max": 48.92
+    },
+    "rendered_fps_mean": 34.24,
+    "frames": 685,
+    "ticks": 3178,
+    "draw_calls_mean": 850,
+    "primitives_mean": 3428678,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {
+     "normal_strength": 0
+    }
+   },
+   "floor_weather0": {
+    "description": "Weather quality 0",
+    "frame_ms": {
+     "mean": 28.77,
+     "p95": 30.95,
+     "p99": 32.29,
+     "max": 60.0
+    },
+    "rendered_fps_mean": 34.76,
+    "frames": 696,
+    "ticks": 3156,
+    "draw_calls_mean": 843,
+    "primitives_mean": 3420583,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {
+     "weather_quality": 0
+    }
+   },
+   "floor_clouds_off": {
+    "description": "Cloud shadows off",
+    "frame_ms": {
+     "mean": 28.19,
+     "p95": 30.49,
+     "p99": 31.61,
+     "max": 47.12
+    },
+    "rendered_fps_mean": 35.47,
+    "frames": 710,
+    "ticks": 3148,
+    "draw_calls_mean": 844,
+    "primitives_mean": 3418755,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   },
+   "floor_shafts_off": {
+    "description": "Sun shafts off",
+    "frame_ms": {
+     "mean": 26.75,
+     "p95": 29.02,
+     "p99": 29.82,
+     "max": 47.52
+    },
+    "rendered_fps_mean": 37.38,
+    "frames": 748,
+    "ticks": 3112,
+    "draw_calls_mean": 838,
+    "primitives_mean": 3404179,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {
+     "volumetric_shafts": false
+    }
+   },
+   "confirm_shafts_off": {
+    "description": "Sun shafts off (repeat)",
+    "frame_ms": {
+     "mean": 24.62,
+     "p95": 26.44,
+     "p99": 27.59,
+     "max": 43.64
+    },
+    "rendered_fps_mean": 40.62,
+    "frames": 813,
+    "ticks": 3059,
+    "draw_calls_mean": 829,
+    "primitives_mean": 3386292,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {
+     "volumetric_shafts": false
+    }
+   },
+   "floor_glow_off": {
+    "description": "Glow off",
+    "frame_ms": {
+     "mean": 25.89,
+     "p95": 28.02,
+     "p99": 29.41,
+     "max": 44.71
+    },
+    "rendered_fps_mean": 38.62,
+    "frames": 773,
+    "ticks": 3089,
+    "draw_calls_mean": 833,
+    "primitives_mean": 3394875,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {
+     "highlight_glow": false
+    }
+   },
+   "confirm_glow_off": {
+    "description": "Glow off (repeat)",
+    "frame_ms": {
+     "mean": 24.45,
+     "p95": 26.09,
+     "p99": 27.34,
+     "max": 43.38
+    },
+    "rendered_fps_mean": 40.89,
+    "frames": 818,
+    "ticks": 3056,
+    "draw_calls_mean": 828,
+    "primitives_mean": 3385776,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {
+     "highlight_glow": false
+    }
+   },
+   "confirm_glow_shafts_off": {
+    "description": "Glow and shafts off",
+    "frame_ms": {
+     "mean": 26.26,
+     "p95": 28.41,
+     "p99": 29.58,
+     "max": 44.94
+    },
+    "rendered_fps_mean": 38.08,
+    "frames": 762,
+    "ticks": 3104,
+    "draw_calls_mean": 837,
+    "primitives_mean": 3400832,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {
+     "highlight_glow": 0.0
+    }
+   },
+   "floor_powder_off": {
+    "description": "Local snow deformation off",
+    "frame_ms": {
+     "mean": 23.64,
+     "p95": 25.58,
+     "p99": 26.84,
+     "max": 42.19
+    },
+    "rendered_fps_mean": 42.3,
+    "frames": 846,
+    "ticks": 3017,
+    "draw_calls_mean": 818,
+    "primitives_mean": 2850559,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {
+     "snow_local_deformation": false
+    }
+   },
+   "confirm_powder_off": {
+    "description": "Local snow deformation off (repeat)",
+    "frame_ms": {
+     "mean": 22.48,
+     "p95": 24.5,
+     "p99": 25.57,
+     "max": 42.3
+    },
+    "rendered_fps_mean": 44.48,
+    "frames": 890,
+    "ticks": 2990,
+    "draw_calls_mean": 812,
+    "primitives_mean": 2841668,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {
+     "snow_local_deformation": false
+    }
+   },
+   "floor_shadows_min": {
+    "description": "Shadow distance 60 m, filter 0",
+    "frame_ms": {
+     "mean": 27.77,
+     "p95": 30.38,
+     "p99": 31.27,
+     "max": 47.13
+    },
+    "rendered_fps_mean": 36.01,
+    "frames": 721,
+    "ticks": 3141,
+    "draw_calls_mean": 831,
+    "primitives_mean": 3424888,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {
+     "shadow_distance_m": 60.0
+    }
+   },
+   "floor_backdrop_min": {
+    "description": "Distant backdrop minimum",
+    "frame_ms": {
+     "mean": 26.74,
+     "p95": 28.95,
+     "p99": 29.95,
+     "max": 45.25
+    },
+    "rendered_fps_mean": 37.4,
+    "frames": 748,
+    "ticks": 3118,
+    "draw_calls_mean": 740,
+    "primitives_mean": 3284660,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {
+     "offmap_tree_distance_m": 1500.0
+    }
+   },
+   "diag_powder_no_dispatch": {
+    "description": "Diagnostic: powder atlas compute dispatch skipped",
+    "frame_ms": {
+     "mean": 26.2,
+     "p95": 28.73,
+     "p99": 29.87,
+     "max": 45.59
+    },
+    "rendered_fps_mean": 38.17,
+    "frames": 764,
+    "ticks": 3093,
+    "draw_calls_mean": 833,
+    "primitives_mean": 3394584,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   },
+   "diag_patch_hidden": {
+    "description": "Diagnostic: powder patch instance hidden (terrain hole)",
+    "frame_ms": {
+     "mean": 21.54,
+     "p95": 23.22,
+     "p99": 24.34,
+     "max": 41.23
+    },
+    "rendered_fps_mean": 46.43,
+    "frames": 929,
+    "ticks": 3039,
+    "draw_calls_mean": 824,
+    "primitives_mean": 2860847,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   },
+   "cand_shadow_off_1": {
+    "description": "Candidate: powder patch shadow casting off",
+    "frame_ms": {
+     "mean": 26.08,
+     "p95": 28.21,
+     "p99": 29.33,
+     "max": 45.01
+    },
+    "rendered_fps_mean": 38.35,
+    "frames": 768,
+    "ticks": 3100,
+    "draw_calls_mean": 832,
+    "primitives_mean": 3005618,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   },
+   "cand_shadow_off_2": {
+    "description": "Candidate: powder patch shadow casting off (repeat)",
+    "frame_ms": {
+     "mean": 26.08,
+     "p95": 28.2,
+     "p99": 29.11,
+     "max": 45.46
+    },
+    "rendered_fps_mean": 38.35,
+    "frames": 767,
+    "ticks": 3097,
+    "draw_calls_mean": 832,
+    "primitives_mean": 3005223,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   },
+   "cand_disc_1": {
+    "description": "Candidate: powder mesh trimmed to the handed-over disc",
+    "frame_ms": {
+     "mean": 26.82,
+     "p95": 29.95,
+     "p99": 31.05,
+     "max": 46.96
+    },
+    "rendered_fps_mean": 37.29,
+    "frames": 746,
+    "ticks": 3105,
+    "draw_calls_mean": 834,
+    "primitives_mean": 3304794,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   },
+   "cand_disc_2": {
+    "description": "Candidate: disc trim (repeat)",
+    "frame_ms": {
+     "mean": 26.52,
+     "p95": 28.85,
+     "p99": 29.88,
+     "max": 47.0
+    },
+    "rendered_fps_mean": 37.71,
+    "frames": 755,
+    "ticks": 3107,
+    "draw_calls_mean": 836,
+    "primitives_mean": 3308370,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   },
+   "diag_subdiv_128": {
+    "description": "Diagnostic: powder 128 subdivisions (with disc trim)",
+    "frame_ms": {
+     "mean": 24.88,
+     "p95": 27.25,
+     "p99": 28.65,
+     "max": 43.14
+    },
+    "rendered_fps_mean": 40.19,
+    "frames": 804,
+    "ticks": 3060,
+    "draw_calls_mean": 828,
+    "primitives_mean": 2968850,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   },
+   "diag_subdiv_64": {
+    "description": "Diagnostic: powder 64 subdivisions (with disc trim)",
+    "frame_ms": {
+     "mean": 24.04,
+     "p95": 25.95,
+     "p99": 27.15,
+     "max": 43.36
+    },
+    "rendered_fps_mean": 41.59,
+    "frames": 832,
+    "ticks": 3040,
+    "draw_calls_mean": 825,
+    "primitives_mean": 2883521,
+    "msaa_3d": 1,
+    "scaling_3d_mode": 0,
+    "overrides": {}
+   }
+  }
  }
 }

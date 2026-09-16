@@ -458,6 +458,23 @@ native hip/pelvis/knee/tracking kernels. Windows keeps its existing DLL; Intel
 Macs and other platforms retain the script reference. Immutable body names,
 offsets and limb lengths are cached on both paths. No solver cadence/model change.
 
+Mac frame-floor attribution (Fable, `tests/mac_frame_probe.gd` via
+`scripts/mac_frame_probe.sh`, Auto = bilinear 0.75 + MSAA 2x, 20 s runs, noise
+about +/-1.5 ms): reference 26.3-27.5 ms. The local powder patch is the only
+robust single-feature cost: deformation off -4.0 ms twice, patch draw hidden
+-5.0 ms; its atlas compute costs nothing, trimming 17 percent of its triangles
+or its shadow pass nothing, 128 subdivisions -1.6 ms and 64 -2.5 ms, so the
+tile-based GPU pays for micro-triangles and the rest is fill. Glow and shafts
+read -2 ms alone but 0 together; MSAA, cloud shadows, weather, snow detail,
+normals, shadows and the backdrop are inside noise. Delivered on branch
+`fable/mac-metal-frame-floor`: Metal uses 128 powder subdivisions, the powder
+mesh omits quads outside the handover disc (exact), and fully faded ski-track
+fragments discard early. Rows: [MAC_PERFORMANCE_BASELINE.json](MAC_PERFORMANCE_BASELINE.json)
+`frame_floor_matrix_20260916`. One probe run crashed in the new grass worker
+path (`stand_density` reached from `terrain_grass.gd` `run` with a
+`propagate_notification` cross-thread error, then signal 11); log retained
+locally under `artifacts/mac_floor_20260916/`.
+
 Fable reported 3,000 exact random physical hip fits; extreme presentation pelvis
 poses differed by at most 1.04 mm, knee by 2.4e-7 m and tracking quaternion distance
 by 9.7e-7. Its 6,000-tick minimum-pass solver observations were 333-346 us/tick

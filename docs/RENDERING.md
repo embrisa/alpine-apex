@@ -336,7 +336,11 @@ world replacement, non-grid moves and non-overlap rebuild all 81 knots.
 Replacement normals
 and cloud transmission use the base triangle interpolation, keeping noise/depth
 world-fixed. The 32 m mesh uses 256 subdivisions (12.5 cm spacing), 66,049
-vertices and 131,072 triangles. The 1024 atlas and 256 filtered imprint map
+vertices and up to 131,072 triangles; quads entirely outside the 13.5 m handover
+reach plus the storage offset are not generated, which is exact because their
+fragments were always discarded. Metal uses 128 subdivisions (25 cm): Apple's
+tile-based GPUs paid about 1.6 ms per frame for the extra micro-triangles on an
+M4 (`PowderSurface.mesh_subdivisions`). The 1024 atlas and 256 filtered imprint map
 retain their previous resolution. This grid still follows every authoritative
 4 m diagonal. Mesh/atlas dimensions remain in PowderSurface's constants.
 
