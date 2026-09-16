@@ -228,6 +228,12 @@ immutable Zstandard-compressed binary replays named by their SHA-256; write/flus
 rename publishes payloads before the manifest. Unreferenced evicted payloads are
 removed only after a successful manifest commit. A failed transaction cleans its
 new staged blobs and preserves prior records; save failure remains visible.
+Each attempt re-reads and re-hashes every selected payload before reuse;
+`selected()` performs those reads, hashes and cache-miss decodes on
+`WorkerThreadPool` workers from immutable inputs, while cache decisions,
+accounting and the roster order stay on the calling thread, so the result is
+identical to the sequential loop. `tests/session_stall_probe.gd` measures the
+finish save, crash placement and retry paths on the Standard mountain.
 
 All serialized result times/splits and replay crash endpoints use
 `record_clock.gd`: exactly 16 lowercase hexadecimal characters containing

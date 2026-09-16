@@ -459,6 +459,14 @@ from timing. Capture visuals separately.
 
 ### Reusable baselines and experiment budget
 
+Session stall costs (finish save, crash placement, retry roster) come from
+`tests/session_stall_probe.gd` (headless, full-mountain flags): it records a
+synthetic 150 s eligible run on the Standard mountain, times `to_bytes`,
+SHA-256, Zstandard, the one-run and ten-run save transactions, five
+`crash_recovery.resolve` calls along the descent and the cold and cached
+`Records.selected` roster loads for ten ghosts, writing
+`artifacts/session_stall/<label>.json`; `--stall-ticks=N` shortens the run.
+
 Grass worker thread safety uses `tests/grass_worker_stress.gd` (headless, full-mountain
 flags): eight pool tasks prepare cells while the main thread queries the field and
 blocks on in-flight tasks; a clean 240-second run is the expected result.

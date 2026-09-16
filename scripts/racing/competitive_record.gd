@@ -155,12 +155,36 @@ static func selected(record_path: String, identity: Dictionary, runs: Array, sel
 		if selection.mode=="manual" and not selection.ids.has(row.id): continue
 		wanted.append(row)
 	if cache: cache.prepare(ProjectSettings.globalize_path(path_for(record_path)).simplify_path(),identity,wanted)
+	# The bounded aggregate decides which rows are read at all, in roster order.
+	# Stored payloads are then read, hashed and (on a cache miss) fully decoded on
+	# WorkerThreadPool workers; every cache decision and all accounting stay on
+	# this thread in roster order, so results equal the former sequential loop.
+	var loader = PayloadLoader.new(payload_directory(record_path),identity)
 	for row in wanted:
 		aggregate += int(row.get("bytes",MAX_PAYLOAD_BYTES))
 		if aggregate>MAX_AGGREGATE_BYTES: break
-		var replay = row.get("replay")
-		if replay==null:
-			replay = _selected_payload(record_path,identity,row,cache)
+		var job = {"row":row,"replay":row.get("replay"),"compressed":PackedByteArray(),"compressed_sha256":"","decode":false,"readable":false,"decoded_bytes_valid":false}
+		job.readable = job.replay==null and valid_id(row.get("sha256"),64) and Replay.number(row.get("bytes")) and row.bytes>=32 and row.bytes<=MAX_PAYLOAD_BYTES and row.bytes==floorf(row.bytes) and positive(row.get("time"))
+		loader.jobs.append(job)
+	loader.run(loader.read)
+	for job in loader.jobs:
+		if job.replay!=null or job.compressed.is_empty(): continue
+		if cache:
+			# Read/hash the same bounded bytes that a miss will decode. Even a corrupt
+			# replacement preserving length and mtime cannot reuse a cached recording.
+			cache.compressed_bytes_read += job.compressed.size()
+			var reused = cache.lookup(job.row,job.compressed_sha256)
+			if reused!=null:
+				job.replay = reused
+				continue
+		job.decode = true
+	loader.run(loader.decode)
+	for job in loader.jobs:
+		var row: Dictionary = job.row
+		var replay = job.replay
+		if job.decoded_bytes_valid:
+			if cache: cache.decodes += 1
+			if replay!=null and cache: cache.store_validated(row,job.compressed_sha256,replay)
 		if replay==null or not replay.has_presentation() or replay.duration!=row.time or not Replay.compatible(replay.compatibility,identity):
 			if cache: cache.discard(row.id)
 			unavailable.append(row.id)
@@ -168,31 +192,44 @@ static func selected(record_path: String, identity: Dictionary, runs: Array, sel
 		active.append({"id":row.id,"time":row.time,"date":row.date,"replay":replay})
 	return {"runs":active,"unavailable":unavailable}
 
-static func _selected_payload(record_path: String, identity: Dictionary, row: Dictionary, cache):
-	if not valid_id(row.get("sha256"),64) or not Replay.number(row.get("bytes")) or row.bytes<32 or row.bytes>MAX_PAYLOAD_BYTES or row.bytes!=floorf(row.bytes) or not positive(row.get("time")): return null
-	var path = payload_directory(record_path).path_join(row.sha256+".replay")
-	var file = FileAccess.open(path,FileAccess.READ)
-	if not file or file.get_length()<1 or file.get_length()>MAX_PAYLOAD_BYTES+65536: return null
-	var size = file.get_length()
-	var compressed = file.get_buffer(size)
-	file.close()
-	if compressed.size()!=size: return null
-	var compressed_sha256 = ""
-	if cache:
-		# Read/hash the same bounded bytes that a miss will decode. Even a corrupt
-		# replacement preserving length and mtime cannot reuse a cached recording.
-		cache.compressed_bytes_read += compressed.size()
-		compressed_sha256 = _sha256(compressed)
-		var reused = cache.lookup(row,compressed_sha256)
-		if reused!=null: return reused
-	# Never trust a container's own claimed decompressed length. Every new byte
-	# sequence must match the manifest hash AND pass the complete replay decoder.
-	var bytes = compressed.decompress(int(row.bytes),FileAccess.COMPRESSION_ZSTD)
-	if bytes.size()!=int(row.bytes) or _sha256(bytes)!=row.sha256: return null
-	if cache: cache.decodes += 1
-	var replay = Replay.from_bytes(bytes,identity,row.time)
-	if replay!=null and cache: cache.store_validated(row,compressed_sha256,replay)
-	return replay
+## Immutable-input payload work shared across worker threads. Each job is a
+## distinct Dictionary written only by its own worker; the roster order, cache
+## and accounting belong to the calling thread.
+class PayloadLoader extends RefCounted:
+	var directory: String
+	var identity: Dictionary
+	var jobs: Array = []
+	func _init(payload_directory_value: String, identity_value: Dictionary) -> void:
+		directory = payload_directory_value; identity = identity_value
+	static func digest(bytes: PackedByteArray) -> String:
+		var hash = HashingContext.new(); hash.start(HashingContext.HASH_SHA256); hash.update(bytes)
+		return hash.finish().hex_encode()
+	func run(work: Callable) -> void:
+		if jobs.is_empty(): return
+		if jobs.size()==1: work.call(0); return
+		WorkerThreadPool.wait_for_group_task_completion(WorkerThreadPool.add_group_task(work,jobs.size(),-1,false,"Ghost payloads"))
+	func read(index: int) -> void:
+		var job: Dictionary = jobs[index]
+		if not job.readable: return
+		var row: Dictionary = job.row
+		var file = FileAccess.open(directory.path_join(row.sha256+".replay"),FileAccess.READ)
+		if not file or file.get_length()<1 or file.get_length()>MAX_PAYLOAD_BYTES+65536: return
+		var size = file.get_length()
+		var compressed = file.get_buffer(size)
+		file.close()
+		if compressed.size()!=size: return
+		job.compressed = compressed
+		job.compressed_sha256 = digest(compressed)
+	func decode(index: int) -> void:
+		var job: Dictionary = jobs[index]
+		if not job.decode: return
+		var row: Dictionary = job.row
+		# Never trust a container's own claimed decompressed length. Every new byte
+		# sequence must match the manifest hash AND pass the complete replay decoder.
+		var bytes = job.compressed.decompress(int(row.bytes),FileAccess.COMPRESSION_ZSTD)
+		if bytes.size()!=int(row.bytes) or digest(bytes)!=row.sha256: return
+		job.decoded_bytes_valid = true
+		job.replay = Replay.from_bytes(bytes,identity,row.time)
 
 static func _sha256(bytes: PackedByteArray) -> String:
 	var hash = HashingContext.new(); hash.start(HashingContext.HASH_SHA256); hash.update(bytes)

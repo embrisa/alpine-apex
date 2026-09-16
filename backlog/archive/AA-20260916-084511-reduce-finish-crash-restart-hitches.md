@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084511-reduce-finish-crash-restart-hitches"
 title: "Take archive commits, crash placement search and roster hashing off the frame"
-status: ready
+status: done
 priority: P2
 depends_on: []
 created: "2026-09-16T08:45:11Z"
-updated: "2026-09-16T08:45:11Z"
+updated: "2026-09-16T19:34:15Z"
 source_thread: null
 ---
 
@@ -98,5 +98,40 @@ None
 
 ## Completion record
 
-Pending implementation. Record measured stalls before/after, identity
-evidence, tests, guide updates and commit/push references.
+### Delivery, 2026-09-16: measured; retry roster verification parallelised (Fable, macOS checkout)
+
+Implemented manually; no scheduled claim. New `tests/session_stall_probe.gd`
+(headless, Standard mountain) records a synthetic 150 s eligible run
+(3001 samples, 3001 poses, 4.48 MB payload, 0.82 MB compressed) and times the
+three paths on the Apple M4 MacBook:
+
+| Path | Measured before | After |
+| --- | --- | --- |
+| Finish: `Records.save` with one new ghost | 16.9 ms (`to_bytes` 1.3, SHA-256 11.7, Zstandard 3.2, write/manifest ~1) | unchanged |
+| Crash: `crash_recovery.resolve`, five points along the descent | 0.29-0.63 ms when a candidate is found (1-6 candidates); 3.7 ms worst case (33 candidates rejected, unavailable) | unchanged |
+| Retry: `Records.selected`, ten cached ghosts (read + hash 8 MB) | 20.3 ms | 9.1 ms |
+| Retry: ten uncached ghosts (read, hash, decode) | 1384 ms | 1028 ms |
+
+`Records.selected` now reads, hashes and (on a cache miss) decodes stored
+payloads on `WorkerThreadPool` workers from immutable inputs; cache lookups,
+`compressed_bytes_read`/`decodes` accounting, stores, discards and the roster
+order stay on the calling thread in the original order, so results and the
+integrity rules (hash the current compressed bytes before reuse, full decoder on
+every new byte sequence) are unchanged. Cold decoding scales poorly across
+workers because `Replay.from_bytes` is GDScript-bound; that path belongs to the
+cold archive task.
+
+Not changed, with reasons: the finish transaction stays synchronous. Its
+measured cost is 17 ms for a 150 s run (about 70 ms for a 10 minute run),
+dominated by SHA-256 of the payload, and moving it to a worker would make
+`save_error` and the saved record appear later than `finalize_capture`, a
+contract the racing suites assert. The analytic 100-500 ms estimate did not
+reproduce. Crash placement is 0.3-3.7 ms, so spreading it over frames or reusing
+a probe `Simulation` is not warranted. Size/mtime shortcuts for retries are
+excluded by the cache contract (a same-length replacement must still hash).
+Rows carrying an in-memory `replay` are re-serialised and re-hashed by every
+save while they wait for their first commit (113 ms for ten such rows in the
+probe); in the game only the new run carries one, so the finish pays once.
+
+Automated (macOS, Godot 4.7.2): ghost_retry_cache_suite 37/37, ghost_archive_suite 119/119, race_suite 51/51, exact_clock_suite 95/95, crash_replay_suite 36/36, crash_recovery_suite 82/82, physics_suite 56/56, runtime_suite 192/192, interface_suite 83/83; competitive_suite 51/53 with both remaining failures (resume clock alignment, PB celebration title) identical on 26f033c before any of this day's Fable work. Its third failure, the finished race's split comparison read from the hidden HUD label, was a regression from Dev 67's hidden-instrument early return and is fixed here: personal-best and split text stay change-gated but update while menus hide them. Rendered check of the result
+screen, crash menu and retry remains a follow-up.

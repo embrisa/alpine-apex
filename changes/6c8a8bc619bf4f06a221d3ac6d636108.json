@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "id": "6c8a8bc619bf4f06a221d3ac6d636108",
+  "summary": "Measure finish, crash and retry stalls, verify ghost payloads on worker threads, and keep hidden HUD result labels current",
+  "categories": [
+    "Gameplay"
+  ],
+  "areas": [
+    "Ghost roster verification",
+    "Session stall measurement",
+    "Racing persistence documentation",
+    "HUD result labels behind menus"
+  ],
+  "owned_paths": [
+    "backlog/archive/AA-20260916-084511-reduce-finish-crash-restart-hitches.md",
+    "backlog/tasks/AA-20260916-084511-reduce-finish-crash-restart-hitches.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RACING.md",
+    "docs/VALIDATION.md",
+    "scripts/racing/competitive_record.gd",
+    "scripts/ui/hud.gd",
+    "tests/session_stall_probe.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "scripts/core/crash_recovery.gd",
+    "scripts/core/run_session.gd",
+    "scripts/racing/ghost_replay_cache.gd",
+    "scripts/racing/run_replay.gd",
+    "tests/competitive_suite.gd",
+    "tests/crash_recovery_suite.gd",
+    "tests/crash_replay_suite.gd",
+    "tests/exact_clock_suite.gd",
+    "tests/ghost_archive_suite.gd",
+    "tests/ghost_retry_cache_suite.gd",
+    "tests/interface_suite.gd",
+    "tests/physics_suite.gd",
+    "tests/race_suite.gd",
+    "tests/runtime_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "No solver, tuning, replay or clock change; scripts/core is read only. Records.selected returns the same validated replays in the same roster order; only the read/hash/decode work moved to WorkerThreadPool workers from immutable inputs."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Archive 4 manifests and payload files are read and written unchanged; Records.selected applies the same hash and full-decoder validation to the same bytes, only on worker threads, and returns the identical roster."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Archive 4, replay 7 and race 6 formats are untouched; payload hashing and full-decoder validation rules are unchanged, only executed in parallel."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Archive 4, replay 7 and race 6 formats are untouched; payload hashing and full-decoder validation rules are unchanged, only executed in parallel."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Archive 4, replay 7 and race 6 formats are untouched; payload hashing and full-decoder validation rules are unchanged, only executed in parallel."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Archive 4, replay 7 and race 6 formats are untouched; payload hashing and full-decoder validation rules are unchanged, only executed in parallel."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Archive 4, replay 7 and race 6 formats are untouched; payload hashing and full-decoder validation rules are unchanged, only executed in parallel."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "ALPINE_FULL_MOUNTAIN=1 ./godotw --headless --script tests/{ghost_retry_cache_suite,ghost_archive_suite,race_suite,exact_clock_suite,crash_replay_suite,crash_recovery_suite,physics_suite,runtime_suite,interface_suite}.gd",
+      "result": "passed",
+      "details": "37, 119, 51, 95, 36, 82, 56, 192 and 83 checks passed on macOS Godot 4.7.2 with the final code."
+    },
+    {
+      "kind": "automated",
+      "command": "ALPINE_FULL_MOUNTAIN=1 ./godotw --headless --script tests/competitive_suite.gd (plus stash control runs on 1022e7c/f519ed0 and 26f033c)",
+      "result": "passed",
+      "details": "51/53 with the final code. 'Resume aligns player and ghost interpolation clocks' and 'A faster completed run celebrates the new PB' fail identically on 26f033c, before any Fable change today. 'Completed race exposes its split comparison in the HUD' failed on Dev 67-69 (hidden-instrument early return) and passes again now that PB/split text update while hidden."
+    },
+    {
+      "kind": "performance",
+      "command": "ALPINE_FULL_MOUNTAIN=1 ./godotw --headless --script tests/session_stall_probe.gd -- --stall-label={base,cand}",
+      "result": "passed",
+      "details": "Apple M4, 150 s synthetic run, 4.48 MB payload: finish save 16.9 ms (SHA-256 11.7, Zstandard 3.2, to_bytes 1.3), crash placement 0.29-3.7 ms, retry roster of ten ghosts 20.3 -> 9.1 ms cached and 1384 -> 1028 ms cold."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Rendered check of result screen, crash menu and retry, and Windows numbers, remain follow-ups. The finish save stays synchronous by contract; the two pre-existing competitive_suite failures are recorded, not fixed."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T19:49:49.330937+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "f519ed0dbd1fb44775c9d5ab49699eba7afc3e98",
+      "dev": 69,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789544258451225404
+      },
+      "backlog/archive/AA-20260916-084511-reduce-finish-crash-restart-hitches.md": {
+        "size": 7851,
+        "mtime_ns": 1789588159045767456
+      },
+      "backlog/tasks/AA-20260916-084511-reduce-finish-crash-restart-hitches.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 42236,
+        "mtime_ns": 1789588122042309043
+      },
+      "docs/RACING.md": {
+        "size": 20847,
+        "mtime_ns": 1789588122042805338
+      },
+      "docs/VALIDATION.md": {
+        "size": 127814,
+        "mtime_ns": 1789588122043741386
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789546451377313344
+      },
+      "scripts/core/crash_recovery.gd": {
+        "size": 8478,
+        "mtime_ns": 1789511897110223048
+      },
+      "scripts/core/run_session.gd": {
+        "size": 10855,
+        "mtime_ns": 1789511897112030001
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789574833688637752
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 16580,
+        "mtime_ns": 1789588122044319598
+      },
+      "scripts/racing/ghost_replay_cache.gd": {
+        "size": 2645,
+        "mtime_ns": 1789511897136765700
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789581307436015366
+      },
+      "scripts/ui/hud.gd": {
+        "size": 51932,
+        "mtime_ns": 1789588122044609016
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      },
+      "tests/competitive_suite.gd": {
+        "size": 19301,
+        "mtime_ns": 1789581307436457783
+      },
+      "tests/crash_recovery_suite.gd": {
+        "size": 13050,
+        "mtime_ns": 1789511897169646603
+      },
+      "tests/crash_replay_suite.gd": {
+        "size": 7951,
+        "mtime_ns": 1789511897169930942
+      },
+      "tests/exact_clock_suite.gd": {
+        "size": 20798,
+        "mtime_ns": 1789511897173211799
+      },
+      "tests/ghost_archive_suite.gd": {
+        "size": 9409,
+        "mtime_ns": 1789511897187966717
+      },
+      "tests/ghost_retry_cache_suite.gd": {
+        "size": 16726,
+        "mtime_ns": 1789511897188564187
+      },
+      "tests/interface_suite.gd": {
+        "size": 17573,
+        "mtime_ns": 1789511897193656080
+      },
+      "tests/physics_suite.gd": {
+        "size": 18419,
+        "mtime_ns": 1789511897203258604
+      },
+      "tests/race_suite.gd": {
+        "size": 16385,
+        "mtime_ns": 1789511897208371372
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41041,
+        "mtime_ns": 1789511897211065425
+      },
+      "tests/session_stall_probe.gd": {
+        "size": 6193,
+        "mtime_ns": 1789588122061029544
+      }
+    }
+  }
+}

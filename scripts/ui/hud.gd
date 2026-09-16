@@ -904,9 +904,16 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 	toast_label.visible = toast_time > 0.0
 	_update_menu_identity(session,timed)
 	telemetry_timer += dt
+	# Personal best and split text are change-gated, so they stay current even
+	# while a menu hides them (result and history screens read them).
+	if session.personal_best!=pb_value or pb_label.text!=pb_text:
+		pb_value = session.personal_best
+		pb_text = "PERSONAL BEST  " + Session.format_time(session.personal_best)
+		pb_label.text = pb_text
+	_update_split(session,timed)
 	if not widget_layout.instruments_visible():
-		# Every instrument sits behind a menu or the H toggle: retained readouts
-		# stay as they are and nothing formatted here could be seen.
+		# Every other instrument sits behind a menu or the H toggle: retained
+		# readouts stay as they are and nothing formatted here could be seen.
 		if telemetry_timer >= 0.1: telemetry_timer = 0.0
 		return
 	var speed_kmh: float = sim.speed_kmh()
@@ -923,10 +930,19 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 	speed_dial.tint = AlpineTheme.HUD_WARNING if band>=5 else HUD_WHITE
 	band_label.modulate = speed_dial.tint
 	timer_label.text = Session.format_time(session.elapsed) if timed else "FREE SKI"
-	if session.personal_best!=pb_value or pb_label.text!=pb_text:
-		pb_value = session.personal_best
-		pb_text = "PERSONAL BEST  " + Session.format_time(session.personal_best)
-		pb_label.text = pb_text
+	if session.latest_split!=last_split_index:
+		last_split_index = session.latest_split
+		if last_split_index>=0: feedback.emphasize(split_label)
+	if timed: progress.value = session.progress_percent(sim.position) # Race-only widget; hidden in free ski.
+	var altitude: int = roundi(sim.position.y + (1491.5 if mountain_seed_value<0 else 0.0))
+	if altitude!=altitude_value or weather_label!=altitude_weather or altitude_label.text!=altitude_text:
+		altitude_value = altitude
+		altitude_weather = weather_label
+		altitude_text = "%s m  ·  %s" % [str(altitude),weather_label.to_upper()]
+		altitude_label.text = altitude_text
+	_update_status(sim,session,intent,timed,device,frame_ms,tick_ms)
+
+func _update_split(session, timed: bool) -> void:
 	if timed:
 		var index: int = session.latest_split
 		var delta: float = session.split_delta(index) if index>=0 else 0.0
@@ -942,16 +958,8 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 	else:
 		split_label.text = ""
 		if not split_key.is_empty(): split_key = []
-	if session.latest_split!=last_split_index:
-		last_split_index = session.latest_split
-		if last_split_index>=0: feedback.emphasize(split_label)
-	if timed: progress.value = session.progress_percent(sim.position) # Race-only widget; hidden in free ski.
-	var altitude: int = roundi(sim.position.y + (1491.5 if mountain_seed_value<0 else 0.0))
-	if altitude!=altitude_value or weather_label!=altitude_weather or altitude_label.text!=altitude_text:
-		altitude_value = altitude
-		altitude_weather = weather_label
-		altitude_text = "%s m  ·  %s" % [str(altitude),weather_label.to_upper()]
-		altitude_label.text = altitude_text
+
+func _update_status(sim, session, intent, timed: bool, device: String, frame_ms: float, tick_ms: float) -> void:
 	var status = "DEEP TUCK" if sim.effective_tuck > 0.8 else "CLEAN LINE"
 	if not sim.grounded:
 		status = "AIRBORNE  /  %.2f s" % sim.airtime
@@ -1010,7 +1018,7 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 	telemetry_timer = 0.0
 	if fps_label.is_visible_in_tree(): fps_label.text = "%d FPS  /  120 Hz PHYSICS" % Engine.get_frames_per_second()
 	if not debug_text.is_visible_in_tree(): return
-	debug_text.text = ("SPEED         %7.2f km/h\nACCEL         %+7.2f m/s²\nSLOPE         %7.2f°\nSKI HEADING   %+7.2f°\nVEL HEADING   %+7.2f°\nSLIP ANGLE    %+7.2f°\nEDGE REQUEST  %+7.2f°\nEDGES R/L     %+5.1f / %+5.1f°\nCONTACT       %s\nNORMAL LOAD   %7.2f g\nFRICTION      %7.2f m/s²\nGRAVITY       %+7.2f m/s²\nIMPACT RESERVE%7.1f %%\nIMPACT SPEED  %7.2f m/s\nAIRTIME       %7.3f s\nCPU TICK      %7.3f ms\nFRAME         %7.2f ms\n%s" % [speed_kmh,sim.acceleration,sim.slope_angle,rad_to_deg(sim.heading),rad_to_deg(atan2(sim.velocity.x,sim.velocity.z)),rad_to_deg(sim.slip_angle),rad_to_deg(sim.edge_angle),rad_to_deg(sim.skis[0].edge_angle),rad_to_deg(sim.skis[1].edge_angle),("ROCK" if sim.rock_contact>.99 else ("MIXED" if sim.rock_contact>0.0 else "SNOW")) if sim.grounded else "AIR",sim.normal_load/9.81,sim.friction_force,sim.gravity_contribution,sim.impacts.reserve*100,sim.landing_force,sim.total_airtime,tick_ms,frame_ms,device.left(30)]) + ("\nYAW WANT/GET  %+5.1f / %+5.1f°/s\nSKID / TRANS  %5.0f / %5.0f %%\nCOM X / Z     %+.2f / %+.2f m" % [rad_to_deg(sim.steering_requested_yaw),rad_to_deg(sim.steering_applied_yaw),sim.steering_slip_factor*100,sim.steering_transfer_factor*100,sim.body.com.x,sim.body.com.z])
+	debug_text.text = ("SPEED         %7.2f km/h\nACCEL         %+7.2f m/s²\nSLOPE         %7.2f°\nSKI HEADING   %+7.2f°\nVEL HEADING   %+7.2f°\nSLIP ANGLE    %+7.2f°\nEDGE REQUEST  %+7.2f°\nEDGES R/L     %+5.1f / %+5.1f°\nCONTACT       %s\nNORMAL LOAD   %7.2f g\nFRICTION      %7.2f m/s²\nGRAVITY       %+7.2f m/s²\nIMPACT RESERVE%7.1f %%\nIMPACT SPEED  %7.2f m/s\nAIRTIME       %7.3f s\nCPU TICK      %7.3f ms\nFRAME         %7.2f ms\n%s" % [sim.speed_kmh(),sim.acceleration,sim.slope_angle,rad_to_deg(sim.heading),rad_to_deg(atan2(sim.velocity.x,sim.velocity.z)),rad_to_deg(sim.slip_angle),rad_to_deg(sim.edge_angle),rad_to_deg(sim.skis[0].edge_angle),rad_to_deg(sim.skis[1].edge_angle),("ROCK" if sim.rock_contact>.99 else ("MIXED" if sim.rock_contact>0.0 else "SNOW")) if sim.grounded else "AIR",sim.normal_load/9.81,sim.friction_force,sim.gravity_contribution,sim.impacts.reserve*100,sim.landing_force,sim.total_airtime,tick_ms,frame_ms,device.left(30)]) + ("\nYAW WANT/GET  %+5.1f / %+5.1f°/s\nSKID / TRANS  %5.0f / %5.0f %%\nCOM X / Z     %+.2f / %+.2f m" % [rad_to_deg(sim.steering_requested_yaw),rad_to_deg(sim.steering_applied_yaw),sim.steering_slip_factor*100,sim.steering_transfer_factor*100,sim.body.com.x,sim.body.com.z])
 
 ## Menu-side run context (mode label default and course specs) changes with the
 ## session identity, not per frame; main.gd may override the mode label.
