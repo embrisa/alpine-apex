@@ -8,6 +8,9 @@ var angles = PackedVector3Array()
 var velocities = PackedVector3Array()
 var touching = PackedByteArray()
 var branches: Array = []
+var centers: Array[Vector3] = []
+var levers: Array[Vector3] = []
+var radii: Array[float] = []
 var impacts = 0
 
 func _init(definitions: Array = []) -> void:
@@ -15,31 +18,39 @@ func _init(definitions: Array = []) -> void:
 	angles.resize(COUNT)
 	velocities.resize(COUNT)
 	touching.resize(COUNT)
+	# Authored branch geometry stays fixed for this spring's lifetime.
+	for b: Dictionary in branches.slice(0,COUNT):
+		var c=Vector3(b.center[0],b.center[1],b.center[2])
+		centers.append(c)
+		levers.append(c-Vector3(0,b.pivot_y,0))
+		radii.append(minf(float(b.radius),1.8))
 
 func impulse(index: int, value: Vector3) -> void:
 	velocities[index] = (velocities[index]+value).limit_length(5.0)
 	impacts += 1
 
 func step(from: Vector3, to: Vector3, velocity: Vector3, actor_radius: float = .55) -> void:
+	var segment=to-from
+	var denominator=maxf(segment.length_squared(),.000001)
 	for i in COUNT:
 		var force = Vector3.ZERO
-		if i<branches.size():
-			var b: Dictionary = branches[i]
-			var c = Vector3(b.center[0],b.center[1],b.center[2])
-			var segment = to-from
-			var t = clampf((c-from).dot(segment)/maxf(segment.length_squared(),.000001),0,1)
+		if i<centers.size():
+			var c: Vector3=centers[i]
+			var t = clampf((c-from).dot(segment)/denominator,0,1)
 			var separation = from+segment*t-c
-			var reach = minf(float(b.radius),1.8)+actor_radius*.7
+			var reach = radii[i]+actor_radius*.7
 			var contact = separation.length()<reach
 			if contact:
 				var direction = (velocity.normalized()*.7-separation.normalized()*.3).normalized()
-				var lever = c-Vector3(0,b.pivot_y,0)
-				var torque = lever.cross(direction)
+				var torque = levers[i].cross(direction)
 				var axis = torque.normalized()
 				if touching[i]==0 and velocity.length()>.1:
 					impulse(i,axis*clampf(velocity.length()*.085,.15,3.0))
 				force = axis*(1.0-separation.length()/reach)*7.0
 			touching[i] = int(contact)
+		# An untouched, unforced spring is exactly at rest; no epsilon or sleep
+		# threshold is used, so every nonzero response retains the original math.
+		if force==Vector3.ZERO and angles[i]==Vector3.ZERO and velocities[i]==Vector3.ZERO: continue
 		var stiffness = 46.0+float(i/4)*9.0
 		velocities[i] += (force-angles[i]*stiffness-velocities[i]*5.4)*DT
 		angles[i] += velocities[i]*DT

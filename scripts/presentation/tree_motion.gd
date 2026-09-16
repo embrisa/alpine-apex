@@ -96,11 +96,17 @@ func update(actor: Vector3, velocity: Vector3, dt: float, active: bool) -> void:
 
 func _upload() -> void:
 	if assets:
-		for id in ["TD_Conifer","FC_Tree","FC_Broadleaf"]:
+		var contact_active=false
+		for value in angles:
+			if value!=Vector4.ZERO:
+				contact_active=true
+				break
+		for id in ["TD_Conifer","FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"]:
 			if not assets.named_materials.has(id): continue
 			var material: ShaderMaterial = assets.named_materials[id]
 			material.set_shader_parameter("contact_anchors",anchors)
 			material.set_shader_parameter("contact_angles",angles)
+			material.set_shader_parameter("contact_active",contact_active)
 
 func bind_prepared(placement_data, tree_data) -> void:
 	prepared = placement_data; physical_trees = tree_data

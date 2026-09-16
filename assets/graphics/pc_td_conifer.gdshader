@@ -11,6 +11,7 @@ uniform float wind_strength = 0.0;
 uniform vec2 wind_direction = vec2(1.0,0.0);
 uniform vec4 contact_anchors[4];
 uniform vec4 contact_angles[48];
+uniform bool contact_active=true;
 varying flat float lod_coverage;
 varying vec3 world_normal;
 
@@ -30,7 +31,7 @@ void vertex() {
  vec2 local_wind=vec2(dot(vec3(wind_direction.x,0.0,wind_direction.y),normalize(MODEL_MATRIX[0].xyz)),dot(vec3(wind_direction.x,0.0,wind_direction.y),normalize(MODEL_MATRIX[2].xyz)));
  float phase=wind_time*1.7+float(cluster)*1.83+anchor.x*.13+anchor.z*.19;
  vec3 angle=vec3(local_wind.y,0.0,-local_wind.x)*wind_strength*.007*(sin(phase)+.35*sin(phase*.47));
- for(int slot=0;slot<4;slot++) {
+ if(contact_active) for(int slot=0;slot<4;slot++) {
   if(contact_anchors[slot].w>.5 && distance(anchor,contact_anchors[slot].xyz)<.05) angle+=contact_angles[slot*12+cluster].xyz;
  }
  angle*=flex*nearby;

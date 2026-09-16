@@ -1,0 +1,193 @@
+#include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/godot.hpp>
+#include <godot_cpp/variant/dictionary.hpp>
+#include <godot_cpp/variant/typed_array.hpp>
+#include <algorithm>
+#include <cmath>
+using namespace godot;
+
+// Presentation-only port of the retained Anatomy.fit_pelvis and its called
+// RiderBody.fit_hips/joint math. No access to simulation or scene state.
+// Scalars follow GDScript double precision; Godot vectors/bases remain real_t.
+class AlpineSkierAnatomy : public RefCounted {
+    GDCLASS(AlpineSkierAnatomy, RefCounted)
+    struct Side {
+        Vector3 offset; Basis lower_inverse; double thigh, shin, minimum;
+        Vector3 arm_axis, arm_upper, arm_lower, arm_upper_unit, arm_lower_unit;
+        Basis elbow_zero;
+        double rest_bend;
+    } sides[2];
+    static constexpr double pi = 3.14159265358979323846;
+    static double rad(double degrees) { return degrees * (pi / 180.0); }
+    static Vector3 mul(Vector3 v, double scalar) { return v * real_t(scalar); }
+    static Basis frame(Vector3 direction, Vector3 hinge) {
+        Vector3 normal = hinge.slide(direction).normalized();
+        return Basis(direction, normal, direction.cross(normal).normalized());
+    }
+    static double twist(Basis rotation) {
+        Quaternion q = rotation.get_rotation_quaternion().normalized();
+        double angle = 2.0 * std::atan2(double(Vector3(q.x,q.y,q.z).dot(Vector3(0,1,0))), double(q.w));
+        double range = 2.0 * pi;
+        return (angle + pi) - (range * std::floor((angle + pi) / range)) - pi;
+    }
+    static double soft(double value) {
+        double limit = rad(14.0), magnitude = std::abs(value), start = limit * .85;
+        if (magnitude > start) magnitude = start + (limit-start)*(1.0-std::exp(-(magnitude-start)/(limit-start)));
+        return (value > 0.0 ? 1.0 : (value < 0.0 ? -1.0 : 0.0)) * magnitude;
+    }
+    static double soft_limit(double value, double low, double high) {
+        double limit=value>=0.0 ? high : -low;
+        double magnitude=std::abs(value), start=limit*.85;
+        if (magnitude>start) magnitude=start+(limit-start)*(1.0-std::exp(-(magnitude-start)/(limit-start)));
+        return (value>0.0 ? 1.0 : (value<0.0 ? -1.0 : 0.0))*magnitude;
+    }
+    static Vector3 rotation_vector(Quaternion q) {
+        q.normalize();
+        if (q.w<0.0) q=-q;
+        Vector3 xyz(q.x,q.y,q.z);
+        return mul(mul(xyz.normalized(),2.0),std::atan2(double(xyz.length()),std::max(0.0,double(q.w))));
+    }
+    static Basis from_vector(Vector3 v) {
+        return v.length_squared()>.00000001 ? Basis(v.normalized(),v.length()) : Basis();
+    }
+    static Basis box_limit(Basis rotation, Vector3 low, Vector3 high) {
+        Vector3 v=rotation_vector(rotation.get_rotation_quaternion());
+        for (int i=0;i<3;++i) v[i]=real_t(soft_limit(v[i],rad(low[i]),rad(high[i])));
+        return from_vector(v);
+    }
+    static double angle_twist(Basis rotation, Vector3 axis) {
+        Quaternion q=rotation.get_rotation_quaternion().normalized();
+        double angle=2.0*std::atan2(double(Vector3(q.x,q.y,q.z).dot(axis)),double(q.w));
+        double range=2.0*pi;
+        return (angle+pi)-(range*std::floor((angle+pi)/range))-pi;
+    }
+    static Basis swing_limit(Basis rotation, Vector3 axis, double swing_degrees, double twist_degrees) {
+        double angle=angle_twist(rotation,axis);
+        Basis swing=rotation*Basis(axis,real_t(-angle));
+        Vector3 v=rotation_vector(swing.get_rotation_quaternion());
+        double limited=soft_limit(v.length(),-rad(swing_degrees),rad(swing_degrees));
+        return from_vector(mul(v.normalized(),limited))*Basis(axis,real_t(soft_limit(angle,-rad(twist_degrees),rad(twist_degrees))));
+    }
+    static double lerp_scalar(double from, double to, double weight) { return from+(to-from)*weight; }
+    static Vector3 joint(Vector3 a, Vector3 b, double first, double second, Vector3 hint) {
+        Vector3 delta = b-a;
+        double length = std::clamp(double(delta.length()), std::abs(first-second)+.0001, first+second-.0001);
+        Vector3 direction = delta.normalized();
+        double along = (first*first-second*second+length*length)/(2.0*length);
+        double height = std::sqrt(std::max(0.0,first*first-along*along));
+        Vector3 bend = hint-mul(direction,hint.dot(direction));
+        if (bend.length_squared()<.0001) bend = Vector3(1,0,0).slide(direction);
+        return a+mul(direction,along)+mul(bend.normalized(),height);
+    }
+    Vector3 leg_joint(Vector3 hip, Vector3 ankle, int i, Basis boot) const {
+        return joint(hip,ankle,sides[i].thigh,sides[i].shin,boot.get_column(1)+mul(boot.get_column(2),.45));
+    }
+    Vector3 fit_hips(Vector3 hips, const Vector3* offsets, const Vector3* ankles, const Basis* boots, const Basis* inverse) const {
+        for (int iteration=0; iteration<16; ++iteration) {
+            double largest=0.0;
+            for (int i=0; i<2; ++i) {
+                Vector3 hip=hips+offsets[i];
+                double reach=sides[i].thigh+sides[i].shin-.004;
+                double extension=double(hip.distance_to(ankles[i]))-reach;
+                if (extension>0.0) {
+                    Vector3 shift=mul((ankles[i]-hip).normalized(),extension);
+                    hips+=shift; hip+=shift; largest=std::max(largest,extension);
+                }
+                Vector3 knee=leg_joint(hip,ankles[i],i,boots[i]);
+                Vector3 axis=inverse[i].xform((knee-ankles[i]).normalized());
+                double side_angle=std::clamp(std::atan2(double(axis.x),double(axis.y)),-.174533,.174533);
+                double flex=std::clamp(std::asin(std::clamp(double(axis.z),-1.0,1.0)),0.0,.558505);
+                Vector3 allowed(std::sin(side_angle)*std::cos(flex),std::cos(side_angle)*std::cos(flex),std::sin(flex));
+                if (axis.distance_squared_to(allowed)<.00000001) continue;
+                Vector3 cuff_knee=ankles[i]+mul(boots[i].xform(allowed),sides[i].shin);
+                Vector3 corrected=cuff_knee+mul((hip-cuff_knee).normalized(),sides[i].thigh);
+                Vector3 correction=corrected-hip;
+                hips+=correction; largest=std::max(largest,double(correction.length()));
+            }
+            if (largest<.00001) break;
+        }
+        return hips;
+    }
+protected:
+    static void _bind_methods() {
+        ClassDB::bind_method(D_METHOD("configure","rest_sides"),&AlpineSkierAnatomy::configure);
+        ClassDB::bind_method(D_METHOD("fit_pelvis","hips","pelvis","ankles","boots"),&AlpineSkierAnatomy::fit_pelvis);
+        ClassDB::bind_method(D_METHOD("local_limit","id","rotation","pole_carry","forearm_carry"),&AlpineSkierAnatomy::local_limit);
+    }
+public:
+    void configure(Dictionary rest_sides) {
+        for (int i=0;i<2;++i) {
+            Dictionary data=rest_sides[i==0 ? "Right" : "Left"];
+            sides[i].offset=data["hip_offset"]; sides[i].lower_inverse=data["leg_lower_inverse"];
+            sides[i].thigh=data["thigh"]; sides[i].shin=data["shin"]; sides[i].minimum=data["minimum"];
+            sides[i].arm_axis=data["arm_axis"]; sides[i].arm_upper=data["arm_upper"]; sides[i].arm_lower=data["arm_lower"];
+            sides[i].arm_upper_unit=data["arm_upper_unit"]; sides[i].arm_lower_unit=data["arm_lower_unit"];
+            sides[i].elbow_zero=data["elbow_zero"]; sides[i].rest_bend=data["rest_bend"];
+        }
+    }
+    Basis local_limit(String id, Basis rotation, double pole_carry, double forearm_carry) const {
+        if (id=="Hips") return box_limit(rotation,Vector3(-18,-25,-32),Vector3(55,25,32));
+        if (id=="Spine02" || id=="Spine01" || id=="Spine") return box_limit(rotation,Vector3(-8,-10,-8),Vector3(20,10,8));
+        if (id=="neck") return box_limit(rotation,Vector3(-22,-28,-14),Vector3(22,28,14));
+        if (id=="Head") return box_limit(rotation,Vector3(-30,-30,-12),Vector3(24,30,12));
+        const Side &side=sides[id.begins_with("Right") ? 0 : 1];
+        if (id.ends_with("Shoulder")) return box_limit(rotation,Vector3(-12,-15,-12),Vector3(12,15,12));
+        if (id.ends_with("ForeArm")) {
+            Vector3 direction=rotation.xform(side.arm_lower).slide(side.arm_axis).normalized();
+            double angle=side.arm_upper.signed_angle_to(direction,side.arm_axis);
+            angle=std::clamp(angle,rad(6.0),rad(145.0));
+            Basis hinge=Basis(side.arm_axis,real_t(angle-side.rest_bend))*side.elbow_zero;
+            double roll=angle_twist(hinge.transposed()*rotation,side.arm_lower_unit);
+            return hinge*Basis(side.arm_lower_unit,real_t(std::clamp(roll,-rad(170)*forearm_carry,rad(170)*forearm_carry)));
+        }
+        if (id.ends_with("Arm")) return swing_limit(rotation,side.arm_upper_unit,125.0,55.0);
+        if (id.ends_with("Hand")) {
+            double carry=std::clamp(pole_carry,0.0,1.0);
+            return swing_limit(rotation,side.arm_lower_unit,
+                lerp_scalar(lerp_scalar(28.0,80.0,carry),80.0,forearm_carry),
+                lerp_scalar(lerp_scalar(55.0,90.0,carry),30.0,forearm_carry));
+        }
+        return rotation;
+    }
+    Vector3 fit_pelvis(Vector3 hips, Basis pelvis, TypedArray<Vector3> ankle_array, TypedArray<Basis> boot_array) const {
+        ERR_FAIL_COND_V(ankle_array.size()!=2 || boot_array.size()!=2, hips);
+        Vector3 ankles[2]={ankle_array[0],ankle_array[1]};
+        Basis boots[2]={boot_array[0],boot_array[1]};
+        Vector3 offsets[2]={pelvis.xform(sides[0].offset),pelvis.xform(sides[1].offset)};
+        Basis inverse[2]={boots[0].transposed(),boots[1].transposed()};
+        for (int iteration=0;iteration<12;++iteration) {
+            hips=fit_hips(hips,offsets,ankles,boots,inverse);
+            double largest=0.0;
+            for (int i=0;i<2;++i) {
+                Vector3 hip=hips+offsets[i], delta=hip-ankles[i];
+                if (delta.length()<sides[i].minimum) {
+                    Vector3 shift=mul(delta.normalized(),sides[i].minimum-double(delta.length()));
+                    hips+=shift; hip+=shift; largest=std::max(largest,double(shift.length()));
+                }
+                Vector3 knee=leg_joint(hip,ankles[i],i,boots[i]);
+                Vector3 cuff_axis=inverse[i].xform((knee-ankles[i]).normalized());
+                double flex=std::atan2(double(cuff_axis.z),double(cuff_axis.y));
+                if (flex>rad(24.0)) {
+                    Vector3 allowed=cuff_axis.rotated(Vector3(1,0,0),real_t(rad(24.0)-flex));
+                    Vector3 fitted=ankles[i]+mul(boots[i].xform(allowed),sides[i].shin);
+                    Vector3 shift=fitted+mul((hip-fitted).normalized(),sides[i].thigh)-hip;
+                    hips+=shift; hip+=shift; largest=std::max(largest,double(shift.length()));
+                    knee=leg_joint(hip,ankles[i],i,boots[i]);
+                }
+                Vector3 lower=(ankles[i]-knee).normalized();
+                Vector3 normal=(knee-hip).normalized().cross(lower).normalized();
+                Basis shin=frame(lower,normal)*sides[i].lower_inverse;
+                double angle=twist(inverse[i]*shin), allowed=soft(angle);
+                if (std::abs(angle-allowed)<.0001) continue;
+                Vector3 plane=normal.rotated(-lower,real_t(allowed-angle));
+                Vector3 corrected=knee+mul((hip-knee).slide(plane).normalized(),sides[i].thigh);
+                Vector3 shift=corrected-hip;
+                hips+=shift; largest=std::max(largest,double(shift.length()));
+            }
+            if (largest<.00005) break;
+        }
+        return fit_hips(hips,offsets,ankles,boots,inverse);
+    }
+};
+void register_skier_anatomy() { ClassDB::register_class<AlpineSkierAnatomy>(); }

@@ -61,15 +61,29 @@ func run() -> void:
 	check(far.get_shader_parameter("foliage_sight_parameters")==library.foliage_sight.parameters,"Late fallback material inherits current strength")
 	var near = library.mesh("forest_spruce_01_lod0").surface_get_material(0)
 	var middle = library.mesh("forest_spruce_01_lod1").surface_get_material(0)
-	check(near==middle,"Near and middle retain their shared material")
+	check(near!=middle,"Middle shading has a separate material")
+	check(near.shader.resource_path.ends_with("pc_forest_tree.gdshader") and middle.shader.resource_path.ends_with("pc_forest_tree_mid.gdshader"),"Only middle detail selects mesh-normal shading")
+	var broadleaf = library.mesh("forest_golden_01_lod1").surface_get_material(0)
+	check(broadleaf!=middle and broadleaf.get_shader_parameter("broadleaf")==true,"Broadleaf middle retains its leaf material role")
+	for receiver in [middle,broadleaf]:
+		check(receiver in library.wind_receivers and receiver in library.sight_receivers,"Middle material participates in wind and sight updates")
+	var motion=preload("res://scripts/presentation/tree_motion.gd").new(library,"")
+	motion.reset()
+	for receiver in [near,middle,broadleaf]:
+		check(receiver.get_shader_parameter("contact_active")==false,"Resting branches skip contact lookups")
+	motion.anchors[0]=Vector4(1,2,3,1); motion.angles[0]=Vector4(.1,0,0,0); motion._upload()
+	for receiver in [near,middle,broadleaf]:
+		check(receiver.get_shader_parameter("contact_active")==true and receiver.get_shader_parameter("contact_angles")==motion.angles,"Branch response reaches both detail materials")
 	for strength in [0.0,25.0,50.0,75.0,100.0]:
 		library.update_foliage_sight(camera,Vector3.ZERO,.1,true,60,strength)
-		for receiver in [near,middle,far]:
+		for receiver in [near,middle,broadleaf,far]:
 			check(receiver.get_shader_parameter("foliage_sight_parameters")==library.foliage_sight.parameters,"Resident/fallback materials receive each strength")
 		for level in 3:
 			library.apply_quality(Quality.preset(level))
-			for receiver in [near,far]:
+			for receiver in [near,middle,broadleaf,far]:
 				check(receiver.get_shader_parameter("foliage_sight_parameters")==library.foliage_sight.parameters,"Quality switch retains current strength")
+			check(middle.get_shader_parameter("foliage_texture")==near.get_shader_parameter("foliage_texture"),"Middle quality uses the matching foliage texture")
+			check(broadleaf.get_shader_parameter("broadleaf")==true,"Quality switch retains the broadleaf role")
 	var bare = library.mesh("forest_birch_01_lod2").surface_get_material(0)
 	check(not bare in library.sight_receivers,"Bare distant crowns remain excluded")
 	var preferences = Preferences.new()

@@ -77,11 +77,11 @@ func apply_quality(profile) -> void:
 		if named_materials.has(id):
 			named_materials[id].set_shader_parameter("albedo_texture",load("res://assets/graphics/textures/spruce_impostor_%d%s.png" % [i,quality.texture_suffix]))
 	for id in named_materials:
-		if id in ["PC_Conifer","TD_Conifer","FC_Tree","FC_Broadleaf"]:
+		if id in ["PC_Conifer","TD_Conifer","FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"]:
 			named_materials[id].set_shader_parameter("bark_texture",texture("bark","albedo"))
-			if id in ["FC_Tree","FC_Broadleaf"]:
+			if id in ["FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"]:
 				named_materials[id].set_shader_parameter("bark_normal",texture("bark","normal"))
-				if id=="FC_Broadleaf": _set_broadleaf(named_materials[id])
+				if id.begins_with("FC_Broadleaf"): _set_broadleaf(named_materials[id])
 				else: _set_foliage(named_materials[id])
 		elif id.begins_with("FC_Impostor_"):
 			_set_collection_impostor(named_materials[id],id)
@@ -133,11 +133,11 @@ func material_for(source: Material) -> ShaderMaterial:
 		if not named_materials.has(id):
 			var mat = ShaderMaterial.new()
 			mat.resource_name = id
-			if id in ["FC_Tree","FC_Broadleaf"]:
+			if id in ["FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"]:
 				mat.shader = preload("res://assets/graphics/pc_forest_tree.gdshader")
 				mat.set_shader_parameter("bark_texture",texture("bark","albedo"))
 				mat.set_shader_parameter("bark_normal",texture("bark","normal"))
-				if id=="FC_Broadleaf": _set_broadleaf(mat)
+				if id.begins_with("FC_Broadleaf"): _set_broadleaf(mat)
 				else: _set_foliage(mat)
 			else:
 				mat.shader = preload("res://assets/graphics/pc_tree_impostor.gdshader")
@@ -284,12 +284,24 @@ func mesh(id: String) -> Mesh:
 			continue
 		var source = result.surface_get_material(i)
 		if source:
-			result.surface_set_material(i,material_for(source))
+			var material=material_for(source)
+			if id.begins_with("forest_") and id.ends_with("_lod1") and material.resource_name in ["FC_Tree","FC_Broadleaf"]:
+				material=_forest_mid_material(material)
+			result.surface_set_material(i,material)
 	if id.begins_with("forest_"):
 		result.set_meta("forest_asset",id.get_slice("_lod",0).trim_suffix("_shadow"))
 	if root: root.free()
 	meshes[id] = result
 	return result
+
+func _forest_mid_material(source: ShaderMaterial) -> ShaderMaterial:
+	var id=source.resource_name+"_Mid"
+	if not named_materials.has(id):
+		var mat:ShaderMaterial=source.duplicate()
+		mat.resource_name=id
+		mat.shader=preload("res://assets/graphics/pc_forest_tree_mid.gdshader")
+		_remember_material(id,lighting.register(mat))
+	return named_materials[id]
 
 func _find_mesh(node: Node) -> MeshInstance3D:
 	if node is MeshInstance3D:
@@ -366,10 +378,10 @@ func update_wind(state, dt: float, animate: bool) -> void:
 
 func _remember_material(id: String, mat: ShaderMaterial) -> void:
 	named_materials[id] = mat
-	if id in ["FC_Tree","FC_Broadleaf"] or (id.begins_with("FC_Impostor_") and tree_record("forest_"+id.trim_prefix("FC_Impostor_")).has("foliage_type")) or id.begins_with("FC_Impostor_spruce_") or id.begins_with("FC_Impostor_fir_") or id.begins_with("FC_Impostor_pine_"):
+	if id in ["FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"] or (id.begins_with("FC_Impostor_") and tree_record("forest_"+id.trim_prefix("FC_Impostor_")).has("foliage_type")) or id.begins_with("FC_Impostor_spruce_") or id.begins_with("FC_Impostor_fir_") or id.begins_with("FC_Impostor_pine_"):
 		if not sight_receivers.has(mat): sight_receivers.append(mat)
 		mat.set_shader_parameter("foliage_sight_parameters",foliage_sight.parameters)
-	if id in ["Needles","Spruce","PC_Conifer","TD_Conifer","FC_Tree","FC_Broadleaf"] or (id.begins_with("Tree_") and not id.ends_with("snag")):
+	if id in ["Needles","Spruce","PC_Conifer","TD_Conifer","FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"] or (id.begins_with("Tree_") and not id.ends_with("snag")):
 		if not wind_receivers.has(mat): wind_receivers.append(mat)
 		# Quality invalidates submissions, but the last observed state is still
 		# valid for a material registered before the next normal update.

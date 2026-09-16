@@ -30,6 +30,11 @@ acceptance. Historical grades and sealed packages do not establish acceptance of
 a new revision. Detailed run output belongs in artifacts; update the owning guide
 with durable findings.
 
+For performance work, use the [quality and small-gain policy](../../../docs/RENDERING.md#performance-policy).
+Minor accepted motion differences do not require pixel-identical captures;
+evaluate continuity, body/equipment contact and action readability. Explicitly
+authorized physics changes follow the physics/runtime validation contract.
+
 Use the [targeted-map policy](../../../docs/VALIDATION.md#targeted-test-maps) for
 automated captures. Local pose checks use compact terrain; keep exact mountain
 reproductions explicitly selected with `-FullMountain` and `-FullMountainReason`

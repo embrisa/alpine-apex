@@ -1,6 +1,12 @@
 extends RefCounted
 ## Two reusable per-ski response samples. No Nodes, RNG or writes to physics.
 const Condition = preload("res://scripts/presentation/snow_condition.gd")
+# Bound applies only to the V15 analytic snow implementation below.
+const TrackMountain = preload("res://scripts/world/generators/alpine_massif_v15.gd")
+const TrackTreeSnow = preload("res://scripts/world/generators/tree_snow_v15.gd")
+static var bounded_track_queries = true
+static var audit_certificates = false
+static var certified_queries = 0
 const TerrainMaterial = preload("res://scripts/core/terrain_material.gd")
 var supported = false
 var slip = 0.0
@@ -185,6 +191,20 @@ func _track_snow_at(surface, point: Vector3, reach: float, burial_margin: float)
 	var sample_value: Dictionary = surface.sample(point.x,point.z)
 	var height: float = sample_value.get("height",NAN)
 	var normal: Vector3 = sample_value.get("normal",Vector3.ZERO)
+	# V15's clamped cover gives >=.19 m before the separately sampled tree term;
+	# the alternative powder term is >=.24 m and its blend weight is in [0,1].
+	# A 1 mm conservative allowance keeps this proof clear of roundoff. Only a
+	# safely accepted deep-powder point can bypass the analytic regional query.
+	# Every ambiguous/rejected point still reads its exact depth and diagnostics.
+	if bounded_track_queries and surface.get_script()==TrackMountain and is_finite(height) and normal.is_finite() and normal.y>.05:
+		var lower = minf(.35,.189+minf(.06,TrackTreeSnow.sample_delta(surface,surface.tree_snow_height,point.x,point.z)*.12))
+		var certified_clearance = (point.y-height)*normal.y
+		if is_finite(lower) and lower>.18 and certified_clearance<=reach and certified_clearance>=-lower-burial_margin:
+			track_clearance_m = certified_clearance if not is_finite(track_clearance_m) else maxf(track_clearance_m,certified_clearance)
+			if audit_certificates: certified_queries+=1
+			# Both exact and bounded depths select DEEP_POWDER and exceed the
+			# 12 mm cosmetic cut cap. These private probes serve only that cut.
+			return lower
 	var loose: float = surface.snow_depth_at(point.x,point.z)
 	if not is_finite(height) or not normal.is_finite() or normal.y<=.05 or not is_finite(loose):
 		return _reject_track("footprint_void",point)

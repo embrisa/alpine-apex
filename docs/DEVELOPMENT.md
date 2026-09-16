@@ -260,6 +260,24 @@ not establish improved agent performance. No engine run is needed for prose-only
 changes. If discovered drift is outside the current write scope, report the exact
 skill/dependency and coordinate its update while continuing independent work.
 
+## Native skier math
+
+`native/skier` owns native physical hip fitting, presentation pelvis fitting and
+anatomical joint limits. `scripts/core/skier_kernel.gd` loads the single
+`addons/alpine_skier/alpine_skier.windows.gdextension.cfg`; core and presentation configure
+separate immutable math objects. The kernels do not own simulation state, inputs,
+scene nodes or update frequency. Reference GDScript remains available for current
+verification and platforms without a packaged native library.
+
+Build Windows x64 with `scripts/build_skier.ps1` under an `Exclusive` guard. It
+reuses the godot-cpp headers/generated bindings and Release static library already
+prepared by the wind build in `.tools/wind`; it does not rebuild the engine or
+wind plugin. The resulting DLL belongs in `addons/alpine_skier/bin`, outside
+artifacts. Preserve scalar double/vector float behavior and `/fp:precise`.
+The Windows playtest preset includes addon resources; verify extension loading
+and physics/runtime suites after a rebuild. Other platforms currently use the
+reference implementation. This does not establish a packaged-export smoke test.
+
 ## Artifact lifecycle
 
 `artifacts/` is ignored except its guide and `.gdignore`. Suites/review tools

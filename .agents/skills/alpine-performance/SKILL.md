@@ -106,6 +106,12 @@ percentiles. Separate rendered and generated frames, CPU and GPU scopes, and
 allocation telemetry from physical VRAM occupancy. Repeat only to resolve changed
 code, failed trials, noise or a remaining question.
 
+Apply the [quality and small-gain policy](../../../docs/RENDERING.md#performance-policy):
+do not discard a verified CPU saving solely because short-route FPS is noisy.
+Keep its unit, cadence and measured scope explicit. Where the user accepts minor
+animation or physics differences, inspect their effect rather than imposing
+pixel-identical or exact-state output as a blanket gate.
+
 Only when a new baseline is actually needed, use the maintained
 [receipt audit](../../../docs/VALIDATION.md#rendering-baseline-receipt-audit)
 on an explicit manifest after the guarded measurements. Preserve invalid attempts,

@@ -18,6 +18,15 @@ Reuse the [saved baseline and small experiment budget](VALIDATION.md#reusable-ba
 Fresh original-control runs, broad experiment matrices and hash audits are not
 default requirements for each candidate.
 
+Small animation or physics differences may be accepted when a measured
+performance benefit justifies their effect on appearance and control. Inspect
+motion, transitions and skiing behavior and report any differences; pixel or
+state equality is useful evidence, not a universal acceptance requirement.
+Retain verified CPU savings even when a short rendered-FPS sample cannot resolve
+their contribution, provided the combined implementation has no established
+regression. Distinguish milliseconds per simulation tick from milliseconds per
+rendered frame and GPU time. Reduced draw calls alone do not establish a gain.
+
 ## Graphics and display
 
 [GraphicsPresets](../scripts/presentation/graphics_presets.gd) is the single
@@ -144,9 +153,13 @@ curved branch sprays and baked needle textures; source/authoring contracts are
 in [Assets](ASSETS.md#trees). Do not interpret all stored instance triangles as
 visible-frame work. Camera forest visibility assistance must remain cosmetic.
 
-Golden birch and maple near/mid meshes share `FC_Broadleaf`, the production tree
-wind/contact shader with textured broad leaves and roughness. It participates in
-the same wind, branch-contact and canopy-sight registries as conifers. Its far
+Golden birch and maple use `FC_Broadleaf` near and `FC_Broadleaf_Mid` at LOD1,
+with textured broad leaves and roughness. Conifers use `FC_Tree` and `FC_Tree_Mid`.
+The middle shader keeps authored mesh normals, omits normal-map sampling and
+tangent-frame bending, and uses restrained fixed foliage AO. Both variants share
+`pc_forest_tree_common.gdshaderinc`; geometry, alpha coverage, vertex/normal wind
+bending, color, snow and LOD fades stay shared. Each material participates in
+the same wind, branch-contact and canopy-sight registries. Their far
 cards use authored canopy masks, so warm colors do not evade assistance or fade
 the trunk. Both geometry and cards derive restrained leaf tint variation from
 the same tree anchor; wood and snow remain neutral. Keep their grading functions
@@ -155,12 +168,16 @@ or physics. All quality tiers retain every physical tree and existing distance
 bands; prepared source and conversion limits are in [Assets](ASSETS.md#trees).
 
 `forest_placement.gd` owns the 384 m distant-card partition; the direct
-`density_forest.gd` path reads the same constant. Detailed geometry and shadow
-proxies retain 32 m regions, 128 m loading and 192 m retention. Regrouping changes
+`density_forest.gd` path reads the same constant. Residency and shadow proxies
+retain 32 m regions, 128 m loading and 192 m retention. LOD0/1 draw groups split
+once into fixed 16 m cells; there is no per-frame instance compaction. Regrouping changes
 only immutable MultiMesh submissions: seated poses, asset choice, per-tree
 shader distances/fades and the residency fallback remain identical. Keep bounds
-as unions of each transformed authored wind/card envelope; batch-centre distance
-culling must include half the full bound diagonal. Larger groups trade more
+as unions of each transformed authored wind/card envelope. Detail distance
+culling can use the tighter support of all shader crown spheres around the batch
+centre. Compute that support from the uploaded packed buffer: prepared production
+groups have an empty `transforms` array. Far and shadow bounds retain their full
+diagonal padding. Larger groups trade more
 off-screen card vertices for fewer submissions; do not generalize this choice
 to the much heavier near/mid meshes or to mineral geometry.
 

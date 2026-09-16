@@ -298,7 +298,21 @@ func _mass_properties(mass: float) -> void:
 		com += center*weight
 		inertia += Vector2(center.x*center.x+center.y*center.y,center.z*center.z+center.y*center.y)*weight*mass
 
+# Native math keeps this reference implementation available for verification
+# and platforms without a packaged library. No solver or pose cadence changes.
+static var native_fit_kernel = prepare_native_fit()
+static var native_fit_enabled = native_fit_kernel!=null
+
+static func prepare_native_fit():
+	var kernel = preload("res://scripts/core/skier_kernel.gd").create("AlpineBodyFit")
+	if kernel!=null: kernel.configure(REST)
+	return kernel
+
 static func fit_hips(hips: Vector3, pelvis: Basis, ankles: Array[Vector3], boots: Array[Basis]) -> Vector3:
+	if native_fit_enabled: return native_fit_kernel.fit(hips,pelvis,ankles,boots)
+	return reference_fit_hips(hips,pelvis,ankles,boots)
+
+static func reference_fit_hips(hips: Vector3, pelvis: Basis, ankles: Array[Vector3], boots: Array[Basis]) -> Vector3:
 	# Project the shared pelvis against both leg lengths AND cuff flexion
 	# envelopes. A position-only IK solve can satisfy lengths with a broken
 	# ankle; moving the shared pelvis keeps torso and both hips connected.

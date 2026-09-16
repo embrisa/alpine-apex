@@ -9,6 +9,7 @@ var world
 var frame_costs
 var terrain: Dictionary = {}
 var obstacles: Dictionary = {}
+var obstacle_centers: Dictionary = {}
 var mineral_bodies: Dictionary = {}
 var mineral_shapes: Dictionary = {}
 var last_center = Vector3.INF
@@ -49,27 +50,27 @@ func prepare(center: Vector3) -> void:
 			terrain.erase(i)
 	if frame_costs: frame_costs.end(&"stream_collision_terrain",started)
 	started = frame_costs.begin() if frame_costs else 0
-	var nearby: Array=world.surface.nearby_obstacle_indices(center,240.0)
-	# Include resident bodies to retire those left behind after a long teleport.
-	var candidates: Dictionary={}
-	for i in nearby: candidates[i]=true
-	for i in obstacles: candidates[i]=true
-	for i in candidates:
-		# Most candidates already have a body or are only in the retain window.
-		# Read packed positions directly; expand a full record only on publication.
+	# Only new bodies need the inner publication query. Existing bodies already
+	# have immutable horizontal positions and only need the retention check.
+	# Preserve the exact strict 175/240 m boundaries and publication order.
+	var nearby: Array = world.surface.nearby_obstacle_indices(center,175.0)
+	for i in nearby:
+		if obstacles.has(i): continue
 		var position_value = Obstacles.position(world.surface,i)
-		var distance_value = p.distance_to(Vector2(position_value.x,position_value.z))
-		if distance_value<175.0 and not obstacles.has(i):
-			var obstacle: Dictionary = Obstacles.record(world.surface,i)
-			var shape = CylinderShape3D.new()
-			shape.radius = obstacle.radius
-			shape.height = obstacle.height
-			obstacles[i] = _static(shape,obstacle.position+Vector3.UP*obstacle.height*.5)
-			obstacles[i].set_meta("audio_material",2 if obstacle.get("tree",false) else 1)
-			_filter_body(obstacles[i],obstacle.get("tree",false))
-		elif distance_value>240.0 and obstacles.has(i):
+		var horizontal = Vector2(position_value.x,position_value.z)
+		if p.distance_to(horizontal)>=175.0: continue
+		var obstacle: Dictionary = Obstacles.record(world.surface,i)
+		var shape = CylinderShape3D.new()
+		shape.radius = obstacle.radius
+		shape.height = obstacle.height
+		obstacles[i] = _static(shape,obstacle.position+Vector3.UP*obstacle.height*.5)
+		obstacle_centers[i] = horizontal
+		obstacles[i].set_meta("audio_material",2 if obstacle.get("tree",false) else 1)
+		_filter_body(obstacles[i],obstacle.get("tree",false))
+	for i in obstacles.keys():
+		if p.distance_to(obstacle_centers[i])>240.0:
 			obstacles[i].queue_free()
-			obstacles.erase(i)
+			obstacles.erase(i); obstacle_centers.erase(i)
 	if frame_costs: frame_costs.end(&"stream_collision_obstacles",started)
 	started = frame_costs.begin() if frame_costs else 0
 	_prepare_minerals(center)

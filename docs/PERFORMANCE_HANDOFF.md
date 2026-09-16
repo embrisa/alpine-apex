@@ -1,0 +1,94 @@
+# Performance handoff - 16 September 2026
+
+Snapshot for Fable's next experiments. Current contracts and commands remain in
+[Rendering](RENDERING.md), [Development](DEVELOPMENT.md#native-skier-math) and
+[Validation](VALIDATION.md#reusable-baselines-and-experiment-budget).
+
+## Enabled in this milestone
+
+- Native physical hip fitting, presentation pelvis fitting and joint limits;
+  immutable anatomy data cached. Physical fitting saved **0.185 ms/tick** in the
+  isolated paired test, with 1,800 full simulation states matching.
+- Cached branch contact geometry, exact resting-spring skips and a uniform
+  contact shortcut; defer invisible-tree tint work until coverage is positive.
+- Bounded cosmetic snow queries, narrower collision candidate lookup with the
+  same creation/retirement distances, and a 1 ms soft follow-on forest upload budget.
+- Correct crown-based distance bounds read the actual packed production buffer.
+  LOD0/1 render groups split once into 16 m cells; 32 m residency/shadow ownership
+  and all individual tree distances, transforms and populations remain intact.
+- LOD1 mesh-normal material removes normal-map sampling and tangent-frame wind
+  work. Small shading changes passed matched in-game inspection at 7/12/17/32/
+  59/64/69 m. It does **not** reduce the authored alpha footprint.
+
+## Windows measurements to reuse
+
+RX 9070, Godot 4.7.2 custom ed1daf0bf, D3D12, 3840x2160 output, 2880x1620 internal,
+High, Auto FSR 4.1.1, frame generation/GI off, clear/day, same 1,800-input dense
+forest route. One warmup followed by one capture-free 15-second measured sample
+per candidate; zero unfocused frames and exact trace completion.
+
+| Current matching samples | Average FPS | Frame ms | Viewport GPU ms | Frame p99 ms |
+| --- | ---: | ---: | ---: | ---: |
+| Corrected bounds, 32 m detail groups | 78.23 | 12.783 | 11.216 | 18.171 |
+| Static 16 m detail groups | 79.26 | 12.617 | 11.050 | 17.207 |
+| Plus LOD1 mesh normals (enabled) | **84.07** | **11.895** | **10.280** | 17.585 |
+
+The last change gained 4.81 FPS (6.1%) and saved 0.722 ms/frame / 0.770 ms GPU
+in these samples. The p99 increased 0.378 ms. These are short samples, not a
+repeatability study, full-descent acceptance or a 90-120 FPS result. Viewport
+timings do not isolate tree depth draws. Never add CPU microbenchmark savings
+to these frame savings as though they were independently measured gains.
+
+Local detailed receipts (ignored, not transferred by Git) are under
+`artifacts/pc_environment/{retained-cpu-correct-bounds,static-detail-batches,lod1-mesh-normals}-20260916/production.json`, row 2.
+The first row is warmup. The replay is
+`artifacts/retained_cpu_correct_bounds_20260916/forest.json`.
+
+**Baseline correction:** earlier 81.99-89.18 FPS candidates used faulty distance
+bounds: production groups had empty `transforms`, while poses were in
+`prepared.buffer`. Those results do not establish preserved-quality performance.
+The historical 71.94 FPS reference is an older engine/import context and remains
+historical context, not an exact attribution baseline for this milestone.
+
+## Mac and next experiments
+
+The shipped native skier library is Windows x64 only. Mac uses the existing
+GDScript implementation; it does not receive the native CPU savings yet. A Mac
+port needs a native build and paired numerical/gameplay checks. Record one Mac
+baseline for that device, renderer and settings; Windows numbers are not its
+control. Keep the portable shader/batching changes enabled while investigating.
+
+Promising next questions: which remaining renderer intervals dominate on Mac,
+and whether native skier math is worth porting there. Keep 120 Hz simulation;
+small visual/physics differences may be accepted for measured gains. Use one
+focused candidate and a short warmed run; reuse matching baselines. Skip manual
+hash audits and large capture archives. Prefer real improvements over reporting.
+
+Do not repeat unchanged rejected approaches: broad UV packing, per-frame CPU
+tree compaction, LOD1 alpha trapezoid trimming, small-angle wind polynomial, or
+blindly replacing trees based on source triangle count. Terrain occlusion's
+roughly 5% figure was fewer draws, not a measured FPS gain; it remains disabled.
+
+Functional suites, paired replay/pose checks and rendered inspections passed on
+Windows. Mac execution, packaged export and human/controller feel are unverified.
+
+## Fable task overlap review
+
+Reviewed remote commit `a75212c`. Its title says five tasks, but it adds only
+four task files. The linked `AA-20260916-084514-reduce-vertex-shader-transcendentals`
+file is absent from that commit and its tree.
+
+| Task suffix | What has already been tried | Remaining investigation |
+| --- | --- | --- |
+| `084500-reduce-solver-terrain-query-redundancy` | Native hip fitting is now enabled; allocation-free height queries predate this work. Our bounded snow shortcut applies to cosmetic tracks only. | Tick-local query reuse, diagnostic curvature reads, capability checks and material-map reads are new candidates. Best next focused CPU investigation. |
+| `084501-index-skier-pose-by-bone` | Rest geometry caching, native pelvis fitting and native joint limits already address part of the cited cost. | Bone-indexed containers, mirror indices, reusable buffers and fewer skeleton writes remain untested. Re-profile the remaining cost before a broad rewrite. |
+| `084502-reduce-recording-tick-cost` | Native pose and cosmetic snow work benefit called functions; recording ownership itself has not changed. | Timed-recording capture, snapshot allocation and repeated solve investigation are new. Untimed dense-route results cannot measure this benefit. |
+| `084503-publish-shared-shader-uniforms-globally` | Cloud parameter/direction/height change gates and wind direction/strength gates already exist. Tree contact shader work now skips exact rest. | Global publication and remaining write reduction are untested. Preserve separate world/preview state and pause behavior; receiver count estimates are not measured savings. |
+
+All four were written against Dev 43 and older scope measurements. Use the
+enabled implementation and current matching reference, not their old 72 FPS
+number as an exact control. Their strict pixel/physics acceptance language must
+also be read alongside the user's newer permission to accept small changes
+for worthwhile gains. The missing shader task may overlap the rejected wind
+polynomial and retained contact/tint work; its full scope cannot be assessed
+without the file. No new task implementation is claimed here.

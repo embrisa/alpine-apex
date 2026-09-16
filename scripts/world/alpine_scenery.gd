@@ -316,6 +316,10 @@ func configure_batches(profile, instances: Array) -> void:
 				# Individual shader distance selects each tree; batch-centre culling
 				# must conservatively include its horizontal extent and tree height.
 				var padding=instance.custom_aabb.size.length()*.5
+				# Prepared crown support is tighter than wind-swept mesh bounds.
+				# Only identity-basis density batches use this world-metre bound.
+				if lod in [0,1] and instance.has_meta("coverage_padding") and instance.global_basis==Basis.IDENTITY:
+					padding=minf(padding,float(instance.get_meta("coverage_padding")))
 				instance.visibility_range_begin=0.0
 				instance.visibility_range_end=end+fade_m+padding
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if lod in [0,1,3] else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
