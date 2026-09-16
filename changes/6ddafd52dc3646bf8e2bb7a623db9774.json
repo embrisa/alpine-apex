@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "id": "6ddafd52dc3646bf8e2bb7a623db9774",
+  "summary": "Cache equipment audio contact pair topology",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Equipment audio contact CPU cost"
+  ],
+  "owned_paths": [
+    "docs/AUDIO.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "scripts/presentation/equipment_audio_contacts.gd",
+    "tests/equipment_audio_suite.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "docs/VALIDATION.md",
+    "scripts/presentation/procedural_sfx.gd",
+    "scripts/presentation/riding_audio_events.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Caches only validated cross-owner contact pair indices; each update retains current swept bounds, narrow-phase math and event/rearm ordering. No simulation, rendering, audio synthesis or recording changes."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Caches only validated cross-owner contact pair indices; each update retains current swept bounds, narrow-phase math and event/rearm ordering. No simulation, rendering, audio synthesis or recording changes."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Caches only validated cross-owner contact pair indices; each update retains current swept bounds, narrow-phase math and event/rearm ordering. No simulation, rendering, audio synthesis or recording changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Audio observer preparation only; no payload, schema, source assets or persistent data change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Audio observer preparation only; no payload, schema, source assets or persistent data change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Audio observer preparation only; no payload, schema, source assets or persistent data change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Audio observer preparation only; no payload, schema, source assets or persistent data change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Audio observer preparation only; no payload, schema, source assets or persistent data change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "equipment-pairs-events-20260916; test_pc_environment equipment_audio_suite,sfx_audio_suite,runtime_suite -> artifacts/equipment_pairs_20260916/regression",
+      "details": "1500 exact paired event/history/touching/reset/sweep comparisons against frozen Dev57 source,including10 actual emitted contacts. Regular,carve,grab,crossings,owner changes and long gaps covered.44equipment,39SFX,192runtime checks passed. Initial oracle synthetic surface changed each frame and emitted no contacts; fixed stimulus and reran with production unchanged. Metadata captured before checks; later edits documentation only. Performance/validation skills reviewed; no command/ownership contract change."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "FpsCritical equipment-pairs-events-20260916,paired isolated contact observer CPU",
+      "details": "Regular102.163->84.731us/update,carve167.963->152.527,grab104.605->86.952. Equal294samples per arm/case,alternating order; average124.910->108.070us(-13.48%,16.84us). Synthetic two-proxy topology sequence17.315->16.586us. Excludes snapshot/pose and GPU/rendered FPS. No new mountain run: small saving below existing run variation, retained under user instruction to keep verified gains without requiring FPS-bottleneck impact."
+    },
+    {
+      "kind": "rendered",
+      "result": "not_required",
+      "command": "No renderer/material/pose changes",
+      "details": "Pair index caching only; exact emitted audio events and state matched. Human listening was not repeated; no listening claim."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Sustained90-120FPS remains unproven; this milestone establishes a small isolated CPU saving only.",
+    "No fresh full-route/FPS/GPU measurement or human listening; existing Dev57 route observation remains historical.",
+    "No unmerged remote Fable branches at final fetch."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T15:57:29.584187+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "89d6d623d01318dc55d3fac27de559281fca424f",
+      "dev": 57,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/AUDIO.md": {
+        "size": 12531,
+        "mtime_ns": 1789574205582964400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 25402,
+        "mtime_ns": 1789574205583967000
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789512657279656900
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/presentation/equipment_audio_contacts.gd": {
+        "size": 7399,
+        "mtime_ns": 1789574017796386000
+      },
+      "scripts/presentation/procedural_sfx.gd": {
+        "size": 11327,
+        "mtime_ns": 1789543964391204000
+      },
+      "scripts/presentation/riding_audio_events.gd": {
+        "size": 5500,
+        "mtime_ns": 1789295582129250300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18224,
+        "mtime_ns": 1789566331946877700
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/equipment_audio_suite.gd": {
+        "size": 10524,
+        "mtime_ns": 1789574017797391200
+      }
+    }
+  }
+}

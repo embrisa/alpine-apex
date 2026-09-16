@@ -37,6 +37,28 @@ Snapshot for Fable's next experiments. Current contracts and commands remain in
 
 ## Windows measurements to reuse
 
+### Equipment audio pair cache, 16 September
+
+Audio-only ski/pole contact detection caches cross-owner pair indices between
+validated resets and tests live swept bounds before reading pair dictionaries.
+In regular/carve/grab production-pose sequences, paired observer CPU averaged
+**124.91 -> 108.07 us/update (-13.5%, 16.84 us saved)**. Individual means were
+102.16 -> 84.73, 167.96 -> 152.53 and 104.61 -> 86.95 us; 294 measured samples
+per arm/case, alternating order. This excludes pose construction and snapshots.
+All 1,500 event/state comparisons match the frozen original, including 10 actual
+contact events and ownership/rearm/lifecycle cases. Equipment audio, SFX and
+runtime suites passed 44 + 39 + 192 checks. No visuals, audio synthesis, physical
+collision, replay or settings changed; human listening was not repeated.
+
+No new mountain FPS claim or baseline: the saving is below the existing route's
+variation and is retained under the user's policy to keep verified small gains.
+Evidence: `artifacts/equipment_pairs_20260916/oracle.json` and `regression/`.
+The initial diagnostic in `artifacts/effects_cost_20260916/probe.json` guided
+selection; its compact-plane response costs do not attribute the full mountain's
+entire effects scope. Initial oracle attempt emitted no sounds because its
+synthetic surface changed each frame; that test stimulus was corrected before
+acceptance, with production code unchanged.
+
 ### Grass worker packing, 16 September
 
 Grass workers now prepare the shared instance buffer and both LOD bounds.

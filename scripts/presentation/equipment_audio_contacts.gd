@@ -9,6 +9,7 @@ const MAX_SWEEP_STEPS = 24
 const SEPARATION_M = .02
 const REARM_SECONDS = .08
 var previous: Array[Dictionary] = []
+var cross_owner_pairs = PackedInt32Array()
 var previous_anchor = Vector3.ZERO
 var touching: Dictionary = {}
 var clock = 0.0
@@ -21,6 +22,7 @@ var reset_serial = 0
 func reset() -> void:
 	reset_serial += 1
 	previous.clear()
+	cross_owner_pairs.clear()
 	touching.clear()
 	clock = 0.0
 	last_mode = ""
@@ -65,7 +67,14 @@ func sample(proxies: Array[Dictionary], anchor: Vector3, dt: float, mode: String
 			if current[i].owner!=previous[i].owner or current[i].surface!=previous[i].surface or current[i].a.distance_to(previous[i].a)>3 or current[i].b.distance_to(previous[i].b)>3:
 				initialize = true
 				break
-	if initialize: reset()
+	if initialize:
+		reset()
+		# Ownership is unchanged between resets (validated above). Cache only the
+		# pair topology; current and swept geometry is still tested every frame.
+		for i in current.size():
+			for j in range(i+1,current.size()):
+				if current[i].owner!=current[j].owner:
+					cross_owner_pairs.append(i); cross_owner_pairs.append(j)
 	clock += dt
 	# Each linearly swept endpoint stays inside this union. Expanded boxes
 	# conservatively include capsule radii and the contact rearm margin, so
@@ -78,29 +87,29 @@ func sample(proxies: Array[Dictionary], anchor: Vector3, dt: float, mode: String
 		swept_bounds.append(bounds.grow(a.radius+SEPARATION_M))
 	var near: Dictionary = {}
 	var candidates: Dictionary = {}
-	for i in current.size():
-		for j in range(i+1,current.size()):
-			var a: Dictionary = current[i]
-			var b: Dictionary = current[j]
-			if a.owner==b.owner: continue
-			if not swept_bounds[i].intersects(swept_bounds[j]): continue
-			var key: int = mini(a.owner,b.owner)*4+maxi(a.owner,b.owner)
-			var pair = Geometry3D.get_closest_points_between_segments(a.a,a.b,b.a,b.b)
-			var gap: float = pair[0].distance_to(pair[1])-a.radius-b.radius
-			if gap<=.0002 or (touching.has(key) and gap<=SEPARATION_M): near[key] = true
-			if initialize or touching.has(key): continue
-			var hit = _sweep(previous[i],a,previous[j],b,dt)
-			if hit.is_empty(): continue
-			near[key] = true
-			if hit.speed<.12: continue
-			var profile = Events.EquipmentProfile.MIXED_KNOCK
-			if a.surface==Surface.CARBON and b.surface==Surface.CARBON: profile = Events.EquipmentProfile.SHAFT_TICK
-			elif a.surface==Surface.METAL and b.surface==Surface.METAL: profile = Events.EquipmentProfile.METAL_CLINK
-			elif a.surface==Surface.CARBON or b.surface==Surface.CARBON: profile = Events.EquipmentProfile.SHAFT_TICK
-			var world_position: Vector3 = hit.position+previous_anchor.lerp(anchor,hit.fraction)
-			var direction = (world_position-listener.origin).normalized()
-			var event = Events._equipment(profile,minf(hit.speed,35),clampf(direction.dot(listener.basis.x),-1,1),clampf(hit.speed/12,0,1))
-			if not candidates.has(key) or event.speed>candidates[key].speed: candidates[key] = event
+	for pair_index in range(0,cross_owner_pairs.size(),2):
+		var i = cross_owner_pairs[pair_index]
+		var j = cross_owner_pairs[pair_index+1]
+		if not swept_bounds[i].intersects(swept_bounds[j]): continue
+		var a: Dictionary = current[i]
+		var b: Dictionary = current[j]
+		var key: int = mini(a.owner,b.owner)*4+maxi(a.owner,b.owner)
+		var pair = Geometry3D.get_closest_points_between_segments(a.a,a.b,b.a,b.b)
+		var gap: float = pair[0].distance_to(pair[1])-a.radius-b.radius
+		if gap<=.0002 or (touching.has(key) and gap<=SEPARATION_M): near[key] = true
+		if initialize or touching.has(key): continue
+		var hit = _sweep(previous[i],a,previous[j],b,dt)
+		if hit.is_empty(): continue
+		near[key] = true
+		if hit.speed<.12: continue
+		var profile = Events.EquipmentProfile.MIXED_KNOCK
+		if a.surface==Surface.CARBON and b.surface==Surface.CARBON: profile = Events.EquipmentProfile.SHAFT_TICK
+		elif a.surface==Surface.METAL and b.surface==Surface.METAL: profile = Events.EquipmentProfile.METAL_CLINK
+		elif a.surface==Surface.CARBON or b.surface==Surface.CARBON: profile = Events.EquipmentProfile.SHAFT_TICK
+		var world_position: Vector3 = hit.position+previous_anchor.lerp(anchor,hit.fraction)
+		var direction = (world_position-listener.origin).normalized()
+		var event = Events._equipment(profile,minf(hit.speed,35),clampf(direction.dot(listener.basis.x),-1,1),clampf(hit.speed/12,0,1))
+		if not candidates.has(key) or event.speed>candidates[key].speed: candidates[key] = event
 	for key in near: touching[key] = clock
 	for key in touching.keys():
 		if not near.has(key) and clock-touching[key]>=REARM_SECONDS: touching.erase(key)

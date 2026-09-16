@@ -83,6 +83,14 @@ func run() -> void:
 	for frame in 8: margin.sample(pieces(-.05),Vector3.ZERO,.016,"riding")
 	check(margin.touching.is_empty(),"Separated bounds still let the contact episode rearm")
 	var observer = Contacts.new()
+	var ownership = Contacts.new()
+	ownership.sample(pieces(-.3),Vector3.ZERO,.016,"riding")
+	var same_owner=pieces(.3); same_owner[1].owner=0
+	check(ownership.sample(same_owner,Vector3.ZERO,.016,"riding").is_empty(),"Changed ownership re-primes and cannot collide within one equipment owner")
+	same_owner=pieces(-.3); same_owner[1].owner=0
+	check(ownership.sample(same_owner,Vector3.ZERO,.016,"riding").is_empty(),"Cached ownership keeps same-owner crossing quiet")
+	ownership.sample(pieces(-.3),Vector3.ZERO,.016,"riding")
+	check(ownership.sample(pieces(.3),Vector3.ZERO,.033,"riding").size()==1,"Restored ownership rebuilds contact candidates and detects the next crossing")
 	var initial = pieces(-.3)
 	var original = initial.duplicate(true)
 	check(observer.sample(initial,Vector3.ZERO,1.0/60,"riding").is_empty(),"First frame primes quietly")
