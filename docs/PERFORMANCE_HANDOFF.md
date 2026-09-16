@@ -453,6 +453,22 @@ sustained target performance remain open. Compact integration evidence:
 
 ## Mac and next experiments
 
+Grass worker crash investigation (Fable, 2026-09-16): one macOS probe launch out
+of about fifty crashed right after the scene became ready, printing the
+`propagate_notification()` thread guard error for `/root` with a GDScript
+backtrace inside a grass `CellWork.run` (`stand_density`), then signal 11 with
+a deeply recursive `propagate_notification` stack. No project code calls
+node methods, signals or tree propagators from workers (`grass_placement.gd`,
+`alpine_massif_v15.gd`, `alpine_face_v15.gd`, `mineral_collision.gd` are pure
+reads; the MCP Logger only touches a mutex-guarded buffer). `tests/grass_worker_stress.gd`
+(156,000 cells, 400 s, blocking waits, concurrent main-thread queries) and eight
+targeted relaunches did not reproduce it. Godot 4.7.x has upstream reports of the
+same guard error and crash from non-main threads (godot#123152 on Wayland, a
+4.7.1 import-worker crash), so this is treated as an engine-side race. If it
+recurs, retain the log and the exact launch conditions; a project-side
+mitigation would be to defer grass and gravel worker streaming until display
+setup has settled after startup.
+
 Fable's Apple Silicon branch is now integrated: macOS arm64 loads the packaged
 native hip/pelvis/knee/tracking kernels. Windows keeps its existing DLL; Intel
 Macs and other platforms retain the script reference. Immutable body names,

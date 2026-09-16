@@ -1,0 +1,142 @@
+{
+  "schema": 1,
+  "id": "cb68de530ff94bfc8d10abcbc973deb9",
+  "summary": "Integrate the grass worker thread-safety stress test and the recorded propagate_notification crash investigation",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Grass worker thread safety",
+    "Validation tooling",
+    "Performance handoff documentation"
+  ],
+  "owned_paths": [
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/VALIDATION.md",
+    "tests/grass_worker_stress.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "scripts/presentation/grass_placement.gd",
+    "scripts/presentation/terrain_grass.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Test and documentation integration only; no runtime, generator, format or data change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Test and documentation integration only; no runtime, generator, format or data change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Test and documentation integration only; no runtime, generator, format or data change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Test and documentation integration only; no runtime, generator, format or data change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Test and documentation integration only; no runtime, generator, format or data change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "ALPINE_FULL_MOUNTAIN=1 ./godotw --headless --script tests/grass_worker_stress.gd -- --seconds=15",
+      "result": "passed",
+      "details": "12,280 grass cells prepared by 8 concurrent worker tasks with main-thread field queries on the merged tree; no errors, no crash. Automatic merge, no conflicts."
+    }
+  ],
+  "outstanding_acceptance": [
+    "The single 2026-09-16 cross-thread crash remains non-reproducible and is treated as an engine-side race, as recorded in the inherited note changes/1da4205b14d043b8a96f9007bd7bf4b6.json."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T18:16:55.406243+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "febc39f9c35bc5870f551b3c584548e91c0190e1",
+      "dev": 65,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789544258451225404
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 38777,
+        "mtime_ns": 1789582581377074635
+      },
+      "docs/VALIDATION.md": {
+        "size": 127315,
+        "mtime_ns": 1789582581377438892
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789546451377313344
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789574833688637752
+      },
+      "scripts/presentation/grass_placement.gd": {
+        "size": 5775,
+        "mtime_ns": 1789573641486414010
+      },
+      "scripts/presentation/terrain_grass.gd": {
+        "size": 7437,
+        "mtime_ns": 1789573641488126323
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789511897136445444
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789581307436015366
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      },
+      "tests/grass_worker_stress.gd": {
+        "size": 2974,
+        "mtime_ns": 1789582581377600271
+      }
+    }
+  }
+}

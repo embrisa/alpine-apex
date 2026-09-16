@@ -459,6 +459,10 @@ from timing. Capture visuals separately.
 
 ### Reusable baselines and experiment budget
 
+Grass worker thread safety uses `tests/grass_worker_stress.gd` (headless, full-mountain
+flags): eight pool tasks prepare cells while the main thread queries the field and
+blocks on in-flight tasks; a clean 240-second run is the expected result.
+
 For solver attribution that specifically needs Standard terrain,
 `tests/solver_tick_benchmark.gd` requires `-FullMountain`, a recorded reason and
 `-WorkloadMode FpsCritical` at the guard. Prefer compact fixtures for local kernels.
