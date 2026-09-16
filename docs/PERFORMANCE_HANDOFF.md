@@ -106,6 +106,36 @@ bounds: production groups had empty `transforms`, while poses were in
 The historical 71.94 FPS reference is an older engine/import context and remains
 historical context, not an exact attribution baseline for this milestone.
 
+## Timed recording reference
+
+The 91.06 FPS reference above is free skiing. A new timed-recording diagnostic
+on the same route produced **82.65 FPS / 12.099 ms**. Timed HUD/session/audio
+paths also differ, so this is not an isolated capture-toggle FPS attribution.
+`ghost_capture` costs **1.208 ms per 30 Hz sample**, including another completed
+pose solve; the regular rendered pose is about **0.846 ms per solve**.
+
+Direct typed access to the three recorded pole fields removes repeated property
+introspection. Replay-recording CPU fell **54.35 -> 48.35 us per 120 Hz tick**;
+paired isolated snapshot construction fell **31.19 -> 24.45 us**. Timed FPS was
+**82.65 -> 82.72**, effectively unchanged; frame p95/p99 were 15.634/18.520 ms.
+Retained for the small verified CPU saving. Do not attribute GPU/tail variation
+to this two-line change. Broader buffer rewrites were rejected: small snapshot
+savings and slower pose serialization did not justify their complexity.
+
+All three paired 1,800-tick recordings match exactly, including all 451 pose
+samples, physical samples, inputs and timestamps. A compact five-action oracle
+also passed 2,260 byte-equivalence checks. Use the candidate timed reference
+`artifacts/pc_environment/recording-direct-fields-20260916/production.json` row 2;
+row 1 is warmup and row 3 is CPU attribution, not clean FPS. Control is
+`recording-control-20260916` in the same parent directory. Keep this workload
+separate from free skiing. Compact findings: `artifacts/recording_capture_20260916/`.
+The larger open target is the extra completed pose solve, with the recorded
+sample timestamps and final contact footprint retained.
+Physics, runtime, race, archive, retry-cache, exact-clock, crash-replay and input-
+recording suites passed (598 checks). `competitive_suite` has two failures in
+both the original and candidate: resume clock alignment and the new-PB message.
+Those existing lifecycle findings remain unresolved; that suite is not green.
+
 ## Mac and next experiments
 
 The shipped native skier library is Windows x64 only. Mac uses the existing
@@ -145,7 +175,7 @@ file is absent from that commit and its tree.
 | --- | --- | --- |
 | `084500-reduce-solver-terrain-query-redundancy` | Native hip fitting, allocation-free heights, exact tick-local query reuse and removal of unread curvature probes are enabled. The bounded snow shortcut remains cosmetic only. | Capability checks, material-map storage and other proposed allocations/sweeps remain untested. This task is only partly implemented. |
 | `084501-index-skier-pose-by-bone` | Rest geometry caching, native pelvis fitting and limits are enabled. Native tracking now caches immutable bone offsets/ancestry and batches the costly tick loop. | Broad pose-container conversion, mirror indices, reusable sampling buffers and fewer skeleton writes remain untested. Current writer cost is only 42 us/frame; pose is about 0.86 ms/frame. |
-| `084502-reduce-recording-tick-cost` | Native pose and cosmetic snow work benefit called functions; recording ownership itself has not changed. | Timed-recording capture, snapshot allocation and repeated solve investigation are new. Untimed dense-route results cannot measure this benefit. |
+| `084502-reduce-recording-tick-cost` | Direct typed snapshot field access saves about 6 us/tick; all recorded channels remain exact. Broad buffer rewrites were rejected. | Timed control now exists; extra completed-pose capture costs about 1.2 ms at 30 Hz. Eliminating repeated solve work remains open. |
 | `084503-publish-shared-shader-uniforms-globally` | Cloud parameter/direction/height change gates and wind direction/strength gates already exist. Tree contact shader work now skips exact rest. | Global publication and remaining write reduction are untested. Preserve separate world/preview state and pause behavior; receiver count estimates are not measured savings. |
 
 All four were written against Dev 43 and older scope measurements. Use the

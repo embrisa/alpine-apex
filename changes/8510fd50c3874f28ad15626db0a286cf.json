@@ -1,0 +1,182 @@
+{
+  "schema": 1,
+  "id": "8510fd50c3874f28ad15626db0a286cf",
+  "summary": "Remove repeated property introspection from replay snapshots",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Timed recording CPU",
+    "Matched timed performance reference"
+  ],
+  "owned_paths": [
+    "scripts/racing/run_replay.gd",
+    "docs/PERFORMANCE_HANDOFF.md"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "docs/RACING.md",
+    "docs/VALIDATION.md",
+    "scripts/presentation/skier_visual.gd",
+    "scripts/presentation/snow_response.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only recording reads changed; solver, input sampling and 120 Hz cadence are untouched."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "No terrain, generation, placement, rendering, density or LOD edits."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Typed access reads the same three simulation fields. All physical/input/pose samples and timestamps match in three paired 1800-tick recordings and complete compact-fixture replay bytes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No schema, cadence, eligibility, physical state or recorded byte changes."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No schema, cadence, eligibility, physical state or recorded byte changes."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No schema, cadence, eligibility, physical state or recorded byte changes."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No schema, cadence, eligibility, physical state or recorded byte changes."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No schema, cadence, eligibility, physical state or recorded byte changes."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "FpsCritical recording-direct-fields-20260916: artifacts/recording_capture_20260916/checks.gd",
+      "result": "passed",
+      "details": "2260 checks: 1800 ticks across tuck, carve, jump, grab and pole actions; snapshot/pose/complete replay bytes identical, including five fractional finishes. No animation or rendering code changed."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical recording-direct-fields-20260916 isolated serializer; matched recording-control-20260916 and recording-direct-fields-route-20260916 route runs",
+      "result": "passed",
+      "details": "Isolated snapshot31.1942 ->24.4481us (-21.6%). Production replay_record54.3472 ->48.3461us per120Hz tick (-11.0%). Timed clean FPS82.6522 ->82.7207, frame12.09889 ->12.08887ms: no meaningful FPS gain. Candidate p9515.634/p9918.520ms. Warmup row1, clean row2, separate CPU row3; exact1800ticks/451poses each; matching settings/engine/camera/cache hits; zero unfocused frames. All three complete recorded channel comparisons exact. Initial timed control was necessary because saved91.06FPS reference is free skiing."
+    },
+    {
+      "kind": "automated",
+      "command": "Shared recording-regression-20260916 and recording-remaining-20260916 through ./godotw --headless --script",
+      "result": "passed",
+      "details": "Physics56,runtime192,race51,ghost_archive119,ghost_retry_cache37,exact_clock95,crash_replay36,performance_recording12:598 checks passed. Competitive suite51/53 passes; its two failures are separately attributed, not reported as passing."
+    },
+    {
+      "kind": "automated",
+      "command": "Original replay source control: tests/competitive_suite.gd via recording-remaining-20260916",
+      "result": "passed",
+      "details": "Attribution passed: original and candidate fail the same resume-clock and new-PB-message assertions. Unchanged complete recorded channel bytes support no serialization regression. Candidate restored by finally from its saved byte buffer; no broad revert."
+    },
+    {
+      "kind": "automated",
+      "command": "recording-final-check-20260916 --no-timing; scoped metadata/versioning and Git whitespace checks",
+      "result": "passed",
+      "details": "Restored final candidate passed2260 byte-equivalence checks. Only documentation changed after route measurement. Required skills reviewed; no capture ownership, commands, format or evidence-contract changes. No source/asset/executable hash audits."
+    }
+  ],
+  "outstanding_acceptance": [
+    "No meaningful FPS gain; retained for a small independently measured CPU saving.",
+    "Timed recording remains about82.7FPS; extra completed-pose solve at30Hz is a larger open CPU target.",
+    "No new human/controller, Mac or full-descent acceptance.",
+    "Existing competitive-suite failures remain: resume aligns player and ghost interpolation clocks; faster completed run celebrates new PB with previous-best delta."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T13:47:02.675066+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "565f189d1ee20860acba505e97ff277e4dbad198",
+      "dev": 49,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 13120,
+        "mtime_ns": 1789566422193431400
+      },
+      "docs/RACING.md": {
+        "size": 19943,
+        "mtime_ns": 1789347946424245500
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789512657279656900
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/presentation/skier_visual.gd": {
+        "size": 19776,
+        "mtime_ns": 1789288522983419900
+      },
+      "scripts/presentation/snow_response.gd": {
+        "size": 12608,
+        "mtime_ns": 1789548601507403500
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18224,
+        "mtime_ns": 1789566331946877700
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      }
+    }
+  }
+}

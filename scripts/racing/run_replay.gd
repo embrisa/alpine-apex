@@ -49,7 +49,7 @@ func begin(sim, identity: Dictionary) -> void:
 	complete = false
 	overflow = false
 
-static func snapshot(time: float, sim) -> PackedFloat32Array:
+static func snapshot(time: float, sim: SkiSimulation) -> PackedFloat32Array:
 	var facing = sim.facing_pose
 	var ready: bool = facing.initialized and facing.positions.size()==2
 	var turn = Basis(Vector3.UP,PI) if sim.facing_backward else Basis.IDENTITY
@@ -70,7 +70,7 @@ static func snapshot(time: float, sim) -> PackedFloat32Array:
 		var q: Quaternion = frame.get_rotation_quaternion().normalized()
 		result.append_array([q.x,q.y,q.z,q.w])
 	result.append(sim.facing_heading)
-	result.append_array([sim.get("pole_push_phase") if "pole_push_phase" in sim else 0.0,sim.get("pole_push_intensity") if "pole_push_intensity" in sim else 0.0,sim.get("pole_push_power") if "pole_push_power" in sim else 0.0])
+	result.append_array([sim.pole_push_phase,sim.pole_push_intensity,sim.pole_push_power])
 	return PackedFloat32Array(result)
 
 func record(dt: float, end_time: float, sim, intent, last_fraction: float = -1.0) -> void:
