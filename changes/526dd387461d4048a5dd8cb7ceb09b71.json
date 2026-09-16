@@ -1,0 +1,245 @@
+{
+ "schema": 1,
+ "id": "526dd387461d4048a5dd8cb7ceb09b71",
+ "summary": "Attribute the Metal frame floor on macOS: Metal-specific powder patch subdivisions, exact powder mesh disc trim and early ski-track discard, with a repeatable focused frame probe",
+ "categories": [
+  "Presentation"
+ ],
+ "areas": [
+  "macOS Metal frame-floor attribution",
+  "Local powder patch geometry on Metal",
+  "Ski track shader",
+  "Mac frame probe tooling",
+  "Performance documentation and backlog record"
+ ],
+ "owned_paths": [
+  "assets/graphics/ski_track.gdshader",
+  "backlog/tasks/AA-20260916-181500-reduce-mac-metal-frame-floor.md",
+  "docs/MAC_PERFORMANCE_BASELINE.json",
+  "docs/PERFORMANCE_HANDOFF.md",
+  "docs/RENDERING.md",
+  "scripts/mac_frame_probe.sh",
+  "scripts/presentation/powder_surface.gd",
+  "tests/mac_frame_probe.gd"
+ ],
+ "read_paths": [
+  "AGENTS.md",
+  "assets/graphics/alpine_surface_fragment.gdshaderinc",
+  "assets/graphics/powder_compute.gd",
+  "assets/graphics/powder_surface.gdshader",
+  "assets/graphics/powder_surface.gdshaderinc",
+  "scripts/presentation/graphics_presets.gd",
+  "scripts/presentation/pc_graphics_settings.gd",
+  "tests/carving_raised_ski_tracks_gpu_suite.gd",
+  "tests/powder_upload_suite.gd",
+  "tests/powder_volume_suite.gd",
+  "tests/render_efficiency_suite.gd",
+  "tests/runtime_suite.gd",
+  "tests/snow_response_suite.gd"
+ ],
+ "compatibility": {
+  "before": {
+   "physics": 35,
+   "world": 15,
+   "replay": 7,
+   "race": 6,
+   "archive": 4,
+   "mountain_file": 2,
+   "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+   "tick_hz": 120
+  },
+  "after": {
+   "physics": 35,
+   "world": 15,
+   "replay": 7,
+   "race": 6,
+   "archive": 4,
+   "mountain_file": 2,
+   "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+   "tick_hz": 120
+  },
+  "decisions": {},
+  "data": {
+   "mountains": {
+    "effect": "preserved",
+    "reason": "Presentation-only geometry and shader changes: the powder mesh disc trim and ski-track early discard are pixel-exact by construction (fragments were always discarded); the Metal-only 128 subdivision count changes powder relief resolution on macOS only. No simulation, generator, format or Windows rendering change."
+   },
+   "races": {
+    "effect": "preserved",
+    "reason": "Presentation-only geometry and shader changes: the powder mesh disc trim and ski-track early discard are pixel-exact by construction (fragments were always discarded); the Metal-only 128 subdivision count changes powder relief resolution on macOS only. No simulation, generator, format or Windows rendering change."
+   },
+   "records": {
+    "effect": "preserved",
+    "reason": "Presentation-only geometry and shader changes: the powder mesh disc trim and ski-track early discard are pixel-exact by construction (fragments were always discarded); the Metal-only 128 subdivision count changes powder relief resolution on macOS only. No simulation, generator, format or Windows rendering change."
+   },
+   "ghosts": {
+    "effect": "preserved",
+    "reason": "Presentation-only geometry and shader changes: the powder mesh disc trim and ski-track early discard are pixel-exact by construction (fragments were always discarded); the Metal-only 128 subdivision count changes powder relief resolution on macOS only. No simulation, generator, format or Windows rendering change."
+   },
+   "caches": {
+    "effect": "preserved",
+    "reason": "Presentation-only geometry and shader changes: the powder mesh disc trim and ski-track early discard are pixel-exact by construction (fragments were always discarded); the Metal-only 128 subdivision count changes powder relief resolution on macOS only. No simulation, generator, format or Windows rendering change."
+   }
+  }
+ },
+ "checks": [
+  {
+   "kind": "performance",
+   "command": "scripts/mac_frame_probe.sh LABEL --probe-seconds=20 [--probe-set=...] (focused fullscreen, Apple M4, Metal, Auto = bilinear 0.75 + MSAA 2x)",
+   "result": "passed",
+   "details": "Reference 26.3-27.5 ms over five runs; deformation off -4.0 ms twice; patch draw hidden -5.0; compute dispatch skipped -0.1; shadow casting off -0.2 (two runs); disc trim -0.2 (two runs, -94k primitives); 128 subdivisions -1.6; 64 subdivisions -2.5; final delivered configuration 24.7 ms / 40.4 FPS. Rows in docs/MAC_PERFORMANCE_BASELINE.json frame_floor_matrix_20260916; raw JSON under artifacts/mac_probe."
+  },
+  {
+   "kind": "automated",
+   "command": "./godotw --headless --script tests/powder_support_cache_suite.gd; snow_response_suite.gd; render_efficiency_suite.gd; runtime_suite.gd; macos_compatibility_suite.gd",
+   "result": "passed",
+   "details": "Support cache 24 checks, snow response all PASS, render efficiency 361 checks, runtime 192 checks, macOS compatibility 9 checks. Logs under artifacts/mac_floor_20260916/suites."
+  },
+  {
+   "kind": "automated",
+   "command": "open -n -W -a Godot.app --args --path <repo> --script tests/powder_upload_suite.gd; tests/carving_raised_ski_tracks_gpu_suite.gd (native RenderingDevice required)",
+   "result": "passed",
+   "details": "Powder upload 13 GPU checks (12 byte-exact uploads and world-side lip), carving track GPU 7 checks. tests/powder_volume_suite.gd not run: it regenerates legacy v8/v9 mountains under the full-mountain policy and hangs on its null field without those flags (pre-existing)."
+  },
+  {
+   "kind": "human",
+   "command": "Rendered look of the 25 cm Metal powder relief (artifacts/mac_probe/final_metal_powder.png, downscaled copy under artifacts/mac_floor_20260916)",
+   "result": "pending",
+   "details": "Metal-only visual change; Windows keeps 12.5 cm. Disc trim and ski-track discard are pixel-exact by construction."
+  },
+  {
+   "kind": "automated",
+   "command": "python3 scripts/backlog.py validate",
+   "result": "passed",
+   "details": "Task AA-20260916-181500 completion record updated; status stays ready for the remaining fill attribution."
+  }
+ ],
+ "outstanding_acceptance": [
+  "The user's look at the 25 cm Metal powder relief (capture artifacts/mac_probe/final_metal_powder.png) is pending; Windows keeps 256 subdivisions.",
+  "Frame-floor numbers are single 20 s runs with about +/-1.5 ms noise on one M4; only the powder deltas were repeated.",
+  "Remaining Metal floor (about 2.5 ms powder fill plus terrain/forest fill) is unattributed without Xcode Metal capture; task AA-20260916-181500 stays ready."
+ ],
+ "evidence": {
+  "captured_utc": "2026-09-16T17:34:36.994458+00:00",
+  "verification": "metadata",
+  "build": {
+   "commit": "2129c45e2880dee73f05312493decc66643baf53",
+   "dev": 60,
+   "modified": true
+  },
+  "inputs": {
+   "AGENTS.md": {
+    "size": 7832,
+    "mtime_ns": 1789544258451225404
+   },
+   "assets/graphics/alpine_surface_fragment.gdshaderinc": {
+    "size": 8305,
+    "mtime_ns": 1789577978867660001
+   },
+   "assets/graphics/powder_compute.gd": {
+    "size": 4803,
+    "mtime_ns": 1789511896995806818
+   },
+   "assets/graphics/powder_surface.gdshader": {
+    "size": 2771,
+    "mtime_ns": 1789511896995948488
+   },
+   "assets/graphics/powder_surface.gdshaderinc": {
+    "size": 3412,
+    "mtime_ns": 1789511896996206243
+   },
+   "assets/graphics/ski_track.gdshader": {
+    "size": 5762,
+    "mtime_ns": 1789578078699561953
+   },
+   "backlog/tasks/AA-20260916-181500-reduce-mac-metal-frame-floor.md": {
+    "size": 7805,
+    "mtime_ns": 1789578473690181368
+   },
+   "config/ski_default.tres": {
+    "size": 2471,
+    "mtime_ns": 1789511897079599024
+   },
+   "docs/MAC_PERFORMANCE_BASELINE.json": {
+    "size": 28239,
+    "mtime_ns": 1789578431743197407
+   },
+   "docs/PERFORMANCE_HANDOFF.md": {
+    "size": 30443,
+    "mtime_ns": 1789578473689802200
+   },
+   "docs/RENDERING.md": {
+    "size": 42513,
+    "mtime_ns": 1789578431743827700
+   },
+   "project.godot": {
+    "size": 1601,
+    "mtime_ns": 1789546451377313344
+   },
+   "scripts/core/ski_simulation.gd": {
+    "size": 42121,
+    "mtime_ns": 1789574833688637752
+   },
+   "scripts/mac_frame_probe.sh": {
+    "size": 948,
+    "mtime_ns": 1789576734770612960
+   },
+   "scripts/presentation/graphics_presets.gd": {
+    "size": 5553,
+    "mtime_ns": 1789571709089690020
+   },
+   "scripts/presentation/pc_graphics_settings.gd": {
+    "size": 8460,
+    "mtime_ns": 1789576560267629664
+   },
+   "scripts/presentation/powder_surface.gd": {
+    "size": 18288,
+    "mtime_ns": 1789578410874026270
+   },
+   "scripts/racing/competitive_record.gd": {
+    "size": 14757,
+    "mtime_ns": 1789511897136445444
+   },
+   "scripts/racing/race_definition.gd": {
+    "size": 12419,
+    "mtime_ns": 1789511897137033497
+   },
+   "scripts/racing/run_replay.gd": {
+    "size": 18224,
+    "mtime_ns": 1789567082555118195
+   },
+   "scripts/world/mountain_definition.gd": {
+    "size": 6782,
+    "mtime_ns": 1789511897156512884
+   },
+   "tests/carving_raised_ski_tracks_gpu_suite.gd": {
+    "size": 4394,
+    "mtime_ns": 1789511897167909735
+   },
+   "tests/mac_frame_probe.gd": {
+    "size": 5779,
+    "mtime_ns": 1789576734767820298
+   },
+   "tests/powder_upload_suite.gd": {
+    "size": 6010,
+    "mtime_ns": 1789511897206877175
+   },
+   "tests/powder_volume_suite.gd": {
+    "size": 6237,
+    "mtime_ns": 1789511897207151848
+   },
+   "tests/render_efficiency_suite.gd": {
+    "size": 9859,
+    "mtime_ns": 1789511897208473207
+   },
+   "tests/runtime_suite.gd": {
+    "size": 41041,
+    "mtime_ns": 1789511897211065425
+   },
+   "tests/snow_response_suite.gd": {
+    "size": 4619,
+    "mtime_ns": 1789511897222167562
+   }
+  }
+ }
+}

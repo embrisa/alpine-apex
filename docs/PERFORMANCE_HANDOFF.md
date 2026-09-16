@@ -371,6 +371,23 @@ sustained target performance remain open. Compact integration evidence:
 
 ## Mac and next experiments
 
+Mac frame-floor attribution (Fable, `tests/mac_frame_probe.gd` via
+`scripts/mac_frame_probe.sh`, Auto = bilinear 0.75 + MSAA 2x, 20 s runs, noise
+about +/-1.5 ms): reference 26.3-27.5 ms. The local powder patch is the only
+robust single-feature cost: deformation off -4.0 ms twice, patch draw hidden
+-5.0 ms; its atlas compute costs nothing, trimming 17 percent of its triangles
+or its shadow pass nothing, 128 subdivisions -1.6 ms and 64 -2.5 ms, so the
+tile-based GPU pays for micro-triangles and the rest is fill. Glow and shafts
+read -2 ms alone but 0 together; MSAA, cloud shadows, weather, snow detail,
+normals, shadows and the backdrop are inside noise. Delivered on branch
+`fable/mac-metal-frame-floor`: Metal uses 128 powder subdivisions, the powder
+mesh omits quads outside the handover disc (exact), and fully faded ski-track
+fragments discard early. Rows: [MAC_PERFORMANCE_BASELINE.json](MAC_PERFORMANCE_BASELINE.json)
+`frame_floor_matrix_20260916`. One probe run crashed in the new grass worker
+path (`stand_density` reached from `terrain_grass.gd` `run` with a
+`propagate_notification` cross-thread error, then signal 11); log retained
+locally under `artifacts/mac_floor_20260916/`.
+
 The shipped native skier library is Windows x64 only. Mac uses the existing
 GDScript implementation; it does not receive the native CPU savings yet. A Mac
 port needs a native build and paired numerical/gameplay checks. Record one Mac

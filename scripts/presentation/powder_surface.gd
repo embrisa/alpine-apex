@@ -4,7 +4,13 @@ extends Node3D
 const EXTENT_M = 32.0
 const RESOLUTION = 1024
 const IMPRINT_RESOLUTION = 256 # filtered relief spans multiple mesh vertices
-const SUBDIVISIONS = 256
+# 12.5 cm spacing on desktop GPUs. Apple's tile-based Metal GPUs pay heavily for
+# the resulting micro-triangles (M4: 26.5 -> 24.9 ms per frame at 128, 24.0 at
+# 64, with the whole patch hidden 21.5), so Metal uses 25 cm spacing.
+static var SUBDIVISIONS: int = mesh_subdivisions(RenderingServer.get_current_rendering_driver_name())
+
+static func mesh_subdivisions(driver: String) -> int:
+	return 128 if driver=="metal" else 256
 const SUPPORT_SIZE = 9 # 32 m / authoritative 4 m grid + both end vertices
 const SUPPORT_BYTES = SUPPORT_SIZE*SUPPORT_SIZE*16
 const FULL_RADIUS_M = 8.0
@@ -144,8 +150,17 @@ static func _mesh() -> ArrayMesh:
 		for x in range(SUBDIVISIONS+1):
 			vertices.append(Vector3(float(x)/SUBDIVISIONS-.5,0,float(z)/SUBDIVISIONS-.5)*EXTENT_M)
 			normals.append(Vector3.UP)
+	# Terrain hands over only the 13.5 m disc around the visual centre, which sits
+	# at most half a 4 m cell diagonal (2.83 m) from this storage-centred mesh.
+	# Quads entirely outside that reach are always discarded by the fragment
+	# ownership test, so they are not generated: fewer vertex evaluations, same image.
+	var reach = COVER_RADIUS_M+4.0*sqrt(2.0)*.5+.1 # authoritative 4 m support cell
+	var cell = EXTENT_M/SUBDIVISIONS
 	for z in SUBDIVISIONS:
 		for x in SUBDIVISIONS:
+			var near_x = minf(absf((x+0.0)*cell-EXTENT_M*.5),absf((x+1.0)*cell-EXTENT_M*.5)) if not (x*cell<=EXTENT_M*.5 and (x+1)*cell>=EXTENT_M*.5) else 0.0
+			var near_z = minf(absf((z+0.0)*cell-EXTENT_M*.5),absf((z+1.0)*cell-EXTENT_M*.5)) if not (z*cell<=EXTENT_M*.5 and (z+1)*cell>=EXTENT_M*.5) else 0.0
+			if near_x*near_x+near_z*near_z>reach*reach: continue
 			var a = z*(SUBDIVISIONS+1)+x
 			indices.append_array(PackedInt32Array([a,a+1,a+SUBDIVISIONS+1,a+1,a+SUBDIVISIONS+2,a+SUBDIVISIONS+1]))
 	var arrays = []
