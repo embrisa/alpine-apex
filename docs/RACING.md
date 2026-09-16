@@ -149,7 +149,10 @@ without changing format 7, authoritative inputs or race timing.
 
 `presentation/ghost_pose.gd` also captures the final root, 24 local bone poses,
 both skis, both poles and evaluated per-ski track data after production fitting.
-Every physical sample needs its matching production pose. Playback interpolates
+Every physical sample needs a presentation record at the same timestamp. Routine
+records may reuse the recent displayed local rig at the exact current root under
+[Animation's bounded reuse contract](ANIMATION.md#recorded-ghost-presentation).
+The live rider and exact race boundaries remain unchanged. Playback interpolates
 those records through the existing final writer without running skiing or
 resampling action clips. Missing/incompatible poses are rejected without migration.
 Inactive tick kinds and closed crash intervals share session time; the decoder

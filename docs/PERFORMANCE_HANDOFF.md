@@ -37,7 +37,41 @@ Snapshot for Fable's next experiments. Current contracts and commands remain in
 
 ## Windows measurements to reuse
 
-### Ghost recording cadence, 16 September (current timed reference)
+### Reuse displayed ghost rigs, 16 September (current source)
+
+Routine 20 Hz ghost records now reuse a recent displayed local rig at the current
+recorded root. The live rider stays unchanged; ghost limbs may lag by up to 25 ms.
+Stale/invalid poses, support/facing changes and explicit race boundaries get fresh
+solves. Boots/grips remained connected in seven-action rendered checks; fast pole
+motion showed the largest phase difference. The user accepted coarser ghost motion.
+2,158 review checks and 722 regressions passed. Human continuous motion review
+remains separate. [Animation](ANIMATION.md#recorded-ghost-presentation) owns the contract.
+
+Separate route profiling reduced ghost-capture mean **1.077 -> 0.452 ms/sample**
+(-58.0%, 300 samples); pose-hierarchy calls fell from one per frame plus captures
+to one per frame plus the initial pose. The implied saving is about 12.5 ms CPU
+per second at 20 Hz, not per rendered frame. The first clean candidate was only
+**101.34 FPS / 9.867 ms** versus the saved 109.81 average. One same-process check
+therefore forced fresh poses for the control: **107.42 -> 109.22 FPS (+1.7%)**,
+**9.309 -> 9.156 ms**, GPU **7.599 -> 7.536 ms**; p95 **12.908 -> 12.509 ms**,
+p99 **15.190 -> 15.356 ms**. Both used the same 4K High/Auto75%/FG-off scene,
+ordinary input, focus and 20 Hz recording. Cache invalidation adds one trivial
+assignment per physics tick to the control. No further timing matrix was run.
+
+Keep this verified CPU saving under the user's small-gain policy; the pair does
+not establish a sustained FPS gain or improved p99. Preserve both valid clean
+candidate samples (101.34 and 109.22 FPS), not only the faster one. The provisional
+current-source reference and its wide range are in
+`artifacts/ghost_pose_reuse_20260916/reusable_timed_baseline.json`; small deltas
+inside that range are inconclusive. The Dev61 mean below is historical now.
+Trace regeneration after Fable's body-cache merge matched 1,800 paired simulation
+states and all 15 prior checkpoints, with unchanged inputs/camera. New compatible
+trace: `artifacts/ghost_pose_reuse_20260916/forest.json`. Compact review/receipts:
+`artifacts/ghost_pose_reuse_20260916/` and the `ghost-pose-reuse-{current,pair}`
+folders under `artifacts/pc_environment/`. The initial stale-trace attempt stopped
+before loading; its timings are not acceptance evidence.
+
+### Ghost recording cadence, 16 September (Dev61 historical reference)
 
 Routine completed-pose recording now runs at 20 Hz; 120 Hz inputs, the live rider,
 exact race clock and explicit finish/crash/recovery boundaries retain their owners.

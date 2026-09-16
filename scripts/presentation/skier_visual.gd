@@ -27,8 +27,13 @@ var rendered_rotations: Dictionary = {}
 var motion_comparison: CheckButton
 var pose_microseconds = 0
 var leg_fit_microseconds = 0
+var pose_tick = -1
+var pose_fraction = 1.0
+var pose_grounded = false
+var pose_backward = false
 
 func reset_animation(sim) -> void:
+	pose_tick = -1
 	animation.reset(sim)
 
 func step_animation(dt: float, sim, intent, surface) -> void:
@@ -285,6 +290,10 @@ func pose(sim, fraction: float = 1.0, preview: Dictionary = {}) -> void:
 		var toe = prefix+"ToeBase"
 		rendered_joints[toe] = desired[bone_ids[toe]].origin
 	pose_microseconds = Time.get_ticks_usec()-pose_start
+	pose_tick = sim.ticks if preview.is_empty() else -1
+	pose_fraction = blend
+	pose_grounded = sim.grounded
+	pose_backward = sim.facing_backward
 
 func present_authored(joints: Dictionary, rotations: Dictionary) -> void:
 	# Authored-pose diagnostics use the same bind conversion/final writer.

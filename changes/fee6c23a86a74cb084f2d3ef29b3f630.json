@@ -1,0 +1,222 @@
+{
+  "schema": 1,
+  "id": "fee6c23a86a74cb084f2d3ef29b3f630",
+  "summary": "Reuse recent displayed rigs for routine ghost recording with bounded pose age",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Routine ghost capture",
+    "Displayed-pose reuse"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-animation/references/rig-and-actions.md",
+    "docs/ANIMATION.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RACING.md",
+    "scripts/main.gd",
+    "scripts/presentation/ghost_pose.gd",
+    "scripts/presentation/skier_visual.gd",
+    "tests/ghost_capture_reuse_suite.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "scripts/core/run_session.gd",
+    "scripts/presentation/skier_pose_writer.gd",
+    "scripts/presentation/snow_response.gd",
+    "scripts/racing/run_replay.gd",
+    "tests/crash_replay_suite.gd",
+    "tests/exact_clock_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Solver/input channels and exact initial, finish, crash and recovery boundaries are unchanged; only routine ghost limb pose may lag the recorded root by at most 25 ms."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Same timestamped format 7; routine recorded rig quality changes within existing fields."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No schema, compatibility key or authoritative input change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No schema, compatibility key or authoritative input change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No schema, compatibility key or authoritative input change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No schema, compatibility key or authoritative input change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No schema, compatibility key or authoritative input change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "scripts/test_pc_environment.ps1 -Suites ghost_capture_reuse_suite,physics_suite,runtime_suite,ghost_archive_suite,exact_clock_suite,crash_replay_suite -OutputDirectory artifacts/ghost_pose_reuse_20260916/regression_fixed",
+      "result": "passed",
+      "details": "722 checks passed (224, 56, 192, 119, 95, 36). Initial attachment test used incorrect bind axes; corrected the harness to the maintained ghost attachment calculation, then the complete batch passed. Production reuse retains current roots and coherent local rig, fresh fallback, reset invalidation and unchanged displayed rider."
+    },
+    {
+      "kind": "automated",
+      "command": "Guarded artifacts/ghost_pose_reuse_20260916/refresh_trace.gd and matched route recording comparison",
+      "result": "passed",
+      "details": "After Dev62 changed the body source, the runtime rejected the prior trace before loading. Regeneration matched 1800 paired simulation states and all 15 prior checkpoints with unchanged inputs/camera. Clean routes retained all 301 exact physical/root samples. Runtime compatibility checks were preserved; no manual hash audits."
+    },
+    {
+      "kind": "rendered",
+      "command": "Shared native artifacts/ghost_pose_reuse_20260916/review.gd; seven action old/candidate images",
+      "result": "passed",
+      "details": "2158 review checks passed, 1253 playback observations across regular, tuck, left/right carve, jump, grab and pole. Exact roots, timestamps, physical samples, input kinds and fractional finish; boots/grips connected. Inspected paired pole, grab and carve images plus jump/tuck. Up to 25 ms phase shift is visible in fast pole motion; max pole-tip difference 0.865 m reflects motion phase. Initial root quaternion byte mismatch was fixed by using the original interpolation operation and the review passed on rerun. Continuous human motion review remains separate."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical ghost-pose-reuse-current-20260916 and justified same-process ghost-pose-reuse-pair-20260916; 15-second warmed native timed dense route, separate CPU profile",
+      "result": "passed",
+      "details": "Ghost capture 1077.29 to 452.053 us/sample (-58.0%, 300 calls), about 12.5 ms CPU/second at 20 Hz. Initial clean candidate 101.343 FPS vs historical 109.812 FPS prompted one same-process pair: forced fresh control 107.419 FPS / 9.3093 ms to reuse 109.221 FPS / 9.1557 ms (+1.68% sampled FPS). GPU 7.599 to 7.536 ms; p95 12.908 to 12.509 ms; p99 15.190 to 15.356 ms. Retain verified CPU saving under user acceptance; no sustained FPS or p99 improvement claim. Both clean candidate samples retained in provisional reference (105.135 FPS mean-frame equivalent). 4K High, Auto 75%, FG off; focus loss zero; no captures in timing rows."
+    },
+    {
+      "kind": "human",
+      "command": "Continuous ghost motion/controller review on varied terrain",
+      "result": "pending",
+      "details": "User explicitly accepts coarser animation for other ghosts/people. Seven-action rendered and attachment checks passed; continuous human motion and full-route 90-120 FPS acceptance remain open."
+    },
+    {
+      "kind": "automated",
+      "command": "git diff --check; source and guide/skill link review; versioning metadata-only scope checks",
+      "result": "passed",
+      "details": "Only owned paths staged. Final post-runtime edits affect documentation and evidence; tested runtime/test inputs unchanged. Restored original line endings on unchanged guide lines to avoid unrelated churn."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Continuous human review of ghost motion on varied terrain remains pending; recorded limb pose may be up to 25 ms older than its exact root.",
+    "Short paired FPS improvement is variable, p99 did not improve, and sustained full-route 90-120 FPS remains unproven."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T17:20:11.047782+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "7e14b30926c78f3f77eff296f7527d0411cbd1f7",
+      "dev": 62,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-animation/references/rig-and-actions.md": {
+        "size": 2453,
+        "mtime_ns": 1789579210534414900
+      },
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ANIMATION.md": {
+        "size": 25318,
+        "mtime_ns": 1789579210423117700
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 35004,
+        "mtime_ns": 1789579210497896900
+      },
+      "docs/RACING.md": {
+        "size": 20407,
+        "mtime_ns": 1789579210459950900
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/run_session.gd": {
+        "size": 10855,
+        "mtime_ns": 1789209670580243800
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/main.gd": {
+        "size": 87375,
+        "mtime_ns": 1789577940845098700
+      },
+      "scripts/presentation/ghost_pose.gd": {
+        "size": 7405,
+        "mtime_ns": 1789578100683237000
+      },
+      "scripts/presentation/skier_pose_writer.gd": {
+        "size": 688,
+        "mtime_ns": 1788915167172532900
+      },
+      "scripts/presentation/skier_visual.gd": {
+        "size": 18492,
+        "mtime_ns": 1789577940844094500
+      },
+      "scripts/presentation/snow_response.gd": {
+        "size": 12608,
+        "mtime_ns": 1789548601507403500
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789576668695286100
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/crash_replay_suite.gd": {
+        "size": 7951,
+        "mtime_ns": 1789207999428929300
+      },
+      "tests/exact_clock_suite.gd": {
+        "size": 20798,
+        "mtime_ns": 1789216227756135100
+      },
+      "tests/ghost_capture_reuse_suite.gd": {
+        "size": 3694,
+        "mtime_ns": 1789578321579717800
+      }
+    }
+  }
+}

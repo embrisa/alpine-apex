@@ -120,10 +120,20 @@ Editable source/provenance is in [Assets](ASSETS.md#skier-and-animation-sources)
 cadence described in [Racing](RACING.md#recording-and-ghosts), plus exact
 initial/finish/crash/recovery boundaries. It records 24 named
 local bone transforms, root, both skis/poles and final accepted track data.
-Capture follows `SkierVisual.pose`, including current authored/procedural blend,
-pole pushing, grabs and fitting. This extra completed-pose evaluation neither
-advances animation nor steps skiing; Main restores normal render interpolation
-for the visible rider afterward.
+Routine capture reuses a recent completed `SkierVisual.pose`, including fitting,
+without modifying the live rider. `GhostPose.capture_completed` records that local
+rig at the exact current root; limb motion may be up to 25 ms old. The pose cache
+records its fixed tick, interpolation fraction, grounded state and facing mode.
+An unavailable, stale/future, authored-preview or support/facing-mismatched pose
+gets a fresh solve. Reset invalidates reuse. Initial/final/crash/recovery boundaries
+also retain fresh poses, including fractional finishes. The solver and live-rider
+render interpolation keep their existing cadence. Per-ski track eligibility uses
+current physical support and the rebased equipment footprint.
+
+`tests/ghost_capture_reuse_suite.gd` checks unchanged visible state, connected
+boots/grips, root placement and fresh-pose fallback. Separately review fast pole,
+carve and grab motion when changing the age limit; numeric root equality alone
+cannot accept ghost animation quality.
 
 Playback composes local transforms hierarchically through `SkierPoseWriter`.
 Recorded equipment-to-foot/hand transforms interpolate relative to connected

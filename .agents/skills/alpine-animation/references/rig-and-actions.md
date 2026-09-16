@@ -9,6 +9,7 @@ owns editable sources and rebuilds.
 | Import/retarget | `assets/animation/steep_ski_motion.res`, source manifests | Source frame/time, parents/rest axes, rotation conventions and hashes |
 | State/blend/posture | `scripts/presentation/{skier_animation,skier_full_motion,downhill_posture}.gd` | Real solver events and final pose |
 | Limits/support/equipment | `scripts/presentation/{skier_anatomy,skier_visual,skier_equipment}.gd` | Requested/final joints, local rotations, cuff/grip error and clothing clearance |
+| Ghost recording | `scripts/presentation/ghost_pose.gd`, Main capture, `tests/ghost_capture_reuse_suite.gd` | Follow [recorded ghost presentation](../../../../docs/ANIMATION.md#recorded-ghost-presentation): exact roots/boundaries, bounded limb age, live-rider isolation and attachments |
 | Mesh/weight/rest/socket | `assets/graphics/models/skier_v7.glb` | Rest/skin compatibility, rig identity, attachment and rendered checks |
 
 Trace `step`, `compose`, `Downhill.apply`, `Anatomy.local_limit`, `fit_hinge`,

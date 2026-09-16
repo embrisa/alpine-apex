@@ -1155,12 +1155,12 @@ func open_competition() -> void:
 
 func _capture_ghost_pose(fraction: float = 1.0) -> void:
 	if not session.recording or not session.recording.wants_presentation_sample(): return
-	# Completed ghost samples plus exact endpoints, independent of render cadence.
-	# Read only the production writer after the fixed animation step. No extra
-	# simulation or animation step; render restores its ordinary interpolation.
+	# Routine ghosts may reuse a recent displayed rig at the exact current root.
+	# Initial/final boundaries keep a fresh completed pose; the live rider still
+	# uses its normal render interpolation and never reads this approximation.
 	var started = frame_costs.begin()
-	skier.pose(sim,fraction)
-	session.capture_presentation(GhostPose.capture(skier,sim,field))
+	var reuse = session.recording.ticks>0 and not session.recording.complete
+	session.capture_presentation(GhostPose.capture_completed(skier,sim,field,fraction,reuse))
 	frame_costs.end(&"ghost_capture",started)
 
 func _choose_ghosts(mode: String, ids: Array) -> void:

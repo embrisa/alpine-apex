@@ -8,19 +8,31 @@ const WIDTH = CONTACT_START+2*CONTACT_WIDTH+1 # physical ski length
 const Response = preload("res://scripts/presentation/snow_response.gd")
 const Writer = preload("res://scripts/presentation/skier_pose_writer.gd")
 
-static func capture(visual, sim, field) -> PackedFloat32Array:
+static func capture_completed(visual, sim, field, fraction: float = 1.0, reuse_recent: bool = true) -> PackedFloat32Array:
+	# Keep the displayed rider untouched. Only ghost limb motion may lag by up
+	# to three fixed ticks; root position follows this exact recording sample.
+	var age: float = sim.ticks-visual.pose_tick+1.0-visual.pose_fraction
+	var reuse: bool = reuse_recent and fraction==1.0 and not sim.crashed and visual.pose_tick>=0 and age>=0.0 and age<=3.0 and visual.pose_grounded==sim.grounded and visual.pose_backward==sim.facing_backward
+	if not reuse: visual.pose(sim,fraction)
+	return capture(visual,sim,field,reuse)
+
+static func capture(visual, sim, field, rebase_root: bool = false) -> PackedFloat32Array:
 	var data = PackedFloat32Array()
-	append_transform(data,visual.global_transform)
+	var source_root: Transform3D = visual.global_transform
+	var recorded_root: Transform3D = sim.facing_pose.previous_frame.interpolate_with(sim.facing_pose.frame,1.0) if rebase_root else source_root
+	var inverse_root = source_root.affine_inverse()
+	append_transform(data,recorded_root)
 	for name_value in BONES:
 		var index: int = visual.skeleton.find_bone(name_value)
 		if index<0: return PackedFloat32Array()
 		append_transform(data,visual.skeleton.get_bone_pose(index))
-	for node in visual.skis: append_transform(data,visual.global_transform.affine_inverse()*node.global_transform)
-	for node in visual.poles: append_transform(data,visual.global_transform.affine_inverse()*node.global_transform)
+	for node in visual.skis: append_transform(data,inverse_root*node.global_transform)
+	for node in visual.poles: append_transform(data,inverse_root*node.global_transform)
 	for i in 2:
 		var response = Response.new()
 		response.sample(sim,sim.skis[1-i if sim.facing_backward else i],field)
 		var equipment: Transform3D = visual.skis[i].global_transform
+		if rebase_root: equipment = recorded_root*(inverse_root*equipment)
 		response.contact_position = equipment.origin
 		response.contact_forward = equipment.basis.z.normalized()
 		# New carving owner may refine the accepted final footprint. Its recorded
