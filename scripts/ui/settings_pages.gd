@@ -1,4 +1,5 @@
 extends RefCounted
+const Settings = preload("res://scripts/presentation/pc_graphics_settings.gd")
 const Presets = preload("res://scripts/presentation/graphics_presets.gd")
 const Shell = preload("res://scripts/ui/screen_shell.gd")
 const Prompts = preload("res://scripts/ui/controller_prompts.gd")
@@ -112,8 +113,8 @@ func _graphics(col: Control) -> void:
 	)
 	col.add_child(reapply)
 	var rendering = Shell.group(col,"Rendering & reconstruction",hud)
-	hud._display_option(rendering,"upscaler",["Auto · best supported","FSR 4.1","FSR 3.1","FSR 2","Native"],["auto","fsr4","fsr3","fsr2","native"])
-	_slider(rendering,"render_scale","Internal resolution (%)",2.0/3.0,1.0,.01,100.0)
+	hud._display_option(rendering,"upscaler",["Auto · best supported","FSR 4.1","FSR 3.1","FSR 2","Native","Bilinear · spatial"],["auto","fsr4","fsr3","fsr2","native","bilinear"])
+	_slider(rendering,"render_scale","Internal resolution (%)",Settings.MIN_RENDER_SCALE,1.0,.01,100.0)
 	hud.display_controls.render_scale = graphics_controls.render_scale
 	_slider(rendering,"sharpness","Sharpening strength (0 Off / 1 Full)",0.0,1.0,.005)
 	hud._display_option(rendering,"msaa",["MSAA off","MSAA 2×","MSAA 4×","MSAA 8×"],[0,1,2,3])
@@ -218,8 +219,8 @@ func sync(settings) -> void:
 		else:
 			control.set_value_no_signal(value)
 			control.get_meta("readout").text = str(snappedf(value*control.get_meta("multiplier"),.001 if key=="sharpness" else .01))
-	graphics_controls.render_scale.editable = settings.upscaler!="native"
-	var temporal: bool = settings.upscaler!="native" or (settings.frame_generation and settings.has_native_fsr())
+	graphics_controls.render_scale.editable = settings.effective_upscaler()!="native"
+	var temporal: bool = settings.is_temporal()
 	graphics_controls.sharpness.editable = temporal
 	hud.display_controls.msaa.disabled = temporal
 

@@ -8,7 +8,9 @@ const PATH = "user://graphics_v2.cfg"
 const DEFAULT_SHARPNESS = .825 # Preserves the established viewport value .35.
 const GRAPHICS_KEYS = ["quality","upscaler","frame_generation","render_scale","terrain_gi","sharpness","msaa","anisotropic","overrides","custom"]
 const KEYS = GRAPHICS_KEYS + Output.KEYS
-const UPSCALERS = ["auto", "fsr4", "fsr3", "fsr2", "native"]
+const UPSCALERS = ["auto", "fsr4", "fsr3", "fsr2", "native", "bilinear"]
+const SPATIAL_UPSCALERS = ["native", "bilinear"] # No temporal reconstruction pass.
+const MIN_RENDER_SCALE = 0.5
 var display = Output.new()
 var quality: int = 7
 var upscaler: String = "auto"
@@ -48,7 +50,7 @@ func restore(values: Dictionary) -> void:
 	quality = clampi(quality,1,10)
 	if upscaler not in UPSCALERS: upscaler = "auto"
 	if not is_finite(render_scale): render_scale = .75
-	render_scale = clampf(render_scale,2.0/3.0,1.0)
+	render_scale = clampf(render_scale,MIN_RENDER_SCALE,1.0)
 	if not is_finite(sharpness): sharpness = DEFAULT_SHARPNESS
 	sharpness = clampf(sharpness,0.0,1.0)
 	msaa = clampi(msaa,0,3)
@@ -119,13 +121,27 @@ func viewport_sharpness() -> float:
 	var strength = sharpness if is_finite(sharpness) else DEFAULT_SHARPNESS
 	return 2.0*(1.0-clampf(strength,0.0,1.0))
 
+## Auto resolves to the SDK provider on the custom DX12 engine, to FSR 2 on other
+## stock renderers, and to spatial bilinear on Metal: stock Godot's FSR 2 pass
+## measured about 15 ms per frame on an Apple M4 at 3600x2260 output (Dev 57).
+static func resolve_upscaler(requested: String, native_fsr: bool, driver: String) -> String:
+	if requested!="auto": return requested
+	if native_fsr: return "sdk"
+	return "bilinear" if driver=="metal" else "fsr2"
+
+func effective_upscaler() -> String:
+	return resolve_upscaler(upscaler,has_native_fsr(),RenderingServer.get_current_rendering_driver_name())
+
+func is_temporal() -> bool:
+	return effective_upscaler() not in SPATIAL_UPSCALERS or (frame_generation and has_native_fsr())
+
 func apply_viewport(viewport: Viewport) -> void:
 	if DisplayServer.get_name()=="headless": return
-	var temporal = upscaler!="native" or (frame_generation and has_native_fsr())
+	var temporal = is_temporal()
 	# The custom engine replaces this temporal pass with the selected SDK provider.
 	# Stock Godot retains its actual FSR2 implementation and reports that fallback.
 	viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR2 if temporal else Viewport.SCALING_3D_MODE_BILINEAR
-	viewport.scaling_3d_scale = render_scale if upscaler!="native" else 1.0
+	viewport.scaling_3d_scale = render_scale if effective_upscaler()!="native" else 1.0
 	viewport.msaa_3d = Viewport.MSAA_DISABLED if temporal else msaa
 	viewport.use_taa = false
 	viewport.fsr_sharpness = viewport_sharpness()
@@ -138,7 +154,8 @@ static func has_native_fsr() -> bool:
 
 func fsr_status() -> Dictionary:
 	if has_native_fsr(): return Engine.get_singleton("AlpineFidelityFX").get_status()
-	return {"engine_integration":false,"active_upscaler_version":"2.2" if upscaler!="native" else "",
+	var effective = effective_upscaler()
+	return {"engine_integration":false,"active_upscaler_version":"2.2" if effective=="fsr2" else "","spatial":effective in SPATIAL_UPSCALERS,
 		"frame_generation_active":false,"frame_generation_supported":false,"upscale_dispatches":0,"generated_frames":0,
 		"error":"FSR 3/4 and frame generation require the custom DirectX 12 engine."}
 

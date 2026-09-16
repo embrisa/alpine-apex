@@ -1,0 +1,272 @@
+{
+ "schema": 1,
+ "id": "9d0fd52e66734c4ba45205d0fc371565",
+ "summary": "Resolve Auto upscaling to spatial bilinear on Metal, add an explicit bilinear option and a 50 percent internal resolution floor, and record the first Mac performance baseline",
+ "categories": [
+  "Presentation"
+ ],
+ "areas": [
+  "Display and upscaling settings",
+  "macOS Metal rendering defaults",
+  "Mac performance baseline documentation",
+  "Performance backlog authoring"
+ ],
+ "owned_paths": [
+  "backlog/tasks/AA-20260916-181500-reduce-mac-metal-frame-floor.md",
+  "docs/DEVELOPMENT.md",
+  "docs/MAC_PERFORMANCE_BASELINE.json",
+  "docs/PERFORMANCE_HANDOFF.md",
+  "docs/RENDERING.md",
+  "scripts/presentation/pc_graphics_settings.gd",
+  "scripts/ui/hud.gd",
+  "scripts/ui/settings_pages.gd",
+  "tests/macos_compatibility_suite.gd",
+  "tests/pc_graphics_suite.gd"
+ ],
+ "read_paths": [
+  ".agents/skills/alpine-backlog/SKILL.md",
+  "AGENTS.md",
+  "backlog/README.md",
+  "docs/VALIDATION.md",
+  "godotw",
+  "project.godot",
+  "scripts/main.gd",
+  "scripts/presentation/display_settings.gd",
+  "scripts/presentation/graphics_presets.gd",
+  "scripts/ui/menu_navigation.gd",
+  "scripts/ui/screen_shell.gd",
+  "tests/fidelityfx_settings_suite.gd",
+  "tests/graphics_suite.gd",
+  "tests/interface_display_suite.gd",
+  "tests/interface_settings_suite.gd"
+ ],
+ "compatibility": {
+  "before": {
+   "physics": 35,
+   "world": 15,
+   "replay": 7,
+   "race": 6,
+   "archive": 4,
+   "mountain_file": 2,
+   "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+   "tick_hz": 120
+  },
+  "after": {
+   "physics": 35,
+   "world": 15,
+   "replay": 7,
+   "race": 6,
+   "archive": 4,
+   "mountain_file": 2,
+   "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+   "tick_hz": 120
+  },
+  "decisions": {},
+  "data": {
+   "mountains": {
+    "effect": "preserved",
+    "reason": "Display preferences never enter mountain recipes, physics or ranked identity; Windows Auto behaviour, presets, generator and formats are unchanged."
+   },
+   "races": {
+    "effect": "preserved",
+    "reason": "Display preferences never enter mountain recipes, physics or ranked identity; Windows Auto behaviour, presets, generator and formats are unchanged."
+   },
+   "records": {
+    "effect": "preserved",
+    "reason": "Display preferences never enter mountain recipes, physics or ranked identity; Windows Auto behaviour, presets, generator and formats are unchanged."
+   },
+   "ghosts": {
+    "effect": "preserved",
+    "reason": "Display preferences never enter mountain recipes, physics or ranked identity; Windows Auto behaviour, presets, generator and formats are unchanged."
+   },
+   "caches": {
+    "effect": "preserved",
+    "reason": "Display preferences never enter mountain recipes, physics or ranked identity; Windows Auto behaviour, presets, generator and formats are unchanged."
+   }
+  }
+ },
+ "checks": [
+  {
+   "kind": "automated",
+   "command": "./godotw --headless --script tests/macos_compatibility_suite.gd",
+   "result": "passed",
+   "details": "9 checks including Auto->bilinear on metal, FSR 2 on other stock drivers, SDK on native DX12, explicit choices authoritative, --upscaler=bilinear --render-scale=0.5 accepted. Log: artifacts/mac_upscaler_20260916/macos_compatibility_suite.log"
+  },
+  {
+   "kind": "automated",
+   "command": "./godotw --headless --script tests/fidelityfx_settings_suite.gd",
+   "result": "passed",
+   "details": "All UPSCALERS including bilinear accepted on the command line and round-trip through preferences."
+  },
+  {
+   "kind": "automated",
+   "command": "./godotw --headless --script tests/pc_graphics_suite.gd",
+   "result": "passed",
+   "details": "22 checks; render-scale floor now MIN_RENDER_SCALE (0.5); live overrides, ranked identity and reload state unchanged."
+  },
+  {
+   "kind": "automated",
+   "command": "./godotw --headless --script tests/graphics_suite.gd; earlier same-content run of interface_display_suite and interface_settings_suite (115 checks) passed before line-ending restoration",
+   "result": "passed",
+   "details": "29 checks passed. Logs under artifacts/mac_upscaler_20260916 and artifacts/mac_probe/suites."
+  },
+  {
+   "kind": "performance",
+   "command": "open -n -W -a Godot.app --args --path <repo> --script artifacts/mac_probe/probe.gd -- --probe-label=branch_auto|branch_fsr2 --probe-seconds=25 (ALPINE_FULL_MOUNTAIN=1)",
+   "result": "passed",
+   "details": "Apple M4, Metal, 3600x2260 fullscreen, standard mountain fixed tuck: branch Auto (bilinear 0.75 + MSAA 2x) 27.6 ms mean / 36.3 FPS versus explicit FSR 2 39.1 ms / 25.6 FPS on the same code; pre-branch reference FSR 2 40.0 ms, bilinear 0.75 without MSAA 24.7 ms, bilinear 0.5 18.6 ms. Rows in docs/MAC_PERFORMANCE_BASELINE.json; raw results, stack sample and stills in artifacts/mac_upscaler_20260916. Single run per configuration; Mac is not a project performance requirement."
+  },
+  {
+   "kind": "human",
+   "command": "End-of-run stills capture_branch_auto.png and capture_branch_fsr2.png (downscaled copies retained)",
+   "result": "pending",
+   "details": "Stills are not matched frames; bilinear softness versus FSR 2 on the MacBook is the user's acceptance, pending."
+  },
+  {
+   "kind": "automated",
+   "command": "python3 scripts/backlog.py validate",
+   "result": "passed",
+   "details": "New task AA-20260916-181500-reduce-mac-metal-frame-floor ready; 0 broken links."
+  }
+ ],
+ "outstanding_acceptance": [
+  "The user's visual acceptance of bilinear versus FSR 2 softness on the MacBook (matched captures retained under artifacts/mac_upscaler_20260916).",
+  "Windows behaviour is unchanged by construction (Auto still resolves to the SDK provider on the custom DX12 engine and to FSR 2 on other stock renderers); Windows suites were run headless on macOS only.",
+  "Mac baseline is a single-run-per-configuration diagnostic on one device, not project acceptance evidence; the follow-up task AA-20260916-181500 owns further Mac attribution."
+ ],
+ "evidence": {
+  "captured_utc": "2026-09-16T15:56:56.004308+00:00",
+  "verification": "metadata",
+  "build": {
+   "commit": "89d6d623d01318dc55d3fac27de559281fca424f",
+   "dev": 57,
+   "modified": true
+  },
+  "inputs": {
+   ".agents/skills/alpine-backlog/SKILL.md": {
+    "size": 3759,
+    "mtime_ns": 1789511896314584836
+   },
+   "AGENTS.md": {
+    "size": 7832,
+    "mtime_ns": 1789544258451225404
+   },
+   "backlog/README.md": {
+    "size": 2320,
+    "mtime_ns": 1789511897066099839
+   },
+   "backlog/tasks/AA-20260916-181500-reduce-mac-metal-frame-floor.md": {
+    "size": 5907,
+    "mtime_ns": 1789574070489162437
+   },
+   "config/ski_default.tres": {
+    "size": 2471,
+    "mtime_ns": 1789511897079599024
+   },
+   "docs/DEVELOPMENT.md": {
+    "size": 19876,
+    "mtime_ns": 1789573934351219472
+   },
+   "docs/MAC_PERFORMANCE_BASELINE.json": {
+    "size": 16490,
+    "mtime_ns": 1789574171760153472
+   },
+   "docs/PERFORMANCE_HANDOFF.md": {
+    "size": 25881,
+    "mtime_ns": 1789574171760604231
+   },
+   "docs/RENDERING.md": {
+    "size": 41446,
+    "mtime_ns": 1789573996844151884
+   },
+   "docs/VALIDATION.md": {
+    "size": 126354,
+    "mtime_ns": 1789544258453961269
+   },
+   "godotw": {
+    "size": 1593,
+    "mtime_ns": 1789571709196094691
+   },
+   "project.godot": {
+    "size": 1601,
+    "mtime_ns": 1789546451377313344
+   },
+   "scripts/core/ski_simulation.gd": {
+    "size": 42121,
+    "mtime_ns": 1789567082552816491
+   },
+   "scripts/main.gd": {
+    "size": 87309,
+    "mtime_ns": 1789511897118263208
+   },
+   "scripts/presentation/display_settings.gd": {
+    "size": 6298,
+    "mtime_ns": 1789511897124582958
+   },
+   "scripts/presentation/graphics_presets.gd": {
+    "size": 5553,
+    "mtime_ns": 1789571709089690020
+   },
+   "scripts/presentation/pc_graphics_settings.gd": {
+    "size": 8224,
+    "mtime_ns": 1789573996861632464
+   },
+   "scripts/racing/competitive_record.gd": {
+    "size": 14757,
+    "mtime_ns": 1789511897136445444
+   },
+   "scripts/racing/race_definition.gd": {
+    "size": 12419,
+    "mtime_ns": 1789511897137033497
+   },
+   "scripts/racing/run_replay.gd": {
+    "size": 18224,
+    "mtime_ns": 1789567082555118195
+   },
+   "scripts/ui/hud.gd": {
+    "size": 48196,
+    "mtime_ns": 1789573996880397196
+   },
+   "scripts/ui/menu_navigation.gd": {
+    "size": 15065,
+    "mtime_ns": 1789511897144826860
+   },
+   "scripts/ui/screen_shell.gd": {
+    "size": 4644,
+    "mtime_ns": 1789511897146091677
+   },
+   "scripts/ui/settings_pages.gd": {
+    "size": 16571,
+    "mtime_ns": 1789573892756448870
+   },
+   "scripts/world/mountain_definition.gd": {
+    "size": 6782,
+    "mtime_ns": 1789511897156512884
+   },
+   "tests/fidelityfx_settings_suite.gd": {
+    "size": 1736,
+    "mtime_ns": 1789511897173905646
+   },
+   "tests/graphics_suite.gd": {
+    "size": 11397,
+    "mtime_ns": 1789571709090172139
+   },
+   "tests/interface_display_suite.gd": {
+    "size": 870,
+    "mtime_ns": 1789511897191585414
+   },
+   "tests/interface_settings_suite.gd": {
+    "size": 10172,
+    "mtime_ns": 1789511897193487701
+   },
+   "tests/macos_compatibility_suite.gd": {
+    "size": 2285,
+    "mtime_ns": 1789573873463724596
+   },
+   "tests/pc_graphics_suite.gd": {
+    "size": 7792,
+    "mtime_ns": 1789573996934837620
+   }
+  }
+ }
+}

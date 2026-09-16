@@ -34,7 +34,12 @@ the existing stock-engine path on other platforms.
 Install stock Godot 4.7.2 or newer in `/Applications`, then launch locally with
 `./godotw`. macOS uses the stock Metal renderer: the Windows FidelityFX runtime
 and the Windows native-wind DLL are intentionally unavailable, and wind uses the
-existing Original recording fallback. The first local import is large and can
+existing Original recording fallback. Auto upscaling resolves to spatial bilinear
+on Metal because stock FSR 2 costs about 15 ms per frame there; see
+[Rendering](RENDERING.md#fidelityfx). Measure frame rate only through the `open`
+launch path: a shell-exec'd window stays occluded and blocks in Metal's
+`nextDrawable`. `--script` runs still exec directly, so launch them through
+`open -n -W -a Godot.app --args ...` yourself when they must render. The first local import is large and can
 take several minutes.
 
 If a copied or stale `.godot` cache leaves startup waiting on imported resources,

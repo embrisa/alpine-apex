@@ -1,0 +1,108 @@
+---
+id: "AA-20260916-181500-reduce-mac-metal-frame-floor"
+title: "Attribute and reduce the remaining Metal GPU frame floor on the Mac build"
+status: ready
+priority: P2
+depends_on: []
+created: "2026-09-16T18:15:00Z"
+updated: "2026-09-16T18:15:00Z"
+source_thread: null
+---
+
+# Attribute and reduce the remaining Metal GPU frame floor on the Mac build
+
+## Outcome
+
+Raise the Mac build's rendered frame rate beyond what the upscaler change
+delivers, by attributing the roughly 18 ms of GPU work that remains per frame
+at High on an Apple M4 after the spatial upscaler, and removing the cheapest
+parts of it without changing the Windows presentation or physics.
+
+## Current state and evidence
+
+- The first Mac baseline is [MAC_PERFORMANCE_BASELINE.json](../../docs/MAC_PERFORMANCE_BASELINE.json)
+  (2026-09-16, stock Godot 4.7.2 Metal, Apple M4, 3600x2260 fullscreen backing,
+  standard mountain, fixed full-tuck input, 25 s per configuration, one run each).
+  Headline: Auto = FSR 2 at 0.75 internal scale 40.0 ms per frame; bilinear at
+  0.75 24.7 ms; bilinear at 0.5 18.6 ms; native 1.0 35.9 ms. Stock FSR 2 on
+  Metal costs about 15 ms per frame at that output size. The branch
+  `fable/mac-spatial-upscaler` resolves Auto to bilinear on Metal and lowers the
+  internal resolution floor to 50 percent.
+- Scripted CPU is 5.5-6 ms per frame at 25 FPS (simulation about 2.5, animation
+  tick 1.4, pose 0.5, effects 0.25) and render-thread CPU p95 about 1.2 ms, so
+  even at bilinear 0.75 the 24.7 ms frame is GPU-bound by roughly 18 ms.
+- Single-feature deltas from the 38.5 ms FSR 2 reference (same route): sun
+  shafts off -2.0 ms, highlight glow off -2.5, local powder patch off -3.0,
+  shadows 60 m/filter 0 -0.8, minimum tree distances 0.0 (26 percent fewer
+  draws, no time change), everything minimised plus weather 0 -7.5, Low preset
+  -9.7. Pixel-proportional cost is about 11 ms between 1.0 and 0.75 scale and
+  6 ms between 0.75 and 0.5, so full-screen fragment work (terrain material,
+  fog, glow, tonemap) dominates the floor rather than tree geometry.
+- `RenderingServer.viewport_get_measured_render_time_gpu` returns no samples on
+  Metal, so pass attribution needs Xcode's Metal frame capture or GPU counters,
+  or continued configuration toggles. The Windows native pass profiler does not
+  apply. The shipped native skier library is Windows x64 only, so Mac keeps the
+  GDScript solver ([Performance handoff](../../docs/PERFORMANCE_HANDOFF.md#mac-and-next-experiments)).
+- Launch through `open -n -W -a Godot.app --args ...` (as the fixed `godotw`
+  does for windowed runs); a shell-exec window is occluded and blocks in
+  `CAMetalLayer nextDrawable` for about one second per frame, invalidating FPS.
+  `--script` runs still exec directly and need the `open` path plus
+  `ALPINE_FULL_MOUNTAIN=1` and a reason in the environment.
+- Related Windows-side tasks own the same passes generically:
+  [environment and screen passes](AA-20260916-084510-trim-environment-and-screen-passes.md),
+  [powder patch](AA-20260916-084507-reduce-powder-patch-render-cost.md),
+  [vertex shader transcendentals](AA-20260916-084513-reduce-vertex-shader-transcendentals.md),
+  [terrain LOD](AA-20260916-084505-fix-terrain-mesh-lod-selection.md). This task
+  is the Mac measurement and platform-specific defaults; shader and pass
+  changes that also help Windows should be delivered under those tasks.
+
+## Agreed decisions and scope
+
+Own Mac-specific defaults and measurement: `scripts/presentation/pc_graphics_settings.gd`
+platform resolution, `graphics_presets.gd` only if a Metal-specific default
+(for example shafts or glow off at High on Metal) is chosen, the Mac baseline
+document and a reusable Mac probe under `tests/` if the ignored
+`artifacts/mac_probe/probe.gd` is promoted. Windows Auto behaviour, presets and
+physics stay unchanged. There is no Mac frame-rate requirement in
+[Rendering](../../docs/RENDERING.md#performance-policy); the user asked for
+insight and worthwhile improvements, so accepted changes need a measured Mac
+gain and either no visible change or the user's acceptance of the tradeoff.
+Work on a branch for Astra to merge.
+
+## Implementation approach
+
+1. Promote the probe to a repeatable `tests/` script (focused `open` launch,
+   240 warm frames, 25 s, JSON output) so Mac runs are reproducible.
+2. Attribute with Xcode Metal frame capture or Metal GPU counters on one
+   representative frame at bilinear 0.75: terrain fill, forest, shadows, sky,
+   fog, glow, tonemap, 2D. Fall back to configuration toggles if capture is
+   unavailable.
+3. Deliver the cheapest wins first: any Metal-specific shader path issue found
+   in capture, a Metal default for the two effects already measured at 2-3 ms
+   each (shafts, glow) if the user accepts the look, and the powder patch on
+   Metal once the powder task lands.
+4. Re-measure with the same probe; update the Mac baseline document.
+
+## Acceptance and verification
+
+- [ ] A repeatable Mac probe exists and reproduces the baseline within run
+  variation; the attribution table names the dominant passes with numbers.
+- [ ] Measured Mac gain at High on the same route, with matched captures showing
+  no visible change, or the user's explicit acceptance of a listed tradeoff.
+- [ ] `tests/macos_compatibility_suite.gd`, `tests/pc_graphics_suite.gd`,
+  `tests/graphics_suite.gd`, `tests/fidelityfx_settings_suite.gd` and
+  `tests/runtime_suite.gd` pass headless; Windows defaults unchanged.
+- [ ] Update [Rendering](../../docs/RENDERING.md) and the Mac baseline; commit on
+  a branch with a development note and record the Dev ID.
+
+Human acceptance: the user's look at any Metal-specific default change on their
+MacBook is a completion gate for that change.
+
+## Open questions
+
+None
+
+## Completion record
+
+Pending implementation. Record the attribution table, retained and rejected
+changes, probe results, tests and branch/commit references.

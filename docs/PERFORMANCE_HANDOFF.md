@@ -287,6 +287,37 @@ row 2 and `render-knee-pair-20260916/production.json` row 3. Pair row 2 is the
 script control; row 1 is warmup. Compact receipts and aggregation:
 `artifacts/render_knee_20260916/`. Sustained target and human/Mac acceptance remain open.
 
+## Mac baseline (Fable, 16 September 2026)
+
+Apple M4 MacBook, stock Godot 4.7.2 Metal, fullscreen 3600x2260 backing pixels,
+standard mountain, fixed full-tuck input from the summit, 240 warm-up frames then
+25 measured seconds per configuration. Full rows, scopes and limitations are in
+[MAC_PERFORMANCE_BASELINE.json](MAC_PERFORMANCE_BASELINE.json).
+
+| Configuration (High unless noted) | Frame ms mean | p95 | p99 | FPS |
+| --- | ---: | ---: | ---: | ---: |
+| Auto = FSR 2, 0.75 internal | 40.0 | 42.7 | 45.5 | 25.0 |
+| Bilinear, 0.75 internal | 24.7 | 26.5 | 27.7 | 40.5 |
+| Bilinear, 0.50 internal | 18.6 | 20.5 | 20.9 | 53.7 |
+| Native 1.0 (no upscale pass) | 35.9 | 39.1 | 41.6 | 27.9 |
+| Low preset, FSR 2, 0.75 | 28.9 | 31.3 | 32.1 | 34.7 |
+| Branch Auto on Metal: bilinear 0.75 + MSAA 2x (production path) | 27.6 | 30.2 | 30.8 | 36.3 |
+| Branch explicit FSR 2, 0.75 (same code) | 39.1 | 42.0 | 45.4 | 25.6 |
+
+Stock FSR 2 on Metal is the dominant Mac cost: about 15 ms per frame at this
+output size. Scripted CPU is 5.5-6 ms per frame at 25 FPS (simulation about 2.5,
+animation tick 1.4, pose 0.5) and render CPU p95 1.2 ms, so the Mac frame is
+GPU-bound even after the upscaler change. Single feature toggles from the
+38.5 ms FSR 2 reference: sun shafts -2.0 ms, glow -2.5, local powder patch -3.0,
+shadows 60 m/filter 0 -0.8, minimum tree distances 0.0 (fewer draws, no time
+change); everything minimised plus weather 0 gives -7.5 ms. Metal exposes no
+viewport GPU timer, so these are configuration deltas. `ViewportTexture.get_size()`
+on the root reports the window size times the canvas stretch ratio; forcing the
+content scale size to the window size did not change frame time, so the 6480x4067
+figure is not real 3D pixels. Branch `fable/mac-spatial-upscaler` makes Auto
+resolve to bilinear on Metal and lowers the internal resolution floor to 50
+percent; Windows Auto behaviour is unchanged.
+
 ## Mac and next experiments
 
 The shipped native skier library is Windows x64 only. Mac uses the existing
