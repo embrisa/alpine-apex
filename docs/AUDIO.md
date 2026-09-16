@@ -36,6 +36,11 @@ skier support/facing frame, including switch. Camera turning has no effect.
 Weather Off removes ambient wind, not motion-relative airflow. No physical wind,
 shelter, occlusion or propagation simulation is added.
 
+The current native wind binary is Windows x64 only. Its configuration is named
+`alpine_wind.windows.gdextension.cfg` and is manually loaded only on Windows;
+this keeps macOS and Linux startup free of a missing-library error. Those hosts
+select the existing Original recording fallback and keep the same preference UI.
+
 `AlpineWindStream.set_controls(air_m_s, tuck, gust, gain, enabled)` passes scalar
 atomic targets. Each playback owns noise/filter history. Three nonresonant
 filtered-noise layers provide rush, turbulence and detail; smooth random knots

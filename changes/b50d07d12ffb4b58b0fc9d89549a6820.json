@@ -1,0 +1,196 @@
+{
+  "schema": 1,
+  "id": "b50d07d12ffb4b58b0fc9d89549a6820",
+  "summary": "Recover macOS startup from Metal shader variation exhaustion and Windows-only extension discovery.",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "macOS startup recovery",
+    "Metal ski-track shader compatibility",
+    "native-wind fallback"
+  ],
+  "owned_paths": [
+    "addons/alpine_wind/alpine_wind.gdextension",
+    "addons/alpine_wind/alpine_wind.gdextension.uid",
+    "addons/alpine_wind/alpine_wind.windows.gdextension.cfg",
+    "assets/graphics/ski_track.gdshader",
+    "docs/AUDIO.md",
+    "docs/DEVELOPMENT.md",
+    "scripts/presentation/procedural_wind.gd",
+    "scripts/setup_macos.sh",
+    "tests/macos_compatibility_suite.gd"
+  ],
+  "read_paths": [
+    "godotw",
+    "project.godot",
+    "scripts/presentation/procedural_sfx.gd",
+    "tests/startup_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "The Metal shader packing and wind loader change presentation only; solver state, tick rate, contact and tuning are untouched."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "macOS cache recovery rebuilds imported local resources only and does not change generation, terrain authority, scenery placement or world identity."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "No save, replay, race, record or persistent data schema changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "The host-local cache recovery does not alter mountains or their compatibility identity."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No race setup, timing or serialization changes."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No result or record evaluation changes."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No replay or ghost format changes."
+      },
+      "caches": {
+        "effect": "regenerate",
+        "reason": "The macOS helper explicitly rebuilds a stale local Godot import cache; it does not modify production cache formats."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "sh -n scripts/setup_macos.sh && ./scripts/setup_macos.sh --help && ./godotw --headless --script tests/macos_compatibility_suite.gd",
+      "result": "passed",
+      "details": "The recovery helper parses and documents its guarded invocation. The Godot 4.7.2 macOS compatibility suite passed all four shader, fallback and extension-discovery contracts."
+    },
+    {
+      "kind": "rendered",
+      "command": "open -n -a /Applications/Godot.app --args --path /Users/philippe.tillheden/alpine-apex",
+      "result": "passed",
+      "details": "Godot 4.7.2 ran with Metal on Apple M4 and completed the prior rider/camera/interface transition. The user confirmed that the game entered play at 16-20 FPS; that observed frame rate is a separate performance follow-up, not startup acceptance."
+    },
+    {
+      "kind": "performance",
+      "command": "Not run; this compatibility repair removes a startup failure and does not tune a defined Mac performance workload.",
+      "result": "not_required",
+      "details": "The user observed 16-20 FPS after successful startup, which is recorded as a separate Mac performance concern requiring a controlled targeted-map measurement before optimization."
+    },
+    {
+      "kind": "automated",
+      "command": "git diff --check",
+      "result": "passed",
+      "details": "The owned working-tree patch has no whitespace errors."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-16T08:48:20.511170+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "a9c2acb289c1c04e923c8b1d6ad887bcfb3ce706",
+      "dev": 43,
+      "modified": true
+    },
+    "inputs": {
+      "addons/alpine_wind/alpine_wind.gdextension": null,
+      "addons/alpine_wind/alpine_wind.gdextension.uid": null,
+      "addons/alpine_wind/alpine_wind.windows.gdextension.cfg": {
+        "size": 191,
+        "mtime_ns": 1789511896316579084
+      },
+      "assets/graphics/ski_track.gdshader": {
+        "size": 5585,
+        "mtime_ns": 1789548168553558467
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/AUDIO.md": {
+        "size": 12253,
+        "mtime_ns": 1789548168555995545
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 18045,
+        "mtime_ns": 1789548168555365213
+      },
+      "godotw": {
+        "size": 804,
+        "mtime_ns": 1788625008759642307
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789546451377313344
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 41854,
+        "mtime_ns": 1789511897112392591
+      },
+      "scripts/presentation/procedural_sfx.gd": {
+        "size": 11327,
+        "mtime_ns": 1789511897129057839
+      },
+      "scripts/presentation/procedural_wind.gd": {
+        "size": 5525,
+        "mtime_ns": 1789548168554142133
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789511897136445444
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18345,
+        "mtime_ns": 1789511897137639509
+      },
+      "scripts/setup_macos.sh": {
+        "size": 3616,
+        "mtime_ns": 1789548441634162882
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      },
+      "tests/macos_compatibility_suite.gd": {
+        "size": 1299,
+        "mtime_ns": 1789548168554562882
+      },
+      "tests/startup_suite.gd": {
+        "size": 14676,
+        "mtime_ns": 1789511897222719157
+      }
+    }
+  }
+}
