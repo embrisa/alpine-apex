@@ -1,0 +1,250 @@
+{
+  "schema": 1,
+  "id": "9f36eceb438f45bba6d75a95299a6838",
+  "summary": "Integrate Fable Metal spatial upscaling with Windows compatibility checks",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Platform Auto upscaling",
+    "Spatial scaling and frame generation compatibility"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    "backlog/tasks/AA-20260916-181500-reduce-mac-metal-frame-floor.md",
+    "docs/DEVELOPMENT.md",
+    "docs/MAC_PERFORMANCE_BASELINE.json",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RENDERING.md",
+    "scripts/benchmark_pc.ps1",
+    "scripts/benchmark_targeted.ps1",
+    "scripts/presentation/pc_graphics_settings.gd",
+    "scripts/ui/hud.gd",
+    "scripts/ui/settings_pages.gd",
+    "tests/fidelityfx_settings_suite.gd",
+    "tests/macos_compatibility_suite.gd",
+    "tests/pc_graphics_suite.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "docs/VALIDATION.md",
+    "native/fidelityfx/godot_module/alpine_fsr.cpp",
+    "scripts/presentation/display_settings.gd",
+    ".agents/skills/alpine-backlog/SKILL.md",
+    "backlog/README.md"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Presentation settings only. Platform Auto resolves spatial scaling on Metal; explicit bilinear disables effective frame generation. No solver, placement or recording change."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Presentation settings only. Platform Auto resolves spatial scaling on Metal; explicit bilinear disables effective frame generation. No solver, placement or recording change."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Presentation settings only. Platform Auto resolves spatial scaling on Metal; explicit bilinear disables effective frame generation. No solver, placement or recording change."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No persistent gameplay schema or identity change; existing graphics preferences gain an explicit bilinear option and 50 percent lower bound, default remains 75 percent."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No persistent gameplay schema or identity change; existing graphics preferences gain an explicit bilinear option and 50 percent lower bound, default remains 75 percent."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No persistent gameplay schema or identity change; existing graphics preferences gain an explicit bilinear option and 50 percent lower bound, default remains 75 percent."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No persistent gameplay schema or identity change; existing graphics preferences gain an explicit bilinear option and 50 percent lower bound, default remains 75 percent."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No persistent gameplay schema or identity change; existing graphics preferences gain an explicit bilinear option and 50 percent lower bound, default remains 75 percent."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "./scripts/test_pc_environment.ps1 -Suites macos_compatibility_suite,pc_graphics_suite,fidelityfx_settings_suite,graphics_suite,interface_settings_suite,runtime_suite -OutputDirectory artifacts/mac_merge_20260916/regression",
+      "details": "389 checks passed: 9 Mac static, 22 PC graphics, 22 FidelityFX, 29 graphics, 115 interface settings and 192 runtime. Compact flat-pad, obstacle-patch and smooth-slope fixtures. Metadata captured before verification; subsequent production edits only corrected comments, test wording and documentation, with no executable behavior change."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "Shared run_guarded mac-merge-native-view-20260916; artifacts/mac_merge_20260916/native.gd",
+      "details": "22 native D3D12 assertions passed on custom Godot 4.7.2 and RX 9070. Auto uses FSR 4.1.1, temporal viewport and no MSAA; bilinear uses spatial scaling with MSAA 2x, including when saved frame generation is requested. No SDK errors, actual frame generation off. Matched fixed-camera 1280x720 mixed-map stills inspected at 75 percent internal: composition preserved, spatial image softer and more jagged. Settings option rendered. 384 trees and 48 rocks, capped 60, no FPS claim. Initial capture used an invalid default camera and was rejected; corrected harness reran the same assertions and replaced its own three captures."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "Review incoming Fable 99cd52c, docs/MAC_PERFORMANCE_BASELINE.json branch production-path rows",
+      "details": "Fable-measured Apple M4 Metal stock Godot 4.7.2, 3600x2260 fullscreen, High 75 percent, full-tuck standard mountain, 240 warm frames then 25 seconds, one sample per configuration. Same-code explicit FSR2 39.1 ms/25.6 FPS versus Auto bilinear plus MSAA 2x 27.6 ms/36.3 FPS. Configuration delta 11.5 ms with reconstruction quality tradeoff, not an isolated GPU pass timer. No local Mac execution or new Windows FPS run."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "./scripts/benchmark_targeted.ps1 -Map mixed -Upscaler bilinear -RenderScale 0.5 -PlanOnly; ./scripts/backlog.ps1 validate; git diff --check; scripts/versioning.py check --note changes/9f36eceb438f45bba6d75a95299a6838.json --staged",
+      "details": "Both benchmark wrappers accept bilinear. Static task integration corrects unsupported GPU-time subtraction and pass-cost attribution without changing measured rows or future task intent. Performance skill updated for requested/effective reconstruction and MSAA; backlog skill applied for evidence correction. Scoped metadata and whitespace checks; no manual hash audit."
+    },
+    {
+      "kind": "human",
+      "result": "pending",
+      "command": "Mac motion and image-quality review on the user MacBook",
+      "details": "Local Windows stills do not establish Mac temporal stability, controller feel or human preference. The user authorized integrating Fable branches and minor quality tradeoffs."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Mac motion/human image-quality acceptance remains open; Fable measurements are single-run comparisons, not sustained 90-120 FPS acceptance.",
+    "No new Windows FPS measurement: Auto FSR 4.1.1 remains unchanged. This merge retains Fable Mac improvement and adds spatial/frame-generation compatibility.",
+    "Only unmerged remote at final fetch was origin/fable/mac-spatial-upscaler; merged at 99cd52c. Historical branch development note retained unchanged."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T16:10:18.019856+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "9a20daca26d3d4a5d65b0d97e23d1ea5a44ac799",
+      "dev": 58,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-backlog/SKILL.md": {
+        "size": 3759,
+        "mtime_ns": 1789311081003929400
+      },
+      ".agents/skills/alpine-performance/SKILL.md": {
+        "size": 11220,
+        "mtime_ns": 1789574487376007800
+      },
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "backlog/README.md": {
+        "size": 2320,
+        "mtime_ns": 1789157802907707300
+      },
+      "backlog/tasks/AA-20260916-181500-reduce-mac-metal-frame-floor.md": {
+        "size": 6060,
+        "mtime_ns": 1789574972933312100
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 19870,
+        "mtime_ns": 1789574867751728300
+      },
+      "docs/MAC_PERFORMANCE_BASELINE.json": {
+        "size": 16595,
+        "mtime_ns": 1789574972932308900
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 28285,
+        "mtime_ns": 1789574923751730300
+      },
+      "docs/RENDERING.md": {
+        "size": 41747,
+        "mtime_ns": 1789574923751730300
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789512657279656900
+      },
+      "native/fidelityfx/godot_module/alpine_fsr.cpp": {
+        "size": 26798,
+        "mtime_ns": 1788984747259343000
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/benchmark_pc.ps1": {
+        "size": 16218,
+        "mtime_ns": 1789574487313031500
+      },
+      "scripts/benchmark_targeted.ps1": {
+        "size": 6138,
+        "mtime_ns": 1789574487373973200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/presentation/display_settings.gd": {
+        "size": 6298,
+        "mtime_ns": 1789344083152131800
+      },
+      "scripts/presentation/pc_graphics_settings.gd": {
+        "size": 8460,
+        "mtime_ns": 1789574923749548200
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18224,
+        "mtime_ns": 1789566331946877700
+      },
+      "scripts/ui/hud.gd": {
+        "size": 48308,
+        "mtime_ns": 1789574487312029400
+      },
+      "scripts/ui/settings_pages.gd": {
+        "size": 16571,
+        "mtime_ns": 1789574357522423000
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/fidelityfx_settings_suite.gd": {
+        "size": 2007,
+        "mtime_ns": 1789574487374992200
+      },
+      "tests/macos_compatibility_suite.gd": {
+        "size": 2240,
+        "mtime_ns": 1789574923750550600
+      },
+      "tests/pc_graphics_suite.gd": {
+        "size": 7792,
+        "mtime_ns": 1789574357523432400
+      }
+    }
+  }
+}

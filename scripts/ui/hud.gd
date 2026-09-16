@@ -646,20 +646,21 @@ func _sync_fidelityfx_choices() -> void:
 	if fidelityfx_display_settings==null: return
 	var settings = fidelityfx_display_settings
 	var native_fsr: bool = settings.has_native_fsr()
-	display_controls.frame_generation.disabled = not native_fsr
-	display_controls.frame_generation.tooltip_text = "FSR 3 frame generation requires a supported DX12 GPU." if native_fsr else "Requires the custom DirectX 12 engine."
+	var effective: String = settings.effective_upscaler()
+	display_controls.frame_generation.disabled = not native_fsr or effective=="bilinear"
+	display_controls.frame_generation.tooltip_text = "Choose Auto, FSR or Native to use frame generation." if effective=="bilinear" and native_fsr else ("FSR 3 frame generation requires a supported DX12 GPU." if native_fsr else "Requires the custom DirectX 12 engine.")
 	for index in [1,2]: display_controls.upscaler.set_item_disabled(index,not native_fsr)
 	var status: Dictionary = settings.fsr_status()
 	if native_fsr and status.get("frame_generation_capabilities_queried",false):
-		display_controls.frame_generation.disabled = not status.get("frame_generation_supported",false)
-		if display_controls.frame_generation.disabled: display_controls.frame_generation.tooltip_text = "This GPU does not provide FSR 3 frame generation."
+		display_controls.frame_generation.disabled = effective=="bilinear" or not status.get("frame_generation_supported",false)
+		if not status.get("frame_generation_supported",false): display_controls.frame_generation.tooltip_text = "This GPU does not provide FSR 3 frame generation."
 	if native_fsr and status.get("capabilities_queried",false):
 		display_controls.upscaler.set_item_disabled(1,not status.get("fsr4_supported",false))
 		display_controls.upscaler.set_item_disabled(2,not status.get("fsr3_supported",false))
-	display_controls.upscaler.tooltip_text = "Auto selects the best provider reported by AMD's SDK." if native_fsr else "Auto uses FSR 2 in this engine."
+	display_controls.upscaler.tooltip_text = "Auto selects the best provider reported by AMD's SDK." if native_fsr else ("Auto uses bilinear upscaling on Metal to favor performance." if settings.resolve_upscaler("auto",false,RenderingServer.get_current_rendering_driver_name())=="bilinear" else "Auto uses FSR 2 in this engine.")
 	if fidelityfx_status_label:
 		var active = str(status.get("active_upscaler_version",""))
-		var rendering = "Native resolution" if settings.upscaler=="native" else "FSR 2" if settings.upscaler=="fsr2" or not native_fsr else "FSR "+active if active!="" else "Waiting for renderer"
+		var rendering = "Native resolution" if effective=="native" else "Bilinear · spatial" if effective=="bilinear" else "FSR 2" if effective=="fsr2" or not native_fsr else "FSR "+active if active!="" else "Waiting for renderer"
 		fidelityfx_status_label.text = "Active: %s · Frame generation %s" % [rendering,"on" if status.get("frame_generation_active",false) else "off"]
 		if not native_fsr: fidelityfx_status_label.text += ". FSR 3/4 require the custom DirectX 12 engine."
 		elif not str(status.get("error","")).is_empty(): fidelityfx_status_label.text += ". "+str(status.error)

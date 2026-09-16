@@ -22,6 +22,8 @@ func _initialize() -> void:
 	check(settings.upscaler=="auto" and settings.frame_generation,"Malformed preference types cannot disable valid typed options")
 	settings.apply_arguments(["--frame-generation=off"])
 	check(not settings.frame_generation,"Frame generation can be disabled independently")
+	settings.restore({"upscaler":"bilinear","frame_generation":true})
+	check(not settings.is_temporal() and not settings.frame_generation_enabled() and settings.frame_generation,"Bilinear stays spatial while retaining the frame-generation preference for a compatible mode")
 	if not Settings.has_native_fsr():
 		check(not settings.fsr_status().engine_integration and not settings.fsr_status().frame_generation_active,"Stock/headless engine never reports SDK features as active")
 	print("FIDELITYFX_SETTINGS_RESULTS ",JSON.stringify({"failures":failures}))

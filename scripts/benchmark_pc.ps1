@@ -7,7 +7,7 @@ param(
     [ValidateRange(0,5)][int]$Face = 0,
     [ValidateRange(0,2147483647)][int]$Seed = 849205174,
     [string]$RenderScale = '0.75',
-    [ValidateSet('auto','fsr4','fsr3','fsr2','native')][string]$Upscaler = 'auto',
+    [ValidateSet('auto','fsr4','fsr3','fsr2','native','bilinear')][string]$Upscaler = 'auto',
     [ValidateSet('on','off')][string]$TerrainGI = 'off',
     [ValidateSet('on','off')][string]$FrameGeneration = 'off',
     [ValidateSet('on','off')][string]$Grass = 'on',

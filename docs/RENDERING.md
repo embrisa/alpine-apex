@@ -81,8 +81,19 @@ existing FSR2/native path. Query SDK provider/context results for the actual
 device. Copying DLLs into stock Godot does not enable the integration. Build,
 activation and distribution are in [Development](DEVELOPMENT.md#fidelityfx).
 
-Runtime CLI after `'--'`: `--upscaler=auto|fsr4|fsr3|fsr2|native` and independent
-`--frame-generation=on|off`. Supported scope is one primary SDR game window;
+Runtime CLI after `'--'`: `--upscaler=auto|fsr4|fsr3|fsr2|native|bilinear` and
+independent `--frame-generation=on|off`. `bilinear` is spatial scaling without a
+temporal pass; MSAA stays available with it. Frame generation is inactive while
+bilinear is selected because the DX12 integration requires the temporal pass;
+the saved generation preference resumes with a compatible upscaler. Benchmark
+wrappers accept the same bilinear option. `PCGraphicsSettings.resolve_upscaler`
+owns what Auto means: the SDK provider on the custom DX12 engine, FSR 2 on other
+stock renderers, and bilinear on Metal. Fable's same-code M4 comparison at
+3600x2260 output and 0.75 internal scale measured 39.1 ms with FSR 2 versus
+27.6 ms with bilinear and MSAA 2x. This is a reconstruction quality tradeoff,
+not an isolated GPU pass cost; see [MAC_PERFORMANCE_BASELINE.json](MAC_PERFORMANCE_BASELINE.json).
+Explicit choices stay authoritative. The internal resolution floor is 50 percent
+(`MIN_RENDER_SCALE`); the default remains 75 percent. Supported scope is one primary SDR game window;
 HDR output, XR/multiview and other GPUs require separate work/validation.
 
 The SDK receives HDR color, reversed depth, motion vectors, pixel jitter, actual

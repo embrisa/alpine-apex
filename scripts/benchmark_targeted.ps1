@@ -4,7 +4,7 @@ param(
     [ValidateRange(4,10)][int]$Seconds=6,
     [ValidateRange(1,5)][int]$Repetitions=3,
     [ValidateSet('1280x720','1920x1080','2560x1440','3840x2160')][string]$Resolution='3840x2160',
-    [ValidateSet('auto','fsr4','fsr3','fsr2','native')][string]$Upscaler='auto',
+    [ValidateSet('auto','fsr4','fsr3','fsr2','native','bilinear')][string]$Upscaler='auto',
     [ValidateSet('0.5','0.67','0.75','1.0')][string]$RenderScale='0.75',
     [ValidateSet(0,60,120)][int]$FrameCap=0,
     [ValidateSet('riding','scenery')][string]$Camera='scenery',

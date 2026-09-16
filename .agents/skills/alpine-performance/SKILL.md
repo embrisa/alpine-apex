@@ -68,6 +68,9 @@ Use [benchmark_pc.ps1](../../../scripts/benchmark_pc.ps1) for production frame
 measurements; consult the measurement guide for its guarded invocation. Select
 an explicit compatible `-InputTrace`, event window, fresh `-Label`, repetitions
 and effective settings. Do not rely on its historical default trace path.
+Record requested and effective upscaling plus MSAA: platform-specific Auto and
+frame-generation compatibility follow [FidelityFX](../../../docs/RENDERING.md#fidelityfx).
+Different reconstruction paths are configuration tradeoffs, not isolated pass timings.
 For terrain grass, follow the [grass comparison](../../../docs/VALIDATION.md#terrain-grass-performance):
 `-Grass off` isolates ground and mineral grass only. Validate zero/off and
 nonzero/on populations, unchanged effective settings and identical final states.

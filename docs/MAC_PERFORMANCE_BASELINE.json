@@ -1,0 +1,796 @@
+{
+ "schema": 1,
+ "baseline_id": "mac-m4-dev57-standard-mountain-fixed-tuck-20260916",
+ "recorded_utc": "2026-09-16",
+ "scope": "Local macOS attribution only; not project acceptance evidence. Fixed full-tuck input on the standard mountain from the summit spawn, 240 warm-up frames then 25 measured seconds per run, one run per configuration.",
+ "source": {
+  "dev_range": "55-57",
+  "commits": [
+   "ee75b29",
+   "89d6d62"
+  ],
+  "note": "bilinear75b ran at ee75b29; bilinear50b and fsr2_75b at 89d6d62 (grass worker buffers); earlier rows at ee75b29. Grass streaming affects hitches, not the means compared here.",
+  "branch": "fable/mac-spatial-upscaler (branch_* rows)"
+ },
+ "runtime": {
+  "engine": "Godot 4.7.2.stable.official ed1daf0bf (stock, /Applications/Godot.app)",
+  "driver": "metal",
+  "device": "Apple M4 (Apple9), 10-core GPU",
+  "launch": "open -n -W -a Godot.app --args --path <repo> --script artifacts/mac_probe/probe.gd (focused window; a shell-exec launch is occluded and blocks in CAMetalLayer nextDrawable)",
+  "gpu_timer": "RenderingServer.viewport_get_measured_render_time_gpu returns no samples on Metal; attribution is by configuration toggles"
+ },
+ "display": {
+  "screen_backing_pixels": [
+   3600,
+   2338
+  ],
+  "screen_scale": 2.0,
+  "fullscreen_window_pixels": [
+   3600,
+   2260
+  ],
+  "note": "ViewportTexture.get_size() reports the window size multiplied by the canvas stretch ratio (6480x4067 with content_scale_size 2000x1256); forcing content_scale_size to the window size did not change frame time (38.9 vs 41.2 ms), so that figure is a reporting artifact, not 3D pixels."
+ },
+ "headline": {
+  "fsr2_vs_bilinear_same_internal_scale_ms": [
+   40.0,
+   24.7
+  ],
+  "reconstruction_configuration_delta_ms": "about 15 between historical configurations; same-code branch delta 11.5 including MSAA 2x; not an isolated GPU pass measurement",
+  "bilinear_0_5_ms": 18.6,
+  "native_1_0_ms": 35.9,
+  "scripted_cpu_ms_per_frame": "about 5.5-6 at 25 FPS (simulation ~2.5, animation tick ~1.4, pose ~0.5, effects ~0.25); render CPU p95 about 1.2",
+  "feature_toggles_from_about_38_5_ms": {
+   "sun_shafts_off": -2.0,
+   "highlight_glow_off": -2.5,
+   "powder_patch_off": -3.0,
+   "shadows_60m_filter0": -0.8,
+   "tree_distances_min": 0.0,
+   "all_min_plus_weather_0": -7.5,
+   "low_preset": -9.7
+  },
+  "branch_production_path_ms": {
+   "auto_bilinear_0_75_msaa2x": 27.6,
+   "explicit_fsr2_0_75": 39.1
+  }
+ },
+ "runs": {
+  "fsr2_75b": {
+   "description": "High, Auto (FSR 2) at 0.75 internal scale",
+   "scaling_3d_mode": 2,
+   "scaling_3d_scale": 0.75,
+   "quality": "high",
+   "overrides": {},
+   "frame_ms": {
+    "mean": 40.01,
+    "p95": 42.67,
+    "p99": 45.48,
+    "max": 74.13
+   },
+   "rendered_fps_mean": 24.99,
+   "frames": 625,
+   "ticks": 4071,
+   "peak_kmh": 163.3,
+   "draw_calls_mean": 940,
+   "primitives_mean": 3664849,
+   "render_cpu_ms_p95": 1.14,
+   "cpu_scopes": {
+    "animation_tick": {
+     "mean_us": 314.8,
+     "count": 3002
+    },
+    "camera": {
+     "mean_us": 68.1,
+     "count": 625
+    },
+    "collision_preparation": {
+     "mean_us": 364.0,
+     "count": 625
+    },
+    "effects": {
+     "mean_us": 237.6,
+     "count": 625
+    },
+    "hud": {
+     "mean_us": 102.8,
+     "count": 625
+    },
+    "pose": {
+     "mean_us": 430.4,
+     "count": 625
+    },
+    "simulation": {
+     "mean_us": 568.6,
+     "count": 3002
+    },
+    "snow_tracks_powder": {
+     "mean_us": 152.0,
+     "count": 625
+    },
+    "stream_grass": {
+     "mean_us": 118.0,
+     "count": 625
+    },
+    "weather_world": {
+     "mean_us": 126.7,
+     "count": 625
+    }
+   }
+  },
+  "bilinear75b": {
+   "description": "High, bilinear at 0.75 internal scale",
+   "scaling_3d_mode": 0,
+   "scaling_3d_scale": 0.75,
+   "quality": "high",
+   "overrides": {},
+   "frame_ms": {
+    "mean": 24.71,
+    "p95": 26.53,
+    "p99": 27.65,
+    "max": 44.9
+   },
+   "rendered_fps_mean": 40.48,
+   "frames": 1012,
+   "ticks": 3637,
+   "peak_kmh": 163.3,
+   "draw_calls_mean": 873,
+   "primitives_mean": 3498215,
+   "render_cpu_ms_p95": 1.12,
+   "cpu_scopes": {
+    "animation_tick": {
+     "mean_us": 264.4,
+     "count": 3000
+    },
+    "camera": {
+     "mean_us": 72.5,
+     "count": 1012
+    },
+    "collision_preparation": {
+     "mean_us": 191.1,
+     "count": 1012
+    },
+    "effects": {
+     "mean_us": 284.0,
+     "count": 1012
+    },
+    "hud": {
+     "mean_us": 151.5,
+     "count": 1012
+    },
+    "pose": {
+     "mean_us": 459.8,
+     "count": 1012
+    },
+    "simulation": {
+     "mean_us": 451.0,
+     "count": 3000
+    },
+    "snow_tracks_powder": {
+     "mean_us": 174.6,
+     "count": 1012
+    },
+    "stream_grass": {
+     "mean_us": 82.1,
+     "count": 1012
+    },
+    "weather_world": {
+     "mean_us": 197.7,
+     "count": 1012
+    }
+   }
+  },
+  "bilinear50b": {
+   "description": "High, bilinear at 0.50 internal scale",
+   "scaling_3d_mode": 0,
+   "scaling_3d_scale": 0.5,
+   "quality": "high",
+   "overrides": {},
+   "frame_ms": {
+    "mean": 18.63,
+    "p95": 20.49,
+    "p99": 20.91,
+    "max": 38.47
+   },
+   "rendered_fps_mean": 53.67,
+   "frames": 1342,
+   "ticks": 3468,
+   "peak_kmh": 163.3,
+   "draw_calls_mean": 845,
+   "primitives_mean": 3429978,
+   "render_cpu_ms_p95": 1.09,
+   "cpu_scopes": {
+    "animation_tick": {
+     "mean_us": 238.3,
+     "count": 3000
+    },
+    "camera": {
+     "mean_us": 69.0,
+     "count": 1342
+    },
+    "collision_preparation": {
+     "mean_us": 128.4,
+     "count": 1342
+    },
+    "effects": {
+     "mean_us": 238.5,
+     "count": 1342
+    },
+    "hud": {
+     "mean_us": 134.1,
+     "count": 1342
+    },
+    "pose": {
+     "mean_us": 414.5,
+     "count": 1342
+    },
+    "simulation": {
+     "mean_us": 407.5,
+     "count": 3000
+    },
+    "snow_tracks_powder": {
+     "mean_us": 141.5,
+     "count": 1342
+    },
+    "stream_grass": {
+     "mean_us": 62.5,
+     "count": 1342
+    },
+    "weather_world": {
+     "mean_us": 194.0,
+     "count": 1342
+    }
+   }
+  },
+  "native_1x": {
+   "description": "High, native 1.0 (bilinear mode, no upscaler pass)",
+   "scaling_3d_mode": 0,
+   "scaling_3d_scale": 1.0,
+   "quality": "high",
+   "overrides": {},
+   "frame_ms": {
+    "mean": 35.91,
+    "p95": 39.14,
+    "p99": 41.64,
+    "max": 59.59
+   },
+   "rendered_fps_mean": 27.85,
+   "frames": 697,
+   "ticks": 3983,
+   "peak_kmh": 163.3,
+   "draw_calls_mean": 918,
+   "primitives_mean": 3631626,
+   "render_cpu_ms_p95": 1.09,
+   "cpu_scopes": {
+    "animation_tick": {
+     "mean_us": 262.1,
+     "count": 3004
+    },
+    "camera": {
+     "mean_us": 79.2,
+     "count": 697
+    },
+    "collision_preparation": {
+     "mean_us": 326.5,
+     "count": 697
+    },
+    "effects": {
+     "mean_us": 279.5,
+     "count": 697
+    },
+    "hud": {
+     "mean_us": 134.8,
+     "count": 697
+    },
+    "pose": {
+     "mean_us": 456.9,
+     "count": 697
+    },
+    "simulation": {
+     "mean_us": 462.4,
+     "count": 3004
+    },
+    "snow_tracks_powder": {
+     "mean_us": 177.4,
+     "count": 697
+    },
+    "stream_grass": {
+     "mean_us": 118.9,
+     "count": 697
+    },
+    "weather_world": {
+     "mean_us": 176.3,
+     "count": 697
+    }
+   }
+  },
+  "low_default": {
+   "description": "Low preset, Auto (FSR 2) at 0.75",
+   "scaling_3d_mode": 2,
+   "scaling_3d_scale": 0.75,
+   "quality": "low",
+   "overrides": {},
+   "frame_ms": {
+    "mean": 28.85,
+    "p95": 31.28,
+    "p99": 32.08,
+    "max": 52.84
+   },
+   "rendered_fps_mean": 34.66,
+   "frames": 867,
+   "ticks": 3773,
+   "peak_kmh": 163.3,
+   "draw_calls_mean": 608,
+   "primitives_mean": 2174277,
+   "render_cpu_ms_p95": 0.83,
+   "cpu_scopes": {
+    "animation_tick": {
+     "mean_us": 279.4,
+     "count": 3001
+    },
+    "camera": {
+     "mean_us": 56.1,
+     "count": 867
+    },
+    "collision_preparation": {
+     "mean_us": 228.1,
+     "count": 867
+    },
+    "effects": {
+     "mean_us": 151.6,
+     "count": 867
+    },
+    "hud": {
+     "mean_us": 100.5,
+     "count": 867
+    },
+    "pose": {
+     "mean_us": 398.9,
+     "count": 867
+    },
+    "simulation": {
+     "mean_us": 483.0,
+     "count": 3001
+    },
+    "snow_tracks_powder": {
+     "mean_us": 69.0,
+     "count": 867
+    },
+    "stream_grass": {
+     "mean_us": 23.0,
+     "count": 867
+    },
+    "weather_world": {
+     "mean_us": 115.8,
+     "count": 867
+    }
+   }
+  },
+  "shafts_off": {
+   "description": "High minus sun shafts",
+   "scaling_3d_mode": 2,
+   "scaling_3d_scale": 0.75,
+   "quality": "high",
+   "overrides": {
+    "volumetric_shafts": false
+   },
+   "frame_ms": {
+    "mean": 36.7,
+    "p95": 40.03,
+    "p99": 41.38,
+    "max": 60.14
+   },
+   "rendered_fps_mean": 27.25,
+   "frames": 682,
+   "ticks": 3976,
+   "peak_kmh": 163.3,
+   "draw_calls_mean": 929,
+   "primitives_mean": 3627078,
+   "render_cpu_ms_p95": 1.13,
+   "cpu_scopes": {
+    "animation_tick": {
+     "mean_us": 278.7,
+     "count": 3004
+    },
+    "camera": {
+     "mean_us": 63.8,
+     "count": 682
+    },
+    "collision_preparation": {
+     "mean_us": 322.5,
+     "count": 682
+    },
+    "effects": {
+     "mean_us": 234.7,
+     "count": 682
+    },
+    "hud": {
+     "mean_us": 103.9,
+     "count": 682
+    },
+    "pose": {
+     "mean_us": 420.8,
+     "count": 682
+    },
+    "simulation": {
+     "mean_us": 494.3,
+     "count": 3004
+    },
+    "snow_tracks_powder": {
+     "mean_us": 149.4,
+     "count": 682
+    },
+    "stream_grass": {
+     "mean_us": 113.3,
+     "count": 682
+    },
+    "weather_world": {
+     "mean_us": 117.6,
+     "count": 682
+    }
+   }
+  },
+  "glow_off": {
+   "description": "High minus highlight glow",
+   "scaling_3d_mode": 2,
+   "scaling_3d_scale": 0.75,
+   "quality": "high",
+   "overrides": {
+    "highlight_glow": false
+   },
+   "frame_ms": {
+    "mean": 36.17,
+    "p95": 38.78,
+    "p99": 40.91,
+    "max": 60.58
+   },
+   "rendered_fps_mean": 27.65,
+   "frames": 692,
+   "ticks": 3969,
+   "peak_kmh": 163.3,
+   "draw_calls_mean": 930,
+   "primitives_mean": 3628007,
+   "render_cpu_ms_p95": 1.1,
+   "cpu_scopes": {
+    "animation_tick": {
+     "mean_us": 266.2,
+     "count": 3004
+    },
+    "camera": {
+     "mean_us": 74.9,
+     "count": 692
+    },
+    "collision_preparation": {
+     "mean_us": 325.6,
+     "count": 692
+    },
+    "effects": {
+     "mean_us": 248.1,
+     "count": 692
+    },
+    "hud": {
+     "mean_us": 109.7,
+     "count": 692
+    },
+    "pose": {
+     "mean_us": 461.4,
+     "count": 692
+    },
+    "simulation": {
+     "mean_us": 468.0,
+     "count": 3004
+    },
+    "snow_tracks_powder": {
+     "mean_us": 158.0,
+     "count": 692
+    },
+    "stream_grass": {
+     "mean_us": 113.3,
+     "count": 692
+    },
+    "weather_world": {
+     "mean_us": 153.7,
+     "count": 692
+    }
+   }
+  },
+  "shadows_min": {
+   "description": "High with shadow distance 60 m and filter 0",
+   "scaling_3d_mode": 2,
+   "scaling_3d_scale": 0.75,
+   "quality": "high",
+   "overrides": {
+    "shadow_distance_m": 60,
+    "shadow_quality": 0
+   },
+   "frame_ms": {
+    "mean": 37.88,
+    "p95": 40.9,
+    "p99": 42.79,
+    "max": 62.81
+   },
+   "rendered_fps_mean": 26.4,
+   "frames": 661,
+   "ticks": 4015,
+   "peak_kmh": 163.3,
+   "draw_calls_mean": 912,
+   "primitives_mean": 3582256,
+   "render_cpu_ms_p95": 1.12,
+   "cpu_scopes": {
+    "animation_tick": {
+     "mean_us": 272.0,
+     "count": 3005
+    },
+    "camera": {
+     "mean_us": 74.5,
+     "count": 661
+    },
+    "collision_preparation": {
+     "mean_us": 353.8,
+     "count": 661
+    },
+    "effects": {
+     "mean_us": 248.9,
+     "count": 661
+    },
+    "hud": {
+     "mean_us": 109.8,
+     "count": 661
+    },
+    "pose": {
+     "mean_us": 445.8,
+     "count": 661
+    },
+    "simulation": {
+     "mean_us": 484.7,
+     "count": 3005
+    },
+    "snow_tracks_powder": {
+     "mean_us": 158.7,
+     "count": 661
+    },
+    "stream_grass": {
+     "mean_us": 117.1,
+     "count": 661
+    },
+    "weather_world": {
+     "mean_us": 150.5,
+     "count": 661
+    }
+   }
+  },
+  "powder_off": {
+   "description": "High minus local snow deformation",
+   "scaling_3d_mode": 2,
+   "scaling_3d_scale": 0.75,
+   "quality": "high",
+   "overrides": {
+    "snow_local_deformation": false
+   },
+   "frame_ms": {
+    "mean": 35.77,
+    "p95": 38.56,
+    "p99": 40.58,
+    "max": 57.15
+   },
+   "rendered_fps_mean": 27.96,
+   "frames": 700,
+   "ticks": 3947,
+   "peak_kmh": 163.3,
+   "draw_calls_mean": 923,
+   "primitives_mean": 3095161,
+   "render_cpu_ms_p95": 1.11,
+   "cpu_scopes": {
+    "animation_tick": {
+     "mean_us": 268.2,
+     "count": 3004
+    },
+    "camera": {
+     "mean_us": 66.1,
+     "count": 700
+    },
+    "collision_preparation": {
+     "mean_us": 305.0,
+     "count": 700
+    },
+    "effects": {
+     "mean_us": 161.3,
+     "count": 700
+    },
+    "hud": {
+     "mean_us": 102.8,
+     "count": 700
+    },
+    "pose": {
+     "mean_us": 433.7,
+     "count": 700
+    },
+    "simulation": {
+     "mean_us": 471.1,
+     "count": 3004
+    },
+    "snow_tracks_powder": {
+     "mean_us": 75.2,
+     "count": 700
+    },
+    "stream_grass": {
+     "mean_us": 110.9,
+     "count": 700
+    },
+    "weather_world": {
+     "mean_us": 125.9,
+     "count": 700
+    }
+   }
+  },
+  "trees_min": {
+   "description": "High with minimum tree distances and no scrub",
+   "scaling_3d_mode": 2,
+   "scaling_3d_scale": 0.75,
+   "quality": "high",
+   "overrides": {
+    "scrub_density": 0,
+    "tree_far_m": 400,
+    "tree_mid_m": 80,
+    "tree_near_m": 20
+   },
+   "frame_ms": {
+    "mean": 37.99,
+    "p95": 41.31,
+    "p99": 42.23,
+    "max": 72.27
+   },
+   "rendered_fps_mean": 26.32,
+   "frames": 659,
+   "ticks": 4023,
+   "peak_kmh": 163.3,
+   "draw_calls_mean": 730,
+   "primitives_mean": 3625897,
+   "render_cpu_ms_p95": 0.88,
+   "cpu_scopes": {
+    "animation_tick": {
+     "mean_us": 315.5,
+     "count": 3005
+    },
+    "camera": {
+     "mean_us": 67.7,
+     "count": 659
+    },
+    "collision_preparation": {
+     "mean_us": 331.9,
+     "count": 659
+    },
+    "effects": {
+     "mean_us": 237.0,
+     "count": 659
+    },
+    "hud": {
+     "mean_us": 104.0,
+     "count": 659
+    },
+    "pose": {
+     "mean_us": 431.5,
+     "count": 659
+    },
+    "simulation": {
+     "mean_us": 568.6,
+     "count": 3005
+    },
+    "snow_tracks_powder": {
+     "mean_us": 150.9,
+     "count": 659
+    },
+    "weather_world": {
+     "mean_us": 126.8,
+     "count": 659
+    }
+   }
+  },
+  "all_min": {
+   "description": "High with all of the above minimised and weather quality 0",
+   "scaling_3d_mode": 2,
+   "scaling_3d_scale": 0.75,
+   "quality": "high",
+   "overrides": {
+    "highlight_glow": false,
+    "scrub_density": 0,
+    "shadow_distance_m": 60,
+    "shadow_quality": 0,
+    "snow_local_deformation": false,
+    "tree_far_m": 400,
+    "tree_mid_m": 80,
+    "tree_near_m": 20,
+    "volumetric_shafts": false,
+    "weather_quality": 0
+   },
+   "frame_ms": {
+    "mean": 31.07,
+    "p95": 33.62,
+    "p99": 35.05,
+    "max": 53.89
+   },
+   "rendered_fps_mean": 32.18,
+   "frames": 805,
+   "ticks": 3813,
+   "peak_kmh": 163.3,
+   "draw_calls_mean": 701,
+   "primitives_mean": 2858452,
+   "render_cpu_ms_p95": 0.83,
+   "cpu_scopes": {
+    "animation_tick": {
+     "mean_us": 288.6,
+     "count": 3001
+    },
+    "camera": {
+     "mean_us": 55.2,
+     "count": 805
+    },
+    "collision_preparation": {
+     "mean_us": 249.2,
+     "count": 805
+    },
+    "effects": {
+     "mean_us": 153.5,
+     "count": 805
+    },
+    "hud": {
+     "mean_us": 100.0,
+     "count": 805
+    },
+    "pose": {
+     "mean_us": 402.1,
+     "count": 805
+    },
+    "simulation": {
+     "mean_us": 501.0,
+     "count": 3001
+    },
+    "snow_tracks_powder": {
+     "mean_us": 71.2,
+     "count": 805
+    },
+    "weather_world": {
+     "mean_us": 113.5,
+     "count": 805
+    }
+   }
+  },
+  "branch_auto": {
+   "description": "Branch fable/mac-spatial-upscaler: Auto on Metal = bilinear 0.75 with preset MSAA 2x (production apply_viewport path)",
+   "scaling_3d_mode": 0,
+   "scaling_3d_scale": 0.75,
+   "msaa_3d": 1,
+   "quality": "high",
+   "frame_ms": {
+    "mean": 27.55,
+    "p95": 30.16,
+    "p99": 30.78,
+    "max": 46.5
+   },
+   "rendered_fps_mean": 36.29,
+   "frames": 908,
+   "ticks": 3707,
+   "draw_calls_mean": 883,
+   "primitives_mean": 3529043,
+   "render_cpu_ms_p95": 1.04
+  },
+  "branch_fsr2": {
+   "description": "Branch: explicit --upscaler=fsr2 at 0.75 (control on the same code)",
+   "scaling_3d_mode": 2,
+   "scaling_3d_scale": 0.75,
+   "msaa_3d": 0,
+   "quality": "high",
+   "frame_ms": {
+    "mean": 39.06,
+    "p95": 42.0,
+    "p99": 45.42,
+    "max": 62.59
+   },
+   "rendered_fps_mean": 25.6,
+   "frames": 641,
+   "ticks": 4028,
+   "draw_calls_mean": 935,
+   "primitives_mean": 3647342,
+   "render_cpu_ms_p95": 1.17
+  }
+ }
+}
