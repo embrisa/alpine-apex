@@ -1,0 +1,184 @@
+{
+  "schema": 1,
+  "id": "d2dbf705e4aa4fcb81246d60b89101a5",
+  "summary": "Establish nearby forest depth earlier with material draw order",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Forest depth prepass",
+    "Dense-route frame time"
+  ],
+  "owned_paths": [
+    "scripts/presentation/alpine_assets.gd",
+    "docs/RENDERING.md",
+    "docs/PERFORMANCE_HANDOFF.md"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "docs/VALIDATION.md",
+    "scripts/presentation/density_forest.gd",
+    "assets/graphics/pc_forest_tree_common.gdshaderinc"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only material render priorities changed; no solver/input/session edits. Exact 1800 replay ticks matched."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "No placement, density, mesh, terrain, LOD or cache changes; 8 m experiment restored to 16 m."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "No persistence, replay or schema changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Material draw ordering only; producer, schema and identity unchanged."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Material draw ordering only; producer, schema and identity unchanged."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Material draw ordering only; producer, schema and identity unchanged."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Material draw ordering only; producer, schema and identity unchanged."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Material draw ordering only; producer, schema and identity unchanged."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "rendered",
+      "command": "Shared guard forest-order-visual-20260916: artifacts/forest_draw_order_20260916/visual.gd",
+      "result": "passed",
+      "details": "Seven matched production-mountain before/after pairs at 7/12/17/32/59/64/69 m inspected before timing. No visible silhouette, layering, snow or fade change. Frozen 1280x720 views; not human or full-motion acceptance."
+    },
+    {
+      "kind": "automated",
+      "command": "Shared guard forest-order-checks-20260916: tests/render_efficiency_suite.gd",
+      "result": "passed",
+      "details": "361 checks passed. Production code unchanged after this verification. No physics/session change requiring core suite reruns."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical forest-order-20260916, clean row 2 against saved native-tracking-20260916 row 2",
+      "result": "passed",
+      "details": "88.2923 -> 91.0604 FPS; 11.32601 -> 10.98172 ms/frame; GPU10.24553 -> 9.94338ms; p9513.395/p9915.128ms. Same effective settings/camera/engine, both caches hit, 1800 exact ticks, zero unfocused frames. One warmup/one candidate; no original rerun or captures."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical forest-order-gpu-20260916 vs saved current-gpu-20260916; warmed trial 2, trim eight boundary frames per end",
+      "result": "passed",
+      "details": "Native scene depth3.480347 -> 3.202983ms (-7.97%); opaque2.129144 -> 2.131829ms.1284/1323 frames, zero dropped. Shared intervals, not LOD1-specific fragment attribution. Diagnostic FPS excluded from clean comparison."
+    },
+    {
+      "kind": "automated",
+      "command": "Scoped metadata/versioning checks and git whitespace review",
+      "result": "passed",
+      "details": "Final documentation added after runtime verification; no runtime inputs changed. Skills reviewed: no commands, ownership or evidence contract change. No source/asset/executable hash audits."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Single short-route result does not establish sustained 90-120 FPS or full-descent acceptance; p95 remains 13.395ms.",
+    "Mac, packaged export and human/controller acceptance not performed."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T13:21:10.638857+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "3949775267679d580911e381f2ec3a56c8aec565",
+      "dev": 48,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "assets/graphics/pc_forest_tree_common.gdshaderinc": {
+        "size": 6051,
+        "mtime_ns": 1789547219608080200
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 11104,
+        "mtime_ns": 1789564870154165500
+      },
+      "docs/RENDERING.md": {
+        "size": 39737,
+        "mtime_ns": 1789564870128711100
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789512657279656900
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/presentation/alpine_assets.gd": {
+        "size": 21073,
+        "mtime_ns": 1789564235675198500
+      },
+      "scripts/presentation/density_forest.gd": {
+        "size": 9889,
+        "mtime_ns": 1789564194853494300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18345,
+        "mtime_ns": 1789216227754129500
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      }
+    }
+  }
+}

@@ -378,6 +378,11 @@ func update_wind(state, dt: float, animate: bool) -> void:
 
 func _remember_material(id: String, mat: ShaderMaterial) -> void:
 	named_materials[id] = mat
+	# Establish nearby cutout depth before distant crowns and the mountain.
+	# Opaque depth tests still decide visibility; no geometry or LOD changes.
+	if id in ["FC_Tree","FC_Broadleaf"]: mat.render_priority=-20
+	elif id in ["FC_Tree_Mid","FC_Broadleaf_Mid"]: mat.render_priority=-10
+	elif id.begins_with("FC_Impostor_"): mat.render_priority=-5
 	if id in ["FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"] or (id.begins_with("FC_Impostor_") and tree_record("forest_"+id.trim_prefix("FC_Impostor_")).has("foliage_type")) or id.begins_with("FC_Impostor_spruce_") or id.begins_with("FC_Impostor_fir_") or id.begins_with("FC_Impostor_pine_"):
 		if not sight_receivers.has(mat): sight_receivers.append(mat)
 		mat.set_shader_parameter("foliage_sight_parameters",foliage_sight.parameters)

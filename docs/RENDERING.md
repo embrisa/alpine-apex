@@ -167,6 +167,14 @@ identical when editing either shader. No color variation changes tree transforms
 or physics. All quality tiers retain every physical tree and existing distance
 bands; prepared source and conversion limits are in [Assets](ASSETS.md#trees).
 
+`AlpineAssets._remember_material()` assigns render priorities -20 to near tree
+materials, -10 to middle tree materials and -5 to far tree cards. The renderer
+sorts priority before material and coarse depth layers, so nearby forest can
+establish depth before distant crowns and default-priority terrain. Opaque depth
+tests still determine visibility; meshes, alpha coverage, shadows and LOD fades
+are unchanged. Keep registration as the owner so late-loaded materials inherit
+the order. Scene-level timing is recorded in [the performance handoff](PERFORMANCE_HANDOFF.md).
+
 `forest_placement.gd` owns the 384 m distant-card partition; the direct
 `density_forest.gd` path reads the same constant. Residency and shadow proxies
 retain 32 m regions, 128 m loading and 192 m retention. LOD0/1 draw groups split

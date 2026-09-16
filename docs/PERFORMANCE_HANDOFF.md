@@ -28,6 +28,9 @@ Snapshot for Fable's next experiments. Current contracts and commands remain in
   scope fell **250.55 to 34.13 us/tick**; total animation fell **813.45 to
   584.77 us/tick**. These overlapping savings must not be added. All 19,800
   paired tracker updates and 3,787 final pose/equipment comparisons matched.
+- Tree materials now draw in near/mid/far priority order before default terrain.
+  No geometry, alpha footprint, placement or LOD change; scene depth prepass
+  fell **3.480 to 3.203 ms (-8.0%)** in separate native profiling.
 
 ## Windows measurements to reuse
 
@@ -42,7 +45,8 @@ per candidate; zero unfocused frames and exact trace completion.
 | Static 16 m detail groups | 79.26 | 12.617 | 11.050 | 17.207 |
 | Plus LOD1 mesh normals | 84.07 | 11.895 | 10.280 | 17.585 |
 | Plus exact tick query reuse | 87.67 | 11.407 | 10.171 | 15.133 |
-| Plus native skeletal tracking (enabled) | **88.29** | **11.326** | **10.246** | **15.894** |
+| Plus native skeletal tracking | 88.29 | 11.326 | 10.246 | 15.894 |
+| Plus forest material ordering (enabled) | **91.06** | **10.982** | **9.943** | **15.128** |
 
 The LOD1 material change gained 4.81 FPS (6.1%) and saved 0.722 ms/frame / 0.770 ms GPU
 in these samples. The p99 increased 0.378 ms. These are short samples, not a
@@ -67,6 +71,15 @@ third traversal measured CPU scopes; it is not pooled with the clean FPS sample.
 The earlier scope diagnostic is `remaining-cpu-20260916`, row 2, and the candidate
 is `native-tracking-20260916`, row 3, under `artifacts/pc_environment/`.
 
+Material ordering then reached **91.06 FPS / 10.982 ms**, +2.77 FPS (3.14%) and
+-0.344 ms/frame, using the saved 88.29 FPS control. p95 improved to 13.395 ms
+and p99 to 15.128 ms. Settings, camera, caches and exact trace matched. Seven
+matched 7/12/17/32/59/64/69 m mountain views passed inspection, as did 361 render
+efficiency checks. Separate native profiles show depth **3.480 -> 3.203 ms**,
+opaque **2.129 -> 2.132 ms**. These are whole-scene intervals, not isolated LOD1
+or fragment-count attribution. The short-route average crosses 90 FPS, but
+p95 remains above 11.1 ms: sustained 90-120 FPS is still unproven.
+
 Per-route actual normal evaluations fell 38,874 to 14,899 and snow-depth
 evaluations 25,366 to 12,622. Only raw terrain queries are cached; dynamic crush
 and contact state remain live. See [the ownership contract](PHYSICS.md#ownership-and-tuning).
@@ -79,9 +92,13 @@ The exact-query receipt is
 `artifacts/pc_environment/solver-query-confirm-20260916/production.json`, row 2;
 its regenerated, unchanged input route is
 `artifacts/solver_queries_20260916/forest.json`.
-The newest clean candidate receipt is
-`artifacts/pc_environment/native-tracking-20260916/production.json`, row 2, using
-that same trace. Compact tracker evidence is `artifacts/native_tracking_20260916/`.
+The native-tracking clean receipt is
+`artifacts/pc_environment/native-tracking-20260916/production.json`, row 2.
+The newest clean reference is `artifacts/pc_environment/forest-order-20260916/production.json`,
+row 2, using that same trace. Native profile summaries are under
+`artifacts/pc_environment/{current-gpu,forest-order-gpu}-20260916/summary.json`.
+Compact evidence is `artifacts/native_tracking_20260916/` and
+`artifacts/forest_draw_order_20260916/`.
 
 **Baseline correction:** earlier 81.99-89.18 FPS candidates used faulty distance
 bounds: production groups had empty `transforms`, while poses were in
@@ -107,6 +124,9 @@ Do not repeat unchanged rejected approaches: broad UV packing, per-frame CPU
 tree compaction, LOD1 alpha trapezoid trimming, small-angle wind polynomial, or
 blindly replacing trees based on source triangle count. Terrain occlusion's
 roughly 5% figure was fewer draws, not a measured FPS gain; it remains disabled.
+Static 8 m forest groups also failed: 88.29 -> 87.00 FPS, despite 3.45% fewer
+submitted primitives. Render CPU grew 0.171 ms while GPU saved only 0.096 ms;
+16 m groups were restored. Compact evidence: `artifacts/tighter_forest_batches_20260916/`.
 
 Tracker equality, matched rendered poses, anatomy/attachment/pole checks and
 physics/runtime checks passed on Windows. Four older procedural assertions
