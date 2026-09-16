@@ -16,4 +16,23 @@ else
     echo 'Godot 4.7+ was not found. Set GODOT_BIN or open project.godot in Godot.' >&2
     exit 1
 fi
+# A windowed run launched as a plain exec'd process never gets window-server
+# focus on macOS: the window stays occluded, so the main thread blocks ~1s/frame
+# in CAMetalLayer nextDrawable and any FPS measured is invalid. `open` launches
+# through LaunchServices and focuses the window normally, so route non-headless
+# runs through it when the resolved engine is an app bundle.
+case " $* " in
+    *' --headless '*|*' -s '*|*' --script '*) ALPINE_HEADLESS=1 ;;
+    *) ALPINE_HEADLESS= ;;
+esac
+
+if [ "$(uname -s)" = "Darwin" ] && [ -z "$ALPINE_HEADLESS" ]; then
+    case "$ALPINE_ENGINE" in
+        */Contents/MacOS/*)
+            ALPINE_BUNDLE=${ALPINE_ENGINE%/Contents/MacOS/*}
+            exec open -n -W -a "$ALPINE_BUNDLE" --args --path "$ALPINE_ROOT" "$@"
+            ;;
+    esac
+fi
+
 exec "$ALPINE_ENGINE" --path "$ALPINE_ROOT" "$@"

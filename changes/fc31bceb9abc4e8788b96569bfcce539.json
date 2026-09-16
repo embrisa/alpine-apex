@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "id": "fc31bceb9abc4e8788b96569bfcce539",
+  "summary": "Launch windowed godotw runs through open -n -W -a so macOS focuses the window instead of leaving it occluded",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "macOS local launch tooling: focus windowed godotw runs so rendered/FPS checks on this checkout aren't invalidated by window occlusion"
+  ],
+  "owned_paths": [
+    "godotw"
+  ],
+  "read_paths": [],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Shell launch wrapper only; no gameplay, physics, generation or data format change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Shell launch wrapper only; no gameplay, physics, generation or data format change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Shell launch wrapper only; no gameplay, physics, generation or data format change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Shell launch wrapper only; no gameplay, physics, generation or data format change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Shell launch wrapper only; no gameplay, physics, generation or data format change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "sh -n godotw",
+      "result": "passed",
+      "details": "POSIX sh syntax check; the headless-detection case pattern was also dry-run against a synthetic --headless --script argument list and correctly selected the unchanged direct-exec path."
+    },
+    {
+      "kind": "rendered",
+      "command": "./godotw (plain interactive launch), observed with `osascript -e 'tell application \"System Events\" to get name of first process whose frontmost is true'` and `top -pid <pid>`",
+      "result": "passed",
+      "details": "Before this change, exec'ing the Godot binary directly left the terminal/Claude frontmost and the game window occluded, with `sample` showing the main thread parked in -[CAMetalLayer nextDrawable] for the bulk of each frame. After routing the plain launch through `open -n -W -a <bundle> --args --path ... `, the frontmost process switched to Godot immediately and CPU usage sat around 35% actively rendering; `sample` no longer showed the main thread blocked in nextDrawable. Verified twice (direct `open -n -W -a` invocation, then through the edited ./godotw itself) and cleanly terminated both test instances afterward."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Fable 5.1 (Mac agent thread) to use the updated ./godotw for a real gameplay FPS probe and confirm measured frame times are usable evidence, not just window-focus/CPU sanity."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T15:14:33.152680+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "f99ee38c26e3fafcaa08b7b5012c303af737adab",
+      "dev": 53,
+      "modified": true
+    },
+    "inputs": {
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "godotw": {
+        "size": 1593,
+        "mtime_ns": 1789571459060991634
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789546451377313344
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789567082552816491
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789511897136445444
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18224,
+        "mtime_ns": 1789567082555118195
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      }
+    }
+  }
+}
