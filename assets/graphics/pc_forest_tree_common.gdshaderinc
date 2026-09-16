@@ -85,12 +85,11 @@ void fragment() {
  }
  if(snow && snow_coverage<.5) discard;
  vec3 tint=COLOR.rgb;
- ALPHA=1.0;
- ALPHA_SCISSOR_THRESHOLD=.5;
+ // One alpha test: the explicit needle discard. No ALPHA/scissor write, so the
+ // material stays opaque with identical cutout coverage and shadow cutouts.
  if(mask>.65 && mask<.8) {
   vec4 needles=texture(foliage_texture,UV);
   if(needles.a<.5) discard;
-  ALPHA=needles.a;
   tint*=needles.rgb*foliage_color_grade*leaf_variation;
 #ifdef ALPINE_FOREST_MID
   // At medium distance retain authored mesh normals and a restrained ambient

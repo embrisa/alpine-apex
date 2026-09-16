@@ -399,3 +399,9 @@ cloud-noise texture baking cannot reproduce the aperiodic pattern and stays
 open. Whole-frame Mac means moved 24.8 -> 24.7 ms, inside noise. This task
 remains `blocked` as before; no production GPU optimization is claimed here.
 
+**Pre-pass alpha result, 2026-09-16 (Fable, task `AA-20260916-084506`, macOS):**
+foliage materials now use one explicit discard instead of ALPHA/scissor plus
+discard (exact coverage); an opaque wood surface is infeasible while wood
+carries the LOD dither discard. Interleaved Mac frame means moved 26.6/26.1 ->
+26.4/25.8 ms, inside noise. Still `blocked`; Windows pre-pass timing pending.
+

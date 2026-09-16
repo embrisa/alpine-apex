@@ -20,10 +20,9 @@ void vertex() {
 void fragment() {
 	vec4 sample_color=texture(grass_texture,UV);
 	if(grass_visibility<fract(52.9829189*fract(dot(FRAGCOORD.xy,vec2(.06711056,.00583715))))) discard;
+	if(sample_color.a<.55) discard; // Former ALPHA_SCISSOR_THRESHOLD .55, before the shading.
 	ALBEDO=sample_color.rgb*COLOR.rgb*vec3(.75,.70,.53);
 	float coating=smoothstep(.10,.8,snow_coating)*smoothstep(.10,.65,1.0-UV.y)*smoothstep(.12,.5,sample_color.g);
 	ALBEDO=mix(ALBEDO,vec3(.72,.79,.85),coating);
-	ALPHA=sample_color.a;
-	ALPHA_SCISSOR_THRESHOLD=.55;
 	ROUGHNESS=.95;
 }

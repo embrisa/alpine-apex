@@ -13,9 +13,8 @@ void vertex() {
 }
 void fragment() {
  vec4 tex=texture(albedo_texture,UV);
+ if(tex.a<.42) discard; // Former ALPHA_SCISSOR_THRESHOLD .42, one test.
  ALBEDO=tex.rgb;
- ALPHA=tex.a;
- ALPHA_SCISSOR_THRESHOLD=.42;
  ROUGHNESS=.91;
  SPECULAR=.18;
  if(!FRONT_FACING) NORMAL=-NORMAL;

@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084506-cut-foliage-depth-prepass-cost"
 title: "Remove redundant alpha tests and give tree wood a cheap opaque depth path"
-status: ready
+status: done
 priority: P1
 depends_on: []
 created: "2026-09-16T08:45:06Z"
-updated: "2026-09-16T08:45:06Z"
+updated: "2026-09-16T20:21:01Z"
 source_thread: null
 ---
 
@@ -107,5 +107,45 @@ None
 
 ## Completion record
 
-Pending implementation. Record pass attribution before/after, rendered
-evidence, tests, rejected variants, guide updates and commit/push references.
+### Delivery, 2026-09-16: single alpha tests kept; wood opaque path infeasible under the contract (Fable, macOS checkout)
+
+Implemented manually; no scheduled claim. Owned shaders:
+`pc_forest_tree_common.gdshaderinc`, `pc_tree_impostor.gdshader`,
+`foliage.gdshader`, `tree_impostor.gdshader`, `mineral_grass.gdshader`.
+
+Delivered (identical coverage and shadow cutouts): every foliage material now
+performs one alpha test, the explicit `discard` at the former scissor
+threshold, placed right after the texture read and before grading, canopy
+masks, foliage-sight and shading work. The unconditional `ALPHA`/
+`ALPHA_SCISSOR_THRESHOLD` writes are gone, so the tree material no longer
+routes every wood fragment through the scissor path and impostor cards reject
+empty texels before two to four further reads. Godot selects the same
+full-fragment depth pre-pass variant for `discard` as for scissor, so no pass
+assignment, sorting or shadow behaviour changes.
+
+Not delivered, with the reason: giving trunk and branch wood an opaque
+(`cull_back`, no discard) surface so the pre-pass can use the null fragment is
+infeasible while the LOD cross-fade dither applies to wood. That dither is a
+per-fragment `discard`, and the task requires the cross-fade to stay identical;
+a wood surface without it would pop at LOD transitions. Splitting the imported
+meshes would also break `pc_graphics_suite`'s one-surface budget check. The
+proposal stays open for a design decision (a dither-free wood LOD handover).
+
+Measured on the Apple M4 MacBook (Metal, bilinear 0.75, Standard mountain
+free ski, `scripts/mac_frame_probe.sh`, 20 s runs, two each, whole-frame
+means; the route keeps dense forest at impostor distance and Metal exposes no
+pass timers):
+
+| Variant | Frame mean | p95 | p99 |
+| --- | --- | --- | --- |
+| Baseline (Dev 72 shaders), interleaved runs 3 and 4 | 26.63 / 26.13 ms | 29.1 / 28.4 | 30.2 / 29.6 |
+| Single alpha tests (delivered), runs 3 and 4 | 26.43 / 25.76 ms | 28.8 / 27.9 | 29.7 / 29.0 |
+
+The candidate ran 0.2 and 0.4 ms faster than the baseline that immediately preceded it in both interleaved pairs, inside the +/-1.5 ms noise; two earlier back-to-back candidate runs (25.6 and 27.2 ms) were slower only because the machine was warming through a long series of rendered runs, which is why the pairs were interleaved. The Windows dense trace against
+[DENSE_FOREST_BASELINE.json](../../docs/DENSE_FOREST_BASELINE.json) remains
+the decisive pre-pass measurement and was not run here.
+
+Automated (macOS, Godot 4.7.2): foliage_sight_suite 307/307, density_lod_suite 384/384, tree_collection_suite 699/699, render_efficiency_suite 361/361, macos_compatibility_suite 12/12, runtime_suite 192/192, native forest_preparation_suite 3845/3845 (run through LaunchServices; it needs MultiMesh readback); colorful_forest_suite 194/200 with all six failures ('Detail levels share the broadleaf material') identical on unmodified main, a pre-existing consequence of the separate LOD1 material. Rendered runs compiled every
+changed shader on Metal; `artifacts/mac_probe/pp_cand_1.png` shows the forest
+and grass as before. [Rendering](../../docs/RENDERING.md) records the
+single-alpha-test material contract.

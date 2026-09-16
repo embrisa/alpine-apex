@@ -178,7 +178,13 @@ The middle shader keeps authored mesh normals, omits normal-map sampling and
 tangent-frame bending, and uses restrained fixed foliage AO. Both variants share
 `pc_forest_tree_common.gdshaderinc`; geometry, alpha coverage, vertex/normal wind
 bending, color, snow and LOD fades stay shared. Each material participates in
-the same wind, branch-contact and canopy-sight registries. Their far
+the same wind, branch-contact and canopy-sight registries. Foliage cutouts
+(tree needles, impostor cards, legacy foliage and cards, mineral grass) use one
+explicit `discard` at their threshold immediately after the texture read and
+never write `ALPHA`/`ALPHA_SCISSOR_THRESHOLD`; the wind trigonometry is
+evaluated once per vertex and shared by position, normal and tangent frame.
+Wood keeps the LOD cross-fade dither, so it cannot take the null-fragment depth
+pre-pass without a design change to the LOD handover. Their far
 cards use authored canopy masks, so warm colors do not evade assistance or fade
 the trunk. Both geometry and cards derive restrained leaf tint variation from
 the same tree anchor; wood and snow remain neutral. Keep their grading functions

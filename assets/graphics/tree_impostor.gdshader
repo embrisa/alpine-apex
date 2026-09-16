@@ -14,11 +14,10 @@ void vertex() {
 }
 void fragment() {
  vec4 tex=texture(albedo_texture,UV);
+ if(tex.a<.42) discard; // Former ALPHA_SCISSOR_THRESHOLD .42, before the grading.
  float saturation=max(max(tex.r,tex.g),tex.b)-min(min(tex.r,tex.g),tex.b);
  float needles=smoothstep(.025,.16,saturation)*step(tex.r*.95,tex.g);
  ALBEDO=tex.rgb*(foliage_tint?mix(vec3(1),vec3(.4,.65,.55),needles):vec3(1));
- ALPHA=tex.a;
- ALPHA_SCISSOR_THRESHOLD=.42;
  ROUGHNESS=.91;
  SPECULAR=.18;
 }

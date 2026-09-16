@@ -47,6 +47,9 @@ void fragment() {
  vec4 first=texture(albedo_texture,vec2((uv.x+a)/8.0,uv.y));
  vec4 second=texture(albedo_texture,vec2((uv.x+mod(a+1.0,8.0))/8.0,uv.y));
  vec4 tex=mix(first,second,smoothstep(.15,.85,fract(atlas_view)));
+ // The card cutout (formerly ALPHA_SCISSOR_THRESHOLD .35) rejects before any
+ // canopy, grading or foliage-sight work; identical coverage, one test.
+ if(tex.a<.35) discard;
  // Grade green needles only; baked white snow and brown wood stay neutral.
  float needles=smoothstep(.006,.045,tex.g-max(tex.r,tex.b));
  float authored_mask=0.0;
@@ -59,8 +62,6 @@ void fragment() {
  }
  float colored_leaf=authored_canopy ? authored_mask*smoothstep(.02,.10,max(tex.r,max(tex.g,tex.b))-min(tex.r,min(tex.g,tex.b))) : needles;
  ALBEDO=tex.rgb*mix(vec3(1.0),foliage_color_grade,needles)*mix(vec3(1.0),leaf_variation,colored_leaf);
- ALPHA=tex.a;
- ALPHA_SCISSOR_THRESHOLD=.35;
  ROUGHNESS=.90;
  SPECULAR=.18;
 }

@@ -1,0 +1,242 @@
+{
+  "schema": 1,
+  "id": "faa22065901b413e8c8aa662a74450fe",
+  "summary": "Use one explicit alpha discard per foliage material and record why wood cannot take the opaque depth pre-pass path",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Foliage cutout alpha tests",
+    "Depth pre-pass attribution on Metal",
+    "Rendering material contract"
+  ],
+  "owned_paths": [
+    "assets/graphics/foliage.gdshader",
+    "assets/graphics/mineral_grass.gdshader",
+    "assets/graphics/pc_forest_tree_common.gdshaderinc",
+    "assets/graphics/pc_tree_impostor.gdshader",
+    "assets/graphics/tree_impostor.gdshader",
+    "backlog/archive/AA-20260916-084506-cut-foliage-depth-prepass-cost.md",
+    "backlog/tasks/AA-20260912-105302-reduce-dense-scene-gpu-cost.md",
+    "backlog/tasks/AA-20260916-084506-cut-foliage-depth-prepass-cost.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RENDERING.md"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "assets/graphics/pc_forest_tree.gdshader",
+    "assets/graphics/pc_forest_tree_mid.gdshader",
+    "assets/graphics/pc_lod.gdshaderinc",
+    "tests/colorful_forest_suite.gd",
+    "tests/density_lod_suite.gd",
+    "tests/foliage_sight_suite.gd",
+    "tests/forest_preparation_suite.gd",
+    "tests/mac_frame_probe.gd",
+    "tests/macos_compatibility_suite.gd",
+    "tests/render_efficiency_suite.gd",
+    "tests/runtime_suite.gd",
+    "tests/tree_collection_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Shader-only change: the discard tests the same texel alpha against the former scissor threshold, so cutout coverage, shadows, pass assignment and every asset byte are unchanged."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Shader-only change: the discard tests the same texel alpha against the former scissor threshold, so cutout coverage, shadows, pass assignment and every asset byte are unchanged."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Shader-only change: the discard tests the same texel alpha against the former scissor threshold, so cutout coverage, shadows, pass assignment and every asset byte are unchanged."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Shader-only change: the discard tests the same texel alpha against the former scissor threshold, so cutout coverage, shadows, pass assignment and every asset byte are unchanged."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Shader-only change: the discard tests the same texel alpha against the former scissor threshold, so cutout coverage, shadows, pass assignment and every asset byte are unchanged."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "ALPINE_FULL_MOUNTAIN=1 ./godotw --headless --script tests/{foliage_sight_suite,density_lod_suite,tree_collection_suite,render_efficiency_suite,macos_compatibility_suite,runtime_suite}.gd; open -n -W -a Godot.app --args --path . --script tests/forest_preparation_suite.gd",
+      "result": "passed",
+      "details": "307, 384, 699, 361, 12, 192 and 3845 checks passed on macOS Godot 4.7.2 with the changed shaders (forest_preparation needs a native RenderingDevice)."
+    },
+    {
+      "kind": "automated",
+      "command": "headless tests/colorful_forest_suite.gd (plus a stash control run on 0816975)",
+      "result": "passed",
+      "details": "194/200 with the final code; the six 'Detail levels share the broadleaf material' failures are identical on unmodified main and predate this change."
+    },
+    {
+      "kind": "performance",
+      "command": "scripts/mac_frame_probe.sh pp_{base,cand}_{3,4} --probe-seconds=20 (interleaved)",
+      "result": "passed",
+      "details": "Apple M4 whole-frame means: baseline 26.63/26.13 ms, single-alpha-test shaders 26.43/25.76 ms in the immediately following runs; inside +/-1.5 ms noise. Two earlier back-to-back candidate runs were slower only through thermal drift, hence the interleaving. The route keeps dense forest at impostor distance; Windows dense-trace pre-pass timing remains decisive."
+    },
+    {
+      "kind": "human",
+      "command": "Rendered still artifacts/mac_probe/pp_cand_1.png",
+      "result": "pending",
+      "details": "Forest, cards and grass look as before; matched 4K stills on Windows remain a follow-up."
+    }
+  ],
+  "outstanding_acceptance": [
+    "The opaque wood surface was not implemented: wood keeps the LOD cross-fade dither discard, which the task requires unchanged, so the null-fragment pre-pass is unavailable to it without a design change. GPU task AA-20260912-105302 stays blocked."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T20:21:01.693818+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "081697559dce524bd949e4bd42e6946b0e92444c",
+      "dev": 72,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789544258451225404
+      },
+      "assets/graphics/foliage.gdshader": {
+        "size": 776,
+        "mtime_ns": 1789589993727115735
+      },
+      "assets/graphics/mineral_grass.gdshader": {
+        "size": 1330,
+        "mtime_ns": 1789589993727676034
+      },
+      "assets/graphics/pc_forest_tree.gdshader": {
+        "size": 118,
+        "mtime_ns": 1789567082548372267
+      },
+      "assets/graphics/pc_forest_tree_common.gdshaderinc": {
+        "size": 6368,
+        "mtime_ns": 1789589993728743964
+      },
+      "assets/graphics/pc_forest_tree_mid.gdshader": {
+        "size": 145,
+        "mtime_ns": 1789567082548500466
+      },
+      "assets/graphics/pc_lod.gdshaderinc": {
+        "size": 1756,
+        "mtime_ns": 1789511896995155930
+      },
+      "assets/graphics/pc_tree_impostor.gdshader": {
+        "size": 3615,
+        "mtime_ns": 1789589993728936883
+      },
+      "assets/graphics/tree_impostor.gdshader": {
+        "size": 1051,
+        "mtime_ns": 1789589993729118636
+      },
+      "backlog/archive/AA-20260916-084506-cut-foliage-depth-prepass-cost.md": {
+        "size": 8978,
+        "mtime_ns": 1789590061177011160
+      },
+      "backlog/tasks/AA-20260912-105302-reduce-dense-scene-gpu-cost.md": {
+        "size": 27573,
+        "mtime_ns": 1789590061210486007
+      },
+      "backlog/tasks/AA-20260916-084506-cut-foliage-depth-prepass-cost.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 43590,
+        "mtime_ns": 1789590061211055515
+      },
+      "docs/RENDERING.md": {
+        "size": 43553,
+        "mtime_ns": 1789589993729573808
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789546451377313344
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789574833688637752
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 16580,
+        "mtime_ns": 1789588761959243502
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789581307436015366
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      },
+      "tests/colorful_forest_suite.gd": {
+        "size": 6985,
+        "mtime_ns": 1789511897168237450
+      },
+      "tests/density_lod_suite.gd": {
+        "size": 5201,
+        "mtime_ns": 1789511897170695291
+      },
+      "tests/foliage_sight_suite.gd": {
+        "size": 8756,
+        "mtime_ns": 1789567082556298762
+      },
+      "tests/forest_preparation_suite.gd": {
+        "size": 7879,
+        "mtime_ns": 1789570283790474583
+      },
+      "tests/mac_frame_probe.gd": {
+        "size": 7320,
+        "mtime_ns": 1789588761961435266
+      },
+      "tests/macos_compatibility_suite.gd": {
+        "size": 2929,
+        "mtime_ns": 1789581307438094827
+      },
+      "tests/render_efficiency_suite.gd": {
+        "size": 9859,
+        "mtime_ns": 1789511897208473207
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41041,
+        "mtime_ns": 1789511897211065425
+      },
+      "tests/tree_collection_suite.gd": {
+        "size": 4876,
+        "mtime_ns": 1789511897232483642
+      }
+    }
+  }
+}
