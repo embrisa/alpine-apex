@@ -503,6 +503,19 @@ discovery. Windows numbers were not re-measured; the same GDScript work is
 removed there. The Windows-only `interface_performance_suite` still owns the
 `ui_settings_*` rows and should be rerun when a Windows host is available.
 
+Presentation terrain probing (Fable, task `084508`, delivered on `main`
+2026-09-16): height-only presentation reads (camera boom/clearance/slope,
+spray tails, track stamps, animation clearance joints, weather drifts, voice
+survey) now call the exact allocation-free `sample_height` when the surface
+offers it, spray uniforms and the equipment mode string are change-gated,
+track stamps and GPU stroke buffers stop allocating, and `WeatherState.blend`
+uses typed assignments. Mac scope means (us): `camera` 73 -> 68, `effects` 276 -> 254, `snow_tracks_powder` 171 -> 148, `weather_world` 180 -> 165, `audio_observers` 23 -> 22. New sub-scopes
+`powder_surface` (inside `snow_tracks_powder`) and `sfx_advance` (inside
+`effects`) attribute the remaining cost; equipment contacts are about 12 us
+per frame and the powder patch about 88 us, which belongs to task `084507`.
+The `dt > .10` equipment reset was kept because `equipment_audio_suite`
+asserts long frame gaps re-prime without false hits.
+
 Fable reported 3,000 exact random physical hip fits; extreme presentation pelvis
 poses differed by at most 1.04 mm, knee by 2.4e-7 m and tracking quaternion distance
 by 9.7e-7. Its 6,000-tick minimum-pass solver observations were 333-346 us/tick
@@ -575,6 +588,7 @@ file is absent from that commit and its tree.
 | `084502-reduce-recording-tick-cost` | Direct typed snapshot field access saves about 6 us/tick; all recorded channels remain exact. Broad buffer rewrites were rejected. | Routine capture now runs at 20 Hz, saving one third of completed-pose evaluations with accepted coarser ghost motion; see the current timed reference above. Further per-capture work remains open. |
 | `084503-publish-shared-shader-uniforms-globally` | Cloud parameter/direction/height change gates and wind direction/strength gates already exist. Tree contact shader work now skips exact rest. | Global publication and remaining write reduction are untested. Preserve separate world/preview state and pause behavior; receiver count estimates are not measured savings. |
 | `084504-reduce-hud-frame-cost` | Delivered on `main` 2026-09-16: hidden-instrument early return, retained widget layout, change-gated readouts/theme override/crash card, cached menu-background state, once-per-frame footer/mode text, memoised prompts, sleeping navigation scope scan, exact flavor discovery bound. Mac `hud` scope about 147 -> 44 us riding and 146 -> 36 us in menus. | Windows `interface_performance_suite` rerun; `node_added` popup tracking kept deliberately. |
+| `084508-reduce-presentation-terrain-probing` | Delivered on `main` 2026-09-16: exact `sample_height` for height-only presentation reads, change-gated spray uniforms and equipment mode string, allocation-free track stamps/stroke buffers, typed weather blend. Mac `camera` 73 -> 68, `effects` 276 -> 254, `snow_tracks_powder` 171 -> 148, `weather_world` 180 -> 165, `audio_observers` 23 -> 22. | Windows scope re-measure; `dt > .10` equipment reset kept (suite contract); powder patch cost belongs to `084507`. |
 
 All four were written against Dev 43 and older scope measurements. Use the
 enabled implementation and current matching reference, not their old 72 FPS

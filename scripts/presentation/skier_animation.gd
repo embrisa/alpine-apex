@@ -328,15 +328,25 @@ func pole_direction(side: float, state: Dictionary) -> Vector3:
 	var compact: float = maxf(state.tuck,state.compact*.65)
 	return Vector3(side*(.08+state.air*.06+state.impact*.15+state.recoil*.08),lerpf(-.65,-.18,compact)+state.extension*.20,-.75-compact*.30).normalized()
 
+const CLEARANCE_JOINTS = ["Hips","Spine","Head","RightHand","LeftHand"]
+var height_surface = null
+var height_direct: bool = false
+var height_bounded: bool = false
+
 func clearance_margin(joints: Dictionary, frame: Transform3D) -> float:
 	# Called after render leg closure, including rigid boot snow burial. Five
 	# exact height queries, no prediction or fixed-tick state advancement.
 	if clearance_surface==null: return INF
 	var margin = INF
-	for id in ["Hips","Spine","Head","RightHand","LeftHand"]:
+	if clearance_surface!=height_surface:
+		height_surface = clearance_surface
+		height_direct = clearance_surface.has_method("sample_height")
+		height_bounded = clearance_surface.has_method("bounds")
+	var bounds: Rect2 = clearance_surface.bounds() if height_bounded else Rect2()
+	for id in CLEARANCE_JOINTS:
 		var p: Vector3 = frame*joints[id]
-		if clearance_surface.has_method("bounds") and not clearance_surface.bounds().has_point(Vector2(p.x,p.z)): continue
-		var height: float = clearance_surface.sample(p.x,p.z).height
+		if height_bounded and not bounds.has_point(Vector2(p.x,p.z)): continue
+		var height: float = clearance_surface.sample_height(p.x,p.z) if height_direct else clearance_surface.sample(p.x,p.z).height
 		var required: float = .18 if id=="Hips" else (.30 if id=="Head" else (.24 if id=="Spine" else .06))
 		margin = minf(margin,p.y-height-required)
 	return margin

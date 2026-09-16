@@ -13,6 +13,9 @@ func _init(source = null) -> void:
 func sample(x: float, z: float) -> Dictionary:
 	return terrain.sample(x,z)
 
+func sample_height(x: float, z: float) -> float:
+	return terrain.sample_height(x,z) if terrain.has_method("sample_height") else terrain.sample(x,z).height
+
 func contact_normal(x: float, z: float) -> Vector3:
 	return terrain.contact_normal(x,z) if terrain.has_method("contact_normal") else terrain.sample(x,z).normal
 

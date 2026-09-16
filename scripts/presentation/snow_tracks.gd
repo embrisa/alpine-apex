@@ -26,6 +26,19 @@ var corner_history: Array[Color] = []
 var appearance_history: Array[Color] = []
 const Response = preload("res://scripts/presentation/snow_response.gd")
 var contact_responses: Array = [Response.new(),Response.new()]
+const TerrainMaterial = preload("res://scripts/core/terrain_material.gd")
+var live_stroke_data = PackedFloat32Array()
+
+## Height-only terrain reads use the allocation-free exact query when the
+## surface offers one; laboratory stubs with only sample() keep working.
+var height_surface = null
+var height_direct: bool = false
+
+func _height(surface, x: float, z: float) -> float:
+	if surface!=height_surface:
+		height_surface = surface
+		height_direct = surface!=null and surface.has_method("sample_height")
+	return surface.sample_height(x,z) if height_direct else surface.sample(x,z).height
 
 func _ready() -> void:
 	tracks = MultiMesh.new()
@@ -125,12 +138,12 @@ func update_contact(sim, field, p: Vector3, active: bool, responses: Array = [])
 
 func _snow_segment(field, a: Vector3, b: Vector3) -> bool:
 	# Check the swept tail segment too: snow cannot bridge a narrow rock strip.
-	var TerrainMaterial = preload("res://scripts/core/terrain_material.gd")
-	for t in [0.0,.5,1.0]:
-		var point = a.lerp(b,t)
-		if TerrainMaterial.at(field,point.x,point.z)==TerrainMaterial.Kind.ROCK:
-			return false
-	return true
+	# Same three lerp points as the original loop (t = 0, .5, 1), no Array.
+	if TerrainMaterial.at(field,a.x,a.z)==TerrainMaterial.Kind.ROCK: return false
+	var middle = a.lerp(b,.5)
+	if TerrainMaterial.at(field,middle.x,middle.z)==TerrainMaterial.Kind.ROCK: return false
+	var end = a.lerp(b,1.0)
+	return TerrainMaterial.at(field,end.x,end.z)!=TerrainMaterial.Kind.ROCK
 
 func _stamp(field, a: Vector3, b: Vector3, sim, response = null, live_index: int = -1) -> bool:
 	if not _snow_segment(field,a,b):
@@ -147,13 +160,20 @@ func _stamp(field, a: Vector3, b: Vector3, sim, response = null, live_index: int
 	var width: float = .22+slip*.9 if response==null else response.width_m
 	if live_index>=0: width = response.contact_width_m
 	var middle = (a+b)*0.5
-	middle.y = field.sample(middle.x,middle.z).height
-	var corners: Array[float] = []
-	# Four corner offsets conform both sides to the actual triangle surface.
-	for end in [-1.0,1.0]:
-		for side in [-1.0,1.0]:
-			var point = middle+along*end*length_m*0.5+across*side*width*0.5
-			corners.append(field.sample(point.x,point.z).height-middle.y)
+	middle.y = _height(field,middle.x,middle.z)
+	# Four corner offsets conform both sides to the actual triangle surface
+	# (order: end -1 side -1, end -1 side +1, end +1 side -1, end +1 side +1).
+	var half_along: Vector3 = along*length_m*0.5
+	var half_across: Vector3 = across*width*0.5
+	var point: Vector3 = middle-half_along-half_across
+	var corner0: float = _height(field,point.x,point.z)-middle.y
+	point = middle-half_along+half_across
+	var corner1: float = _height(field,point.x,point.z)-middle.y
+	point = middle+half_along-half_across
+	var corner2: float = _height(field,point.x,point.z)-middle.y
+	point = middle+half_along+half_across
+	var corner3: float = _height(field,point.x,point.z)-middle.y
+	var corners = Color(corner0,corner1,corner2,corner3)
 	var depth: float = clampf(sim.snow_penetration+absf(sim.edge_angle)*.012,0.001,.10) if response==null else response.track_depth_m
 	var displaced_side: float = .5 if response==null else .5+.5*signf(response.throw_world.dot(across))
 	if live_index>=0:
@@ -162,13 +182,13 @@ func _stamp(field, a: Vector3, b: Vector3, sim, response = null, live_index: int
 		live_active[live_index] = true
 		live_appearance[live_index] = Color(depth,slip,displaced_side,response.crystal_density)
 		live_tracks.set_instance_transform(live_index,transform_value)
-		live_tracks.set_instance_custom_data(live_index,Color(corners[0],corners[1],corners[2],corners[3]))
+		live_tracks.set_instance_custom_data(live_index,corners)
 		# Negative slip marks the live section for a soft end cap in the shared
 		# shader; retained history/GPU stamps continue to store ordinary slip.
 		live_tracks.set_instance_color(live_index,Color(depth,-1.0-slip,displaced_side,response.crystal_density))
 		return true
 	transforms[cursor] = Transform3D(Basis(across*width,Vector3.UP,along*length_m),middle)
-	corner_history[cursor] = Color(corners[0],corners[1],corners[2],corners[3])
+	corner_history[cursor] = corners
 	appearance_history[cursor] = Color(depth,slip,displaced_side,1.0 if response==null else response.crystal_density)
 	_upload(cursor)
 	cursor = (cursor+1)%capacity
@@ -218,17 +238,22 @@ static func _ground_distance(a: Vector3, b: Vector3) -> float:
 func live_gpu_strokes() -> PackedFloat32Array:
 	# Sole live GPU contract: exactly the accepted surface-projected ribbons.
 	# Hidden, inactive and rock-rejected slots are zero, including depth.
-	var data = PackedFloat32Array()
-	data.resize(16)
+	# Consumers copy the bytes immediately; the buffer is reused between frames.
+	var data = live_stroke_data
+	if data.size()!=16: data.resize(16)
+	data.fill(0.0)
 	for i in 2:
 		if not live_active[i]: continue
 		var transform_value = live_transforms[i]
 		var a = transform_value*Vector3(0,0,-.5)
 		var b = transform_value*Vector3(0,0,.5)
 		var style = live_appearance[i]
-		var values = [a.x,a.z,b.x,b.z,transform_value.basis.x.length(),style.r,style.g,style.b*2.0-1.0]
-		for j in 8: data[i*8+j] = values[j]
+		_write_stroke(data,i*8,a,b,transform_value.basis.x.length(),style)
 	return data
+
+static func _write_stroke(data: PackedFloat32Array, offset: int, a: Vector3, b: Vector3, width: float, style: Color) -> void:
+	data[offset] = a.x; data[offset+1] = a.z; data[offset+2] = b.x; data[offset+3] = b.z
+	data[offset+4] = width; data[offset+5] = style.r; data[offset+6] = style.g; data[offset+7] = style.b*2.0-1.0
 
 func _upload(index: int) -> void:
 	tracks.set_instance_transform(index,transforms[index])
@@ -236,11 +261,7 @@ func _upload(index: int) -> void:
 	tracks.set_instance_color(index,appearance_history[index])
 	if gpu_stamps.size()!=capacity*8: gpu_stamps.resize(capacity*8)
 	var t = transforms[index]
-	var a = t*Vector3(0,0,-.5)
-	var b = t*Vector3(0,0,.5)
-	var style = appearance_history[index]
-	var values = [a.x,a.z,b.x,b.z,t.basis.x.length(),style.r,style.g,style.b*2.0-1.0]
-	for j in 8: gpu_stamps[index*8+j] = values[j]
+	_write_stroke(gpu_stamps,index*8,t*Vector3(0,0,-.5),t*Vector3(0,0,.5),t.basis.x.length(),appearance_history[index])
 	if not gpu_full_upload:
 		if not gpu_dirty_spans.is_empty() and gpu_dirty_spans[-1].x+gpu_dirty_spans[-1].y==index:
 			gpu_dirty_spans[-1].y+=1

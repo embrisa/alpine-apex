@@ -185,6 +185,12 @@ func _queue_equipment(event: Dictionary) -> void:
 	if (specific and not pending_specific) or (specific==pending_specific and event.speed>pending_equipment.speed):
 		pending_equipment = event.duplicate()
 
+var mode_state: String = ""
+var mode_animation: bool = false
+var mode_full_motion: bool = false
+var mode_grab_style = null
+var mode_text: String = ""
+
 func _observe_equipment(camera: Camera3D, dt: float, wanted: bool) -> void:
 	var visual = equipment_source.get_ref() if equipment_source!=null else null
 	if not wanted or mode!=Mode.PROCEDURAL or not available or equipment<=0:
@@ -193,7 +199,12 @@ func _observe_equipment(camera: Camera3D, dt: float, wanted: bool) -> void:
 		equipment_mode = ""
 		return
 	if is_instance_valid(visual):
-		var presentation_mode: String = state+str(visual.animation_enabled)+str(visual.animation.full_motion.enabled)+str(visual.animation.full_motion.grab_style)
+		# The mode string only changes with these four inputs; rebuild it then.
+		var full_motion = visual.animation.full_motion
+		if state!=mode_state or visual.animation_enabled!=mode_animation or full_motion.enabled!=mode_full_motion or full_motion.grab_style!=mode_grab_style:
+			mode_state = state; mode_animation = visual.animation_enabled; mode_full_motion = full_motion.enabled; mode_grab_style = full_motion.grab_style
+			mode_text = state+str(visual.animation_enabled)+str(full_motion.enabled)+str(full_motion.grab_style)
+		var presentation_mode: String = mode_text
 		if presentation_mode!=equipment_mode:
 			equipment_contacts.reset()
 			pending_equipment.clear()

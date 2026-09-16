@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084508-reduce-presentation-terrain-probing"
 title: "Cut presentation-side terrain probing and per-frame allocations in the effects path"
-status: ready
+status: done
 priority: P2
 depends_on: []
 created: "2026-09-16T08:45:08Z"
-updated: "2026-09-16T08:45:08Z"
+updated: "2026-09-16T19:10:06Z"
 source_thread: null
 ---
 
@@ -117,5 +117,59 @@ None
 
 ## Completion record
 
-Pending implementation. Record counts, scope timings, tests, rendered and
-listening evidence, guide updates and commit/push references.
+### Delivery, 2026-09-16: implemented on `main` (Fable, macOS checkout)
+
+Implemented manually; no scheduled claim. Owned paths: `chase_camera.gd`,
+`speed_effects.gd`, `snow_tracks.gd`, `skier_animation.gd` (clearance
+margin), `weather_effects.gd`, `voice_environment.gd`, `weather_state.gd`,
+`weather_controller.gd`, `procedural_sfx.gd`, `prop_collision_surface.gd`.
+
+What changed (effects, framing, audio and placement identical):
+
+- Height-only terrain reads use the exact allocation-free `sample_height`
+  when the surface offers it (camera boom, clearance probes and slope
+  secants; spray tail origins; track stamp centre and four corners; the five
+  animation clearance joints; weather drifts; voice terrain survey). Each
+  caller caches the capability per surface object, so laboratory stubs with
+  only `sample()` keep the original path. `PropCollisionSurface` forwards
+  `sample_height`. `has_method("ray_geology")` and `has_method("bounds")`
+  are resolved once per surface instead of per probe.
+- Spray process uniforms (six per spray, six sprays) are written only when
+  their value changes; idle sprays stop issuing 36 material writes per frame.
+- Track stamps use four scalar corner heights instead of a typed Array and
+  the rock-strip check uses the same three lerp points without an Array; the
+  live GPU stroke buffer and history stroke writes reuse persistent buffers
+  (consumers copy bytes immediately).
+- `WeatherState.blend` assigns its sixteen fields with typed lerps instead
+  of 48 reflective `set`/`get` calls; the blend label formats only when the
+  preset pair changes; the equipment mode string rebuilds only when its four
+  inputs change.
+- Declined: the `dt > .10` equipment reset stays because
+  `equipment_audio_suite` asserts "Long frame gaps re-prime without false
+  hits" (removing it produced a strike from a 0.5 s gap); reusing one
+  rejection record would alias entries the carving capture stores across
+  frames; `resolve_track_contact` already returns before probing whenever a
+  ski is in snow contact, so its footprint probes only run for an unsupported
+  ski beside a carving one; equipment contacts measured 12 us per frame
+  (`sfx_advance` scope), too small to justify a proxy-array refactor; the
+  `skier_visual` exact `!= 1.0` compare is behaviour, not waste.
+
+Measured on the Apple M4 MacBook (Metal, bilinear 0.75, Standard mountain
+free ski, `scripts/mac_frame_probe.sh`, 20 s after warm-up; +/-1.5 ms frame
+noise, scope means in us):
+
+| Scope | Before | After |
+| --- | --- | --- |
+| `camera` | 73 (p95 99) | 68 (p95 93) |
+| `effects` | 276 (p95 415) | 254 (p95 400) |
+| `snow_tracks_powder` | 171 (p95 283) | 148 (p95 267) |
+| `weather_world` | 180 (p95 273) | 165 (p95 254) |
+| `audio_observers` | 23 (p95 51) | 22 (p95 48) |
+
+Baseline is the instrumented run before the change, candidate the mean of three runs. Untouched scopes
+(`pose`, `simulation`) drifted 3-7 percent lower across the same runs, so the
+attributable saving is roughly half of each difference: tens of microseconds
+per frame in total, not a frame-rate change on this GPU-bound machine. The
+new `powder_surface` sub-scope (about 85 us) belongs to task `084507`.
+
+Automated (macOS, Godot 4.7.2): snow_response_suite 33/33, camera_suite 766/766, camera_slope_suite 1136/1136, camera_profiles_suite 1975/1975, weather_suite 44/44, equipment_audio_suite 44/44 (after keeping the long-frame reset), snow_contact_visual_suite 129/129, skier_voice_suite 209/209, runtime_suite 192/192, native powder_upload_suite 13/13; sfx_audio_suite 30/31 with the one failure environmental (the native audio library is Windows-only, so 'Native availability matches explicit fallback switch' cannot pass on macOS). tests/interface_performance_suite.gd-style Windows scope receipts were not re-measured.

@@ -32,5 +32,21 @@ var time_label: String = "Day"
 var time_hour: float = 12.0
 
 func blend(a: Resource, b: Resource, weight: float) -> void:
-	for field in FIELDS:
-		set(field, lerp(a.get(field),b.get(field),weight))
+	# Typed assignments of every FIELDS entry; identical values to the former
+	# reflective set/get loop without 48 dynamic property calls per frame.
+	storm = lerpf(a.storm,b.storm,weight)
+	thunder = lerpf(a.thunder,b.thunder,weight)
+	cloud_coverage = lerpf(a.cloud_coverage,b.cloud_coverage,weight)
+	snow = lerpf(a.snow,b.snow,weight)
+	rain = lerpf(a.rain,b.rain,weight)
+	spindrift = lerpf(a.spindrift,b.spindrift,weight)
+	wind_velocity = a.wind_velocity.lerp(b.wind_velocity,weight)
+	sky_top = a.sky_top.lerp(b.sky_top,weight)
+	sky_horizon = a.sky_horizon.lerp(b.sky_horizon,weight)
+	cloud_color = a.cloud_color.lerp(b.cloud_color,weight)
+	sun_color = a.sun_color.lerp(b.sun_color,weight)
+	sun_energy = lerpf(a.sun_energy,b.sun_energy,weight)
+	ambient_color = a.ambient_color.lerp(b.ambient_color,weight)
+	ambient_energy = lerpf(a.ambient_energy,b.ambient_energy,weight)
+	fog_color = a.fog_color.lerp(b.fog_color,weight)
+	fog_density = lerpf(a.fog_density,b.fog_density,weight)

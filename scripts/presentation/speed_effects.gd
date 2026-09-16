@@ -134,6 +134,26 @@ func reset() -> void:
 		spray.restart()
 		spray.emitting = false
 
+
+## Height-only terrain reads use the allocation-free exact query when the
+## surface offers one; laboratory stubs with only sample() keep working.
+var height_surface = null
+var height_direct: bool = false
+
+func _height(surface, x: float, z: float) -> float:
+	if surface!=height_surface:
+		height_surface = surface
+		height_direct = surface!=null and surface.has_method("sample_height")
+	return surface.sample_height(x,z) if height_direct else surface.sample(x,z).height
+
+var spray_uniforms: Array = []
+var spray_idle_seconds: PackedFloat64Array = PackedFloat64Array()
+
+func _spray_uniform(process: ShaderMaterial, slot: int, name: StringName, value: Variant) -> void:
+	if spray_uniforms[slot]!=null and spray_uniforms[slot]==value: return
+	spray_uniforms[slot] = value
+	process.set_shader_parameter(name,value)
+
 func update_effects(sim, field, position_value: Vector3, dt: float, active: bool, weather = null, ragdoll = null, listener: Camera3D = null, crash_visible: bool = false, speaking: bool = false, ski_visuals: Array = []) -> void:
 	var speed: float = sim.velocity.length()
 	var ratio = clampf(sim.speed_kmh() / 200.0, 0.0, 1.0)
@@ -152,30 +172,40 @@ func update_effects(sim, field, position_value: Vector3, dt: float, active: bool
 		var tail: Vector3 = responses[i].contact_position+responses[i].contact_forward*lerpf(.05,.32,responses[i].turn_work)
 		# Tail terrain can be higher than the boot on a mound. Births must clear
 		# that surface and High's loose crowns or depth testing hides the spray.
-		tail.y = field.sample(tail.x,tail.z).height
+		tail.y = _height(field,tail.x,tail.z)
 		emission_origins[i] = tail+ski.normal*.12
 	rock_sparks.update_contact(sim,position_value,active,responses)
+	var wind_velocity: Vector3 = weather.wind_velocity.limit_length(35.0) if weather!=null and weather.enabled else Vector3.ZERO
+	if spray_uniforms.size()!=sprays.size()*6:
+		spray_uniforms.resize(sprays.size()*6); spray_uniforms.fill(null)
+		spray_idle_seconds.resize(sprays.size()); spray_idle_seconds.fill(INF)
 	for i in range(sprays.size()):
 		var spray: GPUParticles3D = sprays[i]
 		var kind: int = i / 2
 		var ski = sim.skis[i%2]
 		var response = responses[i%2]
-		var intensity: float = [response.powder,response.grains,response.mist][kind]
+		var intensity: float = response.powder if kind==0 else (response.grains if kind==1 else response.mist)
 		spray.position = emission_origins[i%2]
 		var forward: Vector3 = response.contact_forward
 		spray.basis = Basis(ski.normal.cross(forward).normalized(),ski.normal,forward)
 		spray.emitting = active and response.supported and intensity>.002 and spray.visible
 		spray.speed_scale = 1.0 if active else 0.0
+		# A spray whose last particle has expired has nothing reading its uniforms;
+		# while particles live, only changed values reach the material.
+		spray_idle_seconds[i] = 0.0 if spray.emitting else spray_idle_seconds[i]+maxf(dt,0.0)
+		if spray_idle_seconds[i]>spray.lifetime+.5 and spray_uniforms[i*6]!=null and spray_uniforms[i*6]==0.0: continue
 		var process: ShaderMaterial = spray.process_material
-		process.set_shader_parameter("emission_ratio",intensity if spray.emitting else 0.0)
-		process.set_shader_parameter("contact_energy",response.disturbance)
-		process.set_shader_parameter("ejection_m_s",response.ejection_m_s)
-		process.set_shader_parameter("throw_side",response.throw_side)
-		process.set_shader_parameter("skier_velocity",sim.velocity)
-		process.set_shader_parameter("wind_velocity",weather.wind_velocity.limit_length(35.0) if weather!=null and weather.enabled else Vector3.ZERO)
+		_spray_uniform(process,i*6,&"emission_ratio",intensity if spray.emitting else 0.0)
+		_spray_uniform(process,i*6+1,&"contact_energy",response.disturbance)
+		_spray_uniform(process,i*6+2,&"ejection_m_s",response.ejection_m_s)
+		_spray_uniform(process,i*6+3,&"throw_side",response.throw_side)
+		_spray_uniform(process,i*6+4,&"skier_velocity",sim.velocity)
+		_spray_uniform(process,i*6+5,&"wind_velocity",wind_velocity)
 	var snow_started = frame_costs.begin() if frame_costs else 0
 	snow_tracks.update_contact(sim,field,position_value,active,responses)
+	var powder_started = frame_costs.begin() if frame_costs else 0
 	if powder_surface: powder_surface.update_surface(sim,position_value,responses)
+	if frame_costs: frame_costs.end(&"powder_surface",powder_started)
 	if frame_costs: frame_costs.end(&"snow_tracks_powder",snow_started)
 	var audible = active and not muted and not sim.crashed
 	var wind_db = lerpf(-48.0,-7.0,pow(ratio,0.72)) if audible else -65.0
@@ -191,7 +221,9 @@ func update_effects(sim, field, position_value: Vector3, dt: float, active: bool
 	if audible and sim.grounded and speed>2.0:
 		edge_db = maxf(edge_db,lerpf(-65.0,-27.0,sim.rock_contact))
 	wind.sample(sim,weather,audible,wind_db)
+	var sfx_started = frame_costs.begin() if frame_costs else 0
 	sfx.advance(sim,field,ragdoll,listener,wind,weather,dt,audible,crash_visible,muted,speaking)
+	if frame_costs: frame_costs.end(&"sfx_advance",sfx_started)
 	wind.advance(dt)
 	audio_wind.pitch_scale = 0.7 + ratio * 0.7
 	var rain: float = weather.rain if weather != null and weather.enabled else 0.0

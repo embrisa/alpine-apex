@@ -1,0 +1,275 @@
+{
+  "schema": 1,
+  "id": "cfb7447c96f442aa932cfedbc3ed04e0",
+  "summary": "Use exact height-only terrain queries and change-gated uniforms, buffers and blends in the presentation effects, camera and weather paths",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Presentation terrain probing",
+    "Spray uniform gating",
+    "Snow track stamp buffers",
+    "Weather state blending",
+    "Equipment audio mode string",
+    "Frame cost sub-scopes"
+  ],
+  "owned_paths": [
+    "backlog/archive/AA-20260916-084508-reduce-presentation-terrain-probing.md",
+    "backlog/tasks/AA-20260916-084508-reduce-presentation-terrain-probing.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "scripts/presentation/chase_camera.gd",
+    "scripts/presentation/procedural_sfx.gd",
+    "scripts/presentation/skier_animation.gd",
+    "scripts/presentation/snow_tracks.gd",
+    "scripts/presentation/speed_effects.gd",
+    "scripts/presentation/voice_environment.gd",
+    "scripts/presentation/weather_controller.gd",
+    "scripts/presentation/weather_effects.gd",
+    "scripts/presentation/weather_state.gd",
+    "scripts/world/prop_collision_surface.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "scripts/core/terrain_material.gd",
+    "scripts/world/generators/alpine_massif_v15.gd",
+    "scripts/world/heightfield_surface.gd",
+    "tests/camera_profiles_suite.gd",
+    "tests/camera_slope_suite.gd",
+    "tests/camera_suite.gd",
+    "tests/equipment_audio_suite.gd",
+    "tests/powder_upload_suite.gd",
+    "tests/runtime_suite.gd",
+    "tests/sfx_audio_suite.gd",
+    "tests/skier_voice_suite.gd",
+    "tests/snow_contact_visual_suite.gd",
+    "tests/snow_response_suite.gd",
+    "tests/weather_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "world": {
+        "effect": "preserved",
+        "reason": "prop_collision_surface.gd only forwards sample_height to the wrapped terrain (falling back to sample().height); terrain authority, generators, obstacles and caches are unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Presentation-only change: no schema, generator, replay, race identity or cache format changes; sample_height and sample().height share one exact formula."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Presentation-only change: no schema, generator, replay, race identity or cache format changes; sample_height and sample().height share one exact formula."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Presentation-only change: no schema, generator, replay, race identity or cache format changes; sample_height and sample().height share one exact formula."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Presentation-only change: no schema, generator, replay, race identity or cache format changes; sample_height and sample().height share one exact formula."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Presentation-only change: no schema, generator, replay, race identity or cache format changes; sample_height and sample().height share one exact formula."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "ALPINE_FULL_MOUNTAIN=1 ./godotw --headless --script tests/{snow_response_suite,camera_suite,camera_slope_suite,camera_profiles_suite,weather_suite,equipment_audio_suite,snow_contact_visual_suite,skier_voice_suite,runtime_suite}.gd",
+      "result": "passed",
+      "details": "33, 766, 1136, 1975, 44, 44, 129, 209 and 192 checks passed on macOS Godot 4.7.2 with the final code. Laboratory surfaces with only sample() exercise the fallback path."
+    },
+    {
+      "kind": "automated",
+      "command": "open -n -W -a Godot.app --args --path . --script tests/powder_upload_suite.gd; headless tests/sfx_audio_suite.gd",
+      "result": "passed",
+      "details": "powder_upload 13/13 with the reused live stroke buffer. sfx_audio 30/31: the one failure ('Native availability matches explicit fallback switch') is environmental because the native audio library ships for Windows only."
+    },
+    {
+      "kind": "performance",
+      "command": "scripts/mac_frame_probe.sh probe_base_1 / probe_cand_{1,2,3} --probe-seconds=20",
+      "result": "passed",
+      "details": "Apple M4, Metal, bilinear 0.75, Standard mountain free ski; scope means us baseline -> candidate mean of three: camera 73 -> 68, effects 276 -> 254, snow_tracks_powder 171 -> 148, weather_world 180 -> 165, audio_observers 23 -> 22. Untouched pose/simulation drifted 3-7% lower across the same runs, so attributable savings are roughly half these differences. New sub-scopes powder_surface (~85 us) and sfx_advance (~11 us)."
+    },
+    {
+      "kind": "human",
+      "command": "Rendered camera clearance, spray/track, weather blend and equipment clatter review; Windows -ProfileFrameCosts scope receipts",
+      "result": "pending",
+      "details": "Behaviour is required unchanged and the suites report it so; a listening/playtest pass and Windows scope numbers remain follow-ups."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Windows scope receipts and a human camera/audio playtest remain pending; the dt > .10 equipment reset was kept because equipment_audio_suite asserts long frame gaps re-prime without false hits."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T19:11:00.370561+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "1022e7ca3a88325fe6bf7dc2f660e21bac07c14b",
+      "dev": 67,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789544258451225404
+      },
+      "backlog/archive/AA-20260916-084508-reduce-presentation-terrain-probing.md": {
+        "size": 10169,
+        "mtime_ns": 1789585831396222568
+      },
+      "backlog/tasks/AA-20260916-084508-reduce-presentation-terrain-probing.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 41555,
+        "mtime_ns": 1789585831396508611
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789546451377313344
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789574833688637752
+      },
+      "scripts/core/terrain_material.gd": {
+        "size": 366,
+        "mtime_ns": 1789574706638014780
+      },
+      "scripts/presentation/chase_camera.gd": {
+        "size": 17631,
+        "mtime_ns": 1789584761011189408
+      },
+      "scripts/presentation/procedural_sfx.gd": {
+        "size": 11891,
+        "mtime_ns": 1789584843211216133
+      },
+      "scripts/presentation/skier_animation.gd": {
+        "size": 20962,
+        "mtime_ns": 1789584843209930985
+      },
+      "scripts/presentation/snow_tracks.gd": {
+        "size": 15066,
+        "mtime_ns": 1789584874179487159
+      },
+      "scripts/presentation/speed_effects.gd": {
+        "size": 12898,
+        "mtime_ns": 1789585687298255830
+      },
+      "scripts/presentation/voice_environment.gd": {
+        "size": 7120,
+        "mtime_ns": 1789584843210461828
+      },
+      "scripts/presentation/weather_controller.gd": {
+        "size": 10269,
+        "mtime_ns": 1789584843210957670
+      },
+      "scripts/presentation/weather_effects.gd": {
+        "size": 6738,
+        "mtime_ns": 1789585550527512894
+      },
+      "scripts/presentation/weather_state.gd": {
+        "size": 2114,
+        "mtime_ns": 1789584843210766500
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789511897136445444
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789581307436015366
+      },
+      "scripts/world/generators/alpine_massif_v15.gd": {
+        "size": 23453,
+        "mtime_ns": 1789511897153241569
+      },
+      "scripts/world/heightfield_surface.gd": {
+        "size": 8958,
+        "mtime_ns": 1789574592484552873
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      },
+      "scripts/world/prop_collision_surface.gd": {
+        "size": 4830,
+        "mtime_ns": 1789584761010426228
+      },
+      "tests/camera_profiles_suite.gd": {
+        "size": 5798,
+        "mtime_ns": 1789511897165146222
+      },
+      "tests/camera_slope_suite.gd": {
+        "size": 5354,
+        "mtime_ns": 1789511897165731900
+      },
+      "tests/camera_suite.gd": {
+        "size": 28151,
+        "mtime_ns": 1789511897165881778
+      },
+      "tests/equipment_audio_suite.gd": {
+        "size": 10524,
+        "mtime_ns": 1789574308818771193
+      },
+      "tests/powder_upload_suite.gd": {
+        "size": 6010,
+        "mtime_ns": 1789511897206877175
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41041,
+        "mtime_ns": 1789511897211065425
+      },
+      "tests/sfx_audio_suite.gd": {
+        "size": 13329,
+        "mtime_ns": 1789511897214085444
+      },
+      "tests/skier_voice_suite.gd": {
+        "size": 8143,
+        "mtime_ns": 1789511897218562699
+      },
+      "tests/snow_contact_visual_suite.gd": {
+        "size": 17725,
+        "mtime_ns": 1789511897219461259
+      },
+      "tests/snow_response_suite.gd": {
+        "size": 4619,
+        "mtime_ns": 1789511897222167562
+      },
+      "tests/weather_suite.gd": {
+        "size": 11102,
+        "mtime_ns": 1789511897236326302
+      }
+    }
+  }
+}

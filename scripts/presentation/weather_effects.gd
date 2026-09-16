@@ -8,6 +8,17 @@ var quality: int = -1
 var budget_scale: float = 1.0
 var previous_camera = Vector3.ZERO
 var previous_close: bool = false
+
+## Height-only terrain reads use the allocation-free exact query when the
+## surface offers one; laboratory stubs with only sample() keep working.
+var height_surface = null
+var height_direct: bool = false
+
+func _height(surface, x: float, z: float) -> float:
+	if surface!=height_surface:
+		height_surface = surface
+		height_direct = surface!=null and surface.has_method("sample_height")
+	return surface.sample_height(x,z) if height_direct else surface.sample(x,z).height
 var initialized: bool = false
 var camera_velocity = Vector3.ZERO
 var stretch: float = 0.0
@@ -126,7 +137,7 @@ func update_weather(state, camera: Camera3D, rider_position: Vector3, field, dt:
 	for i in range(drifts.size()):
 		var particle = drifts[i]
 		var p: Vector3 = rider_position + right*(-6.0 if i==0 else 6.0) - camera.global_basis.z*6.0
-		var height: float = field.sample(p.x,p.z).height
+		var height: float = _height(field,p.x,p.z)
 		p.y = height + 0.25
 		var n: Vector3 = field.contact_normal(p.x,p.z)
 		var drift: Vector3 = state.wind_velocity.slide(n)

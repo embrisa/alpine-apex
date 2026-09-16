@@ -21,6 +21,19 @@ const SLOPE_OUTER = 20.0
 const UPHILL_ORBIT_GAIN = 1.15
 var slope_pitch = 0.0
 var slope_initialized = false
+var geology_surface = null
+var geology_ray: bool = false
+
+## Height-only terrain reads use the allocation-free exact query when the
+## surface offers one; laboratory stubs with only sample() keep working.
+var height_surface = null
+var height_direct: bool = false
+
+func _height(surface, x: float, z: float) -> float:
+	if surface!=height_surface:
+		height_surface = surface
+		height_direct = surface!=null and surface.has_method("sample_height")
+	return surface.sample_height(x,z) if height_direct else surface.sample(x,z).height
 var close_view: bool = false
 var initialized: bool = false
 var smoothed_forward = Vector3.BACK
@@ -187,7 +200,7 @@ func update_camera(sim, field, rider_position: Vector3, dt: float, menu: bool = 
 		# Aim for useful snow clearance without forcing an overhead perspective.
 		# The final collision pass enforces 1 m, allowing bumps to be smoothed.
 		var behind = rider_position - orbit_forward * distance_value
-		height_value = maxf(height_value, field.sample(behind.x, behind.z).height + preferred_clearance - rider_position.y)
+		height_value = maxf(height_value, _height(field, behind.x, behind.z) + preferred_clearance - rider_position.y)
 	var radius = Vector2(distance_value, height_value).length()
 	# Rotate the boom around the skier as the shallow/uphill aim rises. Tilting
 	# from a high world-space boom would leave the skier below the screen.
@@ -198,7 +211,7 @@ func update_camera(sim, field, rider_position: Vector3, dt: float, menu: bool = 
 	var manual_height = desired.y - automatic_height
 	if chase:
 		var look_up_weight = smoothstep(0.0, deg_to_rad(30.0), maxf(0.0, look_pitch))
-		desired.y = maxf(desired.y, field.sample(desired.x, desired.z).height + lerpf(preferred_clearance, 1.0, look_up_weight))
+		desired.y = maxf(desired.y, _height(field, desired.x, desired.z) + lerpf(preferred_clearance, 1.0, look_up_weight))
 	if close_view and not summit:
 		var eye_height: float = profile.eye_height if riding else 1.45
 		var tuck_lowering: float = profile.tuck_lowering * tuck_strength if riding else 0.35
@@ -244,7 +257,7 @@ func update_camera(sim, field, rider_position: Vector3, dt: float, menu: bool = 
 		# Summit, menu and crash retain their existing terrain/ragdoll framing.
 		var anticipation = 400.0 if summit else (10.0 + speed * 0.15 if close_view else lerpf(4.0, 6.0, speed_blend))
 		var look_point = rider_position + smoothed_forward * anticipation
-		look_point.y = field.sample(look_point.x, look_point.z).height + (0.5 if close_view and not summit else (0.6 if chase else 1.4))
+		look_point.y = _height(field, look_point.x, look_point.z) + (0.5 if close_view and not summit else (0.6 if chase else 1.4))
 		if not sim.grounded and not summit:
 			look_point.y = lerpf(look_point.y, rider_position.y + 0.5, 0.50)
 		if not close_view or summit:
@@ -282,7 +295,7 @@ func _update_slope(field, rider: Vector3, forward: Vector3, dt: float, grounded:
 	var far_a = rider + forward*SLOPE_OUTER
 	var near_b = rider - forward*SLOPE_INNER
 	var far_b = rider - forward*SLOPE_OUTER
-	var grade: float = ((field.sample(far_a.x,far_a.z).height-field.sample(near_a.x,near_a.z).height) + (field.sample(near_b.x,near_b.z).height-field.sample(far_b.x,far_b.z).height)) / (2.0*(SLOPE_OUTER-SLOPE_INNER))
+	var grade: float = ((_height(field,far_a.x,far_a.z)-_height(field,near_a.x,near_a.z)) + (_height(field,near_b.x,near_b.z)-_height(field,far_b.x,far_b.z))) / (2.0*(SLOPE_OUTER-SLOPE_INNER))
 	if not is_finite(grade): return
 	var target = clampf(atan(grade),deg_to_rad(-65.0),deg_to_rad(65.0))
 	var blend = 1.0 if not slope_initialized or smoothing<=0.0 else 1.0-exp(-dt/smoothing)
@@ -290,19 +303,22 @@ func _update_slope(field, rider: Vector3, forward: Vector3, dt: float, grounded:
 	slope_initialized = true
 
 func _clear_terrain(field, rider_position: Vector3, first_person: bool, snow_clearance: float = 1.0) -> void:
-	position.y = maxf(position.y, field.sample(position.x, position.z).height + (0.8 if first_person else snow_clearance))
+	position.y = maxf(position.y, _height(field, position.x, position.z) + (0.8 if first_person else snow_clearance))
 	var pivot = rider_position + Vector3.UP * 1.1
 	# Bounded samples also cover the longer summit boom, independent of Nodes.
 	var probes = clampi(ceili(Vector2(position.x - pivot.x, position.z - pivot.z).length() / 2.0), 5, 32)
 	for i in range(1, probes + 1):
 		var fraction = float(i) / probes
 		var probe = pivot.lerp(position, fraction)
-		var ground_y: float = field.sample(probe.x, probe.z).height
+		var ground_y: float = _height(field, probe.x, probe.z)
 		if probe.y < ground_y + 0.6:
 			position.y += (ground_y + 0.6 - probe.y) / fraction
 
 	# Retract the boom before a rock obstruction; terrain support remains unchanged.
-	if field.has_method("ray_geology"):
+	if field!=geology_surface:
+		geology_surface = field
+		geology_ray = field!=null and field.has_method("ray_geology")
+	if geology_ray:
 		var hit: Dictionary = field.ray_geology(pivot,position,.65)
 		if not hit.is_empty():
 			position = pivot.lerp(position,maxf(0.0,float(hit.fraction)-.015)) + hit.normal*.04

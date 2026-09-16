@@ -21,6 +21,17 @@ var limited: bool = false
 var collision_since_sample: bool = false
 var last_update_us: int = 0
 var max_update_us: int = 0
+
+## Height-only terrain reads use the allocation-free exact query when the
+## surface offers one; laboratory stubs with only sample() keep working.
+var height_surface = null
+var height_direct: bool = false
+
+func _height(surface, x: float, z: float) -> float:
+	if surface!=height_surface:
+		height_surface = surface
+		height_direct = surface!=null and surface.has_method("sample_height")
+	return surface.sample_height(x,z) if height_direct else surface.sample(x,z).height
 var total_update_us: int = 0
 var update_count: int = 0
 
@@ -88,7 +99,7 @@ func _survey(sim, field, dt: float) -> void:
 			certain = false
 			break
 		height_samples += 1
-		heights.append(float(field.sample(at.x,at.y).height))
+		heights.append(_height(field,at.x,at.y))
 	var normal: Vector3 = sim.surface_normal
 	var cliff = false
 	if certain and normal.y > 0.1:

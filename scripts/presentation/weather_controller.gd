@@ -191,6 +191,10 @@ func _next_phase(free_ski: bool) -> void:
 		phase = "blend"; duration = rng.randf_range(45.0,75.0)
 	settings_changed.emit()
 
+var blend_label_from: String = ""
+var blend_label_to: String = ""
+var blend_label: String = ""
+
 func _sample() -> void:
 	var previous_time: String = state.time_label
 	state.enabled = quality!=Quality.OFF
@@ -207,7 +211,12 @@ func _sample() -> void:
 	var a: Resource = PRESETS[selected_preset]; var b: Resource = PRESETS[target_preset]
 	var weight = _weight()
 	state.blend(a,b,weight)
-	state.label = a.label if weight<=0.0 else "%s → %s" % [a.label,b.label]
+	if weight<=0.0: state.label = a.label
+	else:
+		if blend_label_from!=a.label or blend_label_to!=b.label:
+			blend_label_from = a.label; blend_label_to = b.label
+			blend_label = "%s → %s" % [a.label,b.label]
+		state.label = blend_label
 	var offset = float(variation_seed%8192)*0.013
 	state.gust = clampf(0.5+sin(active_seconds*0.071+offset)*0.32+sin(active_seconds*0.137+offset*1.7)*0.18,0.0,1.0)
 	state.wind_velocity *= 0.8+state.gust*0.4
