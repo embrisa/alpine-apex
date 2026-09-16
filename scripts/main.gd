@@ -664,15 +664,19 @@ func observe_audio_tick(dt: float) -> void:
 	else: effects.sfx.silence()
 	voice.observe_tick(sim,dt,field,session.progress_percent(sim.position)/100.0 if timed else -1.0,candidates)
 
+const COMPASS_POINTS = ["N","NE","E","SE","S","SW","W","NW"]
+var summit_bearing_shown: int = -1
+var summit_mode_text: String = ""
+
 func _process(dt: float) -> void:
 	if test_cases and test_cases.reviewing:
 		test_cases.update_review(dt); return
-	if initialized:
-		_update_display_recovery()
-		if navigation and hud.footer.visible: hud.footer_controls.text = workshop.navigation_panel.prompts() if workshop.mode=="navigation" else navigation.prompts(workshop.mode=="create")
+	if initialized: _update_display_recovery()
 	_sync_camera_preview()
 	_sync_camera_controls()
 	if not initialized or (loading and loading.busy) or sim == null:
+		# Loading frames still refresh the footer; every other frame does so once below.
+		if initialized and navigation and hud.footer.visible: hud.footer_controls.text = workshop.navigation_panel.prompts() if workshop.mode=="navigation" else navigation.prompts(workshop.mode=="create")
 		_reset_screen_effects()
 		return
 	if voice.audition_active and not hud.voice_settings.selection.is_visible_in_tree(): voice.silence()
@@ -755,19 +759,25 @@ func _process(dt: float) -> void:
 	frame_costs.end(&"effects",effects_started)
 	vectors.update_vectors(sim)
 	var hud_started = frame_costs.begin()
-	hud.widget_layout.menu_visible = hud.has_menu_background() or workshop.is_survey_open() or hud.camera_options.preview_active
-	hud.footer.visible = (hud.has_menu_background() and not hud.menu.visible) or workshop.is_survey_open() or (summit_ready and not hud.menu.visible)
+	var menu_background: bool = hud.has_menu_background()
+	var survey_open: bool = workshop.is_survey_open()
+	hud.widget_layout.menu_visible = menu_background or survey_open or hud.camera_options.preview_active
+	hud.footer.visible = (menu_background and not hud.menu.visible) or survey_open or (summit_ready and not hud.menu.visible)
 	hud.update_hud(sim,session,intent,navigation.device_label(),frame_ms,cpu_tick_ms,dt,timed,weather.state.label+" · "+weather.state.time_label)
 	hud.update_summit_return(mountain_zone.distance_to_boundary(sim.position),active and not summit_ready and not returning_to_summit)
+	# One mode text per frame: the HUD's cached run context unless a shell state owns the label.
+	var mode_text: String = hud.mode_text_default
 	if workshop and not workshop.mode.is_empty():
-		hud.mode_label.text = "MAP / PERSONAL NAVIGATION" if workshop.mode=="navigation" else "CREATE A RACE / WORLD SURVEY" if workshop.mode=="create" else "SAVED & SHARED RACES"
+		mode_text = "MAP / PERSONAL NAVIGATION" if workshop.mode=="navigation" else "CREATE A RACE / WORLD SURVEY" if workshop.mode=="create" else "SAVED & SHARED RACES"
 	elif mountain_library and mountain_library.panel.visible:
-		hud.mode_label.text = "MOUNTAIN LIBRARY"
-	elif summit_ready and not hud.has_menu_background():
+		mode_text = "MOUNTAIN LIBRARY"
+	elif summit_ready and not menu_background:
 		var bearing = posmod(roundi(180-rad_to_deg(sim.heading)),360)
-		var compass = ["N","NE","E","SE","S","SW","W","NW"][posmod(roundi(bearing/45.0),8)]
-		hud.mode_label.text = "SUMMIT  /  %03d° %s  /  CHOOSE YOUR DESCENT" % [bearing,compass]
-
+		if bearing!=summit_bearing_shown:
+			summit_bearing_shown = bearing
+			summit_mode_text = "SUMMIT  /  %03d° %s  /  CHOOSE YOUR DESCENT" % [bearing,COMPASS_POINTS[posmod(roundi(bearing/45.0),8)]]
+		mode_text = summit_mode_text
+	hud.mode_label.text = mode_text
 	if navigation and hud.footer.visible:
 		hud.footer_controls.text = hud.Prompts.summit(navigation.family) if summit_ready and navigation.scope()==null else (workshop.navigation_panel.prompts() if workshop.mode=="navigation" else navigation.prompts(workshop.mode=="create"))
 	frame_costs.end(&"hud",hud_started)

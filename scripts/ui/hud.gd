@@ -126,6 +126,26 @@ var impact_label: Label
 var telemetry_timer: float = 0.0
 var last_status_category = ""
 var last_split_index = -1
+const BAND_NAMES = ["MANEUVERING","ORDINARY SKIING","FAST","RACING","ELITE DOWNHILL","EXTREME RACING","EXTREME TERRAIN","EXCEPTIONAL SPEED"]
+## Readout caches: riding frames format text only when its inputs change.
+var background_visible: bool = false
+var mode_text_default: String = "PHYSICS LAB   /   01"
+var identity_timed: bool = false
+var identity_eligible: bool = false
+var identity_race = null
+var identity_seed: int = -2
+var identity_name: String = ""
+var pb_value: float = INF
+var pb_text: String = ""
+var speed_shown: int = -1
+var altitude_value: int = 0
+var altitude_weather: String = ""
+var altitude_text: String = ""
+var split_key: Array = []
+var impact_tint: Color = Color(0,0,0,0)
+var impact_tint_applied: bool = false
+var crash_clock_key: Array = []
+var crash_action_key: Array = []
 var menu_mode: String = "title"
 var normal_font: SystemFont
 var mono_font: SystemFont
@@ -391,6 +411,11 @@ func register_menu_background(view: Control) -> void:
 	_sync_menu_backdrop()
 
 func has_menu_background() -> bool:
+	# Registered views report every visibility-in-tree change to
+	# _sync_menu_backdrop, so per-frame callers read the cached answer.
+	return background_visible
+
+func _menu_background_visible() -> bool:
 	return menu_backgrounds.any(func(view): return is_instance_valid(view) and view.is_visible_in_tree())
 
 func set_background_fade(alpha: float) -> void:
@@ -398,8 +423,8 @@ func set_background_fade(alpha: float) -> void:
 	menu_fade.visible = menu_fade.color.a>0.0
 
 func _sync_menu_backdrop() -> void:
+	background_visible = _menu_background_visible()
 	if not menu_art_ready: return
-	var background_visible = has_menu_background()
 	var compact = menu.visible and not menu.get_meta("screen_profile","").is_empty()
 	var full_screen = background_visible and not compact
 	hero_logo.visible = false
@@ -712,9 +737,17 @@ func update_crash_recovery(session, unavailable: String = "", focus_paused: bool
 		compact_menu.crash_paused = session.recovery_paused
 		compact_menu.refresh()
 		if session.recovery_paused: primary.grab_focus.call_deferred()
-	crash_clock.text = "%s  /  %s" % [Session.format_time(session.elapsed),"PAUSED" if paused else "CLOCK RUNNING"]
+	# 120 Hz recovery ticks re-enter here; only changed inputs format text.
+	var clock_key: Array = [roundi(session.elapsed*1000.0),paused]
+	if clock_key!=crash_clock_key:
+		crash_clock_key = clock_key
+		crash_clock.text = "%s  /  %s" % [Session.format_time(session.elapsed),"PAUSED" if paused else "CLOCK RUNNING"]
 	crash_availability.text = unavailable
-	if compact_menu.is_crash_actions():
+	var crash_actions: bool = compact_menu.is_crash_actions()
+	var action_key: Array = [crash_actions,paused,unavailable,root.size.x]
+	if action_key==crash_action_key: return
+	crash_action_key = action_key
+	if crash_actions:
 		primary.disabled = paused or not unavailable.is_empty()
 		primary.text = "Stand Up" if unavailable.is_empty() else "Stand Up · "+unavailable
 		primary.tooltip_text = unavailable
@@ -866,35 +899,59 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 	ui_notice_time -= dt
 	if ui_notice: ui_notice.visible = ui_notice_time>0.0
 	widget_layout.timed = timed
-	widget_layout.apply(root.size)
+	widget_layout.apply_if_changed(root.size)
 	toast_time -= dt
 	toast_label.visible = toast_time > 0.0
-	speed_label.text = str(roundi(sim.speed_kmh()))
-	speed_dial.speed = sim.speed_kmh()
+	_update_menu_identity(session,timed)
+	telemetry_timer += dt
+	if not widget_layout.instruments_visible():
+		# Every instrument sits behind a menu or the H toggle: retained readouts
+		# stay as they are and nothing formatted here could be seen.
+		if telemetry_timer >= 0.1: telemetry_timer = 0.0
+		return
+	var speed_kmh: float = sim.speed_kmh()
+	var speed_rounded: int = roundi(speed_kmh)
+	if speed_rounded!=speed_shown:
+		speed_shown = speed_rounded
+		speed_label.text = str(speed_rounded)
+	speed_dial.speed = speed_kmh
 	var band = 0
 	for threshold in sim.tuning.speed_thresholds:
-		if sim.speed_kmh()>=threshold:
+		if speed_kmh>=threshold:
 			band += 1
-	band_label.text = ["MANEUVERING","ORDINARY SKIING","FAST","RACING","ELITE DOWNHILL","EXTREME RACING","EXTREME TERRAIN","EXCEPTIONAL SPEED"][mini(band,7)]
+	band_label.text = BAND_NAMES[mini(band,7)]
 	speed_dial.tint = AlpineTheme.HUD_WARNING if band>=5 else HUD_WHITE
 	band_label.modulate = speed_dial.tint
 	timer_label.text = Session.format_time(session.elapsed) if timed else "FREE SKI"
-	pb_label.text = "PERSONAL BEST  " + Session.format_time(session.personal_best)
-	split_label.text = ""
+	if session.personal_best!=pb_value or pb_label.text!=pb_text:
+		pb_value = session.personal_best
+		pb_text = "PERSONAL BEST  " + Session.format_time(session.personal_best)
+		pb_label.text = pb_text
 	if timed:
-		if session.latest_split>=0:
-			var index: int = session.latest_split
-			var delta: float = session.split_delta(index)
-			split_label.text = "%d%% APPROACH  /  %s\n%s" % [(index+1)*25,Session.format_time(session.split_times[index]),"NO PREVIOUS SPLIT" if not is_finite(delta) else Session.format_delta(delta)+( " AHEAD OF PB" if delta<0 else " BEHIND PB" if delta>0 else " LEVEL WITH PB")]
-			split_label.modulate = AlpineTheme.HUD_WARNING if is_finite(delta) and delta>0 else AlpineTheme.HUD_SUCCESS
-		else:
-			split_label.text = "%d GHOSTS %s / G" % [session.reference_ghosts.size(),"ON" if ghost_enabled else "OFF"] if not session.reference_ghosts.is_empty() else "NO GHOSTS THIS ATTEMPT"
-			split_label.modulate = HUD_WHITE
+		var index: int = session.latest_split
+		var delta: float = session.split_delta(index) if index>=0 else 0.0
+		var key: Array = [index,session.split_times[index] if index>=0 else 0.0,delta if is_finite(delta) else INF,session.reference_ghosts.size(),ghost_enabled]
+		if key!=split_key:
+			split_key = key
+			if index>=0:
+				split_label.text = "%d%% APPROACH  /  %s\n%s" % [(index+1)*25,Session.format_time(session.split_times[index]),"NO PREVIOUS SPLIT" if not is_finite(delta) else Session.format_delta(delta)+( " AHEAD OF PB" if delta<0 else " BEHIND PB" if delta>0 else " LEVEL WITH PB")]
+				split_label.modulate = AlpineTheme.HUD_WARNING if is_finite(delta) and delta>0 else AlpineTheme.HUD_SUCCESS
+			else:
+				split_label.text = "%d GHOSTS %s / G" % [session.reference_ghosts.size(),"ON" if ghost_enabled else "OFF"] if not session.reference_ghosts.is_empty() else "NO GHOSTS THIS ATTEMPT"
+				split_label.modulate = HUD_WHITE
+	else:
+		split_label.text = ""
+		if not split_key.is_empty(): split_key = []
 	if session.latest_split!=last_split_index:
 		last_split_index = session.latest_split
 		if last_split_index>=0: feedback.emphasize(split_label)
-	progress.value = session.progress_percent(sim.position)
-	altitude_label.text = "%s m  ·  %s" % [str(roundi(sim.position.y + (1491.5 if mountain_seed_value<0 else 0.0))),weather_label.to_upper()]
+	if timed: progress.value = session.progress_percent(sim.position) # Race-only widget; hidden in free ski.
+	var altitude: int = roundi(sim.position.y + (1491.5 if mountain_seed_value<0 else 0.0))
+	if altitude!=altitude_value or weather_label!=altitude_weather or altitude_label.text!=altitude_text:
+		altitude_value = altitude
+		altitude_weather = weather_label
+		altitude_text = "%s m  ·  %s" % [str(altitude),weather_label.to_upper()]
+		altitude_label.text = altitude_text
 	var status = "DEEP TUCK" if sim.effective_tuck > 0.8 else "CLEAN LINE"
 	if not sim.grounded:
 		status = "AIRBORNE  /  %.2f s" % sim.airtime
@@ -934,33 +991,48 @@ func update_hud(sim, session, intent, device: String, frame_ms: float, tick_ms: 
 		tint = AlpineTheme.HUD_DANGER
 	impact_bar.value = reserve*100.0
 	impact_bar.tint = tint
-	impact_label.add_theme_color_override("font_color",tint)
+	if not impact_tint_applied or tint!=impact_tint:
+		# Theme overrides have no equality check and invalidate layout up the tree.
+		impact_tint = tint
+		impact_tint_applied = true
+		impact_label.add_theme_color_override("font_color",tint)
 	state_label.modulate = HUD_WHITE if reserve==1.0 and not sim.crashed else tint
 	var category = status.get_slice("  /  ",0)
 	if category!=last_status_category:
 		last_status_category = category
 		if reserve<=.30 or category in ["RECOVERING","JUMP READY","LANDING"]: feedback.emphasize(state_label)
-	state_label.text = status
-	mode_label.text = ("TIMED DESCENT" if timed else "FREE SKI") + ("  /  LAB VALUES" if not session.eligible else "  /  01")
-	if not mountain_name.is_empty() and not session.race:
-		mode_label.text = "FREE SKI  /  SEED %d" % mountain_seed_value
+	var state_text: String = status
 	if session.race and timed:
-		mode_label.text = session.race.title.to_upper() + (" / UNRANKED" if not session.eligible else " / OPEN ROUTE")
-		state_label.text = "%s  ·  FINISH %d m" % [status,sim.position.distance_to(session.race.finish)]
-		if session.finished: state_label.text = "FINISH REACHED"
-		menu_specs.text = "MOUNTAIN %d  /  OPEN ROUTE\nFINISH GATE  /  NO CHECKPOINTS" % session.race.mountain.seed
+		state_text = "FINISH REACHED" if session.finished else "%s  ·  FINISH %d m" % [status,sim.position.distance_to(session.race.finish)]
+	state_label.text = state_text
+	if telemetry_timer < 0.1:
+		return
+	telemetry_timer = 0.0
+	if fps_label.is_visible_in_tree(): fps_label.text = "%d FPS  /  120 Hz PHYSICS" % Engine.get_frames_per_second()
+	if not debug_text.is_visible_in_tree(): return
+	debug_text.text = ("SPEED         %7.2f km/h\nACCEL         %+7.2f m/s²\nSLOPE         %7.2f°\nSKI HEADING   %+7.2f°\nVEL HEADING   %+7.2f°\nSLIP ANGLE    %+7.2f°\nEDGE REQUEST  %+7.2f°\nEDGES R/L     %+5.1f / %+5.1f°\nCONTACT       %s\nNORMAL LOAD   %7.2f g\nFRICTION      %7.2f m/s²\nGRAVITY       %+7.2f m/s²\nIMPACT RESERVE%7.1f %%\nIMPACT SPEED  %7.2f m/s\nAIRTIME       %7.3f s\nCPU TICK      %7.3f ms\nFRAME         %7.2f ms\n%s" % [speed_kmh,sim.acceleration,sim.slope_angle,rad_to_deg(sim.heading),rad_to_deg(atan2(sim.velocity.x,sim.velocity.z)),rad_to_deg(sim.slip_angle),rad_to_deg(sim.edge_angle),rad_to_deg(sim.skis[0].edge_angle),rad_to_deg(sim.skis[1].edge_angle),("ROCK" if sim.rock_contact>.99 else ("MIXED" if sim.rock_contact>0.0 else "SNOW")) if sim.grounded else "AIR",sim.normal_load/9.81,sim.friction_force,sim.gravity_contribution,sim.impacts.reserve*100,sim.landing_force,sim.total_airtime,tick_ms,frame_ms,device.left(30)]) + ("\nYAW WANT/GET  %+5.1f / %+5.1f°/s\nSKID / TRANS  %5.0f / %5.0f %%\nCOM X / Z     %+.2f / %+.2f m" % [rad_to_deg(sim.steering_requested_yaw),rad_to_deg(sim.steering_applied_yaw),sim.steering_slip_factor*100,sim.steering_transfer_factor*100,sim.body.com.x,sim.body.com.z])
+
+## Menu-side run context (mode label default and course specs) changes with the
+## session identity, not per frame; main.gd may override the mode label.
+func _update_menu_identity(session, timed: bool) -> void:
+	var race = session.race
+	if timed==identity_timed and session.eligible==identity_eligible and race==identity_race and mountain_seed_value==identity_seed and mountain_name==identity_name: return
+	identity_timed = timed
+	identity_eligible = session.eligible
+	identity_race = race
+	identity_seed = mountain_seed_value
+	identity_name = mountain_name
+	mode_text_default = ("TIMED DESCENT" if timed else "FREE SKI") + ("  /  LAB VALUES" if not session.eligible else "  /  01")
+	if not mountain_name.is_empty() and not race:
+		mode_text_default = "FREE SKI  /  SEED %d" % mountain_seed_value
+	if race and timed:
+		mode_text_default = race.title.to_upper() + (" / UNRANKED" if not session.eligible else " / OPEN ROUTE")
+		menu_specs.text = "MOUNTAIN %d  /  OPEN ROUTE\nFINISH GATE  /  NO CHECKPOINTS" % race.mountain.seed
 	elif not mountain_name.is_empty():
 		menu_specs.text = "MOUNTAIN SEED: %d\nFREE SKI / CREATE YOUR OWN RACES" % mountain_seed_value
 	else:
 		menu_specs.text = "1.55 km     /     600 m VERTICAL\nTIMED LAB FIXTURE"
-	telemetry_timer += dt
-	if telemetry_timer < 0.1:
-		return
-	telemetry_timer = 0.0
-	fps_label.text = "%d FPS  /  120 Hz PHYSICS" % Engine.get_frames_per_second()
-	debug_text.text = "SPEED         %7.2f km/h\nACCEL         %+7.2f m/s²\nSLOPE         %7.2f°\nSKI HEADING   %+7.2f°\nVEL HEADING   %+7.2f°\nSLIP ANGLE    %+7.2f°\nEDGE REQUEST  %+7.2f°\nEDGES R/L     %+5.1f / %+5.1f°\nCONTACT       %s\nNORMAL LOAD   %7.2f g\nFRICTION      %7.2f m/s²\nGRAVITY       %+7.2f m/s²\nIMPACT RESERVE%7.1f %%\nIMPACT SPEED  %7.2f m/s\nAIRTIME       %7.3f s\nCPU TICK      %7.3f ms\nFRAME         %7.2f ms\n%s" % [sim.speed_kmh(),sim.acceleration,sim.slope_angle,rad_to_deg(sim.heading),rad_to_deg(atan2(sim.velocity.x,sim.velocity.z)),rad_to_deg(sim.slip_angle),rad_to_deg(sim.edge_angle),rad_to_deg(sim.skis[0].edge_angle),rad_to_deg(sim.skis[1].edge_angle),("ROCK" if sim.rock_contact>.99 else ("MIXED" if sim.rock_contact>0.0 else "SNOW")) if sim.grounded else "AIR",sim.normal_load/9.81,sim.friction_force,sim.gravity_contribution,sim.impacts.reserve*100,sim.landing_force,sim.total_airtime,tick_ms,frame_ms,device.left(30)]
-
-	debug_text.text += "\nYAW WANT/GET  %+5.1f / %+5.1f°/s\nSKID / TRANS  %5.0f / %5.0f %%\nCOM X / Z     %+.2f / %+.2f m" % [rad_to_deg(sim.steering_requested_yaw),rad_to_deg(sim.steering_applied_yaw),sim.steering_slip_factor*100,sim.steering_transfer_factor*100,sim.body.com.x,sim.body.com.z]
+	mode_label.text = mode_text_default
 
 func toggle_instruments() -> void:
 	widget_layout.global_visible = not widget_layout.global_visible

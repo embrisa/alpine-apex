@@ -9,9 +9,15 @@ var lighting
 var profile
 var contact_snow
 var discovered_sites: Dictionary={}
+const DISCOVERY_RADIUS_M=22.0
+## Last full scan position and how far the rider can travel before any
+## undiscovered site could enter the discovery radius (negative forces a scan).
+var scan_origin: Vector3=Vector3.ZERO
+var scan_clearance: float=-1.0
 
 func build(field, assets, quality, terrain_material: Material) -> void:
 	lighting=assets.lighting; profile=quality
+	scan_clearance=-1.0
 	surface=Props.new(field)
 	layout=Layout.for_field(field)
 	contact_snow=preload("res://scripts/presentation/asset_snow_contacts.gd").new()
@@ -33,9 +39,19 @@ func apply_quality(quality) -> void:
 	if contact_snow: contact_snow.apply_quality(quality)
 
 func discover_near(position: Vector3) -> String:
+	# Triangle inequality: until the rider has moved the clearance measured at
+	# the last full scan, no undiscovered site can be inside the radius, so the
+	# result is exactly the original per-frame scan without touching placements.
+	if scan_clearance>=0.0 and position.distance_squared_to(scan_origin)<scan_clearance*scan_clearance: return ""
+	scan_origin=position
+	var nearest: float=INF
 	for placed in layout.placements:
 		if discovered_sites.has(placed.site): continue
-		if position.distance_squared_to(placed.position)<22.*22.:
+		var distance_squared: float=position.distance_squared_to(placed.position)
+		if distance_squared<DISCOVERY_RADIUS_M*DISCOVERY_RADIUS_M:
 			discovered_sites[placed.site]=true
+			scan_clearance=-1.0 # A neighbouring site may announce next frame.
 			return Layout.catalog()[placed.asset_id].label
+		nearest=minf(nearest,sqrt(distance_squared))
+	scan_clearance=nearest-DISCOVERY_RADIUS_M # INF once every site is discovered.
 	return ""

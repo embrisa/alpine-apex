@@ -1,0 +1,269 @@
+{
+  "schema": 1,
+  "id": "352d5fccefa54088a2ed9d04f88460fe",
+  "summary": "Skip hidden HUD work and change-gate per-frame interface formatting, layout, theme overrides and navigation scope scans",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "HUD readout gating",
+    "Retained widget layout",
+    "Menu navigation scope scan",
+    "Interface footer and mode text",
+    "Flavor discovery bound",
+    "macOS frame probe menu mode"
+  ],
+  "owned_paths": [
+    "backlog/archive/AA-20260916-084504-reduce-hud-frame-cost.md",
+    "backlog/tasks/AA-20260916-084504-reduce-hud-frame-cost.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/PRESENTATION.md",
+    "scripts/main.gd",
+    "scripts/ui/controller_prompts.gd",
+    "scripts/ui/hud.gd",
+    "scripts/ui/hud_layout.gd",
+    "scripts/ui/menu_navigation.gd",
+    "scripts/world/mountain_flavor.gd",
+    "tests/mac_frame_probe.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "scripts/core/run_session.gd",
+    "scripts/ui/compact_menu.gd",
+    "scripts/ui/hud_editor.gd",
+    "scripts/world/flavor_layout.gd",
+    "tests/controller_prompts_suite.gd",
+    "tests/crash_recovery_suite.gd",
+    "tests/flavor_integration_suite.gd",
+    "tests/hud_dial_suite.gd",
+    "tests/interface_art_playtest.gd",
+    "tests/interface_layout_suite.gd",
+    "tests/interface_suite.gd",
+    "tests/menu_navigation_suite.gd",
+    "tests/runtime_suite.gd",
+    "tests/summit_return_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "main.gd changes are confined to _process interface lines (footer/mode text once per frame, cached menu background); _physics_process, solver, input sampling, tuning and session logic are untouched. runtime_suite 192/192 and crash_recovery_suite 82/82 pass."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "mountain_flavor.gd only bounds when discover_near rescans placements using the triangle inequality; placement generation, terrain and caches are unchanged and flavor_integration_suite 37/37 passes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Interface-only change: no schema, generator, replay, race identity or cache format changes."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Interface-only change: no schema, generator, replay, race identity or cache format changes."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Interface-only change: no schema, generator, replay, race identity or cache format changes."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Interface-only change: no schema, generator, replay, race identity or cache format changes."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Interface-only change: no schema, generator, replay, race identity or cache format changes."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "ALPINE_FULL_MOUNTAIN=1 ./godotw --headless --script tests/{interface_suite,menu_navigation_suite,controller_prompts_suite,interface_layout_suite,crash_recovery_suite,flavor_integration_suite,runtime_suite,bright_ui_suite,interface_overhaul_suite,interface_feedback_suite}.gd",
+      "result": "passed",
+      "details": "83, 24, 45, 95, 82, 37, 192, 74, 40 and 111 checks passed on macOS Godot 4.7.2. crash_recovery_suite needs artifacts/orchestration_20260912/crash to exist or it hangs after its checks (pre-existing)."
+    },
+    {
+      "kind": "automated",
+      "command": "open -n -W -a Godot.app --args --path . --script tests/hud_dial_suite.gd; headless tests/summit_return_suite.gd, tests/interface_art_playtest.gd, tests/retained_interface_suite.gd",
+      "result": "passed",
+      "details": "hud_dial 33 paint cases byte-identical. summit_return 24/27, interface_art_playtest 156/160, retained_interface 247/248: the eight failures are identical on unmodified main 26f033c (stash control runs) and unrelated to the interface lines changed."
+    },
+    {
+      "kind": "performance",
+      "command": "scripts/mac_frame_probe.sh hud_base_{1,2} / hud_cand_4 --probe-seconds=20; hud_base_menu / hud_cand_4_menu --probe-menu",
+      "result": "passed",
+      "details": "Apple M4, Metal, bilinear 0.75, Standard mountain free ski. hud CPU scope mean/p95/p99 us: riding 147/212/240 -> 44/69/77; pause menu 146/215/234 -> 36/57/66. Frame means 27.5-30.2 -> 24.7 ms riding are inside the +/-1.5 ms run noise and not claimed. Artifacts under artifacts/mac_probe/hud_*.json (ignored)."
+    },
+    {
+      "kind": "human",
+      "command": "Rendered readout, cadence and controller focus review on Windows; tests/interface_performance_suite.gd (D3D12 only)",
+      "result": "pending",
+      "details": "The suite requires the custom Windows engine; the ui_settings_* rows should be re-measured there."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Windows interface_performance_suite rerun and a human check of riding HUD, pause, settings, crash card clock and prompt swaps remain pending; automated suites on macOS report unchanged readouts."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T18:46:14.462227+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "26f033c4a76e624528ed7575cb17f2d03d7bc7de",
+      "dev": 66,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789544258451225404
+      },
+      "backlog/archive/AA-20260916-084504-reduce-hud-frame-cost.md": {
+        "size": 10822,
+        "mtime_ns": 1789584307930875934
+      },
+      "backlog/tasks/AA-20260916-084504-reduce-hud-frame-cost.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 40049,
+        "mtime_ns": 1789584307929848666
+      },
+      "docs/PRESENTATION.md": {
+        "size": 29268,
+        "mtime_ns": 1789584296017869126
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789546451377313344
+      },
+      "scripts/core/run_session.gd": {
+        "size": 10855,
+        "mtime_ns": 1789511897112030001
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789574833688637752
+      },
+      "scripts/main.gd": {
+        "size": 87866,
+        "mtime_ns": 1789584296018424094
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789511897136445444
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789581307436015366
+      },
+      "scripts/ui/compact_menu.gd": {
+        "size": 8983,
+        "mtime_ns": 1789511897141955678
+      },
+      "scripts/ui/controller_prompts.gd": {
+        "size": 6049,
+        "mtime_ns": 1789584296018898353
+      },
+      "scripts/ui/hud.gd": {
+        "size": 51511,
+        "mtime_ns": 1789584296019121399
+      },
+      "scripts/ui/hud_editor.gd": {
+        "size": 9512,
+        "mtime_ns": 1789511897143606628
+      },
+      "scripts/ui/hud_layout.gd": {
+        "size": 4120,
+        "mtime_ns": 1789584296019383862
+      },
+      "scripts/ui/menu_navigation.gd": {
+        "size": 16016,
+        "mtime_ns": 1789584296019700367
+      },
+      "scripts/world/flavor_layout.gd": {
+        "size": 6497,
+        "mtime_ns": 1789511897150043755
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      },
+      "scripts/world/mountain_flavor.gd": {
+        "size": 2728,
+        "mtime_ns": 1789584296019960622
+      },
+      "tests/controller_prompts_suite.gd": {
+        "size": 10125,
+        "mtime_ns": 1789511897169098051
+      },
+      "tests/crash_recovery_suite.gd": {
+        "size": 13050,
+        "mtime_ns": 1789511897169646603
+      },
+      "tests/flavor_integration_suite.gd": {
+        "size": 5908,
+        "mtime_ns": 1789511897180352357
+      },
+      "tests/hud_dial_suite.gd": {
+        "size": 5148,
+        "mtime_ns": 1789511897190428516
+      },
+      "tests/interface_art_playtest.gd": {
+        "size": 26799,
+        "mtime_ns": 1789511897191185697
+      },
+      "tests/interface_layout_suite.gd": {
+        "size": 5763,
+        "mtime_ns": 1789511897191904878
+      },
+      "tests/interface_suite.gd": {
+        "size": 17573,
+        "mtime_ns": 1789511897193656080
+      },
+      "tests/mac_frame_probe.gd": {
+        "size": 5995,
+        "mtime_ns": 1789584296020163251
+      },
+      "tests/menu_navigation_suite.gd": {
+        "size": 10285,
+        "mtime_ns": 1789511897196312216
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41041,
+        "mtime_ns": 1789511897211065425
+      },
+      "tests/summit_return_suite.gd": {
+        "size": 8006,
+        "mtime_ns": 1789511897226640401
+      }
+    }
+  }
+}

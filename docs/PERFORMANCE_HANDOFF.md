@@ -491,6 +491,18 @@ path (`stand_density` reached from `terrain_grass.gd` `run` with a
 `propagate_notification` cross-thread error, then signal 11); log retained
 locally under `artifacts/mac_floor_20260916/`.
 
+HUD frame cost (Fable, task `084504`, delivered on `main` 2026-09-16): the
+`hud` scope on the M4 MacBook fell from 147 us mean / 212 us p95
+riding and 146 us in the pause menu to 44 / 69 us riding
+and 36 us in the menu (`scripts/mac_frame_probe.sh`, 20 s runs, new
+`--probe-menu` option). Gains come from skipping formatting behind menus,
+change-gated readouts and theme overrides, a retained widget layout, cached
+menu-background state, once-per-frame footer/mode text, memoised prompts, a
+sleeping menu-navigation scope scan and an exact travel bound for flavor
+discovery. Windows numbers were not re-measured; the same GDScript work is
+removed there. The Windows-only `interface_performance_suite` still owns the
+`ui_settings_*` rows and should be rerun when a Windows host is available.
+
 Fable reported 3,000 exact random physical hip fits; extreme presentation pelvis
 poses differed by at most 1.04 mm, knee by 2.4e-7 m and tracking quaternion distance
 by 9.7e-7. Its 6,000-tick minimum-pass solver observations were 333-346 us/tick
@@ -562,6 +574,7 @@ file is absent from that commit and its tree.
 | `084501-index-skier-pose-by-bone` | Rest geometry caching, native pelvis fitting and limits are enabled. Native tracking now caches immutable bone offsets/ancestry and batches the costly tick loop. | Broad pose-container conversion, mirror indices, reusable sampling buffers and fewer skeleton writes remain untested. Current writer cost is only 42 us/frame; pose is about 0.86 ms/frame. |
 | `084502-reduce-recording-tick-cost` | Direct typed snapshot field access saves about 6 us/tick; all recorded channels remain exact. Broad buffer rewrites were rejected. | Routine capture now runs at 20 Hz, saving one third of completed-pose evaluations with accepted coarser ghost motion; see the current timed reference above. Further per-capture work remains open. |
 | `084503-publish-shared-shader-uniforms-globally` | Cloud parameter/direction/height change gates and wind direction/strength gates already exist. Tree contact shader work now skips exact rest. | Global publication and remaining write reduction are untested. Preserve separate world/preview state and pause behavior; receiver count estimates are not measured savings. |
+| `084504-reduce-hud-frame-cost` | Delivered on `main` 2026-09-16: hidden-instrument early return, retained widget layout, change-gated readouts/theme override/crash card, cached menu-background state, once-per-frame footer/mode text, memoised prompts, sleeping navigation scope scan, exact flavor discovery bound. Mac `hud` scope about 147 -> 44 us riding and 146 -> 36 us in menus. | Windows `interface_performance_suite` rerun; `node_added` popup tracking kept deliberately. |
 
 All four were written against Dev 43 and older scope measurements. Use the
 enabled implementation and current matching reference, not their old 72 FPS

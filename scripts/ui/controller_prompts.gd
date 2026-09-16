@@ -46,9 +46,17 @@ static func binding(action: String, family: String) -> String:
 			if event is InputEventJoypadMotion: return axis(event.axis,event.axis_value,family)
 	return "Unbound"
 
+## Menu prompts depend only on family and authoring; footers ask every frame.
+static var menu_prompts: Dictionary = {}
+
 static func menu(family: String, authoring: bool = false) -> String:
-	if family == "keyboard": return "Arrows / Tab  Navigate     Enter  Select     Esc  Back     Q / E  Categories" + ("     Mouse  Place gate · WASD  Survey" if authoring else "")
-	return "D-pad / LS  Navigate     %s  Select     %s  Back     %s / %s  Categories%s" % [button(JOY_BUTTON_A,family),button(JOY_BUTTON_B,family),button(JOY_BUTTON_LEFT_SHOULDER,family),button(JOY_BUTTON_RIGHT_SHOULDER,family),"     Mouse  Terrain placement" if authoring else ""]
+	var key = family + ("/authoring" if authoring else "")
+	if menu_prompts.has(key): return menu_prompts[key]
+	var text: String
+	if family == "keyboard": text = "Arrows / Tab  Navigate     Enter  Select     Esc  Back     Q / E  Categories" + ("     Mouse  Place gate · WASD  Survey" if authoring else "")
+	else: text = "D-pad / LS  Navigate     %s  Select     %s  Back     %s / %s  Categories%s" % [button(JOY_BUTTON_A,family),button(JOY_BUTTON_B,family),button(JOY_BUTTON_LEFT_SHOULDER,family),button(JOY_BUTTON_RIGHT_SHOULDER,family),"     Mouse  Terrain placement" if authoring else ""]
+	menu_prompts[key] = text
+	return text
 
 static func summit(family: String) -> String:
 	return "%s  Direction   ·   %s  Look   ·   %s / %s  Drop in   ·   %s  Pause" % ["A / D" if family == "keyboard" else "Left stick","Mouse" if family == "keyboard" else "Right stick",binding("tuck",family),binding("begin_run",family),binding("pause_run",family)]

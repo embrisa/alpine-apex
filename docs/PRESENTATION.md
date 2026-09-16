@@ -191,6 +191,23 @@ for small screens and clamp whole widget rectangles on resolution changes.
 Timed instruments hide in free ski, debug defaults off, and H hides temporarily
 without overwriting persisted choices. Loading/reload handoffs retain layout.
 
+Riding frames only do interface work whose inputs changed. Widget layout
+re-applies on size, safe-area, race-mode, menu, preview or transient-notice
+changes (`hud_layout.gd` compares the last applied state); personal best,
+altitude/weather, split, run-context and course-spec text format when their
+values change; the impact tint override applies on change; the 10 Hz telemetry
+string is built only while the debug panel is visible; while every instrument
+is hidden behind a menu or H, `update_hud` keeps the retained readouts and
+returns after its notice timers. The crash card formats its clock and buttons
+once per changed input rather than per 120 Hz tick. `main.gd` builds the mode
+label and controls footer once per frame from cached prompts and a cached menu
+background state that registered views refresh through `visibility_changed`.
+`menu_navigation.gd` stops its per-frame scope scan while no scope exists and
+wakes on any input event, controller connection change, window focus or a
+scope owner (panel, popup, loading overlay) changing visibility. Flavor site
+discovery rescans only after the rider travels the exact slack measured at the
+last scan. Readouts, cadence and focus routing are unchanged.
+
 The speed dial retains its static background arc and threshold marks in separate
 CanvasItems, preserving background/fill/mark order. Only speed, tint or size changes
 redraw the moving arc; resize invalidates the static layers. Keep the existing

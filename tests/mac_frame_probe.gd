@@ -7,19 +7,21 @@ extends SceneTree
 ## graphics values and frame_costs CPU scopes. Metal exposes no viewport GPU
 ## timer, so GPU attribution comes from comparing labelled configurations.
 ## Options after `--`: --probe-label=NAME --probe-seconds=N --probe-capture
+## --probe-menu pauses into the menu after warm-up and measures that state.
 ## --probe-set=graphics_key=value (repeatable; PCGraphicsSettings keys or preset
 ## CONTROLS) plus any ordinary game arguments such as --graphics-quality=low,
 ## --upscaler=fsr2, --render-scale=0.5 or --cloud-shadows-off.
 var game
 var frames = PackedFloat64Array(); var rcpu = PackedFloat64Array(); var draws = PackedFloat64Array(); var prims = PackedFloat64Array()
 var overrides: Dictionary = {}
-var last_usec = 0; var seconds = 25; var warm = 240; var warm_left = 0; var measuring = false; var end_usec = 0; var label = "probe"; var capture = false
+var last_usec = 0; var seconds = 25; var warm = 240; var warm_left = 0; var measuring = false; var end_usec = 0; var label = "probe"; var capture = false; var menu = false
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--probe-seconds="): seconds = int(arg.get_slice("=",1))
 		if arg.begins_with("--probe-label="): label = arg.get_slice("=",1).validate_filename()
 		if arg=="--probe-capture": capture = true
+		if arg=="--probe-menu": menu = true
 		if arg.begins_with("--probe-set="):
 			var raw: String = arg.get_slice("=",2)
 			overrides[arg.get_slice("=",1)] = (raw=="true") if raw in ["true","false"] else (int(raw) if raw.is_valid_int() else float(raw))
@@ -50,6 +52,9 @@ func measure() -> void:
 	if warm_left>0:
 		warm_left -= 1
 		if warm_left==0:
+			if menu:
+				game.active = false
+				game.hud.show_menu("paused")
 			game.frame_costs.reset(); measuring = true; end_usec = now+seconds*1000000; last_usec = now
 		return
 	if not measuring: return
@@ -57,7 +62,7 @@ func measure() -> void:
 	var c = RenderingServer.viewport_get_measured_render_time_cpu(root.get_viewport_rid()); if c>0.0: rcpu.append(c)
 	draws.append(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
 	prims.append(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME))
-	if now>=end_usec or game.sim.crashed or not game.active: finish()
+	if now>=end_usec or game.sim.crashed or (not game.active and not menu): finish()
 func finish() -> void:
 	measuring = false
 	process_frame.disconnect(measure)

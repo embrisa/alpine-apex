@@ -9,6 +9,9 @@ var safe_area = .025
 var timed = false
 var menu_visible = true
 var preview = false
+## State the last apply() laid out; per-frame callers skip identical states.
+var applied_state: Array = []
+var transient_nodes: Array = []
 
 func register(id: String, label: String, node: Control, dimensions: Vector2, position: Vector2, enabled: bool = true, race_only: bool = false) -> void:
 	widgets[id] = {"label":label,"node":node,"size":dimensions,"race_only":race_only,"default":{"position":position,"scale":1.0,"opacity":1.0,"visible":enabled}}
@@ -18,6 +21,7 @@ func snapshot() -> Dictionary:
 	return values.duplicate(true)
 
 func restore(data: Dictionary) -> void:
+	applied_state = []
 	for id in widgets:
 		values[id] = widgets[id].default.duplicate(true)
 		var entry = data.get(id,{})
@@ -29,9 +33,35 @@ func restore(data: Dictionary) -> void:
 		if entry.get("position") is Vector2 and entry.position.is_finite(): values[id].position = entry.position.clamp(Vector2.ZERO,Vector2.ONE)
 
 func reset_widget(id: String) -> void:
+	applied_state = []
 	values[id] = widgets[id].default.duplicate(true)
 
+func instruments_visible() -> bool:
+	return preview or (global_visible and not menu_visible)
+
+func layout_state(size: Vector2) -> Array:
+	transient_nodes.clear()
+	var state: Array = [size,safe_area,timed,menu_visible,global_visible,preview]
+	for id in widgets:
+		var widget: Dictionary = widgets[id]
+		if widget.has("transient"):
+			transient_nodes.append(widget.transient)
+			state.append(widget.transient.visible)
+	return state
+
+## Riding frames call this; widgets only move on resize, preference, menu,
+## race-mode or transient-label changes, so identical states keep the retained
+## transforms and skip every setter. Field-wise comparison allocates nothing.
+func apply_if_changed(size: Vector2) -> void:
+	if applied_state.size()==6+transient_nodes.size() and applied_state[0]==size and applied_state[1]==safe_area and applied_state[2]==timed and applied_state[3]==menu_visible and applied_state[4]==global_visible and applied_state[5]==preview:
+		var same = true
+		for i in transient_nodes.size():
+			if applied_state[6+i]!=transient_nodes[i].visible: same = false
+		if same: return
+	apply(size)
+
 func apply(size: Vector2) -> void:
+	applied_state = layout_state(size)
 	var margin = size*safe_area
 	var available = (size-margin*2).max(Vector2.ONE)
 	for id in widgets:
@@ -46,6 +76,7 @@ func apply(size: Vector2) -> void:
 		node.visible = entry.visible and (preview or global_visible and not menu_visible) and (timed or not widget.race_only) and (preview or not widget.has("transient") or widget.transient.visible)
 
 func move_pixel(id: String, pixel: Vector2, size: Vector2, snap: bool) -> void:
+	applied_state = []
 	var widget: Dictionary = widgets[id]
 	var margin = size*safe_area
 	var travel = (size-margin*2-widget.size*widget.node.scale).max(Vector2.ONE)

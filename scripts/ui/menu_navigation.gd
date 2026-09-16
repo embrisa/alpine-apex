@@ -38,6 +38,16 @@ func setup(owner_game) -> void:
 	_scan_windows(game.hud.root)
 	get_tree().node_added.connect(_track_window)
 	get_window().focus_exited.connect(cancel_repeat)
+	# Scope owners announce themselves; per-frame scope scans stop while riding.
+	# Any input event also wakes processing (see _device_used).
+	var hud = game.hud
+	var workshop = game.workshop
+	for owner in [hud.menu,hud.weather_panel,hud.competition.panel,hud.tuning_panel,workshop.panel,game.mountain_library.panel,workshop.navigation_panel.panel if workshop.get("navigation_panel") else null,game.loading.overlay if game.loading else null,hud.get("hud_editor"),hud.camera_options.get("preview_toolbar")]:
+		if owner is CanvasItem: owner.visibility_changed.connect(wake)
+	get_window().focus_entered.connect(wake)
+
+func wake() -> void:
+	if not is_processing(): set_process(true)
 
 func cancel_repeat() -> void:
 	stick = Vector2.ZERO
@@ -45,6 +55,7 @@ func cancel_repeat() -> void:
 	repeat_left = 0.0
 
 func _connection_changed(id: int, connected: bool) -> void:
+	wake()
 	cancel_repeat()
 	if connected and device < 0: _select_device(id)
 	elif not connected and id == device:
@@ -82,6 +93,7 @@ func device_label() -> String:
 	return active_device_name
 
 func _device_used(event: InputEvent) -> void:
+	wake()
 	var pad_used = event is InputEventJoypadButton and event.pressed
 	if event is InputEventJoypadMotion:
 		# Trigger release/negative rest cannot steal prompts from the keyboard.
@@ -96,7 +108,9 @@ func prompts(authoring: bool = false) -> String:
 
 func _track_window(node: Node) -> void:
 	if node is Window and node!=get_tree().root:
-		if node not in popups: popups.append(node)
+		if node not in popups:
+			popups.append(node)
+			node.visibility_changed.connect(wake)
 		_attach_bridge.call_deferred(node)
 
 func _attach_bridge(window: Window) -> void:
@@ -228,7 +242,11 @@ func _surveying(current_scope: Node) -> bool:
 
 func _process(dt: float) -> void:
 	var current_scope = _sync_scope()
-	if current_scope==null: return
+	if current_scope==null:
+		# Nothing to focus or repeat: sleep until input, a connection change or
+		# a scope owner (panel, popup, overlay, window focus) changes visibility.
+		if held==Vector2i.ZERO: set_process(false)
+		return
 	if not get_window().has_focus() and not (current_scope is Window and current_scope.has_focus()): return
 	if held!=Vector2i.ZERO:
 		repeat_left -= dt

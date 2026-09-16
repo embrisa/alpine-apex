@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084504-reduce-hud-frame-cost"
 title: "Skip hidden HUD work and per-frame interface string and theme churn"
-status: ready
+status: done
 priority: P1
 depends_on: []
 created: "2026-09-16T08:45:04Z"
-updated: "2026-09-16T08:45:04Z"
+updated: "2026-09-16T18:45:07Z"
 source_thread: null
 ---
 
@@ -125,5 +125,61 @@ None
 
 ## Completion record
 
-Pending implementation. Record scope timings, tests, rendered evidence, guide
-updates and commit/push references.
+### Delivery, 2026-09-16: implemented on `main` (Fable, macOS checkout)
+
+Implemented manually after Astra stopped; no scheduled claim. Owned paths:
+`scripts/ui/hud.gd`, `hud_layout.gd`, `menu_navigation.gd`,
+`controller_prompts.gd`, the interface lines of `scripts/main.gd`,
+`scripts/world/mountain_flavor.gd`, plus `tests/mac_frame_probe.gd`
+(`--probe-menu`) and the Presentation/Performance handoff guides.
+
+What changed (readouts, cadence and focus routing preserved):
+
+- `update_hud` returns after its notice/toast timers, layout check and run
+  context when every instrument is hidden (menu open or H). Widget layout
+  re-applies only when size, safe area, race mode, menu/preview state or a
+  transient notice changes. Personal best, altitude/weather, split, run
+  context and course specs format only when their inputs change; the impact
+  tint theme override applies on change; `speed_kmh` is read once; band names
+  are a `const`; the finish/state text is assigned once; the telemetry string
+  is built only while the debug panel is visible (FPS label only while
+  visible), still at 10 Hz.
+- `update_crash_recovery` formats the clock only when the millisecond value or
+  paused state changes and the Stand Up button only when its inputs change.
+- `has_menu_background()` returns a cached flag refreshed by the registered
+  views' `visibility_changed` (which already drove `_sync_menu_backdrop`).
+  `main.gd` builds the mode label and controls footer once per frame; summit
+  heading text caches by bearing; `Prompts.menu` memoises per family.
+- `menu_navigation._process` sleeps while no scope exists and nothing is held;
+  it wakes on any input event (`_device_used`), controller connection changes,
+  window focus and visibility changes of every scope owner (menus, panels,
+  workshop/library/navigation panels, loading overlay, HUD editor, camera
+  preview toolbar, tracked popup windows). `node_added` stays connected:
+  lazily created popups (colour pickers, dialogs) need it and its per-node cost
+  is sub-microsecond, so the proposed explicit registration was declined.
+- `discover_near` rescans placements only after the rider has travelled the
+  exact triangle-inequality slack measured at the last scan.
+
+Measured on the Apple M4 MacBook (Metal, bilinear 0.75, Standard mountain
+free ski, `scripts/mac_frame_probe.sh`, 20 s after 240 warm-up frames; frame
+time noise about +/-1.5 ms so only the `hud` scope is claimed):
+
+| State | Before mean / p95 / p99 (us) | After mean / p95 / p99 (us) |
+| --- | --- | --- |
+| Riding | 147 / 212 / 240 | 44 / 69 / 77 |
+| Pause menu open | 146 / 215 / 234 | 36 / 57 / 66 |
+
+Frame means: baseline riding 27.5 and 30.2 ms, candidate riding 24.7 ms; menu 25.2 -> 20.8 ms (inside run noise). The riding scope target of "well under 50 us" is
+met (44 us mean); menus are not literally zero because the layout/identity checks
+and notice timers still run.
+
+Automated (macOS, Godot 4.7.2): interface_suite 83/83, menu_navigation_suite
+24/24, controller_prompts_suite 45/45, interface_layout_suite 95/95,
+crash_recovery_suite 82/82 (after creating its missing artifacts folder; it
+hangs otherwise on any checkout), flavor_integration_suite 37/37,
+runtime_suite 192/192, native hud_dial_suite 33 paint cases byte-identical,
+summit_return_suite 24/27 with the same three failures on unmodified `main`
+(tuck-held drop-in and two race-boundary checks; pre-existing). Also headless: bright_ui_suite 74/74, interface_overhaul_suite 40/40, interface_feedback_suite 111/111, interface_art_playtest 156/160 and retained_interface_suite 247/248 with failures identical on unmodified main (title header logo, loading timer layout at three sizes, unavailable ghost explanation; pre-existing).
+`tests/interface_performance_suite.gd` requires the Windows D3D12 engine and
+was not run; rendered inspection of the readouts is the suite evidence above,
+not a human review.
