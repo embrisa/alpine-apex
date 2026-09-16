@@ -1,0 +1,178 @@
+{
+  "schema": 1,
+  "id": "1da4205b14d043b8a96f9007bd7bf4b6",
+  "summary": "Add a grass worker thread-safety stress test and record the non-reproducible propagate_notification crash investigation",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Grass worker thread safety",
+    "Validation tooling",
+    "Performance handoff documentation"
+  ],
+  "owned_paths": [
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/VALIDATION.md",
+    "tests/grass_worker_stress.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "addons/godot_mcp_toolkit/logging/log_buffer.gd",
+    "scripts/presentation/grass_placement.gd",
+    "scripts/presentation/rock_gravel.gd",
+    "scripts/presentation/terrain_grass.gd",
+    "scripts/world/generators/alpine_face_v15.gd",
+    "scripts/world/generators/alpine_massif_v15.gd",
+    "scripts/world/mineral_collision.gd",
+    "tests/validation_mountain.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Test and documentation only; no runtime, generator, format or data change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Test and documentation only; no runtime, generator, format or data change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Test and documentation only; no runtime, generator, format or data change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Test and documentation only; no runtime, generator, format or data change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Test and documentation only; no runtime, generator, format or data change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "ALPINE_FULL_MOUNTAIN=1 ./godotw --headless --script tests/grass_worker_stress.gd -- --seconds=240 (and a 20 s smoke run after promotion)",
+      "result": "passed",
+      "details": "156,272 cells over 240 s plus a 180 s run with 8 concurrent tasks, periodic blocking waits and concurrent main-thread field queries: no errors, no crash. Logs under artifacts/grass_crash."
+    },
+    {
+      "kind": "automated",
+      "command": "scripts/mac_frame_probe.sh repro_N --probe-seconds=4 (eight relaunches of the crashing scenario)",
+      "result": "passed",
+      "details": "0 of 8 launches crashed; frame times 23.5-23.8 ms."
+    }
+  ],
+  "outstanding_acceptance": [
+    "The 2026-09-16 crash (propagate_notification thread guard on /root with a grass worker backtrace, signal 11) was observed once in about fifty launches and did not reproduce in 400 s of worker stress or eight relaunches; treated as an engine-side race (Godot 4.7.x has upstream reports). Log retained locally under artifacts/mac_floor_20260916."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T17:56:04.540275+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "bdf4db20db5b0a15b957952b4f2b416c8be73a33",
+      "dev": 64,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789544258451225404
+      },
+      "addons/godot_mcp_toolkit/logging/log_buffer.gd": {
+        "size": 15372,
+        "mtime_ns": 1788622718729928873
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 37579,
+        "mtime_ns": 1789581309273296484
+      },
+      "docs/VALIDATION.md": {
+        "size": 127315,
+        "mtime_ns": 1789581364200148908
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789546451377313344
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789574833688637752
+      },
+      "scripts/presentation/grass_placement.gd": {
+        "size": 5775,
+        "mtime_ns": 1789573641486414010
+      },
+      "scripts/presentation/rock_gravel.gd": {
+        "size": 6861,
+        "mtime_ns": 1789511897129819354
+      },
+      "scripts/presentation/terrain_grass.gd": {
+        "size": 7437,
+        "mtime_ns": 1789573641488126323
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789511897136445444
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789581307436015366
+      },
+      "scripts/world/generators/alpine_face_v15.gd": {
+        "size": 28553,
+        "mtime_ns": 1789511897152155714
+      },
+      "scripts/world/generators/alpine_massif_v15.gd": {
+        "size": 23453,
+        "mtime_ns": 1789511897153241569
+      },
+      "scripts/world/mineral_collision.gd": {
+        "size": 7088,
+        "mtime_ns": 1789511897155053146
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      },
+      "tests/grass_worker_stress.gd": {
+        "size": 2974,
+        "mtime_ns": 1789581309272967651
+      },
+      "tests/validation_mountain.gd": {
+        "size": 1849,
+        "mtime_ns": 1789511897235108236
+      }
+    }
+  }
+}
