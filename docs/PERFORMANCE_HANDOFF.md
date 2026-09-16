@@ -37,6 +37,21 @@ Snapshot for Fable's next experiments. Current contracts and commands remain in
 
 ## Windows measurements to reuse
 
+### Forest batch settings, 16 September
+
+Batch setup now publishes final culling/shadow values once. In the paired native
+324-tree / 27-region fixture, configuration/publication CPU fell **404.92 to
+356.81 us per region (-11.9%)**; complete region-loading updates totalled
+**44.50 to 42.13 ms (-5.3%)** across 27 regions, not per frame. Four alternating
+warmed samples per arm; one initial pair excluded. This retains a small CPU
+saving without a new mountain FPS claim or baseline run. MultiMesh allocation
+remains the largest measured construction section, about 14 us per batch.
+Paired final properties/uniforms matched; 3,845 native lifecycle checks and
+639 headless LOD/spatial/graphics/runtime checks passed. Matched mixed-map stills
+at two camera positions showed no added culling gaps. Evidence and frozen
+original: `artifacts/forest_nodes_20260916/`. Mac timing and human motion review
+remain untested; the broader streaming-burst task remains open.
+
 ### Equipment audio pair cache, 16 September
 
 Audio-only ski/pole contact detection caches cross-owner pair indices between

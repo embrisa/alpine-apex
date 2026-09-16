@@ -216,6 +216,13 @@ searching every distant batch when retiring nearby geometry, while preserving
 the existing queue, upload budget, residency publication and resource release.
 Native regression and moving-camera producers are in [Validation](VALIDATION.md#forest-batch-submission).
 
+Batch configuration computes the final culling ranges, margins and shadow mode
+before assigning them to the node. Avoid assigning generic values and then
+overwriting them for shader trees: those setters notify the renderer each time.
+Prepared shader-tree bounds already include the complete envelope and use the
+node's default zero extra margin. Ordinary rocks, scrub and non-shader cards
+retain their existing margins and quality behavior.
+
 `foliage_sight.gd` owns canopy-aid activation and bounded depth; `alpine_assets.gd`
 submits its state to resident geometry and late streamed/fallback conifer
 materials. `foliage_sight.gdshaderinc` scales removal by activation, normalized

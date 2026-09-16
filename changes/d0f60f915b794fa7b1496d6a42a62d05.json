@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "id": "d0f60f915b794fa7b1496d6a42a62d05",
+  "summary": "Publish final forest batch settings without redundant renderer updates",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Forest batch publication CPU"
+  ],
+  "owned_paths": [
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RENDERING.md",
+    "scripts/world/alpine_scenery.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "scripts/presentation/alpine_assets.gd",
+    "scripts/presentation/density_forest.gd",
+    "tests/density_lod_suite.gd",
+    "tests/density_spatial_suite.gd",
+    "tests/forest_preparation_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Computes the same final rendering properties before calling native setters. No solver, physical collision, placements, shader distances, quality or recording change."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Computes the same final rendering properties before calling native setters. No solver, physical collision, placements, shader distances, quality or recording change."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Computes the same final rendering properties before calling native setters. No solver, physical collision, placements, shader distances, quality or recording change."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No source asset, persistent payload or compatibility identity change; scene-node property publication only."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No source asset, persistent payload or compatibility identity change; scene-node property publication only."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No source asset, persistent payload or compatibility identity change; scene-node property publication only."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No source asset, persistent payload or compatibility identity change; scene-node property publication only."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No source asset, persistent payload or compatibility identity change; scene-node property publication only."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "artifacts/forest_nodes_20260916/paired.gd under FpsCritical; forest-final-settings-native-20260916; test_pc_environment density_lod_suite,density_spatial_suite,graphics_suite,runtime_suite",
+      "details": "117190 paired native property/uniform/population checks matched frozen Dev59 across dense/non-dense modes, presets 1/4/7/10 and resets, stream/direct groups, rotated ordinary trees, rocks, scrub and powder-cap metadata. 3845 native forest preparation/lifecycle checks passed. Headless suites passed 384 LOD, 34 spatial (count read from its log because the runner reports zero), 29 graphics and 192 runtime checks. No physics edit or physics-suite claim. Metadata captured before verification; later changes are documentation only."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "forest-node-paired-20260916; artifacts/forest_nodes_20260916/paired.json",
+      "details": "Custom Godot 4.7.2 D3D12/RX9070, focused fixture 324 trees, 27 regions, six real tree assets. Four paired alternating warmed samples per arm after excluded round zero. Configuration/publication normalized per region 404.9167 -> 356.8056 us (-11.88%); each paired round improved this scope. Region construction 1223.0278 -> 1180.8333 us. Complete updates across each 27-region load averaged 44.5015 -> 42.1340 ms (-5.32%); this sum is not one frame. No camera in CPU fixture and no GPU/FPS claim. Initial section diagnostic found MultiMesh setup about14us/batch, basic properties9us, tree properties6us, attachment3.4us. Initial instrumentation script mixed indentation and failed parsing; artifact-only fix produced valid probe. No production change from that failure."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "Shared forest-final-settings-view-20260916; artifacts/forest_nodes_20260916/visual.gd",
+      "details": "Four native stills inspected: old and candidate configuration applied to the same production mixed-map nodes at fixed camera z110 and z152. 384 trees,48 rocks,1280x720,Auto FSR4.1.1 at75%,60cap. Bounds/composition and shadow coverage remain intact, no added culling gaps; live temporal/wind differences are not pixel equality. Native lifecycle suite separately exercises repeated/reverse traversal, eviction, resource release and replacement. Functional evidence only; no performance capture or human motion acceptance."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "git -c core.whitespace=cr-at-eol diff --check; scripts/versioning.py check --note changes/d0f60f915b794fa7b1496d6a42a62d05.json --staged",
+      "details": "Scoped source review, metadata-only input capture and version check. Performance and validation skills reviewed; no command or evidence-contract change requires a skill edit. This does not replay the historical staged-publication candidate: it removes redundant renderer property assignments without changing scheduling or resource lifetime."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Sustained90-120FPS and full-mountain frame tails remain unproven; no new route measurement for this small event-scoped saving. Existing matching baseline remains authoritative.",
+    "Mac CPU timing and human/controller motion review were not performed. No density, LOD range, quality, terrain, physics or replay changes.",
+    "Largest construction section remains MultiMesh allocation/configuration; no resource pooling, native threading, retained GPU memory or scheduling change was introduced. The broader forest/collision burst task remains open."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T16:21:58.476514+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "7b13ad85e4504e058b8dcfdc21a7b74b99b37115",
+      "dev": 59,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 29245,
+        "mtime_ns": 1789575666348882300
+      },
+      "docs/RENDERING.md": {
+        "size": 42188,
+        "mtime_ns": 1789575666347864000
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/presentation/alpine_assets.gd": {
+        "size": 21073,
+        "mtime_ns": 1789564235675198500
+      },
+      "scripts/presentation/density_forest.gd": {
+        "size": 9889,
+        "mtime_ns": 1789567353867450300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18224,
+        "mtime_ns": 1789566331946877700
+      },
+      "scripts/world/alpine_scenery.gd": {
+        "size": 19893,
+        "mtime_ns": 1789575393302352500
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/density_lod_suite.gd": {
+        "size": 5201,
+        "mtime_ns": 1789340779282486900
+      },
+      "tests/density_spatial_suite.gd": {
+        "size": 2746,
+        "mtime_ns": 1789328574207856000
+      },
+      "tests/forest_preparation_suite.gd": {
+        "size": 7879,
+        "mtime_ns": 1789567429034696100
+      }
+    }
+  }
+}

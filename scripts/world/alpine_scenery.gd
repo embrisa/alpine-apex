@@ -225,13 +225,14 @@ func _batch(mesh: Mesh, transforms: Array, lod: int, height_m: float = 19.0, pre
 	# Only fixed rocks contribute. Wind-driven trees and camera-facing cards
 	# receive GI without leaving stale geometry in the distance field.
 	instance.gi_mode = GeometryInstance3D.GI_MODE_STATIC if lod==3 else GeometryInstance3D.GI_MODE_DISABLED
-	# Far cards turn in their shader; include their rotated width in culling bounds.
-	instance.extra_cull_margin = 10.0 if lod==2 else .2
 	instance.set_meta("art_lod",lod)
 	var material = mesh.surface_get_material(0)
 	var pc_tree = (lod<3 or lod==5) and material is ShaderMaterial and "pc_" in material.shader.resource_path
 	instance.set_meta("pc_tree",pc_tree)
 	instance.set_meta("forest_tree",pc_tree and ("pc_forest_tree" in material.shader.resource_path or material.resource_name.begins_with("FC_Impostor")))
+	# Shader trees use their prepared envelope and the default zero margin.
+	# Other cards need their rotated width included in culling bounds.
+	if not pc_tree: instance.extra_cull_margin = 10.0 if lod==2 else .2
 	if lod==5 and instance.get_meta("forest_tree"):
 		# The stable shadow proxy needs only geometry and distance coverage;
 		# it does not evaluate needle lighting or interactive branch rotations.
@@ -250,7 +251,6 @@ func _batch(mesh: Mesh, transforms: Array, lod: int, height_m: float = 19.0, pre
 			bounds.position -= Vector3(10,.5,10)
 			bounds.size += Vector3(20,height_m,20)
 		instance.custom_aabb = bounds
-		instance.extra_cull_margin = 0.0
 		instance.set_instance_shader_parameter("pc_lod_center",bounds.get_center())
 		if not forest_asset.is_empty():
 			var record: Dictionary = assets.tree_record(forest_asset)
@@ -295,23 +295,21 @@ func configure_batches(profile, instances: Array) -> void:
 				near_m = [6.0,10.0,12.0][profile.level]*profile.tree_near_m/[40.0,70.0,95.0][profile.level]
 				mid_m = [34.0,48.0,64.0][profile.level]*profile.tree_mid_m/[135.0,220.0,280.0][profile.level]
 				shadow_m = [20.0,26.0,32.0][profile.level]
-		instance.visibility_range_begin = [0.0,near_m,mid_m,0.0,0.0,0.0][lod]
-		instance.visibility_range_end = [near_m,mid_m,profile.tree_far_m,profile.tree_far_m,profile.scrub_distance_m,shadow_m][lod]
+		var begin: float = [0.0,near_m,mid_m,0.0,0.0,0.0][lod]
+		var end: float = [near_m,mid_m,profile.tree_far_m,profile.tree_far_m,profile.scrub_distance_m,shadow_m][lod]
 		# Small hysteresis prevents threshold flicker without alpha-blended forests.
-		instance.visibility_range_begin_margin = 12.0 if lod in [1,2] else 0.0
-		instance.visibility_range_end_margin = 12.0
-		if instance.get_meta("powder_cap",false): instance.visibility_range_end = [90.0,150.0,220.0][profile.level]
-		if instance.get_meta("pc_tree",false):
-			var begin = instance.visibility_range_begin
-			var end = instance.visibility_range_end
+		var begin_margin = 12.0 if lod in [1,2] else 0.0
+		var end_margin = 12.0
+		if instance.get_meta("powder_cap",false): end = [90.0,150.0,220.0][profile.level]
+		var pc_tree: bool = instance.get_meta("pc_tree",false)
+		if pc_tree:
 			var fade_m = 5.0 if dense_woodlands else 10.0
 			instance.set_instance_shader_parameter("pc_lod_ranges",Vector4(begin,end,fade_m,float(lod)))
 			# The shader owns the transition; broad culling bounds retain both
 			# opaque meshes while their complementary coverage changes.
-			instance.visibility_range_begin = maxf(0.0,begin-fade_m-1.0) if begin>0 else 0.0
-			instance.visibility_range_end = end+fade_m+1.0
-			instance.visibility_range_begin_margin = 0.0
-			instance.visibility_range_end_margin = 0.0
+			begin = maxf(0.0,begin-fade_m-1.0) if begin>0 else 0.0
+			begin_margin = 0.0
+			end_margin = 0.0
 			if instance.get_meta("density_tree",false) or instance.get_instance_shader_parameter("pc_lod_individual")==true:
 				# Individual shader distance selects each tree; batch-centre culling
 				# must conservatively include its horizontal extent and tree height.
@@ -320,11 +318,20 @@ func configure_batches(profile, instances: Array) -> void:
 				# Only identity-basis density batches use this world-metre bound.
 				if lod in [0,1] and instance.has_meta("coverage_padding") and instance.global_basis==Basis.IDENTITY:
 					padding=minf(padding,float(instance.get_meta("coverage_padding")))
-				instance.visibility_range_begin=0.0
-				instance.visibility_range_end=end+fade_m+padding
-		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if lod in [0,1,3] else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		if instance.get_meta("pc_tree",false):
+				begin=0.0
+				end+=fade_m+padding
+			else:
+				end+=fade_m+1.0
+		# Publish only the final values. Intermediate setters repeatedly notify
+		# the renderer before being overwritten by shader-specific coverage.
+		instance.visibility_range_begin = begin
+		instance.visibility_range_end = end
+		instance.visibility_range_begin_margin = begin_margin
+		instance.visibility_range_end_margin = end_margin
+		if pc_tree:
 			# One stable mid-detail shadow silhouette, independent of visible LOD.
 			instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY if lod==5 else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		else:
+			instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if lod in [0,1,3] else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		if lod==4:
 			instance.multimesh.visible_instance_count = maxi(0,roundi(instance.multimesh.instance_count*profile.scrub_density))
