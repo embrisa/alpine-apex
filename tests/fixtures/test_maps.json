@@ -840,11 +840,6 @@
       "full_mountain": false,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/mineral_asset_suite.gd": {
-      "maps": [],
-      "full_mountain": false,
-      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
-    },
     "tests/mineral_detail_suite.gd": {
       "maps": [],
       "full_mountain": false,

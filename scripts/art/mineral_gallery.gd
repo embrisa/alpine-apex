@@ -12,15 +12,13 @@ var yaw := 0.0
 var pitch := 1.0
 var distance := 34.0
 var automated := false
-var detailed := false
 var moss := false
 
 func _ready() -> void:
 	automated = "--capture" in OS.get_cmdline_user_args()
 	get_window().size = Vector2i(1400,1800)
 	get_window().title = "Alpine Apex | Mineral asset library"
-	detailed = not "--legacy" in OS.get_cmdline_user_args() and FileAccess.file_exists("res://assets/graphics/minerals_v3/manifest.json")
-	manifest = JSON.parse_string(FileAccess.get_file_as_string("res://assets/graphics/"+("minerals_v3" if detailed else "minerals")+"/manifest.json"))
+	manifest = JSON.parse_string(FileAccess.get_file_as_string("res://assets/graphics/minerals_v3/manifest.json"))
 	var environment := WorldEnvironment.new()
 	environment.environment = Environment.new()
 	environment.environment.background_mode = Environment.BG_COLOR
@@ -78,7 +76,7 @@ func _ready() -> void:
 func show_category(index: int) -> void:
 	category_index = index
 	for child in display.get_children(): child.free()
-	heading.text = "ALPINE APEX / " + CATEGORIES[index].replace("_"," ").to_upper() + (" / DETAIL v3" if detailed else " / LEGACY v2")
+	heading.text = "ALPINE APEX / " + CATEGORIES[index].replace("_"," ").to_upper() + " / DETAIL v3"
 	var families: Array = manifest.get("category_families", {}).get(CATEGORIES[index], FAMILIES)
 	for row: Dictionary in manifest.assets:
 		if row.category != CATEGORIES[index]: continue
@@ -116,7 +114,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		if event.keycode in [KEY_1,KEY_2,KEY_3,KEY_4,KEY_5]: show_category(event.keycode-KEY_1)
 		if event.keycode == KEY_ESCAPE: get_tree().quit()
-		if event.keycode == KEY_M and detailed:
+		if event.keycode == KEY_M:
 			moss = not moss
 			apply_moss(display)
 	if event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
@@ -141,6 +139,6 @@ func capture_all() -> void:
 		for frame in range(24): await get_tree().process_frame
 		await RenderingServer.frame_post_draw
 		var image := get_viewport().get_texture().get_image()
-		image.save_png("res://artifacts/"+("minerals_v3" if detailed else "minerals")+"/godot_"+CATEGORIES[index]+".png")
+		image.save_png("res://artifacts/minerals_v3/godot_"+CATEGORIES[index]+".png")
 		print("MINERAL_GALLERY_CAPTURE ",CATEGORIES[index]," ",image.get_size())
 	get_tree().quit()

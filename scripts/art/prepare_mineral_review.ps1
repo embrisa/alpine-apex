@@ -9,7 +9,6 @@ foreach ($detailFolder in $detailFolders) {
 # Only this asset pack is mounted. Unrelated source files and editor plugins do
 # not participate in the standalone review. Capture output is excluded below.
 $detailLinks = @{
-    'assets/graphics/minerals' = 'assets/graphics/minerals'
     'assets/graphics/minerals_v3' = 'assets/graphics/minerals_v3'
     'artifacts/minerals_v3' = 'artifacts/minerals_v3'
 }
@@ -34,7 +33,7 @@ window/size/viewport_height=1020
 [rendering]
 rendering_device/driver.windows="d3d12"
 '@ | Set-Content -LiteralPath (Join-Path $detailQa 'project.godot')
-foreach ($detailScript in @('mineral_detail_post_import.gd','mineral_detail_review.gd','mineral_post_import.gd','mineral_gallery.gd','build_mineral_moss_variants.gd','mineral_vegetation_variant.gd')) {
+foreach ($detailScript in @('mineral_detail_post_import.gd','mineral_detail_review.gd','mineral_gallery.gd','build_mineral_moss_variants.gd','mineral_vegetation_variant.gd')) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot $detailScript) -Destination (Join-Path $detailQa 'scripts/art')
 }
 foreach ($detailScene in @('mineral_detail_review.tscn','mineral_gallery.tscn')) {

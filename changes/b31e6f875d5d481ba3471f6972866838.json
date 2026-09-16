@@ -1,0 +1,205 @@
+{
+  "schema": 1,
+  "id": "b31e6f875d5d481ba3471f6972866838",
+  "summary": "Retire the obsolete v2 mineral asset library",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Legacy mineral asset retirement",
+    "v3 mineral authoring and review tooling",
+    "Mineral validation catalog"
+  ],
+  "owned_paths": [
+    "assets/graphics/minerals",
+    "assets/graphics/minerals_v3/manifest.json",
+    "docs/ASSETS.md",
+    "scripts/art/build_mineral_library.py",
+    "scripts/art/configure_mineral_imports.py",
+    "scripts/art/mineral_gallery.gd",
+    "scripts/art/mineral_post_import.gd",
+    "scripts/art/mineral_post_import.gd.uid",
+    "scripts/art/prepare_mineral_review.ps1",
+    "scripts/art/rebuild_mineral_detail_library.py",
+    "tests/fixtures/test_maps.json",
+    "tests/mineral_asset_suite.gd",
+    "tests/mineral_asset_suite.gd.uid"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "assets/graphics/geology_v11/catalog.json",
+    "assets/graphics/minerals_v3/manifest.json",
+    "docs/DEVELOPMENT.md",
+    "scripts/versioning.py"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "The runtime geology catalog and seeded mineral placement inputs remain unchanged."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No race definitions or route data changed."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No record schema, identity, or persistence path changed."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No replay or ghost inputs changed."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "The runtime geology catalog and cache identities remain unchanged."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "python -m py_compile scripts/art/rebuild_mineral_detail_library.py; PowerShell parser check scripts/art/prepare_mineral_review.ps1; JSON parse tests/fixtures/test_maps.json; active legacy-path scan; git diff --check",
+      "details": "Python and PowerShell syntax, fixture JSON, whitespace, and active source paths passed. The active path scan found no res://assets/graphics/minerals/ reference. AST comparison confirmed the inlined v3 composition function matches the retired builder."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "./scripts/test_pc_environment.ps1 -Suites mineral_detail_suite -OutputDirectory artifacts/pc_environment/legacy_minerals-cleanup-final",
+      "details": "Shared guarded headless run passed on Godot 4.7.2 custom build in 73.02 seconds. The retained v3 suite validated all 120 detail assets with zero failures and stable build sources."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--check-only','--script','scripts/art/mineral_gallery.gd') -Label legacy-mineral-gallery-check -ResourceKeys @('script:scripts/art/mineral_gallery.gd')",
+      "details": "Shared guarded Godot check-only parse passed for the v3-only gallery."
+    },
+    {
+      "kind": "rendered",
+      "result": "not_required",
+      "command": "Not run: asset-retirement maintenance",
+      "details": "No production mineral mesh, material, runtime geology catalog, or presentation behavior changed."
+    },
+    {
+      "kind": "performance",
+      "result": "not_required",
+      "command": "Not run: asset-retirement maintenance",
+      "details": "No performance claim is made; the removed v2 pack was not on the production runtime path."
+    },
+    {
+      "kind": "human",
+      "result": "not_required",
+      "command": "Not required for legacy asset removal",
+      "details": "No controller, listening, or gameplay interaction changed."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-16T22:34:07.795818+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "6317c7cc7d5a576a11e89aa2f5178c5044b8a312",
+      "dev": 76,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "assets/graphics/geology_v11/catalog.json": {
+        "size": 252084531,
+        "mtime_ns": 1788807584000564800
+      },
+      "assets/graphics/minerals": null,
+      "assets/graphics/minerals_v3/manifest.json": {
+        "size": 99706,
+        "mtime_ns": 1789598040015041600
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ASSETS.md": {
+        "size": 21609,
+        "mtime_ns": 1789597834864107000
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 20655,
+        "mtime_ns": 1789577468895854200
+      },
+      "project.godot": {
+        "size": 1819,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/art/build_mineral_library.py": null,
+      "scripts/art/configure_mineral_imports.py": null,
+      "scripts/art/mineral_gallery.gd": {
+        "size": 6040,
+        "mtime_ns": 1789597834861527400
+      },
+      "scripts/art/mineral_post_import.gd": null,
+      "scripts/art/mineral_post_import.gd.uid": null,
+      "scripts/art/prepare_mineral_review.ps1": {
+        "size": 4405,
+        "mtime_ns": 1789597834862606100
+      },
+      "scripts/art/rebuild_mineral_detail_library.py": {
+        "size": 21161,
+        "mtime_ns": 1789597834860527500
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 16580,
+        "mtime_ns": 1789594595774260900
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789576668695286100
+      },
+      "scripts/versioning.py": {
+        "size": 27235,
+        "mtime_ns": 1789549421190699100
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/fixtures/test_maps.json": {
+        "size": 61997,
+        "mtime_ns": 1789597834865109800
+      },
+      "tests/mineral_asset_suite.gd": null,
+      "tests/mineral_asset_suite.gd.uid": null
+    }
+  }
+}

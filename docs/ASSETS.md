@@ -253,8 +253,8 @@ grass resources remain separate and unchanged. Placement belongs to
 
 The immutable supplied generator is now
 [`art_source/blender/rock_generator.blend`](../art_source/blender/rock_generator.blend).
-`scripts/art/build_mineral_library.py`, `build_mineral_detail.py`,
-`rebuild_mineral_detail_library.py` and `package_mineral_detail_sources.py`
+`scripts/art/build_mineral_detail.py`, `rebuild_mineral_detail_library.py` and
+`package_mineral_detail_sources.py`
 reference that location. The v3 catalog has 120 base assets in five categories;
 variant dimensions/triangle/texture budgets and hashes live in its manifest.
 
@@ -282,7 +282,7 @@ assets. Godot adds metre-scale object-space mineral detail and snow treatment.
 The isolated review avoids unrelated purchased Blender-source imports, uses
 actual GLBs/import scripts and preserves other import products/UID cache.
 Gallery 1–5 selects category, M moss, drag/wheel orbit/zoom; labels show real
-metres despite normalized display sizes. Existing `--legacy` is a comparison.
+metres despite normalized display sizes.
 
 In a resolved Blender executable, run `--background --factory-startup
 --disable-autoexec --python-exit-code 1 --python

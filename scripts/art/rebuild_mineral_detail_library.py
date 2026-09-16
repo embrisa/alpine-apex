@@ -2,10 +2,9 @@
 
 Blender --background --factory-startup --disable-autoexec --python-exit-code 1
 --python scripts/art/rebuild_mineral_detail_library.py [-- --asset NAME]
-The v2 exports and the supplied source remain untouched. An interrupted run
-resumes from verified hashes. Recipe composition is shared with the v2 builder.
+The supplied source remains untouched. An interrupted run resumes from verified
+hashes.
 """
-import ast
 import bpy
 import hashlib
 import json
@@ -95,10 +94,86 @@ def generated_part(seed, variation, dims, loc=(0, 0, 0), tilt=(0, 0, 0), rounded
     return obj
 
 
-# Load only this pure composition function, without executing the old builder.
-recipe_ast = ast.parse((ROOT/'scripts/art/build_mineral_library.py').read_text())
-recipe = next(n for n in recipe_ast.body if isinstance(n, ast.FunctionDef) and n.name == 'compose_shape_parts')
-exec(compile(ast.Module(body=[recipe], type_ignores=[]), str(ROOT/'scripts/art/build_mineral_library.py'), 'exec'))
+def compose_shape_parts(category, family, variant):
+    seed = 920700 + CATEGORIES.index(category)*10000 + CATEGORY_FAMILIES[category].index(family)*1000 + variant*83
+    rng = random.Random(seed)
+    parts = []
+    def part(dims, loc=(0, 0, 0), tilt=(0, 0, 0), rounded=False):
+        parts.append(generated_part(seed+len(parts)*31, variant+len(parts)*7, dims, loc, tilt, rounded))
+    if category == 'huge_boulders':
+        yaw = variant*.31
+        if family == 'erratic':
+            part([(1, .82, .65), (.95, .67, .89), (1, .89, .70), (.86, .81, 1)][variant], tilt=(.05*(variant-1), -.10, yaw), rounded=.48)
+        elif family == 'block':
+            part((1, .70, .87), tilt=(.03*variant, -.06, yaw), rounded=.12)
+            part((.68, .60, .30), (.10, -.02, .65), tilt=(0, .08, -.12))
+        elif family == 'split':
+            part((.56, .82, .95), (-.30, 0, 0), tilt=(0, -.09, yaw*.2))
+            part((.52, .74, .72+variant*.08), (.28, .04, 0), tilt=(0, .12, -.10))
+        elif family == 'dome':
+            part((1, .74+variant*.04, .40+variant*.04), rounded=.86)
+        elif family == 'overhang':
+            part((.59, .66, .68), (-.10, 0, 0), rounded=.18)
+            part((1, .83, .52), (.13, .02, .43), tilt=(0, -.10+variant*.05, yaw), rounded=.38)
+        else:
+            part((.57+variant*.07, .69, 1.45), tilt=(.04, -.12+variant*.07, yaw), rounded=.15)
+            part((.72, .78, .34), (.07, 0, 0), rounded=.25)
+    elif category == 'cliffs':
+        height = 1.05+variant*.14
+        if family == 'wall':
+            part((2.0, .66, height), (0, .12, 0))
+            for j in range(4):
+                part((.65, .30, height*(.77+rng.random()*.24)), ((j-1.5)*.48, -.17, 0), tilt=(.03, 0, rng.uniform(-.05, .05)))
+        elif family == 'layered_wall':
+            part((2.2, .57, height*.93), (0, .16, 0))
+            for j in range(5+variant):
+                part((2.22-j*.025, .63+rng.random()*.12, .25), (.045*math.sin(j), -.02, j*height/(5+variant)), tilt=(0, .01, 0))
+        elif family == 'corner':
+            part((1.70, .64, height), (-.30, .10, 0))
+            part((1.55, .67, height*.87), (.49, .65, 0), tilt=(0, 0, math.pi/2))
+        elif family == 'recess':
+            part((2.1, .49, height*.94), (0, .38, 0))
+            part((.66, .97, height), (-.88, -.04, 0), tilt=(0, 0, -.13))
+            part((.62, .92, height*.86), (.89, -.02, 0), tilt=(0, 0, .14))
+        elif family == 'overhang_wall':
+            part((1.94, .61, height*.71), (0, .30, 0))
+            part((2.17, 1.00, height*.44), (.05, .02, height*.56), tilt=(.04, 0, .01))
+        else:
+            part((2.12, .56, height), (0, .23, 0))
+            for j in range(3+variant%2):
+                part((.45, .90, height*(.76+rng.random()*.20)), ((j-1)*.60, -.14, 0), tilt=(.12, 0, rng.uniform(-.08, .08)))
+        part((2.26, .78, .13), (0, .12, 0))
+    elif family == 'rounded':
+        proportions = [(1, .79, .55), (.76, .90, .85), (1, .55, .42), (.84, .74, 1)][variant]
+        part(proportions, rounded=True, tilt=(.08, -.12, variant*.4))
+    elif family == 'fractured':
+        for j in range(2 + variant%2):
+            part((rng.uniform(.42, .68), rng.uniform(.62, .85), rng.uniform(.55, .96)), (j*.41-.3, .10*math.sin(j*3), 0), (0, rng.uniform(-.16, .16), rng.uniform(-.2, .2)))
+    elif family == 'sedimentary':
+        layers = 4+variant
+        for j in range(layers):
+            width = 1.05-j*.055+rng.uniform(-.08, .08)
+            part((width, rng.uniform(.62, .86), .13+rng.random()*.06), (math.sin(j*1.3+variant)*.05, rng.uniform(-.04, .04), j*.112), (0, .03*(variant-1), rng.uniform(-.09, .09)))
+    elif family == 'outcrop':
+        for j in range(3+variant):
+            a = j*2.399+variant
+            height = 1.2 if j == 0 else rng.uniform(.48, 1.0)
+            part((rng.uniform(.25, .39), rng.uniform(.28, .48), height), (.22*math.cos(a), .22*math.sin(a), 0), (rng.uniform(-.14, .14), rng.uniform(-.20, .20), a))
+    elif family == 'cliff':
+        count = 4+variant
+        for j in range(count):
+            h = .9+.21*math.sin(j*.95+variant)+rng.uniform(-.07, .14)
+            part((.43, rng.uniform(.38, .60), h), ((j-(count-1)*.5)*.34, .09*math.sin(j*1.1), 0), (rng.uniform(-.06, .06), .04*(variant-1), rng.uniform(-.12, .12)))
+        part((count*.35, .73, .24), (0, .02, 0))
+    else:
+        count = 5+variant
+        part((1.2, .88, .16), (0, .03, 0))
+        for j in range(count):
+            x = ((j%3)-1)*.34 + rng.uniform(-.025, .025)
+            y = (j//3)*.31-.20
+            h = rng.uniform(.36, .82)*(1.+variant*.08)
+            part((rng.uniform(.22, .31), rng.uniform(.26, .33), h), (x, y, .05), (rng.uniform(-.08, .08), rng.uniform(-.12, .12), rng.uniform(-.08, .08)))
+    return parts, seed
 
 
 def setup():
@@ -303,7 +378,6 @@ def build(category, family, variant):
 def main():
     for folder in [OUT, ART, QA]: folder.mkdir(parents=True, exist_ok=True)
     source_hash = sha(SOURCE)
-    old = json.loads((ROOT/'assets/graphics/minerals/manifest.json').read_text())
     manifest_path = OUT/'manifest.json'
     manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {
         'version': 'mineral-library-v3-detail', 'source_sha256': source_hash,
@@ -325,9 +399,8 @@ def main():
                 manifest['asset_count'] = len(manifest['assets'])
                 manifest_path.write_text(json.dumps(manifest, indent=2)+'\n')
     assert sha(SOURCE) == source_hash
-    for row in old['assets']:
-        assert sha(ROOT/row['path']) == row['sha256'], row['asset']
-    manifest['source_preserved'] = True; manifest['v2_exports_preserved'] = True
+    manifest['source_preserved'] = True
+    manifest.pop('v2_exports_preserved', None)
     manifest_path.write_text(json.dumps(manifest, indent=2)+'\n')
     print('DETAIL_LIBRARY_COMPLETE', manifest['asset_count'], flush=True)
 
