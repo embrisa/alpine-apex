@@ -459,6 +459,15 @@ from timing. Capture visuals separately.
 
 ### Reusable baselines and experiment budget
 
+Solver-only CPU changes use the headless paired tick harness
+`tests/solver_tick_benchmark.gd`: it loads the Standard mountain (requires the
+full-mountain policy flags), runs a scripted 3,000-tick descent from the launch
+point three times and prints microseconds per tick plus a SHA-256 of every tick's
+position, velocity, heading and support state. Compare the hash first; identical
+hashes mean an exact solver change. Timing is a same-machine observation, so use
+`--ticks=6000`, interleave original and candidate runs and compare the minimum
+pass; a 2-4 percent difference is at the noise floor of a laptop.
+
 Reuse a saved baseline instead of rerunning the original setup for every change.
 The current dense-forest reference is
 [DENSE_FOREST_BASELINE.json](DENSE_FOREST_BASELINE.json): six already completed,

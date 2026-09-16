@@ -311,6 +311,22 @@ script control; row 1 is warmup. Compact receipts and aggregation:
 
 ## Mac and next experiments
 
+Mac GDScript solver attribution (Fable, Dev 57, `tests/solver_tick_benchmark.gd`,
+3,000 ticks, 338 us per tick, temporary phase timers): body step 98 us (28%),
+snow contact assist 57 (17%), obstacle sweep plus second contact update 50 (14%),
+tick setup and crush begin 36 (11%), first contact update 34 (10%), traction
+integration 20, ground sample and landing 15, capture and query clear 13. The Mac
+runs the reference GDScript hip fit twice per tick because the native skier
+library is Windows-only; hoisting its immutable names, offsets and limb lengths
+(branch `fable/solver-tick-overhead`) is exact and saves 2-4 percent per tick.
+StringName capability literals, cached adapter capability flags and a byte-table
+rock lookup measured at the noise floor and were rejected. The same branch now packages `alpine_skier.macos.arm64.dylib`
+(`scripts/build_skier_macos.sh`, `-ffp-contract=off`): the physical hip fit is
+bit-identical to the reference on 3,000 random fits and the 6,000-tick solver
+hash is unchanged, while the solver falls to 302 us per tick (about 10 percent).
+Presentation pelvis fitting differs by at most 1.04 mm, knee 2.4e-7 m and the
+batched tracker 9.7e-7 quaternion distance, as on Windows.
+
 The shipped native skier library is Windows x64 only. Mac uses the existing
 GDScript implementation; it does not receive the native CPU savings yet. A Mac
 port needs a native build and paired numerical/gameplay checks. Record one Mac

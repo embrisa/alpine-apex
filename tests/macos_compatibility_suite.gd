@@ -16,5 +16,10 @@ func _initialize() -> void:
 	check(FileAccess.file_exists("res://addons/alpine_wind/alpine_wind.windows.gdextension.cfg"), "Windows native-wind configuration remains available for manual loading")
 	check(not FileAccess.file_exists("res://addons/alpine_wind/alpine_wind.gdextension"), "macOS does not auto-discover a Windows-only GDExtension")
 	check(wind_script.contains("alpine_wind.windows.gdextension.cfg") and wind_script.contains("OS.has_feature(\"windows\")"), "Native wind remains Windows-only and macOS selects Original fallback")
+	var Kernel := preload("res://scripts/core/skier_kernel.gd")
+	check(FileAccess.file_exists("res://addons/alpine_skier/alpine_skier.macos.gdextension.cfg") and not FileAccess.file_exists("res://addons/alpine_skier/alpine_skier.gdextension"), "macOS native skier kernel is configured explicitly, never auto-discovered")
+	check(FileAccess.file_exists("res://addons/alpine_skier/bin/alpine_skier.macos.arm64.dylib"), "macOS arm64 skier kernel binary is packaged")
+	if OS.get_name()=="macOS" and Engine.get_architecture_name()=="arm64":
+		check(Kernel.extension_path()=="res://addons/alpine_skier/alpine_skier.macos.gdextension.cfg", "macOS arm64 selects the macOS skier kernel configuration")
 	print("MACOS COMPATIBILITY SUITE: ", checks, " checks; ", failures.size(), " failures")
 	quit(0 if failures.is_empty() else 1)
