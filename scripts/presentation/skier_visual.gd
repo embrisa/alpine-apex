@@ -322,33 +322,8 @@ func _solve_render_legs(body, joints: Dictionary, rotations: Dictionary, native_
 		var thigh = _origin(prefix+"UpLeg").distance_to(_origin(prefix+"Leg"))
 		var shin = _origin(prefix+"Leg").distance_to(_origin(prefix+"Foot"))
 		joints[prefix+"UpLeg"] = hip
-		var cuff: Vector3 = body.leg_joint(hip,ankle,thigh,shin,rotations[prefix+"Foot"])
 		var wanted: Vector3 = body.joint(hip,ankle,thigh,shin,joints[prefix+"Leg"]-hip)
-		# On the reach circle, keep as much of the source knee plane as the
-		# rigid cuff permits. Lengths remain exact throughout the correction.
-		var delta: Vector3 = (ankle-hip).normalized()
-		var hint: Vector3 = (cuff-hip).slide(delta).normalized()
-		var source_pole: Vector3 = (joints[prefix+"Leg"]-hip).slide(delta)
-		var native_hint = source_pole.normalized()
-		# The sine of the pole difference is continuous through the opposite
-		# direction. A saturated signed angle flipped the knee between its two
-		# limits during edge changes. Keep a bounded, smooth source contribution.
-		# If the source knee crosses the hip/ankle axis its pole is undefined.
-		# Fade by its original distance from that axis before normalizing can
-		# amplify a millimetre of source motion into a full pole reversal.
-		var pole_weight = smoothstep(.03,.12,source_pole.length())
-		var angle: float = hint.cross(native_hint).dot(delta)*deg_to_rad(10.0)*native_weight*pole_weight
-		var lo = 0.0; var hi = 1.0
-		var knee: Vector3 = cuff
-		for iteration in 10:
-			var t = (lo+hi)*.5
-			var candidate: Vector3 = body.joint(hip,ankle,thigh,shin,hint.rotated(delta,angle*t))
-			var axis: Vector3 = rotations[prefix+"Foot"].transposed()*(candidate-ankle).normalized()
-			var side_angle = absf(atan2(axis.x,axis.y))
-			var flex = atan2(axis.z,axis.y)
-			if side_angle<=deg_to_rad(10.05) and flex>=deg_to_rad(-.05) and flex<=deg_to_rad(Anatomy.CUFF_FLEX_DEGREES+.05) and absf(Anatomy.leg_twist(prefix,hip,candidate,ankle,rotations[prefix+"Foot"]))<deg_to_rad(18.0):
-				lo = t; knee = candidate
-			else: hi = t
+		var knee = Anatomy.fit_render_knee(prefix,hip,ankle,joints[prefix+"Leg"],rotations[prefix+"Foot"],thigh,shin,native_weight)
 		joints[prefix+"Leg"] = knee
 		animation.full_motion.diagnostics[prefix.to_lower()+"_knee_correction_m"] = knee.distance_to(wanted)
 

@@ -78,6 +78,15 @@ the retained script path are compared by `tests/skier_tracking_suite.gd` across
 all source clips, action/grip blends and cumulative updates. It also checks that
 requested poses and saved interpolation history remain independent.
 
+The same native module evaluates each leg's final ten-iteration knee search.
+`SkierAnatomy.fit_render_knee` retains the source-pole fade, cuff flex/side limits,
+twist limit and search order; it receives the actual visual thigh/shin lengths.
+`reference_render_knee` is the portable implementation and numerical oracle.
+This reduces both visible-pose and completed ghost-pose cost without sharing
+poses across timestamps, changing capture cadence or moving physical skis.
+`tests/render_knee_suite.gd` checks both legs, full/partial/zero source weight
+and nearly undefined pole directions against the native implementation.
+
 ## Connected anatomy and equipment
 
 The initial full-curve result was rejected as rubbery despite bone-length and

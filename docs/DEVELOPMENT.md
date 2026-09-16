@@ -286,8 +286,8 @@ skill/dependency and coordinate its update while continuing independent work.
 
 ## Native skier math
 
-`native/skier` owns native physical hip fitting, presentation pelvis fitting,
-anatomical joint limits and batched skeletal tracking. Tracking follows the
+`native/skier` owns native physical hip fitting, presentation pelvis and final
+knee fitting, anatomical joint limits and batched skeletal tracking. Tracking follows the
 [animation ownership contract](ANIMATION.md#runtime-preparation-and-cost).
 `scripts/core/skier_kernel.gd` loads the single
 `addons/alpine_skier/alpine_skier.windows.gdextension.cfg`; core and presentation configure

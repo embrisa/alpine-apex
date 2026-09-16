@@ -162,6 +162,7 @@ protected:
     static void _bind_methods() {
         ClassDB::bind_method(D_METHOD("configure","rest_sides"),&AlpineSkierAnatomy::configure);
         ClassDB::bind_method(D_METHOD("fit_pelvis","hips","pelvis","ankles","boots"),&AlpineSkierAnatomy::fit_pelvis);
+        ClassDB::bind_method(D_METHOD("fit_render_knee","prefix","hip","ankle","source_knee","boot","thigh","shin","weight"),&AlpineSkierAnatomy::fit_render_knee);
         ClassDB::bind_method(D_METHOD("local_limit","id","rotation","pole_carry","forearm_carry"),&AlpineSkierAnatomy::local_limit);
         ClassDB::bind_method(D_METHOD("configure_tracking","names","parents","rest","chains"),&AlpineSkierAnatomy::configure_tracking);
         ClassDB::bind_method(D_METHOD("track_pose","requested","current","velocities","action","pole_carry","forearm_carry","dt"),&AlpineSkierAnatomy::track_pose);
@@ -246,6 +247,36 @@ public:
                 lerp_scalar(lerp_scalar(55.0,90.0,carry),30.0,forearm_carry));
         }
         return rotation;
+    }
+    Vector3 fit_render_knee(String prefix, Vector3 hip, Vector3 ankle, Vector3 source_knee,
+            Basis boot, double thigh, double shin_length, double weight) const {
+        Vector3 cuff=joint(hip,ankle,thigh,shin_length,boot.get_column(1)+mul(boot.get_column(2),.45));
+        Vector3 delta=(ankle-hip).normalized();
+        Vector3 hint=(cuff-hip).slide(delta).normalized();
+        Vector3 source_pole=(source_knee-hip).slide(delta);
+        Vector3 native_hint=source_pole.normalized();
+        double pole_weight=smooth(.03,.12,source_pole.length());
+        double angle=double(hint.cross(native_hint).dot(delta))*rad(10.0)*weight*pole_weight;
+        double lo=0.0, hi=1.0;
+        Vector3 knee=cuff;
+        Basis inverse=boot.transposed();
+        const Side &side=sides[prefix=="Right" ? 0 : 1];
+        for (int iteration=0;iteration<10;++iteration) {
+            double t=(lo+hi)*.5;
+            Vector3 candidate=joint(hip,ankle,thigh,shin_length,hint.rotated(delta,real_t(angle*t)));
+            Vector3 axis=inverse.xform((candidate-ankle).normalized());
+            double side_angle=std::abs(std::atan2(double(axis.x),double(axis.y)));
+            double flex=std::atan2(double(axis.z),double(axis.y));
+            bool accepted=side_angle<=rad(10.05) && flex>=rad(-.05) && flex<=rad(24.05);
+            if (accepted) {
+                Vector3 lower=(ankle-candidate).normalized();
+                Vector3 normal=(candidate-hip).normalized().cross(lower).normalized();
+                Basis shin=frame(lower,normal)*side.lower_inverse;
+                accepted=std::abs(twist(inverse*shin))<rad(18.0);
+            }
+            if (accepted) { lo=t; knee=candidate; } else { hi=t; }
+        }
+        return knee;
     }
     Vector3 fit_pelvis(Vector3 hips, Basis pelvis, TypedArray<Vector3> ankle_array, TypedArray<Basis> boot_array) const {
         ERR_FAIL_COND_V(ankle_array.size()!=2 || boot_array.size()!=2, hips);

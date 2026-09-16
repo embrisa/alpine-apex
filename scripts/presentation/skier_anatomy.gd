@@ -138,11 +138,39 @@ static func leg_twist(prefix: String, hip: Vector3, knee: Vector3, ankle: Vector
 static var native_fit_kernel = prepare_native_fit()
 static var native_fit_enabled = native_fit_kernel!=null
 static var native_limits_enabled = native_fit_kernel!=null
+static var native_render_knee_enabled = native_fit_kernel!=null
 
 static func prepare_native_fit():
 	var kernel = preload("res://scripts/core/skier_kernel.gd").create("AlpineSkierAnatomy")
 	if kernel!=null: kernel.configure(rest_sides)
 	return kernel
+
+static func fit_render_knee(prefix: String, hip: Vector3, ankle: Vector3, source_knee: Vector3, boot: Basis, thigh: float, shin: float, weight: float) -> Vector3:
+	if native_render_knee_enabled: return native_fit_kernel.fit_render_knee(prefix,hip,ankle,source_knee,boot,thigh,shin,weight)
+	return reference_render_knee(prefix,hip,ankle,source_knee,boot,thigh,shin,weight)
+
+static func reference_render_knee(prefix: String, hip: Vector3, ankle: Vector3, source_knee: Vector3, boot: Basis, thigh: float, shin: float, weight: float) -> Vector3:
+	# Retain source knee direction only inside the rigid cuff and twist envelope.
+	# Fade an undefined source pole near the hip/ankle axis before normalizing.
+	var cuff = Body.leg_joint(hip,ankle,thigh,shin,boot)
+	var delta = (ankle-hip).normalized()
+	var hint = (cuff-hip).slide(delta).normalized()
+	var source_pole = (source_knee-hip).slide(delta)
+	var native_hint = source_pole.normalized()
+	var pole_weight = smoothstep(.03,.12,source_pole.length())
+	var angle = hint.cross(native_hint).dot(delta)*deg_to_rad(10.0)*weight*pole_weight
+	var lo = 0.0; var hi = 1.0
+	var knee = cuff
+	for iteration in 10:
+		var t = (lo+hi)*.5
+		var candidate = Body.joint(hip,ankle,thigh,shin,hint.rotated(delta,angle*t))
+		var axis = boot.transposed()*(candidate-ankle).normalized()
+		var side_angle = absf(atan2(axis.x,axis.y))
+		var flex = atan2(axis.z,axis.y)
+		if side_angle<=deg_to_rad(10.05) and flex>=deg_to_rad(-.05) and flex<=deg_to_rad(CUFF_FLEX_DEGREES+.05) and absf(leg_twist(prefix,hip,candidate,ankle,boot))<deg_to_rad(18.0):
+			lo = t; knee = candidate
+		else: hi = t
+	return knee
 
 static func fit_pelvis(hips: Vector3, pelvis: Basis, ankles: Array[Vector3], boots: Array[Basis]) -> Vector3:
 	if native_fit_enabled: return native_fit_kernel.fit_pelvis(hips,pelvis,ankles,boots)

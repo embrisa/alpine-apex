@@ -211,6 +211,45 @@ recording suites passed (598 checks). `competitive_suite` has two failures in
 both the original and candidate: resume clock alignment and the new-PB message.
 Those existing lifecycle findings remain unresolved; that suite is not green.
 
+## Native final knee search: CPU saving, no measured FPS gain
+
+The existing native skier module now executes the final ten-iteration knee
+search for each leg. Limits, numerical search order, equipment attachment,
+120 Hz simulation and 30 Hz recording are unchanged. This serves visible and
+recorded poses; it does not reuse a pose from a different timestamp.
+
+An alternating-order isolated comparison over five production action states
+and 6,000 solves per implementation measured complete pose **725.24 -> 615.36
+us (-15.2%)**, including leg fitting **153.04 -> 44.13 us**. Do not add these
+overlapping savings. Four thousand native/reference knee cases and 3,787 final
+pose/equipment snapshots matched exactly. Matched action stills were inspected.
+
+The first clean timed route regressed against the saved 96.68 FPS reference:
+**90.99 FPS / 10.990 ms**, GPU 8.631 ms. One same-process old/new pair checked
+that finding: **94.23 -> 94.29 FPS**, **10.612 -> 10.606 ms**, GPU **8.370 ->
+8.339 ms**. This is **no meaningful FPS gain**. P95 worsened **14.255 -> 14.434**,
+p99 **16.743 -> 17.091 ms**. The large first-sample regression did not repeat;
+its cause is unresolved. Retain the verified CPU saving under the small-gain
+policy, without claiming improved frame rate or tails.
+
+All physical/input/pose/time channels of the three clean recordings match the
+retained Dev54 recording exactly (1,800 ticks, 451 poses). Both new processes
+hit both caches; camera, quality, resolution, population and focus matched.
+The pair disables profiling on every trial. Windows only; portable reference
+remains active on Mac. Anatomy, attachment, poles, physics and runtime checks
+cover the rebuilt shared library; older unrelated procedural-suite failures
+listed below remain unresolved.
+
+For subsequent timed candidates, reuse the two native candidate samples rather
+than repeating the control: **92.64 FPS / 10.798 ms**, GPU **8.485 ms**; median
+run p95/p99 **14.539/17.264 ms**. This includes both 90.99 and 94.29 FPS samples,
+not just the faster one, and supersedes the single Dev54 timed reference above.
+The 113.94 FPS free-ski reference predates this CPU change; free skiing was not
+remeasured. Sources: `artifacts/pc_environment/render-knee-timed-20260916/production.json`
+row 2 and `render-knee-pair-20260916/production.json` row 3. Pair row 2 is the
+script control; row 1 is warmup. Compact receipts and aggregation:
+`artifacts/render_knee_20260916/`. Sustained target and human/Mac acceptance remain open.
+
 ## Mac and next experiments
 
 The shipped native skier library is Windows x64 only. Mac uses the existing

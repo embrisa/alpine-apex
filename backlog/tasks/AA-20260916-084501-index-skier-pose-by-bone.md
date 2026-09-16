@@ -5,7 +5,7 @@ status: ready
 priority: P1
 depends_on: ["AA-20260913-141128-reduce-pelvis-fitting-cpu-cost"]
 created: "2026-09-16T08:45:01Z"
-updated: "2026-09-16T08:45:01Z"
+updated: "2026-09-16T15:28:00Z"
 source_thread: null
 ---
 
@@ -137,6 +137,18 @@ None
 
 ## Completion record
 
-Pending implementation. Record comparison results, scope timings before/after,
-tests run, rendered evidence, guide updates and commit/push references, or the
-blocked finding if no production gain survives.
+Adjacent pose optimization delivered 2026-09-16: moved both final ten-iteration
+knee searches into the existing native module. Same limits, cadence and final
+outputs; portable reference remains. Paired isolated full pose **725.24 ->
+615.36 us**, including legs **153.04 -> 44.13 us**. Same-process timed FPS
+**94.23 -> 94.29** is unchanged; retained for verified CPU savings, explicitly
+confirmed by the user. All 4,000 knee cases and 3,787 pose/equipment snapshots
+matched; matched stills and 592 existing regression checks passed. All recorded
+channels match the Dev54 timed reference. See
+[Performance handoff](../../docs/PERFORMANCE_HANDOFF.md#native-final-knee-search-cpu-saving-no-measured-fps-gain)
+for the earlier slower sample and frame-tail limitations. Development note:
+`changes/d4c7dbad09084e2784abbe7fb3551ef2.json`.
+
+The indexed-container, writer-call and allocation proposals remain unimplemented;
+this task stays ready. Do not repeat the final-knee native port or mistake it
+for completing the proposed container rewrite.

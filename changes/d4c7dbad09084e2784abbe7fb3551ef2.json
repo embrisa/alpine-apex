@@ -1,0 +1,221 @@
+{
+  "schema": 1,
+  "id": "d4c7dbad09084e2784abbe7fb3551ef2",
+  "summary": "Accelerate render knee fitting in the native skier module",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Final skier pose construction",
+    "Native presentation math",
+    "Timed recording performance"
+  ],
+  "owned_paths": [
+    "addons/alpine_skier/bin/alpine_skier.windows.x86_64.dll",
+    "native/skier/anatomy.cpp",
+    "scripts/presentation/skier_anatomy.gd",
+    "scripts/presentation/skier_visual.gd",
+    "tests/render_knee_suite.gd",
+    "docs/ANIMATION.md",
+    "docs/DEVELOPMENT.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "backlog/tasks/AA-20260916-084501-index-skier-pose-by-bone.md"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "docs/ANIMATION.md",
+    "docs/RACING.md",
+    "docs/VALIDATION.md",
+    "scripts/core/rider_body.gd",
+    "scripts/main.gd",
+    "scripts/presentation/ghost_pose.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only final presentation knee searches move to native math with unchanged inputs, limits and results. No simulation, source asset, placement, cadence or schema change."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only final presentation knee searches move to native math with unchanged inputs, limits and results. No simulation, source asset, placement, cadence or schema change."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only final presentation knee searches move to native math with unchanged inputs, limits and results. No simulation, source asset, placement, cadence or schema change."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Unchanged physical and presentation outputs, recorded channels, timestamps and compatibility identities; no data migration or cache-format change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Unchanged physical and presentation outputs, recorded channels, timestamps and compatibility identities; no data migration or cache-format change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Unchanged physical and presentation outputs, recorded channels, timestamps and compatibility identities; no data migration or cache-format change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Unchanged physical and presentation outputs, recorded channels, timestamps and compatibility identities; no data migration or cache-format change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Unchanged physical and presentation outputs, recorded channels, timestamps and compatibility identities; no data migration or cache-format change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "Exclusive render-knee-build-20260916; Shared render-knee-oracle-20260916 and render-knee-regressions-20260916",
+      "details": "Native library rebuilt.4000 knee cases exactly match portable reference (1334 zero-weight,364 axis-pole cases).592 existing checks passed:animation_cpu72,anatomy84,turn32,attachment20,poles36,physics56,runtime192. All18 recording-channel comparisons against Dev54 pass across three clean1800tick/451pose recordings. Metadata captured before checks; formatting later preserved original mixed line endings without token changes. Animation/performance/validation skills reviewed; no command or ownership-route change. Fable ee75b29 fast-forwarded after verification; its macOS shell-launcher-only change does not alter tested Windows runtime or PowerShell commands."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "Shared render-knee-visual-20260916; compact production rider with frozen pre-change source",
+      "details": "3787 final pose/equipment comparisons exactly equal across seven360tick sequences and .25/.75/1 fractions:regular,tuck entry/release,both carves,jump/landing,grab,pole push and pause. Two matched action sheets inspected. Existing contact and silhouette retained. Not human/controller/full-mountain visual acceptance."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "FpsCritical render-knee-cpu-20260916, paired headless final pose construction",
+      "details": "Five frozen production action states,alternating order,6000poses per implementation. Full pose725.2445->615.3605us(-15.15%); included leg fitting153.0445->44.1293us. Scopes overlap; do not add. CPU saving only, not FPS evidence."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "FpsCritical render-knee-timed-20260916 and one render-knee-pair-20260916 to resolve the apparent regression",
+      "details": "Initial clean90.9906FPS/10.990146ms versus saved96.6756/10.343876,withGPU8.630773 vs8.163794. Same-process script/native pair94.22891->94.28603FPS,10.612454->10.606025ms,GPU8.370029->8.339475. No meaningful FPS gain; p95 14.255->14.434,p99 16.743->17.091. Large initial regression did not repeat; cause unresolved. Both caches hit,focus0,exact1800ticks and451poses,failures[],same pixels/settings/camera/forest. All trials capture/profile-free. User explicitly selected faster pose after results; retain verifiedCPU saving without FPS/tail claim. Reusable two-candidate average92.6383FPS/10.798085ms includes both samples."
+    }
+  ],
+  "outstanding_acceptance": [
+    "No meaningful rendered FPS gain established; paired p95/p99 slightly worse and cause of first sample regression unresolved. User selected faster pose if otherwise equivalent; exact poses, recordings and gameplay checks pass, paired mean FPS is flat.",
+    "Sustained90-120FPS and frame-tail target remain unproven; full descent,human/controller review and Mac timing not performed. Mac uses portable reference.",
+    "Older unrelated skier_motion and skier_animation assertion failures recorded in Performance handoff remain unresolved; those suites were not rerun or claimed green."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T15:29:19.165188+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "ee75b296ae55b7ca9b5cb576cd587bb3a201fce1",
+      "dev": 55,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "addons/alpine_skier/bin/alpine_skier.windows.x86_64.dll": {
+        "size": 457728,
+        "mtime_ns": 1789571706928657600
+      },
+      "backlog/tasks/AA-20260916-084501-index-skier-pose-by-bone.md": {
+        "size": 9009,
+        "mtime_ns": 1789572558657863600
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ANIMATION.md": {
+        "size": 24522,
+        "mtime_ns": 1789571996445561600
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 19466,
+        "mtime_ns": 1789571996446855300
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 21676,
+        "mtime_ns": 1789572340601888600
+      },
+      "docs/RACING.md": {
+        "size": 19943,
+        "mtime_ns": 1789347946424245500
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789512657279656900
+      },
+      "native/skier/anatomy.cpp": {
+        "size": 19289,
+        "mtime_ns": 1789572082263181100
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/rider_body.gd": {
+        "size": 21556,
+        "mtime_ns": 1789548601359945300
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/main.gd": {
+        "size": 87309,
+        "mtime_ns": 1789347182590757700
+      },
+      "scripts/presentation/ghost_pose.gd": {
+        "size": 6497,
+        "mtime_ns": 1789565757773141800
+      },
+      "scripts/presentation/skier_anatomy.gd": {
+        "size": 12524,
+        "mtime_ns": 1789572082272435400
+      },
+      "scripts/presentation/skier_visual.gd": {
+        "size": 18238,
+        "mtime_ns": 1789572082273438600
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18224,
+        "mtime_ns": 1789566331946877700
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/render_knee_suite.gd": {
+        "size": 1884,
+        "mtime_ns": 1789571767126105800
+      }
+    }
+  }
+}
