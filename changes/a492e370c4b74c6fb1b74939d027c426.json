@@ -1,0 +1,280 @@
+{
+  "schema": 1,
+  "id": "a492e370c4b74c6fb1b74939d027c426",
+  "summary": "Remove per-frame button redraws, per-step preference writes and label churn from menus, loading and the navigation map",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Action button pulse and badge styles",
+    "Interface preference persistence",
+    "Menu and records label text",
+    "Loading overlay cadence",
+    "Navigation overlay redraws",
+    "Interface cost probe"
+  ],
+  "owned_paths": [
+    "backlog/archive/AA-20260916-084514-reduce-menu-and-loading-interface-hitches.md",
+    "backlog/tasks/AA-20260916-084514-reduce-menu-and-loading-interface-hitches.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/PRESENTATION.md",
+    "scripts/ui/action_button.gd",
+    "scripts/ui/compact_menu.gd",
+    "scripts/ui/competitive_panel.gd",
+    "scripts/ui/hud.gd",
+    "scripts/ui/interface_feedback.gd",
+    "scripts/ui/loading_overlay.gd",
+    "scripts/ui/mountain_library.gd",
+    "scripts/ui/screen_shell.gd",
+    "scripts/ui/session_navigation_overlay.gd",
+    "tests/interface_cost_probe.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "scripts/ui/alpine_theme.gd",
+    "scripts/ui/session_navigation_panel.gd",
+    "scripts/ui/settings_pages.gd",
+    "tests/bright_ui_suite.gd",
+    "tests/competitive_suite.gd",
+    "tests/controller_prompts_suite.gd",
+    "tests/interface_feedback_suite.gd",
+    "tests/interface_layout_suite.gd",
+    "tests/interface_settings_suite.gd",
+    "tests/interface_suite.gd",
+    "tests/menu_navigation_suite.gd",
+    "tests/retained_interface_suite.gd",
+    "tests/runtime_suite.gd",
+    "tests/session_navigation_suite.gd",
+    "tests/startup_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Interface-only change; preference files keep their format and values and are written once after a burst of slider steps instead of per step."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Interface-only change; preference files keep their format and values and are written once after a burst of slider steps instead of per step."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Interface-only change; preference files keep their format and values and are written once after a burst of slider steps instead of per step."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Interface-only change; preference files keep their format and values and are written once after a burst of slider steps instead of per step."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Interface-only change; preference files keep their format and values and are written once after a burst of slider steps instead of per step."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "ALPINE_FULL_MOUNTAIN=1 ./godotw --headless --script tests/{interface_settings_suite,interface_feedback_suite,interface_layout_suite,menu_navigation_suite,session_navigation_suite,interface_suite,controller_prompts_suite,bright_ui_suite,runtime_suite}.gd",
+      "result": "passed",
+      "details": "115, 111, 95, 24, 63, 83, 45, 74 and 192 checks passed on macOS Godot 4.7.2 with the final code."
+    },
+    {
+      "kind": "automated",
+      "command": "headless tests/retained_interface_suite.gd, tests/competitive_suite.gd, tests/startup_suite.gd (plus stash control runs on 6586650 and 26f033c)",
+      "result": "passed",
+      "details": "247/248, 51/53 and 59/61; every failure is identical on 26f033c before any Fable change today (unavailable ghost explanation, resume clock alignment, PB title, keyboard/controller focus latency)."
+    },
+    {
+      "kind": "performance",
+      "command": "./godotw --headless --script tests/interface_cost_probe.gd -- --cost-label={base,cand}_{1,2}",
+      "result": "passed",
+      "details": "Apple M4 headless, flat pad: interface volume step 148-151 -> 4-9 us, records refresh (20 rows) 80-100 -> 64-66 us, compact menu refresh 66-76 -> 66-67 us; focus move and UI scale step within noise (prompt lookup and content-scale relayout still run per step). Per-frame button redraws, per-step disk writes and 60 Hz loading snapshots are removed by construction and not visible headless."
+    },
+    {
+      "kind": "human",
+      "command": "Rendered pause menu capture artifacts/mac_probe/menu_shot.png (scripts/mac_frame_probe.sh --probe-menu --probe-capture)",
+      "result": "pending",
+      "details": "Capture shows the focused Resume button with its pulse outline and Esc/R badges as before; a side-by-side check of settings, records, loading and the navigation map on Windows remains a follow-up."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Windows interface_performance_suite rerun and a rendered side-by-side of settings, records, loading overlay and navigation map remain pending; the badge reserve is 1 px wider on unfocused buttons (53 px keyboard Enter badge) so focus no longer re-keys styles."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T20:00:01.440353+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "6586650aa9ba07e6b0f245168c27996f55be3616",
+      "dev": 70,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789544258451225404
+      },
+      "backlog/archive/AA-20260916-084514-reduce-menu-and-loading-interface-hitches.md": {
+        "size": 8786,
+        "mtime_ns": 1789588800918763091
+      },
+      "backlog/tasks/AA-20260916-084514-reduce-menu-and-loading-interface-hitches.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 42732,
+        "mtime_ns": 1789588800951577770
+      },
+      "docs/PRESENTATION.md": {
+        "size": 29620,
+        "mtime_ns": 1789588762079968940
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789546451377313344
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789574833688637752
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 16580,
+        "mtime_ns": 1789588761959243502
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789581307436015366
+      },
+      "scripts/ui/action_button.gd": {
+        "size": 6289,
+        "mtime_ns": 1789588762080177400
+      },
+      "scripts/ui/alpine_theme.gd": {
+        "size": 13832,
+        "mtime_ns": 1789511897141279665
+      },
+      "scripts/ui/compact_menu.gd": {
+        "size": 9135,
+        "mtime_ns": 1789588762080388151
+      },
+      "scripts/ui/competitive_panel.gd": {
+        "size": 5454,
+        "mtime_ns": 1789588762080561444
+      },
+      "scripts/ui/hud.gd": {
+        "size": 52439,
+        "mtime_ns": 1789588762080793987
+      },
+      "scripts/ui/interface_feedback.gd": {
+        "size": 9900,
+        "mtime_ns": 1789588762081011322
+      },
+      "scripts/ui/loading_overlay.gd": {
+        "size": 17400,
+        "mtime_ns": 1789588762081190156
+      },
+      "scripts/ui/mountain_library.gd": {
+        "size": 19040,
+        "mtime_ns": 1789588762081384991
+      },
+      "scripts/ui/screen_shell.gd": {
+        "size": 5011,
+        "mtime_ns": 1789588762081560242
+      },
+      "scripts/ui/session_navigation_overlay.gd": {
+        "size": 2341,
+        "mtime_ns": 1789588762081740577
+      },
+      "scripts/ui/session_navigation_panel.gd": {
+        "size": 12188,
+        "mtime_ns": 1789511897146466184
+      },
+      "scripts/ui/settings_pages.gd": {
+        "size": 16571,
+        "mtime_ns": 1789576560268405954
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      },
+      "tests/bright_ui_suite.gd": {
+        "size": 9517,
+        "mtime_ns": 1789511897164094368
+      },
+      "tests/competitive_suite.gd": {
+        "size": 19301,
+        "mtime_ns": 1789581307436457783
+      },
+      "tests/controller_prompts_suite.gd": {
+        "size": 10125,
+        "mtime_ns": 1789511897169098051
+      },
+      "tests/interface_cost_probe.gd": {
+        "size": 3497,
+        "mtime_ns": 1789588762099751948
+      },
+      "tests/interface_feedback_suite.gd": {
+        "size": 12250,
+        "mtime_ns": 1789511897191745833
+      },
+      "tests/interface_layout_suite.gd": {
+        "size": 5763,
+        "mtime_ns": 1789511897191904878
+      },
+      "tests/interface_settings_suite.gd": {
+        "size": 10172,
+        "mtime_ns": 1789511897193487701
+      },
+      "tests/interface_suite.gd": {
+        "size": 17573,
+        "mtime_ns": 1789511897193656080
+      },
+      "tests/menu_navigation_suite.gd": {
+        "size": 10285,
+        "mtime_ns": 1789511897196312216
+      },
+      "tests/retained_interface_suite.gd": {
+        "size": 6228,
+        "mtime_ns": 1789511897209551270
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41041,
+        "mtime_ns": 1789511897211065425
+      },
+      "tests/session_navigation_suite.gd": {
+        "size": 1919,
+        "mtime_ns": 1789511897213869398
+      },
+      "tests/startup_suite.gd": {
+        "size": 14676,
+        "mtime_ns": 1789511897222719157
+      }
+    }
+  }
+}

@@ -79,20 +79,23 @@ func refresh(session, ghost_enabled: bool) -> void:
 	if free_ski: ghost_info.text = "Free skiing has no personal best or ghost. Create or select a race on this mountain."
 	var has_attempt: bool = session.elapsed>0.0
 	var reference: Array = session.reference_splits if has_attempt else session.best_splits
-	splits.text = ""
+	# Build each label's text locally and assign once; every Label.text write re-shapes.
+	var splits_text = ""
 	for i in range(3):
 		if has_attempt:
-			splits.text += "%d%% approach\nThis run: %s · Best at start: %s\nDifference: %s\n\n" % [(i+1)*25,_time(session.split_times[i]),_time(reference[i]),Session.format_delta(session.split_delta(i))]
+			splits_text += "%d%% approach\nThis run: %s · Best at start: %s\nDifference: %s\n\n" % [(i+1)*25,_time(session.split_times[i]),_time(reference[i]),Session.format_delta(session.split_delta(i))]
 		else:
-			splits.text += "%d%% approach\nPersonal best: %s\n\n" % [(i+1)*25,_time(reference[i])]
-	if free_ski: splits.text = "Choose a race to record split times."
-	history.text = ""
+			splits_text += "%d%% approach\nPersonal best: %s\n\n" % [(i+1)*25,_time(reference[i])]
+	if free_ski: splits_text = "Choose a race to record split times."
+	splits.text = splits_text
+	var history_text = ""
 	for row in session.history:
 		var date = Time.get_datetime_string_from_unix_time(row.date).replace("T"," ").left(16)+" UTC" if row.date>0 else "Date unavailable"
 		var delta = row.time-session.personal_best
-		history.text += "%s\n%s · %s · Top speed %s km/h\n\n" % [date,Session.format_time(row.time),"BEST" if absf(delta)<0.0000001 else Session.format_delta(delta),str(roundi(row.peak_kmh)) if row.peak_kmh>0 else "—"]
-	if session.history.is_empty(): history.text = "Finish a race eligible for records to begin your history."
-	if free_ski: history.text = "Free skiing does not record timed runs. Choose or create a race."
+		history_text += "%s\n%s · %s · Top speed %s km/h\n\n" % [date,Session.format_time(row.time),"BEST" if absf(delta)<0.0000001 else Session.format_delta(delta),str(roundi(row.peak_kmh)) if row.peak_kmh>0 else "—"]
+	if session.history.is_empty(): history_text = "Finish a race eligible for records to begin your history."
+	if free_ski: history_text = "Free skiing does not record timed runs. Choose or create a race."
+	history.text = history_text
 	notice.text = session.save_error if not session.save_error.is_empty() else session.record_warning
 	if notice.text.is_empty(): notice.text = session.replay_warning
 	if notice.text.is_empty(): notice.text = session.selection_notice

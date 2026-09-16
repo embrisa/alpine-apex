@@ -29,10 +29,23 @@ func restore(values: Dictionary) -> void:
 	if values.get("hud_backgrounds") is bool: hud_backgrounds = values.hud_backgrounds
 	preferences_changed.emit()
 
+var save_pending: bool = false
+
 func change(key: String, value: Variant) -> void:
 	restore({key:value})
 	resize()
-	if hud.feedback.persist and Store.write_values(PATH,1,snapshot())!=OK: hud.toast("Could not save interface settings.")
+	# Slider steps preview immediately; the preference file is written once shortly after.
+	if not hud.feedback.persist or save_pending: return
+	save_pending = true
+	get_tree().create_timer(.4).timeout.connect(save)
+
+func save() -> void:
+	save_pending = false
+	if hud==null or not hud.feedback.persist: return
+	if Store.write_values(PATH,1,snapshot())!=OK: hud.toast("Could not save interface settings.")
+
+func _exit_tree() -> void:
+	if save_pending: save()
 
 func frame(panel: Control, drawer: bool = false) -> void:
 	panel.set_meta("screen_drawer",drawer)

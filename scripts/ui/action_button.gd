@@ -15,6 +15,11 @@ var press_flash = 0.0
 var refreshing = false
 var badge_width = 0.0
 var style_key = ""
+var styles_dirty = false
+var pulse_overlay: Control
+const STATES = ["normal","hover","pressed","hover_pressed","disabled","focus"]
+## Derived styleboxes per (variation, reserve) key, shared read-only by every button.
+static var style_cache: Dictionary = {}
 
 func configure(owner, primary: bool = false) -> void:
 	hud = owner
@@ -25,6 +30,17 @@ func configure(owner, primary: bool = false) -> void:
 	visibility_changed.connect(refresh_prompt)
 	theme_changed.connect(refresh_prompt)
 	pressed.connect(func(): press_flash = .22; set_process(true))
+	# The pulse outline lives on an overlay whose alpha animates through
+	# self_modulate, so the badge and text below are drawn once, not per frame.
+	pulse_overlay = Control.new()
+	pulse_overlay.name = "Pulse"
+	pulse_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	pulse_overlay.focus_mode = Control.FOCUS_NONE
+	pulse_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	pulse_overlay.visible = false
+	pulse_overlay.draw.connect(_draw_pulse)
+	add_child(pulse_overlay)
+	resized.connect(pulse_overlay.queue_redraw)
 
 func _ready() -> void:
 	add_to_group("alpine_action_buttons")
@@ -54,36 +70,56 @@ func refresh_prompt() -> void:
 		prompt = "Enter" if family == "keyboard" else Prompts.button(JOY_BUTTON_A,family)
 	var font = get_theme_font("font")
 	badge_width = font.get_string_size(prompt,HORIZONTAL_ALIGNMENT_LEFT,-1,13).x+18.0 if not prompt.is_empty() else 0.0
-	# Reserve the confirm badge even when unfocused, so navigation never shifts rows.
-	var reserved = badge_width if text_action else maxf(badge_width,52.0)
+	# Reserve the confirm badge even when unfocused, so navigation never shifts
+	# rows; the reserve covers the keyboard "Enter" badge so focus cannot re-key.
+	var confirm_reserve = maxf(52.0,font.get_string_size("Enter",HORIZONTAL_ALIGNMENT_LEFT,-1,13).x+18.0)
+	var reserved = badge_width if text_action else maxf(badge_width,confirm_reserve)
 	var key = theme_type_variation+":"+str(reserved)
 	if key!=style_key:
 		style_key = key
-		for state in ["normal","hover","pressed","hover_pressed","disabled","focus"]:
-			var style = UITheme.create().get_stylebox(state,theme_type_variation if not theme_type_variation.is_empty() else "Button").duplicate()
-			style.content_margin_right = reserved+24.0
-			add_theme_stylebox_override(state,style)
+		styles_dirty = true
+	if styles_dirty and is_visible_in_tree():
+		# Hidden buttons apply their styles when shown; visible ones share cached copies.
+		styles_dirty = false
+		var styles: Array = style_cache.get(key,[])
+		if styles.is_empty():
+			var theme = UITheme.create()
+			var type = theme_type_variation if not theme_type_variation.is_empty() else "Button"
+			for state in STATES:
+				var style = theme.get_stylebox(state,type).duplicate()
+				style.content_margin_right = reserved+24.0
+				styles.append(style)
+			style_cache[key] = styles
+		for i in STATES.size(): add_theme_stylebox_override(STATES[i],styles[i])
 	refreshing = false
 	set_process(is_visible_in_tree() and (primary_action or press_flash>0.0) and not hud.feedback.reduced_motion)
+	_update_pulse()
 	queue_redraw()
 
 func _process(dt: float) -> void:
-	if not is_visible_in_tree(): set_process(false); return
+	if not is_visible_in_tree(): set_process(false); _update_pulse(); return
 	pulse_time += dt
 	press_flash = maxf(0.0,press_flash-dt)
-	queue_redraw()
+	_update_pulse()
 	if not primary_action and press_flash<=0.0: set_process(false)
+
+func _update_pulse() -> void:
+	if pulse_overlay==null or hud==null: return
+	var active: bool = not text_action and not disabled and not hud.feedback.reduced_motion and (primary_action or press_flash>0.0)
+	var alpha = 0.0
+	if active:
+		alpha = .12+.14*(.5+.5*sin(pulse_time*TAU/2.8)) if primary_action else 0.0
+		alpha = maxf(alpha,press_flash/.22*.65)
+	pulse_overlay.visible = active and alpha>0.0
+	pulse_overlay.self_modulate = Color(1,1,1,alpha)
+
+func _draw_pulse() -> void:
+	var points = UITheme.AngularBox.outline(Rect2(Vector2(2,2),size-Vector2(4,4)),UITheme.CONTROL_CUT)
+	points.append(points[0])
+	pulse_overlay.draw_polyline(points,UITheme.ICE,2.0,true)
 
 func _draw() -> void:
 	if hud == null: return
-	var reduced: bool = hud.feedback.reduced_motion
-	if not text_action and not disabled and not reduced and (primary_action or press_flash>0.0):
-		var alpha = .12+.14*(.5+.5*sin(pulse_time*TAU/2.8)) if primary_action else 0.0
-		alpha = maxf(alpha,press_flash/.22*.65)
-		var color = Color(UITheme.ICE,alpha)
-		var points = UITheme.AngularBox.outline(Rect2(Vector2(2,2),size-Vector2(4,4)),UITheme.CONTROL_CUT)
-		points.append(points[0])
-		draw_polyline(points,color,2.0,true)
 	if prompt.is_empty() and not text_action: return
 	var rect = Rect2(Vector2(12.0 if text_action else size.x-badge_width-14.0,(size.y-26.0)*.5),Vector2(badge_width,26))
 	if text_action:

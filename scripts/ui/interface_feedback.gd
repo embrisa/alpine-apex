@@ -79,7 +79,16 @@ func restore(values: Dictionary) -> void:
 	reduced_motion = values.get("reduced_motion",false)
 	loading_ambience = values.get("loading_ambience",true)
 
+var save_pending: bool = false
+
+## Slider steps call this; one write follows the last change instead of one per step.
+func save_soon(delay: float = .4) -> void:
+	if not persist or save_pending: return
+	save_pending = true
+	get_tree().create_timer(delay).timeout.connect(func(): if save_pending: save())
+
 func save() -> void:
+	save_pending = false
 	if not persist: return
 	var config = ConfigFile.new()
 	config.load(PATH)
@@ -211,6 +220,7 @@ func _tone(id: String) -> AudioStreamWAV:
 	return stream
 
 func _exit_tree() -> void:
+	if save_pending: save()
 	cancel_transitions()
 	cancel_sounds()
 

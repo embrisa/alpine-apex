@@ -63,7 +63,11 @@ RaceWorkshop and CompetitivePanel retain their data/lifecycle responsibilities.
 
 Settings categories are Display, Graphics, Camera, Controls, Audio, Interface &
 HUD, Weather and Rider. Display preview is a transaction; other live settings
-must not overwrite its draft. Graphics preset application is described in
+must not overwrite its draft. Interface sound volume and shell scale/safe-area
+sliders apply every step immediately but write their preference file once,
+0.4 s after the last change (and on drag end or scene exit), not per step.
+Action buttons draw their badge once and animate the primary pulse through an
+overlay's modulate; derived badge styleboxes are cached per reserve width. Graphics preset application is described in
 [Rendering](RENDERING.md#graphics-and-display). UI controls cannot regenerate
 physical terrain merely because a display/presentation preference changed.
 

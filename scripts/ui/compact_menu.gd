@@ -139,6 +139,9 @@ func focus_page() -> void:
 	var candidates = preload("res://scripts/ui/navigation_tabs.gd").focusable(hud.menu_tabs.get_current_tab_control())
 	if not candidates.is_empty(): candidates[0].grab_focus()
 
+var crash_style: StyleBox
+var card_style: StyleBox
+
 func refresh() -> void:
 	var crash = is_crash_actions()
 	var recovering: bool = hud.menu_mode=="crashed"
@@ -166,7 +169,9 @@ func refresh() -> void:
 	hud.crash_restart.visible = hud.menu_mode in ["paused","crashed"]
 	hud.primary.size_flags_horizontal = Control.SIZE_SHRINK_CENTER if crash else Control.SIZE_EXPAND_FILL
 	hud.crash_restart.size_flags_horizontal = Control.SIZE_SHRINK_CENTER if crash else Control.SIZE_EXPAND_FILL
-	hud.menu.add_theme_stylebox_override("panel",StyleBoxEmpty.new() if crash else hud._style(hud.AlpineTheme.PANEL,hud.AlpineTheme.EDGE,20))
+	if crash_style==null: crash_style = StyleBoxEmpty.new()
+	if card_style==null: card_style = hud._style(hud.AlpineTheme.PANEL,hud.AlpineTheme.EDGE,20)
+	hud.menu.add_theme_stylebox_override("panel",crash_style if crash else card_style)
 	hud.menu.set_meta("screen_profile","crash_actions" if crash else "compact_card")
 	if crash:
 		var focused = hud.root.get_viewport().gui_get_focus_owner()

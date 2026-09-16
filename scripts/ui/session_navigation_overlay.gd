@@ -5,19 +5,30 @@ var tool
 var markers: Array[Dictionary] = []
 var target = Vector2.ZERO
 var valid_target: bool = false
+var draw_signature: Array = []
 
 func refresh() -> void:
-	markers.clear()
-	if tool == null or not tool.panel.visible: hide(); return
+	if tool == null or not tool.panel.visible:
+		markers.clear(); draw_signature = []
+		hide(); return
 	show()
 	var camera: Camera3D = tool.workshop.survey
+	var next: Array[Dictionary] = []
+	var rect = get_rect()
 	for entry in tool.model.points():
 		if camera.is_position_behind(entry.position): continue
 		var screen = camera.unproject_position(entry.position)
-		if not get_rect().has_point(screen) or tool.over_panel(screen): continue
-		markers.append({"id":entry.id,"screen":screen})
-	target = tool.target_screen()
-	valid_target = tool.preview is Vector3
+		if not rect.has_point(screen) or tool.over_panel(screen): continue
+		next.append({"id":entry.id,"screen":screen})
+	var next_target: Vector2 = tool.target_screen()
+	var next_valid: bool = tool.preview is Vector3
+	# Everything _draw reads; an unchanged map keeps its retained drawing.
+	var signature: Array = [tool.selected_id,tool.input_state.terrain_active,tool.is_controller(),tool.over_panel(next_target)]
+	if next==markers and next_target==target and next_valid==valid_target and signature==draw_signature: return
+	markers = next
+	target = next_target
+	valid_target = next_valid
+	draw_signature = signature
 	queue_redraw()
 
 func nearest(screen: Vector2) -> int:

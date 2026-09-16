@@ -229,12 +229,13 @@ func _set_draft(mountain, field) -> bool:
 	seed_input.text = str(draft.seed_value) if draft.generator_version==Definition.CURRENT_VERSION else draft.seed_text()
 	name_input.text = draft.title
 	var vertical: float = field.spawn_point().y-field.sample(0,field.finish_z).height
-	summary.text = "Seed %d\n%.2f × %.2f km · %.0f m vertical\n%s" % [field.seed_value,field.bounds().size.x/1000,field.bounds().size.y/1000,vertical,"Six alpine faces · Summit start · Descend any side" if field.is_summit_mountain() else "Ridges · Bowls · Cliffs & snow takeoffs"]
+	var summary_text: String = "Seed %d\n%.2f × %.2f km · %.0f m vertical\n%s" % [field.seed_value,field.bounds().size.x/1000,field.bounds().size.y/1000,vertical,"Six alpine faces · Summit start · Descend any side" if field.is_summit_mountain() else "Ridges · Bowls · Cliffs & snow takeoffs"]
 	population_label.text = ""
 	if "population" in field:
 		population_label.text = "Trees: %d / %d requested\nMinerals: %d / %d requested" % [field.population.trees,field.population.requested_trees,field.population.minerals,field.population.requested_minerals]
-		summary.text += "\n%s richness" % Settings.PRESETS[Settings.preset_index(field.generation_settings)]
-		if field.population.tree_saturated or field.population.mineral_saturated: summary.text += "\nPlacement reached the available space."
+		summary_text += "\n%s richness" % Settings.PRESETS[Settings.preset_index(field.generation_settings)]
+		if field.population.tree_saturated or field.population.mineral_saturated: summary_text += "\nPlacement reached the available space."
+	summary.text = summary_text
 	preview.apply_image(field,image)
 	_refresh_actions()
 	if owns_overlay: _end_work(true)

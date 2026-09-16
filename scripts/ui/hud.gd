@@ -258,8 +258,7 @@ func _ready() -> void:
 	competition.build(self)
 	register_menu_background(menu)
 	menu_art_ready = true
-	feedback.preferences_changed.connect(_sync_menu_backdrop)
-	feedback.preferences_changed.connect(func(): get_tree().call_group("alpine_action_buttons","refresh_prompt"))
+	feedback.preferences_changed.connect(_feedback_preferences_changed)
 	root.visibility_changed.connect(_sync_menu_backdrop)
 	toast_label = _label("",20,HUD_ACCENT)
 	toast_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
@@ -358,8 +357,11 @@ func _tab(tabs: TabContainer, caption: String) -> VBoxContainer:
 	var margin = MarginContainer.new()
 	margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	margin.add_theme_constant_override("margin_right",20)
+	var margin_state = {"inset":-1}
 	margin.resized.connect(func():
 		var inset = maxi(0,roundi((margin.size.x-1280.0)*.5))
+		if inset==margin_state.inset: return # Unchanged insets must not re-layout.
+		margin_state.inset = inset
 		margin.add_theme_constant_override("margin_left",inset)
 		margin.add_theme_constant_override("margin_right",inset+20)
 	)
@@ -421,6 +423,16 @@ func _menu_background_visible() -> bool:
 func set_background_fade(alpha: float) -> void:
 	menu_fade.color.a = clampf(alpha,0.0,1.0) if has_menu_background() and not feedback.reduced_motion else 0.0
 	menu_fade.visible = menu_fade.color.a>0.0
+
+var feedback_reduced_motion_shown: bool = false
+
+func _feedback_preferences_changed() -> void:
+	# Volume, mute and ambience changes do not affect the backdrop or badges;
+	# only the motion preference drives the fade and button pulses.
+	if feedback.reduced_motion==feedback_reduced_motion_shown: return
+	feedback_reduced_motion_shown = feedback.reduced_motion
+	_sync_menu_backdrop()
+	get_tree().call_group("alpine_action_buttons","refresh_prompt")
 
 func _sync_menu_backdrop() -> void:
 	background_visible = _menu_background_visible()
@@ -612,8 +624,8 @@ func _build_feedback_settings(col: VBoxContainer) -> void:
 	volume.step = 0.05
 	volume.value = feedback.volume
 	volume.custom_minimum_size.y = 36
-	volume.value_changed.connect(func(value): feedback.volume = value; feedback.save())
-	volume.drag_ended.connect(func(_changed): feedback.play("ready"))
+	volume.value_changed.connect(func(value): feedback.volume = value; feedback.save_soon())
+	volume.drag_ended.connect(func(_changed): feedback.save(); feedback.play("ready"))
 	col.add_child(volume)
 	var preview_sound = _button("PREVIEW INTERFACE SOUND")
 	preview_sound.pressed.connect(func(): feedback.play("ready"))
@@ -686,9 +698,10 @@ func _sync_fidelityfx_choices() -> void:
 	if fidelityfx_status_label:
 		var active = str(status.get("active_upscaler_version",""))
 		var rendering = "Native resolution" if effective=="native" else "Bilinear · spatial" if effective=="bilinear" else "FSR 2" if effective=="fsr2" or not native_fsr else "FSR "+active if active!="" else "Waiting for renderer"
-		fidelityfx_status_label.text = "Active: %s · Frame generation %s" % [rendering,"on" if status.get("frame_generation_active",false) else "off"]
-		if not native_fsr: fidelityfx_status_label.text += ". FSR 3/4 require the custom DirectX 12 engine."
-		elif not str(status.get("error","")).is_empty(): fidelityfx_status_label.text += ". "+str(status.error)
+		var status_text = "Active: %s · Frame generation %s" % [rendering,"on" if status.get("frame_generation_active",false) else "off"]
+		if not native_fsr: status_text += ". FSR 3/4 require the custom DirectX 12 engine."
+		elif not str(status.get("error","")).is_empty(): status_text += ". "+str(status.error)
+		fidelityfx_status_label.text = status_text
 
 func sync_weather(controller) -> void:
 	weather_preset.select(WEATHER_IDS.find(controller.selected_preset))

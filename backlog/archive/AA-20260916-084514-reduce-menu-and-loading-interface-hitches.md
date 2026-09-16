@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084514-reduce-menu-and-loading-interface-hitches"
 title: "Remove menu, loading and navigation interface hitches"
-status: ready
+status: done
 priority: P3
 depends_on: []
 created: "2026-09-16T08:45:14Z"
-updated: "2026-09-16T08:45:14Z"
+updated: "2026-09-16T20:00:00Z"
 source_thread: null
 ---
 
@@ -101,5 +101,56 @@ None
 
 ## Completion record
 
-Pending implementation. Record measured costs, tests, rendered evidence and
-commit/push references.
+### Delivery, 2026-09-16: implemented on `main` (Fable, macOS checkout)
+
+Implemented manually; no scheduled claim. Owned `scripts/ui/` paths:
+`action_button.gd`, `hud.gd`, `interface_feedback.gd`, `screen_shell.gd`,
+`compact_menu.gd`, `competitive_panel.gd`, `mountain_library.gd`,
+`loading_overlay.gd`, `session_navigation_overlay.gd`, plus the new headless
+`tests/interface_cost_probe.gd` and the Presentation guide.
+
+What changed (appearance, focus, prompts and persistence semantics kept):
+
+- Action buttons draw their badge and text once; the primary pulse and press
+  flash live on a child overlay whose `self_modulate` alpha animates, so the
+  per-frame `queue_redraw` of the whole button is gone. Derived badge
+  styleboxes are cached per (variation, reserve) key in a static Dictionary and
+  shared read-only; hidden buttons defer style application until shown (their
+  `prompt` still updates). The badge reserve now equals the keyboard "Enter"
+  badge width (53 px instead of 52 px, a 1 px wider right margin on unfocused
+  buttons), so focus moves no longer re-key two buttons.
+- The interface volume slider and shell scale/safe-area sliders apply each step
+  but write their preference files once, 0.4 s after the last change, on drag
+  end or on scene exit. Volume, mute and ambience changes no longer refresh
+  every action button and the menu backdrop; only the motion preference does.
+- Tab page margins early-out when the inset is unchanged; records, mountain
+  library and FidelityFX status labels build their text locally and assign
+  once; the compact menu reuses its two panel styleboxes.
+- The loading overlay writes its constant photo uniforms once per photo or
+  motion change and refreshes the job snapshot, estimates, bar, detail and
+  elapsed labels at 10 Hz. The navigation overlay recomputes markers each
+  frame but redraws only when markers, target, validity, selection, terrain
+  mode, controller state or panel hover changed.
+- Not done: the HUD editor freeze image stays full resolution (a downscale
+  would change the frozen image).
+
+Measured headless on the Apple M4 (`tests/interface_cost_probe.gd`, flat
+laboratory pad, two runs each, microseconds unless noted):
+
+| Operation | Before | After |
+| --- | --- | --- |
+| Interface volume slider step (no disk write in headless) | 148-151 | 4-9 |
+| Records panel refresh, 20 history rows | 80-100 | 64-66 |
+| Compact menu refresh | 66-76 | 66-67 |
+| Focus move + prompt refresh, two primary buttons | 12-13 | 13-19 |
+| UI scale slider step | 56-59 | 65-117 |
+| Settings open + close (two awaited frames) | 13.6 ms | 13.6 ms |
+
+The focus and scale rows are dominated by prompt lookup and the content-scale
+relayout that still run per step; their differences are run noise. The
+per-frame button redraw, the per-step disk writes and the loading snapshot
+cadence are not visible headless; they are removed by construction.
+
+Automated (macOS, Godot 4.7.2): interface_settings_suite 115/115, interface_feedback_suite 111/111, interface_layout_suite 95/95, menu_navigation_suite 24/24, session_navigation_suite 63/63, interface_suite 83/83, controller_prompts_suite 45/45, bright_ui_suite 74/74, runtime_suite 192/192; retained_interface_suite 247/248, competitive_suite 51/53 and startup_suite 59/61 with failures identical on 26f033c before any of today's work (unavailable ghost explanation; resume clock alignment and PB title; keyboard/controller focus latency checks). Rendered: a pause-menu capture
+(`artifacts/mac_probe/menu_shot.png`) shows the primary button pulse outline
+and badges; `tests/interface_performance_suite.gd` needs the Windows engine.

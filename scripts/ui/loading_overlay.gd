@@ -192,6 +192,7 @@ func begin(caption: String, message: String) -> void:
 		tip_device = _device()
 		tip.text = Content.tip(tip_start,tip_device)
 	busy = true
+	snapshot_wait = 0.0
 	artwork.set_loading_mode(atmosphere_enabled,reduced_motion)
 	_sync_audio()
 	title.text = caption
@@ -251,6 +252,10 @@ func _exit_tree() -> void:
 	if job: job.cancel()
 	if worker and worker.is_started(): worker.wait_to_finish()
 
+var photo_uniform_material: Material
+var photo_uniform_reduced_motion: bool = false
+var snapshot_wait: float = 0.0
+
 func _process(dt: float) -> void:
 	if not busy: return
 	var visual_delta = clampf(dt,0.0,0.05)
@@ -260,12 +265,19 @@ func _process(dt: float) -> void:
 		_update_photo_caption()
 	snow.update_motion(phase,atmosphere_enabled and not reduced_motion)
 	if startup_weather: startup_weather.update_visual(phase,atmosphere_enabled and not reduced_motion)
-	if startup_photo and startup_photo.material:
+	if startup_photo and startup_photo.material and (startup_photo.material!=photo_uniform_material or reduced_motion!=photo_uniform_reduced_motion):
+		# Constant uniforms are written when the photo or the motion preference changes.
+		photo_uniform_material = startup_photo.material
+		photo_uniform_reduced_motion = reduced_motion
 		startup_photo.material.set_shader_parameter("reveal_time",1.85)
 		startup_photo.material.set_shader_parameter("reduced_motion",reduced_motion)
 	pulse.position.x = maxf(0.0,bar.size.x-pulse.size.x)*(0.5 if reduced_motion else (sin(phase*2.8)*0.5+0.5))
 	_update_wait_feedback((Time.get_ticks_msec()-started)/1000.0,visual_delta)
-	if job:
+	snapshot_wait -= dt
+	if job and snapshot_wait<=0.0:
+		# Job snapshots, estimates and labels refresh at 10 Hz; the cooperative
+		# main-thread load keeps the frames between them.
+		snapshot_wait = 0.1
 		var snapshot: Dictionary = job.snapshot()
 		Estimates.reconcile(job,snapshot)
 		cancel_button.disabled = snapshot.cancelled
