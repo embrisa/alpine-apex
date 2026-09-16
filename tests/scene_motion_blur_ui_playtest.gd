@@ -37,7 +37,7 @@ func run() -> void:
 		await RenderingServer.frame_post_draw
 		check(root.get_texture().get_image().save_png("res://artifacts/scene_motion_blur/ui/"+view+".png")==OK,"Camera motion-controls capture")
 	check(not ui.controls.motion_blur_enabled.disabled,"Native Forward+ presents an available toggle")
-	FileAccess.open("res://artifacts/scene_motion_blur/ui/report.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"human_controller_acceptance":false},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/scene_motion_blur/ui/report.json",JSON.stringify({"checks":checks,"failures":failures,"human_controller_acceptance":false},"\t"))
 	print("SCENE_BLUR_UI_RESULTS ",JSON.stringify({"checks":checks,"failures":failures}))
 	hud.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

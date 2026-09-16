@@ -134,8 +134,8 @@ func run() -> void:
 	var obstacle_points: Array = []
 	for ob in field.obstacles:
 		if field.sector_weight(ob.position.x,ob.position.z)>0: obstacle_points.append([ob.position.x,ob.position.z,ob.radius,ob.tree])
-	FileAccess.open(OUTPUT+"/survey.json",FileAccess.WRITE).store_string(JSON.stringify({"rows":survey,"obstacles":obstacle_points}))
-	FileAccess.open(OUTPUT+"/candidate.apexmountain",FileAccess.WRITE).store_string(recipe.share_text())
-	FileAccess.open(OUTPUT+"/results.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"metrics":metrics},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/survey.json",JSON.stringify({"rows":survey,"obstacles":obstacle_points}))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/candidate.apexmountain",recipe.share_text())
+	preload("res://tests/test_report.gd").write(OUTPUT+"/results.json",JSON.stringify({"checks":checks,"failures":failures,"metrics":metrics},"\t"))
 	print("SHOWCASE_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"metrics":metrics}))
 	quit(0 if failures.is_empty() else 1)

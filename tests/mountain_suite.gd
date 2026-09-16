@@ -39,5 +39,5 @@ func run() -> void:
 			tree_min = minf(tree_min,c.b);tree_max=maxf(tree_max,c.b)
 	check(snow_max-snow_min>.4 and tree_max-tree_min>.4,"Masks distinguish snow, exposed rock and vegetation suitability")
 	var result = {"failures":failures,"descriptor":a.descriptor(),"max_lab_vertex_error_m":maximum_error,"generation_ms":a.generation_ms,"height_bytes":a.height_image.get_data_size(),"snow_range":[snow_min,snow_max],"vegetation_range":[tree_min,tree_max]}
-	FileAccess.open("res://artifacts/mountain_results.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/mountain_results.json",JSON.stringify(result,"\t"))
 	quit(0 if failures.is_empty() else 1)

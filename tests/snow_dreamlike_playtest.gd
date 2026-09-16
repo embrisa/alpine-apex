@@ -89,7 +89,7 @@ func inspect_massif() -> void:
 	observer.queue_free()
 	game.camera.make_current()
 	if not reflection_only and "--snow-stills-only" not in OS.get_cmdline_user_args(): await snow_motion()
-	FileAccess.open(OUTPUT+"/snow_fixtures.json",FileAccess.WRITE).store_string(JSON.stringify(snow_fixtures,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/snow_fixtures.json",JSON.stringify(snow_fixtures,"\t"))
 
 func capture(label: String, settle_frames: int = 30) -> void:
 	await super.capture(label,settle_frames)
@@ -147,5 +147,5 @@ func snow_motion() -> void:
 							picture.resize(1920,1080,Image.INTERPOLATE_LANCZOS)
 							picture.save_jpg(OUTPUT+"/"+label+"/%03d.jpg" % (frame/2),.93)
 				clips.append({"clip":label,"crash":game.sim.crash_reason,"position":var_to_str(game.sim.position),"duration_s":3,"frames":90,"start":var_to_str(p)})
-				FileAccess.open(OUTPUT+"/snow_motion.json",FileAccess.WRITE).store_string(JSON.stringify({"clips":clips,"physics_hz":120,"presentation_hz":60,"review_fps":30,"unranked":not game.session.eligible,"capture_overhead":true},"\t"))
+				preload("res://tests/test_report.gd").write(OUTPUT+"/snow_motion.json",JSON.stringify({"clips":clips,"physics_hz":120,"presentation_hz":60,"review_fps":30,"unranked":not game.session.eligible,"capture_overhead":true},"\t"))
 				print("SNOW_MOTION ",label," crash=",game.sim.crash_reason)

@@ -164,7 +164,7 @@ func run() -> void:
 				await compare_baseline_style()
 			game.hud.close_weather()
 	var data = {"checks":checks,"failures":failures,"captures":captures,"staged_startup_frames":startup_frames,"startup_stages":startup_stages,"rendered":rendered,"engine":Engine.get_version_info().string,"interface_performance":performance_report,"style_comparison":style_comparison}
-	var file = FileAccess.open("res://artifacts/ui_refresh/interface_%s.json" % ("native" if rendered else "headless"),FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write("res://artifacts/ui_refresh/interface_%s.json" % ("native" if rendered else "headless"))
 	file.store_string(JSON.stringify(data,"\t"))
 	print("INTERFACE_RESULTS ",JSON.stringify(data))
 	game.effects.stop_audio()

@@ -107,7 +107,7 @@ func run() -> void:
 	for ms in frame_times: mean += ms
 	mean /= maxf(frame_times.size(),1)
 	var output = {"device":RenderingServer.get_video_adapter_name(),"renderer":RenderingServer.get_current_rendering_driver_name(),"pixels":str(root.get_texture().get_image().get_size()),"quality":"Low","weather":"Clear","mean_ms":mean,"p95_ms":frame_times[int(frame_times.size()*.95)],"p99_ms":frame_times[int(frame_times.size()*.99)],"frames":frame_times.size(),"terrain_triangles":game.world.terrain_triangles,"world_build_ms":game.world.generation_ms,"captures":captures,"captures_enabled":capture_enabled,"eligible":game.session.eligible}
-	FileAccess.open(OUT+("native.json" if capture_enabled else "performance.json"),FileAccess.WRITE).store_string(JSON.stringify(output,"\t"))
+	preload("res://tests/test_report.gd").write(OUT+("native.json" if capture_enabled else "performance.json"),JSON.stringify(output,"\t"))
 	print("JUMP_NATIVE ",JSON.stringify(output))
 	game.active = false
 	game.effects.stop_audio()

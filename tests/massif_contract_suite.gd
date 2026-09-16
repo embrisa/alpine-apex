@@ -51,6 +51,6 @@ func run() -> void:
 	DirAccess.make_dir_recursive_absolute("res://artifacts/geology_v11")
 	var example = Definition.decode(FileAccess.get_file_as_string("res://examples/mountains/default-v%d.apexmountain" % Definition.CURRENT_VERSION))
 	check(example.has("mountain") and example.mountain.identity()==recipe.identity(),"Bundled default recipe identifies the current terrain")
-	FileAccess.open("res://artifacts/geology_v11/contracts.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"cache_load_ms":rebuilt.field.generation_ms,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/geology_v11/contracts.json",JSON.stringify({"checks":checks,"failures":failures,"cache_load_ms":rebuilt.field.generation_ms,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum},"\t"))
 	print("MASSIF_CONTRACTS checks=",checks," failures=",failures.size())
 	quit(0 if failures.is_empty() else 1)

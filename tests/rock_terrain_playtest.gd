@@ -70,7 +70,7 @@ func inspect_views() -> void:
 	result.device=RenderingServer.get_video_adapter_name()
 	result.backend=RenderingServer.get_current_rendering_driver_name()
 	result.unranked=not game.session.eligible
-	FileAccess.open(OUTPUT+"/rock_render.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/rock_render.json",JSON.stringify(result,"\t"))
 	print("ROCK_RENDER ",JSON.stringify(result))
 	game.effects.stop_audio()
 

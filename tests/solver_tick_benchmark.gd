@@ -38,6 +38,6 @@ func run() -> void:
 		results["pass_%d" % pass_index] = {"us_per_tick":float(elapsed)/ticks,"state_sha256":hasher.finish().hex_encode(),"final_position":str(sim.position),"crashed_at":crashed_at,"peak_kmh":sim.peak_speed*3.6}
 	var out = {"label":label,"ticks":ticks,"engine":Engine.get_version_info().string,"platform":OS.get_name(),"results":results}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/solver_tick")
-	var f = FileAccess.open("res://artifacts/solver_tick/%s.json" % label,FileAccess.WRITE); f.store_string(JSON.stringify(out,"\t")); f.close()
+	var f = preload("res://tests/test_report.gd").open_write("res://artifacts/solver_tick/%s.json" % label); f.store_string(JSON.stringify(out,"\t")); f.close()
 	print("SOLVER_TICK_BENCHMARK ",JSON.stringify(out))
 	quit(0)

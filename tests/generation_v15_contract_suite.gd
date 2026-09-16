@@ -58,12 +58,12 @@ func run() -> void:
 	check(Archive.read(path,"different".sha256_text()).is_empty(),"Source/engine/key invalidation")
 	var file = FileAccess.open(path,FileAccess.READ_WRITE); file.seek(file.get_length()-1); var value = file.get_8(); file.seek(file.get_length()-1); file.store_8(value^1); file.close()
 	check(Archive.read(path,key).is_empty(),"Corrupted section rejected before decoding")
-	file = FileAccess.open(path,FileAccess.WRITE); file.store_string("APEXV15"); file.close()
+	file = preload("res://tests/test_report.gd").open_write(path); file.store_string("APEXV15"); file.close()
 	check(Archive.read(path,key).is_empty(),"Truncated archive rejected")
 	var protected_key = "protected".sha256_text(); var old_key = "old".sha256_text(); var new_key = "new".sha256_text()
 	for recipe in [old_key,new_key,protected_key]:
-		file = FileAccess.open(directory.path_join(recipe+".physical"),FileAccess.WRITE); file.store_buffer(PackedByteArray([1,2,3,4])); file.close()
-	file = FileAccess.open(directory.path_join(new_key+".used"),FileAccess.WRITE); file.store_8(1); file.close()
+		file = preload("res://tests/test_report.gd").open_write(directory.path_join(recipe+".physical")); file.store_buffer(PackedByteArray([1,2,3,4])); file.close()
+	file = preload("res://tests/test_report.gd").open_write(directory.path_join(new_key+".used")); file.store_8(1); file.close()
 	var first_eviction = Archive.evict(protected_key,8,"",directory)
 	check(first_eviction.evicted==[old_key] and FileAccess.file_exists(directory.path_join(new_key+".physical")),"Last-use eviction keeps the more recent recipe")
 	var eviction = Archive.evict(protected_key,4,"",directory)
@@ -88,5 +88,5 @@ func run() -> void:
 	for name in DirAccess.get_files_at(directory): DirAccess.remove_absolute(directory.path_join(name))
 	DirAccess.remove_absolute(directory)
 	var result = {"checks":checks,"failures":failures}
-	FileAccess.open("res://artifacts/generation_v15/contracts.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/contracts.json",JSON.stringify(result,"\t"))
 	print("GENERATION_CONTRACTS ",JSON.stringify(result)); quit(0 if failures.is_empty() else 1)

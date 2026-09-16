@@ -47,7 +47,7 @@ func run() -> void:
 	check(root.get_texture().get_image().save_png("res://artifacts/fidelityfx/captures/settings-fidelityfx.png")==OK,"Settings capture saved")
 	check(game.display_settings.fsr_status().get("error","")=="","Game and menu have no SDK error")
 	var result = {"failures":failures,"gameplay":running,"menu":game.display_settings.fsr_status()}
-	FileAccess.open("res://artifacts/fidelityfx/game-results.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/fidelityfx/game-results.json",JSON.stringify(result,"\t"))
 	print("FIDELITYFX_GAME_RESULTS ",JSON.stringify(result))
 	game.display_settings.frame_generation = false
 	game.display_settings.apply_viewport(root)

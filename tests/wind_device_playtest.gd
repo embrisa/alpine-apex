@@ -42,6 +42,6 @@ func run() -> void:
 	check(not is_instance_valid(retained_player),"Retired player releases without a scene leak")
 	original.queue_free()
 	await process_frame
-	FileAccess.open("res://artifacts/wind/device_suite.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"mix_rate":AudioServer.get_mix_rate(),"driver":AudioServer.get_output_device()},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/wind/device_suite.json",JSON.stringify({"checks":checks,"failures":failures,"mix_rate":AudioServer.get_mix_rate(),"driver":AudioServer.get_output_device()},"\t"))
 	print("WIND_DEVICE_RESULT checks=",checks," failures=",failures)
 	quit(0 if failures.is_empty() else 1)

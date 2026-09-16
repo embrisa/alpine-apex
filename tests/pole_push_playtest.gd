@@ -31,7 +31,7 @@ func capture_sequence(name: String, fixture: Dictionary):
 		var row: Dictionary = data.frames[i]
 		row.cameras[0].projection = "perspective"
 		row.cameras[0].fov = frame_fovs[i]
-	FileAccess.open(path,FileAccess.WRITE).store_string(JSON.stringify(data,"\t"))
+	preload("res://tests/test_report.gd").write(path,JSON.stringify(data,"\t"))
 
 func source_hashes() -> Dictionary:
 	var result = super.source_hashes()

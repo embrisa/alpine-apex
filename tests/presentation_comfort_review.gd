@@ -85,7 +85,7 @@ func run() -> void:
 		"pixels":[1280,720],"graphics_level":game.graphics.level,"camera_settings":game.camera_settings.snapshot(),
 		"capture_overhead":true,"hardware_verified":false,"listening_verified":false,
 		"stop_reason":"completed bounded frame schedule","preferences_enabled":game.preferences_enabled}
-	FileAccess.open(output+"/review.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/review.json",JSON.stringify(report,"\t"))
 	print("COMFORT_REVIEW ",JSON.stringify({"checks":checks,"failures":failures,"frames":rows.size(),"setup_wall_ms":setup_ms}))
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

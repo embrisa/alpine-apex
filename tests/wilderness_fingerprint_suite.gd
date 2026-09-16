@@ -31,7 +31,7 @@ func run() -> void:
 	check(physical==[field.heights.to_byte_array(),var_to_bytes(field.obstacles)] and scenery==[apron.height_image.get_data(),apron.environment_image.get_data()],"V3 preparation and scene submission leave physical and source scenery bytes unchanged")
 	var report = {"checks":checks,"failures":failures,"version":15,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/offmap_v3")
-	FileAccess.open("res://artifacts/offmap_v3/fingerprints.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/offmap_v3/fingerprints.json",JSON.stringify(report,"\t"))
 	print("WILDERNESS_FINGERPRINT_RESULTS ",JSON.stringify(report))
 	wilderness.queue_free(); connector.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

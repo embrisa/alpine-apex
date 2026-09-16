@@ -97,7 +97,7 @@ func run() -> void:
 	check(game.graphics.level==2 and game.weather.automatic and restart_state==[game.weather.selected_preset,game.weather.phase_seconds,game.weather.visual_time] and env.volumetric_fog_enabled,"Restart retains selected quality and weather progression")
 	check(game.weather_effects.lighting==game.world.cloud_lighting,"Precipitation and spindrift share actual sun and cloud lighting")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/golden_sunlight")
-	FileAccess.open("res://artifacts/golden_sunlight/automated.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/golden_sunlight/automated.json",JSON.stringify({"checks":checks,"failures":failures},"\t"))
 	game.queue_free()
 	await process_frame
 	quit(0 if failures.is_empty() else 1)

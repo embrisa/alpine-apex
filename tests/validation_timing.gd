@@ -22,7 +22,7 @@ func finish() -> void:
 	var directory := OS.get_environment("ALPINE_TEST_TIMINGS_DIRECTORY")
 	if directory.is_empty(): directory = "res://artifacts/validation_timings"
 	DirAccess.make_dir_recursive_absolute(directory)
-	var file := FileAccess.open(directory.path_join(suite+".timings.json"),FileAccess.WRITE)
+	var file := preload("res://tests/test_report.gd").open_write(directory.path_join(suite+".timings.json"))
 	if file == null:
 		push_error("Cannot write test timings: "+directory)
 		return

@@ -22,7 +22,7 @@ func run() -> void:
 	check(prefs.save_preferences(path)==OK,"Preference store saves atomically to isolated path")
 	var restored = Prefs.new(); restored.load_preferences(path)
 	check(restored.snapshot()==prefs.snapshot(),"Every choice, launch history and cumulative cooldown round trips")
-	FileAccess.open(path,FileAccess.WRITE).store_string("broken")
+	preload("res://tests/test_report.gd").write(path,"broken")
 	restored.load_preferences(path)
 	check(restored.values==Prefs.DEFAULTS and restored.cooldown==1200,"Corrupt store restores defaults and initial delay")
 	restored.restore({"choices":{"quality":99,"manual_weather":false,"automatic":"yes"},"free_seconds":NAN,"cooldown":-1})
@@ -134,7 +134,7 @@ func run() -> void:
 	storm.update_storm(w.state,true,2,false,false,1)
 	check(storm.last_thunder==-1 and storm.players.size()==3 and storm.bolts.size()==6,"Pause/handoff drops delayed thunder and retains fixed pools")
 	var report = {"checks":checks,"failures":failures}
-	FileAccess.open("res://artifacts/weather_upgrade/unit.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/weather_upgrade/unit.json",JSON.stringify(report,"\t"))
 	print("WEATHER_RESULTS ",JSON.stringify(report))
 	storm.queue_free(); w.queue_free(); copy.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

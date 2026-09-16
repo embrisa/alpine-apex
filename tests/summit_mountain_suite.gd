@@ -91,7 +91,7 @@ func run() -> void:
 				complete = complete and edges.get(pair,0)==1
 		check(complete and is_equal_approx(area,4096.0),"LOD step %d covers the patch once and retains all 4 m boundary segments" % step)
 	var output = {"checks":checks,"failures":failures,"seeds":metrics,"example":JSON.parse_string(mountain.share_text())}
-	FileAccess.open("res://artifacts/summit_mountain/generator_results.json",FileAccess.WRITE).store_string(JSON.stringify(output,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/summit_mountain/generator_results.json",JSON.stringify(output,"\t"))
 	print("SUMMIT_RESULTS ",JSON.stringify(output))
 	quit(0 if failures.is_empty() else 1)
 

@@ -91,7 +91,7 @@ func run() -> void:
 	check(game.weather_preferences.last_weather==before_launch.last_weather and game.weather_preferences.last_band==before_launch.last_band,"Application reload reuses launch history without drawing again")
 	check(not game.preferences_enabled,"Script fixture keeps personal stores isolated")
 	var report = {"checks":checks,"failures":failures}
-	FileAccess.open("res://artifacts/weather_upgrade/lifecycle.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/weather_upgrade/lifecycle.json",JSON.stringify(report,"\t"))
 	print("WEATHER_LIFECYCLE_RESULTS ",JSON.stringify(report))
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

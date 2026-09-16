@@ -98,5 +98,5 @@ func _initialize() -> void:
 	scenery.free()
 	var result = {"checks":checks,"failures":failures,"maximum_burial_m":maximum_burial,"native_transform_readback":DisplayServer.get_name()!="headless"}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/trees_v2/grounding")
-	FileAccess.open("res://artifacts/trees_v2/grounding/"+("contracts.json" if DisplayServer.get_name()=="headless" else "contracts_native.json"),FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/trees_v2/grounding/"+("contracts.json" if DisplayServer.get_name()=="headless" else "contracts_native.json"),JSON.stringify(result,"\t"))
 	print("TREE_GROUNDING_RESULTS ",JSON.stringify(result)); quit(0 if failures.is_empty() else 1)

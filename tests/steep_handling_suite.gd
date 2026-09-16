@@ -52,7 +52,7 @@ func run():
 	if "--validate-existing" in args:
 		var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(OUTPUT+"/handling_after.json"))
 		var validation = acceptance(data.turns)
-		FileAccess.open(OUTPUT+"/handling_acceptance.json",FileAccess.WRITE).store_string(JSON.stringify(validation,"\t"))
+		preload("res://tests/test_report.gd").write(OUTPUT+"/handling_acceptance.json",JSON.stringify(validation,"\t"))
 		print("HANDLING_ACCEPTANCE ",JSON.stringify(validation))
 		quit(0 if validation.failures.is_empty() else 1)
 		return
@@ -77,11 +77,11 @@ func run():
 							results.append(row)
 							if not row.crash.is_empty() or row.airtime_s>0: failures.append("Unexpected loss of support: "+str([speed,steer,reverse,tucked,switch_entry]))
 		var partial = {"model":model.MODEL_VERSION,"failures":failures,"turns":results}
-		FileAccess.open(OUTPUT+("/tuning_sweep.json" if sweep else ("/handling_before.json" if baseline else "/handling_after.json")),FileAccess.WRITE).store_string(JSON.stringify(partial,"\t"))
+		preload("res://tests/test_report.gd").write(OUTPUT+("/tuning_sweep.json" if sweep else ("/handling_before.json" if baseline else "/handling_after.json")),JSON.stringify(partial,"\t"))
 	if not baseline and not sweep:
 		var validation = acceptance(results)
 		failures.append_array(validation.failures)
-		FileAccess.open(OUTPUT+"/handling_acceptance.json",FileAccess.WRITE).store_string(JSON.stringify(validation,"\t"))
+		preload("res://tests/test_report.gd").write(OUTPUT+"/handling_acceptance.json",JSON.stringify(validation,"\t"))
 	print("STEEP_HANDLING ",results.size()," cases; failures: ",failures)
 	quit(0 if failures.is_empty() else 1)
 

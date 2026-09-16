@@ -63,7 +63,7 @@ func run() -> void:
 	physics_controls(plane)
 	store_contracts()
 	print("TEST_CASE_CONTRACTS ",JSON.stringify({"checks":checks,"failures":failures}))
-	FileAccess.open(directory+"/results.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write(directory+"/results.json",JSON.stringify({"checks":checks,"failures":failures},"\t"))
 	quit(0 if failures.is_empty() else 1)
 
 func physics_controls(plane) -> void:
@@ -125,13 +125,13 @@ func store_contracts() -> void:
 	check(standalone.trim(1,2,"Nested","","").rows("ticks").size()==3,"Nested trim retains original time and prefix")
 	check(not standalone.trim(2,2,"Empty","","").error.is_empty(),"Empty interval is rejected")
 	check(not standalone.save(clip_path).is_empty(),"Existing case is never overwritten")
-	var bad = directory+"/bad.apexcase"; FileAccess.open(bad,FileAccess.WRITE).store_string("malformed")
+	var bad = directory+"/bad.apexcase"; preload("res://tests/test_report.gd").write(bad,"malformed")
 	check(not Store.open_case(bad).error.is_empty(),"Malformed package fails closed")
 	var intact_hash = FileAccess.get_sha256(clip_path)
 	check(not standalone.save(bad+"/impossible.apexcase").is_empty() and FileAccess.get_sha256(clip_path)==intact_hash,"Save failure preserves the source case")
 	var damaged = directory+"/damaged.apexcase"
 	var bytes = FileAccess.get_file_as_bytes(clip_path); bytes[bytes.size()-1] ^= 0x5a
-	FileAccess.open(damaged,FileAccess.WRITE).store_buffer(bytes)
+	preload("res://tests/test_report.gd").write_bytes(damaged,bytes)
 	var corrupt = Store.open_case(damaged); corrupt.rows("frames")
 	check(not corrupt.error.is_empty(),"Corrupted compressed content is rejected")
 	data = standalone.trim(1,2,"Bounded","",""); data.raw_bytes = Store.MAX_RAW-1

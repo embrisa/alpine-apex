@@ -89,7 +89,7 @@ func inspect_massif() -> void:
 
 func write_camera_report() -> void:
 	var report = {"captures":camera_frames, "failures":camera_failures, "actual_pixels":[actual_pixels.x,actual_pixels.y], "display":game.display_settings.report(root,actual_pixels), "hardware_input_verified":false, "unranked":not game.session.eligible,"baseline_script":baseline_script_path,"motion_sequences":record_motion}
-	FileAccess.open(OUTPUT+"/camera_review.json", FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/camera_review.json",JSON.stringify(report,"\t"))
 	print("CAMERA_REVIEW ", JSON.stringify({"captures":camera_frames.size(),"failures":camera_failures}))
 
 func install_camera_baseline() -> void:

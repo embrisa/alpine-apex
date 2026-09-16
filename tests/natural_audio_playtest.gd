@@ -79,7 +79,7 @@ func run() -> void:
 	var wav = record.get_recording();wav.save_to_wav(OUT+"/equipment_impacts.wav")
 	AudioServer.remove_bus_effect(0,index)
 	var report = {"chapters":chapter_counts,"native":sfx.diagnostics(),"mix_rate":wav.mix_rate,"frames":shots,"scope":"Scripted equipment geometry for shafts/tips; direct event auditions for mixed knocks, rattles, rock/tree hits","pixels":[root.size.x,root.size.y],"unranked":true}
-	FileAccess.open(OUT+"/report.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUT+"/report.json",JSON.stringify(report,"\t"))
 	var passed: bool = chapter_counts[0].geometric_contacts>=2 and chapter_counts[1].geometric_contacts>=2
 	print("NATURAL_AUDIO_RENDER_RESULT contacts_pass=",passed," chapters=",JSON.stringify(chapter_counts))
 	sfx.stop_audio();wind.stop_audio();await create_timer(.2).timeout

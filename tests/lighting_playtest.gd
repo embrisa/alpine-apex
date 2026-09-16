@@ -129,7 +129,7 @@ func run() -> void:
 	if not root.get_visible_rect().encloses(game.hud.weather_panel.get_global_rect()):
 		failures.append("Time and weather controls overflow the viewport")
 	var result = {"captures":captures,"cloud_sweep":samples,"sunlit_offset_m":str(high_offset),"shaded_offset_m":str(low_offset),"sunlit_snow":high,"shaded_snow":low,"sunlit_jacket":bright_jacket,"shaded_jacket":dark_jacket,"failures":failures}
-	var file = FileAccess.open("res://artifacts/lighting_results.json",FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write("res://artifacts/lighting_results.json")
 	file.store_string(JSON.stringify(result,"\t"))
 	print("LIGHTING_RESULTS ",JSON.stringify({"captures":captures.size()+2,"snow_delta":high-low,"jacket_delta":bright_jacket-dark_jacket,"failures":failures}))
 	game.effects.stop_audio()

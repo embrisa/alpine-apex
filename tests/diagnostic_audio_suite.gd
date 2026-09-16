@@ -109,6 +109,6 @@ func run() -> void:
 	cases.ui.panel.queue_free(); cases.game = null; cases.queue_free(); game.effects.queue_free()
 	await process_frame
 	var report = {"checks":checks,"failures":failures,"scope":"Diagnostic menu lifecycle and native PCM; no physical-device listening acceptance"}
-	FileAccess.open(output+"/result.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/result.json",JSON.stringify(report,"\t"))
 	print("DIAGNOSTIC_AUDIO_RESULT ",JSON.stringify(report))
 	quit(0 if failures.is_empty() else 1)

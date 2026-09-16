@@ -80,7 +80,7 @@ func run() -> void:
 	game._process(1.0/60.0)
 	await capture("07_controller_guide")
 	var result = {"model":game.sim.MODEL_VERSION,"replay":preload("res://scripts/racing/run_replay.gd").VERSION,"engine":Engine.get_version_info().string,"renderer":RenderingServer.get_current_rendering_method(),"driver":RenderingServer.get_current_rendering_driver_name(),"fixture":game.field.fixture_id,"map":game.field.fixture_descriptor(),"unranked":not game.session.eligible,"preferences_enabled":game.preferences_enabled,"hardware_output":game.effects.haptic_hardware_enabled,"cases":rows,"failures":failures}
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(result,"\t"))
 	print("CONTROLLER_VISUAL_RESULTS ",JSON.stringify(result))
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

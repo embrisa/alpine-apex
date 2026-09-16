@@ -47,7 +47,7 @@ func prepare(parent) -> bool:
 	personal_inventory = persistent_files()
 	loading_estimate_before = FileAccess.get_sha256("user://generation_measurements_v15.json")
 	if not owner.audit.failures.is_empty():
-		FileAccess.open(owner.OUTPUT+"/preflight_failure.json",FileAccess.WRITE).store_string(JSON.stringify({"failures":owner.audit.failures,"sources":owner.sources},"\t"))
+		preload("res://tests/test_report.gd").write(owner.OUTPUT+"/preflight_failure.json",JSON.stringify({"failures":owner.audit.failures,"sources":owner.sources},"\t"))
 	return owner.audit.failures.is_empty()
 
 func run(parent, tasks: Array[String]) -> Dictionary:

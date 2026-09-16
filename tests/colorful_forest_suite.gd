@@ -88,5 +88,5 @@ func run() -> void:
 	check(not preload("res://scripts/world/generation_sources.gd").dependencies(false).has("res://assets/graphics/trees/models/forest_maple_01_lod0.res"),"New artwork stays outside physical identity")
 	var result={"checks":checks,"failures":failures,"seed_samples":rows}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/colorful_forest_variety")
-	FileAccess.open("res://artifacts/colorful_forest_variety/suite.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/colorful_forest_variety/suite.json",JSON.stringify(result,"\t"))
 	print("COLORFUL_FOREST_RESULTS ",JSON.stringify(result)); camera.free(); quit(0 if failures.is_empty() else 1)

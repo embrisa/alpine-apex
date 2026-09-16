@@ -27,6 +27,6 @@ func run() -> void:
 	var historical = Carve.acceptance(rows)
 	if historical.failures!=current.acceptance.failures: failures.append("Historical acceptance failure set differs from frozen model 27")
 	var report = {"model":Sim.MODEL_VERSION,"baseline_model":27,"compared_cases":rows.size(),"disabled_carving_pairs":24,"disabled_carving_identical":disabled_same,"historical_acceptance_failures":historical.failures,"current_legacy_contract_failures":current.contracts.failures,"failures":failures,"unranked":true}
-	FileAccess.open(OUTPUT+"/carving_comparison.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/carving_comparison.json",JSON.stringify(report,"\t"))
 	print("FROZEN_CARVING_COMPLETE cases=",rows.size()," historical failures=",historical.failures.size()," differences=",failures)
 	quit(0 if failures.is_empty() else 1)

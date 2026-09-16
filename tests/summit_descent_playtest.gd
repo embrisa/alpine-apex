@@ -90,7 +90,7 @@ func run() -> void:
 		"engine":Engine.get_version_info().string,"device":RenderingServer.get_video_adapter_name(),"backend":RenderingServer.get_current_rendering_driver_name(),
 		"graphics":"Low","weather":"Snowfall / High","warmup_frames":120,"frame_ms":timing(frames),"draw_calls":timing(draws)}
 	var path = "res://artifacts/summit_mountain/descent_v%d_%d_%s.json" % [version_number,seed_number,"native" if rendered else "headless"]
-	FileAccess.open(path,FileAccess.WRITE).store_string(JSON.stringify(output,"\t"))
+	preload("res://tests/test_report.gd").write(path,JSON.stringify(output,"\t"))
 	if game:
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("res://artifacts/summit_mountain/base_after_descent.png")

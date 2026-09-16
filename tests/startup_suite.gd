@@ -233,6 +233,6 @@ func stats(values: Array[float]) -> Dictionary:
 func finish() -> void:
 	evidence.timing_mode = timing_mode
 	evidence.checks = checks; evidence.failures = failures
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(evidence,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(evidence,"\t"))
 	print("STARTUP_SUITE ",checks," checks, ",failures.size()," failures ",JSON.stringify(evidence))
 	quit(0 if failures.is_empty() else 1)

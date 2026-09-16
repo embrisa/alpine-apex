@@ -54,5 +54,5 @@ func run() -> void:
 		remove_meta("mountain_retry_recipe")
 	if FileAccess.get_sha256(physical_path)!=original_cache: failures.append("Startup cancellation changed the existing physical cache")
 	var report = {"samples":samples,"failures":failures,"native":DisplayServer.get_name()!="headless"}
-	FileAccess.open("res://artifacts/generation_v15/loading_cancellation.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/loading_cancellation.json",JSON.stringify(report,"\t"))
 	print("V15_LOADING_CANCELLATION ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)

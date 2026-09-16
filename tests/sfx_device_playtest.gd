@@ -46,6 +46,6 @@ func run() -> void:
 	recording.save_to_wav("res://artifacts/sfx/device.wav")
 	AudioServer.remove_bus_effect(0,index)
 	var report={"checks":checks,"failures":failures,"mix_rate":AudioServer.get_mix_rate(),"device":AudioServer.get_output_device()}
-	FileAccess.open("res://artifacts/sfx/device_suite.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/sfx/device_suite.json",JSON.stringify(report,"\t"))
 	print("SFX_DEVICE_RESULT ",JSON.stringify(report))
 	quit(0 if failures.is_empty() else 1)

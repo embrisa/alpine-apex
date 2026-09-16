@@ -40,5 +40,5 @@ func run() -> void:
 	immediate.queue_free(); staged.queue_free()
 	await process_frame
 	DirAccess.make_dir_recursive_absolute("res://artifacts/geology_v11")
-	FileAccess.open("res://artifacts/geology_v11/scenery_loading.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/geology_v11/scenery_loading.json",JSON.stringify({"checks":checks,"failures":failures},"\t"))
 	quit(0 if failures.is_empty() else 1)

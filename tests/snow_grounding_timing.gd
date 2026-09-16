@@ -29,5 +29,5 @@ func run() -> void:
 			rows.append({"model":model.MODEL_VERSION,"fixture":name,"solver_us":Suite.stats(values),"ticks":values.size(),"air_ticks":air_ticks})
 			print("SNOW_SOLVER ",JSON.stringify(rows[-1]))
 	var failures = [] if sources==Receipt.source_hashes() else ["Source changed during CPU timing"]
-	FileAccess.open(OUTPUT+"/solver_timing.json",FileAccess.WRITE).store_string(JSON.stringify({"rows":rows,"sources":sources,"engine":Engine.get_version_info(),"engine_sha256":FileAccess.get_sha256(OS.get_executable_path()),"order":"27,28,28,27","unranked":true,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/solver_timing.json",JSON.stringify({"rows":rows,"sources":sources,"engine":Engine.get_version_info(),"engine_sha256":FileAccess.get_sha256(OS.get_executable_path()),"order":"27,28,28,27","unranked":true,"failures":failures},"\t"))
 	quit(0 if failures.is_empty() else 1)

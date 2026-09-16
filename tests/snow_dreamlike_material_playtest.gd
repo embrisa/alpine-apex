@@ -17,7 +17,7 @@ func run() -> void:
 	if ok:
 		ok = sun.sheen_center>0 and sun.crystal_center>0 and shade.sheen_center<sun.sheen_center*.2 and shade.crystal_center<sun.crystal_center*.2
 		ok = ok and night.sheen_pixels==0 and night.crystal_pixels==0 and report.night_crystal_pixels==0 and not report.crashed and not report.eligible
-	FileAccess.open(output+"/acceptance.json",FileAccess.WRITE).store_string(JSON.stringify({"passed":ok,"layers":layer_checks,"native_aa":true,"all_particles_frozen":true},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/acceptance.json",JSON.stringify({"passed":ok,"layers":layer_checks,"native_aa":true,"all_particles_frozen":true},"\t"))
 	print("SNOW_LAYER_ACCEPTANCE ",ok)
 	quit(0 if ok else 1)
 
@@ -65,5 +65,5 @@ func capture(id: String) -> void:
 	root.get_texture().get_image().save_png(output+"/"+id+"_glow_off.png")
 	env.glow_enabled = glow
 	await settle()
-	FileAccess.open(output+"/layers.json",FileAccess.WRITE).store_string(JSON.stringify(layer_checks,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/layers.json",JSON.stringify(layer_checks,"\t"))
 	print("DREAMLIKE_LAYERS ",id," ",layer_checks[id])

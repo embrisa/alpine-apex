@@ -70,7 +70,7 @@ func run():
 	if timing:
 		report.frame_ms = stats(frames); report.render_cpu_ms = stats(render_cpu); report.render_gpu_ms = stats(gpu)
 		report.fixed_tick_us = stats(tick_us); report.peak_video_bytes = peak_video; report.peak_engine_static_bytes = peak_static
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report,"\t"))
 	print("REFINEMENT_NATIVE_COMPLETE ",JSON.stringify(report))
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

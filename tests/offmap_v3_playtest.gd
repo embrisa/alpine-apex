@@ -66,7 +66,7 @@ func inspect_massif() -> void:
 				await capture("ride_motion_%s_%03d" % ["before" if baseline else "after",frame],2)
 		motion=false
 	fixture.select(game.world,false); fixture.dispose()
-	FileAccess.open(OUTPUT+"/offmap_v3.json",FileAccess.WRITE).store_string(JSON.stringify({"version":field.GENERATOR_VERSION,"seed":field.seed_value,"pairs":comparison_pairs,"clips":clips,"actual_pixels":[actual_pixels.x,actual_pixels.y],"display":game.display_settings.report(root,actual_pixels),"geometry":game.world.wilderness.report(),"unranked":true,"capture_overhead":true},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/offmap_v3.json",JSON.stringify({"version":field.GENERATOR_VERSION,"seed":field.seed_value,"pairs":comparison_pairs,"clips":clips,"actual_pixels":[actual_pixels.x,actual_pixels.y],"display":game.display_settings.report(root,actual_pixels),"geometry":game.world.wilderness.report(),"unranked":true,"capture_overhead":true},"\t"))
 	observer.queue_free()
 
 func pair(fixture, label: String) -> void:

@@ -101,5 +101,5 @@ func run() -> void:
 	report.recipe_warm_ms = (Time.get_ticks_usec()-warm_started)/1000.0
 	check(reconstructed.has("field") and reconstructed.field.cache_hit and reconstructed.field.height_checksum==field.height_checksum and reconstructed.field.obstacle_checksum==field.obstacle_checksum and reconstructed.field.tree_data.positions==field.tree_data.positions and reconstructed.field.material_image.get_data()==field.material_image.get_data(),"Custom cache reconstructs exact physical identity and packed data")
 	report.checks = checks; report.failures = failures; report.memory_peak = OS.get_static_memory_peak_usage()
-	FileAccess.open("res://artifacts/generation_v15/world_"+case_name+("_physical" if physical_clearance else "")+".json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/world_"+case_name+("_physical" if physical_clearance else "")+".json",JSON.stringify(report,"\t"))
 	print("V15_WORLD ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)

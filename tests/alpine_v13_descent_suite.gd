@@ -36,8 +36,8 @@ func run() -> void:
 			var result = {"face":face_index,"side":side,"finished":field.reached_base(sim.position),"crash":sim.crash_reason,"seconds":ticks*Pilot.DT,"peak_kmh":sim.peak_speed*3.6,"position":str(sim.position),"airtime_s":sim.total_airtime}
 			reports.append(result)
 			var trace={"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"model":Simulation.MODEL_VERSION,"simulation_sha256":FileAccess.get_sha256("res://scripts/core/ski_simulation.gd"),"tuning_sha256":FileAccess.get_sha256("res://config/ski_default.tres"),"pilot_version":Pilot.VERSION,"ticks_per_command":12,"face":face_index,"side":side,"commands":commands,"result":result,"unranked":true}
-			FileAccess.open("res://artifacts/alpine_v13/inputs_%d_%d.json" % [face_index,side],FileAccess.WRITE).store_string(JSON.stringify(trace,"\t",true,true))
+			preload("res://tests/test_report.gd").write("res://artifacts/alpine_v13/inputs_%d_%d.json" % [face_index,side],JSON.stringify(trace,"\t",true,true))
 			if not result.finished or sim.crashed: failures.append(result)
 			print("ALPINE_SKI_RESULT ",JSON.stringify(result))
-	FileAccess.open("res://artifacts/alpine_v13/descents.json",FileAccess.WRITE).store_string(JSON.stringify({"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"pilot_version":Pilot.VERSION,"runs":reports,"failures":failures,"unranked":true},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/alpine_v13/descents.json",JSON.stringify({"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"pilot_version":Pilot.VERSION,"runs":reports,"failures":failures,"unranked":true},"\t"))
 	quit(0 if failures.is_empty() else 1)

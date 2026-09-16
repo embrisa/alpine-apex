@@ -76,5 +76,5 @@ func run() -> void:
 		check(serial.get_data()==full_map.image.get_data(),"Full v15 single-worker and parallel maps are byte-identical")
 		print("SNOW_READABILITY_MOUNTAIN ",JSON.stringify(full_map.report()))
 	DirAccess.make_dir_recursive_absolute("res://artifacts/snow_readability")
-	FileAccess.open("res://artifacts/snow_readability/automated.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/snow_readability/automated.json",JSON.stringify({"checks":checks,"failures":failures},"\t"))
 	quit(0 if failures.is_empty() else 1)

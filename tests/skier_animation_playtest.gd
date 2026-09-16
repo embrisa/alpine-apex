@@ -129,7 +129,7 @@ func run():
 			rows.append({"scenario":scenario,"impact_speed_mps":game.skier.animation.landing_speed,"events":game.skier.animation.landing_events,"executed_hops":scenario_hops,"crashed":game.sim.crashed})
 	var report = {"unranked":not game.session.eligible,"engine":Engine.get_version_info().string,"device":RenderingServer.get_video_adapter_name(),"display":game.display_settings.report(root,actual),"cases":rows,"captures":captures,"peak_video_bytes":peak_video,"peak_engine_static_bytes":peak_static,"capture_overhead_included":false,"scope":"12 second laboratory motion loops" if benchmark else "real-solver motion with controlled starting conditions","clip_fps":30}
 	report.baseline_animation = baseline_animation.get_script().resource_path if baseline_animation else "physical pose only"
-	FileAccess.open(output+("/performance.json" if benchmark else "/captures.json"),FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+("/performance.json" if benchmark else "/captures.json"),JSON.stringify(report,"\t"))
 	game.effects.stop_audio()
 	game.queue_free()
 	await process_frame

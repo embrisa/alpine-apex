@@ -43,7 +43,7 @@ func run() -> void:
 			check(next.speed_before_change<=kmh+.1 and next.exit_kmh<=old.exit_kmh+1.0,"Earlier turn does not provide a speed boost: "+label)
 	DirAccess.make_dir_recursive_absolute("res://artifacts/handling_upgrade")
 	var result = {"model":Sim.MODEL_VERSION,"checks":checks,"failures":failures,"reversals":metrics}
-	FileAccess.open("res://artifacts/handling_upgrade/physics.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/handling_upgrade/physics.json",JSON.stringify(result,"\t"))
 	print("HANDLING_UPGRADE_RESULTS ",JSON.stringify({"checks":checks,"failures":failures}))
 	quit(0 if failures.is_empty() else 1)
 

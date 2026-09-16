@@ -82,7 +82,7 @@ func run() -> void:
 	await present(30); page.ensure_control_visible(slider)
 	await present(5); await capture("reset")
 	if game.camera_settings.shared.forest_visibility_strength!=100 or game.camera_settings.shared.forest_visibility!=60: failures.append("Reset failed")
-	FileAccess.open(output+"/report.json",FileAccess.WRITE).store_string(JSON.stringify({"failures":failures,"settings":game.camera_settings.snapshot(),"preferences_written":game.preferences_enabled,"hardware_input_verified":false,"actual_pixels":root.get_texture().get_image().get_size(),"output":output},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/report.json",JSON.stringify({"failures":failures,"settings":game.camera_settings.snapshot(),"preferences_written":game.preferences_enabled,"hardware_input_verified":false,"actual_pixels":root.get_texture().get_image().get_size(),"output":output},"\t"))
 	print("SIGHT_SETTINGS_REVIEW ",JSON.stringify({"failures":failures}))
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

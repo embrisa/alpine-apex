@@ -61,5 +61,5 @@ func run() -> void:
 		game.weather.set_preset(preset); game.world.update_weather(game.weather.state,0,true)
 		await capture(preset,90)
 	assert(before==var_to_bytes([field.heights,field.obstacles,field.geology.placements,field.geology.collision.entries]))
-	FileAccess.open(output.path_join("review.json"),FileAccess.WRITE).store_string(JSON.stringify({"captures":captures,"map":field.fixture_descriptor() if not standard else {"id":"Standard-v15","seed":field.seed_value,"trees":field.tree_data.size(),"physical_signature":preload("res://scripts/world/generation_sources.gd").signature(false)},"physical_unchanged":true,"pixels":[1920,1080],"frame_cap":60,"performance_evidence":false,"human_acceptance":false},"\t"))
+	preload("res://tests/test_report.gd").write(output.path_join("review.json"),JSON.stringify({"captures":captures,"map":field.fixture_descriptor() if not standard else {"id":"Standard-v15","seed":field.seed_value,"trees":field.tree_data.size(),"physical_signature":preload("res://scripts/world/generation_sources.gd").signature(false)},"physical_unchanged":true,"pixels":[1920,1080],"frame_cap":60,"performance_evidence":false,"human_acceptance":false},"\t"))
 	game.queue_free(); await process_frame; print("GRAVEL_RENDER_COMPLETE ",captures.size()); quit()

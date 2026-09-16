@@ -18,7 +18,7 @@ func library_checks():
 	check(tuck_cases.deep_tuck.hand_span_min_m>.20,"Compact tuck retains room between the gloves")
 	check(tuck_cases.deep_tuck.pitch_max_deg-tuck_cases.deep_tuck.pitch_min_deg>1.0,"The deep tuck retains time-varying source motion")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/deep_tuck")
-	FileAccess.open("res://artifacts/deep_tuck/silhouette.json",FileAccess.WRITE).store_string(JSON.stringify({"cases":tuck_cases,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/deep_tuck/silhouette.json",JSON.stringify({"cases":tuck_cases,"failures":failures},"\t"))
 
 func tuck_ride(request: Dictionary):
 	var surface = TestPlane.new(.30)

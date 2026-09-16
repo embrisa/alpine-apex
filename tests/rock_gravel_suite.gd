@@ -97,5 +97,5 @@ func run() -> void:
 	gravel.free()
 	check(field.heights.to_byte_array()==original and field.noise.seed==rng_seed and actual_before==var_to_bytes([actual.heights,actual.obstacles,actual.geology.placements,actual.geology.collision.entries]),"Terrain, RNG and collision data remain byte-identical")
 	var output="res://artifacts/rock_gravel/suite.json"
-	FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"population":before},"\t"))
+	preload("res://tests/test_report.gd").write(output,JSON.stringify({"checks":checks,"failures":failures,"population":before},"\t"))
 	print("GRAVEL_SUITE ",checks," checks; ",failures.size()," failures"); quit(0 if failures.is_empty() else 1)

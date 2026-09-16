@@ -103,7 +103,7 @@ func run() -> void:
 				cpu.append(RenderingServer.viewport_get_measured_render_time_cpu(root.get_viewport_rid()))
 		display.free()
 	var report = {"pixels":str(root.size),"device":RenderingServer.get_video_adapter_name(),"frame_ms":stats(samples),"gpu_ms":stats(gpu),"cpu_render_ms":stats(cpu),"video_memory_bytes":Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED),"unranked_lab":true}
-	FileAccess.open(output+"/native.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/native.json",JSON.stringify(report,"\t"))
 	print("TREE_GROUNDING_NATIVE ",JSON.stringify(report)); quit()
 
 func capture(id: String) -> void:

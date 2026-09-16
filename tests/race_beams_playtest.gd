@@ -1019,7 +1019,7 @@ func _write_report() -> void:
 			"version":game.field.GENERATOR_VERSION,"height_sha256":game.field.height_checksum,
 			"obstacle_sha256":game.field.obstacle_checksum,"race":race.to_data() if race!=null else {},
 			"setup_and_total_ms":Time.get_ticks_msec()-setup_started})
-	FileAccess.open(output+"/report.json",FileAccess.WRITE).store_string(JSON.stringify(_json_safe(report),"\t"))
+	preload("res://tests/test_report.gd").write(output+"/report.json",JSON.stringify(_json_safe(report),"\t"))
 
 func _vector(value: Vector3) -> Array:
 	return [value.x,value.y,value.z]

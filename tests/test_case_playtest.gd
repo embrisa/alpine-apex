@@ -53,7 +53,7 @@ func run() -> void:
 	check(not game.session.eligible and not game.preferences_enabled,"Diagnostic take cannot save personal records/preferences")
 	var real_directory: String = cases.directory
 	var impossible = output+"/not-a-directory"
-	FileAccess.open(impossible,FileAccess.WRITE).store_string("Save failure fixture")
+	preload("res://tests/test_report.gd").write(impossible,"Save failure fixture")
 	cases.directory = impossible
 	check(not cases.save_recording("save_failure") and cases.recorder!=null and not game.active,"Failed publication preserves the paused recording for retry")
 	cases.directory = real_directory
@@ -88,7 +88,7 @@ func run() -> void:
 	if "--case-performance" in OS.get_cmdline_user_args(): await measure_capture(cases,field)
 	var report = {"checks":checks,"failures":failures,"recording":ProjectSettings.globalize_path(path),"clip":ProjectSettings.globalize_path(clip_path),"performance":performance,"scope":"Automated rendered lifecycle, not physical-controller acceptance"}
 	if "--recording-only" in OS.get_cmdline_user_args(): report.scope="Bounded recording/export fixture; crash lifecycle and human acceptance not exercised"
-	FileAccess.open(output+"/result.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/result.json",JSON.stringify(report,"\t"))
 	print("TEST_CASE_PLAYTEST ",JSON.stringify(report))
 	game.effects.stop_audio(); game.queue_free(); await process_frame; quit(0 if failures.is_empty() else 1)
 

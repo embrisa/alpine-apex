@@ -620,10 +620,18 @@ visual and skiing acceptance remain separate.
 ## Cosmetic rock gravel
 
 `rock_gravel.gd` streams shared dense/sparse MultiMeshes in 8 m cells, capped at
-49 resident cells and two private low-priority placement jobs. Main-thread
-publication collects completed jobs; quality/reset/teardown joins outstanding
-work before releasing frozen field inputs. New cells fade in over 0.4 seconds.
-There is no per-stone Node, material, collision or shadow caster.
+49 resident cells and two private low-priority placement jobs. Workers place a
+cell and pack its per-asset instance buffers and merged bounds
+(`gravel_placement.pack`); main-thread publication assigns each buffer once,
+blits the cell's 18-square mask into the shared texture and collects completed
+jobs. Cells leaving the radius are freed eight batches per frame while they sit
+beyond the fade distance. Candidate cells come from an offset list sorted once
+per reach. Quality/reset/teardown joins outstanding work before releasing frozen
+field inputs. New cells fade in over 0.4 seconds. There is no per-stone Node,
+material, collision or shadow caster. Grass residency (`terrain_grass.gd`)
+follows the same rules with a 300 us per-frame publication budget in addition
+to its three-cell count, and cliff macro textures load through the resource
+loader thread before their two-per-frame swap.
 
 Two shared opaque PBR materials use authored normal detail at strength 0.22,
 restrained slate colour grading, real lighting/shadow reception and the existing

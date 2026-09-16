@@ -84,7 +84,7 @@ func run() -> void:
 	var args = OS.get_cmdline_user_args()
 	if "--contracts" in args:
 		var checks = contracts()
-		FileAccess.open(OUTPUT+"/contracts.json",FileAccess.WRITE).store_string(JSON.stringify(checks,"\t"))
+		preload("res://tests/test_report.gd").write(OUTPUT+"/contracts.json",JSON.stringify(checks,"\t"))
 		print("ARCADE_CONTRACTS ",JSON.stringify(checks))
 		quit(0 if checks.failures.is_empty() else 1); return
 	var baseline = "--baseline" in args
@@ -107,7 +107,7 @@ func run() -> void:
 							rows.append(row)
 							if not row.crash.is_empty() or row.airtime_s>0: failures.append("Support: "+str([kmh,steer,tuck,switch_entry,mode]))
 		print("CARVING_VARIANT ",JSON.stringify(variant)," rows=",rows.size())
-		if sweep: FileAccess.open(OUTPUT+"/sweep.json",FileAccess.WRITE).store_string(JSON.stringify({"model":model.MODEL_VERSION,"rows":rows,"failures":failures},"\t"))
+		if sweep: preload("res://tests/test_report.gd").write(OUTPUT+"/sweep.json",JSON.stringify({"model":model.MODEL_VERSION,"rows":rows,"failures":failures},"\t"))
 	var result = {"model":model.MODEL_VERSION,"unranked":true,"rows":rows,"failures":failures}
 	if not baseline and not sweep:
 		result.acceptance = acceptance(rows)
@@ -116,9 +116,9 @@ func run() -> void:
 		failures.append_array(result.contracts.failures)
 	if baseline:
 		if FileAccess.file_exists(REFERENCE): printerr("Baseline fixture already exists; refusing overwrite"); quit(2); return
-		FileAccess.open(REFERENCE,FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+		preload("res://tests/test_report.gd").write(REFERENCE,JSON.stringify(result,"\t"))
 	var name = "baseline" if baseline else ("sweep" if sweep else "after")
-	FileAccess.open(OUTPUT+"/"+name+".json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/"+name+".json",JSON.stringify(result,"\t"))
 	print("ARCADE_CARVING ",rows.size()," cases, failures=",failures.size())
 	quit(0 if failures.is_empty() else 1)
 

@@ -257,6 +257,6 @@ func run() -> void:
 	voice.queue_free()
 	await process_frame
 	DirAccess.make_dir_recursive_absolute("res://artifacts/voice/male_1_v1")
-	FileAccess.open("res://artifacts/voice/male_1_v1/upgrade_suite.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/voice/male_1_v1/upgrade_suite.json",JSON.stringify({"checks":checks,"failures":failures},"\t"))
 	print("VOICE_UPGRADE_RESULT ",JSON.stringify({"checks":checks,"failures":failures}))
 	quit(0 if failures.is_empty() else 1)

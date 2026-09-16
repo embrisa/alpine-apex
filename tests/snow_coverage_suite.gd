@@ -33,6 +33,6 @@ func run() -> void:
 			check(count>50 and row.thick_fraction>=.85,"Most snow is thick on every face/elevation band: "+str(row))
 			check(open_count==0 or row.open_thick_fraction>=.85,"Open snow has the same thick cover: "+str(row))
 			check(row.relief_fraction>=.55,"Small physical features cover most snowy terrain: "+str(row))
-	FileAccess.open("res://artifacts/snow_control_fix/coverage.json",FileAccess.WRITE).store_string(JSON.stringify({"revision":field.SNOW_REVISION,"height_sha256":field.height_checksum,"rows":rows,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/snow_control_fix/coverage.json",JSON.stringify({"revision":field.SNOW_REVISION,"height_sha256":field.height_checksum,"rows":rows,"failures":failures},"\t"))
 	print("SNOW_COVERAGE rows=",rows.size()," failures=",failures)
 	quit(0 if failures.is_empty() else 1)

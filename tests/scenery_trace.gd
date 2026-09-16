@@ -16,5 +16,5 @@ func _initialize() -> void:
 		"producer_sha256":FileAccess.get_sha256("res://tests/scenery_trace.gd"),
 		"camera_sha256":FileAccess.get_sha256("res://tests/scenery_camera.gd")}
 	DirAccess.make_dir_recursive_absolute(output.get_base_dir())
-	FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify(data,"",true,true))
+	preload("res://tests/test_report.gd").write(output,JSON.stringify(data,"",true,true))
 	print("SCENERY_TRACE ",output); quit()

@@ -89,6 +89,6 @@ func run() -> void:
 		hierarchy_matches=hierarchy_matches and (accelerated.is_empty() if is_inf(earliest) else (not accelerated.is_empty() and absf(accelerated.fraction-earliest)<.00001))
 	check(hierarchy_matches,"Piece hierarchy matches exhaustive sweeps through a 64-piece formation")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/geology_v11")
-	FileAccess.open("res://artifacts/geology_v11/collision_tests.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/geology_v11/collision_tests.json",JSON.stringify({"checks":checks,"failures":failures},"\t"))
 	print("GEOLOGY_COLLISION ",checks," checks, ",failures.size()," failures")
 	quit(0 if failures.is_empty() else 1)

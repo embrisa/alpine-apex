@@ -75,7 +75,7 @@ func run() -> void:
 		if views or segments: await inspect_views()
 		if motion: await inspect_motion()
 		var views_report = {"version":version,"display":game.display_settings.report(root,actual_pixels),"captures":inspection_captures,"unranked":not game.session.eligible}
-		FileAccess.open(OUTPUT+"/views.json",FileAccess.WRITE).store_string(JSON.stringify(views_report,"\t"))
+		preload("res://tests/test_report.gd").write(OUTPUT+"/views.json",JSON.stringify(views_report,"\t"))
 		game.queue_free()
 		await process_frame
 		quit()
@@ -122,7 +122,7 @@ func run() -> void:
 	result.frame_ms = frame_timing(frames)
 	result.forest_frame_ms = frame_timing(forest_frames)
 	for segment in segment_frames: result.segments[segment] = timing(segment_frames[segment])
-	FileAccess.open(OUTPUT+"/native_%d_%s.json" % [side,weather],FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/native_%d_%s.json" % [side,weather],JSON.stringify(result,"\t"))
 	print("SHOWCASE_NATIVE ",JSON.stringify(result))
 	await capture("finish_%d_%s" % [side,weather])
 	game.queue_free()
@@ -200,7 +200,7 @@ func inspect_motion() -> void:
 						await process_frame
 						if frame in [30,31,32,60,90,120,179]: await capture(label+"_%03d" % frame,0)
 					clips.append({"clip":label,"crash":game.sim.crash_reason,"position":str(game.sim.position),"duration_s":3.0,"airtime_s":game.sim.total_airtime})
-	FileAccess.open(OUTPUT+"/motion.json",FileAccess.WRITE).store_string(JSON.stringify({"clips":clips,"physics_hz":120,"presentation_hz":60,"capture_overhead":true,"frames_per_clip":[30,31,32,60,90,120,179]},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/motion.json",JSON.stringify({"clips":clips,"physics_hz":120,"presentation_hz":60,"capture_overhead":true,"frames_per_clip":[30,31,32,60,90,120,179]},"\t"))
 
 func capture(label: String, settle_frames: int = 30) -> void:
 	for i in settle_frames: await process_frame

@@ -108,7 +108,7 @@ func run() -> void:
 		check(one.contact_count==1 and one.normal_load>0,"One ski supports independently when the other cannot reach")
 		_energy_and_hop()
 	var output = OUTPUT+("/baseline_contact.json" if baseline else "/contact.json")
-	FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify({"model":model.MODEL_VERSION,"checks":checks,"failures":failures,"bumps":rows,"unranked":true},"\t"))
+	preload("res://tests/test_report.gd").write(output,JSON.stringify({"model":model.MODEL_VERSION,"checks":checks,"failures":failures,"bumps":rows,"unranked":true},"\t"))
 	print("DOWNHILL_CONTACT_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"path":output}))
 	quit(0 if failures.is_empty() else 1)
 

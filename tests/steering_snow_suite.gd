@@ -64,6 +64,6 @@ func run():
 			check(pelvis_step<.04 and body_step<5.0,name+": intermediate pelvis and body remain continuous")
 			check(joint_step<.08,name+": connected joints stay continuous through hold, taps, reversals and release")
 			cases.append({"name":name,"peak_pelvis":peak_pelvis,"opposite_body_deg":wrong_body,"opposite_torso_deg":wrong_torso,"opposite_pelvis_m":wrong_pelvis,"pelvis_step_m":pelvis_step,"body_step_deg":body_step,"joint_step_m":joint_step,"crash":sim.crash_reason,"trace":trace})
-	DirAccess.make_dir_recursive_absolute(output.get_base_dir()); FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"model":Sim.MODEL_VERSION,"cases":cases},"\t"))
+	DirAccess.make_dir_recursive_absolute(output.get_base_dir()); preload("res://tests/test_report.gd").write(output,JSON.stringify({"checks":checks,"failures":failures,"model":Sim.MODEL_VERSION,"cases":cases},"\t"))
 	print("STEERING_SNOW_SUITE ",checks," checks; failures=",JSON.stringify(failures))
 	visual.queue_free(); await process_frame; quit(0 if failures.is_empty() else 1)

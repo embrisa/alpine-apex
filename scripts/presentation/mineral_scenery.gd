@@ -20,6 +20,10 @@ var high_macros: Dictionary={}
 var pending_macros: Array=[]
 var macro_ready=false
 var macro_timer=0.0
+## Macro texture swaps in flight: id -> {paths, high}. Sources load on the
+## resource loader thread; the swap itself stays on the main thread.
+var macro_loads: Dictionary={}
+const MACRO_CHANNELS=["albedo","normal","roughness"]
 
 func build(source, assets, profile, checkpoint: Callable = Callable(), preparation = null) -> void:
 	field=source; library=assets; quality=profile
@@ -87,11 +91,15 @@ func _material(row: Dictionary) -> ShaderMaterial:
 	_set_textures(material,row,quality)
 	return material
 
-func _set_textures(material: ShaderMaterial, row: Dictionary, profile) -> void:
+func _set_textures(material: ShaderMaterial, row: Dictionary, profile, preloaded: Dictionary={}) -> void:
 	var level: String=["low","balanced","high"][profile.texture_tier]
 	if stream_macro_textures and profile.texture_tier==2 and macro_bounds.has(row.id) and not high_macros.has(row.id): level="balanced"
-	for channel in ["albedo","normal","roughness"]:
-		material.set_shader_parameter(channel+"_map",load(row.textures[level][channel]))
+	for channel in MACRO_CHANNELS:
+		# Streamed swaps pass textures the loader thread already produced; the
+		# resource cache only holds weak references, so an unheld result would
+		# be reloaded from disk here.
+		var texture: Texture2D=preloaded[channel] if preloaded.has(channel) else load(row.textures[level][channel])
+		material.set_shader_parameter(channel+"_map",texture)
 	material.set_shader_parameter("snow_albedo",library.texture("snow","albedo"))
 	material.set_shader_parameter("snow_normal",library.texture("snow","normal"))
 	material.set_shader_parameter("terrain_rock",library.texture("rock","albedo"))
@@ -127,7 +135,7 @@ func apply_quality(profile) -> void:
 	var textures_changed = quality==null or quality.texture_tier!=profile.texture_tier
 	quality=profile
 	if textures_changed:
-		high_macros.clear(); pending_macros.clear(); macro_timer=0.0
+		high_macros.clear(); pending_macros.clear(); macro_loads.clear(); macro_timer=0.0
 		for id in materials: _set_textures(materials[id],rows[id],profile)
 	for batch in batches:
 		var category: String=batch.get_meta("category")
@@ -164,12 +172,37 @@ func _process(dt: float) -> void:
 		if frame_costs: frame_costs.end(&"stream_mineral_scan",scan_started)
 	# Shared source textures change at most twice per frame. Geometry and all
 	# collision remain resident; distant macro formations use their authored mips.
+	# Multi-megabyte sources load on the resource loader thread first; the swap
+	# waits for every channel so a formation never mixes tiers.
+	if gravel and gravel.frame_costs!=frame_costs: gravel.frame_costs=frame_costs
 	for i in mini(2,pending_macros.size()):
-		var texture_started = frame_costs.begin() if frame_costs else 0
 		var item: Dictionary=pending_macros.pop_front()
-		if item.high: high_macros[item.id]=true
-		else: high_macros.erase(item.id)
-		_set_textures(materials[item.id],rows[item.id],quality)
+		if macro_loads.has(item.id): continue # In flight; the next scan re-evaluates.
+		var level: String="high" if item.high else "balanced"
+		var paths: Array=[]
+		for channel in MACRO_CHANNELS:
+			var path: String=rows[item.id].textures[level][channel]
+			paths.append(path)
+			if not ResourceLoader.has_cached(path): ResourceLoader.load_threaded_request(path)
+		macro_loads[item.id]={"paths":paths,"high":item.high}
+	var swaps=0
+	for id in macro_loads.keys():
+		if swaps>=2: break
+		var entry: Dictionary=macro_loads[id]
+		var ready=true
+		for path in entry.paths:
+			if ResourceLoader.load_threaded_get_status(path)==ResourceLoader.THREAD_LOAD_IN_PROGRESS: ready=false
+		if not ready: continue
+		macro_loads.erase(id); swaps+=1
+		var texture_started = frame_costs.begin() if frame_costs else 0
+		var textures: Dictionary={}
+		for c in MACRO_CHANNELS.size():
+			var path: String=entry.paths[c]
+			# Hold every result: the cache is weak and a dropped reference is reloaded synchronously.
+			textures[MACRO_CHANNELS[c]]=ResourceLoader.load_threaded_get(path) if ResourceLoader.load_threaded_get_status(path)==ResourceLoader.THREAD_LOAD_LOADED else load(path)
+		if entry.high: high_macros[id]=true
+		else: high_macros.erase(id)
+		_set_textures(materials[id],rows[id],quality,textures)
 		if frame_costs: frame_costs.end(&"stream_mineral_textures",texture_started)
 	if frame_costs: frame_costs.end(&"mineral_streaming",started)
 

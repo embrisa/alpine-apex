@@ -124,7 +124,7 @@ func run() -> void:
 	var end_hashes: Dictionary = {}
 	for path in source_hashes: end_hashes[path] = FileAccess.get_sha256("res://"+path)
 	var report = {"checks":checks,"failures":failures,"captures":captures,"timings":timings,"rendered":rendered,"engine":Engine.get_version_info().string,"device":RenderingServer.get_video_adapter_name(),"source_before":source_hashes,"source_after":end_hashes,"sources_unchanged":source_hashes==end_hashes,"scenic_views":game.menu_camera.shots.size()}
-	FileAccess.open(output+"/review_%s.json" % ("native" if rendered else "headless"),FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/review_%s.json" % ("native" if rendered else "headless"),JSON.stringify(report,"\t"))
 	print("LIVE_MENU_RESULTS ",checks," checks, ",failures.size()," failures")
 	game.effects.stop_audio()
 	game.queue_free()

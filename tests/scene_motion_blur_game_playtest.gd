@@ -54,7 +54,7 @@ func run() -> void:
 	check(not game.scene_motion_blur.enabled,"Paused settings suppress compositor")
 	check(not game.preferences_enabled and not game.session.eligible,"No personal preferences or ranked records")
 	var report = {"checks":checks,"failures":failures,"phases":phases,"engine":Engine.get_version_info(),"engine_sha256":FileAccess.get_sha256(OS.get_executable_path()),"output_pixels":root.size,"fps_cap":30,"performance_acceptance":false,"scenario":"3 s lab at 160 km/h: straight, carve, jump release, reverse carve, brake/manual look; repeat per view/strength"}
-	FileAccess.open(output+"/report.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/report.json",JSON.stringify(report,"\t"))
 	print("SCENE_BLUR_GAME_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"output":output}))
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

@@ -28,7 +28,7 @@ func run() -> void:
 	if chosen.size()<2: failures.append("Fewer than two baseline snow crossings exercise unwanted air")
 	if sources!=source_hashes(): failures.append("Source changed during mountain comparison")
 	var report = {"model":Sim.MODEL_VERSION,"baseline_model":baseline.MODEL_VERSION,"generator":15,"seed":849205174,"settings":field.generation_settings,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"engine":Engine.get_version_info(),"engine_sha256":FileAccess.get_sha256(OS.get_executable_path()),"sources":sources,"rows":rows,"render_cases":chosen.slice(0,3),"render_selection":"First three baseline crossings with no crash/rock and more than 0.1 s airtime; independent of candidate results","failures":failures,"unranked":true}
-	FileAccess.open(OUTPUT+"/mountain.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/mountain.json",JSON.stringify(report,"\t"))
 	print("SNOW_MOUNTAIN_COMPLETE rows=",rows.size()," render candidates=",chosen.size()," failures=",failures)
 	quit(0 if failures.is_empty() else 1)
 

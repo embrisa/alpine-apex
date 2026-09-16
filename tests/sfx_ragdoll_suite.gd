@@ -49,6 +49,6 @@ func run() -> void:
 	await process_frame
 	var report={"checks":checks,"failures":failures,"events":total_events,"max_reports":max_reports,"contact_max_us":sampler.max_update_us,"capture_max_bone_us":sampler.capture_max_bone_us,"capture_sum_max_us":sampler.capture_sum_max_us}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/sfx")
-	FileAccess.open("res://artifacts/sfx/ragdoll_suite.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/sfx/ragdoll_suite.json",JSON.stringify(report,"\t"))
 	print("SFX_RAGDOLL_RESULT ",JSON.stringify(report))
 	quit(0 if failures.is_empty() else 1)

@@ -70,7 +70,7 @@ func run() -> void:
 			require(int(family_counts.get(category+"/"+family,0)) == 4, category+"/"+family+": four shapes")
 	require(results.size() == 120, "120 total mineral assets")
 	var output := {"passed":failures.is_empty(),"asset_count":results.size(),"categories":counts,"failures":failures,"assets":results}
-	var file := FileAccess.open("res://artifacts/minerals/godot_validation.json", FileAccess.WRITE)
+	var file := preload("res://tests/test_report.gd").open_write("res://artifacts/minerals/godot_validation.json")
 	file.store_string(JSON.stringify(output, "\t"))
 	print("MINERAL_ASSET_SUITE ", results.size(), " assets; ", failures.size(), " failures")
 	quit(0 if failures.is_empty() else 1)

@@ -72,12 +72,12 @@ func run():
 		root.get_texture().get_image().save_jpg(output+"/frame_%03d.jpg"%frame,.9)
 	var stable=true
 	for path in hashes: stable=stable and hashes[path]==FileAccess.get_sha256("res://"+path)
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify({"model":model.MODEL_VERSION,"reference":reference,"depth":depth,"view":view,"engine":Engine.get_version_info().string,"sources":hashes,"stable_sources":stable,"ticks":sim.ticks,"crash":sim.crash_reason,"rows":rows,"recovery_entries":recovery_entries,"max_joint_step":max_joint_step,"human_acceptance":false}))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify({"model":model.MODEL_VERSION,"reference":reference,"depth":depth,"view":view,"engine":Engine.get_version_info().string,"sources":hashes,"stable_sources":stable,"ticks":sim.ticks,"crash":sim.crash_reason,"rows":rows,"recovery_entries":recovery_entries,"max_joint_step":max_joint_step,"human_acceptance":false}))
 	DirAccess.make_dir_recursive_absolute(output+"/capture")
 	var captured_sources={}
 	for path in hashes: captured_sources["res://"+path]=hashes[path]
-	FileAccess.open(output+"/capture/manifest.json",FileAccess.WRITE).store_string(JSON.stringify({"stable_sources":stable,"sources":captured_sources,"failures":[],"model":model.MODEL_VERSION,"reference":reference}))
-	FileAccess.open(output+"/capture/firm_carve.json",FileAccess.WRITE).store_string(JSON.stringify({"frames":poses}))
+	preload("res://tests/test_report.gd").write(output+"/capture/manifest.json",JSON.stringify({"stable_sources":stable,"sources":captured_sources,"failures":[],"model":model.MODEL_VERSION,"reference":reference}))
+	preload("res://tests/test_report.gd").write(output+"/capture/firm_carve.json",JSON.stringify({"frames":poses}))
 	print("FIRM_CARVE_CAPTURE ",output," ticks=",sim.ticks," stable=",stable," crash=",sim.crash_reason)
 	scene.queue_free(); await process_frame; quit(0 if stable and not sim.crashed else 1)
 

@@ -82,7 +82,7 @@ func run() -> void:
 	game._process(DT)
 	await capture("crash_label_fixture","IMPACT LIMIT",true)
 	var report = {"captures":captures,"failures":failures,"device":RenderingServer.get_video_adapter_name(),"renderer":RenderingServer.get_current_rendering_driver_name(),"human_playtest":false}
-	FileAccess.open(OUT+"native.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUT+"native.json",JSON.stringify(report,"\t"))
 	print("IMPACT_NATIVE ",JSON.stringify(report))
 	game.active = false
 	game.effects.stop_audio()

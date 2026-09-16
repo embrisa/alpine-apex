@@ -114,7 +114,7 @@ func receive(snapshot: Dictionary) -> void:
 	result = snapshot; received = true
 
 func finish(scope: String) -> void:
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"scope":scope},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify({"checks":checks,"failures":failures,"scope":scope},"\t"))
 	print("LOCAL_SNOW_BOUNDARY_CHECKS ",checks," failures=",failures," scope=",scope)
 	powder.queue_free()
 	await process_frame

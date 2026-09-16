@@ -142,7 +142,7 @@ func run() -> void:
 	timing.finish()
 	metrics.checks = checks
 	metrics.failures = failures
-	var file = FileAccess.open("res://artifacts/physics_results.json",FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write("res://artifacts/physics_results.json")
 	file.store_string(JSON.stringify(metrics,"\t"))
 	print("PHYSICS_RESULTS ",JSON.stringify(metrics))
 	print("%d/%d checks passed" % [checks-failures.size(),checks])

@@ -99,7 +99,7 @@ func run() -> void:
 	var survivors = Records.selected(path,identity,loaded.runs,Records.default_selection())
 	check(survivors.unavailable.has(missing.id) and survivors.runs.size()<10 and not survivors.runs.is_empty(),"One missing payload does not block remaining valid ghosts")
 	var before = FileAccess.get_sha256(Records.path_for(path))
-	FileAccess.open(directory.path_join("blocked"),FileAccess.WRITE).store_string("fixture")
+	preload("res://tests/test_report.gd").write(directory.path_join("blocked"),"fixture")
 	var error = Records.save(directory.path_join("blocked/race.json"),identity,best,[-1.0,-1.0,-1.0],history,loaded.runs,selection)
 	check(not error.is_empty() and FileAccess.get_sha256(Records.path_for(path))==before,"Failed write leaves the committed manifest intact")
 	for distance in [0.0,1.199,1.2,1.201,3.999,4.0,4.001,749.9,750.0,750.1,2000.0]:
@@ -113,7 +113,7 @@ func run() -> void:
 	if "--max-duration" in OS.get_cmdline_user_args(): _maximum_archive(identity)
 	var report = {"checks":checks,"failures":failures,"metrics":metrics,"isolated_store":directory,"rendered_acceptance":"not performed by this suite"}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/ghost")
-	FileAccess.open("res://artifacts/ghost/archive_results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/ghost/archive_results.json",JSON.stringify(report,"\t"))
 	print("GHOST_ARCHIVE_RESULTS ",JSON.stringify(report))
 	quit(0 if failures.is_empty() else 1)
 

@@ -134,7 +134,7 @@ func run() -> void:
 		report.cache_warm_ms=warm.generation_ms
 		warm = null
 		reports.append(report)
-		FileAccess.open("res://artifacts/alpine_v13/survey_%d.json" % seed_value,FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
-	FileAccess.open("res://artifacts/alpine_v13/generation_tests.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"seeds":reports},"\t"))
+		preload("res://tests/test_report.gd").write("res://artifacts/alpine_v13/survey_%d.json" % seed_value,JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/alpine_v13/generation_tests.json",JSON.stringify({"checks":checks,"failures":failures,"seeds":reports},"\t"))
 	print("ALPINE_V13_RESULTS ",checks," checks; ",failures.size()," failures")
 	quit(0 if failures.is_empty() else 1)

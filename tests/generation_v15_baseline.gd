@@ -28,7 +28,7 @@ func run() -> void:
 		failed = failed or not wrote or not row.cache_hit or not row.cache_matches or not row.matches_first
 		report.runs.append(row)
 		DirAccess.make_dir_recursive_absolute("res://artifacts/generation_v15")
-		FileAccess.open("res://artifacts/generation_v15/v15_baseline.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+		preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/v15_baseline.json",JSON.stringify(report,"\t"))
 		print("V15_PROFILE_RUN ",JSON.stringify(row))
 	print("V15_PROFILE_COMPLETE failed=",failed)
 	quit(1 if failed else 0)

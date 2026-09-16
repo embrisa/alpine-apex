@@ -147,7 +147,7 @@ func run():
 		report.frame_ms = stats(frames); report.render_cpu_ms = stats(render_cpu); report.render_gpu_ms = stats(gpu)
 		report.fixed_tick_us = stats(tick_us); report.peak_video_bytes = peak_video; report.peak_engine_static_bytes = peak_static
 		report.motion_cost_us = {"fixed_tick_sampler":stats(motion_step_us),"render_interpolation":stats(motion_interpolation_us),"source_pose_fitting":stats(motion_fit_us),"physical_leg_fitting":stats(binding_us),"complete_character_pose":stats(character_us)}
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report,"\t"))
 	print("MOTION_NATIVE_COMPLETE cases=",evidence.size()," physics=",game.sim.MODEL_VERSION," failures=",failures," output=",output)
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)
@@ -289,7 +289,7 @@ func ride(request: Dictionary):
 	row.max_air_step_deg = rad_to_deg(max_air_step)
 	row.max_air_acceleration_rad_s2 = max_air_acceleration
 	row.orientation_trace = orientation_trace
-	FileAccess.open(output+"/"+request.name+"_motion.json",FileAccess.WRITE).store_string(JSON.stringify({"trace":motion_trace,"sampler_us":stats(sampler_us),"fitting_us":stats(fitting_us),"interpolation_us":stats(interpolation_us),"leg_fit_us":stats(leg_fit_us),"character_pose_us":stats(character_pose_us),"all_presentation_us":stats(final_pose_us)},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/"+request.name+"_motion.json",JSON.stringify({"trace":motion_trace,"sampler_us":stats(sampler_us),"fitting_us":stats(fitting_us),"interpolation_us":stats(interpolation_us),"leg_fit_us":stats(leg_fit_us),"character_pose_us":stats(character_pose_us),"all_presentation_us":stats(final_pose_us)},"\t"))
 	evidence.append(row)
 	print("MOTION_NATIVE_CASE ",request.name," model=",game.sim.MODEL_VERSION," crash=",game.sim.crash_reason)
 

@@ -39,5 +39,5 @@ func run() -> void:
 	if prep.ready or duration>2000: failures.append("Scenery cancellation exceeded checkpoint bound")
 	samples.append({"stage":"scenery_maps","join_ms":duration}); prep = null
 	var report = {"samples":samples,"failures":failures}
-	FileAccess.open("res://artifacts/generation_v15/cancellation.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/cancellation.json",JSON.stringify(report,"\t"))
 	print("V15_CANCELLATION ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)

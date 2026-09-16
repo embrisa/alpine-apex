@@ -96,7 +96,7 @@ func run() -> void:
 			var result = Survey.survey(field,face_index)
 			survey = []
 			for path in result.paths: survey.append(path.map(func(p): return [p.x,p.y]))
-			FileAccess.open(survey_path,FileAccess.WRITE).store_string(JSON.stringify({"identity":identity(field),"paths":survey}))
+			preload("res://tests/test_report.gd").write(survey_path,JSON.stringify({"identity":identity(field),"paths":survey}))
 		for side in range(survey.size()):
 			if survey[side].is_empty(): continue
 			var sim = Simulation.new(preload("res://config/ski_default.tres").duplicate(true))
@@ -114,10 +114,10 @@ func run() -> void:
 				if sim.crashed or field.reached_base(sim.position): break
 			var result = {"face":face_index,"side":side,"ticks":ticks,"seconds":ticks/120.0,"finished":field.reached_base(sim.position),"crash":sim.crash_reason,"position":[sim.position.x,sim.position.y,sim.position.z]}
 			attempts.append(result)
-			FileAccess.open(OUTPUT+"/trace_attempts.json",FileAccess.WRITE).store_string(JSON.stringify(attempts,"\t"))
+			preload("res://tests/test_report.gd").write(OUTPUT+"/trace_attempts.json",JSON.stringify(attempts,"\t"))
 			print("TRACE_RESULT ",JSON.stringify(result))
 			if result.finished and not sim.crashed:
-				var trace_file = FileAccess.open(trace_output,FileAccess.WRITE)
+				var trace_file = preload("res://tests/test_report.gd").open_write(trace_output)
 				if trace_file==null: printerr("Cannot write trace: ",trace_output," error=",FileAccess.get_open_error()); quit(2); return
 				trace_file.store_string(JSON.stringify(Inputs.storage({"identity":identity(field),"input_fields":Inputs.FIELDS,"seed":849205174,"face":face_index,"heading":heading,"command_ticks":12,"commands":commands,"result":result}),"",true,true))
 				quit(0); return

@@ -31,6 +31,6 @@ func run() -> void:
 				found = true; break
 	if chosen.size()<2: failures.append("Could not find two clear real-terrain crushing fixtures")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/snow_crush_v26")
-	FileAccess.open(OUTPUT,FileAccess.WRITE).store_string(JSON.stringify({"model":Sim.MODEL_VERSION,"version":14,"seed":849205174,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"selection_attempts":attempts,"cases":chosen,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT,JSON.stringify({"model":Sim.MODEL_VERSION,"version":14,"seed":849205174,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"selection_attempts":attempts,"cases":chosen,"failures":failures},"\t"))
 	print("CRUSH_MOUNTAIN failures=",failures)
 	quit(0 if failures.is_empty() else 1)

@@ -105,6 +105,6 @@ func verify_gpu() -> void:
 	var retained = game.effects.snow_tracks.written==written
 	var exact = original==field.heights.to_byte_array()
 	var report = {"gpu_recess_m":recess,"gpu_lip_m":lip,"bounded_signed_height":valid,"low_restores_base":low_ok,"quality_retains_tracks":retained,"physical_surface_unchanged":exact}
-	FileAccess.open(OUTPUT+"/gpu_impressions.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/gpu_impressions.json",JSON.stringify(report,"\t"))
 	print("POWDER_GPU ",JSON.stringify(report))
 	if not (valid and low_ok and retained and exact): quit(3)

@@ -82,7 +82,7 @@ func run() -> void:
 		require(results.size() == 120, "120 detail assets")
 	var report := {"passed":failures.is_empty(),"partial":partial,"asset_count":results.size(),"categories":counts,"failures":failures,"assets":results}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/minerals_v3")
-	var file := FileAccess.open("res://artifacts/minerals_v3/godot_validation.json", FileAccess.WRITE)
+	var file := preload("res://tests/test_report.gd").open_write("res://artifacts/minerals_v3/godot_validation.json")
 	file.store_string(JSON.stringify(report,"\t"))
 	print("MINERAL_DETAIL_SUITE ",results.size()," assets; ",failures.size()," failures")
 	quit(0 if failures.is_empty() else 1)

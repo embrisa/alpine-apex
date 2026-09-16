@@ -10,7 +10,7 @@ func run() -> void:
 	var field = load("res://scripts/world/mountain_cache_v%d.gd" % version).generate(seed_value)
 	var report = measure(field)
 	DirAccess.make_dir_recursive_absolute("res://artifacts/alpine_v12")
-	FileAccess.open("res://artifacts/alpine_v12/probe_v%d_%d.json" % [version,seed_value],FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/alpine_v12/probe_v%d_%d.json" % [version,seed_value],JSON.stringify(report,"\t"))
 	print("TERRAIN_PROBE ",JSON.stringify(report))
 	quit()
 

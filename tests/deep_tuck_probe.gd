@@ -34,5 +34,5 @@ func run():
 		for id in skier.rendered_rotations: row.rotations[id] = var_to_str(skier.rendered_rotations[id].get_rotation_quaternion())
 		rows.append(row)
 	DirAccess.make_dir_recursive_absolute("res://artifacts/deep_tuck")
-	FileAccess.open("res://artifacts/deep_tuck/probe.json",FileAccess.WRITE).store_string(JSON.stringify(rows,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/deep_tuck/probe.json",JSON.stringify(rows,"\t"))
 	skier.queue_free(); await process_frame; quit()

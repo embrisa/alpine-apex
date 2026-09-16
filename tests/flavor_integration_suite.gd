@@ -70,6 +70,6 @@ func run() -> void:
 	adapter.unregister_props(1)
 	check(adapter.indexed.is_empty() and adapter.grid.is_empty(),"Removal clears the collision spatial index")
 	var out={"checks":checks,"failures":failures,"sites":layout.sites.size(),"assets":layout.placements.size(),"ids":ids.keys(),"fingerprint":layout.fingerprint,"other_seeds":other_layouts,"elapsed_ms":(Time.get_ticks_usec()-begin)/1000.,"placements":layout.placements,"suggested":race.to_data() if race else {}}
-	FileAccess.open("res://artifacts/flavor_integration/data_results.json",FileAccess.WRITE).store_string(JSON.stringify(out,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/flavor_integration/data_results.json",JSON.stringify(out,"\t"))
 	print("FLAVOR_INTEGRATION ",JSON.stringify({"checks":checks,"failures":failures,"sites":layout.sites.size(),"assets":layout.placements.size(),"ids":ids.keys()}))
 	quit(0 if failures.is_empty() else 1)

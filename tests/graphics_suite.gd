@@ -103,7 +103,7 @@ func run() -> void:
 	check(game.effects.track_cursor==0,"Restart clears the bounded track ring")
 	_snow_effect_checks(game)
 	var result = {"checks":checks,"failures":failures}
-	FileAccess.open("res://artifacts/graphics_results.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/graphics_results.json",JSON.stringify(result,"\t"))
 	print("GRAPHICS_RESULTS ",JSON.stringify(result))
 	game.queue_free()
 	await process_frame

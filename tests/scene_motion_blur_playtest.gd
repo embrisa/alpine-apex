@@ -72,7 +72,7 @@ func run() -> void:
 	for i in 5: await process_frame
 	check(blur.status().dispatches==before,"Off dispatches no blur pass")
 	var report = {"checks":checks,"failures":failures,"phases":phases,"engine":Engine.get_version_info(),"executable":OS.get_executable_path(),"engine_sha256":FileAccess.get_sha256(OS.get_executable_path()),"device":RenderingServer.get_video_adapter_name(),"fps_cap":30,"performance_acceptance":false,"fullscreen":"deferred while user is raiding"}
-	FileAccess.open(output+"/report.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/report.json",JSON.stringify(report,"\t"))
 	print("SCENE_BLUR_NATIVE_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"output":output}))
 	graphics.frame_generation = false; graphics.apply_viewport(root)
 	for i in 4: await process_frame

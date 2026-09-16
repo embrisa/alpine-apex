@@ -30,7 +30,7 @@ func run():
 	replay_checks()
 	camera_parity()
 	DirAccess.make_dir_recursive_absolute("res://artifacts/jump_v13")
-	FileAccess.open("res://artifacts/jump_v13/control_results.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"metrics":metrics},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/jump_v13/control_results.json",JSON.stringify({"checks":checks,"failures":failures,"metrics":metrics},"\t"))
 	print("AIRBORNE_CONTROL_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"metrics":metrics}))
 	quit(0 if failures.is_empty() else 1)
 func parity():

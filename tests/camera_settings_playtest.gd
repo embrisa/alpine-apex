@@ -87,7 +87,7 @@ func inspect_massif() -> void:
 	await camera_capture("settings_reset","reset restores Connected and typed controls")
 	game.automated = true
 	var report = {"captures":camera_frames,"failures":camera_failures,"actual_pixels":[actual_pixels.x,actual_pixels.y],"hardware_input_verified":false,"preferences_written":game.preferences_enabled,"generator":version,"seed":mountain_seed,"model":game.sim.MODEL_VERSION,"engine":Engine.get_version_info().string,"display":game.display_settings.report(root,actual_pixels),"camera_sha256":FileAccess.get_sha256("res://scripts/presentation/chase_camera.gd"),"settings_sha256":FileAccess.get_sha256("res://scripts/presentation/camera_settings.gd")}
-	FileAccess.open(OUTPUT+"/camera_settings_review.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/camera_settings_review.json",JSON.stringify(report,"\t"))
 	print("CAMERA_SETTINGS_REVIEW ",JSON.stringify({"captures":camera_frames.size(),"failures":camera_failures}))
 
 func riding_settings_review() -> void:

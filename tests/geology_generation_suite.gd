@@ -63,7 +63,7 @@ func run() -> void:
 				check(clear,"Seed %d face %d side %d drainage is clear" % [seed_value,face.index,side])
 		var cached={"heights":field.heights,"placements":field.geology.placements,"stats":field.geology.statistics,
 			"exposure":field.exposure_image.get_data(),"obstacles":field.obstacles,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum}
-		FileAccess.open("res://artifacts/geology_v11/field_%d.bin" % seed_value,FileAccess.WRITE).store_var(cached,false)
+		preload("res://tests/test_report.gd").write_var("res://artifacts/geology_v11/field_%d.bin" % seed_value,cached,false)
 		reports.append({"seed":seed_value,"generation_ms":field.generation_ms,"statistics":field.geology.statistics,
 			"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum})
 		field=null
@@ -74,6 +74,6 @@ func run() -> void:
 			var warm=Cache.generate(seed_value)
 			check(warm.cache_hit and warm.height_checksum==cached.height_sha256 and warm.obstacle_checksum==cached.obstacle_sha256,"Seed %d warm cache reconstructs both fingerprints" % seed_value)
 			warm=null
-	FileAccess.open("res://artifacts/geology_v11/generation_tests.json",FileAccess.WRITE).store_string(JSON.stringify({"failures":failures,"seeds":reports},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/geology_v11/generation_tests.json",JSON.stringify({"failures":failures,"seeds":reports},"\t"))
 	print("GEOLOGY_GENERATION ",reports.size()," seeds; ",failures.size()," failures")
 	quit(0 if failures.is_empty() else 1)

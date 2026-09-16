@@ -34,5 +34,5 @@ func run() -> void:
 			reports.append(result)
 			if not result.finished or sim.crashed: failures.append(result)
 			print("ALPINE_SKI_RESULT ",JSON.stringify(result))
-	FileAccess.open("res://artifacts/alpine_v12/descents.json",FileAccess.WRITE).store_string(JSON.stringify({"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"pilot_version":Pilot.VERSION,"runs":reports,"failures":failures,"unranked":true},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/alpine_v12/descents.json",JSON.stringify({"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"pilot_version":Pilot.VERSION,"runs":reports,"failures":failures,"unranked":true},"\t"))
 	quit(0 if failures.is_empty() else 1)

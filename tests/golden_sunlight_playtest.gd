@@ -50,7 +50,7 @@ func inspect_views() -> void:
 	game.camera.make_current()
 	game.weather.set_time_of_day("day")
 	game.set_process(true)
-	FileAccess.open(OUTPUT+"/fixtures.json",FileAccess.WRITE).store_string(JSON.stringify(fixture_metadata,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/fixtures.json",JSON.stringify(fixture_metadata,"\t"))
 	if "--include-canopy" in OS.get_cmdline_user_args(): await inspect_canopy()
 
 func capture(label: String, settle_frames: int = 30) -> void:
@@ -96,7 +96,7 @@ func inspect_canopy() -> void:
 			game.world.sun.shadow_enabled = false
 			await capture(label+"_occlusion_off",30)
 			game.world.sun.shadow_enabled = true
-	FileAccess.open(OUTPUT+"/fixtures.json",FileAccess.WRITE).store_string(JSON.stringify(fixture_metadata,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/fixtures.json",JSON.stringify(fixture_metadata,"\t"))
 	observer.queue_free()
 	game.camera.make_current()
 	game.skier.show()
@@ -123,7 +123,7 @@ func inspect_quality() -> void:
 		game.set_graphics_quality(level)
 		game.world.update_weather(game.weather.state,0.0,false)
 		await capture("quality_"+game.graphics.label(),60)
-	FileAccess.open(OUTPUT+"/fixtures.json",FileAccess.WRITE).store_string(JSON.stringify(fixture_metadata,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/fixtures.json",JSON.stringify(fixture_metadata,"\t"))
 	observer.queue_free()
 	game.camera.make_current()
 	game.skier.show()

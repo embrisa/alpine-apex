@@ -234,4 +234,4 @@ func timings() -> void:
 
 func save_report() -> void:
 	var report = {"engine":Engine.get_version_info(),"engine_sha256":FileAccess.get_sha256(OS.get_executable_path()),"backend":RenderingServer.get_current_rendering_driver_name(),"device":RenderingServer.get_video_adapter_name(),"pixels":[actual_pixels.x,actual_pixels.y],"display":game.display_settings.report(root,actual_pixels),"load_ms":load_ms,"cache_hit":field.cache_hit,"height_sha256":field.height_checksum,"model":game.sim.MODEL_VERSION,"sources":source_identity,"samples":samples,"controls":controls,"failures":failures,"unranked":not game.session.eligible,"preferences_disabled":not game.preferences_enabled,"scope":"bounded matched scenarios; no full-descent or human acceptance; only crystal sampler differs"}
-	FileAccess.open(OUTPUT+"/report.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/report.json",JSON.stringify(report,"\t"))

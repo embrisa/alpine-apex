@@ -64,7 +64,7 @@ func run() -> void:
 		await process_frame
 		if frame in [0,29,59,119,179]: await capture("crash_%03d"%frame)
 	var result = {"unranked":not game.session.eligible,"failures":failures,"rendered_handling_seconds":22,"crash_seconds":3}
-	FileAccess.open(OUTPUT+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/results.json",JSON.stringify(result,"\t"))
 	print("HIGH_SPEED_BALANCE_VISUAL ",JSON.stringify(result))
 	game.queue_free()
 	await process_frame

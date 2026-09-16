@@ -26,7 +26,7 @@ func descent() -> void:
 	var report = {"scope":"Fixed skier pose and velocity; rendered audio-cost isolation, not a physics descent",
 		"actual_pixels":[actual_pixels.x,actual_pixels.y],"display":game.display_settings.report(root,actual_pixels),
 		"passes":passes,"unranked":not game.session.eligible}
-	FileAccess.open("res://artifacts/wind/ab_benchmark.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/wind/ab_benchmark.json",JSON.stringify(report,"\t"))
 	game.effects.stop_audio()
 	await create_timer(.18).timeout
 	smoke = true

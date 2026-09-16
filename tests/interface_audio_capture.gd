@@ -69,7 +69,7 @@ func run() -> void:
  wav.save_to_wav("res://artifacts/interface_feedback/native_mixer_timeline.wav")
  if peak<=.0001: failures.append("No audible mixer output captured")
  var result = {"timeline":timeline,"mix_rate":wav.mix_rate,"frames":samples.size(),"peak":peak,"mute_peak":mute_peak,"failures":failures,"device_listening":"not performed"}
- FileAccess.open("res://artifacts/interface_feedback/native_mixer.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+ preload("res://tests/test_report.gd").write("res://artifacts/interface_feedback/native_mixer.json",JSON.stringify(result,"\t"))
  print("INTERFACE_AUDIO_CAPTURE ",JSON.stringify(result))
  AudioServer.remove_bus_effect(0,index)
  feedback.queue_free(); loading.queue_free()

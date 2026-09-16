@@ -174,7 +174,7 @@ func finish() -> void:
 	await process_frame
 	_cleanup(test_dir)
 	var output = {"checks":checks,"failures":failures,"captures":captures,"metrics":metrics}
-	FileAccess.open("res://artifacts/race_results%s.json" % ("_rendered" if DisplayServer.get_name()!="headless" else ""),FileAccess.WRITE).store_string(JSON.stringify(output,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/race_results%s.json" % ("_rendered" if DisplayServer.get_name()!="headless" else ""),JSON.stringify(output,"\t"))
 	print("RACE_RESULTS ",JSON.stringify(output))
 	quit(0 if failures.is_empty() else 1)
 

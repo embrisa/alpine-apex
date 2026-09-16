@@ -137,7 +137,7 @@ func run() -> void:
 	DirAccess.make_dir_recursive_absolute("res://artifacts/terrain_grass_20260913")
 	var result={"checks":checks,"failures":failures,"sparse":sparse.size(),"forest":dense.size()}
 	var suffix="headless" if DisplayServer.get_name()=="headless" else "native"
-	FileAccess.open("res://artifacts/terrain_grass_20260913/suite_"+suffix+".json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/terrain_grass_20260913/suite_"+suffix+".json",JSON.stringify(result,"\t"))
 	print("TERRAIN_GRASS_RESULTS ",JSON.stringify(result)); quit(0 if failures.is_empty() else 1)
 func check_packing(grass, items: Array) -> void:
 	# Compare the packed worker result against the former per-instance server path.

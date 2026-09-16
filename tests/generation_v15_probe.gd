@@ -18,6 +18,6 @@ func run() -> void:
 		"cache_hit":field.cache_hit,"generation_ms":field.generation_ms,"stages":field.generation_stages,"work":job.snapshot().work,"population":field.population,
 		"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"snow":field.tree_snow_statistics,"memory_peak":OS.get_static_memory_peak_usage()}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/generation_v15")
-	FileAccess.open("res://artifacts/generation_v15/"+name+".json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/"+name+".json",JSON.stringify(report,"\t"))
 	print("V15_PROBE_READY ",JSON.stringify(report))
 	quit()

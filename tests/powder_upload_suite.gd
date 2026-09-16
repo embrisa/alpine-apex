@@ -58,7 +58,7 @@ func run() -> void:
 	if right_lip<=left_lip or right_lip<=0: failures.append("Raised powder lip opposes the requested world-space snow throw")
 	print("POWDER_UPLOAD ",checks," GPU checks (12 byte-exact uploads and world-side lip); failures=",failures)
 	DirAccess.make_dir_recursive_absolute("res://artifacts/fps_optimization")
-	FileAccess.open("res://artifacts/fps_optimization/powder_upload_checks.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/fps_optimization/powder_upload_checks.json",JSON.stringify({"checks":checks,"failures":failures},"\t"))
 	if "--profile-uploads" in OS.get_cmdline_user_args(): await profile_uploads()
 	surface.queue_free(); tracks.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)
@@ -103,4 +103,4 @@ func profile_uploads() -> void:
 		var row = preload("res://scripts/diagnostics/frame_costs.gd").stats(samples)
 		row.partial = partial; rows.append(row)
 		print("POWDER_SUBMISSION ",JSON.stringify(row))
-	FileAccess.open("res://artifacts/fps_optimization/powder_submission.json",FileAccess.WRITE).store_string(JSON.stringify({"scope":"Isolated native reconstruction and upload frame intervals; same GPU and alternating order. No full-descent FPS claim.","rows":rows},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/fps_optimization/powder_submission.json",JSON.stringify({"scope":"Isolated native reconstruction and upload frame intervals; same GPU and alternating order. No full-descent FPS claim.","rows":rows},"\t"))

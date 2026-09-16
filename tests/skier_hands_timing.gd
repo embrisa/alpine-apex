@@ -16,5 +16,5 @@ func _apply_hand_variant():
 	assert(not evidence_dir.is_empty())
 	var path = ProjectSettings.globalize_path("res://artifacts/"+evidence_dir)
 	assert(DirAccess.make_dir_recursive_absolute(path)==OK)
-	FileAccess.open(path+"/hand_variant.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(path+"/hand_variant.json",JSON.stringify(result,"\t"))
 	print("HAND_TIMING_VARIANT ",result)

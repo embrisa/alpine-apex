@@ -73,7 +73,7 @@ func run() -> void:
 		root.get_texture().get_image().save_png(out.path_join("tools_%dx%d.png"%[size.x,size.y]))
 	DisplayServer.clipboard_set(original_clipboard)
 	var result = {"checks":checks,"failures":failures,"build":build,"human_acceptance":false,"performance_evidence":false}
-	FileAccess.open(out.path_join("results.json"),FileAccess.WRITE).store_string(JSON.stringify(result,"\t",true,true))
+	preload("res://tests/test_report.gd").write(out.path_join("results.json"),JSON.stringify(result,"\t",true,true))
 	print("VERSIONING_MENU ",JSON.stringify(result))
 	game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

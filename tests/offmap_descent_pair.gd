@@ -30,6 +30,6 @@ func descent() -> void:
 			result.both_scenery_versions_resident = true
 			result.scenery_sha256 = game.world.wilderness.source_hashes()
 			trials.append(result)
-			FileAccess.open(output_root+"/paired.json",FileAccess.WRITE).store_string(JSON.stringify({"trials":trials,"same_process":true,"unranked":true},"\t"))
+			preload("res://tests/test_report.gd").write(output_root+"/paired.json",JSON.stringify({"trials":trials,"same_process":true,"unranked":true},"\t"))
 	fixture.select(game.world,false); fixture.dispose()
 	OUTPUT = output_root

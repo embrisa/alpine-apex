@@ -52,7 +52,7 @@ func run():
 	await RenderingServer.frame_post_draw
 	var pixels = root.get_texture().get_image().get_size()
 	var report = {"model":game.sim.MODEL_VERSION,"engine":Engine.get_version_info(),"seed":849205174,"generator":14,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"pixels":[pixels.x,pixels.y],"record_eligible":game.session.eligible,"sources":sources,"cases":rows,"fps":30,"capture_overhead_included":true}
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report,"\t"))
 	print("ARCADE_AIR_CAPTURE ",output," cases=",rows.size())
 	game.effects.stop_audio(); game.queue_free(); await process_frame; quit()
 

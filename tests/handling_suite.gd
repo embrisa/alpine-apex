@@ -73,5 +73,5 @@ func run() -> void:
 		for direction in [-1.0,1.0]:
 			fixture(mountain,120,direction,"mountain",z)
 	print("HANDLING_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"metrics":metrics}))
-	FileAccess.open("res://artifacts/handling/results.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"metrics":metrics},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/handling/results.json",JSON.stringify({"checks":checks,"failures":failures,"metrics":metrics},"\t"))
 	quit(0 if failures.is_empty() else 1)

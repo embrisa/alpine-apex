@@ -31,7 +31,7 @@ func run() -> void:
 	elif "--maximum-only" in OS.get_cmdline_user_args(): check(false,"--maximum-only requires an existing isolated --reuse-maximum path")
 	var report = {"checks":checks,"failures":failures,"metrics":metrics,"isolated_store":directory,"cold_maximum_latency":"Unresolved: prior ten x 600 s decode was 42764.478 ms. Cache only removes repeated validation of unchanged payloads.","rendered_acceptance":"not exercised"}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/ghost")
-	var file = FileAccess.open("res://artifacts/ghost/retry_cache_results.json",FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write("res://artifacts/ghost/retry_cache_results.json")
 	file.store_string(JSON.stringify(report,"\t",true,true)); file.close()
 	print("GHOST_RETRY_CACHE_RESULTS ",JSON.stringify(report))
 	quit(0 if failures.is_empty() else 1)
@@ -234,5 +234,5 @@ static func _same_replays(a: Array, b: Array) -> bool:
 	return true
 
 static func _write(path: String, bytes: PackedByteArray) -> void:
-	var file = FileAccess.open(path,FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write(path)
 	file.store_buffer(bytes); file.close()

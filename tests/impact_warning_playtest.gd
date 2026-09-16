@@ -58,7 +58,7 @@ func run() -> void:
 		"physics_model":game.sim.MODEL_VERSION,"source_hashes":source_hashes,"unranked":not game.session.eligible,"human_playtest":false,
 		"scope":"Fixed mountain views and diagnostic reserve ramps; timing includes rendering and screen updates, not a full skiing workload",
 		"capture_overhead_included":not timing,"world_build_ms":game.world.generation_ms}
-	FileAccess.open(OUT+("timing.json" if timing else "visual.json"),FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUT+("timing.json" if timing else "visual.json"),JSON.stringify(report,"\t"))
 	print("IMPACT_WARNING_NATIVE ",JSON.stringify(report))
 	game.active = false; game.effects.stop_audio(); game.queue_free()
 	await process_frame

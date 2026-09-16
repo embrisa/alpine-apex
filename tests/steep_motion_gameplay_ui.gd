@@ -33,6 +33,6 @@ func run():
 	check(game.sim.body.com==body_before and game.skier.animation.full_motion.sample(0)==game.skier.animation.full_motion.sample(1),"Paused comparison preserves physical mass state and a single pose timestamp")
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	var result = {"checks":checks,"failures":failures}
-	FileAccess.open("res://artifacts/steep_motion_gameplay/ui.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/steep_motion_gameplay/ui.json",JSON.stringify(result,"\t"))
 	print("MOTION_UI_RESULTS ",JSON.stringify(result))
 	quit(0 if failures.is_empty() else 1)

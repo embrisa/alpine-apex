@@ -137,7 +137,7 @@ func run() -> void:
 	await capture("night_crystals_disabled")
 	var night_crystal_pixels = changed_pixels(night_image,root.get_texture().get_image())
 	var report = {"captures":captures,"renderer":game.world.terrain_renderer,"eligible":game.session.eligible,"crashed":game.sim.crashed,"snow_depth_m":game.sim.snow_depth,"penetration_m":game.sim.snow_penetration,"snow_drag_m_s2":game.sim.snow_drag,"track_instances":game.effects.snow_tracks.written,"sun_crystal_pixels":crystal_pixels,"night_crystal_pixels":night_crystal_pixels,"sun_center_glints":sun_center_pixels,"shadow_center_glints":shade_center_pixels}
-	FileAccess.open(output+"/playtest_%s.json" % game.world.terrain_renderer,FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/playtest_%s.json" % game.world.terrain_renderer,JSON.stringify(report,"\t"))
 	print("SNOW_PLAYTEST ",JSON.stringify(report))
 	game.effects.stop_audio()
 	game.queue_free()

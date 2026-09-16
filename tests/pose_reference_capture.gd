@@ -59,7 +59,7 @@ func run():
 	report.sources_after = source_hashes()
 	report.stable_sources = report.sources==report.sources_after
 	if not report.stable_sources: report.failures.append("Production source changed during capture")
-	FileAccess.open(output+"/manifest.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/manifest.json",JSON.stringify(report,"\t"))
 	print("POSE_REVIEW_COMPLETE ",output," failures=",report.failures)
 	scene.queue_free(); await process_frame
 	quit(0 if report.failures.is_empty() else 1)
@@ -199,7 +199,7 @@ func capture_sequence(name: String,fixture: Dictionary):
 			picture.save_jpg(frame_folder+"/%04d.jpg"%frame,.94)
 		trace.append(row)
 		if sim.crashed: report.failures.append(name+": "+sim.crash_reason); break
-	FileAccess.open(output+"/"+name+".json",FileAccess.WRITE).store_string(JSON.stringify({"name":name,"fixture":pack(fixture),"events":events,"frames":trace},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/"+name+".json",JSON.stringify({"name":name,"fixture":pack(fixture),"events":events,"frames":trace},"\t"))
 	report.scenarios.append({"name":name,"frames":trace.size(),"fixture":pack(fixture),"events":events})
 	print("POSE_REVIEW_SEQUENCE ",name," frames=",trace.size()," events=",events)
 

@@ -55,10 +55,10 @@ func run():
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_jpg(output+"/frame_%03d.jpg"%(frame-240),.9)
 	var report={"fixture":Probe.ROUGH,"ticks":sim.ticks,"crash":sim.crash_reason,"rows":rows,"model":Probe.Hop.Sim.MODEL_VERSION,"reference_assist":reference,"native":DisplayServer.get_name()!="headless","engine":Engine.get_version_info(),"sources":sources,"stable_sources":sources==source_hashes(),"view":view,"height":field.height_checksum,"rendered_scenery":false,"human_acceptance":false}
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report))
 	DirAccess.make_dir_recursive_absolute(output+"/capture")
-	FileAccess.open(output+"/capture/manifest.json",FileAccess.WRITE).store_string(JSON.stringify({"stable_sources":report.stable_sources,"sources":sources,"failures":[]}))
-	FileAccess.open(output+"/capture/landing.json",FileAccess.WRITE).store_string(JSON.stringify({"frames":pose_frames}))
+	preload("res://tests/test_report.gd").write(output+"/capture/manifest.json",JSON.stringify({"stable_sources":report.stable_sources,"sources":sources,"failures":[]}))
+	preload("res://tests/test_report.gd").write(output+"/capture/landing.json",JSON.stringify({"frames":pose_frames}))
 	print("TERRAIN_SETTLE_CAPTURE ",output," ticks=",sim.ticks," frames=",pose_frames.size()," stable=",report.stable_sources)
 	scene.queue_free(); await process_frame; quit()
 func pack(value: Transform3D):

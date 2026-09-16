@@ -86,7 +86,7 @@ func _capture():
  if elapsed>=7.0:
   ready = false
   var result = {"rendered_frames":measured_frames,"captured_frames":captured,"max_rendered_ankle_gap_m":max_gap,"max_moving_gap_m":max_moving_gap,"max_paused_ski_step_m":max_paused_step,"speed_kmh":game.sim.velocity.length()*3.6,"unranked":not game.session.eligible}
-  FileAccess.open(output+"/metrics.json",FileAccess.WRITE).store_string(JSON.stringify(result,"  ")+"\n")
+  preload("res://tests/test_report.gd").write(output+"/metrics.json",JSON.stringify(result,"  ")+"\n")
   print("SKI_ATTACHMENT_VISUAL ",JSON.stringify(result))
   game.queue_free()
   quit()

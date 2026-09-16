@@ -108,7 +108,7 @@ func run() -> void:
 		"model":game.sim.MODEL_VERSION,"engine":Engine.get_version_info(),"device":RenderingServer.get_video_adapter_name(),
 		"sources":sources,"stable_sources":stable_sources,"unranked":not game.session.eligible,
 		"display":display_identity,"renderer_report":renderer_report,"cases":rows,"failures":failures}
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report,"\t"))
 	print("CARVING_RAISED_SKI_TRACKS ",output," failures=",failures)
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)
@@ -144,7 +144,7 @@ func ride(quality: String, scenario: String, warmup: bool = false, repetition: i
 	var label = "%s_%s_%d"%[quality,scenario,repetition]
 	var folder = output+"/"+label
 	if not warmup: DirAccess.make_dir_recursive_absolute(folder)
-	var telemetry = FileAccess.open(folder+"/frames.jsonl",FileAccess.WRITE) if not warmup else null
+	var telemetry = preload("res://tests/test_report.gd").open_write(folder+"/frames.jsonl") if not warmup else null
 	var costs: Array[float] = []
 	var gaps = [0,0]
 	var continued = [0,0]
@@ -310,9 +310,9 @@ func prepare_reference() -> bool:
 			printerr("Missing original baseline: ",path); return false
 		var source = FileAccess.get_file_as_string(path)
 		for dependency in names: source = source.replace("res://scripts/presentation/"+dependency,bundle+"/"+dependency)
-		FileAccess.open(bundle+"/"+name,FileAccess.WRITE).store_string(source)
+		preload("res://tests/test_report.gd").write(bundle+"/"+name,source)
 	var main_source = FileAccess.get_file_as_string("res://scripts/main.gd").replace("res://scripts/presentation/speed_effects.gd",bundle+"/speed_effects.gd")
-	FileAccess.open(output+"/main_reference.gd",FileAccess.WRITE).store_string(main_source)
+	preload("res://tests/test_report.gd").write(output+"/main_reference.gd",main_source)
 	return true
 
 func source_hashes() -> Dictionary:

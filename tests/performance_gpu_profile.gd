@@ -50,7 +50,7 @@ func dispose_comparison() -> void:
 	gpu_mutex.lock()
 	if frames_with_passes==0: failures.append("No native GPU passes captured; supply the engine --gpu-profile flag")
 	if dropped_frames>0: failures.append("GPU profile exceeded its 10000-frame bound; select a shorter diagnostic")
-	FileAccess.open(output+"/gpu_passes.json",FileAccess.WRITE).store_string(JSON.stringify({
+	preload("res://tests/test_report.gd").write(output+"/gpu_passes.json",JSON.stringify({
 		"scope":"Diagnostic native timestamps; GPU frames lag the requesting simulation tick. Exclude trial boundaries. No screenshot or device synchronization.",
 		"fields":["name","gpu_ns","cpu_us"],"frames_with_passes":frames_with_passes,"dropped_frames":dropped_frames,"frames":gpu_markers}))
 	gpu_mutex.unlock()
@@ -59,4 +59,4 @@ func dispose_comparison() -> void:
 	report.gpu_pass_profiling = true
 	report.gpu_passes_file = "gpu_passes.json"
 	report.failures = failures
-	FileAccess.open(path,FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(path,JSON.stringify(report,"\t"))

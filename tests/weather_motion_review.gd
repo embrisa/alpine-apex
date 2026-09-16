@@ -36,7 +36,7 @@ func run() -> void:
 		for preset in game.weather.PRESETS:
 			for band in ["dawn","day","dusk","night"]:
 				for close in [false,true]: await capture_clip(preset,band,close)
-	FileAccess.open(output+"/motion.json",FileAccess.WRITE).store_string(JSON.stringify({"clips":clips,"native_pixels":[1280,720],"fps":30,"capture_overhead":true,"unranked":not game.session.eligible},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/motion.json",JSON.stringify({"clips":clips,"native_pixels":[1280,720],"fps":30,"capture_overhead":true,"unranked":not game.session.eligible},"\t"))
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit()
 

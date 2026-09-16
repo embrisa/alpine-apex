@@ -86,7 +86,7 @@ func run() -> void:
 		if game.world.environment.sdfgi_enabled != game.display_settings.terrain_gi:
 			failures.append("SDFGI quality switching failed for tier %d" % level)
 	if game.session.eligible: failures.append("Lighting QA must remain unranked")
-	FileAccess.open(OUTPUT+"/results.json",FileAccess.WRITE).store_string(JSON.stringify({"captures":captures,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/results.json",JSON.stringify({"captures":captures,"failures":failures},"\t"))
 	print("SDFGI_LIGHTING_RESULTS ",JSON.stringify({"captures":captures.size(),"failures":failures}))
 	game.effects.stop_audio()
 	game.queue_free()

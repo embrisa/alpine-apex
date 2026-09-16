@@ -113,12 +113,12 @@ func save_clip(reason: String) -> void:
 	recorder.data.configuration_changed = configuration_changed
 	var name = "attempt_%03d.json" % attempt
 	var destination = record_directory+"/"+name
-	var handle = FileAccess.open(destination,FileAccess.WRITE)
+	var handle = preload("res://tests/test_report.gd").open_write(destination)
 	if handle==null: record_status.text = "Save failed. Keep this window open and tell Codex."; return
 	handle.store_string(JSON.stringify(Recorder.Inputs.storage(recorder.data),"",true,true)); handle.close()
 	last_saved = destination
 	var result = {"file":destination,"accepted":accepted,"scope":recorder.data.scope,"seconds":sim.ticks/120.0,"reason":reason,"error":recorder.failure}
-	FileAccess.open(record_directory+"/latest.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(record_directory+"/latest.json",JSON.stringify(result,"\t"))
 	print("RECORDING_SAVED ",JSON.stringify(result))
 	record_status.text = ("Saved · " if accepted else "Saved with capture issue · ")+Session.format_time(sim.ticks/120.0)+" · "+name
 	hud.show_menu("paused","Recording saved. Restart for another attempt, or close the game.")
@@ -153,6 +153,6 @@ func _record_smoke_test() -> void:
 	if last_saved==first or not FileAccess.file_exists(first) or not FileAccess.file_exists(last_saved): failures.append("Saved attempt was overwritten")
 	if preferences_enabled or session.eligible or automated: failures.append("Manual input or personal-data isolation changed")
 	var report = {"failures":failures,"first_clip":first,"second_clip":last_saved,"manual_input":not automated,"unranked":not session.eligible,"preferences_enabled":preferences_enabled}
-	FileAccess.open(record_directory+"/smoke.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(record_directory+"/smoke.json",JSON.stringify(report,"\t"))
 	print("RECORDING_SMOKE ",JSON.stringify(report))
 	effects.stop_audio(); get_tree().quit(0 if failures.is_empty() else 1)

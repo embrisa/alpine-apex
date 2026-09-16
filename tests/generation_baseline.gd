@@ -15,7 +15,7 @@ func run() -> void:
 		row.cache_matches = warm.height_checksum==row.height_sha256 and warm.obstacle_checksum==row.obstacle_sha256
 		warm = null
 		report.runs.append(row)
-		FileAccess.open("res://artifacts/generation_v15/v14_baseline.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+		preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/v14_baseline.json",JSON.stringify(report,"\t"))
 		print("V14_PROFILE_RUN ",JSON.stringify(row))
 	print("V14_PROFILE_COMPLETE")
 	quit()

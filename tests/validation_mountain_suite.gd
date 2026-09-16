@@ -11,7 +11,7 @@ func run() -> void:
 	var missing := directory.path_join("missing.physical")
 	check(Fixture.load_standard([missing]) == null and not FileAccess.file_exists(missing),"Missing fixture returns without baking or writing")
 	var bad := directory.path_join("corrupt.physical")
-	var file := FileAccess.open(bad,FileAccess.WRITE)
+	var file := preload("res://tests/test_report.gd").open_write(bad)
 	file.store_string("invalid archive"); file.close()
 	var before := FileAccess.get_sha256(bad)
 	check(Fixture.load_standard([bad]) == null and FileAccess.get_sha256(bad) == before,"Corrupt fixture is rejected without replacing it")

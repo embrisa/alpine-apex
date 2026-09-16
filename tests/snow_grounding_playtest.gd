@@ -36,7 +36,7 @@ func run() -> void:
 	# A test-only dynamic owner allows the frozen reference to use the same
 	# current presentation. The product's typed simulation remains unchanged.
 	var source = FileAccess.get_file_as_string("res://scripts/main.gd").replace("var sim: SkiSimulation","var sim")
-	FileAccess.open(output+"/comparison_main.gd",FileAccess.WRITE).store_string(source)
+	preload("res://tests/test_report.gd").write(output+"/comparison_main.gd",source)
 	game.set_script(load(output+"/comparison_main.gd"))
 	game.automated = true
 	root.add_child(game); current_scene = game
@@ -80,7 +80,7 @@ func run() -> void:
 		root.get_texture().get_image().save_png(output+"/ready.png")
 		var devices: Array = []
 		for device in Input.get_connected_joypads(): devices.append({"id":device,"name":Input.get_joy_name(device)})
-		FileAccess.open(output+"/ready.json",FileAccess.WRITE).store_string(JSON.stringify({"model":game.sim.MODEL_VERSION,"generator":15,"seed":849205174,"unranked":not game.session.eligible,"live_input":not game.automated,"paused":not game.active,"fixture":selected[fixture_index].fixture,"controllers":devices,"display":game.display_settings.report(root,actual),"sources":sources,"failures":failures},"\t"))
+		preload("res://tests/test_report.gd").write(output+"/ready.json",JSON.stringify({"model":game.sim.MODEL_VERSION,"generator":15,"seed":849205174,"unranked":not game.session.eligible,"live_input":not game.automated,"paused":not game.active,"fixture":selected[fixture_index].fixture,"controllers":devices,"display":game.display_settings.report(root,actual),"sources":sources,"failures":failures},"\t"))
 		print("SNOW_CONTROLLER_READY model=",game.sim.MODEL_VERSION," generator=15 unranked=true live_input=true F6=compare F7=retry F8=next controllers=",devices," failures=",failures)
 		return
 	if benchmark: process_frame.connect(measure_frame)
@@ -90,7 +90,7 @@ func run() -> void:
 		for chosen in selected: await ride(chosen.fixture)
 	if sources!=render_sources(): failures.append("Sources changed during rendered comparison")
 	var report = {"model":28,"baseline_model":27,"generator":15,"seed":849205174,"sources":sources,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"engine":Engine.get_version_info(),"engine_sha256":FileAccess.get_sha256(OS.get_executable_path()),"actual_pixels":[actual.x,actual.y],"device":RenderingServer.get_video_adapter_name(),"display":game.display_settings.report(root,actual),"quality":game.graphics.label(),"camera":"production chase","camera_settings":game.camera_settings.snapshot(),"unranked":not game.session.eligible,"cases":rows,"failures":failures,"capture_overhead_included":not benchmark,"peak_video_bytes":peak_video,"peak_engine_static_bytes":peak_static}
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report,"\t"))
 	print("SNOW_RENDER_COMPLETE ",output," failures=",failures)
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

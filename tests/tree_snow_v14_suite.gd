@@ -23,7 +23,7 @@ func run() -> void:
 		field.geology.restore(cache.placements,cache.geology_statistics)
 		Bake.apply(field)
 		field._refresh_identity()
-		FileAccess.open(OUTPUT+"/tree_snow_preview.bin",FileAccess.WRITE).store_var({"heights":field.heights,"tree_snow_height":field.tree_snow_height,"tree_snow_statistics":field.tree_snow_statistics,"obstacles":field.obstacles,"placements":field.geology.placements,"geology_statistics":field.geology.statistics,"exposure":field.exposure_image.get_data(),"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum})
+		preload("res://tests/test_report.gd").write_var(OUTPUT+"/tree_snow_preview.bin",{"heights":field.heights,"tree_snow_height":field.tree_snow_height,"tree_snow_statistics":field.tree_snow_statistics,"obstacles":field.obstacles,"placements":field.geology.placements,"geology_statistics":field.geology.statistics,"exposure":field.exposure_image.get_data(),"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum})
 	else: field = Definition.generate(849205174,14)
 	var stats: Dictionary = field.tree_snow_statistics
 	check(stats.trees==200000,"Every retained tree participates in the physical accumulation pass")
@@ -59,6 +59,6 @@ func run() -> void:
 		for ski in sim.skis:
 			matched = matched and absf(ski.position.y-field.sample(ski.position.x,ski.position.z).height)<.002
 	check(matched,"Independent skis use the physical tree-mound triangles")
-	FileAccess.open(OUTPUT+("/tree_snow_preview.json" if preview else "/tree_snow.json"),FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"statistics":stats,"height_sha256":Terrain._digest(field.heights.to_byte_array()),"preview":preview},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+("/tree_snow_preview.json" if preview else "/tree_snow.json"),JSON.stringify({"checks":checks,"failures":failures,"statistics":stats,"height_sha256":Terrain._digest(field.heights.to_byte_array()),"preview":preview},"\t"))
 	print("TREE_SNOW_RESULT checks=",checks," statistics=",JSON.stringify(stats)," failures=",failures)
 	quit(0 if failures.is_empty() else 1)

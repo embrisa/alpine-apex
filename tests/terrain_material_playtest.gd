@@ -71,7 +71,7 @@ func run() -> void:
 		await process_frame
 		if frame in [0,30,60,90,120,179]: await capture("motion_%03d" % frame)
 	var result = {"captures":captures,"eligible":game.session.eligible,"renderer":game.world.terrain_renderer}
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(result,"\t"))
 	print("TERRAIN_MATERIAL_VIEWS ",JSON.stringify(result))
 	game.effects.stop_audio()
 	await create_timer(.1).timeout

@@ -287,7 +287,7 @@ func run():
 	DirAccess.make_dir_recursive_absolute("res://artifacts/skier_animation")
 	var result = {"checks":checks,"failures":failures,"metrics":metrics,"impact_peaks_m":depths,"tuck_back_degrees":back_degrees,"tuck_curve_degrees":tuck_curve,"landing_curve_degrees":landing_curves,"baseline_air_rates":baseline_air}
 	var result_path = "res://artifacts/skier_animation/animation_results_air_baseline.json" if baseline_air else "res://artifacts/skier_animation/animation_results.json"
-	FileAccess.open(result_path,FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(result_path,JSON.stringify(result,"\t"))
 	print("SKIER_ANIMATION_RESULTS ",JSON.stringify(result))
 	skier.queue_free()
 	await process_frame

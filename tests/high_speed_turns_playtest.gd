@@ -45,7 +45,7 @@ func run() -> void:
 					break
 			fixtures.append({"start_kmh":speed,"direction":direction,"crash":game.sim.crash_reason,"balance":game.sim.balance,"roll_deg":rad_to_deg(game.sim.body.roll)})
 	var result = {"unranked":not game.session.eligible,"failures":failures,"fixtures":fixtures}
-	FileAccess.open(OUTPUT+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/results.json",JSON.stringify(result,"\t"))
 	print("HIGH_SPEED_TURNS_VISUAL ",JSON.stringify(result))
 	game.queue_free()
 	await process_frame

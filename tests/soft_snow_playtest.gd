@@ -50,7 +50,7 @@ func save_report() -> void:
 	report.generator_version = Definition.CURRENT_VERSION
 	report.video_resolution = "3840×2160"
 	report.baseline_revision = JSON.parse_string(FileAccess.get_file_as_string(reference_root()+"manifest.json")).revision
-	FileAccess.open(path,FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(path,JSON.stringify(report,"\t"))
 
 func paired_view(name: String) -> void:
 	for look in [true,false]:

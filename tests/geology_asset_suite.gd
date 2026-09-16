@@ -31,6 +31,6 @@ func run() -> void:
 				check(config.get_value("params","compress/mode",0)==2 and config.get_value("params","mipmaps/generate",false),"Compressed mipmaps: "+source.asset)
 				if texture and level=="high" and channel=="normal": check(texture.get_width()==int(source.texture_sizes.normal),"High retains source normal resolution")
 	check(FileAccess.get_sha256("res://art_source/blender/rock_generator.blend")==original.source_sha256,"Original Blender generator preserved")
-	FileAccess.open("res://artifacts/geology_v11/assets.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"assets":catalog.records.size(),"collision_catalog_sha256":catalog.fingerprint},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/geology_v11/assets.json",JSON.stringify({"checks":checks,"failures":failures,"assets":catalog.records.size(),"collision_catalog_sha256":catalog.fingerprint},"\t"))
 	print("GEOLOGY_ASSETS ",checks," checks; ",failures.size()," failures")
 	quit(0 if failures.is_empty() else 1)

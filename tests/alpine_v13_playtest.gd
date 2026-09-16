@@ -35,7 +35,7 @@ func descent() -> void:
 	var result=JSON.parse_string(FileAccess.get_file_as_string(result_path))
 	result.input_source="recorded ordinary input" if not recorded_inputs.is_empty() else "live test pilot"
 	result.input_trace_sha256=FileAccess.get_sha256(input_trace_path) if not recorded_inputs.is_empty() else ""
-	FileAccess.open(result_path,FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(result_path,JSON.stringify(result,"\t"))
 
 func pilot_intent() -> RiderInput:
 	var index=floori(float(game.sim.ticks)/12)
@@ -126,7 +126,7 @@ func inspect_massif() -> void:
 			await capture("face_%d_%d_ski" % [index,z])
 			sites.append({"face":index,"section":z,"position":[p.x,p.y]})
 	observer.queue_free()
-	FileAccess.open(OUTPUT+"/view_sites.json",FileAccess.WRITE).store_string(JSON.stringify(captured_sites,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/view_sites.json",JSON.stringify(captured_sites,"\t"))
 	if "--stills-only" in OS.get_cmdline_user_args():
 		if "--benchmark-after-views" in OS.get_cmdline_user_args(): await terrain_benchmark()
 		return
@@ -154,7 +154,7 @@ func inspect_massif() -> void:
 			if frame%3==0: await capture("motion_%d_%d_%03d" % [site.face,site.section,frame],0)
 			if game.sim.crashed: break
 		clips.append({"face":site.face,"section":site.section,"crash":game.sim.crash_reason,"seconds":rendered_frames/60.0,"position":str(game.sim.position)})
-	FileAccess.open(OUTPUT+"/motion.json",FileAccess.WRITE).store_string(JSON.stringify({"clips":clips,"sites":sites,"unranked":true,"capture_overhead":true,"capture_fps_cap":60,"saved_frames_per_simulation_second":20,"simulation_ticks_per_frame":2},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/motion.json",JSON.stringify({"clips":clips,"sites":sites,"unranked":true,"capture_overhead":true,"capture_fps_cap":60,"saved_frames_per_simulation_second":20,"simulation_ticks_per_frame":2},"\t"))
 	if "--benchmark-after-views" in OS.get_cmdline_user_args(): await terrain_benchmark()
 
 func safe_site(target: Vector2) -> Vector2:
@@ -233,7 +233,7 @@ func terrain_benchmark() -> void:
 		if FileAccess.get_sha256("res://"+source)!=capture_render_sources[source]: result.changed_sources.append(source)
 	result.trees=field.obstacles.size()
 	result.minerals=field.geology.statistics
-	FileAccess.open(OUTPUT+"/terrain_timing.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/terrain_timing.json",JSON.stringify(result,"\t"))
 
 func crash_body_audit() -> Dictionary:
 	# Outside measured frames: verify the populated world's actual native bodies.

@@ -58,7 +58,7 @@ func run() -> void:
 	await capture("first_person")
 	if include_motion:
 		await capture_motion()
-	FileAccess.open(output_dir+"/report.json",FileAccess.WRITE).store_string(JSON.stringify({"captures":captures,"eligible":game.session.eligible,"bones":game.skier.skeleton.get_bone_count()},"\t"))
+	preload("res://tests/test_report.gd").write(output_dir+"/report.json",JSON.stringify({"captures":captures,"eligible":game.session.eligible,"bones":game.skier.skeleton.get_bone_count()},"\t"))
 	assert(not game.session.eligible)
 	game.queue_free()
 	await process_frame

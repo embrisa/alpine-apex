@@ -164,6 +164,6 @@ func run() -> void:
 	check(Sim.MODEL_VERSION==35,"Rock response is retained in the pole propulsion physics identity")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/rock_terrain")
 	var report={"checks":checks,"failures":failures,"metrics":metrics}
-	FileAccess.open("res://artifacts/rock_terrain/physics.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/rock_terrain/physics.json",JSON.stringify(report,"\t"))
 	print("ROCK_RESULTS ",JSON.stringify(report))
 	quit(0 if failures.is_empty() else 1)

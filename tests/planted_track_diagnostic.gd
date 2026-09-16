@@ -46,7 +46,7 @@ func ride(fixture: Dictionary) -> void:
 	var stamps = []
 	for i in track.written:
 		stamps.append(Array(track.gpu_stamps.slice(i*8,i*8+8)))
-	FileAccess.open(output+"/stamps.json",FileAccess.WRITE).store_string(JSON.stringify({"center":str(game.effects.powder_surface.center),"stamps":stamps},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/stamps.json",JSON.stringify({"center":str(game.effects.powder_surface.center),"stamps":stamps},"\t"))
 	RenderingServer.call_on_render_thread(read_atlas)
 	for frame in 4: await process_frame
 	rows.append({"exact_surface":track.material.get_shader_parameter("exact_surface"),"surface_size":str(track.material.get_shader_parameter("surface_size")),"powder":game.effects.powder_surface.budget(),"contact_depths":[game.sim.skis[0].penetration,game.sim.skis[1].penetration],"track_count":track.written})
@@ -54,4 +54,4 @@ func ride(fixture: Dictionary) -> void:
 func read_atlas() -> void:
 	var powder = game.effects.powder_surface
 	var bytes: PackedByteArray = powder.rd.texture_get_data(powder.surface_rid,0)
-	FileAccess.open(output+"/atlas.rgh",FileAccess.WRITE).store_buffer(bytes)
+	preload("res://tests/test_report.gd").write_bytes(output+"/atlas.rgh",bytes)

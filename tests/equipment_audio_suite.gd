@@ -150,6 +150,6 @@ func run() -> void:
 	await process_frame
 	var report = {"checks":checks,"failures":failures,"observer_max_us":observer.max_update_us,"sweep_exhausted":observer.sweep_exhausted}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/natural_audio")
-	FileAccess.open("res://artifacts/natural_audio/equipment_suite.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/natural_audio/equipment_suite.json",JSON.stringify(report,"\t"))
 	print("EQUIPMENT_AUDIO_RESULT ",JSON.stringify(report))
 	quit(0 if failures.is_empty() else 1)

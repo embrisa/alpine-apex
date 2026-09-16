@@ -42,5 +42,5 @@ func run() -> void:
 	var preview=preload("res://scripts/ui/mountain_preview.gd").build_image(field)
 	check(preview.get_pixel(0,0).a==0 and preview.get_pixel(preview.get_width()/2,preview.get_height()/2).a==1,"Map preview omits cut corners and retains an opaque summit")
 	var result={"checks":checks,"failures":failures,"triangles":triangles,"chunks":terrain.chunks.size(),"partial_chunks":partial,"minimum_playable_guard_m":minimum_margin}
-	FileAccess.open("res://artifacts/offmap_v3/footprint.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/offmap_v3/footprint.json",JSON.stringify(result,"\t"))
 	print("FOOTPRINT_RESULTS ",JSON.stringify(result)); quit(0 if failures.is_empty() else 1)

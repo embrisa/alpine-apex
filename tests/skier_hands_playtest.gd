@@ -75,7 +75,7 @@ func run():
 				camera.projection = Camera3D.PROJECTION_ORTHOGONAL; camera.size = .35
 				camera.position = frame.origin+Vector3(.35,.25,.4); camera.look_at(frame.origin)
 				await capture("crash_"+side)
-	FileAccess.open(output+"/report.json",FileAccess.WRITE).store_string(JSON.stringify({
+	preload("res://tests/test_report.gd").write(output+"/report.json",JSON.stringify({
 		"captures":captures,"failures":failures,"bones":skier.skeleton.get_bone_count(),
 		"unranked_fixture":true,"physics":Sim.MODEL_VERSION,
 		"model_sha256":FileAccess.get_sha256("res://art_source/meshy/hands_v1/baseline/skier_v7.glb" if "--hands-baseline" in OS.get_cmdline_user_args() else "res://assets/graphics/models/skier_v7.glb"),

@@ -110,7 +110,7 @@ func run() -> void:
 	var report = {"model":model.MODEL_VERSION,"checks":checks,"failures":failures,"rows":rows,"unranked":true,
 		"airtime_s":air,"baseline_airtime_s":old_air,"launches":launches,"baseline_launches":old_launches,"timings_are_isolated_performance_evidence":false}
 	var path = reference_path if baseline else OUTPUT+"/"+("contracts" if contracts_only else ("quick" if quick else "matrix"))+".json"
-	FileAccess.open(path,FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(path,JSON.stringify(report,"\t"))
 	print("SNOW_GROUNDING ",path," checks=",checks," failures=",failures.size()," air before/after=",old_air,"/",air," launches=",old_launches,"/",launches)
 	quit(0 if failures.is_empty() else 1)
 

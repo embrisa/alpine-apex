@@ -16,7 +16,7 @@ func run() -> void:
 				var row = Probe.measure(Sim,field,fixture,overrides)
 				row.erase("samples"); row.overrides = overrides; rows.append(row)
 				print("CALIBRATION ",JSON.stringify(overrides)," ",JSON.stringify(compact(row)))
-	FileAccess.open("res://artifacts/planted_snow/calibration.json",FileAccess.WRITE).store_string(JSON.stringify({"before":before,"rows":rows},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/planted_snow/calibration.json",JSON.stringify({"before":before,"rows":rows},"\t"))
 	quit()
 func compact(row: Dictionary) -> Dictionary:
 	return {"init":row.initiation_s,"reverse":row.reversal_s,"turn":row.turn_2s_deg,"air":row.airtime_s,"slip":row.mean_slip_rad}

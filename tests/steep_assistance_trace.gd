@@ -37,6 +37,6 @@ func _initialize():
 			old_velocity = velocity
 			rows.append({"tick":tick,"valid":sim.landing_assist.valid,"weight":sim.landing_assist.strength,"angular_velocity_rad_s":[velocity.x,velocity.y,velocity.z],"orientation":str(sim.support_basis().get_rotation_quaternion())})
 		results.append({"variant":variant,"max_degrees_s":rad_to_deg(max_speed),"max_degrees_s2":rad_to_deg(max_acceleration),"trace":rows})
-	FileAccess.open(OUTPUT+"/assistance_trace.json",FileAccess.WRITE).store_string(JSON.stringify(results,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/assistance_trace.json",JSON.stringify(results,"\t"))
 	for row in results: print(row.variant," max deg/s ",row.max_degrees_s," max deg/s2 ",row.max_degrees_s2)
 	quit()

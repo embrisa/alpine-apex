@@ -59,6 +59,6 @@ func run():
 					check(peak_step<.08,name+": connected pose continuous through entry and release")
 					results.append({"name":name,"opposite_body_degrees":rad_to_deg(wrong.x),"opposite_torso_degrees":rad_to_deg(wrong.y),"peak_joint_step_m":peak_step,"trace":trace})
 	DirAccess.make_dir_recursive_absolute(output.get_base_dir())
-	FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"cases":results,"model":Sim.MODEL_VERSION},"\t"))
+	preload("res://tests/test_report.gd").write(output,JSON.stringify({"checks":checks,"failures":failures,"cases":results,"model":Sim.MODEL_VERSION},"\t"))
 	print("CARVE_ENTRY ",checks," checks, ",failures.size()," failures")
 	visual.queue_free();await process_frame;quit(0 if failures.is_empty() else 1)

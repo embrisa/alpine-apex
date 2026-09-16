@@ -107,7 +107,7 @@ func run() -> void:
 		check(warm.cache_hit and warm.height_checksum==height_hash and warm.obstacle_checksum==obstacle_hash,"Warm cache retains geometry and obstacles")
 		warm = null
 		reports.append(report)
-		FileAccess.open("res://artifacts/alpine_v12/survey_%d.json" % seed_value,FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
-	FileAccess.open("res://artifacts/alpine_v12/generation_tests.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"seeds":reports},"\t"))
+		preload("res://tests/test_report.gd").write("res://artifacts/alpine_v12/survey_%d.json" % seed_value,JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/alpine_v12/generation_tests.json",JSON.stringify({"checks":checks,"failures":failures,"seeds":reports},"\t"))
 	print("ALPINE_V12_RESULTS ",checks," checks; ",failures.size()," failures")
 	quit(0 if failures.is_empty() else 1)

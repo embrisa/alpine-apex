@@ -113,7 +113,7 @@ func run():
 		report.fixed_tick_us = stats(tick_us)
 		report.peak_video_bytes = peak_video
 		report.peak_engine_static_bytes = peak_static
-	FileAccess.open(output+("/timing.json" if timing_only else "/clips.json"),FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+("/timing.json" if timing_only else "/clips.json"),JSON.stringify(report,"\t"))
 	print("AIR_NATIVE_COMPLETE ",JSON.stringify(report))
 	if not timing_only:
 		game.hud.show()

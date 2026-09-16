@@ -74,4 +74,4 @@ func assistance_checks():
 	check(anatomical.spine_bend_rad<deg_to_rad(20.1) and anatomical.spine_twist_rad<deg_to_rad(10.1) and anatomical.spine_side_rad<deg_to_rad(8.1),"Every spinal link stays inside its three-axis envelope, including grabs")
 	check(anatomical.shin_twist_rad<deg_to_rad(18.0),"Shin skin orientation remains aligned with the rigid boot")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/skier_anatomy")
-	FileAccess.open("res://artifacts/skier_anatomy/suite.json",FileAccess.WRITE).store_string(JSON.stringify({"metrics":anatomical,"worst":worst,"worst_grab":worst_grab,"samples":samples,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/skier_anatomy/suite.json",JSON.stringify({"metrics":anatomical,"worst":worst,"worst_grab":worst_grab,"samples":samples,"failures":failures},"\t"))

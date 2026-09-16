@@ -33,5 +33,5 @@ func _initialize():
 			rows.append({"slope":slope,"height_m":height,"actual_contact_s":actual_time,"estimates":estimates.size(),"max_time_error_s":max_error,"max_normal_error_deg":max_normal_error,"max_queries":peak_samples})
 	var report = {"checks":checks,"failures":failures,"cases":rows,"scope":"Planar exact heightfield fixtures; predicted times compared to first actual contact at 120 Hz"}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/steep_animation_physics_upgrade")
-	FileAccess.open("res://artifacts/steep_animation_physics_upgrade/prediction.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/steep_animation_physics_upgrade/prediction.json",JSON.stringify(report,"\t"))
 	print("STEEP_PREDICTION ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)

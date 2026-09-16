@@ -81,7 +81,7 @@ func run() -> void:
     var unchanged_retained = counts.arc==0 and counts.static==0
     if not unchanged_retained: failures.append("Unchanged dial values triggered a redraw")
     var report = {"retained_static_layers":retained,"unchanged_retained":unchanged_retained,"cases":cases,"setter_equal":reactive_equal,"lifecycle_equal":lifecycle_equal,"failures":failures}
-    FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+    preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report,"\t"))
     print("HUD_DIAL_RESULT cases=",cases.size()," failures=",JSON.stringify(failures))
     for view in views: view.queue_free()
     await process_frame

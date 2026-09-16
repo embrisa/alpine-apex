@@ -47,7 +47,7 @@ func run() -> void:
 			await capture_crossing(chosen.fixture,enabled)
 	if sources!=source_hashes(): failures.append("Source changed during render verification")
 	var report = {"model":game.sim.MODEL_VERSION,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"sources":sources,"actual_pixels":[actual.x,actual.y],"device":RenderingServer.get_video_adapter_name(),"display":game.display_settings.report(root,actual),"quality":game.graphics.label(),"camera":"production chase","camera_settings":game.camera_settings.snapshot(),"sdfgi":game.world.environment.sdfgi_enabled,"unranked":not game.session.eligible,"cases":rows,"failures":failures,"capture_overhead_included":not benchmark,"peak_video_bytes":peak_video,"peak_engine_static_bytes":peak_static}
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report,"\t"))
 	print("SNOW_CRUSH_RENDER ",output," failures=",failures)
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

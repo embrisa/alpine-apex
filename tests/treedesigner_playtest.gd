@@ -138,7 +138,7 @@ func run() -> void:
 		"unranked":not game.session.eligible,"frame_ms":timing(benchmark_frames),"render_gpu_ms":timing(gpu),"render_cpu_ms":timing(cpu),
 		"scope":"Single-tree closeup at 1920x1080 native; full forest performance is measured separately",
 		"video_memory_bytes":Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED)}
-	FileAccess.open(output+"/report.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/report.json",JSON.stringify(report,"\t"))
 	print("TREEDESIGNER_RENDER ",JSON.stringify(report))
 	stage.queue_free(); game.queue_free(); await process_frame
 	quit(0 if reaction_peak>.03 and recovery_peak<.003 and contact_changed_pixels>100 else 1)

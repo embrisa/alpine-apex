@@ -104,6 +104,6 @@ func run() -> void:
 		for id in [0,100100,500500,999999]: check(prepared.pose_at(id).origin==prepared.positions[id],"Shared pose indexed access %d" % id)
 		host.queue_free(); camera.queue_free(); await process_frame
 	report.checks = checks; report.failures = failures; report.memory_peak = OS.get_static_memory_peak_usage()
-	FileAccess.open("res://artifacts/generation_v15/capacity_"+("headless" if DisplayServer.get_name()=="headless" else "native")+".json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/capacity_"+("headless" if DisplayServer.get_name()=="headless" else "native")+".json",JSON.stringify(report,"\t"))
 	print("V15_CAPACITY ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)
 func checkpoint(_message: String, _progress: float) -> void: await process_frame

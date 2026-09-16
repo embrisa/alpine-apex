@@ -30,7 +30,7 @@ func check(ok: bool, label: String) -> void:
 		printerr("FAIL ", label)
 
 func write_json(path: String, value: Variant) -> void:
-	var file = FileAccess.open(path, FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write(path)
 	if file == null:
 		check(false, "Cannot write " + path)
 		return

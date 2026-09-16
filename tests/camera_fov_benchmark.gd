@@ -32,5 +32,5 @@ func inspect_massif() -> void:
 				memory = maxf(memory,Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED))
 			probes.append({"local_z_m":z,"telemetry_kmh":kmh,"fov":game.camera.fov,"frame_ms":frame_timing(wall),"render_cpu_ms":timing(cpu),"render_gpu_ms":timing(gpu),"draw_calls":timing(draws_local),"video_memory_bytes":memory})
 	var report = {"scope":"Stationary upper gully and forest render probes; fixed speed telemetry, not a 200 km/h skiing benchmark","capture_overhead_included":false,"warmup_frames_per_probe":120,"samples_per_probe":360,"actual_pixels":[actual_pixels.x,actual_pixels.y],"display":game.display_settings.report(root,actual_pixels),"probes":probes,"unranked":not game.session.eligible}
-	FileAccess.open(OUTPUT+"/camera_fov_timing.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/camera_fov_timing.json",JSON.stringify(report,"\t"))
 	print("CAMERA_FOV_TIMING ",JSON.stringify(report))

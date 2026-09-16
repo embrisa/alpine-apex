@@ -88,7 +88,7 @@ func run() -> void:
 	stick_flips()
 	DirAccess.make_dir_recursive_absolute("res://artifacts/controller_input_v1")
 	var result = {"checks":checks,"failures":failures}
-	FileAccess.open("res://artifacts/controller_input_v1/input.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/controller_input_v1/input.json",JSON.stringify(result,"\t"))
 	print("CONTROLLER_INPUT_RESULTS ",JSON.stringify(result))
 	quit(0 if failures.is_empty() else 1)
 

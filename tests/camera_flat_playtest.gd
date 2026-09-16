@@ -73,7 +73,7 @@ func run() -> void:
 		"baseline_sha256":FileAccess.get_sha256(baseline) if not baseline.is_empty() else "",
 		"preferences_enabled":game.preferences_enabled,"unranked":not game.session.eligible,
 		"solver_ticks":game.sim.ticks,"captures":rows,"failures":failures}
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report,"\t"))
 	print("CAMERA_FLAT_REVIEW ",JSON.stringify(report))
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

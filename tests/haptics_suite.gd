@@ -119,6 +119,6 @@ func run() -> void:
 	check(equal,"Haptic observation cannot alter skiing or impact reserve")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/controller_input_v1")
 	var result = {"checks":checks,"failures":failures}
-	FileAccess.open("res://artifacts/controller_input_v1/haptics.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/controller_input_v1/haptics.json",JSON.stringify(result,"\t"))
 	print("HAPTICS_RESULTS ",JSON.stringify(result))
 	quit(0 if failures.is_empty() else 1)

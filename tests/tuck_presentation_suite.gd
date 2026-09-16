@@ -75,7 +75,7 @@ func run() -> void:
 		check(released.tuck<.001 and released.hip>a.hip+.10,spec.name+": release restores the ready stance")
 		cases.append({"spec":spec,"initial":a,"resumed":b,"released":released,"max_joint_step_m":max_step,"physics_equal":equal})
 	DirAccess.make_dir_recursive_absolute(output.get_base_dir())
-	FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"cases":cases},"\t"))
+	preload("res://tests/test_report.gd").write(output,JSON.stringify({"checks":checks,"failures":failures,"cases":cases},"\t"))
 	print("TUCK_PRESENTATION_RESULTS ",JSON.stringify({"checks":checks,"failures":failures}))
 	visual.queue_free(); await process_frame; quit(0 if failures.is_empty() else 1)
 

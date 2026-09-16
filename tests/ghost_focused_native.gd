@@ -583,7 +583,7 @@ func _focused_sources() -> Dictionary:
 
 func _write_focus_report() -> void:
 	var report = {"checks":checks,"failures":failures,"scope":"One Main load; 20 seconds total actual 120 Hz physics on labelled analytic fixtures; no fabricated recording frames/contact flags. Separated lineup positions are presentation-only.","cases":focused_cases,"palette":palette_rows,"captures":focused_captures,"sources":source_identity,"engine":Engine.get_version_info().string,"display":game.display_settings.report(root,actual_pixels) if is_instance_valid(game) else {},"framebuffers":framebuffer_checks,"readback_wall_ms":readback_us/1000.0,"performance_eligible":false,"human_acceptance":"pending"}
-	var file = FileAccess.open(output.path_join("focused_results.json"),FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write(output.path_join("focused_results.json"))
 	if file: file.store_string(JSON.stringify(report,"\t")); file.close()
 	else: check(false,"Focused report writable")
 

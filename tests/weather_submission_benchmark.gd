@@ -36,6 +36,6 @@ func run() -> void:
 		rows.append(Costs.stats(samples))
 		print("WEATHER_SUBMISSION ",repetition+1," ",JSON.stringify(rows[-1]))
 	DirAccess.make_dir_recursive_absolute("res://artifacts/fps_optimization")
-	FileAccess.open("res://artifacts/fps_optimization/"+label+".json",FileAccess.WRITE).store_string(JSON.stringify({"scope":"World submission CPU microseconds, 100 cloud receivers plus one wind material; no full-descent or GPU performance claim","weather":preset,"rows":rows},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/fps_optimization/"+label+".json",JSON.stringify({"scope":"World submission CPU microseconds, 100 cloud receivers plus one wind material; no full-descent or GPU performance claim","weather":preset,"rows":rows},"\t"))
 	world.queue_free(); weather.queue_free(); await process_frame
 	quit(0)

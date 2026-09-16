@@ -154,7 +154,7 @@ func finish_review() -> void:
 	report.engine = Engine.get_version_info().string
 	var suffix = "native_audio" if "--loading-audio-only" in OS.get_cmdline_user_args() else ("native" if rendered else "headless")
 	if "--menu-atmosphere-only" in OS.get_cmdline_user_args(): suffix = "menu_"+suffix
-	var file = FileAccess.open("res://artifacts/interface_art/review_%s.json" % suffix,FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write("res://artifacts/interface_art/review_%s.json" % suffix)
 	file.store_string(JSON.stringify(report,"\t"))
 	print("INTERFACE_ART_RESULTS ",JSON.stringify(report))
 	hud.queue_free()

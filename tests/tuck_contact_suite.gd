@@ -30,7 +30,7 @@ func run() -> void:
 	_tuck()
 	_contact()
 	_flight_and_replay()
-	FileAccess.open(OUTPUT+"/results.json",FileAccess.WRITE).store_string(JSON.stringify({"model":Sim.MODEL_VERSION,"checks":checks,"failures":failures,"metrics":metrics,"unranked":true},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/results.json",JSON.stringify({"model":Sim.MODEL_VERSION,"checks":checks,"failures":failures,"metrics":metrics,"unranked":true},"\t"))
 	print("TUCK_CONTACT_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"path":OUTPUT+"/results.json"}))
 	quit(0 if failures.is_empty() else 1)
 

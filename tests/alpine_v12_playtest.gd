@@ -114,7 +114,7 @@ func inspect_massif() -> void:
 			if frame in [30,90,179]: await capture("motion_%d_%d_%d" % [site.face,site.section,frame],0)
 			if game.sim.crashed: break
 		clips.append({"face":site.face,"section":site.section,"crash":game.sim.crash_reason,"seconds":rendered_frames/60.0,"position":str(game.sim.position)})
-	FileAccess.open(OUTPUT+"/motion.json",FileAccess.WRITE).store_string(JSON.stringify({"clips":clips,"sites":sites,"unranked":true,"capture_overhead":true},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/motion.json",JSON.stringify({"clips":clips,"sites":sites,"unranked":true,"capture_overhead":true},"\t"))
 	if "--benchmark-after-views" in OS.get_cmdline_user_args(): await terrain_benchmark()
 
 func safe_site(target: Vector2) -> Vector2:
@@ -180,4 +180,4 @@ func terrain_benchmark() -> void:
 			print("ALPINE_TIMING_SEGMENT ",index," ",z," ",segments[-1].frame_ms)
 	var result = {"scope":"twelve_four_second_ski_samples","generator_version":version,"seed":mountain_seed,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"device":RenderingServer.get_video_adapter_name(),"actual_pixels":[actual_pixels.x,actual_pixels.y],"display":game.display_settings.report(root,actual_pixels),"segments":segments,"peak_video_bytes":peak_video_bytes,"world_build_ms":game.world.generation_ms,"warmup_frames_per_segment":120,"capture_overhead_included":false,"unranked":not game.session.eligible}
 	result.source_sha256 = capture_render_sources
-	FileAccess.open(OUTPUT+"/terrain_timing.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/terrain_timing.json",JSON.stringify(result,"\t"))

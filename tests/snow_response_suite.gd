@@ -79,5 +79,5 @@ func run() -> void:
 	check(icy.powder<fresh.powder*.05 and icy.mist==0 and icy.depth_m<fresh.depth_m*.1,"Condition contract gives ice grains and scratches rather than powder")
 	var report = {"checks":checks,"failures":failures,"matrix":matrix}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/snow_upgrade")
-	FileAccess.open("res://artifacts/snow_upgrade/response.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/snow_upgrade/response.json",JSON.stringify(report,"\t"))
 	quit(0 if failures.is_empty() else 1)

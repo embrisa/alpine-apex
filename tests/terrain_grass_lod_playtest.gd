@@ -34,5 +34,5 @@ func run():
 		var equal=captures[0]==captures[1]
 		if not equal: failures+=1
 		rows.append({"distance_m":distance_m,"byte_identical":equal})
-	FileAccess.open(output+"/receipt.json",FileAccess.WRITE).store_string(JSON.stringify({"scope":"native 1280x720 frozen grass, unchanged 18-26 m blend, no FPS claim","rows":rows,"failures":failures}))
+	preload("res://tests/test_report.gd").write(output+"/receipt.json",JSON.stringify({"scope":"native 1280x720 frozen grass, unchanged 18-26 m blend, no FPS claim","rows":rows,"failures":failures}))
 	print("GRASS_LOD_VISUAL ",JSON.stringify(rows)); grass.free(); quit(0 if failures==0 else 1)

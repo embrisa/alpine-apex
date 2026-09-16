@@ -86,7 +86,7 @@ func run() -> void:
 	if timing:
 		report.frame_ms = stats(frames); report.render_cpu_ms = stats(render_cpu); report.gpu_ms = stats(gpu)
 		report.solver_us = stats(solver_us); report.peak_video_bytes = peak_video; report.peak_engine_static_bytes = peak_static
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report,"\t"))
 	print("ARCADE_NATIVE ",output," failures=",failures)
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)
@@ -184,7 +184,7 @@ func find_fixture(request: Dictionary) -> Dictionary:
 				elif air.any(func(value): return value>.1): continue
 				var found = {"origin":[origin.x,origin.y,origin.z],"heading":face.heading,"preflight_airtime_s":air}
 				fixtures[request.name] = found
-				if not fixtures_path.is_empty(): FileAccess.open(fixtures_path,FileAccess.WRITE).store_string(JSON.stringify(fixtures,"\t"))
+				if not fixtures_path.is_empty(): preload("res://tests/test_report.gd").write(fixtures_path,JSON.stringify(fixtures,"\t"))
 				return found
 	return {}
 

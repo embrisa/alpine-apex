@@ -44,7 +44,7 @@ func run() -> void:
 	var identity = Definition.from_field(field,"Default Mountain")
 	check(Definition.decode(identity.share_text()).get("error","").is_empty(),"V14 recipe round trip")
 	if seed_value==849205174:
-		FileAccess.open("res://examples/mountains/alpine-v14.apexmountain",FileAccess.WRITE).store_string(identity.share_text())
+		preload("res://tests/test_report.gd").write("res://examples/mountains/alpine-v14.apexmountain",identity.share_text())
 	if "--routes" in args:
 		var routes: Array = []
 		for face in 6:
@@ -72,6 +72,6 @@ func run() -> void:
 		check(previous.height_checksum==baseline.height_sha256 and previous.obstacle_checksum==baseline.obstacle_sha256,"Archived v13 terrain and obstacles unchanged")
 		check(previous.height_checksum!=expected_height,"New physical snow has its own terrain identity")
 	report.checks = checks; report.failures = failures
-	FileAccess.open(OUTPUT+"/v14_%d.json"%seed_value,FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/v14_%d.json"%seed_value,JSON.stringify(report,"\t"))
 	print("V14_COMPLETE checks=",checks," failures=",failures)
 	quit(0 if failures.is_empty() else 1)

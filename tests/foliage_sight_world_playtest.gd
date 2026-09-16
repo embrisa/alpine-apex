@@ -64,6 +64,6 @@ func run() -> void:
 			if not exact: failures.append("Ordinary-input endpoint diverged: "+id)
 			cases.append({"id":id,"exact_reference":exact,"end":str(game.sim.position),"ticks":game.sim.ticks,"nearby_start":nearby_start,"crash":game.sim.crash_reason,"sight":game.world.assets.foliage_sight.parameters,"forest":game.world.scenery.density_forest.report()})
 			print("SIGHT_WORLD_CASE ",JSON.stringify(cases[-1]))
-	FileAccess.open(output+"/report.json",FileAccess.WRITE).store_string(JSON.stringify({"cases":cases,"trial_start_seconds":start_seconds,"riding_seconds_per_case":15,"warmup_frames":180,"trace_sha256":FileAccess.get_sha256(path),"display":game.display_settings.report(root,Vector2i(3840,2160)),"camera":game.camera_settings.snapshot(),"capture_overhead_included":true,"unranked":not game.session.eligible,"failures":failures,"output":output},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/report.json",JSON.stringify({"cases":cases,"trial_start_seconds":start_seconds,"riding_seconds_per_case":15,"warmup_frames":180,"trace_sha256":FileAccess.get_sha256(path),"display":game.display_settings.report(root,Vector2i(3840,2160)),"camera":game.camera_settings.snapshot(),"capture_overhead_included":true,"unranked":not game.session.eligible,"failures":failures,"output":output},"\t"))
 	print("SIGHT_WORLD_REVIEW ",output)
 	game.effects.stop_audio(); game.queue_free(); await process_frame; quit(0 if failures.is_empty() else 1)

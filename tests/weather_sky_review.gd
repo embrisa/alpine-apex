@@ -33,7 +33,7 @@ func run() -> void:
 		weather.active_seconds = event.at-.2; storm.clear_transients(weather.active_seconds)
 		await clip("lightning_%d" % setting,1.0/30.0,60,setting)
 		manifest.append({"clip":"lightning_%d" % setting,"playback_seconds":2,"accelerated":false})
-	FileAccess.open(output+"/review.json",FileAccess.WRITE).store_string(JSON.stringify(manifest,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/review.json",JSON.stringify(manifest,"\t"))
 	storm.clear_transients(); storm.queue_free(); weather.queue_free(); world.queue_free(); ground.queue_free(); camera.queue_free()
 	await process_frame; quit()
 func clip(label: String, dt: float, frames: int, setting: int) -> void:

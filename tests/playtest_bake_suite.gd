@@ -19,7 +19,7 @@ func _initialize() -> void:
 		broken["heights/count"] = 0
 		check(Cache.restore(849205174,Cache.Settings.preset(),broken,Cache.Job.new())==null,"Wrong terrain dimensions rejected")
 	var malformed = "res://artifacts/playtest-malformed-bake.bin"
-	var file = FileAccess.open(malformed,FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write(malformed)
 	file.store_var({"key":key},false)
 	file.close()
 	check(Cache.Archive.read(malformed,key).is_empty(),"Invalid on-disk payload rejected")

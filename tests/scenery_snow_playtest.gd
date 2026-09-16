@@ -77,7 +77,7 @@ func inspect_massif() -> void:
 		"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,
 		"unranked":not game.session.eligible,"capture_overhead":true,"performance_acceptance":false,
 		"motion":"Chronological camera/paused riding poses, not simulated descent or controller acceptance."}
-	FileAccess.open(OUTPUT+"/scenery_snow.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/scenery_snow.json",JSON.stringify(report,"\t"))
 	observer.queue_free()
 
 func modes() -> Array:

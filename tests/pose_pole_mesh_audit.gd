@@ -82,5 +82,5 @@ func run():
 		assert(count>previous_count,"Each requested scenario must contain inspected frames")
 		print("POLE_MESH_AUDIT ",scenario," inspected=",count," intersecting_frames=",results.size())
 	var report={"frames":count,"shaft_radius_m":.006,"handle_exclusion_m":.10,"selected_only":selected,"include_flight":include_flight,"scenarios":scenarios,"intersections":results,"passed":results.is_empty()}
-	FileAccess.open(folder+"/pole-mesh-audit.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(folder+"/pole-mesh-audit.json",JSON.stringify(report,"\t"))
 	skier.queue_free(); await process_frame; quit(0 if results.is_empty() else 1)

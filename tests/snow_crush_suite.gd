@@ -104,7 +104,7 @@ func run() -> void:
 								check(row.peak_lift_m<=.10,label+": minimal body lift")
 	if not quick: contracts()
 	var report_name = "/contracts.json" if contract_only else ("/quick.json" if quick else "/contact.json")
-	FileAccess.open(OUTPUT+report_name,FileAccess.WRITE).store_string(JSON.stringify({"model":Sim.MODEL_VERSION,"checks":checks,"failures":failures,"cases":rows},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+report_name,JSON.stringify({"model":Sim.MODEL_VERSION,"checks":checks,"failures":failures,"cases":rows},"\t"))
 	print("SNOW_CRUSH checks=",checks," cases=",rows.size()," failures=",failures.size())
 	quit(0 if failures.is_empty() else 1)
 

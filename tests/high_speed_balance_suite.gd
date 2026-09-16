@@ -78,6 +78,6 @@ func run() -> void:
 	check(not sim.crashed and sim.balance>.97 and absf(sim.body.pitch_velocity)<.12,"Glancing high-speed snow contact cannot act like a hard edge-catch landing")
 	var result = {"checks":checks,"failures":failures,"metrics":metrics}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/high_speed_balance")
-	FileAccess.open("res://artifacts/high_speed_balance/results.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/high_speed_balance/results.json",JSON.stringify(result,"\t"))
 	print("HIGH_SPEED_BALANCE_RESULTS ",JSON.stringify(result))
 	quit(0 if failures.is_empty() else 1)

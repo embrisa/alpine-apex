@@ -53,9 +53,9 @@ func run():
 			for flight in result.flights: peak_height=maxf(peak_height,flight.height)
 			check(result.airtime<3.25 and peak_height<2.8,fixture.name+": occasional hops keep bounded airtime and height")
 		else: check(result.flights.is_empty(),"Smooth mountain snow remains planted")
-		FileAccess.open(output+"/"+fixture.name+".json",FileAccess.WRITE).store_string(JSON.stringify({"summary":result,"rows":rows}))
+		preload("res://tests/test_report.gd").write(output+"/"+fixture.name+".json",JSON.stringify({"summary":result,"rows":rows}))
 	var report={"model":Probe.Hop.Sim.MODEL_VERSION,"checks":checks,"failures":failures,"results":reports,"reference_assist":reference,"height":mountain.height_checksum,"unranked":true}
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report,"\t"))
 	print("TERRAIN_SETTLE_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"output":output}))
 	quit(0 if failures.is_empty() else 1)
 
@@ -67,7 +67,7 @@ func medium_lips():
 		var settled=true
 		for row in rows.slice(-120): settled=settled and row.grounded
 		check(result.ticks==360 and result.crash.is_empty() and settled and result.unsupported_grip==0.0 and result.min_load>=0.0 and result.reach<=.281,fixture.name+": landing settles for a full second without rebound or aerial grip")
-		FileAccess.open(output+"/"+fixture.name+".json",FileAccess.WRITE).store_string(JSON.stringify({"summary":result,"rows":rows}))
+		preload("res://tests/test_report.gd").write(output+"/"+fixture.name+".json",JSON.stringify({"summary":result,"rows":rows}))
 	var small={"name":"small_bank","x":0.0,"z":0.0,"kmh":160.0,"seconds":3.0}
 	var rows: Array=[]; var result=Probe.measure(Bank.new(.3,16.0),small,rows,reference)
 	check(result.flights.is_empty() and result.ticks==360 and result.crash.is_empty(),"Small loose-snow bank remains absorbed at speed")

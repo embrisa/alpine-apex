@@ -107,7 +107,7 @@ func run():
 		acceptance(rows)
 		contracts()
 	DirAccess.make_dir_recursive_absolute(output.get_base_dir())
-	FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify({"model":Sim.MODEL_VERSION,"checks":checks,"failures":failures,"rows":rows},"\t"))
+	preload("res://tests/test_report.gd").write(output,JSON.stringify({"model":Sim.MODEL_VERSION,"checks":checks,"failures":failures,"rows":rows},"\t"))
 	print("FIRM_CARVE_RESULT ",output," cases=",rows.size()," checks=",checks," failures=",failures.size()); quit(0 if failures.is_empty() else 1)
 
 func acceptance(rows: Array):

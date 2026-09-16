@@ -34,7 +34,7 @@ func run() -> void:
 	var other = Checks.Navigation.acquire(self,identity+"-different-physical-field")
 	audit.check(other.count()==0 and game.workshop.navigation_beams.beams.is_empty(),"Different full physical identity clears retained data and connected beams")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/session_navigation_checks")
-	FileAccess.open("res://artifacts/session_navigation_checks/report.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":audit.checks,"failures":audit.failures,"scope":"Model, real UI input ownership, scene rebuild; no native visual/performance acceptance"},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/session_navigation_checks/report.json",JSON.stringify({"checks":audit.checks,"failures":audit.failures,"scope":"Model, real UI input ownership, scene rebuild; no native visual/performance acceptance"},"\t"))
 	game.effects.stop_audio()
 	game.free()
 	quit(0 if audit.failures.is_empty() else 1)

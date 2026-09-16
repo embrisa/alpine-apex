@@ -24,7 +24,7 @@ func run() -> void:
 	var label = "mountain" if "--mountain" in args else ("sweep" if "--sweep" in args else "contact")
 	if "--steering" in args: label = "steering"
 	if "--isolation" in args: label = "isolation"
-	FileAccess.open(OUTPUT+"/"+label+".json",FileAccess.WRITE).store_string(JSON.stringify(results,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/"+label+".json",JSON.stringify(results,"\t"))
 	print("PLANTED_SNOW ",label," checks=",checks," failures=",failures)
 	quit(0 if failures.is_empty() else 1)
 

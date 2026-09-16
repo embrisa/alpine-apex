@@ -70,7 +70,7 @@ func run() -> void:
 	var report = {"checks":checks,"failures":failures,"cues":audio_report,
 		"listening_established":false,"rendered_acceptance_established":false,
 		"note":"WAVs contain exact synthesized source PCM before UI volume and per-cue gain. Headless dispatch is silent."}
-	var file = FileAccess.open(OUTPUT+"/report.json",FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write(OUTPUT+"/report.json")
 	if file: file.store_string(JSON.stringify(report,"\t")); file.close()
 	else: check(false,"Report can be written")
 	print("INTERFACE_FEEDBACK_SUITE ",checks," checks, ",failures.size()," failures")

@@ -39,4 +39,4 @@ func inspect_massif() -> void:
 			clips.append(label)
 			print("OFFMAP_MOTION ",label)
 	fixture.select(game.world,false); fixture.dispose()
-	FileAccess.open(OUTPUT+"/motion.json",FileAccess.WRITE).store_string(JSON.stringify({"clips":clips,"frames_per_clip":CLIP_FRAMES,"actual_pixels":[actual_pixels.x,actual_pixels.y],"unranked":true,"capture_overhead":true,"geometry":game.world.wilderness.report()},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/motion.json",JSON.stringify({"clips":clips,"frames_per_clip":CLIP_FRAMES,"actual_pixels":[actual_pixels.x,actual_pixels.y],"unranked":true,"capture_overhead":true,"geometry":game.world.wilderness.report()},"\t"))

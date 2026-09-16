@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084509-reduce-grass-gravel-texture-streaming-hitches"
 title: "Move grass and gravel cell construction and mineral texture loads off the frame"
-status: ready
+status: done
 priority: P2
 depends_on: []
 created: "2026-09-16T08:45:09Z"
-updated: "2026-09-16T08:45:09Z"
+updated: "2026-09-16T21:30:35Z"
 source_thread: null
 ---
 
@@ -115,3 +115,49 @@ Remaining: gravel/image preparation, texture loading, cell retirement/sorting,
 publication budgeting and their separate affected-route verification. Keep the
 task ready for this remaining work; this milestone does not satisfy every
 acceptance item above. Development note: `158a50a0f00841739760caa5cada6929`.
+
+### Second delivery, 2026-09-16: gravel packing, mask blits, incremental retirement, bounded publication and threaded macro textures (Fable, macOS checkout)
+
+Implemented manually; no scheduled claim. Builds on the grass worker packing
+delivered earlier today.
+
+- Gravel cells pack their MultiMesh buffers and merged bounds on the worker
+  (`gravel_placement.pack`, identical 12 transform plus 4 patch floats per
+  instance); `create_cell` assigns `buffer`, `custom_aabb` and `instance_count`
+  once per batch. The 18x18 cell mask reaches the shared 128x128 mask through
+  at most four `blit_rect` copies instead of 324 pixel writes (same R8 bytes).
+- Grass and gravel cell candidates come from an offset list sorted once per
+  reach with a native array sort in the same (distance, dy, dx) order the
+  per-change lambda sort produced. Cells leaving the radius are queued and freed
+  eight batches per frame instead of all at once; they sit beyond the shader
+  fade distance while they wait. Grass publication of completed worker cells is
+  bounded by 300 us per frame as well as by count, always landing at least one.
+- Cliff macro textures load through `ResourceLoader.load_threaded_request`;
+  the swap waits until every channel of the target tier is loaded, keeps the
+  two-swaps-per-frame cap and never mixes tiers within a formation. Tier
+  changes still apply synchronously. A `stream_gravel` scope joins
+  `stream_grass` and `stream_mineral_textures`.
+
+Measured on the Apple M4 MacBook (`scripts/mac_frame_probe.sh`, Standard
+mountain free ski, 20 s, interleaved baseline/candidate pairs; microseconds):
+
+| Scope | Baseline | Candidate |
+| --- | --- | --- |
+| `stream_grass` mean / p99 / max | 83.4 / 952 / 1132 and 83.2 / 973 / 1098 | 71.4 / 472 / 536 and 66.0 / 472 / 574 |
+| `stream_gravel` mean / p99 / max (new scope) | not measured | 19.3 / 72 / 78 and 19.0 / 74 / 84 |
+| `stream_mineral_textures` per swap (two swaps per run) | 11,891 / 11,913 max and 11,892 / 12,118 max | 121 / 125 max (after holding the loader-thread textures; an intermediate build that dropped them reloaded from disk at 23 ms) |
+| whole frame mean / p99 / max (ms, noise +/-1.5) | 24.92 / 28.4 / 44.0 and 26.48 / 30.1 / 45.3 | 24.71 / 28.4 / 46.0 and 26.18 / 29.8 / 45.9 (the remaining maximum is the terrain collision cook owned by the collision task) |
+
+Automated (macOS, Godot 4.7.2): terrain_grass_suite 86/86, rock_gravel_suite 96/96, mineral_detail_suite pass, mineral_asset_suite 120 assets / 0 failures, scenery_loading_suite pass, render_efficiency_suite 361/361, runtime_suite 192/192; the gravel and mineral suites ran with their report folders deleted. `rock_gravel_suite` passes all checks but hangs afterwards unless `artifacts/rock_gravel/` exists (pre-existing report-write defect, like the crash-recovery and pelvis suites). Rendered: `artifacts/mac_probe/macro_fix.png` and `stream_cand_1.png` show grass, gravel and cliffs as before on the free-ski route.
+Remaining from the acceptance list: the Windows forest and rock traces against
+their saved baselines and a rendered inspection there.
+
+Also in this milestone, at the user's request: every suite report write now
+goes through `tests/test_report.gd` (`write`, `write_line`, `write_bytes`,
+`write_var`, `open_write`), which creates the report folder and reports a
+failed open instead of dereferencing null. 313 suite files were rewritten
+mechanically (413 sites) and parse-checked with `--check-only`; the only other
+parse finding, `planted_snow_baseline.gd` preloading a missing artifact, is
+pre-existing. This removes the hang that `crash_recovery_suite`,
+`pelvis_balance_suite`, `rock_gravel_suite` and `mineral_asset_suite` showed
+today after all their checks had passed.

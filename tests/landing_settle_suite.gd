@@ -34,7 +34,7 @@ func run() -> void:
 	check(row.jumps==0 and not row.launches.is_empty() and row.landings.size()==row.launches.size() and distinct_crests(row,sharp) and row.airtime<3.5 and row.peak_clearance<2.2 and row.final_grounded,"Shallow angled snow releases once per encountered crest and recovers support")
 	await final_pose()
 	episodes()
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify({"model":Probe.Sim.MODEL_VERSION,"checks":checks,"failures":failures,"results":results,"human_acceptance":false},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify({"model":Probe.Sim.MODEL_VERSION,"checks":checks,"failures":failures,"results":results,"human_acceptance":false},"\t"))
 	print("LANDING_SETTLE_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"output":output}))
 	quit(0 if failures.is_empty() else 1)
 func distinct_crests(row: Dictionary, fixture: Dictionary) -> bool:
@@ -79,7 +79,7 @@ func final_pose() -> void:
 	check(peak_cosmetic>.05,"Existing flight crouch cannot consume the small landing's entire procedural compression")
 	check(skier.animation.landing_events==1 and skier.animation.current.impact==0.0,"Small-hop reaction completes once")
 	results.append({"pose":"small_hop","touchdown_tick":landed,"drop_m":touchdown_height-min_height,"peak_tick":min_tick,"max_upward_hip_speed_mps":max_recovery_mps,"compression_at_250ms_m":delayed_compression,"peak_cosmetic_drop_m":peak_cosmetic})
-	FileAccess.open(output+"/pose.json",FileAccess.WRITE).store_string(JSON.stringify(pose_rows))
+	preload("res://tests/test_report.gd").write(output+"/pose.json",JSON.stringify(pose_rows))
 	skier.queue_free(); await process_frame
 func episodes() -> void:
 	var field=Probe.surface({"amplitude":0.0}); var sim=Probe.rider(field,{})

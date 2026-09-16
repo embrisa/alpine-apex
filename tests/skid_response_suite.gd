@@ -64,6 +64,6 @@ func run() -> void:
 		print("SKID_CASES ",rows.size())
 	DirAccess.make_dir_recursive_absolute(OUT)
 	var result = {"model":Sim.MODEL_VERSION,"baseline":baseline,"cases":rows.size(),"failures":failures,"rows":rows}
-	FileAccess.open(OUT+("baseline" if baseline else "after")+("_quick" if quick else "")+".json",FileAccess.WRITE).store_string(JSON.stringify(result))
+	preload("res://tests/test_report.gd").write(OUT+("baseline" if baseline else "after")+("_quick" if quick else "")+".json",JSON.stringify(result))
 	print("SKID_RESPONSE ",rows.size()," cases, ",failures.size()," failures")
 	quit(0 if failures.is_empty() else 1)

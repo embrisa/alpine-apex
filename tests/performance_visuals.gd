@@ -62,6 +62,6 @@ func run() -> void:
 				print("PERFORMANCE_VISUAL ",id," crash=",game.sim.crash_reason)
 	await RenderingServer.frame_post_draw
 	var actual = root.get_texture().get_image().get_size()
-	FileAccess.open(output+"/visuals.json",FileAccess.WRITE).store_string(JSON.stringify({"cases":cases,"actual_pixels":[actual.x,actual.y],"display":game.display_settings.report(root,actual),"camera":game.camera_settings.snapshot(),"unranked":not game.session.eligible,"capture_overhead_included":true,"fixed_fps":60},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/visuals.json",JSON.stringify({"cases":cases,"actual_pixels":[actual.x,actual.y],"display":game.display_settings.report(root,actual),"camera":game.camera_settings.snapshot(),"unranked":not game.session.eligible,"capture_overhead_included":true,"fixed_fps":60},"\t"))
 	game.effects.stop_audio(); game.queue_free(); await process_frame; quit(0)
 func input_at_tick(tick: int) -> RiderInput: return super.input_at_tick(fixture_tick+tick)

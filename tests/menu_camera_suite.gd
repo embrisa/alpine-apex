@@ -91,7 +91,7 @@ func run() -> void:
 	camera.leave()
 	check(camera.context.is_empty() and camera.fade_alpha==0.0 and not camera.pose_ready,"Leaving menus cancels pending fades and view history")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/live_menu")
-	FileAccess.open("res://artifacts/live_menu/camera_checks.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/live_menu/camera_checks.json",JSON.stringify({"checks":checks,"failures":failures},"\t"))
 	print("MENU_CAMERA_RESULTS ",checks," checks, ",failures.size()," failures")
 	camera.queue_free()
 	await process_frame

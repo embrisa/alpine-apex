@@ -56,7 +56,7 @@ func run() -> void:
 		await process_frame; await RenderingServer.frame_post_draw
 		if frame%4==0: root.get_texture().get_image().save_jpg(output+"/tracks_close_%03d.jpg" % frame,.94)
 	var cases = [{"id":"tracks_close","start":str(site.position),"end":str(game.sim.position),"crash":game.sim.crash_reason,"sdfgi":game.world.environment.sdfgi_enabled,"snow":game.effects.snow_budget()}]
-	FileAccess.open(output+"/visuals.json",FileAccess.WRITE).store_string(JSON.stringify({"cases":cases,"actual_pixels":[actual.x,actual.y],"display":game.display_settings.report(root,actual),"camera":game.camera_settings.snapshot(),"unranked":not game.session.eligible,"inspection_camera":true,"capture_overhead_included":true,"fixed_fps":60},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/visuals.json",JSON.stringify({"cases":cases,"actual_pixels":[actual.x,actual.y],"display":game.display_settings.report(root,actual),"camera":game.camera_settings.snapshot(),"unranked":not game.session.eligible,"inspection_camera":true,"capture_overhead_included":true,"fixed_fps":60},"\t"))
 	print("PERFORMANCE_TRACKS_VISUAL ",JSON.stringify(cases[0]))
 	game.effects.stop_audio(); game.queue_free(); await process_frame; quit(0)
 func place_observer(observer: Camera3D, focus: Vector3, angle: float) -> void:

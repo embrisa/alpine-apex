@@ -98,7 +98,7 @@ func run() -> void:
 		check(pixels==Vector2i(3840,2160),"Native Windows output is exactly 3840 by 2160 pixels")
 		check(root.scaling_3d_mode==Viewport.SCALING_3D_MODE_FSR2 and root.msaa_3d==Viewport.MSAA_DISABLED,"FSR2 owns temporal antialiasing without redundant MSAA")
 	var result = {"checks":checks,"failures":failures,"native":DisplayServer.get_name()!="headless"}
-	FileAccess.open("res://artifacts/pc_graphics_results.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/pc_graphics_results.json",JSON.stringify(result,"\t"))
 	print("PC_GRAPHICS_RESULTS ",JSON.stringify(result))
 	game.queue_free()
 	await process_frame

@@ -53,6 +53,6 @@ func inspect_motion() -> void:
 							await capture("hud_clear_chase",2)
 							game.hud.root.hide()
 					clips.append({"clip":label,"crash":game.sim.crash_reason,"position":str(game.sim.position),"duration_s":3.0,"airtime_s":game.sim.total_airtime,"frames":90})
-					FileAccess.open(OUTPUT+"/motion_checkpoint.json",FileAccess.WRITE).store_string(JSON.stringify(clips,"\t"))
+					preload("res://tests/test_report.gd").write(OUTPUT+"/motion_checkpoint.json",JSON.stringify(clips,"\t"))
 					print("GOLDEN_MOTION ",label," crash=",game.sim.crash_reason)
-	FileAccess.open(OUTPUT+"/motion.json",FileAccess.WRITE).store_string(JSON.stringify({"clips":clips,"physics_hz":120,"presentation_hz":60,"particle_hz":60,"review_fps":30,"native_pixels":[3840,2160],"review_pixels":[1920,1080],"capture_overhead":true,"native_samples":[30,31,32,90,179],"unranked":not game.session.eligible},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/motion.json",JSON.stringify({"clips":clips,"physics_hz":120,"presentation_hz":60,"particle_hz":60,"review_fps":30,"native_pixels":[3840,2160],"review_pixels":[1920,1080],"capture_overhead":true,"native_samples":[30,31,32,90,179],"unranked":not game.session.eligible},"\t"))

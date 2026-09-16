@@ -16,10 +16,10 @@ func run():
 	var body = FileAccess.get_file_as_string("res://scripts/core/rider_body.gd")
 	body = body.replace("extends RefCounted","extends RefCounted\nstatic var metered_ik_iterations = 0\nstatic var metered_ik_calls = 0")
 	body = body.replace("\tfor iteration in range(16):","\tmetered_ik_calls += 1\n\tfor iteration in range(16):\n\t\tmetered_ik_iterations += 1")
-	FileAccess.open(OUTPUT+"/rider_body.gd",FileAccess.WRITE).store_string(body)
+	preload("res://tests/test_report.gd").write(OUTPUT+"/rider_body.gd",body)
 	var source = FileAccess.get_file_as_string("res://scripts/core/ski_simulation.gd")
 	source = source.replace("class_name SkiSimulation\n","").replace("res://scripts/core/rider_body.gd",OUTPUT+"/rider_body.gd")
-	FileAccess.open(OUTPUT+"/ski_simulation.gd",FileAccess.WRITE).store_string(source)
+	preload("res://tests/test_report.gd").write(OUTPUT+"/ski_simulation.gd",source)
 	var model = load(OUTPUT+"/ski_simulation.gd")
 	var sim = model.new()
 	var physical = preload("res://scripts/core/ski_simulation.gd").new()
@@ -31,7 +31,7 @@ func run():
 	for id in copies:
 		var copy = FileAccess.get_file_as_string(copies[id]).replace("res://scripts/core/rider_body.gd",OUTPUT+"/rider_body.gd")
 		for dependency in copies: copy = copy.replace(copies[dependency],OUTPUT+"/"+dependency+".gd")
-		FileAccess.open(OUTPUT+"/"+id+".gd",FileAccess.WRITE).store_string(copy)
+		preload("res://tests/test_report.gd").write(OUTPUT+"/"+id+".gd",copy)
 	var skier = load(OUTPUT+"/skier_visual.gd").new()
 	root.add_child(skier); await process_frame
 	var peak_tick_queries = 0; var peak_pose_queries = 0
@@ -66,6 +66,6 @@ func run():
 	var report = {"checks":checks,"failures":failures,"max_surface_samples_per_tick":peak_tick_queries,"max_clearance_samples_per_pose":peak_pose_queries,
 		"max_ik_iterations_per_tick":peak_tick_ik,"max_ik_iterations_per_pose":peak_pose_ik,"max_ik_calls_per_pose":peak_pose_calls,
 		"scope":"Instrumented 960-tick 25-degree plane/flight fixture, 120 km/h entry, turns, reversals, tuck, preparation and grab. Counters cannot be used as timings."}
-	FileAccess.open(OUTPUT+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/results.json",JSON.stringify(report,"\t"))
 	print("POSE_BUDGET ",JSON.stringify(report))
 	skier.queue_free(); await process_frame; quit(0 if failures.is_empty() else 1)

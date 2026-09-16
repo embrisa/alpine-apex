@@ -19,5 +19,5 @@ func run() -> void:
 		success = success and connected and spread>=500
 		rows.append({"face":route.face,"connected":connected,"spread_m":spread,"visited":route.safe_samples,"refinement":route.refinement,"reachable_rows":route.get("reachable_columns",[])})
 	var report = {"geometry_only":isolate,"snow_material_override":snow_material,"node_clearance_m":.6,"edge_clearance_m":.5,"solver_trunk_expansion_m":.35,"survey_ms":(Time.get_ticks_usec()-start)/1000.0,"routes":rows,"pass":success}
-	FileAccess.open("res://artifacts/generation_v15/route_support_probe.json" if snow_material else "res://artifacts/generation_v15/route_geometry_probe.json" if isolate else "res://artifacts/generation_v15/route_clearance_probe.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/route_support_probe.json" if snow_material else "res://artifacts/generation_v15/route_geometry_probe.json" if isolate else "res://artifacts/generation_v15/route_clearance_probe.json",JSON.stringify(report,"\t"))
 	print("ROUTE_CLEARANCE ",JSON.stringify(report)); quit(0 if success else 1)

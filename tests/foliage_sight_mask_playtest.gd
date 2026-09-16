@@ -54,6 +54,6 @@ func run() -> void:
 			previous = measured
 			stacked.save_png(output+"/depth_%02d_strength_%03d.png" % [depth,strength*100])
 			rows.append({"depth":depth,"strength":strength*100,"tile_removal":measured})
-	FileAccess.open(output+"/report.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"rows":rows,"output":output,"scope":"synthetic production shader include","tree_visual_acceptance":false},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/report.json",JSON.stringify({"checks":checks,"failures":failures,"rows":rows,"output":output,"scope":"synthetic production shader include","tree_visual_acceptance":false},"\t"))
 	print("FOLIAGE_MASK_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"output":output}))
 	quit(0 if failures.is_empty() else 1)

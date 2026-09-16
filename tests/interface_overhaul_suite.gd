@@ -131,7 +131,7 @@ func run() -> void:
 	if "--matrix" in OS.get_cmdline_user_args(): await matrix()
 	var result = {"checks":checks,"failures":failures,"captures":captures,"native":native}
 	var report_name = "interaction_results.json" if "--timeline" in OS.get_cmdline_user_args() else "results.json"
-	FileAccess.open("res://artifacts/interface_overhaul/current/"+report_name,FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/interface_overhaul/current/"+report_name,JSON.stringify(result,"\t"))
 	print("INTERFACE_OVERHAUL_RESULTS ",JSON.stringify(result))
 	game.queue_free()
 	await settle()
@@ -243,5 +243,5 @@ func transition_timeline() -> void:
 		var label = "interaction_%02d" % index
 		frames[index].save_png("res://artifacts/interface_overhaul/current/"+label+".png")
 		entries[index].file = label+".png"
-	FileAccess.open("res://artifacts/interface_overhaul/current/interaction_timeline.json",FileAccess.WRITE).store_string(JSON.stringify({"frames":entries,"capture_note":"Readbacks during interaction; PNG encoding deferred until after the sequence. Not an FPS measurement.","hardware_controller":false},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/interface_overhaul/current/interaction_timeline.json",JSON.stringify({"frames":entries,"capture_note":"Readbacks during interaction; PNG encoding deferred until after the sequence. Not an FPS measurement.","hardware_controller":false},"\t"))
 	game.hud.feedback.reduced_motion = false

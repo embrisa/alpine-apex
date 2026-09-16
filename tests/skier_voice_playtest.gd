@@ -165,7 +165,7 @@ func run() -> void:
 		game.voice.breath_player.bus = "Master"
 		AudioServer.remove_bus(bus)
 	var result = {"checks":checks,"failures":failures,"native_audio":native,"cues":cues,"note":"Controlled integration fixture; does not establish subjective skier performance or full-mountain FPS."}
-	FileAccess.open("res://artifacts/voice/playtest.json" if native else "res://artifacts/voice/integration.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/voice/playtest.json" if native else "res://artifacts/voice/integration.json",JSON.stringify(result,"\t"))
 	game.effects.stop_audio()
 	game.voice.silence()
 	game.queue_free()

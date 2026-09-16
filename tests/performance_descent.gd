@@ -198,9 +198,9 @@ func run() -> void:
 		for section in sections: section_report[section] = frame_stats(sections[section])
 		# Write only after measurement ends. Retain the actual distribution so
 		# median FPS, tails and later analyses never have to infer raw frames.
-		FileAccess.open(output+"/frame_samples_%d.json" % (repetition+1),FileAccess.WRITE).store_string(JSON.stringify({"frame_ms":frames,"gpu_ms":gpu,"render_cpu_ms":cpu,"draw_calls":draws,"submitted_primitives":primitives,"submitted_objects":objects,"sections":sections}))
+		preload("res://tests/test_report.gd").write(output+"/frame_samples_%d.json" % (repetition+1),JSON.stringify({"frame_ms":frames,"gpu_ms":gpu,"render_cpu_ms":cpu,"draw_calls":draws,"submitted_primitives":primitives,"submitted_objects":objects,"sections":sections}))
 		if game.frame_costs.enabled:
-			FileAccess.open(output+"/streaming_events_%d.json" % (repetition+1),FileAccess.WRITE).store_string(JSON.stringify({"event_fields":["scope","process_frame","begin_us","end_us"],"frame_fields":["process_frame","begin_us","end_us","tick","x","y","z"],"events":game.frame_costs.events,"frames":chronology}))
+			preload("res://tests/test_report.gd").write(output+"/streaming_events_%d.json" % (repetition+1),JSON.stringify({"event_fields":["scope","process_frame","begin_us","end_us"],"frame_fields":["process_frame","begin_us","end_us","tick","x","y","z"],"events":game.frame_costs.events,"frames":chronology}))
 		var row = {"run":repetition+1,"finished":game.session.finished,"crash":game.sim.crash_reason,"exact_trace":exact,"ticks":game.sim.ticks,"wall_seconds":elapsed,"frame_ms":frame_stats(frames),"gpu_ms":Costs.stats(gpu),"render_cpu_ms":Costs.stats(cpu),"draw_calls":Costs.stats(draws),"submitted_primitives":Costs.stats(primitives),"submitted_objects":Costs.stats(objects),"cpu_scopes_us":game.frame_costs.report(),"sections":section_report,"peak_video_bytes":peak_video,"peak_engine_static_bytes":peak_static,"snow":game.effects.snow_budget(),"forest":game.world.scenery.density_forest.report(),"fsr_begin":start_status,"fsr_end":end_status}
 		row.merge({"started_unix_seconds":started_unix,"ended_unix_seconds":ended_unix,"unfocused_frames":unfocused_frames,"forest_coverage":forest_coverage.duplicate(true)})
 		row.gravel = {"mode":gravel_mode,"start":gravel_start,"end":game.world.minerals.gravel.population(),"coverage":gravel_coverage.duplicate(true)}
@@ -224,7 +224,7 @@ func run() -> void:
 			report.scope = "speed_controlled_stress"; report.stress = trace.stress
 			report.handling_acceptance = false
 		report.merge({"loading":loading_report,"graphics_profile":game.graphics.snapshot(),"graphics_preset":game.graphics.preset_id,"renderer":RenderingServer.get_current_rendering_method(),"rendering_driver":RenderingServer.get_current_rendering_driver_name()})
-		FileAccess.open(output+"/production.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+		preload("res://tests/test_report.gd").write(output+"/production.json",JSON.stringify(report,"\t"))
 		print("PERFORMANCE_RESULT run=",repetition+1," ",JSON.stringify(row.frame_ms)," exact=",exact)
 		if not failures.is_empty(): break
 	dispose_comparison()

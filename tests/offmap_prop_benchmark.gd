@@ -25,5 +25,5 @@ func inspect_massif() -> void:
 			gpu.append(RenderingServer.viewport_get_measured_render_time_gpu(root.get_viewport_rid()))
 		rows.append({"mode":mode,"gpu_ms":timing(gpu),"frame_ms":frame_timing(frames)})
 		print("OFFMAP_COMPONENT ",JSON.stringify(rows.back()))
-	FileAccess.open(OUTPUT+"/components.json",FileAccess.WRITE).store_string(JSON.stringify({"rows":rows,"geometry":game.world.wilderness.report(),"actual_pixels":[actual_pixels.x,actual_pixels.y],"capture_overhead":false},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/components.json",JSON.stringify({"rows":rows,"geometry":game.world.wilderness.report(),"actual_pixels":[actual_pixels.x,actual_pixels.y],"capture_overhead":false},"\t"))
 	observer.queue_free()

@@ -95,6 +95,6 @@ func run() -> void:
 						if tuck==1.0 and absf(steer)==1.0: check(row.tuck_450ms<.04,label+": full turn opens tuck after the short steering grace window")
 	var result = {"model":model.MODEL_VERSION,"checks":checks,"failures":failures,"turns":results,"unranked":true}
 	var path = OUTPUT+("/baseline_turns.json" if baseline else "/turns.json")
-	FileAccess.open(path,FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(path,JSON.stringify(result,"\t"))
 	print("DOWNHILL_CONTROL_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"path":path}))
 	quit(0 if failures.is_empty() else 1)

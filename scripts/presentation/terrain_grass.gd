@@ -5,6 +5,8 @@ const Motion = preload("res://scripts/presentation/grass_motion.gd")
 const MANIFEST = "res://assets/graphics/grass/manifest.json"
 const MAX_CELLS = 625
 const CELLS_PER_FRAME = 3
+const PUBLISH_BUDGET_US = 300
+const RETIRE_PER_FRAME = 8
 class CellWork extends RefCounted:
 	var id: int
 	var key: Vector2i
@@ -37,6 +39,20 @@ var wanted: Dictionary = {}
 var work: Dictionary = {}
 var frame_costs
 var preparation_samples = PackedFloat64Array()
+var retiring: Array = []
+## Candidate offsets sorted once per reach: (distance, dy, dx) order equals the
+## former per-change lambda sort of absolute keys.
+static var sorted_offsets: Dictionary = {}
+static func offsets_for(reach: int) -> Array:
+	if sorted_offsets.has(reach): return sorted_offsets[reach]
+	var rows: Array = []
+	for z in range(-reach,reach+1):
+		for x in range(-reach,reach+1): rows.append([x*x+z*z,z,x])
+	rows.sort()
+	var result: Array = []
+	for row in rows: result.append(Vector2i(row[2],row[1]))
+	sorted_offsets[reach] = result
+	return result
 func build(surface, library, profile) -> void:
 	field=surface; assets=library
 	var catalog: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(MANIFEST))
@@ -85,24 +101,28 @@ func stream(camera_position: Vector3, budget: int = CELLS_PER_FRAME, asynchronou
 		wanted.clear()
 		var reach=ceili(distance_m/Placement.CELL)+1
 		var keys: Array[Vector2i] = []
-		for z in range(-reach,reach+1):
-			for x in range(-reach,reach+1):
-				var at=key+Vector2i(x,z)
-				if Vector2(x,z).length()*Placement.CELL>distance_m+Placement.CELL: continue
-				if not field.bounds().intersects(Rect2(Vector2(at)*Placement.CELL,Vector2.ONE*Placement.CELL)): continue
-				keys.append(at)
-		keys.sort_custom(func(a,b): return a.distance_squared_to(key)<b.distance_squared_to(key) if a.distance_squared_to(key)!=b.distance_squared_to(key) else (a.y<b.y if a.y!=b.y else a.x<b.x))
+		var bounds: Rect2=field.bounds()
+		for offset in offsets_for(reach):
+			if Vector2(offset).length()*Placement.CELL>distance_m+Placement.CELL: continue
+			var at=key+offset
+			if not bounds.intersects(Rect2(Vector2(at)*Placement.CELL,Vector2.ONE*Placement.CELL)): continue
+			keys.append(at)
 		for at in keys.slice(0,MAX_CELLS):
 			wanted[at]=true
 			if not cells.has(at) and not work.has(at): pending.append(at)
 		for at in cells.keys():
 			if not wanted.has(at):
-				for batch in cells[at]: batch.free()
+				# Leaving cells sit beyond grass_distance; free them a few per frame.
+				retiring.append_array(cells[at])
 				cells.erase(at)
+	for i in mini(RETIRE_PER_FRAME,retiring.size()): retiring.pop_back().free()
 	var submitted=0
+	var publish_started=Time.get_ticks_usec()
 	for at in work.keys():
 		var job: CellWork=work[at]
 		if not WorkerThreadPool.is_task_completed(job.id): continue
+		# Publication is bounded by time as well as count; at least one cell lands.
+		if asynchronous and submitted>0 and Time.get_ticks_usec()-publish_started>PUBLISH_BUDGET_US: break
 		WorkerThreadPool.wait_for_task_completion(job.id)
 		work.erase(at)
 		if frame_costs and frame_costs.enabled and preparation_samples.size()<200000: preparation_samples.append(job.milliseconds)
@@ -146,6 +166,8 @@ func _clear_cells() -> void:
 	work.clear(); wanted.clear()
 	for batches in cells.values():
 		for batch in batches: batch.free()
+	for batch in retiring: batch.free()
+	retiring.clear()
 	cells.clear(); pending.clear()
 func population() -> int:
 	var count=0

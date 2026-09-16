@@ -84,7 +84,7 @@ func run() -> void:
 	await process_frame
 	_cleanup(test_dir)
 	var output = {"checks":checks,"failures":failures,"metrics":metrics,"captures":captures}
-	FileAccess.open("res://artifacts/competitive_results%s.json" % ("_rendered" if DisplayServer.get_name()!="headless" else ""),FileAccess.WRITE).store_string(JSON.stringify(output,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/competitive_results%s.json" % ("_rendered" if DisplayServer.get_name()!="headless" else ""),JSON.stringify(output,"\t"))
 	print("COMPETITIVE_RESULTS ",JSON.stringify(output))
 	quit(0 if failures.is_empty() else 1)
 
@@ -168,7 +168,7 @@ func _replay_checks(replay, session) -> void:
 
 func _incompatible_storage_checks() -> void:
 	var path = test_dir.path_join("incompatible.json")
-	FileAccess.open(path,FileAccess.WRITE).store_string(JSON.stringify({"version":1,"best":18.0}))
+	preload("res://tests/test_report.gd").write(path,JSON.stringify({"version":1,"best":18.0}))
 	check(Records.load_record(path,Replay.key("other")).runs.is_empty(),"Superseded storage is not migrated into invented ghosts")
 
 func _history_and_benchmark_checks() -> void:
@@ -195,11 +195,11 @@ func _failure_checks(session) -> void:
 	var path = Records.path_for(session.record_path())
 	var data = JSON.parse_string(FileAccess.get_file_as_string(path))
 	data.runs[0].sha256 = "0".repeat(64)
-	FileAccess.open(path,FileAccess.WRITE).store_string(JSON.stringify(data,"",true,true))
+	preload("res://tests/test_report.gd").write(path,JSON.stringify(data,"",true,true))
 	var restored = Records.load_record(session.record_path(),Replay.key(session.course_id))
 	check(restored.best==session.personal_best and not restored.warning.is_empty(),"Missing payload retains valid best time with explanation")
 	session.save_record()
-	FileAccess.open(test_dir.path_join("not_a_folder"),FileAccess.WRITE).store_string("fixture")
+	preload("res://tests/test_report.gd").write(test_dir.path_join("not_a_folder"),"fixture")
 	var error = Records.save(test_dir.path_join("not_a_folder/record.json"),Replay.key(session.course_id),session.personal_best,session.best_splits,session.history,session.ghost_runs,session.ghost_selection)
 	check(not error.is_empty(),"Visible persistence failure never claims success")
 

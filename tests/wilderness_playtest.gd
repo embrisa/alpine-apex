@@ -59,4 +59,4 @@ func inspect_massif() -> void:
 	game.workshop.focus_point = Vector3.ZERO
 	game.workshop._update_survey()
 	await capture("race_zone")
-	FileAccess.open(OUTPUT+"/wilderness.json",FileAccess.WRITE).store_string(JSON.stringify({"backdrop":game.world.wilderness.report(),"captures":inspection_captures,"actual_pixels":[actual_pixels.x,actual_pixels.y],"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"unranked":true},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/wilderness.json",JSON.stringify({"backdrop":game.world.wilderness.report(),"captures":inspection_captures,"actual_pixels":[actual_pixels.x,actual_pixels.y],"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"unranked":true},"\t"))

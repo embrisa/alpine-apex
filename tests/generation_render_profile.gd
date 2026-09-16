@@ -114,7 +114,7 @@ func run() -> void:
 				root.get_texture().get_image().save_png("res://artifacts/generation_v15/v%d_p%d%s_face%d.png" % [version,preset_index,suffix,face_index])
 		row.dense = dense
 		report.runs.append(row)
-		FileAccess.open("res://artifacts/generation_v15/render_v%d_p%d%s.json" % [version,preset_index,suffix],FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+		preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/render_v%d_p%d%s.json" % [version,preset_index,suffix],JSON.stringify(report,"\t"))
 		game.queue_free(); field = null; definition = null
 		for frame in 12: await process_frame
 	print("GENERATION_RENDER_COMPLETE")

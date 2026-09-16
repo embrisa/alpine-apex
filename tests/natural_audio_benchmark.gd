@@ -53,7 +53,7 @@ func descent() -> void:
 		print("NATURAL_AUDIO_TIMING ",JSON.stringify(result))
 	process_frame.disconnect(_measure)
 	var report = {"scope":"Full v13 mountain; fixed skier pose/velocity, repeated impacts and equipment events; audio overhead isolation, not traversal","actual_pixels":[actual_pixels.x,actual_pixels.y],"display":game.display_settings.report(root,actual_pixels),"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"version":version,"seed":mountain_seed,"source_sha256":identity,"passes":results,"unranked":not game.session.eligible,"capture_overhead":false}
-	FileAccess.open(OUTPUT+"/natural_audio.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/natural_audio.json",JSON.stringify(report,"\t"))
 	game.effects.stop_audio()
 	await create_timer(.18).timeout
 	smoke = true

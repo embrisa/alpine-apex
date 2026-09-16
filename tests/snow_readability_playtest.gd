@@ -120,7 +120,7 @@ func save_report() -> void:
 		"unranked":not game.session.eligible,"capture_overhead_included":not timing_run,"scope":"matched short skiing fixtures; not full-descent acceptance",
 		"particles":"Live clock in uncaptured timing; fixed simulation time in motion; equipment spray hidden in still comparisons",
 		"peak_video_bytes":peak_video_bytes,"sources":source_identity,"sites":snow_sites,"samples":samples,"failures":failures}
-	FileAccess.open(OUTPUT+"/report.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/report.json",JSON.stringify(report,"\t"))
 
 func read_sources() -> Dictionary:
 	var paths = ["scripts/presentation/snow_readability.gd","scripts/presentation/alpine_atmosphere.gd","scripts/presentation/graphics_quality.gd","scripts/presentation/speed_effects.gd","scripts/world/alpine_world.gd","assets/graphics/snow_readability.gdshaderinc","assets/graphics/alpine_surface_fragment.gdshaderinc","assets/graphics/alpine_surface_uniforms.gdshaderinc","assets/graphics/ski_track.gdshader","assets/graphics/snow_crystals.gdshaderinc","scripts/main.gd","scripts/core/ski_simulation.gd","config/ski_default.tres","tests/snow_readability_playtest.gd"]

@@ -69,6 +69,6 @@ func run() -> void:
 			check((not sim.crashed and sim.impacts.reserve>0) if reserve==1 else (sim.crashed and sim.impacts.reserve==0),"Impact reserve determines survival for %s at reserve %.2f" % ["tree" if tree else "rock",reserve])
 			results.append({"fixture":"deliberate_tree" if tree else "deliberate_rock","starting_reserve":reserve,"reserve":sim.impacts.reserve,"impact_reason":sim.impacts.last_reason,"crash":sim.crash_reason})
 	check(results.filter(func(value): return value.fixture=="overspeed" and not value.crash.is_empty()).size()==2,"No-braking attempts encounter physical consequences on both alternatives")
-	FileAccess.open("res://artifacts/technical_showcase_v8/hazards.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"results":results},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/technical_showcase_v8/hazards.json",JSON.stringify({"checks":checks,"failures":failures,"results":results},"\t"))
 	print("HAZARDS ",JSON.stringify(results))
 	quit(0 if failures.is_empty() else 1)

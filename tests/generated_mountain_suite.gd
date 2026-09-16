@@ -103,7 +103,7 @@ func run() -> void:
 	DirAccess.remove_absolute(store.directory)
 	DirAccess.make_dir_recursive_absolute("res://artifacts/jump_upgrade")
 	var output = {"checks":checks,"failures":failures,"seeds":metrics,"example":JSON.parse_string(code)}
-	FileAccess.open("res://artifacts/jump_upgrade/generator_results.json",FileAccess.WRITE).store_string(JSON.stringify(output,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/jump_upgrade/generator_results.json",JSON.stringify(output,"\t"))
 	print("GENERATED_MOUNTAIN_RESULTS ",JSON.stringify(output))
 	quit(0 if failures.is_empty() else 1)
 

@@ -49,5 +49,5 @@ func run():
 			for f in 5: await process_frame
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png(output+scenario+"_"+view+".png")
-	FileAccess.open(output+"poses.json",FileAccess.WRITE).store_string(JSON.stringify(rows,"\t"))
+	preload("res://tests/test_report.gd").write(output+"poses.json",JSON.stringify(rows,"\t"))
 	scene.queue_free(); await process_frame; quit()

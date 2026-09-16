@@ -216,6 +216,6 @@ func run() -> void:
 	await process_frame
 	DirAccess.make_dir_recursive_absolute("res://artifacts/sfx")
 	var report={"checks":checks,"failures":failures,"fallback":fallback}
-	FileAccess.open("res://artifacts/sfx/"+("fallback" if fallback else "native")+"_suite.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/sfx/"+("fallback" if fallback else "native")+"_suite.json",JSON.stringify(report,"\t"))
 	print("SFX_AUDIO_RESULT ",JSON.stringify(report))
 	quit(0 if failures.is_empty() else 1)

@@ -30,7 +30,7 @@ func run() -> void:
 	await super.run()
 	var stable = true
 	for path in sources: stable = stable and sources[path]==FileAccess.get_sha256("res://"+path)
-	FileAccess.open(output+"/sources.json",FileAccess.WRITE).store_string(JSON.stringify({"sources":sources,"stable":stable,"motion_script":motion_script},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/sources.json",JSON.stringify({"sources":sources,"stable":stable,"motion_script":motion_script},"\t"))
 	if not stable:
 		print("FAIL: Production source changed during tuck capture")
 		quit(1)
@@ -90,7 +90,7 @@ func capture(name: String) -> void:
 		var pitch = rad_to_deg(atan2(rotations.Spine.y.dot(forward),rotations.Spine.y.dot(up)))
 		if hip>=.60 or pitch<=55.0: failures.append(name+": full solver tuck lost its visible compression")
 	await super.capture(name)
-	FileAccess.open(output+"/trace.json",FileAccess.WRITE).store_string(JSON.stringify(trace,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/trace.json",JSON.stringify(trace,"\t"))
 
 func pack(value):
 	if value is Vector3: return [value.x,value.y,value.z]

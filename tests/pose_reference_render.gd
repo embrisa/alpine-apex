@@ -123,7 +123,7 @@ func run():
 		meta.scenarios[item.name]=camera_data
 		print("POSE_REVIEW_RENDERED ",item.name," frames=",frames.size()," diagnostic=",diagnostic)
 	meta.max_restored_bone_error_m=verify_error
-	FileAccess.open(folder+("/diagnosis.json" if diagnostic else ("/details.json" if details else "/render.json")),FileAccess.WRITE).store_string(JSON.stringify(meta,"\t"))
+	preload("res://tests/test_report.gd").write(folder+("/diagnosis.json" if diagnostic else ("/details.json" if details else "/render.json")),JSON.stringify(meta,"\t"))
 	print("POSE_REVIEW_RENDER_COMPLETE max_bone_error=",verify_error)
 	scene.queue_free(); await process_frame; quit(0 if verify_error<.00001 else 1)
 

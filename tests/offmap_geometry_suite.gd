@@ -122,5 +122,5 @@ func run() -> void:
 		baseline.queue_free(); apron.queue_free(); panorama.queue_free()
 		await process_frame
 	DirAccess.make_dir_recursive_absolute("res://artifacts/offmap_v3")
-	FileAccess.open("res://artifacts/offmap_v3/geometry.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/offmap_v3/geometry.json",JSON.stringify({"checks":checks,"failures":failures},"\t"))
 	quit(0 if failures.is_empty() else 1)

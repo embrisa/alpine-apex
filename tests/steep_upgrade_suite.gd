@@ -24,7 +24,7 @@ func run():
 	check(metrics.spine_length_error_m<.00001 and metrics.chest_attachment_error_m<.00001,"Motion profiles retain spine and shoulder attachment")
 	results.merge({"checks":checks,"failures":failures,"anatomy":metrics,"physics":Sim.MODEL_VERSION,"replay":Replay.VERSION})
 	DirAccess.make_dir_recursive_absolute(OUTPUT)
-	FileAccess.open(OUTPUT+"/focused.json",FileAccess.WRITE).store_string(JSON.stringify(results,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/focused.json",JSON.stringify(results,"\t"))
 	print("STEEP_UPGRADE_RESULTS ",JSON.stringify(results))
 	skier.queue_free(); await process_frame; quit(0 if failures.is_empty() else 1)
 

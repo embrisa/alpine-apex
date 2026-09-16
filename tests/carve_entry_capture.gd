@@ -28,7 +28,7 @@ func run():
 		await capture_sequence(name,{"origin":Vector3.ZERO,"heading":0.0,"grade":.7})
 	report.sources_after=source_hashes();report.stable_sources=report.sources==report.sources_after
 	if not report.stable_sources:report.failures.append("Production source changed during capture")
-	FileAccess.open(output+"/manifest.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/manifest.json",JSON.stringify(report,"\t"))
 	print("CARVE_ENTRY_CAPTURE ",output," failures=",report.failures)
 	scene.queue_free();await process_frame;quit(0 if report.failures.is_empty() else 1)
 

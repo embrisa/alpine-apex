@@ -71,7 +71,7 @@ func run() -> void:
 		"load_ms":load_ms,"unranked":not game.session.eligible,"preferences_disabled":not game.preferences_enabled,
 		"preview_material_count":preview_materials.size(),"sources":source_identity,"sites":snow_sites,"samples":samples,"controls":controls,"failures":failures,
 		"scope":"Frozen rendered comparisons, not motion, performance or human acceptance. Snowfall uses identical frozen GPU particles within each pair."}
-	FileAccess.open(OUTPUT+"/report.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/report.json",JSON.stringify(report,"\t"))
 	print("SNOW_BUMP_COMPLETE captures=",samples.size()," production_check=",production_check," failures=",failures)
 	game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)
@@ -98,7 +98,7 @@ func prepare_preview() -> bool:
 			var candidate = Shader.new()
 			candidate.code = original.code.replace(include_line,fragment)
 			preview_shaders[original] = candidate
-			FileAccess.open(OUTPUT+"/preview_"+original.resource_path.get_file(),FileAccess.WRITE).store_string(candidate.code)
+			preload("res://tests/test_report.gd").write(OUTPUT+"/preview_"+original.resource_path.get_file(),candidate.code)
 		original_shaders[material] = original
 		material.shader = preview_shaders[original]
 		preview_materials.append(material)

@@ -83,7 +83,7 @@ func run() -> void:
 	for name in DirAccess.get_files_at(directory.path_join("ghosts")): DirAccess.remove_absolute(directory.path_join("ghosts").path_join(name))
 	DirAccess.remove_absolute(directory.path_join("ghosts")); DirAccess.remove_absolute(record_path); DirAccess.remove_absolute(directory)
 	DirAccess.make_dir_recursive_absolute("res://artifacts/session_stall")
-	var out = FileAccess.open("res://artifacts/session_stall/%s.json" % label,FileAccess.WRITE); out.store_string(JSON.stringify(data,"\t")); out.close()
+	var out = preload("res://tests/test_report.gd").open_write("res://artifacts/session_stall/%s.json" % label); out.store_string(JSON.stringify(data,"\t")); out.close()
 	print("SESSION_STALL_PROBE ",JSON.stringify(data))
 	quit(0)
 

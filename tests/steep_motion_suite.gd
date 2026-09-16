@@ -45,7 +45,7 @@ func run():
 	check(metrics.posture_step_rad<=12.0*DT+.0001 and metrics.angular_accel_rad_s2<160.01,"Posture retargets retain velocity within angular speed and acceleration bounds")
 	var result = {"checks":checks,"failures":failures,"metrics":metrics,"cases":cases,"physics":Sim.MODEL_VERSION,"replay":Replay.VERSION}
 	result.baseline_air_rates = baseline_air
-	FileAccess.open(OUTPUT+("/suite_air_baseline.json" if baseline_air else "/suite.json"),FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+("/suite_air_baseline.json" if baseline_air else "/suite.json"),JSON.stringify(result,"\t"))
 	print("FULL_MOTION_RESULTS ",JSON.stringify(result))
 	skier.queue_free(); await process_frame; quit(0 if failures.is_empty() else 1)
 

@@ -75,7 +75,7 @@ func run() -> void:
 		if picture.get_size()!=Vector2i(1920,1080): quit(2); return
 		picture.save_png(path)
 		captures.append(path)
-	FileAccess.open("res://artifacts/geology_v11/seating.json",FileAccess.WRITE).store_string(JSON.stringify({"asset":selected.asset,"placements":local.size(),"height_sha256":data.height_sha256,"obstacle_sha256":data.obstacle_sha256,"catalog_sha256":field.geology.catalog.fingerprint,"captures":captures,"output_pixels":[1920,1080],"fps_cap":Engine.max_fps,"unranked":true},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/geology_v11/seating.json",JSON.stringify({"asset":selected.asset,"placements":local.size(),"height_sha256":data.height_sha256,"obstacle_sha256":data.obstacle_sha256,"catalog_sha256":field.geology.catalog.fingerprint,"captures":captures,"output_pixels":[1920,1080],"fps_cap":Engine.max_fps,"unranked":true},"\t"))
 	print("GEOLOGY_SEATING_CAPTURE ",selected.asset," ",local.size()," nearby placements")
 	quit()
 

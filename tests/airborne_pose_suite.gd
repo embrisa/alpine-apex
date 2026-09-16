@@ -86,7 +86,7 @@ func run():
 		angular_error = maxf(angular_error,bone.angular_velocity.distance_to(sim.body.pose_frame.basis*Vector3(-.35,0,.7)))
 	check(gap<.001 and (momentum/sim.tuning.rider_mass).distance_to(sim.velocity)<.001,"Backward crash seeds the composed pose and retains total incoming momentum")
 	check(angular_error<.001,"Backward facing preserves the physical world angular velocity at crash handoff")
-	FileAccess.open("res://artifacts/jump_v13/pose_results.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"metrics":metrics},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/jump_v13/pose_results.json",JSON.stringify({"checks":checks,"failures":failures,"metrics":metrics},"\t"))
 	print("AIRBORNE_POSE_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"metrics":metrics}))
 	skier.queue_free()
 	await process_frame

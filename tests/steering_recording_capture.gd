@@ -72,12 +72,12 @@ func run():
 		trace.origin = "steering_jank_regression_stimulus"; trace.recorded_utc = Time.get_datetime_string_from_system(true)
 		trace.engine = Engine.get_version_info(); trace.engine_sha256 = FileAccess.get_sha256(OS.get_executable_path())
 		trace.erase("regression_fixture"); trace.erase("fixture_purpose")
-		FileAccess.open(output+"/current-input.json",FileAccess.WRITE).store_string(JSON.stringify(Trace.Inputs.storage(trace),"",true,true))
+		preload("res://tests/test_report.gd").write(output+"/current-input.json",JSON.stringify(Trace.Inputs.storage(trace),"",true,true))
 	report.sources_after = source_hashes(); report.stable_sources = report.sources==report.sources_after
 	if not report.stable_sources: report.failures.append("Capture source changed")
-	FileAccess.open(output+"/recording.json",FileAccess.WRITE).store_string(JSON.stringify({"name":"recording","fixture":{"heading":trace.heading},"events":[],"frames":rows}))
+	preload("res://tests/test_report.gd").write(output+"/recording.json",JSON.stringify({"name":"recording","fixture":{"heading":trace.heading},"events":[],"frames":rows}))
 	report.scenarios.append({"name":"recording","frames":rows.size()})
-	FileAccess.open(output+"/manifest.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/manifest.json",JSON.stringify(report,"\t"))
 	print("STEERING_CAPTURE_RESULT ",JSON.stringify({"frames":rows.size(),"failures":report.failures,"output":output}))
 	scene.queue_free(); await process_frame; quit(0 if report.failures.is_empty() else 1)
 

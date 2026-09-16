@@ -140,7 +140,7 @@ func run() -> void:
 	check(overflow.overflow and overflow.inputs.is_empty() and overflow.samples.is_empty(),"Existing ten-minute overflow frees buffers independently of crash timing")
 	check(overflow.to_data().is_empty(),"Overflow capture returns no envelope without encoding empty bytes")
 	var report = {"checks":checks,"failures":failures,"clock_round_trips":clock_round_trips}
-	FileAccess.open("res://artifacts/orchestration_20260912/crash/replay-results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/orchestration_20260912/crash/replay-results.json",JSON.stringify(report,"\t"))
 	print("CRASH_REPLAY_RESULTS ",JSON.stringify(report))
 	quit(0 if failures.is_empty() else 1)
 

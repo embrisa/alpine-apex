@@ -515,7 +515,7 @@ func hash_folder(folder: String, result: Dictionary) -> void:
 	for directory in DirAccess.get_directories_at(folder): hash_folder(folder.path_join(directory),result)
 
 func write_json(name: String, data: Dictionary) -> void:
-	var file = FileAccess.open(output.path_join(name),FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write(output.path_join(name))
 	if file: file.store_string(JSON.stringify(data,"\t"))
 	else: check(false,"cannot write "+name)
 

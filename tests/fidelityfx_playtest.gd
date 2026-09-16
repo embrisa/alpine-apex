@@ -92,7 +92,7 @@ func run() -> void:
 	var report = {"engine":Engine.get_version_info(),"executable":OS.get_executable_path(),
 		"executable_sha256":FileAccess.get_sha256(OS.get_executable_path()),"failures":failures,"phases":results,
 		"note":"Render and SDK dispatch evidence; full mountain, pacing, visual motion quality and other GPUs require separate validation."}
-	FileAccess.open("res://artifacts/fidelityfx/render-results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/fidelityfx/render-results.json",JSON.stringify(report,"\t"))
 	print("FIDELITYFX_RESULTS ",JSON.stringify(report))
 	settings.frame_generation = false
 	settings.apply_viewport(root)

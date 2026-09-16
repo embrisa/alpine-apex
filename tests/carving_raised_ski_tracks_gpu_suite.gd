@@ -66,7 +66,7 @@ func run() -> void:
 	verify(await submit_live()==blank,"Reset leaves no GPU live or retained impression")
 	var folder = "res://artifacts/orchestration_20260912/carving/gpu"
 	DirAccess.make_dir_recursive_absolute(folder)
-	FileAccess.open(folder+"/results.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"device":RenderingServer.get_video_adapter_name()},"\t"))
+	preload("res://tests/test_report.gd").write(folder+"/results.json",JSON.stringify({"checks":checks,"failures":failures,"device":RenderingServer.get_video_adapter_name()},"\t"))
 	print("CARVING_TRACK_GPU ",checks," failures=",failures)
 	surface.queue_free(); tracks.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

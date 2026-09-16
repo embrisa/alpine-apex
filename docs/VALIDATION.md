@@ -11,6 +11,14 @@ not supply missing provenance or require a gameplay schema reset. Dev equality
 alone never establishes source equivalence, comparable performance or acceptance.
 Regression reports retain test-script hashes and reject game/build/test-input drift.
 
+Suites write their reports through `tests/test_report.gd` (`write`, `write_line`,
+`write_bytes`, `write_var`, or `open_write` for a retained handle). It creates
+the report folder and reports a failed open instead of dereferencing a null
+`FileAccess`; the old chained `FileAccess.open(path, WRITE).store_string()` on a
+missing `artifacts/` folder raised a script error after every check had passed
+and left the headless suite running until killed. New suites must not open
+report files directly.
+
 Use [current source identities](ARCHITECTURE.md#current-identity), not the version
 embedded in an old filename. Run engine workloads through
 `scripts/run_guarded.ps1` or an owning wrapper; do not nest guards. The guard

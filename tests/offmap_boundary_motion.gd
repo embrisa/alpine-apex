@@ -25,5 +25,5 @@ func inspect_massif() -> void:
 	fixture.select(game.world,false); fixture.dispose()
 	var report={"frames":48,"version":15,"seed":field.seed_value,"camera_height_m":1.8,"radii_m":[2670,2835],"capture_overhead":true,"unranked":true,"geometry":game.world.wilderness.report()}
 	report.script_sha256=FileAccess.get_sha256("res://tests/offmap_boundary_motion.gd")
-	FileAccess.open(OUTPUT+"/boundary_motion.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/boundary_motion.json",JSON.stringify(report,"\t"))
 	observer.queue_free()

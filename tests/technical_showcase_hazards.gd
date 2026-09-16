@@ -61,6 +61,6 @@ func run() -> void:
 		check(sim.crash_reason==("TREE IMPACT" if tree else "ROCK IMPACT"),"Real-solver deliberate %s collision crashes on its visible envelope" % ("tree" if tree else "rock"))
 		results.append({"fixture":"deliberate_tree" if tree else "deliberate_rock","crash":sim.crash_reason})
 	check(results.filter(func(value): return value.fixture=="overspeed" and not value.crash.is_empty()).size()==2,"No-braking attempts encounter physical consequences on both alternatives")
-	FileAccess.open("res://artifacts/technical_showcase/hazards.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"results":results},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/technical_showcase/hazards.json",JSON.stringify({"checks":checks,"failures":failures,"results":results},"\t"))
 	print("HAZARDS ",JSON.stringify(results))
 	quit(0 if failures.is_empty() else 1)

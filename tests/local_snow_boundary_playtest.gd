@@ -400,7 +400,7 @@ func install_reference() -> void:
 		if path=="scripts/presentation/powder_surface.gd":
 			source += "\nfunc reset() -> void:\n\tlast_revision = -1\n\tcenter = Vector2.INF\n\t_visibility(false)\n"
 		DirAccess.make_dir_recursive_absolute((target+path).get_base_dir())
-		FileAccess.open(target+path,FileAccess.WRITE).store_string(source)
+		preload("res://tests/test_report.gd").write(target+path,source)
 	game.effects.powder_surface.queue_free(); await process_frame; await process_frame
 	for material in [game.world.snow_material,game.effects.snow_tracks.material]:
 		var original: String = material.shader.resource_path.trim_prefix("res://")
@@ -469,7 +469,7 @@ func write_json(path: String, data: Dictionary) -> bool:
 		fail_once("Refusing to overwrite "+path); return false
 	var error = DirAccess.make_dir_recursive_absolute(path.get_base_dir())
 	if error!=OK: fail_once("Cannot create report directory "+path); return false
-	var file = FileAccess.open(path,FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write(path)
 	if file==null: fail_once("Cannot write "+path); return false
 	file.store_string(JSON.stringify(data,"\t",true,true)); file.flush()
 	if file.get_error()!=OK: fail_once("Incomplete report "+path); return false
@@ -672,7 +672,7 @@ func verify_edge_sample() -> Dictionary:
 func write_fixture_source(path: String, content: String) -> bool:
 	if FileAccess.file_exists(path): fail_once("Refusing existing fixture source "+path); return false
 	if DirAccess.make_dir_recursive_absolute(path.get_base_dir())!=OK: return false
-	var file = FileAccess.open(path,FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write(path)
 	if file==null: fail_once("Cannot write fixture source "+path); return false
 	file.store_string(content); file.flush()
 	return file.get_error()==OK

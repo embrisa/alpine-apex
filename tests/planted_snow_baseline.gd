@@ -29,6 +29,6 @@ func run() -> void:
 				if found: break
 			if not found: printerr("NO FIXTURE face ",face.index," band ",band)
 	var report = {"model":Sim.MODEL_VERSION,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"fixtures":fixtures,"rejected":rejected,"cache_hit":field.cache_hit,"unranked":true}
-	FileAccess.open(OUTPUT+"/mountain.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/mountain.json",JSON.stringify(report,"\t"))
 	print("BASELINE_COMPLETE fixtures=",fixtures.size())
 	quit(0 if fixtures.size()==18 else 1)

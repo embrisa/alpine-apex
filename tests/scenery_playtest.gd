@@ -56,7 +56,7 @@ func run() -> void:
 		await process_frame
 		if frame in [0,60,119]: await capture("motion_%03d" % frame)
 	var result = {"captures":captures,"profiles":profiles,"eligible":game.session.eligible,"course_id":game.session.course_id,"obstacles":game.field.obstacles.size(),"batches":game.world.scenery.batches.size()}
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(result,"\t"))
 	print("SCENERY_PLAYTEST ",JSON.stringify(result))
 	game.effects.stop_audio()
 	game.queue_free()

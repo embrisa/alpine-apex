@@ -69,10 +69,10 @@ func run():
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_jpg(output+"/frame_%03d.jpg"%frame,.88)
 	var report={"fixture":fixture,"model":Probe.Sim.MODEL_VERSION,"contact_tick":contact_tick,"max_joint_step_60hz":max_step,"rows":rows,"native":DisplayServer.get_name()!="headless","engine":Engine.get_version_info(),"human_acceptance":false,"sources":sources,"stable_sources":sources==source_hashes(),"view":view}
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report,"\t"))
 	DirAccess.make_dir_recursive_absolute(output+"/capture")
-	FileAccess.open(output+"/capture/manifest.json",FileAccess.WRITE).store_string(JSON.stringify({"stable_sources":report.stable_sources,"sources":sources,"failures":[]}))
-	FileAccess.open(output+"/capture/landing.json",FileAccess.WRITE).store_string(JSON.stringify({"frames":rows}))
+	preload("res://tests/test_report.gd").write(output+"/capture/manifest.json",JSON.stringify({"stable_sources":report.stable_sources,"sources":sources,"failures":[]}))
+	preload("res://tests/test_report.gd").write(output+"/capture/landing.json",JSON.stringify({"frames":rows}))
 	print("SMALL_LANDING_CAPTURE ",output," contact=",contact_tick," max_joint_step=",max_step)
 	scene.queue_free(); await process_frame; quit()
 

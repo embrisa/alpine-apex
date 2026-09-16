@@ -27,7 +27,7 @@ func run() -> void:
 	game = load("res://main.tscn").instantiate()
 	if reference:
 		var source = FileAccess.get_file_as_string("res://scripts/main.gd").replace("res://scripts/presentation/speed_effects.gd",OUTPUT+"/baseline/scripts/presentation/speed_effects.gd").replace(",voice_speaking,skier.skis)",",voice_speaking)")
-		FileAccess.open(output+"/main_reference.gd",FileAccess.WRITE).store_string(source)
+		preload("res://tests/test_report.gd").write(output+"/main_reference.gd",source)
 		game.set_script(load(output+"/main_reference.gd"))
 	game.automated = true
 	root.add_child(game); current_scene = game
@@ -67,7 +67,7 @@ func run() -> void:
 		sources[path] = FileAccess.get_sha256("res://"+path)
 		if FileAccess.file_exists(OUTPUT+"/baseline/"+path): active_snow_sources[path] = FileAccess.get_sha256((OUTPUT+"/baseline/" if reference else "res://")+path)
 	var report = {"scope":"Ordinary input through current solver; short snow-contact fixture, not full-descent performance or human acceptance", "reference":reference,"mountain":mountain,"timing":timing,"unranked":not game.session.eligible,"model":game.sim.MODEL_VERSION,"engine":Engine.get_version_info(),"device":RenderingServer.get_video_adapter_name(),"display":game.display_settings.report(root,actual),"sources":sources,"active_snow_sources":active_snow_sources,"cases":rows,"failures":failures}
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report,"\t"))
 	print("SNOW_CONTACT_RENDER ",output," failures=",failures)
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

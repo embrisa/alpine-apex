@@ -82,7 +82,7 @@ func run() -> void:
 	var report={"failures":failures,"captures":shots,"profile":profile,"engine":Engine.get_version_info().string,
 		"device":RenderingServer.get_video_adapter_name(),"render_pixels":root.get_texture().get_image().get_size(),
 		"physics_hz":Engine.physics_ticks_per_second,"sites":game.world.flavor.layout.sites.size(),"props":game.world.flavor.props.size(),"layout":game.world.flavor.layout.fingerprint}
-	FileAccess.open(output+"/report.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/report.json",JSON.stringify(report,"\t"))
 	print("FLAVOR_WORLD ",JSON.stringify(report)); game.effects.stop_audio(); game.free(); quit(0 if failures.is_empty() else 1)
 func capture(label: String) -> void:
 	for i in 12: await process_frame

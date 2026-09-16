@@ -148,7 +148,7 @@ func run():
 	for id in ["ski_detailed_v1","ski_detailed_v1_left","binding_detailed_v1","pole_detailed_v1"]:
 		report.equipment_sha256[id] = FileAccess.get_sha256("res://assets/graphics/models/"+id+".glb")
 	var filename = ("/performance_reverse.json" if reverse_order else "/performance.json") if timing else "/captures.json"
-	FileAccess.open(output+filename,FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+filename,JSON.stringify(report,"\t"))
 	game.effects.stop_audio()
 	game.queue_free()
 	await process_frame

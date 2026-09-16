@@ -47,7 +47,7 @@ func _capture_descent() -> void:
 	var recording_audio: AudioStreamWAV = wind_record.get_recording()
 	recording_audio.save_to_wav("res://artifacts/wind/descent.wav")
 	AudioServer.remove_bus_effect(0,wind_bus)
-	FileAccess.open("res://artifacts/wind/descent_frames.json",FileAccess.WRITE).store_string(JSON.stringify(wind_capture_times))
+	preload("res://tests/test_report.gd").write("res://artifacts/wind/descent_frames.json",JSON.stringify(wind_capture_times))
 	await capture("wind_skiing")
 	game.active = false
 	game.hud.menu.hide()
@@ -64,7 +64,7 @@ func _capture_descent() -> void:
 	report.audio_rate = recording_audio.mix_rate
 	report.scope = "12 seconds of simulated unranked skiing, starting at 90 km/h; video follows wall time"
 	report.crash = game.sim.crash_reason
-	FileAccess.open(OUTPUT+"/wind.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/wind.json",JSON.stringify(report,"\t"))
 	game.effects.stop_audio()
 	await create_timer(.18).timeout
 	smoke = true # The capture is an explicitly short fixture, not a full descent.
@@ -74,7 +74,7 @@ func _write_report() -> Dictionary:
 		"wind_volume":game.effects.wind.volume,"capture_overhead_included":wind_capture,
 		"native_paused":game.effects.wind.player.stream_paused,"unranked":not game.session.eligible,
 		"wind_stream_bytes":FileAccess.get_file_as_bytes("res://addons/alpine_wind/bin/alpine_wind.windows.x86_64.dll").size()}
-	FileAccess.open(OUTPUT+"/wind.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/wind.json",JSON.stringify(report,"\t"))
 	print("WIND_DESCENT ",JSON.stringify(report))
 	return report
 

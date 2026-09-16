@@ -87,6 +87,6 @@ func inspect_views() -> void:
 			print("PASS: " if ok else "FAIL: ",label," real ski contact, GPU track corners and immutable surface upload")
 			clips.append({"clip":label,"crash":game.sim.crash_reason,"airtime_s":game.sim.total_airtime,"track_instances":tracks.written,"max_ski_contact_error_m":contact_error,"max_gpu_track_corner_error_m":corner_error,"exact_surface_upload":exact_upload})
 	var report = {"generator_version":version,"camera_reference_version":7,"poses":poses,"clips":clips,"failures":failures,"unranked":not game.session.eligible,"physics_hz":120,"presentation_hz":60,"capture_overhead_included":true}
-	FileAccess.open(OUTPUT+"/snow_inspection.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/snow_inspection.json",JSON.stringify(report,"\t"))
 	print("SNOW_INSPECTION ",JSON.stringify(report))
 	if not failures.is_empty(): quit(1)

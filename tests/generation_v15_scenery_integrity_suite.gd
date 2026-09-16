@@ -50,5 +50,5 @@ func run() -> void:
 	check(previous==[prepared.mountain,prepared.terrain,prepared.forest,prepared.readability,prepared.minerals],"Invalid footprint caches never replace published preparation")
 	DirAccess.remove_absolute(path)
 	var result = {"checks":checks,"failures":failures}
-	FileAccess.open("res://artifacts/generation_v15/scenery_integrity.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/scenery_integrity.json",JSON.stringify(result,"\t"))
 	print("V15_SCENERY_INTEGRITY ",JSON.stringify(result)); quit(0 if failures.is_empty() else 1)

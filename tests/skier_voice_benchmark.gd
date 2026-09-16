@@ -18,7 +18,7 @@ func descent() -> void:
 	if FileAccess.file_exists(path):
 		var result: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(path))
 		result.voice_observer = {"enabled":observer_enabled,"tick_us":timing(voice_tick_us),"survey_update_us":timing(survey_us),"max_obstacle_candidates":max_obstacles,"max_height_samples":max_heights,"limited_updates":limited_updates}
-		FileAccess.open(path,FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+		preload("res://tests/test_report.gd").write(path,JSON.stringify(result,"\t"))
 		print("VOICE_BENCHMARK ",JSON.stringify(result.voice_observer))
 
 func _observe_voice() -> void:

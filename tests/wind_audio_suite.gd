@@ -88,6 +88,6 @@ func run() -> void:
 	var result = {"checks":checks,"failures":failures}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/wind")
 	var label = "fallback" if "--wind-disable-native" in OS.get_cmdline_user_args() else "native"
-	FileAccess.open("res://artifacts/wind/"+label+"_suite.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/wind/"+label+"_suite.json",JSON.stringify(result,"\t"))
 	print("WIND_AUDIO_RESULT ",JSON.stringify(result))
 	quit(0 if failures.is_empty() else 1)

@@ -68,5 +68,5 @@ func run() -> void:
 					root.get_texture().get_image().save_png(path)
 			if frame%12==0 or frame==239: records.append({"preset":preset,"frame":frame,"camera":camera.position,"yaw":camera.rotation.y,"wind":7,"low_sun":true,"aid":50 if frame<120 else 100})
 		print("BATCH_VISUAL preset=",preset," complete")
-	FileAccess.open(output+"/receipt.json",FileAccess.WRITE).store_string(JSON.stringify({"scope":"1280x720 native moving-camera stand; paired stills, no FPS claim","reference_cell":192,"candidate_cell":Forest.FAR_CELL,"records":records},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/receipt.json",JSON.stringify({"scope":"1280x720 native moving-camera stand; paired stills, no FPS claim","reference_cell":192,"candidate_cell":Forest.FAR_CELL,"records":records},"\t"))
 	quit()

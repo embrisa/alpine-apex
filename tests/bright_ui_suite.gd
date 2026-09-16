@@ -144,7 +144,7 @@ func run() -> void:
 	check(game.active and not game.sim.crashed and game.session.attempt_id==attempt+1,"Controller north button retries directly")
 	await visual_matrix()
 	var result = {"checks":checks,"failures":failures,"captures":captures,"native":native,"fixture":game.field.fixture_descriptor(),"hardware_controller":"pending","performance":"not measured"}
-	FileAccess.open(output.path_join("results.json"),FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(output.path_join("results.json"),JSON.stringify(result,"\t"))
 	print("BRIGHT_UI_RESULTS ",JSON.stringify(result))
 	game.queue_free()
 	await settle()

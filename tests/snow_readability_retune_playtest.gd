@@ -24,7 +24,7 @@ func save_report() -> void:
 	var report = JSON.parse_string(FileAccess.get_file_as_string(path))
 	report.comparison_description = "Previous balanced snow (10% hollow shading, 0.15 direct AO) versus stronger snow (14%, 0.20) on the same default v15 Standard mountain."
 	report.generator_version = Definition.CURRENT_VERSION
-	FileAccess.open(path,FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(path,JSON.stringify(report,"\t"))
 
 func stills() -> void:
 	for site in snow_sites:

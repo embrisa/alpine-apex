@@ -40,9 +40,9 @@ func run() -> void:
 	focus_fixture = FocusFixture.install(game)
 	check(not focus_fixture.has("error"),"Native focus seam compiles from the actual live Main script")
 	if focus_fixture.has("error"):
-		FileAccess.open(output.path_join("focus-setup-error.json"),FileAccess.WRITE).store_string(JSON.stringify(focus_fixture))
+		preload("res://tests/test_report.gd").write(output.path_join("focus-setup-error.json"),JSON.stringify(focus_fixture))
 		game.free(); quit(1); return
-	FileAccess.open(output.path_join("controlled-main.gd"),FileAccess.WRITE).store_string(game.get_script().source_code)
+	preload("res://tests/test_report.gd").write(output.path_join("controlled-main.gd"),game.get_script().source_code)
 	game.automated = true
 	root.add_child(game)
 	current_scene = game
@@ -72,7 +72,7 @@ func run() -> void:
 	await _timed_attempt()
 	check(load("res://scripts/main.gd").source_code.sha256_text()==focus_fixture.source_sha256,"Focus fixture leaves the cached production Main script unchanged")
 	var report = {"focus_fixture":focus_fixture,"focus_events":game.crash_fixture_focus_events,"checks":checks,"failures":failures,"chronology":chronology,"trace":trace,"fixture":fixture,"rendered":DisplayServer.get_name()!="headless","human_controller":"pending","listening":"not exercised; muted fixture"}
-	FileAccess.open(output.path_join("results.json"),FileAccess.WRITE).store_string(JSON.stringify(report,"\t",true,true))
+	preload("res://tests/test_report.gd").write(output.path_join("results.json"),JSON.stringify(report,"\t",true,true))
 	game.active = false; game.effects.stop_audio(); game.queue_free()
 	await process_frame
 	print("CRASH_RECOVERY_LIFECYCLE_RESULTS ",JSON.stringify(report,"",true,true))

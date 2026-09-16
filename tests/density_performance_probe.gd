@@ -35,4 +35,4 @@ func terrain_benchmark() -> void:
 		recording=false
 		results.append({"mode":mode,"frame_ms":frame_timing(frames),"gpu_ms":timing(gpu_ms),"draw_calls":timing(draws)})
 		print("DENSITY_GPU_PROBE ",JSON.stringify(results[-1]))
-	FileAccess.open(OUTPUT+"/gpu_probe.json",FileAccess.WRITE).store_string(JSON.stringify(results,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/gpu_probe.json",JSON.stringify(results,"\t"))

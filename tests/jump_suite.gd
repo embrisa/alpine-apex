@@ -55,7 +55,7 @@ func run() -> void:
 	for seed_value in [0,1,42,12981,2147483647]:
 		_feature_tests(Terrain.new(seed_value),[110.0])
 	DirAccess.make_dir_recursive_absolute("res://artifacts/jump_upgrade")
-	FileAccess.open("res://artifacts/jump_upgrade/physics.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"features":metrics},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/jump_upgrade/physics.json",JSON.stringify({"checks":checks,"failures":failures,"features":metrics},"\t"))
 	print("JUMP_RESULTS ",JSON.stringify(metrics))
 	quit(0 if failures.is_empty() else 1)
 

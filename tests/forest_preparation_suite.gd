@@ -76,7 +76,7 @@ func run() -> void:
 	replacement.queue_free(); await process_frame
 	await partition_checks(manifest)
 	print("FOREST_PREPARATION ",checks," checks; failures=",failures)
-	FileAccess.open("res://artifacts/fps_optimization/forest_preparation_checks.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/fps_optimization/forest_preparation_checks.json",JSON.stringify({"checks":checks,"failures":failures},"\t"))
 	quit(0 if failures.is_empty() else 1)
 
 func check_slots(host) -> void:

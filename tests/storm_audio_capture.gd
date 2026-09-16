@@ -63,7 +63,7 @@ func run() -> void:
 	if mute_peak>.00001: failures.append("Muted thunder leaked")
 	if count!=storm.played_count: failures.append("Paused thunder leaked after resume")
 	var report = {"timeline":timeline,"peak":peak,"mute_peak":mute_peak,"voices":storm.players.size(),"events_played":storm.played_count,"frames":samples.size(),"sample_rate":wav.mix_rate,"failures":failures,"listening":"user equipment acceptance pending"}
-	FileAccess.open(folder+"/native_thunder.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(folder+"/native_thunder.json",JSON.stringify(report,"\t"))
 	print("STORM_AUDIO_RESULTS ",JSON.stringify(report))
 	AudioServer.remove_bus_effect(0,effect_index)
 	storm.clear_transients(); scene.queue_free(); await process_frame

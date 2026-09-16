@@ -19,6 +19,6 @@ func run() -> void:
 				var after=ContactSuite.measure(Sim,surface,speed,3.0,0.0,{},Vector3(p.x,0,p.y),face.heading)
 				rows.append({"face":face.index,"section_m":z,"kmh":speed,"before":before,"after":after})
 		print("MOUNTAIN_CONTACT_FACE ",face.index)
-	FileAccess.open("res://artifacts/handling_v15/mountain_contact.json",FileAccess.WRITE).store_string(JSON.stringify({"seed":849205174,"generator":11,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"fixtures":rows,"unranked":true},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/handling_v15/mountain_contact.json",JSON.stringify({"seed":849205174,"generator":11,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"fixtures":rows,"unranked":true},"\t"))
 	print("MOUNTAIN_CONTACT_PROBE_COMPLETE ",rows.size())
 	quit()

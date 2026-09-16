@@ -80,6 +80,6 @@ func run() -> void:
 			"max_grip_error_m":grip_error,"max_tip_anchor_gap_m":tip_gap,"step_and_fit_cpu_us":timing_us,
 			"tip_contact_accepted":false,"note":"Tip residual is a visible review finding, not force eligibility or clothing clearance."})
 	DirAccess.make_dir_recursive_absolute(output.get_base_dir())
-	FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"cases":cases,"scope":"Mechanical headless pose/replay; no rendered or human acceptance"},"\t"))
+	preload("res://tests/test_report.gd").write(output,JSON.stringify({"checks":checks,"failures":failures,"cases":cases,"scope":"Mechanical headless pose/replay; no rendered or human acceptance"},"\t"))
 	print("POLE_POSE_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"output":output}))
 	visual.queue_free(); await process_frame; quit(0 if failures.is_empty() else 1)

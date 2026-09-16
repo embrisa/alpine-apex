@@ -55,6 +55,6 @@ func run():
 		check(pose_read_only and supported_grip,name+": rendering is read-only and grip requires support")
 		results.append({"name":name,"opposite_body_deg":wrong_body,"opposite_torso_deg":wrong_torso,"opposite_pelvis_m":wrong_pelvis,"steering_joint_step_m":joint_step,"all_joint_step_m":all_joint_step,"end":Fixture.Inputs.state(sim),"trace":trace})
 	DirAccess.make_dir_recursive_absolute(output.get_base_dir())
-	FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"model":Sim.MODEL_VERSION,"cases":results},"\t"))
+	preload("res://tests/test_report.gd").write(output,JSON.stringify({"checks":checks,"failures":failures,"model":Sim.MODEL_VERSION,"cases":results},"\t"))
 	print("STEERING_RECORDING_SUITE ",checks," checks; failures=",JSON.stringify(failures))
 	visual.queue_free();await process_frame;quit(0 if failures.is_empty() else 1)

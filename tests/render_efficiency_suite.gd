@@ -41,7 +41,7 @@ func run() -> void:
 	await check_world(weather)
 	print("RENDER_EFFICIENCY ",checks," checks; ",failures.size()," failures")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/fps_optimization")
-	FileAccess.open("res://artifacts/fps_optimization/efficiency_checks.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/fps_optimization/efficiency_checks.json",JSON.stringify({"checks":checks,"failures":failures},"\t"))
 	cache.clear(); cache = null
 	clouds.materials.clear(); clouds = null; late = null
 	weather.free(); weather = null

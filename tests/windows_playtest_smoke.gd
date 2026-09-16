@@ -69,7 +69,7 @@ func run() -> void:
 	if not require(game.sim.position.distance_to(origin)>1.0,"Skier did not move downhill"): return
 	if not require(not game.preferences_enabled and not game.timed,"Test must not write player preferences or timed records"): return
 	var result = {"ready_ms":ready_ms,"cache_ms":game.field.generation_ms,"scene_ms":game.world.generation_ms,"cache_source":game.field.generation_stages.cache_source,"preparation_cache":game.world.preparation.cache_hit,"bundled_estimate_hints":true,"custom_estimate_separation":true,"physics_model":game.sim.MODEL_VERSION,"height_sha256":game.field.height_checksum,"obstacle_sha256":game.field.obstacle_checksum,"movement_m":game.sim.position.distance_to(origin),"native_wind":game.effects.wind.available,"graphics":game.display_settings.report(root,Vector2i(1280,720))}
-	FileAccess.open(out.path_join("results.json"),FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(out.path_join("results.json"),JSON.stringify(result,"\t"))
 	print("PLAYTEST_FIRST_LAUNCH_PASS ",JSON.stringify(result))
 	game.queue_free()
 	await process_frame

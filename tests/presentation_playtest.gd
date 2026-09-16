@@ -54,7 +54,7 @@ func run() -> void:
 
 func finish_report() -> void:
 	var path = "res://artifacts/weather_presentation_results.json" if "--weather-matrix" in OS.get_cmdline_user_args() else "res://artifacts/presentation_results.json"
-	var file = FileAccess.open(path,FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write(path)
 	file.store_string(JSON.stringify({"captures":report,"failures":failures},"\t"))
 	print("PRESENTATION_RESULTS ",JSON.stringify({"captures":report.size(),"failures":failures}))
 	game.queue_free()

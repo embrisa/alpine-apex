@@ -95,7 +95,7 @@ func sample_world() -> void:
 		"seed":game.current_mountain.seed_value,"frame_ms":timings(samples),"cpu_render_ms":timings(cpu),"gpu_ms":timings(gpu),
 		"peak_video_bytes":peak_video_bytes,"peak_static_bytes":peak_static_bytes,"stages":stages,
 		"scope":"Actual v11 startup including worker generation, cache reads, uploads and blocking stages; screenshot excluded"}
-	FileAccess.open(OUTPUT+"/world_%s.json" % ("off" if disabled else "on"),FileAccess.WRITE).store_string(JSON.stringify(data,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/world_%s.json" % ("off" if disabled else "on"),JSON.stringify(data,"\t"))
 	print("LOADING_WORLD_RESULTS ",JSON.stringify(data))
 	game.effects.stop_audio()
 	game.queue_free()

@@ -54,5 +54,5 @@ func run() -> void:
 		success = success and connected and spread>=500
 		rows.append({"face":route.face,"connected":connected,"spread_m":spread,"visited":route.safe_samples,"refinement":route.refinement,"reachable_rows":route.get("reachable_columns",[])})
 	var report = {"diagnostic_only":true,"trees":trees.size(),"minerals":mineral_count,"routes":rows,"pass":success}
-	FileAccess.open("res://artifacts/generation_v15/openings_probe.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/openings_probe.json",JSON.stringify(report,"\t"))
 	print("OPENINGS_ROUTES ",JSON.stringify(report)); quit(0 if success else 1)

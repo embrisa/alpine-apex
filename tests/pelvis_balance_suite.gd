@@ -30,7 +30,7 @@ func run() -> void:
 					visible_com -= feet
 					rows.append({"steer":command,"tuck":tuck,"s":(tick+1)*DT,"source":[native.x,native.y,native.z],"physical":[physical.x,physical.y,physical.z],"fitted":[fitted.x,fitted.y,fitted.z],"com":[sim.body.com.x,sim.body.com.y,sim.body.com.z],"visible_com":[visible_com.x,visible_com.y,visible_com.z]})
 	var suffix = "before" if "--before" in OS.get_cmdline_user_args() else "after"
-	FileAccess.open("res://artifacts/steering_response_v22/pelvis_"+suffix+".json",FileAccess.WRITE).store_string(JSON.stringify(rows))
+	preload("res://tests/test_report.gd").write("res://artifacts/steering_response_v22/pelvis_"+suffix+".json",JSON.stringify(rows))
 	print("PELVIS_SAMPLES ",rows.size())
 	if suffix!="before":
 		var neutral = sample(rows,0.0,0.0); var tuck = sample(rows,0.0,1.0)

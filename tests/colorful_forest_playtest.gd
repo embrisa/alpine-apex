@@ -62,7 +62,7 @@ func run() -> void:
 		var forest=game.world.preparation.forest
 		digest.start(HashingContext.HASH_SHA256); digest.update(var_to_bytes([forest.assets,forest.asset_indices,forest.poses]))
 		report.visual_assignment_sha256=digest.finish().hex_encode()
-	FileAccess.open(output.path_join("review.json"),FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output.path_join("review.json"),JSON.stringify(report,"\t"))
 	print("COLORFUL_FOREST_RENDER ",JSON.stringify({"output":output,"captures":captures.size(),"families":report.families}))
 	game.queue_free(); await process_frame; quit()
 func aim(p: Vector3,offset: Vector3,target_height: float=4.0) -> void:

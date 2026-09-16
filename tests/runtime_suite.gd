@@ -134,7 +134,7 @@ func run() -> void:
 	await process_frame
 	var output = {"checks":checks,"failures":failures}
 	timing.finish()
-	var file = FileAccess.open("res://artifacts/runtime_results.json",FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write("res://artifacts/runtime_results.json")
 	file.store_string(JSON.stringify(output,"\t"))
 	print("RUNTIME_RESULTS ",JSON.stringify(output))
 	quit(0 if failures.is_empty() else 1)

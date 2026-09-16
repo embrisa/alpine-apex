@@ -57,7 +57,7 @@ func run() -> void:
 	else: await local_motion()
 	var report={"seed":field.seed_value,"map":"Standard v15" if standard else "perf-mixed","pixels":[pixels.x,pixels.y],"frame_cap":60,"captures":captures,"chronology":chronology,"motion_render_steps":900,"motion_capture_interval_steps":15,"performance_acceptance":false,"human_acceptance":false,"simulation":"Synthetic bounded visual influence; physical regression is separate","source_signature":preload("res://scripts/world/generation_sources.gd").signature(true),"engine":Engine.get_version_info().string,"engine_sha256":preload("res://scripts/world/generation_sources.gd").engine_identity()}
 	report.display=game.display_settings.report(root,pixels)
-	FileAccess.open(output+"/review.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/review.json",JSON.stringify(report,"\t"))
 	print("GRASS_RENDER_COMPLETE captures=",captures.size()," output=",output)
 	game.queue_free(); await process_frame; quit()
 func isolated() -> void:

@@ -28,7 +28,7 @@ func run():
 	check(metrics.spine_length_error_m<.00001 and metrics.chest_attachment_error_m<.00001,"Spine, shoulders and neck retain exact attachment")
 	results.merge({"model":Sim.MODEL_VERSION,"checks":checks,"failures":failures,"anatomy":metrics,"unranked":true})
 	DirAccess.make_dir_recursive_absolute(OUTPUT)
-	FileAccess.open(OUTPUT+"/regression.json",FileAccess.WRITE).store_string(JSON.stringify(results,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/regression.json",JSON.stringify(results,"\t"))
 	print("SKIER_REFINEMENT_RESULTS ",JSON.stringify(results))
 	skier.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

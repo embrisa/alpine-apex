@@ -49,7 +49,7 @@ func run() -> void:
 	game.hud.menu.visible = false
 	game.hud.weather_panel.visible = true
 	await capture("settings")
-	FileAccess.open("res://artifacts/graphics_presentation.json",FileAccess.WRITE).store_string(JSON.stringify({"captures":captures,"eligible":game.session.eligible},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/graphics_presentation.json",JSON.stringify({"captures":captures,"eligible":game.session.eligible},"\t"))
 	game.queue_free()
 	await process_frame
 	quit()

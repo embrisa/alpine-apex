@@ -24,7 +24,7 @@ func run():
 	check(Sim.MODEL_VERSION==35 and Replay.VERSION==7,"Pole propulsion versions physics and articulated replay without changing impact recovery")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/landing_v18")
 	var result = {"model":Sim.MODEL_VERSION,"checks":checks,"failures":failures,"metrics":metrics}
-	FileAccess.open("res://artifacts/landing_v18/physics.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/landing_v18/physics.json",JSON.stringify(result,"\t"))
 	print("LANDING_ABSORPTION_RESULTS ",JSON.stringify(result))
 	quit(0 if failures.is_empty() else 1)
 

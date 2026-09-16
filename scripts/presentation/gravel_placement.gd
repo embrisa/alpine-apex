@@ -73,6 +73,33 @@ func cell(key: Vector2i) -> Array:
 			result.append({"asset":("dense_" if dense else "sparse_")+str(variant),"origin":Vector3(p.x,height,p.y),"patch":Color(chosen.x,chosen.y,chosen.z,float(dense)),"count":275 if dense else 2})
 	return result
 
+## Worker-side packing: one MultiMesh buffer (12 transform floats plus the
+## four patch floats) and merged bounds per asset, in item order. Mesh
+## resources, nodes and RenderingServer publication stay on the main thread.
+static func pack(items: Array) -> Array:
+	var groups: Dictionary={}
+	for item in items:
+		if not groups.has(item.asset): groups[item.asset]=[]
+		groups[item.asset].append(item)
+	var result: Array=[]
+	for id in groups:
+		var members: Array=groups[id]
+		var buffer=PackedFloat32Array(); buffer.resize(members.size()*16)
+		var box=AABB()
+		for i in members.size():
+			var item: Dictionary=members[i]
+			var origin: Vector3=item.origin
+			var patch: Color=item.patch
+			var offset=i*16
+			buffer[offset]=1.0; buffer[offset+1]=0.0; buffer[offset+2]=0.0; buffer[offset+3]=origin.x
+			buffer[offset+4]=0.0; buffer[offset+5]=1.0; buffer[offset+6]=0.0; buffer[offset+7]=origin.y
+			buffer[offset+8]=0.0; buffer[offset+9]=0.0; buffer[offset+10]=1.0; buffer[offset+11]=origin.z
+			buffer[offset+12]=patch.r; buffer[offset+13]=patch.g; buffer[offset+14]=patch.b; buffer[offset+15]=patch.a
+			var bounds=AABB(origin-Vector3(0,.6,0),Vector3(.5,1.2,.5))
+			box=bounds if i==0 else box.merge(bounds)
+		result.append({"asset":id,"buffer":buffer,"bounds":box,"count":members.size()})
+	return result
+
 func grass_distance_at(p: Vector2,roots: Array) -> float:
 	var distance_m=10.0
 	for root in roots: distance_m=minf(distance_m,root.distance_to(p))

@@ -65,7 +65,7 @@ func run() -> void:
 				captures.append({"label":item.label,"camera":[camera.position.x,camera.position.y,camera.position.z],"fov":camera.fov,"far":camera.far})
 	var report = {"failures":failures,"captures":captures,"native":DisplayServer.get_name()!="headless",
 		"scope":"laboratory component, marker visibility and supplemental fixed views; not ordinary skiing acceptance"}
-	FileAccess.open(output+"/report.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/report.json",JSON.stringify(report,"\t"))
 	print("FINISH_BEAM_LAB_RESULT ",JSON.stringify(report))
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

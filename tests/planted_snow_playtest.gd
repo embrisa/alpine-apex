@@ -37,7 +37,7 @@ func run() -> void:
 		# the immutable v22 object can use identical current presentation code.
 		var source = FileAccess.get_file_as_string("res://scripts/main.gd").replace("var sim: SkiSimulation","var sim")
 		var comparison_main = output+"/comparison_main.gd"
-		FileAccess.open(comparison_main,FileAccess.WRITE).store_string(source)
+		preload("res://tests/test_report.gd").write(comparison_main,source)
 		game.set_script(load(comparison_main))
 	game.automated = true
 	root.add_child(game); current_scene = game
@@ -84,7 +84,7 @@ func run() -> void:
 				if game.active or game.session.eligible or not game.physics_modified: failures.append("Comparison must pause and remain unranked")
 				if game.sim.MODEL_VERSION!=(22 if reference else SkiSimulation.MODEL_VERSION): failures.append("Comparison selected wrong model")
 				for i in 12: await process_frame
-			FileAccess.open("res://artifacts/planted_snow/interactive.json",FileAccess.WRITE).store_string(JSON.stringify({"models":compared,"failures":failures,"unranked":not game.session.eligible}))
+			preload("res://tests/test_report.gd").write("res://artifacts/planted_snow/interactive.json",JSON.stringify({"models":compared,"failures":failures,"unranked":not game.session.eligible}))
 			game.effects.stop_audio(); quit(0 if failures.is_empty() else 1)
 		return
 	game.effects.muted = true; game.hud.hide(); game.hud.hide_menu(); game.speed_periphery.hide()
@@ -109,7 +109,7 @@ func run() -> void:
 		report.frame_ms = stats(frames); report.render_cpu_ms = stats(render_cpu); report.gpu_ms = stats(gpu); report.solver_us = stats(solver_us)
 		report.animation_us = stats(animation_us); report.presentation_us = stats(pose_us)
 		report.peak_video_bytes = peak_video; report.peak_engine_static_bytes = peak_static
-	FileAccess.open(output+"/results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/results.json",JSON.stringify(report,"\t"))
 	print("PLANTED_NATIVE ",output," failures=",failures)
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

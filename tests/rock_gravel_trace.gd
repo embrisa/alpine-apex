@@ -47,7 +47,7 @@ func run() -> void:
 			"travelled_m":travelled,"obstacle_contacts":contacts,"producer_sha256":FileAccess.get_sha256("res://tests/rock_gravel_trace.gd"),
 			"presentation":{"camera":settings.snapshot(),"camera_effects_enabled":true},
 			"result":{"side":0,"ticks":sim.ticks,"seconds":15,"finished":false,"crash":"","position":[sim.position.x,sim.position.y,sim.position.z]}}
-		FileAccess.open("res://artifacts/rock_gravel/standard_trace.json",FileAccess.WRITE).store_string(JSON.stringify(Trace.Inputs.storage(data),"",true,true))
+		preload("res://tests/test_report.gd").write("res://artifacts/rock_gravel/standard_trace.json",JSON.stringify(Trace.Inputs.storage(data),"",true,true))
 		print("GRAVEL_TRACE ",JSON.stringify(attempts[-1])); accepted=true; break
-	FileAccess.open("res://artifacts/rock_gravel/survey.json",FileAccess.WRITE).store_string(JSON.stringify({"sites":sites.size(),"attempts":attempts,"accepted":accepted},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/rock_gravel/survey.json",JSON.stringify({"sites":sites.size(),"attempts":attempts,"accepted":accepted},"\t"))
 	quit(0 if accepted else 1)

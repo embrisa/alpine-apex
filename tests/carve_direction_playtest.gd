@@ -77,7 +77,7 @@ func capture_sequence(name: String, fixture: Dictionary):
 		trace.append({"frame":frame,"tick":sim.ticks,"input":steer,"camera":pack(chase.global_transform),
 			"physical_position":pack(sim.position),"physical_bank":sim.body.roll,"diagnostics":pack(skier.animation.full_motion.diagnostics)})
 		if sim.crashed: report.failures.append(name+": "+sim.crash_reason); break
-	FileAccess.open(output+"/"+name+".json",FileAccess.WRITE).store_string(JSON.stringify({"frames":trace,"fixture":fixture},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/"+name+".json",JSON.stringify({"frames":trace,"fixture":fixture},"\t"))
 	report.scenarios.append({"name":name,"frames":trace.size(),"fixture":pack(fixture)})
 	report.capture_fps = 30
 	report.render_fps_cap = capture_fps_limit

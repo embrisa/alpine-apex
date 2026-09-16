@@ -78,7 +78,7 @@ func run() -> void:
 	var box_pose=Transform3D(Basis.IDENTITY,Vector3(0,1,0))
 	check(Props.sweep_box(Vector3(.6,1,0),Vector3(2,1,0),box_pose,Vector3.ONE).is_empty(),"Overlapping rider may escape outwards")
 	var report={"checks":checks,"failures":failures,"physics_hz":120,"solver_modified":false}
-	var out=FileAccess.open("res://artifacts/flavor_v1/godot_validation.json",FileAccess.WRITE); out.store_string(JSON.stringify(report,"\t")); out.close()
+	var out=preload("res://tests/test_report.gd").open_write("res://artifacts/flavor_v1/godot_validation.json"); out.store_string(JSON.stringify(report,"\t")); out.close()
 	print("FLAVOR_VALIDATION ",JSON.stringify(report))
 	world.free(); quit(0 if failures.is_empty() else 1)
 

@@ -42,7 +42,7 @@ func run() -> void:
 	_placement()
 	_identity()
 	var report = {"checks":checks,"failures":failures,"placement_queries":queries,"acceptance":"automated only; native/controller pending"}
-	FileAccess.open("res://artifacts/orchestration_20260912/crash/core-results.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/orchestration_20260912/crash/core-results.json",JSON.stringify(report,"\t"))
 	print("CRASH_RECOVERY_RESULTS ",JSON.stringify(report))
 	quit(0 if failures.is_empty() else 1)
 

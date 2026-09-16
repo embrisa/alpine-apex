@@ -52,7 +52,7 @@ func run() -> void:
 	var report = {"checks":checks,"failures":failures,"evidence":evidence,"isolated_store":directory,"engine":Engine.get_version_info(),"engine_rendering":"not exercised"}
 	var output = "res://artifacts/orchestration_20260912/carving/exact_clock"
 	DirAccess.make_dir_recursive_absolute(output)
-	var file = FileAccess.open(output.path_join("results.json"),FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write(output.path_join("results.json"))
 	file.store_string(JSON.stringify(report,"\t",true,true)); file.close()
 	print("EXACT_CLOCK_RESULTS ",JSON.stringify(report))
 	quit(0 if failures.is_empty() else 1)
@@ -174,7 +174,7 @@ func _row(seconds: float, id: String) -> Dictionary:
 	return {"id":id,"time":seconds,"date":1700000000,"peak_kmh":40.0,"splits":split_values()}
 
 func _manifest(path: String, data: Dictionary) -> void:
-	var file = FileAccess.open(Records.path_for(path),FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write(Records.path_for(path))
 	file.store_string(JSON.stringify(data,"",true,true)); file.close()
 
 func _archive_checks(replay, identity: Dictionary) -> void:
@@ -212,7 +212,7 @@ func _archive_checks(replay, identity: Dictionary) -> void:
 	check(not Records.save(path,identity,replay.duration,row.splits,history,pending,loaded.selection).is_empty() and FileAccess.get_sha256(Records.path_for(path))==before and pending[0].has("replay"),"One-ULP pending mismatch fails atomically without publishing references")
 	var committed_bytes = FileAccess.get_file_as_bytes(Records.path_for(path))
 	_corrupt_archive_checks(path,identity,stored,replay.duration)
-	var restored_manifest = FileAccess.open(Records.path_for(path),FileAccess.WRITE)
+	var restored_manifest = preload("res://tests/test_report.gd").open_write(Records.path_for(path))
 	restored_manifest.store_buffer(committed_bytes); restored_manifest.close()
 	_transaction_checks(path,identity,loaded,replay)
 	var sentinel_path = directory.path_join("sentinel.json")
@@ -255,7 +255,7 @@ func _corrupt_archive_checks(path: String, identity: Dictionary, stored: Diction
 		elif kind.ends_with("history"): rejected = result.history.is_empty() and bits(result.best)==PB_HEX
 		else: rejected = result.runs.is_empty() and bits(result.best)==PB_HEX and result.history.size()==1
 		check(rejected,"Malformed clock rejected while independent valid metadata survives: "+kind)
-	var file = FileAccess.open(Records.path_for(path),FileAccess.WRITE)
+	var file = preload("res://tests/test_report.gd").open_write(Records.path_for(path))
 	file.store_string(" ".repeat(Records.MAX_BYTES+1)); file.close()
 	check(Records.load_record(path,identity).best==-1.0,"Manifest byte limit is enforced before JSON parse")
 

@@ -58,9 +58,9 @@ func run() -> void:
 	var wav=record.get_recording()
 	wav.save_to_wav(OUTPUT+"/skiing_crash.wav")
 	AudioServer.remove_bus_effect(0,index)
-	FileAccess.open(OUTPUT+"/frames.json",FileAccess.WRITE).store_string(JSON.stringify(frames))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/frames.json",JSON.stringify(frames))
 	var report={"scope":"laboratory_rendered_audio_fixture","native_sfx":game.effects.sfx.diagnostics(),"native_wind":game.effects.wind.diagnostics(),"audio_rate":wav.mix_rate,"audio_frames":wav.data.size()/4,"capture_frames":frames.size(),"unranked":true,"capture_overhead_included":true,"crash_fixture":true,"actual_pixels":[pixels.x,pixels.y],"display":game.display_settings.report(root,pixels)}
-	FileAccess.open(OUTPUT+"/report.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/report.json",JSON.stringify(report,"\t"))
 	print("SFX_LAB_CAPTURE ",JSON.stringify(report))
 	game.effects.stop_audio()
 	game.skier.ragdoll.stop()

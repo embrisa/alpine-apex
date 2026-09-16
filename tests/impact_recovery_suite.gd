@@ -27,7 +27,7 @@ func run() -> void:
 	_obstacles()
 	DirAccess.make_dir_recursive_absolute("res://artifacts/impact_recovery")
 	var result = {"model":Sim.MODEL_VERSION,"checks":checks,"failures":failures,"metrics":metrics}
-	FileAccess.open("res://artifacts/impact_recovery/physics.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/impact_recovery/physics.json",JSON.stringify(result,"\t"))
 	print("IMPACT_RECOVERY_RESULTS ",JSON.stringify(result))
 	quit(0 if failures.is_empty() else 1)
 

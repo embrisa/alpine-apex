@@ -62,7 +62,7 @@ func run() -> void:
 		require(FileAccess.file_exists("res://"+row.path),row.asset+": base preserved")
 	require(moss_count == 108,"108 optional moss scenes")
 	require(grass_count == 60,"60 optional moss and grass scenes")
-	var file := FileAccess.open("res://artifacts/minerals_v3/vegetation_validation.json",FileAccess.WRITE)
+	var file := preload("res://tests/test_report.gd").open_write("res://artifacts/minerals_v3/vegetation_validation.json")
 	file.store_string(JSON.stringify({"passed":failures.is_empty(),"moss_scenes":moss_count,"grass_scenes":grass_count,"total_grass_triangles":grass_triangles,"failures":failures},"\t"))
 	print("MINERAL_VEGETATION_SUITE ",moss_count," moss; ",grass_count," grass; ",failures.size()," failures")
 	quit(0 if failures.is_empty() else 1)

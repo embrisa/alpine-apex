@@ -37,5 +37,5 @@ func run() -> void:
 			host.batches.clear(); prepared.multimeshes.clear()
 		var row = Costs.stats(samples); row.prepared = packed; rows.append(row)
 		print("FOREST_SUBMISSION ",JSON.stringify(row))
-	FileAccess.open("res://artifacts/fps_optimization/forest_submission.json",FileAccess.WRITE).store_string(JSON.stringify({"scope":"CPU microseconds for one 80-tree region's near/mid/shadow creation and configuration, alternating on one native FSR4 device. Native frames separate samples; preparation is outside timing.","rows":rows},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/fps_optimization/forest_submission.json",JSON.stringify({"scope":"CPU microseconds for one 80-tree region's near/mid/shadow creation and configuration, alternating on one native FSR4 device. Native frames separate samples; preparation is outside timing.","rows":rows},"\t"))
 	host.queue_free(); await process_frame; quit(0)

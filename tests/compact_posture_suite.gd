@@ -120,6 +120,6 @@ func run():
 		check(rows.big_air.hands.max>.75 and rows.big_air.hands.mean>rows.hop.hands.mean+.15,"Larger, sustained flight still permits open counterbalance")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/boot_posture_correction")
 	var result = {"checks":checks,"failures":failures,"cases":rows,"physics":Sim.MODEL_VERSION}
-	FileAccess.open("res://artifacts/boot_posture_correction/"+("before_metrics" if before else "after_metrics")+".json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/boot_posture_correction/"+("before_metrics" if before else "after_metrics")+".json",JSON.stringify(result,"\t"))
 	print("COMPACT_POSTURE ",checks," checks, ",failures.size()," failures")
 	visual.queue_free(); await process_frame; quit(0 if failures.is_empty() else 1)

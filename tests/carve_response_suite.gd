@@ -82,6 +82,6 @@ func run():
 		check(peak_step<.08,name+": final connected joints remain continuous")
 		if name in ["cross_right","cross_mirror_left","reversal","taps"]: check(opposing_input>12,name+": fixture exercises input opposing the existing edge")
 	DirAccess.make_dir_recursive_absolute(output.get_base_dir())
-	FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"cases":cases,"model":Sim.MODEL_VERSION},"\t"))
+	preload("res://tests/test_report.gd").write(output,JSON.stringify({"checks":checks,"failures":failures,"cases":cases,"model":Sim.MODEL_VERSION},"\t"))
 	print("CARVE_RESPONSE ",checks," checks, ",failures.size()," failures")
 	visual.queue_free(); await process_frame; quit(0 if failures.is_empty() else 1)

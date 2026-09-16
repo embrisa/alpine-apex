@@ -47,10 +47,10 @@ func run() -> void:
 					"scenario_origin":[at.x,at.y],"command_ticks":12,"commands":commands,"initial_state":initial,"checkpoints":checkpoints,
 					"coverage":coverage,"travelled_m":travelled,"obstacle_contacts":contacts,"producer_sha256":FileAccess.get_sha256("res://tests/terrain_grass_trace.gd"),
 					"result":{"side":0,"ticks":sim.ticks,"seconds":15,"finished":false,"crash":"","position":[sim.position.x,sim.position.y,sim.position.z]}}
-				FileAccess.open(output+"/"+habitat+".json",FileAccess.WRITE).store_string(JSON.stringify(Trace.Inputs.storage(data),"",true,true))
+				preload("res://tests/test_report.gd").write(output+"/"+habitat+".json",JSON.stringify(Trace.Inputs.storage(data),"",true,true))
 				print("GRASS_TRACE ",habitat," ",JSON.stringify(attempts[-1]))
 				accepted=true; break
 			if accepted: break
-		FileAccess.open(output+"/"+habitat+"_attempts.json",FileAccess.WRITE).store_string(JSON.stringify(attempts))
+		preload("res://tests/test_report.gd").write(output+"/"+habitat+"_attempts.json",JSON.stringify(attempts))
 		if not accepted: printerr("No successful ordinary trace for ",habitat); quit(1); return
 	quit()

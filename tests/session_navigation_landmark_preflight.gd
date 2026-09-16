@@ -102,7 +102,7 @@ func run(owner: SceneTree) -> void:
 	for path in probe.bounds_sources: report.sources[path] = probe.bounds_sources[path]
 	if not report.coverage_failures.is_empty():
 		print("NAVIGATION_PARTIAL_COVERAGE ",report.coverage_failures,"; qualified view count=",report.selection.views.size())
-	FileAccess.open(output+"/selection.json",FileAccess.WRITE).store_string(JSON.stringify(Probe.json_safe({
+	preload("res://tests/test_report.gd").write(output+"/selection.json",JSON.stringify(Probe.json_safe({
 		"selection":report.selection,"sources":report.sources,"seed_provenance":report.seed_provenance,
 		"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,
 		"navigation_style":probe.style,"visual_acceptance":"not_attempted"}),"\t"))
@@ -214,7 +214,7 @@ func finish() -> void:
 	for path in personal_files:
 		var after = FileAccess.get_sha256(path) if FileAccess.file_exists(path) else ""
 		check(after==personal_files[path],"Personal file unchanged: "+path)
-	FileAccess.open(output+"/report.json",FileAccess.WRITE).store_string(JSON.stringify(Probe.json_safe(report),"\t"))
+	preload("res://tests/test_report.gd").write(output+"/report.json",JSON.stringify(Probe.json_safe(report),"\t"))
 	if game!=null:
 		if game.effects!=null: game.effects.stop_audio()
 		game.free()

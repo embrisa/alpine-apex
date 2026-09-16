@@ -36,7 +36,7 @@ func run():
 		if arg.begins_with("--output="): output = arg.trim_prefix("--output=")
 	DirAccess.make_dir_recursive_absolute(output.get_base_dir())
 	var report = {"checks":checks,"failures":failures,"metrics":metrics}
-	FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output,JSON.stringify(report,"\t"))
 	print("ARCADE_AIR_RESULTS ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)
 
 func rotations(backward,sign_value):

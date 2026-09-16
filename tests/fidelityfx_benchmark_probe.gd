@@ -25,6 +25,6 @@ func run() -> void:
 		for i in 120: game._process(1.0/90); await process_frame
 		var row = {"mode":mode,"requested":str(pixels),"viewport":str(root.size),"window":str(DisplayServer.window_get_size()),"screen":str(DisplayServer.screen_get_size()),"actual":str(actual),"begin":begin,"before_readback":before_readback,"end":game.display_settings.fsr_status()}
 		rows.append(row); print("FIDELITYFX_BENCHMARK_PROBE ",JSON.stringify(row))
-	FileAccess.open("res://artifacts/fps_optimization/fidelityfx_benchmark_probe.json",FileAccess.WRITE).store_string(JSON.stringify(rows,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/fps_optimization/fidelityfx_benchmark_probe.json",JSON.stringify(rows,"\t"))
 	game.display_settings.frame_generation = false; game.display_settings.apply_viewport(root)
 	game.effects.stop_audio(); game.queue_free(); await process_frame; quit(0)

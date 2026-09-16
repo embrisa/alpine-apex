@@ -19,7 +19,7 @@ func inspect_massif() -> void:
 			for jump in [false,true]:
 				await pitch_clip(custom,close,jump)
 	write_camera_report()
-	FileAccess.open(OUTPUT+"/pitch_motion.json",FileAccess.WRITE).store_string(JSON.stringify({
+	preload("res://tests/test_report.gd").write(OUTPUT+"/pitch_motion.json",JSON.stringify({
 		"generator":version,"seed":mountain_seed,"model":game.sim.MODEL_VERSION,
 		"engine":Engine.get_version_info().string,"physics_hz":120,"presentation_hz":60,
 		"actual_pixels":[actual_pixels.x,actual_pixels.y],"display":game.display_settings.report(root,actual_pixels),

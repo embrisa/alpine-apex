@@ -57,7 +57,7 @@ func run() -> void:
 		await process_frame
 		if frame in [30,60,90,119]: await capture("moving_%03d" % frame)
 	if game.session.eligible: failures.append("Lighting QA must remain unranked")
-	FileAccess.open(OUTPUT+"/results.json",FileAccess.WRITE).store_string(JSON.stringify({"captures":captures,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/results.json",JSON.stringify({"captures":captures,"failures":failures},"\t"))
 	print("AMBIENT_LIGHTING_RESULTS ",JSON.stringify({"captures":captures.size(),"failures":failures}))
 	game.effects.stop_audio()
 	game.queue_free()

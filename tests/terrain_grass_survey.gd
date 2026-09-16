@@ -43,6 +43,6 @@ func run() -> void:
 	forest_cells.sort_custom(func(a,b): return a.count>b.count)
 	var result={"seed":field.seed_value,"generator":field.GENERATOR_VERSION,"settings":field.generation_settings,"counts":counts,"examples":examples,"dense_cells":forest_cells.slice(0,12),"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"physical_unchanged":before==field.height_checksum+field.obstacle_checksum,"source_signature":preload("res://scripts/world/generation_sources.gd").signature(true)}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/terrain_grass_20260913")
-	FileAccess.open("res://artifacts/terrain_grass_20260913/survey_%d.json" % seed_number,FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/terrain_grass_20260913/survey_%d.json" % seed_number,JSON.stringify(result,"\t"))
 	print("GRASS_SURVEY ",JSON.stringify(counts)," dense_cells=",forest_cells.size())
 	quit(0 if counts.green>0 and counts.dusted>0 and counts.snow>0 and result.physical_unchanged else 1)

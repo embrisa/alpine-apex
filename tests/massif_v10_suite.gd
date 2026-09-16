@@ -98,6 +98,6 @@ func run() -> void:
 			var repeated = Terrain.new(seed_value)
 			check(repeated.height_checksum==field.height_checksum and repeated.obstacle_checksum==field.obstacle_checksum,"Repeated generation matches both physical fingerprints")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/massif_v10")
-	FileAccess.open("res://artifacts/massif_v10/generator_results.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"seeds":results},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/massif_v10/generator_results.json",JSON.stringify({"checks":checks,"failures":failures,"seeds":results},"\t"))
 	print("MASSIF_RESULTS checks=",checks," failures=",failures.size())
 	quit(0 if failures.is_empty() else 1)

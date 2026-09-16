@@ -103,6 +103,6 @@ func finish() -> void:
 		"cpu_scopes_us":game.frame_costs.report(),
 		"cloud_receivers":{"world":game.world.cloud_lighting.materials.size(),"effects":game.effects.lighting.materials.size(),"weather":game.weather_effects.lighting.materials.size(),"skier":game.skier.lighting.materials.size(),"wind":game.world.assets.wind_receivers.size()},
 		"stall":{"ms":stall_ms,"max_physics_steps_per_frame":Engine.max_physics_steps_per_frame,"episodes_frame_ms_and_ticks":episodes}}
-	var f = FileAccess.open("res://artifacts/mac_probe/%s.json" % label,FileAccess.WRITE); f.store_string(JSON.stringify(data,"\t")); f.close()
+	var f = preload("res://tests/test_report.gd").open_write("res://artifacts/mac_probe/%s.json" % label); f.store_string(JSON.stringify(data,"\t")); f.close()
 	print("MAC_FRAME_PROBE_DONE ",label)
 	quit(0)

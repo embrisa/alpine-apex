@@ -32,7 +32,7 @@ func run() -> void:
 		{"name":"bumps","steer":0.0,"speed":120.0,"face":0,"z":2150.0},
 		{"name":"gentle_snow","steer":0.0,"speed":60.0,"face":5,"z":800.0}]:
 		await ride(request)
-	FileAccess.open(OUTPUT+"/results.json",FileAccess.WRITE).store_string(JSON.stringify({"model":game.sim.MODEL_VERSION,"seed":849205174,"generator":11,"unranked":not game.session.eligible,"height_sha256":field.height_checksum,"fixtures":rows,"failures":failures,"pixels":[root.size.x,root.size.y],"capture_overhead_included":true},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/results.json",JSON.stringify({"model":game.sim.MODEL_VERSION,"seed":849205174,"generator":11,"unranked":not game.session.eligible,"height_sha256":field.height_checksum,"fixtures":rows,"failures":failures,"pixels":[root.size.x,root.size.y],"capture_overhead_included":true},"\t"))
 	print("DOWNHILL_VISUAL_RESULTS ",JSON.stringify({"fixtures":rows.size(),"failures":failures,"path":OUTPUT}))
 	game.queue_free(); await process_frame
 	quit(0 if failures.is_empty() else 1)

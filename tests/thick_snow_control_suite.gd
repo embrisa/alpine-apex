@@ -52,6 +52,6 @@ func run() -> void:
 				var stronger = rows.filter(func(v): return v.depth==.20 and v.kmh==row.kmh and v.steer==row.steer and v.maximum)[0]
 				check(stronger.mean_slip_deg<row.mean_slip_deg*.80,"Workbench grip/response has a measurable effect in thick snow")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/snow_control_fix")
-	FileAccess.open("res://artifacts/snow_control_fix/"+("baseline" if baseline else "control")+".json",FileAccess.WRITE).store_string(JSON.stringify({"model":Sim.MODEL_VERSION,"rows":rows,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/snow_control_fix/"+("baseline" if baseline else "control")+".json",JSON.stringify({"model":Sim.MODEL_VERSION,"rows":rows,"failures":failures},"\t"))
 	print("THICK_SNOW_CONTROL model=",Sim.MODEL_VERSION," rows=",rows.size()," failures=",failures)
 	quit(0 if failures.is_empty() else 1)

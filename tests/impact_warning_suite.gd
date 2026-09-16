@@ -52,6 +52,6 @@ func _initialize() -> void:
 	check(warning.strength==0.0 and warning.phase==0.0,"Lifecycle reset removes all transient state")
 	var report = {"checks":checks,"failures":failures}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/impact_warning")
-	FileAccess.open("res://artifacts/impact_warning/unit.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/impact_warning/unit.json",JSON.stringify(report,"\t"))
 	print("IMPACT_WARNING_RESULTS ",JSON.stringify(report))
 	quit(0 if failures.is_empty() else 1)

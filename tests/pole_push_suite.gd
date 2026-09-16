@@ -69,7 +69,7 @@ func run() -> void:
 		"checks":checks,"failures":failures,"cases":rows,"cap_cases":cap_rows,"cpu_total_us":Time.get_ticks_usec()-start,
 		"scope":"Cap precision, incoming/completed tick boundaries and exclusions only; no ascent measurement" if cap_only else "30-second analytic descents and matched no-push controls; timing is contended test CPU, not gameplay FPS"}
 	DirAccess.make_dir_recursive_absolute(output.get_base_dir())
-	FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify(receipt,"\t"))
+	preload("res://tests/test_report.gd").write(output,JSON.stringify(receipt,"\t"))
 	print("POLE_PUSH_RESULTS ",JSON.stringify({"checks":checks,"failures":failures,"output":output}))
 	quit(0 if failures.is_empty() else 1)
 

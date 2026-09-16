@@ -73,7 +73,7 @@ func inspect_massif() -> void:
 	report.budget.absolute_pass = b.frame_ms.p95<=11.1 and b.frame_ms.p99<=16.7
 	fixture.select(game.world,false)
 	fixture.dispose()
-	FileAccess.open(OUTPUT+"/comparison.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/comparison.json",JSON.stringify(report,"\t"))
 	print("OFFMAP_BUDGET ",JSON.stringify(report.budget))
 
 func comparison_fixture():

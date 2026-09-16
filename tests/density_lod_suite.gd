@@ -75,7 +75,7 @@ func run() -> void:
 			check(absf(area-original)<.07,"Mipmap keeps needle area at level %d mip %d" % [level,mip])
 	check(Forest.LOAD_RADIUS>64+32 and Forest.KEEP_RADIUS>Forest.LOAD_RADIUS,"Detail preload and retention stay bounded")
 	DirAccess.make_dir_recursive_absolute("res://artifacts/foliage_v3")
-	FileAccess.open("res://artifacts/foliage_v3/asset_checks.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/foliage_v3/asset_checks.json",JSON.stringify({"checks":checks,"failures":failures},"\t"))
 	print("DENSITY_LOD_SUITE ",checks," checks; failures=",failures); quit(0 if failures.is_empty() else 1)
 func coverage(img: Image, mip: int) -> float:
 	var size=img.get_width()>>mip

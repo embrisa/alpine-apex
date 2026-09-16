@@ -31,6 +31,6 @@ func run() -> void:
 		compound.free()
 		print("JOLT_ASSET ",id," ",row.hull_points.size())
 		await process_frame
-	FileAccess.open("res://artifacts/geology_v11/jolt.json",FileAccess.WRITE).store_string(JSON.stringify({"assets":catalog.records.size(),"pieces":count,"catalog_sha256":catalog.fingerprint,"backend":ProjectSettings.get_setting("physics/3d/physics_engine"),"requires_clean_engine_log":true},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/geology_v11/jolt.json",JSON.stringify({"assets":catalog.records.size(),"pieces":count,"catalog_sha256":catalog.fingerprint,"backend":ProjectSettings.get_setting("physics/3d/physics_engine"),"requires_clean_engine_log":true},"\t"))
 	print("GEOLOGY_JOLT ",count," pieces; inspect engine errors as well as exit code")
 	quit()

@@ -236,7 +236,7 @@ func run() -> void:
 	_cleanup(test_dir)
 	DirAccess.make_dir_recursive_absolute("res://artifacts/summit_mountain")
 	var output = {"checks":checks,"failures":failures,"captures":captures,"staged_loading":used_staged_loading,"height_sha256":initial,"obstacle_sha256":physical_before[1]}
-	FileAccess.open("res://artifacts/summit_mountain/library_results.json",FileAccess.WRITE).store_string(JSON.stringify(output,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/summit_mountain/library_results.json",JSON.stringify(output,"\t"))
 	print("MOUNTAIN_LIBRARY_RESULTS ",JSON.stringify(output))
 	quit(0 if failures.is_empty() else 1)
 

@@ -36,6 +36,6 @@ func run() -> void:
 	AudioServer.remove_bus_effect(master,AudioServer.get_bus_effect_count(master)-1)
 	AudioServer.set_bus_volume_db(master,original_db)
 	AudioServer.set_bus_mute(master,original_mute)
-	FileAccess.open(output+"/dispatch.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+"/dispatch.json",JSON.stringify(report,"\t"))
 	print("STARTUP_AUDIO_CAPTURE ",JSON.stringify(report))
 	quit()

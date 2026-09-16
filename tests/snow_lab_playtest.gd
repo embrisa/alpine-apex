@@ -97,7 +97,7 @@ func run() -> void:
 				await capture(game.graphics.label()+"_skid_pov")
 			print("SNOW_FIXTURE ",JSON.stringify(result))
 	var report = {"synthetic_contacts":true,"unranked":not game.session.eligible,"engine":Engine.get_version_info().string,"device":RenderingServer.get_video_adapter_name(),"driver":RenderingServer.get_current_rendering_driver_name(),"display":game.display_settings.report(root,actual),"warmup_frames_per_case":150,"capture_overhead_included":false,"peak_video_bytes":peak_video,"cases":rows,"captures":captures}
-	FileAccess.open(output+("/quick.json" if quick else "/performance.json"),FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(output+("/quick.json" if quick else "/performance.json"),JSON.stringify(report,"\t"))
 	game.effects.stop_audio()
 	game.queue_free()
 	await process_frame

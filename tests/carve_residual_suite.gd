@@ -122,7 +122,7 @@ func run():
 		results.append({"spec":spec,"initial_body_deg":rad_to_deg(initial.x),"initial_torso_deg":rad_to_deg(initial.y),"peak_body_deg":rad_to_deg(peak_body),"opposite_body_deg":rad_to_deg(wrong.x),"opposite_torso_deg":rad_to_deg(wrong.y),"peak_joint_step_m":peak_step,"peak_action":peak_action,"peak_turn_acceleration":peak_path,"step_us_mean":step_us/420.0,"fit_us_mean":fit_us/420.0,"initial_pelvis_m":initial_pelvis,"low_curvature_samples":low_curve_samples,"residual_frames":residual_frames,"residual_duration_s":residual_frames/60.0,"peak_residual_deg":peak_residual,"peak_residual_pelvis_m":peak_pelvis,"settling_after_release_s":(last_outside+1-duration)*DT,"trace":trace})
 		if results.size()%12==0:print("CARVE_RESIDUAL_PROGRESS ",results.size(),"/",specs.size())
 	DirAccess.make_dir_recursive_absolute(output.get_base_dir())
-	FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"cases":results,"model":Sim.MODEL_VERSION,"engine":Engine.get_version_info().string},"\t"))
+	preload("res://tests/test_report.gd").write(output,JSON.stringify({"checks":checks,"failures":failures,"cases":results,"model":Sim.MODEL_VERSION,"engine":Engine.get_version_info().string},"\t"))
 	if not measure_only:
 		for failure in failures:printerr("FAIL: ",failure)
 	print("CARVE_RESIDUAL ",JSON.stringify({"checks":checks,"failures":failures,"measure_only":measure_only}))

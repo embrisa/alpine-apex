@@ -46,5 +46,5 @@ func run() -> void:
 		"stress_observations":sim.report(),"coverage":coverage,
 		"result":{"side":0,"ticks":sim.ticks,"seconds":seconds,"finished":false,"crash":"","position":[sim.position.x,sim.position.y,sim.position.z]}}
 	DirAccess.make_dir_recursive_absolute(output.get_base_dir())
-	FileAccess.open(output,FileAccess.WRITE).store_string(JSON.stringify(Trace.Inputs.storage(data),"",true,true))
+	preload("res://tests/test_report.gd").write(output,JSON.stringify(Trace.Inputs.storage(data),"",true,true))
 	print("STRESS_TRACE ",output," ",JSON.stringify(sim.report())); quit()

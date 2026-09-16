@@ -433,7 +433,7 @@ static func vector(value: Vector3) -> Array: return [value.x,value.y,value.z]
 
 func finish() -> void:
 	for path in sources: audit.check(FileAccess.get_sha256("res://"+path)==sources[path],"Reviewed source remained unchanged: "+path)
-	FileAccess.open(OUTPUT+"/report.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":audit.checks,"failures":audit.failures,
+	preload("res://tests/test_report.gd").write(OUTPUT+"/report.json",JSON.stringify({"checks":audit.checks,"failures":audit.failures,
 		"sources":sources,"followup_tasks":followup_tasks,"followup_evidence":followup_evidence,"view_searches":view_searches,"visual_acceptance":"pending actual pixel review","captures":captures,"samples":samples,"chronology":chronology,"engine":Engine.get_version_info(),
 		"device":RenderingServer.get_video_adapter_name(),"mountain_identity":game.workshop.navigation_state.mountain_identity,
 		"height_sha256":game.field.height_checksum,"obstacle_sha256":game.field.obstacle_checksum,

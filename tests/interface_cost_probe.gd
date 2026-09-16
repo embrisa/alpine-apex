@@ -71,7 +71,7 @@ func run() -> void:
 	for i in 40: hud.compact_menu.refresh()
 	result["compact_menu_refresh_us"] = (Time.get_ticks_usec()-started)/40.0
 	DirAccess.make_dir_recursive_absolute("res://artifacts/interface_cost")
-	var out = FileAccess.open("res://artifacts/interface_cost/%s.json" % label,FileAccess.WRITE); out.store_string(JSON.stringify(result,"\t")); out.close()
+	var out = preload("res://tests/test_report.gd").open_write("res://artifacts/interface_cost/%s.json" % label); out.store_string(JSON.stringify(result,"\t")); out.close()
 	print("INTERFACE_COST_PROBE ",JSON.stringify(result))
 	game.queue_free()
 	await process_frame

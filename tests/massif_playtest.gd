@@ -60,11 +60,11 @@ func run() -> void:
 		for i in 600: await process_frame
 		await capture("smoke_face_%d" % face_index)
 		var smoke_result = {"pixels":[actual_pixels.x,actual_pixels.y],"fps_cap":Engine.max_fps,"video_bytes":Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED),"face":face_index,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"staged_loading":game.staged_loading,"frames":600,"unranked":not game.session.eligible}
-		FileAccess.open(OUTPUT+"/smoke.json",FileAccess.WRITE).store_string(JSON.stringify(smoke_result,"\t"))
+		preload("res://tests/test_report.gd").write(OUTPUT+"/smoke.json",JSON.stringify(smoke_result,"\t"))
 		print("GEOLOGY_SMOKE ",JSON.stringify(smoke_result))
 	elif views:
 		await inspect_massif()
-		FileAccess.open(OUTPUT+"/views.json",FileAccess.WRITE).store_string(JSON.stringify({"version":version,"seed":mountain_seed,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"display":game.display_settings.report(root,actual_pixels),"captures":inspection_captures,"view_face":view_face,"staged_loading":game.staged_loading,"unranked":not game.session.eligible,"render_source_sha256":capture_render_sources},"\t"))
+		preload("res://tests/test_report.gd").write(OUTPUT+"/views.json",JSON.stringify({"version":version,"seed":mountain_seed,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"display":game.display_settings.report(root,actual_pixels),"captures":inspection_captures,"view_face":view_face,"staged_loading":game.staged_loading,"unranked":not game.session.eligible,"render_source_sha256":capture_render_sources},"\t"))
 	else: await descent()
 	var exit_code = 0 if views or smoke or (not game.sim.crashed and (field.reached_base(game.sim.position) or local_z()>=end_z)) else 1
 	game.queue_free()
@@ -213,7 +213,7 @@ func inspect_massif() -> void:
 			await process_frame
 			if frame in [30,90,179]: await capture("motion_%d_%d" % [z,frame],0)
 		clips.append({"section_m":z,"crash":game.sim.crash_reason,"position":str(game.sim.position),"duration_s":3})
-	FileAccess.open(OUTPUT+"/motion.json",FileAccess.WRITE).store_string(JSON.stringify({"clips":clips,"unranked":true,"capture_overhead":true},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/motion.json",JSON.stringify({"clips":clips,"unranked":true,"capture_overhead":true},"\t"))
 
 func descent() -> void:
 	var face = field.faces[face_index]
@@ -248,7 +248,7 @@ func descent() -> void:
 	result.max_frame_ms=frames.max() if not frames.is_empty() else 0.0
 	result.pilot_version=pilot_version()
 	result.pilot_input_us=timing(pilot_us)
-	FileAccess.open(OUTPUT+"/native_%d_%s.json" % [side,weather],FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/native_%d_%s.json" % [side,weather],JSON.stringify(result,"\t"))
 	print("MASSIF_NATIVE ",JSON.stringify(result))
 	await capture("finish_face_%d_%s" % [face_index,weather])
 

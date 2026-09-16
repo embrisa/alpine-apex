@@ -61,12 +61,12 @@ func descent() -> void:
 		if game.sim.crashed or field.reached_base(game.sim.position) or local_z()>=end_z: break
 	recording=false
 	var report={"mode":sfx_mode,"generator_version":version,"seed":mountain_seed,"face":face_index,"seconds":ticks*MassifPilot.DT,"peak_kmh":game.sim.peak_speed*3.6,"crash":game.sim.crash_reason,"section_completed":field.reached_base(game.sim.position) or local_z()>=end_z,"actual_pixels":[actual_pixels.x,actual_pixels.y],"display":game.display_settings.report(root,actual_pixels),"frame_ms":frame_timing(frames),"render_gpu_ms":timing(gpu_ms),"render_cpu_ms":timing(render_cpu_ms),"physics_step_us":timing(physics_us),"peak_video_bytes":peak_video_bytes,"native_sfx":game.effects.sfx.diagnostics(),"native_wind":game.effects.wind.diagnostics(),"unranked":not game.session.eligible,"capture_overhead_included":false,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"engine":Engine.get_version_info().string}
-	FileAccess.open(OUTPUT+"/sfx.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/sfx.json",JSON.stringify(report,"\t"))
 	report["sfx_frames_during_measurement"]=int(game.effects.sfx.diagnostics().get("frames",0))-initial_sfx_frames
 	report["native_sfx_paused"]=game.effects.sfx.player.stream_paused
 	report["audio_audible"]=game.effects.sfx.audible
 	report["startup_fps_cap"]=30
-	FileAccess.open(OUTPUT+"/sfx.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/sfx.json",JSON.stringify(report,"\t"))
 	print("SFX_DESCENT ",JSON.stringify(report))
 	game.effects.stop_audio()
 	await create_timer(.2).timeout
@@ -101,9 +101,9 @@ func _audition() -> void:
 	var wav=sfx_recorder.get_recording()
 	wav.save_to_wav("res://artifacts/sfx/capture/skiing_crash.wav")
 	AudioServer.remove_bus_effect(0,effect_index)
-	FileAccess.open("res://artifacts/sfx/capture/frames.json",FileAccess.WRITE).store_string(JSON.stringify(sfx_frames))
+	preload("res://tests/test_report.gd").write("res://artifacts/sfx/capture/frames.json",JSON.stringify(sfx_frames))
 	var report={"native_sfx":game.effects.sfx.diagnostics(),"native_wind":game.effects.wind.diagnostics(),"audio_rate":wav.mix_rate,"audio_frames":wav.data.size()/4,"capture_frames":sfx_frames.size(),"unranked":true,"capture_overhead_included":true,"crash_fixture":true}
-	FileAccess.open("res://artifacts/sfx/capture/report.json",FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/sfx/capture/report.json",JSON.stringify(report,"\t"))
 	game.effects.stop_audio()
 	game.skier.ragdoll.stop()
 	game.hud.weather_panel.show()

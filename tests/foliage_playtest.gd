@@ -51,7 +51,7 @@ func run() -> void:
 	else:
 		await stand_views(profile)
 	var pixels=root.get_texture().get_image().get_size()
-	FileAccess.open(output+"/report.json",FileAccess.WRITE).store_string(JSON.stringify({"asset":asset,"scope":"Deterministic production MultiMesh stand; separate from full-descent performance","no_player_session":true,"device":RenderingServer.get_video_adapter_name(),"engine":Engine.get_version_info().string,"display":display.report(root,pixels),"actual_pixels":[pixels.x,pixels.y],"manifest_sha256":FileAccess.get_sha256("res://assets/graphics/trees/manifest.json"),"fixture_sha256":FileAccess.get_sha256(get_script().resource_path),"images":images,"results":results},"\t"))
+	preload("res://tests/test_report.gd").write(output+"/report.json",JSON.stringify({"asset":asset,"scope":"Deterministic production MultiMesh stand; separate from full-descent performance","no_player_session":true,"device":RenderingServer.get_video_adapter_name(),"engine":Engine.get_version_info().string,"display":display.report(root,pixels),"actual_pixels":[pixels.x,pixels.y],"manifest_sha256":FileAccess.get_sha256("res://assets/graphics/trees/manifest.json"),"fixture_sha256":FileAccess.get_sha256(get_script().resource_path),"images":images,"results":results},"\t"))
 	print("FOLIAGE_RENDER_DONE ",output," results=",results.size())
 	quit(1 if failure else 0)
 

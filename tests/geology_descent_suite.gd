@@ -31,5 +31,5 @@ func run() -> void:
 		results.append(result)
 		if sim.crashed or not result.finished: failures.append(result)
 		print("GEOLOGY_DESCENT ",JSON.stringify(result))
-	FileAccess.open("res://artifacts/geology_v11/descents.json",FileAccess.WRITE).store_string(JSON.stringify({"pilot_version":Pilot.VERSION,"failures":failures,"results":results,"height_sha256":data.height_sha256,"obstacle_sha256":data.obstacle_sha256,"collision_catalog_sha256":field.geology.catalog.fingerprint},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/geology_v11/descents.json",JSON.stringify({"pilot_version":Pilot.VERSION,"failures":failures,"results":results,"height_sha256":data.height_sha256,"obstacle_sha256":data.obstacle_sha256,"collision_catalog_sha256":field.geology.catalog.fingerprint},"\t"))
 	quit(0 if failures.is_empty() else 1)

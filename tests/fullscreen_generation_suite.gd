@@ -32,7 +32,7 @@ func run() -> void:
 		var row = {"phase":phase,"pixels":[actual.x,actual.y],"position":str(root.position),"window_mode":root.mode,"borderless":root.borderless,"rendered":rendered,"generated":generated,"begin":begin,"end":end}
 		rows.append(row); print("FULLSCREEN_GENERATION ",JSON.stringify(row))
 		if phase in ["fullscreen_on","fullscreen_return"]: root.get_texture().get_image().save_png("res://artifacts/fps_second/"+phase+".png")
-	FileAccess.open("res://artifacts/fps_second/fullscreen_generation.json",FileAccess.WRITE).store_string(JSON.stringify({"rows":rows,"failures":failures},"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/fps_second/fullscreen_generation.json",JSON.stringify({"rows":rows,"failures":failures},"\t"))
 	settings.frame_generation = false; settings.apply_viewport(root)
 	game.effects.stop_audio(); game.queue_free(); await process_frame
 	print("FULLSCREEN_GENERATION_RESULT failures=",failures); quit(0 if failures.is_empty() else 1)

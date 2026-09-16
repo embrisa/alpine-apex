@@ -14,5 +14,5 @@ func run() -> void:
 		failed = failed or (not rows.is_empty() and (row.height!=rows[0].height or row.obstacles!=rows[0].obstacles))
 		rows.append(row); field = null
 	var result = {"source":Cache.Sources.signature(),"engine_sha256":Cache.Sources.engine_identity(),"runs":rows,"failed":failed}
-	FileAccess.open("res://artifacts/generation_v15/v15_cache_wall_baseline.json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/v15_cache_wall_baseline.json",JSON.stringify(result,"\t"))
 	print("V15_FULL_CACHE_PROFILE ",JSON.stringify(result)); quit(1 if failed else 0)

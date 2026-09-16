@@ -32,6 +32,6 @@ func run() -> void:
 			var p: Vector3 = placed.pose*local
 			if p.y>float(field.sample(p.x,p.z).height)+.001: mineral_seats = false
 	check(mineral_seats,"Mineral foundations match final snow")
-	FileAccess.open(OUTPUT+"/routes.json",FileAccess.WRITE).store_string(JSON.stringify({"checks":checks,"failures":failures,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"surveys":paths_for_pilot,"minerals":field.geology.placements.size(),"unranked":true},"\t"))
+	preload("res://tests/test_report.gd").write(OUTPUT+"/routes.json",JSON.stringify({"checks":checks,"failures":failures,"height_sha256":field.height_checksum,"obstacle_sha256":field.obstacle_checksum,"surveys":paths_for_pilot,"minerals":field.geology.placements.size(),"unranked":true},"\t"))
 	print("V14_ROUTE_CONTRACT checks=",checks," failures=",failures)
 	quit(0 if failures.is_empty() else 1)
