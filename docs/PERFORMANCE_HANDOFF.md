@@ -398,17 +398,38 @@ sustained target performance remain open. Compact integration evidence:
 
 ## Mac and next experiments
 
-The shipped native skier library is Windows x64 only. Mac uses the existing
-GDScript implementation; it does not receive the native CPU savings yet. A Mac
-port needs a native build and paired numerical/gameplay checks. Record one Mac
-baseline for that device, renderer and settings; Windows numbers are not its
-control. Keep the portable shader/batching changes enabled while investigating.
+Fable's Apple Silicon branch is now integrated: macOS arm64 loads the packaged
+native hip/pelvis/knee/tracking kernels. Windows keeps its existing DLL; Intel
+Macs and other platforms retain the script reference. Immutable body names,
+offsets and limb lengths are cached on both paths. No solver cadence/model change.
 
-Promising next questions: which remaining renderer intervals dominate on Mac,
-and whether native skier math is worth porting there. Keep 120 Hz simulation;
-small visual/physics differences may be accepted for measured gains. Use one
-focused candidate and a short warmed run; reuse matching baselines. Skip manual
-hash audits and large capture archives. Prefer real improvements over reporting.
+Fable reported 3,000 exact random physical hip fits; extreme presentation pelvis
+poses differed by at most 1.04 mm, knee by 2.4e-7 m and tracking quaternion distance
+by 9.7e-7. Its 6,000-tick minimum-pass solver observations were 333-346 us/tick
+for the hoisted reference and about 302 us/tick with native fitting. Only the
+sampled position/velocity/heading/support channels were compared over that route;
+this is not an all-state equivalence proof. The claimed 2-4% hoist saving is near
+the laptop's noise floor. Separate Mac profiling showed tracking 74 -> 24 us/tick,
+animation 315 -> 246 us/tick and render pose 430 -> 361 us/frame; these scopes
+overlap. That profile remained GPU-bound near 25 FPS under its older FSR 2 setup,
+so it does not establish an FPS gain or replace the spatial-upscaler baseline.
+
+Windows integration passed 2,160 paired tick comparisons of physical snapshots
+and every body script property across regular/carve/jump-grab cases, with no
+crashes. The compact paired solver averaged **414.65 -> 396.46 us/tick (-4.4%)**,
+1,800 timed ticks per arm after warmup, alternating execution order. This retains
+about 18.2 us/tick of CPU work; no new mountain FPS claim. Required physics/runtime
+and platform/native fitting/tracking/knee checks passed (530,189 assertions).
+The merge retains both Metal-upscaler and native-library startup checks. Evidence:
+`artifacts/fable_native_20260916/`; Fable's Mac evidence remains in its committed
+note `changes/ee06e19415194b008906239c53dcfa41.json`.
+StringName capability literals, cached adapter capability flags and a byte-table
+rock lookup were rejected by Fable as noise-floor results; do not repeat unchanged.
+
+Keep the native port's CPU savings while investigating remaining Metal intervals.
+User motion review, packaged exports and sustained target performance remain open.
+Use one focused candidate and a short warmed run; reuse matching baselines and
+skip manual hash audits and large capture archives.
 
 Do not repeat unchanged rejected approaches: broad UV packing, per-frame CPU
 tree compaction, LOD1 alpha trapezoid trimming, small-angle wind polynomial, or
@@ -438,7 +459,8 @@ physics/runtime checks passed on Windows. Four older procedural assertions
 (one in `skier_motion_suite`, three in `skier_animation_suite`) failed identically
 with original and native tracking, including identical animation metrics. Those
 remain unresolved existing findings; those two suites are not claimed as passing.
-Mac execution, packaged export and human/controller feel are unverified.
+The Mac integration evidence is recorded above; packaged export and
+human/controller feel remain unverified.
 
 ## Fable task overlap review
 
@@ -450,7 +472,7 @@ file is absent from that commit and its tree.
 | --- | --- | --- |
 | `084500-reduce-solver-terrain-query-redundancy` | Native hip fitting, allocation-free heights, exact tick-local query reuse and removal of unread curvature probes are enabled. The bounded snow shortcut remains cosmetic only. | Capability checks, material-map storage and other proposed allocations/sweeps remain untested. This task is only partly implemented. |
 | `084501-index-skier-pose-by-bone` | Rest geometry caching, native pelvis fitting and limits are enabled. Native tracking now caches immutable bone offsets/ancestry and batches the costly tick loop. | Broad pose-container conversion, mirror indices, reusable sampling buffers and fewer skeleton writes remain untested. Current writer cost is only 42 us/frame; pose is about 0.86 ms/frame. |
-| `084502-reduce-recording-tick-cost` | Direct typed snapshot field access saves about 6 us/tick; all recorded channels remain exact. Broad buffer rewrites were rejected. | Timed control now exists; extra completed-pose capture costs about 1.2 ms at 30 Hz. Eliminating repeated solve work remains open. |
+| `084502-reduce-recording-tick-cost` | Direct typed snapshot field access saves about 6 us/tick; all recorded channels remain exact. Broad buffer rewrites were rejected. | Routine capture now runs at 20 Hz, saving one third of completed-pose evaluations with accepted coarser ghost motion; see the current timed reference above. Further per-capture work remains open. |
 | `084503-publish-shared-shader-uniforms-globally` | Cloud parameter/direction/height change gates and wind direction/strength gates already exist. Tree contact shader work now skips exact rest. | Global publication and remaining write reduction are untested. Preserve separate world/preview state and pause behavior; receiver count estimates are not measured savings. |
 
 All four were written against Dev 43 and older scope measurements. Use the

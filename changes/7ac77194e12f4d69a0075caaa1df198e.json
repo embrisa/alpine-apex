@@ -1,0 +1,268 @@
+{
+  "schema": 1,
+  "id": "7ac77194e12f4d69a0075caaa1df198e",
+  "summary": "Integrate Fable Apple Silicon skier kernels and cached body geometry",
+  "categories": [
+    "Gameplay"
+  ],
+  "areas": [
+    "Apple Silicon native skier kernels",
+    "Immutable body geometry",
+    "Merged Windows/Metal startup contracts"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".gitattributes",
+    "addons/alpine_skier/alpine_skier.macos.gdextension.cfg",
+    "addons/alpine_skier/bin/alpine_skier.macos.arm64.dylib",
+    "docs/ANIMATION.md",
+    "docs/DEVELOPMENT.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/VALIDATION.md",
+    "native/skier/CMakeLists.txt",
+    "native/skier/build_profile.json",
+    "scripts/build_skier_macos.sh",
+    "scripts/core/rider_body.gd",
+    "scripts/core/skier_kernel.gd",
+    "tests/fixtures/test_maps.json",
+    "tests/macos_compatibility_suite.gd",
+    "tests/skier_fit_native_suite.gd",
+    "tests/solver_tick_benchmark.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "scripts/core/ski_simulation.gd",
+    "scripts/presentation/skier_anatomy.gd",
+    "scripts/presentation/skier_full_motion.gd",
+    "scripts/presentation/skier_visual.gd",
+    "tests/physics_suite.gd",
+    "tests/render_knee_suite.gd",
+    "tests/runtime_suite.gd",
+    "tests/skier_tracking_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Same 120 Hz solver and physical model. Body names/rest offsets/lengths cached with identical operations; existing native math now packaged for macOS arm64. Physical equivalence checked separately from small accepted presentation differences."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No format, compatibility key, terrain or recorded-input change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No format, compatibility key, terrain or recorded-input change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No format, compatibility key, terrain or recorded-input change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No format, compatibility key, terrain or recorded-input change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No format, compatibility key, terrain or recorded-input change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "scripts/test_pc_environment.ps1 -Suites physics_suite,runtime_suite,macos_compatibility_suite,skier_fit_native_suite,skier_tracking_suite,render_knee_suite -OutputDirectory artifacts/fable_native_20260916/regression",
+      "result": "passed",
+      "details": "530189 checks on Windows x86_64 native engine; 3000 random hip fits exact, zero measured native/reference fitting/tracking/knee differences. Merged platform suite retains both Metal upscaling and packaged Mac library checks. No claim to executing Mac code on Windows."
+    },
+    {
+      "kind": "automated",
+      "command": "FpsCritical artifacts/fable_native_20260916/body_pair.gd; guarded PlanOnly tests/solver_tick_benchmark.gd",
+      "result": "passed",
+      "details": "2160 ticks compare all body script properties plus replay physical snapshots to the pre-merge body; all exact. No crashes, jump/grab includes80 airborne ticks. Optional solver harness now advertises explicit full-mountain requirement in the map catalogue; skill/guide distinguish sampled channels from complete simulation equivalence."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical paired compact regular/carve/jump-grab solver, 600 measured ticks per arm per case after120 warmup ticks, alternating order",
+      "result": "passed",
+      "details": "Windows solver mean414.651 to396.464us/tick (-4.386%). Case means430.370 to409.458;414.328 to398.505;399.255 to381.428. Compact CPU result, not mountain FPS. Fable Mac measurements are separately attributed to cb4d603 and its committed note; no fresh Mac benchmark was possible from Windows."
+    },
+    {
+      "kind": "rendered",
+      "command": "Windows native/reference final fitting and tracker checks; Fable Mac presentation numerical checks",
+      "result": "not_required",
+      "details": "Windows changes cache immutable physical body geometry; 2160 paired body states match and native presentation paths return exact existing results. No Windows rendering code or DLL changed. Mac runtime presentation review remains explicitly pending; prior branch numeric bounds are retained, not represented as local rendered review."
+    },
+    {
+      "kind": "human",
+      "command": "User skiing and continuous Mac native-animation review",
+      "result": "pending",
+      "details": "Requires the Mac device and human motion/controller review; user has authorized small animation differences and retaining measured CPU savings."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Apple Silicon visual motion/controller acceptance and packaged exports remain pending. Mac CPU evidence is Fable-reported, not rerun on this Windows host.",
+    "Compact Windows CPU improvement is not a new mountain FPS result. Latest timed 20 Hz reference remains Dev61."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T16:54:13.453904+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "48317485258b8108c367c3749fbea75419592d59",
+      "dev": 61,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": {
+        "size": 11512,
+        "mtime_ns": 1789577468898858600
+      },
+      ".gitattributes": {
+        "size": 1493,
+        "mtime_ns": 1789577332568836200
+      },
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "addons/alpine_skier/alpine_skier.macos.gdextension.cfg": {
+        "size": 190,
+        "mtime_ns": 1789577332570045900
+      },
+      "addons/alpine_skier/bin/alpine_skier.macos.arm64.dylib": {
+        "size": 248656,
+        "mtime_ns": 1789577335396604100
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ANIMATION.md": {
+        "size": 24592,
+        "mtime_ns": 1789577468881271300
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 20655,
+        "mtime_ns": 1789577468895854200
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 32634,
+        "mtime_ns": 1789577652935297700
+      },
+      "docs/VALIDATION.md": {
+        "size": 127069,
+        "mtime_ns": 1789577468890464300
+      },
+      "native/skier/CMakeLists.txt": {
+        "size": 2223,
+        "mtime_ns": 1789577332975032600
+      },
+      "native/skier/build_profile.json": {
+        "size": 40,
+        "mtime_ns": 1789577332975548900
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/build_skier_macos.sh": {
+        "size": 1066,
+        "mtime_ns": 1789577332976060800
+      },
+      "scripts/core/rider_body.gd": {
+        "size": 22711,
+        "mtime_ns": 1789577332976571800
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/core/skier_kernel.gd": {
+        "size": 1178,
+        "mtime_ns": 1789577332977082300
+      },
+      "scripts/presentation/skier_anatomy.gd": {
+        "size": 12524,
+        "mtime_ns": 1789572082272435400
+      },
+      "scripts/presentation/skier_full_motion.gd": {
+        "size": 47977,
+        "mtime_ns": 1789553281615418300
+      },
+      "scripts/presentation/skier_visual.gd": {
+        "size": 18238,
+        "mtime_ns": 1789572082273438600
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789576668695286100
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/fixtures/test_maps.json": {
+        "size": 62179,
+        "mtime_ns": 1789577468898858600
+      },
+      "tests/macos_compatibility_suite.gd": {
+        "size": 2929,
+        "mtime_ns": 1789577468874864800
+      },
+      "tests/physics_suite.gd": {
+        "size": 18419,
+        "mtime_ns": 1789162199639990200
+      },
+      "tests/render_knee_suite.gd": {
+        "size": 1884,
+        "mtime_ns": 1789571767126105800
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41041,
+        "mtime_ns": 1789319651640207700
+      },
+      "tests/skier_fit_native_suite.gd": {
+        "size": 3509,
+        "mtime_ns": 1789577332978104600
+      },
+      "tests/skier_tracking_suite.gd": {
+        "size": 2825,
+        "mtime_ns": 1789553334545901300
+      },
+      "tests/solver_tick_benchmark.gd": {
+        "size": 2434,
+        "mtime_ns": 1789577468896858700
+      }
+    }
+  }
+}

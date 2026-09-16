@@ -1798,6 +1798,11 @@
       "maps": [],
       "full_mountain": false,
       "coverage": "Isolated source conversion to shared centimetre meshes and BC7 textures; no world."
+    },
+    "tests/solver_tick_benchmark.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit warm Standard terrain attribution; sampled solver channels and crash status, not rendered FPS or all-state equivalence."
     }
   }
 }

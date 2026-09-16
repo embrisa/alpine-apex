@@ -306,8 +306,20 @@ prepared by the wind build in `.tools/wind`; it does not rebuild the engine or
 wind plugin. The resulting DLL belongs in `addons/alpine_skier/bin`, outside
 artifacts. Preserve scalar double/vector float behavior and `/fp:precise`.
 The Windows playtest preset includes addon resources; verify extension loading
-and physics/runtime suites after a rebuild. Other platforms currently use the
-reference implementation. This does not establish a packaged-export smoke test.
+and physics/runtime suites after a rebuild. This does not establish a
+packaged-export smoke test.
+
+macOS arm64 builds with `scripts/build_skier_macos.sh` (Homebrew `cmake`, Apple
+clang). It clones the same pinned godot-cpp into `.tools/skier-mac`, builds it
+in-tree with `native/skier/build_profile.json`, compiles with `-ffp-contract=off`
+so no fused multiply-add changes rounding against the GDScript reference, and
+places `alpine_skier.macos.arm64.dylib` (Git LFS) in `addons/alpine_skier/bin`.
+`skier_kernel.gd` selects `alpine_skier.macos.gdextension.cfg` on macOS arm64;
+Intel Macs and other platforms keep the reference implementation. Verify with
+`tests/skier_fit_native_suite.gd`, `tests/render_knee_suite.gd`,
+`tests/skier_tracking_suite.gd`, the physics/runtime suites and
+`tests/solver_tick_benchmark.gd` sampled-state/timing checks when Standard
+terrain attribution is needed after a rebuild; follow the performance guard policy.
 
 ## Artifact lifecycle
 

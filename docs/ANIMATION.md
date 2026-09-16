@@ -67,7 +67,7 @@ remain separate from visible render interpolation. Follow [Validation](VALIDATIO
 for matched bounded production comparisons; detailed optimization evidence is
 in `artifacts/animation_cpu/`.
 
-On Windows the native skier kernel batches the 120 Hz quaternion tracker, joint
+On Windows x64 and macOS arm64 the native skier kernel batches the 120 Hz quaternion tracker, joint
 limits and grip-target reconstruction. It updates the rider-owned rotation and
 velocity arrays in bone order, rebuilding each grip from parents that have
 already advanced. Only immutable names, rest offsets and arm ancestry are shared.

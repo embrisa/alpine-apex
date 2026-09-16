@@ -82,6 +82,10 @@ Use `-ProfileFrameCosts` for CPU attribution and the
 only when GPU pass evidence is needed. Capture visual comparisons separately
 from timing; readbacks, screenshots and encoding can alter the measured cost.
 
+For the optional Standard solver harness, follow [solver attribution](../../../docs/VALIDATION.md#reusable-baselines-and-experiment-budget).
+Require explicit full-mountain/FpsCritical admission, inspect crash status and
+keep sampled-state equality separate from complete solver equivalence.
+
 Use a focused harness for isolated kernels or preparation stages, then validate
 the result in the affected production path before claiming gameplay benefit.
 Inspect cost units and cadence: overlapping fixed-tick, render-pose and GPU

@@ -23,6 +23,32 @@ const SEGMENTS = [["Hips","Spine02",.15],["Spine02","Spine",.32],["neck","Head",
 	["LeftArm","LeftForeArm",.03],["RightArm","RightForeArm",.03],
 	["LeftForeArm","LeftHand",.025],["RightForeArm","RightHand",.025],
 	["LeftHand","LeftHand",.005],["RightHand","RightHand",.005]]
+# Immutable per-side names and rest geometry, derived once from REST with the
+# same operations the pose used to repeat every call (identical values).
+const SIDE_PREFIX = ["Right","Left"]
+const TORSO_IDS = ["Spine02","Spine01","Spine","neck","Head"]
+static var _side_geometry: Array = _prepare_side_geometry()
+static var _torso_offsets: Array = _prepare_torso_offsets()
+
+static func _prepare_side_geometry() -> Array:
+	var result: Array = []
+	for prefix in SIDE_PREFIX:
+		result.append({
+			"up_leg":prefix+"UpLeg","leg":prefix+"Leg","foot":prefix+"Foot","toe":prefix+"ToeBase",
+			"shoulder":prefix+"Shoulder","arm":prefix+"Arm","forearm":prefix+"ForeArm","hand":prefix+"Hand",
+			"hip_offset":REST[prefix+"UpLeg"]-REST.Hips,"thigh":REST[prefix+"UpLeg"].distance_to(REST[prefix+"Leg"]),
+			"shin":REST[prefix+"Leg"].distance_to(REST[prefix+"Foot"]),"foot_y":REST[prefix+"Foot"].y,
+			"toe_offset":REST[prefix+"ToeBase"]-REST[prefix+"Foot"],
+			"shoulder_offset":REST[prefix+"Shoulder"]-REST.Hips,"arm_offset":REST[prefix+"Arm"]-REST.Hips,
+			"arm_length":REST[prefix+"Arm"].distance_to(REST[prefix+"ForeArm"]),
+			"forearm_length":REST[prefix+"ForeArm"].distance_to(REST[prefix+"Hand"])})
+	return result
+
+static func _prepare_torso_offsets() -> Array:
+	var result: Array = []
+	for id in TORSO_IDS: result.append(REST[id]-REST.Hips)
+	return result
+
 var joints: Dictionary = {}
 var rotations: Dictionary = {}
 var previous_joints: Dictionary = {}
@@ -248,31 +274,32 @@ func _pose(sim, dt: float) -> void:
 	var ankles: Array[Vector3] = []
 	var boots: Array[Basis] = []
 	for i in range(2):
-		var prefix = "Right" if i==0 else "Left"
-		ankles.append(frame.transposed()*(sim.skis[i].position-sim.position+sim.skis[i].orientation.y*(.110+REST[prefix+"Foot"].y)))
+		var geometry: Dictionary = _side_geometry[i]
+		ankles.append(frame.transposed()*(sim.skis[i].position-sim.position+sim.skis[i].orientation.y*(.110+geometry.foot_y)))
 		boots.append(frame.transposed()*sim.skis[i].orientation)
 	hips.x += _carve_transfer_shift
 	hips = fit_hips(hips,pelvis_basis,ankles,boots)
 	joints.Hips = hips
 	rotations.Hips = pelvis_basis
-	for id in ["Spine02","Spine01","Spine","neck","Head"]:
-		joints[id] = hips+torso_basis*(REST[id]-REST.Hips)
+	for index in TORSO_IDS.size():
+		var id: String = TORSO_IDS[index]
+		joints[id] = hips+torso_basis*_torso_offsets[index]
 		rotations[id] = torso_basis if id!="Head" else Basis(Vector3.BACK,roll*.8)*Basis(Vector3.RIGHT,pitch+tuck*.12)
 	for i in range(2):
 		var side = -1.0 if i==0 else 1.0
-		var prefix = "Right" if i==0 else "Left"
+		var geometry: Dictionary = _side_geometry[i]
 		var ankle: Vector3 = ankles[i]
-		var hip: Vector3 = hips+pelvis_basis*(REST[prefix+"UpLeg"]-REST.Hips)
-		var a: float = REST[prefix+"UpLeg"].distance_to(REST[prefix+"Leg"])
-		var b: float = REST[prefix+"Leg"].distance_to(REST[prefix+"Foot"])
+		var hip: Vector3 = hips+pelvis_basis*geometry.hip_offset
+		var a: float = geometry.thigh
+		var b: float = geometry.shin
 		var knee = leg_joint(hip,ankle,a,b,boots[i])
-		joints[prefix+"UpLeg"] = hip
-		joints[prefix+"Leg"] = knee
-		joints[prefix+"Foot"] = ankle
-		rotations[prefix+"Foot"] = boots[i]
-		joints[prefix+"ToeBase"] = ankle+rotations[prefix+"Foot"]*(REST[prefix+"ToeBase"]-REST[prefix+"Foot"])
-		for suffix in ["Shoulder","Arm"]:
-			joints[prefix+suffix] = hips+torso_basis*(REST[prefix+suffix]-REST.Hips)
+		joints[geometry.up_leg] = hip
+		joints[geometry.leg] = knee
+		joints[geometry.foot] = ankle
+		rotations[geometry.foot] = boots[i]
+		joints[geometry.toe] = ankle+boots[i]*geometry.toe_offset
+		joints[geometry.shoulder] = hips+torso_basis*geometry.shoulder_offset
+		joints[geometry.arm] = hips+torso_basis*geometry.arm_offset
 		var turn: float = clampf(sim.edge_angle/.65,-1.0,1.0)
 		var hand_goal = Vector3(side*(.18-tuck*.14+(.08 if not sim.grounded else 0.0)+recovery*.04)-turn*.045,
 			-.32+tuck*.18+side*turn*.05+sim.landing_force*.008,.20+tuck*.13+side*turn*.065-clampf(sim.acceleration*.0025,-.05,.05))
@@ -282,12 +309,13 @@ func _pose(sim, dt: float) -> void:
 			var decay = exp(-11.0*dt)
 			hands[i] = hand_goal+(offset+response*dt)*decay
 			hand_velocities[i] = (hand_velocities[i]-response*11.0*dt)*decay
-		var arm_length: float = REST[prefix+"Arm"].distance_to(REST[prefix+"ForeArm"])
-		var forearm_length: float = REST[prefix+"ForeArm"].distance_to(REST[prefix+"Hand"])
+		var arm_length: float = geometry.arm_length
+		var forearm_length: float = geometry.forearm_length
 		var offset = hands[i].limit_length(arm_length+forearm_length-.025)
-		var hand: Vector3 = joints[prefix+"Arm"]+offset
-		joints[prefix+"ForeArm"] = joint(joints[prefix+"Arm"],hand,arm_length,forearm_length,Vector3(side*(.65-tuck*.25),-.55,-.35))
-		joints[prefix+"Hand"] = hand
+		var arm_joint: Vector3 = joints[geometry.arm]
+		var hand: Vector3 = arm_joint+offset
+		joints[geometry.forearm] = joint(arm_joint,hand,arm_length,forearm_length,Vector3(side*(.65-tuck*.25),-.55,-.35))
+		joints[geometry.hand] = hand
 
 func _mass_properties(mass: float) -> void:
 	com = Vector3.ZERO
@@ -319,10 +347,10 @@ static func reference_fit_hips(hips: Vector3, pelvis: Basis, ankles: Array[Vecto
 	for iteration in range(16):
 		var largest = 0.0
 		for i in range(2):
-			var prefix = "Right" if i==0 else "Left"
-			var hip: Vector3 = hips+pelvis*(REST[prefix+"UpLeg"]-REST.Hips)
-			var thigh: float = REST[prefix+"UpLeg"].distance_to(REST[prefix+"Leg"])
-			var shin: float = REST[prefix+"Leg"].distance_to(REST[prefix+"Foot"])
+			var geometry: Dictionary = _side_geometry[i]
+			var hip: Vector3 = hips+pelvis*geometry.hip_offset
+			var thigh: float = geometry.thigh
+			var shin: float = geometry.shin
 			var reach = thigh+shin-.004
 			var extension = hip.distance_to(ankles[i])-reach
 			if extension>0.0:

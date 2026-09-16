@@ -1,0 +1,298 @@
+{
+ "schema": 1,
+ "id": "ee06e19415194b008906239c53dcfa41",
+ "summary": "Package the native skier math kernel for macOS arm64, hoist immutable rider body geometry for the reference hip fit, and add a headless paired solver tick benchmark with exact state hashing",
+ "categories": [
+  "Gameplay"
+ ],
+ "areas": [
+  "Native skier math on macOS arm64",
+  "Reference rider body fitting (GDScript path)",
+  "Solver tick benchmark tooling",
+  "Performance documentation"
+ ],
+ "owned_paths": [
+  ".gitattributes",
+  "addons/alpine_skier/alpine_skier.macos.gdextension.cfg",
+  "addons/alpine_skier/bin/alpine_skier.macos.arm64.dylib",
+  "docs/DEVELOPMENT.md",
+  "docs/PERFORMANCE_HANDOFF.md",
+  "docs/VALIDATION.md",
+  "native/skier/CMakeLists.txt",
+  "native/skier/build_profile.json",
+  "scripts/build_skier_macos.sh",
+  "scripts/core/rider_body.gd",
+  "scripts/core/skier_kernel.gd",
+  "tests/macos_compatibility_suite.gd",
+  "tests/skier_fit_native_suite.gd",
+  "tests/solver_tick_benchmark.gd"
+ ],
+ "read_paths": [
+  "AGENTS.md",
+  "docs/PHYSICS.md",
+  "scripts/core/ski_contact.gd",
+  "scripts/core/ski_simulation.gd",
+  "scripts/core/skier_kernel.gd",
+  "scripts/core/snow_contact_assist.gd",
+  "scripts/core/snow_crush_contact.gd",
+  "scripts/core/tick_terrain_queries.gd",
+  "tests/animation_cpu_suite.gd",
+  "tests/pelvis_balance_suite.gd",
+  "tests/physics_suite.gd",
+  "tests/runtime_suite.gd",
+  "tests/skier_anatomy_suite.gd",
+  "tests/skier_tracking_suite.gd",
+  "tests/tick_terrain_queries_suite.gd",
+  "tests/validation_mountain.gd"
+ ],
+ "compatibility": {
+  "before": {
+   "physics": 35,
+   "world": 15,
+   "replay": 7,
+   "race": 6,
+   "archive": 4,
+   "mountain_file": 2,
+   "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+   "tick_hz": 120
+  },
+  "after": {
+   "physics": 35,
+   "world": 15,
+   "replay": 7,
+   "race": 6,
+   "archive": 4,
+   "mountain_file": 2,
+   "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+   "tick_hz": 120
+  },
+  "decisions": {
+   "physics": {
+    "effect": "preserved",
+    "reason": "Physical hip fit: native macOS kernel equals the GDScript reference on 3,000 random fits with zero distance, and the 6,000-tick solver state hash is identical with the kernel on and off; model 35, tuning and 120 Hz unchanged. Presentation-only pelvis fitting differs by at most 1.04 mm on random extreme poses (same kernel behaviour Windows already ships)."
+   }
+  },
+  "data": {
+   "mountains": {
+    "effect": "preserved",
+    "reason": "Physical hip fit: native macOS kernel equals the GDScript reference on 3,000 random fits with zero distance, and the 6,000-tick solver state hash is identical with the kernel on and off; model 35, tuning and 120 Hz unchanged. Presentation-only pelvis fitting differs by at most 1.04 mm on random extreme poses (same kernel behaviour Windows already ships)."
+   },
+   "races": {
+    "effect": "preserved",
+    "reason": "Physical hip fit: native macOS kernel equals the GDScript reference on 3,000 random fits with zero distance, and the 6,000-tick solver state hash is identical with the kernel on and off; model 35, tuning and 120 Hz unchanged. Presentation-only pelvis fitting differs by at most 1.04 mm on random extreme poses (same kernel behaviour Windows already ships)."
+   },
+   "records": {
+    "effect": "preserved",
+    "reason": "Physical hip fit: native macOS kernel equals the GDScript reference on 3,000 random fits with zero distance, and the 6,000-tick solver state hash is identical with the kernel on and off; model 35, tuning and 120 Hz unchanged. Presentation-only pelvis fitting differs by at most 1.04 mm on random extreme poses (same kernel behaviour Windows already ships)."
+   },
+   "ghosts": {
+    "effect": "preserved",
+    "reason": "Physical hip fit: native macOS kernel equals the GDScript reference on 3,000 random fits with zero distance, and the 6,000-tick solver state hash is identical with the kernel on and off; model 35, tuning and 120 Hz unchanged. Presentation-only pelvis fitting differs by at most 1.04 mm on random extreme poses (same kernel behaviour Windows already ships)."
+   },
+   "caches": {
+    "effect": "preserved",
+    "reason": "Physical hip fit: native macOS kernel equals the GDScript reference on 3,000 random fits with zero distance, and the 6,000-tick solver state hash is identical with the kernel on and off; model 35, tuning and 120 Hz unchanged. Presentation-only pelvis fitting differs by at most 1.04 mm on random extreme poses (same kernel behaviour Windows already ships)."
+   }
+  }
+ },
+ "checks": [
+  {
+   "kind": "automated",
+   "command": "./godotw --headless --script tests/skier_fit_native_suite.gd (new paired suite, macOS arm64 kernel loaded)",
+   "result": "passed",
+   "details": "10,800 checks: 3,000 hip fits bit-identical to RiderBody.reference_fit_hips (max delta 0.0), pelvis fit max 1.04 mm on random extreme poses, joint limit basis max 5e-7. Log artifacts/solver_tick/native/final_skier_fit_native_suite.log"
+  },
+  {
+   "kind": "automated",
+   "command": "./godotw --headless --script tests/render_knee_suite.gd; tests/skier_tracking_suite.gd",
+   "result": "passed",
+   "details": "Knee 4,000 checks max 2.4e-7 m; tracker 515,130 checks, max quaternion distance 9.7e-7, velocity 7.3e-5 rad/s, native_available true on macOS."
+  },
+  {
+   "kind": "automated",
+   "command": "./godotw --headless --script tests/physics_suite.gd; tests/runtime_suite.gd (run twice: reference path before the dylib existed and with the native kernel active)",
+   "result": "passed",
+   "details": "56/56 and 192 checks both times. Logs artifacts/solver_tick/suites and artifacts/solver_tick/native."
+  },
+  {
+   "kind": "automated",
+   "command": "./godotw --headless --script tests/skier_anatomy_suite.gd; tests/animation_cpu_suite.gd; tests/macos_compatibility_suite.gd",
+   "result": "passed",
+   "details": "Anatomy suite passed; animation CPU 72 checks; macOS compatibility 7 checks including explicit macOS kernel configuration, packaged dylib and arm64 selection. tests/pelvis_balance_suite.gd was not usable: pre-existing defect writes to a missing artifacts/steering_response_v22 directory, errors and never quits (unrelated to this change)."
+  },
+  {
+   "kind": "automated",
+   "command": "ALPINE_FULL_MOUNTAIN=1 ./godotw --headless --script tests/solver_tick_benchmark.gd -- --ticks=6000 (interleaved reference/candidate)",
+   "result": "passed",
+   "details": "State hash 1cc6806dd5c7... identical for reference, hoisted reference and native kernel. Minimum pass us/tick: baseline 349.1/354.3, hoisted reference 333.5/346.1, native kernel 302.0/301.9."
+  },
+  {
+   "kind": "performance",
+   "command": "open -n -W -a Godot.app --args --path <repo> --script artifacts/mac_probe/probe.gd -- --probe-label=native_kernel --probe-seconds=25",
+   "result": "passed",
+   "details": "Focused fullscreen Mac probe (FSR 2 default on this branch): animation_tracking 74 -> 24 us/tick, pose_pelvis 72 -> 38 us, pose 430 -> 361 us/frame, animation_tick 315 -> 246 us/tick versus the pre-branch reference; simulation per tick unchanged within noise at 25 FPS (GPU-bound frame). artifacts/mac_probe/result_native_kernel.json"
+  },
+  {
+   "kind": "human",
+   "command": "Rendered animation with native pelvis/knee/tracking kernels on macOS",
+   "result": "pending",
+   "details": "Paired suites bound the differences; the user's look at skiing animation on the MacBook is pending."
+  }
+ ],
+ "outstanding_acceptance": [
+  "Windows behaviour is unchanged: the Windows CMake path, DLL and loading are untouched; Windows suites were run headless on macOS only.",
+  "Timing is a laptop observation: solver 302 us per tick with the macOS kernel versus 333-346 us reference (6,000 ticks, interleaved minimum passes); the 2-4 percent rider body hoist is separate.",
+  "Rendered animation with the native pelvis, knee and tracking kernels on macOS awaits the user's look; paired suites bound the differences (pelvis 1.04 mm, knee 2.4e-7 m, tracking quaternion 9.7e-7)."
+ ],
+ "evidence": {
+  "captured_utc": "2026-09-16T16:35:10.199371+00:00",
+  "verification": "metadata",
+  "build": {
+   "commit": "9a20daca26d3d4a5d65b0d97e23d1ea5a44ac799",
+   "dev": 58,
+   "modified": true
+  },
+  "inputs": {
+   ".gitattributes": {
+    "size": 1493,
+    "mtime_ns": 1789576161571911494
+   },
+   "AGENTS.md": {
+    "size": 7832,
+    "mtime_ns": 1789544258451225404
+   },
+   "addons/alpine_skier/alpine_skier.macos.gdextension.cfg": {
+    "size": 190,
+    "mtime_ns": 1789576161571793702
+   },
+   "addons/alpine_skier/bin/alpine_skier.macos.arm64.dylib": {
+    "size": 248656,
+    "mtime_ns": 1789576246228397405
+   },
+   "config/ski_default.tres": {
+    "size": 2471,
+    "mtime_ns": 1789511897079599024
+   },
+   "docs/DEVELOPMENT.md": {
+    "size": 20154,
+    "mtime_ns": 1789576305991471846
+   },
+   "docs/PERFORMANCE_HANDOFF.md": {
+    "size": 26616,
+    "mtime_ns": 1789576386388653566
+   },
+   "docs/PHYSICS.md": {
+    "size": 15651,
+    "mtime_ns": 1789567082551173089
+   },
+   "docs/VALIDATION.md": {
+    "size": 126964,
+    "mtime_ns": 1789575075663165011
+   },
+   "native/skier/CMakeLists.txt": {
+    "size": 2223,
+    "mtime_ns": 1789576161571448828
+   },
+   "native/skier/build_profile.json": {
+    "size": 40,
+    "mtime_ns": 1789576225122884236
+   },
+   "project.godot": {
+    "size": 1601,
+    "mtime_ns": 1789546451377313344
+   },
+   "scripts/build_skier_macos.sh": {
+    "size": 1066,
+    "mtime_ns": 1789576161571700161
+   },
+   "scripts/core/rider_body.gd": {
+    "size": 22711,
+    "mtime_ns": 1789574982059766224
+   },
+   "scripts/core/ski_contact.gd": {
+    "size": 6156,
+    "mtime_ns": 1789574706637463520
+   },
+   "scripts/core/ski_simulation.gd": {
+    "size": 42121,
+    "mtime_ns": 1789574833688637752
+   },
+   "scripts/core/skier_kernel.gd": {
+    "size": 1178,
+    "mtime_ns": 1789576172226301494
+   },
+   "scripts/core/snow_contact_assist.gd": {
+    "size": 4883,
+    "mtime_ns": 1789574706637817235
+   },
+   "scripts/core/snow_crush_contact.gd": {
+    "size": 7145,
+    "mtime_ns": 1789574706637919862
+   },
+   "scripts/core/tick_terrain_queries.gd": {
+    "size": 1873,
+    "mtime_ns": 1789574661498749675
+   },
+   "scripts/racing/competitive_record.gd": {
+    "size": 14757,
+    "mtime_ns": 1789511897136445444
+   },
+   "scripts/racing/race_definition.gd": {
+    "size": 12419,
+    "mtime_ns": 1789511897137033497
+   },
+   "scripts/racing/run_replay.gd": {
+    "size": 18224,
+    "mtime_ns": 1789567082555118195
+   },
+   "scripts/world/mountain_definition.gd": {
+    "size": 6782,
+    "mtime_ns": 1789511897156512884
+   },
+   "tests/animation_cpu_suite.gd": {
+    "size": 3546,
+    "mtime_ns": 1789511897163169224
+   },
+   "tests/macos_compatibility_suite.gd": {
+    "size": 1988,
+    "mtime_ns": 1789576319371419509
+   },
+   "tests/pelvis_balance_suite.gd": {
+    "size": 3668,
+    "mtime_ns": 1789511897199934954
+   },
+   "tests/physics_suite.gd": {
+    "size": 18419,
+    "mtime_ns": 1789511897203258604
+   },
+   "tests/runtime_suite.gd": {
+    "size": 41041,
+    "mtime_ns": 1789511897211065425
+   },
+   "tests/skier_anatomy_suite.gd": {
+    "size": 5803,
+    "mtime_ns": 1789511897215884396
+   },
+   "tests/skier_fit_native_suite.gd": {
+    "size": 3509,
+    "mtime_ns": 1789576356105431077
+   },
+   "tests/skier_tracking_suite.gd": {
+    "size": 2825,
+    "mtime_ns": 1789567082556756009
+   },
+   "tests/solver_tick_benchmark.gd": {
+    "size": 2446,
+    "mtime_ns": 1789574827044172948
+   },
+   "tests/tick_terrain_queries_suite.gd": {
+    "size": 3214,
+    "mtime_ns": 1789567082557307090
+   },
+   "tests/validation_mountain.gd": {
+    "size": 1849,
+    "mtime_ns": 1789511897235108236
+   }
+  }
+ }
+}

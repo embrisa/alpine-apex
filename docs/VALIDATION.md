@@ -459,6 +459,16 @@ from timing. Capture visuals separately.
 
 ### Reusable baselines and experiment budget
 
+For solver attribution that specifically needs Standard terrain,
+`tests/solver_tick_benchmark.gd` requires `-FullMountain`, a recorded reason and
+`-WorkloadMode FpsCritical` at the guard. Prefer compact fixtures for local kernels.
+The optional harness runs 3,000 scripted ticks per pass and records CPU time and
+position/velocity/heading/support samples, with a digest for those channels.
+Matching digests establish equality only for those recorded fields, not all solver
+state. Inspect `crashed_at`: a pass that continues after a crash cannot establish
+ordinary riding cost. Fable's reported minimum-pass Mac figures are retained as
+attribution; use the normal warmed-sample policy below for new acceptance work.
+
 Reuse a saved baseline instead of rerunning the original setup for every change.
 The current dense-forest reference is
 [DENSE_FOREST_BASELINE.json](DENSE_FOREST_BASELINE.json): six already completed,
