@@ -15,11 +15,12 @@ uniform bool contact_active=true;
 varying flat float lod_coverage;
 varying vec3 world_normal;
 
-vec3 bend(vec3 p,vec3 a) {
- float sx=sin(a.x),cx=cos(a.x),sy=sin(a.y),cy=cos(a.y),sz=sin(a.z),cz=cos(a.z);
- vec3 q=vec3(p.x*cz-p.y*sz,p.x*sz+p.y*cz,p.z);
- q=vec3(q.x,q.y*cx-q.z*sx,q.y*sx+q.z*cx);
- return vec3(q.x*cy+q.z*sy,q.y,-q.x*sy+q.z*cy);
+// Rotation by precomputed sines/cosines; the caller evaluates them once per
+// vertex and reuses them for position, normal and tangent frame.
+vec3 bend(vec3 p,vec3 s,vec3 c) {
+ vec3 q=vec3(p.x*c.z-p.y*s.z,p.x*s.z+p.y*c.z,p.z);
+ q=vec3(q.x,q.y*c.x-q.z*s.x,q.y*s.x+q.z*c.x);
+ return vec3(q.x*c.y+q.z*s.y,q.y,-q.x*s.y+q.z*c.y);
 }
 void vertex() {
  lod_coverage=pc_lod_coverage(MAIN_CAM_INV_VIEW_MATRIX[3].xyz,MODEL_MATRIX[3].xyz,MODEL_MATRIX);
@@ -35,8 +36,12 @@ void vertex() {
   if(contact_anchors[slot].w>.5 && distance(anchor,contact_anchors[slot].xyz)<.05) angle+=contact_angles[slot*12+cluster].xyz;
  }
  angle*=flex*nearby;
- VERTEX=bend(VERTEX-vec3(0.0,pivot_y,0.0),angle)+vec3(0.0,pivot_y,0.0);
- NORMAL=bend(NORMAL,angle);
+ vec3 offset=VERTEX-vec3(0.0,pivot_y,0.0);
+ // One sine/cosine per axis serves both the position and the normal.
+ vec3 s=sin(angle),c=cos(angle);
+ offset=bend(offset,s,c);
+ NORMAL=bend(NORMAL,s,c);
+ VERTEX=offset+vec3(0.0,pivot_y,0.0);
  // A small elastic crown sway leaves the collidable base stationary.
  VERTEX.xz+=local_wind*wind_strength*.009*pow(clamp(VERTEX.y/10.5,0.0,1.0),2.0)*nearby*sin(wind_time*.9+anchor.x*.2);
  world_normal=normalize(MODEL_NORMAL_MATRIX*NORMAL);

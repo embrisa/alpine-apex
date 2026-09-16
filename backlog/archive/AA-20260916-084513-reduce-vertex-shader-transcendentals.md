@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084513-reduce-vertex-shader-transcendentals"
 title: "Cut per-vertex trigonometry and procedural cloud noise in scene vertex shaders"
-status: ready
+status: done
 priority: P2
 depends_on: []
 created: "2026-09-16T08:45:13Z"
-updated: "2026-09-16T08:45:13Z"
+updated: "2026-09-16T20:10:35Z"
 source_thread: null
 ---
 
@@ -97,5 +97,41 @@ None
 
 ## Completion record
 
-Pending implementation. Record attribution before/after, stills, tests,
-rejected variants, guide updates and commit/push references.
+### Delivery, 2026-09-16: trigonometry hoisted; other proposals measured or rejected (Fable, macOS checkout)
+
+Implemented manually; no scheduled claim. `pc_forest_tree_common.gdshaderinc`
+(near and mid tree LODs) and `pc_td_conifer.gdshader` now evaluate the three
+wind sines and cosines once per vertex and pass them to `bend(p,s,c)` for the
+position, normal, tangent and binormal rotations: 6 transcendental operations
+instead of 24 (12 for the conifer), with identical arithmetic on the same
+values, so geometry is unchanged.
+
+Measured on the Apple M4 MacBook (Metal, bilinear 0.75, Standard mountain
+free ski, `scripts/mac_frame_probe.sh`, 20 s runs, two each; Metal exposes no
+GPU timers, so only whole-frame means are available, noise about +/-1.5 ms; the free-ski route keeps the dense forest at impostor distance, so the Windows dense trace remains the decisive measurement):
+
+| Variant | Frame mean | p95 | p99 |
+| --- | --- | --- | --- |
+| Baseline shaders | 24.81 / 24.85 ms | 26.6 / 26.7 | 27.8 / 27.7 |
+| Hoisted sin/cos (delivered) | 24.69 / 24.65 ms | 26.6 / 26.5 | 27.3 / 27.7 |
+| Hoist plus `if(angle!=vec3(0.0))` early-out (rejected) | 25.43 / 25.44 ms | 27.9 / 27.6 | 29.0 / 29.1 |
+
+The hoist is neutral to slightly favourable and exact; the Metal compiler most
+likely already merged the repeated `sin`/`cos` calls, so the gain is in the
+source rather than the compiled shader. The zero-angle branch, although exact,
+cost 0.6 ms consistently (vertex divergence between bent crown and stationary
+trunk vertices in the same SIMD group) and is not retained.
+
+Not implemented, with reasons: baking `cloud_noise` to a tileable texture
+cannot reproduce the current pattern, because `cloud_hash` is aperiodic and the
+wind displacement is unbounded, so the sky and every receiver would show
+different clouds; the per-vertex cloud cost is about a dozen sines and the
+task's own scale estimate (9 M vertex entries) puts the whole saving in the
+tenths of a millisecond on desktop GPUs. Replacing the terrain and mineral
+fragment noise with textures changes the moss/snow/detail look and cannot be
+attributed here. Both remain open for a Windows host with GPU timers; the GPU
+task record (`AA-20260912-105302`) carries this result.
+
+Automated (macOS, Godot 4.7.2): foliage_sight_suite 307/307 (loads the
+tree shaders); rendered runs compile both shaders and `vs_cand_1.png` shows
+the forest as before. No CPU-side or data change.

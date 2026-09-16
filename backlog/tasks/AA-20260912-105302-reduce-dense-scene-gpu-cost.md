@@ -391,3 +391,11 @@ unresolved acceptance evidence. The user reports gains from the other three FPS
 areas (streaming, animation CPU and spatial batch visibility); their completed
 results remain separate and are not attributed to this investigation. Independent
 eligible backlog work can proceed when the normal activity/ownership checks pass.
+
+**Narrow ALU result, 2026-09-16 (Fable, task `AA-20260916-084513`, macOS):**
+the forest tree shaders now evaluate wind sines/cosines once per vertex
+(exact); an exact zero-angle early-out cost 0.6 ms on Metal and was rejected;
+cloud-noise texture baking cannot reproduce the aperiodic pattern and stays
+open. Whole-frame Mac means moved 24.8 -> 24.7 ms, inside noise. This task
+remains `blocked` as before; no production GPU optimization is claimed here.
+

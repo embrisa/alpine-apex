@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "id": "98a515e8431f43e88763c850f622a530",
+  "summary": "Evaluate tree wind trigonometry once per vertex and record the measured rejection of the zero-bend branch and cloud-noise texture",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Forest tree vertex shaders",
+    "Vertex ALU attribution on Metal"
+  ],
+  "owned_paths": [
+    "assets/graphics/pc_forest_tree_common.gdshaderinc",
+    "assets/graphics/pc_td_conifer.gdshader",
+    "backlog/archive/AA-20260916-084513-reduce-vertex-shader-transcendentals.md",
+    "backlog/tasks/AA-20260912-105302-reduce-dense-scene-gpu-cost.md",
+    "backlog/tasks/AA-20260916-084513-reduce-vertex-shader-transcendentals.md",
+    "docs/PERFORMANCE_HANDOFF.md"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "assets/cloud_field.gdshaderinc",
+    "assets/cloud_light.gdshaderinc",
+    "assets/graphics/pc_forest_tree.gdshader",
+    "assets/graphics/pc_forest_tree_mid.gdshader",
+    "tests/foliage_sight_suite.gd",
+    "tests/mac_frame_probe.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Shader-only change with identical arithmetic on identical values; no asset bytes, placement, LOD or format change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Shader-only change with identical arithmetic on identical values; no asset bytes, placement, LOD or format change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Shader-only change with identical arithmetic on identical values; no asset bytes, placement, LOD or format change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Shader-only change with identical arithmetic on identical values; no asset bytes, placement, LOD or format change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Shader-only change with identical arithmetic on identical values; no asset bytes, placement, LOD or format change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "ALPINE_FULL_MOUNTAIN=1 ./godotw --headless --script tests/foliage_sight_suite.gd",
+      "result": "passed",
+      "details": "307 checks passed with the hoisted shaders; rendered probe runs compiled both shaders on Metal without errors."
+    },
+    {
+      "kind": "performance",
+      "command": "scripts/mac_frame_probe.sh vs_{base,hoist,cand}_{1,2} --probe-seconds=20",
+      "result": "passed",
+      "details": "Apple M4 whole-frame means: baseline 24.81/24.85 ms, hoisted sin/cos 24.69/24.65 ms (delivered, inside +/-1.5 ms noise), hoist plus exact zero-angle branch 25.43/25.44 ms (rejected). The route keeps dense forest at impostor distance; Windows dense-trace GPU timing remains decisive."
+    },
+    {
+      "kind": "human",
+      "command": "Rendered still artifacts/mac_probe/vs_cand_1.png",
+      "result": "pending",
+      "details": "Forest and terrain look as before; a matched 4K still comparison on Windows remains a follow-up."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Cloud-noise and terrain/mineral fragment noise textures were not implemented (pattern reproduction and visual review); the GPU task AA-20260912-105302 record carries this result and stays blocked."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T20:10:36.271567+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "73ef5f9ba66dc517d5714d5683b04d4c2404a04a",
+      "dev": 71,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789544258451225404
+      },
+      "assets/cloud_field.gdshaderinc": {
+        "size": 1387,
+        "mtime_ns": 1789511896536625786
+      },
+      "assets/cloud_light.gdshaderinc": {
+        "size": 3557,
+        "mtime_ns": 1789511896537052461
+      },
+      "assets/graphics/pc_forest_tree.gdshader": {
+        "size": 118,
+        "mtime_ns": 1789567082548372267
+      },
+      "assets/graphics/pc_forest_tree_common.gdshaderinc": {
+        "size": 6272,
+        "mtime_ns": 1789589253908248164
+      },
+      "assets/graphics/pc_forest_tree_mid.gdshader": {
+        "size": 145,
+        "mtime_ns": 1789567082548500466
+      },
+      "assets/graphics/pc_td_conifer.gdshader": {
+        "size": 3134,
+        "mtime_ns": 1789589253908364041
+      },
+      "backlog/archive/AA-20260916-084513-reduce-vertex-shader-transcendentals.md": {
+        "size": 7527,
+        "mtime_ns": 1789589435765728759
+      },
+      "backlog/tasks/AA-20260912-105302-reduce-dense-scene-gpu-cost.md": {
+        "size": 27183,
+        "mtime_ns": 1789589435799173147
+      },
+      "backlog/tasks/AA-20260916-084513-reduce-vertex-shader-transcendentals.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 43136,
+        "mtime_ns": 1789589435799672028
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789546451377313344
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789574833688637752
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 16580,
+        "mtime_ns": 1789588761959243502
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789581307436015366
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789511897156512884
+      },
+      "tests/foliage_sight_suite.gd": {
+        "size": 8756,
+        "mtime_ns": 1789567082556298762
+      },
+      "tests/mac_frame_probe.gd": {
+        "size": 7320,
+        "mtime_ns": 1789588761961435266
+      }
+    }
+  }
+}

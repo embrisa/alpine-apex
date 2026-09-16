@@ -27,11 +27,12 @@ vec3 tree_leaf_variation(vec2 anchor) {
  float b=fract(sin(dot(anchor,vec2(.0717,.0973)))*22578.1459)*2.0-1.0;
  return vec3(1.0+.055*a+.025*b,1.0+.055*a,1.0+.055*a-.025*b);
 }
-vec3 bend(vec3 p,vec3 a) {
- float sx=sin(a.x),cx=cos(a.x),sy=sin(a.y),cy=cos(a.y),sz=sin(a.z),cz=cos(a.z);
- vec3 q=vec3(p.x*cz-p.y*sz,p.x*sz+p.y*cz,p.z);
- q=vec3(q.x,q.y*cx-q.z*sx,q.y*sx+q.z*cx);
- return vec3(q.x*cy+q.z*sy,q.y,-q.x*sy+q.z*cy);
+// Rotation by precomputed sines/cosines; the caller evaluates them once per
+// vertex and reuses them for position, normal and tangent frame.
+vec3 bend(vec3 p,vec3 s,vec3 c) {
+ vec3 q=vec3(p.x*c.z-p.y*s.z,p.x*s.z+p.y*c.z,p.z);
+ q=vec3(q.x,q.y*c.x-q.z*s.x,q.y*s.x+q.z*c.x);
+ return vec3(q.x*c.y+q.z*s.y,q.y,-q.x*s.y+q.z*c.y);
 }
 void vertex() {
  local_position=VERTEX;
@@ -59,11 +60,15 @@ void vertex() {
  // Dead stems remain stiff; their fine branches retain a little motion.
  float stiffness=((COLOR.a>.05 && COLOR.a<.16) || (COLOR.a>.25 && COLOR.a<.36)) ? .28 : 1.0;
  angle*=flex*nearby*stiffness;
- VERTEX=bend(VERTEX-vec3(0.0,pivot_y,0.0),angle)+vec3(0.0,pivot_y,0.0);
- NORMAL=bend(NORMAL,angle);
+ vec3 offset=VERTEX-vec3(0.0,pivot_y,0.0);
+ // One sine/cosine per axis serves position, normal and tangent frame.
+ vec3 s=sin(angle),c=cos(angle);
+ offset=bend(offset,s,c);
+ NORMAL=bend(NORMAL,s,c);
 #ifndef ALPINE_FOREST_MID
- TANGENT=bend(TANGENT,angle); BINORMAL=bend(BINORMAL,angle);
+ TANGENT=bend(TANGENT,s,c); BINORMAL=bend(BINORMAL,s,c);
 #endif
+ VERTEX=offset+vec3(0.0,pivot_y,0.0);
  world_normal=normalize(MODEL_NORMAL_MATRIX*NORMAL);
  cloud_direct_transmission=sample_cloud_light(anchor);
  }
