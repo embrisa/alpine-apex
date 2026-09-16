@@ -36,6 +36,14 @@ Ultra. Ten effective profiles map onto three installed asset tiers. Read `TABLE`
 table here. They cover material detail, tree ranges, shadows, GI, snow,
 particles, weather budget and background detail.
 
+Contact shading (SSAO) and screen-space indirect lighting (SSIL) are opt-in
+through recommended High (presets 1-7), and enabled by default at 8-10. Either
+effect requires Godot Forward+'s normal/roughness depth prepass, so their cost
+includes that shared prerequisite as well as their named passes. SSR, SDFGI or
+other normal-reading effects can also require it. Individual overrides remain
+available. Material occlusion, direct shadows, snow relief and scenery budgets
+remain active; the tradeoff is less contact darkening and indirect fill.
+
 [PCGraphicsSettings](../scripts/presentation/pc_graphics_settings.gd) owns
 `graphics_v2.cfg`. Preset selection replaces advanced overrides and resets
 Auto/75% reconstruction, .825 sharpening strength, MSAA 2x, anisotropy 4x and
@@ -348,7 +356,7 @@ powder and tree snow skirts share world-texel mapping. Rock excludes the effect.
 
 Current hollow shading reaches about 14% linear-light reduction, with a cool
 tint, 80–160 m fade and daylight fade to zero at night. Convex crowns receive no
-bright outline. Balanced/High direct-light SSAO uses .20 influence; the local
+bright outline. When enabled, direct-light SSAO uses .20 influence; the local
 Forward+ path requires AO-channel affect 1.0 for that setting to work. Material
 and screen AO combine by minimum, not multiplication. Preserve local shape cues
 while tuning soft detail, sheen/glow and filtered crystals; current values live

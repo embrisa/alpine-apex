@@ -30,6 +30,21 @@ func run() -> void:
 	game.start_run(true)
 	game.session.eligible = true # Explicit ranked identity fixture; no run is saved.
 	var identity = [game.session.eligible,game.session.course_id,game.physics_modified,tuning_state(game)]
+	game.set_graphics_preset(7)
+	var high_profile = game.graphics.snapshot()
+	check(not game.world.environment.ssao_enabled and not game.world.environment.ssil_enabled,"Recommended High uses the depth-only lighting budget")
+	game.hud.display_setting_requested.emit("contact_shading",true)
+	check(game.world.environment.ssao_enabled and not game.world.environment.ssil_enabled,"Contact shading override reaches its live renderer independently")
+	game.hud.display_setting_requested.emit("indirect_lighting",true)
+	check(game.world.environment.ssao_enabled and game.world.environment.ssil_enabled,"Indirect lighting override restores the second live effect")
+	var overridden_profile = game.graphics.snapshot()
+	for key in ["contact_shading","indirect_lighting"]:
+		high_profile.erase(key); overridden_profile.erase(key)
+	check(high_profile==overridden_profile,"Lighting overrides preserve all geometry, textures and other quality budgets")
+	game.set_graphics_preset(8)
+	check(game.world.environment.ssao_enabled and game.world.environment.ssil_enabled,"Above High, both screen-space effects are enabled by default")
+	game.set_graphics_preset(7)
+	check(not game.world.environment.ssao_enabled and not game.world.environment.ssil_enabled and not game.display_settings.custom,"Returning to High clears lighting overrides and restores the fast path")
 	for setting in [["upscaler","native"],["render_scale",2.0/3.0],["fps_limit",90],["terrain_gi",true],["upscaler","fsr2"]]:
 		game.hud.display_setting_requested.emit(setting[0],setting[1])
 	game.set_graphics_quality(1)

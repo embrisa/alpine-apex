@@ -31,6 +31,9 @@ Snapshot for Fable's next experiments. Current contracts and commands remain in
 - Tree materials now draw in near/mid/far priority order before default terrain.
   No geometry, alpha footprint, placement or LOD change; scene depth prepass
   fell **3.480 to 3.203 ms (-8.0%)** in separate native profiling.
+- Recommended High now makes SSAO and SSIL optional; both default on at presets
+  8-10. This small shading tradeoff removes their normal/roughness depth-prepass
+  prerequisite in the measured configuration. All other quality budgets stay.
 
 ## Windows measurements to reuse
 
@@ -39,7 +42,7 @@ High, Auto FSR 4.1.1, frame generation/GI off, clear/day, same 1,800-input dense
 forest route. One warmup followed by one capture-free 15-second measured sample
 per candidate; zero unfocused frames and exact trace completion.
 
-| Current matching samples | Average FPS | Frame ms | Viewport GPU ms | Frame p99 ms |
+| Successive free-ski samples | Average FPS | Frame ms | Viewport GPU ms | Frame p99 ms |
 | --- | ---: | ---: | ---: | ---: |
 | Corrected bounds, 32 m detail groups | 78.23 | 12.783 | 11.216 | 18.171 |
 | Static 16 m detail groups | 79.26 | 12.617 | 11.050 | 17.207 |
@@ -47,7 +50,8 @@ per candidate; zero unfocused frames and exact trace completion.
 | Plus exact tick query reuse | 87.67 | 11.407 | 10.171 | 15.133 |
 | Plus native skeletal tracking | 88.29 | 11.326 | 10.246 | 15.894 |
 | Plus forest material ordering | 91.06 | 10.982 | 9.943 | 15.128 |
-| Plus smaller powder mesh (two-run reference) | **92.28** | **10.837** | **9.588** | **16.192** |
+| Plus smaller powder mesh (two-run reference) | 92.28 | 10.837 | 9.588 | 16.192 |
+| Plus High screen-space lighting tradeoff | **113.94** | **8.776** | **7.500** | **14.294** |
 
 The LOD1 material change gained 4.81 FPS (6.1%) and saved 0.722 ms/frame / 0.770 ms GPU
 in these samples. The p99 increased 0.378 ms. These are short samples, not a
@@ -107,7 +111,7 @@ bounds: production groups had empty `transforms`, while poses were in
 The historical 71.94 FPS reference is an older engine/import context and remains
 historical context, not an exact attribution baseline for this milestone.
 
-## Powder mesh refinement and current free-ski reference
+## Powder mesh refinement and pre-lighting reference
 
 The local 32 m snow mesh now uses 256 subdivisions: **524,288 -> 131,072
 triangles (-75%)**. Texture resolutions, visible relief shader, shadows, track
@@ -123,7 +127,7 @@ p99 was nearly equal, 15.025 -> 15.078 ms. Maximum frame time still grew
 18.439 -> 23.316 ms. Keep the consistent GPU saving; do not claim improved
 hitches or sustained 90-120 FPS. No isolated powder/depth-pass attribution.
 
-Reuse the average of the two cache-hit clean candidates: **92.28 FPS /
+The saved average of the two cache-hit clean candidates is **92.28 FPS /
 10.837 ms**, GPU **9.588 ms**. Median run p95/p99: **13.375/16.192 ms**.
 This combines `powder-mesh-confirm-20260916` row 2 and
 `powder-mesh-tail-pair-20260916` row 3 under `artifacts/pc_environment/`;
@@ -133,10 +137,51 @@ All samples match effective settings/camera and 1,800 final-state ticks,
 with zero unfocused frames.
 Both reference candidates hit physical/scenery caches. Detailed compact evidence
 and the aggregation definition: `artifacts/powder_mesh_20260916/`.
-Earlier 91.06 FPS and timed 82.72 FPS receipts describe the previous 512 mesh;
-timed recording and Mac have not been measured with 256. Human review remains open.
+Earlier 91.06 FPS and timed 82.72 FPS receipts describe the previous 512 mesh.
+The timed sample below includes 256; Mac and human review remain open.
 
-## Timed recording reference
+## Screen-space lighting and current references
+
+SSAO/SSIL already used half-size medium-quality buffers. Their larger hidden
+cost was Godot's shared normal/roughness depth prepass. With both off, the
+same-process native scene interval fell **3.098 -> 1.739 ms (-43.9%)**; opaque
+fell **2.149 -> 2.055 ms**. SSAO/SSIL themselves accounted for **0.496 ms**.
+These are whole-scene pass timings, not isolated LOD1 or fragment counts.
+Other normal-reading features can also require this prepass.
+
+One capture-free warmed free-ski candidate measured **113.94 FPS / 8.776 ms**,
+GPU **7.500 ms**, versus the saved 92.28 / 10.837 / 9.588 reference: **+23.5%
+FPS, -2.061 ms/frame**. P95/p99: **11.652/14.294 ms**. Both caches hit;
+resolution, camera, forest population and exact 1,800-tick route matched.
+Only the two lighting flags changed. Keep this as the new free-ski reference,
+`artifacts/pc_environment/depth-lighting-20260916/production.json` row 2.
+Native profile summary: `depth-lighting-gpu-20260916/summary.json` in the same
+parent; its diagnostic FPS is excluded from clean measurements.
+
+The delivered defaults also measured **96.68 FPS / 10.344 ms** with timed-race
+recording active, versus saved **82.72 / 12.089**; GPU **9.939 -> 8.164 ms**,
+p95 **15.634 -> 14.212**, p99 **18.520 -> 16.284 ms**. This comparison includes
+both powder 512->256 and the lighting tradeoff. All recorded channels matched:
+1,800 ticks and 451 poses, with zero unfocused frames. Startup rebuilt scenery
+before the warmup; the measured row has the same forest counters and no pending
+regions. Reuse `depth-lighting-timed-20260916/production.json` row 2 as the new
+timed reference, and keep it separate from free skiing.
+
+Matched mountain views at 7/32/64 m and compact mixed clear/cloudy/rock views
+passed agent inspection: slightly less contact darkening/indirect fill, with
+direct shadows, snow relief and layered forest retained. An invalid weather
+identifier and an occluded initial rock view were excluded and replaced with
+valid targeted views. The change defaults both effects off at presets 1-7 and
+on at 8-10; explicit saved overrides still win. **842 automated checks passed**,
+including live setting consumers. A stale graphics assertion was corrected to
+count current catalog families instead of legacy obstacle names.
+
+Compact evidence: `artifacts/depth_lighting_20260916/`. Neither sample meets
+the p95 target of 11.1 ms. Sustained 90-120 FPS, full descent, human/controller
+review and Mac performance remain unproven. The timed/free-ski gap is still a
+useful lead for CPU/session work; it is not isolated recording-cost attribution.
+
+## Earlier timed recording investigation
 
 The historical 91.06 FPS reference is free skiing with the 512 powder mesh.
 A timed-recording diagnostic on the same route produced **82.65 FPS / 12.099 ms**.
@@ -154,7 +199,7 @@ savings and slower pose serialization did not justify their complexity.
 
 All three paired 1,800-tick recordings match exactly, including all 451 pose
 samples, physical samples, inputs and timestamps. A compact five-action oracle
-also passed 2,260 byte-equivalence checks. Use the candidate timed reference
+also passed 2,260 byte-equivalence checks. The pre-powder/lighting timed reference is
 `artifacts/pc_environment/recording-direct-fields-20260916/production.json` row 2;
 row 1 is warmup and row 3 is CPU attribution, not clean FPS. Control is
 `recording-control-20260916` in the same parent directory. Keep this workload

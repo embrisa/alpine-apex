@@ -28,12 +28,30 @@ func run() -> void:
 	check(game.world.cloud_lighting.materials.size()==material_count,"Repeated quality changes do not accumulate material registrations")
 	check(game.world.scenery.obstacle_count==game.field.obstacles.size(),"Scenery consumes every existing obstacle without generating collisions")
 	var families = game.world.scenery.family_counts
-	var family_total = 0
-	var complete_families = true
+	var fixture_families: Dictionary = {}
+	var expected_trees = 0
+	for obstacle in game.field.obstacles:
+		fixture_families[obstacle.fixture_family] = true
+		if obstacle.tree: expected_trees += 1
+	var fixture_complete = true
 	for family in game.world.scenery.TREE_FAMILIES+game.world.scenery.ROCK_FAMILIES:
-		complete_families = complete_families and families.get(family,0)>0
-		family_total += families.get(family,0)
-	check(complete_families and family_total==game.field.obstacles.size(),"Every tree and rock family appears, with exactly one visual per obstacle")
+		fixture_complete = fixture_complete and fixture_families.has(family)
+	check(fixture_complete,"Compact fixture covers every legacy tree and rock selection")
+	# Runtime counts use the current catalog after collection mapping and warm
+	# replacements, not legacy obstacle-family names such as larch or split_snag.
+	var catalog_families: Dictionary = {}
+	for asset in game.world.assets.tree_ids(): catalog_families[asset.get_slice("_",1)] = true
+	var valid_families = true
+	var tree_total = 0
+	var rock_total = 0
+	for family in families:
+		if family in game.world.scenery.ROCK_FAMILIES: rock_total += int(families[family])
+		else:
+			valid_families = valid_families and catalog_families.has(family)
+			tree_total += int(families[family])
+	for family in game.world.scenery.ROCK_FAMILIES:
+		valid_families = valid_families and families.get(family,0)>0
+	check(valid_families and tree_total==expected_trees and rock_total==game.field.obstacles.size()-expected_trees,"Current tree and rock families retain exactly one visual per obstacle")
 	var envelopes_valid = true
 	var far_cards_valid = true
 	for family in game.world.scenery.TREE_FAMILIES:

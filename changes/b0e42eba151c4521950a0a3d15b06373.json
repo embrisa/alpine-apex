@@ -1,0 +1,211 @@
+{
+  "schema": 1,
+  "id": "b0e42eba151c4521950a0a3d15b06373",
+  "summary": "Remove screen-space lighting prepass cost from recommended High",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Graphics presets",
+    "Dense-route GPU performance",
+    "Graphics regression fixtures"
+  ],
+  "owned_paths": [
+    "scripts/presentation/graphics_presets.gd",
+    "tests/pc_graphics_suite.gd",
+    "tests/graphics_suite.gd",
+    "docs/RENDERING.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "backlog/tasks/AA-20260916-084510-trim-environment-and-screen-passes.md"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "scripts/main.gd",
+    "scripts/presentation/alpine_atmosphere.gd",
+    "scripts/presentation/graphics_quality.gd",
+    "scripts/presentation/pc_graphics_settings.gd",
+    "scripts/world/alpine_world.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only SSAO/SSIL preset defaults and graphics fixture assertions change; simulation, placement, LOD, rendering budgets and serialized formats otherwise unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only SSAO/SSIL preset defaults and graphics fixture assertions change; simulation, placement, LOD, rendering budgets and serialized formats otherwise unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only SSAO/SSIL preset defaults and graphics fixture assertions change; simulation, placement, LOD, rendering budgets and serialized formats otherwise unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No schema or authority change. Saved explicit lighting overrides remain authoritative; ordinary scenery cache invalidation rebuilt the timed startup before warmup."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No schema or authority change. Saved explicit lighting overrides remain authoritative; ordinary scenery cache invalidation rebuilt the timed startup before warmup."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No schema or authority change. Saved explicit lighting overrides remain authoritative; ordinary scenery cache invalidation rebuilt the timed startup before warmup."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No schema or authority change. Saved explicit lighting overrides remain authoritative; ordinary scenery cache invalidation rebuilt the timed startup before warmup."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No schema or authority change. Saved explicit lighting overrides remain authoritative; ordinary scenery cache invalidation rebuilt the timed startup before warmup."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "Shared depth-lighting-visual-20260916 and depth-lighting-mixed-visual-20260916; separate from timing",
+      "details": "Matched 4K High Auto .75 forest 7/32/64m and compact mixed clear/cloudy/rock views reviewed. Slightly reduced contact darkening and indirect fill accepted under user authorization; forest layering, direct shadows and snow relief retained. Invalid overcast identifier and occluded rock view excluded and replaced. Not human/controller acceptance."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "Shared depth-lighting-checks-20260916 and depth-lighting-checks-rest-20260916 via godotw headless",
+      "details": "842 checks: pc_graphics22, graphics_override104, render_efficiency361, graphics29, weather44, runtime192, scene_motion_blur65, impact_warning25. Initial graphics failure expected legacy family names even though existing production mapping reports catalog names; corrected fixture coverage and exact tree/rock counts, then passed. Runtime metadata captured 15:00:50Z, corrected test metadata 15:07:58Z before verification; subsequent changes are documentation only. Performance and validation skills reviewed; no command or ownership contract changed."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "FpsCritical depth-lighting-20260916; saved powder256 average reused",
+      "details": "One warmed clean row2:92.28285->113.94178FPS,10.837456->8.776412ms/frame,GPU9.587624->7.500492ms. P95/p99 11.652/14.294ms. Both caches hit, exact1800ticks/finalstate,focus0,failures[],same camera/pixels/forest. Only two lighting flags change. Separate same-process native depth-lighting-gpu profile:depth3.098477->1.738752ms,opaque2.148820->2.055027ms; removed SSAO+SSIL .496144ms. Whole-scene intervals, no LOD1 fragment attribution; diagnosticFPS excluded."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "FpsCritical depth-lighting-timed-20260916 against saved recording-direct-fields-20260916; one warmed row2",
+      "details": "Delivered default timed recording96.67556FPS/10.343876ms vs82.72073/12.088868; GPU9.939116->8.163794ms,p95 15.634->14.212,p99 18.520->16.284. Includes powder512->256 plus lighting. All1800ticks and451poses exactly equal,focus0,failures[]. Startup scenery cache rebuilt before warmup; physical cache hit. Same camera/pixels/settings except lighting flags and unchanged forest counters. Short sample only."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Sustained90-120FPS/full descent unproven: free-ski p95 11.652ms and timed p95 14.212ms exceed11.1ms.",
+    "Human/controller review and Mac performance remain open. Slight shading tradeoff was agent-reviewed under user authorization.",
+    "Remaining environment-task hypotheses are unimplemented; this milestone does not complete the whole backlog task."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T15:11:09.567827+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "f99ee38c26e3fafcaa08b7b5012c303af737adab",
+      "dev": 53,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "backlog/tasks/AA-20260916-084510-trim-environment-and-screen-passes.md": {
+        "size": 7530,
+        "mtime_ns": 1789571393152952600
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 19170,
+        "mtime_ns": 1789571393140682800
+      },
+      "docs/RENDERING.md": {
+        "size": 40511,
+        "mtime_ns": 1789571218363805700
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789512657279656900
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/main.gd": {
+        "size": 87309,
+        "mtime_ns": 1789347182590757700
+      },
+      "scripts/presentation/alpine_atmosphere.gd": {
+        "size": 4123,
+        "mtime_ns": 1789145849998966200
+      },
+      "scripts/presentation/graphics_presets.gd": {
+        "size": 5553,
+        "mtime_ns": 1789570808370875100
+      },
+      "scripts/presentation/graphics_quality.gd": {
+        "size": 3345,
+        "mtime_ns": 1789330911395634000
+      },
+      "scripts/presentation/pc_graphics_settings.gd": {
+        "size": 7310,
+        "mtime_ns": 1789330976635161600
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18224,
+        "mtime_ns": 1789566331946877700
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 26995,
+        "mtime_ns": 1789568204922632700
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/graphics_suite.gd": {
+        "size": 11397,
+        "mtime_ns": 1789571277523974600
+      },
+      "tests/pc_graphics_suite.gd": {
+        "size": 7774,
+        "mtime_ns": 1789570808370875100
+      }
+    }
+  }
+}
