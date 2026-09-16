@@ -1,0 +1,176 @@
+---
+id: "AA-20260916-084501-index-skier-pose-by-bone"
+title: "Replace String-keyed skier pose data and per-frame allocations with bone-indexed buffers"
+status: done
+priority: P1
+depends_on: ["AA-20260913-141128-reduce-pelvis-fitting-cpu-cost"]
+created: "2026-09-16T08:45:01Z"
+updated: "2026-09-16T20:49:03Z"
+source_thread: null
+---
+
+# Replace String-keyed skier pose data and per-frame allocations with bone-indexed buffers
+
+## Outcome
+
+Cut the render-frame `pose` scope and the fixed-tick `animation_tick` scope,
+the second and third largest scripted CPU costs, while producing the same
+skeleton poses, transitions and equipment attachment. The skier must look and
+move exactly as today.
+
+## Current state and evidence
+
+- Recorded scopes: `pose` 1,461-1,821 µs mean per rendered frame (p95
+  2,186-2,590 µs) and `animation_tick` 890-1,032 µs mean per 120 Hz tick in
+  [the rendering baseline](../../docs/RENDERING_BASELINE_RESULTS.json) and
+  [the bounded high-speed results](../../docs/CURRENT_V15_BOUNDED_HIGH_SPEED_PERFORMANCE_RESULTS.json).
+  Sub-scopes: `pose_pelvis` 318-509, `pose_hierarchy` 182-190,
+  `pose_procedural` 168-194, `pose_equipment` 91-95, `animation_posture`
+  396-440, `animation_tracking` 270-347, `animation_source_blend` 79-176 µs.
+  Together they are about 3 ms of a 13.9 ms dense-forest frame.
+- Source inspected at Dev 43 / `a9c2acb` (2026-09-16):
+  - [`skier_visual.gd:157-287`](../../scripts/presentation/skier_visual.gd)
+    `pose` rebuilds two String-keyed Dictionaries of about 24 joints and
+    rotations per frame, `duplicate()`s them, then runs a clearance retry loop
+    of up to four complete compose passes (line 212), each calling
+    `animation.compose`, `_procedural_limb_rotations`, `full_motion.compose`
+    and `_solve_render_legs`. `_solve_render_legs` bisects ten steps per leg,
+    each step calling `Anatomy.leg_twist` which concatenates Strings.
+  - [`skier_anatomy.gd:29-42, 56-87, 105-109`](../../scripts/presentation/skier_anatomy.gd)
+    `local_limit` allocates `["Spine02","Spine01","Spine"]` on every call and
+    chains `begins_with`/`ends_with` and `Body.REST[prefix+"ForeArm"]` lookups;
+    `hinge_axis`/`elbow_zero` recompute constants from `REST` each call. These
+    run per bone per compose pass, per fitting iteration, per arm candidate
+    and 24 times per tick in `skier_full_motion.step`, on the order of
+    hundreds to two thousand calls per frame.
+  - [`skier_full_motion.gd:150-341, 490-562, 575-807`](../../scripts/presentation/skier_full_motion.gd)
+    per tick: `state.duplicate()`, a Dictionary per clip in `add`, a fresh
+    `Array[Quaternion]` per `sample_raw`, `mirror_pose` doing
+    `library.names.find(opposite)` for every bone (O(N²) String compares),
+    about 14 `names.find` calls in `fit_tuck_flexion`/`fit_arm_carry`, and
+    `Downhill.apply`/`Action.apply`/`PolePose.apply` each doing about 12 more.
+    Per frame `compose` duplicates five Dictionaries, iterates `requested_*`
+    loops and writes about 15 diagnostics keys.
+  - [`pole_push_pose.gd:134-228`](../../scripts/presentation/pole_push_pose.gd)
+    `fit_tips` allocates a 12-array result and `anchors.duplicate()` even on
+    early return; `connected_arm` evaluates `arm_candidate` ten times per arm.
+  - [`skier_pose_writer.gd:3-10`](../../scripts/presentation/skier_pose_writer.gd)
+    issues `get_bone_rest`, `affine_inverse` and three separate
+    `set_bone_pose_*` calls per bone (about 120 server calls); one
+    `Skeleton3D.set_bone_pose(index, Transform3D)` per bone is equivalent.
+  - [`skier_animation.gd:70-76`](../../scripts/presentation/skier_animation.gd)
+    builds a 25-key Dictionary with `lerpf` per key every frame.
+  - `skier_full_motion.gd:337` replaces `diagnostics` every tick while
+    `compose` and `skier_visual.gd:238-240` add per-frame keys to the same
+    Dictionary, so per-frame keys are wiped each tick (intermittent HUD data).
+- Already delivered and not to be redone: immutable clip preparation and arm
+  ancestry ([archived animation task](AA-20260912-105301-reduce-animation-cpu-cost.md)).
+  Fitting math (`fit_hips`/`fit_pelvis` iteration structure) belongs to
+  [the pelvis fitting task](AA-20260913-141128-reduce-pelvis-fitting-cpu-cost.md);
+  this task waits for it to avoid editing the same functions concurrently.
+  The [animation cost contract](../../docs/ANIMATION.md#runtime-preparation-and-cost)
+  owns pose lifetime rules.
+
+## Agreed decisions and scope
+
+Own `scripts/presentation/skier_visual.gd`, `skier_animation.gd`,
+`skier_full_motion.gd`, `skier_anatomy.gd`, `pole_push_pose.gd`,
+`action_posture.gd`, `downhill_posture.gd`, `skier_pose_writer.gd` and the
+joint/rotation container shape exposed by `scripts/core/rider_body.gd`
+(presentation readers currently index by bone name). Preserve every visible
+pose, transition, retry/clearance behaviour, equipment attachment and the
+existing residual-carve fixes. Do not reduce iteration limits, retry count
+semantics or animation cadence to gain FPS; if the retry loop is reduced, it
+must be by computing only the changed delta with identical results.
+
+Ghost playback pose application belongs to
+[the ten-ghost task](../tasks/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md);
+ghost capture belongs to
+[the recording tick task](AA-20260916-084502-reduce-recording-tick-cost.md).
+Recorded ghost pose bytes must remain identical.
+
+## Implementation approach
+
+1. Introduce a single bone index table (const ints and a name to index map)
+   shared by `RiderBody`, `SkierAnatomy`, `SkierFullMotion` and the pose
+   writer. Store joints in `PackedVector3Array` and rotations in
+   `Array[Basis]` (or `PackedFloat32Array`) indexed by bone; keep a thin
+   name-keyed accessor only for tests and diagnostics.
+2. Precompute a per-bone limit descriptor table for `local_limit`
+   (kind, bounds, axis, rest bend, zero basis) and per-prefix hinge/elbow
+   constants at load. Cache the mirror index map and all `names.find` results.
+3. Reuse preallocated quaternion and result buffers in `sample_raw`/blend and
+   in `fit_tips`; skip result allocation when `carry_weight <= 0`.
+4. Recompose only what the clearance retry changes, or bound the retry to a
+   delta pass, only where results are provably identical.
+5. Write bones with one `set_bone_pose` per bone; gate diagnostics writes
+   behind `frame_costs.enabled` or the debug panel visibility.
+6. Compare frozen pose outputs (all bones, both sides, tuck, carve both ways,
+   push, flight, landing, grab, crash handoff) before/after under explicit
+   tolerances; zero difference is expected for pure re-indexing.
+
+## Acceptance and verification
+
+- [ ] Frozen pose comparison shows identical bone transforms (or documented
+  float rearrangement bounds) across the listed poses and both blend weights.
+- [ ] `tests/animation_cpu_suite.gd`, `tests/skier_anatomy_suite.gd`,
+  `tests/turn_anatomy_suite.gd`, `tests/ski_attachment_suite.gd`,
+  `tests/skier_motion_suite.gd`, `tests/skier_animation_suite.gd`,
+  `tests/pole_push_pose_suite.gd`, `tests/physics_suite.gd` and
+  `tests/runtime_suite.gd` pass; recorded ghost pose bytes unchanged.
+- [ ] Rendered inspection of matched native stills and motion through tuck,
+  both carves, push, flight/landing and crash handoff, per
+  [the animation skill](../../.agents/skills/alpine-animation/SKILL.md).
+- [ ] One warmed 15-second capture-free candidate against
+  [DENSE_FOREST_BASELINE.json](../../docs/DENSE_FOREST_BASELINE.json) plus a
+  `-ProfileFrameCosts` run showing `pose` and `animation_tick` reductions;
+  report per-run means, medians, p95/p99 and remaining target gap.
+- [ ] Update [Animation](../../docs/ANIMATION.md) container/contract wording,
+  commit/push owned paths with a development note and record the Dev ID.
+
+Human acceptance: subjective animation quality remains a separate follow-up,
+not a completion gate, because outputs are required to be identical.
+
+## Open questions
+
+None
+
+## Completion record
+
+### Delivery, 2026-09-16: remaining proposals measured; no further change retained (Fable, macOS checkout)
+
+Implemented manually; no scheduled claim. Astra's part (rest geometry caching,
+native pelvis fitting and limits, native tracking with cached bone offsets) is
+in place. The remaining proposals were implemented on the macOS checkout and
+measured with the frame probe in interleaved baseline/candidate pairs
+(`scripts/mac_frame_probe.sh`, 20 s, Apple M4, microseconds mean per frame or
+tick):
+
+| Scope | Baseline pair | Candidate pair |
+| --- | --- | --- |
+| `pose` (per frame) | 342.6 / 330.2 | 338.9 / 342.8 |
+| `pose_writer` | 19.7 / 19.0 | 22.0 / 22.0 |
+| `animation_tick` (per tick) | 179.4 / 180.1 | 180.3 / 182.6 |
+| `animation_source_blend` | 11.3 / 12.1 | 12.4 / 12.3 |
+
+Candidate: a static bone-name index and left/right mirror index replacing
+`library.names.find` in `fit_tuck_flexion`, `fit_arm_carry` and
+`mirror_pose`; a per-skeleton parent/rest cache in the pose writer replacing
+two server calls per bone; and a release-build gate on the
+`requested_joints`/`requested_rotations` diagnostics copies. All twelve
+animation, physics and runtime suites passed with it (the four failures in
+`skier_motion_suite` and `skier_animation_suite` are the baseline findings
+already recorded by the small-landings task). The measured effect is zero or
+negative: the writer's GDScript dictionary and typed-array indirection costs
+more than the two cheap `Skeleton3D` getters it replaced, and the name searches
+over 24 bones run in C++ and were never hot. Under the no-gain policy the
+candidate was reverted; nothing from this attempt is on `main`.
+
+Not attempted: the broad String-keyed to bone-indexed container conversion
+across `RiderBody`, anatomy, full motion, pole fitting and the visual. The
+per-frame `pose` cost is dominated by native fitting, hierarchy composition
+and equipment placement (about 35-45 us each on the M4), the writer is 19 us,
+and the per-tick `animation_tick` by `animation_posture` (about 100 us),
+mostly native tracking. A container rewrite would touch every reader and
+test fixture for a saving that this evidence does not support. Recorded ghost
+pose bytes are untouched.

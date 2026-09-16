@@ -96,7 +96,8 @@ Use actual literal repository-relative paths, never these example placeholders.
 A path reserves that file or entire directory subtree, case-insensitively.
 Include expected new files, source/assets/imports/UIDs, tests, owning guides and
 idea proposals. Include read dependencies whose concurrent edits could invalidate
-implementation or checks. The helper adds both active/archive task-record paths.
+implementation or checks. The helper reserves the task-record path in all four
+status folders (`tasks`, `completed`, `blocked`, `abandoned`).
 Write/write and write/read overlaps conflict; read/read does not. Scope is
 required for concurrent dispatch; omitted/unclassified implementation scope is
 exclusive. `check`/`claim` may also take `--scope` to assess a candidate early.

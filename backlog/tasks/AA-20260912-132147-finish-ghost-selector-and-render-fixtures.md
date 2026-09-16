@@ -3,13 +3,22 @@ id: "AA-20260912-132147-finish-ghost-selector-and-render-fixtures"
 title: "Finish ghost selector input and rendered contact/colour checks"
 status: ready
 priority: P1
-depends_on: ["AA-20260912-132147-finish-pole-transition-validation"]
+depends_on: []
 created: "2026-09-12T13:21:47Z"
-updated: "2026-09-13T15:22:07Z"
+updated: "2026-09-16T21:59:44Z"
 source_thread: null
 ---
 
 # Finish ghost selector input and rendered contact/colour checks
+
+## Current disposition — 16 September 2026
+
+Keep this task independently ready. The selector's 4K mouse/empty-set issues,
+automatic fastest 1–10 setting and fixture lighting can be addressed without
+waiting for the blocked pole animation task. Current `ghost_selector.gd` still
+selects every available run in Automatic mode; the count control is not delivered.
+Use current replay7/archive4 data and preserve known pole defects as baseline
+findings. Recheck old fixture failures before changing production input.
 
 ## Outcome
 
@@ -19,7 +28,7 @@ Make Records selection reliable at 4K, let the player choose Automatic fastest 1
 
 Native-v2 has 600 checks with only two 4K selector failures: mouse row toggling and keyboard restoration of an empty manual set. The15-second chronology and other lifecycle/opacity checks pass. Focused-native-v1 has 231 checks with four failed shadow probes; all six real motion/contact cases pass, including180-degree switch landing, one-ski drop, rock and jump track breaks. Inspected stage images lack useful ground/shadow context.
 
-Originating tasks: [AA-20260911-220556-animated-ghost-snow-tracks](AA-20260911-220556-animated-ghost-snow-tracks.md). Evidence: `artifacts/ghost/native-v2/`, `artifacts/ghost/focused-native-v1/`, and `artifacts/orchestration_20260912/ghost/native_v3_fix/`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
+Originating tasks: [AA-20260911-220556-animated-ghost-snow-tracks](../blocked/AA-20260911-220556-animated-ghost-snow-tracks.md). Evidence: `artifacts/ghost/native-v2/`, `artifacts/ghost/focused-native-v1/`, and `artifacts/orchestration_20260912/ghost/native_v3_fix/`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
 
 ## Agreed decisions and scope
 

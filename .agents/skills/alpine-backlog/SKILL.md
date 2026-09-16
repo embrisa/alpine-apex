@@ -10,7 +10,7 @@ Authoring investigates, settles material decisions and saves a task; it does not
 implement, dispatch, configure scheduling or groom unrelated work.
 
 1. Inspect current source, tests, owning guides and relevant evidence. Search
-   active/archived tasks and ideas for overlaps or superseded work. Refine an
+   active, completed, blocked and abandoned tasks and ideas for overlaps or superseded work. Refine an
    existing task when appropriate; never rewrite a worker-owned task. Use bounded
    read-only probes and the project workload guard.
 2. Establish the player outcome, scope, constraints, ownership/interfaces,
@@ -31,6 +31,13 @@ implement, dispatch, configure scheduling or groom unrelated work.
    `./scripts/backlog.ps1 validate`, then commit/push under project policy. Report
    the saved file, status and any blocker; end authoring.
 
+For an explicit grooming request, follow the [status-folder contract](../../../backlog/README.md).
+Keep stable IDs, evidence and replacement links; separate `done` from cancelled
+or superseded `retired` work. Group actionable tasks in `backlog/QUEUE.md`, remove
+obsolete dependencies only with a recorded reason, and give blocked tasks a resume
+condition. Update the helper, worker instructions and its isolated tests when the
+folder lifecycle changes. Grooming never dispatches work or reruns game benchmarks.
+
 Selecting a worker idea starts investigation, not automatic queue promotion.
 Read its origin; mark it accepted with a link only after the resulting task
 exists. Record rejection only on the user's decision. Preserve rationale and
@@ -48,9 +55,9 @@ for each committed milestone, including documentation/backlog authoring. Use
 `python scripts/versioning.py identity --json` to identify the current checkout;
 keep Dev labels separate from compatibility and evidence source/runtime hashes.
 Reserve a unique note path before creation; pass it to `versioning.py note --note`.
-Reserve all owned/read inputs, capture hashes before final
+Reserve all owned/read inputs, capture metadata with `--metadata-only` before final
 verification, record actual checks, and run the scoped note check before commit.
 Report the final Dev ID after push. Preserve unrelated dirty inputs; do not refresh
-evidence hashes without repeating affected checks. Recorded case identity and
+evidence metadata without repeating affected checks. Recorded case identity and
 current rerun identity are different observations. A version label is neither
 performance evidence nor human/controller acceptance.

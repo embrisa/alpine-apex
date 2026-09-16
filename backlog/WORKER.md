@@ -79,7 +79,7 @@ to useful findings from blocked work.
 Write an ignored `backlog/.runtime/` note with outcome, performed checks, source
 commits, maintained guides, outstanding human acceptance and idea links (or none).
 `record --token TOKEN --outcome done --record NOTE_PATH` is allowed only when the
-task's defined completion criteria are met; it moves the task to archive. Commit/
+task's defined completion criteria are met; it moves the task to `completed/`. Commit/
 push the completion record and ideas, then `release --token TOKEN`. Done release
 requires HEAD equal to upstream, a committed completion record and no uncommitted
 changes beyond the preserved baseline and compatible peer reservations. The
@@ -90,6 +90,8 @@ inspect its unavailable-task report and do not repair or commit those records.
 
 Decision/tool/verification/interruption/push blocker: `record --outcome blocked`
 with exact reason, checks, remaining work and uncommitted/unpushed changes.
+This moves the record to `blocked/`; it does not authorize an automatic retry.
+Repair affected task links before committing either move, following [README](README.md).
 Preserve edits; do not commit broken code to clear the queue. Commit/push backlog
 record when possible, release and end; put required user questions in the final
 response rather than holding an active waiting claim. No automatic retry.

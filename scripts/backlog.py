@@ -22,6 +22,16 @@ import uuid
 STATUSES = {"draft", "ready", "in_progress", "blocked", "done", "retired"}
 FIELDS = {"id", "title", "status", "priority", "depends_on", "created", "updated", "source_thread"}
 TERMINAL = {"done", "blocked", "retired"}
+TASK_FOLDERS = {
+    "tasks": {"draft", "ready", "in_progress"},
+    "completed": {"done"},
+    "blocked": {"blocked"},
+    "abandoned": {"retired"},
+}
+
+
+def task_folder(status):
+    return next(folder for folder, statuses in TASK_FOLDERS.items() if status in statuses)
 
 
 def now():
@@ -131,15 +141,17 @@ def load_tasks(root, dirty_paths=(), unavailable=None):
     unavailable = unavailable if unavailable is not None else {}
     for relative in dirty_paths:
         path = root / relative
-        if (path.parent in {root / "backlog/tasks", root / "backlog/archive"}
+        if (path.parent in {root / "backlog" / folder for folder in TASK_FOLDERS}
                 and path.suffix == ".md" and not path.exists()):
             unavailable[path.stem] = f"Uncommitted task deletion: {relative}"
-    for folder in ("tasks", "archive"):
+    for folder, statuses in TASK_FOLDERS.items():
         for path in sorted((root / "backlog" / folder).glob("*.md")):
             if path.is_symlink() or not path.resolve().is_relative_to(root / "backlog"):
                 raise ValueError("Task files must remain inside backlog")
             try:
                 task = parse_task(path)
+                if task["status"] not in statuses:
+                    raise ValueError(f"{path.name}: {task['status']} task belongs in backlog/{task_folder(task['status'])}")
             except (ValueError, TypeError, KeyError) as error:
                 if path.relative_to(root).as_posix() not in dirty_paths:
                     raise
@@ -147,9 +159,10 @@ def load_tasks(root, dirty_paths=(), unavailable=None):
                 continue
             if task["id"] in tasks:
                 raise ValueError(f"Duplicate task ID: {task['id']}")
-            if folder == "archive" and task["status"] not in {"done", "retired"}:
-                raise ValueError(f"{path.name}: nonterminal task in archive")
             tasks[task["id"]] = task
+            # A valid moved record is available even while its old path is an
+            # uncommitted deletion. Missing/malformed records remain excluded.
+            unavailable.pop(task["id"], None)
     visited, pending = set(), set()
 
     def visit(task_id):
@@ -325,7 +338,7 @@ def scope_spec(root, value=None, task=None):
         result[key] = sorted(set(normalized))
     if task:
         result["write_paths"] = sorted(set(result["write_paths"] + [
-            f"backlog/{folder}/{task}.md" for folder in ("tasks", "archive")]))
+            f"backlog/{folder}/{task}.md" for folder in TASK_FOLDERS]))
     return result
 
 
@@ -412,9 +425,9 @@ def save_task(root, task, outcome, record):
     header = "\n".join(f"{key}: {json.dumps(metadata[key], ensure_ascii=False)}" for key in order)
     body = re.sub(r"^## Completion record\s*\n.*\Z", "", task["body"], flags=re.M | re.S).rstrip()
     body += "\n\n## Completion record\n\n" + record.strip() + "\n"
-    destination = root / "backlog" / ("archive" if outcome in {"done", "retired"} else "tasks") / task["path"].name
+    destination = root / "backlog" / task_folder(outcome) / task["path"].name
     if destination != task["path"] and destination.exists():
-        raise ValueError("Archive/task destination already exists")
+        raise ValueError("Task destination already exists")
     atomic_write(task["path"], "---\n" + header + "\n---\n" + body)
     if destination != task["path"]:
         destination.parent.mkdir(parents=True, exist_ok=True)

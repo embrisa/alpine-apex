@@ -1,0 +1,688 @@
+{
+  "schema": 1,
+  "id": "a19209ca08dd420e94485acd59630257",
+  "summary": "Separate backlog status folders and refresh remaining work from Dev75",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Backlog lifecycle and worker reservations",
+    "Grouped remaining work and dependencies",
+    "Maintained task references and authoring guidance"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-backlog/SKILL.md",
+    "art_source/foliage/grass_v1/README.md",
+    "art_source/trees/colorful_v1/README.md",
+    "backlog/OPERATIONS.md",
+    "backlog/QUEUE.md",
+    "backlog/README.md",
+    "backlog/REMAINING_20260912.md",
+    "backlog/WORKER.md",
+    "backlog/abandoned/AA-20260911-153900-baseline-acceptance-index.md",
+    "backlog/abandoned/AA-20260911-153901-input-acceptance-evidence.md",
+    "backlog/abandoned/AA-20260911-153902-v15-six-face-route-audit.md",
+    "backlog/abandoned/AA-20260911-153903-current-4k-performance-baseline.md",
+    "backlog/abandoned/AA-20260911-153905-race-loop-acceptance-audit.md",
+    "backlog/abandoned/AA-20260911-153906-player-and-controller-acceptance.md",
+    "backlog/abandoned/AA-20260911-155000-agent-backlog-system.md",
+    "backlog/abandoned/AA-20260911-160307-weather-upgrade-storm-races.md",
+    "backlog/abandoned/AA-20260911-161450-proportional-carving-lean.md",
+    "backlog/abandoned/AA-20260911-163058-interface-overhaul.md",
+    "backlog/abandoned/AA-20260914-094136-establish-repeatable-rendering-baseline.md",
+    "backlog/archive/AA-20260911-153900-baseline-acceptance-index.md",
+    "backlog/archive/AA-20260911-153901-input-acceptance-evidence.md",
+    "backlog/archive/AA-20260911-153902-v15-six-face-route-audit.md",
+    "backlog/archive/AA-20260911-153903-current-4k-performance-baseline.md",
+    "backlog/archive/AA-20260911-153904-presentation-comfort-review.md",
+    "backlog/archive/AA-20260911-153905-race-loop-acceptance-audit.md",
+    "backlog/archive/AA-20260911-153906-player-and-controller-acceptance.md",
+    "backlog/archive/AA-20260911-155000-agent-backlog-system.md",
+    "backlog/archive/AA-20260911-160307-weather-upgrade-storm-races.md",
+    "backlog/archive/AA-20260911-161450-proportional-carving-lean.md",
+    "backlog/archive/AA-20260911-163058-interface-overhaul.md",
+    "backlog/archive/AA-20260911-193341-terrain-grass.md",
+    "backlog/archive/AA-20260912-094935-colorful-forest-variety.md",
+    "backlog/archive/AA-20260912-095819-subtle-faceted-snow-crystals.md",
+    "backlog/archive/AA-20260912-105300-reduce-streaming-frame-spikes.md",
+    "backlog/archive/AA-20260912-105301-reduce-animation-cpu-cost.md",
+    "backlog/archive/AA-20260912-105303-improve-spatial-batch-visibility.md",
+    "backlog/archive/AA-20260912-132147-finish-beam-navigation-acceptance.md",
+    "backlog/archive/AA-20260912-132147-review-loaded-track-ridge-shape.md",
+    "backlog/archive/AA-20260912-153317-fix-residual-carve-pelvis-lean.md",
+    "backlog/archive/AA-20260912-173304-weighted-small-landings-without-rebound.md",
+    "backlog/archive/AA-20260916-084500-reduce-solver-terrain-query-redundancy.md",
+    "backlog/archive/AA-20260916-084501-index-skier-pose-by-bone.md",
+    "backlog/archive/AA-20260916-084502-reduce-recording-tick-cost.md",
+    "backlog/archive/AA-20260916-084503-publish-shared-shader-uniforms-globally.md",
+    "backlog/archive/AA-20260916-084504-reduce-hud-frame-cost.md",
+    "backlog/archive/AA-20260916-084506-cut-foliage-depth-prepass-cost.md",
+    "backlog/archive/AA-20260916-084508-reduce-presentation-terrain-probing.md",
+    "backlog/archive/AA-20260916-084509-reduce-grass-gravel-texture-streaming-hitches.md",
+    "backlog/archive/AA-20260916-084511-reduce-finish-crash-restart-hitches.md",
+    "backlog/archive/AA-20260916-084512-bound-physics-catch-up-steps.md",
+    "backlog/archive/AA-20260916-084513-reduce-vertex-shader-transcendentals.md",
+    "backlog/archive/AA-20260916-084514-reduce-menu-and-loading-interface-hitches.md",
+    "backlog/blocked/AA-20260911-183812-slope-limited-pole-pushing.md",
+    "backlog/blocked/AA-20260911-220556-animated-ghost-snow-tracks.md",
+    "backlog/blocked/AA-20260911-221843-crash-location-respawn.md",
+    "backlog/blocked/AA-20260911-225724-carving-raised-ski-tracks.md",
+    "backlog/blocked/AA-20260911-230603-scenery-snow-material.md",
+    "backlog/blocked/AA-20260911-230604-scenery-mountain-shadows.md",
+    "backlog/blocked/AA-20260911-232811-taller-distant-finish-beam.md",
+    "backlog/blocked/AA-20260911-232936-session-navigation-beams.md",
+    "backlog/blocked/AA-20260912-004316-forest-transparency-strength.md",
+    "backlog/blocked/AA-20260912-004402-scene-motion-blur.md",
+    "backlog/blocked/AA-20260912-005323-subtle-local-snow-boundary.md",
+    "backlog/blocked/AA-20260912-105302-reduce-dense-scene-gpu-cost.md",
+    "backlog/blocked/AA-20260912-132147-close-eight-feature-integration-records.md",
+    "backlog/blocked/AA-20260912-132147-finish-pole-transition-validation.md",
+    "backlog/blocked/AA-20260914-094136-select-forest-lods-before-submission.md",
+    "backlog/blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md",
+    "backlog/completed/AA-20260911-153904-presentation-comfort-review.md",
+    "backlog/completed/AA-20260911-193341-terrain-grass.md",
+    "backlog/completed/AA-20260912-094935-colorful-forest-variety.md",
+    "backlog/completed/AA-20260912-095819-subtle-faceted-snow-crystals.md",
+    "backlog/completed/AA-20260912-105300-reduce-streaming-frame-spikes.md",
+    "backlog/completed/AA-20260912-105301-reduce-animation-cpu-cost.md",
+    "backlog/completed/AA-20260912-105303-improve-spatial-batch-visibility.md",
+    "backlog/completed/AA-20260912-132147-finish-beam-navigation-acceptance.md",
+    "backlog/completed/AA-20260912-132147-review-loaded-track-ridge-shape.md",
+    "backlog/completed/AA-20260912-153317-fix-residual-carve-pelvis-lean.md",
+    "backlog/completed/AA-20260912-173304-weighted-small-landings-without-rebound.md",
+    "backlog/completed/AA-20260913-141128-reduce-pelvis-fitting-cpu-cost.md",
+    "backlog/completed/AA-20260913-141128-reduce-terrain-and-snow-query-cost.md",
+    "backlog/completed/AA-20260916-084500-reduce-solver-terrain-query-redundancy.md",
+    "backlog/completed/AA-20260916-084501-index-skier-pose-by-bone.md",
+    "backlog/completed/AA-20260916-084502-reduce-recording-tick-cost.md",
+    "backlog/completed/AA-20260916-084503-publish-shared-shader-uniforms-globally.md",
+    "backlog/completed/AA-20260916-084504-reduce-hud-frame-cost.md",
+    "backlog/completed/AA-20260916-084506-cut-foliage-depth-prepass-cost.md",
+    "backlog/completed/AA-20260916-084508-reduce-presentation-terrain-probing.md",
+    "backlog/completed/AA-20260916-084509-reduce-grass-gravel-texture-streaming-hitches.md",
+    "backlog/completed/AA-20260916-084511-reduce-finish-crash-restart-hitches.md",
+    "backlog/completed/AA-20260916-084512-bound-physics-catch-up-steps.md",
+    "backlog/completed/AA-20260916-084513-reduce-vertex-shader-transcendentals.md",
+    "backlog/completed/AA-20260916-084514-reduce-menu-and-loading-interface-hitches.md",
+    "backlog/ideas/archive/IDEA-20260911-185650-tuck-presentation-consistency.md",
+    "backlog/tasks/AA-20260911-183812-slope-limited-pole-pushing.md",
+    "backlog/tasks/AA-20260911-220556-animated-ghost-snow-tracks.md",
+    "backlog/tasks/AA-20260911-221843-crash-location-respawn.md",
+    "backlog/tasks/AA-20260911-225724-carving-raised-ski-tracks.md",
+    "backlog/tasks/AA-20260911-230603-scenery-snow-material.md",
+    "backlog/tasks/AA-20260911-230604-scenery-mountain-shadows.md",
+    "backlog/tasks/AA-20260911-232811-taller-distant-finish-beam.md",
+    "backlog/tasks/AA-20260911-232936-session-navigation-beams.md",
+    "backlog/tasks/AA-20260912-004316-forest-transparency-strength.md",
+    "backlog/tasks/AA-20260912-004402-scene-motion-blur.md",
+    "backlog/tasks/AA-20260912-005323-subtle-local-snow-boundary.md",
+    "backlog/tasks/AA-20260912-105302-reduce-dense-scene-gpu-cost.md",
+    "backlog/tasks/AA-20260912-132147-close-eight-feature-integration-records.md",
+    "backlog/tasks/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md",
+    "backlog/tasks/AA-20260912-132147-finish-pole-transition-validation.md",
+    "backlog/tasks/AA-20260912-132147-reduce-cold-ghost-archive-load.md",
+    "backlog/tasks/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md",
+    "backlog/tasks/AA-20260913-141128-reduce-forest-publication-and-collision-bursts.md",
+    "backlog/tasks/AA-20260913-141128-reduce-pelvis-fitting-cpu-cost.md",
+    "backlog/tasks/AA-20260913-141128-reduce-terrain-and-snow-query-cost.md",
+    "backlog/tasks/AA-20260914-094136-cull-scenery-behind-terrain.md",
+    "backlog/tasks/AA-20260914-094136-establish-repeatable-rendering-baseline.md",
+    "backlog/tasks/AA-20260914-094136-render-distant-forest-stands.md",
+    "backlog/tasks/AA-20260914-094136-select-forest-lods-before-submission.md",
+    "backlog/tasks/AA-20260916-084505-fix-terrain-mesh-lod-selection.md",
+    "backlog/tasks/AA-20260916-084507-reduce-powder-patch-render-cost.md",
+    "backlog/tasks/AA-20260916-084510-trim-environment-and-screen-passes.md",
+    "backlog/tasks/AA-20260916-181500-reduce-mac-metal-frame-floor.md",
+    "backlog/tasks/AA-20260916-215944-verify-fable-windows-integration.md",
+    "docs/ANIMATION.md",
+    "docs/DENSE_GPU_ENCODING.md",
+    "docs/PRESENTATION_COMFORT_REVIEW.md",
+    "docs/RENDERING.md",
+    "docs/RENDERING_BASELINE.md",
+    "docs/VALIDATION.md",
+    "scripts/backlog.py",
+    "tests/test_backlog.py"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "docs/DEVELOPMENT.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "scripts/presentation/powder_surface.gd",
+    "scripts/racing/competitive_record.gd",
+    "scripts/ui/ghost_selector.gd",
+    "scripts/versioning.py",
+    "scripts/world/alpine_world.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Backlog tooling and documentation only; no runtime source or assets changed."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Backlog tooling and documentation only; no runtime source or assets changed."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Backlog tooling and documentation only; no runtime source or assets changed."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Task folder changes do not change gameplay data or compatibility."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Task folder changes do not change gameplay data or compatibility."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Task folder changes do not change gameplay data or compatibility."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Task folder changes do not change gameplay data or compatibility."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Task folder changes do not change gameplay data or compatibility."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "python -X utf8 tests/test_backlog.py; PYTHONUTF8=1 python tests/test_backlog.py BacklogTests.test_deleted_idea_and_unrelated_edits_allow_dispatch_and_pushed_completion",
+      "details": "All 43 isolated helper cases verified: 42 passed in the full run; its Unicode filename case encountered parent/child encoding mismatch and passed on the targeted rerun with inherited UTF-8. No helper or test changes were needed for the rerun. Logs: artifacts/backlog_groom_20260916/tests.log and unicode-recheck.log."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "./scripts/backlog.ps1 validate; ./scripts/backlog.ps1 validate --preserve-dirty",
+      "details": "64 valid tasks, 12 eligible, zero unavailable. 12 active, 25 completed, 16 blocked, 11 abandoned. All 63 previous IDs retained; one consolidated Windows follow-up added."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "Scoped task-ID and Markdown-link audit; skill-creator quick_validate.py .agents/skills/alpine-backlog; git -c core.whitespace=cr-at-eol diff --check",
+      "details": "210 task links resolve; every active task appears in QUEUE.md; unique task IDs preserved. Skill validation and whitespace check pass. PyYAML used only from a disposable task-local folder."
+    },
+    {
+      "kind": "rendered",
+      "result": "not_required",
+      "command": "Not run: backlog-only maintenance",
+      "details": "No camera, rendering, effects or game assets changed."
+    },
+    {
+      "kind": "performance",
+      "result": "not_required",
+      "command": "Not run: user gaming; no new baseline or game workloads",
+      "details": "No FPS claims or performance acceptance changed. Existing unresolved Windows/visual checks remain explicit in their task records."
+    },
+    {
+      "kind": "human",
+      "result": "not_required",
+      "command": "Not required for backlog folder and helper changes",
+      "details": "Existing controller, visual and gameplay acceptance gaps are retained in their records; grooming does not assert those passes."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-16T22:12:30.858071+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "c53c28e69f211a6ad4fd49a0438a0abd1a728485",
+      "dev": 75,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-backlog/SKILL.md": {
+        "size": 4323,
+        "mtime_ns": 1789596373127767600
+      },
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "art_source/foliage/grass_v1/README.md": {
+        "size": 4195,
+        "mtime_ns": 1789596516426038900
+      },
+      "art_source/trees/colorful_v1/README.md": {
+        "size": 5867,
+        "mtime_ns": 1789596253940432900
+      },
+      "backlog/OPERATIONS.md": {
+        "size": 11017,
+        "mtime_ns": 1789596373125747100
+      },
+      "backlog/QUEUE.md": {
+        "size": 5934,
+        "mtime_ns": 1789596462921932000
+      },
+      "backlog/README.md": {
+        "size": 3434,
+        "mtime_ns": 1789596373124704600
+      },
+      "backlog/REMAINING_20260912.md": {
+        "size": 1576,
+        "mtime_ns": 1789596679211867800
+      },
+      "backlog/WORKER.md": {
+        "size": 6151,
+        "mtime_ns": 1789596373126249300
+      },
+      "backlog/abandoned/AA-20260911-153900-baseline-acceptance-index.md": {
+        "size": 4423,
+        "mtime_ns": 1789596253633706900
+      },
+      "backlog/abandoned/AA-20260911-153901-input-acceptance-evidence.md": {
+        "size": 5792,
+        "mtime_ns": 1789596253634712500
+      },
+      "backlog/abandoned/AA-20260911-153902-v15-six-face-route-audit.md": {
+        "size": 5360,
+        "mtime_ns": 1789596253636990100
+      },
+      "backlog/abandoned/AA-20260911-153903-current-4k-performance-baseline.md": {
+        "size": 6273,
+        "mtime_ns": 1789596253639377600
+      },
+      "backlog/abandoned/AA-20260911-153905-race-loop-acceptance-audit.md": {
+        "size": 3151,
+        "mtime_ns": 1789596253643454700
+      },
+      "backlog/abandoned/AA-20260911-153906-player-and-controller-acceptance.md": {
+        "size": 3426,
+        "mtime_ns": 1789596253645579000
+      },
+      "backlog/abandoned/AA-20260911-155000-agent-backlog-system.md": {
+        "size": 4529,
+        "mtime_ns": 1789596253646872300
+      },
+      "backlog/abandoned/AA-20260911-160307-weather-upgrade-storm-races.md": {
+        "size": 25748,
+        "mtime_ns": 1789596253650385600
+      },
+      "backlog/abandoned/AA-20260911-161450-proportional-carving-lean.md": {
+        "size": 17167,
+        "mtime_ns": 1789596253651428300
+      },
+      "backlog/abandoned/AA-20260911-163058-interface-overhaul.md": {
+        "size": 33187,
+        "mtime_ns": 1789596253653931000
+      },
+      "backlog/abandoned/AA-20260914-094136-establish-repeatable-rendering-baseline.md": {
+        "size": 17639,
+        "mtime_ns": 1789596679669143100
+      },
+      "backlog/archive/AA-20260911-153900-baseline-acceptance-index.md": null,
+      "backlog/archive/AA-20260911-153901-input-acceptance-evidence.md": null,
+      "backlog/archive/AA-20260911-153902-v15-six-face-route-audit.md": null,
+      "backlog/archive/AA-20260911-153903-current-4k-performance-baseline.md": null,
+      "backlog/archive/AA-20260911-153904-presentation-comfort-review.md": null,
+      "backlog/archive/AA-20260911-153905-race-loop-acceptance-audit.md": null,
+      "backlog/archive/AA-20260911-153906-player-and-controller-acceptance.md": null,
+      "backlog/archive/AA-20260911-155000-agent-backlog-system.md": null,
+      "backlog/archive/AA-20260911-160307-weather-upgrade-storm-races.md": null,
+      "backlog/archive/AA-20260911-161450-proportional-carving-lean.md": null,
+      "backlog/archive/AA-20260911-163058-interface-overhaul.md": null,
+      "backlog/archive/AA-20260911-193341-terrain-grass.md": null,
+      "backlog/archive/AA-20260912-094935-colorful-forest-variety.md": null,
+      "backlog/archive/AA-20260912-095819-subtle-faceted-snow-crystals.md": null,
+      "backlog/archive/AA-20260912-105300-reduce-streaming-frame-spikes.md": null,
+      "backlog/archive/AA-20260912-105301-reduce-animation-cpu-cost.md": null,
+      "backlog/archive/AA-20260912-105303-improve-spatial-batch-visibility.md": null,
+      "backlog/archive/AA-20260912-132147-finish-beam-navigation-acceptance.md": null,
+      "backlog/archive/AA-20260912-132147-review-loaded-track-ridge-shape.md": null,
+      "backlog/archive/AA-20260912-153317-fix-residual-carve-pelvis-lean.md": null,
+      "backlog/archive/AA-20260912-173304-weighted-small-landings-without-rebound.md": null,
+      "backlog/archive/AA-20260916-084500-reduce-solver-terrain-query-redundancy.md": null,
+      "backlog/archive/AA-20260916-084501-index-skier-pose-by-bone.md": null,
+      "backlog/archive/AA-20260916-084502-reduce-recording-tick-cost.md": null,
+      "backlog/archive/AA-20260916-084503-publish-shared-shader-uniforms-globally.md": null,
+      "backlog/archive/AA-20260916-084504-reduce-hud-frame-cost.md": null,
+      "backlog/archive/AA-20260916-084506-cut-foliage-depth-prepass-cost.md": null,
+      "backlog/archive/AA-20260916-084508-reduce-presentation-terrain-probing.md": null,
+      "backlog/archive/AA-20260916-084509-reduce-grass-gravel-texture-streaming-hitches.md": null,
+      "backlog/archive/AA-20260916-084511-reduce-finish-crash-restart-hitches.md": null,
+      "backlog/archive/AA-20260916-084512-bound-physics-catch-up-steps.md": null,
+      "backlog/archive/AA-20260916-084513-reduce-vertex-shader-transcendentals.md": null,
+      "backlog/archive/AA-20260916-084514-reduce-menu-and-loading-interface-hitches.md": null,
+      "backlog/blocked/AA-20260911-183812-slope-limited-pole-pushing.md": {
+        "size": 13469,
+        "mtime_ns": 1789596679710447900
+      },
+      "backlog/blocked/AA-20260911-220556-animated-ghost-snow-tracks.md": {
+        "size": 22779,
+        "mtime_ns": 1789596679750749600
+      },
+      "backlog/blocked/AA-20260911-221843-crash-location-respawn.md": {
+        "size": 18539,
+        "mtime_ns": 1789596679790239400
+      },
+      "backlog/blocked/AA-20260911-225724-carving-raised-ski-tracks.md": {
+        "size": 12725,
+        "mtime_ns": 1789596679828911500
+      },
+      "backlog/blocked/AA-20260911-230603-scenery-snow-material.md": {
+        "size": 10163,
+        "mtime_ns": 1789596463723225900
+      },
+      "backlog/blocked/AA-20260911-230604-scenery-mountain-shadows.md": {
+        "size": 7905,
+        "mtime_ns": 1789596463529768200
+      },
+      "backlog/blocked/AA-20260911-232811-taller-distant-finish-beam.md": {
+        "size": 9741,
+        "mtime_ns": 1789596679946113000
+      },
+      "backlog/blocked/AA-20260911-232936-session-navigation-beams.md": {
+        "size": 12527,
+        "mtime_ns": 1789596679986030400
+      },
+      "backlog/blocked/AA-20260912-004316-forest-transparency-strength.md": {
+        "size": 11840,
+        "mtime_ns": 1789219307465065800
+      },
+      "backlog/blocked/AA-20260912-004402-scene-motion-blur.md": {
+        "size": 12578,
+        "mtime_ns": 1789596253601789000
+      },
+      "backlog/blocked/AA-20260912-005323-subtle-local-snow-boundary.md": {
+        "size": 13133,
+        "mtime_ns": 1789596680104861300
+      },
+      "backlog/blocked/AA-20260912-105302-reduce-dense-scene-gpu-cost.md": {
+        "size": 27638,
+        "mtime_ns": 1789596253606038000
+      },
+      "backlog/blocked/AA-20260912-132147-close-eight-feature-integration-records.md": {
+        "size": 5243,
+        "mtime_ns": 1789596680183201600
+      },
+      "backlog/blocked/AA-20260912-132147-finish-pole-transition-validation.md": {
+        "size": 8102,
+        "mtime_ns": 1789596253611276800
+      },
+      "backlog/blocked/AA-20260914-094136-select-forest-lods-before-submission.md": {
+        "size": 11299,
+        "mtime_ns": 1789596680266840700
+      },
+      "backlog/blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md": {
+        "size": 9055,
+        "mtime_ns": 1789596253631697600
+      },
+      "backlog/completed/AA-20260911-153904-presentation-comfort-review.md": {
+        "size": 5674,
+        "mtime_ns": 1789596253641430600
+      },
+      "backlog/completed/AA-20260911-193341-terrain-grass.md": {
+        "size": 30432,
+        "mtime_ns": 1789596253656953700
+      },
+      "backlog/completed/AA-20260912-094935-colorful-forest-variety.md": {
+        "size": 21560,
+        "mtime_ns": 1789596680428805900
+      },
+      "backlog/completed/AA-20260912-095819-subtle-faceted-snow-crystals.md": {
+        "size": 10800,
+        "mtime_ns": 1789596253660463000
+      },
+      "backlog/completed/AA-20260912-105300-reduce-streaming-frame-spikes.md": {
+        "size": 16117,
+        "mtime_ns": 1789596253662776100
+      },
+      "backlog/completed/AA-20260912-105301-reduce-animation-cpu-cost.md": {
+        "size": 18353,
+        "mtime_ns": 1789596253665778400
+      },
+      "backlog/completed/AA-20260912-105303-improve-spatial-batch-visibility.md": {
+        "size": 16958,
+        "mtime_ns": 1789596680586410900
+      },
+      "backlog/completed/AA-20260912-132147-finish-beam-navigation-acceptance.md": {
+        "size": 8712,
+        "mtime_ns": 1789596680628830000
+      },
+      "backlog/completed/AA-20260912-132147-review-loaded-track-ridge-shape.md": {
+        "size": 6563,
+        "mtime_ns": 1789596680668481700
+      },
+      "backlog/completed/AA-20260912-153317-fix-residual-carve-pelvis-lean.md": {
+        "size": 20564,
+        "mtime_ns": 1789596253673630500
+      },
+      "backlog/completed/AA-20260912-173304-weighted-small-landings-without-rebound.md": {
+        "size": 23109,
+        "mtime_ns": 1789596680745626100
+      },
+      "backlog/completed/AA-20260913-141128-reduce-pelvis-fitting-cpu-cost.md": {
+        "size": 2799,
+        "mtime_ns": 1789596253616382900
+      },
+      "backlog/completed/AA-20260913-141128-reduce-terrain-and-snow-query-cost.md": {
+        "size": 10709,
+        "mtime_ns": 1789596253618902300
+      },
+      "backlog/completed/AA-20260916-084500-reduce-solver-terrain-query-redundancy.md": {
+        "size": 10885,
+        "mtime_ns": 1789594595748231000
+      },
+      "backlog/completed/AA-20260916-084501-index-skier-pose-by-bone.md": {
+        "size": 10175,
+        "mtime_ns": 1789596253679708100
+      },
+      "backlog/completed/AA-20260916-084502-reduce-recording-tick-cost.md": {
+        "size": 7204,
+        "mtime_ns": 1789596253680708100
+      },
+      "backlog/completed/AA-20260916-084503-publish-shared-shader-uniforms-globally.md": {
+        "size": 9005,
+        "mtime_ns": 1789596253683714100
+      },
+      "backlog/completed/AA-20260916-084504-reduce-hud-frame-cost.md": {
+        "size": 10822,
+        "mtime_ns": 1789594595749645100
+      },
+      "backlog/completed/AA-20260916-084506-cut-foliage-depth-prepass-cost.md": {
+        "size": 9011,
+        "mtime_ns": 1789596253687872400
+      },
+      "backlog/completed/AA-20260916-084508-reduce-presentation-terrain-probing.md": {
+        "size": 10178,
+        "mtime_ns": 1789596253689385800
+      },
+      "backlog/completed/AA-20260916-084509-reduce-grass-gravel-texture-streaming-hitches.md": {
+        "size": 9867,
+        "mtime_ns": 1789596253691395600
+      },
+      "backlog/completed/AA-20260916-084511-reduce-finish-crash-restart-hitches.md": {
+        "size": 7860,
+        "mtime_ns": 1789596253692415600
+      },
+      "backlog/completed/AA-20260916-084512-bound-physics-catch-up-steps.md": {
+        "size": 5412,
+        "mtime_ns": 1789594595751646000
+      },
+      "backlog/completed/AA-20260916-084513-reduce-vertex-shader-transcendentals.md": {
+        "size": 7547,
+        "mtime_ns": 1789596253697032200
+      },
+      "backlog/completed/AA-20260916-084514-reduce-menu-and-loading-interface-hitches.md": {
+        "size": 8786,
+        "mtime_ns": 1789594595752646300
+      },
+      "backlog/ideas/archive/IDEA-20260911-185650-tuck-presentation-consistency.md": {
+        "size": 4162,
+        "mtime_ns": 1789596253997638800
+      },
+      "backlog/tasks/AA-20260911-183812-slope-limited-pole-pushing.md": null,
+      "backlog/tasks/AA-20260911-220556-animated-ghost-snow-tracks.md": null,
+      "backlog/tasks/AA-20260911-221843-crash-location-respawn.md": null,
+      "backlog/tasks/AA-20260911-225724-carving-raised-ski-tracks.md": null,
+      "backlog/tasks/AA-20260911-230603-scenery-snow-material.md": null,
+      "backlog/tasks/AA-20260911-230604-scenery-mountain-shadows.md": null,
+      "backlog/tasks/AA-20260911-232811-taller-distant-finish-beam.md": null,
+      "backlog/tasks/AA-20260911-232936-session-navigation-beams.md": null,
+      "backlog/tasks/AA-20260912-004316-forest-transparency-strength.md": null,
+      "backlog/tasks/AA-20260912-004402-scene-motion-blur.md": null,
+      "backlog/tasks/AA-20260912-005323-subtle-local-snow-boundary.md": null,
+      "backlog/tasks/AA-20260912-105302-reduce-dense-scene-gpu-cost.md": null,
+      "backlog/tasks/AA-20260912-132147-close-eight-feature-integration-records.md": null,
+      "backlog/tasks/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md": {
+        "size": 5613,
+        "mtime_ns": 1789596681330014100
+      },
+      "backlog/tasks/AA-20260912-132147-finish-pole-transition-validation.md": null,
+      "backlog/tasks/AA-20260912-132147-reduce-cold-ghost-archive-load.md": {
+        "size": 4273,
+        "mtime_ns": 1789596681368098700
+      },
+      "backlog/tasks/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md": {
+        "size": 4516,
+        "mtime_ns": 1789596681410056500
+      },
+      "backlog/tasks/AA-20260913-141128-reduce-forest-publication-and-collision-bursts.md": {
+        "size": 7712,
+        "mtime_ns": 1789596253614263300
+      },
+      "backlog/tasks/AA-20260913-141128-reduce-pelvis-fitting-cpu-cost.md": null,
+      "backlog/tasks/AA-20260913-141128-reduce-terrain-and-snow-query-cost.md": null,
+      "backlog/tasks/AA-20260914-094136-cull-scenery-behind-terrain.md": {
+        "size": 8778,
+        "mtime_ns": 1789596681491563500
+      },
+      "backlog/tasks/AA-20260914-094136-establish-repeatable-rendering-baseline.md": null,
+      "backlog/tasks/AA-20260914-094136-render-distant-forest-stands.md": {
+        "size": 9432,
+        "mtime_ns": 1789596681530646600
+      },
+      "backlog/tasks/AA-20260914-094136-select-forest-lods-before-submission.md": null,
+      "backlog/tasks/AA-20260916-084505-fix-terrain-mesh-lod-selection.md": {
+        "size": 2968,
+        "mtime_ns": 1789596253626632500
+      },
+      "backlog/tasks/AA-20260916-084507-reduce-powder-patch-render-cost.md": {
+        "size": 4199,
+        "mtime_ns": 1789596253628134700
+      },
+      "backlog/tasks/AA-20260916-084510-trim-environment-and-screen-passes.md": {
+        "size": 4418,
+        "mtime_ns": 1789596253629518100
+      },
+      "backlog/tasks/AA-20260916-181500-reduce-mac-metal-frame-floor.md": null,
+      "backlog/tasks/AA-20260916-215944-verify-fable-windows-integration.md": {
+        "size": 3189,
+        "mtime_ns": 1789596253699302500
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ANIMATION.md": {
+        "size": 25320,
+        "mtime_ns": 1789596681718562800
+      },
+      "docs/DENSE_GPU_ENCODING.md": {
+        "size": 10636,
+        "mtime_ns": 1789596254017501600
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 20655,
+        "mtime_ns": 1789577468895854200
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 44208,
+        "mtime_ns": 1789594595760880100
+      },
+      "docs/PRESENTATION_COMFORT_REVIEW.md": {
+        "size": 9350,
+        "mtime_ns": 1789596254041747700
+      },
+      "docs/RENDERING.md": {
+        "size": 44655,
+        "mtime_ns": 1789596681831194100
+      },
+      "docs/RENDERING_BASELINE.md": {
+        "size": 18812,
+        "mtime_ns": 1789596681871988000
+      },
+      "docs/VALIDATION.md": {
+        "size": 128316,
+        "mtime_ns": 1789596681922415200
+      },
+      "project.godot": {
+        "size": 1819,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/backlog.py": {
+        "size": 37748,
+        "mtime_ns": 1789596462919892300
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/powder_surface.gd": {
+        "size": 18288,
+        "mtime_ns": 1789594595768738500
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 16580,
+        "mtime_ns": 1789594595774260900
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789576668695286100
+      },
+      "scripts/ui/ghost_selector.gd": {
+        "size": 3569,
+        "mtime_ns": 1789208565957092200
+      },
+      "scripts/versioning.py": {
+        "size": 27235,
+        "mtime_ns": 1789549421190699100
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 26995,
+        "mtime_ns": 1789568204922632700
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/test_backlog.py": {
+        "size": 37218,
+        "mtime_ns": 1789596462920924000
+      }
+    }
+  }
+}

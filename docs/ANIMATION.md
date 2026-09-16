@@ -291,7 +291,7 @@ records production final bones/equipment, two-second warm-up, turn/release and
 tuck/hop/landing neighbors. New evidence lives in
 `artifacts/pelvis_residual/20260912-fix/`; retain the original
 `artifacts/pelvis_residual/20260912-baseline/` through review. Acceptance and exact
-receipts are recorded in [the residual pelvis task](../backlog/archive/AA-20260912-153317-fix-residual-carve-pelvis-lean.md).
+receipts are recorded in [the residual pelvis task](../backlog/completed/AA-20260912-153317-fix-residual-carve-pelvis-lean.md).
 The matched mesh audit introduces no new intersecting frames; existing tuck
 pole/clothing intersections remain documented in that completion record.
 

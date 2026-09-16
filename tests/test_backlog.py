@@ -48,7 +48,7 @@ class BacklogTests(unittest.TestCase):
         self.run_git("commit", "-m", "Fixture checkpoint")
 
     def task(self, task_id="AA-test", status="ready", deps=None, priority="P2"):
-        folder = self.root / "backlog" / ("archive" if status == "done" else "tasks")
+        folder = self.root / "backlog" / {"done": "completed", "blocked": "blocked", "retired": "abandoned"}.get(status, "tasks")
         folder.mkdir(parents=True, exist_ok=True)
         data = dict(id=task_id, title="Fixture documentation task", status=status, priority=priority,
                     depends_on=deps or [], created="2026-09-11T12:00:00Z", updated="2026-09-11T12:00:00Z", source_thread=None)
@@ -158,9 +158,9 @@ class BacklogTests(unittest.TestCase):
         self.assertEqual(self.call("accept", "--token", token, owner="worker")["status"], "ok")
         self.record(token, "done")
         self.assertIn("Uncommitted", self.call("release", "--token", token, owner="worker", error=True)["reason"])
-        self.run_git("add", "backlog/tasks", "backlog/archive")
+        self.run_git("add", "backlog/tasks", "backlog/completed")
         # Commit only worker paths, preserving the user's staged and unstaged edit.
-        self.run_git("commit", "--only", "-m", "Worker result", "--", "backlog/tasks/AA-test.md", "backlog/archive/AA-test.md")
+        self.run_git("commit", "--only", "-m", "Worker result", "--", "backlog/tasks/AA-test.md", "backlog/completed/AA-test.md")
         remote = self.base / "origin.git"
         subprocess.run(["git", "init", "--bare", str(remote)], check=True, capture_output=True)
         self.run_git("remote", "add", "origin", str(remote))
@@ -238,12 +238,44 @@ class BacklogTests(unittest.TestCase):
         self.assertEqual(self.call("validate")["eligible"], [])
 
     def test_dependencies_and_cycles(self):
-        self.task("AA-prerequisite", "blocked")
+        prerequisite = self.task("AA-prerequisite", "blocked")
         self.task("AA-dependent", deps=["AA-prerequisite"], priority="P0")
         self.task("AA-independent", priority="P2")
         self.assertEqual(self.call("validate")["eligible"], ["AA-independent"])
+        prerequisite.unlink()
         self.task("AA-prerequisite", deps=["AA-dependent"])
         self.assertIn("cycle", self.call("validate", error=True)["reason"])
+
+    def test_status_folders_keep_done_dependencies_and_do_not_resume_blocked_or_retired(self):
+        self.task("AA-done", "done")
+        self.task("AA-blocked", "blocked")
+        self.task("AA-retired", "retired")
+        self.task("AA-ready", deps=["AA-done"])
+        self.task("AA-waiting", deps=["AA-blocked"])
+        self.task("AA-superseded", deps=["AA-retired"])
+        result = self.call("validate")
+        self.assertEqual(len(result["tasks"]), 6)
+        self.assertEqual(result["eligible"], ["AA-ready"])
+
+    def test_wrong_status_folder_rejected_and_dirty_record_preserved(self):
+        path = self.task("AA-blocked", "blocked")
+        path.write_text(path.read_text().replace('"blocked"', '"ready"'), encoding="utf-8")
+        self.assertIn("belongs in backlog/tasks", self.call("validate", error=True)["reason"])
+        result = self.call("validate", "--preserve-dirty")
+        self.assertIn("AA-blocked", result["unavailable_tasks"])
+        self.assertEqual(result["eligible"], [])
+
+    def test_blocked_completion_moves_record_and_reserves_every_destination(self):
+        token = self.prepare()
+        result = self.call("accept", "--token", token, owner="worker")
+        paths = result["claim"]["scope"]["write_paths"]
+        for folder in ("tasks", "completed", "blocked", "abandoned"):
+            self.assertIn(f"backlog/{folder}/AA-test.md", paths)
+        self.record(token)
+        self.assertFalse((self.root / "backlog/tasks/AA-test.md").exists())
+        self.assertTrue((self.root / "backlog/blocked/AA-test.md").exists())
+        self.assertEqual(self.call("validate")["eligible"], [])
+        self.assertEqual(self.call("validate", "--preserve-dirty")["unavailable_tasks"], {})
 
     def test_ready_questions_and_missing_dependency_rejected(self):
         path = self.task()
@@ -332,7 +364,7 @@ class BacklogTests(unittest.TestCase):
         self.call("release", "--token", token, owner="worker", error=True)
         self.run_git("push", "origin", "main")
         self.call("release", "--token", token, owner="worker")
-        self.assertTrue((self.root / "backlog/archive/AA-test.md").exists())
+        self.assertTrue((self.root / "backlog/completed/AA-test.md").exists())
         self.assertEqual(self.call("status")["state"]["last_dispatch"]["outcome"], "done")
 
     def test_corrupt_state_is_not_replaced(self):
@@ -387,7 +419,7 @@ class BacklogTests(unittest.TestCase):
             (self.root / (name + ".gd")).write_text("worker " + name, encoding="utf-8")
         # The middle worker can commit and release while both other workers edit.
         self.finish_scoped("b", tokens["b"], "done")
-        paths = ["b.gd", "backlog/tasks/AA-b.md", "backlog/archive/AA-b.md"]
+        paths = ["b.gd", "backlog/tasks/AA-b.md", "backlog/completed/AA-b.md"]
         self.run_git("add", "--", *paths)
         self.run_git("commit", "--only", "-m", "B delivered", "--", *paths)
         self.run_git("push", "origin", "main")
@@ -551,7 +583,7 @@ class BacklogTests(unittest.TestCase):
         result = self.call("scope", "--token", token, "--scope", scope, owner="worker-snow")
         self.assertEqual(result["claim"]["dirty_baseline"]["poles.gd"], baseline)
         self.finish_scoped("snow", token, "done")
-        paths = ["backlog/tasks/AA-snow.md", "backlog/archive/AA-snow.md"]
+        paths = ["backlog/tasks/AA-snow.md", "backlog/completed/AA-snow.md"]
         self.run_git("add", "--", *paths)
         self.run_git("commit", "--only", "-m", "Snow delivered", "--", *paths)
         self.run_git("push", "origin", "main")

@@ -1,7 +1,7 @@
 # Dense-scene vertex-storage investigation
 
 The 2026-09-14 candidate is rejected. No rendering optimization ships, and
-[the GPU task](../backlog/tasks/AA-20260912-105302-reduce-dense-scene-gpu-cost.md)
+[the GPU task](../backlog/blocked/AA-20260912-105302-reduce-dense-scene-gpu-cost.md)
 remains blocked. UV packing reduced ten meshes' vertex/attribute streams by
 20%, but dense FPS improvement did not establish a reliable gain and local
 vegetation became slower. Runtime files were restored byte-for-byte to Dev 34,

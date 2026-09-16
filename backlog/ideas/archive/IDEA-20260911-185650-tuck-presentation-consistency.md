@@ -19,7 +19,7 @@ and does not establish a gameplay defect.
 
 ## Evidence and origin
 
-The [input acceptance audit](../../archive/AA-20260911-153901-input-acceptance-evidence.md)
+The [input acceptance audit](../../abandoned/AA-20260911-153901-input-acceptance-evidence.md)
 uses production snapshot `29b1767da65f8dc7d75c4937601381a2096ba5fa` plus its
 test-only fixture correction. The final native 1920x1080 images are under
 `artifacts/input_acceptance_20260911/visual/`: `01_forward_tuck.png` is more
@@ -33,7 +33,7 @@ See [the maintained evidence](../../../docs/VALIDATION.md#input-and-controller-e
 The user requested this fix on 2026-09-12. Chronological capture and focused
 regression coverage use `tests/tuck_presentation_playtest.gd` and
 `tests/tuck_presentation_suite.gd`. The shared
-[proportional-carving task](../../archive/AA-20260911-161450-proportional-carving-lean.md)
+[proportional-carving task](../../abandoned/AA-20260911-161450-proportional-carving-lean.md)
 also owns the initial-tuck correction; preserve that single owner
 instead of adding another tuck adjustment. The solver and input mapping remain
 unchanged. See [tuck validation](../../../docs/VALIDATION.md#tuck-consistency).

@@ -2,8 +2,8 @@
 
 Standalone grass only: no rock, pebbles, pedestal, ground mesh or collision.
 This package is **prepared, not integrated**. `.gdignore` excludes it from the
-game's import scan. Terrain placement, wind, skier bending and rendering budgets
-remain future work in [the terrain grass task](../../../backlog/tasks/AA-20260911-193341-terrain-grass.md).
+game's import scan. Terrain placement, wind, skier bending and rendering decisions
+are recorded in [the terrain grass task](../../../backlog/completed/AA-20260911-193341-terrain-grass.md).
 
 ## Contents
 

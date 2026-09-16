@@ -3,13 +3,22 @@ id: "AA-20260914-094136-render-distant-forest-stands"
 title: "Render distant forest stands with coherent grouped representations"
 status: ready
 priority: P2
-depends_on: ["AA-20260914-094136-establish-repeatable-rendering-baseline"]
+depends_on: []
 created: "2026-09-14T09:41:36Z"
-updated: "2026-09-14T09:41:36Z"
+updated: "2026-09-16T21:59:44Z"
 source_thread: "01a09c68-b71e-7cc1-b01a-291cd5c446e8"
 ---
 
 # Render distant forest stands with coherent grouped representations
+
+## Current disposition — 16 September 2026
+
+Independent representation experiment, grouped with forest GPU work. Existing
+far trees already use two-triangle cards; a stand proxy must save measured total
+work beyond those cards, not merely have fewer source triangles. The previous
+8 m batches, CPU per-frame LOD compaction and LOD1 alpha trimming were rejected;
+do not repeat them. Reuse a matching saved baseline and reject poor visuals before
+timing. The old baseline investigation is no longer a dispatch prerequisite.
 
 ## Outcome
 
@@ -61,7 +70,7 @@ gaps, warm pockets and snow; opaque blobs, billboard walls, baked lighting that
 breaks weather/night, and visibility pops are not acceptable tradeoffs.
 
 This task depends on the repeatable baseline. Prefer evaluating after
-[tree selection](AA-20260914-094136-select-forest-lods-before-submission.md) if delivered, then rebaseline; its completion
+[tree selection](../blocked/AA-20260914-094136-select-forest-lods-before-submission.md) if delivered, then rebaseline; its completion
 is not a hard dependency because the two mechanisms can be investigated
 independently. Coordinate shared forest files and serialized timing. Occlusion
 and shader/pass changes have separate owners; do not combine them in the A/B.
@@ -100,7 +109,7 @@ and shader/pass changes have separate owners; do not combine them in the A/B.
 
 ## Acceptance and verification
 
-- [ ] Separate [baseline](AA-20260914-094136-establish-repeatable-rendering-baseline.md) attribution proves enough far-forest
+- [ ] Separate [baseline](../abandoned/AA-20260914-094136-establish-repeatable-rendering-baseline.md) attribution proves enough far-forest
   work is removed. Three matched capture-free 15-second before/after windows
   demonstrate repeatable rendered-FPS or frame-tail gain and lower relevant GPU
   or submission cost; near forest/open/mineral controls show no reproducible

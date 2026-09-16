@@ -1110,7 +1110,7 @@ build and is not current performance acceptance.
 All three stayed focused; 1,008 source hashes and 32 personal settings/record
 files stayed unchanged. The [structured receipt](V15_PERFORMANCE_BASELINE_RESULTS.json)
 retains each run, medians of run statistics, full identities and raw-evidence
-hashes. This completed the historical [baseline audit](../backlog/archive/AA-20260911-153903-current-4k-performance-baseline.md).
+hashes. This completed the historical [baseline audit](../backlog/abandoned/AA-20260911-153903-current-4k-performance-baseline.md).
 
 Workload: default Standard seed 849205174, generator 15/model 28, launch face
 index 0, recorded chase-camera profile/look, clear/day, full production scenery
@@ -1622,9 +1622,9 @@ remains a separate acceptance check.
 
 Existing race/record suites cover authoring/import, finite crossings, splits,
 eligibility and ghosts. Ordinary route discovery, retries and ghost readability
-remain unverified by the [race-loop audit](../backlog/archive/AA-20260911-153905-race-loop-acceptance-audit.md),
+remain unverified by the [race-loop audit](../backlog/abandoned/AA-20260911-153905-race-loop-acceptance-audit.md),
 which the user retired before execution on 2026-09-12. The separate
-[player/controller task](../backlog/archive/AA-20260911-153906-player-and-controller-acceptance.md)
+[player/controller task](../backlog/abandoned/AA-20260911-153906-player-and-controller-acceptance.md)
 was also retired without recorded human acceptance. These are no longer queued
 requirements; their retirement does not establish acceptance. Task files own
 their status/dependencies; this guide does not mark them complete or duplicate

@@ -1,7 +1,7 @@
 # Presentation comfort review
 
 This is the bounded review/checklist for
-[AA-20260911-153904](../backlog/archive/AA-20260911-153904-presentation-comfort-review.md).
+[AA-20260911-153904](../backlog/completed/AA-20260911-153904-presentation-comfort-review.md).
 Preparation completed on 2026-09-12; player aesthetics, controller feel and
 listening remain unaccepted. Camera/HUD behavior belongs to
 [Presentation](PRESENTATION.md), posture/fitting to [Animation](ANIMATION.md),
@@ -76,7 +76,7 @@ and encoding provide **no FPS, latency or display-delivery result**.
 
 ## Controller and listening checklist
 
-The user retired the [player/controller task](../backlog/archive/AA-20260911-153906-player-and-controller-acceptance.md)
+The user retired the [player/controller task](../backlog/abandoned/AA-20260911-153906-player-and-controller-acceptance.md)
 on 2026-09-12 without recording acceptance. This checklist remains optional
 reference for future feedback. Start with 15–30-second unranked riding samples, ending after
 the requested event/recovery. Extend only for a named repetition/fatigue question.

@@ -3,13 +3,23 @@ id: "AA-20260914-094136-cull-scenery-behind-terrain"
 title: "Cull scenery conservatively behind terrain and solid rocks"
 status: ready
 priority: P2
-depends_on: ["AA-20260914-094136-establish-repeatable-rendering-baseline"]
+depends_on: []
 created: "2026-09-14T09:41:36Z"
-updated: "2026-09-14T09:41:36Z"
+updated: "2026-09-16T21:59:44Z"
 source_thread: "01a09c68-b71e-7cc1-b01a-291cd5c446e8"
 ---
 
 # Cull scenery conservatively behind terrain and solid rocks
+
+## Current disposition — 16 September 2026
+
+Use the reusable-baseline policy, not the retired repeated-control prerequisite.
+Current source has no production OccluderInstance3D path; inspect the prior
+experiment and `alpine_world.gd` before rebuilding it. The approximately 5% result
+was fewer draws, not a measured FPS gain, and the feature remains disabled by
+default. The remaining task is a bounded cost/visibility decision on that prototype;
+do not interpret primitive counts as success or repeat the original implementation.
+Keep conservative visibility, camera reversals and off-camera shadow coverage.
 
 ## Outcome
 
@@ -33,7 +43,7 @@ before choosing an implementation; no hidden-work saving has been measured yet.
 [AlpineScenery](../../scripts/world/alpine_scenery.gd) and
 [MineralScenery](../../scripts/presentation/mineral_scenery.gd) own conservative
 batch bounds. Occluding only part of a large MultiMesh must not hide its visible
-members. [Tree selection](AA-20260914-094136-select-forest-lods-before-submission.md) can later provide finer instance lists.
+members. [Tree selection](../blocked/AA-20260914-094136-select-forest-lods-before-submission.md) can later provide finer instance lists.
 
 The [forest](../../docs/COLORFUL_FOREST_RESULTS.json) and
 [gravel](../../docs/ROCK_GRAVEL_RESULTS.json) samples miss or do not conclusively
@@ -65,7 +75,7 @@ synchronous depth readbacks and new broad renderer abstractions.
 
 1. Qualify one ridge-hidden forest/mineral route and one exposed/open control.
    Record the potentially hidden batch/instance/vertex share versus actual pass
-   cost with [baseline](AA-20260914-094136-establish-repeatable-rendering-baseline.md) tooling. Do not cherry-pick a fully hidden
+   cost with [baseline](../abandoned/AA-20260914-094136-establish-repeatable-rendering-baseline.md) tooling. Do not cherry-pick a fully hidden
    static scene as proof of ordinary skiing gain.
 2. Derive conservative occluder geometry from current opaque meshes/support.
    Preserve footprint holes, terrain edges and sky gaps; coarse interpolation

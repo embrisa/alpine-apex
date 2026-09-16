@@ -3,7 +3,7 @@
 This authoring asset pack stays excluded from Godot's production import scan by
 `.gdignore`. The user resumed integration on 2026-09-14: production uses separate
 packed derivatives, leaving these source assets and their hashes unchanged. See
-[`AA-20260912-094935-colorful-forest-variety`](../../../backlog/archive/AA-20260912-094935-colorful-forest-variety.md).
+[`AA-20260912-094935-colorful-forest-variety`](../../../backlog/completed/AA-20260912-094935-colorful-forest-variety.md).
 `./scripts/art/integrate_colorful_trees.ps1` rebuilds all runtime derivatives;
 `-Asset forest_golden_01` selects one. The owning [Assets guide](../../../docs/ASSETS.md#trees)
 describes production material conversion and detail levels. Original preparation
