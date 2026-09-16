@@ -158,6 +158,15 @@ Static 8 m forest groups also failed: 88.29 -> 87.00 FPS, despite 3.45% fewer
 submitted primitives. Render CPU grew 0.171 ms while GPU saved only 0.096 ms;
 16 m groups were restored. Compact evidence: `artifacts/tighter_forest_batches_20260916/`.
 
+Precomputed per-instance crown centre/radius also failed: **91.06 -> 89.40 FPS**
+(frame 10.982 -> 11.186 ms), with only 0.020 ms less GPU time and 10.47 MiB
+more prepared data. Seven matched near/mid/far views passed, but the clean route
+showed no useful gain; all four runtime changes were restored. No additional
+GPU-pass run was warranted. Keep the existing matrix-based crown calculation.
+The preparation regression now compares actual placements across subdivided
+detail and regional shadow batches instead of assuming three nodes per region.
+Compact evidence: `artifacts/prepared_crowns_20260916/`.
+
 Tracker equality, matched rendered poses, anatomy/attachment/pole checks and
 physics/runtime checks passed on Windows. Four older procedural assertions
 (one in `skier_motion_suite`, three in `skier_animation_suite`) failed identically

@@ -1,0 +1,181 @@
+{
+  "schema": 1,
+  "id": "63238b8630084405b3f04940a9e05402",
+  "summary": "Repair forest preparation checks and record rejected crown precomputation",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Forest preparation validation",
+    "Bounded GPU experiment"
+  ],
+  "owned_paths": [
+    "tests/forest_preparation_suite.gd",
+    "docs/PERFORMANCE_HANDOFF.md"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "assets/graphics/pc_lod.gdshaderinc",
+    "assets/graphics/pc_forest_tree_common.gdshaderinc",
+    "scripts/presentation/density_forest.gd",
+    "scripts/world/alpine_scenery.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Runtime candidate rejected and restored. Only preparation regression assertions and performance handoff change."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Runtime candidate rejected and restored. Only preparation regression assertions and performance handoff change."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Runtime candidate rejected and restored. Only preparation regression assertions and performance handoff change."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No production source, asset or data format change retained."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No production source, asset or data format change retained."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No production source, asset or data format change retained."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No production source, asset or data format change retained."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No production source, asset or data format change retained."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "performance",
+      "command": "FpsCritical prepared-crowns-20260916, 15 s warmup +15 s clean; saved forest-order-20260916 control reused",
+      "result": "passed",
+      "details": "Experiment valid; candidate rejected:91.0604 ->89.4009FPS,10.9817 ->11.1856ms;GPU9.94338 ->9.92305ms, no useful gain. Same pixels/effective settings/engine/camera/1800ticks, final state exact, caches hit, focus0, failures[]. Four runtime paths restored; no native pass attribution claimed."
+    },
+    {
+      "kind": "rendered",
+      "command": "Shared prepared-crowns-visual-20260916 actual mountain matched pairs",
+      "result": "passed",
+      "details": "Inspected seven pairs at7/12/17/32/59/64/69m; no new gaps or silhouette changes. Visual pass preceded timing; captures capped and excluded from performance."
+    },
+    {
+      "kind": "automated",
+      "command": "Shared prepared-crowns-checks-20260916, prepared-crowns-preparation-20260916, prepared-crowns-restored-20260916",
+      "result": "passed",
+      "details": "127 native crown checks and477 culling checks passed. Initial stale preparation assertions failed/crashed; repaired placement-based version passed3845 on candidate and3845 after restoring original runtime sources."
+    }
+  ],
+  "outstanding_acceptance": [
+    "No FPS improvement retained. Saved free-ski91.06FPS and separate timed82.72FPS references remain current."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T14:05:21.676102+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "f51ac7ad4460ab77d07570eb0fae9dea2beff4ff",
+      "dev": 50,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "assets/graphics/pc_forest_tree_common.gdshaderinc": {
+        "size": 6051,
+        "mtime_ns": 1789567353808817800
+      },
+      "assets/graphics/pc_lod.gdshaderinc": {
+        "size": 1756,
+        "mtime_ns": 1789567353807814500
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 13726,
+        "mtime_ns": 1789567498285501900
+      },
+      "docs/RENDERING.md": {
+        "size": 39737,
+        "mtime_ns": 1789564870128711100
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789512657279656900
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/presentation/density_forest.gd": {
+        "size": 9889,
+        "mtime_ns": 1789567353867450300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18224,
+        "mtime_ns": 1789566331946877700
+      },
+      "scripts/world/alpine_scenery.gd": {
+        "size": 19878,
+        "mtime_ns": 1789567353877840100
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/forest_preparation_suite.gd": {
+        "size": 7879,
+        "mtime_ns": 1789567429034696100
+      }
+    }
+  }
+}

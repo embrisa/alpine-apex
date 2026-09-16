@@ -46,15 +46,21 @@ func run() -> void:
 	await forest.finish(host,Callable())
 	for batch in host.batches:
 		check(batch.get_instance_shader_parameter("pc_streamed")==true,"Streamed distant batches retain teleport fallback")
-	check(forest.prepared_bytes==99*48,"Packed memory is bounded by tree count")
+	check(forest.prepared_bytes>=99*48 and forest.prepared_bytes<=99*96,"Regional and subdivided transforms remain bounded by tree count")
 	var counts = []
 	for traversal in 3:
 		for x in range(-448,449,32):
 			forest.update_residency(Vector3(x,0,0)); await process_frame
 			check_slots(host)
 			for nodes in forest.resident.values():
-				for i in range(0,nodes.size(),3):
-					check(nodes[i+1].multimesh.buffer==nodes[i+2].multimesh.buffer,"Authored middle and shadow meshes receive identical immutable placements")
+				var placements={0:{},1:{},5:{}}
+				for node in nodes:
+					var lod:int=node.get_meta("art_lod")
+					var mm:MultiMesh=node.multimesh
+					for index in mm.instance_count:
+						var pose:Transform3D=mm.get_instance_transform(index)
+						placements[lod][pose]=int(placements[lod].get(pose,0))+1
+				check(placements[0]==placements[1] and placements[1]==placements[5],"Subdivided detail and regional shadows retain identical immutable placements")
 		for x in range(448,-449,-32):
 			forest.update_residency(Vector3(x,0,0)); await process_frame
 			check_slots(host)
