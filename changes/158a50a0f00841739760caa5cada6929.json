@@ -1,0 +1,204 @@
+{
+  "schema": 1,
+  "id": "158a50a0f00841739760caa5cada6929",
+  "summary": "Prepare terrain grass instance buffers and bounds on workers",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Terrain grass preparation and publication",
+    "Streaming CPU performance"
+  ],
+  "owned_paths": [
+    "backlog/tasks/AA-20260916-084509-reduce-grass-gravel-texture-streaming-hitches.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RENDERING.md",
+    "docs/WORLD.md",
+    "scripts/presentation/grass_placement.gd",
+    "scripts/presentation/terrain_grass.gd",
+    "tests/terrain_grass_suite.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "assets/graphics/terrain_grass.gdshader",
+    "docs/VALIDATION.md",
+    "scripts/presentation/alpine_assets.gd",
+    "scripts/presentation/graphics_quality.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only grass render-data preparation moves to existing workers. Population, placement, material/custom data, LOD, bounds, cell budget and solver/session formats are unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only grass render-data preparation moves to existing workers. Population, placement, material/custom data, LOD, bounds, cell budget and solver/session formats are unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only grass render-data preparation moves to existing workers. Population, placement, material/custom data, LOD, bounds, cell budget and solver/session formats are unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No schema or payload change. Existing runtime scenery source compatibility may regenerate scenery preparation after source edits; physical cache and recording remain compatible."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No schema or payload change. Existing runtime scenery source compatibility may regenerate scenery preparation after source edits; physical cache and recording remain compatible."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No schema or payload change. Existing runtime scenery source compatibility may regenerate scenery preparation after source edits; physical cache and recording remain compatible."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No schema or payload change. Existing runtime scenery source compatibility may regenerate scenery preparation after source edits; physical cache and recording remain compatible."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No schema or payload change. Existing runtime scenery source compatibility may regenerate scenery preparation after source edits; physical cache and recording remain compatible."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "Shared grass-pack-native-20260916; test_pc_environment terrain_grass_suite,runtime_suite -> artifacts/grass_pack_20260916/regression",
+      "details": "89 native grass,86 headless grass and192 runtime checks passed. Native packed buffers and both LOD bounds match per-instance reference at zero/half/full density. Async/sync population,density changes,cancellation and teardown pass. Metadata captured before verification; later changes were documentation only. Asset hashes now opt-in per user policy. Performance/validation skills reviewed; existing hash policy and guide routing still apply."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "Shared grass-pack-visual-20260916; matched frozen-source old/candidate on perf-mixed",
+      "details": "Five paired1280x720 capped still views inspected:close,18/22/26m LOD band,and changed camera cell. Visible grass and scenery remain equivalent. Compact visual/comparison.jpg retained with close full-size pair. No physical-controller or full-descent acceptance."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "FpsCritical grass-pack-cpu-20260916",
+      "details": "36 habitat cells,2187tufts,360 alternating native publication samples per arm after72 warmup calls each. Main-thread publication mean376.311->77.853us/cell(-79.31%); p99599->183us,max765->276us. Packing alone244.389us/cell runs on workers. This is not total CPU or FPS reduction."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "FpsCritical grass-pack-timed-20260916:15s timed route,one warmup,one clean sample,one separate CPU diagnostic",
+      "details": "Clean93.1282FPS/10.73789ms,GPU8.48327ms,p9514.430,p9916.658,max25.542ms; saved Dev56 average92.6383/10.79809,GPU8.48512,p9514.5385,p9917.264. Within saved90.99-94.29FPS range:no meaningful FPS gain. Same settings/camera/pixels,grass8778->8081 plus496mineral,zero focus loss,exact1800ticks/451poses and recording channels. Physical cache hit; scenery rebuilt during startup before warmup,so not matching cached-startup acceptance and not a new baseline. Third traversal CPU stream_grass mean50.325us,p991488,max2869; older scope84.437/2405/3639 had intervening changes,not an isolated paired comparison."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Retain verified main-thread publication saving under user small-gain policy; no meaningful FPS or frame-tail gain established.",
+    "Sustained90-120FPS remains unproven:p9514.430ms exceeds11.1ms target; full descent and human/controller review not performed.",
+    "Gravel,texture streaming,retirement/sorting and publication budgeting in the broader task remain unimplemented. No new Fable branches were available at final fetch."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T15:44:55.548114+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "e826dbd89595a057785c3b28c68326c2341703c8",
+      "dev": 56,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "assets/graphics/terrain_grass.gdshader": {
+        "size": 1597,
+        "mtime_ns": 1789332536335243100
+      },
+      "backlog/tasks/AA-20260916-084509-reduce-grass-gravel-texture-streaming-hitches.md": {
+        "size": 6136,
+        "mtime_ns": 1789573448844337100
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 23974,
+        "mtime_ns": 1789573448843015000
+      },
+      "docs/RENDERING.md": {
+        "size": 40838,
+        "mtime_ns": 1789573221772201200
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789512657279656900
+      },
+      "docs/WORLD.md": {
+        "size": 23469,
+        "mtime_ns": 1789573221771197400
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/presentation/alpine_assets.gd": {
+        "size": 21073,
+        "mtime_ns": 1789564235675198500
+      },
+      "scripts/presentation/graphics_quality.gd": {
+        "size": 3345,
+        "mtime_ns": 1789330911395634000
+      },
+      "scripts/presentation/grass_placement.gd": {
+        "size": 5775,
+        "mtime_ns": 1789572794859876300
+      },
+      "scripts/presentation/terrain_grass.gd": {
+        "size": 7437,
+        "mtime_ns": 1789573036698354900
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18224,
+        "mtime_ns": 1789566331946877700
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/terrain_grass_suite.gd": {
+        "size": 11581,
+        "mtime_ns": 1789573036698354900
+      }
+    }
+  }
+}

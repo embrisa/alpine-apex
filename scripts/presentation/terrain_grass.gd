@@ -9,11 +9,13 @@ class CellWork extends RefCounted:
 	var id: int
 	var key: Vector2i
 	var source
-	var items: Array = []
+	var density: float
+	var mesh_bounds: Dictionary
+	var batches: Array = []
 	var milliseconds = 0.0
 	func run() -> void:
 		var started=Time.get_ticks_usec()
-		items=source.cell(key)
+		batches=source.prepare_cell(key,density,mesh_bounds)
 		milliseconds=(Time.get_ticks_usec()-started)/1000.0
 
 var field
@@ -24,6 +26,7 @@ var motion = Motion.new()
 var cells: Dictionary = {}
 var pending: Array[Vector2i] = []
 var mesh_cache: Dictionary = {}
+var mesh_bounds: Dictionary = {}
 var materials: Array[ShaderMaterial] = []
 var last_cell = Vector2i(2147483647,2147483647)
 var distance_m = 85.0
@@ -39,7 +42,9 @@ func build(surface, library, profile) -> void:
 	var catalog: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(MANIFEST))
 	var heights = {}
 	for record in catalog.assets:
-		mesh_cache[record.id+"_lod"+str(int(record.lod))]=load(record.path)
+		var mesh_id=record.id+"_lod"+str(int(record.lod))
+		mesh_cache[mesh_id]=load(record.path)
+		mesh_bounds[mesh_id]=mesh_cache[mesh_id].get_aabb()
 		heights[record.id]=record.height
 	placement=Placement.new(field,heights)
 	for lod in 2:
@@ -102,7 +107,7 @@ func stream(camera_position: Vector3, budget: int = CELLS_PER_FRAME, asynchronou
 		work.erase(at)
 		if frame_costs and frame_costs.enabled and preparation_samples.size()<200000: preparation_samples.append(job.milliseconds)
 		if wanted.has(at) and not cells.has(at):
-			_create_cell(at,job.items); submitted+=1
+			_publish_cell(at,job.batches); submitted+=1
 	var admission=budget-work.size() if asynchronous else budget-submitted
 	for i in mini(maxi(0,admission),pending.size()):
 		var at: Vector2i=pending.pop_front()
@@ -111,29 +116,19 @@ func stream(camera_position: Vector3, budget: int = CELLS_PER_FRAME, asynchronou
 			# and collision broad-phase bounds are read. No scene/GPU work here.
 			var job=CellWork.new(); job.key=at
 			job.source=Placement.new(field,placement.heights)
+			job.density=density; job.mesh_bounds=mesh_bounds
 			job.id=WorkerThreadPool.add_task(job.run,false,"Grass cell")
 			work[at]=job
-		else: _create_cell(at,placement.cell(at))
-func _create_cell(key: Vector2i, items: Array) -> void:
-	var groups: Dictionary = {}
-	for item in items:
-		if item.rank>=density: continue
-		if not groups.has(item.asset): groups[item.asset]=[]
-		groups[item.asset].append(item)
+		else: _publish_cell(at,placement.prepare_cell(at,density,mesh_bounds))
+func _publish_cell(key: Vector2i, prepared: Array) -> void:
 	var batches: Array = []
-	for id in groups:
+	for group in prepared:
 		for lod in 2:
-			var mesh: Mesh=mesh_cache[id+"_lod"+str(lod+1)]
+			var mesh: Mesh=mesh_cache[group.asset+"_lod"+str(lod+1)]
 			var mm=MultiMesh.new(); mm.transform_format=MultiMesh.TRANSFORM_3D; mm.use_custom_data=true
-			mm.mesh=mesh; mm.instance_count=groups[id].size()
-			var bounds=AABB()
-			for i in groups[id].size():
-				var item: Dictionary=groups[id][i]
-				mm.set_instance_transform(i,item.pose)
-				mm.set_instance_custom_data(i,Color(item.phase,item.height,item.coverage,1))
-				var box: AABB=item.pose*mesh.get_aabb()
-				bounds=box if i==0 else bounds.merge(box)
-			mm.custom_aabb=bounds.grow(.65) # > maximum blade sway + swept bend.
+			mm.mesh=mesh; mm.instance_count=group.buffer.size()/16
+			mm.buffer=group.buffer
+			mm.custom_aabb=group.bounds[lod] # Includes blade sway + swept bend.
 			var batch=MultiMeshInstance3D.new(); batch.multimesh=mm; batch.material_override=materials[lod]
 			batch.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			batch.gi_mode=GeometryInstance3D.GI_MODE_DISABLED

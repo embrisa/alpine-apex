@@ -292,8 +292,13 @@ ones). It neither scans the whole mountain each frame nor persists grass data.
 New worlds own fresh residency and swept influence; cancellation drops pending
 cells. Every job owns its placement RNG/noise and result and reads the completed,
 immutable terrain/ecology and mineral broad-phase bounds. It creates no nodes,
-resources or GPU uploads. The main thread only collects completed jobs, discards
-obsolete cells and submits their unchanged transforms. Density changes,
+resources or GPU uploads. Workers also filter the fixed density, group assets,
+pack the shared 16-float transform/custom-data buffer and merge both LOD bounds
+with the existing 0.65 m sway margin. Mesh AABBs are copied to value data when
+grass is built; workers do not access mesh resources. The main thread collects
+completed jobs, discards obsolete cells, creates the render resources and assigns
+each buffer and bound once per LOD. Preparation timings include this packing;
+`stream_grass` measures main-thread collection/publication. Density changes,
 cancellation and teardown join the bounded outstanding jobs before releasing
 inputs; ordinary frames never wait for unfinished preparation. Explicit synchronous
 `stream` calls remain available for finite QA population/readback checks.

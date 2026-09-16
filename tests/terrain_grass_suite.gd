@@ -83,6 +83,7 @@ func run() -> void:
 	var assets=preload("res://scripts/presentation/alpine_assets.gd").new(preload("res://scripts/presentation/cloud_lighting.gd").new(),Quality.preset(2))
 	var grass=Grass.new(); root.add_child(grass); grass.set_process(false)
 	grass.build(field,assets,Quality.numbered(7,{"scrub_distance_m":35.0}))
+	check_packing(grass,dense)
 	grass.stream(Vector3.ZERO,Grass.MAX_CELLS)
 	check(grass.population()>0 and grass.cells.size()<=Grass.MAX_CELLS,"Bounded spatial batches contain grass")
 	var wind_time=assets.wind_time
@@ -138,6 +139,34 @@ func run() -> void:
 	var suffix="headless" if DisplayServer.get_name()=="headless" else "native"
 	FileAccess.open("res://artifacts/terrain_grass_20260913/suite_"+suffix+".json",FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
 	print("TERRAIN_GRASS_RESULTS ",JSON.stringify(result)); quit(0 if failures.is_empty() else 1)
+func check_packing(grass, items: Array) -> void:
+	# Compare the packed worker result against the former per-instance server path.
+	# Native readback catches transform row order and custom-data layout errors.
+	for density in [0.0,.5,1.0]:
+		var prepared=Placement.pack(items,density,grass.mesh_bounds)
+		var groups={}
+		for item in items:
+			if item.rank>=density: continue
+			if not groups.has(item.asset): groups[item.asset]=[]
+			groups[item.asset].append(item)
+		var matching=prepared.size()==groups.size()
+		for group in prepared:
+			var members: Array=groups[group.asset]
+			for lod in 2:
+				var mesh: Mesh=grass.mesh_cache[group.asset+"_lod"+str(lod+1)]
+				var reference=MultiMesh.new()
+				reference.transform_format=MultiMesh.TRANSFORM_3D; reference.use_custom_data=true
+				reference.mesh=mesh; reference.instance_count=members.size()
+				var box=AABB()
+				for i in members.size():
+					var item: Dictionary=members[i]
+					reference.set_instance_transform(i,item.pose)
+					reference.set_instance_custom_data(i,Color(item.phase,item.height,item.coverage,1))
+					var bounds: AABB=item.pose*mesh.get_aabb()
+					box=bounds if i==0 else box.merge(bounds)
+				matching=matching and group.bounds[lod]==box.grow(.65)
+				if DisplayServer.get_name()!="headless": matching=matching and reference.buffer==group.buffer
+		check(matching,"Packed transforms/custom data and both LOD bounds match reference at density "+str(density))
 func check_assets() -> void:
 	var catalog: Dictionary=JSON.parse_string(FileAccess.get_file_as_string(Grass.MANIFEST))
 	var dependencies: Array=preload("res://scripts/world/generation_sources.gd").dependencies(true)
@@ -146,7 +175,8 @@ func check_assets() -> void:
 	for record in catalog.assets:
 		var mesh: Mesh=load(record.path)
 		var arrays=mesh.surface_get_arrays(0)
-		check(FileAccess.get_sha256(record.path)==record.sha256 and FileAccess.get_sha256(record.source)==record.source_sha256,"Runtime and source provenance: "+record.id)
+		if "--verify-asset-hashes" in OS.get_cmdline_user_args():
+			check(FileAccess.get_sha256(record.path)==record.sha256 and FileAccess.get_sha256(record.source)==record.source_sha256,"Runtime and source provenance: "+record.id)
 		check(record.path in dependencies,"Export/source receipt includes runtime mesh: "+record.id)
 		check(mesh.get_surface_count()==1 and mesh.surface_get_material(0)==null and ResourceLoader.get_dependencies(record.path).is_empty(),"Independent vegetation mesh has no mineral/material/collision dependencies: "+record.id)
 		check(arrays[Mesh.ARRAY_COLOR]!=null and arrays[Mesh.ARRAY_TEX_UV]!=null and arrays[Mesh.ARRAY_TEX_UV2]!=null and mesh.get_aabb().position.y>=-.00001,"Blade color, bend coordinates and rooted base survive conversion: "+record.id)

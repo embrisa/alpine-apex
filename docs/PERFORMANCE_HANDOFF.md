@@ -37,6 +37,43 @@ Snapshot for Fable's next experiments. Current contracts and commands remain in
 
 ## Windows measurements to reuse
 
+### Grass worker packing, 16 September
+
+Grass workers now prepare the shared instance buffer and both LOD bounds.
+The main thread still owns render resources/publication. Population, placement,
+materials, 18-26 m blend, draw distances and three-cell budget are unchanged.
+On 36 forest-habitat cells (2,187 tufts), 360 alternating native publications per
+arm measured **376.31 -> 77.85 us/cell (-79.3%)** on the main thread. Packing
+alone averaged 244.39 us/cell off-thread; this is a scope transfer, not a 79%
+reduction in total CPU work or frame time.
+
+One warmed, capture/profile-free timed route measured **93.13 FPS / 10.738 ms**,
+GPU **8.483 ms**, p95 **14.430 ms**, p99 **16.658 ms**. The saved Dev56 average
+is 92.64 FPS / 10.798 ms, GPU 8.485 ms, p95 14.539 / p99 17.264 ms;
+its individual FPS range is 90.99-94.29. No meaningful FPS/tail gain is established.
+The physical cache hit; scenery rebuilt during startup before warmup. This is
+a comparison limitation, not a matching cached-startup measurement. No repeat
+control or cache-only confirmation was run: retain the verified publication
+saving, and do not replace the reusable timed reference with this observation.
+
+A separate third traversal measured `stream_grass` mean **50.33 us**, p99
+**1,488 us**, max **2,869 us**. The older `recording-direct-fields-20260916`
+diagnostic was 84.44 / 2,405 / 3,639 us, but intervening rendering changes and
+different frame counts preclude treating that as an isolated paired saving.
+Worker preparation now includes packing and must not be compared as though its
+scope were unchanged. Clean route: zero unfocused frames, exact 1,800 ticks /
+451 poses, identical recording channels, settings/camera and 8,778 -> 8,081
+ground tufts plus 496 mineral tufts. No screenshot/profiling overhead in row 2.
+
+Evidence: `artifacts/grass_pack_20260916/` (paired CPU, visual sheet, regressions)
+and `artifacts/pc_environment/grass-pack-timed-20260916/` (row 1 warmup,
+row 2 clean, row 3 CPU diagnostic). Native grass suite: 89 checks; headless
+grass and runtime suites: 86 and 192 checks. Matched mixed-map close, 18/22/26 m
+and cell-boundary stills inspected; full descent/human acceptance remains open.
+The broader gravel/texture-streaming task remains partly unimplemented.
+
+### Earlier successive samples
+
 RX 9070, Godot 4.7.2 custom ed1daf0bf, D3D12, 3840x2160 output, 2880x1620 internal,
 High, Auto FSR 4.1.1, frame generation/GI off, clear/day, same 1,800-input dense
 forest route. One warmup followed by one capture-free 15-second measured sample

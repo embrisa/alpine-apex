@@ -545,7 +545,11 @@ physics/runtime suites separately verify 120 Hz skiing and real scene lifecycle.
 submission to the normal three-cell process budget. This is functional evidence.
 Source/export and local behavior checks are in `tests/test_runtime_grass_assets.py`
 and `tests/terrain_grass_suite.gd`. Native MultiMesh readback is checked natively;
-the headless dummy renderer is not geometry-submission evidence.
+the headless dummy renderer is not geometry-submission evidence. The suite also
+compares worker-packed transforms/custom data and both LOD bounds against the
+per-instance reference at zero, half and full density. Asset hash audits are
+skipped by default; only an explicit `--verify-asset-hashes` user argument enables
+that provenance check. Structural asset and behavior checks remain enabled.
 
 ```powershell
 python tests/test_runtime_grass_assets.py

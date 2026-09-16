@@ -64,6 +64,37 @@ func cell(key: Vector2i) -> Array:
 	result.sort_custom(func(a,b): return a.rank<b.rank)
 	return result
 
+func prepare_cell(key: Vector2i, density: float, mesh_bounds: Dictionary) -> Array:
+	return pack(cell(key),density,mesh_bounds)
+
+static func pack(items: Array, density: float, mesh_bounds: Dictionary) -> Array:
+	# Worker-owned arrays and value bounds only. Mesh resources, scene nodes and
+	# RenderingServer publication stay on the main thread. Both LODs share data.
+	var groups: Dictionary = {}
+	for item in items:
+		if item.rank>=density: continue
+		if not groups.has(item.asset): groups[item.asset]=[]
+		groups[item.asset].append(item)
+	var result: Array = []
+	for id in groups:
+		var members: Array=groups[id]
+		var buffer=PackedFloat32Array(); buffer.resize(members.size()*16)
+		var boxes: Array[AABB]=[AABB(),AABB()]
+		var meshes: Array[AABB]=[mesh_bounds[id+"_lod1"],mesh_bounds[id+"_lod2"]]
+		for i in members.size():
+			var item: Dictionary=members[i]
+			var pose: Transform3D=item.pose
+			var offset=i*16
+			buffer[offset]=pose.basis.x.x; buffer[offset+1]=pose.basis.y.x; buffer[offset+2]=pose.basis.z.x; buffer[offset+3]=pose.origin.x
+			buffer[offset+4]=pose.basis.x.y; buffer[offset+5]=pose.basis.y.y; buffer[offset+6]=pose.basis.z.y; buffer[offset+7]=pose.origin.y
+			buffer[offset+8]=pose.basis.x.z; buffer[offset+9]=pose.basis.y.z; buffer[offset+10]=pose.basis.z.z; buffer[offset+11]=pose.origin.z
+			buffer[offset+12]=item.phase; buffer[offset+13]=item.height; buffer[offset+14]=item.coverage; buffer[offset+15]=1.0
+			for lod in 2:
+				var box: AABB=pose*meshes[lod]
+				boxes[lod]=box if i==0 else boxes[lod].merge(box)
+		result.append({"asset":id,"buffer":buffer,"bounds":[boxes[0].grow(.65),boxes[1].grow(.65)]})
+	return result
+
 func _mineral_overlap(p: Vector3) -> bool:
 	if not "geology" in field or field.geology==null: return false
 	var collision = field.geology.collision

@@ -101,5 +101,17 @@ None
 
 ## Completion record
 
-Pending implementation. Record streaming scope statistics before/after,
-tests, rendered evidence, guide updates and commit/push references.
+Partially implemented on 2026-09-16: grass worker buffer/bounds preparation,
+with the existing three-cell publication budget retained. The paired native
+publication test measured 376.31 -> 77.85 us/cell (-79.3% main-thread cost);
+packing itself moves to workers. Exact packed-data/bounds, density/cancellation,
+asynchronous population and matched rendered checks passed. One clean timed
+route was 93.13 FPS / 10.738 ms against the saved 92.64 / 10.798 average;
+no meaningful FPS gain claimed. See the grass section of
+[Performance handoff](../../docs/PERFORMANCE_HANDOFF.md#grass-worker-packing-16-september)
+for scope statistics, cache limitation and compact evidence paths.
+
+Remaining: gravel/image preparation, texture loading, cell retirement/sorting,
+publication budgeting and their separate affected-route verification. Keep the
+task ready for this remaining work; this milestone does not satisfy every
+acceptance item above. Development note: `158a50a0f00841739760caa5cada6929`.
