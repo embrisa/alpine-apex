@@ -62,7 +62,7 @@ at endpoints, fractional frames and loop seams, and verifies result isolation
 and complete grip ancestry. `tests/performance_descent.gd` connects the opt-in
 frame profiler to source/blend, posture, tracking, pelvis, hierarchy, grip,
 procedural, equipment and writer subscopes. These overlap the outer fixed-tick
-and render scopes and must not be summed. Completed 30 Hz ghost evaluations
+and render scopes and must not be summed. Completed ghost evaluations
 remain separate from visible render interpolation. Follow [Validation](VALIDATION.md#performance-method)
 for matched bounded production comparisons; detailed optimization evidence is
 in `artifacts/animation_cpu/`.
@@ -116,8 +116,9 @@ Editable source/provenance is in [Assets](ASSETS.md#skier-and-animation-sources)
 
 ## Recorded ghost presentation
 
-`ghost_pose.gd` captures completed writer output at session-owned 30 Hz sample
-times and exact initial/finish/crash/recovery boundaries. It records 24 named
+`ghost_pose.gd` captures completed writer output at the session-owned sample
+cadence described in [Racing](RACING.md#recording-and-ghosts), plus exact
+initial/finish/crash/recovery boundaries. It records 24 named
 local bone transforms, root, both skis/poles and final accepted track data.
 Capture follows `SkierVisual.pose`, including current authored/procedural blend,
 pole pushing, grabs and fitting. This extra completed-pose evaluation neither

@@ -1,0 +1,225 @@
+{
+  "schema": 1,
+  "id": "48351f21ca224b2aacddcc0152d1315c",
+  "summary": "Reduce ghost recording to 20 Hz while retaining exact race inputs and boundaries",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Ghost recording",
+    "Timed-run CPU cost"
+  ],
+  "owned_paths": [
+    "docs/ANIMATION.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RACING.md",
+    "scripts/main.gd",
+    "scripts/racing/run_replay.gd",
+    "tests/competitive_suite.gd",
+    "tests/ghost_focused_native.gd",
+    "tests/ghost_playtest.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "scripts/core/run_session.gd",
+    "scripts/presentation/ghost_pose.gd",
+    "scripts/presentation/skier_visual.gd",
+    "tests/crash_replay_suite.gd",
+    "tests/exact_clock_suite.gd",
+    "tests/ghost_archive_suite.gd",
+    "tests/ghost_retry_cache_suite.gd",
+    "tests/physics_suite.gd",
+    "tests/runtime_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "120 Hz solver and authoritative inputs are unchanged; only interpolated ghost snapshot cadence changes."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Replay format 7 already stores exact sample timestamps; the same decoder reads 20 Hz and existing 30 Hz recordings."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No schema, compatibility key or authoritative simulation change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No schema, compatibility key or authoritative simulation change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No schema, compatibility key or authoritative simulation change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No schema, compatibility key or authoritative simulation change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No schema, compatibility key or authoritative simulation change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "scripts/test_pc_environment.ps1 -Suites physics_suite,runtime_suite,ghost_archive_suite,ghost_retry_cache_suite,exact_clock_suite,crash_replay_suite -OutputDirectory artifacts/ghost_cadence_20260916/regression",
+      "result": "passed",
+      "details": "535 checks passed. Full physics/runtime retained; compact archive/retry/clock/crash fixtures. No solver, input or clock change."
+    },
+    {
+      "kind": "automated",
+      "command": "Native --check-only tests/ghost_focused_native.gd (includes ghost_playtest.gd); tests/competitive_suite.gd; guarded recording_check.gd",
+      "result": "passed",
+      "details": "Cadence-aware diagnostics parse; paired route inputs/tick kinds and 151 common physical/presentation endpoints match exactly. Competitive integration suite not rerun: unrelated existing exact-clock/PB failures remain; current exact_clock suite passed 95 checks."
+    },
+    {
+      "kind": "rendered",
+      "command": "Shared native artifacts/ghost_cadence_20260916/review.gd, ghost-cadence-accepted-review-20260916",
+      "result": "passed",
+      "details": "676 checks; seven actions, 1253 interpolated playback observations; 20 and 30 Hz codec roundtrip; exact fractional finishes, common poses and 50 ms maximum routine snapshot gaps. Reviewed matched stills: boots/grips remain connected, coarser pole motion accepted by user. Jump/grab each include 79 airborne ticks and landing. Independent continuous human motion review remains pending."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical ghost-cadence-timed-20260916 and ghost-cadence-pair-20260916, 15-second dense route, captured images/profiling excluded from accepted FPS rows",
+      "result": "passed",
+      "details": "Initial clean 109.03 FPS; unexpectedly faster than historical 92.64 FPS justified one current same-process frozen control/confirmation: 104.24 to 110.60 FPS (+6.1%), 9.594 to 9.041 ms, p95 13.985 to 12.295 ms, p99 16.399 to 14.406 ms. All focused, 1800 ticks exact. Routine captures 450 to 300; separate diagnostic mean1077.29us/capture. Full scene unchanged; target frame-time consistency/full-route acceptance still unproven."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human continuous ghost-motion review and full-descent frame-time acceptance remain pending. Small coarser ghost motion is explicitly accepted by the user.",
+    "The paired route saving does not establish a sustained full-game 90-120 FPS result; p95 remains above 11.1ms."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T16:48:04.394560+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "2129c45e2880dee73f05312493decc66643baf53",
+      "dev": 60,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ANIMATION.md": {
+        "size": 24572,
+        "mtime_ns": 1789577233913497400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 31025,
+        "mtime_ns": 1789577283862224900
+      },
+      "docs/RACING.md": {
+        "size": 20164,
+        "mtime_ns": 1789577233913497400
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/run_session.gd": {
+        "size": 10855,
+        "mtime_ns": 1789209670580243800
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/main.gd": {
+        "size": 87308,
+        "mtime_ns": 1789576037960478000
+      },
+      "scripts/presentation/ghost_pose.gd": {
+        "size": 6497,
+        "mtime_ns": 1789565757773141800
+      },
+      "scripts/presentation/skier_visual.gd": {
+        "size": 18238,
+        "mtime_ns": 1789572082273438600
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789576668695286100
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/competitive_suite.gd": {
+        "size": 19301,
+        "mtime_ns": 1789576711146475700
+      },
+      "tests/crash_replay_suite.gd": {
+        "size": 7951,
+        "mtime_ns": 1789207999428929300
+      },
+      "tests/exact_clock_suite.gd": {
+        "size": 20798,
+        "mtime_ns": 1789216227756135100
+      },
+      "tests/ghost_archive_suite.gd": {
+        "size": 9409,
+        "mtime_ns": 1789210620653273300
+      },
+      "tests/ghost_focused_native.gd": {
+        "size": 40044,
+        "mtime_ns": 1789576711144973500
+      },
+      "tests/ghost_playtest.gd": {
+        "size": 27149,
+        "mtime_ns": 1789576711118784200
+      },
+      "tests/ghost_retry_cache_suite.gd": {
+        "size": 16726,
+        "mtime_ns": 1789209781260983800
+      },
+      "tests/physics_suite.gd": {
+        "size": 18419,
+        "mtime_ns": 1789162199639990200
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41041,
+        "mtime_ns": 1789319651640207700
+      }
+    }
+  }
+}

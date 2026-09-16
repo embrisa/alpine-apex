@@ -51,7 +51,7 @@ func run() -> void:
 	check(session.save_error.is_empty() and FileAccess.file_exists(Records.path_for(session.record_path())),"PB, splits, history and ghost save together")
 	check(session.split_times.all(func(t): return t>0) and session.split_times[0]<session.split_times[1] and session.split_times[1]<session.split_times[2],"Real ski run produces three ordered cumulative approach splits")
 	check(absf(first_replay.duration-session.elapsed)<0.000001 and first_replay.inputs.size()==first_replay.ticks*Replay.INPUT_WIDTH,"Replay retains exact finish time and every 120 Hz tick input")
-	check(first_replay.samples.size()<first_replay.ticks/3+3,"Snapshot storage is bounded to 30 Hz plus the exact finish")
+	check(first_replay.samples.size()<=first_replay.ticks/Replay.SAMPLE_EVERY+2,"Snapshot storage is bounded to the capture cadence plus start and exact finish")
 	var last_position: Vector3 = first_replay.pose_at(first_replay.duration).position
 	check(absf((Basis(Vector3.UP,race.finish_heading).transposed()*(last_position-race.finish)).z)<0.01,"Final ghost sample ends on the sub-tick gate-plane intersection")
 	var loaded = Session.new()

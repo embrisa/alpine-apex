@@ -221,7 +221,7 @@ func _focused_case(spec: Dictionary) -> void:
 	visual.reset_animation(sim); visual.pose(sim,1.0)
 	var replay = Replay.new(); var identity = Replay.key("focused-"+spec.name)
 	replay.begin(sim,identity); replay.capture_presentation(0.0,Pose.capture(visual,sim,surface))
-	var result = {"spec":spec,"initial_state":_physical(sim,surface),"initialization":"Explicit +6 m flight and (0,3,18) m/s" if spec.name=="flight_180_switch" else "Supported analytic start; initial tangential speed only", "physics_hz":120,"record_hz":30,"trace":[],"playback":[],"shots":[],"events":{},"counts":{"hard":0,"one_ski":0,"air":0,"rock":0,"switch_ground":0,"jump":0,"grab":0,"landings":0},"max_yaw":0.0,"source_grip_m":0.0,"source_boot_m":0.0,"ghost_grip_m":0.0,"ghost_boot_m":0.0,"endpoint_position_m":0.0,"endpoint_basis":0.0,"endpoint_comparisons":0,"source_interpolations":0,"ghost_interpolations":0,"track_rejections":0,"track_reentries":0,"one_ski_break_frames":0,"air_break_frames":0,"rock_break_frames":0,"contact_fidelity":true,"max_reentry_length_m":0.0,"no_false_tracks":true,"crash":""}
+	var result = {"spec":spec,"initial_state":_physical(sim,surface),"initialization":"Explicit +6 m flight and (0,3,18) m/s" if spec.name=="flight_180_switch" else "Supported analytic start; initial tangential speed only", "physics_hz":120,"record_hz":120.0/Replay.SAMPLE_EVERY,"trace":[],"playback":[],"shots":[],"events":{},"counts":{"hard":0,"one_ski":0,"air":0,"rock":0,"switch_ground":0,"jump":0,"grab":0,"landings":0},"max_yaw":0.0,"source_grip_m":0.0,"source_boot_m":0.0,"ghost_grip_m":0.0,"ghost_boot_m":0.0,"endpoint_position_m":0.0,"endpoint_basis":0.0,"endpoint_comparisons":0,"source_interpolations":0,"ghost_interpolations":0,"track_rejections":0,"track_reentries":0,"one_ski_break_frames":0,"air_break_frames":0,"rock_break_frames":0,"contact_fidelity":true,"max_reentry_length_m":0.0,"no_false_tracks":true,"crash":""}
 	var endpoints: Dictionary = {0:_world_pose(visual)}
 	result.producer_cpu_us = 0; result.playback_cpu_us = 0; result.decode_ms = 0.0
 	var previous_grounded: bool = sim.grounded
@@ -396,8 +396,8 @@ func _play_recording(spec: Dictionary,surface,replay,endpoints: Dictionary,resul
 			contacts.append({"supported":response.supported,"track_contact":response.track_contact,"rock_query":int(rock),"live":live,"anchor_finite":ghost.snow_tracks.foot_history[i].is_finite(),"position":_v(p),"live_gpu":Array(live_gpu.slice(i*8,i*8+8))})
 		# Non-vacuous per-case agreement with the actual completed source state.
 		# At intermediate frames the codec conservatively gates both endpoints;
-		# compare exact 30 Hz endpoints with their original physical tick only.
-		if tick>0 and tick%4==0 and tick<=result.trace.size():
+		# compare recorded endpoints with their original physical tick only.
+		if tick>0 and endpoints.has(tick) and tick<=result.trace.size():
 			var original: Dictionary = result.trace[tick-1]
 			if not original.grounded and contacts.all(func(c): return not c.live and not c.anchor_finite): result.air_break_frames += 1
 			if original.contacts==1:

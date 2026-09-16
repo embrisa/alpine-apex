@@ -119,7 +119,7 @@ func _finish() -> void:
 	var sources: Dictionary = {}
 	for path in ["tests/ghost_playtest.gd","scripts/presentation/ghost_pose.gd","scripts/presentation/personal_best_ghost.gd","scripts/presentation/skier_visual.gd","scripts/presentation/skier_full_motion.gd","scripts/presentation/snow_tracks.gd","assets/graphics/ghost_skier.gdshader"]:
 		sources[path] = FileAccess.get_sha256("res://"+path)
-	var report = {"source_sha256":sources,"engine":Engine.get_version_info().string,"checks":checks,"failures":failures,"profiles":metrics,"profile_mode":profiling,"production_coverage":production_coverage,"capture_wall_ms":capture_us/1000.0,"device":RenderingServer.get_video_adapter_name(),"pixels":[actual_pixels.x,actual_pixels.y],"framebuffers":framebuffer_checks,"isolated_store":fixture_store,"human_acceptance":"pending","production_capture":"30 Hz after actual fixed animation step"}
+	var report = {"source_sha256":sources,"engine":Engine.get_version_info().string,"checks":checks,"failures":failures,"profiles":metrics,"profile_mode":profiling,"production_coverage":production_coverage,"capture_wall_ms":capture_us/1000.0,"device":RenderingServer.get_video_adapter_name(),"pixels":[actual_pixels.x,actual_pixels.y],"framebuffers":framebuffer_checks,"isolated_store":fixture_store,"human_acceptance":"pending","production_capture":"Session-owned sample cadence after actual fixed animation step"}
 	var file = FileAccess.open(output.path_join("profile_results.json" if profiling else "visual_results.json"),FileAccess.WRITE)
 	if file: file.store_string(JSON.stringify(report,"\t")); file.close()
 	else: check(false,"Native report could not be written")

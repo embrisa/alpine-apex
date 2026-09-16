@@ -140,9 +140,12 @@ cleanup belong to [Presentation](PRESENTATION.md#crash-recovery-controls).
 
 `racing/run_replay.gd` format 7 records nine float32 intent fields at 120 Hz:
 steer, tuck, brake, jump release, air pitch, air yaw, grab, limited tilt and
-`jump_held`. Physical snapshots occur every fourth tick (30 Hz), with initial,
+`jump_held`. Physical snapshots occur every sixth tick (20 Hz), with initial,
 exact fractional finish and explicit crash/recovery boundary samples. Completed
 pole phase/intensity/power survive, with wrap-aware phase interpolation.
+The coarser ghost motion reduces completed-pose capture work; the live rider
+keeps its render cadence. Timestamped playback also reads existing 30 Hz records
+without changing format 7, authoritative inputs or race timing.
 
 `presentation/ghost_pose.gd` also captures the final root, 24 local bone poses,
 both skis, both poles and evaluated per-ski track data after production fitting.

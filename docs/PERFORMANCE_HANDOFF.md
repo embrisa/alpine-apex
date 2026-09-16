@@ -37,6 +37,33 @@ Snapshot for Fable's next experiments. Current contracts and commands remain in
 
 ## Windows measurements to reuse
 
+### Ghost recording cadence, 16 September (current timed reference)
+
+Routine completed-pose recording now runs at 20 Hz; 120 Hz inputs, the live rider,
+exact race clock and explicit finish/crash/recovery boundaries retain their owners.
+The user accepted coarser ghost motion. Seven compact action reviews passed with
+connected boots/grips; fast pole tips differed most (up to 33 cm between samples).
+676 timeline/codec/comparison checks and 535 physics/runtime/archive/retry/clock/
+crash checks passed. This is author visual review, not human motion acceptance.
+
+The initial clean candidate measured **109.03 FPS / 9.171 ms**, but the older
+92.64 FPS average overstated the attributable gain. One same-process frozen
+30 Hz control and 20 Hz confirmation measured **104.24 -> 110.60 FPS (+6.1%)**,
+**9.594 -> 9.041 ms**, GPU **7.752 -> 7.480 ms**, p95 **13.985 -> 12.295 ms**,
+p99 **16.399 -> 14.406 ms**. Both reproduced the route with zero unfocused frames;
+4K High, Auto 75% FSR 4.1.1, FG off, density, camera and physics stayed matched.
+Recording fell from 451 to 301 stored poses including the initial endpoint.
+Separate profiling counted 300 routine captures at 1.077 ms each: removing ten
+per second avoids about 10.8 ms CPU work per second at that measured call cost.
+That scope estimate is not a 10.8 ms saving per rendered frame.
+
+Reuse the two clean candidate samples: **109.81 FPS / 9.106 ms**, GPU 7.561 ms,
+median-of-run p95 12.594 / p99 14.941 ms; individual FPS 109.03-110.60.
+`artifacts/ghost_cadence_20260916/reusable_timed_baseline.json` supersedes the
+Dev56 timed reference for subsequent matching candidates. Raw receipts are
+`artifacts/pc_environment/ghost-cadence-{timed,pair}-20260916/`.
+The p95 target and sustained full-route 90-120 FPS remain unproven.
+
 ### Forest batch settings, 16 September
 
 Batch setup now publishes final culling/shadow values once. In the paired native

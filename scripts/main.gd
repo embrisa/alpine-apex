@@ -1155,7 +1155,7 @@ func open_competition() -> void:
 
 func _capture_ghost_pose(fraction: float = 1.0) -> void:
 	if not session.recording or not session.recording.wants_presentation_sample(): return
-	# Completed 30 Hz samples plus exact endpoints, independent of render cadence.
+	# Completed ghost samples plus exact endpoints, independent of render cadence.
 	# Read only the production writer after the fixed animation step. No extra
 	# simulation or animation step; render restores its ordinary interpolation.
 	var started = frame_costs.begin()
