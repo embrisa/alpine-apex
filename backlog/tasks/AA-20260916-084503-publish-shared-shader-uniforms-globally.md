@@ -65,14 +65,14 @@ in the committed receipts.
 ## Agreed decisions and scope
 
 Own the listed presentation scripts and the shader declarations they feed
-(`assets/graphics/cloud_field.gdshaderinc` and consumers, wind receivers, grass
+(`assets/cloud_field.gdshaderinc` and consumers, wind receivers, grass
 and gravel shaders, race beam shader). Keep every visual identical, including
 pause behaviour (wind and cloud time must still freeze when the game pauses, so
 use a script-driven global rather than `TIME`). Preserve
 [the weather](../../docs/RENDERING.md#weather) and
 [forest lighting](../../docs/RENDERING.md#terrain-forests-and-lighting) contracts
 and the FidelityFX renderer patch. Exclude ghost tinting and any shader ALU
-changes (see [the vertex shader task](AA-20260916-084514-reduce-vertex-shader-transcendentals.md)).
+changes (see [the vertex shader task](AA-20260916-084513-reduce-vertex-shader-transcendentals.md)).
 
 ## Implementation approach
 
