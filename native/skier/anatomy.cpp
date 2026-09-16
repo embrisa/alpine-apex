@@ -5,6 +5,7 @@
 #include <godot_cpp/variant/typed_array.hpp>
 #include <algorithm>
 #include <cmath>
+#include <vector>
 using namespace godot;
 
 // Presentation-only port of the retained Anatomy.fit_pelvis and its called
@@ -18,6 +19,14 @@ class AlpineSkierAnatomy : public RefCounted {
         Basis elbow_zero;
         double rest_bend;
     } sides[2];
+    struct TrackedBone {
+        String name;
+        Vector3 offset;
+        std::vector<int> grip_chain;
+        bool forearm = false;
+        int side = 0;
+    };
+    std::vector<TrackedBone> tracked_bones;
     static constexpr double pi = 3.14159265358979323846;
     static double rad(double degrees) { return degrees * (pi / 180.0); }
     static Vector3 mul(Vector3 v, double scalar) { return v * real_t(scalar); }
@@ -70,6 +79,46 @@ class AlpineSkierAnatomy : public RefCounted {
         return from_vector(mul(v.normalized(),limited))*Basis(axis,real_t(soft_limit(angle,-rad(twist_degrees),rad(twist_degrees))));
     }
     static double lerp_scalar(double from, double to, double weight) { return from+(to-from)*weight; }
+    static double smooth(double low, double high, double value) {
+        double t=std::clamp((value-low)/(high-low),0.0,1.0);
+        return t*t*(3.0-2.0*t);
+    }
+    Basis tracked_grip(int index, Basis original, const TypedArray<Quaternion> &tracked, Vector3 action) const {
+        const TrackedBone &bone=tracked_bones[index];
+        double sum=double(action.x)+double(action.y)+double(action.z);
+        double amount=std::clamp(sum,0.0,1.0);
+        if (amount<.00001 || bone.grip_chain.empty()) return original;
+        // Rebuild this arm after its parents have advanced, including again
+        // for the hand after the forearm advances. Never cache a dynamic pose.
+        Basis forearm, arm;
+        Vector3 wrist;
+        for (int ancestor : bone.grip_chain) {
+            wrist+=forearm.xform(tracked_bones[ancestor].offset);
+            arm=forearm;
+            forearm=forearm*Basis(Quaternion(tracked[ancestor]));
+        }
+        const Side &side=sides[bone.side];
+        double sign=bone.side==0 ? -1.0 : 1.0;
+        Basis hinge=local_limit(bone.side==0 ? "RightForeArm" : "LeftForeArm",original,0.0,0.0);
+        if (bone.forearm) forearm=arm*hinge;
+        wrist+=forearm.xform(side.arm_lower);
+        Vector3 mix=action/real_t(std::max(sum,.00001));
+        Vector3 trail=Vector3(sign*(.24*mix.x+.12*mix.y+.18*mix.z),-.62,-1.0).normalized();
+        Vector3 passage(sign*.38,-.05,0.0), grip=wrist, corridor=trail;
+        for (int iteration=0;iteration<3;++iteration) {
+            passage.y=real_t(lerp_scalar(-.05,std::min(-.05,double(grip.y)-.20),mix.z));
+            corridor=(passage-grip).normalized();
+            Vector3 aim_z=-corridor, aim_x=forearm.get_column(0).slide(aim_z).normalized();
+            grip=wrist+Basis(aim_x,aim_z.cross(aim_x),aim_z).xform(Vector3(sign*.070,0,.018));
+        }
+        double near_body=1.0-smooth(.32,.48,std::abs(double(wrist.x)));
+        double route=(double(mix.y)+double(mix.z)+double(mix.x)*near_body)*smooth(.08,.32,wrist.z);
+        trail=trail.slerp(corridor,real_t(route)).normalized();
+        Vector3 z=-trail, x=forearm.get_column(0).slide(z).normalized();
+        Basis wanted=forearm.transposed()*Basis(x,z.cross(x),z);
+        if (bone.forearm) wanted=hinge*Basis(side.arm_lower_unit,real_t(angle_twist(wanted,side.arm_lower_unit)));
+        return original.orthonormalized().slerp(wanted.orthonormalized(),real_t(amount));
+    }
     static Vector3 joint(Vector3 a, Vector3 b, double first, double second, Vector3 hint) {
         Vector3 delta = b-a;
         double length = std::clamp(double(delta.length()), std::abs(first-second)+.0001, first+second-.0001);
@@ -114,8 +163,56 @@ protected:
         ClassDB::bind_method(D_METHOD("configure","rest_sides"),&AlpineSkierAnatomy::configure);
         ClassDB::bind_method(D_METHOD("fit_pelvis","hips","pelvis","ankles","boots"),&AlpineSkierAnatomy::fit_pelvis);
         ClassDB::bind_method(D_METHOD("local_limit","id","rotation","pole_carry","forearm_carry"),&AlpineSkierAnatomy::local_limit);
+        ClassDB::bind_method(D_METHOD("configure_tracking","names","parents","rest","chains"),&AlpineSkierAnatomy::configure_tracking);
+        ClassDB::bind_method(D_METHOD("track_pose","requested","current","velocities","action","pole_carry","forearm_carry","dt"),&AlpineSkierAnatomy::track_pose);
     }
 public:
+    void configure_tracking(Array names, PackedInt32Array parents, Dictionary rest, Dictionary chains) {
+        ERR_FAIL_COND(names.size()!=parents.size());
+        tracked_bones.clear();
+        tracked_bones.resize(names.size());
+        for (int i=0;i<names.size();++i) {
+            TrackedBone &bone=tracked_bones[i];
+            bone.name=names[i];
+            bone.side=bone.name.begins_with("Right") ? 0 : 1;
+            bone.forearm=bone.name.ends_with("ForeArm");
+            if (parents[i]>=0 && rest.has(names[i])) {
+                ERR_FAIL_COND(!rest.has(names[parents[i]]));
+                bone.offset=Vector3(rest[names[i]])-Vector3(rest[names[parents[i]]]);
+            }
+            if (chains.has(names[i])) {
+                PackedInt32Array chain=chains[names[i]];
+                int previous=-1;
+                for (int j=0;j<chain.size();++j) {
+                    int ancestor=chain[j];
+                    ERR_FAIL_COND(ancestor<0 || ancestor>=names.size() || parents[ancestor]!=previous || !rest.has(names[ancestor]));
+                    bone.grip_chain.push_back(ancestor);
+                    previous=ancestor;
+                }
+            }
+        }
+    }
+    Vector2 track_pose(TypedArray<Quaternion> requested, TypedArray<Quaternion> current,
+            TypedArray<Vector3> velocities, Vector3 action, double pole_carry, double forearm_carry, double dt) const {
+        int count=int(tracked_bones.size());
+        ERR_FAIL_COND_V(count==0 || requested.size()!=count || current.size()!=count || velocities.size()!=count,Vector2());
+        double max_accel=0.0, max_speed=0.0;
+        for (int i=0;i<count;++i) {
+            Basis target=tracked_grip(i,Basis(Quaternion(requested[i])),current,action);
+            Quaternion rotation=current[i];
+            Quaternion limited=local_limit(tracked_bones[i].name,target,pole_carry,forearm_carry).get_rotation_quaternion();
+            Vector3 error=rotation_vector(limited*rotation.inverse());
+            Vector3 velocity=velocities[i];
+            Vector3 accel=(mul(error,1600.0)-mul(velocity,80.0)).limit_length(160.0);
+            velocity=(velocity+mul(accel,dt)).limit_length(12.0);
+            velocities[i]=velocity;
+            double speed=velocity.length();
+            if (speed>.000001) current[i]=(Quaternion(velocity/real_t(speed),real_t(speed*dt))*rotation).normalized();
+            max_accel=std::max(max_accel,double(accel.length()));
+            max_speed=std::max(max_speed,speed);
+        }
+        return Vector2(max_accel,max_speed);
+    }
     void configure(Dictionary rest_sides) {
         for (int i=0;i<2;++i) {
             Dictionary data=rest_sides[i==0 ? "Right" : "Left"];

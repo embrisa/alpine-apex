@@ -13,6 +13,12 @@ static var library: Dictionary = LIBRARY.data
 # before riding; no pose, clock, interpolation or equipment state is cached.
 static var prepared_clips: Dictionary = prepare_clips()
 static var grip_chains: Dictionary = prepare_grip_chains()
+static var native_tracker = prepare_native_tracker()
+
+static func prepare_native_tracker():
+	var kernel = Anatomy.native_fit_kernel
+	if kernel!=null: kernel.configure_tracking(library.names,library.parents,Anatomy.Body.REST,grip_chains)
+	return kernel
 
 static func prepare_clips() -> Dictionary:
 	var result = {}
@@ -45,6 +51,7 @@ static func prepare_grip_chains() -> Dictionary:
 	result.make_read_only()
 	return result
 var enabled = true
+var native_tracking_enabled = native_tracker!=null
 var grab_style = "safety"
 var active_grab_style = "safety"
 var amount = 1.0
@@ -314,31 +321,41 @@ func step(dt: float, sim, intent, state: Dictionary, landing_event: int, surface
 	var articulated_carry = maxf(pole_amount,clampf(downhill_amount+action_amount.x+action_amount.y+action_amount.z,0.0,1.0))
 	# Continuous second-order tracking retains velocity on clip/phase changes.
 	# The limit applies only to relative posture, never actor spin/flip motion.
-	var max_accel = 0.0
-	var max_speed = 0.0
 	frame_costs.end(&"animation_posture",posture_started)
 	var tracking_started = frame_costs.begin()
 	var tracked_action = action_amount*(1.0-pole_amount)
+	var pole_carry = maxf(state.tuck,state.prepare)*(1.0-state.air)*carry*(1.0-pole_amount)
+	var tracking = track_pose(mixed.q,tracked_action,pole_carry,articulated_carry,dt)
+	root_velocity += ((mixed.root-root_position)*900.0-root_velocity*60.0).limit_length(35.0)*dt
+	root_velocity = root_velocity.limit_length(2.0)
+	root_position += root_velocity*dt
+	frame_costs.end(&"animation_tracking",tracking_started)
+	diagnostics = {"phase":phase,"physical_turn":turn,"animation_turn":animation_turn,"balance_turn":balance_turn,"turn_strength":turn_weight,"max_posture_speed_rad_s":tracking.y,"max_posture_accel_rad_s2":tracking.x}
+	diagnostics.pole_phase = pole_phase; diagnostics.pole_intensity = pole_amount
+	diagnostics.pole_power = sim.pole_push_power; diagnostics.pole_acceleration_mps2 = sim.pole_push_acceleration
+	diagnostics.pole_grade_degrees = sim.pole_push_grade_degrees; diagnostics.pole_limit_mps = sim.pole_push_limit_mps
+	step_microseconds = Time.get_ticks_usec()-start
+
+func track_pose(requested_pose: Array[Quaternion], action: Vector3, pole_carry: float, forearm_carry: float, dt: float) -> Vector2:
+	if native_tracking_enabled:
+		return native_tracker.track_pose(requested_pose,current,velocities,action,pole_carry,forearm_carry,dt)
+	return reference_track_pose(requested_pose,action,pole_carry,forearm_carry,dt)
+
+func reference_track_pose(requested_pose: Array[Quaternion], action: Vector3, pole_carry: float, forearm_carry: float, dt: float) -> Vector2:
+	var max_accel = 0.0
+	var max_speed = 0.0
 	for i in current.size():
-		var requested = Basis(mixed.q[i])
+		var requested = Basis(requested_pose[i])
 		if grip_chains.has(library.names[i]):
-			requested = Action.tracked_grip_target(library.names[i],requested,current,library,tracked_action,grip_chains[library.names[i]])
-		var target_rotation = Anatomy.local_limit(library.names[i],requested,maxf(state.tuck,state.prepare)*(1.0-state.air)*carry*(1.0-pole_amount),articulated_carry).get_rotation_quaternion()
+			requested = Action.tracked_grip_target(library.names[i],requested,current,library,action,grip_chains[library.names[i]])
+		var target_rotation = Anatomy.local_limit(library.names[i],requested,pole_carry,forearm_carry).get_rotation_quaternion()
 		var error = rotation_vector(target_rotation*current[i].inverse())
 		var accel = (error*1600.0-velocities[i]*80.0).limit_length(160.0)
 		velocities[i] = (velocities[i]+accel*dt).limit_length(12.0)
 		var speed_i = velocities[i].length()
 		if speed_i>.000001: current[i] = (Quaternion(velocities[i]/speed_i,speed_i*dt)*current[i]).normalized()
 		max_accel = maxf(max_accel,accel.length()); max_speed = maxf(max_speed,speed_i)
-	root_velocity += ((mixed.root-root_position)*900.0-root_velocity*60.0).limit_length(35.0)*dt
-	root_velocity = root_velocity.limit_length(2.0)
-	root_position += root_velocity*dt
-	frame_costs.end(&"animation_tracking",tracking_started)
-	diagnostics = {"phase":phase,"physical_turn":turn,"animation_turn":animation_turn,"balance_turn":balance_turn,"turn_strength":turn_weight,"max_posture_speed_rad_s":max_speed,"max_posture_accel_rad_s2":max_accel}
-	diagnostics.pole_phase = pole_phase; diagnostics.pole_intensity = pole_amount
-	diagnostics.pole_power = sim.pole_push_power; diagnostics.pole_acceleration_mps2 = sim.pole_push_acceleration
-	diagnostics.pole_grade_degrees = sim.pole_push_grade_degrees; diagnostics.pole_limit_mps = sim.pole_push_limit_mps
-	step_microseconds = Time.get_ticks_usec()-start
+	return Vector2(max_accel,max_speed)
 
 func step_poles(dt: float, sim, surface) -> void:
 	pole_phase = sim.pole_push_phase

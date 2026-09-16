@@ -1,0 +1,223 @@
+{
+  "schema": 1,
+  "id": "ae44a9b390e741459185922793b1ca29",
+  "summary": "Batch skeletal tracking math in the native skier kernel",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "120 Hz presentation tracking",
+    "Native skier math",
+    "Animation performance"
+  ],
+  "owned_paths": [
+    "addons/alpine_skier/bin/alpine_skier.windows.x86_64.dll",
+    "docs/ANIMATION.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "native/skier/anatomy.cpp",
+    "scripts/presentation/skier_full_motion.gd",
+    "tests/skier_tracking_suite.gd",
+    "docs/DEVELOPMENT.md"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "docs/VALIDATION.md",
+    "scripts/build_skier.ps1",
+    "scripts/presentation/action_posture.gd",
+    "scripts/presentation/skier_anatomy.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "No solver/input/contact/120 Hz changes. Physics 56 and runtime 192 checks pass after native rebuild; dense replay matches all 1800 ticks."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "No terrain, generation, placement, density, quality or LOD edits."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "No recording or replay schema/cadence changes. All compared final poses and equipment transforms match exactly."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No generator or terrain edits."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No rules, input or session changes."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Simulation and eligibility unchanged."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Final pose/equipment output matches; recording owner and schema unchanged."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No cache producer/schema edits; both caches hit in the candidate run."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "Exclusive guard native-tracking-build-20260916: scripts/build_skier.ps1",
+      "result": "passed",
+      "details": "Windows x64 native module rebuilt and loaded through the existing manual extension loader. 448000-byte DLL; /fp:precise retained."
+    },
+    {
+      "kind": "automated",
+      "command": "native-tracking-checks-20260916 and native-tracking-poles-20260916",
+      "result": "passed",
+      "details": "Tracking oracle: all 19800 cumulative updates exactly match across 33 clips/five action states; immutable request/history and speed/acceleration checks pass. animation_cpu 72, anatomy 84, turn_anatomy 32, attachment 20 and pole pose 36 checks pass. Batch stopped at the pre-existing motion assertion; see separate control attribution and outstanding findings."
+    },
+    {
+      "kind": "automated",
+      "command": "native-tracking-reference-motion-20260916 and native-tracking-reference-animation-20260916 compared to candidate suite output",
+      "result": "passed",
+      "details": "Regression attribution verified: one motion and three procedural-animation assertions fail identically with original tracking. Animation metrics also identical. These two suites themselves remain failing; no test threshold changed."
+    },
+    {
+      "kind": "automated",
+      "command": "native-tracking-core-20260916: physics_suite.gd and runtime_suite.gd through godotw.ps1",
+      "result": "passed",
+      "details": "56 physics and 192 runtime checks passed after rebuilding the shared native DLL."
+    },
+    {
+      "kind": "rendered",
+      "command": "native-tracking-visual-r2-20260916: artifacts/native_tracking_20260916/visual.gd",
+      "result": "passed",
+      "details": "3787 final snapshots match exactly through seven 360-tick action sequences and pause. Matched before/after contact sheets at ticks 130 and 240 inspected before timing; no new visible pose or equipment change. First harness parse failure fixed by renaming its Input constant; production candidate unchanged."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical remaining-cpu-20260916 and native-tracking-20260916; saved solver-query-confirm-20260916 FPS reference",
+      "result": "passed",
+      "details": "Tracking 250.550 to 34.128 us/tick (-216.422 us,86.38%); outer animation 813.451 to 584.766 us/tick, overlapping scope. Clean FPS 87.6683 to 88.2923; frame 11.40663 to 11.32601ms; p95 13.786/p99 15.894ms; GPU10.24553ms. Single sample inconclusive for FPS; p99 worsened .761ms. Retained for verified CPU saving. Same effective settings/camera/engine, 1800 exact ticks, both caches hit, zero unfocused frames. CPU profile separate from FPS; no original rerun."
+    },
+    {
+      "kind": "automated",
+      "command": "Scoped metadata/versioning checks and git diff whitespace check",
+      "result": "passed",
+      "details": "Runtime code/build/tests unchanged after passing checks; final documentation only refreshed before static review. No source/asset/executable hash audit."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Sustained 90-120 rendered FPS remains unachieved; no full-descent or human/controller acceptance.",
+    "Four pre-existing procedural motion/animation assertions still fail identically with original tracking; retained in the report, not fixed or hidden.",
+    "Mac native build/performance and packaged-export smoke are unverified; non-Windows uses retained GDScript."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T12:57:43.658847+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "fbcc8baa248f8702b453e316ad72f4788125b22d",
+      "dev": 47,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "addons/alpine_skier/bin/alpine_skier.windows.x86_64.dll": {
+        "size": 448000,
+        "mtime_ns": 1789553286161931500
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ANIMATION.md": {
+        "size": 23900,
+        "mtime_ns": 1789563248432341900
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 19451,
+        "mtime_ns": 1789563248433628300
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 9689,
+        "mtime_ns": 1789563445770914500
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789512657279656900
+      },
+      "native/skier/anatomy.cpp": {
+        "size": 17351,
+        "mtime_ns": 1789553235571132700
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/build_skier.ps1": {
+        "size": 1243,
+        "mtime_ns": 1789545362067245800
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/presentation/action_posture.gd": {
+        "size": 11392,
+        "mtime_ns": 1789224716683801200
+      },
+      "scripts/presentation/skier_anatomy.gd": {
+        "size": 10812,
+        "mtime_ns": 1789548601477436600
+      },
+      "scripts/presentation/skier_full_motion.gd": {
+        "size": 47977,
+        "mtime_ns": 1789553281615418300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18345,
+        "mtime_ns": 1789216227754129500
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/skier_tracking_suite.gd": {
+        "size": 2825,
+        "mtime_ns": 1789553334545901300
+      }
+    }
+  }
+}

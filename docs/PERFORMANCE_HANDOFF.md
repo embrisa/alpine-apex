@@ -23,6 +23,11 @@ Snapshot for Fable's next experiments. Current contracts and commands remain in
   curvature look-ahead is removed. Production-adapter paired timing saved
   **0.190 ms/tick (17.2%)**, with 1,800 route states and two 720-tick jump/landing
   cases matching. This GDScript improvement is portable; Mac timing is untested.
+- Windows skeletal tracking now batches quaternion integration, joint limits and
+  grip reconstruction in the existing native module. On the matched route its
+  scope fell **250.55 to 34.13 us/tick**; total animation fell **813.45 to
+  584.77 us/tick**. These overlapping savings must not be added. All 19,800
+  paired tracker updates and 3,787 final pose/equipment comparisons matched.
 
 ## Windows measurements to reuse
 
@@ -36,7 +41,8 @@ per candidate; zero unfocused frames and exact trace completion.
 | Corrected bounds, 32 m detail groups | 78.23 | 12.783 | 11.216 | 18.171 |
 | Static 16 m detail groups | 79.26 | 12.617 | 11.050 | 17.207 |
 | Plus LOD1 mesh normals | 84.07 | 11.895 | 10.280 | 17.585 |
-| Plus exact tick query reuse (enabled) | **87.67** | **11.407** | **10.171** | **15.133** |
+| Plus exact tick query reuse | 87.67 | 11.407 | 10.171 | 15.133 |
+| Plus native skeletal tracking (enabled) | **88.29** | **11.326** | **10.246** | **15.894** |
 
 The LOD1 material change gained 4.81 FPS (6.1%) and saved 0.722 ms/frame / 0.770 ms GPU
 in these samples. The p99 increased 0.378 ms. These are short samples, not a
@@ -52,6 +58,15 @@ An initial 88.50 FPS candidate rebuilt scenery during startup; it remains a
 secondary observation, not the new matching reference. One candidate-only
 confirmation resolved that cache difference. The original was not rerun.
 
+Native tracking then measured **88.29 FPS / 11.326 ms**, +0.62 FPS (0.7%) and
+-0.081 ms/frame. p95 was 13.786 ms and p99 15.894 ms (+0.761 ms). This single
+sample does not prove an FPS gain or improved tails. It is retained for the
+**0.216 ms/tick** CPU saving under the small-gain policy. Both caches hit, settings
+and camera matched, 1,800 ticks matched and no frames lost focus. A separate
+third traversal measured CPU scopes; it is not pooled with the clean FPS sample.
+The earlier scope diagnostic is `remaining-cpu-20260916`, row 2, and the candidate
+is `native-tracking-20260916`, row 3, under `artifacts/pc_environment/`.
+
 Per-route actual normal evaluations fell 38,874 to 14,899 and snow-depth
 evaluations 25,366 to 12,622. Only raw terrain queries are cached; dynamic crush
 and contact state remain live. See [the ownership contract](PHYSICS.md#ownership-and-tuning).
@@ -60,10 +75,13 @@ Local detailed receipts (ignored, not transferred by Git) are under
 `artifacts/pc_environment/{retained-cpu-correct-bounds,static-detail-batches,lod1-mesh-normals}-20260916/production.json`, row 2.
 The first row is warmup. The replay is
 `artifacts/retained_cpu_correct_bounds_20260916/forest.json`.
-The newest accepted receipt is
+The exact-query receipt is
 `artifacts/pc_environment/solver-query-confirm-20260916/production.json`, row 2;
 its regenerated, unchanged input route is
 `artifacts/solver_queries_20260916/forest.json`.
+The newest clean candidate receipt is
+`artifacts/pc_environment/native-tracking-20260916/production.json`, row 2, using
+that same trace. Compact tracker evidence is `artifacts/native_tracking_20260916/`.
 
 **Baseline correction:** earlier 81.99-89.18 FPS candidates used faulty distance
 bounds: production groups had empty `transforms`, while poses were in
@@ -90,8 +108,12 @@ tree compaction, LOD1 alpha trapezoid trimming, small-angle wind polynomial, or
 blindly replacing trees based on source triangle count. Terrain occlusion's
 roughly 5% figure was fewer draws, not a measured FPS gain; it remains disabled.
 
-Functional suites, paired replay/pose checks and rendered inspections passed on
-Windows. Mac execution, packaged export and human/controller feel are unverified.
+Tracker equality, matched rendered poses, anatomy/attachment/pole checks and
+physics/runtime checks passed on Windows. Four older procedural assertions
+(one in `skier_motion_suite`, three in `skier_animation_suite`) failed identically
+with original and native tracking, including identical animation metrics. Those
+remain unresolved existing findings; those two suites are not claimed as passing.
+Mac execution, packaged export and human/controller feel are unverified.
 
 ## Fable task overlap review
 
@@ -102,7 +124,7 @@ file is absent from that commit and its tree.
 | Task suffix | What has already been tried | Remaining investigation |
 | --- | --- | --- |
 | `084500-reduce-solver-terrain-query-redundancy` | Native hip fitting, allocation-free heights, exact tick-local query reuse and removal of unread curvature probes are enabled. The bounded snow shortcut remains cosmetic only. | Capability checks, material-map storage and other proposed allocations/sweeps remain untested. This task is only partly implemented. |
-| `084501-index-skier-pose-by-bone` | Rest geometry caching, native pelvis fitting and native joint limits already address part of the cited cost. | Bone-indexed containers, mirror indices, reusable buffers and fewer skeleton writes remain untested. Re-profile the remaining cost before a broad rewrite. |
+| `084501-index-skier-pose-by-bone` | Rest geometry caching, native pelvis fitting and limits are enabled. Native tracking now caches immutable bone offsets/ancestry and batches the costly tick loop. | Broad pose-container conversion, mirror indices, reusable sampling buffers and fewer skeleton writes remain untested. Current writer cost is only 42 us/frame; pose is about 0.86 ms/frame. |
 | `084502-reduce-recording-tick-cost` | Native pose and cosmetic snow work benefit called functions; recording ownership itself has not changed. | Timed-recording capture, snapshot allocation and repeated solve investigation are new. Untimed dense-route results cannot measure this benefit. |
 | `084503-publish-shared-shader-uniforms-globally` | Cloud parameter/direction/height change gates and wind direction/strength gates already exist. Tree contact shader work now skips exact rest. | Global publication and remaining write reduction are untested. Preserve separate world/preview state and pause behavior; receiver count estimates are not measured savings. |
 
@@ -112,5 +134,5 @@ number as an exact control. Their strict pixel/physics acceptance language must
 also be read alongside the user's newer permission to accept small changes
 for worthwhile gains. The missing shader task may overlap the rejected wind
 polynomial and retained contact/tint work; its full scope cannot be assessed
-without the file. Only the solver-query increment above is implemented from
-these new tasks; their other proposals remain investigations.
+without the file. Solver-query reuse and native tracking address parts of these
+new tasks; their other proposals remain investigations.

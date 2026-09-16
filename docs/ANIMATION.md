@@ -67,6 +67,17 @@ remain separate from visible render interpolation. Follow [Validation](VALIDATIO
 for matched bounded production comparisons; detailed optimization evidence is
 in `artifacts/animation_cpu/`.
 
+On Windows the native skier kernel batches the 120 Hz quaternion tracker, joint
+limits and grip-target reconstruction. It updates the rider-owned rotation and
+velocity arrays in bone order, rebuilding each grip from parents that have
+already advanced. Only immutable names, rest offsets and arm ancestry are shared.
+The same acceleration/speed bounds, gains and tick cadence remain in force;
+root tracking, posture selection and the final skeleton writer keep their owners.
+Other platforms use `SkierFullMotion.reference_track_pose`. The native batch and
+the retained script path are compared by `tests/skier_tracking_suite.gd` across
+all source clips, action/grip blends and cumulative updates. It also checks that
+requested poses and saved interpolation history remain independent.
+
 ## Connected anatomy and equipment
 
 The initial full-curve result was rejected as rubbery despite bone-length and
