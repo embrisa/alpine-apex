@@ -1,0 +1,218 @@
+{
+  "schema": 1,
+  "id": "cd8f7c8d43b54013aeeb69df9b40cfba",
+  "summary": "Reuse exact terrain queries within each solver tick and remove unused curvature probes",
+  "categories": [
+    "Gameplay"
+  ],
+  "areas": [
+    "Fixed-tick terrain query reuse",
+    "Unconsumed contact diagnostics",
+    "Portable CPU performance"
+  ],
+  "owned_paths": [
+    "docs/PHYSICS.md",
+    "scripts/core/ski_contact.gd",
+    "scripts/core/ski_simulation.gd",
+    "scripts/core/tick_terrain_queries.gd",
+    "tests/tick_terrain_queries_suite.gd",
+    "docs/PERFORMANCE_HANDOFF.md"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "docs/VALIDATION.md",
+    "scripts/core/landing_assist.gd",
+    "scripts/core/snow_crush_contact.gd",
+    "scripts/world/prop_collision_surface.gd",
+    "tests/physics_suite.gd",
+    "tests/runtime_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Same 120 Hz force/contact equations, iteration and exact coordinates. 1800 route states plus two 720-tick jump/landing cases match. Only the unread curvature_load field and transient cache are excluded from reflective comparison."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Immutable terrain/generator/placements unchanged. Only raw query results within one synchronous step are reused; mutable adapters bypass the cache."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Replay/race/archive schemas and sampling remain unchanged. Normal trace producer regenerated current diagnostic source identity without editing inputs."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No generation or baked terrain changes."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No race rules, input timing or identity change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Same simulation results and record eligibility."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Replay states and crash clock round-trips pass unchanged; no schema change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Gameplay compatibility remains intact; scenery preparation rebuilt during first startup and hit on the confirmation."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "Guard solver-query-required-20260916: tick_terrain_queries_suite, physics_suite, runtime_suite, terrain_query_suite",
+      "result": "passed",
+      "details": "Completed suites passed 2411, 56, 192 and 32 checks respectively after initial metadata capture. Broad snow matrix then exceeded the batch limit; completed checks retained. New cache tests cover exact coordinates including sub-float32 differences, boundary/capability ownership, mutable bypass and inter-step mutation."
+    },
+    {
+      "kind": "automated",
+      "command": "Guard solver-query-remaining-r2-20260916: snow_crush_suite --contracts, snow_grounding_suite --contracts, landing_settle_suite, streaming_collision_suite; guard solver-query-crash-20260916: crash_replay_suite",
+      "result": "passed",
+      "details": "18, 30, 21, 28 and 36 checks passed. Total selected functional checks 2824. The first contract invocation lost an unquoted PowerShell -- and timed out running the broad matrix; quoted delimiter fixed the runner. Crash report directory was absent after prior cleanup; creating its output folder allowed the unchanged suite to pass. Candidate code was unchanged."
+    },
+    {
+      "kind": "automated",
+      "command": "Guard solver-query-replay-r2-20260916 and query counter guards",
+      "result": "passed",
+      "details": "1800 paired route states/15 checkpoints and two 720-tick raw/prop-adapted jump/landing cases matched, each with 81 airborne ticks and a landing. Unread removed diagnostic and transient cache excluded. Actual normal evaluations 38874 to 14899, snow-depth 25366 to 12622, material 28806 to 15760. Instrumented counts are separate from timing."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical solver-query-replay-r2-20260916 and solver-query-confirm-20260916",
+      "result": "passed",
+      "details": "Paired production-adapter solver cost 1106.540 to 916.762 us/tick (-17.15%). Saved 84.0675 FPS/11.89520 ms reference versus warm-cache confirmation 87.6683 FPS/11.40663 ms; p95 14.091 and p99 15.133 ms. GPU 10.171 ms. Same 4K High/.75 AutoFSR4.1.1 clear/day camera/settings, 1800 exact ticks, zero unfocused frames, no captures or profiling. Initial 88.5048 FPS run rebuilt scenery at startup, retained as secondary observation only; one candidate-only confirmation resolved it. No original rerun."
+    },
+    {
+      "kind": "rendered",
+      "command": "No presentation or rendering source edited",
+      "result": "not_required",
+      "details": "Simulation output matches across route and jump/landing cases; code changes only synchronous query evaluation and an unused diagnostic. No new visual/human acceptance claim."
+    },
+    {
+      "kind": "automated",
+      "command": "git -c core.whitespace=cr-at-eol diff --check; versioning.py scoped/staged checks",
+      "result": "passed",
+      "details": "Scoped source reviewed and static checks pass. After initial metadata capture and functional checks, only handoff documentation was updated; final metadata refresh adds that doc, without any changed runtime/test source."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Sustained 90-120 FPS and p95 <=11.1 ms remain unmet. Short-route gains are not full-descent acceptance.",
+    "Portable GDScript path has not been timed on Mac; human/controller feel untested.",
+    "Fable solver task is partial; capability, material-storage, sweep and allocation proposals remain untested."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-16T09:51:03.019701+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "148d6f5382eae7dfbaeef71b0549e0ee8bb9ca6a",
+      "dev": 46,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 8010,
+        "mtime_ns": 1789552199871098800
+      },
+      "docs/PHYSICS.md": {
+        "size": 15651,
+        "mtime_ns": 1789550366219690800
+      },
+      "docs/VALIDATION.md": {
+        "size": 126354,
+        "mtime_ns": 1789512657279656900
+      },
+      "project.godot": {
+        "size": 1601,
+        "mtime_ns": 1789476152112008900
+      },
+      "scripts/core/landing_assist.gd": {
+        "size": 6033,
+        "mtime_ns": 1789134855554546800
+      },
+      "scripts/core/ski_contact.gd": {
+        "size": 6156,
+        "mtime_ns": 1789549971707405800
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42121,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/core/snow_crush_contact.gd": {
+        "size": 7145,
+        "mtime_ns": 1788998450943591300
+      },
+      "scripts/core/tick_terrain_queries.gd": {
+        "size": 1873,
+        "mtime_ns": 1789550096392038800
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 14757,
+        "mtime_ns": 1789216227751943800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18345,
+        "mtime_ns": 1789216227754129500
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "scripts/world/prop_collision_surface.gd": {
+        "size": 4674,
+        "mtime_ns": 1789289866698394600
+      },
+      "tests/physics_suite.gd": {
+        "size": 18419,
+        "mtime_ns": 1789162199639990200
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41041,
+        "mtime_ns": 1789319651640207700
+      },
+      "tests/tick_terrain_queries_suite.gd": {
+        "size": 3214,
+        "mtime_ns": 1789550183855924400
+      }
+    }
+  }
+}

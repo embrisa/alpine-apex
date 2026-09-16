@@ -46,7 +46,6 @@ var anchor = Vector3.ZERO
 var gross_load = 0.0
 var clearance_m = 0.0 # signed vertical reach; positive means leg extension
 var normal_speed_ms = 0.0 # relative to the distributed support normal
-var curvature_load = 0.0 # former rigid-support demand, diagnostic only
 
 func _init(side_value: float) -> void:
 	side = side_value
@@ -73,7 +72,6 @@ func reset(origin: Vector3, yaw: float, half_stance: float) -> void:
 	extension = 0.0
 	clearance_m = 0.0
 	normal_speed_ms = 0.0
-	curvature_load = 0.0
 	gross_load = 0.0
 	clear_snow_response()
 
@@ -96,9 +94,6 @@ func probe(surface, root: Vector3, root_basis: Basis, speed: Vector3, gravity: V
 	var sample_value: Dictionary = crush.sample(surface,anchor.x,anchor.z)
 	height_reference = float(sample_value.height)-(anchor.y-root.y)
 	normal = sample_value.normal
-	var ahead = anchor+speed*dt
-	var next_normal: Vector3 = crush.contact_normal_at(surface,ahead.x,ahead.z)
-	curvature_load = -speed.dot(next_normal-normal)/maxf(dt,.0001)-gravity.dot(normal)
 	clearance_m = root.y-height_reference
 	normal_speed_ms = speed.dot(normal)
 	# A preloaded spring supports the resting rider at zero offset. Normal

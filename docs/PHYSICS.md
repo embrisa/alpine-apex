@@ -16,6 +16,16 @@ Gravity, bounded pole thrust, drag, passive grip and braking determine speed.
 Turning requests act through yaw, bank, pressure and normal reaction, never a
 desired travel path.
 
+`tick_terrain_queries.gd` shares identical raw height/normal samples, distributed
+normals, snow depths and material queries within one synchronous solver step.
+Only exact V15 terrain, directly or through the production prop-collision
+adapter, opts in. Keys retain full scalar coordinate precision; no spatial
+quantization, multi-tick reuse or cached crush/contact state is allowed. The
+solver clears all references at step completion and passes the original surface
+to landing prediction so its optional bounds remain authoritative. Unknown or
+mutable adapters keep direct queries. Ski probes no longer calculate the unread
+`curvature_load` diagnostic; actual support, damping and snow forces are unchanged.
+
 ## Controls
 
 [InputRouter](../scripts/core/input_router.gd) is the binding/ownership source;

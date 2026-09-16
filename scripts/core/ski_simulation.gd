@@ -12,6 +12,7 @@ const ImpactRecovery = preload("res://scripts/core/impact_recovery.gd")
 ## optionally snow_depth_at(x,z) -> loose-layer depth in metres,
 ## and rock_fraction_at(x,z) -> fixed terrain material coverage in [0,1].
 var tuning: SkiTuning
+var _terrain_queries = preload("res://scripts/core/tick_terrain_queries.gd").new()
 var skis: Array = [Contact.new(-1.0),Contact.new(1.0)]
 var body = Body.new()
 var impacts = ImpactRecovery.new()
@@ -177,6 +178,9 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 	_obstacle_contact.clear()
 	if crashed:
 		return
+	# Prediction retains the original adapter's optional bounds API.
+	var prediction_surface = surface
+	surface = _terrain_queries.begin(surface)
 	ticks += 1
 	var rebased_spawn = _orient_travel_axis()
 	if rebased_spawn and contacts_initialized:
@@ -295,7 +299,7 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 	# Grounded neutral yaw precedes contact/motor evaluation. The existing snow
 	# reactions, never an assigned velocity, respond to the new equipment axis.
 	var alignment_counted = grounded
-	if alignment_counted: landing_assist.step(dt,self,intent,surface)
+	if alignment_counted: landing_assist.step(dt,self,intent,prediction_surface)
 	edge_angle = lerpf(edge_angle, -intent.steer * deg_to_rad(tuning.maximum_edge_angle), 1.0 - exp(-tuning.edge_response * lerpf(1.0, tuning.tuck_edge_response_ratio, effective_tuck) * dt))
 	var takeoff_frame = support_basis()
 	# One bounded dissipative correction, while the preceding completed tick
@@ -322,7 +326,7 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 		if ballistic.y-_support_sample(surface,ballistic).height>tuning.leg_extension:
 			_begin_flight(support_basis(),"reach")
 	if not grounded:
-		landing_assist.step(dt,self,intent,surface,alignment_counted)
+		landing_assist.step(dt,self,intent,prediction_surface,alignment_counted)
 		air_control.step(dt,self,intent)
 	for ski in skis: ski.complete_snow_work(dt,tuning.rider_mass)
 	downhill = gravity_vector.slide(n)
@@ -557,6 +561,7 @@ func step(dt: float, intent: RiderInput, surface) -> void:
 	elif grounded: landing_assist.clear_prediction()
 	facing_pose.capture(self)
 	motion.capture(self,dt)
+	_terrain_queries.clear()
 
 func _resolve_obstacle(surface, from: Vector3) -> void:
 	if crashed: return
