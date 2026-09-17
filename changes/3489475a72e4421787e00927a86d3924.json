@@ -1,0 +1,292 @@
+{
+  "schema": 1,
+  "id": "3489475a72e4421787e00927a86d3924",
+  "summary": "Reduce cold ghost replay validation cost with a bounded native kernel",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Bounded replay numeric validation",
+    "Ghost loading latency and native packaging"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-validation/SKILL.md",
+    "addons/alpine_skier/bin/alpine_skier.windows.x86_64.dll",
+    "backlog/QUEUE.md",
+    "backlog/REMAINING_20260912.md",
+    "backlog/blocked/AA-20260911-220556-animated-ghost-snow-tracks.md",
+    "backlog/completed/AA-20260912-132147-reduce-cold-ghost-archive-load.md",
+    "backlog/ideas/IDEA-20260917-011800-load-only-requested-ghost-count.md",
+    "backlog/tasks/AA-20260912-132147-reduce-cold-ghost-archive-load.md",
+    "docs/DEVELOPMENT.md",
+    "docs/RACING.md",
+    "docs/VALIDATION.md",
+    "native/skier/CMakeLists.txt",
+    "native/skier/register_types.cpp",
+    "native/skier/replay_validation.cpp",
+    "scripts/core/skier_kernel.gd",
+    "scripts/racing/run_replay.gd",
+    "tests/ghost_load_benchmark.gd",
+    "tests/ghost_retry_cache_suite.gd",
+    "tests/ghost_validation_kernel_suite.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "scripts/build_skier.ps1",
+    "scripts/presentation/ghost_pose.gd",
+    "scripts/racing/competitive_record.gd",
+    "scripts/racing/crash_replay_validation.gd",
+    "scripts/racing/ghost_replay_cache.gd",
+    "tests/crash_replay_suite.gd",
+    "tests/exact_clock_suite.gd",
+    "tests/ghost_archive_suite.gd",
+    "tests/ghost_replay_fixture.gd",
+    "tests/physics_suite.gd",
+    "tests/runtime_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Native fitting code and 120 Hz simulation unchanged; shared DLL rebuilt and checked."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "No generation or terrain changes."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Replay 7 and archive 4 are unchanged. Numeric validation preserves the reference acceptance rules."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No format, identity, ownership or timing change; only numeric validation execution moves to a native helper."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No format, identity, ownership or timing change; only numeric validation execution moves to a native helper."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No format, identity, ownership or timing change; only numeric validation execution moves to a native helper."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No format, identity, ownership or timing change; only numeric validation execution moves to a native helper."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No format, identity, ownership or timing change; only numeric validation execution moves to a native helper."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "Exclusive guard ghost-load-native-build-20260917: scripts/build_skier.ps1",
+      "result": "passed",
+      "details": "Windows x64 DLL rebuilt. macOS packaged binary unchanged; missing optional class falls back to script without instantiate errors."
+    },
+    {
+      "kind": "automated",
+      "command": "scripts/test_pc_environment.ps1 -Suites ghost_validation_kernel_suite,physics_suite,runtime_suite,ghost_archive_suite,ghost_retry_cache_suite,exact_clock_suite,crash_replay_suite -OutputDirectory artifacts/ghost_load_20260917/regression",
+      "result": "passed",
+      "details": "Native parity 10624 (raw log; initial summary format counted zero), physics 56, runtime 192, archive 161, cache 58, exact-clock 95, crash/replay 36. Later edits affect test reporting/docs only; repeat affected suites separately."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical guards ghost-load-baseline-20260917 and ghost-load-native-candidate-20260917: artifacts/ghost_load_20260917/probe.gd",
+      "result": "passed",
+      "details": "Same current-format ten-run 150-second varied synthetic fixture: cold decoded-cache 3340.649 to 261.554 ms (-92.17%); cached 14.228 to 13.214 ms; identical 71970800-byte static-memory delta and 63915140 declared payload bytes. OS file cache uncontrolled; no FPS or maximum-duration claim."
+    },
+    {
+      "kind": "automated",
+      "command": "Final report-format/native/cache suites, short benchmark producer smoke, backlog and scoped version checks",
+      "result": "passed",
+      "details": "Final-reports: native parity 10624 and cache 58 pass with parsed summaries. Explicit 0.1-second benchmark preparation/selection smoke passed under the automatically classified FpsCritical guard; no timing claim from it. Backlog validation and whitespace passed. Remaining administrative formatting does not change runtime/test code."
+    },
+    {
+      "kind": "rendered",
+      "command": "Not required",
+      "result": "not_required",
+      "details": "No pose arrays, materials or rendering changes; differential whole decoder output and exact clocks are checked."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human loading experience is untested. macOS helper rebuild/measurement and current 600-second maximum-duration latency are unmeasured; neither is claimed by the Windows 150-second improvement."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T01:19:17.013409+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "d94c0545d33820b92c272f126490e30f6e39a854",
+      "dev": 80,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 10415,
+        "mtime_ns": 1789607956325220000
+      },
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "addons/alpine_skier/bin/alpine_skier.windows.x86_64.dll": {
+        "size": 468480,
+        "mtime_ns": 1789607483234871700
+      },
+      "backlog/QUEUE.md": {
+        "size": 5595,
+        "mtime_ns": 1789607956394846000
+      },
+      "backlog/REMAINING_20260912.md": {
+        "size": 1567,
+        "mtime_ns": 1789607956427867900
+      },
+      "backlog/blocked/AA-20260911-220556-animated-ghost-snow-tracks.md": {
+        "size": 24474,
+        "mtime_ns": 1789607956462380000
+      },
+      "backlog/completed/AA-20260912-132147-reduce-cold-ghost-archive-load.md": {
+        "size": 6272,
+        "mtime_ns": 1789607888594546900
+      },
+      "backlog/ideas/IDEA-20260917-011800-load-only-requested-ghost-count.md": {
+        "size": 1878,
+        "mtime_ns": 1789607888608957300
+      },
+      "backlog/tasks/AA-20260912-132147-reduce-cold-ghost-archive-load.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 21283,
+        "mtime_ns": 1789607956288916300
+      },
+      "docs/RACING.md": {
+        "size": 21965,
+        "mtime_ns": 1789607956203873800
+      },
+      "docs/VALIDATION.md": {
+        "size": 132463,
+        "mtime_ns": 1789607956251907900
+      },
+      "native/skier/CMakeLists.txt": {
+        "size": 2267,
+        "mtime_ns": 1789607477608984700
+      },
+      "native/skier/register_types.cpp": {
+        "size": 943,
+        "mtime_ns": 1789607477610405400
+      },
+      "native/skier/replay_validation.cpp": {
+        "size": 4945,
+        "mtime_ns": 1789607477608984700
+      },
+      "project.godot": {
+        "size": 1819,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/build_skier.ps1": {
+        "size": 1243,
+        "mtime_ns": 1789545362067245800
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/core/skier_kernel.gd": {
+        "size": 1373,
+        "mtime_ns": 1789607477611411700
+      },
+      "scripts/presentation/ghost_pose.gd": {
+        "size": 7405,
+        "mtime_ns": 1789578100683237000
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/crash_replay_validation.gd": {
+        "size": 1718,
+        "mtime_ns": 1789216227752951000
+      },
+      "scripts/racing/ghost_replay_cache.gd": {
+        "size": 2645,
+        "mtime_ns": 1789209129702550500
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/crash_replay_suite.gd": {
+        "size": 7948,
+        "mtime_ns": 1789594595807067300
+      },
+      "tests/exact_clock_suite.gd": {
+        "size": 20862,
+        "mtime_ns": 1789594595814000600
+      },
+      "tests/ghost_archive_suite.gd": {
+        "size": 11788,
+        "mtime_ns": 1789606172761103700
+      },
+      "tests/ghost_load_benchmark.gd": {
+        "size": 3611,
+        "mtime_ns": 1789607769078490500
+      },
+      "tests/ghost_replay_fixture.gd": {
+        "size": 2029,
+        "mtime_ns": 1789216602717893800
+      },
+      "tests/ghost_retry_cache_suite.gd": {
+        "size": 17452,
+        "mtime_ns": 1789607708122303500
+      },
+      "tests/ghost_validation_kernel_suite.gd": {
+        "size": 4437,
+        "mtime_ns": 1789607708121298500
+      },
+      "tests/physics_suite.gd": {
+        "size": 18435,
+        "mtime_ns": 1789594595873594000
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41141,
+        "mtime_ns": 1789594595889425300
+      }
+    }
+  }
+}

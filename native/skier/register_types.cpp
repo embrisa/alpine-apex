@@ -3,10 +3,12 @@
 using namespace godot;
 void register_skier_body_fit();
 void register_skier_anatomy();
+void register_replay_validation();
 void initialize_skier(ModuleInitializationLevel level) {
     if (level != MODULE_INITIALIZATION_LEVEL_SCENE) return;
     register_skier_body_fit();
     register_skier_anatomy();
+    register_replay_validation();
 }
 void uninitialize_skier(ModuleInitializationLevel) {}
 extern "C" GDExtensionBool GDE_EXPORT alpine_skier_init(GDExtensionInterfaceGetProcAddress get_proc,

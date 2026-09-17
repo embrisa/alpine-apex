@@ -316,7 +316,7 @@ proposed. Those suggestions require the user's selection before task authoring.
 
 ## Checkpoint disposition — 2026-09-12T13:21:47Z
 
-Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-ghost-selector-and-render-fixtures](../completed/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md), [AA-20260912-132147-reduce-cold-ghost-archive-load](../tasks/AA-20260912-132147-reduce-cold-ghost-archive-load.md), [AA-20260912-132147-reduce-ten-ghost-presentation-cost](../tasks/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md), [AA-20260912-132147-close-eight-feature-integration-records](../abandoned/AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.
+Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-ghost-selector-and-render-fixtures](../completed/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md), [AA-20260912-132147-reduce-cold-ghost-archive-load](../completed/AA-20260912-132147-reduce-cold-ghost-archive-load.md), [AA-20260912-132147-reduce-ten-ghost-presentation-cost](../tasks/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md), [AA-20260912-132147-close-eight-feature-integration-records](../abandoned/AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.
 
 ## Selector and fixture completion — 17 September 2026
 
@@ -333,3 +333,13 @@ occlusion and playback cost stay attached to their original evidence/follow-up.
 No human acceptance or FPS gain is claimed. See the completed selector task for
 commands, retained evidence and delivery note. Cold loading and ten-ghost playback
 remain active; this parent is not yet complete.
+
+## Cold loading completion — 17 September 2026
+
+The narrow cold-load task is complete on Windows: native numeric validation cuts
+the matched ten-run 150-second load from 3,340.649 to 261.554 ms, while preserving
+the full decoder and cache contract. Ten-run presentation/track performance stays
+active. This measurement uses a varied 30 Hz synthetic stress fixture and an empty
+decoded cache; it is not a maximum-duration, disk-cold, macOS or FPS claim.
+Native/script parity, physics/runtime and archive/cache/exact-clock/crash checks
+pass. See the completed cold-load task and its delivery note for exact evidence.

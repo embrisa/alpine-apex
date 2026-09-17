@@ -1695,18 +1695,37 @@ checks validated reuse, corruption, identity changes and roster pruning. Its
 `--maximum-only --reuse-maximum=PATH` mode reads an existing isolated maximum
 manifest without recreating it; the fixture must still match current identity.
 
-The retained pre-lossless-codec maximum-cache report,
-`artifacts/orchestration_20260912/carving/exact_clock/prior_results/retry_cache_results.json`,
-passed 44 checks. The current `artifacts/ghost/retry_cache_results.json` is the
-37-check small-cache run; it did not repeat the maximum payload measurement. Ten 600-second recordings cost 47,621.594 ms cold versus
-17.163 ms for unchanged cached retry, with ten hits and no additional decodes.
-The earlier maximum archive sample took 42,764.478 ms cold. Thus first load is
-still roughly 43–48 seconds in this low-entropy fixture, a material latency
-limitation; warm reuse is not a cold-load fix or a general latency guarantee.
-The cache accounts for 255,615,110 raw bytes in that sample; the cold decoded
-static-memory delta is 284,565,552 bytes. Those are different measurements, not
-a 320 MiB total-process bound. Less compressible recordings can cost more I/O
-and hashing. This storage evidence establishes no native appearance or FPS.
+Current Windows replay 7 loading was measured on 17 September with ten varied
+150-second synthetic recordings at 30 Hz stress density (production records at
+20 Hz). Empty decoded-cache selection improved from **3,340.649 to 261.554 ms**
+with the native numeric validator, a **92.17% reduction**. Unchanged cached retry
+was 14.228 / 13.214 ms. Both used 63,915,140 declared raw bytes and a 71,970,800-byte
+static-memory delta. This does not prove a 320 MiB process bound, maximum-duration
+latency, a disk-cold load or rendered FPS. OS file-cache state was uncontrolled.
+The old replay 6 ten-minute timings are historical, not a current latency claim.
+
+`tests/ghost_load_benchmark.gd` explicitly prepares/reuses isolated fixtures:
+
+```powershell
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/ghost_load_benchmark.gd','--','--prepare','--fixture=res://artifacts/ghost-load-new/fixture/race.json','--output=res://artifacts/ghost-load-new/results.json') -Label ghost-load-new -WorkloadMode FpsCritical
+```
+
+Default duration is 150 seconds; `--seconds=N` must match an existing fixture
+when reusing it. `--course=NAME` selects the fixture's identity without bypassing
+runtime compatibility. Omit `--prepare` to reuse; missing/incompatible fixtures
+fail rather than silently regenerate. Retained matched evidence and attribution:
+`artifacts/ghost_load_20260917/{baseline.json,candidate.json,REVIEW.md}`. The initial
+single-payload profile spent 161.814 ms in snapshots, 383.070 ms in poses and
+200.232 ms in input validation; decompression was 3.652 ms. This motivated the
+bulk numeric kernel, while the script still owns identity, exact clocks and crash
+semantics. Other platforms keep the reference validator until their library has
+`AlpineReplayValidation`; macOS acceleration was not measured or packaged here.
+
+`ghost_validation_kernel_suite.gd` requires that kernel and compares its decisions
+with script validation across malformed numbers, field/vector/quaternion bounds,
+input channels and complete decode arrays. Run it with archive/cache, exact-clock
+and crash-replay suites; rebuilding the shared skier library also requires
+physics/runtime suites. No pose rendering changes are made by this optimization.
 
 The ghost native producer captures actual final production poses, then runs a
 15-second playback/selector/lifecycle review. `--profile` substitutes 20-second

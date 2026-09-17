@@ -300,6 +300,15 @@ separate immutable math objects. The kernels do not own simulation state, inputs
 scene nodes or update frequency. Reference GDScript remains available for current
 verification and platforms without a packaged native library.
 
+The same library includes `AlpineReplayValidation`, a stateless bulk numeric
+validator for replay 7 snapshots, completed poses and input values. The script
+decoder retains header/identity checks, bounds before allocation, exact clocks,
+crash interval consistency and payload/cache ownership. The helper reads packed
+arrays without changing them and can be shared by payload workers. A platform
+library without this class uses the existing script validator; the macOS binary
+must be rebuilt to gain this acceleration. Run `ghost_validation_kernel_suite`
+alongside the replay suites when changing its rules or the packed layout.
+
 Build Windows x64 with `scripts/build_skier.ps1` under an `Exclusive` guard. It
 reuses the godot-cpp headers/generated bindings and Release static library already
 prepared by the wind build in `.tools/wind`; it does not rebuild the engine or

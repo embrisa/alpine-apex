@@ -16,6 +16,8 @@ const FACING_YAW = FRAME_START+12
 const POLE_START = FACING_YAW+1
 const WIDTH = POLE_START+3 # completed pole phase/intensity/power
 const MAX_SAMPLES = 18002
+static var native_validation = preload("res://scripts/core/skier_kernel.gd").create("AlpineReplayValidation")
+static var native_validation_enabled = native_validation!=null
 var samples: Array = []
 var sample_times = PackedFloat64Array()
 var presentation: Array = []
@@ -293,22 +295,25 @@ static func from_bytes(bytes: PackedByteArray, expected: Dictionary, best: float
 	if not valid_times(replay.sample_times,seconds): return null
 	for i in count:
 		var frame: PackedFloat32Array = stream.get_data(WIDTH*4)[1].to_float32_array()
-		if not valid_snapshot(frame): return null
+		if not native_validation_enabled and not valid_snapshot(frame): return null
 		replay.samples.append(frame)
 	replay.pose_times = stream.get_data(pose_count*8)[1].to_float64_array()
 	if not valid_times(replay.pose_times,seconds): return null
 	for i in pose_count:
 		var frame: PackedFloat32Array = stream.get_data(Pose.WIDTH*4)[1].to_float32_array()
-		if not Pose.validate(frame): return null
+		if not native_validation_enabled and not Pose.validate(frame): return null
 		replay.presentation.append(frame)
 	replay.inputs = stream.get_data(tick_count*INPUT_WIDTH*4)[1].to_float32_array()
 	replay.tick_kinds = stream.get_data(tick_count)[1]
-	for i in replay.inputs.size():
-		var value: float = replay.inputs[i]
-		var field = i%INPUT_WIDTH
-		if not is_finite(value) or value>1 or value<(-1.0 if field in [0,4,5,7] else 0.0) or (field in [3,6,8] and value not in [0.0,1.0]): return null
-	for kind in replay.tick_kinds:
-		if kind not in [0,1]: return null
+	if native_validation_enabled:
+		if not native_validation.validate(replay.samples,replay.presentation,replay.inputs,replay.tick_kinds): return null
+	else:
+		for i in replay.inputs.size():
+			var value: float = replay.inputs[i]
+			var field = i%INPUT_WIDTH
+			if not is_finite(value) or value>1 or value<(-1.0 if field in [0,4,5,7] else 0.0) or (field in [3,6,8] and value not in [0.0,1.0]): return null
+		for kind in replay.tick_kinds:
+			if kind not in [0,1]: return null
 	# The fixed binary header owns duration; metadata is only an exact identity check.
 	replay.compatibility = expected.duplicate(true); replay.duration = seconds
 	replay.ticks = tick_count; replay.complete = true; replay.crash_intervals = intervals

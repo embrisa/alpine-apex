@@ -29,7 +29,7 @@ func run() -> void:
 	if "--maximum-only" not in OS.get_cmdline_user_args(): _small_archive()
 	if not maximum_path.is_empty(): _maximum_reuse(maximum_path)
 	elif "--maximum-only" in OS.get_cmdline_user_args(): check(false,"--maximum-only requires an existing isolated --reuse-maximum path")
-	var report = {"checks":checks,"failures":failures,"metrics":metrics,"isolated_store":directory,"cold_maximum_latency":"Unresolved: prior ten x 600 s decode was 42764.478 ms. Cache only removes repeated validation of unchanged payloads.","rendered_acceptance":"not exercised"}
+	var report = {"checks":checks,"failures":failures,"metrics":metrics,"isolated_store":directory,"cold_maximum_latency":"Use maximum_cold_ms only when this run explicitly reuses a compatible maximum fixture. Small-cache timings do not establish maximum latency.","rendered_acceptance":"not exercised"}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/ghost")
 	var file = preload("res://tests/test_report.gd").open_write("res://artifacts/ghost/retry_cache_results.json")
 	file.store_string(JSON.stringify(report,"\t",true,true)); file.close()

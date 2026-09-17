@@ -20,4 +20,6 @@ static func create(type_name: String):
 		if status not in [GDExtensionManager.LOAD_STATUS_OK,GDExtensionManager.LOAD_STATUS_ALREADY_LOADED]:
 			push_warning("Native skier math unavailable; using the reference implementation.")
 			return null
-	return ClassDB.instantiate(type_name)
+	# A platform library can support the fitting kernels before it includes a
+	# newer optional kernel. Keep the reference path usable on that platform.
+	return ClassDB.instantiate(type_name) if ClassDB.class_exists(type_name) else null

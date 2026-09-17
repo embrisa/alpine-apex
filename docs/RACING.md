@@ -263,17 +263,25 @@ only unchanged bytes, raw hash/length and exact finish time reuse a decoded obje
 New bytes still undergo bounded decompression and the complete decoder. Selection
 and eviction prune cached references; race/identity changes, explicit metadata
 reload and free skiing clear them. Active competitors remain frozen independently.
+On platforms with `AlpineReplayValidation`, the decoder validates packed numeric
+channels in one stateless native call; other platforms use the same script rules.
+Neither path bypasses hashes, layout/identity checks, exact clocks or crash
+semantics. Header dimensions remain bounded before allocating frame collections.
 Valid current PB/history can survive malformed or unavailable ghost entries with an explanation. Invalid selected IDs
 are removed with notice; an explicitly empty manual selection remains empty.
 
 Headers are bounded to 16 KiB, ticks to 72,000 and physical/production samples
 to 18,514 including boundaries. Raw Zstandard decompression uses the validated
-manifest byte count as its destination bound. A normal ten-minute replay has
-about 24.4 MiB of raw channels by layout calculation. Ten decoded selections,
+manifest byte count as its destination bound. A normal 20 Hz ten-minute replay has
+about 17.1 MiB of raw channels by layout calculation (24.4 MiB in a 30 Hz stress
+fixture). Ten decoded selections,
 a staging buffer and old active references add memory beyond compressed disk.
 The cache bound is raw payload accounting, not total heap or process memory.
-Measured maximum-duration cold loading remains a material latency concern; warm
-retry reuse does not solve first load. Measurements and the separate completed-pose
+Windows cold decoded-cache loading for ten varied 150-second recordings fell from
+3,340.649 to 261.554 ms with native validation; cached retry was 13.214 ms.
+This is a synthetic 30 Hz stress fixture, not maximum-duration or disk-cold
+acceptance. Maximum-duration latency and other platforms remain unmeasured with
+this helper. Measurements and the separate completed-pose
 capture/native cost limits are in [Validation](VALIDATION.md#crash-recovery-and-ghost-producers).
 
 Custom manifests use

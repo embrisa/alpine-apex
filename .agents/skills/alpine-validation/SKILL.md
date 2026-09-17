@@ -108,6 +108,12 @@ For ghost selection, use the selector-only native route in
 It uses synthetic recordings solely for Records input/selection. Use the focused
 actual-solver producer for contact and palette images; verify receiving geometry
 and real shadow darkening before accepting its visual evidence.
+For replay numeric-validator changes, build the native skier library under an
+Exclusive guard and run `ghost_validation_kernel_suite` plus archive/cache,
+exact-clock and crash-replay checks. Retain physics/runtime checks after rebuilding
+the shared library. The native suite requires the new helper; script fallback is
+not evidence that the native path ran. Loading benchmarks use FpsCritical and
+separate empty decoded-cache timing from OS disk-cache state and rendered FPS.
 
 Read `run.json`, `results.json`, relevant logs and emitted captures. Confirm the
 expected suites actually ran; `not_run`, engine errors, incomplete output or a
