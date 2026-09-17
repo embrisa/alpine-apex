@@ -3,6 +3,9 @@ extends RefCounted
 const Session = preload("res://scripts/core/run_session.gd")
 var hud
 var mode: OptionButton
+var count_choice: OptionButton
+var automatic_count = 10
+var automatic = true
 var summary: Label
 var empty: Label
 var rows: VBoxContainer
@@ -19,10 +22,15 @@ func build(owner, parent: Control) -> void:
 	parent.add_child(summary)
 	mode = OptionButton.new()
 	mode.name = "GhostSelectionMode"
-	mode.add_item("Automatic fastest 10")
+	mode.add_item("Automatic fastest")
 	mode.add_item("Choose a manual subset")
 	mode.item_selected.connect(_mode_changed)
 	parent.add_child(mode)
+	count_choice = OptionButton.new()
+	count_choice.name = "GhostAutomaticCount"
+	for count in range(1,11): count_choice.add_item("%d ghost%s" % [count,"" if count==1 else "s"],count)
+	count_choice.item_selected.connect(_count_changed)
+	parent.add_child(count_choice)
 	empty = hud._label("Finish an eligible race to record a ghost. Old time-only results cannot supply a recording.",16,hud.MUTED)
 	empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	parent.add_child(empty)
@@ -32,8 +40,11 @@ func build(owner, parent: Control) -> void:
 
 func refresh(session) -> void:
 	selected = session.ghost_selection.ids.duplicate()
-	var automatic: bool = session.ghost_selection.mode=="automatic"
+	automatic = session.ghost_selection.mode=="automatic"
+	automatic_count = session.ghost_selection.automatic_count
 	mode.select(0 if automatic else 1)
+	count_choice.select(automatic_count-1)
+	count_choice.visible = automatic
 	var next_ids: Array = []
 	for row in session.ghost_runs: next_ids.append(row.id)
 	if next_ids!=ids:
@@ -57,22 +68,26 @@ func refresh(session) -> void:
 		var row = session.ghost_runs[i]
 		var date = Time.get_datetime_string_from_unix_time(row.date).replace("T"," ").left(16)+" UTC"
 		choices[row.id].text = "#%d · %s · %s\nRun %s" % [i+1,Session.format_time(row.time),date,row.id.left(8)]
-		choices[row.id].set_pressed_no_signal(automatic or selected.has(row.id))
+		choices[row.id].set_pressed_no_signal(i<automatic_count if automatic else selected.has(row.id))
 		choices[row.id].disabled = automatic
 		swatches[row.id].color = hud.ghost_colors.get(row.id,Color.WHITE)
-	var count = ids.size() if automatic else selected.size()
+	var count = mini(ids.size(),automatic_count) if automatic else selected.size()
 	summary.text = "%d / 10 selected for next attempt · %d in this attempt.\nChanges apply on next start/retry. G hides or shows the current ghosts immediately. PB deltas always compare with your best at the start." % [count,session.reference_ghosts.size()]
 	if not session.selection_notice.is_empty(): summary.text += "\n"+session.selection_notice
 	empty.visible = ids.is_empty()
 	mode.disabled = session.course_id.begins_with("free-ski-")
+	count_choice.disabled = mode.disabled
 
 func _mode_changed(index: int) -> void:
 	# Switching from Automatic begins with its selected available set. A saved
 	# empty manual set stays empty until the player explicitly changes it.
-	if index==1: selected = ids.duplicate()
-	hud.ghost_selection_requested.emit("automatic" if index==0 else "manual",selected)
+	if index==1 and automatic: selected = ids.slice(0,automatic_count)
+	hud.ghost_selection_requested.emit("automatic" if index==0 else "manual",selected,automatic_count)
+
+func _count_changed(index: int) -> void:
+	hud.ghost_selection_requested.emit("automatic",[],index+1)
 
 func _toggle(id: String, value: bool) -> void:
 	if value and not selected.has(id): selected.append(id)
 	if not value: selected.erase(id)
-	hud.ghost_selection_requested.emit("manual",selected.duplicate())
+	hud.ghost_selection_requested.emit("manual",selected.duplicate(),automatic_count)

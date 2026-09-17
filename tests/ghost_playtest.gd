@@ -23,6 +23,7 @@ var actual_pixels = Vector2i.ZERO
 var framebuffer_checks: Array = []
 var capture_us = 0
 var review_only = false
+var selector_only = false
 var production_coverage: Array = []
 
 func _initialize() -> void: call_deferred("run")
@@ -36,6 +37,7 @@ func run() -> void:
 	set_meta("test_lab_fixture",true)
 	profiling = "--profile" in OS.get_cmdline_user_args()
 	review_only = "--review-only" in OS.get_cmdline_user_args()
+	selector_only = "--selector-only" in OS.get_cmdline_user_args()
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--output="):
 			output = arg.trim_prefix("--output=")
@@ -91,12 +93,14 @@ func run() -> void:
 	if not await _set_output(PIXELS,"startup"): await _finish(); return
 	RenderingServer.viewport_set_measure_render_time(root.get_viewport_rid(),true)
 	for i in 10:
-		var replay = _capture_production(i)
-		check(replay.has_presentation(),"Completed production pose recording %d" % i)
+		var replay = preload("res://tests/ghost_replay_fixture.gd").replay(1.0,Replay.key(game.session.course_id)) if selector_only else _capture_production(i)
+		check(replay.has_presentation(),("Synthetic selector-only recording %d" if selector_only else "Completed production pose recording %d") % i)
 		rows.append({"id":Records.run_id(),"time":replay.duration,"date":1700000000+i,"peak_kmh":100.0,"splits":[-1.0,-1.0,-1.0],"replay":replay})
 	if not failures.is_empty(): await _finish(); return
 	rows.sort_custom(Records.ordered)
-	if profiling:
+	if selector_only:
+		await _selector()
+	elif profiling:
 		for config in [[0,true],[1,true],[10,true],[10,false]]:
 			await _scenario(config[0],config[1],20.0)
 			if not failures.is_empty(): break
@@ -118,8 +122,8 @@ func _finish() -> void:
 		if game.effects: game.effects.stop_audio()
 	var sources: Dictionary = {}
 	for path in ["tests/ghost_playtest.gd","scripts/presentation/ghost_pose.gd","scripts/presentation/personal_best_ghost.gd","scripts/presentation/skier_visual.gd","scripts/presentation/skier_full_motion.gd","scripts/presentation/snow_tracks.gd","assets/graphics/ghost_skier.gdshader"]:
-		sources[path] = FileAccess.get_sha256("res://"+path)
-	var report = {"source_sha256":sources,"engine":Engine.get_version_info().string,"checks":checks,"failures":failures,"profiles":metrics,"profile_mode":profiling,"production_coverage":production_coverage,"capture_wall_ms":capture_us/1000.0,"device":RenderingServer.get_video_adapter_name(),"pixels":[actual_pixels.x,actual_pixels.y],"framebuffers":framebuffer_checks,"isolated_store":fixture_store,"human_acceptance":"pending","production_capture":"Session-owned sample cadence after actual fixed animation step"}
+		sources[path] = _source_metadata(path)
+	var report = {"source_metadata":sources,"engine":Engine.get_version_info().string,"checks":checks,"failures":failures,"profiles":metrics,"profile_mode":profiling,"selector_only":selector_only,"production_coverage":production_coverage,"capture_wall_ms":capture_us/1000.0,"device":RenderingServer.get_video_adapter_name(),"pixels":[actual_pixels.x,actual_pixels.y],"framebuffers":framebuffer_checks,"isolated_store":fixture_store,"human_acceptance":"pending","production_capture":"Synthetic UI fixture only" if selector_only else "Session-owned sample cadence after actual fixed animation step"}
 	var file = preload("res://tests/test_report.gd").open_write(output.path_join("profile_results.json" if profiling else "visual_results.json"))
 	if file: file.store_string(JSON.stringify(report,"\t")); file.close()
 	else: check(false,"Native report could not be written")
@@ -127,6 +131,10 @@ func _finish() -> void:
 	if is_instance_valid(game): game.queue_free()
 	await process_frame
 	quit(0 if failures.is_empty() else 1)
+
+static func _source_metadata(path: String) -> Dictionary:
+	var file = FileAccess.open("res://"+path,FileAccess.READ)
+	return {"bytes":file.get_length() if file else -1,"modified":FileAccess.get_modified_time("res://"+path)}
 
 func _check_isolation(label: String) -> bool:
 	return check(game.physics_modified and not game.session.eligible and game.session.recording==null and not game.preferences_enabled and game.session.record_directory==fixture_store.path_join("records") and game.session.benchmark_path==fixture_store.path_join("benchmark.json"),label+": ineligible playback, no recorder, isolated record/selection writes")
@@ -338,7 +346,7 @@ func _selector() -> void:
 	game.automated = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	for size in [Vector2i(1024,720),PIXELS]:
-		game.session.choose_ghosts("manual",[])
+		game.session.choose_ghosts("manual",[],10)
 		game.hud.open_competition(game.session)
 		game.hud.competition.tabs.current_tab = 3
 		var selector = game.hud.competition.selector
@@ -365,12 +373,29 @@ func _selector() -> void:
 		check(root.gui_get_focus_owner()==first and scroll.get_global_rect().encloses(first.get_global_rect()),"Controller returns to visible first row at "+str(size))
 		for pressed in [true,false]:
 			var mouse = InputEventMouseButton.new(); mouse.button_index = MOUSE_BUTTON_LEFT
-			mouse.position = first.get_global_rect().get_center(); mouse.pressed = pressed
+			mouse.position = root.get_final_transform()*first.get_global_rect().get_center(); mouse.pressed = pressed
 			Input.parse_input_event(mouse); await process_frame
 		check(game.session.ghost_selection.ids.size()==1,"Mouse toggles selected row at "+str(size))
 		last.grab_focus(); await process_frame; await _key(KEY_ENTER)
 		check(game.session.ghost_selection.ids.is_empty(),"Keyboard can restore empty manual set at "+str(size))
 		await _capture("selector_empty_%dx%d" % [size.x,size.y])
+		selector.mode.grab_focus(); await process_frame; await process_frame
+		await _key(KEY_ENTER)
+		await _key(KEY_UP); await _key(KEY_ENTER)
+		check(game.session.ghost_selection.mode=="automatic" and selector.count_choice.visible,"Keyboard opens automatic count at "+str(size))
+		selector.count_choice.grab_focus(); await process_frame; await _key(KEY_ENTER)
+		for step in 7: await _key(KEY_UP)
+		await _key(KEY_ENTER)
+		check(game.session.ghost_selection.automatic_count==3 and game.session.reference_ghosts==frozen,"Keyboard count three preserves current roster at "+str(size))
+		check(Records.load_record(game.session.record_path(),Replay.key(game.session.course_id)).selection.automatic_count==3,"Automatic count persists from native UI at "+str(size))
+		check(selector.choices.values().filter(func(choice): return choice.button_pressed).size()==3,"Automatic checkmarks match selected count at "+str(size))
+		await _capture("selector_automatic_three_%dx%d" % [size.x,size.y])
+		selector.count_choice.grab_focus(); await _pad(JOY_BUTTON_A)
+		for step in 7: await _pad(JOY_BUTTON_DPAD_DOWN)
+		await _pad(JOY_BUTTON_A)
+		check(game.session.ghost_selection.automatic_count==10 and game.session.reference_ghosts==frozen,"Controller selects count ten without changing active attempt at "+str(size))
+		await _mouse_first_option(selector.count_choice)
+		check(game.session.ghost_selection.automatic_count==1 and game.session.reference_ghosts==frozen,"Mouse selects count one without changing active attempt at "+str(size))
 		await _pad(JOY_BUTTON_B)
 		check(not game.hud.competition.panel.visible,"Controller Back closes Records at "+str(size))
 	game.automated = true
@@ -384,6 +409,31 @@ func _pad(button: int) -> void:
 func _key(code: int) -> void:
 	for pressed in [true,false]:
 		var event = InputEventKey.new(); event.keycode = code; event.physical_keycode = code; event.pressed = pressed
+		# PopupMenu handles keys in Window's input callback, before Viewport input.
+		# Dispatch through its host window, which also routes embedded popups.
+		var popup = game.navigation.top_popup()
+		if popup: event.window_id = popup.get_window_id()
+		Input.parse_input_event(event)
+		await process_frame
+
+func _mouse_first_option(option: OptionButton) -> void:
+	for pressed in [true,false]:
+		var event = InputEventMouseButton.new(); event.button_index = MOUSE_BUTTON_LEFT; event.pressed = pressed
+		event.position = root.get_final_transform()*option.get_global_rect().get_center()
+		Input.parse_input_event(event); await process_frame
+	var popup = option.get_popup()
+	check(popup.visible,"Mouse opens automatic count dropdown")
+	if not popup.visible: return
+	await process_frame; await process_frame
+	# The popup's panel starts inside its window shadow. Include that measured
+	# offset instead of treating the window edge as the first item's top edge.
+	var panel: Control = popup.get_child(0,true)
+	var y = panel.get_global_rect().position.y+popup.get_theme_stylebox("panel").get_content_margin(SIDE_TOP)+popup.get_theme_font("font").get_height(popup.get_theme_font_size("font_size"))*.5+popup.get_theme_constant("v_separation")*.5
+	for pressed in [true,false]:
+		var event = InputEventMouseButton.new(); event.button_index = MOUSE_BUTTON_LEFT; event.pressed = pressed
+		event.window_id = popup.get_window_id()
+		event.position = Vector2(panel.position.x+30,y)*popup.content_scale_factor
+		if popup.is_embedded(): event.position = root.get_final_transform()*(Vector2(popup.position)+event.position)
 		Input.parse_input_event(event); await process_frame
 
 func _animation_views() -> void:

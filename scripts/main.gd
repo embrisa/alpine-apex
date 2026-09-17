@@ -1173,8 +1173,8 @@ func _capture_ghost_pose(fraction: float = 1.0) -> void:
 	session.capture_presentation(GhostPose.capture_completed(skier,sim,field,fraction,reuse))
 	frame_costs.end(&"ghost_capture",started)
 
-func _choose_ghosts(mode: String, ids: Array) -> void:
-	session.choose_ghosts(mode,ids)
+func _choose_ghosts(mode: String, ids: Array, automatic_count: int) -> void:
+	session.choose_ghosts(mode,ids,automatic_count)
 	ghost.refresh_colors(session.ghost_runs)
 	hud.ghost_colors = ghost.colors
 	hud.competition.refresh(session,ghost.enabled)

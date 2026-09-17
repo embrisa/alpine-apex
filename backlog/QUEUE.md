@@ -28,14 +28,13 @@ No workers or game benchmarks were started by grooming.
 
 | Task | Remaining outcome |
 |---|---|
-| [Ghost selector and rendered fixtures](tasks/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md) | Automatic fastest 1–10, 4K input/empty-set behavior and useful contact/shadow views; no pole-task dependency. |
 | [Natural forest distribution](tasks/AA-20260913-232221-natural-forest-generation.md) | The separately agreed 15% thinning/high-altitude distribution change; never mix it into a frozen FPS comparison. |
 | [Sun-facing lens flare](tasks/AA-20260913-221134-sun-facing-lens-flare.md) | The agreed occlusion-aware optional visual feature. |
 
 ## Blocked work and resume conditions
 
 - **[Pole feature](blocked/AA-20260911-183812-slope-limited-pole-pushing.md):** existing contact/visual gaps remain; its transition follow-up was archived by the user. Resume only with an explicit scope and retry decision.
-- **[Ghost parent](blocked/AA-20260911-220556-animated-ghost-snow-tracks.md):** selector, cold-load and playback follow-ups above own remaining work.
+- **[Ghost parent](blocked/AA-20260911-220556-animated-ghost-snow-tracks.md):** selector/render fixtures are complete; cold-load and playback follow-ups above own remaining work.
 - **[Finish beam](blocked/AA-20260911-232811-taller-distant-finish-beam.md), [navigation beams](blocked/AA-20260911-232936-session-navigation-beams.md) and [snow boundary](blocked/AA-20260912-005323-subtle-local-snow-boundary.md):** retain their documented acceptance gaps. Their former integration-closure task was archived; resumption needs an explicit scope and retry decision.
 - **[Scenery snow](blocked/AA-20260911-230603-scenery-snow-material.md):** implemented, with explicitly deferred cost acceptance. [Distant mountain shadows](blocked/AA-20260911-230604-scenery-mountain-shadows.md) waits on that prerequisite.
 - **[Motion blur](blocked/AA-20260912-004402-scene-motion-blur.md):** shipped provisionally; remaining performance/visual qualification needs explicit resumption.
@@ -45,6 +44,7 @@ No workers or game benchmarks were started by grooming.
 
 [Completed](completed/) contains delivered work and finished investigations,
 including pelvis/native fitting, terrain queries and Fable's closed tasks.
+[Ghost selector and rendered fixtures](completed/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md) completed on 17 September: Automatic fastest 1–10 and native input/contact/colour checks pass.
 [Abandoned](abandoned/) contains the existing retired records plus the superseded
 repeatability-prerequisite campaign. Retirement is not success; history and
 replacement links remain in the records.

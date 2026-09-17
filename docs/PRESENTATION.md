@@ -255,8 +255,10 @@ transitions; it cannot conceal a running recovery clock behind the map.
 
 ## Ghost selection
 
-Records → Ghosts offers Automatic fastest 10 or a manual subset, including an
-explicit empty set. Rows show rank, time, UTC date, short stable run ID and a
+Records → Ghosts offers Automatic fastest with a persisted count from 1 through
+10 (default 10), or a manual subset including an explicit empty set. Automatic
+uses fewer ghosts when fewer compatible recordings are available. Rows show
+rank, time, UTC date, short stable run ID and a
 color swatch; color supplements identity. `ui/ghost_selector.gd` emits selection
 intent through the existing menu owner. Choices save for the next start/retry;
 current competitors and frozen PB split comparisons stay unchanged. Missing or

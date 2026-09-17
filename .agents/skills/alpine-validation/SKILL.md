@@ -103,6 +103,12 @@ Capture the current-input note before native execution and preserve historical
 source/engine mismatch receipts. The `counts` follow-up exercises 0/5/32 markers
 without timing; do not run the legacy cost matrix during a functional-only pass.
 
+For ghost selection, use the selector-only native route in
+[ghost producers](../../../docs/VALIDATION.md#crash-recovery-and-ghost-producers).
+It uses synthetic recordings solely for Records input/selection. Use the focused
+actual-solver producer for contact and palette images; verify receiving geometry
+and real shadow darkening before accepting its visual evidence.
+
 Read `run.json`, `results.json`, relevant logs and emitted captures. Confirm the
 expected suites actually ran; `not_run`, engine errors, incomplete output or a
 timeout cannot be reported as a pass. Inspect rendered output when required;

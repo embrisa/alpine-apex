@@ -1721,6 +1721,32 @@ independent finishes, pause/hide/reenable and crash discontinuities. Codec fixtu
 are not animation-quality evidence. The native crash result above and ghost's separate review do not establish
 natural-mountain placement usefulness, full-route behavior or human comfort.
 
+For Records-only edits, use `tests/ghost_playtest.gd -- --selector-only
+--output=artifacts/<unique-label> --fps-limit=60` under a Shared guard. This
+isolated synthetic recording fixture checks mouse, keyboard and controller
+selection at 1024×720 and 3840×2160, including empty manual selection, automatic
+counts and frozen active rosters. It does not establish animation or FPS quality.
+Injected main-window mouse coordinates use the root's final transform; popup
+events target the popup's host window ID. Mouse coordinates include the panel
+offset and, for an embedded popup, its position within the transformed host.
+
+`tests/ghost_focused_native.gd -- --output=artifacts/<unique-label>
+--fps-limit=60` covers the six actual-solver contact cases and all ten colors
+against default/dark/light/cyan outfits. Its analytic receiving quads use
+clockwise front faces and production snow/rock materials; the sun shares the
+stage camera's visibility layer. An actual shadow
+caster must darken the snow probe by at least 10%; inspect the images as well.
+For palette-only fixes, add `--palette-only`: it records one actual production
+sample interval to supply the starting pose, then captures only the lineup.
+Default clothing retains its atlas; the contrast stress cases use solid dark,
+light and cyan albedo with the production lit shader and normal map. They test
+color separation, not additional player wardrobe assets. The snow probe converts
+the camera projection into framebuffer pixels before sampling.
+Both native producers currently load the integrated laboratory and require
+`-FullMountain` with a specific `-FullMountainReason` on the guard. They keep
+source paths and file metadata without content-hash audits. Keep their rendered
+evidence separate from the storage, physics/runtime and human acceptance layers.
+
 ## Weather and storm-race evidence
 
 The original weather evidence below used race schema 5 / weather rules 1;

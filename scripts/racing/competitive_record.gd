@@ -2,6 +2,7 @@ extends RefCounted
 ## Small atomic manifest plus immutable bounded replay blobs. Metadata loads do
 ## not inflate recordings; only the next attempt's selected IDs are decoded.
 const VERSION = 4
+const SELECTION_VERSION = 1
 const Clock = preload("res://scripts/racing/record_clock.gd")
 const MAX_RUNS = 10
 const MAX_BYTES = 256*1024 # manifest UTF-8, before JSON parsing
@@ -16,7 +17,7 @@ static func payload_directory(record_path: String) -> String:
 	return path_for(record_path).get_basename()+"_payloads"
 
 static func default_selection() -> Dictionary:
-	return {"mode":"automatic","ids":[]}
+	return {"version":SELECTION_VERSION,"mode":"automatic","ids":[],"automatic_count":MAX_RUNS}
 
 static func run_id() -> String:
 	return Crypto.new().generate_random_bytes(16).hex_encode()
@@ -33,8 +34,10 @@ static func ordered(a: Dictionary, b: Dictionary) -> bool:
 	return a.id<b.id
 
 static func normalize_selection(value: Variant) -> Dictionary:
-	if not value is Dictionary or value.get("mode") not in ["automatic","manual"] or not value.get("ids") is Array: return default_selection()
-	var result = {"mode":value.mode,"ids":[]}
+	if not value is Dictionary or value.get("version")!=SELECTION_VERSION or value.get("mode") not in ["automatic","manual"] or not value.get("ids") is Array: return default_selection()
+	var count = value.get("automatic_count")
+	if not Replay.number(count) or count!=floorf(count): return default_selection()
+	var result = {"version":SELECTION_VERSION,"mode":value.mode,"ids":[],"automatic_count":clampi(int(count),1,MAX_RUNS)}
 	if value.mode=="automatic": return result
 	for id in value.ids.slice(0,MAX_RUNS):
 		if valid_id(id) and not result.ids.has(id): result.ids.append(id)
@@ -65,6 +68,8 @@ static func load_record(record_path: String, identity: Dictionary) -> Dictionary
 			var row = _read_result(stored)
 			if not row.is_empty(): result.history.append(clean_result(row))
 	result.selection = normalize_selection(data.get("selection"))
+	if not data.get("selection") is Dictionary or data.selection.get("version")!=SELECTION_VERSION:
+		result.warning = "Ghost selection was reset to Automatic fastest 10 because its saved settings are incompatible."
 	if not data.get("runs") is Array or data.runs.size()>MAX_RUNS:
 		result.warning = "Times retained; the ghost archive has an invalid entry count."
 		return result
@@ -144,6 +149,7 @@ static func prune_selection(selection: Dictionary, runs: Array) -> String:
 	return "Selected ghosts removed because they are unavailable or evicted: "+", ".join(removed)+". Choose replacements or Automatic fastest 10." if not removed.is_empty() else ""
 
 static func selected(record_path: String, identity: Dictionary, runs: Array, selection: Dictionary, cache = null) -> Dictionary:
+	selection = normalize_selection(selection)
 	var active: Array = []
 	if runs.size()>MAX_RUNS:
 		if cache: cache.clear()
@@ -190,6 +196,7 @@ static func selected(record_path: String, identity: Dictionary, runs: Array, sel
 			unavailable.append(row.id)
 			continue
 		active.append({"id":row.id,"time":row.time,"date":row.date,"replay":replay})
+		if selection.mode=="automatic" and active.size()>=selection.automatic_count: break
 	return {"runs":active,"unavailable":unavailable}
 
 ## Immutable-input payload work shared across worker threads. Each job is a

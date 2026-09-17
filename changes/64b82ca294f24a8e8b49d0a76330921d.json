@@ -1,0 +1,293 @@
+{
+  "schema": 1,
+  "id": "64b82ca294f24a8e8b49d0a76330921d",
+  "summary": "Add persistent automatic ghost count and finish selector/render fixtures",
+  "categories": [
+    "Presentation",
+    "Data format"
+  ],
+  "areas": [
+    "Automatic ghost count and frozen attempt selection",
+    "Native Records input and ghost contact/palette fixtures"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/blocked/AA-20260911-220556-animated-ghost-snow-tracks.md",
+    "backlog/completed/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md",
+    "backlog/QUEUE.md",
+    "backlog/REMAINING_20260912.md",
+    "backlog/tasks/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md",
+    "docs/PRESENTATION.md",
+    "docs/RACING.md",
+    "docs/VALIDATION.md",
+    "scripts/core/run_session.gd",
+    "scripts/main.gd",
+    "scripts/racing/competitive_record.gd",
+    "scripts/ui/competitive_panel.gd",
+    "scripts/ui/ghost_selector.gd",
+    "scripts/ui/hud.gd",
+    "tests/ghost_archive_suite.gd",
+    "tests/ghost_focused_native.gd",
+    "tests/ghost_playtest.gd",
+    "tests/ghost_retry_cache_suite.gd"
+  ],
+  "read_paths": [
+    ".agents/skills/alpine-animation/SKILL.md",
+    "AGENTS.md",
+    "assets/graphics/textured_lit.gdshader",
+    "docs/DEVELOPMENT.md",
+    "scripts/presentation/ghost_field.gd",
+    "scripts/presentation/skier_appearance.gd",
+    "scripts/racing/ghost_replay_cache.gd",
+    "scripts/racing/run_replay.gd",
+    "scripts/ui/menu_navigation.gd",
+    "scripts/ui/popup_navigation_bridge.gd",
+    "tests/physics_suite.gd",
+    "tests/runtime_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "reason": "Selection preference and fixture changes do not change simulation, tuning or the 120 Hz clock.",
+        "effect": "preserved"
+      },
+      "world": {
+        "reason": "Only the isolated analytic review stage changes geometry and lighting.",
+        "effect": "preserved"
+      },
+      "data": {
+        "reason": "Selection metadata version 1 adds automatic_count; obsolete preferences reset, while archive 4 and replay 7 remain current.",
+        "effect": "changed"
+      }
+    },
+    "data": {
+      "mountains": {
+        "reason": "No terrain or generation changes.",
+        "effect": "preserved"
+      },
+      "races": {
+        "reason": "No race identity, eligibility or clock changes.",
+        "effect": "preserved"
+      },
+      "records": {
+        "reason": "Valid PBs, splits and history remain; obsolete ghost-selection preferences reset to Automatic 10.",
+        "effect": "preserved"
+      },
+      "ghosts": {
+        "reason": "Replay payload format and completed pose playback unchanged; only next-attempt roster size changes.",
+        "effect": "preserved"
+      },
+      "caches": {
+        "reason": "Existing bounded payload validation/cache behavior retained.",
+        "effect": "preserved"
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "scripts/test_pc_environment.ps1 -Suites physics_suite,runtime_suite,ghost_archive_suite,ghost_retry_cache_suite,crash_replay_suite -OutputDirectory artifacts/ghost_selector_20260917/regression; final ghost_archive_suite in archive-final",
+      "result": "passed",
+      "details": "Physics 56, runtime 192, retry/cache 58, crash/replay 36; final archive 161. Required production paths unchanged after this batch; only fixture and administrative paths subsequently changed."
+    },
+    {
+      "kind": "automated",
+      "command": "Shared guard ghost-selector-ui-embedded-20260917: ./godotw --script tests/ghost_playtest.gd -- --selector-only --output=artifacts/ghost_selector_20260917/native-ui-embedded --fps-limit=60",
+      "result": "passed",
+      "details": "92 native event checks, both resolutions, clean exit. Synthetic recordings isolate UI coverage; no new chronology or FPS claim."
+    },
+    {
+      "kind": "rendered",
+      "command": "Shared guards ghost-contact-palette-lit-20260917 and ghost-palette-outfits-20260917; tests/ghost_focused_native.gd, final --palette-only",
+      "result": "passed",
+      "details": "All six contact cases passed in focused-lit. Four old probe failures in that 231-check batch are superseded by palette-outfits: 37 checks pass after coordinate correction. All 8 final outfit/light views and required contact/reentry images inspected. Ground receives real sunlight/shadow (56.6% darkening); nondefault solid outfit fixtures retain production lit shader/normal map. No production pose or shader edits."
+    },
+    {
+      "kind": "automated",
+      "command": "python scripts/backlog.py validate; git diff --check; python scripts/versioning.py check --note changes/64b82ca294f24a8e8b49d0a76330921d.json --staged",
+      "result": "passed",
+      "details": "Backlog metadata and diff whitespace passed; scoped version checks run before and after staging. Final metadata-only capture covers administrative closure; runtime evidence is reused only for unchanged paths."
+    },
+    {
+      "kind": "performance",
+      "command": "Not run",
+      "result": "not_required",
+      "details": "Selection preference and diagnostic fixture milestone; capped native checks make no performance claim. Retain the current reusable dense-route baseline."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Actual human controller feel and subjective ghost appearance remain untested; no FPS gain is claimed by capped functional captures."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T01:06:28.727938+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "068e720b21e428118ba6f2c5c5658ae63daad669",
+      "dev": 79,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-animation/SKILL.md": {
+        "size": 2630,
+        "mtime_ns": 1789548601178790400
+      },
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 9933,
+        "mtime_ns": 1789606101656590800
+      },
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "assets/graphics/textured_lit.gdshader": {
+        "size": 110,
+        "mtime_ns": 1788784881810075900
+      },
+      "backlog/QUEUE.md": {
+        "size": 5591,
+        "mtime_ns": 1789607166784154600
+      },
+      "backlog/REMAINING_20260912.md": {
+        "size": 1535,
+        "mtime_ns": 1789607166784154600
+      },
+      "backlog/blocked/AA-20260911-220556-animated-ghost-snow-tracks.md": {
+        "size": 23852,
+        "mtime_ns": 1789607188206306000
+      },
+      "backlog/completed/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md": {
+        "size": 7898,
+        "mtime_ns": 1789607166783060100
+      },
+      "backlog/tasks/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 20655,
+        "mtime_ns": 1789577468895854200
+      },
+      "docs/PRESENTATION.md": {
+        "size": 29747,
+        "mtime_ns": 1789606101654551700
+      },
+      "docs/RACING.md": {
+        "size": 21394,
+        "mtime_ns": 1789606101654551700
+      },
+      "docs/VALIDATION.md": {
+        "size": 131194,
+        "mtime_ns": 1789606799493917200
+      },
+      "project.godot": {
+        "size": 1819,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/core/run_session.gd": {
+        "size": 10945,
+        "mtime_ns": 1789605278207737300
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/main.gd": {
+        "size": 87902,
+        "mtime_ns": 1789605278208781800
+      },
+      "scripts/presentation/ghost_field.gd": {
+        "size": 3531,
+        "mtime_ns": 1789207383991993200
+      },
+      "scripts/presentation/skier_appearance.gd": {
+        "size": 1854,
+        "mtime_ns": 1788729251651021100
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/ghost_replay_cache.gd": {
+        "size": 2645,
+        "mtime_ns": 1789209129702550500
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789576668695286100
+      },
+      "scripts/ui/competitive_panel.gd": {
+        "size": 5457,
+        "mtime_ns": 1789605278210784400
+      },
+      "scripts/ui/ghost_selector.gd": {
+        "size": 4276,
+        "mtime_ns": 1789605278209784500
+      },
+      "scripts/ui/hud.gd": {
+        "size": 52461,
+        "mtime_ns": 1789605278207737300
+      },
+      "scripts/ui/menu_navigation.gd": {
+        "size": 16016,
+        "mtime_ns": 1789594595779456600
+      },
+      "scripts/ui/popup_navigation_bridge.gd": {
+        "size": 287,
+        "mtime_ns": 1789147802555974700
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/ghost_archive_suite.gd": {
+        "size": 11788,
+        "mtime_ns": 1789606172761103700
+      },
+      "tests/ghost_focused_native.gd": {
+        "size": 42732,
+        "mtime_ns": 1789606799491845500
+      },
+      "tests/ghost_playtest.gd": {
+        "size": 30912,
+        "mtime_ns": 1789606207429484200
+      },
+      "tests/ghost_retry_cache_suite.gd": {
+        "size": 17428,
+        "mtime_ns": 1789605345844334500
+      },
+      "tests/physics_suite.gd": {
+        "size": 18435,
+        "mtime_ns": 1789594595873594000
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41141,
+        "mtime_ns": 1789594595889425300
+      }
+    }
+  }
+}

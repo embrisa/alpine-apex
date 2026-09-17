@@ -74,7 +74,7 @@ func refresh(session, ghost_enabled: bool) -> void:
 	best.text = Session.format_time(session.personal_best)
 	ghost_toggle.set_pressed_no_signal(ghost_enabled)
 	ghost_toggle.disabled = free_ski
-	ghost_info.text = "%d selected ghosts this attempt. Choose Automatic fastest 10 or a manual subset on the Ghosts tab. Changes apply next start/retry." % session.reference_ghosts.size()
+	ghost_info.text = "%d selected ghosts this attempt. Choose Automatic fastest 1–10 or a manual subset on the Ghosts tab. Changes apply next start/retry." % session.reference_ghosts.size()
 	selector.refresh(session)
 	if free_ski: ghost_info.text = "Free skiing has no personal best or ghost. Create or select a race on this mountain."
 	var has_attempt: bool = session.elapsed>0.0

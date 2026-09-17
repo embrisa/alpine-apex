@@ -235,6 +235,14 @@ accounting and the roster order stay on the calling thread, so the result is
 identical to the sequential loop. `tests/session_stall_probe.gd` measures the
 finish save, crash placement and retry paths on the Standard mountain.
 
+Selection metadata has its own version 1: mode, stable manual IDs and an
+automatic count clamped to 1–10, default 10. Obsolete selection metadata resets
+to Automatic fastest 10 with a notice; it is not migrated. This resets only
+the preference, preserving valid archive-4 PB/history and replay-7 payloads.
+Automatic selection fills its count from the fastest compatible recordings,
+skipping unavailable entries. Manual empty selection stays empty. Saved changes
+apply at the next attempt reset; the current roster and PB reference stay frozen.
+
 All serialized result times/splits and replay crash endpoints use
 `record_clock.gd`: exactly 16 lowercase hexadecimal characters containing
 little-endian IEEE754 float64 bytes. Loaded/session APIs remain numeric.

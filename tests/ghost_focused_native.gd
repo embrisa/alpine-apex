@@ -20,6 +20,7 @@ var labels: Array = []
 var source_identity: Dictionary = {}
 var reusable_replay
 var readback_us = 0
+var palette_only = false
 
 class DiagnosticSurface extends RefCounted:
 	var kind = "flat"
@@ -41,6 +42,7 @@ func run() -> void:
 	set_meta("test_lab_fixture",true)
 	profiling = "--profile" in OS.get_cmdline_user_args()
 	review_only = "--review-only" in OS.get_cmdline_user_args()
+	palette_only = "--palette-only" in OS.get_cmdline_user_args()
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--output="):
 			output = arg.trim_prefix("--output=")
@@ -98,6 +100,8 @@ func run() -> void:
 	if not check(not profiling,"Focused capture is not a performance profile"): await _finish(); return
 	source_identity = _focused_sources()
 	_setup_stage()
+	if palette_only:
+		_prepare_palette_replay()
 	for spec in [
 		{"name":"hard_left","kind":"flat","gradient":.30,"speed":25.0,"seconds":3.5,"direction":-1.0},
 		{"name":"hard_right","kind":"flat","gradient":.30,"speed":25.0,"seconds":3.5,"direction":1.0},
@@ -105,12 +109,32 @@ func run() -> void:
 		{"name":"one_ski_drop","kind":"one_ski","gradient":0.0,"speed":12.0,"seconds":3.0,"direction":0.0},
 		{"name":"rock_strip","kind":"rock_strip","gradient":0.0,"speed":12.0,"seconds":3.0,"direction":0.0},
 		{"name":"accepted_jump","kind":"flat","gradient":0.0,"speed":18.0,"seconds":3.0,"direction":0.0}]:
+		if palette_only: break
 		await _focused_case(spec)
 	# Independent palette evidence still runs if a physical coverage assertion fails.
 	if reusable_replay!=null: await _palette_lineup()
-	check(_focused_sources()==source_identity,"Source identity stable during focused capture")
+	check(_focused_sources()==source_identity,"Scoped source metadata stable during focused capture")
 	_check_isolation("focused finish")
 	await _finish()
+
+func _prepare_palette_replay() -> void:
+	# The lineup reads only t=0. Capture the same actual completed starting pose
+	# as hard_left, plus one normal sample interval for a valid current replay.
+	var surface = DiagnosticSurface.new(); surface.gradient = .30
+	var sim = _make_diagnostic_sim({"name":"hard_left","speed":25.0},surface)
+	var visual = game.skier
+	visual.reset_animation(sim); visual.pose(sim,1.0)
+	var identity = Replay.key("focused-hard_left")
+	var replay = Replay.new(); replay.begin(sim,identity)
+	replay.capture_presentation(0.0,Pose.capture(visual,sim,surface))
+	for tick in range(1,Replay.SAMPLE_EVERY+1):
+		var intent = RiderInput.new(); intent.tuck = .2
+		sim.step(DT,intent,surface)
+		visual.step_animation(DT,sim,intent,surface); visual.pose(sim,1.0)
+		replay.record(DT,tick*DT,sim,intent,1.0 if tick==Replay.SAMPLE_EVERY else -1.0)
+		if replay.wants_presentation_sample(): replay.capture_presentation(tick*DT,Pose.capture(visual,sim,surface))
+	reusable_replay = Replay.decode(replay.to_data(),identity,replay.duration)
+	check(reusable_replay!=null,"Palette-only actual production pose passes current replay validation")
 
 func _setup_stage() -> void:
 	game.active = false; game.hud.visible = false
@@ -127,6 +151,8 @@ func _setup_stage() -> void:
 	game.world.environment.ambient_light_energy = .25
 	game.world.sun.rotation_degrees = Vector3(-75,-20,0)
 	game.world.sun.light_energy = 1.4; game.world.sun.visible = true
+	# Directional lights participate in the camera's visibility-layer culling too.
+	game.world.sun.layers = STAGE_LAYER
 	game.world.sun.shadow_enabled = true; game.world.sun.directional_shadow_max_distance = 160
 	game.world.moon.visible = false
 	stage = Node3D.new(); root.add_child(stage)
@@ -172,7 +198,9 @@ func _stage_surface(surface) -> void:
 
 func _quad(points: Array[Vector3], normal: Vector3, material: Material) -> void:
 	var build = SurfaceTool.new(); build.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for index in [0,2,1,1,2,3]:
+	# Godot's front faces wind clockwise. Keep the supplied upward normals while
+	# making the receiving face visible from above, including real shadow probes.
+	for index in [0,1,2,1,3,2]:
 		build.set_normal(normal); build.set_uv(Vector2(points[index].x,points[index].z)*.2); build.add_vertex(points[index])
 	var node = MeshInstance3D.new(); node.mesh = build.commit(); node.material_override = material
 	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -496,7 +524,16 @@ func _palette_lineup() -> void:
 	caster.mesh = box; caster.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
 	caster.layers = STAGE_LAYER; stage.add_child(caster); caster.position = Vector3(0,STAGE_Y+8,2)
 	var original: Color = game.skier.appearance.values.Clothing.tint
+	var clothing: ShaderMaterial = game.skier.appearance.materials.Clothing
+	var original_albedo = clothing.get_shader_parameter("has_albedo")
+	var original_atlas: Color = field_ghosts.atlas_color
 	for outfit in [{"name":"default","tint":original},{"name":"dark","tint":Color("22252b")},{"name":"light","tint":Color("edf6ff")},{"name":"cyan","tint":Color("22c6de")}]:
+		# A white tint over the orange atlas is still orange. For contrast stress
+		# cases use solid clothing albedo with the production lit shader/normal map;
+		# retain the unmodified textured outfit for the default comparison.
+		var textured: bool = outfit.name=="default"
+		clothing.set_shader_parameter("has_albedo",original_albedo if textured else false)
+		field_ghosts.atlas_color = original_atlas if textured else Color.WHITE
 		game.skier.appearance.change("Clothing","tint",outfit.tint,false)
 		field_ghosts.refresh_colors(lineup)
 		var binding: Dictionary = field_ghosts.colors.duplicate()
@@ -518,7 +555,7 @@ func _palette_lineup() -> void:
 		projected.append(_screen_bounds(game.skier))
 		var framed = true; var separated = true
 		for i in projected.size():
-			framed = framed and Rect2(Vector2.ZERO,Vector2(PIXELS)).encloses(projected[i])
+			framed = framed and root.get_visible_rect().encloses(projected[i])
 			for j in range(i): separated = separated and not projected[i].intersects(projected[j])
 		check(framed and separated,outfit.name+": all ten joint/equipment bounds and player are framed and separated in projection")
 		labels[10].visible = true; labels[10].text = "LIVE / "+outfit.name
@@ -528,14 +565,17 @@ func _palette_lineup() -> void:
 			caster.visible = shadow
 			for frame in 12: await process_frame
 			var info = {"outfit":outfit.name,"shadow_caster":shadow,"arrangement":"Separated presentation-only 2x5 lineup; shared actual decoded clip is deliberate; IDs/colors remain bound","entries":entries,"light_rotation":_v(game.world.sun.rotation_degrees),"light_energy":game.world.sun.light_energy,"ambient_energy":game.world.environment.ambient_light_energy}
+			info.outfit_source = "Original textured outfit" if textured else "Diagnostic solid clothing albedo; production lit shader and normal map"
 			var image = await _focused_capture("palette_"+outfit.name+("_shadow" if shadow else "_bright"),"Separated production-material ghost lineup / "+outfit.name+(" / real overhead shadow caster" if shadow else " / direct sunlight"),info)
 			if image!=null:
-				var probe: Vector2 = observer.unproject_position(Vector3(0,STAGE_Y,-3))
+				var probe: Vector2 = root.get_final_transform()*observer.unproject_position(Vector3(0,STAGE_Y,-3))
 				var luma = _image_luma(image,probe)
 				info.shadow_probe_pixel = [probe.x,probe.y]; info.shadow_probe_luma = luma
 				if not shadow: bright_luma = luma
 				else: check(bright_luma>0.0 and luma<bright_luma*.90,outfit.name+": real caster visibly darkens the snow probe; palette still needs pixel review")
 			palette_rows.append(info)
+	clothing.set_shader_parameter("has_albedo",original_albedo)
+	field_ghosts.atlas_color = original_atlas
 	game.skier.appearance.change("Clothing","tint",original,false)
 	field_ghosts.refresh_colors(lineup); caster.queue_free()
 
@@ -576,13 +616,15 @@ static func _v(value: Vector3) -> Array: return [value.x,value.y,value.z]
 func _focused_sources() -> Dictionary:
 	var sources: Dictionary = {}
 	for path in ["tests/ghost_focused_native.gd","tests/ghost_playtest.gd","scripts/core/ski_simulation.gd","scripts/core/ski_contact.gd","scripts/core/air_rotation.gd","config/ski_default.tres","scripts/presentation/ghost_pose.gd","scripts/presentation/personal_best_ghost.gd","scripts/presentation/ghost_field.gd","scripts/presentation/ghost_palette.gd","scripts/presentation/skier_visual.gd","scripts/presentation/skier_full_motion.gd","scripts/presentation/pole_push_pose.gd","scripts/presentation/snow_response.gd","scripts/presentation/snow_tracks.gd","scripts/racing/run_replay.gd","assets/graphics/ghost_skier.gdshader","assets/graphics/ski_track.gdshader"]:
-		sources[path] = FileAccess.get_sha256("res://"+path)
+		sources[path] = _source_metadata(path)
 	for path in ["scripts/presentation/skier_pose_writer.gd","scripts/presentation/skier_equipment.gd","scripts/presentation/skier_animation.gd","scripts/presentation/skier_anatomy.gd","scripts/presentation/action_posture.gd","scripts/presentation/downhill_posture.gd","assets/graphics/models/skier_v7.glb","assets/animation/steep_ski_motion.res"]:
-		sources[path] = FileAccess.get_sha256("res://"+path)
+		sources[path] = _source_metadata(path)
 	return sources
 
 func _write_focus_report() -> void:
-	var report = {"checks":checks,"failures":failures,"scope":"One Main load; 20 seconds total actual 120 Hz physics on labelled analytic fixtures; no fabricated recording frames/contact flags. Separated lineup positions are presentation-only.","cases":focused_cases,"palette":palette_rows,"captures":focused_captures,"sources":source_identity,"engine":Engine.get_version_info().string,"display":game.display_settings.report(root,actual_pixels) if is_instance_valid(game) else {},"framebuffers":framebuffer_checks,"readback_wall_ms":readback_us/1000.0,"performance_eligible":false,"human_acceptance":"pending"}
+	var scope = "One Main load; 20 seconds total actual 120 Hz physics on labelled analytic fixtures; no fabricated recording frames/contact flags. Separated lineup positions are presentation-only."
+	if palette_only: scope = "Palette-only: actual production starting pose and one normal replay sample interval; no contact-case rerun. Separated lineup positions are presentation-only."
+	var report = {"checks":checks,"failures":failures,"scope":scope,"palette_only":palette_only,"cases":focused_cases,"palette":palette_rows,"captures":focused_captures,"sources":source_identity,"engine":Engine.get_version_info().string,"display":game.display_settings.report(root,actual_pixels) if is_instance_valid(game) else {},"framebuffers":framebuffer_checks,"readback_wall_ms":readback_us/1000.0,"performance_eligible":false,"human_acceptance":"pending"}
 	var file = preload("res://tests/test_report.gd").open_write(output.path_join("focused_results.json"))
 	if file: file.store_string(JSON.stringify(report,"\t")); file.close()
 	else: check(false,"Focused report writable")

@@ -5,7 +5,7 @@ status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-11T22:05:56Z"
-updated: "2026-09-17T00:13:30Z"
+updated: "2026-09-17T01:06:06Z"
 source_thread: "01a0927f-723e-7341-bfbc-e2ca1b449d1b"
 ---
 
@@ -224,12 +224,12 @@ rendered or performance acceptance. The task remains unimplemented and ready.
   runs older than recent history. Exercise more than 20 completions, out-of-order
   times, ties, duplicate saves, eviction, save failure and separate race IDs.
   Automated/unranked/incomplete runs never enter the player's archive.
-- [ ] Default selection contains the fastest ten available (or all if fewer).
+- [x] Default selection contains the fastest ten available (or all if fewer).
   Manual subsets from zero to ten survive retry/app reload; new bests update
   automatic selection only for the next attempt and do not overwrite manual
   choices. Missing/evicted selected IDs produce an explanation. Returning to
   automatic restores fastest selection. No selection leaks between races.
-- [ ] The selector exposes sorted rank/time/date/color and selected count; native
+- [x] The selector exposes sorted rank/time/date/color and selected count; native
   controller, keyboard and mouse fixtures verify toggles, scrolling, focus and
   Back at supported small and 4K layouts. It clearly states that changed choices
   apply next attempt. Global hide/show preserves selection and starts no catch-up
@@ -316,4 +316,20 @@ proposed. Those suggestions require the user's selection before task authoring.
 
 ## Checkpoint disposition — 2026-09-12T13:21:47Z
 
-Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-ghost-selector-and-render-fixtures](../tasks/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md), [AA-20260912-132147-reduce-cold-ghost-archive-load](../tasks/AA-20260912-132147-reduce-cold-ghost-archive-load.md), [AA-20260912-132147-reduce-ten-ghost-presentation-cost](../tasks/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md), [AA-20260912-132147-close-eight-feature-integration-records](../abandoned/AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.
+Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-ghost-selector-and-render-fixtures](../completed/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md), [AA-20260912-132147-reduce-cold-ghost-archive-load](../tasks/AA-20260912-132147-reduce-cold-ghost-archive-load.md), [AA-20260912-132147-reduce-ten-ghost-presentation-cost](../tasks/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md), [AA-20260912-132147-close-eight-feature-integration-records](../abandoned/AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.
+
+## Selector and fixture completion — 17 September 2026
+
+The user's backlog-completion goal resumes the narrow follow-ups. Selector
+acceptance is now complete: Automatic fastest 1–10 (default ten), frozen active
+roster, persistent manual/empty selections and 92 native input checks at small
+and 4K layouts. Current archive/retry checks pass. The original fixture failures
+were coordinate transforms, quad winding and the stage light layer, not a
+production input defect. All six contact cases pass; final palette-only checks
+pass 37/37 with real shadow darkening of 56.6%. All ten ghost colours were reviewed
+against default, dark, light and cyan diagnostic outfits with production lighting.
+The palette portion of appearance acceptance is complete; broader chronology,
+occlusion and playback cost stay attached to their original evidence/follow-up.
+No human acceptance or FPS gain is claimed. See the completed selector task for
+commands, retained evidence and delivery note. Cold loading and ten-ghost playback
+remain active; this parent is not yet complete.

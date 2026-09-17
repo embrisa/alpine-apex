@@ -62,7 +62,7 @@ signal navigation_requested
 var navigation_button: Button
 signal competition_requested
 signal ghost_visibility_requested(enabled: bool)
-signal ghost_selection_requested(mode: String, ids: Array)
+signal ghost_selection_requested(mode: String, ids: Array, automatic_count: int)
 var ghost_colors: Dictionary = {}
 const Competition = preload("res://scripts/ui/competitive_panel.gd")
 var competition = Competition.new()

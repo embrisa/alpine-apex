@@ -62,14 +62,22 @@ func _small_archive() -> void:
 	var reference_splits = session.reference_splits.duplicate()
 	var ids: Array = []
 	for row in session.ghost_runs: ids.append(row.id)
-	session.choose_ghosts("manual",ids.slice(0,3))
+	var original_roster = session.reference_ghosts.duplicate()
+	for count in range(1,11):
+		session.choose_ghosts("automatic",[],count)
+		check(session.reference_ghosts==original_roster,"Automatic %d leaves current attempt frozen" % count)
+		check(Records.load_record(path,identity).selection.automatic_count==count,"Automatic %d persists for restart" % count)
+	session.choose_ghosts("automatic",[],3); session.reset()
+	check(session.reference_ghosts.map(func(row): return row.id)==ids.slice(0,3),"Retry freezes requested automatic fastest three")
+	session.choose_ghosts("automatic",[],10); session.reset()
+	session.choose_ghosts("manual",ids.slice(0,3),10)
 	check(_same_replays(cold,session.reference_ghosts),"Selection changes leave current attempt references frozen")
 	metrics.small_subset_retry = _timed_reset(session)
 	check(session.reference_ghosts.size()==3 and metrics.small_subset_retry.decodes==0 and metrics.small_subset_retry.hits==3 and session.ghost_cache.stats().entries==3,"Next attempt reuses chosen subset and releases deselected cache references")
 	check(session.previous_best==best and session.reference_splits==reference_splits,"Cache and selection do not change PB/split references")
-	session.choose_ghosts("manual",[]); session.reset()
+	session.choose_ghosts("manual",[],10); session.reset()
 	check(session.reference_ghosts.is_empty() and session.ghost_cache.stats().entries==0,"Explicit empty selection clears decoded cache at next attempt")
-	session.choose_ghosts("automatic",[])
+	session.choose_ghosts("automatic",[],10)
 	metrics.small_reselected_cold = _timed_reset(session)
 	check(session.reference_ghosts.size()==10 and metrics.small_reselected_cold.decodes==10,"Reselecting released payloads still requires full decoding")
 	var evicted: String = session.ghost_runs[-1].id
@@ -173,7 +181,7 @@ func _payload_invalidation(path: String, identity: Dictionary, rows: Array) -> v
 
 func _identity_and_scope(path: String, identity: Dictionary, rows: Array) -> void:
 	var cache = Cache.new()
-	var manual = {"mode":"manual","ids":[rows[0].id]}
+	var manual = {"version":Records.SELECTION_VERSION,"automatic_count":10,"mode":"manual","ids":[rows[0].id]}
 	Records.selected(path,identity,rows,manual,cache)
 	for key in ["course","engine","physics","tuning","tick_hz"]:
 		var changed = identity.duplicate()

@@ -61,8 +61,28 @@ func run() -> void:
 	check(active.runs.size()==10,"Automatic defaults to all ten compatible recordings")
 	var ids: Array = []
 	for row in loaded.runs: ids.append(row.id)
+	for count in range(1,11):
+		selection = Records.default_selection(); selection.automatic_count = count
+		check(Records.save(path,identity,best,[-1.0,-1.0,-1.0],history,loaded.runs,selection).is_empty(),"Save automatic fastest %d" % count)
+		var restored = Records.load_record(path,identity)
+		var chosen = Records.selected(path,identity,restored.runs,restored.selection).runs
+		check(restored.selection==selection and chosen.map(func(row): return row.id)==ids.slice(0,count),"Automatic fastest %d survives reload and preserves rank" % count)
+		check(Records.selected(path,identity,restored.runs.slice(0,2),restored.selection).runs.size()==mini(count,2),"Automatic %d handles fewer available recordings" % count)
+	var obsolete_selection = {"mode":"manual","ids":[ids[0]]}
+	check(Records.normalize_selection(obsolete_selection)==Records.default_selection(),"Obsolete selection metadata is reset, never migrated")
+	var manifest = JSON.parse_string(FileAccess.get_file_as_string(Records.path_for(path)))
+	manifest.selection = obsolete_selection
+	preload("res://tests/test_report.gd").write(Records.path_for(path),JSON.stringify(manifest))
+	var reset = Records.load_record(path,identity)
+	check(reset.selection==Records.default_selection() and not reset.warning.is_empty() and reset.best==loaded.best and reset.history==loaded.history and reset.runs==loaded.runs,"Obsolete selection resets with notice while valid PB, history and payload references survive")
+	for invalid_count in [NAN,INF,1.5,"3",null]:
+		var invalid_selection = Records.default_selection(); invalid_selection.automatic_count = invalid_count
+		check(Records.normalize_selection(invalid_selection)==Records.default_selection(),"Malformed automatic count resets to the current default")
+	for limit in [-8,0,11,999]:
+		var bounded = Records.default_selection(); bounded.automatic_count = limit
+		check(Records.normalize_selection(bounded).automatic_count==clampi(limit,1,10),"Automatic count is bounded: %d" % limit)
 	for count in [0,1,5,10]:
-		selection = {"mode":"manual","ids":ids.slice(0,count)}
+		selection = {"version":Records.SELECTION_VERSION,"automatic_count":10,"mode":"manual","ids":ids.slice(0,count)}
 		check(Records.save(path,identity,best,[-1.0,-1.0,-1.0],history,loaded.runs,selection).is_empty(),"Save manual subset %d" % count)
 		var restored = Records.load_record(path,identity)
 		check(restored.selection==selection and Records.selected(path,identity,restored.runs,restored.selection).runs.size()==count,"Manual %d survives reload including empty" % count)
@@ -72,7 +92,7 @@ func run() -> void:
 	var tied = duplicate.duplicate(); tied.id = Records.run_id(); tied.date += 1
 	var tied_runs = Records.retain(loaded.runs,tied,active.runs[0].replay)
 	check(tied_runs.size()==10 and tied_runs[1].id==tied.id,"Distinct equal-time runs coexist in stable order")
-	var manual_evicted = {"mode":"manual","ids":[loaded.runs[-1].id]}
+	var manual_evicted = {"version":Records.SELECTION_VERSION,"automatic_count":10,"mode":"manual","ids":[loaded.runs[-1].id]}
 	check(not Records.prune_selection(manual_evicted,tied_runs).is_empty() and manual_evicted.ids.is_empty(),"Eviction removes manual ID with explanation and no replacement")
 	check(Records.load_record(directory.path_join("other.json"),Replay.key("other-race")).runs.is_empty(),"Separate race has independent archive and selection")
 	var good = active.runs[0].replay
@@ -98,6 +118,9 @@ func run() -> void:
 	DirAccess.remove_absolute(Records.payload_directory(path).path_join(missing.sha256+".replay"))
 	var survivors = Records.selected(path,identity,loaded.runs,Records.default_selection())
 	check(survivors.unavailable.has(missing.id) and survivors.runs.size()<10 and not survivors.runs.is_empty(),"One missing payload does not block remaining valid ghosts")
+	var limited = Records.default_selection(); limited.automatic_count = 4
+	var filled = Records.selected(path,identity,loaded.runs,limited)
+	check(filled.runs.size()==4 and filled.runs[-1].id==loaded.runs[4].id,"Automatic count fills from the next compatible recording after a missing payload")
 	var before = FileAccess.get_sha256(Records.path_for(path))
 	preload("res://tests/test_report.gd").write(directory.path_join("blocked"),"fixture")
 	var error = Records.save(directory.path_join("blocked/race.json"),identity,best,[-1.0,-1.0,-1.0],history,loaded.runs,selection)

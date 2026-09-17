@@ -244,8 +244,8 @@ func _freeze_ghosts() -> void:
 			ghost_selection.ids.erase(id)
 		selection_notice = "Unavailable or incompatible ghosts removed: "+", ".join(selected.unavailable)+". Times remain available; choose replacements or Automatic fastest 10."
 
-func choose_ghosts(mode: String, ids: Array) -> void:
-	ghost_selection = Records.normalize_selection({"mode":mode,"ids":ids})
+func choose_ghosts(mode: String, ids: Array, automatic_count: int) -> void:
+	ghost_selection = Records.normalize_selection({"version":Records.SELECTION_VERSION,"mode":mode,"ids":ids,"automatic_count":automatic_count})
 	selection_notice = Records.prune_selection(ghost_selection,ghost_runs)
 	# Only saved next-attempt choices change. Frozen competitors and PB deltas
 	# remain unchanged during this attempt, including an explicitly empty subset.
