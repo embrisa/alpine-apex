@@ -1,0 +1,199 @@
+{
+  "schema": 1,
+  "id": "2df364d43da84473b92013daa54cb63a",
+  "summary": "Measure user-approved grouped forest prototype; retain original far cards",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Distant forest timing",
+    "Backlog status"
+  ],
+  "owned_paths": [
+    "backlog/QUEUE.md",
+    "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RENDERING.md"
+  ],
+  "read_paths": [
+    "artifacts/far_stands_20260917/stand.gdshader",
+    "artifacts/far_stands_timing_20260917/timing.gd",
+    "assets/graphics/pc_tree_impostor.gdshader",
+    "scripts/presentation/density_forest.gd",
+    "scripts/world/alpine_scenery.gd",
+    "artifacts/far_stands_timing_20260917/full_cell.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Isolated diagnostic only; no production runtime or format changes."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Isolated diagnostic only; no production runtime or format changes."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Isolated diagnostic only; no production runtime or format changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Documentation and task status only; original forest remains active."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Documentation and task status only; original forest remains active."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Documentation and task status only; original forest remains active."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Documentation and task status only; original forest remains active."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Documentation and task status only; original forest remains active."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "performance",
+      "command": "FpsCritical far-stand-user-timing-20260917",
+      "result": "passed",
+      "details": "Valid capture-free stationary comparisons after user visual approval: 201.24 to 200.12 FPS front, 189.58 to 189.08 side; no gain. Partial original batches remain submitted; no full integration claim."
+    },
+    {
+      "kind": "rendered",
+      "command": "FpsCritical far-stand-complete-cell-20260917 visual gate before timing",
+      "result": "passed",
+      "details": "Two matched 4K pairs reviewed. Enlarged representation shows more canopy loss; timing remains a cost diagnostic, not shipping visual acceptance. User-approved pictured patch and expanded cell are distinguished."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical far-stand-complete-cell-20260917",
+      "result": "passed",
+      "details": "Valid no-gain result. 2104 trees, 26 source batches to 16 quads; front 205.04463 to 201.06643 FPS and GPU 4.424440 to 4.529981 ms; side 194.73774 to 189.19049 FPS and GPU 4.683485 to 4.830840 ms. 10 fewer draws and 4176 fewer primitives; no consistent CPU gain. Cameras and residency matched; focus loss zero."
+    },
+    {
+      "kind": "automated",
+      "command": "Python receipt assertions",
+      "result": "passed",
+      "details": "Matched settings and pixels, 7.5 seconds minimum per arm/view, zero generated frames, matching cameras and residency, complete-cell population and submission counts."
+    },
+    {
+      "kind": "automated",
+      "command": "scripts/backlog.py validate --preserve-dirty; git diff --check; scripts/versioning.py check --note changes/2df364d43da84473b92013daa54cb63a.json",
+      "result": "passed",
+      "details": "Backlog validation and scoped documentation checks passed; no production files changed."
+    }
+  ],
+  "outstanding_acceptance": [
+    "No production change or performance benefit accepted. Grouped forest delivery remains blocked on lower rendering cost.",
+    "Stationary views do not establish skiing-route FPS, transitions, whole-map residency/cache or quality/weather lifecycle."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T09:20:12.801491+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "6fdd17d8cb4e0f2e90f2ef3918a8291c2bb57a4f",
+      "dev": 92,
+      "modified": true
+    },
+    "inputs": {
+      "artifacts/far_stands_20260917/stand.gdshader": {
+        "size": 2308,
+        "mtime_ns": 1789635175695258800
+      },
+      "artifacts/far_stands_timing_20260917/full_cell.gd": {
+        "size": 12927,
+        "mtime_ns": 1789636447839822800
+      },
+      "artifacts/far_stands_timing_20260917/timing.gd": {
+        "size": 11847,
+        "mtime_ns": 1789636232961775000
+      },
+      "assets/graphics/pc_tree_impostor.gdshader": {
+        "size": 3615,
+        "mtime_ns": 1789594595746728500
+      },
+      "backlog/QUEUE.md": {
+        "size": 2905,
+        "mtime_ns": 1789636812310347100
+      },
+      "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md": {
+        "size": 11412,
+        "mtime_ns": 1789636812310347100
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 60884,
+        "mtime_ns": 1789636812311794500
+      },
+      "docs/RENDERING.md": {
+        "size": 47075,
+        "mtime_ns": 1789636812311794500
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/density_forest.gd": {
+        "size": 9889,
+        "mtime_ns": 1789567353867450300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/alpine_scenery.gd": {
+        "size": 19893,
+        "mtime_ns": 1789575393302352500
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      }
+    }
+  }
+}

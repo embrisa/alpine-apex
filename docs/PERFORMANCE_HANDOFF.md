@@ -849,3 +849,32 @@ The delivery task moves to blocked with a representation-quality resume conditio
 this result does not rule out different grouped geometry. No projected coverage,
 fragment counts, valley timing, 170 km/h transitions or shipping lifecycle are claimed.
 Compact report/producers: `artifacts/far_stands_20260917/REVIEW.md`.
+
+
+#### User-approved grouped-tree timing follow-up
+
+The user explicitly accepted the prior images for timing. The exact 428-tree
+patch was flat: front 550 m original 201.23685/grouped 200.12143 FPS, GPU 4.517812/
+4.543175 ms; side 400 m original 189.58097/grouped 189.08262 FPS, GPU 4.801526/
+4.827679 ms. It retained partially shared original submissions and added 4 draws.
+
+One complete 384 m cell resolved that limitation: 2104 cards in 26 original batches
+were replaced by 16 grouped quads, reducing 10 draws and 4176 submitted primitives.
+
+| Complete-cell view | Original FPS / frame ms / GPU ms | Grouped FPS / frame ms / GPU ms |
+|---|---:|---:|
+| Front550 | 205.04463 / 4.876987 / 4.424440 | 201.06643 / 4.973481 / 4.529981 |
+| Side400 | 194.73774 / 5.135112 / 4.683485 | 189.19049 / 5.285678 / 4.830840 |
+
+No gain: GPU cost rises 0.106–0.147 ms and FPS falls 1.94–2.85%. Viewport render
+CPU saves 0.079 ms in front but rises 0.023 ms at the side; no consistent CPU win.
+The complete-cell bake has 73.48 MB of texture payload. Expanded stills inspected
+before timing show larger areas of the same canopy loss; no production visual
+approval is inferred from the original patch's user approval.
+
+Dev 92 source, RX 9070 / DX12 ed1daf0bf, 4K High Auto 75 FSR 4.1.1, FG/GI off, clear/day,
+uncapped stationary mountain views. Each material is warmed and settled; 7.5 s per
+view/arm, 15 s per arm across two views, captures/readbacks outside measurements.
+Camera/residency matched, no focus loss. These are not dense skiing route FPS or
+a new reusable baseline. Production unchanged; blocker is rendering cost.
+Receipts and producers: `artifacts/far_stands_timing_20260917/REVIEW.md`.

@@ -5,31 +5,39 @@ status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-14T09:41:36Z"
-updated: "2026-09-17T09:00:00Z"
+updated: "2026-09-17T09:35:00Z"
 source_thread: "01a09c68-b71e-7cc1-b01a-291cd5c446e8"
 ---
 
 # Render distant forest stands with coherent grouped representations
 
-## Current disposition — 17 September 2026
+## Current disposition — 17 September 2026, user-approved timing
 
-**Blocked on representation quality after one bounded prototype.** The actual
-428-tree stand was baked into eight azimuths/four depth slabs with depth
-reprojection. Matched 4K native/Auto views at 400–550 m lose substantial canopy
-and distort oblique silhouettes. Candidate rejected before timing; production
-cards, assets, placement and settings remain unchanged. This attempt does not
-prove that all grouped representations fail, nor complete the intended delivery.
+The user accepted the prototype screenshots for performance measurement,
+superseding the earlier agent-only visual gate. The 428-tree patch was timed:
+head-on 201.24 → 200.12 FPS; oblique 189.58 → 189.08 FPS. Its shared original batches
+remained submitted, so one complete 384 m cell was tested to resolve that limitation.
 
-The dense-route removal diagnostic exposes a net 0.442 ms GPU/0.355 ms render CPU
-opportunity, including 0.254 ms depth. Removing cards is not a candidate or a
-strict isolated-cost upper bound. See the [current review](../../artifacts/far_stands_20260917/REVIEW.md).
+The complete cell replaces 2104 trees in 26 far batches with 16 grouped quads.
+At 4K High Auto 75, capture-free stationary comparisons give 205.04 → 201.07 FPS
+head-on and 194.74 → 189.19 FPS obliquely. GPU cost rises 0.106–0.147 ms despite
+10 fewer draws and 4176 fewer submitted primitives. No consistent CPU gain.
+These are matched distant mountain views, not the dense-route skiing baseline.
 
-**Resume condition:** a bounded representation that addresses elevated/oblique
-disocclusion and texture memory without losing crowns or gaps. Reuse the current
-attribution; no automatic retry of the rejected four-layer bake and no large proxy
-library. The separate [material-submission idea](../ideas/IDEA-20260917-090000-share-far-tree-material-submissions.md) is
-unimplemented and does not satisfy stand-proxy acceptance. The current economical
-one-candidate policy supersedes the older broad repetition matrix below.
+**Blocked on performance: candidate has no meaningful performance gain.**
+Production cards, assets, placement and settings remain unchanged. The expanded
+images also show more obvious canopy loss; the user approved the original patch
+for timing, not this larger variant for production. This does not establish that
+all grouped representations fail. [Current review](../../artifacts/far_stands_timing_20260917/REVIEW.md).
+
+**Resume condition:** a materially different representation with lower total
+GPU/frame cost and a bounded memory/residency design. Respect the user's accepted
+visual tradeoff; do not reinstate the earlier agent-only veto or automatically
+repeat the unchanged four-layer shader. Reuse the completed attribution.
+The separate [material-submission idea](../ideas/IDEA-20260917-090000-share-far-tree-material-submissions.md)
+remains unimplemented. The current economical one-candidate policy supersedes the
+older broad repetition matrix below; the extra cell check resolved a specific
+measured partial-batch limitation.
 
 ## Outcome
 
@@ -167,3 +175,11 @@ No production runtime, source asset/import, generation, collision or settings ed
 Remaining: acceptable representation, valley cost/coverage attribution, full moving
 transition/lifecycle/quality/weather checks, bounded storage/residency and actual
 candidate timing if the visual gate passes. Human acceptance is not this blocker.
+
+
+Dev93 follow-up (`changes/2df364d43da84473b92013daa54cb63a.json`): user visual
+acceptance authorized timing. Both guarded comparisons exited0, all paired
+cameras/residency matched and focus loss was zero. No performance gain in either
+the pictured patch or the complete-cell extension. Production remains unchanged;
+the current blocker is effective rendering cost. No skiing,transition,quality/cache
+lifecycle or whole-forest integration acceptance is claimed.
