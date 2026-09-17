@@ -1,0 +1,226 @@
+{
+  "schema": 1,
+  "id": "41eb45c5a3a94b979a92780e872d44fe",
+  "summary": "Reject terrain occlusion after ordinary and 170 km/h qualification",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Terrain occlusion qualification",
+    "Backlog status"
+  ],
+  "owned_paths": [
+    "backlog/QUEUE.md",
+    "backlog/completed/AA-20260914-094136-cull-scenery-behind-terrain.md",
+    "backlog/tasks/AA-20260914-094136-cull-scenery-behind-terrain.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RENDERING.md",
+    "backlog/blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md",
+    "backlog/ideas/IDEA-20260917-082200-separate-scenery-bake-dependencies.md"
+  ],
+  "read_paths": [
+    "artifacts/terrain_occlusion_20260916/terrain_occlusion.gd",
+    "scripts/presentation/density_forest.gd",
+    "scripts/world/terrain_preparation.gd",
+    "tests/performance_descent.gd",
+    "scripts/world/alpine_world.gd",
+    "artifacts/occlusion_current_20260917/route170.gd",
+    "artifacts/occlusion_current_20260917/visual170.gd",
+    "tests/performance_stress.gd",
+    "tests/performance_stress_trace.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Measured rejection; production runtime, configuration and formats unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Measured rejection; production runtime, configuration and formats unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Measured rejection; production runtime, configuration and formats unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Only task records and documentation change; diagnostic prototype is not installed."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Only task records and documentation change; diagnostic prototype is not installed."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Only task records and documentation change; diagnostic prototype is not installed."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Only task records and documentation change; diagnostic prototype is not installed."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Only task records and documentation change; diagnostic prototype is not installed."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "rendered",
+      "command": "Shared occlusion-current-visual-20260917",
+      "result": "passed",
+      "details": "Seven current-bound native4K before/after forest and ridge views inspected; visible crowns/trunks/gaps/shadows retained. Sampled still review, no continuous/high-speed acceptance."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical occlusion-current-dense-20260917",
+      "result": "passed",
+      "details": "Measurement valid; candidate rejected. One warmup+clean15s:108.27254FPS,9.235952ms frame,7.459669msGPU; no gain vs saved108.9339/recent110.52445. Exact1800ticks/301poses,focus0,failures[]. No runtime shipped."
+    },
+    {
+      "kind": "rendered",
+      "command": "Shared occlusion-170-visual-20260917; fixed60Hz, captures separate",
+      "result": "passed",
+      "details": "Ten chronological off/on4K pairs inspected before timing, matching camera/state. No obvious false-hidden geometry; look-back mainly uphill snow, limited canopy evidence. Sampled review is not every-frame proof."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical occlusion-170-pair-20260917; user-requested final170kmh trial",
+      "result": "passed",
+      "details": "Valid one-process warmup/off/on15s; no gain. Off110.15464FPS/9.078147ms frame/6.662408msGPU; on109.30824FPS/9.148441ms/6.666964ms. RenderCPU+0.225077ms,draws-5.174%,primitives-5.139%. Exact1800ticks/301poses/707.840m,focus0,failures[]. Production remains unchanged."
+    },
+    {
+      "kind": "automated",
+      "command": "git diff --check; backlog.py validate --preserve-dirty; versioning.py check --note [--staged]",
+      "result": "passed",
+      "details": "Documentation/lifecycle checks only. Runtime metadata unchanged since precheck; no production code regression suite needed."
+    }
+  ],
+  "outstanding_acceptance": [
+    "No shipping qualification for rejected occlusion prototype; no isolated CPU/pass attribution or sustainedFPS claim.",
+    "MacBook unavailable per user; Metal task remains blocked on access and attribution."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T08:35:58.684099+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "a5db46e8de049b0eb2b3a10f387e88362031e26b",
+      "dev": 90,
+      "modified": true
+    },
+    "inputs": {
+      "artifacts/occlusion_current_20260917/route170.gd": {
+        "size": 355,
+        "mtime_ns": 1789633649994891400
+      },
+      "artifacts/occlusion_current_20260917/visual170.gd": {
+        "size": 1575,
+        "mtime_ns": 1789633649995893600
+      },
+      "artifacts/terrain_occlusion_20260916/terrain_occlusion.gd": {
+        "size": 3299,
+        "mtime_ns": 1789541405300184700
+      },
+      "backlog/QUEUE.md": {
+        "size": 2781,
+        "mtime_ns": 1789634083162229400
+      },
+      "backlog/blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md": {
+        "size": 9337,
+        "mtime_ns": 1789633384173237900
+      },
+      "backlog/completed/AA-20260914-094136-cull-scenery-behind-terrain.md": {
+        "size": 10222,
+        "mtime_ns": 1789634083162229400
+      },
+      "backlog/ideas/IDEA-20260917-082200-separate-scenery-bake-dependencies.md": {
+        "size": 2056,
+        "mtime_ns": 1789633384174258100
+      },
+      "backlog/tasks/AA-20260914-094136-cull-scenery-behind-terrain.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 57760,
+        "mtime_ns": 1789634083161205500
+      },
+      "docs/RENDERING.md": {
+        "size": 46700,
+        "mtime_ns": 1789634083159958900
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/density_forest.gd": {
+        "size": 9889,
+        "mtime_ns": 1789567353867450300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 27514,
+        "mtime_ns": 1789632514513603600
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "scripts/world/terrain_preparation.gd": {
+        "size": 3728,
+        "mtime_ns": 1789134883757212800
+      },
+      "tests/performance_descent.gd": {
+        "size": 19660,
+        "mtime_ns": 1789594595869676400
+      },
+      "tests/performance_stress.gd": {
+        "size": 4272,
+        "mtime_ns": 1789233073100188400
+      },
+      "tests/performance_stress_trace.gd": {
+        "size": 3372,
+        "mtime_ns": 1789594595871717600
+      }
+    }
+  }
+}

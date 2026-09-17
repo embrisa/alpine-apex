@@ -5,11 +5,17 @@ status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-16T18:15:00Z"
-updated: "2026-09-16T21:59:44Z"
+updated: "2026-09-17T08:22:00Z"
 source_thread: null
 ---
 
 # Attribute and reduce the remaining Metal GPU frame floor on the Mac build
+
+## Access status — 17 September 2026
+
+The user confirmed that the MacBook is unavailable for now. Platform-specific
+measurement remains blocked on access as well as the attribution capability
+below. Continue independent Windows tasks; no new Metal result is claimed.
 
 ## Current disposition — 16 September 2026
 

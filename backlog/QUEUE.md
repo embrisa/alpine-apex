@@ -8,7 +8,6 @@ status, dependencies, evidence and acceptance live in each stable task record.
 
 | Task | Remaining question |
 |---|---|
-| [Terrain occlusion](tasks/AA-20260914-094136-cull-scenery-behind-terrain.md) | Prior prototype needs a cost/visibility verdict; fewer draws did not establish FPS gain. |
 | [Grouped distant stands](tasks/AA-20260914-094136-render-distant-forest-stands.md) | Must beat existing two-triangle far cards while preserving silhouettes. |
 
 ## Player features and art
@@ -23,12 +22,13 @@ status, dependencies, evidence and acceptance live in each stable task record.
 - **[Pole feature](blocked/AA-20260911-183812-slope-limited-pole-pushing.md):** resolve the remaining contact and transition gaps within the current backlog-completion goal.
 - **[Scenery snow](blocked/AA-20260911-230603-scenery-snow-material.md):** implemented, with explicitly deferred cost acceptance. [Distant mountain shadows](blocked/AA-20260911-230604-scenery-mountain-shadows.md) waits on that prerequisite.
 - **[Motion blur](blocked/AA-20260912-004402-scene-motion-blur.md):** finish the remaining performance and visual qualification.
-- **[Metal frame floor](blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md):** needs Metal capture/counters or a concrete alternate attribution method; no more blind toggle matrices.
+- **[Metal frame floor](blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md):** MacBook unavailable, confirmed by the user on 17 September. Resume with machine access and Metal counters or a concrete alternate attribution method.
 
 ## Ideas for the final phase
 
 - [Load only the requested ghost count](ideas/IDEA-20260917-011800-load-only-requested-ghost-count.md).
 - [Skip unchanged ghost material parameters](ideas/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md).
+- [Separate scenery bake inputs from render-only updates](ideas/IDEA-20260917-082200-separate-scenery-bake-dependencies.md).
 
 ## Rules for the next task
 

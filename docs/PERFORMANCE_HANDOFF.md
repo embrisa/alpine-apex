@@ -750,3 +750,80 @@ property after startup; final source applies it at creation. A compact integrati
 probe verifies both publication paths and unchanged base collision triangles;
 graphics29/runtime192 pass. No repeated full-mountain timing after that plumbing.
 Evidence: `artifacts/terrain_open_20260917/REVIEW.md`.
+
+
+### Current-bound terrain occlusion — 17 September 2026
+
+Reject the retained static terrain proxy for integration: no meaningful gain on
+the current dense route. Production remains unchanged with explicit occlusion off.
+Native whole-AABB occlusion uses a conservative 32 m mesh below the shared 4 m
+surface and preserves independent directional-shadow culling. Seven native 4K
+before/after views (12/32/64 m, three forest headings and a ridge-hidden view)
+retain visible crowns, trunks, gaps and shadows. This is sampled still review,
+not continuous/high-speed or full lifecycle acceptance. The existing compact
+ridge fixture supplies the independent exposed/partial-batch mechanism check.
+
+One capture-free warm traversal followed by one clean 15 s candidate:
+
+| Dense route | Saved average | Recent sky sample | Occlusion candidate |
+|---|---:|---:|---:|
+| FPS | 108.9339 | 110.52445 | 108.27254 |
+| Mean frame ms | 9.17988 | 9.047772 | 9.235952 |
+| Mean GPU ms | 7.51674 | 7.454815 | 7.459669 |
+| Frame p95 / p99 ms | 12.247 / 14.289 | 11.888 / 14.263 | 12.581 / 15.113 |
+| Mean render CPU ms | — | 1.775267 | 1.960876 |
+
+Matching route/camera, RX9070/custom DX12 ed1daf0bf, 3840x2160 output,
+2880x1620 internal, High Auto FSR4.1.1, FG/GI off, clear/day, grass on and
+gravel all. Both caches hit; exact 1,800 ticks/301 poses, no focus loss/failures.
+The warm traversal is excluded. Recent reference predates terrain bias 0.25;
+the saved average also predates other component improvements. These comparisons
+support rejecting an unhelpful candidate, not an isolated causal regression.
+Do not attribute the 0.185609 ms viewport CPU difference entirely to occlusion.
+
+The candidate averages 1,547 draws and 8.621 M submitted primitives. Matched
+static views remove 17–332 draws in the forest and 528 behind the summit ridge,
+demonstrating working culling without establishing FPS gain. The proxy costs
+6.849 s to build, 56,420 triangles, 37,249 vertices and 1,124,028 packed bytes;
+2,285,010 lattice checks found a minimum 1.999817 m clearance. Packed bytes
+exclude engine acceleration structures. No production files, density, settings
+or physics changed. The user explicitly requested the final high-speed exception
+below; no further profiling/control matrix is planned. Evidence remains in
+`artifacts/occlusion_current_20260917/REVIEW.md`.
+
+#### Final user-requested 170 km/h comparison
+
+One same-process 15 s warmup, then occlusion off/on on the established forest
+stress route. Same Dev90 source, settings and camera; capture-free native timing:
+
+| Metric | Off | On |
+|---|---:|---:|
+| Mean FPS | 110.15464 | 109.30824 |
+| Mean frame ms | 9.078147 | 9.148441 |
+| Frame p95 / p99 ms | 14.498 / 20.036 | 14.635 / 19.214 |
+| Mean GPU ms | 6.662408 | 6.666964 |
+| Mean render CPU ms | 1.911707 | 2.136784 |
+| Mean draws | 1,461.82 | 1,386.19 |
+| Mean submitted primitives | 4,968,732 | 4,713,390 |
+
+Draws fall 5.174% and primitives 5.139%, but mean frame cost rises 0.070295 ms
+and viewport render CPU 0.225077 ms; GPU cost is unchanged within 0.004556 ms.
+Frame p99 improves in this one sample while p95 and slowest-one-percent FPS
+worsen (45.76 to43.55). There is no consistent frame-time or GPU gain: keep the
+prototype disabled. This is a bounded rejection, not a universal regression claim.
+
+Both measured arms replay exactly 1,800 ticks and301 recorded poses over707.840 m,
+at169.999969–170.000011 km/h;274–892 trees lie within175 m at route checkpoints.
+No focus loss, failures, captures or CPU-scope profiling. The existing stress
+driver preserves collision queries but suppresses stops/crashes; this is not
+ordinary handling acceptance. The first traversal (113.01582 FPS) is warmup only.
+
+Before timing, ten4K matched chronological pairs at fixed60Hz covered forest
+entry, nearby trunks and a7–9s look-back. No obvious false-hidden geometry was
+found. Camera and rider states match across all ten pairs. The look-back faces
+mostly uphill snow and offers limited canopy evidence; wind/temporal differences
+remain. Sampled frames do not establish every-frame reveal behavior. That visual
+run includes captures and its FPS values are ineligible. Timed arms use the
+ordinary trace chase direction. The prototype's extra setup was6.897 s in this
+process. Receipts: `artifacts/pc_environment/occlusion-170-pair-20260917/production.json`
+and `artifacts/occlusion_current_20260917/visual170/`.

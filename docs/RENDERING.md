@@ -172,6 +172,11 @@ not ski support, crash collision, scenery placement or stone-mesh quality.
 The open-route comparison measured a small GPU saving; do not treat it as a
 dense-forest or universal frame-rate improvement.
 
+Explicit terrain occlusion remains disabled. The conservative 32 m native
+occluder passed current-bound sampled forest/ridge visibility review, but its
+warmed ordinary dense route and final user-requested 170 km/h off/on pair did
+not improve mean frame time or GPU cost. See [the measured verdict](PERFORMANCE_HANDOFF.md#current-bound-terrain-occlusion--17-september-2026).
+
 Forest/material consumers retain physical tree populations at every quality.
 Near/mid geometry, far directional impostors, batched transforms, residency and
 visibility are presentation budgets. Current authored living foliage uses small
