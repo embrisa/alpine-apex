@@ -32,8 +32,3 @@ func capture_sequence(name: String, fixture: Dictionary):
 		row.cameras[0].projection = "perspective"
 		row.cameras[0].fov = frame_fovs[i]
 	preload("res://tests/test_report.gd").write(path,JSON.stringify(data,"\t"))
-
-func source_hashes() -> Dictionary:
-	var result = super.source_hashes()
-	result["res://tests/pole_push_playtest.gd"] = FileAccess.get_sha256("res://tests/pole_push_playtest.gd")
-	return result

@@ -1730,6 +1730,30 @@ regression does not clear that open pole/clothing issue; see
 
 ### Pole propulsion and animation producers
 
+Dev102 closes the reproduced downhill speed-cap contact defect on model35.
+`pole_push_contact_suite.gd` now includes the -12-degree downhill fixture in its
+default eight cases: 99 checks pass without changing the existing limits. Loaded
+downhill tip height falls from 23.89 cm to below 0.001 cm, maximum anchor miss
+from 76.92 to 4.61 cm, loaded tip step from 52.46 to 4.61 cm, and minimum complete
+two-wrist stroke rises from 3.64 to 16.47 cm. Solver/phase equality, fixed grips,
+torso/leg fitting and duplicate/interpolated pose reads remain checked.
+
+The focused four-second native review covers downhill cancellation and fast
+flat strokes. The matched 240-frame downhill clothing audit remains an open
+finding: three intersecting frames in the Dev101 control, two in this correction.
+These are unloaded transitions, not failed snow contact. This is partial feature
+qualification, not the former eleven-case closure or a gameplay FPS claim.
+Evidence: `artifacts/pole_contact_qualified/REPORT.md`. The tuck hand-easing
+fixture in `skier_motion_suite.gd` starts at 20 m/s so it tests tuck rather than
+the context-sensitive pole action from rest; its original limits are unchanged.
+
+Pole captures use scoped size/mtime metadata and record `source_verification`.
+They do not recursively hash source/assets. `pose_pole_mesh_audit.gd` accepts
+that receipt and checks the actual rig's metadata; metadata detects ordinary
+edits, not identical-size edits with restored timestamps. Use the direct guarded
+capture/audit commands with fresh output paths; do not run the old freeze/seal
+hash workflow for these current pole captures.
+
 `pole_push_suite.gd` records paired 30-second force/slope/exclusion fixtures;
 `pole_push_pose_suite.gd` checks final fitting, connected grips, continuity and
 articulated replay. Batch physics/runtime and relevant animation/equipment/input
@@ -1738,8 +1762,8 @@ intended climb speeds require actual receipts; constants are not observed speeds
 
 ```powershell
 ./scripts/test_pc_environment.ps1 -Suites pole_push_suite,pole_push_pose_suite,physics_suite,runtime_suite
-./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/pole_push_playtest.gd','--','--output=artifacts/pose_review/revisions/poles-current','--scenarios=flat,gentle,steep15,steep10,steep5,cutoff,downhill,left,right,brake_departure,fast') -Label poles-review -TimeoutSeconds 1800
-python scripts/pose_review/freeze_sources.py --revision poles-current
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/pole_push_playtest.gd','--','--output=artifacts/pose_review/revisions/poles-current/capture','--scenarios=flat,gentle,steep15,steep10,steep5,cutoff,downhill,left,right,brake_departure,fast') -Label poles-review -TimeoutSeconds 1800
+./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/pose_pole_mesh_audit.gd','--','--revision=artifacts/pose_review/revisions/poles-current','--scenarios=flat,gentle,steep15,steep10,steep5,cutoff,downhill,left,right,brake_departure,fast') -Label poles-audit -WorkloadMode Shared -TimeoutSeconds 1800
 ```
 
 Every named case is 15 seconds; select fewer cases for focused iteration.

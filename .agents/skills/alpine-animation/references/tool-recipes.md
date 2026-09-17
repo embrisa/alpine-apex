@@ -1,5 +1,11 @@
 # Pose review commands
 
+For current pole pushing, follow the scoped metadata capture/audit commands in
+[Validation](../../../../docs/VALIDATION.md#pole-propulsion-and-animation-producers).
+They replace the historical source-freeze/seal hash workflow below for that
+producer. Capture the smallest relevant transition, keep actual clothing audit
+failures visible, and qualify broader chronology/performance separately.
+
 Run at repository root. Resolve Python 3 (`$py`), Godot console (`$engine`) and
 ffmpeg (`$ffmpeg`) from the current installation. Pin the same explicit engine
 and hash for both revisions. Use a new `$rev` for changed source; never overwrite

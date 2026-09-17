@@ -228,10 +228,14 @@ at completed ticks on authoritative snow. The connected-arm fitter allows up to
 grips, and keeps unloaded shafts in an outboard carry lane. Separate completed-tick
 carry smooths cancellation independently of snow-contact weight; rendering only
 samples it. Unreachable `tip_gap_m` remains a reported visual miss, never a force
-or moved ski. The committed-but-unvalidated 2026-09-13 recovery WIP snapshot retains ten percent
-of bounded unloaded reach and uses fifth-power carry for elbow entry. It passes
-the original continuity suites but fails expanded downhill contact and native
-shaft/clothing gates. Do not treat it as an accepted production correction;
+or moved ski. While the solver still supplies positive thrust, the presentation
+retains at least half of the authored stroke instead of shrinking it into tuck.
+At the speed cap it completes the current release, then stops starting plants.
+The palm target is blended once before solving forearm pronation and wrist
+limits, avoiding the previous repeated orientation blends during cancellation.
+The fitter retains ten percent of bounded unloaded reach and fifth-power carry
+for elbow entry. The downhill force/contact gates now pass; brief unloaded
+shaft/clothing intersections remain, so complete feature acceptance is pending.
 [Validation](VALIDATION.md#pole-propulsion-and-animation-producers) owns the
 retained evidence and exact remaining limits.
 

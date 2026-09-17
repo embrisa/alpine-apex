@@ -1,0 +1,227 @@
+{
+  "schema": 1,
+  "id": "976af7b220eb48b294042f2a31e87a99",
+  "summary": "Correct loaded pole contact through the speed-cap transition",
+  "categories": [
+    "Presentation",
+    "Maintenance"
+  ],
+  "areas": [
+    "pole pushing"
+  ],
+  "owned_paths": [
+    "scripts/presentation/skier_full_motion.gd",
+    "tests/pole_push_contact_suite.gd",
+    "docs/ANIMATION.md",
+    "docs/VALIDATION.md",
+    "backlog/blocked/AA-20260911-183812-slope-limited-pole-pushing.md",
+    "tests/pole_push_capture.gd",
+    "tests/pole_push_playtest.gd",
+    "tests/pose_pole_mesh_audit.gd",
+    ".agents/skills/alpine-animation/references/tool-recipes.md",
+    "tests/skier_motion_suite.gd",
+    "scripts/presentation/pole_push_pose.gd"
+  ],
+  "read_paths": [
+    "scripts/core/pole_propulsion.gd",
+    "scripts/presentation/skier_visual.gd",
+    "tests/pole_push_suite.gd",
+    "tests/pole_push_pose_suite.gd",
+    "assets/animation/pole_push_cycle.tres"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Presentation envelopes and fitting only; solver forces, 120 Hz state, input and session owners are unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Presentation-only correction and diagnostic fixture/metadata changes; runtime data formats and compatibility identities unchanged."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Presentation-only correction and diagnostic fixture/metadata changes; runtime data formats and compatibility identities unchanged."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Presentation-only correction and diagnostic fixture/metadata changes; runtime data formats and compatibility identities unchanged."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Presentation-only correction and diagnostic fixture/metadata changes; runtime data formats and compatibility identities unchanged."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Presentation-only correction and diagnostic fixture/metadata changes; runtime data formats and compatibility identities unchanged."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "pole_push_contact_suite.gd through pole-contact-palm-checks guard",
+      "result": "passed",
+      "details": "99/99 across8 analytic cases including new -12degree downhill. Same solver/phase; unchanged contact/stroke/continuity limits. Four reproduced control failures repaired."
+    },
+    {
+      "kind": "automated",
+      "command": "test_pc_environment.ps1 -Suites pole_push_pose_suite,ghost_pose_cache_suite,compact_posture_suite,ski_attachment_suite,skier_anatomy_suite,skier_motion_suite,landing_settle_suite; palm_regression",
+      "result": "passed",
+      "details": "5338/5338. Tuck test fixture moved above pole speed cap; original assertion limits unchanged."
+    },
+    {
+      "kind": "rendered",
+      "command": "pole_push_playtest.gd --seconds=4 --scenarios=downhill,fast; pole-contact-final-native guard",
+      "result": "passed",
+      "details": "480 native frames; selected chase/front/side stroke, release and tuck neighbors inspected. Fixture1800x1000, not4K performance."
+    },
+    {
+      "kind": "rendered",
+      "command": "Full parent-feature clothing clearance (outside this loaded-contact milestone)",
+      "result": "not_required",
+      "details": "The diagnostic WAS executed and still FAILS: matched Dev1013/240 vs correction2/240 intersecting unloaded frames (191-192). This retained defect is not claimed fixed; the parent task stays blocked. See REPORT.md and outstanding acceptance. Native/probe pose differences below1e-16."
+    },
+    {
+      "kind": "performance",
+      "command": "Bounded gameplay and CPU qualification after remaining visual gate",
+      "result": "not_required",
+      "details": "No FPS claim or baseline rerun for this limited contact correction. Full parent-feature CPU/gameplay qualification remains outstanding with its visual gate."
+    },
+    {
+      "kind": "automated",
+      "command": "backlog.py validate --preserve-dirty; git diff --check; versioning.py scoped note/staged/commit checks",
+      "result": "passed",
+      "details": "Owned source, diagnostic metadata and maintained guides; final delivery checks required before push."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Executed actual-clothing audit still fails in2/240 unloaded frames (191-192), compared with3/240 control. Full clearance and broader final chronology remain parent-task gates; no full feature acceptance.",
+    "Bounded gameplay/CPU cost qualification and human/controller review remain separate."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T17:38:52.502157+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "f5ef5069578d756aafc50c4ba939a30c487bafa4",
+      "dev": 101,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-animation/references/tool-recipes.md": {
+        "size": 6593,
+        "mtime_ns": 1789666526145979900
+      },
+      "assets/animation/pole_push_cycle.tres": {
+        "size": 1021,
+        "mtime_ns": 1789208692046760000
+      },
+      "backlog/blocked/AA-20260911-183812-slope-limited-pole-pushing.md": {
+        "size": 14393,
+        "mtime_ns": 1789666526144976400
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ANIMATION.md": {
+        "size": 26230,
+        "mtime_ns": 1789666526142965200
+      },
+      "docs/VALIDATION.md": {
+        "size": 155086,
+        "mtime_ns": 1789666564514785900
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/pole_propulsion.gd": {
+        "size": 6491,
+        "mtime_ns": 1789207831044152200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/pole_push_pose.gd": {
+        "size": 15221,
+        "mtime_ns": 1789666393441888200
+      },
+      "scripts/presentation/skier_full_motion.gd": {
+        "size": 48594,
+        "mtime_ns": 1789666393430797200
+      },
+      "scripts/presentation/skier_visual.gd": {
+        "size": 18492,
+        "mtime_ns": 1789577940844094500
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789641931263320900
+      },
+      "tests/pole_push_capture.gd": {
+        "size": 7677,
+        "mtime_ns": 1789665769269665800
+      },
+      "tests/pole_push_contact_suite.gd": {
+        "size": 15791,
+        "mtime_ns": 1789665555416893000
+      },
+      "tests/pole_push_playtest.gd": {
+        "size": 1534,
+        "mtime_ns": 1789665769269665800
+      },
+      "tests/pole_push_pose_suite.gd": {
+        "size": 5756,
+        "mtime_ns": 1789594595879611800
+      },
+      "tests/pole_push_suite.gd": {
+        "size": 16021,
+        "mtime_ns": 1789594595879611800
+      },
+      "tests/pose_pole_mesh_audit.gd": {
+        "size": 5833,
+        "mtime_ns": 1789665826465796100
+      },
+      "tests/skier_motion_suite.gd": {
+        "size": 7234,
+        "mtime_ns": 1789666011471801400
+      }
+    }
+  }
+}

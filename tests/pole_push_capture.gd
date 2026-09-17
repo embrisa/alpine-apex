@@ -19,7 +19,7 @@ func run():
 	DirAccess.make_dir_recursive_absolute(output)
 	report = {"version":1,"created_utc":Time.get_datetime_string_from_system(true),"engine":Engine.get_version_info().string,
 		"physics":Sim.MODEL_VERSION,"capture_fps":60,"simulation_hz":120,"frame_origin":0,"unranked":true,
-		"sources":source_hashes(),"scenarios":[],"failures":[],"notes":["%s-second analytic snow fixtures; no PB/preferences/session."%capture_seconds,
+		"source_verification":"metadata","sources":source_hashes(),"scenarios":[],"failures":[],"notes":["%s-second analytic snow fixtures; no PB/preferences/session."%capture_seconds,
 		"No-push baseline is identical current model with the pole feature disabled.","Source/requested/final joint data plus loaded tip-gap and force telemetry retained. Native triptych is visual evidence, not a 4K FPS result."],"no_push":no_push}
 	scene = Node3D.new(); root.add_child(scene)
 	skier = Visual.new(); skier.preview_only = true
@@ -109,9 +109,15 @@ func intent_at(name: String, tick: int):
 	return intent
 
 func source_hashes() -> Dictionary:
-	var result = super.source_hashes()
-	for path in ["res://tests/pole_push_capture.gd","res://tests/pole_push_suite.gd","res://assets/animation/pole_push_cycle.tres","res://art_source/animation/pole_push_v1/cycle.json","res://scripts/art/build_pole_push.py"]:
-		result[path] = FileAccess.get_sha256(path)
-	for path in ["res://art_source/animation/pole_push_v1/pole_push.blend","res://art_source/animation/pole_push_v1/export_provenance.json"]:
-		if FileAccess.file_exists(path): result[path] = FileAccess.get_sha256(path)
+	# The inherited hook name is historical. Pole review uses scoped metadata,
+	# never recursive source reads or asset hashes; runtime identities stay intact.
+	var result = {}
+	for path in ["tests/pose_reference_capture.gd","tests/pole_push_capture.gd","tests/pole_push_playtest.gd","tests/pole_push_suite.gd",
+		"scripts/core/ski_simulation.gd","scripts/core/pole_propulsion.gd","scripts/core/ski_tuning.gd","scripts/core/rider_body.gd","config/ski_default.tres",
+		"scripts/presentation/skier_full_motion.gd","scripts/presentation/pole_push_pose.gd","scripts/presentation/pole_push_motion.gd",
+		"scripts/presentation/skier_visual.gd","scripts/presentation/skier_animation.gd","scripts/presentation/skier_anatomy.gd","scripts/presentation/skier_pose_writer.gd",
+		"scripts/presentation/skier_equipment.gd","scripts/presentation/downhill_posture.gd","scripts/presentation/action_posture.gd","scripts/presentation/chase_camera.gd",
+		"assets/animation/pole_push_cycle.tres","assets/animation/steep_ski_motion.res","assets/graphics/models/skier_v7.glb","project.godot"]:
+		var resource = "res://"+path
+		result[resource] = {"size":FileAccess.open(resource,FileAccess.READ).get_length(),"modified":FileAccess.get_modified_time(resource)}
 	return result

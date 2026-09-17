@@ -210,15 +210,19 @@ static func fit_tips(joints: Dictionary, rotations: Dictionary, root_frame: Tran
 		if x.length_squared()<.5: x = old_hand.x.slide(z).normalized()
 		var carry = Basis(x,z.cross(x),z)
 		var aimed = Basis(Quaternion((carry*wrist_to_tip).normalized(),(target-joints[hand]).normalized()))*carry
+		# Blend the desired global palm first, then solve pronation and the
+		# wrist against that one target. Blending the forearm before limiting
+		# the wrist and blending the palm again changes the shaft's release arc.
+		aimed = old_hand.orthonormalized().slerp(aimed.orthonormalized(),carry_weight)
 		# Pronation belongs in the forearm. Keep the established elbow hinge and
 		# transfer only roll; this cannot move the wrist or loosen the glove grip.
 		var hinge = Anatomy.local_limit(elbow,rotations[arm].transposed()*rotations[elbow],0.0,0.0)
 		var neutral: Basis = rotations[arm]*hinge
 		var roll = clampf(Anatomy.twist_angle(neutral.transposed()*aimed,axis),-deg_to_rad(170.0),deg_to_rad(170.0))
 		var pronated: Basis = neutral*Basis(axis,roll)
-		rotations[elbow] = rotations[elbow].orthonormalized().slerp(pronated.orthonormalized(),carry_weight)
+		rotations[elbow] = pronated
 		var limited: Basis = rotations[elbow]*Anatomy.local_limit(hand,rotations[elbow].transposed()*aimed,0.0,1.0)
-		rotations[hand] = old_hand.orthonormalized().slerp(limited.orthonormalized(),carry_weight)
+		rotations[hand] = limited
 		var tip: Vector3 = joints[hand]+rotations[hand]*wrist_to_tip
 		gaps.append(tip.distance_to(anchor))
 		heights.append((tip-anchor).dot(normal))

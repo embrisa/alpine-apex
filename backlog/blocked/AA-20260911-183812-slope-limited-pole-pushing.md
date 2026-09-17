@@ -11,12 +11,20 @@ source_thread: null
 
 # Add slope-limited pole pushing and a new pushing animation
 
-## Archive update - 17 September 2026
+## Current resume scope - 17 September 2026
 
-The pole-transition follow-up was archived at the user's request.
-This parent record keeps its blocked status and evidence; the retired
-follow-up no longer owns further work. Resuming this record requires an
-explicit scope and retry decision.
+The user's backlog-completion goal authorizes this parent to resume. Dev102
+addresses the reproduced downhill speed-cap contact defect: all 99 expanded
+contact checks pass with unchanged limits, and the source/force transition is
+reviewed natively. Propulsion and replay identities are unchanged.
+
+The matched four-second downhill mesh audit improves from three intersecting
+frames to two, but still fails. Remaining work is the unloaded shaft/clothing
+transition, wider final chronology and bounded gameplay/CPU cost qualification.
+Do not repeat the completed propulsion/slope matrices unless their owner changes.
+See `artifacts/pole_contact_qualified/REPORT.md` and the current
+[pole producer guide](../../docs/VALIDATION.md#pole-propulsion-and-animation-producers).
+This parent is not complete; historical implementation planning below is context.
 
 ## Outcome
 

@@ -19,7 +19,13 @@ func run():
 		quit(2); return
 	var manifest=JSON.parse_string(FileAccess.get_file_as_string(folder+"/capture/manifest.json"))
 	assert(manifest.stable_sources and manifest.failures.is_empty(),"Audit requires a stable production capture")
-	assert(FileAccess.get_sha256("res://assets/graphics/models/skier_v7.glb")==manifest.sources["res://assets/graphics/models/skier_v7.glb"],"Use the captured rig for mesh clearance")
+	var rig_path = "res://assets/graphics/models/skier_v7.glb"
+	if manifest.get("source_verification","")=="metadata":
+		var metadata = {"size":FileAccess.open(rig_path,FileAccess.READ).get_length(),"modified":FileAccess.get_modified_time(rig_path)}
+		var captured: Dictionary = manifest.sources[rig_path]
+		assert(metadata.size==int(captured.size) and metadata.modified==int(captured.modified),"Use the captured rig for mesh clearance")
+	else:
+		assert(FileAccess.get_sha256(rig_path)==manifest.sources[rig_path],"Use the captured rig for mesh clearance")
 	var selected = "--selected" in OS.get_cmdline_user_args()
 	var include_flight = "--include-flight" in OS.get_cmdline_user_args()
 	var selection=JSON.parse_string(FileAccess.get_file_as_string(folder+"/selection.json")) if selected else {}

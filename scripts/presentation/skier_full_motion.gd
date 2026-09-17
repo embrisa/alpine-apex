@@ -359,9 +359,16 @@ func reference_track_pose(requested_pose: Array[Quaternion], action: Vector3, po
 
 func step_poles(dt: float, sim, surface) -> void:
 	pole_phase = sim.pole_push_phase
-	pole_amount = sim.pole_push_intensity if sim.grounded and not sim.facing_backward else 0.0
-	var requested: bool = sim.pole_push.active and pole_amount>.001
 	var wrap = pole_phase<previous_pole_phase
+	# Force tapers continuously near the speed cap; a tiny remaining impulse
+	# still belongs to a complete planted stroke. Keep its authored reach and
+	# release, instead of shrinking the arm motion into tuck during that force.
+	# Only the completed solver phase advances this envelope. At the cap finish
+	# the current release, then return to tuck without beginning another plant.
+	var finish_release = _pole_was_loaded and not wrap and pole_phase<.90
+	var requested: bool = sim.pole_push.active and (sim.pole_push_intensity>0.0 or sim.pole_push_acceleration>0.0 or finish_release)
+	pole_amount = move_toward(pole_amount,maxf(.5,sim.pole_push_intensity) if requested else 0.0,dt*sim.tuning.pole_push_blend_rate)
+	if not sim.grounded or sim.facing_backward: pole_amount = 0.0
 	# Seed during reach, before force begins. Anticipate bounded travel during
 	# this authored contact interval so a fast plant does not begin behind an
 	# arm that cannot reach it by the end of the same stroke.

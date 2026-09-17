@@ -24,6 +24,8 @@ func run():
  var sim = Sim.new()
  var intent = Intent.new()
  sim.reset(Vector3.ZERO)
+ # This checks tuck articulation, which now requires speed above pole pushing.
+ sim.velocity = Vector3(0,0,20)
  sim.prime_contacts(plane)
  check(sim.contact_count==2 and absf(sim.skis[0].load_n-sim.skis[1].load_n)<1,"Flat stance shares support across both skis")
  var initial: Vector3 = sim.body.joints.LeftHand-sim.body.joints.LeftArm
@@ -44,6 +46,7 @@ func run():
  for fps in [30,60,144,240]:
   var other = Sim.new()
   other.reset(Vector3.ZERO)
+  other.velocity = Vector3(0,0,20)
   other.prime_contacts(plane)
   for i in range(241):
    other.step(1.0/120.0,intent,plane)

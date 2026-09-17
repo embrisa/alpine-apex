@@ -71,7 +71,7 @@ func run() -> void:
 		last_projection = wanted
 	check(projection_step<.012,"finite reach projection does not collapse at arm/pole sphere tangency")
 	var visual = Visual.new(); visual.preview_only = true; root.add_child(visual); await process_frame
-	for spec in [["flat",0.0,0.0,6.0],["fast",0.0,10.0,6.0],["brake_departure",0.0,0.0,13.0],["gentle",10.0,0.0,6.0],["steep15",20.0,0.0,6.0],["steep10",28.0,0.0,6.0],["steep5",34.0,0.0,6.0]]:
+	for spec in [["flat",0.0,0.0,6.0],["fast",0.0,10.0,6.0],["brake_departure",0.0,0.0,13.0],["gentle",10.0,0.0,6.0],["steep15",20.0,0.0,6.0],["steep10",28.0,0.0,6.0],["steep5",34.0,0.0,6.0],["downhill",-12.0,0.0,6.0]]:
 		var name: String = spec[0]
 		if not only.is_empty() and not name in only: continue
 		var surface = Fixtures.SlopePlane.new(spec[1])
