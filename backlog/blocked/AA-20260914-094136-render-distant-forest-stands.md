@@ -73,7 +73,7 @@ all grouped representations fail. [Current review](../../artifacts/far_stands_ti
 GPU/frame cost and a bounded memory/residency design. Respect the user's accepted
 visual tradeoff; do not reinstate the earlier agent-only veto or automatically
 repeat the unchanged four-layer shader. Reuse the completed attribution.
-The separate [material-submission idea](../ideas/IDEA-20260917-090000-share-far-tree-material-submissions.md)
+The separate [material-submission idea](../ideas/archive/IDEA-20260917-090000-share-far-tree-material-submissions.md)
 remains unimplemented. The current economical one-candidate policy supersedes the
 older broad repetition matrix below; the extra cell check resolved a specific
 measured partial-batch limitation.

@@ -70,8 +70,9 @@ func _small_archive() -> void:
 	session.choose_ghosts("automatic",[],3); session.reset()
 	check(session.reference_ghosts.map(func(row): return row.id)==ids.slice(0,3),"Retry freezes requested automatic fastest three")
 	session.choose_ghosts("automatic",[],10); session.reset()
+	var expanded_roster = session.reference_ghosts.duplicate()
 	session.choose_ghosts("manual",ids.slice(0,3),10)
-	check(_same_replays(cold,session.reference_ghosts),"Selection changes leave current attempt references frozen")
+	check(_same_replays(expanded_roster,session.reference_ghosts),"Selection changes leave current attempt references frozen")
 	metrics.small_subset_retry = _timed_reset(session)
 	check(session.reference_ghosts.size()==3 and metrics.small_subset_retry.decodes==0 and metrics.small_subset_retry.hits==3 and session.ghost_cache.stats().entries==3,"Next attempt reuses chosen subset and releases deselected cache references")
 	check(session.previous_best==best and session.reference_splits==reference_splits,"Cache and selection do not change PB/split references")
@@ -88,6 +89,7 @@ func _small_archive() -> void:
 	metrics.small_after_eviction = _timed_reset(session)
 	check(session.reference_ghosts.size()==9 and metrics.small_after_eviction.decodes==0,"Eviction does not re-decode surviving immutable recordings")
 	var loaded = Records.load_record(path,identity)
+	_automatic_count(path,identity,loaded.runs)
 	_payload_invalidation(path,identity,loaded.runs)
 	_identity_and_scope(path,identity,loaded.runs)
 	session.load_record()
@@ -119,6 +121,39 @@ static func _vary_channels(replay, variant: int) -> void:
 			pose[start+5] = .1+.1*sin(time*.8+side)
 		replay.presentation[i] = pose
 		replay.samples[i][6] = .45+.4*sin(time*.6)
+
+func _automatic_count(path: String, identity: Dictionary, rows: Array) -> void:
+	var cache = Cache.new()
+	var one = Records.normalize_selection({"version":Records.SELECTION_VERSION,"ids":[],"mode":"automatic","automatic_count":1})
+	var selected = Records.selected(path,identity,rows,one,cache)
+	check(selected.runs.map(func(row): return row.id)==[rows[0].id] and cache.lookups==1 and cache.decodes==1 and cache.stats().entries==1,"Automatic one reads, validates and retains only the first recording")
+	var blob = Records.payload_directory(path).path_join(rows[0].sha256+".replay")
+	var original = FileAccess.get_file_as_bytes(blob)
+	var replacement = FileAccess.get_file_as_bytes(Records.payload_directory(path).path_join(rows[1].sha256+".replay"))
+	check(original!=replacement and rows[0].bytes==rows[1].bytes,"Fallback corruption uses a valid compressed stream with a wrong content hash")
+	for corrupt in [false,true]:
+		cache = Cache.new()
+		if corrupt: _write(blob,replacement)
+		else: DirAccess.remove_absolute(blob)
+		selected = Records.selected(path,identity,rows,one,cache)
+		check(selected.runs.map(func(row): return row.id)==[rows[1].id] and selected.unavailable==[rows[0].id],"Unavailable first recording selects the next ranked ghost (corrupt=%s)" % corrupt)
+		var reads = 2 if corrupt else 1
+		check(cache.lookups==reads and cache.stats().entries==1 and cache.decodes==1,"Fallback reads only the necessary prefix and retains one decoded recording")
+		var before = cache.stats()
+		var again = Records.selected(path,identity,rows,one,cache)
+		check(_same_replays(selected.runs,again.runs) and cache.decodes==before.decodes and cache.hits-before.hits==1,"Repeated failed prefix preserves the cached fallback replay")
+		check(cache.lookups-before.lookups==reads and cache.compressed_bytes_read-before.compressed_bytes_read==reads*replacement.size(),"Retry revalidates exactly the required current compressed bytes")
+		var manual = Records.selected(path,identity,rows,{"version":Records.SELECTION_VERSION,"mode":"manual","ids":[rows[0].id],"automatic_count":10},cache)
+		check(manual.runs.is_empty() and manual.unavailable==[rows[0].id],"Manual selection does not substitute another ghost")
+	_write(blob,original)
+	# Fail inside a larger prefix; fill exactly its one missing slot in rank order.
+	var fourth = Records.payload_directory(path).path_join(rows[3].sha256+".replay")
+	var fourth_bytes = FileAccess.get_file_as_bytes(fourth)
+	DirAccess.remove_absolute(fourth)
+	cache = Cache.new()
+	selected = Records.selected(path,identity,rows,{"version":Records.SELECTION_VERSION,"ids":[],"mode":"automatic","automatic_count":4},cache)
+	check(selected.runs.map(func(row): return row.id)==[rows[0].id,rows[1].id,rows[2].id,rows[4].id] and cache.lookups==4 and cache.decodes==4 and cache.stats().entries==4,"Automatic four replaces only the missing slot and keeps rank order")
+	_write(fourth,fourth_bytes)
 
 func _payload_invalidation(path: String, identity: Dictionary, rows: Array) -> void:
 	var cache = Cache.new()

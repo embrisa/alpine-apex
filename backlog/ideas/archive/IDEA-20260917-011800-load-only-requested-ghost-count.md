@@ -1,11 +1,11 @@
 ---
 id: "IDEA-20260917-011800-load-only-requested-ghost-count"
 title: "Load only the requested automatic ghost count"
-status: proposed
+status: accepted
 created: "2026-09-17T01:18:08Z"
 source_task: "AA-20260912-132147-reduce-cold-ghost-archive-load"
 source_thread: "01a0a5df-19c3-7783-81dc-eca18c340e4a"
-accepted_task: null
+accepted_task: "AA-20260917-222200-load-only-requested-ghost-count"
 ---
 
 # Load only the requested automatic ghost count
@@ -40,5 +40,6 @@ valid later entries when earlier payloads fail. No new replay schema is needed.
 
 ## User decision
 
-The current goal authorizes addressing ideas after tasks and blocked work finish.
-Keep this proposal for that phase; no separate task has been created yet.
+Approved for implementation on18September2026. The active goal now covers all
+four ideas. [Accepted task](../../tasks/AA-20260917-222200-load-only-requested-ghost-count.md) owns implementation,
+validation and the final disposition; this proposal remains provenance.

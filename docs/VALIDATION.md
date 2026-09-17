@@ -1967,6 +1967,10 @@ The old replay 6 ten-minute timings are historical, not a current latency claim.
 ./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/ghost_load_benchmark.gd','--','--prepare','--fixture=res://artifacts/ghost-load-new/fixture/race.json','--output=res://artifacts/ghost-load-new/results.json') -Label ghost-load-new -WorkloadMode FpsCritical
 ```
 
+Use `--automatic-count=1..10` to measure a subset of the same ten-recording
+fixture. The result checks exact ranked IDs, read/hash lookup counts, fallback
+unavailability and retry reuse; reported static memory is retained, not peak.
+The retry suite also covers missing/corrupt prefixes and cached replacements.
 Default duration is 150 seconds; `--seconds=N` must match an existing fixture
 when reusing it. `--course=NAME` selects the fixture's identity without bypassing
 runtime compatibility. Omit `--prepare` to reuse; missing/incompatible fixtures

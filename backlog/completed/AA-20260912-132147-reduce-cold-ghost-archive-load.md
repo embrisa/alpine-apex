@@ -84,6 +84,6 @@ note `3489475a72e4421787e00927a86d3924`.
   The native helper has not been built/tested on macOS here; its reference path
   remains available. Human loading experience is separately untested.
 
-New idea: [load only the requested automatic count](../ideas/IDEA-20260917-011800-load-only-requested-ghost-count.md). The current
+New idea: [load only the requested automatic count](../ideas/archive/IDEA-20260917-011800-load-only-requested-ghost-count.md). The current
 ten-run default benefits now; smaller requested rosters may avoid more work later.
 

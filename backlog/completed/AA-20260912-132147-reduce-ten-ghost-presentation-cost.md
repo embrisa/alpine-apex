@@ -102,5 +102,5 @@ Evidence and commands: `artifacts/ghost_playback_20260917/REVIEW.md`, `control/`
 now accepts a single ghost count/short profile window and reports focus plus a
 separate pose CPU probe. See Validation and Animation for the durable contracts.
 
-New idea for the later ideas phase: [skip unchanged ghost material parameters](../ideas/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md).
+New idea for the later ideas phase: [skip unchanged ghost material parameters](../ideas/archive/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md).
 

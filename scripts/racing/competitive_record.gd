@@ -161,42 +161,53 @@ static func selected(record_path: String, identity: Dictionary, runs: Array, sel
 		if selection.mode=="manual" and not selection.ids.has(row.id): continue
 		wanted.append(row)
 	if cache: cache.prepare(ProjectSettings.globalize_path(path_for(record_path)).simplify_path(),identity,wanted)
-	# The bounded aggregate decides which rows are read at all, in roster order.
-	# Stored payloads are then read, hashed and (on a cache miss) fully decoded on
-	# WorkerThreadPool workers; every cache decision and all accounting stay on
-	# this thread in roster order, so results equal the former sequential loop.
-	var loader = PayloadLoader.new(payload_directory(record_path),identity)
-	for row in wanted:
-		aggregate += int(row.get("bytes",MAX_PAYLOAD_BYTES))
-		if aggregate>MAX_AGGREGATE_BYTES: break
-		var job = {"row":row,"replay":row.get("replay"),"compressed":PackedByteArray(),"compressed_sha256":"","decode":false,"readable":false,"decoded_bytes_valid":false}
-		job.readable = job.replay==null and valid_id(row.get("sha256"),64) and Replay.number(row.get("bytes")) and row.bytes>=32 and row.bytes<=MAX_PAYLOAD_BYTES and row.bytes==floorf(row.bytes) and positive(row.get("time"))
-		loader.jobs.append(job)
-	loader.run(loader.read)
-	for job in loader.jobs:
-		if job.replay!=null or job.compressed.is_empty(): continue
-		if cache:
-			# Read/hash the same bounded bytes that a miss will decode. Even a corrupt
-			# replacement preserving length and mtime cannot reuse a cached recording.
-			cache.compressed_bytes_read += job.compressed.size()
-			var reused = cache.lookup(job.row,job.compressed_sha256)
-			if reused!=null:
-				job.replay = reused
+	# Keep eligible cached fallback rows until the result is known. Reading only
+	# the requested prefix must not evict last attempt's valid replacement first.
+	var retained: Array = []
+	var cursor = 0
+	while cursor<wanted.size():
+		var remaining = selection.automatic_count-active.size() if selection.mode=="automatic" else wanted.size()
+		if remaining<=0: break
+		var end = mini(wanted.size(),cursor+remaining)
+		var loader = PayloadLoader.new(payload_directory(record_path),identity)
+		# Default ten and every manual selection retain a single parallel batch.
+		# Failed automatic entries cause only a deficit-sized replacement batch.
+		for index in range(cursor,end):
+			var row: Dictionary = wanted[index]
+			aggregate += int(row.get("bytes",MAX_PAYLOAD_BYTES))
+			if aggregate>MAX_AGGREGATE_BYTES:
+				end = wanted.size() # Stop admission across all subsequent batches.
+				break
+			var job = {"row":row,"replay":row.get("replay"),"compressed":PackedByteArray(),"compressed_sha256":"","decode":false,"readable":false,"decoded_bytes_valid":false}
+			job.readable = job.replay==null and valid_id(row.get("sha256"),64) and Replay.number(row.get("bytes")) and row.bytes>=32 and row.bytes<=MAX_PAYLOAD_BYTES and row.bytes==floorf(row.bytes) and positive(row.get("time"))
+			loader.jobs.append(job)
+		cursor = end
+		loader.run(loader.read)
+		for job in loader.jobs:
+			if job.replay!=null or job.compressed.is_empty(): continue
+			if cache:
+				# Read/hash the same bounded bytes that a miss will decode. Even a corrupt
+				# replacement preserving length and mtime cannot reuse a cached recording.
+				cache.compressed_bytes_read += job.compressed.size()
+				var reused = cache.lookup(job.row,job.compressed_sha256)
+				if reused!=null:
+					job.replay = reused
+					continue
+			job.decode = true
+		loader.run(loader.decode)
+		for job in loader.jobs:
+			var row: Dictionary = job.row
+			var replay = job.replay
+			if job.decoded_bytes_valid:
+				if cache: cache.decodes += 1
+				if replay!=null and cache: cache.store_validated(row,job.compressed_sha256,replay)
+			if replay==null or not replay.has_presentation() or replay.duration!=row.time or not Replay.compatible(replay.compatibility,identity):
+				if cache: cache.discard(row.id)
+				unavailable.append(row.id)
 				continue
-		job.decode = true
-	loader.run(loader.decode)
-	for job in loader.jobs:
-		var row: Dictionary = job.row
-		var replay = job.replay
-		if job.decoded_bytes_valid:
-			if cache: cache.decodes += 1
-			if replay!=null and cache: cache.store_validated(row,job.compressed_sha256,replay)
-		if replay==null or not replay.has_presentation() or replay.duration!=row.time or not Replay.compatible(replay.compatibility,identity):
-			if cache: cache.discard(row.id)
-			unavailable.append(row.id)
-			continue
-		active.append({"id":row.id,"time":row.time,"date":row.date,"replay":replay})
-		if selection.mode=="automatic" and active.size()>=selection.automatic_count: break
+			active.append({"id":row.id,"time":row.time,"date":row.date,"replay":replay})
+			retained.append(row)
+	if cache and selection.mode=="automatic": cache.prune(retained)
 	return {"runs":active,"unavailable":unavailable}
 
 ## Immutable-input payload work shared across worker threads. Each job is a

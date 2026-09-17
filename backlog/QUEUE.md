@@ -10,13 +10,15 @@ status, dependencies, evidence and acceptance live in each stable task record.
 - **[Grouped distant stands](blocked/AA-20260914-094136-render-distant-forest-stands.md):** timed quad prototypes gave no FPS gain. Corrected depth patches pass numeric calibration but still break canopy silhouettes; rejected before timing. Resume with a materially different representation and bounded residency.
 - **[Metal frame floor](blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md):** MacBook unavailable, confirmed by the user on 17 September. Resume with machine access and Metal counters or a concrete alternate attribution method.
 
-## Ideas for the final phase
+## Approved ideas in progress
 
-- [Load only the requested ghost count](ideas/IDEA-20260917-011800-load-only-requested-ghost-count.md).
-- [Skip unchanged ghost material parameters](ideas/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md).
-- [Separate scenery bake inputs from render-only updates](ideas/IDEA-20260917-082200-separate-scenery-bake-dependencies.md).
-- [Share far-tree material submissions](ideas/IDEA-20260917-090000-share-far-tree-material-submissions.md).
+- [Skip unchanged ghost material parameters](tasks/AA-20260917-222200-skip-unchanged-ghost-material-updates.md).
+- [Separate scenery bake inputs from render-only updates](tasks/AA-20260917-222200-separate-scenery-bake-dependencies.md).
+- [Share far-tree material submissions](tasks/AA-20260917-222200-share-far-tree-material-submissions.md).
 
+## Latest completed improvement
+
+[Requested ghost-count loading](completed/AA-20260917-222200-load-only-requested-ghost-count.md) avoids decoding unused automatic selections; qualified loading and retry gains, 611 regression checks passed.
 
 ## Rules for the next task
 

@@ -1,11 +1,11 @@
 ---
 id: "IDEA-20260917-013000-skip-unchanged-ghost-material-updates"
 title: "Skip unchanged ghost material parameters"
-status: proposed
+status: accepted
 created: "2026-09-17T01:35:24Z"
 source_task: "AA-20260912-132147-reduce-ten-ghost-presentation-cost"
 source_thread: "01a0a5df-19c3-7783-81dc-eca18c340e4a"
-accepted_task: null
+accepted_task: "AA-20260917-222200-skip-unchanged-ghost-material-updates"
 ---
 
 # Skip unchanged ghost material parameters
@@ -39,5 +39,6 @@ Only retain the change if its measured CPU saving justifies the extra state.
 
 ## User decision
 
-The current goal authorizes addressing ideas after tasks and blocked work finish.
-Keep this proposal for that phase; no separate task has been created yet.
+Approved for implementation on18September2026. The active goal now covers all
+four ideas. [Accepted task](../../tasks/AA-20260917-222200-skip-unchanged-ghost-material-updates.md) owns implementation,
+validation and the final disposition; this proposal remains provenance.

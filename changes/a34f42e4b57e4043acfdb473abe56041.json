@@ -1,0 +1,277 @@
+{
+  "schema": 1,
+  "id": "a34f42e4b57e4043acfdb473abe56041",
+  "summary": "Load only the requested automatic ghost recordings",
+  "categories": [
+    "Maintenance",
+    "Presentation"
+  ],
+  "areas": [
+    "ghost payload scheduling",
+    "ranked automatic selection",
+    "backlog organization"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md",
+    "backlog/completed/AA-20260912-132147-reduce-cold-ghost-archive-load.md",
+    "backlog/completed/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md",
+    "backlog/ideas/IDEA-20260917-011800-load-only-requested-ghost-count.md",
+    "backlog/ideas/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md",
+    "backlog/ideas/IDEA-20260917-082200-separate-scenery-bake-dependencies.md",
+    "backlog/ideas/IDEA-20260917-090000-share-far-tree-material-submissions.md",
+    "backlog/ideas/archive/IDEA-20260917-011800-load-only-requested-ghost-count.md",
+    "backlog/ideas/archive/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md",
+    "backlog/ideas/archive/IDEA-20260917-082200-separate-scenery-bake-dependencies.md",
+    "backlog/ideas/archive/IDEA-20260917-090000-share-far-tree-material-submissions.md",
+    "backlog/tasks/AA-20260917-222200-separate-scenery-bake-dependencies.md",
+    "backlog/tasks/AA-20260917-222200-share-far-tree-material-submissions.md",
+    "backlog/tasks/AA-20260917-222200-skip-unchanged-ghost-material-updates.md",
+    "docs/RACING.md",
+    "docs/VALIDATION.md",
+    "scripts/racing/competitive_record.gd",
+    "tests/ghost_load_benchmark.gd",
+    "tests/ghost_retry_cache_suite.gd",
+    "backlog/completed/AA-20260917-222200-load-only-requested-ghost-count.md"
+  ],
+  "read_paths": [
+    "scripts/core/run_session.gd",
+    "scripts/racing/ghost_replay_cache.gd",
+    "scripts/racing/run_replay.gd",
+    "tests/crash_replay_suite.gd",
+    "tests/exact_clock_suite.gd",
+    "tests/ghost_archive_suite.gd",
+    "tests/ghost_replay_fixture.gd",
+    "tests/physics_suite.gd",
+    "tests/runtime_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only scheduling of already selected payloads changes. Replay validation, ranking, frozen session rosters and all compatibility formats remain unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only scheduling of already selected payloads changes. Replay validation, ranking, frozen session rosters and all compatibility formats remain unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only scheduling of already selected payloads changes. Replay validation, ranking, frozen session rosters and all compatibility formats remain unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Existing formats and immutable replay objects remain valid; cache prunes unused entries after selection."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Existing formats and immutable replay objects remain valid; cache prunes unused entries after selection."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Existing formats and immutable replay objects remain valid; cache prunes unused entries after selection."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Existing formats and immutable replay objects remain valid; cache prunes unused entries after selection."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Existing formats and immutable replay objects remain valid; cache prunes unused entries after selection."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "scripts/test_pc_environment.ps1 -Suites ghost_archive_suite,ghost_retry_cache_suite,exact_clock_suite,crash_replay_suite,physics_suite,runtime_suite -OutputDirectory artifacts/ghost_count_root_20260918/regression",
+      "result": "passed",
+      "details": "611 checks, six suites, no failures. Includes missing/corrupt automatic fallback, cached retries, manual selection, PB/roster preservation."
+    },
+    {
+      "kind": "performance",
+      "command": "run_guarded.ps1: ghost-count1-root-qualified (FpsCritical, headless ghost_load_benchmark.gd --automatic-count=1, retained 150-second fixture)",
+      "result": "passed",
+      "details": "Saved control 299.629/261.206 ms cold/retry; candidate 65.707/3.697 ms. Same selected IDs. Read/hash lookups 10 to 1 per call. OS cache uncontrolled; loading only, no FPS claim. artifacts/ghost_count_root_20260918/REVIEW.md"
+    },
+    {
+      "kind": "rendered",
+      "command": "Scope review",
+      "result": "not_required",
+      "details": "Only load scheduling changes; visual output code unchanged."
+    },
+    {
+      "kind": "automated",
+      "command": "backlog.py validate --preserve-dirty; installed quick_validate.py alpine-validation; scoped git diff --check",
+      "result": "passed",
+      "details": "Backlog links/status and updated skill validated. Added missing PyYAML to ignored .tools/skill-validation-python for the installed validator."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-17T22:46:41.412238+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "4c04513363249260b0d054046e00ce4890f9bc57",
+      "dev": 108,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 15724,
+        "mtime_ns": 1789685017142108400
+      },
+      "backlog/QUEUE.md": {
+        "size": 2250,
+        "mtime_ns": 1789685200252163200
+      },
+      "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md": {
+        "size": 13875,
+        "mtime_ns": 1789684931988162000
+      },
+      "backlog/completed/AA-20260912-132147-reduce-cold-ghost-archive-load.md": {
+        "size": 6268,
+        "mtime_ns": 1789684237927264300
+      },
+      "backlog/completed/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md": {
+        "size": 7084,
+        "mtime_ns": 1789684237927264300
+      },
+      "backlog/completed/AA-20260917-222200-load-only-requested-ghost-count.md": {
+        "size": 2367,
+        "mtime_ns": 1789685200251158600
+      },
+      "backlog/ideas/IDEA-20260917-011800-load-only-requested-ghost-count.md": null,
+      "backlog/ideas/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md": null,
+      "backlog/ideas/IDEA-20260917-082200-separate-scenery-bake-dependencies.md": null,
+      "backlog/ideas/IDEA-20260917-090000-share-far-tree-material-submissions.md": null,
+      "backlog/ideas/archive/IDEA-20260917-011800-load-only-requested-ghost-count.md": {
+        "size": 2037,
+        "mtime_ns": 1789683753955964100
+      },
+      "backlog/ideas/archive/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md": {
+        "size": 1988,
+        "mtime_ns": 1789683753958200700
+      },
+      "backlog/ideas/archive/IDEA-20260917-082200-separate-scenery-bake-dependencies.md": {
+        "size": 2305,
+        "mtime_ns": 1789683753960568500
+      },
+      "backlog/ideas/archive/IDEA-20260917-090000-share-far-tree-material-submissions.md": {
+        "size": 2353,
+        "mtime_ns": 1789683753961898800
+      },
+      "backlog/tasks/AA-20260917-222200-separate-scenery-bake-dependencies.md": {
+        "size": 2339,
+        "mtime_ns": 1789684600068468200
+      },
+      "backlog/tasks/AA-20260917-222200-share-far-tree-material-submissions.md": {
+        "size": 2470,
+        "mtime_ns": 1789684600069480100
+      },
+      "backlog/tasks/AA-20260917-222200-skip-unchanged-ghost-material-updates.md": {
+        "size": 2126,
+        "mtime_ns": 1789684600069480100
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/RACING.md": {
+        "size": 22508,
+        "mtime_ns": 1789685017141100000
+      },
+      "docs/VALIDATION.md": {
+        "size": 157469,
+        "mtime_ns": 1789685017142108400
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/run_session.gd": {
+        "size": 10945,
+        "mtime_ns": 1789605278207737300
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/ghost_replay_cache.gd": {
+        "size": 2645,
+        "mtime_ns": 1789209129702550500
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "tests/crash_replay_suite.gd": {
+        "size": 7948,
+        "mtime_ns": 1789594595807067300
+      },
+      "tests/exact_clock_suite.gd": {
+        "size": 20862,
+        "mtime_ns": 1789594595814000600
+      },
+      "tests/ghost_archive_suite.gd": {
+        "size": 11788,
+        "mtime_ns": 1789606172761103700
+      },
+      "tests/ghost_load_benchmark.gd": {
+        "size": 5041,
+        "mtime_ns": 1789685071626889600
+      },
+      "tests/ghost_replay_fixture.gd": {
+        "size": 2029,
+        "mtime_ns": 1789216602717893800
+      },
+      "tests/ghost_retry_cache_suite.gd": {
+        "size": 20476,
+        "mtime_ns": 1789685071626889600
+      },
+      "tests/physics_suite.gd": {
+        "size": 18435,
+        "mtime_ns": 1789594595873594000
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41141,
+        "mtime_ns": 1789594595889425300
+      }
+    }
+  }
+}

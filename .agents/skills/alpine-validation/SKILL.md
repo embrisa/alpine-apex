@@ -133,7 +133,11 @@ For replay numeric-validator changes, build the native skier library under an
 Exclusive guard and run `ghost_validation_kernel_suite` plus archive/cache,
 exact-clock and crash-replay checks. Retain physics/runtime checks after rebuilding
 the shared library. The native suite requires the new helper; script fallback is
-not evidence that the native path ran. Loading benchmarks use FpsCritical and
+not evidence that the native path ran. Loading benchmarks can select `--automatic-count=1..10` against an existing
+ten-recording fixture. Check ranked IDs and actual read/hash lookups; historical
+cache-accounted decode totals omit discarded worker jobs. Use the retry suite
+for missing/corrupt prefix replacements and retained fallback references.
+Loading benchmarks use FpsCritical and
 separate empty decoded-cache timing from OS disk-cache state and rendered FPS.
 
 Read `run.json`, `results.json`, relevant logs and emitted captures. Confirm the

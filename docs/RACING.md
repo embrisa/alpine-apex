@@ -260,7 +260,11 @@ ten validated immutable replay objects per Session, bounded to 320 MiB of declar
 raw payload bytes. Scope includes the normalized manifest path and full replay
 compatibility identity. Each retry reads and hashes the bounded compressed bytes;
 only unchanged bytes, raw hash/length and exact finish time reuse a decoded object.
-New bytes still undergo bounded decompression and the complete decoder. Selection
+New bytes still undergo bounded decompression and the complete decoder. Automatic
+selection reads only its requested ranked prefix; unavailable entries trigger
+additional batches sized to the missing slots. Default ten and manual selection
+retain one parallel batch. Keep eligible cached fallback entries until selection
+finishes, then prune to the accepted roster. Selection
 and eviction prune cached references; race/identity changes, explicit metadata
 reload and free skiing clear them. Active competitors remain frozen independently.
 On platforms with `AlpineReplayValidation`, the decoder validates packed numeric
