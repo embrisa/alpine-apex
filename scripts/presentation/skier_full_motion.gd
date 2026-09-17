@@ -375,10 +375,11 @@ func step_poles(dt: float, sim, surface) -> void:
 	if requested and (not _pole_was_loaded or wrap) and surface!=null:
 		pole_anchors.clear(); pole_normals.clear()
 		var phase_rate = maxf(fposmod(pole_phase-previous_pole_phase,1.0)/maxf(dt,.000001),.5)
-		var travel = sim.velocity.slide(sim.surface_normal).length()*minf(.55,maxf(0.0,.76-pole_phase)/phase_rate)
-		# Five centimetres of cosmetic reach reserve avoids the terminal
-		# sphere tangency; it does not change pole length or the physical stroke.
-		var lead = .25+minf(.65,.40*travel)
+		var speed: float = sim.velocity.slide(sim.surface_normal).length()
+		var travel = speed*minf(.55,maxf(0.0,.76-pole_phase)/phase_rate)
+		# A slow push plants beside the boots, allowing the hands to descend
+		# as the torso folds. Faster strokes retain their forward reach reserve.
+		var lead = lerpf(-.06,.25,smoothstep(0.0,2.0,speed))+minf(.65,.40*travel)
 		for side in [-1.0,1.0]:
 			var point: Vector3 = sim.position+sim.support_basis()*Vector3(side*.42,0.0,lead)
 			var sample: Dictionary = surface.sample(point.x,point.z)
@@ -406,7 +407,7 @@ func step_poles(dt: float, sim, surface) -> void:
 			var speed: float = sim.velocity.slide(sim.surface_normal).length()
 			var fast = smoothstep(2.0,40.0/3.6,speed)
 			var duration = lerpf(.76,.26,fast)/maxf(sim.pole_push.cadence_hz,.5)
-			var lead = .25+minf(.65,.40*speed*minf(.55,maxf(0.0,duration-dt)))
+			var lead = lerpf(-.06,.25,smoothstep(0.0,2.0,speed))+minf(.65,.40*speed*minf(.55,maxf(0.0,duration-dt)))
 			pole_targets.clear(); pole_target_normals.clear()
 			for side in [-1.0,1.0]:
 				var point: Vector3 = sim.position+sim.support_basis()*Vector3(side*.42,0.0,lead)
@@ -418,7 +419,11 @@ func step_poles(dt: float, sim, surface) -> void:
 		for i in pole_targets.size():
 			pole_targets[i] += (sim.position-pole_last_position).slide(pole_target_normals[i])
 	pole_plant = PolePose.contact_weight(pole_phase) if requested else move_toward(pole_plant,0.0,dt*12.0)
-	if requested and pole_entry: pole_plant *= smoothstep(0.0,.06,pole_phase)
+	if requested and pole_entry:
+		# Re-entry while steering can begin with tucked wrists far inside the
+		# planted lane. Ease that first unloaded reach; still reach full contact
+		# at the solver's .06 force onset, including at the faster cadence.
+		pole_plant *= clampf(pole_phase/.06,0.0,1.0)
 	# Carry owns the unloaded shaft lane independently of snow contact. A
 	# completed-tick envelope avoids snapping into tuck when forward is released
 	# exactly at the zero-contact midpoint; render/preview never advances it.

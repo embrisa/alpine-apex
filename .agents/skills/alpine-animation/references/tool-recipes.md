@@ -5,6 +5,13 @@ For current pole pushing, follow the scoped metadata capture/audit commands in
 They replace the historical source-freeze/seal hash workflow below for that
 producer. Capture the smallest relevant transition, keep actual clothing audit
 failures visible, and qualify broader chronology/performance separately.
+The contact suite includes both steering directions. For the bounded native
+pole cost check, use `pole_push_cost.gd` from that guide after visual review;
+its local mixed fixture is separate from whole-mountain performance.
+For intentional pole-source revisions, use the explicit JSON-to-Blender rebuild
+mode in [Assets](../../../../docs/ASSETS.md#pole-action-source), under Exclusive
+admission. Saved artist controls otherwise remain authoritative. Export receipts
+use scoped file metadata; export success does not establish runtime pose quality.
 
 Run at repository root. Resolve Python 3 (`$py`), Godot console (`$engine`) and
 ffmpeg (`$ffmpeg`) from the current installation. Pin the same explicit engine

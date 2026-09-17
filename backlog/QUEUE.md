@@ -16,6 +16,7 @@ status, dependencies, evidence and acceptance live in each stable task record.
 - [Skip unchanged ghost material parameters](ideas/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md).
 - [Separate scenery bake inputs from render-only updates](ideas/IDEA-20260917-082200-separate-scenery-bake-dependencies.md).
 - [Share far-tree material submissions](ideas/IDEA-20260917-090000-share-far-tree-material-submissions.md).
+- [Scope local targeted benchmark metadata](ideas/IDEA-20260917-175653-scope-targeted-benchmark-metadata.md).
 
 
 ## Rules for the next task

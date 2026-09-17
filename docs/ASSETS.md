@@ -130,18 +130,20 @@ authoring direction live in [Animation](ANIMATION.md#authoring-direction).
 `art_source/animation/pole_push_v1/cycle.json` is the original double-pole
 control definition. `scripts/art/build_pole_push.py` builds its editable
 `pole_push.blend`, previews it on the unchanged weighted skier, exports
-`assets/animation/pole_push_cycle.tres` and writes actual source/Blender/runtime
-hashes to `export_provenance.json` beside the source.
+`assets/animation/pole_push_cycle.tres` and writes scoped source/Blender/runtime
+file metadata to `export_provenance.json` beside the source.
 
 ```powershell
-./scripts/run_guarded.ps1 -FilePath 'C:/Program Files/Blender Foundation/Blender 5.2/blender.exe' -Arguments @('--background','--factory-startup','--python-exit-code','1','--python','scripts/art/build_pole_push.py') -Label pole-action-author -TimeoutSeconds 240
+./scripts/run_guarded.ps1 -FilePath 'C:/Program Files/Blender Foundation/Blender 5.2/blender.exe' -Arguments @('--background','--factory-startup','--python-exit-code','1','--python','scripts/art/build_pole_push.py') -Label pole-action-author -WorkloadMode Exclusive -TimeoutSeconds 240
 ```
 
 First build refuses to overwrite an existing blend. To export saved edits, append
 `'--','--export-existing'`; edit the four `PoleControl_` location channels with
-matching loop endpoints. Scalars use X, wrists/trails model-axis vectors. Export
+matching loop endpoints. To replace those controls with an intentional JSON
+revision, explicitly use `--rebuild-from-json` instead; this replaces the saved
+action and preview. Scalars use X, wrists/trails model-axis vectors. Export
 enforces smoothstep handles and carries no root motion. Preserve the JSON,
-editable blend, builder, runtime resource and hash receipt together. Existing
+editable blend, builder, runtime resource and metadata receipt together. Existing
 GLBs/imports/UIDs remain untouched; Blender source follows existing LFS policy.
 The preview precedes final Godot anatomy/cuff/tracker fitting and is not gameplay
 acceptance. Verify generated files and receipts before claiming authoring complete;

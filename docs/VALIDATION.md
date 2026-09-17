@@ -339,14 +339,14 @@ Use `-Map slopes`, `rocks`, `vegetation` or `mixed`. The owning wrapper reserves
 FpsCritical admission (including native captures); do not add another guard.
 Default measurement is three independently launched scenes at 4K High, FSR Auto
 0.75, uncapped, with three seconds of preparation and six seconds of ordinary
-120 Hz skiing per scene. `-Seconds` accepts 4–10 seconds. The runner rejects a
+120 Hz skiing per scene. `-Seconds` accepts 4â€“10 seconds. The runner rejects a
 crash, early boundary, incomplete tick window, source drift, wrong output pixels,
 focus loss, invalid timing samples or an end state different from the reference.
 No personal preferences or records are written. Captures use a separate run and
 produce riding/detail/overview images; they never count as FPS evidence.
 
-The explicit default is `-Camera scenery`: an in-memory chase profile with 12°
-downward tilt, 68° FOV, 5 m distance, 3 m height and no slope-follow tilt. It shows
+The explicit default is `-Camera scenery`: an in-memory chase profile with 12Â°
+downward tilt, 68Â° FOV, 5 m distance, 3 m height and no slope-follow tilt. It shows
 the approaching terrain and tree crowns instead of aiming into nearby snow.
 `-Camera riding` retains the scene's existing camera configuration. Reports record
 the profile, settings and rendered transform. Neither writes personal preferences.
@@ -401,7 +401,7 @@ density-LOD, grounding and foliage-sight suites; forest preparation also require
 its native-renderer check described below.
 
 `colorful_forest_playtest.gd` defaults to `perf-vegetation`. It uses actual game
-materials and forest residency at 1920×1080, native rendering and 60 FPS cap;
+materials and forest residency at 1920Ã—1080, native rendering and 60 FPS cap;
 captures do not establish timing. `--standard` requires FullMountain and a warm
 physical seed archive, then permits explicit scenery refresh under Exclusive.
 It does not bake a missing physical mountain. Optional `--seed=638201943` selects
@@ -466,9 +466,9 @@ and shared 4 m surface, not a whole mountain or performance benchmark.
 python scripts/pose_review/compare_scenarios.py artifacts/scenarios/hop-before artifacts/scenarios/hop-after --output artifacts/scenarios/hop-review
 ```
 
-Default windows are 4–6 seconds; `-Seconds` permits 0.25–60 seconds with a clean
+Default windows are 4â€“6 seconds; `-Seconds` permits 0.25â€“60 seconds with a clean
 duration/crash/fixture-boundary stop. `-Capture` adds final production poses and
-images, `-CaptureFps` controls sampling (1–30, default 15), and `-View side|chase`
+images, `-CaptureFps` controls sampling (1â€“30, default 15), and `-View side|chase`
 selects the camera. The fixture uses the solver's constructed tuning, recorded
 in full, rather than silently assuming the default resource. Records/preferences
 are never created. Capture runs produce visual evidence; wall times are diagnostic
@@ -505,7 +505,7 @@ complete mountain run is not required to inspect handling, animation, camera,
 effects, audio or local frame cost.
 
 - Before launching, name the question, relevant terrain/event, measured duration
-  and stop condition. Default to **15–30 seconds of riding**; use less when one
+  and stop condition. Default to **15â€“30 seconds of riding**; use less when one
   event answers the question. Separate loading and warm-up from the sample.
 - Set a duration/tick limit in the harness, or save a bounded input clip and
   replay to its captured final tick. End cleanly and flush evidence at the limit
@@ -676,7 +676,7 @@ a scripted teleport descent. Check the test's selected version against the curre
 baseline before producing or accepting a trace.
 
 `scripts/benchmark_pc.ps1` defaults to `-TrialSeconds 15 -TrialStartSeconds 90`;
-the duration is bounded to 1–60 seconds. It pre-rolls ordinary recorded input
+the duration is bounded to 1â€“60 seconds. It pre-rolls ordinary recorded input
 offline to the selected section, warms the unchanged scene, then measures only
 the requested window. An independent solver replay verifies the exact endpoint.
 Source identity pins movement code; `run_session.gd` is excluded because it does
@@ -731,7 +731,7 @@ of identical asset bytes. Verify this tooling with
 The example requires a separately prepared matching complete trace. Follow with
 the 120 FPS capped configuration and independently selected FG if assessing it.
 Report individual runs and medians of run statistics; do not pool percentiles.
-`production.json` contains route/section frame distributions, CPU scopes in μs,
+`production.json` contains route/section frame distributions, CPU scopes in Î¼s,
 GPU/render-thread ms, draw calls and engine memory; `system.json` records source
 stability, engine paths/metadata and process/system/GPU allocation telemetry. Windows
 allocation and engine memory are not precise physical VRAM occupancy. Radial
@@ -1042,7 +1042,7 @@ Run focused contracts and required shared suites through the existing batch guar
 The native fixture exercises pause, controller focus/text entry, trimming/reopening,
 seek/camera restoration, airborne/crash capture and record isolation. Append
 `--case-performance` to its user arguments for three matched pairs: two-second
-warmup plus 15 measured seconds each, 3840×2160 High, identical diagnostic scenario,
+warmup plus 15 measured seconds each, 3840Ã—2160 High, identical diagnostic scenario,
 unchanged rendering settings. Reject unfocused trials and differing trajectories.
 Report this capture overhead separately from ordinary/full-descent performance,
 rendered inspection and human/controller acceptance. The earlier input-only recorder
@@ -1057,7 +1057,7 @@ controller text entry. Skiing, airborne and crash reconstructions were visually
 inspected. Selected and retained-prefix clips plus crash skiing reran exactly with
 matching source; a changed-source case was correctly classified separately. Three
 matched 15-second 4K High samples measured mean capture cost increases of
-0.57–1.94 ms/frame (same diagnostic trajectory, all focused). This is bounded
+0.57â€“1.94 ms/frame (same diagnostic trajectory, all focused). This is bounded
 capture overhead, not an ordinary-gameplay baseline. Human/physical-controller
 acceptance remains open. Detailed local evidence: `artifacts/test_cases/DELIVERY.json`.
 
@@ -1131,7 +1131,7 @@ Use `performance_recording_suite.gd`, `performance_trace_contract_suite.gd` and
 
 2026-09-12 verification: 12 recorder and 13 trace-contract checks passed. The
 native manual-input smoke saved two independent early clips and verified restart,
-preservation and isolation; a native 3840×2160 replay reproduced the 240-tick clip
+preservation and isolation; a native 3840Ã—2160 replay reproduced the 240-tick clip
 and checkpoints. Four controller-prompt UI/test files were finalized during that
 playback; its functional result stands, but its timings are not baseline evidence.
 The recorded physics/input identities remained unchanged. Shared physics/runtime checks passed
@@ -1162,12 +1162,12 @@ routes are measured separately. Never imply omitted phases passed.
 ### Windows shader and streaming integration
 
 Use `tests/windows_forest_integration_playtest.gd` under a Shared native DX12
-guard for thirteen capped 4K views: production spruce/fir/pine at 6–82 m,
+guard for thirteen capped 4K views: production spruce/fir/pine at 6â€“82 m,
 actual dense-tree 12/64 m shader transitions and frozen-camera clear/active/shifted
 clouds. `--output=artifacts/FRESH/forest` selects isolated output. No FPS claim.
 
 `tests/windows_streaming_integration_playtest.gd -- --map=perf-mixed
---output=artifacts/FRESH/mixed` selects the 256×512 m production component fixture.
+--output=artifacts/FRESH/mixed` selects the 256Ã—512 m production component fixture.
 Use `--map=perf-gravel` for qualified nonzero gravel. Inspect the eight capped 1080p
 views: cell crossings and 280/420 m macro texture hysteresis. The producer checks
 all three texture channels each frame and preserves physical data. Camera height
@@ -1180,7 +1180,7 @@ skiing and retain the saved matching dense-route FPS baseline.
 
 2026-09-11 model-28 input audit: 388 automated checks and eight native laboratory
 captures were inspected. Haptic threshold retune later passed 284 checks and a
-native 1920×1080 fixture with hardware vibration disabled. These are input/event
+native 1920Ã—1080 fixture with hardware vibration disabled. These are input/event
 and rendered results, not controller comfort. Producers: controller input,
 haptics, physics/runtime suites; output `artifacts/controller_input_v1/`.
 
@@ -1242,8 +1242,8 @@ follow [natural opening checks](#natural-opening-checks).
 
 2026-09-10 v15 matched Standard work established deterministic outputs across
 worker counts, source/engine-validated caches and faster generation/loading.
-Initial means: cold generation 422.634 s v14 →135.579 s v15, physical-cache
-loading 10.349→5.402 s, cached rendered readiness 144.683→64.324 s. A later
+Initial means: cold generation 422.634 s v14 â†’135.579 s v15, physical-cache
+loading 10.349â†’5.402 s, cached rendered readiness 144.683â†’64.324 s. A later
 dependency-hash optimization brought v15 cold mean to 130.843 s. These retain
 their original workloads; readiness includes scene submission and is not FPS.
 Those historical receipts are in `artifacts/generation_v15/`; maintained producers now use `generation_v17_*`.
@@ -1279,7 +1279,7 @@ the median row is the median of run statistics, not a pooled distribution.
 | 1 | 1,116 | 74.38 | 13.44 | 19.09 | 29.17 | 25.98 |
 | 2 | 1,177 | 78.42 | 12.75 | 17.49 | 23.66 | 35.51 |
 | 3 | 1,175 | 78.37 | 12.76 | 18.03 | 24.81 | 32.43 |
-| Median statistic | — | 78.37 | 12.76 | 18.03 | 24.81 | 32.43 |
+| Median statistic | â€” | 78.37 | 12.76 | 18.03 | 24.81 | 32.43 |
 
 The run held the Standard seed's dense-forest trace at 170 km/h for exactly
 1,800 solver ticks per repetition, at 3840x2160 output and 2880x1620 internal
@@ -1313,7 +1313,7 @@ hashes. This completed the historical [baseline audit](../backlog/abandoned/AA-2
 
 Workload: default Standard seed 849205174, generator 15/model 28, launch face
 index 0, recorded chase-camera profile/look, clear/day, full production scenery
-and animation. Actual output was 3840×2160, internal scale 2880×1620, High preset
+and animation. Actual output was 3840Ã—2160, internal scale 2880Ã—1620, High preset
 7, Auto resolving FSR 4.1.1, cap 120, FG off and SDFGI off. Runtime was custom
 Godot 4.7.2 `ed1daf0bf`, Forward+/DX12, RX 9070 driver `32.0.31041.1004`, Ryzen
 5 5600X, 16 GB RAM, Windows 11 Pro build 26200.
@@ -1325,8 +1325,8 @@ Godot 4.7.2 `ed1daf0bf`, Forward+/DX12, RX 9070 driver `32.0.31041.1004`, Ryzen
 | 3 | 92.57 | 103.81 | 16.311 / 23.198 | 8.607 / 11.827 / 13.279 | 1.542 / 2.363 / 2.953 |
 | Median of runs | 92.57 | 103.81 | 16.311 / 23.198 | 8.607 / 11.827 / 13.154 | 1.544 / 2.365 / 2.953 |
 
-The sustained target remains **unmet**: every run misses p95 ≤11.1 ms and
-p99 ≤16.7 ms. The median slowest-one-percent rate is 34.56 FPS; neither average
+The sustained target remains **unmet**: every run misses p95 â‰¤11.1 ms and
+p99 â‰¤16.7 ms. The median slowest-one-percent rate is 34.56 FPS; neither average
 nor percentile statistics establish a hard minimum, display delivery or latency.
 Mineral and forest radial bands have median average FPS 79.82 and 89.95, with
 p95/p99 18.375/26.458 and 16.832/25.599 ms. Every measured forest-band frame has
@@ -1472,7 +1472,7 @@ are refused.
 ```
 
 `--diagnostics-only --search-seconds=30 --candidate-limit=6` performs bounded
-selection before Main construction; limits are 5–120 seconds and 1–16 valid
+selection before Main construction; limits are 5â€“120 seconds and 1â€“16 valid
 finish candidates. Inspect its rejection receipts and selected complete view
 bundle before native capture. `--distant-only --selection-report=PATH` reuses
 that source-pinned selection. `--500m-only` restricts it to four images;
@@ -1647,7 +1647,7 @@ See [Rendering](RENDERING.md#snow-presentation) for the durable shape contract.
 
 [Three warmed capture-free 4K pairs](../artifacts/orchestration_20260912/finish/boundary_timing_review.md)
 found variable whole-frame results and an uncached snow/powder p99 increase to
-3.115–4.889 ms. The [bounded previous-grid cache](../artifacts/orchestration_20260912/boundary/SUPPORT_CACHE_REVIEW.md)
+3.115â€“4.889 ms. The [bounded previous-grid cache](../artifacts/orchestration_20260912/boundary/SUPPORT_CACHE_REVIEW.md)
 passed24 byte/query/invalidation,22 boundary and7 carving-GPU checks. Its one
 justified15-second follow-up made738 queries/reused5,904 knots, retaining82 support
 uploads and1,800 dispatches; snow/powder mean/p95/p99 was.243/.533/.814 ms.
@@ -1730,22 +1730,24 @@ regression does not clear that open pole/clothing issue; see
 
 ### Pole propulsion and animation producers
 
-Dev102 closes the reproduced downhill speed-cap contact defect on model35.
-`pole_push_contact_suite.gd` now includes the -12-degree downhill fixture in its
-default eight cases: 99 checks pass without changing the existing limits. Loaded
-downhill tip height falls from 23.89 cm to below 0.001 cm, maximum anchor miss
-from 76.92 to 4.61 cm, loaded tip step from 52.46 to 4.61 cm, and minimum complete
-two-wrist stroke rises from 3.64 to 16.47 cm. Solver/phase equality, fixed grips,
-torso/leg fitting and duplicate/interpolated pose reads remain checked.
+The compact-arm follow-up on model35 replaces the outward arm search with one
+connected solve preserving the authored elbow bend. The control action uses a
+28-30 cm wrist lane and holds the torso fold through force release. The contact
+suite includes both steering directions, with 123 checks and unchanged limits.
+Solver/phase equality, rigid grips, torso/legs, loaded stroke and duplicate pose
+reads remain checked. Source/export details belong to [Assets](ASSETS.md#pole-action-source).
 
-The focused four-second native review covers downhill cancellation and fast
-flat strokes. The matched 240-frame downhill clothing audit remains an open
-finding: three intersecting frames in the Dev101 control, two in this correction.
-These are unloaded transitions, not failed snow contact. This is partial feature
-qualification, not the former eleven-case closure or a gameplay FPS claim.
-Evidence: `artifacts/pole_contact_qualified/REPORT.md`. The tuck hand-easing
-fixture in `skier_motion_suite.gd` starts at 20 m/s so it tests tuck rather than
-the context-sensitive pole action from rest; its original limits are unchanged.
+The focused four-second flat/downhill review contains 480 native frames and
+matched frozen poses in `review_midstroke`. The rejected 0.5-second chest-high
+pose was caused by a forward standing plant; the corrected start plants beside
+the boots and retains forward reach above 2 m/s. All 480 pass the actual skinned clothing shaft audit;
+the three reproduced compact-arm cancellation contacts are resolved. The native
+capture was capped at 30 presentations/s while the user played WoW, with the
+same deterministic 60 Hz pose samples. It is visual evidence only. Remaining
+parent qualification is broader final chronology and uncontended gameplay cost;
+the earlier 9,900-frame wide-arm candidate was rejected by the user and does not
+qualify this source. Evidence: `artifacts/pole_feature_closure/REPORT.md`.
+The tuck hand-easing fixture starts above the pole speed cap at 20 m/s.
 
 Pole captures use scoped size/mtime metadata and record `source_verification`.
 They do not recursively hash source/assets. `pose_pole_mesh_audit.gd` accepts
@@ -1767,6 +1769,7 @@ intended climb speeds require actual receipts; constants are not observed speeds
 ```
 
 Every named case is 15 seconds; select fewer cases for focused iteration.
+`--seconds=4 --scenarios=flat,downhill` selects the compact transition check.
 `pole_push_capture.gd -- --probe` provides headless frozen pose data; `--no-push`
 is the feature-off comparison. Enabled/disabled propulsion intentionally changes
 physics, so do not demand physics equality between those variants. Within each,
@@ -1777,10 +1780,20 @@ coverage remains required; prior failed tuck-neighbor audits are not superseded.
 
 The Blender source/export command belongs to [Assets](ASSETS.md#pole-action-source).
 The editable `pole_push.blend` and `export_provenance.json` now exist; the receipt
-identifies Blender 5.2.1 LTS and matching source/blend/runtime/builder hashes.
-Its historical `runtime_pose_accepted` remains false: that export receipt is
+identifies Blender 5.2.1 LTS and scoped source/blend/runtime/builder metadata.
+Its `runtime_pose_accepted` remains false: that export receipt is
 provenance, not a runtime acceptance record. Source export does not clear contact,
 shaft/clothing, mechanical, timing or human acceptance.
+
+`pole_push_cost.gd` is prepared for the remaining bounded local measurement,
+but has only received a parse check. Run with fresh `--output=artifacts/...`,
+High/Auto 0.75, 3840x2160 and frame generation off through FpsCritical admission
+after inspecting its `--capture-map` views. It uses the production `perf-mixed`
+fixture, one excluded six-second traversal and one clearance Off/On pair.
+It records rendered frame/GPU tails, memory and pose/contact CPU scopes. That
+pair isolates unloaded clearance, not the whole pole feature or the ten-to-one
+arm-solve change; it is not a dense-mountain FPS comparison. Measurements remain
+deferred during the user's gaming session.
 
 The committed-but-unvalidated 2026-09-13 model-32 recovery WIP snapshot reproduces the current
 D failures, then passes existing contact 87/87 and pose 36/36 with the unchanged
@@ -1887,7 +1900,7 @@ fixtures. `crash_recovery_lifecycle.gd` uses a disposable eligible short lab rac
 ./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--script','tests/ghost_playtest.gd') -Label ghost-review -TimeoutSeconds 600
 ```
 
-Recovery `--small` selects 960×540; normal is 1440×900. Inspect advancing/paused
+Recovery `--small` selects 960Ã—540; normal is 1440Ã—900. Inspect advancing/paused
 crash time, unavailable recovery, neutral-gated rest, attached equipment, restored
 camera and clean player/ghost trail origins. The current validated lab gate runs from (0,25) to (-3,70) in XZ, about
 45.1 m horizontally, with a 15-second riding budget; it is not a mountain descent. It mutes audio/haptics; listening and real-controller
@@ -1990,7 +2003,7 @@ natural-mountain placement usefulness, full-route behavior or human comfort.
 For Records-only edits, use `tests/ghost_playtest.gd -- --selector-only
 --output=artifacts/<unique-label> --fps-limit=60` under a Shared guard. This
 isolated synthetic recording fixture checks mouse, keyboard and controller
-selection at 1024×720 and 3840×2160, including empty manual selection, automatic
+selection at 1024Ã—720 and 3840Ã—2160, including empty manual selection, automatic
 counts and frozen active rosters. It does not establish animation or FPS quality.
 Injected main-window mouse coordinates use the root's final transform; popup
 events target the popup's host window ID. Mouse coordinates include the panel

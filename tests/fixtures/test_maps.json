@@ -1831,6 +1831,11 @@
       "full_mountain": false,
       "coverage": "Pure projection, lifecycle and bounded-work checks; no mountain or rendering."
     },
+    "tests/pole_push_cost.gd": {
+      "maps": ["perf-mixed"],
+      "full_mountain": false,
+      "coverage": "Production rider and mixed scenery;6s ordinary forward input from rest, excluded warmup then carry-clearance Off/On. Native4K or separate capture."
+    },
     "tests/sun_lens_flare_playtest.gd": {
       "maps": ["perf-slopes"],
       "full_mountain": false,

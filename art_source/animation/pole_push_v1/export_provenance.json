@@ -1,9 +1,28 @@
 {
   "blender": "5.2.1 LTS",
-  "source_sha256": "794c49ed4ed64c34969be0828256e2092b810241c5fe9aa5c48864b83c6256b2",
-  "blend_sha256": "e76162b28bdbc18b8332084c7cc223185d80eeaa52cab241f3031e488399d23e",
-  "resource_sha256": "f9de6c7e947b2f64a164d9b77c4e4cdf911fb891e5bf10506321880e79ea3b49",
-  "script_sha256": "14f0f3fac864bf46fe903bea4e1d533ceb1db31d51c748f651af7d095f192933",
+  "verification": "metadata",
+  "inputs": [
+    {
+      "path": "art_source/animation/pole_push_v1/cycle.json",
+      "size": 1960,
+      "mtime_ns": 1789669537442906200
+    },
+    {
+      "path": "art_source/animation/pole_push_v1/pole_push.blend",
+      "size": 49005122,
+      "mtime_ns": 1789669599477184100
+    },
+    {
+      "path": "assets/animation/pole_push_cycle.tres",
+      "size": 1027,
+      "mtime_ns": 1789669599417311000
+    },
+    {
+      "path": "scripts/art/build_pole_push.py",
+      "size": 12302,
+      "mtime_ns": 1789669588221050200
+    }
+  ],
   "runtime_pose_accepted": false,
   "notes": "Actual Blender export receipt, not a rendered/gameplay acceptance."
 }

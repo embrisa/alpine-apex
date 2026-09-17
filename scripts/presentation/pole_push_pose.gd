@@ -5,6 +5,63 @@ const Body = preload("res://scripts/core/rider_body.gd")
 const Motion = preload("res://assets/animation/pole_push_cycle.tres")
 const TIP_LENGTH = 1.18
 
+static func fit_carry_clearance(joints: Dictionary, rotations: Dictionary, pole_carry: float, articulated_carry: float) -> Array:
+	# Final fitting can move a carrying wrist after the source aimed its pole.
+	# Keep the rigid shaft outside small clothing envelopes in that FINAL pose.
+	# This is cosmetic geometry only, with no terrain/physics query or history.
+	var corrections: Array = []
+	for prefix in ["Right","Left"]:
+		var side = -1.0 if prefix=="Right" else 1.0
+		var hand = prefix+"Hand"; var elbow = prefix+"ForeArm"; var arm = prefix+"Arm"
+		var old_hand: Basis = rotations[hand]
+		var grip: Vector3 = joints[hand]+old_hand*Vector3(side*.070,0,.018)
+		var direction = -old_hand.z
+		var envelopes = [[joints.Hips,joints.Spine02,.19],[joints.Spine02,joints.Spine,.20],
+			[joints[prefix+"UpLeg"],joints[prefix+"Leg"],.115],
+			[joints[arm],joints[elbow],.085],[joints[elbow],joints[hand],.065]]
+		for iteration in 3:
+			var changed = false
+			for envelope_index in envelopes.size():
+				var envelope = envelopes[envelope_index]
+				var closest = Geometry3D.get_closest_points_between_segments(grip+direction*.10,grip+direction*TIP_LENGTH,envelope[0],envelope[1])
+				var offset = closest[0]-closest[1]
+				var radius: float = envelope[2]+.012
+				var distance = offset.length()
+				if distance>=radius: continue
+				var away = offset/distance if distance>.0001 else Vector3.RIGHT*side
+				var separation = radius-distance
+				if envelope_index<3:
+					# A pole above the thigh cannot always lift farther: the wrist
+					# is already at its carry limit. Clear torso/legs to the side,
+					# leaving the wrist hinge and fixed grip intact.
+					var axis: Vector3 = (envelope[1]-envelope[0]).normalized()
+					away = (Vector3.RIGHT*side).slide(axis).normalized()
+					var along = offset.dot(away)
+					separation = -along+sqrt(maxf(0.0,along*along+radius*radius-distance*distance))
+				direction = (closest[0]+away*separation-grip).normalized()
+				changed = true
+			if not changed: break
+		var correction = Anatomy.vector(Quaternion(-old_hand.z,direction)).limit_length(deg_to_rad(20.0))
+		corrections.append(correction.length())
+		if correction.length_squared()<.00000001: continue
+		var aimed = Anatomy.basis(correction)*old_hand
+		var axis: Vector3 = (Body.REST[hand]-Body.REST[elbow]).normalized()
+		var hinge = Anatomy.local_limit(elbow,rotations[arm].transposed()*rotations[elbow],0.0,0.0)
+		var neutral: Basis = rotations[arm]*hinge
+		var roll = clampf(Anatomy.twist_angle(neutral.transposed()*aimed,axis),-deg_to_rad(170.0),deg_to_rad(170.0))
+		rotations[elbow] = neutral*Basis(axis,roll)
+		# The source has already passed the soft wrist limit. Applying its
+		# easing again pulls a valid clearance correction back into the thigh.
+		# Constrain this final geometric correction to the SAME hard envelope.
+		var local: Basis = rotations[elbow].transposed()*aimed
+		var twist = Anatomy.twist_angle(local,axis)
+		var swing = Anatomy.vector((local*Basis(axis,-twist)).get_rotation_quaternion())
+		var carry = clampf(pole_carry,0.0,1.0)
+		var swing_limit = deg_to_rad(lerpf(lerpf(28.0,80.0,carry),80.0,articulated_carry))
+		var twist_limit = deg_to_rad(lerpf(lerpf(55.0,90.0,carry),30.0,articulated_carry))
+		rotations[hand] = rotations[elbow]*Anatomy.basis(swing.limit_length(swing_limit))*Basis(axis,clampf(twist,-twist_limit,twist_limit))
+	return corrections
+
 static func apply(pose: Dictionary, library: Dictionary, phase: float, amount: float) -> void:
 	if amount<=.000001: return
 	var control = Motion.sample(phase)
@@ -35,7 +92,7 @@ static func apply(pose: Dictionary, library: Dictionary, phase: float, amount: f
 		var lower: float = Body.REST[elbow].distance_to(Body.REST[hand])
 		wrist = joints[arm]+(wrist-joints[arm]).limit_length(upper+lower-.012)
 		joints[hand] = wrist
-		joints[elbow] = Body.joint(joints[arm],wrist,upper,lower,Vector3(side*.65,-1.0,-.15))
+		joints[elbow] = Body.joint(joints[arm],wrist,upper,lower,Vector3(side*.25,-.5,-1.0))
 		rotations[arm] = rotations[shoulder]*Basis(pose.q[ai])
 		Anatomy.fit_hinge(prefix,true,joints,rotations)
 		var arm_local: Basis = rotations[shoulder].transposed()*rotations[arm]
@@ -79,57 +136,21 @@ static func ground_target(wrist: Vector3, anchor: Vector3, normal: Vector3, radi
 	if radial.length_squared()<.5: radial = fallback.slide(normal).normalized()
 	return center+radial*sqrt(maxf(0.0,radius*radius-height*height))
 
-static func arm_candidate(context: Dictionary, angle: float) -> Dictionary:
-	var position: Vector3 = context.position; var wanted: Vector3 = context.wanted
-	var shoulder: Basis = context.shoulder
-	var upper_rest: Vector3 = context.upper_rest; var lower_rest: Vector3 = context.lower_rest
-	var bend: Vector3 = Basis(context.direction,angle)*context.hint
-	var point = Body.joint(position,wanted,context.upper_length,context.lower_length,bend)
-	var up = (point-position).normalized(); var down = (wanted-point).normalized()
-	var normal = up.cross(down).normalized()
-	var upper: Basis = Anatomy.segment_frame(up,normal)*context.upper_frame
-	var lower: Basis = Anatomy.segment_frame(down,normal)*context.lower_frame
-	var upper_local = Anatomy.local_limit(context.arm,context.shoulder_inverse*upper)
-	var lower_local = Anatomy.local_limit(context.elbow,upper.transposed()*lower,0.0,1.0)
-	var fitted_elbow = position+shoulder*upper_local*upper_rest
-	var fitted_wrist = fitted_elbow+shoulder*upper_local*lower_local*lower_rest
-	return {"upper":upper_local,"lower":lower_local,"cost":fitted_wrist.distance_squared_to(wanted)+.015*fitted_elbow.distance_squared_to(context.old_elbow),"angle":angle}
-
-static func connected_arm(prefix: String, shoulder: Basis, position: Vector3, wanted: Vector3, old_elbow: Vector3, carry_weight: float) -> Dictionary:
+static func connected_arm(prefix: String, shoulder: Basis, position: Vector3, wanted: Vector3, old_elbow: Vector3) -> Dictionary:
+	# Keep the tracked source bend while fitting the planted wrist. Searching
+	# for an outward bend or locking elbows to a frontal plane both displaced
+	# the authored arm: the former flared it, the latter snapped below shoulder
+	# height. One connected solve retains the source's compact elbow passage.
 	var upper_rest: Vector3 = Body.REST[prefix+"ForeArm"]-Body.REST[prefix+"Arm"]
 	var lower_rest: Vector3 = Body.REST[prefix+"Hand"]-Body.REST[prefix+"ForeArm"]
 	var axis = Anatomy.hinge_axis(prefix,true)
-	var hint = old_elbow-position
-	var side = -1.0 if prefix=="Right" else 1.0
-	# The projected old elbow can cross the wrist axis during a loaded tuck.
-	# Bias the bend outward as contact takes ownership, with source-relative
-	# displacement still in the objective; carry fades on action cancellation.
-	# Contact can rise to .89 in the first grounded sample after a fast
-	# landing. Preserve the source elbow longer while the arm takes ownership;
-	# wrists and poles retain the snow contact/aim weight. This reaches
-	# the unchanged outward hint at full carry before any loaded stroke.
-	var bend_weight = carry_weight*carry_weight
-	bend_weight *= bend_weight*carry_weight
-	hint = hint.lerp(Vector3(side,-.15,0.0).normalized()*hint.length(),bend_weight)
-	var context = {"position":position,"wanted":wanted,"shoulder":shoulder,"shoulder_inverse":shoulder.transposed(),"upper_rest":upper_rest,"lower_rest":lower_rest,"upper_length":upper_rest.length(),"lower_length":lower_rest.length(),"upper_frame":Anatomy.segment_frame(upper_rest.normalized(),axis).transposed(),"lower_frame":Anatomy.segment_frame(lower_rest.normalized(),axis).transposed(),"arm":prefix+"Arm","elbow":prefix+"ForeArm","direction":(wanted-position).normalized(),"hint":hint,"old_elbow":old_elbow}
-	# A hard winning probe/ternary interval can switch bend planes in one frame.
-	# Smooth the angular objective, then solve ONCE at that angle: averaging
-	# wrists or final bone matrices would violate rigid link closure.
-	var trials: Array = []; var minimum = INF
-	for probe in 9:
-		var trial = arm_candidate(context,lerpf(-PI*.5,PI*.5,float(probe)/8.0))
-		trials.append(trial); minimum = minf(minimum,trial.cost)
-	# Snow release must not simultaneously collapse the bend objective and
-	# rotate its reference back toward a tucked elbow. Keep it broad while the
-	# action carries poles; fade only on completed action entry/cancellation.
-	var width = maxf(.004*carry_weight*carry_weight,.00000001)
-	var angle = 0.0; var total = 0.0
-	for trial in trials:
-		var contribution = exp(-(trial.cost-minimum)/width)
-		angle += trial.angle*contribution; total += contribution
-	var result = arm_candidate(context,angle/total)
-	result.probes = 10
-	return result
+	var elbow = Body.joint(position,wanted,upper_rest.length(),lower_rest.length(),old_elbow-position)
+	var up = (elbow-position).normalized(); var down = (wanted-elbow).normalized()
+	var normal = up.cross(down).normalized()
+	var upper = Anatomy.segment_frame(up,normal)*Anatomy.segment_frame(upper_rest.normalized(),axis).transposed()
+	var lower = Anatomy.segment_frame(down,normal)*Anatomy.segment_frame(lower_rest.normalized(),axis).transposed()
+	return {"upper":Anatomy.local_limit(prefix+"Arm",shoulder.transposed()*upper),
+		"lower":Anatomy.local_limit(prefix+"ForeArm",upper.transposed()*lower,0.0,1.0),"angle":0.0,"probes":1}
 
 static func fit_tips(joints: Dictionary, rotations: Dictionary, root_frame: Transform3D, anchors: Array, normals: Array, weight: float, phase: float = 0.0, carry_weight: float = 0.0) -> Dictionary:
 	carry_weight = maxf(carry_weight,weight)
@@ -159,11 +180,11 @@ static func fit_tips(joints: Dictionary, rotations: Dictionary, root_frame: Tran
 		# A free 3D sphere projection otherwise pulls tucked hands inward while
 		# solving vertical reach. Solve only in this arm's sagittal slice.
 		var reference = old_wrist
-		reference.x = side*maxf(absf(reference.x),.32)
+		reference.x = side*maxf(absf(reference.x),.28)
 		# Keep the exported backward stroke during the fast/intensity-tapered
 		# tuck too. Closest-to-tracked-wrist alone delayed that stroke until AFTER
 		# force. The source Y/lateral carry and 30 cm accommodation bound remain.
-		reference.z = lerpf(old_wrist.z,joints[arm].z+control.wrist.z,.5)
+		reference.z = lerpf(old_wrist.z,joints[arm].z+control.wrist.z,.45)
 		var sagittal_anchor = Vector3(reference.x,anchor.y,anchor.z)
 		var sagittal_shoulder = Vector3(reference.x,joints[arm].y,joints[arm].z)
 		var pole_radius = sqrt(maxf(0.0,radius*radius-pow(reference.x-anchor.x,2.0)))
@@ -187,9 +208,11 @@ static func fit_tips(joints: Dictionary, rotations: Dictionary, root_frame: Tran
 		# Unloaded hands still carry full shafts outside the jacket/hips. C's
 		# contact blend pulled them into tuck midway through recovery, causing
 		# actual-mesh hits even though loaded contact and fixed grips passed.
-		wanted.x = lerpf(wanted.x,side*maxf(side*wanted.x,.32),carry_weight)
+		# Apply lateral carry once from the unfitted source wrist. Blending the
+		# already fitted wrist again makes first contact jump almost to full reach.
+		wanted.x = lerpf(old_wrist.x,side*maxf(side*old_wrist.x,.28),carry_weight)
 		wanted = old_wrist+(wanted-old_wrist).limit_length(.30)
-		var fitted = connected_arm(prefix,rotations[shoulder],joints[arm],wanted,joints[elbow],carry_weight)
+		var fitted = connected_arm(prefix,rotations[shoulder],joints[arm],wanted,joints[elbow])
 		rotations[arm] = rotations[shoulder]*fitted.upper
 		rotations[elbow] = rotations[arm]*fitted.lower
 		wrist_targets.append(wanted); elbow_angles.append(fitted.angle); probe_counts.append(fitted.probes)

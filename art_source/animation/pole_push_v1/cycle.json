@@ -5,11 +5,128 @@
   "coordinates": "Godot model: +X left, +Y up, +Z forward. Wrist X is unsigned lateral distance, Y/Z relative to shoulder.",
   "ownership": "Torso and connected arm targets only; physical skis, root translation and timing belong to the solver.",
   "interpolation": "Cubic smoothstep between normalized phase keys; identical control values at 0 and 1.",
-  "phases": [0, 0.06, 0.16, 0.40, 0.66, 0.76, 0.90, 1],
-  "hips_degrees": [12, 14, 20, 32, 38, 28, 14, 12],
-  "spine_degrees": [2, 3, 5, 7, 6, 3, 2, 2],
-  "wrists": [[0.37,-0.10,0.35],[0.37,-0.15,0.34],[0.39,-0.22,0.26],[0.40,-0.34,0.08],[0.40,-0.40,-0.18],[0.41,-0.36,-0.23],[0.40,-0.10,0.12],[0.37,-0.10,0.35]],
-  "trails": [[0.03,-0.98,-0.18],[0.03,-0.96,-0.28],[0.04,-0.88,-0.47],[0.04,-0.72,-0.69],[0.05,-0.54,-0.84],[0.08,-0.45,-0.89],[0.08,-0.80,-0.59],[0.03,-0.98,-0.18]],
-  "landmarks": {"0":"reach","0.06":"plant","0.16":"loaded push","0.40":"torso load and backward sweep","0.66":"extension","0.76":"release","0.90":"recovery"},
-  "validation": "Source definition only. Blender bake/export, full gameplay fitting, chronological shaft/clothing review and controller acceptance require actual validation receipts."
+  "phases": [
+    0,
+    0.06,
+    0.16,
+    0.4,
+    0.66,
+    0.76,
+    0.9,
+    1
+  ],
+  "hips_degrees": [
+    12,
+    14,
+    20,
+    32,
+    38,
+    38,
+    14,
+    12
+  ],
+  "spine_degrees": [
+    2,
+    3,
+    5,
+    7,
+    6,
+    6,
+    2,
+    2
+  ],
+  "wrists": [
+    [
+      0.28,
+      -0.1,
+      0.35
+    ],
+    [
+      0.28,
+      -0.15,
+      0.34
+    ],
+    [
+      0.29,
+      -0.22,
+      0.26
+    ],
+    [
+      0.3,
+      -0.34,
+      0.08
+    ],
+    [
+      0.3,
+      -0.4,
+      -0.18
+    ],
+    [
+      0.3,
+      -0.36,
+      -0.23
+    ],
+    [
+      0.29,
+      -0.1,
+      0.12
+    ],
+    [
+      0.28,
+      -0.1,
+      0.35
+    ]
+  ],
+  "trails": [
+    [
+      0.03,
+      -0.98,
+      -0.18
+    ],
+    [
+      0.03,
+      -0.96,
+      -0.28
+    ],
+    [
+      0.04,
+      -0.88,
+      -0.47
+    ],
+    [
+      0.04,
+      -0.72,
+      -0.69
+    ],
+    [
+      0.05,
+      -0.54,
+      -0.84
+    ],
+    [
+      0.08,
+      -0.45,
+      -0.89
+    ],
+    [
+      0.08,
+      -0.8,
+      -0.59
+    ],
+    [
+      0.03,
+      -0.98,
+      -0.18
+    ]
+  ],
+  "landmarks": {
+    "0": "reach",
+    "0.06": "plant",
+    "0.16": "loaded push",
+    "0.40": "torso load and backward sweep",
+    "0.66": "extension",
+    "0.76": "release",
+    "0.90": "recovery"
+  },
+  "validation": "Compact pole action: narrower grip, torso remains folded through force release. Source export and final gameplay/contact/clothing qualification are separate receipts."
 }

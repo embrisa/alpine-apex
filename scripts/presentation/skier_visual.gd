@@ -22,6 +22,7 @@ var appearance
 var snow_burial_enabled = false
 var animation = preload("res://scripts/presentation/skier_animation.gd").new()
 var animation_enabled = true
+var pole_carry_clearance_enabled = true # Diagnostic comparison; no saved setting.
 var rendered_joints: Dictionary = {}
 var rendered_rotations: Dictionary = {}
 var motion_comparison: CheckButton
@@ -240,6 +241,12 @@ func pose(sim, fraction: float = 1.0, preview: Dictionary = {}) -> void:
 		rotations = base_rotations.duplicate()
 	var pole_fit_start = Time.get_ticks_usec()
 	var pole_fit = animation.full_motion.PolePose.fit_tips(joints,rotations,global_transform,skeletal.get("pole_targets",skeletal.get("pole_anchors",[])),skeletal.get("pole_target_normals",skeletal.get("pole_normals",[])),skeletal.get("pole_plant",0.0),skeletal.get("pole_phase",0.0),skeletal.get("pole_carry",0.0))
+	if pole_carry_clearance_enabled and sim.grounded and skeletal.get("pole_carry",0.0)>0.0 and skeletal.get("pole_plant",0.0)<=.001 and sim.pole_push_acceleration<=0.0:
+		var pushing: float = skeletal.get("pole_amount",0.0)
+		var carry: float = maxf(motion.get("tuck",0.0),motion.get("prepare",0.0))*(1.0-motion.get("air",0.0))*animation.full_motion.Downhill.straight(motion)*(1.0-pushing)
+		var action: Vector3 = skeletal.get("action",Vector3.ZERO)
+		var articulated: float = maxf(pushing,clampf(skeletal.get("downhill",0.0)+action.x+action.y+action.z,0.0,1.0))
+		pole_fit.carry_clearance_rad = animation.full_motion.PolePose.fit_carry_clearance(joints,rotations,carry,articulated)
 	animation.full_motion.diagnostics.merge(pole_fit,true)
 	animation.full_motion.diagnostics.pole_target_stage = skeletal.get("pole_target_stage","inactive")
 	animation.full_motion.diagnostics.pole_contact_cpu_us = Time.get_ticks_usec()-pole_fit_start

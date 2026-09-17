@@ -233,9 +233,35 @@ retains at least half of the authored stroke instead of shrinking it into tuck.
 At the speed cap it completes the current release, then stops starting plants.
 The palm target is blended once before solving forearm pronation and wrist
 limits, avoiding the previous repeated orientation blends during cancellation.
-The fitter retains ten percent of bounded unloaded reach and fifth-power carry
-for elbow entry. The downhill force/contact gates now pass; brief unloaded
-shaft/clothing intersections remain, so complete feature acceptance is pending.
+The source uses a 28-30 cm lateral grip lane and lower, rearward elbows, and keeps
+the torso folded until force release. Contact fitting preserves that tracked
+elbow direction with one connected arm solve. The previous ten-candidate outward
+bend search widened the final pose. A strict frontal elbow plane also caused
+fast transition jumps, so alignment belongs in the authored arm rather than a
+plane lock. The fitter retains ten percent of bounded unloaded reach and mixes
+45 percent of the authored fore/aft wrist target. Lateral carry blends once from
+the source wrist. Initial contact grows linearly over solver phase 0-.06,
+reaching full weight before force starts;
+double blending the lateral reach caused a right-turn re-entry snap.
+At a standing start the cosmetic plant sits 6 cm behind the support origin,
+blending to the existing 25 cm forward lead by 2 m/s before travel anticipation.
+The same rule owns next-plant previews. The former standing lead held the hands
+high beside the chest as the torso folded, creating the rejected 0.5-second pose.
+The shorter standing lead allows a downward push without widening the elbows.
+
+After contact fitting, `fit_carry_clearance` keeps unloaded shafts outside five
+small torso/own-arm/thigh capsules. It runs only during active or fading pole
+carry while grounded, contact weight is at most .001 and thrust is zero.
+Ordinary downhill/tuck keeps its existing pose and incurs no clearance work.
+Up to three geometric passes aim the shaft away
+from those envelopes, capped at 20 degrees. Torso/thigh clearance escapes to the
+side rather than asking an already folded wrist to lift farther. The final
+correction uses the current action's hard pronation/wrist envelope: repeating
+the source's soft easing here pulled the pole back into the thigh. It does not move joint positions,
+grip offsets, physical contacts or solver state, and
+has no history or terrain queries. The capsules approximate clothing: the actual
+skinned mesh audit and rendered review remain the acceptance checks. The
+diagnostic `pole_carry_clearance_enabled` flag defaults on and is not a setting.
 [Validation](VALIDATION.md#pole-propulsion-and-animation-producers) owns the
 retained evidence and exact remaining limits.
 

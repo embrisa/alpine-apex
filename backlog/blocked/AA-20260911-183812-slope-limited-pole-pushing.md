@@ -5,7 +5,7 @@ status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-11T18:38:12Z"
-updated: "2026-09-17T00:13:30Z"
+updated: "2026-09-17T18:47:00Z"
 source_thread: null
 ---
 
@@ -13,16 +13,24 @@ source_thread: null
 
 ## Current resume scope - 17 September 2026
 
-The user's backlog-completion goal authorizes this parent to resume. Dev102
-addresses the reproduced downhill speed-cap contact defect: all 99 expanded
-contact checks pass with unchanged limits, and the source/force transition is
-reviewed natively. Propulsion and replay identities are unchanged.
+The user's backlog-completion goal authorizes this parent to resume. The compact
+arm follow-up corrects the user's flared-elbow/outward-hand complaint, retains
+the authored bend through final contact, and resolves the reproduced unloaded
+shaft/thigh contacts. The source JSON, editable Blender action and runtime
+resource are delivered together. Expanded contact coverage has 123 checks;
+the corrected `review_midstroke` four-second flat/downhill native/frozen review audits all 480 poses
+with zero clothing intersections. Propulsion and replay identities are unchanged.
 
-The matched four-second downhill mesh audit improves from three intersecting
-frames to two, but still fails. Remaining work is the unloaded shaft/clothing
-transition, wider final chronology and bounded gameplay/CPU cost qualification.
+The user rejected the earlier 0.5-second frame. Moving the standing plant beside
+the boots lowers the hands through the push; higher-speed forward reach is retained.
+The new comparison is shown, with human acceptance still pending.
+
+Remaining work is broader final chronology and bounded gameplay/CPU cost
+qualification. The user is playing WoW from 17 September evening: defer FPS
+measurements until that session ends. The prepared local cost harness has only
+been parsed; it measures clearance Off/On, not total-feature performance.
 Do not repeat the completed propulsion/slope matrices unless their owner changes.
-See `artifacts/pole_contact_qualified/REPORT.md` and the current
+See `artifacts/pole_feature_closure/REPORT.md` and the current
 [pole producer guide](../../docs/VALIDATION.md#pole-propulsion-and-animation-producers).
 This parent is not complete; historical implementation planning below is context.
 
@@ -199,7 +207,7 @@ remaining human acceptance, documentation and commit/push references. Record a
 real blocker and unfinished work if implementation cannot complete. No separate
 follow-up ideas were proposed during authoring.
 
-## Checkpoint disposition — 2026-09-12T13:21:47Z
+## Checkpoint disposition â€” 2026-09-12T13:21:47Z
 
 Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-pole-transition-validation](../abandoned/AA-20260912-132147-finish-pole-transition-validation.md), [AA-20260912-132147-close-eight-feature-integration-records](../abandoned/AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.
 

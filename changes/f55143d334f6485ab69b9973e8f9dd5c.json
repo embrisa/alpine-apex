@@ -1,0 +1,289 @@
+{
+  "schema": 1,
+  "id": "f55143d334f6485ab69b9973e8f9dd5c",
+  "summary": "Correct compact pole-push elbows, wrist alignment and carried shaft clearance",
+  "categories": [
+    "Presentation",
+    "Maintenance"
+  ],
+  "areas": [
+    "Pole pushing and carried shaft clearance"
+  ],
+  "owned_paths": [
+    "docs/ANIMATION.md",
+    "docs/VALIDATION.md",
+    "backlog/blocked/AA-20260911-183812-slope-limited-pole-pushing.md",
+    "scripts/presentation/pole_push_pose.gd",
+    "scripts/presentation/skier_visual.gd",
+    "tests/pole_push_cost.gd",
+    "tests/pole_push_cost.gd.uid",
+    "tests/fixtures/test_maps.json",
+    "backlog/ideas/IDEA-20260917-175653-scope-targeted-benchmark-metadata.md",
+    "scripts/presentation/skier_full_motion.gd",
+    "tests/pole_push_contact_suite.gd",
+    "backlog/QUEUE.md",
+    ".agents/skills/alpine-animation/references/tool-recipes.md",
+    "assets/animation/pole_push_cycle.tres",
+    "art_source/animation/pole_push_v1/cycle.json",
+    "art_source/animation/pole_push_v1/pole_push.blend",
+    "art_source/animation/pole_push_v1/export_provenance.json",
+    "scripts/art/build_pole_push.py",
+    "docs/ASSETS.md"
+  ],
+  "read_paths": [
+    "scripts/presentation/skier_anatomy.gd",
+    "tests/pole_push_capture.gd",
+    "tests/pole_push_playtest.gd",
+    "tests/pose_pole_mesh_audit.gd",
+    "scripts/presentation/downhill_posture.gd",
+    "tests/targeted_performance.gd",
+    "tests/fixtures/performance_maps.json"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Authored presentation, contact fitting and diagnostic tooling only; no solver/input/session changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No runtime data schema, world generation, solver or recorded-pose representation changes."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No runtime data schema, world generation, solver or recorded-pose representation changes."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No runtime data schema, world generation, solver or recorded-pose representation changes."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No runtime data schema, world generation, solver or recorded-pose representation changes."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No runtime data schema, world generation, solver or recorded-pose representation changes."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "pole_push_contact_suite.gd --output=artifacts/pole_feature_closure/review_midstroke/contact.json",
+      "result": "passed",
+      "details": "123/123 across ten cases on the final standing-plant correction. Original contact, continuity, wrist, solver-equality and loaded stroke limits unchanged."
+    },
+    {
+      "kind": "automated",
+      "command": "test_pc_environment.ps1 -Suites skier_anatomy_suite,pole_push_pose_suite,ghost_pose_cache_suite,compact_posture_suite,ski_attachment_suite,skier_motion_suite,landing_settle_suite -OutputDirectory artifacts/pole_feature_closure/review_midstroke/regression",
+      "result": "passed",
+      "details": "5338 checks on final runtime code: anatomy84, polepose36, ghostcache5122, compact36, attachment20, motion19, landing21. All seven suites completed and passed."
+    },
+    {
+      "kind": "automated",
+      "command": "pose_pole_mesh_audit.gd --revision=artifacts/pole_feature_closure/review_midstroke --scenarios=flat,downhill --include-flight",
+      "result": "passed",
+      "details": "All 480 current frozen native poses audited against actual skinned clothing; zero shaft intersections. This is four seconds per fixture, not the broader feature chronology."
+    },
+    {
+      "kind": "rendered",
+      "command": "native_capped.gd --output=artifacts/pole_feature_closure/review_midstroke/capture --scenarios=flat,downhill --seconds=4",
+      "result": "passed",
+      "details": "Actual chase/front/side views: the rejected chest-high 0.5-second pose is corrected by moving the standing plant beside the boots. Author inspected matched frame and sampled chronology. 480 native frames, capped30 presentations/s, deterministic60Hz samples. No FPS claim; full chronology and user acceptance remain pending."
+    },
+    {
+      "kind": "automated",
+      "command": "Blender5.2.1 --background --python scripts/art/build_pole_push.py -- --rebuild-from-json",
+      "result": "passed",
+      "details": "Exclusive source rebuild/export completed; JSON, editableBlend, runtimeTRES and metadata provenance delivered together; no rig/import/UID edits."
+    },
+    {
+      "kind": "automated",
+      "command": "Godot --headless --check-only --script tests/pole_push_cost.gd; backlog.py validate --preserve-dirty; git diff --check",
+      "result": "passed",
+      "details": "Prepared cost harness parses; no gameplay/FPS measurement claim. Backlog and whitespace checks pass."
+    },
+    {
+      "kind": "performance",
+      "command": "Native4K gameplay/pose cost",
+      "result": "not_required",
+      "details": "Deferred by the user gaming session. This is the requested alignment correction milestone; broader parent remains blocked on chronology and uncontended cost qualification."
+    },
+    {
+      "kind": "human",
+      "command": "Player/controller review",
+      "result": "pending",
+      "details": "The earlier 0.5-second frame was rejected. Corrected before/after game imagery has been shown; response and controller acceptance remain pending."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Player/controller acceptance of the corrected compact push and release.",
+    "Parent feature: broader final chronology and uncontended local/native cost measurement after the user finishes WoW; no FPS gain claimed."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T19:11:05.744710+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "e3452ffbf1dca7f2fc1f746a904987b120877472",
+      "dev": 102,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-animation/references/tool-recipes.md": {
+        "size": 7140,
+        "mtime_ns": 1789669855024972700
+      },
+      "art_source/animation/pole_push_v1/cycle.json": {
+        "size": 1960,
+        "mtime_ns": 1789669537442906200
+      },
+      "art_source/animation/pole_push_v1/export_provenance.json": {
+        "size": 718,
+        "mtime_ns": 1789672265003341300
+      },
+      "art_source/animation/pole_push_v1/pole_push.blend": {
+        "size": 49005122,
+        "mtime_ns": 1789669599477184100
+      },
+      "assets/animation/pole_push_cycle.tres": {
+        "size": 1027,
+        "mtime_ns": 1789669599417311000
+      },
+      "backlog/QUEUE.md": {
+        "size": 2242,
+        "mtime_ns": 1789668404365003100
+      },
+      "backlog/blocked/AA-20260911-183812-slope-limited-pole-pushing.md": {
+        "size": 14968,
+        "mtime_ns": 1789672264952501900
+      },
+      "backlog/ideas/IDEA-20260917-175653-scope-targeted-benchmark-metadata.md": {
+        "size": 1676,
+        "mtime_ns": 1789667813787093000
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ANIMATION.md": {
+        "size": 28114,
+        "mtime_ns": 1789671896683205200
+      },
+      "docs/ASSETS.md": {
+        "size": 23553,
+        "mtime_ns": 1789669588222059100
+      },
+      "docs/VALIDATION.md": {
+        "size": 156133,
+        "mtime_ns": 1789672264903358700
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/art/build_pole_push.py": {
+        "size": 12302,
+        "mtime_ns": 1789669588221050200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/downhill_posture.gd": {
+        "size": 5869,
+        "mtime_ns": 1789667121615064300
+      },
+      "scripts/presentation/pole_push_pose.gd": {
+        "size": 16248,
+        "mtime_ns": 1789670527600403000
+      },
+      "scripts/presentation/skier_anatomy.gd": {
+        "size": 12524,
+        "mtime_ns": 1789572082272435400
+      },
+      "scripts/presentation/skier_full_motion.gd": {
+        "size": 48919,
+        "mtime_ns": 1789671830155795200
+      },
+      "scripts/presentation/skier_visual.gd": {
+        "size": 19256,
+        "mtime_ns": 1789670864098434300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789641931263320900
+      },
+      "tests/fixtures/performance_maps.json": {
+        "size": 162678,
+        "mtime_ns": 1789347422509029000
+      },
+      "tests/fixtures/test_maps.json": {
+        "size": 65716,
+        "mtime_ns": 1789667629699615600
+      },
+      "tests/pole_push_capture.gd": {
+        "size": 7677,
+        "mtime_ns": 1789665769269665800
+      },
+      "tests/pole_push_contact_suite.gd": {
+        "size": 15938,
+        "mtime_ns": 1789668150197147200
+      },
+      "tests/pole_push_cost.gd": {
+        "size": 6248,
+        "mtime_ns": 1789667660435439800
+      },
+      "tests/pole_push_cost.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789667660761154600
+      },
+      "tests/pole_push_playtest.gd": {
+        "size": 1534,
+        "mtime_ns": 1789665769269665800
+      },
+      "tests/pose_pole_mesh_audit.gd": {
+        "size": 5833,
+        "mtime_ns": 1789665826465796100
+      },
+      "tests/targeted_performance.gd": {
+        "size": 12943,
+        "mtime_ns": 1789347460077781400
+      }
+    }
+  }
+}

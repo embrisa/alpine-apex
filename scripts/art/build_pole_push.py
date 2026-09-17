@@ -9,7 +9,6 @@ tracker/anatomy/cuff/clearance composition remains the required visual acceptanc
 """
 from pathlib import Path
 import argparse
-import hashlib
 import json
 import math
 import re
@@ -162,7 +161,7 @@ def build_preview():
             reach = target-posed[upper]
             if reach.length > u+l-.012: target = posed[upper]+reach.normalized()*(u+l-.012)
             posed[hand] = target
-            posed[elbow] = joint(posed[upper], target, u, l, Vector((side*.65, -1, -.15)))
+            posed[elbow] = joint(posed[upper], target, u, l, Vector((side*.25, -.5, -1)))
             for name, child in ((upper, elbow), (elbow, hand)):
                 rotations[name] = (points[child]-points[name]).rotation_difference(posed[child]-posed[name]).to_matrix()
             trail = Vector(controls["trails"]); trail.x *= side; trail.normalize()
@@ -199,14 +198,16 @@ def build_preview():
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--export-existing', action='store_true')
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument('--export-existing', action='store_true')
+    mode.add_argument('--rebuild-from-json', action='store_true', help='Explicitly replace the saved control action from cycle.json')
     args = parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
     if args.export_existing:
         assert BLEND.exists(), "Build the editable source first"
         bpy.ops.wm.open_mainfile(filepath=str(BLEND))
         # Controls are the authoritative editable source; preserve artist edits.
     else:
-        assert not BLEND.exists(), "Preserve existing source: edit it and use --export-existing"
+        assert not BLEND.exists() or args.rebuild_from_json, "Preserve existing source: use --export-existing or explicitly --rebuild-from-json"
         bpy.ops.wm.read_factory_settings(use_empty=True)
         create_controls(json.loads(SOURCE.read_text(encoding='utf-8')))
     build_preview()
@@ -215,10 +216,13 @@ def main():
     scene['scope'] = "Original pole control action. Source preview only; validate final Godot fitting."
     export_resource()
     scene.frame_set(0)
+    bpy.context.preferences.filepaths.save_version = 0
     bpy.ops.wm.save_as_mainfile(filepath=str(BLEND))
-    sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
-    receipt = {"blender": bpy.app.version_string, "source_sha256": sha(SOURCE), "blend_sha256": sha(BLEND),
-               "resource_sha256": sha(RESOURCE), "script_sha256": sha(Path(__file__)),
+    def metadata(path):
+        stat = path.stat()
+        return {"path": path.relative_to(ROOT).as_posix(), "size": stat.st_size, "mtime_ns": stat.st_mtime_ns}
+    receipt = {"blender": bpy.app.version_string, "verification": "metadata",
+               "inputs": [metadata(path) for path in (SOURCE, BLEND, RESOURCE, Path(__file__))],
                "runtime_pose_accepted": False, "notes": "Actual Blender export receipt, not a rendered/gameplay acceptance."}
     (BLEND.parent / 'export_provenance.json').write_text(json.dumps(receipt, indent=2)+'\n', encoding='utf-8')
     print(json.dumps(receipt))
