@@ -180,6 +180,12 @@ Inspect actual dense-tree shader ranges and cloud-active views; profile macro
 publication only after validating all texture channels. Keep local capped CPU
 scope and summit UI costs separate from the reusable dense-route baseline.
 
+For sky radiance updates, use the native fixture in
+[weather evidence](../../../docs/VALIDATION.md#weather-and-storm-race-evidence).
+Check camera-only, coverage-only and colour updates separately: an unchanged
+reflection after movement does not prove that a later weather change refreshes it.
+Keep its panorama readbacks out of performance measurements.
+
 For powder publication changes, use the native local-boundary suite in
 [snow checks](../../../docs/VALIDATION.md#snow-contact-and-local-boundary-producers).
 Check new ghost receivers and fresh strokes while both centres stay fixed,

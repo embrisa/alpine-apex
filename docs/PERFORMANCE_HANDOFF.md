@@ -681,3 +681,29 @@ claimed. Keep the existing mesh savings; do not repeat this publication gate.
 Additional new/removed receiver and fresh-stroke assertions are retained in the
 native boundary suite. Source, images and cost receipt:
 `artifacts/powder_publication_20260917/REVIEW.md`.
+
+### Sky radiance update saving — 17 September 2026
+
+Camera parallax now uses a shader global. It leaves the camera-independent
+ambient/reflection approximation cached; coverage and colour still invalidate
+it explicitly. Native17 correctness checks and319 affected weather/graphics/runtime
+checks pass. Matched4K cloudy, moved-camera and dusk images preserve cloud
+alignment and reflected lighting. See [Rendering](RENDERING.md#weather).
+
+One capture-free local original/candidate pair (450 measured frames each,
+RX9070, customDX12 ed1daf0bf,4K High Auto75,FGoff) reduced native Setup Sky from
+0.091863 to0.002605 ms GPU across430 interior query samples per arm:0.089258 ms
+saved. Cloud half-resolution work remained0.02962/0.02896 ms and Render Sky
+0.03178/0.03137 ms. Local totalGPU2.66886/2.53962 ms, frame3.09624/2.94962 ms;
+renderCPU0.17871/0.10802 ms. This is a small component fixture, not mountain FPS.
+
+One warmed capture-free dense route reached110.52445 FPS,9.047772 ms/frame,
+7.454815 msGPU,p95/p99 11.888/14.263 ms. Saved average:108.9339 FPS,
+9.17988 ms/frame,7.51674 msGPU,p95/p99 12.247/14.289 ms. Same route/camera,
+4K/2880x1620,High,AutoFSR4.1.1,FGoff; all1800 ticks and301 recorded poses match,
+zero focus loss/failures. Scenery rebuilt before traversal warmup; timed scene
+was resident. This modest sample difference is consistent with the local saving,
+not an isolated causal or sustained FPS claim: the earlier collision session
+also demonstrated environment-dependent baseline variation. Keep the saved
+average and the verified component saving; no new control matrix needed.
+Evidence: `artifacts/sky_radiance_20260917/REVIEW.md`.

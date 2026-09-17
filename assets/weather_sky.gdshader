@@ -5,7 +5,10 @@ uniform vec3 sky_top : source_color = vec3(0.27,0.42,0.57);
 uniform vec3 sky_horizon : source_color = vec3(0.84,0.81,0.77);
 uniform vec3 cloud_color : source_color = vec3(0.9,0.94,0.98);
 uniform vec3 sun_color : source_color = vec3(1.0,0.88,0.73);
-uniform vec3 cloud_camera_position = vec3(0.0);
+// Camera parallax never contributes to the ambient/reflection approximation.
+// A global avoids invalidating that radiance map whenever the camera moves.
+global uniform vec3 cloud_camera_position;
+uniform float radiance_cloud_coverage = 0.0;
 uniform float sun_glow_strength = 1.0;
 uniform float sun_disc_energy = 14.0;
 uniform float sun_halo_energy = 1.0;
@@ -16,7 +19,7 @@ void sky() {
 	vec3 base = mix(sky_horizon, sky_top, pow(max(EYEDIR.y,0.0),0.45));
 	if (AT_CUBEMAP_PASS) {
 		// Deliberately cheap ambient approximation: no cloud noise in radiance.
-		COLOR = mix(base,cloud_color,cloud_params.z*0.45);
+		COLOR = mix(base,cloud_color,radiance_cloud_coverage*0.45);
 	} else if (AT_HALF_RES_PASS) {
 		float height = max(cloud_layer_height_m-cloud_camera_position.y,0.0);
 		vec2 projected = cloud_camera_position.xz + EYEDIR.xz*height/max(EYEDIR.y,0.035);

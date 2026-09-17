@@ -474,6 +474,15 @@ front without another launch draw. Authored attempts follow [race rules](RACING.
 Disabling Rare storms also cancels a planned storm in a suspended free-ski front
 when that front resumes; it does not abruptly cut an existing storm short.
 
+Camera parallax uses the `cloud_camera_position` shader global, published by
+`alpine_world.gd` for the active camera. It does not affect the sky's inexpensive
+ambient/reflection approximation, so camera movement must not dirty that radiance
+map through a local material write. The separate local `radiance_cloud_coverage`
+uniform explicitly refreshes radiance when coverage changes; sky/cloud colours
+also refresh it. Cloud displacement alone leaves ambient/reflection content
+unchanged. This shares the existing single active weather-world ownership of
+cloud globals; it does not provide independent weather for multiple viewports.
+
 The main cloud silhouette and receiver attenuation share the same noise field.
 Its three octaves stay independent; domain warping would serialize this cost
 across lit surfaces. Broader low-frequency weighting supplies the main shape.

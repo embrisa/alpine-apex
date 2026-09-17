@@ -1852,6 +1852,15 @@ evidence separate from the storage, physics/runtime and human acceptance layers.
 
 ## Weather and storm-race evidence
 
+For sky radiance invalidation, run `tests/sky_radiance_suite.gd` through the guard
+with a native renderer (`Shared`). Pass `-- --output=res://artifacts/FRESH/results.json`
+for isolated evidence. Its small environment fixture reads native irradiance:
+camera/cloud displacement must preserve it; coverage-only and colour changes
+must refresh it; weather off/on must select the proper sky. These readbacks are
+correctness checks, never timing. Inspect separate matched cloudy, moved-camera
+and dusk views before measuring `Setup Sky` in a capture-free native profile.
+Keep this component interval separate from full-mountain frame-time evidence.
+
 The original weather evidence below used race schema 5 / weather rules 1;
 current race schema 6 retains those weather rules and adds recovery rules 1.
 Focused tests cover launch preferences and private RNG, 3,600-second days, front/storm boundaries, complete

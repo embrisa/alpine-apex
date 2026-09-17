@@ -55,6 +55,10 @@ jolt_physics_3d/simulation/position_steps=12
 
 [shader_globals]
 
+cloud_camera_position={
+"type": "vec3",
+"value": Vector3(0, 0, 0)
+}
 cloud_layer_height_m={
 "type": "float",
 "value": 2400.0

@@ -4,12 +4,6 @@ Focus: `tasks/`, `blocked/` and `ideas/`, as requested on 17 September 2026.
 Finish active and blocked work before implementing ideas. This is an index;
 status, dependencies, evidence and acceptance live in each stable task record.
 
-## Performance and integration
-
-| Task | Remaining question |
-|---|---|
-| [Sky, periphery and tracks](tasks/AA-20260916-084510-trim-environment-and-screen-passes.md) | One remaining measured pass; SSAO/SSIL defaults, cloud globals and far-track discard are complete. |
-
 ## Bounded rendering experiments
 
 | Task | Remaining question |

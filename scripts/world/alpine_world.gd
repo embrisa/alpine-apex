@@ -274,6 +274,8 @@ func update_weather(state, dt: float, animate: bool) -> void:
 		else:
 			for key in ["sky_top","sky_horizon","cloud_color","sun_color"]:
 				render_state.shader(weather_material,key,state.get(key))
+			# Coverage changes the radiance branch; camera parallax does not.
+			render_state.shader(weather_material,"radiance_cloud_coverage",state.cloud_coverage)
 			render_state.shader(weather_material,"sun_glow_strength",smoothstep(0.0,0.16,state.sun_direction.y))
 			render_state.shader(weather_material,"moon_glow_strength",smoothstep(0.01,0.20,-state.sun_direction.y))
 	# Controller snapshots own displacement; world only submits completed state.
@@ -283,7 +285,8 @@ func update_weather(state, dt: float, animate: bool) -> void:
 	cloud_lighting.update(state,cloud_offset,state.sun_direction)
 	var camera = get_viewport().get_camera_3d()
 	if camera:
-		render_state.shader(weather_material,"cloud_camera_position",camera.global_position)
+		if render_state.changed(weather_material,&"cloud_camera_position",camera.global_position):
+			RenderingServer.global_shader_parameter_set(&"cloud_camera_position",camera.global_position)
 
 
 func _terrain(checkpoint: Callable = Callable()) -> void:

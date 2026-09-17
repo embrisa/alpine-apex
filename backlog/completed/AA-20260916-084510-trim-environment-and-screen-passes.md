@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084510-trim-environment-and-screen-passes"
 title: "Reduce remaining sky, periphery or track pass cost"
-status: ready
+status: done
 priority: P2
 depends_on: []
 created: "2026-09-16T08:45:10Z"
-updated: "2026-09-16T21:59:44Z"
+updated: "2026-09-17T08:00:17Z"
 source_thread: null
 ---
 
@@ -43,12 +43,12 @@ Windows and Metal findings separate.
 
 ## Acceptance and verification
 
-- [ ] Matched rendered inspection preserves useful speed cues, weather, tracks
+- [x] Matched rendered inspection preserves useful speed cues, weather, tracks
   and transitions, with any small accepted tradeoff described.
-- [ ] Relevant graphics/weather/blur/track checks pass for the changed owner.
-- [ ] Record actual affected pass/CPU cost and capture-free FPS/frame tails
+- [x] Relevant graphics/weather/blur/track checks pass for the changed owner.
+- [x] Record actual affected pass/CPU cost and capture-free FPS/frame tails
   against a suitable saved reference; keep only justified changes.
-- [ ] Update Rendering and commit/push; sustained target and human feel stay separate.
+- [x] Update Rendering and commit/push; sustained target and human feel stay separate.
 
 ## Open questions
 
@@ -56,7 +56,24 @@ None
 
 ## Completion record
 
-Ready for a remaining pass hypothesis; completed lighting changes are recorded below.
+Completed: camera-only movement no longer rebuilds sky radiance. The explicit
+coverage uniform keeps stationary weather changes correct. Matched cloudy,
+moved-camera and dusk native views pass, with no intended visual tradeoff.
+Native17 and affected weather44/lifecycle32/graphics29/PCgraphics22/runtime192
+checks pass. Physics, terrain, replay, quality and feature defaults are unchanged.
+
+Native Setup Sky0.091863 ->0.002605 ms GPU (0.089258 ms saved) in the moving-camera
+component fixture. Capture-free warmed dense candidate110.52445 FPS,
+9.047772 ms/frame,7.454815 msGPU,p95/p99 11.888/14.263 ms; saved reference
+108.9339 FPS,9.17988 ms/frame,7.51674 msGPU,p95/p99 12.247/14.289 ms.
+Same1800 ticks,301 timed poses,4K High Auto75/FSR4.1.1,FGoff and camera.
+Keep the verified component saving; the small route difference is not a
+sustained or isolated causal FPS claim. No broad pass matrix or Mac claim.
+
+Evidence: `artifacts/sky_radiance_20260917/REVIEW.md`; development note
+`changes/2691765e162544c58daa38e346a33a5a.json` identifies this pushed milestone.
+This task asked for one remaining measured pass and is complete. Human feel
+and sustained target acceptance remain separate.
 
 ## Earlier investigation record
 
@@ -85,7 +102,5 @@ covers the SSAO/SSIL default change below; no additional approval is pending.
   Development note: `changes/b0e42eba151c4521950a0a3d15b06373.json`.
   Compact local evidence: `artifacts/depth_lighting_20260916/`.
 
-Keep this task ready for the remaining sky, tracks, glow, periphery and fog
-hypotheses. Open-route timing, human review and sustained frame-tail acceptance
-remain open; do not repeat the already half-resolution proposal or treat the
-whole task as complete.
+The later completion record above resolves this one-pass follow-up. The earlier
+lighting result does not substitute for its current sky measurements.
