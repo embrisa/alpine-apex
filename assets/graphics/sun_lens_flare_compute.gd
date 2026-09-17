@@ -63,6 +63,10 @@ float disc(vec2 q,float radius) {
     float r=length(q)/radius;
     return r>=1.0 ? 0.0:exp(-r*r*5.0)*(1.0-smoothstep(0.7,1.0,r));
 }
+float lens_ring(float radius,float centre,float width) {
+    float rim=(radius-centre)/width;
+    return exp(-rim*rim);
+}
 void main() {
     ivec2 local=ivec2(gl_GlobalInvocationID.xy);
     if(any(greaterThanEqual(local,ivec2(lens_params.bounds.zw)))) return;
@@ -75,12 +79,24 @@ void main() {
     vec2 axis=lens_params.sun.xy-0.5;
     vec2 q=(uv-lens_params.sun.xy)*aspect;
     vec3 flare=lens_params.tint.rgb*(disc(q,0.075)*0.28+disc(q,0.018)*0.35);
-    // Three restrained ghosts; no full-frame wash, streak or rotating pattern.
-    flare+=vec3(1.0,0.70,0.36)*disc((uv-(0.5+axis*0.25))*aspect,0.024)*0.24;
-    flare+=vec3(0.47,0.69,0.62)*disc((uv-(0.5-axis*0.25))*aspect,0.040)*0.15;
-    vec2 ghost=(uv-(0.5-axis*0.55))*aspect;
-    float rim=exp(-pow((length(ghost)/0.055-0.72)*10.0,2.0));
-    flare+=vec3(1.0,0.61,0.29)*(disc(ghost,0.055)*0.22+rim*0.035);
+    // Loading-screen art direction: warm solar halo, amber/cyan ring and a mint
+    // reflection. Camera motion moves them along the optical axis, without a
+    // separate oscillation or broad screen wash competing with terrain contrast.
+    float solar=length(q);
+    float halo=(lens_ring(solar,0.185,0.028)*0.23+ lens_ring(solar,0.185,0.040)*0.06);
+    flare+=lens_params.tint.rgb*halo*(1.0-smoothstep(0.21,0.24,solar));
+    vec2 ghost=(uv-(0.5-axis*0.10))*aspect;
+    float radius=length(ghost);
+    float edge=1.0-smoothstep(0.155,0.18,radius);
+    float arc=0.62+0.38*dot(normalize(ghost+vec2(0.000001)),normalize(vec2(-0.6,-1.0)));
+    flare+=(vec3(1.0,0.66,0.24)*lens_ring(radius,0.142,0.013)*1.0
+           +vec3(0.32,0.76,1.0)*lens_ring(radius,0.120,0.008)*0.50
+           +vec3(0.48,0.78,0.92)*disc(ghost,0.155)*0.10)*edge*arc;
+    ghost=(uv-(0.5-axis*0.50))*aspect;
+    radius=length(ghost);
+    flare+=vec3(0.54,0.92,0.76)*(lens_ring(radius,0.061,0.012)*0.40
+           +disc(ghost,0.085)*0.12)*(1.0-smoothstep(0.075,0.09,radius));
+    flare+=vec3(1.0,0.78,0.43)*disc((uv-(0.5+axis*0.50))*aspect,0.045)*0.65;
     if(dot(flare,flare)<0.00000001) return;
     vec4 original=imageLoad(scene_color,pixel);
     imageStore(scene_color,pixel,vec4(original.rgb+flare*lens_params.sun.z*visibility_amount,original.a));

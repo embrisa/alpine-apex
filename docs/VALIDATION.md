@@ -2087,5 +2087,8 @@ After visual acceptance, add `--timing` under FpsCritical admission. This select
 identical fixed slopes view. It records frame/GPU/render-thread milliseconds,
 FPS, focus, real dispatch counts and settings, without image or visibility
 readbacks. This local effect cost is not a dense-route or full-mountain baseline.
+Use `--timing-on-only` instead when a saved matching disabled/enabled reference
+already exists and only the revised effect needs measuring; it runs one warmed
+15-second enabled arm with the same scene, framing and settings.
 Human/controller comfort remains separate acceptance. Preserve the completed
 physics/world identity; this presentation feature needs no compatibility bump.

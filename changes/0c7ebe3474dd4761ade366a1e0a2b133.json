@@ -1,0 +1,203 @@
+{
+  "schema": 1,
+  "id": "0c7ebe3474dd4761ade366a1e0a2b133",
+  "summary": "Bring loading-screen lens rings and warm halo into sunny riding",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Riding lens-flare art direction",
+    "Bounded HDR composition",
+    "Reusable local effect timing"
+  ],
+  "owned_paths": [
+    "assets/graphics/sun_lens_flare_compute.gd",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "scripts/presentation/sun_lens_flare.gd",
+    "tests/sun_lens_flare_playtest.gd"
+  ],
+  "read_paths": [
+    "assets/cloud_field.gdshaderinc",
+    "assets/images/alpine_photo.gdshader",
+    "assets/weather_sky.gdshader",
+    "scripts/main.gd",
+    "scripts/ui/alpine_art.gd",
+    "tests/fixtures/performance_maps.json",
+    "tests/sun_lens_flare_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only changes optical shape constants and draw bounds. Model35 and 120Hz remain intact."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "No terrain, placement or scenery changes; world17 and 4m authority preserved."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "No gameplay, settings or saved-data schema change."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Presentation-only shader and local diagnostic change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Presentation-only shader and local diagnostic change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Presentation-only shader and local diagnostic change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Presentation-only shader and local diagnostic change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Presentation-only shader and local diagnostic change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "test_pc_environment.ps1 -Suites sun_lens_flare_suite -OutputDirectory artifacts/sun_lens_flare_art/regression",
+      "result": "passed",
+      "details": "25 checks passed for projection, lifecycle, headless and enlarged draw bounds. Later intensity-only shader refinement is covered by final native review; runtime integration remains unchanged from Dev96."
+    },
+    {
+      "kind": "rendered",
+      "command": "Guarded sun-flare-art-final-20260917; tests/sun_lens_flare_playtest.gd, default review mode",
+      "result": "passed",
+      "details": "95 checks. Final both-view stills and chronological manual-look samples inspected against the native loading-photo reference. Visible amber/cyan ring and mint reflection, soft warm halo; readable slope/HUD; blocked/night/edge/cloud gates verified. First brighter design rejected before timing. See artifacts/sun_lens_flare_art/REVIEW.md."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical sun-flare-art-cost-20260917; tests/sun_lens_flare_playtest.gd --timing-on-only",
+      "result": "passed",
+      "details": "Saved Dev96 flare: 352.79 FPS / 2.8346 ms frame / 2.4341 ms GPU. Revised flare: 350.18 FPS / 2.8557 ms frame / 2.4553 ms GPU. Observed increase: 0.0211 ms frame, 0.0212 ms GPU. Frame p95/p99 3.147/3.293 -> 3.175/3.327 ms. Render CPU 0.2762 -> 0.2733 ms. One warmed15s revised-effect sample compared with saved matching Dev96 settings/engine/fixture.10 validity checks, zero focus loss/readbacks. Local cost only; no full-mountain claim."
+    },
+    {
+      "kind": "human",
+      "command": "User visual/controller review of the stronger artificial flare",
+      "result": "pending",
+      "details": "Rendered review is complete; preferred intensity and riding comfort remain separate human acceptance."
+    }
+  ],
+  "outstanding_acceptance": [
+    "User preference and controller comfort for the stronger loading-screen-inspired optical treatment."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T12:41:40.577004+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "2c564640f0289ad22a2bc11af3350575c8e1777e",
+      "dev": 96,
+      "modified": true
+    },
+    "inputs": {
+      "assets/cloud_field.gdshaderinc": {
+        "size": 1570,
+        "mtime_ns": 1789594595744656500
+      },
+      "assets/graphics/sun_lens_flare_compute.gd": {
+        "size": 5050,
+        "mtime_ns": 1789648899773360100
+      },
+      "assets/images/alpine_photo.gdshader": {
+        "size": 5995,
+        "mtime_ns": 1788827296860592300
+      },
+      "assets/weather_sky.gdshader": {
+        "size": 2474,
+        "mtime_ns": 1789631101780928200
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/RENDERING.md": {
+        "size": 49033,
+        "mtime_ns": 1789648813505880900
+      },
+      "docs/VALIDATION.md": {
+        "size": 144069,
+        "mtime_ns": 1789648813506883200
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/main.gd": {
+        "size": 88417,
+        "mtime_ns": 1789646824434839600
+      },
+      "scripts/presentation/sun_lens_flare.gd": {
+        "size": 9947,
+        "mtime_ns": 1789648813503869500
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/ui/alpine_art.gd": {
+        "size": 6196,
+        "mtime_ns": 1789147165547832700
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789641931263320900
+      },
+      "tests/fixtures/performance_maps.json": {
+        "size": 162678,
+        "mtime_ns": 1789347422509029000
+      },
+      "tests/sun_lens_flare_playtest.gd": {
+        "size": 13530,
+        "mtime_ns": 1789648813504872800
+      },
+      "tests/sun_lens_flare_suite.gd": {
+        "size": 3524,
+        "mtime_ns": 1789647715384203100
+      }
+    }
+  }
+}

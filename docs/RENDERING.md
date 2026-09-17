@@ -17,8 +17,10 @@ holds smoothed and current visibility; complete blockage suppresses the flare
 immediately and reappearance fades in. There are no gameplay CPU readbacks.
 The explicit visibility sampling method is for rendered diagnostics only.
 
-One bounded in-place HDR dispatch adds a warm core and three small soft ghosts;
-there is no full-screen color copy or persistent color history. Output alpha is
+One bounded in-place HDR dispatch adds a warm core/halo and three visible optical
+reflections inspired by the loading artwork: an amber/cyan ring, a smaller mint
+ring and a warm spot. They move with the projected sun and camera, with no separate
+pulsing animation. There is no full-screen color copy or persistent color history. Output alpha is
 preserved. Projection fades near the viewport edge, and camera cuts, view/quality
 changes and buffer reconfiguration reset visibility. Night/below-horizon sun,
 off-screen sun, Low quality, Optional Motion Effects off, Reduced Motion and all

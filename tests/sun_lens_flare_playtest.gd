@@ -6,6 +6,7 @@ const Report=preload("res://tests/test_report.gd")
 var game
 var output="res://artifacts/sun_lens_flare/native"
 var timing=false
+var timing_on_only=false
 var smoke=false
 var failures: Array[String]=[]
 var checks=0
@@ -22,6 +23,7 @@ func check(ok: bool,label: String) -> void:
 func run() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg=="--timing":timing=true;window_pixels=Vector2i(3840,2160)
+		if arg=="--timing-on-only":timing=true;timing_on_only=true;window_pixels=Vector2i(3840,2160)
 		if arg=="--smoke":smoke=true
 		if arg.begins_with("--flare-output="):output=arg.get_slice("=",1)
 	check(DisplayServer.get_name()!="headless","Native renderer required")
@@ -50,7 +52,7 @@ func run() -> void:
 		prepare("chase","edge")
 		RenderingServer.viewport_set_measure_render_time(root.get_viewport_rid(),true)
 		root.grab_focus()
-		for on in [false,true]:await measure(on)
+		for on in ([true] if timing_on_only else [false,true]):await measure(on)
 	else:
 		for view in ["chase","first_person"]:
 			for scenario in (["edge","riding","cloudy"] if smoke else ["centre","edge","riding","behind","terrain","opaque","cloudy","night"]):

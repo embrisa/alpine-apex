@@ -44,8 +44,9 @@ static func project_sun(transform: Transform3D, projection: Projection, directio
 
 static func draw_bounds(uv: Vector2, size: Vector2i) -> Rect2i:
 	var aspect=float(size.y)/maxf(size.x,1)
-	var bounds=Rect2(uv-Vector2(.075*aspect,.075),Vector2(.15*aspect,.15))
-	for row in [Vector2(.25,.024),Vector2(-.25,.040),Vector2(-.55,.055)]:
+	# Match the compact support of the solar halo and three optical reflections.
+	var bounds=Rect2(uv-Vector2(.24*aspect,.24),Vector2(.48*aspect,.48))
+	for row in [Vector2(-.10,.18),Vector2(-.50,.09),Vector2(.50,.045)]:
 		var centre=Vector2.ONE*.5+(uv-Vector2.ONE*.5)*row.x
 		var radius=Vector2(row.y*aspect,row.y)
 		bounds=bounds.merge(Rect2(centre-radius,radius*2))
