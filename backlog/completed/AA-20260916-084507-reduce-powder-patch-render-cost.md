@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084507-reduce-powder-patch-render-cost"
 title: "Reduce remaining powder update or shader cost"
-status: ready
+status: done
 priority: P1
 depends_on: []
 created: "2026-09-16T08:45:07Z"
-updated: "2026-09-16T21:59:44Z"
+updated: "2026-09-17T07:41:35Z"
 source_thread: null
 ---
 
@@ -47,14 +47,20 @@ Mac shadow-off toggle did not show a reliable gain and must not be sold as free.
 
 ## Acceptance and verification
 
-- [ ] Fresh strokes, recentering, first-person relief and terrain handover pass
-  focused rendered checks before performance measurement.
-- [ ] Affected support/upload/snow-response/track-GPU/runtime checks pass; use
-  the smallest relevant fixtures, not an automatic legacy full-mountain matrix.
-- [ ] One warmed candidate against a matching saved reference records CPU or GPU
-  work saved, frame time/FPS and tails without adding overlapping savings.
-- [ ] Retain worthwhile component gains under user policy; update Rendering and
-  commit/push with remaining human/platform acceptance explicit.
+- [x] Matched 4K High Auto75 chase, recenter and downward first-person views
+  preserve tracks/relief and terrain handover. No visual tradeoff retained.
+- [x] Native boundary suite passes 26 checks on candidate and restored code,
+  including fresh strokes, new/removed ghost receivers, reset and atlas parity.
+  Production restored; unchanged support/upload/response/runtime evidence remains
+  applicable. No redundant full regression after restoring identical source.
+- [x] One paired native CPU probe rejects the selected publication hypothesis:
+  3.2239 -> 3.9522 us per call. GPU reconstruction/deferred culling/frame time
+  are outside this probe. Do not spend a full-mountain FPS run on this rejected
+  candidate; no new frame-time/FPS/tail or GPU gain is claimed.
+- [x] Retain existing delivered mesh savings and useful regression assertions;
+  record the rejected result in Performance handoff and commit/push. Rendering's
+  production contract is unchanged. This completes the requested one-hypothesis
+  follow-up as a rejected investigation, not a new optimization delivery.
 
 ## Open questions
 
@@ -62,7 +68,22 @@ None
 
 ## Completion record
 
-Ready for one remaining update/shader hypothesis. Existing mesh savings are delivered.
+Completed the bounded remaining publication hypothesis. Caching render-thread
+uniform/enabled/visibility state plus 4 m AABB-height buckets preserved the
+reviewed image but increased publication-call CPU by 0.7283 us (22.59%). The
+candidate is rejected and `powder_surface.gd` is restored to Dev87 production.
+The isolated call probe omits deferred culling costs; it is not proof of a
+whole-frame regression. No new dense-route measurement or FPS saving is claimed.
+
+Native guards: `powder-publication-native-suite-20260917` and
+`powder-publication-restored-suite-20260917` (26 checks each), matched visual
+guards `powder-publication-visual-20260917`/`powder-publication-close-20260917`,
+FpsCritical `powder-publication-cost-20260917` (10,000 calls per arm).
+Detailed evidence: `artifacts/powder_publication_20260917/REVIEW.md`.
+Development note: `changes/33e713f914114c2da4074d1b54262eec.json`.
+Existing subdivision/disc savings remain delivered. Gradient packing, shadow
+rewrites and unrelated dispatch proposals were not tested by this candidate;
+do not imply they have been proven beneficial or exhausted.
 
 ## Earlier investigation record
 

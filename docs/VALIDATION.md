@@ -1396,7 +1396,9 @@ race, prompts and physics/runtime checks once, rather than per marker feature.
 Batch `snow_response_suite.gd`, `snow_contact_visual_suite.gd` and the existing
 powder upload checks. Native `carving_raised_ski_tracks_gpu_suite.gd` checks live
 stroke parity and exclusions; `local_snow_boundary_suite.gd` checks support,
-recenter/atlas bytes and atomic material publication. Passing byte/flag checks
+recenter/atlas bytes and atomic material publication, including new/removed
+ghost receivers, same-centre reopen, independently moving visual centres and
+fresh strokes with unchanged mapping. Passing byte/flag checks
 does not reproduce or resolve a visible gap or boundary.
 
 For the raised-ski cause, the private TestSlope fixture omits placed trees/rocks

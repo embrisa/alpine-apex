@@ -1,0 +1,234 @@
+{
+  "schema": 1,
+  "id": "33e713f914114c2da4074d1b54262eec",
+  "summary": "Reject slower powder publication gating and strengthen native mapping checks",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Powder publication cost investigation and native mapping regression"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/completed/AA-20260916-084507-reduce-powder-patch-render-cost.md",
+    "backlog/tasks/AA-20260916-084507-reduce-powder-patch-render-cost.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/VALIDATION.md",
+    "tests/local_snow_boundary_suite.gd"
+  ],
+  "read_paths": [
+    "assets/graphics/powder_compute.gd",
+    "assets/graphics/powder_surface.gdshader",
+    "scripts/presentation/ghost_field.gd",
+    "scripts/presentation/ghost_track_stack.gd",
+    "scripts/presentation/snow_tracks.gd",
+    "scripts/presentation/speed_effects.gd",
+    "tests/powder_support_cache_suite.gd",
+    "tests/powder_upload_suite.gd",
+    "tests/runtime_suite.gd",
+    "tests/snow_response_suite.gd",
+    "scripts/presentation/powder_surface.gd",
+    "docs/RENDERING.md"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Rejected runtime candidate restored; only native checks and task/evidence documentation retained."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Rejected runtime candidate restored; only native checks and task/evidence documentation retained."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Rejected runtime candidate restored; only native checks and task/evidence documentation retained."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No production, schema, source asset or persistent data change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No production, schema, source asset or persistent data change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No production, schema, source asset or persistent data change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No production, schema, source asset or persistent data change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No production, schema, source asset or persistent data change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "Native Shared guards powder-publication-native-suite-20260917 and powder-publication-restored-suite-20260917",
+      "result": "passed",
+      "details": "26 atlas/publication checks pass on candidate and restored code. Added receiver membership, same-centre reopen and fresh-stroke checks. Current production source restored; unaffected support, upload, response and runtime checks reused, no new physics work."
+    },
+    {
+      "kind": "rendered",
+      "command": "Shared powder-publication-visual-20260917 and powder-publication-close-20260917",
+      "result": "passed",
+      "details": "Matched actual Main snow presentation on compact rough-snow contacts,4K High Auto75 cap60. Inspected chase/storage crossing and downward first-person relief. Initial forward first-person view did not expose relief; downward follow-up did. No human/controller or solver acceptance from synthetic contacts."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical powder-publication-cost-20260917",
+      "result": "passed",
+      "details": "Completed negative investigation: publication-call CPU3.2239 ->3.9522 us,10000 calls per arm in alternating blocks. Candidate rejected. Probe excludes deferred scene culling/reconstruction/main-thread costs; no full-frame regression or FPS/GPU gain claim. No further full-mountain timing."
+    },
+    {
+      "kind": "automated",
+      "command": "git diff --check; python scripts/backlog.py validate --preserve-dirty; python scripts/versioning.py check --note changes/33e713f914114c2da4074d1b54262eec.json [--staged]",
+      "result": "passed",
+      "details": "Scoped static/milestone checks; production runtime unchanged."
+    }
+  ],
+  "outstanding_acceptance": [
+    "No new full-mountain FPS, GPU interval, frame-tail or Mac performance claim; rejected before those checks.",
+    "Synthetic rendered contact fixture is not a human/controller feel assessment."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T07:41:36.105871+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "960aed31db34be3e941dafca87db35b5191b2861",
+      "dev": 87,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 12720,
+        "mtime_ns": 1789630895597048200
+      },
+      "assets/graphics/powder_compute.gd": {
+        "size": 4803,
+        "mtime_ns": 1789081869253202000
+      },
+      "assets/graphics/powder_surface.gdshader": {
+        "size": 2771,
+        "mtime_ns": 1789206461567894800
+      },
+      "backlog/QUEUE.md": {
+        "size": 3213,
+        "mtime_ns": 1789630895602583700
+      },
+      "backlog/completed/AA-20260916-084507-reduce-powder-patch-render-cost.md": {
+        "size": 5708,
+        "mtime_ns": 1789630895600474600
+      },
+      "backlog/tasks/AA-20260916-084507-reduce-powder-patch-render-cost.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 49204,
+        "mtime_ns": 1789630895599290800
+      },
+      "docs/RENDERING.md": {
+        "size": 45179,
+        "mtime_ns": 1789610812875393700
+      },
+      "docs/VALIDATION.md": {
+        "size": 138339,
+        "mtime_ns": 1789630895596047900
+      },
+      "project.godot": {
+        "size": 1819,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/ghost_field.gd": {
+        "size": 3531,
+        "mtime_ns": 1789207383991993200
+      },
+      "scripts/presentation/ghost_track_stack.gd": {
+        "size": 1524,
+        "mtime_ns": 1789207383994531800
+      },
+      "scripts/presentation/powder_surface.gd": {
+        "size": 18288,
+        "mtime_ns": 1789594595768738500
+      },
+      "scripts/presentation/snow_tracks.gd": {
+        "size": 15066,
+        "mtime_ns": 1789594595770754600
+      },
+      "scripts/presentation/speed_effects.gd": {
+        "size": 12898,
+        "mtime_ns": 1789594595770754600
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/local_snow_boundary_suite.gd": {
+        "size": 8989,
+        "mtime_ns": 1789615582579185200
+      },
+      "tests/powder_support_cache_suite.gd": {
+        "size": 2483,
+        "mtime_ns": 1789215079816638700
+      },
+      "tests/powder_upload_suite.gd": {
+        "size": 6004,
+        "mtime_ns": 1789594595882041900
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41141,
+        "mtime_ns": 1789594595889425300
+      },
+      "tests/snow_response_suite.gd": {
+        "size": 4616,
+        "mtime_ns": 1789594595919667700
+      }
+    }
+  }
+}

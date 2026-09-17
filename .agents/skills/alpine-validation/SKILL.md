@@ -180,6 +180,11 @@ Inspect actual dense-tree shader ranges and cloud-active views; profile macro
 publication only after validating all texture channels. Keep local capped CPU
 scope and summit UI costs separate from the reusable dense-route baseline.
 
+For powder publication changes, use the native local-boundary suite in
+[snow checks](../../../docs/VALIDATION.md#snow-contact-and-local-boundary-producers).
+Check new ghost receivers and fresh strokes while both centres stay fixed,
+not just recentering. Readbacks validate mapping; rendered views still assess relief.
+
 For ragdoll terrain representation, use the focused
 [Jolt grid/contact checks](../../../docs/VALIDATION.md#ragdoll-terrain-collision)
 and bounded native crash inspection. Preserve clipped perimeter holes and report

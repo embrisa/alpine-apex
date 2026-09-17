@@ -92,22 +92,40 @@ func run() -> void:
 	RenderingServer.call_on_render_thread(powder._render_visibility.bind(powder.patch.get_instance(),disable_materials,false))
 	var relocated = await present_and_read(updates,powder._support_bytes(Vector2(16,16)),Vector2(16,16),Vector2(16,16),receiver)
 	check(not relocated.is_empty() and relocated.center==Vector2(16,16),"Reset/teleport reopens only the newly reconstructed mapping")
+	# Receiver membership may change without either centre moving. New ghost
+	# histories must receive the current mapping in that very transaction.
+	var ghost_receiver = ShaderMaterial.new(); ghost_receiver.shader = receiver.shader
+	var same = await present_and_read(updates,PackedByteArray(),Vector2(16,16),Vector2(16,16),receiver,[ghost_receiver])
+	check(same.receivers[1].center==Vector2(16,16) and same.receivers[1].visual==Vector2(16,16) and same.receivers[1].enabled,"New ghost receiver gets complete unchanged mapping")
+	RenderingServer.call_on_render_thread(powder._render_visibility.bind(powder.patch.get_instance(),disable_materials,false))
+	var reopened = await present_and_read(updates,PackedByteArray(),Vector2(16,16),Vector2(16,16),receiver)
+	check(reopened.enabled,"Unchanged mapping reopens after disabling and receiver removal")
+	var moved_visual = await present_and_read(updates,PackedByteArray(),Vector2(16,16),Vector2(17,16),receiver)
+	check(moved_visual.center==Vector2(16,16) and moved_visual.visual==Vector2(17,16) and moved_visual.atlas==reopened.atlas,"Visual centre moves independently without changing retained relief")
+	var fresh_strokes = PackedFloat32Array([12,12,20,20,.48,.12,.3,1,12,19,20,19,.60,.1,.7,-1,16,12,16,20,.30,.06,.1,1,0,0,0,0,0,0,0,0])
+	var fresh = await present_and_read([{"offset":0,"bytes":fresh_strokes.to_byte_array()}],PackedByteArray(),Vector2(16,16),Vector2(17,16),receiver)
+	check(fresh.atlas!=moved_visual.atlas and fresh.enabled,"Fresh strokes reconstruct even when both centres and enabled state are unchanged")
 	finish("native transaction and byte-exact atlas continuity; shader visuals require playtest")
 
-func present_and_read(updates: Array, support: PackedByteArray, center: Vector2, visual: Vector2, receiver: ShaderMaterial) -> Dictionary:
+func present_and_read(updates: Array, support: PackedByteArray, center: Vector2, visual: Vector2, receiver: ShaderMaterial, extras: Array = []) -> Dictionary:
 	received = false
-	RenderingServer.call_on_render_thread(read_render.bind(updates,support,center,visual,receiver.get_rid()))
+	var materials: Array[RID] = [receiver.get_rid()]
+	for extra in extras: materials.append(extra.get_rid())
+	RenderingServer.call_on_render_thread(read_render.bind(updates,support,center,visual,materials))
 	var deadline = Time.get_ticks_msec()+10000
 	while not received and Time.get_ticks_msec()<deadline: await process_frame
 	if not received: check(false,"Readback completed within 10 seconds"); return {}
 	return result
 
-func read_render(updates: Array, support: PackedByteArray, center: Vector2, visual: Vector2, receiver: RID) -> void:
-	var materials: Array[RID] = [receiver]
+func read_render(updates: Array, support: PackedByteArray, center: Vector2, visual: Vector2, materials: Array[RID]) -> void:
+	var receiver = materials[0]
 	powder._render_present(updates,support,center,visual,0,4,true,powder.patch.get_instance(),materials)
 	var snapshot = {"atlas":powder.rd.texture_get_data(powder.surface_rid,0),"support":powder.rd.texture_get_data(powder.support_rid,0),
 		"center":RenderingServer.material_get_param(receiver,&"powder_center"),"visual":RenderingServer.material_get_param(receiver,&"powder_visual_center"),
 		"enabled":RenderingServer.material_get_param(receiver,&"powder_patch_enabled")}
+	snapshot.receivers = []
+	for item in materials:
+		snapshot.receivers.append({"center":RenderingServer.material_get_param(item,&"powder_center"),"visual":RenderingServer.material_get_param(item,&"powder_visual_center"),"enabled":RenderingServer.material_get_param(item,&"powder_patch_enabled")})
 	call_deferred("receive",snapshot)
 
 func receive(snapshot: Dictionary) -> void:

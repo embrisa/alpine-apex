@@ -664,3 +664,20 @@ reference rather than replacing it with one sample. Evidence:
 `artifacts/collision_heightfield_20260917/REVIEW.md`.
 The Mac worker logs remain unavailable; no abort fix or elimination of all
 scenery publication peaks is claimed.
+
+### Powder publication gating rejected — 17 September 2026
+
+One bounded follow-up to the delivered powder mesh reduction cached render-thread
+mapping/receiver/visibility state and bucketed the culling AABB height. Matched
+4K High Auto75 chase, storage-crossing and downward first-person views passed;
+all 26 native atlas/publication checks pass for both candidate and restored code.
+The isolated render-thread publication cost increased from 3.2239 to 3.9522 us
+per call across 10,000 calls per arm (three receivers, moving coordinates).
+The extra GDScript state/branch work failed this CPU hypothesis; restore production.
+This probe excludes deferred scene-culling work, compute reconstruction and
+main-thread queue overhead. It does not establish a whole-frame regression.
+No new FPS/GPU/frame-tail run was warranted after this rejection, and no gain is
+claimed. Keep the existing mesh savings; do not repeat this publication gate.
+Additional new/removed receiver and fresh-stroke assertions are retained in the
+native boundary suite. Source, images and cost receipt:
+`artifacts/powder_publication_20260917/REVIEW.md`.

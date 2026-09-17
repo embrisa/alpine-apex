@@ -8,7 +8,6 @@ status, dependencies, evidence and acceptance live in each stable task record.
 
 | Task | Remaining question |
 |---|---|
-| [Powder update/shader cost](tasks/AA-20260916-084507-reduce-powder-patch-render-cost.md) | One remaining repeated-update or shader hypothesis; mesh subdivision reductions are complete. |
 | [Sky, periphery and tracks](tasks/AA-20260916-084510-trim-environment-and-screen-passes.md) | One remaining measured pass; SSAO/SSIL defaults, cloud globals and far-track discard are complete. |
 
 ## Bounded rendering experiments
