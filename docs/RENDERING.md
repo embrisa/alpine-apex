@@ -226,6 +226,11 @@ diagonal padding. Larger groups trade more
 off-screen card vertices for fewer submissions; do not generalize this choice
 to the much heavier near/mid meshes or to mineral geometry.
 
+Grouped stand proxies are not installed. The bounded eight-view/four-depth-layer
+prototype loses canopy under elevated/oblique views and was rejected before
+candidate timing. Retain individual far-card depth/parallax; the pending task's
+resume condition and evidence are in the [stand record](../backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md).
+
 `AlpineScenery.batches` is an unordered ownership list. Registration records a
 node's `batch_slot`; `remove_batch()` swaps in the last member and updates its
 slot before removing the tail. Use this owner method for streaming retirement.

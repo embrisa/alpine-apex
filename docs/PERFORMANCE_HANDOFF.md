@@ -827,3 +827,25 @@ run includes captures and its FPS values are ineligible. Timed arms use the
 ordinary trace chase direction. The prototype's extra setup was6.897 s in this
 process. Receipts: `artifacts/pc_environment/occlusion-170-pair-20260917/production.json`
 and `artifacts/occlusion_current_20260917/visual170/`.
+
+
+### Distant stand representation — 17 September 2026
+
+Dev 91 source; dense 15 s capture-free native timestamp diagnostic, warmup/original/
+far-cards-removed. Original 106.3601 FPS / 9.402025 ms frame / 7.609229 ms GPU;
+removal 116.1324 FPS / 8.610858 ms / 7.167392 ms. Viewport render CPU 1.817751 → 1.462642 ms;
+mean draws 1622.9975 → 1358.3491. Native depth 1.731809 → 1.477912 ms and
+opaque 2.084015 → 2.011701 ms (boundaries trimmed). All measured arms exact 1800
+ticks / 301 poses, identical final states, focus 0 and no failures. Same RX 9070,
+DX12 ed1daf0bf, 4K High Auto 75, FSR 4.1.1, FG/GI off and existing current trace.
+These are removal diagnostics, not a new reusable baseline, isolated tree costs,
+or performance accepted for a replacement; exposed surfaces/history also change.
+
+One actual 428-tree stand, eight azimuths/four depth layers, iterative depth
+reprojection, current lighting, 15.63 MB image payload: native/Auto 400–550 m
+comparisons show missing lower canopy and distorted oblique silhouettes.
+**Reject visually without candidate timing.** Production remains unchanged.
+The delivery task moves to blocked with a representation-quality resume condition;
+this result does not rule out different grouped geometry. No projected coverage,
+fragment counts, valley timing, 170 km/h transitions or shipping lifecycle are claimed.
+Compact report/producers: `artifacts/far_stands_20260917/REVIEW.md`.

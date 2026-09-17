@@ -4,12 +4,6 @@ Focus: `tasks/`, `blocked/` and `ideas/`, as requested on 17 September 2026.
 Finish active and blocked work before implementing ideas. This is an index;
 status, dependencies, evidence and acceptance live in each stable task record.
 
-## Bounded rendering experiments
-
-| Task | Remaining question |
-|---|---|
-| [Grouped distant stands](tasks/AA-20260914-094136-render-distant-forest-stands.md) | Must beat existing two-triangle far cards while preserving silhouettes. |
-
 ## Player features and art
 
 | Task | Remaining outcome |
@@ -19,6 +13,7 @@ status, dependencies, evidence and acceptance live in each stable task record.
 
 ## Blocked work and resume conditions
 
+- **[Grouped distant stands](blocked/AA-20260914-094136-render-distant-forest-stands.md):** four-layer depth proxy rejected for missing/distorted canopy before timing. Resume with an acceptable elevated/oblique representation and bounded memory; reuse the completed attribution.
 - **[Pole feature](blocked/AA-20260911-183812-slope-limited-pole-pushing.md):** resolve the remaining contact and transition gaps within the current backlog-completion goal.
 - **[Scenery snow](blocked/AA-20260911-230603-scenery-snow-material.md):** implemented, with explicitly deferred cost acceptance. [Distant mountain shadows](blocked/AA-20260911-230604-scenery-mountain-shadows.md) waits on that prerequisite.
 - **[Motion blur](blocked/AA-20260912-004402-scene-motion-blur.md):** finish the remaining performance and visual qualification.
@@ -29,6 +24,7 @@ status, dependencies, evidence and acceptance live in each stable task record.
 - [Load only the requested ghost count](ideas/IDEA-20260917-011800-load-only-requested-ghost-count.md).
 - [Skip unchanged ghost material parameters](ideas/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md).
 - [Separate scenery bake inputs from render-only updates](ideas/IDEA-20260917-082200-separate-scenery-bake-dependencies.md).
+- [Share far-tree material submissions](ideas/IDEA-20260917-090000-share-far-tree-material-submissions.md).
 
 ## Rules for the next task
 

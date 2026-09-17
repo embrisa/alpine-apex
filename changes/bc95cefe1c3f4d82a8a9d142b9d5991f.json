@@ -1,0 +1,215 @@
+{
+  "schema": 1,
+  "id": "bc95cefe1c3f4d82a8a9d142b9d5991f",
+  "summary": "Record far-forest attribution and reject the layered stand prototype visually",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Distant forest qualification",
+    "Backlog status"
+  ],
+  "owned_paths": [
+    "backlog/QUEUE.md",
+    "backlog/tasks/AA-20260914-094136-render-distant-forest-stands.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RENDERING.md",
+    "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md",
+    "backlog/ideas/IDEA-20260917-090000-share-far-tree-material-submissions.md"
+  ],
+  "read_paths": [
+    "assets/graphics/pc_lod.gdshaderinc",
+    "assets/graphics/pc_tree_impostor.gdshader",
+    "scripts/presentation/density_forest.gd",
+    "scripts/presentation/forest_placement.gd",
+    "scripts/world/alpine_scenery.gd",
+    "tests/performance_gpu_profile.gd",
+    "artifacts/far_stands_20260917/diagnostic.gd",
+    "artifacts/far_stands_20260917/visual.gd",
+    "artifacts/far_stands_20260917/stand.gdshader"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Rejected isolated prototype; only task records and documentation change."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Rejected isolated prototype; only task records and documentation change."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Rejected isolated prototype; only task records and documentation change."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No production runtime, assets, settings or format changes."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No production runtime, assets, settings or format changes."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No production runtime, assets, settings or format changes."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No production runtime, assets, settings or format changes."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No production runtime, assets, settings or format changes."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "performance",
+      "command": "FpsCritical far-stand-attribution-20260917",
+      "result": "passed",
+      "details": "Valid removal diagnostic, not candidate acceptance: original106.3601FPS/9.402025ms frame/7.609229ms GPU; removal116.1324/8.610858/7.167392. Native depth-0.253898ms, render CPU-0.355109ms. Exact1800ticks/301poses, same final states, focus0/failures[]."
+    },
+    {
+      "kind": "rendered",
+      "command": "Exclusive far-stand-visual-20260917",
+      "result": "passed",
+      "details": "Review completed and candidate REJECTED, not visual acceptance. 428 actual trees;8views/4depthlayers;9matched pairs generated,4decisive native/Auto front/oblique pairs inspected. Missing canopy/distorted silhouettes. No timing, production edits or shipping qualification."
+    },
+    {
+      "kind": "automated",
+      "command": "Python receipt assertions and git status",
+      "result": "passed",
+      "details": "Matched capture camera matrices,428replaced instances, complete replay and identical final states. Tracked production paths unchanged."
+    },
+    {
+      "kind": "automated",
+      "command": "git diff --check; backlog.py validate --preserve-dirty; versioning.py check --note [--staged]",
+      "result": "passed",
+      "details": "Scoped documentation/backlog validation; rejected prototype is isolated and tracked production source paths are unchanged. No new engine regression suite is required for these documentation-only changes."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Grouped distant stand delivery remains blocked on an acceptable representation; this milestone only records attribution and rejection.",
+    "No candidate FPS, valley timing, motion/transition, cache/residency or full weather/quality acceptance."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T09:01:58.251294+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "cf81eb6b748cf7dc1f98c0c9ad8bdc54e65845c1",
+      "dev": 91,
+      "modified": true
+    },
+    "inputs": {
+      "artifacts/far_stands_20260917/diagnostic.gd": {
+        "size": 2618,
+        "mtime_ns": 1789634464948058200
+      },
+      "artifacts/far_stands_20260917/stand.gdshader": {
+        "size": 2308,
+        "mtime_ns": 1789635175695258800
+      },
+      "artifacts/far_stands_20260917/visual.gd": {
+        "size": 9680,
+        "mtime_ns": 1789635175696444500
+      },
+      "assets/graphics/pc_lod.gdshaderinc": {
+        "size": 1756,
+        "mtime_ns": 1789567353807814500
+      },
+      "assets/graphics/pc_tree_impostor.gdshader": {
+        "size": 3615,
+        "mtime_ns": 1789594595746728500
+      },
+      "backlog/QUEUE.md": {
+        "size": 2932,
+        "mtime_ns": 1789635717754567000
+      },
+      "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md": {
+        "size": 10417,
+        "mtime_ns": 1789635717754567000
+      },
+      "backlog/ideas/IDEA-20260917-090000-share-far-tree-material-submissions.md": {
+        "size": 2137,
+        "mtime_ns": 1789635717756654600
+      },
+      "backlog/tasks/AA-20260914-094136-render-distant-forest-stands.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 59194,
+        "mtime_ns": 1789635717755651200
+      },
+      "docs/RENDERING.md": {
+        "size": 47066,
+        "mtime_ns": 1789635619815166200
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/density_forest.gd": {
+        "size": 9889,
+        "mtime_ns": 1789567353867450300
+      },
+      "scripts/presentation/forest_placement.gd": {
+        "size": 8152,
+        "mtime_ns": 1789341389124249000
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/alpine_scenery.gd": {
+        "size": 19893,
+        "mtime_ns": 1789575393302352500
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/performance_gpu_profile.gd": {
+        "size": 2650,
+        "mtime_ns": 1789594595870680400
+      }
+    }
+  }
+}
