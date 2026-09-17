@@ -6,8 +6,8 @@ status, dependencies, evidence and acceptance live in each stable task record.
 
 ## Blocked work and resume conditions
 
-- **[Grouped distant stands](blocked/AA-20260914-094136-render-distant-forest-stands.md):** user approved timing; both the pictured patch and complete-cell test show no FPS gain. Resume with a different representation that lowers total GPU/frame cost.
-- **[Pole feature](blocked/AA-20260911-183812-slope-limited-pole-pushing.md):** resolve the remaining contact and transition gaps within the current backlog-completion goal.
+- **[Grouped distant stands](blocked/AA-20260914-094136-render-distant-forest-stands.md):** timed quad prototypes gave no FPS gain; the newer coarse depth-mesh pilot failed visual review without timing. Resume with a corrected representation and bounded residency.
+- **[Pole feature](blocked/AA-20260911-183812-slope-limited-pole-pushing.md):** current animation visually approved; 11-case chronology captured. Finish the running clothing audit, then uncontended cost qualification when gaming ends.
 - **[Metal frame floor](blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md):** MacBook unavailable, confirmed by the user on 17 September. Resume with machine access and Metal counters or a concrete alternate attribution method.
 
 ## Ideas for the final phase

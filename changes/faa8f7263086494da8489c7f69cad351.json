@@ -1,0 +1,221 @@
+{
+  "schema": 1,
+  "id": "faa8f7263086494da8489c7f69cad351",
+  "summary": "Record approved pole animation and current visual experiment results",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "pole animation acceptance",
+    "grouped forest experiment",
+    "backlog status"
+  ],
+  "owned_paths": [
+    "backlog/QUEUE.md",
+    "backlog/blocked/AA-20260911-183812-slope-limited-pole-pushing.md",
+    "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md",
+    "docs/VALIDATION.md"
+  ],
+  "read_paths": [
+    "assets/graphics/pc_tree_impostor.gdshader",
+    "scripts/backlog.py",
+    "scripts/presentation/forest_placement.gd",
+    "scripts/presentation/pole_push_pose.gd",
+    "scripts/presentation/skier_full_motion.gd",
+    "scripts/presentation/skier_visual.gd",
+    "scripts/versioning.py",
+    "tests/pole_push_capture.gd",
+    "tests/pole_push_playtest.gd",
+    "tests/pose_pole_mesh_audit.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Documentation/status only; production source, assets and compatibility identities are unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Documentation/status only; production source, assets and compatibility identities are unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Documentation/status only; production source, assets and compatibility identities are unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Documentation/status only. No player data or caches modified."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Documentation/status only. No player data or caches modified."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Documentation/status only. No player data or caches modified."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Documentation/status only. No player data or caches modified."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Documentation/status only. No player data or caches modified."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "./scripts/backlog.ps1 validate; git -c core.whitespace=cr-at-eol diff --check",
+      "result": "passed",
+      "details": "Queue/status syntax and scoped whitespace checks pass. Tasks remain blocked for their explicit unfinished gates."
+    },
+    {
+      "kind": "automated",
+      "command": "Scoped review receipt and media-header verification",
+      "result": "passed",
+      "details": "Current capture sources match recorded size/mtime metadata; manifest has stable_sources=true and no failures. Eleven 15 s / 60 Hz videos retain 9,900 recorded frames; max arm step 0.131636 m under existing 0.14 m. Three forest pairs retain identical cameras and six images. No source hashes or benchmark reruns."
+    },
+    {
+      "kind": "rendered",
+      "command": "Review existing native pole chronology and capped grouped-stand pilot",
+      "result": "not_required",
+      "details": "Documentation milestone changes no runtime rendering. It records native evidence already captured before the note: current pole motion approved by user; coarse stand candidate visually rejected and never integrated. Full pole mesh audit is still running; no final pass claimed."
+    },
+    {
+      "kind": "human",
+      "command": "User feedback: i think the animation looks fine",
+      "result": "passed",
+      "details": "Current corrected pole animation visually approved. Controller feel remains separate."
+    },
+    {
+      "kind": "performance",
+      "command": "No performance measurement for this documentation milestone",
+      "result": "not_required",
+      "details": "WoW is running. The forest candidate failed visuals and was not timed. Pole cost qualification remains pending; no FPS gain is claimed."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Pole clothing audit is still running; five cutoff-frame intersections require visual classification. Existing animation is user-approved and unchanged.",
+    "Uncontended pole cost qualification waits while the user plays WoW; controller feel remains separately unconfirmed.",
+    "Coarse grouped-stand depth meshes failed visual review. No timing or production integration is claimed; corrected representation and bounded residency remain unfinished."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T21:22:06.661821+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "ba27319167e4042db2aa6a7b8b9494ac1386693b",
+      "dev": 104,
+      "modified": true
+    },
+    "inputs": {
+      "assets/graphics/pc_tree_impostor.gdshader": {
+        "size": 3615,
+        "mtime_ns": 1789594595746728500
+      },
+      "backlog/QUEUE.md": {
+        "size": 2316,
+        "mtime_ns": 1789680126000171800
+      },
+      "backlog/blocked/AA-20260911-183812-slope-limited-pole-pushing.md": {
+        "size": 15831,
+        "mtime_ns": 1789680126001177000
+      },
+      "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md": {
+        "size": 12460,
+        "mtime_ns": 1789680126002207200
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/VALIDATION.md": {
+        "size": 156817,
+        "mtime_ns": 1789680126011313200
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/backlog.py": {
+        "size": 37748,
+        "mtime_ns": 1789596462919892300
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/forest_placement.gd": {
+        "size": 8152,
+        "mtime_ns": 1789341389124249000
+      },
+      "scripts/presentation/pole_push_pose.gd": {
+        "size": 16248,
+        "mtime_ns": 1789670527600403000
+      },
+      "scripts/presentation/skier_full_motion.gd": {
+        "size": 48919,
+        "mtime_ns": 1789671830155795200
+      },
+      "scripts/presentation/skier_visual.gd": {
+        "size": 19256,
+        "mtime_ns": 1789670864098434300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/versioning.py": {
+        "size": 27235,
+        "mtime_ns": 1789549421190699100
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "tests/pole_push_capture.gd": {
+        "size": 7677,
+        "mtime_ns": 1789665769269665800
+      },
+      "tests/pole_push_playtest.gd": {
+        "size": 1534,
+        "mtime_ns": 1789665769269665800
+      },
+      "tests/pose_pole_mesh_audit.gd": {
+        "size": 5833,
+        "mtime_ns": 1789665826465796100
+      }
+    }
+  }
+}

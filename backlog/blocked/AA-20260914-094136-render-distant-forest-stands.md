@@ -5,13 +5,30 @@ status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-14T09:41:36Z"
-updated: "2026-09-17T09:35:00Z"
+updated: "2026-09-17T21:18:00Z"
 source_thread: "01a09c68-b71e-7cc1-b01a-291cd5c446e8"
 ---
 
 # Render distant forest stands with coherent grouped representations
 
-## Current disposition — 17 September 2026, user-approved timing
+## New bounded representation pilot — 17 September 2026
+
+A generator 18 local pilot replaced iterative depth-texture projection with
+coarse indexed depth meshes and one color lookup per fragment. It uses one
+current 384 m cell with 1,686 production-seated trees, four 192 m tiles, eight views,
+four slabs and 8 px cells, plus complementary view coverage.
+
+**Visually rejected without timing:** matched native front/oblique/side views
+show stretched canopy ribbons and broken silhouettes. Production is unchanged.
+The current user approval of pole animation does not approve this forest pilot.
+The exact decoding/interpolation cause is not yet isolated; this result rejects
+the current reconstruction rather than every grouped representation. No whole
+mountain memory/residency design or LOD handoff is implemented. Retained source,
+inputs and six images: `artifacts/far_stand_mesh_20260917/REVIEW.md`.
+Do not time this variant unchanged. Further work needs a corrected visual result;
+FPS testing also waits until the user's gaming session ends.
+
+## Earlier disposition — 17 September 2026, user-approved timing
 
 The user accepted the prototype screenshots for performance measurement,
 superseding the earlier agent-only visual gate. The 428-tree patch was timed:

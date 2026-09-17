@@ -1743,10 +1743,14 @@ pose was caused by a forward standing plant; the corrected start plants beside
 the boots and retains forward reach above 2 m/s. All 480 pass the actual skinned clothing shaft audit;
 the three reproduced compact-arm cancellation contacts are resolved. The native
 capture was capped at 30 presentations/s while the user played WoW, with the
-same deterministic 60 Hz pose samples. It is visual evidence only. Remaining
-parent qualification is broader final chronology and uncontended gameplay cost;
-the earlier 9,900-frame wide-arm candidate was rejected by the user and does not
-qualify this source. Evidence: `artifacts/pole_feature_closure/REPORT.md`.
+same deterministic 60 Hz pose samples. It is visual evidence only. The user has
+approved the current motion. The current 11-case chronology now contains 9,900
+native frames; all arm-joint steps are within the existing 14 cm limit. Its full
+clothing audit is still running (five cutoff-frame intersections flagged so
+far), and uncontended gameplay cost remains pending.
+Keep those gates separate from visual approval and controller feel. The earlier
+wide-arm candidate does not qualify this source.
+Evidence: `artifacts/pole_feature_closure/REPORT.md`.
 The tuck hand-easing fixture starts above the pole speed cap at 20 m/s.
 
 Pole captures use scoped size/mtime metadata and record `source_verification`.

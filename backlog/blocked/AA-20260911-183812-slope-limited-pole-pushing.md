@@ -5,7 +5,7 @@ status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-11T18:38:12Z"
-updated: "2026-09-17T18:47:00Z"
+updated: "2026-09-17T21:18:00Z"
 source_thread: null
 ---
 
@@ -23,9 +23,21 @@ with zero clothing intersections. Propulsion and replay identities are unchanged
 
 The user rejected the earlier 0.5-second frame. Moving the standing plant beside
 the boots lowers the hands through the push; higher-speed forward reach is retained.
-The new comparison is shown, with human acceptance still pending.
+The user subsequently confirmed, "i think the animation looks fine". The current
+motion is visually approved and should be kept. Controller feel remains a
+separate unconfirmed acceptance item.
 
-Remaining work is broader final chronology and bounded gameplay/CPU cost
+The current Dev103 motion has now been captured natively across all eleven
+15-second cases (9,900 frames), including both steering directions, braking,
+departure and landing. All frame IDs/ticks are present and all arm-joint steps
+remain below the existing 14 cm limit (maximum 13.164 cm). The videos retain every
+60 Hz pose frame. The full actual-clothing audit is in progress: its first 5,400 frames flag
+five intersections in the cutoff case. Their appearance is not yet graded; do
+not treat this partial result as a final pass or retune the approved motion
+without evaluating the actual frames. See the compact current receipt in
+`artifacts/pole_feature_closure/review_chronology/chronology_summary.json`.
+
+Remaining work is the terminal clothing-audit result and bounded gameplay/CPU cost
 qualification. The user is playing WoW from 17 September evening: defer FPS
 measurements until that session ends. The prepared local cost harness has only
 been parsed; it measures clearance Off/On, not total-feature performance.
