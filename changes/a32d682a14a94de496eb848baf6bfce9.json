@@ -1,0 +1,245 @@
+{
+  "schema": 1,
+  "id": "a32d682a14a94de496eb848baf6bfce9",
+  "summary": "Reuse decoded ghost pose frames during interpolated playback",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Interpolated ghost pose preparation",
+    "Bounded ten-ghost performance producer"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-animation/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/REMAINING_20260912.md",
+    "backlog/blocked/AA-20260911-220556-animated-ghost-snow-tracks.md",
+    "backlog/completed/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md",
+    "backlog/ideas/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md",
+    "backlog/tasks/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md",
+    "docs/ANIMATION.md",
+    "docs/VALIDATION.md",
+    "scripts/presentation/ghost_pose.gd",
+    "tests/ghost_playtest.gd",
+    "tests/ghost_pose_cache_suite.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "scripts/presentation/ghost_field.gd",
+    "scripts/presentation/ghost_track_stack.gd",
+    "scripts/presentation/personal_best_ghost.gd",
+    "scripts/presentation/skier_pose_writer.gd",
+    "scripts/presentation/skier_visual.gd",
+    "scripts/racing/run_replay.gd",
+    "tests/ghost_capture_reuse_suite.gd",
+    "tests/ghost_focused_native.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only cached decoding of recorded presentation frames; simulation, generator, clocks and formats unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only cached decoding of recorded presentation frames; simulation, generator, clocks and formats unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only cached decoding of recorded presentation frames; simulation, generator, clocks and formats unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No format or identity changes; each visual retains only its current immutable frame pair."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No format or identity changes; each visual retains only its current immutable frame pair."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No format or identity changes; each visual retains only its current immutable frame pair."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No format or identity changes; each visual retains only its current immutable frame pair."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No format or identity changes; each visual retains only its current immutable frame pair."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "scripts/test_pc_environment.ps1 -Suites ghost_pose_cache_suite,ghost_capture_reuse_suite -OutputDirectory artifacts/ghost_playback_20260917/regression-accepted",
+      "result": "passed",
+      "details": "5122 cached/uncached root, bone, equipment, contact and reverse/reset/replacement checks plus 224 capture-reuse checks. Earlier fixture parse/reference assertion errors corrected; production cache unchanged afterward."
+    },
+    {
+      "kind": "rendered",
+      "command": "Shared guard ghost-playback-cache-visual-20260917: tests/ghost_focused_native.gd -- --fps-limit=60 --output=artifacts/ghost_playback_20260917/visual",
+      "result": "passed",
+      "details": "Six contact cases and 231 checks pass. Inspected turns, switch landing, one-ski and rock reentry, jump/landing and palette before timing. Existing pole posture unchanged; no subjective human approval claimed."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical guards ghost-playback-control-20260917 and ghost-playback-candidate-20260917: tests/ghost_playtest.gd -- --profile --profile-ghosts=10 --profile-seconds=15 --fps-limit=0",
+      "result": "passed",
+      "details": "Matched 4K High/Auto75 FSR4.1.1/FGoff ten-ghost lab. Mean frame 12.7013 to 11.1797 ms, FPS 78.73 to 89.45; p95 15.598 to 13.990, p99 18.478 to 15.640 ms. Pose probe 2.4247 to 1.2549 ms. Full presentation CPU 5.8996 to 4.7318 ms. Both focused/capture-free/all ten/3200 stamps; static memory +187276 bytes. Observed GPU 7.4053 to 6.7406 ms is not an isolated GPU-work claim. No dense-route claim."
+    },
+    {
+      "kind": "automated",
+      "command": "Backlog validation, whitespace and scoped version checks",
+      "result": "passed",
+      "details": "Backlog validation and whitespace pass; scoped version checks run before and after staging. Only administrative documents changed after accepted source verification."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human appearance/controller acceptance is unperformed. This ten-ghost laboratory comparison does not establish full-mountain FPS or remove existing pole animation limitations."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T01:35:25.364009+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "942d3b1e86fd56d8571e41cc8f22b4d7b4d01605",
+      "dev": 81,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-animation/SKILL.md": {
+        "size": 2950,
+        "mtime_ns": 1789608924490017300
+      },
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 10737,
+        "mtime_ns": 1789608924523630300
+      },
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "backlog/QUEUE.md": {
+        "size": 5600,
+        "mtime_ns": 1789608924563239700
+      },
+      "backlog/REMAINING_20260912.md": {
+        "size": 1594,
+        "mtime_ns": 1789608924601447600
+      },
+      "backlog/blocked/AA-20260911-220556-animated-ghost-snow-tracks.md": {
+        "size": 25307,
+        "mtime_ns": 1789608924642235300
+      },
+      "backlog/completed/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md": {
+        "size": 7088,
+        "mtime_ns": 1789608924432689500
+      },
+      "backlog/ideas/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md": {
+        "size": 1817,
+        "mtime_ns": 1789608924446336400
+      },
+      "backlog/tasks/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ANIMATION.md": {
+        "size": 25934,
+        "mtime_ns": 1789608924743387200
+      },
+      "docs/VALIDATION.md": {
+        "size": 133276,
+        "mtime_ns": 1789608924794358500
+      },
+      "project.godot": {
+        "size": 1819,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/ghost_field.gd": {
+        "size": 3531,
+        "mtime_ns": 1789207383991993200
+      },
+      "scripts/presentation/ghost_pose.gd": {
+        "size": 8536,
+        "mtime_ns": 1789608312493699900
+      },
+      "scripts/presentation/ghost_track_stack.gd": {
+        "size": 1524,
+        "mtime_ns": 1789207383994531800
+      },
+      "scripts/presentation/personal_best_ghost.gd": {
+        "size": 4541,
+        "mtime_ns": 1789210603001062100
+      },
+      "scripts/presentation/skier_pose_writer.gd": {
+        "size": 688,
+        "mtime_ns": 1788915167172532900
+      },
+      "scripts/presentation/skier_visual.gd": {
+        "size": 18492,
+        "mtime_ns": 1789577940844094500
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/ghost_capture_reuse_suite.gd": {
+        "size": 3694,
+        "mtime_ns": 1789578321579717800
+      },
+      "tests/ghost_focused_native.gd": {
+        "size": 42732,
+        "mtime_ns": 1789606799491845500
+      },
+      "tests/ghost_playtest.gd": {
+        "size": 32220,
+        "mtime_ns": 1789608174302431700
+      },
+      "tests/ghost_pose_cache_suite.gd": {
+        "size": 6473,
+        "mtime_ns": 1789608435688375000
+      }
+    }
+  }
+}

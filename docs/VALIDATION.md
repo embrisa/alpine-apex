@@ -1730,9 +1730,20 @@ physics/runtime suites. No pose rendering changes are made by this optimization.
 The ghost native producer captures actual final production poses, then runs a
 15-second playback/selector/lifecycle review. `--profile` substitutes 20-second
 0/1/10-ghost and ten-without-tracks cases, excluding initial warmup and captures.
+For a single relevant candidate, select `--profile --profile-ghosts=10
+--profile-seconds=15 --fps-limit=0` with a fresh output. `--profile-no-tracks`
+is an explicit diagnostic alternative; the ordinary selected case keeps tracks.
+The producer checks focus during the measured interval and reports a separate
+pose-application CPU probe outside frame timing. That probe is not rendered FPS.
+`ghost_pose_cache_suite.gd` checks current interpolated roots, bones, equipment
+and contacts against uncached decoding, reverse/skip/replacement samples and
+the bounded two-frame cache. Pair it with `ghost_capture_reuse_suite` and the
+focused native contact cases when changing frame preparation or pose playback.
 These are diagnostic lab costs, not a full route or a three-repetition benchmark.
-For a comparative cost claim, preserve three independent warmed repetitions and
-actual output/internal pixels, quality, renderer and memory. Default-v15 High
+For a comparative cost claim, reuse a matching saved reference and one short
+warmed candidate under the current experiment-budget policy. Expand only to
+resolve a specific ambiguity; retain actual output/internal pixels, quality,
+renderer and memory. Default-v15 High
 cost needs a matched bounded natural-scene fixture; the laboratory is not that
 acceptance. Preserve fixed `artifacts/ghost/native/` outputs before rerunning. Inspect
 multiple outfits, ten colors, body/equipment continuity, close overlap, occlusion,

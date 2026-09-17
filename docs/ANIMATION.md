@@ -136,6 +136,14 @@ carve and grab motion when changing the age limit; numeric root equality alone
 cannot accept ghost animation quality.
 
 Playback composes local transforms hierarchically through `SkierPoseWriter`.
+Each visual retains a bounded pair of decoded recording frames in
+`ghost_pose_frames` metadata. Packed local transforms and equipment sockets are
+prepared only when their immutable source frame changes; promotion of the old
+second frame reuses it as the next first frame. Root, limbs, equipment and track
+responses still interpolate at the existing render cadence. The cache belongs
+to one fixed visual rig and is released with it; content comparison handles
+retries, reverse time and replacement recordings. `ghost_pose_cache_suite.gd`
+compares this path with the uncached reference, including those transitions.
 Recorded equipment-to-foot/hand transforms interpolate relative to connected
 bones so cuffs/grips remain attached between samples while matching recorded
 equipment at endpoints. Preview-only setup shares the production mesh/equipment

@@ -25,6 +25,9 @@ var capture_us = 0
 var review_only = false
 var selector_only = false
 var production_coverage: Array = []
+var profile_ghost_count = -1
+var profile_seconds = 20.0
+var pose_cpu_ms_per_ten = 0.0
 
 func _initialize() -> void: call_deferred("run")
 func check(value: bool, label: String) -> bool:
@@ -39,6 +42,8 @@ func run() -> void:
 	review_only = "--review-only" in OS.get_cmdline_user_args()
 	selector_only = "--selector-only" in OS.get_cmdline_user_args()
 	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--profile-ghosts="): profile_ghost_count=clampi(arg.trim_prefix("--profile-ghosts=").to_int(),0,10)
+		if arg.begins_with("--profile-seconds="): profile_seconds=clampf(arg.trim_prefix("--profile-seconds=").to_float(),5.0,20.0)
 		if arg.begins_with("--output="):
 			output = arg.trim_prefix("--output=")
 			if not output.begins_with("res://"): output = "res://"+output
@@ -101,8 +106,10 @@ func run() -> void:
 	if selector_only:
 		await _selector()
 	elif profiling:
-		for config in [[0,true],[1,true],[10,true],[10,false]]:
-			await _scenario(config[0],config[1],20.0)
+		_pose_cpu_probe()
+		var configurations = [[profile_ghost_count,"--profile-no-tracks" not in OS.get_cmdline_user_args()]] if profile_ghost_count>=0 else [[0,true],[1,true],[10,true],[10,false]]
+		for config in configurations:
+			await _scenario(config[0],config[1],profile_seconds)
 			if not failures.is_empty(): break
 	else:
 		if not review_only: await _scenario(10,true,15.0)
@@ -123,7 +130,7 @@ func _finish() -> void:
 	var sources: Dictionary = {}
 	for path in ["tests/ghost_playtest.gd","scripts/presentation/ghost_pose.gd","scripts/presentation/personal_best_ghost.gd","scripts/presentation/skier_visual.gd","scripts/presentation/skier_full_motion.gd","scripts/presentation/snow_tracks.gd","assets/graphics/ghost_skier.gdshader"]:
 		sources[path] = _source_metadata(path)
-	var report = {"source_metadata":sources,"engine":Engine.get_version_info().string,"checks":checks,"failures":failures,"profiles":metrics,"profile_mode":profiling,"selector_only":selector_only,"production_coverage":production_coverage,"capture_wall_ms":capture_us/1000.0,"device":RenderingServer.get_video_adapter_name(),"pixels":[actual_pixels.x,actual_pixels.y],"framebuffers":framebuffer_checks,"isolated_store":fixture_store,"human_acceptance":"pending","production_capture":"Synthetic UI fixture only" if selector_only else "Session-owned sample cadence after actual fixed animation step"}
+	var report = {"source_metadata":sources,"engine":Engine.get_version_info().string,"checks":checks,"failures":failures,"profiles":metrics,"pose_cpu_ms_per_ten":pose_cpu_ms_per_ten,"profile_mode":profiling,"selector_only":selector_only,"production_coverage":production_coverage,"capture_wall_ms":capture_us/1000.0,"device":RenderingServer.get_video_adapter_name(),"pixels":[actual_pixels.x,actual_pixels.y],"framebuffers":framebuffer_checks,"isolated_store":fixture_store,"human_acceptance":"pending","production_capture":"Synthetic UI fixture only" if selector_only else "Session-owned sample cadence after actual fixed animation step"}
 	var file = preload("res://tests/test_report.gd").open_write(output.path_join("profile_results.json" if profiling else "visual_results.json"))
 	if file: file.store_string(JSON.stringify(report,"\t")); file.close()
 	else: check(false,"Native report could not be written")
@@ -242,6 +249,7 @@ func _scenario(count: int, tracks: bool, seconds: float) -> void:
 	var samples: Array[float] = []
 	var cpu: Array[float] = []
 	var gpu: Array[float] = []
+	var unfocused_frames = 0
 	var last = Time.get_ticks_usec()
 	var accumulator = 0.0
 	var next_capture = 1.0
@@ -261,6 +269,7 @@ func _scenario(count: int, tracks: bool, seconds: float) -> void:
 		var started = Time.get_ticks_usec()
 		game._process(delta)
 		if profiling and game.session.elapsed>2.0:
+			if not game.application_focused: unfocused_frames+=1
 			samples.append(measured*1000.0); cpu.append((Time.get_ticks_usec()-started)/1000.0)
 			gpu.append(RenderingServer.viewport_get_measured_render_time_gpu(root.get_viewport_rid()))
 		if not profiling and game.session.elapsed>=next_capture:
@@ -274,9 +283,22 @@ func _scenario(count: int, tracks: bool, seconds: float) -> void:
 	for ghost in game.ghost.ghosts: stamps += ghost.snow_tracks.written
 	check(stamps<=count*320,"Ghost retained track total stays within %d" % (count*320))
 	if not tracks: check(stamps==0,"Disabling track_emission retains zero ghost stamps")
-	metrics.append({"quality_preset":game.graphics.preset_id,"render_scale":game.display_settings.render_scale,"upscaler":game.display_settings.upscaler,"fps_limit":game.display_settings.fps_limit,"display":game.display_settings.report(root,actual_pixels),"ghosts":count,"tracks":tracks,"seconds":game.session.elapsed,"frame_ms":_distribution(samples),"presentation_cpu_ms":_distribution(cpu),"renderer_gpu_ms":_distribution(gpu),"static_memory":Performance.get_monitor(Performance.MEMORY_STATIC),"retained_ghost_stamps":stamps,"gpu_stroke_capacity":game.ghost.track_stack.capacity+2,"captures_affect_timing":not profiling,"performance_eligible":profiling,"capture_wall_ms":(capture_us-prior_capture_us)/1000.0})
+	if profiling: check(unfocused_frames==0,"Timed playback remained focused")
+	metrics.append({"quality_preset":game.graphics.preset_id,"render_scale":game.display_settings.render_scale,"upscaler":game.display_settings.upscaler,"fps_limit":game.display_settings.fps_limit,"display":game.display_settings.report(root,actual_pixels),"ghosts":count,"tracks":tracks,"seconds":game.session.elapsed,"frame_ms":_distribution(samples),"presentation_cpu_ms":_distribution(cpu),"renderer_gpu_ms":_distribution(gpu),"static_memory":Performance.get_monitor(Performance.MEMORY_STATIC),"retained_ghost_stamps":stamps,"gpu_stroke_capacity":game.ghost.track_stack.capacity+2,"captures_affect_timing":not profiling,"performance_eligible":profiling and unfocused_frames==0,"unfocused_frames":unfocused_frames,"capture_wall_ms":(capture_us-prior_capture_us)/1000.0})
 	game.active = false
 	await _verify_framebuffer("scenario %d/%s end" % [count,tracks])
+
+func _pose_cpu_probe() -> void:
+	# Separate CPU attribution, outside rendered frame measurements. Use actual
+	# production recordings, changing interpolation weights within each sample.
+	_install(10)
+	var started=Time.get_ticks_usec()
+	var steps=240
+	for step in steps:
+		for ghost in game.ghost.ghosts:
+			var data: Dictionary=ghost.replay.presentation_at(1.0+step/120.0)
+			if not data.is_empty(): Pose.apply(ghost.visual,data.a,data.b,data.weight,ghost.responses)
+	pose_cpu_ms_per_ten=(Time.get_ticks_usec()-started)/1000.0/steps
 
 func _lifecycle_and_opacity() -> void:
 	_install(10)

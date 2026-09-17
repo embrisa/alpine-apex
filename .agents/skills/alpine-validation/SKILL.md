@@ -108,6 +108,10 @@ For ghost selection, use the selector-only native route in
 It uses synthetic recordings solely for Records input/selection. Use the focused
 actual-solver producer for contact and palette images; verify receiving geometry
 and real shadow darkening before accepting its visual evidence.
+For ghost playback cost, select the needed `--profile-ghosts` case and bounded
+`--profile-seconds` interval in that producer, with capture-free FpsCritical
+timing after visual review. Keep the separate pose CPU probe distinct from frame
+and GPU measurements; a zero/one/ten matrix is only needed for attribution gaps.
 For replay numeric-validator changes, build the native skier library under an
 Exclusive guard and run `ghost_validation_kernel_suite` plus archive/cache,
 exact-clock and crash-replay checks. Retain physics/runtime checks after rebuilding

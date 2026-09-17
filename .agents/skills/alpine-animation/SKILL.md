@@ -34,6 +34,10 @@ For performance work, use the [quality and small-gain policy](../../../docs/REND
 Minor accepted motion differences do not require pixel-identical captures;
 evaluate continuity, body/equipment contact and action readability. Explicitly
 authorized physics changes follow the physics/runtime validation contract.
+For recorded ghost playback, follow the bounded decoded-frame cache contract in
+[Animation](../../../docs/ANIMATION.md#recorded-ghost-presentation). Changes to
+pose layout, hierarchy or socket preparation require `ghost_pose_cache_suite`
+and affected native contact/transition views; preserve the final skeleton writer.
 
 Use the [targeted-map policy](../../../docs/VALIDATION.md#targeted-test-maps) for
 automated captures. Local pose checks use compact terrain; keep exact mountain

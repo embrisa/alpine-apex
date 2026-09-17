@@ -72,14 +72,17 @@ static func validate(data: PackedFloat32Array) -> bool:
 	return data[-1]>=.5 and data[-1]<=3.0
 
 static func apply(visual, a: PackedFloat32Array, b: PackedFloat32Array, weight: float, responses: Array) -> void:
-	visual.global_transform = transform_at(a,0).interpolate_with(transform_at(b,0),weight)
+	var frames = _prepared_pair(visual,a,b)
+	var first: Dictionary = frames[0]
+	var second: Dictionary = frames[1]
+	visual.global_transform = first.root.interpolate_with(second.root,weight)
 	visual.targets.clear()
 	# Interpolate local rotations/positions hierarchically; a global blend would
 	# shrink long limbs. The production writer remains the sole skeleton writer.
-	for name_value in BONES:
+	for slot in BONES.size():
+		var name_value: String = BONES[slot]
 		var index: int = visual.bone_ids[name_value]
-		var slot = BONES.find(name_value)+1
-		var local = transform_at(a,slot).interpolate_with(transform_at(b,slot),weight)
+		var local: Transform3D = first.local[slot].interpolate_with(second.local[slot],weight)
 		var parent: int = visual.skeleton.get_bone_parent(index)
 		visual.targets[index] = visual.targets[parent]*local if parent>=0 else local
 	Writer.apply(visual.skeleton,visual.rest,visual.desired,visual.targets)
@@ -87,12 +90,8 @@ static func apply(visual, a: PackedFloat32Array, b: PackedFloat32Array, weight: 
 		var prefix = "Right" if i==0 else "Left"
 		var foot_id: int = visual.bone_ids[prefix+"Foot"]
 		var hand_id: int = visual.bone_ids[prefix+"Hand"]
-		var foot_a = bone_global(a,visual,foot_id)
-		var foot_b = bone_global(b,visual,foot_id)
-		var hand_a = bone_global(a,visual,hand_id)
-		var hand_b = bone_global(b,visual,hand_id)
-		var ski_socket = (foot_a.affine_inverse()*transform_at(a,25+i)).interpolate_with(foot_b.affine_inverse()*transform_at(b,25+i),weight)
-		var pole_socket = (hand_a.affine_inverse()*transform_at(a,27+i)).interpolate_with(hand_b.affine_inverse()*transform_at(b,27+i),weight)
+		var ski_socket: Transform3D = first.skis[i].interpolate_with(second.skis[i],weight)
+		var pole_socket: Transform3D = first.poles[i].interpolate_with(second.poles[i],weight)
 		visual.skis[i].global_transform = visual.global_transform*visual.desired[foot_id]*ski_socket
 		visual.poles[i].global_transform = visual.global_transform*visual.desired[hand_id]*pole_socket
 		var start = CONTACT_START+i*CONTACT_WIDTH
@@ -108,6 +107,31 @@ static func apply(visual, a: PackedFloat32Array, b: PackedFloat32Array, weight: 
 		response.contact_forward = visual.skis[i].global_basis.z.normalized()
 		response.track_contact = response.snow_contact
 		response.track_depth_m = response.depth_m
+
+static func _prepared_pair(visual, a: PackedFloat32Array, b: PackedFloat32Array) -> Array:
+	# Each visual retains only its two current immutable recording frames. Root
+	# and limb interpolation still runs every render frame; socket derivation and
+	# packed quaternion decoding run once per new recording sample instead.
+	var prior: Array = visual.get_meta(&"ghost_pose_frames",[])
+	if prior.size()==2 and prior[0].data==a and prior[1].data==b: return prior
+	var frames: Array = []
+	for data in [a,b]:
+		var prepared: Dictionary = {}
+		for item in prior+frames:
+			if item.data==data: prepared=item; break
+		if prepared.is_empty(): prepared=_prepare_frame(visual,data)
+		frames.append(prepared)
+	visual.set_meta(&"ghost_pose_frames",frames)
+	return frames
+
+static func _prepare_frame(visual, data: PackedFloat32Array) -> Dictionary:
+	var frame = {"data":data,"root":transform_at(data,0),"local":[],"skis":[],"poles":[]}
+	for slot in BONES.size(): frame.local.append(transform_at(data,slot+1))
+	for i in 2:
+		var prefix = "Right" if i==0 else "Left"
+		frame.skis.append(bone_global(data,visual,visual.bone_ids[prefix+"Foot"]).affine_inverse()*transform_at(data,25+i))
+		frame.poles.append(bone_global(data,visual,visual.bone_ids[prefix+"Hand"]).affine_inverse()*transform_at(data,27+i))
+	return frame
 
 static func bone_global(data: PackedFloat32Array, visual, index: int) -> Transform3D:
 	var local = transform_at(data,BONES.find(visual.skeleton.get_bone_name(index))+1)
