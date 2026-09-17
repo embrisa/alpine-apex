@@ -164,6 +164,13 @@ The built-in mesh renderer is the sole terrain path. Prepared chunks and shared
 LOD templates consume [World](WORLD.md)'s support surface; nearby cosmetic relief
 does not become collision. Keep chunk bounds conservative and distinguish
 prepared arrays from uploaded resources.
+Terrain instances use LOD bias `0.25` in both direct and prepared publication.
+The existing 16/32 m interior index buffers are selected sooner; every 4 m
+chunk-border vertex and the full base mesh remain intact. Clipped chunks keep
+their existing unsimplified indices. This changes rendered geometry selection,
+not ski support, crash collision, scenery placement or stone-mesh quality.
+The open-route comparison measured a small GPU saving; do not treat it as a
+dense-forest or universal frame-rate improvement.
 
 Forest/material consumers retain physical tree populations at every quality.
 Near/mid geometry, far directional impostors, batched transforms, residency and

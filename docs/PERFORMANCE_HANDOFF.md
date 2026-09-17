@@ -707,3 +707,46 @@ not an isolated causal or sustained FPS claim: the earlier collision session
 also demonstrated environment-dependent baseline variation. Keep the saved
 average and the verified component saving; no new control matrix needed.
 Evidence: `artifacts/sky_radiance_20260917/REVIEW.md`.
+
+### Open-slope terrain LOD — 17 September 2026
+
+Retain terrain instance LOD bias 0.25 in direct and prepared publication. Existing
+16/32 m interior index buffers and 4 m shared borders stay intact; base vertices,
+indices, clipped chunks, crash shapes and the ski surface are unchanged.
+The earlier dense-route result did not justify the setting; this separately
+requested open-route sample does show a small benefit under the user's small-gain
+policy. No dense-forest or universal FPS gain is claimed.
+
+One same-process control/candidate pair after an excluded traversal warmup:
+
+| Open route | Original bias 1 | Candidate 0.25 |
+|---|---:|---:|
+| Mean FPS | 126.40294 | 128.90999 |
+| Mean frame ms | 7.911209 | 7.757350 |
+| Frame p95 / p99 ms | 9.898 / 12.225 | 9.532 / 11.008 |
+| Mean GPU ms | 6.062035 | 5.952341 |
+| GPU p99 ms | 6.691 | 6.714 |
+| Mean render CPU ms | 1.383874 | 1.347534 |
+| Mean submitted primitives | 2,826,158 | 2,629,457 |
+
+The candidate saves 0.109694 ms mean GPU and 6.960% submitted primitives;
+FPS is 1.983% higher in this sample. GPU p99 did not improve. Native RX9070,
+custom DX12 ed1daf0bf, 3840x2160 / 2880x1620 internal, High Auto FSR4.1.1,
+FG/GI off, clear/day, grass on and gravel all. Exact 1,800 ordinary-input ticks,
+301 timed poses, matching final states, no focus loss or failures. Both caches
+hit. The new 15 s route starts at (-320,1024), ends near (-403.56,1025.97),
+has zero trees within 175 m at each one-second checkpoint and no obstacle
+contacts. It reaches 32.28 km/h: it is not a high-speed or full-descent result.
+No matching open-route reference existed, which justified this single control.
+
+Separate capped native 4K views span a 120 m dolly on the unobscured upper-snow
+ridge. Seven chronological candidate views and six corresponding originals
+were inspected: no new cracks or lost near-ridge silhouettes; small shading
+differences are acceptable. This diagnostic framing differs from the riding
+camera. Distant clipping shapes are present in both arms at its 10 km far plane;
+they are not evidence of candidate-induced terrain loss. Continuous-motion
+human acceptance remains separate. Candidate timing used the same per-instance
+property after startup; final source applies it at creation. A compact integration
+probe verifies both publication paths and unchanged base collision triangles;
+graphics29/runtime192 pass. No repeated full-mountain timing after that plumbing.
+Evidence: `artifacts/terrain_open_20260917/REVIEW.md`.

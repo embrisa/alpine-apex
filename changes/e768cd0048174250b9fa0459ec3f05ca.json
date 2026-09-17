@@ -1,0 +1,194 @@
+{
+  "schema": 1,
+  "id": "e768cd0048174250b9fa0459ec3f05ca",
+  "summary": "Select existing terrain LODs sooner after a measured open-slope gain",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Terrain render LOD selection"
+  ],
+  "owned_paths": [
+    "backlog/QUEUE.md",
+    "backlog/completed/AA-20260916-084505-fix-terrain-mesh-lod-selection.md",
+    "backlog/tasks/AA-20260916-084505-fix-terrain-mesh-lod-selection.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RENDERING.md",
+    "scripts/world/alpine_world.gd",
+    "backlog/blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md"
+  ],
+  "read_paths": [
+    "scripts/world/terrain_preparation.gd",
+    "tests/graphics_suite.gd",
+    "tests/performance_descent.gd",
+    "tests/runtime_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only terrain MeshInstance3D LOD bias changes; same base mesh, physical surface, placement and schemas."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only terrain MeshInstance3D LOD bias changes; same base mesh, physical surface, placement and schemas."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only terrain MeshInstance3D LOD bias changes; same base mesh, physical surface, placement and schemas."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Render-only instance property; no generated data, support grid or persistent format changes."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Render-only instance property; no generated data, support grid or persistent format changes."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Render-only instance property; no generated data, support grid or persistent format changes."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Render-only instance property; no generated data, support grid or persistent format changes."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Render-only instance property; no generated data, support grid or persistent format changes."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "rendered",
+      "command": "Shared terrain-open-visual-20260917, explicit existing Standard mountain",
+      "result": "passed",
+      "details": "Inspected native4K High Auto75 upper-snow/ridge chronology over120m. Seven candidate/six original samples: no new cracks or objectionable near-ridge change; minor shading accepted. Diagnostic camera, not timed riding framing. Existing distant far-plane clipping visible in both arms."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical terrain-open-pair-20260917; one warmup then one original/candidate15s pair",
+      "result": "passed",
+      "details": "No saved open-route reference. FPS126.40294 ->128.90999; frame7.911209 ->7.757350ms; GPU6.062035 ->5.952341ms; primitives-6.960%. Framep95/p99 9.898/12.225 ->9.532/11.008; GPUp99 6.691 ->6.714. Exact1800ticks/301poses,focus0,failures[],matching4KHighAuto75. One modest sample; not sustained/forest/global acceptance."
+    },
+    {
+      "kind": "automated",
+      "command": "Shared terrain-open-integrated-20260917; test_pc_environment.ps1 -Suites graphics_suite,runtime_suite",
+      "result": "passed",
+      "details": "Actual direct/prepared publication selects testedbias0.25; full base vertices/indices and collision triangles retained. Compact graphics29/runtime192 pass. No physics or input source edits; unchanged physics evidence reused."
+    },
+    {
+      "kind": "automated",
+      "command": "git diff --check; backlog.py validate --preserve-dirty; versioning.py check --note [--staged]",
+      "result": "passed",
+      "details": "Owned scope and task/link validation. Final metadata capture changes documentation only after integrated runtime checks; no new timing required."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human continuous-motion comfort and sustained120FPS are not established.",
+    "No new dense-forest, high-speed or Metal performance claim."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T08:11:32.926884+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "aefecdc23af2c232001648bde754444284765bd9",
+      "dev": 89,
+      "modified": true
+    },
+    "inputs": {
+      "backlog/QUEUE.md": {
+        "size": 2782,
+        "mtime_ns": 1789632674226337000
+      },
+      "backlog/blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md": {
+        "size": 9067,
+        "mtime_ns": 1789632674226337000
+      },
+      "backlog/completed/AA-20260916-084505-fix-terrain-mesh-lod-selection.md": {
+        "size": 4177,
+        "mtime_ns": 1789632674225269500
+      },
+      "backlog/tasks/AA-20260916-084505-fix-terrain-mesh-lod-selection.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 53348,
+        "mtime_ns": 1789632674224112900
+      },
+      "docs/RENDERING.md": {
+        "size": 46325,
+        "mtime_ns": 1789632560041116200
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 27514,
+        "mtime_ns": 1789632514513603600
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "scripts/world/terrain_preparation.gd": {
+        "size": 3728,
+        "mtime_ns": 1789134883757212800
+      },
+      "tests/graphics_suite.gd": {
+        "size": 11394,
+        "mtime_ns": 1789594595839826900
+      },
+      "tests/performance_descent.gd": {
+        "size": 19660,
+        "mtime_ns": 1789594595869676400
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41141,
+        "mtime_ns": 1789594595889425300
+      }
+    }
+  }
+}

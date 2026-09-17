@@ -29,6 +29,9 @@ var startup_cosmetics_running: bool = false
 var startup_cosmetics_ms: float = 0.0
 var terrain_triangles: int = 0
 const terrain_renderer: String = "legacy"
+## Existing 16/32 m interior LODs retain every 4 m chunk edge. The lower bias
+## selects them sooner without changing the base mesh or physical terrain.
+const TERRAIN_LOD_BIAS: float = 0.25
 var terrain_chunks: Array[MeshInstance3D] = []
 var benchmark_markers: Array[Node3D] = []
 var environment: Environment
@@ -331,6 +334,7 @@ func _terrain(checkpoint: Callable = Callable()) -> void:
 			mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays,[],{} if clipped.mode==2 else lods)
 			var instance = MeshInstance3D.new()
 			instance.mesh = mesh
+			instance.lod_bias = TERRAIN_LOD_BIAS
 			instance.gi_mode = GeometryInstance3D.GI_MODE_STATIC
 			instance.material_override = snow_material
 			instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
@@ -496,6 +500,7 @@ func _prepared_terrain(checkpoint: Callable) -> void:
 		arrays[Mesh.ARRAY_VERTEX] = chunk.vertices; arrays[Mesh.ARRAY_NORMAL] = chunk.normals; arrays[Mesh.ARRAY_INDEX] = chunk.get("indices",data.indices)
 		var mesh = ArrayMesh.new(); mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays,[],chunk.get("lods",data.lods))
 		var instance = MeshInstance3D.new(); instance.mesh = mesh
+		instance.lod_bias = TERRAIN_LOD_BIAS
 		instance.gi_mode = GeometryInstance3D.GI_MODE_STATIC; instance.material_override = snow_material
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		instance.set_meta("terrain_center",chunk.center)

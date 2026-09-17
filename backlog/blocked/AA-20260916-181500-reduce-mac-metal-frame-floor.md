@@ -72,10 +72,10 @@ changing the Windows presentation or physics.
   `--script` runs still exec directly and need the `open` path plus
   `ALPINE_FULL_MOUNTAIN=1` and a reason in the environment.
 - Related Windows-side tasks own the same passes generically:
-  [environment and screen passes](../tasks/AA-20260916-084510-trim-environment-and-screen-passes.md),
-  [powder patch](../tasks/AA-20260916-084507-reduce-powder-patch-render-cost.md),
+  [environment and screen passes](../completed/AA-20260916-084510-trim-environment-and-screen-passes.md),
+  [powder patch](../completed/AA-20260916-084507-reduce-powder-patch-render-cost.md),
   [vertex shader transcendentals](../completed/AA-20260916-084513-reduce-vertex-shader-transcendentals.md),
-  [terrain LOD](../tasks/AA-20260916-084505-fix-terrain-mesh-lod-selection.md). This task
+  [terrain LOD](../completed/AA-20260916-084505-fix-terrain-mesh-lod-selection.md). This task
   is the Mac measurement and platform-specific defaults; shader and pass
   changes that also help Windows should be delivered under those tasks.
 

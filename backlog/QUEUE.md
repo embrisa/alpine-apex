@@ -8,7 +8,6 @@ status, dependencies, evidence and acceptance live in each stable task record.
 
 | Task | Remaining question |
 |---|---|
-| [Open-route terrain LOD](tasks/AA-20260916-084505-fix-terrain-mesh-lod-selection.md) | Open slope/ridge result; the dense-route bias candidate was rejected. |
 | [Terrain occlusion](tasks/AA-20260914-094136-cull-scenery-behind-terrain.md) | Prior prototype needs a cost/visibility verdict; fewer draws did not establish FPS gain. |
 | [Grouped distant stands](tasks/AA-20260914-094136-render-distant-forest-stands.md) | Must beat existing two-triangle far cards while preserving silhouettes. |
 

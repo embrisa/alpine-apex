@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-084505-fix-terrain-mesh-lod-selection"
 title: "Evaluate terrain LOD savings on an open route"
-status: ready
+status: done
 priority: P2
 depends_on: []
 created: "2026-09-16T08:45:05Z"
-updated: "2026-09-16T21:59:44Z"
+updated: "2026-09-17T08:11:14Z"
 source_thread: null
 ---
 
@@ -40,10 +40,10 @@ Do not repeat the failed dense-only bias experiment or launch a key-value matrix
 
 ## Acceptance and verification
 
-- [ ] Open-slope/ridge stills and bounded motion retain continuity and useful snow detail.
-- [ ] Actual frame/GPU cost and tails accompany any primitive reduction; negative
+- [x] Open-slope/ridge stills and bounded motion retain continuity and useful snow detail.
+- [x] Actual frame/GPU cost and tails accompany any primitive reduction; negative
   results are a valid completed investigation, not a production change.
-- [ ] Run affected terrain/rendering checks and runtime; physics checks if its
+- [x] Run affected terrain/rendering checks and runtime; physics checks if its
   inputs change. Update Rendering and commit/push only a justified result.
 
 Human continuous-motion acceptance remains separate.
@@ -54,7 +54,26 @@ None
 
 ## Completion record
 
-Ready for the untested open-route question. The dense-route rejection is retained below.
+Completed with a retained small open-route gain. Terrain instance bias 0.25
+uses the existing simplified indices in direct/prepared publication; physical
+terrain, collision, base mesh and shared chunk borders remain unchanged.
+
+One warmed matched pair: 126.40294 -> 128.90999 FPS (+1.983%), frame
+7.911209 -> 7.757350 ms, GPU 6.062035 -> 5.952341 ms. Frame p95/p99
+9.898/12.225 -> 9.532/11.008 ms; GPU p99 6.691 -> 6.714 ms. Submitted primitives
+2,826,158 -> 2,629,457 (-6.960%). Capture-free 4K High Auto75/FSR4.1.1, FGoff;
+same 1,800 ordinary-input ticks, 301 timed poses and final state; focus0/failures[].
+The 15 s open route reaches 32.28 km/h, with no nearby trees or obstacle contacts.
+It is not the dense baseline or a sustained/high-speed performance claim.
+
+Matched 4K upper-snow/ridge samples over a 120 m diagnostic dolly retain near
+silhouettes and ground continuity. Minor shading changes are accepted. Continuous
+human motion review stays separate. Actual direct/prepared integration probe
+preserves base vertices/indices/collision; graphics29/runtime192 pass.
+
+Report: `artifacts/terrain_open_20260917/REVIEW.md`; milestone note:
+`changes/e768cd0048174250b9fa0459ec3f05ca.json`. The prior dense-route rejection
+below remains a scope limit; no new dense improvement is asserted.
 
 ## Earlier investigation record
 
@@ -64,7 +83,7 @@ using the existing LOD indices reduced dense-route primitives by 1.74%, but
 `alpine_world.gd`; no production terrain change retained. Native wireframe
 confirmed LOD selection, and open-snow stills passed; two foliage-obscured views
 do not establish ridge quality. Current mountain has 478 retained chunks.
-Do not repeat this same dense-route candidate. Open-route timing, ridge-motion
-review and alternative keys remain untested; this task remains ready.
+The later open-route completion above resolves this remaining question; do not
+repeat the dense-only experiment as if its earlier result had been a gain.
 Compact local evidence: `artifacts/terrain_lod_20260916/REPORT.md` and
 `artifacts/pc_environment/terrain-lod-20260916/production.json` row 2.
