@@ -5,11 +5,32 @@ status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-14T09:41:36Z"
-updated: "2026-09-17T21:18:00Z"
+updated: "2026-09-17T22:40:00Z"
 source_thread: "01a09c68-b71e-7cc1-b01a-291cd5c446e8"
 ---
 
 # Render distant forest stands with coherent grouped representations
+
+## Corrected reconstruction follow-up — 18 September 2026
+
+Root reviewed Terra's diagnosis and verified the depth path using a rendered
+three-plane calibration. R8 depth and full3D orthographic unprojection pass;
+the original shared grid and viewport-aspect mapping had concrete defects.
+Independent patches remove ribbons, but horizontal front-layer bakes lose canopy
+from elevated views. Elevated actual-depth bakes restore canopy; conservative
+patch padding still leaves chunky crowns, square holes and disconnected pieces
+in the matched400m side view.
+
+**Candidate is visually unacceptable; no timing.** This remains an isolated
+1,686-tree generator18 cell. Production is unchanged. Final candidate inventory:
+267,274 triangles across all views,25.51MiB color textures before mesh memory;
+scene draws fall31 to11–13 but submitted primitives rise substantially. Counters
+are not a performance result. No residency, moving-view or LOD handoff is accepted.
+See `artifacts/far_stand_splats_20260918/REVIEW.md` for the compact review, source,
+numeric calibration and six matched images. Do not time these variants unchanged.
+Resume with a materially different representation and bounded memory/residency.
+On18September the user authorized progressing the four prepared ideas while this
+task and the unavailable-Mac task remain blocked.
 
 ## New bounded representation pilot — 17 September 2026
 
@@ -25,8 +46,9 @@ The exact decoding/interpolation cause is not yet isolated; this result rejects
 the current reconstruction rather than every grouped representation. No whole
 mountain memory/residency design or LOD handoff is implemented. Retained source,
 inputs and six images: `artifacts/far_stand_mesh_20260917/REVIEW.md`.
-Do not time this variant unchanged. Further work needs a corrected visual result;
-FPS testing also waits until the user's gaming session ends.
+Do not time this variant unchanged. The corrected follow-up above supersedes the
+unresolved decoding question. The user's gaming session has ended; visual quality
+is the remaining gate for this representation.
 
 ## Earlier disposition — 17 September 2026, user-approved timing
 

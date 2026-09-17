@@ -30,7 +30,7 @@ reconciled in `artifacts/pole_feature_closure/CLOSURE.md`.
 - Local perf-mixed at4K High, Auto75%, FSR4.1.1, FG off: feature Off186.13FPS /
   5.373ms; On188.49FPS /5.305ms. On frame p95/p99 are7.240/8.452ms, GPU mean
   4.522ms. Direct pole actuator23.88us/tick, full animation449.29us/tick and
-  final pose732.84us/presentation. All720 ticks and native timing gates pass.
+  final pose732.84us/presentation. All720 ticks, reference final position/velocity and native timing gates pass.
   Same inputs intentionally travel farther with propulsion, so these are local
   workload/cost observations, not an isolated FPS gain or mountain baseline.
 - Editable Blender/JSON/TRES and export provenance shipped with Dev103.

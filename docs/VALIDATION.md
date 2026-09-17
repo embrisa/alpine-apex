@@ -1811,7 +1811,7 @@ Inspect its separate `--capture-map` views; add `--feature-off` for the no-push
 visual control. Then use a fresh `--output=artifacts/...` under FpsCritical.
 One excluded six-second traversal precedes feature Off/On arms from rest with
 the same ordinary forward inputs. The supported tuning switch is changed only
-on a private test copy. Each arm must reach its own exact reference end state;
+on a private test copy. Each arm must match its reference final position and velocity;
 Off must have zero thrust, and On must have more than 20 powered render frames.
 
 A test-only subclass times the unchanged production pole actuator, with one

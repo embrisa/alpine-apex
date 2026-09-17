@@ -1,0 +1,169 @@
+{
+  "schema": 1,
+  "id": "50f670f3b3b64fec84392af8cdf04265",
+  "summary": "Clarify pole cost scope and close rejected forest visual trials",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "benchmark evidence scope",
+    "forest visual investigation",
+    "backlog ordering"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md",
+    "backlog/completed/AA-20260911-183812-slope-limited-pole-pushing.md",
+    "docs/VALIDATION.md",
+    "tests/fixtures/test_maps.json"
+  ],
+  "read_paths": [
+    "tests/pole_push_cost.gd",
+    "tests/targeted_performance.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only descriptions, skill guidance and status records change; no runtime behavior or formats change."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only descriptions, skill guidance and status records change; no runtime behavior or formats change."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only descriptions, skill guidance and status records change; no runtime behavior or formats change."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No production formats or compatibility identities change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No production formats or compatibility identities change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No production formats or compatibility identities change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No production formats or compatibility identities change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No production formats or compatibility identities change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "backlog.py validate --preserve-dirty; skill quick_validate.py; scoped diff --check; JSON registry and terminal guard receipt checks",
+      "result": "passed",
+      "details": "Documentation/fixture descriptions now state the actual final-position/velocity equality and whole-feature comparison. All four isolated forest guards exited0; calibration passed; recorded counts match visual.json."
+    },
+    {
+      "kind": "rendered",
+      "command": "Inspect matched native front550, oblique550 and side400 images in artifacts/far_stand_splats_20260918",
+      "result": "passed",
+      "details": "Review completed with candidate rejection: square holes, chunky crowns and disconnected canopy remain in the side view. No candidate performance measurement or production change. REVIEW.md retains the findings."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-17T22:20:54.363614+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "97fd0726065d017813f3ed0ff947473e7933deb1",
+      "dev": 107,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": {
+        "size": 14441,
+        "mtime_ns": 1789683598327918000
+      },
+      "backlog/QUEUE.md": {
+        "size": 2088,
+        "mtime_ns": 1789683598328918300
+      },
+      "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md": {
+        "size": 13867,
+        "mtime_ns": 1789683598327918000
+      },
+      "backlog/completed/AA-20260911-183812-slope-limited-pole-pushing.md": {
+        "size": 8290,
+        "mtime_ns": 1789683029214451000
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/VALIDATION.md": {
+        "size": 157158,
+        "mtime_ns": 1789683029213947300
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "tests/fixtures/test_maps.json": {
+        "size": 65844,
+        "mtime_ns": 1789683029211943900
+      },
+      "tests/pole_push_cost.gd": {
+        "size": 8170,
+        "mtime_ns": 1789682067021830700
+      },
+      "tests/targeted_performance.gd": {
+        "size": 14112,
+        "mtime_ns": 1789680544636709000
+      }
+    }
+  }
+}
