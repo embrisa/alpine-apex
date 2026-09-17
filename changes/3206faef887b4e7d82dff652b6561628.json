@@ -1,0 +1,303 @@
+{
+  "schema": 1,
+  "id": "3206faef887b4e7d82dff652b6561628",
+  "summary": "Qualify Fable Windows shader and streaming integration",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Windows DX12 shader, UI and streaming integration"
+  ],
+  "owned_paths": [
+    "tests/windows_forest_integration_playtest.gd",
+    "tests/windows_streaming_integration_playtest.gd",
+    "docs/VALIDATION.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/tasks/AA-20260916-215944-verify-fable-windows-integration.md",
+    "backlog/completed/AA-20260916-215944-verify-fable-windows-integration.md",
+    "tests/interface_performance_suite.gd"
+  ],
+  "read_paths": [
+    "scripts/world/alpine_scenery.gd",
+    "scripts/presentation/density_forest.gd",
+    "scripts/presentation/cloud_lighting.gd",
+    "scripts/presentation/terrain_grass.gd",
+    "scripts/presentation/rock_gravel.gd",
+    "scripts/presentation/mineral_scenery.gd",
+    "assets/graphics/pc_forest_tree.gdshader",
+    "assets/graphics/tree_impostor.gdshader",
+    "assets/cloud_light.gdshaderinc",
+    "tests/interface_cost_probe.gd",
+    "docs/DENSE_FOREST_BASELINE.json",
+    "assets/graphics/pc_forest_tree_common.gdshaderinc",
+    "tests/foliage_playtest.gd",
+    "tests/validation_mountain.gd",
+    "scripts/presentation/graphics_quality.gd",
+    "scripts/presentation/alpine_assets.gd",
+    "tests/fixtures/performance_maps.json",
+    "scripts/ui/hud.gd",
+    "scripts/main.gd",
+    "tests/terrain_grass_suite.gd",
+    "tests/rock_gravel_suite.gd",
+    "tests/streaming_collision_suite.gd",
+    "tests/interface_suite.gd",
+    "tests/bright_ui_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Diagnostic producers and acceptance records only; no runtime or asset changes."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Diagnostic producers and acceptance records only; no runtime or asset changes."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Diagnostic producers and acceptance records only; no runtime or asset changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No production format or runtime changes; isolated benchmark/session stores."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No production format or runtime changes; isolated benchmark/session stores."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No production format or runtime changes; isolated benchmark/session stores."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No production format or runtime changes; isolated benchmark/session stores."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No production format or runtime changes; isolated benchmark/session stores."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "scripts/test_pc_environment.ps1 -Suites terrain_grass_suite,rock_gravel_suite,streaming_collision_suite,interface_suite,bright_ui_suite -OutputDirectory artifacts/windows_integration_20260917/regression",
+      "result": "passed",
+      "details": "367 focused checks pass. Unchanged physics56/runtime192 and ghost/archive/race evidence reused from Dev80-83; no production code changes."
+    },
+    {
+      "kind": "rendered",
+      "command": "Shared DX12 guards windows-forest-integration-final-20260917, windows-perf-mixed-final-20260917, windows-perf-gravel-final-20260917; UI capture after each native sample",
+      "result": "passed",
+      "details": "Inspected near/mid/far cutouts, both dense-tree transition bands, active cloud shade, above-support macro tier views, nonzero grass/gravel and native UI. Production data unchanged. Initial fixture camera/equality errors retained separately; no human/controller acceptance claim."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical windows-ui-integration-20260917; windows-perf-mixed-cost-20260917; windows-perf-gravel-cost-20260917",
+      "result": "passed",
+      "details": "Current bounded Windows observations recorded in artifacts/windows_integration_20260917/REVIEW.md. UI119.99-120.02 FPS at cap120; HUD31-50us mean. Macro swaps141/152us max. Streaming focus was not sampled; those component CPU diagnostics establish no FPS/no-regression gain. Reuse current108.9339FPS dense baseline. No isolated shader or depth gain claim."
+    },
+    {
+      "kind": "automated",
+      "command": "git diff --check; python scripts/backlog.py validate --preserve-dirty; python scripts/versioning.py check --note changes/3206faef887b4e7d82dff652b6561628.json [--staged]",
+      "result": "passed",
+      "details": "Static and owned milestone checks. Final diagnostic metadata-path and line-ending cleanup does not change measured workloads; runtime tests reused unchanged."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human/controller feel and Mac worker-abort investigation are separate. No causal Windows shader/depth-pass saving claim; current matching dense baseline reused."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T02:59:17.636791+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "b5c3e0869d397d8ac0133a2151e0420dc89b2779",
+      "dev": 85,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 12044,
+        "mtime_ns": 1789613924506355200
+      },
+      "assets/cloud_light.gdshaderinc": {
+        "size": 3557,
+        "mtime_ns": 1789330911383388900
+      },
+      "assets/graphics/pc_forest_tree.gdshader": {
+        "size": 118,
+        "mtime_ns": 1789548601239602000
+      },
+      "assets/graphics/pc_forest_tree_common.gdshaderinc": {
+        "size": 6368,
+        "mtime_ns": 1789594595745728300
+      },
+      "assets/graphics/tree_impostor.gdshader": {
+        "size": 1051,
+        "mtime_ns": 1789594595748231000
+      },
+      "backlog/QUEUE.md": {
+        "size": 3666,
+        "mtime_ns": 1789613808812415600
+      },
+      "backlog/completed/AA-20260916-215944-verify-fable-windows-integration.md": {
+        "size": 4310,
+        "mtime_ns": 1789613957108575400
+      },
+      "backlog/tasks/AA-20260916-215944-verify-fable-windows-integration.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/DENSE_FOREST_BASELINE.json": {
+        "size": 14162,
+        "mtime_ns": 1789604647938723300
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 46626,
+        "mtime_ns": 1789613924530687000
+      },
+      "docs/VALIDATION.md": {
+        "size": 137343,
+        "mtime_ns": 1789613924523266100
+      },
+      "project.godot": {
+        "size": 1819,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/main.gd": {
+        "size": 87902,
+        "mtime_ns": 1789605278208781800
+      },
+      "scripts/presentation/alpine_assets.gd": {
+        "size": 21073,
+        "mtime_ns": 1789564235675198500
+      },
+      "scripts/presentation/cloud_lighting.gd": {
+        "size": 2063,
+        "mtime_ns": 1789594595766379900
+      },
+      "scripts/presentation/density_forest.gd": {
+        "size": 9889,
+        "mtime_ns": 1789567353867450300
+      },
+      "scripts/presentation/graphics_quality.gd": {
+        "size": 3345,
+        "mtime_ns": 1789330911395634000
+      },
+      "scripts/presentation/mineral_scenery.gd": {
+        "size": 12311,
+        "mtime_ns": 1789594595767735800
+      },
+      "scripts/presentation/rock_gravel.gd": {
+        "size": 7895,
+        "mtime_ns": 1789594595769749100
+      },
+      "scripts/presentation/terrain_grass.gd": {
+        "size": 8299,
+        "mtime_ns": 1789594595771789700
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/ui/hud.gd": {
+        "size": 52461,
+        "mtime_ns": 1789605278207737300
+      },
+      "scripts/world/alpine_scenery.gd": {
+        "size": 19893,
+        "mtime_ns": 1789575393302352500
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/bright_ui_suite.gd": {
+        "size": 9514,
+        "mtime_ns": 1789594595793668300
+      },
+      "tests/fixtures/performance_maps.json": {
+        "size": 162678,
+        "mtime_ns": 1789347422509029000
+      },
+      "tests/foliage_playtest.gd": {
+        "size": 9360,
+        "mtime_ns": 1789594595819552900
+      },
+      "tests/interface_cost_probe.gd": {
+        "size": 3513,
+        "mtime_ns": 1789594595848553800
+      },
+      "tests/interface_performance_suite.gd": {
+        "size": 29258,
+        "mtime_ns": 1789613924476470400
+      },
+      "tests/interface_suite.gd": {
+        "size": 17589,
+        "mtime_ns": 1789594595851004200
+      },
+      "tests/rock_gravel_suite.gd": {
+        "size": 7304,
+        "mtime_ns": 1789594595887411400
+      },
+      "tests/streaming_collision_suite.gd": {
+        "size": 7610,
+        "mtime_ns": 1789328574266798700
+      },
+      "tests/terrain_grass_suite.gd": {
+        "size": 11578,
+        "mtime_ns": 1789594595938483200
+      },
+      "tests/validation_mountain.gd": {
+        "size": 1849,
+        "mtime_ns": 1789320450709333300
+      },
+      "tests/windows_forest_integration_playtest.gd": {
+        "size": 3856,
+        "mtime_ns": 1789613174596606000
+      },
+      "tests/windows_streaming_integration_playtest.gd": {
+        "size": 6015,
+        "mtime_ns": 1789613421658189400
+      }
+    }
+  }
+}

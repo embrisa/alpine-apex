@@ -174,6 +174,12 @@ For opening, loading handoff, reduced motion or startup audio, follow
 startup and cosmetic scheduling suites; separate rendered captures, clean entry
 timings and native mixer evidence from human listening/controller acceptance.
 
+For cross-platform shader/streaming integration, select the bounded
+[Windows producers](../../../docs/VALIDATION.md#windows-shader-and-streaming-integration).
+Inspect actual dense-tree shader ranges and cloud-active views; profile macro
+publication only after validating all texture channels. Keep local capped CPU
+scope and summit UI costs separate from the reusable dense-route baseline.
+
 For cosmetic gravel, follow [gravel checks](../../../docs/VALIDATION.md#cosmetic-gravel-checks).
 Select `-Map gravel`; isolate `-Gravel off|dense|sparse|all` while keeping grass
 and physical minerals unchanged. Frozen local and Standard comparisons have

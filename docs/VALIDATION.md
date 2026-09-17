@@ -997,10 +997,30 @@ Optional `--interface-display-checks` runs recovery/FG transitions;
 `artifacts/interface_overhaul/baseline/hud.gd`.
 
 `--interface-phase=fixed|moving|ui|powder|timeline|display|matched` runs only that
-phase (default all); `--interface-no-captures` omits visual evidence. Paired
+phase (default all); `--interface-no-captures` omits visual evidence.
+`--interface-compact-ui` selects only the five normal-motion UI cases. The
+producer restores the validated warm Standard fixture and fails if absent; it
+uses scoped file metadata, not recursive source or executable hash audits. Paired
 layout runs keep both HUDs resident/updated while toggling visibility, so they
 isolate layout cost, not the whole historical engine. Ordinary production moving
 routes are measured separately. Never imply omitted phases passed.
+
+### Windows shader and streaming integration
+
+Use `tests/windows_forest_integration_playtest.gd` under a Shared native DX12
+guard for thirteen capped 4K views: production spruce/fir/pine at 6–82 m,
+actual dense-tree 12/64 m shader transitions and frozen-camera clear/active/shifted
+clouds. `--output=artifacts/FRESH/forest` selects isolated output. No FPS claim.
+
+`tests/windows_streaming_integration_playtest.gd -- --map=perf-mixed
+--output=artifacts/FRESH/mixed` selects the 256×512 m production component fixture.
+Use `--map=perf-gravel` for qualified nonzero gravel. Inspect the eight capped 1080p
+views: cell crossings and 280/420 m macro texture hysteresis. The producer checks
+all three texture channels each frame and preserves physical data. Camera height
+stays above support; these local views do not establish full-mountain visuals.
+After inspection, add `--no-captures` under FpsCritical for one 900-step CPU sample
+after 90-step warmup. Report teleport/eviction peaks separately from ordinary
+skiing and retain the saved matching dense-route FPS baseline.
 
 ## Input and controller evidence
 
@@ -1699,7 +1719,7 @@ failures are not crash failures. It is not a capture of later pole fitting.
 Current lossless replay7/archive4 checks separately pass exact-clock95,
 archive119, crash-replay36 and small-cache37, plus required physics56/runtime192.
 [Exact-clock evidence](../artifacts/orchestration_20260912/carving/exact_clock/results.json)
-retains the decimal one-ULP counterexample and proves exact float64 clocks through
+retains the decimal one-ULP counterexample and proves exact float 64 clocks through
 the new codec, archive and cache. Old identities are rejected without migration.
 No unchanged crash-native105 rerun is required solely for this codec change;
 these checks do not retroactively update captured identity or maximum-load timing.

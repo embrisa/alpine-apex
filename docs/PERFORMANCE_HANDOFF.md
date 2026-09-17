@@ -508,9 +508,9 @@ and 36 us in the menu (`scripts/mac_frame_probe.sh`, 20 s runs, new
 change-gated readouts and theme overrides, a retained widget layout, cached
 menu-background state, once-per-frame footer/mode text, memoised prompts, a
 sleeping menu-navigation scope scan and an exact travel bound for flavor
-discovery. Windows numbers were not re-measured; the same GDScript work is
-removed there. The Windows-only `interface_performance_suite` still owns the
-`ui_settings_*` rows and should be rerun when a Windows host is available.
+discovery. Windows qualification on 17 September is recorded below: current
+HUD mean31–50 us across five cases. There is no matching pre-Fable Windows
+control, so Mac savings are not relabelled as Windows gains.
 
 Presentation terrain probing (Fable, task `084508`, delivered on `main`
 2026-09-16): height-only presentation reads (camera boom/clearance/slope,
@@ -595,15 +595,15 @@ file is absent from that commit and its tree.
 | `084500-reduce-solver-terrain-query-redundancy` | Native hip fitting, allocation-free heights, exact tick-local query reuse and removal of unread curvature probes (Astra); one contact sweep per obstacle tick instead of a reason sweep plus a contact sweep (Fable, exact, same solver digest). | Closed 2026-09-16: the rock byte table and capability flags measured at the paired-benchmark noise floor and were rejected. |
 | `084501-index-skier-pose-by-bone` | Rest geometry caching, native pelvis fitting/limits and native tracking (Astra). Bone/mirror index tables, a pose-writer hierarchy cache and a release gate on requested-pose diagnostics were implemented and measured on the M4 (Fable). | Closed 2026-09-16: zero or negative effect (writer +2 us), reverted under the no-gain policy; broad container conversion not attempted, evidence does not support it. |
 | `084502-reduce-recording-tick-cost` | Typed snapshot access, 20 Hz routine capture and displayed-rig reuse (Astra). | Closed 2026-09-16: the per-tick snapshot is required for the exact finish interpolation; nothing further retained. Finish/retry costs are in the `084511` record. |
-| `084503-publish-shared-shader-uniforms-globally` | Change gates (Astra); spray uniform and equipment mode gating (`084508`); cloud_params/sun direction/layer height are now global shader parameters written once per change instead of to 174 materials per frame (Fable). Mac `weather_world` 173/167 -> 70/69 us. | Windows D3D12/FidelityFX compile of `global uniform` and a rendered check there; the 8 wind receivers stay per material. |
-| `084504-reduce-hud-frame-cost` | Delivered on `main` 2026-09-16: hidden-instrument early return, retained widget layout, change-gated readouts/theme override/crash card, cached menu-background state, once-per-frame footer/mode text, memoised prompts, sleeping navigation scope scan, exact flavor discovery bound. Mac `hud` scope about 147 -> 44 us riding and 146 -> 36 us in menus. | Windows `interface_performance_suite` rerun; `node_added` popup tracking kept deliberately. |
-| `084508-reduce-presentation-terrain-probing` | Delivered on `main` 2026-09-16: exact `sample_height` for height-only presentation reads, change-gated spray uniforms and equipment mode string, allocation-free track stamps/stroke buffers, typed weather blend. Mac `camera` 73 -> 68, `effects` 276 -> 254, `snow_tracks_powder` 171 -> 148, `weather_world` 180 -> 165, `audio_observers` 23 -> 22. | Windows scope re-measure; `dt > .10` equipment reset kept (suite contract); powder patch cost belongs to `084507`. |
+| `084503-publish-shared-shader-uniforms-globally` | Change gates (Astra); spray uniform and equipment mode gating (`084508`); cloud_params/sun direction/layer height are now global shader parameters written once per change instead of to 174 materials per frame (Fable). Mac `weather_world` 173/167 -> 70/69 us. | Windows DX12 compile and active/shifted cloud views pass (17 Sep integration); eight wind receivers remain per material. |
+| `084504-reduce-hud-frame-cost` | Delivered on `main` 2026-09-16: hidden-instrument early return, retained widget layout, change-gated readouts/theme override/crash card, cached menu-background state, once-per-frame footer/mode text, memoised prompts, sleeping navigation scope scan, exact flavor discovery bound. Mac `hud` scope about 147 -> 44 us riding and 146 -> 36 us in menus. | Windows five-case native UI qualification passes; HUD 31–50 us mean. `node_added` popup tracking retained. |
+| `084508-reduce-presentation-terrain-probing` | Delivered on `main` 2026-09-16: exact `sample_height` for height-only presentation reads, change-gated spray uniforms and equipment mode string, allocation-free track stamps/stroke buffers, typed weather blend. Mac `camera` 73 -> 68, `effects` 276 -> 254, `snow_tracks_powder` 171 -> 148, `weather_world` 180 -> 165, `audio_observers` 23 -> 22. | Windows riding summit scopes recorded below; no matched pre-Fable saving claim. Powder candidate remains in084507. |
 | `084512-bound-physics-catch-up-steps` | Measured 2026-09-16 with injected 100 ms stalls (`mac_frame_probe --probe-stall`): caps of 8 and 6 spread the same recovery over two frames, raise p99 33 -> 46 ms and drop 4-6 ticks of clock per stall; 24 kept. | None; closed. |
 | `084511-reduce-finish-crash-restart-hitches` | Measured 2026-09-16 (`tests/session_stall_probe.gd`, 150 s run): finish save 17 ms (SHA-256 dominated), crash placement 0.3-3.7 ms, retry roster 20 -> 9 ms cached and 1384 -> 1028 ms cold after parallel payload verification in `Records.selected`. | Finish save stays synchronous (contract); cold decode is GDScript-bound and belongs to the cold archive task. |
-| `084514-reduce-menu-and-loading-interface-hitches` | Delivered on `main` 2026-09-16: button pulse on a modulated overlay with cached badge styles and a focus-stable reserve, debounced slider preference writes (volume step 150 -> 5 us headless), single-assignment panel text, 10 Hz loading snapshots, change-gated navigation overlay redraws; `tests/interface_cost_probe.gd` measures the menu paths. | Windows interface_performance_suite rerun; HUD editor freeze image left at full resolution. |
-| `084513-reduce-vertex-shader-transcendentals` | Delivered 2026-09-16: tree shaders compute wind sin/cos once per vertex (exact). Mac frame 24.8 -> 24.7 ms (noise); an exact zero-bend branch cost +0.6 ms on Metal and was rejected; cloud-noise texture rejected (aperiodic hash cannot be reproduced). | Windows dense-trace GPU timing; terrain/mineral fragment noise textures need a visual review there. |
-| `084506-cut-foliage-depth-prepass-cost` | Delivered 2026-09-16: one explicit discard per foliage material right after the texture read, no ALPHA/scissor writes (tree, impostor, legacy foliage/cards, mineral grass; exact coverage). Interleaved Mac pairs 0.2-0.4 ms favourable, inside noise. Opaque wood surface infeasible: wood keeps the LOD dither discard. | Windows dense-trace pre-pass ms; a dither-free wood LOD handover would be a design change. |
-| `084509-reduce-grass-gravel-texture-streaming-hitches` | Grass worker packing (Astra); gravel worker packing and mask blits, incremental retirement, sorted-offset candidates, 300 us grass publication budget and loader-thread macro textures (Fable). Mac: stream_grass p99 952 -> 472 us, macro texture swap 11.9 ms -> 0.12 ms. Suite reports go through tests/test_report.gd (no more missing-folder hangs). | Windows forest/rock trace maxima and rendered inspection; the 36 ms terrain collision cook belongs to the collision task. |
+| `084514-reduce-menu-and-loading-interface-hitches` | Delivered on `main` 2026-09-16: button pulse on a modulated overlay with cached badge styles and a focus-stable reserve, debounced slider preference writes (volume step 150 -> 5 us headless), single-assignment panel text, 10 Hz loading snapshots, change-gated navigation overlay redraws; `tests/interface_cost_probe.gd` measures the menu paths. | Windows native UI and367 focused functional checks pass; HUD editor freeze image retained at full resolution. |
+| `084513-reduce-vertex-shader-transcendentals` | Delivered 2026-09-16: tree shaders compute wind sin/cos once per vertex (exact). Mac frame 24.8 -> 24.7 ms (noise); an exact zero-bend branch cost +0.6 ms on Metal and was rejected; cloud-noise texture rejected (aperiodic hash cannot be reproduced). | Reuse post-Fable Dev78 dense baseline: 7.51674 ms GPU. No isolated trig gain established; no fragment-noise texture candidate shipped. |
+| `084506-cut-foliage-depth-prepass-cost` | Delivered 2026-09-16: one explicit discard per foliage material right after the texture read, no ALPHA/scissor writes (tree, impostor, legacy foliage/cards, mineral grass; exact coverage). Interleaved Mac pairs 0.2-0.4 ms favourable, inside noise. Opaque wood surface infeasible: wood keeps the LOD dither discard. | DX12 cutout/LOD views pass; post-Fable dense baseline reused. Isolated depth saving unmeasured, not claimed; another attribution-only baseline waived by current economy policy. |
+| `084509-reduce-grass-gravel-texture-streaming-hitches` | Grass worker packing (Astra); gravel worker packing and mask blits, incremental retirement, sorted-offset candidates, 300 us grass publication budget and loader-thread macro textures (Fable). Mac: stream_grass p99 952 -> 472 us, macro texture swap 11.9 ms -> 0.12 ms. Suite reports go through tests/test_report.gd (no more missing-folder hangs). | Windows local native views/atomic swaps pass; streaming CPU peaks recorded below. Collision/publication bursts remain in their active task. |
 
 All four were written against Dev 43 and older scope measurements. Use the
 enabled implementation and current matching reference, not their old 72 FPS
@@ -616,3 +616,30 @@ powder subdivision have now been tested. The shader proposals still need
 comparison with the rejected wind polynomial and retained contact/tint work.
 Solver-query reuse and native tracking address parts of the earlier tasks;
 their other proposals remain investigations.
+
+### Windows integration qualification — 17 September 2026
+
+Dev85 production, custom DX12 `ed1daf0bf`, RX 9070. Bounded native forest/global-cloud
+and mixed/gravel streaming views pass; atomic macro texture channels and both
+280/420 m hysteresis directions exercised. Dense forest shader ranges are 12/64 m,
+not the unscaled High profile 95/280 m. No production source/asset changes.
+
+Native Standard summit UI: five cases each 120 warmup/240 measured frames at
+4K/High/Auto75/FGoff/cap120. Frame mean 8.3319–8.3338 ms (119.99–120.02 FPS),
+GPU 4.1803–6.5174 ms; HUD 31.45–49.68 us mean. Riding scope means: camera 105.867,
+effects 333.617, tracks/powder 168.008, weather 73.096 us. Nested costs overlap;
+these are current Windows observations, not causal Mac-to-Windows gains.
+
+Capture-free local streaming, 900 steps after 90 warmup, 1080p/cap60: grass p99
+589/637 us and max 723/879 us on mixed/gravel; gravel p99/max 1060/1587 us in its
+nonzero fixture. Macro swaps mean 114.667/117.333 us, max 141/152 us (three swaps
+each). Mixed forest residency max 4.229 ms includes long camera moves; scan/evict
+max 2.867 ms and region upload 1.414 ms remain collision/publication-task evidence.
+These are component CPU scopes, not whole-route frame percentiles.
+
+Reuse the post-Fable [dense baseline](DENSE_FOREST_BASELINE.json): 108.9339 FPS,
+9.17988 ms frame,7.51674 ms GPU. No new isolated shader/depth improvement claim.
+Current 367 focused checks pass; unchanged physics/runtime/archive/selector/race
+checks from Dev80–83 reused. Full receipts and rejected fixture attempts:
+`artifacts/windows_integration_20260917/REVIEW.md`. Human/controller acceptance
+and the separate Mac worker-abort investigation remain distinct.

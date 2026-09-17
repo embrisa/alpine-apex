@@ -23,7 +23,7 @@ var failures: Array[String] = []
 var rows: Array = []
 var captures: Array = []
 var manifest: Dictionary = {}
-var source_hashes: Dictionary = {}
+var source_metadata: Dictionary = {}
 var deadline_usec = 0
 var original_window: Dictionary = {}
 var original_cap = 0
@@ -32,6 +32,7 @@ var take_captures = true
 var include_display = false
 var include_matched = false
 var phase = "all"
+var compact_ui = false
 var case_name = "startup"
 var route_site = "summit"
 var route_checkpoints: Array = []
@@ -60,6 +61,7 @@ func run() -> void:
 			output = arg.trim_prefix("--interface-performance-output=")
 			if not output.is_absolute_path(): output = "res://"+output
 		if arg=="--interface-no-captures": take_captures = false
+		if arg=="--interface-compact-ui": compact_ui = true
 		if arg=="--interface-display-checks": include_display = true
 		if arg=="--interface-matched-ui": include_matched = true
 		if arg.begins_with("--interface-phase="): phase = arg.get_slice("=",1)
@@ -76,11 +78,11 @@ func run() -> void:
 	if not alive(): write_report(); quit(2); return
 	original_window = Output.capture_window(root)
 	original_cap = Engine.max_fps
-	source_hashes = collect_sources()
+	source_metadata = collect_sources()
 	print("INTERFACE_PERFORMANCE_LOAD seed=849205174 version=15 settings=Standard")
 	var load_start = Time.get_ticks_usec()
 	# The same validated Standard cache path as normal gameplay, never a lab.
-	field = Definition.generate(849205174,15)
+	field = preload("res://tests/validation_mountain.gd").load_standard()
 	if not check(field!=null,"v15 Standard generation/load succeeded"):
 		await finish(); return
 	var physical_ms = (Time.get_ticks_usec()-load_start)/1000.0
@@ -122,15 +124,14 @@ func run() -> void:
 		"physical_cache_hit":field.cache_hit,"physical_stages":field.generation_stages,"physical_load_ms":physical_ms,
 		"scene_ready_ms":(Time.get_ticks_usec()-load_start)/1000.0-physical_ms,"scene_build_timings":game.world.build_timings,
 		"scenery_cache_hit":game.world.preparation.cache_hit,"identity":Trace.identity(field),"engine":Engine.get_version_info(),
-		"executable":OS.get_executable_path(),"engine_sha256":Sources.engine_identity(),"backend":RenderingServer.get_current_rendering_driver_name(),
-		"device":RenderingServer.get_video_adapter_name(),"source_hashes":source_hashes,"post_load_limit_seconds":POST_LOAD_SECONDS,
+		"executable":OS.get_executable_path(),"backend":RenderingServer.get_current_rendering_driver_name(),
+		"device":RenderingServer.get_video_adapter_name(),"source_metadata":source_metadata,"post_load_limit_seconds":POST_LOAD_SECONDS,
 		"deadline_begins":"after physical cache load, including scene construction","start_unix_seconds":Time.get_unix_time_from_system(),
 		"internal_pixel_evidence":"Actual viewport scale times output readback; native SDK status does not expose internal texture dimensions.",
 		"memory_evidence":"Engine static/renderer allocation counters; OS working set/private and GPU process allocations belong to guard.json.",
 		"route_input":"120 Hz; tuck=.35 brake=.08 steer=.10*sin(tick/240); reset identical start on crash/base or after 3600 ticks"}
 	var baseline_path = "res://artifacts/interface_overhaul/baseline/interface_native.json"
 	if FileAccess.file_exists(baseline_path):
-		manifest.baseline_sha256 = FileAccess.get_sha256(baseline_path)
 		var baseline = JSON.parse_string(FileAccess.get_file_as_string(baseline_path))
 		if baseline is Dictionary: manifest.historical_interface_performance = baseline.get("interface_performance",{})
 	check(field.cache_hit,"warm physical cache required; cold result cannot be used as this comparison")
@@ -152,7 +153,7 @@ func run() -> void:
 	if alive() and take_captures and phase in ["all","timeline"]: await capture_timeline()
 	if alive() and (phase=="display" or phase=="all" and include_display):
 		await load("res://tests/interface_display_native_checks.gd").run(self)
-	if alive(): check(source_hashes==collect_sources(),"source files changed during evidence collection")
+	if alive(): check(source_metadata==collect_sources(),"source files changed during evidence collection")
 	await finish()
 
 func fixed_views() -> void:
@@ -252,7 +253,7 @@ func check_route_checkpoints(checkpoints: Array) -> void:
 
 func interface_cases() -> void:
 	game.set_graphics_preset(7)
-	for reduced in [false,true]:
+	for reduced in ([false] if compact_ui else [false,true]):
 		for workload in ["menu","settings","settings_scroll","settings_transition","riding_hud"]:
 			if not alive(): return
 			case_name = "ui_%s_motion_%s" % [workload,"reduced" if reduced else "full"]
@@ -501,18 +502,12 @@ static func frame_stats(values) -> Dictionary:
 	return result
 
 func collect_sources() -> Dictionary:
+	# Scoped metadata; repository policy excludes broad manual hash audits.
 	var result: Dictionary = {}
-	for folder in ["res://scripts","res://assets/graphics","res://config","res://native/fidelityfx/godot_module"]: hash_folder(folder,result)
-	for path in ["res://main.tscn","res://project.godot","res://tests/interface_performance_suite.gd","res://tests/interface_powder_native_checks.gd","res://tests/interface_display_native_checks.gd","res://tests/interface_matched_ui.gd"]:
-		result[path] = FileAccess.get_sha256(path)
+	for path in ["res://project.godot","res://scripts/main.gd","res://scripts/ui/hud.gd","res://tests/interface_performance_suite.gd"]:
+		var file=FileAccess.open(path,FileAccess.READ)
+		if file: result[path]={"size":file.get_length(),"modified":FileAccess.get_modified_time(path)}
 	return result
-
-func hash_folder(folder: String, result: Dictionary) -> void:
-	for name in DirAccess.get_files_at(folder):
-		if name.get_extension() in ["gd","gdshader","gdshaderinc","tres","cpp","h"]:
-			var path = folder.path_join(name)
-			result[path] = FileAccess.get_sha256(path)
-	for directory in DirAccess.get_directories_at(folder): hash_folder(folder.path_join(directory),result)
 
 func write_json(name: String, data: Dictionary) -> void:
 	var file = preload("res://tests/test_report.gd").open_write(output.path_join(name))

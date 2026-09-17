@@ -1,11 +1,11 @@
 ---
 id: "AA-20260916-215944-verify-fable-windows-integration"
 title: "Verify the delivered Fable changes on Windows"
-status: ready
+status: done
 priority: P1
 depends_on: []
 created: "2026-09-16T21:59:44Z"
-updated: "2026-09-16T21:59:44Z"
+updated: "2026-09-17T03:00:00Z"
 source_thread: "01a0a5df-19c3-7783-81dc-eca18c340e4a"
 ---
 
@@ -49,14 +49,14 @@ component CPU savings are acceptable under the user's current policy.
 
 ## Acceptance and verification
 
-- [ ] Changed shaders compile on DX12; matched rendered checks cover cutouts,
+- [x] Changed shaders compile on DX12; matched rendered checks cover cutouts,
   LOD transitions, cloud shadows and streaming boundaries.
-- [ ] Required physics/runtime checks for the delivered obstacle/session changes
+- [x] Required physics/runtime checks for the delivered obstacle/session changes
   and affected interface/archive checks pass, or baseline failures are explicitly
   distinguished from new regressions. No existing failure is relabelled a pass.
-- [ ] Record Windows CPU/GPU/frame-time/FPS findings separately from Fable's Mac
+- [x] Record Windows CPU/GPU/frame-time/FPS findings separately from Fable's Mac
   figures. Refresh only an incompatible trace through normal runtime validation.
-- [ ] Close pending Windows items in the handoff and commit/push any actual fixes
+- [x] Close pending Windows items in the handoff and commit/push any actual fixes
   or the bounded acceptance record; keep human/controller review separate.
 
 ## Open questions
@@ -65,4 +65,19 @@ None
 
 ## Completion record
 
-Ready for later work. Backlog grooming has not run a game, benchmark or renderer.
+Windows integration qualified on Dev85 production; this milestone changes only
+bounded producers and acceptance records. Native DX12 cutout/LOD and cloud-active
+views, grass/gravel crossings and atomic macro-tier transitions pass. Five native
+UI cases hold the120 cap with31–50 us HUD mean. Capture-free local streaming
+records macro swaps below0.153 ms and identifies remaining forest residency
+peaks for the existing publication task.367 focused checks pass; unchanged
+physics/runtime/archive/selector/race checks reused from Dev80–83.
+
+The current post-Fable108.9339 FPS/9.17988 ms frame/7.51674 ms GPU dense baseline
+is reused. No isolated shader depth-pass gain is claimed; another attribution-only
+control is waived under current economical policy. No production fix was needed.
+Rejected fixture camera/equality attempts are explicitly separated from the
+accepted views. [Evidence](../../artifacts/windows_integration_20260917/REVIEW.md)
+and [handoff](../../docs/PERFORMANCE_HANDOFF.md#windows-integration-qualification--17-september-2026)
+contain scope, actual units, producer commands and limitations. Human/controller
+review and the separate Mac worker-abort/collision task remain distinct.
