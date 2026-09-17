@@ -57,7 +57,11 @@ overview images. The targeted wrapper defaults to its explicitly recorded
 `-Camera scenery` profile; compare it only with the same framing. Use `-Camera riding`
 to inspect the existing riding configuration. Neither profile writes preferences.
 Read actual population, pixels, complete duration, source/focus
-validity and per-trial frame tails. These are local production-component results;
+validity and per-trial frame tails. Follow the targeted guide's schema-2 scoped
+metadata contract: retain and compare the original Python sidecars, including
+between trials. Do not convert historical hash receipts or treat file metadata
+as byte identity. Synthetic receipt/edit tests qualify metadata plumbing; they
+do not establish FPS. These are local production-component results;
 keep full-mountain FPS and human acceptance separate.
 When concurrent source edits invalidate a forest baseline, use the explicit
 [frozen forest comparison](../../../docs/VALIDATION.md#colorful-tree-checks)

@@ -50,6 +50,11 @@ Follow [targeted maps](../../../docs/VALIDATION.md#targeted-test-maps). Inspect
 `-PlanOnly` before engine work. Use pure logic/compact fixtures for local checks;
 the scenario catalog exposes supported terrain events. Keep required complete
 physics/runtime checks, including necessary headless laboratory calibration.
+For targeted benchmark metadata changes, use the synthetic wrapper and shared
+edit-detection tests in [targeted FPS maps](../../../docs/VALIDATION.md#targeted-rendering-and-fps-maps),
+plus a headless producer/metadata bridge check. Preserve original nanosecond
+sidecars and native measurement gates; do not rerun FPS just to verify receipts.
+
 Compact menu/crash changes also use the native/headless `bright_ui_suite` in
 [presentation evidence](../../../docs/VALIDATION.md#presentation-evidence).
 The ordinary interface suite is compact; its full generation/reload assertions

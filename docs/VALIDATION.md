@@ -357,8 +357,24 @@ records its source hash, and refuses to overwrite an output or reframe a recorde
 camera-sample/stress trace. Exact replay validation still applies.
 
 `plan.json`, per-trial `results.json`/`samples.json` and `summary.json` record
-fixture identity/population, source and engine hashes, effective graphics/output,
+fixture identity/population, scoped source/engine metadata, effective graphics/output,
 setup time, complete process time, ordinary-input coverage, FPS and frame tails.
+Current receipts use schema 2 and `source_verification=scoped_file_metadata`.
+The producer invokes `scripts/benchmark_metadata.py` before scene setup and after
+measurement, using `config/benchmark_metadata_scope.json` plus the selected test
+and its literal dependencies. The wrapper selects the engine with `-MetadataOnly`.
+There is no recursive source/asset hashing or executable hash audit in this path.
+
+Each trial retains `inputs_before.json`, `inputs_after.json` and `input_changes.json`.
+Compare these original Python sidecars: Godot JSON numbers cannot preserve exact
+nanosecond timestamps. The wrapper rechecks the sidecars and compares successive
+trials before combining results; scoped additions, removals or edits reject the
+run. Metadata detects ordinary edits, not byte identity. Runtime map/cache/replay
+compatibility checks and all native timing/focus/input gates remain unchanged.
+Historical hash receipts stay unchanged and are not accepted as new schema-2 trials.
+Use `python -m unittest discover -s tests -p test_benchmark_metadata.py` and
+`test_targeted_benchmark_metadata.py` for edit-detection and synthetic wrapper
+coverage; this tooling change does not require a new FPS baseline.
 Compare matched maps/settings using medians of the individual trial statistics.
 Local component FPS is distinct from whole-mountain FPS: retain the explicitly
 justified production benchmark for mountain-scale streaming, dense-scene

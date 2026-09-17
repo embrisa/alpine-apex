@@ -1,0 +1,224 @@
+{
+  "schema": 1,
+  "id": "2cd5d6fc625c4b7b8f02648df21263a5",
+  "summary": "Use scoped metadata for targeted rendering benchmarks",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "benchmark tooling",
+    "scoped metadata",
+    "targeted rendering evidence"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/completed/AA-20260917-213207-scope-targeted-benchmark-metadata.md",
+    "backlog/ideas/IDEA-20260917-175653-scope-targeted-benchmark-metadata.md",
+    "backlog/ideas/archive/IDEA-20260917-175653-scope-targeted-benchmark-metadata.md",
+    "docs/VALIDATION.md",
+    "scripts/benchmark_targeted.ps1",
+    "tests/targeted_performance.gd",
+    "tests/test_targeted_benchmark_metadata.py"
+  ],
+  "read_paths": [
+    "config/benchmark_metadata_scope.json",
+    "scripts/benchmark_metadata.py",
+    "scripts/resolve_godot_engine.ps1",
+    "scripts/run_guarded.ps1",
+    "tests/pole_push_cost.gd",
+    "tests/test_benchmark_metadata.py"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Benchmark receipt plumbing only; simulation, world generation and player-data schemas remain unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Benchmark receipt plumbing only; simulation, world generation and player-data schemas remain unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Benchmark receipt plumbing only; simulation, world generation and player-data schemas remain unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No gameplay data or compatibility keys changed. Existing benchmark receipts remain historical and unmodified."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No gameplay data or compatibility keys changed. Existing benchmark receipts remain historical and unmodified."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No gameplay data or compatibility keys changed. Existing benchmark receipts remain historical and unmodified."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No gameplay data or compatibility keys changed. Existing benchmark receipts remain historical and unmodified."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No gameplay data or compatibility keys changed. Existing benchmark receipts remain historical and unmodified."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "python -m unittest discover -s tests -p test_benchmark_metadata.py; python -m unittest discover -s tests -p test_targeted_benchmark_metadata.py",
+      "result": "passed",
+      "details": "8 shared-helper tests plus 4 targeted-wrapper tests, including 9 invalid-receipt subcases. Covers scoped edit/add/delete, unrelated edits, engine/DLL changes, exact integer timestamps, valid aggregation, missing/legacy receipts, source/map/graphics/pixel drift, timing/focus failures and capture-only summaries."
+    },
+    {
+      "kind": "automated",
+      "command": "Shared guarded headless artifacts/targeted_metadata_20260917/smoke.gd; tests/pole_push_cost.gd --check-only",
+      "result": "passed",
+      "details": "Actual Godot-to-Python metadata bridge captures and compares 6,777 scoped input entries; no changes/failures. No game scene, mountain generation or renderer timing. Existing derived pole producer parses. Evidence: artifacts/targeted_metadata_20260917/smoke_final/results.json and guards targeted-metadata-bridge-final / targeted-metadata-derived-parse."
+    },
+    {
+      "kind": "automated",
+      "command": "skill-creator quick_validate.py for alpine-performance and alpine-validation; local links/anchor check; benchmark_targeted.ps1 -Map mixed -PlanOnly; backlog.ps1 validate; git diff --check",
+      "result": "passed",
+      "details": "Both skills valid, linked files and targeted guide anchor resolve; plan retains High, 4K and FpsCritical admission. Backlog and scoped whitespace pass. Initial anchor check assumed the wrong heading depth; corrected checker passes the existing actual heading."
+    },
+    {
+      "kind": "rendered",
+      "command": "No rendered benchmark for metadata plumbing",
+      "result": "not_required",
+      "details": "Production rendering, camera, settings, physics and input are unchanged. Headless bridge and synthetic wrapper receipts cover the changed contract."
+    },
+    {
+      "kind": "performance",
+      "command": "No fresh FPS baseline",
+      "result": "not_required",
+      "details": "This removes content-hash auditing from the targeted benchmark tooling. No frame-time gain or measured setup-time saving is claimed."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-17T21:33:06.634402+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "60e9a4373d88bb308a174b151b4038cc8049bbf0",
+      "dev": 105,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": {
+        "size": 13882,
+        "mtime_ns": 1789680727102815900
+      },
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 15415,
+        "mtime_ns": 1789680727104318500
+      },
+      "backlog/QUEUE.md": {
+        "size": 2206,
+        "mtime_ns": 1789680727115327500
+      },
+      "backlog/completed/AA-20260917-213207-scope-targeted-benchmark-metadata.md": {
+        "size": 3184,
+        "mtime_ns": 1789680727105328900
+      },
+      "backlog/ideas/IDEA-20260917-175653-scope-targeted-benchmark-metadata.md": null,
+      "backlog/ideas/archive/IDEA-20260917-175653-scope-targeted-benchmark-metadata.md": {
+        "size": 1960,
+        "mtime_ns": 1789680727106663200
+      },
+      "config/benchmark_metadata_scope.json": {
+        "size": 882,
+        "mtime_ns": 1789661534754346200
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/VALIDATION.md": {
+        "size": 158027,
+        "mtime_ns": 1789680727101530400
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/benchmark_metadata.py": {
+        "size": 7614,
+        "mtime_ns": 1789661172282865900
+      },
+      "scripts/benchmark_targeted.ps1": {
+        "size": 7484,
+        "mtime_ns": 1789680467928868200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/resolve_godot_engine.ps1": {
+        "size": 1971,
+        "mtime_ns": 1789661047306020000
+      },
+      "scripts/run_guarded.ps1": {
+        "size": 13613,
+        "mtime_ns": 1789319650715797000
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "tests/pole_push_cost.gd": {
+        "size": 6248,
+        "mtime_ns": 1789667660435439800
+      },
+      "tests/targeted_performance.gd": {
+        "size": 14112,
+        "mtime_ns": 1789680544636709000
+      },
+      "tests/test_benchmark_metadata.py": {
+        "size": 6973,
+        "mtime_ns": 1789661274764805200
+      },
+      "tests/test_targeted_benchmark_metadata.py": {
+        "size": 5876,
+        "mtime_ns": 1789680544636709000
+      }
+    }
+  }
+}

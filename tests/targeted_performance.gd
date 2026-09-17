@@ -36,7 +36,8 @@ func run() -> void:
 	check(not output.is_empty() and not DirAccess.dir_exists_absolute(output),"Choose a fresh output directory")
 	if not failures.is_empty(): quit(2); return
 	DirAccess.make_dir_recursive_absolute(output)
-	var source=collect_sources()
+	var source=capture_source_metadata("before")
+	if not failures.is_empty(): await finish(); return
 	var started=Time.get_ticks_usec()
 	set_meta("test_map_fixture",map_id)
 	game=load("res://main.tscn").instantiate()
@@ -59,9 +60,11 @@ func run() -> void:
 	if game.world.minerals: game.world.minerals.frame_costs=game.frame_costs
 	RenderingServer.viewport_set_measure_render_time(root.get_viewport_rid(),true)
 	root.grab_focus()
-	report={"schema":1,"scope":"targeted_local_rendering","map":game.field.fixture_descriptor(),
+	report={"schema":2,"scope":"targeted_local_rendering","map":game.field.fixture_descriptor(),
 		"setup_seconds":(Time.get_ticks_usec()-started)/1000000.0,"world_build_ms":game.world.build_timings,
-		"source_hashes":source,"engine":Engine.get_version_info(),"engine_sha256":FileAccess.get_sha256(OS.get_executable_path()),
+		"source_verification":"scoped_file_metadata","source_scope":source.scope,
+		"metadata_files":{"before":"inputs_before.json","after":"inputs_after.json","comparison":"input_changes.json"},
+		"engine":Engine.get_version_info(),"engine_path":OS.get_executable_path(),
 		"backend":RenderingServer.get_current_rendering_driver_name(),"device":RenderingServer.get_video_adapter_name(),
 		"requested_seconds":seconds,"simulation_hz":120,"personal_records":false,"full_mountain":false,
 		"capture":capture,"capture_overhead_included":false,"human_acceptance":false,"input":"start z=64, 60 km/h; tuck=.35 brake=.08 steer=0; ordinary production solver"}
@@ -97,8 +100,11 @@ func run() -> void:
 		check(not reference.crashed,"Requested duration fits the safe lane")
 		if failures.is_empty(): await measure(reference)
 		report.performance_evidence=failures.is_empty()
-	report.stable_sources=source==collect_sources()
-	check(report.stable_sources,"Source files remained stable")
+	capture_source_metadata("after")
+	var comparison=metadata_command(["compare","--before",output.path_join("inputs_before.json"),"--after",output.path_join("inputs_after.json")],output.path_join("input_changes.json"))
+	report.stable_sources=comparison.get("stable_inputs",false)
+	report.changed_inputs=comparison.get("changed_inputs",[])
+	check(report.stable_sources,"Scoped input metadata remained stable")
 	report.total_seconds=(Time.get_ticks_usec()-started)/1000000.0
 	await finish()
 
@@ -189,18 +195,28 @@ func captures() -> void:
 	check(root.get_texture().get_image().save_png(output.path_join("overview.png"))==OK,"Overview capture saved")
 	report.stop_reason="capture_complete"
 
-func collect_sources() -> Dictionary:
-	var result={}
-	for folder in ["res://scripts","res://assets/graphics","res://config"]: hash_folder(folder,result)
-	for path in ["res://main.tscn","res://project.godot","res://tests/fixtures/test_maps.json","res://tests/fixtures/performance_maps.json","res://tests/targeted_performance.gd","res://tests/scenery_camera.gd"]:
-		result[path]=FileAccess.get_sha256(path)
-	return result
+func capture_source_metadata(phase: String) -> Dictionary:
+	# Reuse the production helper outside all measured intervals. Keep its JSON
+	# sidecars intact: Godot's JSON numbers cannot retain nanosecond integers.
+	return metadata_command(["capture","--root",ProjectSettings.globalize_path("res://"),
+		"--scope",ProjectSettings.globalize_path("res://config/benchmark_metadata_scope.json"),
+		"--producer","tests/targeted_performance.gd","--engine",OS.get_executable_path(),
+		"--extra-path","scripts/benchmark_targeted.ps1"],output.path_join("inputs_"+phase+".json"))
 
-func hash_folder(folder: String,result: Dictionary) -> void:
-	for name in DirAccess.get_files_at(folder):
-		if name.get_extension() in ["gd","gdshader","gdshaderinc","tres","res","json"]:
-			var path=folder.path_join(name); result[path]=FileAccess.get_sha256(path)
-	for directory in DirAccess.get_directories_at(folder): hash_folder(folder.path_join(directory),result)
+func metadata_command(arguments: Array, destination: String) -> Dictionary:
+	var args=PackedStringArray([ProjectSettings.globalize_path("res://scripts/benchmark_metadata.py")])
+	for argument in arguments:
+		args.append(ProjectSettings.globalize_path(str(argument)) if str(argument).begins_with("res://") else str(argument))
+	args.append_array(PackedStringArray(["--output",ProjectSettings.globalize_path(destination)]))
+	var messages=[]
+	var code=OS.execute("python",args,messages,true)
+	check(code==0,"Scoped metadata helper completed: "+str(messages))
+	if code!=0: return {}
+	check(FileAccess.file_exists(destination),"Scoped metadata receipt exists")
+	if not FileAccess.file_exists(destination): return {}
+	var value=JSON.parse_string(FileAccess.get_file_as_string(destination))
+	check(value is Dictionary,"Scoped metadata helper returned a receipt")
+	return value if value is Dictionary else {}
 
 func finish() -> void:
 	report.failures=failures
