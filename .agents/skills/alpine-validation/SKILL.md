@@ -163,6 +163,11 @@ limits explicit. Never rebake companions during startup or settings changes.
 The explicit physical-fixture producer accepts `--seed=N`; leave it omitted for
 Standard, and prepare another seed only when the selected check requires it.
 
+For scenery cache dependency changes, use the [bounded source-edit check](../../../docs/VALIDATION.md#scenery-cache-dependency-boundary).
+Its integration wrapper requires Exclusive admission for temporary source edits
+and restores bytes/timestamps. Keep compact archive reuse and export-map tests
+separate from full-mountain decoding, startup timing and an exported game launch.
+
 ## Internal development identity
 
 For distant snow, use the [material comparison](../../../docs/VALIDATION.md#scenery-snow-material-comparison).

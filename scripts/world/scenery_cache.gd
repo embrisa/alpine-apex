@@ -4,10 +4,56 @@ const Archive = preload("res://scripts/world/mountain_archive.gd")
 const Sources = preload("res://scripts/world/generation_sources.gd")
 const Terrain = preload("res://scripts/world/terrain_preparation.gd")
 
+# Pure display consumers: neither creates arrays persisted by save(). Keep them
+# in GenerationSources' complete export manifest, but not in the bake identity.
+const DISPLAY_ONLY = [
+	"res://scripts/presentation/foliage_sight.gd",
+	"res://assets/graphics/foliage_sight.gdshaderinc"]
+
 static func key(field, quality, job = null) -> String:
-	var source = Sources.signature(true,job)
+	var source = source_signature(job)
 	if source.is_empty(): return ""
-	return ("scenery-v2|%s|%s|%s|%s|%d" % [source,Sources.engine_identity(),field.height_checksum,field.obstacle_checksum,quality.level]).sha256_text()
+	return _key(source,Sources.engine_identity(),field.height_checksum,field.obstacle_checksum,quality.level)
+
+static func _key(source: String, engine: String, height: String, obstacles: String, level: int) -> String:
+	if source.is_empty(): return ""
+	return ("scenery-v2|%s|%s|%s|%s|%d" % [source,engine,height,obstacles,level]).sha256_text()
+
+static func source_signature(job = null) -> String:
+	if job and job.is_cancelled(): return ""
+	if OS.has_feature("generation_export"):
+		# Preserve the existing schema, engine and complete-package validation.
+		var validated = Sources.signature(true,job)
+		if validated.is_empty(): return ""
+		var manifest = JSON.parse_string(FileAccess.get_file_as_string(Sources.MANIFEST))
+		return _export_signature(manifest,validated,job)
+	var values: Dictionary = {}
+	for path in Sources.dependencies(true):
+		if job and job.is_cancelled(): return ""
+		if path in DISPLAY_ONLY: continue
+		if not FileAccess.file_exists(path): return ""
+		values[path] = FileAccess.get_sha256(path)
+	return _bake_signature(values,job)
+
+static func _export_signature(manifest: Variant, validated: String, job = null) -> String:
+	if job and job.is_cancelled(): return ""
+	if not manifest is Dictionary or validated.length()!=64: return ""
+	var values = manifest.get("scenery")
+	if not values is Dictionary: return ""
+	# Bind this read to the complete receipt already accepted by Sources.
+	if manifest.get("scenery_sha256")!=validated or JSON.stringify(values,"",true,true).sha256_text()!=validated: return ""
+	return _bake_signature(values,job)
+
+static func _bake_signature(values: Dictionary, job = null) -> String:
+	for path in Sources.PHYSICAL+Sources.SCENERY:
+		if path not in DISPLAY_ONLY and not values.has(path): return ""
+	var bake: Dictionary = {}
+	for path in values:
+		if job and job.is_cancelled(): return ""
+		if path in DISPLAY_ONLY: continue
+		if not values[path] is String or values[path].length()!=64: return ""
+		bake[path] = values[path]
+	return JSON.stringify(bake,"",true,true).sha256_text()
 
 static func path_for(field) -> String:
 	return Archive.DIRECTORY.path_join(Physical.recipe_key(field.seed_value,field.generation_settings)+".scenery")

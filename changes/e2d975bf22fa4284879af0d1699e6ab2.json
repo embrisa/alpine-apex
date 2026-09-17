@@ -1,0 +1,233 @@
+{
+  "schema": 1,
+  "id": "e2d975bf22fa4284879af0d1699e6ab2",
+  "summary": "Preserve scenery preparation across foliage display-only edits",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "scenery cache dependencies",
+    "source and export identity",
+    "bounded cache reuse"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/ideas/archive/IDEA-20260917-011800-load-only-requested-ghost-count.md",
+    "backlog/ideas/archive/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md",
+    "backlog/tasks/AA-20260917-222200-separate-scenery-bake-dependencies.md",
+    "docs/VALIDATION.md",
+    "docs/WORLD.md",
+    "scripts/world/scenery_cache.gd",
+    "tests/fixtures/test_maps.json",
+    "tests/scenery_cache_dependency_check.py",
+    "tests/scenery_cache_dependency_suite.gd",
+    "backlog/completed/AA-20260917-222200-separate-scenery-bake-dependencies.md",
+    "backlog/ideas/archive/IDEA-20260917-082200-separate-scenery-bake-dependencies.md"
+  ],
+  "read_paths": [
+    "assets/graphics/foliage_sight.gdshaderinc",
+    "scripts/presentation/foliage_sight.gd",
+    "scripts/world/generation_job.gd",
+    "scripts/world/generation_sources.gd",
+    "scripts/world/mountain_archive.gd",
+    "scripts/world/terrain_preparation.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Physical generation, archive formats, solver and replay identities are unchanged. Only the scenery dependency projection omits two display-only consumers."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Physical generation, archive formats, solver and replay identities are unchanged. Only the scenery dependency projection omits two display-only consumers."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Physical generation, archive formats, solver and replay identities are unchanged. Only the scenery dependency projection omits two display-only consumers."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No generation, schema or recorded-data change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No generation, schema or recorded-data change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No generation, schema or recorded-data change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No generation, schema or recorded-data change."
+      },
+      "caches": {
+        "effect": "regenerate",
+        "reason": "One scenery refresh adopts the filtered key. Physical caches remain valid; subsequent foliage-sight display edits preserve scenery reuse."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "run_guarded.ps1 -FilePath python -Arguments tests/scenery_cache_dependency_check.py --engine <resolved Godot> -WorkloadMode Exclusive",
+      "result": "passed",
+      "details": "612 checks; two actual display-source edits preserve real cache key and exact packed-array reuse. Files/timestamps restored; no archive rewrite. 588 retained dependencies, key scalars, cancellation and export receipt projection covered. artifacts/scenery_dependency_root_20260918/REVIEW.md"
+    },
+    {
+      "kind": "rendered",
+      "command": "Dependency/source ownership review",
+      "result": "not_required",
+      "details": "No visual code changed. Display files are restored exactly after temporary comments; cache arrays and publication code are unchanged."
+    },
+    {
+      "kind": "performance",
+      "command": "Functional cache reuse assertion",
+      "result": "not_required",
+      "details": "Avoids a rebuild by preserving the key; no frame-time or startup timing claim."
+    },
+    {
+      "kind": "automated",
+      "command": "backlog.py validate; quick_validate.py alpine-validation; git diff --check",
+      "result": "passed",
+      "details": "Full backlog, repaired accepted-task links, guide/skill updates and scoped diff validated."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-17T23:13:38.081082+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "12fae9310af5eaae36dd41a3e12a6a230ea0d432",
+      "dev": 110,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 16360,
+        "mtime_ns": 1789686698957764500
+      },
+      "assets/graphics/foliage_sight.gdshaderinc": {
+        "size": 649,
+        "mtime_ns": 1789206110334236500
+      },
+      "backlog/QUEUE.md": {
+        "size": 2395,
+        "mtime_ns": 1789686817539995600
+      },
+      "backlog/completed/AA-20260917-222200-separate-scenery-bake-dependencies.md": {
+        "size": 2595,
+        "mtime_ns": 1789686817538989100
+      },
+      "backlog/ideas/archive/IDEA-20260917-011800-load-only-requested-ghost-count.md": {
+        "size": 2041,
+        "mtime_ns": 1789686698959318900
+      },
+      "backlog/ideas/archive/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md": {
+        "size": 1992,
+        "mtime_ns": 1789686698960325700
+      },
+      "backlog/ideas/archive/IDEA-20260917-082200-separate-scenery-bake-dependencies.md": {
+        "size": 2309,
+        "mtime_ns": 1789686817541116900
+      },
+      "backlog/tasks/AA-20260917-222200-separate-scenery-bake-dependencies.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/VALIDATION.md": {
+        "size": 158921,
+        "mtime_ns": 1789686698957764500
+      },
+      "docs/WORLD.md": {
+        "size": 28351,
+        "mtime_ns": 1789686698956306500
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/foliage_sight.gd": {
+        "size": 1471,
+        "mtime_ns": 1789206110280081500
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/generation_job.gd": {
+        "size": 3789,
+        "mtime_ns": 1789045154044110200
+      },
+      "scripts/world/generation_sources.gd": {
+        "size": 5123,
+        "mtime_ns": 1789641931255241600
+      },
+      "scripts/world/mountain_archive.gd": {
+        "size": 5984,
+        "mtime_ns": 1789676671750744200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "scripts/world/scenery_cache.gd": {
+        "size": 10982,
+        "mtime_ns": 1789686698956306500
+      },
+      "scripts/world/terrain_preparation.gd": {
+        "size": 3728,
+        "mtime_ns": 1789134883757212800
+      },
+      "tests/fixtures/test_maps.json": {
+        "size": 66567,
+        "mtime_ns": 1789686698959318900
+      },
+      "tests/scenery_cache_dependency_check.py": {
+        "size": 2630,
+        "mtime_ns": 1789686627628410800
+      },
+      "tests/scenery_cache_dependency_suite.gd": {
+        "size": 5734,
+        "mtime_ns": 1789686627628410800
+      }
+    }
+  }
+}

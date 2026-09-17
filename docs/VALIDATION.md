@@ -1892,6 +1892,20 @@ their status/dependencies; this guide does not mark them complete or duplicate
 their checklists. Automated, rendered, performance, listening and human acceptance
 must remain independently attributable.
 
+### Scenery cache dependency boundary
+
+`tests/scenery_cache_dependency_suite.gd` exercises retained dependency paths,
+validated export-map projection, cancellation and engine/terrain/quality keys
+using synthetic digests. It does not audit asset bytes or construct a mountain.
+For the source-build integration check, resolve the active engine and run
+`tests/scenery_cache_dependency_check.py --engine <resolved engine>` through
+`run_guarded.ps1 -WorkloadMode Exclusive`. The wrapper publishes a tiny packed
+array archive with the actual runtime key, temporarily appends comments to the
+two display-only sources, verifies the same key and a read without rewriting,
+then restores source bytes and timestamps in a finally block. It refuses to
+overwrite an unexpected concurrent edit. This proves bounded cache reuse, not
+whole-mountain startup latency; no renderer or full mountain is launched.
+
 ### Crash recovery and ghost producers
 
 Batch `crash_recovery_suite.gd`, `crash_replay_suite.gd`, `ghost_archive_suite.gd`,

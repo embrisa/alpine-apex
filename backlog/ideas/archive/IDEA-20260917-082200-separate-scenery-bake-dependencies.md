@@ -44,5 +44,5 @@ an invalidation-boundary change, not permission to skip compatibility checks.
 ## User decision
 
 Approved for implementation on18September2026. The active goal now covers all
-four ideas. [Accepted task](../../tasks/AA-20260917-222200-separate-scenery-bake-dependencies.md) owns implementation,
+four ideas. [Accepted task](../../completed/AA-20260917-222200-separate-scenery-bake-dependencies.md) owns implementation,
 validation and the final disposition; this proposal remains provenance.

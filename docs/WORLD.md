@@ -355,6 +355,15 @@ The paired `.scenery` stores maps, terrain arrays/templates, seated transforms
 and regional batches. Scenery identity also pins physical fingerprints,
 preparation source/assets, engine and graphics level.
 
+Only `foliage_sight.gd` and `foliage_sight.gdshaderinc` are excluded from the
+scenery bake identity: they configure display parameters and discard pixels,
+without producing persisted arrays. `scenery_cache.gd` owns this narrow filter.
+All physical, placement, bounds, import, model, texture and mixed runtime/bake
+files remain dependencies. Export receipts still include and validate both
+display files before the cache uses the filtered identity. The existing schema
+and physical cache identity are unchanged; adopting the filtered key causes one
+scenery refresh, then later edits to those two display files reuse preparation.
+
 Archives use independently hashed sections up to 16 MiB, strict bounded
 lengths/types and a total-file limit. Validate bytes before decoding. Publish
 only after structural validation; flush a unique temporary file before replacing

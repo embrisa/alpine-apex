@@ -12,7 +12,6 @@ status, dependencies, evidence and acceptance live in each stable task record.
 
 ## Approved ideas in progress
 
-- [Separate scenery bake inputs from render-only updates](tasks/AA-20260917-222200-separate-scenery-bake-dependencies.md).
 - [Share far-tree material submissions](tasks/AA-20260917-222200-share-far-tree-material-submissions.md).
 
 ## Latest completed improvements
@@ -20,6 +19,8 @@ status, dependencies, evidence and acceptance live in each stable task record.
 [Requested ghost-count loading](completed/AA-20260917-222200-load-only-requested-ghost-count.md) avoids decoding unused automatic selections; qualified loading and retry gains, 611 regression checks passed.
 
 [Solid replay skiers](completed/AA-20260917-222200-skip-unchanged-ghost-material-updates.md) now change only jacket colors, keep normal equipment and skip unchanged tint submissions.
+
+[Scenery cache dependencies](completed/AA-20260917-222200-separate-scenery-bake-dependencies.md) retain prepared data across foliage-sight display edits while preserving bake and export integrity.
 
 ## Rules for the next task
 
