@@ -1,0 +1,218 @@
+{
+  "schema": 1,
+  "id": "3e133a1405a14a78a8886be458f47aab",
+  "summary": "Qualify shared far-card material prototype without changing production forest",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "frozen far-tree material experiment",
+    "native texture arrays",
+    "bounded rendering cost"
+  ],
+  "owned_paths": [
+    "backlog/QUEUE.md",
+    "backlog/completed/AA-20260917-222200-share-far-tree-material-submissions.md",
+    "backlog/ideas/archive/IDEA-20260917-090000-share-far-tree-material-submissions.md",
+    "backlog/tasks/AA-20260917-222200-share-far-tree-material-submissions.md",
+    "docs/RENDERING.md"
+  ],
+  "read_paths": [
+    "artifacts/far_material_root_20260918/pilot.gd",
+    "artifacts/far_stand_mesh_20260917/stand.bin",
+    "assets/cloud_light.gdshaderinc",
+    "assets/graphics/foliage_sight.gdshaderinc",
+    "assets/graphics/pc_lod.gdshaderinc",
+    "assets/graphics/pc_tree_impostor.gdshader",
+    "scripts/presentation/alpine_assets.gd",
+    "scripts/presentation/density_forest.gd",
+    "scripts/presentation/graphics_quality.gd",
+    "scripts/presentation/pc_graphics_settings.gd",
+    "scripts/world/alpine_scenery.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Frozen diagnostic only; no production assets, rendering, simulation or formats changed."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Frozen diagnostic only; no production assets, rendering, simulation or formats changed."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Frozen diagnostic only; no production assets, rendering, simulation or formats changed."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No production or format changes."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No production or format changes."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No production or format changes."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No production or format changes."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No production or format changes."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "Native pilot visual2 and candidate-timing under run_guarded.ps1",
+      "result": "passed",
+      "details": "6966 visual-mode and 6939 candidate-only assertions; reconstructed card vertices, UV/index layouts, native arrays and valid native capture/timing. Initial layout setup rejected and corrected before timing."
+    },
+    {
+      "kind": "rendered",
+      "command": "Root review of seven 4K original/candidate pairs in artifacts/far_material_root_20260918/visual2",
+      "result": "passed",
+      "details": "Same individual silhouettes, color, root seating, atlas angles, far-card fades, residency fallback and foliage/cloud behavior. Isolated far arm only; no complete LOD1 transition or moving-route acceptance."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical 15s original plus qualified candidate-only retry; native DX12/FSR4.1.1, capture-free",
+      "result": "passed",
+      "details": "Same 54572 primitives; scene draws 27 to 3; local render CPU 0.087980 to 0.063289 ms, frame 2.435376 to 2.376419 ms (410.61 to 420.80 FPS), GPU 2.002537 to 1.993071 ms. First unfocused candidate rejected. 96 MiB extra texture allocation with originals retained. Local frozen prototype only; no production integration or mountain FPS claim."
+    },
+    {
+      "kind": "automated",
+      "command": "backlog.py validate; git diff --check; scoped version note check",
+      "result": "passed",
+      "details": "Owned completion record and links validated; measured source size/mtime stable before documentation-only final edits."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-17T23:37:59.846258+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "d291603fcebf22f5ca3ae4a5ba11aa43ef967b5c",
+      "dev": 111,
+      "modified": true
+    },
+    "inputs": {
+      "artifacts/far_material_root_20260918/pilot.gd": {
+        "size": 18342,
+        "mtime_ns": 1789687557780736400
+      },
+      "artifacts/far_stand_mesh_20260917/stand.bin": {
+        "size": 1049184,
+        "mtime_ns": 1789679295819241500
+      },
+      "assets/cloud_light.gdshaderinc": {
+        "size": 3699,
+        "mtime_ns": 1789660729303129800
+      },
+      "assets/graphics/foliage_sight.gdshaderinc": {
+        "size": 649,
+        "mtime_ns": 1789206110334236500
+      },
+      "assets/graphics/pc_lod.gdshaderinc": {
+        "size": 1756,
+        "mtime_ns": 1789567353807814500
+      },
+      "assets/graphics/pc_tree_impostor.gdshader": {
+        "size": 3615,
+        "mtime_ns": 1789594595746728500
+      },
+      "backlog/QUEUE.md": {
+        "size": 2688,
+        "mtime_ns": 1789688279244414100
+      },
+      "backlog/completed/AA-20260917-222200-share-far-tree-material-submissions.md": {
+        "size": 3569,
+        "mtime_ns": 1789687811281975200
+      },
+      "backlog/ideas/archive/IDEA-20260917-090000-share-far-tree-material-submissions.md": {
+        "size": 2356,
+        "mtime_ns": 1789688279278627700
+      },
+      "backlog/tasks/AA-20260917-222200-share-far-tree-material-submissions.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/RENDERING.md": {
+        "size": 52364,
+        "mtime_ns": 1789688279211225900
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/alpine_assets.gd": {
+        "size": 21073,
+        "mtime_ns": 1789564235675198500
+      },
+      "scripts/presentation/density_forest.gd": {
+        "size": 9889,
+        "mtime_ns": 1789567353867450300
+      },
+      "scripts/presentation/graphics_quality.gd": {
+        "size": 3387,
+        "mtime_ns": 1789660729309239800
+      },
+      "scripts/presentation/pc_graphics_settings.gd": {
+        "size": 8616,
+        "mtime_ns": 1789660729311241900
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/alpine_scenery.gd": {
+        "size": 19893,
+        "mtime_ns": 1789575393302352500
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      }
+    }
+  }
+}

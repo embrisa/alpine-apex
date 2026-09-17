@@ -272,6 +272,15 @@ timing, both the pictured patch and a complete far-cell comparison showed no
 performance gain. The complete cell reduced submissions but increased GPU/frame
 cost. Original individual cards remain active; see the [stand record](../backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md).
 
+A native texture-array prototype can share far submissions while preserving
+individual card geometry and original tree transforms. Keep separate buckets
+for incompatible compressed formats and quad layouts; never move the root or
+scale its basis to encode card dimensions, because those also select atlas yaw
+and crown-distance coverage. The [completed frozen evaluation](../backlog/completed/AA-20260917-222200-share-far-tree-material-submissions.md)
+measured a small local render-CPU saving. It is not installed in production.
+Integration must share array ownership across cells, release redundant original
+textures and qualify merged-bound culling and FSR motion on a matched route.
+
 `AlpineScenery.batches` is an unordered ownership list. Registration records a
 node's `batch_slot`; `remove_batch()` swaps in the last member and updates its
 slot before removing the tail. Use this owner method for streaming retirement.

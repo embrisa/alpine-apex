@@ -44,5 +44,5 @@ improvement alone is acceptance, and no measured benefit is claimed yet.
 ## User decision
 
 Approved for implementation on18September2026. The active goal now covers all
-four ideas. [Accepted task](../../tasks/AA-20260917-222200-share-far-tree-material-submissions.md) owns implementation,
+four ideas. [Accepted task](../../completed/AA-20260917-222200-share-far-tree-material-submissions.md) owns implementation,
 validation and the final disposition; this proposal remains provenance.

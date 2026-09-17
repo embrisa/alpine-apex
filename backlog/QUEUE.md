@@ -10,9 +10,10 @@ status, dependencies, evidence and acceptance live in each stable task record.
 - **[Grouped distant stands](blocked/AA-20260914-094136-render-distant-forest-stands.md):** timed quad prototypes gave no FPS gain. Corrected depth patches pass numeric calibration but still break canopy silhouettes; rejected before timing. Resume with a materially different representation and bounded residency.
 - **[Metal frame floor](blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md):** MacBook unavailable, confirmed by the user on 17 September. Resume with machine access and Metal counters or a concrete alternate attribution method.
 
-## Approved ideas in progress
+## Approved ideas
 
-- [Share far-tree material submissions](tasks/AA-20260917-222200-share-far-tree-material-submissions.md).
+All four approved idea evaluations are complete. Three production improvements
+are delivered; the fourth is a qualified frozen prototype.
 
 ## Latest completed improvements
 
@@ -21,6 +22,8 @@ status, dependencies, evidence and acceptance live in each stable task record.
 [Solid replay skiers](completed/AA-20260917-222200-skip-unchanged-ghost-material-updates.md) now change only jacket colors, keep normal equipment and skip unchanged tint submissions.
 
 [Scenery cache dependencies](completed/AA-20260917-222200-separate-scenery-bake-dependencies.md) retain prepared data across foliage-sight display edits while preserving bake and export integrity.
+
+[Shared far-tree materials](completed/AA-20260917-222200-share-far-tree-material-submissions.md) preserve individual cards and save 0.0247 ms local render CPU. The frozen prototype is retained; it is not installed in the production forest and does not establish mountain FPS.
 
 ## Rules for the next task
 
