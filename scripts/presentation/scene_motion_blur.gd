@@ -4,7 +4,7 @@ const Compute = preload("res://assets/graphics/scene_motion_blur_compute.gd")
 const CONTEXT = &"alpine_scene_motion_blur"
 const CORRECTION = Projection(Vector4(1,0,0,0),Vector4(0,-1,0,0),Vector4(0,0,-1,0),Vector4(0,0,0,1))
 var _mutex = Mutex.new()
-var _state = {"strength":0.0,"dt":0.0,"epoch":0}
+var _state = {"strength":0.0,"dt":0.0,"epoch":0,"projection":Projection.IDENTITY}
 var _report = {"unavailable":"","dispatches":0,"resets":0,"scratch_bytes":0,"internal_pixels":Vector2i.ZERO}
 var _configuration: Array = []
 var _rd: RenderingDevice
@@ -45,7 +45,7 @@ static func exposure_scale(strength: float, dt: float) -> float:
 	if not is_finite(dt) or dt<=0.0 or dt>0.1: return 0.0
 	return clampf(strength,0.0,1.0)/(120.0*maxf(dt,1.0/500.0))
 
-func update_state(profile: Dictionary, riding: bool, optional: bool, reduced: bool, dt: float, configuration: Array) -> void:
+func update_state(profile: Dictionary, riding: bool, optional: bool, reduced: bool, dt: float, configuration: Array, camera_projection: Projection = Projection.IDENTITY) -> void:
 	var strength = requested_strength(profile,riding,optional,reduced)
 	_mutex.lock()
 	if not _report.unavailable.is_empty(): strength = 0.0
@@ -54,6 +54,7 @@ func update_state(profile: Dictionary, riding: bool, optional: bool, reduced: bo
 		_configuration = configuration.duplicate()
 	_state.strength = strength
 	_state.dt = dt
+	_state.projection = camera_projection
 	_mutex.unlock()
 	_set_active(strength>0.0)
 
@@ -135,7 +136,10 @@ func _render_callback(_type: int, render_data: RenderData) -> void:
 	if size.x<1 or size.y<1: return
 	var data = render_data.get_render_scene_data()
 	var transform = data.get_cam_transform()
-	var projection = data.get_cam_projection()
+	# RenderSceneDataRD.get_cam_projection() includes reverse-Z correction and
+	# temporal jitter. Main supplies Camera3D's original projection once per frame.
+	# This also keeps get_z_near/far in the OpenGL convention those helpers expect.
+	var projection: Projection = state.projection
 	var key = [size,buffers.get_target_size(),buffers.get_color_layer(0),buffers.get_scaling_3d_mode(),buffers.get_msaa_3d()]
 	var scale = exposure_scale(state.strength,state.dt)
 	var cut = _epoch!=state.epoch or key!=_buffer_key or scale==0.0 or transform.origin.distance_to(_previous_transform.origin)>10.0 or transform.basis.z.dot(_previous_transform.basis.z)<0.707

@@ -162,7 +162,11 @@ drawn afterward. No engine/native integration patch is required.
 [`scene_motion_blur_compute.gd`](../assets/graphics/scene_motion_blur_compute.gd)
 uses previous-minus-current UV velocity with jitter removed by Godot. Temporal
 Forward+ marks static surfaces `(-1,-1)`; derive those and sky motion from depth
-and successive unjittered camera projections, with Godot's Y/Z correction.
+and successive original Camera3D projections with one Y/Z correction. Main shares
+its completed camera projection with blur and sun flare under the existing handoff.
+RenderSceneDataRD.get_cam_projection() is already reverse-Z corrected and jittered;
+using it here would apply correction twice and exaggerate Auto blur. Recover
+near/far for depth rejection from the original projection too.
 Thirteen bounded taps integrate one exposure, stopping at depth discontinuities.
 Maximum exposure is 1/120 s, scaled by strength and divided by rendered-frame
 delta; maximum full sample path is 24 pixels at 1080 internal height, also scaled
@@ -179,13 +183,20 @@ and >100 ms stalls restart a two-rendered-frame warm-up. No `RenderData` or
 scene-buffer object escapes the callback. Shader/device/buffer failures disable
 the effect with an explicit Camera-panel explanation; no radial substitute.
 
-Transparent snow/weather has the opaque surface's depth/velocity because this
-Godot hook does not supply independent transparent motion. Very thin edges and
-disocclusions therefore still need full-resolution moving review. The provisional
-range passed capped DX12 Native/Auto/FG and lab-skiing checks; **4K cost, p95/p99,
-full-resolution comfort and complete visual-matrix qualification remain pending**.
-Reproducible producers and deferred coverage are recorded in
-[the motion-blur task](../backlog/blocked/AA-20260912-004402-scene-motion-blur.md).
+Transparent snow/weather uses the opaque surface's depth/velocity because this
+hook does not supply independent transparent motion. Full-resolution review
+qualified Native/Auto, FG/fullscreen/resize, both riding views, nearby
+scenery/gates/equipment, low speed, initial 200 km/h, takeoff/landing and stationary
+poses. Native stationary pixels were identical; Auto was visually sharp without
+an exact-pixel claim. Human comfort remains a separate follow-up.
+
+The bounded RX9070 open-route 4K High/Auto0.75 comparison measured Off/50/100 at
+156.37/154.86/151.61 average FPS: enabled mean frame cost +0.062/+0.201 ms.
+All defaults remain Off; 100% had worse p99 in this single sample. These are
+optional-effect costs, not a dense-forest baseline or global performance gain.
+[The compact report](../artifacts/scene_motion_blur_qualification/REPORT.md) owns
+exact timings, allocations, visual coverage and limitations;
+[Validation](VALIDATION.md#scene-motion-blur-checks) owns reproduction.
 Controls/defaults are owned by [Presentation](PRESENTATION.md#look-and-motion).
 
 ## Terrain, forests and lighting

@@ -1,11 +1,11 @@
 ---
 id: "AA-20260912-004402-scene-motion-blur"
 title: "Add configurable scene-motion blur for speed feel"
-status: blocked
+status: done
 priority: P2
 depends_on: []
 created: "2026-09-12T00:44:02Z"
-updated: "2026-09-12T18:53:03Z"
+updated: "2026-09-17T17:12:02.112524+00:00"
 source_thread: "01a0930e-ba9f-77c2-80fd-defb3dea4672"
 ---
 
@@ -106,12 +106,12 @@ the feature without a broader renderer redesign, record that concrete blocker.
 - [x] Both views expose working On/Off and 0-100% strength controls, live apply,
   independent persistence, named-preset round trips, reset and controller focus.
   Invalid/nonfinite settings remain safe. Off/zero perform no blur-only GPU work.
-- [ ] Native chronological comparisons show Off, medium and maximum strength
+- [x] Native chronological comparisons show Off, medium and maximum strength
   on identical straight high-speed, carving, braking, jump/landing and manual-look
   sequences, in both views. Include stationary, low-speed and 100-200 km/h cases,
   nearby trees/rocks, terrain hollows, gates, skier equipment and snowfall.
   Motion follows scene movement; stationary images have no residual smear.
-- [ ] HUD/text and warning remain readable and unblurred; inspect disocclusions,
+- [x] HUD/text and warning remain readable and unblurred; inspect disocclusions,
   silhouette bleeding, long trails and periphery/streak combinations. Confirm all
   suppression and lifecycle cases above, including the stationary camera preview.
 - [x] Extend meaningful settings/lifecycle checks and run, as one guarded batch:
@@ -119,12 +119,12 @@ the feature without a broader renderer redesign, record that concrete blocker.
   Add focused motion-effect checks where these suites lack coverage. If changes
   touch physics/input/session behavior, also run the required physics/runtime
   suites through the existing guard and `./godotw --headless --script ...`.
-- [ ] Validate actual shader compilation and moving output on the production
+- [x] Validate actual shader compilation and moving output on the production
   custom DX12 runtime, with Native and Auto reconstruction, FG off/on, windowed
   and fullscreen, and resize. Exercise the supported stock-engine fallback;
   unavailable capabilities must produce an honest disabled state, not a silently
   substituted radial effect. Headless checks alone do not satisfy this gate.
-- [ ] Measure matched Off/medium/maximum runs at 3840x2160 output on recommended
+- [x] Measure matched Off/medium/maximum runs at 3840x2160 output on recommended
   High, with warmed identical route/camera/weather, source/engine/settings identity,
   actual internal pixels, GPU cost, memory, rendered FPS and frame p95/p99.
   Use serial guarded runs and the existing 90-120 rendered FPS, p95 <=11.1 ms,
@@ -132,7 +132,7 @@ the feature without a broader renderer redesign, record that concrete blocker.
   generated frames are separate. Verify Off has no material regression, and tune
   the enabled range/cost before declaring the implementation complete.
 - [x] Store captures/receipts and exact reproducible commands under
-  `artifacts/scene_motion_blur/`; tests use isolated preferences and never write
+  `artifacts/scene_motion_blur_qualification/`; tests use isolated preferences and never write
   personal bests. Update Rendering for effect ownership/order/cost and Presentation
   for controls/defaults. Commit/push source, shaders and related assets, validate
   the backlog record, and retain evidence needed for pending user review.
@@ -149,49 +149,55 @@ None.
 
 ## Completion record
 
-Implemented manually on 2026-09-12; qualification remains blocked on the deferred
-full-resolution/performance matrix. The user is raiding Mount Hyjal and explicitly
-selected **short capped visual checks; defer 4K FPS benchmarks**. Do not treat the
-concurrent WoW run or the 30 FPS cap as a performance baseline or a target failure.
-No scheduled claim was taken. No separate proposals were added.
+Completed in Dev101 (the commit containing this record and
+`changes/0b3d313a756f4c11b531ec1eaafa2b2c.json`). The original opt-in implementation
+was delivered in `3d20c429c49f1108745b7a1a5a96a454513d33e6`; the remaining native
+qualification is now complete under the current economical policy. One bounded
+comparison replaces the older automatic repeated full-descent matrix.
 
-- Added the riding-camera compositor, depth/velocity compute shader, per-view
-  On/Off and retained strength, availability explanation and lifecycle resets.
-  Defaults stay Off in every built-in. Rendering owns implementation/order/cost;
-  Presentation owns controls/defaults. Physics, inputs and race/replay formats
-  were not edited.
-- Required seven suites plus `scene_motion_blur_suite` passed **3,000 checks**
-  in one guarded batch: `artifacts/scene_motion_blur/headless_final/`.
-  The interface suite previously measured a 64x64 headless window; baseline and
-  current HUD had identical failing geometry. Its fixture now explicitly uses
-  1440x900. See `baseline_ui/geometry.json`; no product layout was changed.
-- Custom DX12 small-scene probe: **71 checks**; official stock 4.7.2 DX12
-  fallback: **48 checks**. Native/Auto, Off/50/100, Native MSAA, FG off/on where
-  supported, stationary motion, resize and Off dispatch bypass are exercised.
-  Captures show directional blur, pixel-identical stationary Off/100 frames,
-  and a pixel-identical opaque HUD region across strengths.
-- Production-game lab: **23 checks**, seven matched three-second input sequences
-  (21 seconds total), Off/50/100 in both views plus combined peripheral/streaks.
-  Started at 160 km/h, sampled approximately 86–148 km/h; carve, jump/airtime,
-  braking, manual look, skier/skis/poles and snowfall were observed. At 960x540
-  output/720x405 internal and preset 4 this is scoped visual/dispatch evidence.
-  Native Camera-controls/focus probe: **5 checks**, both view captures.
-- Evidence and exact commands: `artifacts/scene_motion_blur/README.md`,
-  `sources.json`, `native/`, `stock/`, `game/`, `ui/`; corresponding serial guard
-  receipts are `artifacts/guarded/scene-blur-*`. Retain this evidence for the
-  pending review. Source/shader/test UID companions are included in delivery.
+The 4K review found and corrected a real projection mismatch: Godot's render-scene
+projection already contains reverse-Z correction and temporal jitter. Blur had
+corrected it again, exaggerating Auto blur and using the wrong depth convention.
+Main now shares its original Camera3D projection with blur and sun flare. Shader
+exposure/tap limits, per-view controls, physics and gameplay data are unchanged.
+All built-ins remain Off; enabling blur stays an explicit preference.
 
-Still required before marking done: matched three-repeat 3840x2160 High
-Off/50/100 GPU/memory/rendered FPS/p95/p99 measurements (including baseline
-Off regression), fullscreen/FG transitions, full-resolution near-obstacle/gate/
-hollow/disocclusion and transparent-weather inspection, 200 km/h and low-speed
-coverage, and the remaining complete lifecycle/visual matrix. The enabled range
-is provisional until that qualification; transparent pixels use opaque depth/
-velocity supplied by Godot. Human/controller comfort and perceived-speed
-acceptance remain separately pending.
+- **Functional:** 2,982 initial current checks; after the production fix, affected
+  blur lifecycle/projection (66) and sun flare (25) passed. The combined relevant
+  coverage is 3,008 unique checks. Settings, profile persistence, suppression,
+  ordering and original projection handoff are covered. Required unrelated
+  physics/runtime suites do not apply to this presentation-only change.
+- **Native:** corrected custom DX12 4K probe passed 92 checks; official stock
+  Forward+/DX12 passed 65. Native/Auto, Off/50/100, stationary, resize, fullscreen,
+  and actual custom-engine FG generation were exercised. Early fixture/display
+  setup failures were repaired and rerun; see the report for precise limits.
+- **Rendered:** 64 game-component assertions on perf-mixed, both riding views,
+  gates/384 trees/48 minerals/snow, 3-second sequences from 200 and 8 km/h plus
+  stationary, steering/braking/manual look and combined peripheral effects.
+  Four extra event-triggered Off/100 arms passed 20 assertions and captured
+  actual takeoff at frame37 and landing48. Equipment, HUD and nearby gates remain
+  readable. Native stationary pixels are identical; Auto stationary images are
+  visually sharp but not pixel identical. Transparent snow still uses opaque
+  depth/velocity. Scripted poses do not certify controller comfort.
+- **Measured:** native RX9070, 3840x2160 output, 2880x1620 internal, High/Auto
+  FSR4.1.1, FG/GI off, clear dusk, current world17/model35 open upper route.
+  One excluded traversal, then one 15-second Off/50/100 arm. Average FPS:
+  **156.37 / 154.86 / 151.61**; mean frame **6.3952 / 6.4576 / 6.5958 ms**;
+  mean GPU **4.9303 / 4.9968 / 5.1140 ms**. Frame p95/p99:
+  **8.374/9.241, 8.390/9.355, 8.681/10.199 ms**. 100% adds 0.201 ms mean
+  frame time and worsens p99 by 10.37% in this single sample, so defaults stay Off.
+  No dense-forest improvement or cross-run optimization gain is claimed.
+- **Bypass/memory:** Off has zero dispatches, no blur-only velocity/resolve
+  requests and no initial scratch allocation. Enabled arms dispatch on every
+  sampled frame. Scratch is 35.60 MiB at this internal size and remains until
+  viewport teardown after toggling Off. Allocation counters are not physical VRAM.
+  Exact simulation states matched, focus loss was zero, and scoped metadata was
+  stable; no hash audit or extra baseline matrix was run.
+- **Delivery:** Rendering/Validation and the two relevant skills updated.
+  [Compact report](../../artifacts/scene_motion_blur_qualification/REPORT.md),
+  summary.json, corrected native/stock reports, selected game/transition images,
+  contact sheets and native timing under
+  `artifacts/pc_environment/scene_blur_qualified_cost/` retain the useful evidence.
+  Reproducible duplicates are cleaned after push. No new idea was needed.
 
-Implementation milestone `3d20c429c49f1108745b7a1a5a96a454513d33e6` was pushed
-to `origin/main`. Backlog validation and all 23 backlog helper tests passed.
-Cleanup is deferred: automatic approval review rejected deletion of this task's
-duplicate logs and temporary UID helper with "blocked by policy". All task
-artifacts, final captures/receipts and baseline failure evidence are retained.
+Human/controller comfort and perceived-speed preference remain separately pending.

@@ -1,0 +1,225 @@
+{
+  "schema": 1,
+  "id": "0b3d313a756f4c11b531ec1eaafa2b2c",
+  "summary": "Correct scene blur projection and qualify full-resolution motion",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Scene motion blur qualification",
+    "Native display and lifecycle",
+    "Bounded optional effect cost"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/blocked/AA-20260912-004402-scene-motion-blur.md",
+    "backlog/completed/AA-20260912-004402-scene-motion-blur.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "scripts/main.gd",
+    "scripts/presentation/scene_motion_blur.gd",
+    "tests/fixtures/test_maps.json",
+    "tests/scene_motion_blur_cost.gd",
+    "tests/scene_motion_blur_cost.gd.uid",
+    "tests/scene_motion_blur_game_playtest.gd",
+    "tests/scene_motion_blur_playtest.gd",
+    "tests/scene_motion_blur_suite.gd"
+  ],
+  "read_paths": [
+    "assets/graphics/scene_motion_blur_compute.gd",
+    "scripts/diagnostics/performance_map.gd",
+    "scripts/presentation/camera_settings.gd",
+    "tests/performance_descent.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "world": {
+        "effect": "preserved",
+        "reason": "Diagnostic fixture selection and effect qualification; no production generation or placement changes."
+      },
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only the camera projection handoff inside presentation screen effects changes; solver, inputs, timing and race/session state are unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Presentation qualification and isolated test harnesses do not change gameplay data or cache schemas."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Presentation qualification and isolated test harnesses do not change gameplay data or cache schemas."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Presentation qualification and isolated test harnesses do not change gameplay data or cache schemas."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Presentation qualification and isolated test harnesses do not change gameplay data or cache schemas."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Presentation qualification and isolated test harnesses do not change gameplay data or cache schemas."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "test_pc_environment.ps1 eight blur/camera/UI/graphics suites; then affected scene_motion_blur_suite,sun_lens_flare_suite after the projection fix",
+      "result": "passed",
+      "details": "2982 initial checks; corrected final blur66 and flare25, combined3008 unique relevant checks. No physics/input/session logic changes. regression/ and final_lifecycle_fixed/ under artifacts/scene_motion_blur_qualification."
+    },
+    {
+      "kind": "rendered",
+      "command": "scene_motion_blur_playtest.gd --qualify-4k on custom and stock DX12; game playtest perf-mixed and transitions-only at actual4K",
+      "result": "passed",
+      "details": "Corrected custom92 and stock65 checks; game64 and transition20. Both views, initial200/8kmh, static, near trees/rocks/gates/weather, takeoff/landing, look/brake and combined effects reviewed. Native stationary exact; Auto visually sharp without pixel identity. Actual FG, fullscreen and resize verified. Earlier setup failures repaired; report records them."
+    },
+    {
+      "kind": "performance",
+      "command": "scene_motion_blur_cost.gd under scene-blur-qualified-timing: one excluded traversal then15s Off/50/100, current upper trace, clear dusk,4KHigh Auto0.75 FG/GIoff",
+      "result": "passed",
+      "details": "156.37/154.86/151.61 averageFPS; +0.0624/+0.2007ms mean frame. Every enabled frame dispatched; Off requests/dispatches0. Exact states, focus0, positiveGPU, warmcache, stable scoped metadata. Open-route feature cost, not dense-FPS gain. Defaults remain Off; max strength p99 worsened in one sample. See REPORT.md and summary.json."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human comfort and perceived speed remain separate."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T17:12:02.658432+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "bd904b5d3422b1aa213385a23d10e4b2dddb4d58",
+      "dev": 100,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": {
+        "size": 13580,
+        "mtime_ns": 1789664703974718100
+      },
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 14753,
+        "mtime_ns": 1789664703974718100
+      },
+      "assets/graphics/scene_motion_blur_compute.gd": {
+        "size": 3485,
+        "mtime_ns": 1789237735855548900
+      },
+      "backlog/QUEUE.md": {
+        "size": 2132,
+        "mtime_ns": 1789665122114539400
+      },
+      "backlog/blocked/AA-20260912-004402-scene-motion-blur.md": null,
+      "backlog/completed/AA-20260912-004402-scene-motion-blur.md": {
+        "size": 13103,
+        "mtime_ns": 1789665122113526200
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/RENDERING.md": {
+        "size": 52036,
+        "mtime_ns": 1789665122115545400
+      },
+      "docs/VALIDATION.md": {
+        "size": 153182,
+        "mtime_ns": 1789664703973611400
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/diagnostics/performance_map.gd": {
+        "size": 3831,
+        "mtime_ns": 1789347875244005200
+      },
+      "scripts/main.gd": {
+        "size": 88487,
+        "mtime_ns": 1789664524969973400
+      },
+      "scripts/presentation/camera_settings.gd": {
+        "size": 8938,
+        "mtime_ns": 1789238744535708700
+      },
+      "scripts/presentation/scene_motion_blur.gd": {
+        "size": 10001,
+        "mtime_ns": 1789664197068118800
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789641931263320900
+      },
+      "tests/fixtures/test_maps.json": {
+        "size": 65450,
+        "mtime_ns": 1789663803544996000
+      },
+      "tests/performance_descent.gd": {
+        "size": 19684,
+        "mtime_ns": 1789637986647196000
+      },
+      "tests/scene_motion_blur_cost.gd": {
+        "size": 1566,
+        "mtime_ns": 1789663779286791800
+      },
+      "tests/scene_motion_blur_cost.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789663805250038700
+      },
+      "tests/scene_motion_blur_game_playtest.gd": {
+        "size": 7348,
+        "mtime_ns": 1789664524971132800
+      },
+      "tests/scene_motion_blur_playtest.gd": {
+        "size": 7309,
+        "mtime_ns": 1789664197070121600
+      },
+      "tests/scene_motion_blur_suite.gd": {
+        "size": 8218,
+        "mtime_ns": 1789664597544293500
+      }
+    }
+  }
+}

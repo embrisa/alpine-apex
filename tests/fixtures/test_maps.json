@@ -1097,11 +1097,8 @@
       "full_mountain": false,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/scene_motion_blur_game_playtest.gd": {
-      "maps": [],
-      "full_mountain": true,
-      "coverage": "Retained scenery-rich laboratory or exact identity integration."
-    },
+    "tests/scene_motion_blur_game_playtest.gd": {"maps": ["perf-mixed"], "full_mountain": false, "coverage": "Full-resolution capped near-obstacle, gate, weather and skiing review on authored mixed production components."},
+    "tests/scene_motion_blur_cost.gd": {"maps": [], "full_mountain": true, "coverage": "One warm current Standard startup, excluded traversal then bounded Off/50/100 native comparison."},
     "tests/scene_motion_blur_playtest.gd": {
       "maps": [],
       "full_mountain": false,

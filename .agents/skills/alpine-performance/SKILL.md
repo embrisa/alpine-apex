@@ -195,3 +195,5 @@ Current generator 17 fixtures require fresh actual traces. Dev94 generator 16
 forest receipts and the older dense-route averages are historical; changed
 placement, support and controls cannot certify a matched FPS gain. Inspect
 matched world views and keep graph connectivity separate from human skiing.
+
+Scene-motion-blur qualification uses the [bounded cost producer](../../../docs/VALIDATION.md#scene-motion-blur-checks) after full-resolution visual review. Warm lazy pipelines and scratch outside timing; verify each arm actually dispatches or bypasses and keep its route scope explicit.

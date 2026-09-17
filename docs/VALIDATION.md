@@ -46,6 +46,37 @@ origin defines a new workload, never a matched old-route FPS comparison.
 The snow workload starts at (-288, 600), above dense woodland, because the
 existing lower forest route obscures the scenery being measured.
 
+## Scene motion blur checks
+
+`scene_motion_blur_suite.gd` uses smooth-slope for settings, lifecycle, compositor
+ordering and the original camera projection handoff. Camera/UI suites own their
+unchanged controls; rerun only checks affected by a further change.
+`scene_motion_blur_playtest.gd -- --qualify-4k --blur-output=artifacts/FRESH_PATH`
+uses compact procedural geometry at actual3840x2160 for Native/Auto strengths,
+stationary input, native FG when supported, fullscreen and resize. Use the
+production display helper when FG changes; a viewport-only change does not apply
+its exact-output window contract. `--fg-only` narrows a failed display/FG follow-up.
+Run the stock engine with Forward+/DX12 to qualify its supported fallback.
+
+`scene_motion_blur_game_playtest.gd` now selects `perf-mixed`: production trees,
+minerals, snow, gates and both riding cameras without mountain preparation.
+Pass `--benchmark-resolution=3840x2160 --graphics-quality=high --render-scale=0.75
+--upscaler=auto --frame-generation=off --terrain-gi=off` and a fresh `--blur-output`.
+It captures short ordinary-input poses at initial200 and8km/h plus stationary,
+with Off/50/100 strengths and combined peripheral effects. `--transitions-only`
+selects four Off/100 arms with event-triggered airborne/landing captures. Inspect
+chronology, silhouettes, disocclusions, weather and HUD; capped capture and
+synthetic render steps do not establish live controller comfort or FPS.
+
+After the visual gate, `scene_motion_blur_cost.gd` inherits the native capture-free
+production descent loop. Select a current trace, `--scenario-replay
+--trial-seconds=15 --repetitions=4`, fresh benchmark label,4KHigh Auto0.75 FG/GIoff,
+uncapped, and an owning FpsCritical/full-mountain guard with a specific reason.
+One startup and excluded traversal precede Off/50/100; lazy pipelines/scratch warm
+outside each arm. Inspect exact states, focus, effective settings, positive GPU
+samples and actual blur dispatch/resolve requests. Open-route and dense-forest
+results are separate. Reuse suitable saved references; no automatic repeat matrix.
+
 ## Distant mountain shadow checks
 
 `offmap_horizon_suite.gd` checks all six saved companions, version/tier/layer

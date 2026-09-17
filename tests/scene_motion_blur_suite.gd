@@ -77,7 +77,9 @@ func run() -> void:
 	game.presentation_camera = game.camera
 	game._update_screen_effects(1.0/60.0)
 	check(game.scene_motion_blur.enabled,"Main enables selected riding profile")
-	check(game.camera.compositor.compositor_effects==[game.scene_motion_blur] and game.camera_preview.compositor==null and game.menu_camera.compositor==null,"Only riding camera owns the blur")
+	var projection: Projection=game.scene_motion_blur._state.projection
+	check(projection==game.camera.get_camera_projection() and is_equal_approx(projection.get_z_near(),game.camera.near),"Blur receives the original unjittered camera projection and positive near plane")
+	check(game.camera.compositor.compositor_effects==[game.scene_motion_blur,game.sun_lens_flare] and game.camera_preview.compositor==null and game.menu_camera.compositor==null,"Only riding camera owns blur, ordered before the sun flare")
 	var unchanged = [game.sim.position,game.sim.velocity,game.session.elapsed,game.session.eligible]
 	for gate in ["reduced","optional","focus","loading","crash","transition","preview","menu","inactive"]:
 		match gate:

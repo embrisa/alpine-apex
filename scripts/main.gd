@@ -1028,10 +1028,11 @@ func _update_screen_effects(dt: float) -> void:
 	var speed: float = camera.motion_intensity if camera.effects_enabled else 0.0
 	var profile: Dictionary = camera_settings.profile("first_person" if camera.close_view else "chase")
 	var blur_riding: bool = presentation_camera==camera and not hud.camera_options.preview_active and not hud.menu.visible and not hud.weather_panel.visible and not hud.tuning_panel.visible and workshop.mode.is_empty()
+	var camera_projection: Projection = camera.get_camera_projection()
 	sun_lens_flare.update_state(weather.state,blur_riding and not summit_ready and not session.finished,camera.effects_enabled,hud.feedback.reduced_motion,graphics.level,dt,world.cloud_lighting.height_m,
-		[camera.close_view,get_viewport().size,get_viewport().scaling_3d_scale,get_viewport().msaa_3d,graphics.level],camera.global_transform,camera.get_camera_projection())
+		[camera.close_view,get_viewport().size,get_viewport().scaling_3d_scale,get_viewport().msaa_3d,graphics.level],camera.global_transform,camera_projection)
 	scene_motion_blur.update_state(profile,blur_riding,camera.effects_enabled,hud.feedback.reduced_motion,dt,
-		[ camera.close_view,display_settings.upscaler,display_settings.frame_generation,get_viewport().size,get_viewport().scaling_3d_scale,get_viewport().msaa_3d ])
+		[ camera.close_view,display_settings.upscaler,display_settings.frame_generation,get_viewport().size,get_viewport().scaling_3d_scale,get_viewport().msaa_3d ],camera_projection)
 	hud.camera_options.set_motion_blur_availability(scene_motion_blur.status().unavailable)
 	effect_time += dt
 	speed_periphery.visible = speed * maxf(profile.blur_strength,profile.streak_strength) / 100.0>0.005 or impact_warning.strength>0.0001

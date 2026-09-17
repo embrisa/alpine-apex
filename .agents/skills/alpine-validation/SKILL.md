@@ -221,3 +221,5 @@ Current generator 17 fixtures require fresh actual traces. Dev94 generator 16
 forest receipts and the older dense-route averages are historical; changed
 placement, support and controls cannot certify a matched FPS gain. Inspect
 matched world views and keep graph connectivity separate from human skiing.
+
+For scene-motion blur, use the [bounded native and production-component checks](../../../docs/VALIDATION.md#scene-motion-blur-checks). Apply display changes through the production helper for FG, check actual output pixels, and capture air/landing transitions from events rather than fixed frame guesses.
