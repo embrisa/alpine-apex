@@ -5,11 +5,18 @@ status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-11T22:05:56Z"
-updated: "2026-09-12T13:21:47Z"
+updated: "2026-09-17T00:13:30Z"
 source_thread: "01a0927f-723e-7341-bfbc-e2ca1b449d1b"
 ---
 
 # Add selectable top-time ghosts with animated skiers, distinct colors and snow tracks
+
+## Archive update - 17 September 2026
+
+The integration-closure follow-up was archived at the user's request.
+This parent record keeps its blocked status and evidence; the retired
+follow-up no longer owns further work. Resuming this record requires an
+explicit scope and retry decision.
 
 ## Outcome
 
@@ -77,7 +84,7 @@ rendered or performance acceptance. The task remains unimplemented and ready.
   [pole pushing](AA-20260911-183812-slope-limited-pole-pushing.md) touch animation
   ownership. No hard dependency is needed: consume the production pose available
   when implemented and coordinate shared files without editing worker-owned tasks.
-  [Crash-location recovery](AA-20260911-221843-crash-location-respawn.md) also
+  [Crash-location recovery](../abandoned/AA-20260911-221843-crash-location-respawn.md) also
   changes eligible replay timelines. Preserve its crash/recovery discontinuities
   if it lands first; every ghost must break interpolation/tracks across its own
   recovery interval. This task does not independently change crash eligibility.
@@ -309,4 +316,4 @@ proposed. Those suggestions require the user's selection before task authoring.
 
 ## Checkpoint disposition — 2026-09-12T13:21:47Z
 
-Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-ghost-selector-and-render-fixtures](../tasks/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md), [AA-20260912-132147-reduce-cold-ghost-archive-load](../tasks/AA-20260912-132147-reduce-cold-ghost-archive-load.md), [AA-20260912-132147-reduce-ten-ghost-presentation-cost](../tasks/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md), [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.
+Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-ghost-selector-and-render-fixtures](../tasks/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md), [AA-20260912-132147-reduce-cold-ghost-archive-load](../tasks/AA-20260912-132147-reduce-cold-ghost-archive-load.md), [AA-20260912-132147-reduce-ten-ghost-presentation-cost](../tasks/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md), [AA-20260912-132147-close-eight-feature-integration-records](../abandoned/AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.

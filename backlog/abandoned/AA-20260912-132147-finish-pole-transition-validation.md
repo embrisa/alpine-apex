@@ -1,15 +1,22 @@
 ---
 id: "AA-20260912-132147-finish-pole-transition-validation"
 title: "Finish pole transitions and bounded animation validation"
-status: blocked
+status: retired
 priority: P1
 depends_on: []
 created: "2026-09-12T13:21:47Z"
-updated: "2026-09-13T15:26:39Z"
+updated: "2026-09-17T00:13:30Z"
 source_thread: null
 ---
 
 # Finish pole transitions and bounded animation validation
+
+## Archive disposition - 17 September 2026
+
+Archived at the user's explicit request. This task is retired; reopening requires
+new user direction. Existing implementation evidence, rejected experiments and
+unresolved acceptance below are retained as history. Archiving does not mark
+unmet checks as passed.
 
 ## Outcome
 
@@ -19,7 +26,7 @@ Remove the remaining visible arm jumps during pole recovery and landing while pr
 
 The 2026-09-13 model-32 D baseline reproduces 84/87 contact and 34/36 pose. A local uncommitted recovery candidate passes all original 87+36 checks, but expanded native coverage fails shaft/clothing clearance in 89/9,900 frames and the downhill speed-cap reproducer fails four contact/stroke limits. A simple force-boundary trial was rejected. Affected regressions are 344/345; the sole tuck hand-easing failure was previously reproduced on original source. The worker therefore records blocked, preserves the candidate without shipping it, and retains exact source/evidence for the remaining bounded correction. See the completion record and owning Validation guide.
 
-Originating tasks: [AA-20260911-183812-slope-limited-pole-pushing](AA-20260911-183812-slope-limited-pole-pushing.md). Evidence: `artifacts/orchestration_20260912/poles/contact_d/validation/` and `artifacts/pose_review/revisions/20260912-poles-native-d-smoke/`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
+Originating tasks: [AA-20260911-183812-slope-limited-pole-pushing](../blocked/AA-20260911-183812-slope-limited-pole-pushing.md). Evidence: `artifacts/orchestration_20260912/poles/contact_d/validation/` and `artifacts/pose_review/revisions/20260912-poles-native-d-smoke/`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
 
 ## Agreed decisions and scope
 

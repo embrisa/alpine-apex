@@ -1,15 +1,22 @@
 ---
 id: "AA-20260911-221843-crash-location-respawn"
 title: "Offer crash-location respawn from rest while keeping the race valid"
-status: blocked
+status: retired
 priority: P2
 depends_on: []
 created: "2026-09-11T22:18:43Z"
-updated: "2026-09-12T13:21:47Z"
+updated: "2026-09-17T00:13:30Z"
 source_thread: "01a09289-665d-7721-a68f-81a220f4c751"
 ---
 
 # Offer crash-location respawn from rest while keeping the race valid
+
+## Archive disposition - 17 September 2026
+
+Archived at the user's explicit request. This task is retired; reopening requires
+new user direction. Existing implementation evidence, rejected experiments and
+unresolved acceptance below are retained as history. Archiving does not mark
+unmet checks as passed.
 
 ## Outcome
 
@@ -51,12 +58,12 @@ were performed during authoring.
 - [Ragdoll](../../scripts/presentation/skier_ragdoll.gd) follows physical hips
   after onset. Their later position must not select the recovery anchor.
 - No matching recovery task was found in tasks, archives or ideas. The completed
-  [interface overhaul](../abandoned/AA-20260911-163058-interface-overhaul.md) owns the existing
-  menu shell. The ready [weather/race task](../abandoned/AA-20260911-160307-weather-upgrade-storm-races.md)
+  [interface overhaul](AA-20260911-163058-interface-overhaul.md) owns the existing
+  menu shell. The ready [weather/race task](AA-20260911-160307-weather-upgrade-storm-races.md)
   also touches race schema, identity and main lifecycle: coordinate these shared
   owners and allocate versions from current source rather than assuming schema 5
   is free. Neither feature logically depends on the other.
-- The ready [animated ghost and tracks task](AA-20260911-220556-animated-ghost-snow-tracks.md)
+- The ready [animated ghost and tracks task](../blocked/AA-20260911-220556-animated-ghost-snow-tracks.md)
   shares replay capture/format and ghost lifecycle. Preserve its production-pose
   payload if it lands first, coordinate format allocation, and break any ghost
   track emission across crash intervals and recovery jumps. No hard dependency

@@ -1,15 +1,22 @@
 ---
 id: "AA-20260911-225724-carving-raised-ski-tracks"
 title: "Keep snow tracks under the cosmetically raised ski during carving"
-status: blocked
+status: retired
 priority: P2
 depends_on: []
 created: "2026-09-11T22:57:24Z"
-updated: "2026-09-12T13:21:47Z"
+updated: "2026-09-17T00:13:30Z"
 source_thread: "01a092ae-e40a-7510-aaba-b8043f8a1dd6"
 ---
 
 # Keep snow tracks under the cosmetically raised ski during carving
+
+## Archive disposition - 17 September 2026
+
+Archived at the user's explicit request. This task is retired; reopening requires
+new user direction. Existing implementation evidence, rejected experiments and
+unresolved acceptance below are retained as history. Archiving does not mark
+unmet checks as passed.
 
 ## Outcome
 
@@ -46,8 +53,8 @@ reproduced by this author. Animation lift as the cause remains a hypothesis.
   [authority boundaries](../../docs/ARCHITECTURE.md#authority-and-timing) and
   [validation guide](../../docs/VALIDATION.md).
 
-Related work: [carving lean](../abandoned/AA-20260911-161450-proportional-carving-lean.md)
-changes the pose, while [animated ghosts and tracks](AA-20260911-220556-animated-ghost-snow-tracks.md)
+Related work: [carving lean](AA-20260911-161450-proportional-carving-lean.md)
+changes the pose, while [animated ghosts and tracks](../blocked/AA-20260911-220556-animated-ghost-snow-tracks.md)
 may change the shared track interface. Neither is a prerequisite. Coordinate
 shared files and consume whichever interface has landed; do not rewrite these
 tasks or expand this fix into their implementation. Concurrent capture edits

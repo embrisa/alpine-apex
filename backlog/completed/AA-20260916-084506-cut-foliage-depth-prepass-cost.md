@@ -22,7 +22,7 @@ alpha test instead of two on needles and cards, with identical foliage look.
 - The rendering baseline attribution records depth pre-pass above the opaque
   pass in dense forest (about 4.7 ms versus 2.8 ms at 2880x1620 internal in
   [RENDERING_BASELINE.md](../../docs/RENDERING_BASELINE.md); the native table
-  in [the GPU task](../blocked/AA-20260912-105302-reduce-dense-scene-gpu-cost.md) lists
+  in [the GPU task](../abandoned/AA-20260912-105302-reduce-dense-scene-gpu-cost.md) lists
   depth 1.504 ms and moving geometry 1.531 ms for a different window). Godot
   Forward+ can only use its null fragment in the pre-pass for materials without
   `discard` or alpha scissor; every foliage material here forces the full
@@ -44,10 +44,10 @@ alpha test instead of two on needles and cards, with identical foliage look.
     `terrain_grass.gdshader` and `rock_gravel.gdshader`.
 - Already measured and rejected elsewhere (do not repeat): zero-coverage and
   invisible-patch probes, a CPU near/mid selector
-  ([forest selection](../blocked/AA-20260914-094136-select-forest-lods-before-submission.md)),
+  ([forest selection](../abandoned/AA-20260914-094136-select-forest-lods-before-submission.md)),
   UV-only vertex compression ([DENSE_GPU_ENCODING.md](../../docs/DENSE_GPU_ENCODING.md)).
   This task is the narrow shader-path hypothesis inside the broader
-  [GPU task](../blocked/AA-20260912-105302-reduce-dense-scene-gpu-cost.md); it reuses
+  [GPU task](../abandoned/AA-20260912-105302-reduce-dense-scene-gpu-cost.md); it reuses
   [DENSE_FOREST_BASELINE.json](../../docs/DENSE_FOREST_BASELINE.json) and
   does not wait for the blocked baseline task. Update the GPU task record.
 

@@ -1,15 +1,22 @@
 ---
 id: "AA-20260912-004316-forest-transparency-strength"
 title: "Replace forest opening size with transparency strength"
-status: blocked
+status: retired
 priority: P2
 depends_on: []
 created: "2026-09-12T00:43:16Z"
-updated: "2026-09-12T13:21:47Z"
+updated: "2026-09-17T00:13:30Z"
 source_thread: "01a0930f-61b9-7220-a2bc-66bd5f89dd9a"
 ---
 
 # Replace forest opening size with transparency strength
+
+## Archive disposition - 17 September 2026
+
+Archived at the user's explicit request. This task is retired; reopening requires
+new user direction. Existing implementation evidence, rejected experiments and
+unresolved acceptance below are retained as history. Archiving does not mark
+unmet checks as passed.
 
 ## Outcome
 

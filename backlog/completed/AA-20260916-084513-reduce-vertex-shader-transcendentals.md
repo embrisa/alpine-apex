@@ -46,7 +46,7 @@ Source inspected at Dev 43 / `a9c2acb` (2026-09-16):
   [the foliage pre-pass task](AA-20260916-084506-cut-foliage-depth-prepass-cost.md);
   uniform publication by [the shared uniform task](AA-20260916-084503-publish-shared-shader-uniforms-globally.md);
   the broad pass/material programme by
-  [the GPU task](../blocked/AA-20260912-105302-reduce-dense-scene-gpu-cost.md). This task
+  [the GPU task](../abandoned/AA-20260912-105302-reduce-dense-scene-gpu-cost.md). This task
   is the narrow ALU hypothesis; update the GPU task record with results.
 
 ## Agreed decisions and scope

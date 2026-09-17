@@ -20,7 +20,7 @@ Make skiing through rock and forest boundaries smoother by reducing intermittent
 - The retained [v15/model-28 receipt](../../docs/V15_PERFORMANCE_BASELINE_RESULTS.json) reports medians of run scope maxima: collision preparation 25.941 ms, mineral streaming 19.238 ms and forest residency 13.762 ms. These are overlapping CPU scopes, not proven causes of particular slow frames or current model-29 measurements.
 - [Main](../../scripts/main.gd) measures `crash_collision.prepare(p)` under `collision_preparation`. [CrashCollision](../../scripts/world/crash_collision.gd) builds nearby terrain/obstacle bodies for ragdolls; this is distinct from the normal skiing support solver.
 - [MineralScenery](../../scripts/presentation/mineral_scenery.gd) checks macro texture residency every 0.5 seconds and changes at most two shared sources per frame. [DensityForest](../../scripts/presentation/density_forest.gd) already prepares immutable meshes/transforms before skiing and loads at most three regions per update. Count limits do not establish time bounds; do not propose these existing foundations as missing.
-- Related work: [crash recovery](../blocked/AA-20260911-221843-crash-location-respawn.md), [colorful forests](AA-20260912-094935-colorful-forest-variety.md) and [terrain grass](AA-20260911-193341-terrain-grass.md). Preserve their ownership and current status.
+- Related work: [crash recovery](../abandoned/AA-20260911-221843-crash-location-respawn.md), [colorful forests](AA-20260912-094935-colorful-forest-variety.md) and [terrain grass](AA-20260911-193341-terrain-grass.md). Preserve their ownership and current status.
 
 Inspected during backlog authoring on 2026-09-12. The retained full-descent
 baseline is 92.568 average rendered FPS, frame p95/p99 16.311/23.198 ms, at
@@ -33,7 +33,7 @@ performed during authoring. Read [the baseline limits](../../docs/VALIDATION.md#
 
 The user selected all four FPS areas for separate backlog implementation.
 Priority is P1. Order: [streaming](AA-20260912-105300-reduce-streaming-frame-spikes.md),
-[animation CPU](AA-20260912-105301-reduce-animation-cpu-cost.md), [dense-scene GPU](../blocked/AA-20260912-105302-reduce-dense-scene-gpu-cost.md),
+[animation CPU](AA-20260912-105301-reduce-animation-cpu-cost.md), [dense-scene GPU](../abandoned/AA-20260912-105302-reduce-dense-scene-gpu-cost.md),
 then [batch visibility](AA-20260912-105303-improve-spatial-batch-visibility.md). Dependencies serialize shared edits and
 performance attribution; they do not authorize this authoring task to dispatch.
 

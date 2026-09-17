@@ -66,7 +66,7 @@ No tree rendering or performance measurements were made during authoring.
   Verify new dependencies invalidate scenery correctly without changing physical
   mountain identity merely for an art revision.
 - No overlapping tree-variety task or selected worker idea was found. The
-  [forest transparency task](../blocked/AA-20260912-004316-forest-transparency-strength.md)
+  [forest transparency task](../abandoned/AA-20260912-004316-forest-transparency-strength.md)
   is a dependency because new leaf and impostor materials must inherit its final
   behavior. [Terrain grass](AA-20260911-193341-terrain-grass.md) is adjacent work,
   not a dependency or part of this task. Coordinate shared shaders/material code.

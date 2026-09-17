@@ -43,7 +43,7 @@ before choosing an implementation; no hidden-work saving has been measured yet.
 [AlpineScenery](../../scripts/world/alpine_scenery.gd) and
 [MineralScenery](../../scripts/presentation/mineral_scenery.gd) own conservative
 batch bounds. Occluding only part of a large MultiMesh must not hide its visible
-members. [Tree selection](../blocked/AA-20260914-094136-select-forest-lods-before-submission.md) can later provide finer instance lists.
+members. [Tree selection](../abandoned/AA-20260914-094136-select-forest-lods-before-submission.md) can later provide finer instance lists.
 
 The [forest](../../docs/COLORFUL_FOREST_RESULTS.json) and
 [gravel](../../docs/ROCK_GRAVEL_RESULTS.json) samples miss or do not conclusively

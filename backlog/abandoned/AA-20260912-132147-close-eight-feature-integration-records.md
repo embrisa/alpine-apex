@@ -1,17 +1,24 @@
 ---
 id: "AA-20260912-132147-close-eight-feature-integration-records"
 title: "Close remaining integration checks and original task records"
-status: blocked
+status: retired
 priority: P2
 depends_on: ["AA-20260912-132147-finish-pole-transition-validation", "AA-20260912-132147-finish-ghost-selector-and-render-fixtures", "AA-20260912-132147-finish-beam-navigation-acceptance"]
 created: "2026-09-12T13:21:47Z"
-updated: "2026-09-16T21:59:44Z"
+updated: "2026-09-17T00:13:30Z"
 source_thread: null
 ---
 
 # Close remaining integration checks and original task records
 
-## Current disposition — 16 September 2026
+## Archive disposition - 17 September 2026
+
+Archived at the user's explicit request. This task is retired; reopening requires
+new user direction. Existing implementation evidence, rejected experiments and
+unresolved acceptance below are retained as history. Archiving does not mark
+unmet checks as passed.
+
+## Historical disposition — 16 September 2026
 
 Blocked on the named pole-transition and ghost-selector follow-ups. The beam
 and ridge follow-ups are completed; their evidence must be reused. This record
@@ -27,7 +34,7 @@ Finish the narrowly outstanding integration acceptance and reconcile the eight o
 
 The user stopped the expensive orchestration, then explicitly requested backlog follow-ups and a commit. Main physics/runtime and current exact-clock/archive/cache checks pass. Crash105, forest232/430 and scoped carving/boundary GPU/native evidence are retained. Original criteria also include crash-audio cleanup, documentation/UIDs and delivery; unchecked criteria must not be silently relabelled successful.
 
-Originating tasks: [AA-20260911-183812-slope-limited-pole-pushing](AA-20260911-183812-slope-limited-pole-pushing.md), [AA-20260911-220556-animated-ghost-snow-tracks](AA-20260911-220556-animated-ghost-snow-tracks.md), [AA-20260911-221843-crash-location-respawn](AA-20260911-221843-crash-location-respawn.md), [AA-20260911-225724-carving-raised-ski-tracks](AA-20260911-225724-carving-raised-ski-tracks.md), [AA-20260911-232811-taller-distant-finish-beam](AA-20260911-232811-taller-distant-finish-beam.md), [AA-20260911-232936-session-navigation-beams](AA-20260911-232936-session-navigation-beams.md), [AA-20260912-004316-forest-transparency-strength](AA-20260912-004316-forest-transparency-strength.md), [AA-20260912-005323-subtle-local-snow-boundary](AA-20260912-005323-subtle-local-snow-boundary.md). Evidence: `artifacts/orchestration_20260912/WRAP_UP.md`, `CHECKPOINT_1255.md`, `forest/final_four_records/CHECKLIST_MAP.md` and `crash/FINAL_VALIDATION.md`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
+Originating tasks: [AA-20260911-183812-slope-limited-pole-pushing](../blocked/AA-20260911-183812-slope-limited-pole-pushing.md), [AA-20260911-220556-animated-ghost-snow-tracks](../blocked/AA-20260911-220556-animated-ghost-snow-tracks.md), [AA-20260911-221843-crash-location-respawn](AA-20260911-221843-crash-location-respawn.md), [AA-20260911-225724-carving-raised-ski-tracks](AA-20260911-225724-carving-raised-ski-tracks.md), [AA-20260911-232811-taller-distant-finish-beam](../blocked/AA-20260911-232811-taller-distant-finish-beam.md), [AA-20260911-232936-session-navigation-beams](../blocked/AA-20260911-232936-session-navigation-beams.md), [AA-20260912-004316-forest-transparency-strength](AA-20260912-004316-forest-transparency-strength.md), [AA-20260912-005323-subtle-local-snow-boundary](../blocked/AA-20260912-005323-subtle-local-snow-boundary.md). Evidence: `artifacts/orchestration_20260912/WRAP_UP.md`, `CHECKPOINT_1255.md`, `forest/final_four_records/CHECKLIST_MAP.md` and `crash/FINAL_VALIDATION.md`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
 
 ## Agreed decisions and scope
 

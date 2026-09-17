@@ -60,7 +60,7 @@ did not reproduce the bounce, run an engine workload or establish its cause.
   its baseline-independent contracts.
 - No existing task directly owns this complaint. Preserve the completed
   [animation CPU work](AA-20260912-105301-reduce-animation-cpu-cost.md).
-  [Pole transitions](../blocked/AA-20260912-132147-finish-pole-transition-validation.md) and
+  [Pole transitions](../abandoned/AA-20260912-132147-finish-pole-transition-validation.md) and
   [residual carving pose](AA-20260912-153317-fix-residual-carve-pelvis-lean.md)
   share presentation owners but have distinct defects; coordinate any overlap
   without absorbing or rewriting those tasks.

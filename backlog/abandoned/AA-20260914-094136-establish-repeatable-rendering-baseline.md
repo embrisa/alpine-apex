@@ -63,7 +63,7 @@ Read per-frame samples, streaming_events and system.json at matching route
 intervals. Missing ignored artifacts require fresh supported producers, not
 invented results or an implicit mountain bake.
 
-Older [GPU work](../blocked/AA-20260912-105302-reduce-dense-scene-gpu-cost.md) already added native pass queries and rejected
+Older [GPU work](AA-20260912-105302-reduce-dense-scene-gpu-cost.md) already added native pass queries and rejected
 small powder/zero-coverage shader pilots. The engine marker named FSR2 wraps the
 actual selected provider; the older rock pass capture reported FSR 4.1.1.
 Its roughly 1.93 ms reconstruction, 1.70 depth, 1.58 opaque and 1.43 motion
@@ -94,8 +94,8 @@ intervals are dated model-30 attribution, not the current forest breakdown.
 | Order | Task | Distinct responsibility |
 |---|---|---|
 | 1 / P1 | This baseline task | Repeatability, current pass attribution and candidate ranking |
-| Recommended first optimization / P1 | [Tree selection](../blocked/AA-20260914-094136-select-forest-lods-before-submission.md) | Remove unneeded individual LOD/instance submission before vertex processing |
-| P1, independent after baseline | [GPU passes](../blocked/AA-20260912-105302-reduce-dense-scene-gpu-cost.md) | Substantial equivalent pass/material/terrain-render algorithms or narrow engine changes |
+| Recommended first optimization / P1 | [Tree selection](AA-20260914-094136-select-forest-lods-before-submission.md) | Remove unneeded individual LOD/instance submission before vertex processing |
+| P1, independent after baseline | [GPU passes](AA-20260912-105302-reduce-dense-scene-gpu-cost.md) | Substantial equivalent pass/material/terrain-render algorithms or narrow engine changes |
 | P1, independent after baseline | [Publication and collision](../tasks/AA-20260913-141128-reduce-forest-publication-and-collision-bursts.md) | Avoid/reuse or shrink the largest native upload/cook operation; reduce frame tails |
 | P2 after cost justification | [Distant stands](../tasks/AA-20260914-094136-render-distant-forest-stands.md) | Replace individual distant trees with coherent stand representations |
 | P2 after hidden-work attribution | [Occlusion](../tasks/AA-20260914-094136-cull-scenery-behind-terrain.md) | Reject fully hidden scenery conservatively behind opaque ridges/rocks |

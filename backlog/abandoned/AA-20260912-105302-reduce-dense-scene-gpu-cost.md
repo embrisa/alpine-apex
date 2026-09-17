@@ -1,15 +1,22 @@
 ---
 id: "AA-20260912-105302-reduce-dense-scene-gpu-cost"
 title: "Reduce the largest remaining dense-scene GPU passes"
-status: blocked
+status: retired
 priority: P1
 depends_on: ["AA-20260912-105301-reduce-animation-cpu-cost", "AA-20260914-094136-establish-repeatable-rendering-baseline"]
 created: "2026-09-12T10:53:00Z"
-updated: "2026-09-14T13:37:31Z"
+updated: "2026-09-17T00:13:30Z"
 source_thread: "01a09527-1988-7b50-b7c9-71ff6821cb00"
 ---
 
 # Reduce the largest remaining dense-scene GPU passes
+
+## Archive disposition - 17 September 2026
+
+Archived at the user's explicit request. This task is retired; reopening requires
+new user direction. Existing implementation evidence, rejected experiments and
+unresolved acceptance below are retained as history. Archiving does not mark
+unmet checks as passed.
 
 ## Outcome
 
@@ -38,7 +45,7 @@ speedup. Its 41.67 m shelf-to-snow route is not dense forest. Local all-gravel
 adds about 0.573 ms GPU near the 120 cap; removing this cosmetic component cannot
 be presented as the solution to the distinct forest bottleneck.
 
-The new [baseline prerequisite](../abandoned/AA-20260914-094136-establish-repeatable-rendering-baseline.md) owns renewed pass attribution,
+The new [baseline prerequisite](AA-20260914-094136-establish-repeatable-rendering-baseline.md) owns renewed pass attribution,
 controlled workload/camera identities and drift analysis. It consolidates the
 dated observations and their limits. Its completion does not make a stale trace
 or before result reusable after later changes.
@@ -72,7 +79,7 @@ Missing ignored reports require supported fresh diagnostics; no implicit map bak
 ## Agreed decisions and scope
 
 Priority remains P1. Own substantial GPU pass/material/geometry-processing work
-after current named attribution. The [baseline](../abandoned/AA-20260914-094136-establish-repeatable-rendering-baseline.md) is the only new
+after current named attribution. The [baseline](AA-20260914-094136-establish-repeatable-rendering-baseline.md) is the only new
 measurement prerequisite. The completed animation prerequisite stays valid.
 Separate task owners are [tree selection](AA-20260914-094136-select-forest-lods-before-submission.md),
 [distant stand representation](../tasks/AA-20260914-094136-render-distant-forest-stands.md), [occlusion](../tasks/AA-20260914-094136-cull-scenery-behind-terrain.md), and

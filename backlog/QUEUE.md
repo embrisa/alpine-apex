@@ -2,6 +2,7 @@
 
 Groomed against **Dev75 / c53c28e6**, 16 September 2026. This is an index;
 status, dependencies, evidence and acceptance live in each stable task record.
+User-requested archival updated on 17 September 2026.
 No workers or game benchmarks were started by grooming.
 
 ## Performance and integration
@@ -33,12 +34,11 @@ No workers or game benchmarks were started by grooming.
 
 ## Blocked work and resume conditions
 
-- **[Pole transitions](blocked/AA-20260912-132147-finish-pole-transition-validation.md):** known shaft/clothing and downhill plant/cancellation failures. Needs an explicit retry and a bounded corrective candidate; original [pole feature](blocked/AA-20260911-183812-slope-limited-pole-pushing.md) stays blocked with it.
+- **[Pole feature](blocked/AA-20260911-183812-slope-limited-pole-pushing.md):** existing contact/visual gaps remain; its transition follow-up was archived by the user. Resume only with an explicit scope and retry decision.
 - **[Ghost parent](blocked/AA-20260911-220556-animated-ghost-snow-tracks.md):** selector, cold-load and playback follow-ups above own remaining work.
-- **[Integration closure](blocked/AA-20260912-132147-close-eight-feature-integration-records.md):** waits for its pole/selector follow-ups; also reconciles the checkpointed [respawn](blocked/AA-20260911-221843-crash-location-respawn.md), [raised tracks](blocked/AA-20260911-225724-carving-raised-ski-tracks.md), [finish beam](blocked/AA-20260911-232811-taller-distant-finish-beam.md), [navigation beams](blocked/AA-20260911-232936-session-navigation-beams.md), [forest transparency](blocked/AA-20260912-004316-forest-transparency-strength.md) and [snow boundary](blocked/AA-20260912-005323-subtle-local-snow-boundary.md) records. Existing functional evidence is retained; unfinished gates are not passes.
+- **[Finish beam](blocked/AA-20260911-232811-taller-distant-finish-beam.md), [navigation beams](blocked/AA-20260911-232936-session-navigation-beams.md) and [snow boundary](blocked/AA-20260912-005323-subtle-local-snow-boundary.md):** retain their documented acceptance gaps. Their former integration-closure task was archived; resumption needs an explicit scope and retry decision.
 - **[Scenery snow](blocked/AA-20260911-230603-scenery-snow-material.md):** implemented, with explicitly deferred cost acceptance. [Distant mountain shadows](blocked/AA-20260911-230604-scenery-mountain-shadows.md) waits on that prerequisite.
 - **[Motion blur](blocked/AA-20260912-004402-scene-motion-blur.md):** shipped provisionally; remaining performance/visual qualification needs explicit resumption.
-- **[Broad dense-GPU investigation](blocked/AA-20260912-105302-reduce-dense-scene-gpu-cost.md)** and **[CPU LOD selection](blocked/AA-20260914-094136-select-forest-lods-before-submission.md):** rejected/stopped approaches; resume only with a distinct measured hypothesis. Active narrow tasks do not reopen them.
 - **[Metal frame floor](blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md):** needs Metal capture/counters or a concrete alternate attribution method; no more blind toggle matrices.
 
 ## Completed and abandoned
@@ -48,6 +48,11 @@ including pelvis/native fitting, terrain queries and Fable's closed tasks.
 [Abandoned](abandoned/) contains the existing retired records plus the superseded
 repeatability-prerequisite campaign. Retirement is not success; history and
 replacement links remain in the records.
+
+On 17 September the user also archived crash-location respawn, raised-ski tracks,
+forest transparency, integration closure, pole-transition validation, CPU forest
+LOD selection and the broad dense-GPU investigation. Their records and unresolved
+findings remain in `abandoned/`; active narrow tasks retain their own scope.
 
 ## Rules for the next task
 

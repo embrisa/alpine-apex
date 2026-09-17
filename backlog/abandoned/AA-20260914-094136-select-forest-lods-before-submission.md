@@ -1,15 +1,22 @@
 ---
 id: "AA-20260914-094136-select-forest-lods-before-submission"
 title: "Select forest instances and LODs before geometry submission"
-status: blocked
+status: retired
 priority: P1
 depends_on: ["AA-20260914-094136-establish-repeatable-rendering-baseline"]
 created: "2026-09-14T09:41:36Z"
-updated: "2026-09-14T12:41:16Z"
+updated: "2026-09-17T00:13:30Z"
 source_thread: "01a09c68-b71e-7cc1-b01a-291cd5c446e8"
 ---
 
 # Select forest instances and LODs before geometry submission
+
+## Archive disposition - 17 September 2026
+
+Archived at the user's explicit request. This task is retired; reopening requires
+new user direction. Existing implementation evidence, rejected experiments and
+unresolved acceptance below are retained as history. Archiving does not mark
+unmet checks as passed.
 
 ## Outcome
 
@@ -38,7 +45,7 @@ Source inspected at Dev 31 / 36b25d3 on 2026-09-14:
   median 68.24 FPS, 12.106 ms GPU, about 1,620 submissions and 13.737 million
   submitted primitives per frame. These scene-wide counts do not attribute all
   cost to trees or equal rasterized triangles. The
-  [baseline task](../abandoned/AA-20260914-094136-establish-repeatable-rendering-baseline.md) must determine the removable share.
+  [baseline task](AA-20260914-094136-establish-repeatable-rendering-baseline.md) must determine the removable share.
 - Stock APIs include whole-buffer publication and visible_instance_count;
   [Godot's MultiMesh guide](https://docs.godotengine.org/en/stable/tutorials/performance/using_multimesh.html)
   describes the batch visibility limitation. Verify the pinned custom renderer's
@@ -101,7 +108,7 @@ engine abstraction, hide trees through physics or combine candidate gains.
 
 ## Acceptance and verification
 
-- [ ] A fresh [baseline](../abandoned/AA-20260914-094136-establish-repeatable-rendering-baseline.md) comparison shows a repeatable GPU and
+- [ ] A fresh [baseline](AA-20260914-094136-establish-repeatable-rendering-baseline.md) comparison shows a repeatable GPU and
   rendered-FPS or frame-tail improvement beyond observed variation. Report the
   removed submissions/vertices alongside CPU packing, upload, memory and startup
   costs; no completion from fewer draw calls alone. The 32-43 percent overall

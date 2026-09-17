@@ -33,7 +33,7 @@ performed during authoring. Read [the baseline limits](../../docs/VALIDATION.md#
 
 The user selected all four FPS areas for separate backlog implementation.
 Priority is P1. Order: [streaming](AA-20260912-105300-reduce-streaming-frame-spikes.md),
-[animation CPU](AA-20260912-105301-reduce-animation-cpu-cost.md), [dense-scene GPU](../blocked/AA-20260912-105302-reduce-dense-scene-gpu-cost.md),
+[animation CPU](AA-20260912-105301-reduce-animation-cpu-cost.md), [dense-scene GPU](../abandoned/AA-20260912-105302-reduce-dense-scene-gpu-cost.md),
 then [batch visibility](AA-20260912-105303-improve-spatial-batch-visibility.md). Dependencies serialize shared edits and
 performance attribution; they do not authorize this authoring task to dispatch.
 

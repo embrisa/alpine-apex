@@ -5,11 +5,18 @@ status: blocked
 priority: P2
 depends_on: []
 created: "2026-09-11T18:38:12Z"
-updated: "2026-09-12T13:21:47Z"
+updated: "2026-09-17T00:13:30Z"
 source_thread: null
 ---
 
 # Add slope-limited pole pushing and a new pushing animation
+
+## Archive update - 17 September 2026
+
+The pole-transition follow-up was archived at the user's request.
+This parent record keeps its blocked status and evidence; the retired
+follow-up no longer owns further work. Resuming this record requires an
+explicit scope and retry decision.
 
 ## Outcome
 
@@ -186,7 +193,7 @@ follow-up ideas were proposed during authoring.
 
 ## Checkpoint disposition — 2026-09-12T13:21:47Z
 
-Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-pole-transition-validation](AA-20260912-132147-finish-pole-transition-validation.md), [AA-20260912-132147-close-eight-feature-integration-records](AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.
+Implementation is included in the user-requested integration checkpoint. Full original acceptance is not claimed. The manual workers were stopped at the user's request; no active claim remains. Further work is delegated to [AA-20260912-132147-finish-pole-transition-validation](../abandoned/AA-20260912-132147-finish-pole-transition-validation.md), [AA-20260912-132147-close-eight-feature-integration-records](../abandoned/AA-20260912-132147-close-eight-feature-integration-records.md). Do not redispatch this whole original task or repeat its completed matrices. The linked closure task owns final criteria reconciliation. Human acceptance and documented FPS/appearance limits remain explicit. Delivery is the Git commit containing this disposition; subsequent closure must record its own exact commit/push reference.
 
 ### Pole follow-up, 2026-09-13
 

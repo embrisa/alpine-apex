@@ -70,7 +70,7 @@ gaps, warm pockets and snow; opaque blobs, billboard walls, baked lighting that
 breaks weather/night, and visibility pops are not acceptable tradeoffs.
 
 This task depends on the repeatable baseline. Prefer evaluating after
-[tree selection](../blocked/AA-20260914-094136-select-forest-lods-before-submission.md) if delivered, then rebaseline; its completion
+[tree selection](../abandoned/AA-20260914-094136-select-forest-lods-before-submission.md) if delivered, then rebaseline; its completion
 is not a hard dependency because the two mechanisms can be investigated
 independently. Coordinate shared forest files and serialized timing. Occlusion
 and shader/pass changes have separate owners; do not combine them in the A/B.
