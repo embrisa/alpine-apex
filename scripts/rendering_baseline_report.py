@@ -33,14 +33,21 @@ def extent(values):
 
 def validity(data, system, repetitions):
     errors = list(data.get("failures", []))
+    if system.get("schema") not in (None, 1, 2):
+        errors.append("unsupported system receipt schema")
     if system.get("exit_code") != 0:
         errors.append("process failed")
-    if system.get("changed_sources") != [] or system.get(
-        "source_sha256_before"
-    ) != system.get("source_sha256_after"):
-        errors.append("source drift or missing source receipt")
-    if not system.get("source_sha256_before"):
-        errors.append("empty source identity")
+    if system.get("schema") == 2:
+        errors.extend(metadata_errors(system))
+    else:
+        # Historical receipts retain their recorded contract; no files are
+        # rehashed here and old hash fields are never invented for new runs.
+        if system.get("changed_sources") != [] or system.get("source_sha256_before") != system.get("source_sha256_after"):
+            errors.append("source drift or missing source receipt")
+        if not system.get("source_sha256_before"):
+            errors.append("empty source identity")
+        if not system.get("engine_sha256"):
+            errors.append("missing engine identity")
     for key in [
         "identity",
         "trace_sha256",
@@ -51,8 +58,6 @@ def validity(data, system, repetitions):
     ]:
         if not data.get(key):
             errors.append("missing " + key)
-    if not system.get("engine_sha256"):
-        errors.append("missing engine identity")
     if data.get("unranked") is not True:
         errors.append("ranked/personal record write eligibility")
     if len(data.get("rows", [])) != repetitions:
@@ -124,6 +129,26 @@ def validity(data, system, repetitions):
                 < 170 / 3.6 * data.get("trial_seconds", 0) * 0.9
             ):
                 errors.append(f"run {row.get('run')}: invalid stress speed/distance")
+    return errors
+
+
+def metadata_errors(system):
+    errors = []
+    before, after = [system.get("source_metadata_" + stage) for stage in ("before", "after")]
+    for row in (before, after):
+        if not isinstance(row, dict) or row.get("schema") != 2 or row.get("method") != "scoped_file_metadata":
+            return ["missing scoped metadata receipt"]
+        if not row.get("files") or not row.get("engine_files") or not row.get("scope") or not row.get("git", {}).get("commit"):
+            return ["incomplete scoped metadata receipt"]
+        for metadata in list(row["files"].values()) + list(row["engine_files"].values()):
+            if metadata is not None and (not isinstance(metadata, dict) or not isinstance(metadata.get("size"), int) or metadata["size"] < 0 or not isinstance(metadata.get("mtime_ns"), int)):
+                return ["malformed file metadata"]
+        if any(metadata is None for metadata in row["engine_files"].values()):
+            return ["missing engine metadata"]
+    if any(before.get(k) != after.get(k) for k in ("files", "engine_files", "scope", "versions", "project_root")):
+        errors.append("scoped input drift")
+    if system.get("input_error") or system.get("input_changes") != {"method": "scoped_file_metadata", "changed_inputs": [], "stable_inputs": True}:
+        errors.append("invalid input comparison")
     return errors
 
 
@@ -317,8 +342,8 @@ def audit(entry, root):
                 ]
             }
             | {
-                "engine": system["engine_sha256"],
-                "sources": system["source_sha256_before"],
+                "engine": system["source_metadata_before"]["engine_files"] if system.get("schema") == 2 else system["engine_sha256"],
+                "sources": system["source_metadata_before"]["files"] if system.get("schema") == 2 else system["source_sha256_before"],
                 "display": {
                     k: data["display"].get(k)
                     for k in ["fps_limit", "viewport_scale", "msaa"]
@@ -351,6 +376,10 @@ def audit(entry, root):
             k: system.get(k)
             for k in ["engine_path", "engine_sha256", "cpu", "environment"]
         }
+        result["source_verification"] = "scoped_file_metadata" if system.get("schema") == 2 else "historical_hash_receipt"
+        if system.get("schema") == 2:
+            result["engine"]["files"] = system["source_metadata_before"]["engine_files"]
+            result["recorded_build"] = {k: system["source_metadata_before"].get(k) for k in ("git", "versions", "scope", "limits")}
         result["rows"] = []
         for row in data["rows"]:
             result["rows"].append(

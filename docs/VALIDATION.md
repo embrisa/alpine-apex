@@ -631,6 +631,38 @@ measurement.
 `scripts/benchmark_pc.ps1` relays the engine's loading, trace and per-run progress
 while preserving full logs; the outer guard no longer hides this second layer.
 
+The wrapper records **scoped file metadata**, not recursive source/asset/executable
+hash inventories. `config/benchmark_metadata_scope.json` lists runtime roots and
+fixed inputs; Git enumerates names within those roots without walking generated
+caches or authoring trees. The selected test and its literal test dependencies,
+input trace, selected console/worker binaries and adjacent runtime DLLs are added
+explicitly. `-MetadataPaths` adds literal project-relative files for dynamic or
+experimental inputs. `-MetadataScope` selects an explicit alternate manifest;
+its coverage must still describe the measured workload.
+
+`system.json` schema2 stores before/after sizes and modification times, selected
+paths, versions, commit/branch/status, and `input_changes`. Scoped additions,
+deletions or metadata changes invalidate the run and return a failing exit code.
+An unrelated documentation/test edit or commit is recorded as Git context and
+does not invalidate timing. A dirty candidate at launch is allowed and recorded.
+Metadata detects ordinary edits; it is not cryptographic byte identity and cannot
+detect an edit that preserves both size and modification time. Runtime replay,
+physical/scenery cache checks, focus and exact endpoint gates are unchanged.
+
+Inspect a launch without starting Godot, creating output or taking a GPU lease:
+
+```powershell
+./scripts/benchmark_pc.ps1 -InputTrace artifacts/current/input.json -ScenarioReplay -TrialSeconds 15 -FrameCap 0 -PlanOnly
+```
+
+Actual runs require the existing outer FpsCritical guard and explicit full-mountain
+admission. Use a fresh label. `rendering_baseline_report.py` accepts schema2
+metadata receipts and historical hash receipts without inventing hash fields or
+rehashing source files. Its grouping is an edit/configuration check, not a promise
+of identical asset bytes. Verify this tooling with
+`python -m unittest discover -s tests -p test_benchmark_metadata.py` and the
+`test_rendering_baseline_report.py` fixtures; no GPU baseline is needed.
+
 ```powershell
 ./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','current-v17','-Version','17','-InputTrace','artifacts/current/input.json','-Upscaler','auto','-TerrainGI','off','-FrameGeneration','off','-FrameCap','0','-Repetitions','3','-ProfileFrameCosts') -Label current-v17 -TimeoutSeconds 2400 -CollectGpuMemory -FullMountain -FullMountainReason 'Representative production mountain timing and exact route inputs'
 ```
@@ -640,7 +672,7 @@ the 120 FPS capped configuration and independently selected FG if assessing it.
 Report individual runs and medians of run statistics; do not pool percentiles.
 `production.json` contains route/section frame distributions, CPU scopes in μs,
 GPU/render-thread ms, draw calls and engine memory; `system.json` records source
-stability, engine hash and process/system/GPU allocation telemetry. Windows
+stability, engine paths/metadata and process/system/GPU allocation telemetry. Windows
 allocation and engine memory are not precise physical VRAM occupancy. Radial
 route sections are labels for that trace, not universal terrain classifications.
 The CPU `hud` scope covers HUD updates, not deferred CanvasItem `_draw()` calls.

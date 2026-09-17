@@ -73,6 +73,35 @@ class BaselineReportTests(unittest.TestCase):
     def test_valid_receipt(self):
         self.assertEqual([], report.validity(self.data, self.system, 1))
 
+    def metadata_system(self):
+        inputs = {"schema": 2, "method": "scoped_file_metadata", "git": {"commit": "fixture"},
+                  "scope": {"producer": "tests/performance_descent.gd"}, "versions": {"world": 17}, "project_root": "fixture",
+                  "files": {"runtime": {"size": 4, "mtime_ns": 123}}, "engine_files": {"engine.exe": {"size": 8, "mtime_ns": 456}}}
+        return {"schema": 2, "exit_code": 0, "source_metadata_before": inputs, "source_metadata_after": copy.deepcopy(inputs),
+                "input_changes": {"method": "scoped_file_metadata", "changed_inputs": [], "stable_inputs": True}, "input_error": ""}
+
+    def test_current_metadata_receipt_and_unrelated_git_change(self):
+        system = self.metadata_system()
+        system["source_metadata_after"]["git"] = {"commit": "unrelated new commit", "status": "docs changed"}
+        self.assertEqual([], report.validity(self.data, system, 1))
+
+    def test_metadata_drift_missing_partial_and_invalid_receipts(self):
+        for key in ("source_metadata_before", "source_metadata_after", "input_changes"):
+            system = self.metadata_system(); system[key] = None
+            self.assertTrue(report.validity(self.data, system, 1))
+        for key, value in (("files", {"runtime": {"size": 5, "mtime_ns": 123}}), ("engine_files", {}), ("schema", 99), ("scope", {})):
+            system = self.metadata_system(); system["source_metadata_after"][key] = value
+            self.assertTrue(report.validity(self.data, system, 1), key)
+        for change in ({"exit_code": 1}, {"input_error": "failed metadata capture"}):
+            self.assertTrue(report.validity(self.data, self.metadata_system() | change, 1))
+
+    def test_metadata_does_not_bypass_runtime_or_focus_validation(self):
+        for key, value in (("exact_trace", False), ("unfocused_frames", 1), ("ticks", 1799)):
+            data = copy.deepcopy(self.data); data["rows"][0][key] = value
+            self.assertTrue(report.validity(data, self.metadata_system(), 1), key)
+        data = copy.deepcopy(self.data); data["loading"]["physical_cache_hit"] = False
+        self.assertTrue(report.validity(data, self.metadata_system(), 1))
+
     def test_reject_focus_endpoint_duration(self):
         for key, value in [
             ("unfocused_frames", 1),

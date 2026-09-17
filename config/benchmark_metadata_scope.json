@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "description": "Production runtime inputs only. Git enumerates these roots; metadata reads do not hash file contents. The selected producer and its literal test dependencies, trace, engine and adjacent runtime DLLs are added automatically.",
+  "roots": [
+    "scripts/core",
+    "scripts/diagnostics",
+    "scripts/presentation",
+    "scripts/racing",
+    "scripts/ui",
+    "scripts/world",
+    "assets",
+    "scenes",
+    "addons",
+    "config/weather"
+  ],
+  "paths": [
+    "project.godot",
+    "main.tscn",
+    "scripts/main.gd",
+    "config/ski_default.tres",
+    "config/generation_dependencies.json",
+    "config/development_version.json",
+    ".tools/fidelityfx-runtime.json",
+    "scripts/benchmark_pc.ps1",
+    "scripts/benchmark_metadata.py",
+    "scripts/resolve_godot_engine.ps1",
+    "scripts/validation_output.cs"
+  ]
+}

@@ -34,22 +34,25 @@ param(
     [switch]$VoiceBenchmark,
     [switch]$VoiceObserverOff,
     [string]$ProjectRoot = '',
+    [switch]$PlanOnly,
+    [string]$MetadataScope = '',
+    [string[]]$MetadataPaths = @(),
     [switch]$FullMountain = ($env:ALPINE_FULL_MOUNTAIN -eq '1'),
     [string]$FullMountainReason = $env:ALPINE_FULL_MOUNTAIN_REASON
 )
 $ErrorActionPreference = 'Stop'
 $alpineRoot = Split-Path $PSScriptRoot -Parent
 . (Join-Path $PSScriptRoot 'test_world_policy.ps1')
-Assert-TestWorldSelection ([bool]$FullMountain) $FullMountainReason (Get-TestWorldPlan @('scripts/benchmark_pc.ps1'))
+$alpineWorldPlan = Get-TestWorldPlan @('scripts/benchmark_pc.ps1')
 if ($ProjectRoot) { $alpineRoot = (Resolve-Path -LiteralPath $ProjectRoot).Path }
 . (Join-Path $PSScriptRoot "resolve_godot_engine.ps1")
-$alpineEngine = Get-AlpineGodotEngine -ProjectRoot $alpineRoot
+$alpineEngine = Get-AlpineGodotEngine -ProjectRoot $alpineRoot -MetadataOnly
 if ($StressSpeedKmh -gt 0 -and (-not $ScenarioReplay -or $Version -lt 14 -or $OffmapComparison -or $OffmapBaseline -or $OffmapPaired -or $WildernessSummit -or $VoiceBenchmark)) { throw "Speed-controlled stress requires the production scenario benchmark and a matching stress trace." }
 if ($Version -ge 14 -and -not ($OffmapComparison -or $OffmapBaseline -or $OffmapPaired -or $WildernessSummit -or $VoiceBenchmark)) {
     if ($Seed -ne 849205174 -or $StartZ -ne 0 -or $EndZ -ne 2850 -or $SkierAnimationOff) {
         throw 'The production benchmark requires the complete default mountain with production animation. Generate a matching ordinary-input trace for other workloads.'
     }
-    $traceFile = if ($InputTrace.StartsWith('res://')) { Join-Path $alpineRoot $InputTrace.Substring(6) } else { $InputTrace }
+    $traceFile = if ($InputTrace.StartsWith('res://')) { Join-Path $alpineRoot $InputTrace.Substring(6) } else { [IO.Path]::GetFullPath($InputTrace,$alpineRoot) }
     if (-not (Test-Path -LiteralPath $traceFile)) { throw 'Generate the current input trace with tests/performance_trace.gd first.' }
     $traceData = Get-Content -LiteralPath $traceFile -Raw | ConvertFrom-Json
     if ($PSBoundParameters.ContainsKey('Face') -and $Face -ne $traceData.face) { throw 'Requested face does not match the input trace.' }
@@ -62,7 +65,6 @@ if ($Version -ge 14 -and -not ($OffmapComparison -or $OffmapBaseline -or $Offmap
 $alpineParsedScale = 0.0
 if (-not [double]::TryParse($RenderScale,[Globalization.NumberStyles]::Float,[Globalization.CultureInfo]::InvariantCulture,[ref]$alpineParsedScale)) { throw 'Invalid render scale.' }
 $alpineOutput = Join-Path $alpineRoot "artifacts/pc_environment/$Label"
-New-Item -ItemType Directory -Force $alpineOutput | Out-Null
 $alpinePlaytest = if ($Version -ge 10) { 'tests/massif_playtest.gd' } else { 'tests/technical_showcase_playtest.gd' }
 if ($Version -eq 12) { $alpinePlaytest = 'tests/alpine_v12_playtest.gd' }
 if ($Version -eq 13) { $alpinePlaytest = 'tests/alpine_v13_playtest.gd' }
@@ -101,17 +103,25 @@ if ($WildernessSummit) { $alpineArgs += '--views' }
 if ($OffmapBaseline) { $alpineArgs += '--offmap-baseline' }
 if ($SkierAnimationOff) { $alpineArgs += '--skier-animation-off' }
 if ($ThirdPerson) { $alpineArgs = @($alpineArgs | Where-Object { $_ -ne '--pov-forest' }) }
+if (-not $MetadataScope) { $MetadataScope = Join-Path $alpineRoot 'config/benchmark_metadata_scope.json' }
+$MetadataScope = [IO.Path]::GetFullPath($MetadataScope,$alpineRoot)
+if (-not (Test-Path -LiteralPath $MetadataScope -PathType Leaf)) { throw 'Missing benchmark metadata scope.' }
+$alpinePlan = @{engine=$alpineEngine; project_root=$alpineRoot; producer=$alpinePlaytest; arguments=$alpineArgs; output=$alpineOutput; workload_mode='FpsCritical'; full_mountain_required=$true; full_mountain=[bool]$FullMountain; full_mountain_reason=$FullMountainReason; maps=$alpineWorldPlan; metadata_scope=$MetadataScope; metadata_paths=$MetadataPaths; source_verification='scoped_file_metadata'; runtime_replay_cache_checks='unchanged'}
+if ($PlanOnly) { $alpinePlan | ConvertTo-Json -Depth 8; exit 0 }
+Assert-TestWorldSelection ([bool]$FullMountain) $FullMountainReason $alpineWorldPlan
+if ($env:ALPINE_VALIDATION_MODE -ne 'FpsCritical') { throw 'Production timing requires an owning FpsCritical guard.' }
+if (Test-Path -LiteralPath $alpineOutput) { throw 'Choose a fresh benchmark label; existing receipts are preserved.' }
+New-Item -ItemType Directory -Path $alpineOutput | Out-Null
+$alpinePlan | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $alpineOutput 'plan.json')
+$alpineMetadataBeforePath = Join-Path $alpineOutput 'inputs_before.json'
+$alpineMetadataAfterPath = Join-Path $alpineOutput 'inputs_after.json'
+$alpineMetadataDiffPath = Join-Path $alpineOutput 'input_changes.json'
+$alpineMetadataArgs = @((Join-Path $PSScriptRoot 'benchmark_metadata.py'),'capture','--root',$alpineRoot,'--scope',$MetadataScope,'--producer',$alpinePlaytest,'--engine',$alpineEngine)
+if ($alpinePlaytest -in @('tests/performance_descent.gd','tests/performance_gpu_profile.gd')) { $alpineMetadataArgs += @('--trace',$InputTrace) }
+foreach ($alpineExtraPath in $MetadataPaths) { $alpineMetadataArgs += @('--extra-path',$alpineExtraPath) }
+& python @alpineMetadataArgs --output $alpineMetadataBeforePath
+if ($LASTEXITCODE) { throw 'Could not record scoped benchmark inputs; no engine launched.' }
 $alpineStarted = [DateTime]::UtcNow
-function Get-AlpineSourceHashes {
-    $alpineHashes = @{}
-    foreach ($alpineFolder in @('scripts','config','assets','tests','scenes')) {
-        Get-ChildItem (Join-Path $alpineRoot $alpineFolder) -Recurse -File | Where-Object { $_.Extension -in @('.gd','.gdshader','.gdshaderinc','.tres','.tscn','.json','.ps1','.cs') } | ForEach-Object { $alpineHashes[$_.FullName.Substring($alpineRoot.Length+1)] = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash }
-    }
-    $alpineHashes['project.godot'] = (Get-FileHash -LiteralPath (Join-Path $alpineRoot 'project.godot') -Algorithm SHA256).Hash
-    $alpineHashes['main.tscn'] = (Get-FileHash -LiteralPath (Join-Path $alpineRoot 'main.tscn') -Algorithm SHA256).Hash
-    return $alpineHashes
-}
-$alpineSourcesBefore = Get-AlpineSourceHashes
 $alpineEnvironment = @{
     weather = $Weather; time_of_day = $TimeOfDay; weather_seed = 849205174
     os = Get-CimInstance Win32_OperatingSystem | Select-Object Caption,Version,BuildNumber
@@ -196,8 +206,26 @@ $alpineProcess.WaitForExit()
 }
 $alpineExit = $alpineProcess.ExitCode
 if ($alpineFailure) { $alpineExit=1; Write-Output "BENCHMARK_ERROR $alpineFailure" }
-$alpineSources = Get-AlpineSourceHashes
-$alpineChangedSources = @(@($alpineSources.Keys)+@($alpineSourcesBefore.Keys) | Sort-Object -Unique | Where-Object { $alpineSources[$_] -ne $alpineSourcesBefore[$_] })
-@{started_utc=$alpineStarted.ToString('o'); ended_utc=[DateTime]::UtcNow.ToString('o'); exit_code=$alpineExit; project_root=$alpineRoot; engine_path=$alpineEngine; engine_sha256=(Get-FileHash -LiteralPath $alpineEngine).Hash; environment=$alpineEnvironment; cpu=(Get-CimInstance Win32_Processor).Name; installed_ram_bytes=(Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory; background_policy='Existing apps left untouched. Sample other engines, top 20 active/large processes, and other GPU allocations >=64 MiB every two seconds; GPU allocation is not utilization.'; samples=$alpineSamples; source_sha256_before=$alpineSourcesBefore; source_sha256_after=$alpineSources; changed_sources=$alpineChangedSources} | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $alpineOutput 'system.json')
+$alpineMetadataError = ''
+$alpineBefore = Get-Content -LiteralPath $alpineMetadataBeforePath -Raw | ConvertFrom-Json -AsHashtable
+$alpineAfter = $null
+$alpineInputChanges = $null
+try {
+    & python @alpineMetadataArgs --output $alpineMetadataAfterPath
+    if ($LASTEXITCODE) { throw 'Could not record inputs after the benchmark.' }
+    & python (Join-Path $PSScriptRoot 'benchmark_metadata.py') compare --before $alpineMetadataBeforePath --after $alpineMetadataAfterPath --output $alpineMetadataDiffPath
+    if ($LASTEXITCODE) { throw 'Could not compare benchmark inputs.' }
+    $alpineAfter = Get-Content -LiteralPath $alpineMetadataAfterPath -Raw | ConvertFrom-Json -AsHashtable
+    $alpineInputChanges = Get-Content -LiteralPath $alpineMetadataDiffPath -Raw | ConvertFrom-Json -AsHashtable
+    if (-not $alpineInputChanges.stable_inputs) { throw "Scoped inputs changed: $($alpineInputChanges.changed_inputs -join ', ')" }
+} catch {
+    $alpineMetadataError = $_.Exception.Message; $alpineExit = 1
+    Write-Output "BENCHMARK_ERROR $alpineMetadataError"
+}
+@{schema=2; started_utc=$alpineStarted.ToString('o'); ended_utc=[DateTime]::UtcNow.ToString('o'); exit_code=$alpineExit; project_root=$alpineRoot; engine_path=$alpineEngine; environment=$alpineEnvironment; cpu=(Get-CimInstance Win32_Processor).Name; installed_ram_bytes=(Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory; background_policy='Existing apps left untouched. Sample other engines, top 20 active/large processes, and other GPU allocations >=64 MiB every two seconds; GPU allocation is not utilization.'; samples=$alpineSamples; source_metadata_before=$alpineBefore; source_metadata_after=$alpineAfter; input_changes=$alpineInputChanges; input_error=$alpineMetadataError; process_error=$alpineFailure} | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath (Join-Path $alpineOutput 'system.json')
+# Final system.json owns these compact receipts; remove only our redundant files.
+foreach ($alpineTemporary in @($alpineMetadataBeforePath,$alpineMetadataAfterPath,$alpineMetadataDiffPath)) {
+    if (Test-Path -LiteralPath $alpineTemporary) { Remove-Item -LiteralPath $alpineTemporary }
+}
 Write-Output "BENCHMARK_COMPLETE $Label exit=$alpineExit"
 exit $alpineExit

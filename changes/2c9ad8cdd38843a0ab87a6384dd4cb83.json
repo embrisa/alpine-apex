@@ -1,0 +1,205 @@
+{
+  "schema": 1,
+  "id": "2c9ad8cdd38843a0ab87a6384dd4cb83",
+  "summary": "Replace broad benchmark hashes with scoped input metadata",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Benchmark receipts",
+    "Economical validation",
+    "Accepted metadata idea"
+  ],
+  "owned_paths": [
+    "scripts/benchmark_pc.ps1",
+    "scripts/benchmark_metadata.py",
+    "scripts/resolve_godot_engine.ps1",
+    "scripts/rendering_baseline_report.py",
+    "config/benchmark_metadata_scope.json",
+    "tests/test_benchmark_metadata.py",
+    "tests/test_rendering_baseline_report.py",
+    "docs/VALIDATION.md",
+    ".agents/skills/alpine-performance/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/ideas/IDEA-20260917-110000-use-scoped-benchmark-metadata.md",
+    "backlog/ideas/archive/IDEA-20260917-110000-use-scoped-benchmark-metadata.md",
+    "backlog/completed/AA-20260917-160840-use-scoped-benchmark-metadata.md",
+    "backlog/completed/AA-20260913-232221-natural-forest-generation.md"
+  ],
+  "read_paths": [
+    "scripts/test_world_policy.ps1",
+    "scripts/validation_lease.ps1"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {},
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Benchmark bookkeeping only; runtime replay and cache compatibility unchanged."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Benchmark bookkeeping only; runtime replay and cache compatibility unchanged."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Benchmark bookkeeping only; runtime replay and cache compatibility unchanged."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Benchmark bookkeeping only; runtime replay and cache compatibility unchanged."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Benchmark bookkeeping only; runtime replay and cache compatibility unchanged."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "python -m unittest discover -s tests -p test_benchmark_metadata.py -v",
+      "result": "passed",
+      "details": "8 tests: scoped add/edit/delete, missing inputs, dirty candidates, unrelated commits, trace/engine/DLL drift, literal scope boundaries, exact launch plan with no engine/output, and metadata-only engine selection with hashing forbidden."
+    },
+    {
+      "kind": "automated",
+      "command": "python -m unittest discover -s tests -p test_rendering_baseline_report.py -v",
+      "result": "passed",
+      "details": "14 tests: current metadata and historical receipts, drift/missing/malformed receipts, failed/partial runs, unchanged runtime endpoint/focus/cache/pixel gates and aggregation."
+    },
+    {
+      "kind": "automated",
+      "command": "benchmark_metadata.py capture with actual default scope, current trace and native console executable; backlog validate; git diff --check",
+      "result": "passed",
+      "details": "Read-only live smoke recorded 6783 scoped inputs and 7 engine files with current model35/world17/replay7/race6. No Godot or GPU workload. Docs/backlog/static checks passed. Shadow candidate changes remain unstaged and outside this milestone."
+    },
+    {
+      "kind": "performance",
+      "command": "No benchmark required for receipt tooling",
+      "result": "not_required",
+      "details": "No new FPS baseline, timing or turnaround-gain claim. Runtime compatibility formats and gameplay are unchanged."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-17T16:13:35.431642+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "c57bb3de4c8d59936bef825d6dee6408057f4467",
+      "dev": 98,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": {
+        "size": 12925,
+        "mtime_ns": 1789661416184600400
+      },
+      "backlog/QUEUE.md": {
+        "size": 2487,
+        "mtime_ns": 1789661534756736100
+      },
+      "backlog/completed/AA-20260913-232221-natural-forest-generation.md": {
+        "size": 12259,
+        "mtime_ns": 1789661612588769800
+      },
+      "backlog/completed/AA-20260917-160840-use-scoped-benchmark-metadata.md": {
+        "size": 3311,
+        "mtime_ns": 1789661534754346200
+      },
+      "backlog/ideas/IDEA-20260917-110000-use-scoped-benchmark-metadata.md": null,
+      "backlog/ideas/archive/IDEA-20260917-110000-use-scoped-benchmark-metadata.md": {
+        "size": 1585,
+        "mtime_ns": 1789661534755735800
+      },
+      "config/benchmark_metadata_scope.json": {
+        "size": 882,
+        "mtime_ns": 1789661534754346200
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/VALIDATION.md": {
+        "size": 149109,
+        "mtime_ns": 1789661416184600400
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/benchmark_metadata.py": {
+        "size": 7614,
+        "mtime_ns": 1789661172282865900
+      },
+      "scripts/benchmark_pc.ps1": {
+        "size": 18683,
+        "mtime_ns": 1789661464032644500
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/rendering_baseline_report.py": {
+        "size": 20332,
+        "mtime_ns": 1789661362469892200
+      },
+      "scripts/resolve_godot_engine.ps1": {
+        "size": 1971,
+        "mtime_ns": 1789661047306020000
+      },
+      "scripts/test_world_policy.ps1": {
+        "size": 2182,
+        "mtime_ns": 1789322445799082300
+      },
+      "scripts/validation_lease.ps1": {
+        "size": 8707,
+        "mtime_ns": 1789319650873372200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789641931263320900
+      },
+      "tests/test_benchmark_metadata.py": {
+        "size": 6973,
+        "mtime_ns": 1789661274764805200
+      },
+      "tests/test_rendering_baseline_report.py": {
+        "size": 10946,
+        "mtime_ns": 1789661274764805200
+      }
+    }
+  }
+}

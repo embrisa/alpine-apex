@@ -68,6 +68,13 @@ Use [benchmark_pc.ps1](../../../scripts/benchmark_pc.ps1) for production frame
 measurements; consult the measurement guide for its guarded invocation. Select
 an explicit compatible `-InputTrace`, event window, fresh `-Label`, repetitions
 and effective settings. Do not rely on its historical default trace path.
+Use `-PlanOnly` to inspect its launch and metadata scope without starting Godot.
+The wrapper records runtime files from `config/benchmark_metadata_scope.json`,
+the selected test dependencies, trace and engine files using size/mtime metadata.
+Add dynamic experimental inputs with `-MetadataPaths` or an explicit complete
+`-MetadataScope`. Inspect `system.json` schema2 `input_changes`; unrelated Git
+changes alone do not invalidate a run. Missing receipts or scoped drift do.
+Replay/cache checks remain required. See the measurement guide for scope limits.
 Record requested and effective upscaling plus MSAA: platform-specific Auto and
 frame-generation compatibility follow [FidelityFX](../../../docs/RENDERING.md#fidelityfx).
 Different reconstruction paths are configuration tradeoffs, not isolated pass timings.
@@ -150,8 +157,7 @@ assumptions change.
 ## Internal development identity
 
 For the distant-snow cost gate, follow the [three-mode comparison](../../../docs/VALIDATION.md#scenery-snow-material-comparison).
-It reuses the native descent loop directly, avoiding the old wrapper's blanket
-hash audit. Exclude its first residency traversal, compare matched material
+It reuses the native descent loop directly for a single shared startup. Exclude its first residency traversal, compare matched material
 bindings, and keep shared startup/allocation telemetry distinct from incremental
 feature cost. Bounded route acceptance does not establish full-descent tails.
 

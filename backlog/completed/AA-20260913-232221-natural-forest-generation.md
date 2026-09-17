@@ -185,6 +185,6 @@ Evidence: [structured results](../../docs/NATURAL_FOREST_RESULTS.json),
 clip, current traces and native timing receipts. The first lower-reaching
 candidate remains explicitly preliminary. Updated World, Architecture,
 Development, Validation, performance handoff, relevant skills and producer map.
-The [scoped benchmark metadata idea](../ideas/IDEA-20260917-110000-use-scoped-benchmark-metadata.md)
+The [scoped benchmark metadata idea](../ideas/archive/IDEA-20260917-110000-use-scoped-benchmark-metadata.md)
 is recorded for the final ideas phase. Backlog validation uses preserve-dirty;
 source and artifact hash audits were skipped under the current policy.

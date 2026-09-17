@@ -22,7 +22,6 @@ status, dependencies, evidence and acceptance live in each stable task record.
 - [Separate scenery bake inputs from render-only updates](ideas/IDEA-20260917-082200-separate-scenery-bake-dependencies.md).
 - [Share far-tree material submissions](ideas/IDEA-20260917-090000-share-far-tree-material-submissions.md).
 
-- [Use scoped benchmark metadata](ideas/IDEA-20260917-110000-use-scoped-benchmark-metadata.md).
 
 ## Rules for the next task
 
