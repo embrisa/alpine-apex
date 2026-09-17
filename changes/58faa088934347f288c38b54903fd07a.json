@@ -1,0 +1,206 @@
+{
+  "schema": 1,
+  "id": "58faa088934347f288c38b54903fd07a",
+  "summary": "Close delivered snow-boundary integration with current focused checks",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Delivered local snow-boundary integration record"
+  ],
+  "owned_paths": [
+    "backlog/QUEUE.md",
+    "backlog/blocked/AA-20260912-005323-subtle-local-snow-boundary.md",
+    "backlog/completed/AA-20260912-005323-subtle-local-snow-boundary.md",
+    "backlog/completed/AA-20260912-132147-review-loaded-track-ridge-shape.md"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "assets/graphics/alpine_surface_fragment.gdshaderinc",
+    "assets/graphics/powder_surface.gdshader",
+    "assets/graphics/powder_surface.gdshaderinc",
+    "assets/graphics/ski_track.gdshader",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "scripts/presentation/powder_surface.gd",
+    "scripts/presentation/snow_tracks.gd",
+    "tests/carving_raised_ski_tracks_gpu_suite.gd",
+    "tests/local_snow_boundary_suite.gd",
+    "tests/powder_support_cache_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Documentation-only closure; no runtime source, assets, simulation or schema changes."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Documentation-only closure; no runtime source, assets, simulation or schema changes."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Documentation-only closure; no runtime source, assets, simulation or schema changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Existing implementation and formats remain unchanged; current compact checks use isolated fixtures."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Existing implementation and formats remain unchanged; current compact checks use isolated fixtures."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Existing implementation and formats remain unchanged; current compact checks use isolated fixtures."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Existing implementation and formats remain unchanged; current compact checks use isolated fixtures."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Existing implementation and formats remain unchanged; current compact checks use isolated fixtures."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "Shared native guards snow-boundary-native-20260917 and snow-boundary-tracks-gpu-20260917; headless powder_support_cache_suite in batch-daf566c951",
+      "result": "passed",
+      "details": "22 native boundary/atlas,24 support-cache and7 native live-track GPU checks pass (53 unique). Initial batch incorrectly invoked native-only GPU suite headlessly; retained invocation failure, then both required native routes passed. See artifacts/snow_boundary_close_20260917/REVIEW.md. No runtime edits or new appearance/FPS claim."
+    },
+    {
+      "kind": "automated",
+      "command": "python scripts/backlog.py validate --preserve-dirty; git diff --check; python scripts/versioning.py check --note changes/58faa088934347f288c38b54903fd07a.json [--staged]",
+      "result": "passed",
+      "details": "Administrative records reconcile delivered ridge follow-up and explicitly waived historical compound timing gate; checks run before and after owned staging."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human/controller snow-boundary subtlety remains separate. Historical native clips and cost samples are not new current-source visual or FPS results. Original compound timing gate is waived under documented user scope, not claimed passed. Additional powder update/shader optimization remains active."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T02:36:29.700663+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "d0b8f54a42502cbeb8a657d931c6ec917cf99870",
+      "dev": 84,
+      "modified": true
+    },
+    "inputs": {
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "assets/graphics/alpine_surface_fragment.gdshaderinc": {
+        "size": 8305,
+        "mtime_ns": 1789330911382388000
+      },
+      "assets/graphics/powder_surface.gdshader": {
+        "size": 2771,
+        "mtime_ns": 1789206461567894800
+      },
+      "assets/graphics/powder_surface.gdshaderinc": {
+        "size": 3412,
+        "mtime_ns": 1789205914210505300
+      },
+      "assets/graphics/ski_track.gdshader": {
+        "size": 5762,
+        "mtime_ns": 1789594595746728500
+      },
+      "backlog/QUEUE.md": {
+        "size": 3869,
+        "mtime_ns": 1789612516026162400
+      },
+      "backlog/blocked/AA-20260912-005323-subtle-local-snow-boundary.md": null,
+      "backlog/completed/AA-20260912-005323-subtle-local-snow-boundary.md": {
+        "size": 5076,
+        "mtime_ns": 1789612589196181200
+      },
+      "backlog/completed/AA-20260912-132147-review-loaded-track-ridge-shape.md": {
+        "size": 6554,
+        "mtime_ns": 1789612516026162400
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/RENDERING.md": {
+        "size": 45179,
+        "mtime_ns": 1789610812875393700
+      },
+      "docs/VALIDATION.md": {
+        "size": 136041,
+        "mtime_ns": 1789611473823323600
+      },
+      "project.godot": {
+        "size": 1819,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/powder_surface.gd": {
+        "size": 18288,
+        "mtime_ns": 1789594595768738500
+      },
+      "scripts/presentation/snow_tracks.gd": {
+        "size": 15066,
+        "mtime_ns": 1789594595770754600
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/carving_raised_ski_tracks_gpu_suite.gd": {
+        "size": 4391,
+        "mtime_ns": 1789594595802235300
+      },
+      "tests/local_snow_boundary_suite.gd": {
+        "size": 7012,
+        "mtime_ns": 1789594595856284500
+      },
+      "tests/powder_support_cache_suite.gd": {
+        "size": 2483,
+        "mtime_ns": 1789215079816638700
+      }
+    }
+  }
+}

@@ -19,7 +19,7 @@ Keep loaded carving trails continuous while making the pronounced scalloped or t
 
 Standard carving frames217-233 and boundary before/after reviews retain conspicuous loaded banks. Loaded response/bank formulas predate the continuity feature, but the change fromXYZ toXZ retained-stamp distance may affect their prominence; causality is unisolated. The accepted v3 continuity fixes and12 mm cosmetic continuation are separate results. Crystal include changes also prevent attributing every before/after highlight difference to the boundary.
 
-Originating tasks: [AA-20260911-225724-carving-raised-ski-tracks](../abandoned/AA-20260911-225724-carving-raised-ski-tracks.md), [AA-20260912-005323-subtle-local-snow-boundary](../blocked/AA-20260912-005323-subtle-local-snow-boundary.md). Evidence: `artifacts/orchestration_20260912/carving/world_shape/REVIEW.md`, `artifacts/local_snow_boundary/matrix_v5/`, and the two independent boundary review reports. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
+Originating tasks: [AA-20260911-225724-carving-raised-ski-tracks](../abandoned/AA-20260911-225724-carving-raised-ski-tracks.md), [AA-20260912-005323-subtle-local-snow-boundary](AA-20260912-005323-subtle-local-snow-boundary.md). Evidence: `artifacts/orchestration_20260912/carving/world_shape/REVIEW.md`, `artifacts/local_snow_boundary/matrix_v5/`, and the two independent boundary review reports. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
 
 ## Agreed decisions and scope
 
