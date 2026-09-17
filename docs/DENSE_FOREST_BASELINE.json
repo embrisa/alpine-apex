@@ -1,43 +1,62 @@
 {
   "schema": 1,
-  "baseline_id": "dense-forest-dev40-4k-high-auto75-20260916",
+  "baseline_id": "dense-forest-dev78-4k-high-auto75-timed-20260917",
   "recorded_dates": [
-    "2026-09-15",
-    "2026-09-16"
+    "2026-09-17"
   ],
-  "scope": "15-second dense-forest ordinary-input route; reusable original-forest reference, not whole-descent FPS",
-  "source_commit": "54e60613ba1c213fb76fa6f5436f402e0268a109",
-  "source_dev": 40,
+  "scope": "15-second dense-forest ordinary-input route with production 20 Hz ghost recording; three warmed trials in one process. Not whole-descent or every-scene FPS.",
+  "source_commit": "fb625ab33d1a67cfb383c208f0893e8f3aaac048",
+  "source_dev": 78,
   "runtime": {
-    "path": "artifacts/depth_order_20260915/engine/bin/godot.windows.template_debug.x86_64.console.exe",
-    "kind": "Private depth-order diagnostic engine with ordering, stats, audit and readback disabled; retain this build for matching comparisons. Installed production engine is a different build.",
-    "disabled_environment_flags": {
-      "ALPINE_DEPTH_ORDER": "off",
-      "ALPINE_DEPTH_STATS": "",
-      "ALPINE_DEPTH_AUDIT": "",
-      "ALPINE_DEPTH_READBACK": "",
-      "ALPINE_NATIVE_TREES": "",
-      "ALPINE_MESHY_TREE": "off"
-    }
+    "path": ".tools/godot-fsr/bin/godot.windows.template_debug.x86_64.console.exe",
+    "version": {
+      "build": "custom_build",
+      "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+      "hex": 263938,
+      "major": 4,
+      "minor": 7,
+      "patch": 2,
+      "status": "stable",
+      "string": "4.7.2-stable (custom_build)",
+      "timestamp": 1786929518
+    },
+    "kind": "Installed production custom DX12 runtime; no native pass profiling or diagnostic engine overrides."
   },
   "hardware": {
-    "cpu": "Ryzen 5 5600X",
-    "gpu": "Radeon RX 9070",
-    "memory_gb": 16,
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+    "gpu": "AMD Radeon RX 9070",
     "installed_ram_bytes": 17099018240
   },
   "workload": {
-    "trace": "artifacts/dense_gpu_20260914/traces/forest.json",
+    "trace": "artifacts/fps_baseline_20260917/forest.json",
+    "source_trace": "artifacts/canopy_idle_20260916/forest.json",
+    "harness": "artifacts/fps_baseline_20260917/route.gd",
+    "reproduce": "artifacts/fps_baseline_20260917/reproduce.ps1",
     "scenario_replay": true,
     "trial_start_seconds": 0,
     "trial_seconds": 15,
-    "cache_state": "physical and scenery hits",
     "first_traversal_excluded": true,
+    "warmup_run": 1,
+    "measured_runs": [
+      2,
+      3,
+      4
+    ],
     "stationary_warmup_frames": 240,
+    "timed_ghost_recording": true,
+    "recording_hz": 20,
+    "recording_samples_per_run": 301,
     "cpu_scopes": false,
     "gpu_pass_profiling": false,
     "capture_free": true,
-    "original_forest": true
+    "grass": "on",
+    "gravel": "all",
+    "wilderness": "on",
+    "weather": "clear",
+    "time_of_day": "day",
+    "physical_cache_hit": true,
+    "scenery_cache_hit": false,
+    "cache_note": "Scenery rebuilt during startup before traversal warmup; all three accepted trials reuse the loaded scene. This is not a startup baseline."
   },
   "configuration": {
     "output_pixels": [
@@ -53,6 +72,7 @@
     "terrain_gi": false,
     "cap": 0,
     "preset": 7,
+    "effective_msaa": 0,
     "display_preferences": {
       "anisotropic": 2,
       "custom": true,
@@ -72,16 +92,16 @@
       "upscaler": "auto",
       "vsync": 0
     },
-    "graphics": {
+    "graphics_profile": {
       "backdrop_tier": 2,
       "contact_intensity": 0.2,
-      "contact_shading": true,
+      "contact_shading": false,
       "fog_strength": 1.0,
       "grain_budget": 256,
       "highlight_glow": true,
       "highlight_glow_intensity": 0.385,
       "indirect_intensity": 0.55,
-      "indirect_lighting": true,
+      "indirect_lighting": false,
       "mesh_lod_bias": 1.0,
       "mist_budget": 128,
       "normal_strength": 0.42,
@@ -199,210 +219,227 @@
     }
   },
   "aggregation": {
-    "trial_count": 6,
-    "method": "Arithmetic average of six warmed per-run mean frame times; FPS is 1000 divided by that average. Percentiles summarized separately as medians of run percentiles, never pooled.",
-    "mean_frame_ms": 13.900193200144066,
-    "rendered_fps": 71.94144610807537,
+    "trial_count": 3,
+    "method": "Arithmetic mean of warmed run mean frame times; FPS = 1000 / mean ms. Percentiles are medians of run percentiles, never pooled.",
+    "mean_frame_ms": 9.179882465697096,
+    "mean_gpu_ms": 7.51674216325583,
+    "mean_render_cpu_ms": 1.8063148792056634,
     "run_mean_frame_ms_range": [
-      13.7139166666667,
-      14.139954674221
+      9.13108165752589,
+      9.27480049566295
     ],
-    "median_run_p50_ms": 14.23775,
-    "median_run_p95_ms": 17.301000000000002,
-    "median_run_p99_ms": 20.2675,
-    "mean_gpu_ms": 11.724477822682887,
-    "range_is_confidence_interval": false
+    "run_rendered_fps_range": [
+      107.819030767036,
+      109.516050508189
+    ],
+    "median_run_p50_ms": 8.716,
+    "median_run_p95_ms": 12.247,
+    "median_run_p99_ms": 14.289,
+    "range_is_confidence_interval": false,
+    "rendered_fps": 108.93385658659004,
+    "observed_run_mean_spread_percent": 1.565584730241384
   },
   "runs": [
     {
-      "process": "clean-off-r1",
       "run": 2,
+      "role": "clean",
+      "ticks": 1800,
+      "exact_trace": true,
+      "unfocused_frames": 0,
+      "recording_ticks": 1800,
+      "pose_samples": 301,
       "frame_ms": {
-        "average_fps": 72.9186288867149,
-        "count": 1092,
-        "max": 25.126,
-        "mean": 13.7139166666667,
-        "median_fps": 71.311416957855,
-        "p50": 14.023,
-        "p95": 16.963,
-        "p99": 18.657,
-        "slowest_one_percent_fps": 49.3889243092285
+        "average_fps": 109.483873659615,
+        "count": 1640,
+        "max": 17.059,
+        "mean": 9.13376524390245,
+        "median_fps": 114.731528223956,
+        "p50": 8.716,
+        "p95": 12.223,
+        "p99": 14.216,
+        "slowest_one_percent_fps": 66.0717617063615
       },
       "gpu_ms": {
-        "count": 1092,
-        "mean": 11.665858042545807,
-        "p50": 11.7059998512268,
-        "p95": 12.5979995727539,
-        "p99": 12.9580001831055
+        "count": 1640,
+        "max": 9.09500026702881,
+        "mean": 7.48458292862264,
+        "p95": 8.12199974060059,
+        "p99": 8.73200035095215
       },
       "render_cpu_ms": {
-        "count": 1092,
-        "mean": 1.9996959704619188,
-        "p50": 1.90600001811981,
-        "p95": 2.9210000038147,
-        "p99": 3.56599998474121
+        "count": 1640,
+        "max": 3.91499996185303,
+        "mean": 1.8106140255928,
+        "p95": 2.67700004577637,
+        "p99": 3.23900008201599
+      },
+      "draw_calls": {
+        "count": 1640,
+        "max": 2018.0,
+        "mean": 1628.05975609756,
+        "p95": 2004.0,
+        "p99": 2016.0
+      },
+      "submitted_primitives": {
+        "count": 1640,
+        "max": 11193870.0,
+        "mean": 9022367.2402439,
+        "p95": 11042601.0,
+        "p99": 11161796.0
+      },
+      "submitted_objects": {
+        "count": 1640,
+        "max": 2670.0,
+        "mean": 2276.72987804878,
+        "p95": 2652.0,
+        "p99": 2663.0
       }
     },
     {
-      "process": "clean-off-r1",
       "run": 3,
+      "role": "clean",
+      "ticks": 1800,
+      "exact_trace": true,
+      "unfocused_frames": 0,
+      "recording_ticks": 1800,
+      "pose_samples": 301,
       "frame_ms": {
-        "average_fps": 72.2297421632066,
-        "count": 1081,
-        "max": 29.29,
-        "mean": 13.8447123034228,
-        "median_fps": 70.2938282018839,
-        "p50": 14.226,
-        "p95": 17.216,
-        "p99": 19.939,
-        "slowest_one_percent_fps": 44.7746005902106
+        "average_fps": 109.516050508189,
+        "count": 1641,
+        "max": 19.641,
+        "mean": 9.13108165752589,
+        "median_fps": 115.194102061974,
+        "p50": 8.681,
+        "p95": 12.247,
+        "p99": 14.289,
+        "slowest_one_percent_fps": 64.6697657432838
       },
       "gpu_ms": {
-        "count": 1081,
-        "mean": 11.679183167731951,
-        "p50": 11.7340002059937,
-        "p95": 12.6879997253418,
-        "p99": 13.0150003433228
+        "count": 1641,
+        "max": 9.31799983978271,
+        "mean": 7.5386776354602,
+        "p95": 8.11200046539307,
+        "p99": 8.93299961090088
       },
       "render_cpu_ms": {
-        "count": 1081,
-        "mean": 2.0062830730459407,
-        "p50": 1.90699994564056,
-        "p95": 2.89299988746643,
-        "p99": 3.36899995803833
+        "count": 1641,
+        "max": 3.82999992370605,
+        "mean": 1.78631078572189,
+        "p95": 2.53600001335144,
+        "p99": 3.04999995231628
+      },
+      "draw_calls": {
+        "count": 1641,
+        "max": 2019.0,
+        "mean": 1630.71724558196,
+        "p95": 2007.0,
+        "p99": 2016.0
+      },
+      "submitted_primitives": {
+        "count": 1641,
+        "max": 11193870.0,
+        "mean": 9035098.42413163,
+        "p95": 11036130.0,
+        "p99": 11145713.0
+      },
+      "submitted_objects": {
+        "count": 1641,
+        "max": 2668.0,
+        "mean": 2279.49603900061,
+        "p95": 2653.0,
+        "p99": 2661.0
       }
     },
     {
-      "process": "clean-off-r1",
       "run": 4,
+      "role": "clean",
+      "ticks": 1800,
+      "exact_trace": true,
+      "unfocused_frames": 0,
+      "recording_ticks": 1800,
+      "pose_samples": 301,
       "frame_ms": {
-        "average_fps": 71.7698313442374,
-        "count": 1074,
-        "max": 26.083,
-        "mean": 13.9334310986965,
-        "median_fps": 70.1779009789817,
-        "p50": 14.2495,
-        "p95": 17.386,
-        "p99": 20.219,
-        "slowest_one_percent_fps": 44.8118107637969
+        "average_fps": 107.819030767036,
+        "count": 1614,
+        "max": 23.143,
+        "mean": 9.27480049566295,
+        "median_fps": 113.823914404416,
+        "p50": 8.7855,
+        "p95": 12.549,
+        "p99": 15.017,
+        "slowest_one_percent_fps": 60.0371524025456
       },
       "gpu_ms": {
-        "count": 1074,
-        "mean": 11.720920863764245,
-        "p50": 11.7709999084473,
-        "p95": 12.9119997024536,
-        "p99": 13.96399974823
+        "count": 1614,
+        "max": 9.9040002822876,
+        "mean": 7.52696592568465,
+        "p95": 8.50100040435791,
+        "p99": 9.64900016784668
       },
       "render_cpu_ms": {
-        "count": 1074,
-        "mean": 2.047966479145171,
-        "p50": 1.94999998807907,
-        "p95": 2.93899989128113,
-        "p99": 3.5699999332428
-      }
-    },
-    {
-      "process": "clean-return-r1",
-      "run": 2,
-      "frame_ms": {
-        "average_fps": 72.7424588313754,
-        "count": 1089,
-        "max": 29.141,
-        "mean": 13.747129476584,
-        "median_fps": 70.9370788110946,
-        "p50": 14.097,
-        "p95": 16.829,
-        "p99": 20.316,
-        "slowest_one_percent_fps": 44.8309871783377
+        "count": 1614,
+        "max": 4.02500009536743,
+        "mean": 1.8220198263023,
+        "p95": 2.64400005340576,
+        "p99": 3.23699998855591
       },
-      "gpu_ms": {
-        "count": 1089,
-        "mean": 11.742496783849402,
-        "p50": 11.7969999313354,
-        "p95": 12.7770004272461,
-        "p99": 13.3219995498657
+      "draw_calls": {
+        "count": 1614,
+        "max": 2020.0,
+        "mean": 1634.96034696406,
+        "p95": 2007.0,
+        "p99": 2016.0
       },
-      "render_cpu_ms": {
-        "count": 1089,
-        "mean": 2.1143314973053524,
-        "p50": 2.03299999237061,
-        "p95": 2.98300004005432,
-        "p99": 3.56299996376038
-      }
-    },
-    {
-      "process": "clean-return-r1",
-      "run": 3,
-      "frame_ms": {
-        "average_fps": 71.3164264433831,
-        "count": 1068,
-        "max": 27.295,
-        "mean": 14.0220149812734,
-        "median_fps": 69.9839037021485,
-        "p50": 14.289,
-        "p95": 17.678,
-        "p99": 21.687,
-        "slowest_one_percent_fps": 41.5527115033016
+      "submitted_primitives": {
+        "count": 1614,
+        "max": 11193870.0,
+        "mean": 9065305.51301115,
+        "p95": 11044231.0,
+        "p99": 11161796.0
       },
-      "gpu_ms": {
-        "count": 1068,
-        "mean": 11.750980317369383,
-        "p50": 11.78599977493285,
-        "p95": 13.0059995651245,
-        "p99": 14.2690000534058
-      },
-      "render_cpu_ms": {
-        "count": 1068,
-        "mean": 2.132808988125583,
-        "p50": 2.03500008583069,
-        "p95": 3.07800006866455,
-        "p99": 3.66100001335144
-      }
-    },
-    {
-      "process": "clean-return-r1",
-      "run": 4,
-      "frame_ms": {
-        "average_fps": 70.7215845481551,
-        "count": 1059,
-        "max": 29.225,
-        "mean": 14.139954674221,
-        "median_fps": 69.4927032661571,
-        "p50": 14.39,
-        "p95": 17.919,
-        "p99": 21.105,
-        "slowest_one_percent_fps": 42.450227108715
-      },
-      "gpu_ms": {
-        "count": 1059,
-        "mean": 11.787427760836534,
-        "p50": 11.8179998397827,
-        "p95": 13.0530004501343,
-        "p99": 14.1850004196167
-      },
-      "render_cpu_ms": {
-        "count": 1059,
-        "mean": 2.178649669891264,
-        "p50": 2.07299995422363,
-        "p95": 3.00799989700317,
-        "p99": 3.61500000953674
+      "submitted_objects": {
+        "count": 1614,
+        "max": 2671.0,
+        "mean": 2283.64807930607,
+        "p95": 2653.0,
+        "p99": 2663.0
       }
     }
   ],
-  "evidence": [
-    "artifacts/meshy7_tree_20260915/timing_summary.json",
-    "artifacts/meshy7_tree_20260915/REPORT.md"
-  ],
-  "reuse_policy": "docs/VALIDATION.md#reusable-baselines-and-experiment-budget",
-  "limitations": [
-    "Historical saved average, not a simultaneous original-control measurement.",
-    "Match the named runtime and effective workload; use existing matching results or refresh only when relevant conditions change.",
-    "Raw RenderDoc captures were removed during disk cleanup; these capture-free timings and original rows remain."
-  ],
+  "warmup": {
+    "run": 1,
+    "role": "warmup",
+    "frame_ms": {
+      "average_fps": 103.503890304829,
+      "count": 1551,
+      "max": 48.028,
+      "mean": 9.66147259832365,
+      "median_fps": 111.074086415639,
+      "p50": 9.003,
+      "p95": 13.24,
+      "p99": 16.81,
+      "slowest_one_percent_fps": 45.8836619750622
+    },
+    "gpu_ms": {
+      "count": 1551,
+      "max": 10.2740001678467,
+      "mean": 7.77515474524827,
+      "p95": 9.08199977874756,
+      "p99": 9.88700008392334
+    }
+  },
+  "validity": {
+    "guard_exit_code": 0,
+    "failures": [],
+    "source_commit_unchanged": true,
+    "source_status_before": [],
+    "source_status_after": [],
+    "source_verification": "Git commit/status and normal runtime replay compatibility; no manual source, asset or executable hash audit.",
+    "prior_trace_checkpoints_matched": 15,
+    "no_personal_record_writes": true,
+    "gpu_timing_scope": "Native viewport GPU timing. No isolated depth/opaque pass attribution was run."
+  },
   "environment": {
-    "logical_processors": 12,
-    "weather_seed": 849205174,
-    "time_of_day": "day",
     "os": {
       "Caption": "Microsoft Windows 11 Pro",
       "Version": "10.0.26200",
@@ -412,11 +449,23 @@
       {
         "Name": "AMD Radeon RX 9070",
         "DriverVersion": "32.0.31041.1004",
-        "DriverDate": "2026-08-17T02:00:00+02:00",
-        "CurrentHorizontalResolution": 3840,
-        "CurrentVerticalResolution": 2160
+        "DriverDate": "2026-08-17T02:00:00+02:00"
       }
-    ],
-    "weather": "clear"
-  }
+    ]
+  },
+  "evidence": [
+    "artifacts/pc_environment/dense-baseline-20260917/production.json",
+    "artifacts/pc_environment/dense-baseline-20260917/frame_samples_2.json",
+    "artifacts/pc_environment/dense-baseline-20260917/frame_samples_3.json",
+    "artifacts/pc_environment/dense-baseline-20260917/frame_samples_4.json",
+    "artifacts/guarded/dense-baseline-20260917/guard.json",
+    "artifacts/fps_baseline_20260917/environment.json"
+  ],
+  "reuse_policy": "docs/VALIDATION.md#reusable-baselines-and-experiment-budget",
+  "limitations": [
+    "One process with three warmed route traversals; observed range is not cross-session confidence.",
+    "No whole-mountain, multi-ghost, storm or sustained 120 FPS acceptance. Median run p95 exceeds the 11.1 ms target.",
+    "The former 71.94 FPS reference used Dev40 and a different diagnostic runtime; it is historical, not a matched A/B control for this baseline.",
+    "Preserve the compact trace, harness and raw timing receipts for future matching comparisons."
+  ]
 }

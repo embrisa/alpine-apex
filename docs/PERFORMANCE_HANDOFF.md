@@ -4,6 +4,15 @@ Snapshot for Fable's next experiments. Current contracts and commands remain in
 [Rendering](RENDERING.md), [Development](DEVELOPMENT.md#native-skier-math) and
 [Validation](VALIDATION.md#reusable-baselines-and-experiment-budget).
 
+## Current Windows reference - 17 September
+
+The user-requested fresh [dense-route baseline](DENSE_FOREST_BASELINE.json) at
+**Dev78 / fb625ab3** is **108.93 FPS / 9.180 ms**, native viewport GPU **7.517 ms**.
+Three warmed 15-second timed-recording trials span **107.82-109.52 FPS**, with
+median run p95/p99 **12.247 / 14.289 ms**. The old Windows results below are
+historical attribution. Reuse the current reference for matching future work;
+see [the baseline policy](VALIDATION.md#reusable-baselines-and-experiment-budget).
+
 ## Enabled in this milestone
 
 - Native physical hip fitting, presentation pelvis fitting and joint limits;

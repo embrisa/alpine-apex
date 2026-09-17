@@ -491,12 +491,27 @@ attribution; use the normal warmed-sample policy below for new acceptance work.
 
 Reuse a saved baseline instead of rerunning the original setup for every change.
 The current dense-forest reference is
-[DENSE_FOREST_BASELINE.json](DENSE_FOREST_BASELINE.json): six already completed,
-valid warmed original-forest trials from the matching capture-free control and
-return processes. No new runs were needed to create it. Retain each trial, the
-arithmetic average of run mean frame times, FPS derived as 1000 / average ms,
-the observed range and separately aggregated run p95/p99 values. Do not average
-unrelated routes, settings, profiled runs, candidates or invalid trials together.
+[DENSE_FOREST_BASELINE.json](DENSE_FOREST_BASELINE.json): **Dev78 / fb625ab3**, three
+15-second warmed trials recorded on 17 September with the installed Windows DX12
+runtime, 4K High / Auto 75% FSR 4.1.1 / FG off / uncapped, and normal 20 Hz ghost
+recording. The first route traversal is retained but excluded. Mean **9.180 ms /
+108.93 FPS**, GPU **7.517 ms**; individual runs **107.82-109.52 FPS**. Median run
+p95/p99 are **12.247 / 14.289 ms**. This replaces the historical Dev40 / 71.94 FPS
+reference for current matching work; it does not establish whole-descent FPS.
+Scenery rebuilt before warmup; this receipt provides no startup comparison.
+
+Preserve the compact trace, timed-recording harness, repeat command and environment
+receipt in `artifacts/fps_baseline_20260917/`, plus the raw results in
+`artifacts/pc_environment/dense-baseline-20260917/`. The harness extends the maintained
+`tests/performance_descent.gd`, enables normal timed recording with isolated record
+paths, and disables CPU profiling for every trial. Native viewport GPU timing is
+included; separate depth/opaque profiling is not part of this FPS reference.
+
+Retain each trial, the arithmetic average of run mean frame times, FPS derived as
+1000 / average ms, the observed range and separately aggregated run p95/p99 values.
+Do not average unrelated routes, settings, profiled runs, candidates or invalid
+trials together. The 1.57% observed frame-mean range comes from one process, not
+cross-session confidence; a smaller candidate delta alone is inconclusive.
 
 Baseline matching uses the recorded source/Dev version and relevant intervening
 changes, runtime build/path, GPU/driver, route/event, camera, actual output/internal

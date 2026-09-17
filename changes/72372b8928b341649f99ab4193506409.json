@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "id": "72372b8928b341649f99ab4193506409",
+  "summary": "Save current Windows dense-forest FPS baseline for reuse",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Reusable Windows FPS baseline",
+    "Current performance handoff and comparison policy"
+  ],
+  "owned_paths": [
+    "docs/DENSE_FOREST_BASELINE.json",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/VALIDATION.md"
+  ],
+  "read_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    "AGENTS.md",
+    "scripts/diagnostics/frame_costs.gd",
+    "scripts/racing/run_replay.gd",
+    "scripts/racing/run_session.gd",
+    "scripts/run_guarded.ps1",
+    "tests/performance_descent.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Measured existing Dev78 and saved documentation; no production code or asset edits."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Measured existing Dev78 and saved documentation; no production code or asset edits."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Measured existing Dev78 and saved documentation; no production code or asset edits."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Benchmark used isolated recording destinations and did not change gameplay data or formats."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Benchmark used isolated recording destinations and did not change gameplay data or formats."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Benchmark used isolated recording destinations and did not change gameplay data or formats."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Benchmark used isolated recording destinations and did not change gameplay data or formats."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Benchmark used isolated recording destinations and did not change gameplay data or formats."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "Guarded artifacts/fps_baseline_20260917/refresh_trace.gd on installed Windows runtime",
+      "details": "Replayed the existing 1800 dense-forest inputs and matched all 15 saved checkpoints and endpoint; camera and inputs unchanged. Normal runtime identity refreshed after replay."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "FpsCritical run_guarded.ps1 with artifacts/fps_baseline_20260917/route.gd, label dense-baseline-20260917; repeat recipe retained in the same artifact folder",
+      "details": "Explicitly requested new baseline on clean Dev78/fb625ab3: first traversal excluded, three warmed 15-second samples at 4K High/Auto75 FSR4.1.1/FG off/uncapped. 108.934 FPS, 9.17988 ms frame, 7.51674 ms GPU; p95/p99 medians 12.247/14.289 ms. All rows completed 1800 ticks, 301 timed-recording poses, exact replay and zero unfocused frames. Guard exit 0; source commit/status unchanged. No CPU/pass profiling or captures. Scenery rebuilt before warmup. Passed baseline collection does not claim the frame-tail or sustained 120 FPS target."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "Recompute saved aggregate from production.json; verify retained evidence paths; PowerShell parser for reproduce.ps1; git -c core.whitespace=cr-at-eol diff --check",
+      "details": "All static checks passed after metadata capture. Benchmark ran before documentation authoring; the measured runtime and sources were unchanged. Canonical receipt keeps settings, per-run data, range, timing scope, source/runtime versions and reuse limits."
+    },
+    {
+      "kind": "rendered",
+      "result": "not_required",
+      "command": "No separate visual capture",
+      "details": "Baseline-only work; no production rendering change. Capture-free native timing does not claim fresh human visual acceptance."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-17T00:25:34.281172+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "fb625ab33d1a67cfb383c208f0893e8f3aaac048",
+      "dev": 78,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": {
+        "size": 11512,
+        "mtime_ns": 1789594590939650200
+      },
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/DENSE_FOREST_BASELINE.json": {
+        "size": 14162,
+        "mtime_ns": 1789604647938723300
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 44735,
+        "mtime_ns": 1789604699385256900
+      },
+      "docs/VALIDATION.md": {
+        "size": 129375,
+        "mtime_ns": 1789604699384251700
+      },
+      "project.godot": {
+        "size": 1819,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/diagnostics/frame_costs.gd": {
+        "size": 1278,
+        "mtime_ns": 1789220306164959700
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 16580,
+        "mtime_ns": 1789594595774260900
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18286,
+        "mtime_ns": 1789576668695286100
+      },
+      "scripts/racing/run_session.gd": null,
+      "scripts/run_guarded.ps1": {
+        "size": 13613,
+        "mtime_ns": 1789319650715797000
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/performance_descent.gd": {
+        "size": 19660,
+        "mtime_ns": 1789594595869676400
+      }
+    }
+  }
+}
