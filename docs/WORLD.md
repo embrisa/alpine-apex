@@ -23,7 +23,7 @@ shared support grid is 4 m. Local complexity must retain route branching and
 protected openings; no feature applies a racing-line force. Seeded ecology
 varies slope/elevation/exposure and preserves mineral/tree non-overlap.
 
-Generator 17 requests 85,000 / 170,000 / 340,000 / 850,000 trees for Light /
+Generator 18 requests 85,000 / 170,000 / 340,000 / 850,000 trees for Light /
 Standard / Rich / Extreme. Custom retains the same factor semantics. Mineral
 targets remain 8,011 / 16,022 / 32,044 / 80,110. Report achieved counts separately:
 spacing and protected terrain can saturate placement. Synthetic capacity tests
@@ -31,7 +31,7 @@ do not prove natural placement feasibility or skiable routes.
 
 ## Previous bounded default-v15 route evidence
 
-These version-15 measurements do not certify generator 17. The new generation
+These version-15 measurements do not certify generator 18. The new generation
 change uses the bounded forest routes and two-seed evidence linked below.
 
 The current source-hashed route scenario is produced by
@@ -143,7 +143,7 @@ variant plus minority per-tree silhouettes avoids repeated neighboring crowns.
 These rules consume position/seed without advancing physical random streams.
 Changing the art or visual assignment refreshes scenery preparation only; physical
 tree positions, dimensions, candidate/ecology IDs and the 4 m support grid remain
-unchanged by visual assignment. Generator 17 retains the generator 16 physical
+unchanged by visual assignment. Generator 18 retains the generator 16 physical
 Standard target reduction of 15% and sparse upper trees within that total. Dense stands
 retain their previous treeline fade. A coherent sparse band uses actual shaped
 altitude, thins toward isolated trees above the local treeline, and fades from
@@ -153,7 +153,7 @@ support is preferred. A 120-280 m radial fade protects the summit centre; existi
 trunk-spacing, drop and natural-opening exclusions still apply. The forest-only
 Dev94 revision preserved foundation terrain and mineral placement. Generator 17
 also changes channels and clearance as described below.
-Old version-16 recipes and their race/record/ghost references are incompatible;
+Old version-17 and earlier recipes and their race/record/ghost references are incompatible;
 regenerate worlds and input fixtures rather than changing recorded identities.
 Personal files remain untouched. Historical Dev94 verification: [natural forest review](../artifacts/natural_forest_20260917/REVIEW.md).
 
@@ -201,6 +201,17 @@ cap. Overlap uses maximum, not addition. Measure actual trunk rise/local promine
 against surrounding added snow; a grid peak is not visible mound height. Reseat
 trees/mineral foundations and preserve the original material/exposure contract:
 changed normal stencils must not expose rock merely because snow was added.
+Generator 18 broadens the physical ridge cuts to the full channel profile and
+caps their extra depth at 8 m. Continuous bounded channel overlap and rounded
+competing ridge heights replace sharp intersection seams; distinct crag steps
+remain. General wind-deposited snow uses seeded lee-side and hollow locations on
+all six faces, with broad 24-38 m by 38-62 m bank radii and 1.65-2.85 m authored
+height. Smooth bounded overlap replaces the old flat 0.85 m clipping ceiling.
+Runtime wind does not move this physical surface. Newly deposited cells and their
+normal stencils preserve snow coverage through the subsequent exposure rebuild.
+Current mountains and derived race/record/ghost/cache identities must regenerate;
+filenames retaining `v17` are source locations, not compatibility versions.
+
 Runtime contact cannot modify this immutable mountain. Cosmetic powder/tracks
 are in [Rendering](RENDERING.md#snow-presentation).
 
@@ -338,7 +349,7 @@ generator/model versions and physical outputs; regenerate rather than bypass it.
 
 ## Caches and export
 
-`user://mountain_cache_v17/<recipe SHA>.physical` stores final heights, snow,
+`user://mountain_cache_v18/<recipe SHA>.physical` stores final heights, snow,
 material, normals, packed trees/index, face recipes, seated minerals and collision.
 The paired `.scenery` stores maps, terrain arrays/templates, seated transforms
 and regional batches. Scenery identity also pins physical fingerprints,

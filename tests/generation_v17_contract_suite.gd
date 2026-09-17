@@ -58,7 +58,7 @@ func run() -> void:
 	check(Archive.read(path,"different".sha256_text()).is_empty(),"Source/engine/key invalidation")
 	var file = FileAccess.open(path,FileAccess.READ_WRITE); file.seek(file.get_length()-1); var value = file.get_8(); file.seek(file.get_length()-1); file.store_8(value^1); file.close()
 	check(Archive.read(path,key).is_empty(),"Corrupted section rejected before decoding")
-	file = preload("res://tests/test_report.gd").open_write(path); file.store_string("APEXV17"); file.close()
+	file = preload("res://tests/test_report.gd").open_write(path); file.store_string(Archive.MAGIC.left(7)); file.close()
 	check(Archive.read(path,key).is_empty(),"Truncated archive rejected")
 	var protected_key = "protected".sha256_text(); var old_key = "old".sha256_text(); var new_key = "new".sha256_text()
 	for recipe in [old_key,new_key,protected_key]:
@@ -78,7 +78,7 @@ func run() -> void:
 	check(rebuilt.has("field") and rebuilt.field.tree_data.positions==field.tree_data.positions and rebuilt.field.material_image.get_data()==field.material_image.get_data(),"Warm recipe restores final packed trees and material")
 	var custom = definition.to_reference(); custom.settings.tree_population = 2.35
 	check(Definition.reference_error(custom).is_empty() and JSON.stringify(custom).sha256_text()!=definition.identity(),"Custom settings carried in references")
-	var race = Race.new(); race.mountain = definition.to_reference(); race.title = "V17 sharing"; race.start = Vector3(0,100,20); race.finish = Vector3(0,0,200)
+	var race = Race.new(); race.mountain = definition.to_reference(); race.title = "Current generation sharing"; race.start = Vector3(0,100,20); race.finish = Vector3(0,0,200)
 	var shared = Race.decode(race.share_text())
 	check(shared.has("race") and shared.race.mountain.settings==field.generation_settings,"Race sharing retains canonical settings")
 	var old = JSON.parse_string(definition.share_text()); old.schema = 1

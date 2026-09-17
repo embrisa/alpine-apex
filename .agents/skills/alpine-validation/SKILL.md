@@ -217,9 +217,14 @@ separate scopes; reject measured cache misses and underground review cameras.
 
 For physical forest and opening changes, follow
 [natural opening checks](../../../docs/VALIDATION.md#natural-opening-checks).
-Current generator 17 fixtures require fresh actual traces. Dev94 generator 16
+Current generator 18 fixtures require fresh actual traces. Dev94 generator 16
 forest receipts and the older dense-route averages are historical; changed
 placement, support and controls cannot certify a matched FPS gain. Inspect
 matched world views and keep graph connectivity separate from human skiing.
 
 For scene-motion blur, use the [bounded native and production-component checks](../../../docs/VALIDATION.md#scene-motion-blur-checks). Apply display changes through the production helper for FG, check actual output pixels, and capture air/landing transitions from events rather than fixed frame guesses.
+
+For generated snow banks and terrain joins, use the compact
+[production-stage check](../../../docs/VALIDATION.md#terrain-snow-banks-and-rounded-joins)
+and matched native views. Validate local prominence rather than added grid height
+alone, and preserve snow material after rebuilding the changed surface normals.

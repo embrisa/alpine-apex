@@ -14,7 +14,7 @@ static func load_standard(candidates: Array[String] = []):
 	if paths.is_empty():
 		paths.append(Cache.path_for(seed_number,settings))
 		if not OS.has_feature("editor"):
-			paths.append(OS.get_executable_path().get_base_dir().path_join("data/default_mountain_v17.physical"))
+			paths.append(OS.get_executable_path().get_base_dir().path_join("data/default_mountain_v18.physical"))
 	for path in paths:
 		job.begin_stage("physical_cache_read")
 		var data: Dictionary = Cache.Archive.read(path,key,job)

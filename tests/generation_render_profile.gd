@@ -1,6 +1,6 @@
 extends SceneTree
 ## Real main-scene readiness and static dense-area samples; never saves records.
-var version = 17
+var version = 18
 var preset_index = 1
 var repetitions = 3
 var spacing = 1.0
@@ -52,7 +52,7 @@ func run() -> void:
 		row.internal_pixels = [roundi(actual_pixels.x*root.scaling_3d_scale),roundi(actual_pixels.y*root.scaling_3d_scale)]
 		row.height_sha256 = field.height_checksum; row.obstacle_sha256 = field.obstacle_checksum
 		print("GENERATION_RENDER_READY ",JSON.stringify(row))
-		if version==17 and preset_index==1 and repetition==0:
+		if version==18 and preset_index==1 and repetition==0:
 			await game.mountain_library.open()
 			var library = game.mountain_library
 			library.advanced_toggle.button_pressed = false

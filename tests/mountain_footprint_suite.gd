@@ -38,7 +38,7 @@ func run() -> void:
 	check(partial>0 and indexed_support,"Partial perimeter chunks retain exact 4 m support and seam vertices")
 	check(physical==[field.heights,field.tree_data.positions,field.tree_data.dimensions],"Footprint preparation preserves current physical heights and packed trees")
 	var reference=Definition.from_field(field).to_reference()
-	check(reference.scenery_version==3 and reference.version==17,"Mountain identity advances scenery independently of the physical generator")
+	check(reference.scenery_version==3 and reference.version==18,"Mountain identity advances scenery independently of the physical generator")
 	var legacy=reference.duplicate(); legacy.scenery_version=2
 	check(not Definition.reference_error(legacy).is_empty(),"Old scenery identities are rejected instead of mixed into current maps")
 	var preview=preload("res://scripts/ui/mountain_preview.gd").build_image(field)

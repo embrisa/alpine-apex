@@ -201,7 +201,7 @@ unrun suites establish a pass. The whole suite list is checked before launch.
 | `core` (default) | Physics, runtime |
 | `input` | Controller input, haptics, then physics/runtime |
 | `graphics` | Graphics settings, PC graphics settings |
-| `generation` | Current v17 estimates, archive/recipe contracts, scenery integrity |
+| `generation` | Current v18 estimates, archive/recipe contracts, scenery integrity |
 
 These are focused selections, not universal acceptance gates. Explicit `-Suites`
 accepts a PowerShell array or comma-separated names, including with `pwsh -File`.
@@ -223,7 +223,7 @@ Runtime retained its real scene construction/reload and passed 192 checks.
 Evidence: `artifacts/validation_turnaround/comparison.json`, `baseline/` and
 `optimized/`. This is one diagnostic pair, not a guaranteed latency bound.
 
-Warm v17 contracts, scenery-integrity checks, trace generation and production
+Warm v18 contracts, scenery-integrity checks, trace generation and production
 descent playback use `tests/validation_mountain.gd`. It reuses the production
 source/engine key, archive checksums and structural restore validation, and fails
 on a missing/incompatible Standard fixture without starting a cold bake. Prepare
@@ -549,7 +549,7 @@ Paths in this table are under `tests/` unless noted.
 | Pole propulsion | [Force/pose/authoring producers](#pole-propulsion-and-animation-producers), shared physics/runtime and final shaft/clothing review |
 | Animation/fitting | Animation skill's Regression stages; anatomy, attachment, motion, relevant flight/landing and full clothing audit; chronological rendered review |
 | Pose-review tools | `pose_review_tools_test.py`, affected real-capture commands, `pose_review_state.test.cjs` for feedback state; native smoke if rendering changes |
-| Generation/cache | Current v17 generation/cache/recipe/cancellation/export suites; cold/worker determinism and actual requested/achieved populations |
+| Generation/cache | Current v18 generation/cache/recipe/cancellation/export suites; cold/worker determinism and actual requested/achieved populations |
 | Current mountain routes | `alpine_v17_route_audit.gd`, then `python tests/report_v17_route_audit.py`; six surveys and one bounded ordinary-input pilot per face; human/multiple-seed acceptance separate |
 | Geology/assets | `geology_asset_suite.gd`, collision/seating/proxy checks as affected; source hashes plus native gallery/gameplay |
 | Trees | `density_lod_suite.gd`, `foliage_sight_suite.gd`, native mask/settings/stand review, actual near/mid/far transition and bounded dense-route cost |
@@ -725,7 +725,7 @@ of identical asset bytes. Verify this tooling with
 `test_rendering_baseline_report.py` fixtures; no GPU baseline is needed.
 
 ```powershell
-./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','current-v17','-Version','17','-InputTrace','artifacts/current/input.json','-Upscaler','auto','-TerrainGI','off','-FrameGeneration','off','-FrameCap','0','-Repetitions','3','-ProfileFrameCosts') -Label current-v17 -TimeoutSeconds 2400 -CollectGpuMemory -FullMountain -FullMountainReason 'Representative production mountain timing and exact route inputs'
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','current-v18','-Version','18','-InputTrace','artifacts/current/input.json','-Upscaler','auto','-TerrainGI','off','-FrameGeneration','off','-FrameCap','0','-Repetitions','3','-ProfileFrameCosts') -Label current-v18 -TimeoutSeconds 2400 -CollectGpuMemory -FullMountain -FullMountainReason 'Representative production mountain timing and exact route inputs'
 ```
 
 The example requires a separately prepared matching complete trace. Follow with
@@ -1084,7 +1084,7 @@ point bytes; point bytes exclude Jolt's native allocations. Keep render captures
 separate from these timing runs.
 
 Use `./scripts/record_run.ps1` when a player can demonstrate a faster route or a
-specific event. The guarded launch opens current default v17 Standard with normal
+specific event. The guarded launch opens current default v18 Standard with normal
 riding input, High/Auto .75/120 FPS/FG off/GI off and read-only saved camera settings.
 At the summit, choose a face and drop in to start recording. **Triangle / R**
 restarts with a fresh input stream; **D-pad Right / F8** or **Save clip** ends early.
@@ -1141,7 +1141,7 @@ record files stayed unchanged. Detailed receipts are in
 not a full-descent FPS baseline or physical-controller comfort.
 
 `tests/interface_performance_suite.gd` is the bounded native UI/graphics protocol.
-It uses actual v17 Standard main-scene handoff and validated caches; physical
+It uses actual v18 Standard main-scene handoff and validated caches; physical
 cache misses invalidate comparisons. Run via the resolved DX12 engine with
 `--ui-staged-loading --benchmark-no-captures --graphics-quality=high
 --upscaler=auto --render-scale=0.75 --fps-limit=120 --frame-generation=off
@@ -2268,3 +2268,11 @@ already exists and only the revised effect needs measuring; it runs one warmed
 15-second enabled arm with the same scene, framing and settings.
 Human/controller comfort remains separate acceptance. Preserve the completed
 physics/world identity; this presentation feature needs no compatibility bump.
+
+### Terrain snow banks and rounded joins
+
+`terrain_snow_banks_suite.gd` uses a 320 m crop of the current production recipe
+and real sculpt, normal and material stages. It checks local bank prominence,
+bounded relief and preservation of snow on changed normal stencils. Retain native
+before/after views and contact reproductions for sharp rock/snow steps; these
+small fixtures do not establish full-mountain placement or FPS acceptance.

@@ -36,7 +36,7 @@ static func identity(value: Dictionary) -> String:
 	return JSON.stringify(canonical(value),"",true,true).sha256_text()
 
 static func targets(value: Dictionary) -> Dictionary:
-	return {"trees":roundi(TREE_BASELINE*value.tree_population),"minerals":roundi(MINERAL_BASELINE*value.mineral_density),"snow_features":6*(roundi(96*value.snow_feature_density)+roundi(100*value.snow_feature_density)+roundi(32*value.snow_feature_density))}
+	return {"trees":roundi(TREE_BASELINE*value.tree_population),"minerals":roundi(MINERAL_BASELINE*value.mineral_density),"snow_features":6*(roundi(96*value.snow_feature_density)+roundi(100*value.snow_feature_density)+roundi(48*value.snow_feature_density))}
 
 static func stream(seed_number: int, stage: int, candidate: int) -> int:
 	# A bounded integer mix avoids signed-overflow/platform arithmetic differences.

@@ -45,7 +45,7 @@ func prepare(parent) -> bool:
 	for path in ["user://camera_v2.cfg","user://graphics_v2.cfg","user://display_v1.cfg","user://weather_v1.cfg","user://benchmark_v1.json"]:
 		private_files[path] = FileAccess.get_sha256(path) if FileAccess.file_exists(path) else ""
 	personal_inventory = persistent_files()
-	loading_estimate_before = FileAccess.get_sha256("user://generation_measurements_v17.json")
+	loading_estimate_before = FileAccess.get_sha256("user://generation_measurements_v18.json")
 	if not owner.audit.failures.is_empty():
 		preload("res://tests/test_report.gd").write(owner.OUTPUT+"/preflight_failure.json",JSON.stringify({"failures":owner.audit.failures,"sources":owner.sources},"\t"))
 	return owner.audit.failures.is_empty()
@@ -82,7 +82,7 @@ func run(parent, tasks: Array[String]) -> Dictionary:
 		owner.audit.check(after==private_files[path],"Follow-up personal file unchanged: "+path)
 	var after_inventory = persistent_files()
 	owner.audit.check(after_inventory==personal_inventory,"Personal settings, mountain/race libraries, replay payloads and record files remain byte-identical; no new marker files")
-	evidence.loading_estimate_telemetry = {"path":"user://generation_measurements_v17.json","before":loading_estimate_before,"after":FileAccess.get_sha256("user://generation_measurements_v17.json"),"owner":"GenerationEstimates records normal loading diagnostics; excluded from personal preferences, races, replays and records"}
+	evidence.loading_estimate_telemetry = {"path":"user://generation_measurements_v18.json","before":loading_estimate_before,"after":FileAccess.get_sha256("user://generation_measurements_v18.json"),"owner":"GenerationEstimates records normal loading diagnostics; excluded from personal preferences, races, replays and records"}
 	evidence.personal_files_before = personal_inventory
 	evidence.personal_files_after = after_inventory
 	return Probe.json_safe(evidence)
@@ -229,7 +229,7 @@ func persistent_files() -> Dictionary:
 	var result: Dictionary = {}
 	for file in DirAccess.get_files_at("user://"):
 		# Normal Main loading updates its estimate telemetry, even in automated runs.
-		if file=="generation_measurements_v17.json": continue
+		if file=="generation_measurements_v18.json": continue
 		result[file] = FileAccess.get_sha256("user://"+file)
 	for directory in ["mountains_v2","races_v6","race_records_v6"]:
 		collect_files("user://"+directory,result)

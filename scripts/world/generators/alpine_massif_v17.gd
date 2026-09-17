@@ -1,12 +1,12 @@
 extends "res://scripts/world/heightfield_surface.gd"
-## V17: a thinner forest with a sparse sheltered transition above the treeline.
+## V18: rounded terrain joins and visible sheltered snow banks.
 ## One immutable support grid. Generation has
 ## no Nodes, rider state, rendering quality, or preferred player racing line.
 const Face = preload("res://scripts/world/generators/alpine_face_v17.gd")
 const TreeSnow = preload("res://scripts/world/generators/tree_snow_v15.gd")
 const GENERATOR_ID = "alpine-drainage"
-const GENERATOR_VERSION = 17
-const SNOW_REVISION = 2 # smaller tree piles, all-face relief and deep snow cover
+const GENERATOR_VERSION = 18
+const SNOW_REVISION = 3 # rounded joins, sheltered banks and preserved snow coverage
 const DEFAULT_SEED = 849205174
 const FACE_COUNT = 6
 const FOOT_RADIUS = 2850.0
@@ -40,6 +40,8 @@ var _candidate_spacing: float = 4.5
 var _candidate_side: int = 0
 var tree_snow_height = PackedFloat32Array()
 var tree_snow_statistics: Dictionary = {}
+var _snow_added = PackedFloat32Array()
+var _snow_input_material = PackedByteArray()
 var geology = preload("res://scripts/world/mountain_geology_v15.gd").new()
 
 func _init(mountain_seed: int = DEFAULT_SEED,bake_surface: bool = true,settings: Dictionary = {},context = null,restore_only: bool = false) -> void:
@@ -129,6 +131,7 @@ func _rebuild_surface(suffix: String, normals: bool = true) -> void:
 		if job.is_cancelled(): return
 		exposure_image = Image.create_from_data(NX,NZ,false,Image.FORMAT_RGBA8,bytes)
 		geology.paint_exposure(self)
+		if suffix=="before_trees": _finish_snow_cover()
 		_material_from_exposure())
 
 func _material_from_exposure() -> void:
@@ -204,7 +207,29 @@ func foundation_height(x: float,z: float) -> float:
 	return h+noise.get_noise_2d(x,z)*2.0*smoothstep(100,400,r)
 
 func _sculpt_snow() -> void:
-	heights = _parallel_rows(_snow_rows)
+	var sculpted = _parallel_rows(_snow_rows)
+	if job.is_cancelled(): return
+	_snow_added.resize(heights.size())
+	for i in heights.size(): _snow_added[i] = maxf(0,sculpted[i]-heights[i])
+	_snow_input_material = material_image.get_data()
+	heights = sculpted
+
+func _finish_snow_cover() -> void:
+	if _snow_added.is_empty(): return
+	var rgba = exposure_image.get_data()
+	for z in NZ:
+		for x in NX:
+			var i = z*NX+x
+			var influence = maxf(_snow_added[i],maxf(_snow_added[z*NX+maxi(0,x-1)],_snow_added[z*NX+mini(NX-1,x+1)]))
+			influence = maxf(influence,maxf(_snow_added[maxi(0,z-1)*NX+x],_snow_added[mini(NZ-1,z+1)*NX+x]))
+			if influence<=.001: continue
+			# The steeper side of an added snowbank is still snow. Preserve the
+			# input rock mask around its normal stencil, then cover deposited cells.
+			var rock = minf(float(rgba[i*4]),float(_snow_input_material[i]))/255.0
+			rgba[i*4] = roundi(255*rock*(1-smoothstep(.08,.35,_snow_added[i])))
+	exposure_image = Image.create_from_data(NX,NZ,false,Image.FORMAT_RGBA8,rgba)
+	_snow_added.clear()
+	_snow_input_material.clear()
 
 func _snow_rows(first_row: int,last_row: int) -> PackedFloat32Array:
 	var sculpted = heights.slice(first_row*NX,last_row*NX)

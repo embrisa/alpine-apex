@@ -16,10 +16,10 @@ func run()->void:
 		check(settings.targets(settings.preset(i)).trees==[85000,170000,340000,850000][i],"Preset physical tree target "+str(i))
 	var custom=settings.preset();custom.tree_population=1.37
 	check(settings.targets(custom).trees==232900,"Custom tree factor retains its meaning")
-	var reference=Definition.from_field(field).to_reference();reference.version=16
+	var reference=Definition.from_field(field).to_reference();reference.version=17
 	check(not Definition.reference_error(reference).is_empty(),"Old physical world rejected without migration")
-	check(not Definition.parse_seed("849205174 / v16").has("seed"),"Old versioned seed rejected")
-	check(Definition.parse_seed("849205174 / v17").version==17,"Current versioned seed accepted")
+	check(not Definition.parse_seed("849205174 / v17").has("seed"),"Old versioned seed rejected")
+	check(Definition.parse_seed("849205174 / v18").version==18,"Current versioned seed accepted")
 	var ecology_reference=[];var candidate_reference=[];var candidate_total=0
 	field.job=Job.new();field._build_ecology();field.candidate_count()
 	for workers in [1,2,6]:

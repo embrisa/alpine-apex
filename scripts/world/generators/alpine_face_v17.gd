@@ -1,5 +1,5 @@
 extends RefCounted
-## V17 keeps local openings short and softens continuous channel clearances.
+## V18: rounded terrain joins and sheltered wind-deposited snow banks.
 ## These describe terrain, never a route to follow or a force on the rider.
 const CELL = 4.0
 const REGION_CELL = 192.0
@@ -338,7 +338,7 @@ func _channel_width(channel: Dictionary,t: float) -> float:
 func _channel_envelope(t: float) -> float:
 	return smoothstep(.04,.30,t)*(1-smoothstep(.62,.96,t))
 
-func channel_values(x: float,z: float) -> Vector2:
+func channel_values(x: float,z: float,broad_floor: bool = false) -> Vector2:
 	var cut = 0.0
 	var floor_weight = 0.0
 	for id in channel_grid.get(Vector2i(floori(x/REGION_CELL),floori(z/REGION_CELL)),[]):
@@ -349,8 +349,11 @@ func channel_values(x: float,z: float) -> Vector2:
 		var width: float = _channel_width(channel,t)
 		var across = absf(x-centre)/width
 		var envelope = _channel_envelope(t)
-		cut = maxf(cut,channel.depth*(1-smoothstep(.10,1,across))*envelope)
-		floor_weight = maxf(floor_weight,(1-smoothstep(.16,.48,across))*envelope)
+		# Continuous physical overlap avoids knife edges between intersecting hollows.
+		var local_cut: float=channel.depth*(1-smoothstep(.10,1,across))*envelope
+		cut = cut+local_cut*(1-cut/12.0) if broad_floor else maxf(cut,local_cut)
+		var local_floor: float=(1-smoothstep(.10 if broad_floor else .16,1.0 if broad_floor else .48,across))*envelope
+		floor_weight = floor_weight+local_floor*(1-floor_weight) if broad_floor else maxf(floor_weight,local_floor)
 	return Vector2(cut,floor_weight)
 
 func _shaped_height(x: float,z: float,foundation: float) -> float:
@@ -368,12 +371,16 @@ func _shaped_height(x: float,z: float,foundation: float) -> float:
 		var q: Vector2 = (p-shelf.position).rotated(shelf.angle)/shelf.radius
 		# Rounded glacial benches flatten briefly then roll into the next face.
 		h += shelf.height*q.y*exp(-q.length_squared()*1.6)*2.0
-	var channels_here = channel_values(x,z)
+	var channels_here = channel_values(x,z,true)
 	h -= channels_here.x
 	var rock_relief = 0.0
 	for id in rib_grid.get(Vector2i(floori(x/REGION_CELL),floori(z/REGION_CELL)),[]):
-		rock_relief = maxf(rock_relief,ribs[id].height*rib_weight(ribs[id],x,z))
-	h += rock_relief*(1-channels_here.y*.5)*smoothstep(450,900,z)
+		var relief: float=ribs[id].height*rib_weight(ribs[id],x,z)
+		# Blend competing ridges only where their heights are close.
+		var blend_width = minf(16.0,2.0*minf(rock_relief,relief))
+		var overlap = maxf(blend_width-absf(rock_relief-relief),0.0)
+		rock_relief = maxf(rock_relief,relief)+(overlap*overlap/(4*blend_width) if blend_width>.00001 else 0.0)
+	h += (rock_relief-minf(rock_relief*.5,8.0)*channels_here.y)*smoothstep(450,900,z)
 	for crag_id in crag_grid.get(Vector2i(floori(x/REGION_CELL),floori(z/REGION_CELL)),[]):
 		var crag: Dictionary = crags[crag_id]
 		var cross_weight = crag_weight(crag,x)
@@ -515,6 +522,7 @@ func snow_relief_at(x: float,z: float) -> float:
 	var rolling = cover_noise.get_noise_2d(x,z)
 	var waves = cover_noise.get_noise_2d(wind.x*.45+319,wind.y*1.6-217)
 	var value = .12+rolling*.30+waves*.14
+	var gathered = 0.0
 	for id in snow_grid.get(Vector2i(floori(x/SNOW_CELL),floori(z/SNOW_CELL)),[]):
 		var form: Dictionary = snow_forms[id]
 		var metres: Vector2 = (Vector2(x,z)-form.position).rotated(form.angle)
@@ -523,8 +531,14 @@ func snow_relief_at(x: float,z: float) -> float:
 		# C2 compact envelope: zero height/slope/curvature at the patch edge.
 		var envelope = pow(1.0-q.length_squared(),3)
 		var shape: float = sin(metres.y*TAU/form.wavelength+form.phase) if form.kind==0 else 1.0
-		value += form.height*envelope*shape
-	return clampf(value,-.18,.85)
+		if form.kind==0:
+			value += form.height*envelope*shape
+		else:
+			# A rounded upwind shoulder trails downwind. Smooth bounded overlap
+			# avoids both stacked piles and the old flat .85 m clipping plane.
+			var lift: float = form.height*envelope*(1-.22*q.y)
+			gathered += lift*(1-gathered/3.5)
+	return clampf(value,-.18,.35)+gathered
 
 func snow_relief_weight(x: float,z: float) -> float:
 	var n = render_normal(x,z)
@@ -562,7 +576,7 @@ func _build_snow_forms() -> void:
 	cover_noise.frequency = .035
 	cover_noise.fractal_octaves = 2
 	var rng = RandomNumberGenerator.new(); rng.seed = seed_value+0x5140F7
-	var waves = roundi(96*snow_richness); var mounds = roundi(100*snow_richness); var banks = roundi(32*snow_richness)
+	var waves = roundi(96*snow_richness); var mounds = roundi(100*snow_richness); var banks = roundi(48*snow_richness)
 	for i in waves+mounds+banks:
 		rng.seed = Settings.stream(seed_value,15,i)
 		var kind = 0 if i<waves else (1 if i<waves+mounds else 2)
@@ -573,14 +587,14 @@ func _build_snow_forms() -> void:
 			radius = Vector2(rng.randf_range(28,54),rng.randf_range(40,75))
 			amplitude = rng.randf_range(.10,.25)
 		elif kind==1:
-			radius = Vector2(rng.randf_range(12,24),rng.randf_range(12,24))
-			amplitude = rng.randf_range(.20,.45)
+			radius = Vector2(rng.randf_range(20,32),rng.randf_range(28,46))
+			amplitude = rng.randf_range(.45,1.10)
 		else:
-			var bowl: Dictionary = bowls[i%bowls.size()]
-			p = bowl.position+Vector2(rng.randf_range(-.78,.78)*bowl.radius.x,rng.randf_range(-.7,.8)*bowl.radius.y)
-			radius = Vector2(rng.randf_range(20,50),rng.randf_range(20,50))
-			amplitude = rng.randf_range(.30,.85)
-		var form = {"kind":kind,"position":p,"radius":radius,"height":amplitude,"angle":wind_angle+rng.randf_range(-1.1,1.1),"phase":rng.randf_range(-PI,PI),"wavelength":rng.randf_range(32,64)}
+			p = _sheltered_bank(rng,i)
+			radius = Vector2(rng.randf_range(24,38),rng.randf_range(38,62))
+			amplitude = rng.randf_range(1.65,2.85)
+		var spread = 1.1 if kind==0 else .22
+		var form = {"kind":kind,"position":p,"radius":radius,"height":amplitude,"angle":wind_angle+rng.randf_range(-spread,spread),"phase":rng.randf_range(-PI,PI),"wavelength":rng.randf_range(32,64)}
 		var id = snow_forms.size(); snow_forms.append(form)
 		var extent: float = maxf(radius.x,radius.y)
 		for iz in range(floori((p.y-extent)/SNOW_CELL),floori((p.y+extent)/SNOW_CELL)+1):
@@ -588,6 +602,35 @@ func _build_snow_forms() -> void:
 				var key = Vector2i(ix,iz)
 				if not snow_grid.has(key): snow_grid[key] = []
 				snow_grid[key].append(id)
+
+func _sheltered_bank(rng: RandomNumberGenerator, id: int) -> Vector2:
+	# Recipe-time shelter, independent of runtime weather. Compare upwind and
+	# downwind heights after removing the local plane: a pitched smooth slope
+	# alone must not count as a windbreak. No grid or render resources needed.
+	var downwind = Vector2(sin(wind_angle),cos(wind_angle))
+	var across = Vector2(downwind.y,-downwind.x)
+	var best = Vector2.ZERO
+	var best_score = -INF
+	for attempt in 12:
+		var p: Vector2
+		if attempt<8:
+			var rib: Dictionary = ribs[(id+attempt)%ribs.size()]
+			var direction = downwind.rotated(rib.angle)
+			var edge = 1.0/(direction/rib.radius).length()
+			p = rib.position+downwind*edge*rng.randf_range(.7,1.25)+across*rng.randf_range(-28,28)
+		else:
+			var bowl: Dictionary = bowls[(id+attempt)%bowls.size()]
+			p = bowl.position+Vector2(rng.randf_range(-.7,.7)*bowl.radius.x,rng.randf_range(-.65,.75)*bowl.radius.y)
+		var h = _forest_height(p)
+		var upwind_height = _forest_height(p-downwind*32)
+		var downwind_height = _forest_height(p+downwind*32)
+		var cross_slope = (_forest_height(p+across*12)-_forest_height(p-across*12))/24
+		var along_slope = (downwind_height-upwind_height)/64
+		var normal_y = 1.0/sqrt(1+cross_slope*cross_slope+along_slope*along_slope)
+		var shelter = maxf(0,upwind_height+downwind_height-2*h)
+		var score = (1+minf(shelter,12))*smoothstep(.70,.87,normal_y)*sector_weight(p.x,p.y)*(1-protected_drop_weight(p.x,p.y))
+		if score>best_score: best = p; best_score = score
+	return best
 
 func _index_landforms() -> void:
 	for pair in [[bowls,bowl_grid],[shelves,shelf_grid]]:

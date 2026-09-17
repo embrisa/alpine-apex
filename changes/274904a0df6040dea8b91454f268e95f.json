@@ -1,0 +1,329 @@
+{
+  "schema": 1,
+  "id": "274904a0df6040dea8b91454f268e95f",
+  "summary": "Round terrain joins and add sheltered wind-deposited snow banks",
+  "categories": [
+    "World"
+  ],
+  "areas": [
+    "terrain generation",
+    "physical snow",
+    "cache identity",
+    "validation"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-validation/SKILL.md",
+    "config/generation_dependencies.json",
+    "docs/ARCHITECTURE.md",
+    "docs/DEVELOPMENT.md",
+    "docs/VALIDATION.md",
+    "docs/WORLD.md",
+    "scripts/audit_windows_playtest.py",
+    "scripts/prepare_playtest_bake.gd",
+    "scripts/world/generation_estimates.gd",
+    "scripts/world/generation_settings.gd",
+    "scripts/world/generators/alpine_face_v17.gd",
+    "scripts/world/generators/alpine_massif_v17.gd",
+    "scripts/world/mountain_archive.gd",
+    "scripts/world/mountain_cache_v17.gd",
+    "scripts/world/mountain_definition.gd",
+    "scripts/world/mountain_footprint.gd",
+    "scripts/world/scenery_cache.gd",
+    "tests/density_spatial_suite.gd",
+    "tests/generation_render_profile.gd",
+    "tests/generation_v17_contract_suite.gd",
+    "tests/mountain_footprint_suite.gd",
+    "tests/natural_forest_ecology_suite.gd",
+    "tests/session_navigation_followup.gd",
+    "tests/session_navigation_playtest.gd",
+    "tests/terrain_snow_banks_suite.gd",
+    "tests/terrain_snow_banks_suite.gd.uid",
+    "tests/validation_mountain.gd",
+    "tests/windows_playtest_smoke.gd"
+  ],
+  "read_paths": [
+    "scripts/core/ski_simulation.gd",
+    "scripts/prepare_generation_export.gd",
+    "scripts/world/generation_job.gd",
+    "scripts/world/generators/tree_snow_v15.gd",
+    "scripts/world/heightfield_surface.gd",
+    "scripts/world/mountain_geology_v15.gd",
+    "tests/prepare_validation_mountain.gd",
+    "tests/test_report.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "The 120 Hz model-35 solver, input and replay algorithms are unchanged; generated physical terrain changes under generator 18."
+      },
+      "world": {
+        "effect": "changed",
+        "reason": "Generator 18 rounds physical channel/ridge joins and deposits larger sheltered snow banks on the shared 4 m support grid."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Existing archive/reference schemas remain; generator, recipe key, archive magic and cache/bundle routing identify the new terrain."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "incompatible",
+        "reason": "Generator-17 terrain-dependent data cannot represent generator-18 support and placements. Existing personal files remain untouched."
+      },
+      "races": {
+        "effect": "incompatible",
+        "reason": "Generator-17 terrain-dependent data cannot represent generator-18 support and placements. Existing personal files remain untouched."
+      },
+      "records": {
+        "effect": "incompatible",
+        "reason": "Generator-17 terrain-dependent data cannot represent generator-18 support and placements. Existing personal files remain untouched."
+      },
+      "ghosts": {
+        "effect": "incompatible",
+        "reason": "Generator-17 terrain-dependent data cannot represent generator-18 support and placements. Existing personal files remain untouched."
+      },
+      "caches": {
+        "effect": "regenerate",
+        "reason": "Generator-17 terrain-dependent data cannot represent generator-18 support and placements. Existing personal files remain untouched."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "Guarded tests/terrain_snow_banks_suite.gd (snow-v18-final-stages)",
+      "result": "passed",
+      "details": "6576 checks, zero failures; actual sculpt/normal/material stages, bank prominence and four recorded sharp joins. artifacts/terrain_snow_banks/stages.json. Subsequent source changes only update version assertions in other test producers; these tested inputs stayed unchanged."
+    },
+    {
+      "kind": "automated",
+      "command": "Guarded artifacts/snow_gully_20260917/prepare_v18_verified.gd (snow-v18-final-physical; Exclusive, two workers, explicit full mountain)",
+      "result": "passed",
+      "details": "Complete current Standard generation: finite heights,170000 trees,16022 minerals,288 banks,1464 snow forms;6026449 final seating comparisons with no errors. Corrected the initial snow-count mismatch and regenerated; production_generation.json records final current inputs."
+    },
+    {
+      "kind": "automated",
+      "command": "scripts/test_pc_environment.ps1 -Suites density_spatial_suite,generation_v17_estimate_suite,generation_v17_contract_suite -OutputDirectory artifacts/snow_gully_20260917/integration_checks -FullMountain -FullMountainReason \"Current generator18 cache contracts\"",
+      "result": "passed",
+      "details": "34 density/identity,5 estimate and80 cache/archive/sharing checks passed; current warm cache restores final trees and material. No cold generation in the batch."
+    },
+    {
+      "kind": "automated",
+      "command": "Guarded artifacts/snow_gully_20260917/check_production_surface.gd (snow-v18-final-surface; warm full physical fixture)",
+      "result": "passed",
+      "details": "Seven changed identity-consuming scripts parsed;24 three-second terrain-contact crossings completed using final generated support/material. production_review/contact.json records every direction. Matched eligible starts show mean air1.696->0.163s at03 and1.467->0.283s at06; separate props omitted and loose depth fixed. Not universal no-air or full skiing acceptance."
+    },
+    {
+      "kind": "rendered",
+      "command": "Guarded artifacts/snow_gully_20260917/show_production_surface.gd (snow-v18-final-native)",
+      "result": "passed",
+      "details": "Inspected two matched before/current crops from actual final generated terrain and production material at1280x800,15FPS. Site02 large teeth substantially reduced; site01 rounded general snow bank retained. production_review/review.json. Terrain only, no complete mountain scenery or FPS claim."
+    },
+    {
+      "kind": "automated",
+      "command": "skill-creator quick_validate.py .agents/skills/alpine-validation with existing .tools/skill-validation PyYAML; local link/anchor checks; Python ast.parse; git -c core.whitespace=cr-at-eol diff --check",
+      "result": "passed",
+      "details": "Skill schema, guide links/anchors, packaging audit syntax and scoped whitespace checks passed. Runtime export compatibility manifest refreshed through scripts/prepare_generation_export.gd; no manual hash audit."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human skiing/controller feel and complete newly generated mountain appearance remain separate from accepted prototype, local native crops and bounded terrain-contact evidence.",
+    "No rendered FPS or generation-speed improvement is claimed. New generator18 worlds require regenerated terrain and scenery; the current Standard physical cache is prepared."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T20:40:07.534548+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "e39a026321698d0c163c177096b69e3100698986",
+      "dev": 103,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 15072,
+        "mtime_ns": 1789676779356478100
+      },
+      "config/generation_dependencies.json": {
+        "size": 84115,
+        "mtime_ns": 1789677399106464200
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ARCHITECTURE.md": {
+        "size": 8474,
+        "mtime_ns": 1789676779328445900
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 21283,
+        "mtime_ns": 1789676779329463700
+      },
+      "docs/VALIDATION.md": {
+        "size": 156578,
+        "mtime_ns": 1789676779348678300
+      },
+      "docs/WORLD.md": {
+        "size": 27722,
+        "mtime_ns": 1789676779341090800
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/audit_windows_playtest.py": {
+        "size": 4888,
+        "mtime_ns": 1789676671752754500
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/prepare_generation_export.gd": {
+        "size": 1336,
+        "mtime_ns": 1789641931204245600
+      },
+      "scripts/prepare_playtest_bake.gd": {
+        "size": 1946,
+        "mtime_ns": 1789676671752754500
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/generation_estimates.gd": {
+        "size": 12042,
+        "mtime_ns": 1789676671750744200
+      },
+      "scripts/world/generation_job.gd": {
+        "size": 3789,
+        "mtime_ns": 1789045154044110200
+      },
+      "scripts/world/generation_settings.gd": {
+        "size": 2288,
+        "mtime_ns": 1789677391656602400
+      },
+      "scripts/world/generators/alpine_face_v17.gd": {
+        "size": 34457,
+        "mtime_ns": 1789676688108319700
+      },
+      "scripts/world/generators/alpine_massif_v17.gd": {
+        "size": 25277,
+        "mtime_ns": 1789676688167663500
+      },
+      "scripts/world/generators/tree_snow_v15.gd": {
+        "size": 9421,
+        "mtime_ns": 1789049072836835600
+      },
+      "scripts/world/heightfield_surface.gd": {
+        "size": 8958,
+        "mtime_ns": 1789314383681022400
+      },
+      "scripts/world/mountain_archive.gd": {
+        "size": 5984,
+        "mtime_ns": 1789676671750744200
+      },
+      "scripts/world/mountain_cache_v17.gd": {
+        "size": 9281,
+        "mtime_ns": 1789676671749488700
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "scripts/world/mountain_footprint.gd": {
+        "size": 1447,
+        "mtime_ns": 1789676671751754800
+      },
+      "scripts/world/mountain_geology_v15.gd": {
+        "size": 17581,
+        "mtime_ns": 1789049072835817000
+      },
+      "scripts/world/scenery_cache.gd": {
+        "size": 8833,
+        "mtime_ns": 1789676671751754800
+      },
+      "tests/density_spatial_suite.gd": {
+        "size": 2746,
+        "mtime_ns": 1789676671754529800
+      },
+      "tests/generation_render_profile.gd": {
+        "size": 10409,
+        "mtime_ns": 1789677606828504900
+      },
+      "tests/generation_v17_contract_suite.gd": {
+        "size": 7674,
+        "mtime_ns": 1789676671756861600
+      },
+      "tests/mountain_footprint_suite.gd": {
+        "size": 3268,
+        "mtime_ns": 1789677606827194200
+      },
+      "tests/natural_forest_ecology_suite.gd": {
+        "size": 2603,
+        "mtime_ns": 1789677606828504900
+      },
+      "tests/prepare_validation_mountain.gd": {
+        "size": 1329,
+        "mtime_ns": 1789662363540010100
+      },
+      "tests/session_navigation_followup.gd": {
+        "size": 16585,
+        "mtime_ns": 1789676671755699200
+      },
+      "tests/session_navigation_playtest.gd": {
+        "size": 22974,
+        "mtime_ns": 1789676671755699200
+      },
+      "tests/terrain_snow_banks_suite.gd": {
+        "size": 4643,
+        "mtime_ns": 1789677391656602400
+      },
+      "tests/terrain_snow_banks_suite.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789676781586729200
+      },
+      "tests/test_report.gd": {
+        "size": 1461,
+        "mtime_ns": 1789594595943525600
+      },
+      "tests/validation_mountain.gd": {
+        "size": 1849,
+        "mtime_ns": 1789676671754027800
+      },
+      "tests/windows_playtest_smoke.gd": {
+        "size": 5496,
+        "mtime_ns": 1789676671754529800
+      }
+    }
+  }
+}
