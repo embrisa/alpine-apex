@@ -6,9 +6,8 @@ status, dependencies, evidence and acceptance live in each stable task record.
 
 ## Player features and art
 
-| Task | Remaining outcome |
-|---|---|
-| [Sun-facing lens flare](tasks/AA-20260913-221134-sun-facing-lens-flare.md) | The agreed occlusion-aware optional visual feature. |
+No ready player-feature tasks remain. Continue the remaining work below before
+starting the ideas phase.
 
 ## Blocked work and resume conditions
 

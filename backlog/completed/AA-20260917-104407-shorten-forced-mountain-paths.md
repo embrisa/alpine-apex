@@ -1,21 +1,12 @@
 ---
-
 id: "AA-20260917-104407-shorten-forced-mountain-paths"
-
 title: "Shorten forced mountain paths and soften their definition"
-
-status: completed
-
+status: done
 priority: P1
-
 depends_on: []
-
 created: "2026-09-17T10:44:07Z"
-
 updated: "2026-09-17T11:53:27Z"
-
 source_thread: "01a0a5df-19c3-7783-81dc-eca18c340e4a"
-
 ---
 
 

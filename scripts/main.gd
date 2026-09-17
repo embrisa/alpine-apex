@@ -13,6 +13,7 @@ const ChaseCamera = preload("res://scripts/presentation/chase_camera.gd")
 const CameraSettings = preload("res://scripts/presentation/camera_settings.gd")
 var camera_settings = CameraSettings.new()
 var scene_motion_blur = preload("res://scripts/presentation/scene_motion_blur.gd").new()
+var sun_lens_flare = preload("res://scripts/presentation/sun_lens_flare.gd").new()
 const Effects = preload("res://scripts/presentation/speed_effects.gd")
 const Vectors = preload("res://scripts/presentation/debug_vectors.gd")
 const HUD = preload("res://scripts/ui/hud.gd")
@@ -325,7 +326,7 @@ func _ready() -> void:
 	add_child(camera)
 	# Only the riding camera owns this compositor; preview/menu/survey stay sharp.
 	camera.compositor = Compositor.new()
-	camera.compositor.compositor_effects = [scene_motion_blur]
+	camera.compositor.compositor_effects = [scene_motion_blur,sun_lens_flare]
 	camera_preview = ChaseCamera.new()
 	camera_preview.settings = camera_settings
 	camera_preview.near = camera.near
@@ -1012,6 +1013,7 @@ func start_run(is_timed: bool = false) -> void:
 
 func _reset_screen_effects() -> void:
 	if scene_motion_blur != null: scene_motion_blur.suspend()
+	if sun_lens_flare != null: sun_lens_flare.suspend()
 	if impact_warning != null: impact_warning.reset()
 	if is_instance_valid(speed_periphery):
 		speed_periphery.hide()
@@ -1026,6 +1028,8 @@ func _update_screen_effects(dt: float) -> void:
 	var speed: float = camera.motion_intensity if camera.effects_enabled else 0.0
 	var profile: Dictionary = camera_settings.profile("first_person" if camera.close_view else "chase")
 	var blur_riding: bool = presentation_camera==camera and not hud.camera_options.preview_active and not hud.menu.visible and not hud.weather_panel.visible and not hud.tuning_panel.visible and workshop.mode.is_empty()
+	sun_lens_flare.update_state(weather.state,blur_riding and not summit_ready and not session.finished,camera.effects_enabled,hud.feedback.reduced_motion,graphics.level,dt,world.cloud_lighting.height_m,
+		[camera.close_view,get_viewport().size,get_viewport().scaling_3d_scale,get_viewport().msaa_3d,graphics.level],camera.global_transform,camera.get_camera_projection())
 	scene_motion_blur.update_state(profile,blur_riding,camera.effects_enabled,hud.feedback.reduced_motion,dt,
 		[ camera.close_view,display_settings.upscaler,display_settings.frame_generation,get_viewport().size,get_viewport().scaling_3d_scale,get_viewport().msaa_3d ])
 	hud.camera_options.set_motion_blur_availability(scene_motion_blur.status().unavailable)

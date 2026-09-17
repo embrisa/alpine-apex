@@ -1,5 +1,33 @@
 # Rendering
 
+## Riding sun lens flare
+
+`scripts/presentation/sun_lens_flare.gd` owns a single-view Forward+ compositor
+on the active riding camera, after scene motion blur and before the HUD. Main
+supplies completed camera state and the live weather sun, cloud offset/coverage
+and layer height. The effect never queries physics or changes lighting, weather,
+input, replay state or terrain. The compute source is
+`assets/graphics/sun_lens_flare_compute.gd`.
+
+A 49-tap weighted sun-disc depth sample estimates renderer-visible sky coverage.
+It shares `cloud_field.gdshaderinc` and the sky's wisp calculation. Opaque terrain
+and scenery, including foliage written into depth, block the source. Transparent
+surfaces that do not write depth cannot occlude it. A tiny two-float GPU texture
+holds smoothed and current visibility; complete blockage suppresses the flare
+immediately and reappearance fades in. There are no gameplay CPU readbacks.
+The explicit visibility sampling method is for rendered diagnostics only.
+
+One bounded in-place HDR dispatch adds a warm core and three small soft ghosts;
+there is no full-screen color copy or persistent color history. Output alpha is
+preserved. Projection fades near the viewport edge, and camera cuts, view/quality
+changes and buffer reconfiguration reset visibility. Night/below-horizon sun,
+off-screen sun, Low quality, Optional Motion Effects off, Reduced Motion and all
+inactive/menu/preview/survey/crash/results/loading/transition states remove both
+dispatch and compositor resolve requests. Balanced uses 65% intensity; High uses
+full intensity. There is no additional saved setting. Unsupported/headless or
+multi-view rendering disables the effect. Validation and cost scope:
+[sun lens flare checks](VALIDATION.md#sun-lens-flare-checks).
+
 ## Performance policy
 
 Target: Ryzen 5 5600X / RX 9070 / 16 GB, **3840×2160 output, 90–120 rendered

@@ -1829,6 +1829,16 @@
       "full_mountain": true,
       "coverage": "Explicit current Standard world preparation or matched capped opening review; no implicit cold bake or FPS claim."
     },
+    "tests/sun_lens_flare_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Pure projection, lifecycle and bounded-work checks; no mountain or rendering."
+    },
+    "tests/sun_lens_flare_playtest.gd": {
+      "maps": ["perf-slopes"],
+      "full_mountain": false,
+      "coverage": "Production scene on the authored slopes map; sun occlusion, lifecycle, view and bounded cost checks."
+    },
     "tests/natural_openings_suite.gd": {
       "maps": [],
       "full_mountain": false,

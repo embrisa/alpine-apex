@@ -2056,3 +2056,36 @@ unqualified. For the bounded motion check, use
 `natural_forest_playtest.gd --motion --motion-habitat=lower --output-root=res://artifacts/natural_openings_20260917`.
 No FPS claim follows from captures or these headless routes. Dev94 population,
 visual and timing receipts remain historical and are not overwritten.
+
+
+## Sun lens flare checks
+
+`tests/sun_lens_flare_suite.gd` checks projection, quality/lifecycle gates and
+bounded drawing without a world. Run it and the main-scene regressions with
+`./scripts/test_pc_environment.ps1 -Suites sun_lens_flare_suite,runtime_suite
+-OutputDirectory artifacts/sun_lens_flare/regression` (the runner owns its Shared guard).
+`tests/sun_lens_flare_playtest.gd` explicitly selects `perf-slopes` and loads the
+production scene. No full mountain or cache preparation is required. Its default
+mode is capped at 60 FPS, 1920x1080 / Auto75, with separate on/off images for both
+riding views, rendered depth/cloud visibility samples, a manual-look chronology
+and 16 actual main-scene lifecycle gates. The cloud case places the sun ray in a
+deterministic overcast patch; it does not alter production weather settings.
+`--smoke` selects only edge, course-readability and cloud cases in both views.
+
+Run the native DX12 executable selected by the wrapper through `run_guarded.ps1`,
+with `--path <repo> --script tests/sun_lens_flare_playtest.gd --
+--flare-output=res://artifacts/sun_lens_flare/<fresh-label>
+--graphics-quality=high --render-scale=0.75 --upscaler=auto
+--frame-generation=off --terrain-gi=off --fps-limit=60` under Shared admission.
+Inspect the actual images: successful dispatch or a numeric depth mask alone
+cannot establish an attractive flare or readable skiing. Still-image differences
+also include normal temporal reconstruction variation; they are not isolated
+flare measurements. Review-only GPU visibility readbacks occur outside timing.
+
+After visual acceptance, add `--timing` under FpsCritical admission. This selects
+3840x2160, uncapped, and one warmed 15-second disabled/enabled comparison in an
+identical fixed slopes view. It records frame/GPU/render-thread milliseconds,
+FPS, focus, real dispatch counts and settings, without image or visibility
+readbacks. This local effect cost is not a dense-route or full-mountain baseline.
+Human/controller comfort remains separate acceptance. Preserve the completed
+physics/world identity; this presentation feature needs no compatibility bump.

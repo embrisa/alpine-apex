@@ -1,0 +1,263 @@
+{
+  "schema": 1,
+  "id": "3879248c14e144b7b87b3b9e61ad7e32",
+  "summary": "Add a bounded occlusion-aware riding sun lens flare",
+  "categories": [
+    "Presentation",
+    "Maintenance"
+  ],
+  "areas": [
+    "Riding-camera presentation",
+    "Rendered sun visibility",
+    "Targeted validation",
+    "Backlog completion metadata"
+  ],
+  "owned_paths": [
+    "assets/graphics/sun_lens_flare_compute.gd",
+    "assets/graphics/sun_lens_flare_compute.gd.uid",
+    "backlog/QUEUE.md",
+    "backlog/completed/AA-20260913-221134-sun-facing-lens-flare.md",
+    "backlog/tasks/AA-20260913-221134-sun-facing-lens-flare.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "scripts/main.gd",
+    "scripts/presentation/sun_lens_flare.gd",
+    "scripts/presentation/sun_lens_flare.gd.uid",
+    "tests/fixtures/test_maps.json",
+    "tests/sun_lens_flare_playtest.gd",
+    "tests/sun_lens_flare_playtest.gd.uid",
+    "tests/sun_lens_flare_suite.gd",
+    "tests/sun_lens_flare_suite.gd.uid",
+    "backlog/completed/AA-20260917-104407-shorten-forced-mountain-paths.md"
+  ],
+  "read_paths": [
+    "assets/cloud_field.gdshaderinc",
+    "assets/weather_sky.gdshader",
+    "scripts/presentation/graphics_quality.gd",
+    "scripts/presentation/scene_motion_blur.gd",
+    "scripts/presentation/weather_state.gd",
+    "scripts/world/alpine_world.gd",
+    "tests/fixtures/performance_maps.json"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only reads completed camera/weather state. No solver, input, contact or session behavior changed; model35 and 120Hz retained."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Compositor only; generator17, 4m terrain, placement and scenery assets unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "No save, race, replay, archive or preference schema changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Presentation-only compositor adds no serialized or baked gameplay data."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Presentation-only compositor adds no serialized or baked gameplay data."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Presentation-only compositor adds no serialized or baked gameplay data."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Presentation-only compositor adds no serialized or baked gameplay data."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Presentation-only compositor adds no serialized or baked gameplay data."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "./scripts/test_pc_environment.ps1 -Suites sun_lens_flare_suite,runtime_suite -OutputDirectory artifacts/sun_lens_flare/regression",
+      "result": "passed",
+      "details": "25 focused and 192 runtime checks passed, pure logic and compact smooth-slope fixture. No full mountain or physics changes."
+    },
+    {
+      "kind": "rendered",
+      "command": "Guarded sun-lens-flare-verified-review-20260917; tests/sun_lens_flare_playtest.gd",
+      "result": "passed",
+      "details": "95 checks; 16 on/off cases across chase/first-person, 16 lifecycle gates, two manual-look chronologies. Native depth/projection/cloud evidence and images inspected. Capped 1080p Auto75; not performance evidence. Terrain/opaque visibility0, cloud0.5015. Unsupported depth-free transparent occluders documented."
+    },
+    {
+      "kind": "performance",
+      "command": "Guarded FpsCritical sun-lens-flare-cost-20260917; tests/sun_lens_flare_playtest.gd --timing",
+      "result": "passed",
+      "details": "One capture-free warmed15s pair. Fixed perf-slopes 4K High Auto75 FSR4.1.1, FG/GIoff: off353.4678FPS/2.8291ms/GPU2.4289ms; on352.7862FPS/2.8346ms/GPU2.4341ms. RenderCPU0.2101->0.2762ms. 15 validity checks, focus0, no readbacks. Tiny frame/GPU delta is not a stable cost estimate; local scope only."
+    },
+    {
+      "kind": "human",
+      "command": "15-30second sunny controller descent in chase and first-person",
+      "result": "pending",
+      "details": "Intensity, readability and comfort remain separate human acceptance; not a task completion gate."
+    },
+    {
+      "kind": "automated",
+      "command": "backlog.py validate --preserve-dirty; git diff --check; scoped versioning.py check [--staged]",
+      "result": "passed",
+      "details": "Static backlog and metadata checks passed. Repaired blank frontmatter lines and unsupported completed status in the previous forest completion record; no world/source change. Tested GDScript/shader input sizes/timestamps retained through final documentation edits; no hashes audited."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human/controller comfort during a short sunny descent in both riding views; non-DX12 renderer performance is unmeasured."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T12:35:30.208258+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "e693ba577e2393408a64fa1cb435974b9aee2700",
+      "dev": 95,
+      "modified": true
+    },
+    "inputs": {
+      "assets/cloud_field.gdshaderinc": {
+        "size": 1570,
+        "mtime_ns": 1789594595744656500
+      },
+      "assets/graphics/sun_lens_flare_compute.gd": {
+        "size": 4211,
+        "mtime_ns": 1789647429178029300
+      },
+      "assets/graphics/sun_lens_flare_compute.gd.uid": {
+        "size": 19,
+        "mtime_ns": 1789648257424484700
+      },
+      "assets/weather_sky.gdshader": {
+        "size": 2474,
+        "mtime_ns": 1789631101780928200
+      },
+      "backlog/QUEUE.md": {
+        "size": 2733,
+        "mtime_ns": 1789648452698158900
+      },
+      "backlog/completed/AA-20260913-221134-sun-facing-lens-flare.md": {
+        "size": 10492,
+        "mtime_ns": 1789648453026581100
+      },
+      "backlog/completed/AA-20260917-104407-shorten-forced-mountain-paths.md": {
+        "size": 5330,
+        "mtime_ns": 1789648529372739000
+      },
+      "backlog/tasks/AA-20260913-221134-sun-facing-lens-flare.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/RENDERING.md": {
+        "size": 48848,
+        "mtime_ns": 1789647474108723200
+      },
+      "docs/VALIDATION.md": {
+        "size": 143845,
+        "mtime_ns": 1789648452699162800
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/main.gd": {
+        "size": 88417,
+        "mtime_ns": 1789646824434839600
+      },
+      "scripts/presentation/graphics_quality.gd": {
+        "size": 3345,
+        "mtime_ns": 1789330911395634000
+      },
+      "scripts/presentation/scene_motion_blur.gd": {
+        "size": 9635,
+        "mtime_ns": 1789238816349439600
+      },
+      "scripts/presentation/sun_lens_flare.gd": {
+        "size": 9873,
+        "mtime_ns": 1789647715383199700
+      },
+      "scripts/presentation/sun_lens_flare.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789648257424484700
+      },
+      "scripts/presentation/weather_state.gd": {
+        "size": 2114,
+        "mtime_ns": 1789594595774260900
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 27514,
+        "mtime_ns": 1789632514513603600
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789641931263320900
+      },
+      "tests/fixtures/performance_maps.json": {
+        "size": 162678,
+        "mtime_ns": 1789347422509029000
+      },
+      "tests/fixtures/test_maps.json": {
+        "size": 64184,
+        "mtime_ns": 1789646863978632200
+      },
+      "tests/sun_lens_flare_playtest.gd": {
+        "size": 13378,
+        "mtime_ns": 1789647879687515500
+      },
+      "tests/sun_lens_flare_playtest.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789648257426487800
+      },
+      "tests/sun_lens_flare_suite.gd": {
+        "size": 3524,
+        "mtime_ns": 1789647715384203100
+      },
+      "tests/sun_lens_flare_suite.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789648257425487900
+      }
+    }
+  }
+}
