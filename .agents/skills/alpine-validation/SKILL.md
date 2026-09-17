@@ -180,6 +180,12 @@ Inspect actual dense-tree shader ranges and cloud-active views; profile macro
 publication only after validating all texture channels. Keep local capped CPU
 scope and summit UI costs separate from the reusable dense-route baseline.
 
+For ragdoll terrain representation, use the focused
+[Jolt grid/contact checks](../../../docs/VALIDATION.md#ragdoll-terrain-collision)
+and bounded native crash inspection. Preserve clipped perimeter holes and report
+contact approximation separately from ski-solver/replay compatibility. Keep
+shape preparation timing separate from whole-frame measurements.
+
 For cosmetic gravel, follow [gravel checks](../../../docs/VALIDATION.md#cosmetic-gravel-checks).
 Select `-Map gravel`; isolate `-Gravel off|dense|sparse|all` while keeping grass
 and physical minerals unchanged. Frozen local and Standard comparisons have

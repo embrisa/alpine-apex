@@ -194,6 +194,17 @@ are in [Rendering](RENDERING.md#snow-presentation).
 
 [CrashCollision](../scripts/world/crash_collision.gd) owns the ragdoll-only
 terrain/obstacle neighborhood, separate from the 120 Hz skiing support solver.
+Interior square terrain chunks use `HeightMapShape3D` from the completed 4 m
+height array, avoiding render-mesh extraction and general triangle cooking.
+The grid origin, scale and cell diagonal match terrain rendering; clipped
+footprint edges and irregular meshes keep their exact triangle shape. Jolt's
+height-field compression can move ragdoll contacts by a fraction of a millimetre
+(below 0.5 mm in the Standard fixture). This does not change ski support samples,
+the deterministic solver, recorded recovery events or cache formats. Terrain
+keeps its 240 m preparation / 350 m retention and 45 m refresh thresholds.
+`tests/terrain_collision_suite.gd` checks full grids, clipped holes, normals,
+travel, retirement and return with real Jolt ray contacts.
+
 Obstacle refresh reads packed positions for distance/retirement checks and only
 expands a full tree record when publishing a new body. Resident body identity,
 exact cylinder dimensions, material tags and diagnostic filters remain intact.

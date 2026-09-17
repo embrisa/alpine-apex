@@ -204,7 +204,8 @@ For local slope, rock, tree/forest or combined rendering work, select an authore
 performance map before using a mountain. `tests/fixtures/performance_maps.json`
 owns four 256 x 512 m maps (8,385 height samples each):
 
-| Selection | Trees | Rocks | Intended checks |
+| Selection | Ragdoll terrain collision | `terrain_collision_suite.gd`, `streaming_collision_suite.gd`, required physics/runtime; bounded native crash on `perf-slopes` |
+| Trees | Rocks | Intended checks |
 |---|---:|---:|---|
 | `slopes` | 0 | 0 | Terrain shading, crest/compression, contact and snow effects |
 | `rocks` | 0 | 48 | Real mineral meshes/hulls, textures, shadows and macro texture residency |
@@ -464,6 +465,17 @@ identify the runtime path/version and record driver/OS, recipe/seed/model, camer
 physical/scenery cache status, actual pixels and effective settings. Warm up the
 workload; exclude screenshot/readback/video encoding and GPU validation layers
 from timing. Capture visuals separately.
+
+### Ragdoll terrain collision
+
+Run `scripts/test_pc_environment.ps1 -Suites terrain_collision_suite,streaming_collision_suite,physics_suite,runtime_suite`
+with a fresh `-OutputDirectory`. The terrain suite uses the production `perf-slopes`
+field and actual Jolt contacts against an exact triangle reference: 65/33-point
+square grids, a clipped hole, complete interior coverage, normals, retirement
+and return. Keep sub-millimetre contact tolerances separate from deterministic
+skiing-state equality. Inspect a short native crash for fall-through or separation.
+Headless shape build-and-attachment timings establish preparation CPU cost;
+they do not establish rendered FPS or frame-stall attribution.
 
 ### Reusable baselines and experiment budget
 

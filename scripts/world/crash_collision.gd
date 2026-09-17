@@ -3,7 +3,7 @@ const Obstacles = preload("res://scripts/world/obstacle_access.gd")
 const WARM_RADIUS = 300.0
 const WARM_BUDGET_US = 750
 const WARM_PIECES_PER_FRAME = 8
-## Reuses exact rendered terrain triangles and solver obstacle envelopes.
+## Reuses the shared terrain grid, clipped edge triangles and solver envelopes.
 ## Nearby collision is prepared during skiing; only ragdolls collide with it.
 var world
 var frame_costs
@@ -44,7 +44,7 @@ func prepare(center: Vector3) -> void:
 		var chunk: MeshInstance3D = world.terrain_chunks[i]
 		var distance_value: float = p.distance_to(chunk.get_meta("terrain_center"))
 		if distance_value<240.0 and not terrain.has(i):
-			terrain[i] = _static(chunk.mesh.create_trimesh_shape(),Vector3.ZERO)
+			terrain[i] = _terrain_body(chunk)
 		elif distance_value>350.0 and terrain.has(i):
 			terrain[i].queue_free()
 			terrain.erase(i)
@@ -170,13 +170,34 @@ func report() -> Dictionary:
 		for shape in shapes: point_bytes += shape.points.size()*12
 	return {"terrain_bodies":terrain.size(),"obstacle_bodies":obstacles.size(),"mineral_bodies":mineral_bodies.size(),"shape_records":mineral_shapes.size(),"shape_pieces":pieces,"shape_point_bytes":point_bytes,"pending_records":warm_pending.size(),"queue_peak_records":warm_queue_peak,"warmed_pieces":warm_piece_count}
 
-func _static(shape: Shape3D, origin: Vector3) -> StaticBody3D:
+func _terrain_body(chunk: MeshInstance3D) -> StaticBody3D:
+	# Interior chunks are the shared 4 m height grid. Read its CPU authority,
+	# avoiding triangle extraction and a general mesh BVH cook on entry.
+	# Clipped perimeter geometry must keep its exact omitted cells.
+	if not chunk.get_meta("trimmed_perimeter",false) and "heights" in world.surface:
+		var box=chunk.mesh.get_aabb()
+		var cell: float=world.surface.CELL
+		var width=roundi(box.size.x/cell)+1
+		var depth=roundi(box.size.z/cell)+1
+		if width==depth and width>=4 and chunk.mesh.get_surface_count()==1 and chunk.mesh.surface_get_array_len(0)==width*depth and chunk.mesh.surface_get_array_index_len(0)==(width-1)*(depth-1)*6:
+			var cx=roundi((box.position.x-world.surface.X_MIN)/cell)
+			var cz=roundi((box.position.z-world.surface.Z_MIN)/cell)
+			var heights=PackedFloat32Array(); heights.resize(width*depth)
+			for z in depth:
+				var source=(cz+z)*world.surface.NX+cx
+				for x in width: heights[z*width+x]=world.surface.heights[source+x]
+			var shape=HeightMapShape3D.new(); shape.map_width=width; shape.map_depth=depth; shape.map_data=heights
+			return _static(shape,Vector3(box.get_center().x,0,box.get_center().z),Vector3(cell,1,cell))
+	return _static(chunk.mesh.create_trimesh_shape(),Vector3.ZERO)
+
+func _static(shape: Shape3D, origin: Vector3, shape_scale: Vector3 = Vector3.ONE) -> StaticBody3D:
 	var body = StaticBody3D.new()
 	body.set_meta("audio_material",0)
 	body.collision_layer = 8
 	body.collision_mask = 16
 	var collider = CollisionShape3D.new()
 	collider.shape = shape
+	collider.scale = shape_scale
 	body.add_child(collider)
 	add_child(body)
 	body.position = origin

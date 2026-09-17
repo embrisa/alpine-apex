@@ -1,0 +1,229 @@
+{
+  "schema": 1,
+  "id": "3e20b6c83f034fff85c6392d3f71120e",
+  "summary": "Use grid height fields for ragdoll terrain collision",
+  "categories": [
+    "Gameplay"
+  ],
+  "areas": [
+    "Ragdoll terrain collision preparation and contact coverage"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/completed/AA-20260913-141128-reduce-forest-publication-and-collision-bursts.md",
+    "backlog/tasks/AA-20260913-141128-reduce-forest-publication-and-collision-bursts.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/VALIDATION.md",
+    "docs/WORLD.md",
+    "scripts/world/crash_collision.gd",
+    "tests/terrain_collision_suite.gd",
+    "docs/ARCHITECTURE.md"
+  ],
+  "read_paths": [
+    "scripts/main.gd",
+    "scripts/world/alpine_world.gd",
+    "scripts/world/terrain_preparation.gd",
+    "tests/fixtures/performance_maps.json",
+    "tests/physics_suite.gd",
+    "tests/runtime_suite.gd",
+    "tests/streaming_collision_suite.gd",
+    "tests/validation_mountain.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Deterministic ski solver/model, 120 Hz input and recorded recovery remain unchanged. Crash-only Jolt representation may differ below 0.5 mm at sampled contacts, accepted as a small physics tradeoff; exact ragdoll trajectories are not asserted."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Same immutable 4 m heights, cell diagonal, perimeter holes and obstacle envelopes; no generated data or cache changes."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "No schema or persistent data changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No format, deterministic identity, terrain source or persisted recovery contract change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No format, deterministic identity, terrain source or persisted recovery contract change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No format, deterministic identity, terrain source or persisted recovery contract change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No format, deterministic identity, terrain source or persisted recovery contract change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No format, deterministic identity, terrain source or persisted recovery contract change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "Shared guards collision-heightfield-suite-final-20260917; batch-542c9d802b",
+      "result": "passed",
+      "details": "Final terrain grid7202 checks, streaming28, physics56/runtime192. Final comment and documentation edits do not alter the tested behavior. Earlier terrain fixture attempts are superseded; regression logs preserved."
+    },
+    {
+      "kind": "rendered",
+      "command": "Shared native collision-heightfield-native-final-20260917 on perf-slopes",
+      "result": "passed",
+      "details": "Inspected actual Main/Jolt crash against four height-field terrain bodies; sampled chronology stays on snow without fall-through. Initial automatic-benchmark early exit is rejected, not acceptance."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical collision-heightfield-candidate-probe-20260917; collision-heightfield-dense-valid-20260917; collision-heightfield-dense-pair-20260917",
+      "result": "passed",
+      "details": "Six Standard chunk build+attach8.0015 ->2.1262ms mean,73.43% less CPU. Same-process warmed original: 101.61 FPS, 9.841 ms frame, 7.791 ms GPU, p95/p99 13.385/15.328 ms; heightfield: 102.50 FPS, 9.756 ms frame, 7.777 ms GPU, p95/p99 12.917/15.209 ms. No dependable FPS saving claimed; component saving retained. First trace-rejected launch produced no timing; supported regeneration matched all15 checkpoints."
+    },
+    {
+      "kind": "automated",
+      "command": "python scripts/backlog.py validate --preserve-dirty; git diff --check; python scripts/versioning.py check --note changes/3e20b6c83f034fff85c6392d3f71120e.json [--staged]",
+      "result": "passed",
+      "details": "Owned static/milestone checks after final docs/task update."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human/controller crash feel not repeated; sampled contacts are not exact Jolt trajectory equivalence.",
+    "No sustained full-route FPS or Mac worker-abort fix claim; Mac logs unavailable."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T03:21:57.951843+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "e0e6ab67c148798047b2e0c12e6e6ed46cfb7324",
+      "dev": 86,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 12401,
+        "mtime_ns": 1789615273632405500
+      },
+      "backlog/QUEUE.md": {
+        "size": 3402,
+        "mtime_ns": 1789615273638406600
+      },
+      "backlog/completed/AA-20260913-141128-reduce-forest-publication-and-collision-bursts.md": {
+        "size": 9119,
+        "mtime_ns": 1789615317455090300
+      },
+      "backlog/tasks/AA-20260913-141128-reduce-forest-publication-and-collision-bursts.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ARCHITECTURE.md": {
+        "size": 8474,
+        "mtime_ns": 1789615273615401500
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 48080,
+        "mtime_ns": 1789615273635406100
+      },
+      "docs/VALIDATION.md": {
+        "size": 138202,
+        "mtime_ns": 1789615273631405000
+      },
+      "docs/WORLD.md": {
+        "size": 24226,
+        "mtime_ns": 1789615273617401700
+      },
+      "project.godot": {
+        "size": 1819,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/main.gd": {
+        "size": 87902,
+        "mtime_ns": 1789605278208781800
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 26995,
+        "mtime_ns": 1789568204922632700
+      },
+      "scripts/world/crash_collision.gd": {
+        "size": 10186,
+        "mtime_ns": 1789615273614400700
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "scripts/world/terrain_preparation.gd": {
+        "size": 3728,
+        "mtime_ns": 1789134883757212800
+      },
+      "tests/fixtures/performance_maps.json": {
+        "size": 162678,
+        "mtime_ns": 1789347422509029000
+      },
+      "tests/physics_suite.gd": {
+        "size": 18435,
+        "mtime_ns": 1789594595873594000
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41141,
+        "mtime_ns": 1789594595889425300
+      },
+      "tests/streaming_collision_suite.gd": {
+        "size": 7610,
+        "mtime_ns": 1789328574266798700
+      },
+      "tests/terrain_collision_suite.gd": {
+        "size": 4317,
+        "mtime_ns": 1789614429882529200
+      },
+      "tests/validation_mountain.gd": {
+        "size": 1849,
+        "mtime_ns": 1789320450709333300
+      }
+    }
+  }
+}

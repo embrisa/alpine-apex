@@ -643,3 +643,24 @@ Current 367 focused checks pass; unchanged physics/runtime/archive/selector/race
 checks from Dev80–83 reused. Full receipts and rejected fixture attempts:
 `artifacts/windows_integration_20260917/REVIEW.md`. Human/controller acceptance
 and the separate Mac worker-abort investigation remain distinct.
+
+### Terrain collision preparation — 17 September 2026
+
+Interior regular-grid ragdoll terrain now uses Jolt height fields; clipped
+edges retain exact triangle meshes. Six current Standard 256 m chunks reduced
+mean build+attachment CPU from 8.0015 to 2.1262 ms (73.43%), max 9.417 to
+2.171 ms. This is a new-chunk event saving, not 5.88 ms saved every frame.
+Contact difference stayed below 0.5 mm; 7,202 grid checks, streaming28,
+physics56/runtime192 and a bounded native crash pass. No deterministic solver,
+scenery, density, settings or format change. Ownership: [World](WORLD.md#geology-and-collision).
+
+The first warmed candidate was101.06 FPS versus the saved108.93 FPS average.
+That ambiguity prompted one same-process pair: Same-process warmed original: 101.61 FPS, 9.841 ms frame, 7.791 ms GPU, p95/p99 13.385/15.328 ms; heightfield: 102.50 FPS, 9.756 ms frame, 7.777 ms GPU, p95/p99 12.917/15.209 ms.
+These samples do not establish a dependable FPS gain; retain the verified
+preparation saving under the user's component-gain policy. Capture-free4K High,
+Auto75/FSR4.1.1, FGoff, identical1800 inputs and301 timed pose samples; all15
+checkpoints match after supported trace regeneration. Preserve the saved average
+reference rather than replacing it with one sample. Evidence:
+`artifacts/collision_heightfield_20260917/REVIEW.md`.
+The Mac worker logs remain unavailable; no abort fix or elimination of all
+scenery publication peaks is claimed.

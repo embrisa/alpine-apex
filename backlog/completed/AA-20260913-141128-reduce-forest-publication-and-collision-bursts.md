@@ -1,11 +1,11 @@
 ---
 id: "AA-20260913-141128-reduce-forest-publication-and-collision-bursts"
 title: "Reduce collision preparation spikes and remaining scenery publication bursts"
-status: ready
+status: done
 priority: P1
 depends_on: []
 created: "2026-09-13T14:11:28Z"
-updated: "2026-09-16T21:59:44Z"
+updated: "2026-09-17T03:21:57Z"
 source_thread: "01a09aec-9f0a-71a3-b543-b8b9765e660d"
 ---
 
@@ -53,13 +53,13 @@ required crash collision or move scene-tree work onto workers.
 
 ## Acceptance and verification
 
-- [ ] One targeted event comparison reduces the identified CPU/stall cost; record
+- [x] One targeted event comparison reduces the identified CPU/stall cost; record
   frame tails separately and retain verified component gains under user policy.
-- [ ] Required collision coverage, fast travel, return, cancellation and teardown
+- [x] Required collision coverage, fast travel, return, cancellation and teardown
   pass focused checks; inspect rendered scenery if publication changes.
-- [ ] Reuse saved matching baselines; one warmed candidate, no manual hash audits
+- [x] Reuse saved matching baselines; one warmed candidate, no manual hash audits
   or repeated baseline matrices. Run physics/runtime when their owners change.
-- [ ] Commit/push the result and update World/Rendering/Performance handoff as needed.
+- [x] Commit/push the result and update World/Rendering/Performance handoff as needed.
 
 Human/controller feel and sustained whole-route target remain separate follow-ups.
 
@@ -69,8 +69,27 @@ None
 
 ## Completion record
 
-Ready for the narrowed remaining work. Prior failed experiments and their limits
-are retained below; no runtime change or timing is performed by grooming.
+Completed the targeted indivisible-cook candidate on Windows. Interior square
+terrain chunks now use the shared height grid; clipped edges keep triangles.
+Mean build+attach CPU8.0015 ->2.1262 ms across six Standard chunks (73.43%);
+max9.417 ->2.171 ms. Tiny Jolt contact differences (<0.5 mm) are within the
+user-authorized physics tradeoff; solver/terrain authority and replay formats
+remain unchanged. This is a per-new-chunk saving, not an every-frame saving.
+
+Final focused grid suite7,202, streaming28, physics56/runtime192 pass. Full-grid
+coverage, clipped holes, travel/return/retirement, existing cancellation and
+teardown contracts pass. Native compact crash stays on snow without fall-through.
+Same-process warmed original: 101.61 FPS, 9.841 ms frame, 7.791 ms GPU, p95/p99 13.385/15.328 ms; heightfield: 102.50 FPS, 9.756 ms frame, 7.777 ms GPU, p95/p99 12.917/15.209 ms.
+The standalone candidate101.06 FPS was slower than saved108.93 FPS and triggered
+that bounded comparison. No dependable whole-route FPS improvement is claimed;
+retain the verified preparation gain under current user policy.
+
+Current Mac abort logs are unavailable; no worker failure fix is claimed.
+The earlier4.229 ms forest-residency peak is separate residual attribution,
+not a reason to repeat rejected scheduling experiments. Human crash/controller
+feel and sustained whole-route targets remain separate. Compact evidence:
+`artifacts/collision_heightfield_20260917/REVIEW.md`; development note
+`changes/3e20b6c83f034fff85c6392d3f71120e.json` identifies the delivered commit.
 
 ## Earlier investigation record
 

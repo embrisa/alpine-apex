@@ -34,7 +34,7 @@ Paths below are under `scripts/`.
 | `world/mountain_cache_v15.gd`, `mountain_preparation.gd` | Validated physical/scenery preparation; main thread owns publication and GPU submission |
 | `world/alpine_world.gd`, `presentation/*` | Render meshes, pose, camera, tracks, particles, weather and audio derived from state |
 | `presentation/skier_pose_writer.gd` | Single final skeleton writer; composed pose can seed a crash but cannot modify skiing forces or replay state |
-| `presentation/skier_ragdoll.gd`, `world/crash_collision.gd` | Crash-only Jolt skeleton, equipment and nearby exact terrain/obstacle collision |
+| `presentation/skier_ragdoll.gd`, `world/crash_collision.gd` | Crash-only Jolt skeleton, equipment and nearby shared-grid terrain/obstacle collision |
 | `core/pole_propulsion.gd` | Fixed-tick bounded tangential pole thrust and completed stroke state; no animation-driven force |
 | `core/run_session.gd` | Clock including inactive crash ticks, finish/splits, eligibility, frozen PB and selected-ghost references, recorder lifecycle |
 | `core/crash_recovery.gd` | Frozen onset anchor, bounded authoritative terrain/prop search and rest initialization; preserves attempt totals |
