@@ -19,7 +19,7 @@ Complete the missing amber 500 m view and verify a useful sequence of session na
 
 Navigation v4 passes167 checks and eight reviewed hidden/shown images at 500 m and2 km/ridge. Selection takes1.459 s and finds a finish-valid500 m anchor. Amber2 km/ridge and twelve weather images are accepted separately. The new amber 500 m route stops before captures on “Same identified native engine as navigation v4”. Earlier87 navigation UI/lifecycle checks do not close corrected five-point chronology, cost and Reduced Motion coverage.
 
-Originating tasks: [AA-20260911-232811-taller-distant-finish-beam](../blocked/AA-20260911-232811-taller-distant-finish-beam.md), [AA-20260911-232936-session-navigation-beams](../blocked/AA-20260911-232936-session-navigation-beams.md). Evidence: `artifacts/orchestration_20260912/navigation/landmark-preflight-parent-v4/`, `finish/nav500/`, `amber_and_air/finish_500m.log`, and `navigation/landmark_v4/`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
+Originating tasks: [AA-20260911-232811-taller-distant-finish-beam](AA-20260911-232811-taller-distant-finish-beam.md), [AA-20260911-232936-session-navigation-beams](AA-20260911-232936-session-navigation-beams.md). Evidence: `artifacts/orchestration_20260912/navigation/landmark-preflight-parent-v4/`, `finish/nav500/`, `amber_and_air/finish_500m.log`, and `navigation/landmark_v4/`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
 
 ## Agreed decisions and scope
 
@@ -115,3 +115,10 @@ Delivery is the commit containing `changes/6764cc850279435984cbd8f4c0361ae9.json
 `artifacts/beam_navigation_acceptance_20260913/delivery.json` records the full
 pushed hash and Dev ID. Retain final/historical evidence for open parent reviews;
 only task-owned empty/aborted output is eligible for immediate cleanup.
+
+## Current cost closure - 17 September 2026
+
+Both parent tasks are now complete in Dev84. The new focused near/far measurement
+closes the previously deferred cost gate; this record retains its historical
+functional scope. See the completed parents and
+`artifacts/beacon_cost_20260917/REVIEW.md` for current results and limits.

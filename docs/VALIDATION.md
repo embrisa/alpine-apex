@@ -1330,6 +1330,21 @@ cost and variance remain a separately authorized performance requirement.
 Physical-controller comfort and subjective visual approval remain separate.
 
 Ordinary start/close/fade and broader capture routes remain separate.
+For the remaining stationary finish/navigation cost question, prefer
+`beacon_cost_playtest.gd`. It reuses the navigation producer's supported anchors,
+settled production chase and effect updates without the legacy visual matrix or
+hash receipt audit. Run `--capture --output=artifacts/UNIQUE-VISUAL` under Shared
+with explicit Standard-mountain admission; inspect its near/far images. Then run
+`--views=artifacts/UNIQUE-VISUAL/report.json --output=artifacts/UNIQUE-TIMING` under
+FpsCritical. Timing reuses those exact anchors/cameras, with one warmed 15-second
+sample for the retained 800 m finish, current 2,000 m finish and 0/5/32 personal
+markers at each camera. It records frame/GPU/render-thread distributions, actual
+4K pixels, effective settings and focus; no captures occur during timing. The
+full Standard scene remains loaded but stationary: these are beacon cost
+comparisons, not ordinary-input descent FPS. Current rendered review, source
+metadata and isolated stores remain required. No performance acceptance follows
+from a successful producer exit alone.
+
 `--timings-only` uses one warmed 15-second
 baseline/proposed pair per near/far view (four samples), not repeated ABBA;
 `report_finish_beam.py` reports these stationary costs, not descent FPS.

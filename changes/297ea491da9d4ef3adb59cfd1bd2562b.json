@@ -1,0 +1,251 @@
+{
+  "schema": 1,
+  "id": "297ea491da9d4ef3adb59cfd1bd2562b",
+  "summary": "Qualify near and far finish and navigation beam costs",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Stationary finish and navigation beam cost",
+    "Selective current-world benchmark producer"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/blocked/AA-20260911-232811-taller-distant-finish-beam.md",
+    "backlog/blocked/AA-20260911-232936-session-navigation-beams.md",
+    "backlog/completed/AA-20260911-232811-taller-distant-finish-beam.md",
+    "backlog/completed/AA-20260911-232936-session-navigation-beams.md",
+    "backlog/completed/AA-20260912-132147-finish-beam-navigation-acceptance.md",
+    "docs/VALIDATION.md",
+    "tests/beacon_cost_playtest.gd"
+  ],
+  "read_paths": [
+    "AGENTS.md",
+    "assets/graphics/race_beam.gdshader",
+    "assets/graphics/race_beam_base.gdshader",
+    "scripts/main.gd",
+    "scripts/presentation/race_beams.gd",
+    "scripts/presentation/session_navigation_beams.gd",
+    "tests/fixtures/finish_beam_800m/race_beam.gdshader",
+    "tests/fixtures/finish_beam_800m/race_beams.gd",
+    "tests/session_navigation_checks.gd",
+    "tests/session_navigation_playtest.gd",
+    "tests/validation_mountain.gd",
+    "tests/finish_beam_suite.gd",
+    "tests/session_navigation_suite.gd",
+    "scripts/racing/session_navigation.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only a native diagnostic producer, guides and task records change; production beams and all simulation/data owners remain unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only a native diagnostic producer, guides and task records change; production beams and all simulation/data owners remain unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only a native diagnostic producer, guides and task records change; production beams and all simulation/data owners remain unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Existing production formats and runtime validation are unchanged; stores are isolated for measurement."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Existing production formats and runtime validation are unchanged; stores are isolated for measurement."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Existing production formats and runtime validation are unchanged; stores are isolated for measurement."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Existing production formats and runtime validation are unchanged; stores are isolated for measurement."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Existing production formats and runtime validation are unchanged; stores are isolated for measurement."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "rendered",
+      "command": "Shared guard beacon-cost-final-visual-20260917; tests/beacon_cost_playtest.gd -- --capture --output=artifacts/beacon_cost_20260917/final-visual",
+      "result": "passed",
+      "details": "93 checks and ten 4K images. Reviewed near/far tall-vs-old finish and 0/5/32 personal markers. Initial tree-blocked far camera rejected before timing; lower near anchor failed conservative screening. Final separate near/far anchors preserve scenery/camera within each comparison."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical guard beacon-cost-timing-20260917; tests/beacon_cost_playtest.gd -- --views=artifacts/beacon_cost_20260917/final-visual/report.json --output=artifacts/beacon_cost_20260917/timing",
+      "result": "passed",
+      "details": "89 checks, ten 15-second warmed samples, zero focus loss/readbacks. Finish near 4.0971â†’4.0906 ms,far 4.8639â†’4.8570 ms; no measurable penalty. Navigation0â†’32 near 4.0674â†’4.1939 ms/GPU3.6528â†’3.7636 ms,far 4.8644â†’4.8874 ms/GPU4.4340â†’4.4389 ms. Max near increment0.1265 ms frame. Actual4K High Auto 75FSR 4.1.1FGoffGIoff. Stationary source-matched feature costs, not dense-route or descent FPS. Full per-case FPS/tails/variance in REVIEW.md."
+    },
+    {
+      "kind": "automated",
+      "command": "scripts/test_pc_environment.ps1 -Suites finish_beam_suite,session_navigation_suite -OutputDirectory artifacts/beacon_cost_20260917/regression",
+      "result": "passed",
+      "details": "83 checks pass:20 geometry/style and 63 model/input/lifecycle, including real compact scene rebuild and mountain identity reset. Reused unchanged beam historical native acceptance; no production edits."
+    },
+    {
+      "kind": "automated",
+      "command": "python scripts/backlog.py validate --preserve-dirty; git diff --check; python scripts/versioning.py check --note changes/297ea491da9d4ef3adb59cfd1bd2562b.json [--staged]",
+      "result": "passed",
+      "details": "Final static checks after administrative task closure; accepted producer and production inputs unchanged after native verification."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human/controller navigation usefulness and subjective appearance remain separate. Stationary beacon costs are not ordinary-input descent FPS, and one sample per case does not establish a tiny performance gain."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T02:30:26.872425+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "7535407df2f72e74065f99a71f2a76f734994f67",
+      "dev": 83,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 11653,
+        "mtime_ns": 1789611473824825200
+      },
+      "AGENTS.md": {
+        "size": 7832,
+        "mtime_ns": 1789512547175547300
+      },
+      "assets/graphics/race_beam.gdshader": {
+        "size": 3012,
+        "mtime_ns": 1789206099797897200
+      },
+      "assets/graphics/race_beam_base.gdshader": {
+        "size": 1014,
+        "mtime_ns": 1788994523696239900
+      },
+      "backlog/QUEUE.md": {
+        "size": 4039,
+        "mtime_ns": 1789612167184769300
+      },
+      "backlog/blocked/AA-20260911-232811-taller-distant-finish-beam.md": null,
+      "backlog/blocked/AA-20260911-232936-session-navigation-beams.md": null,
+      "backlog/completed/AA-20260911-232811-taller-distant-finish-beam.md": {
+        "size": 4346,
+        "mtime_ns": 1789612225490034300
+      },
+      "backlog/completed/AA-20260911-232936-session-navigation-beams.md": {
+        "size": 5662,
+        "mtime_ns": 1789612225494035000
+      },
+      "backlog/completed/AA-20260912-132147-finish-beam-navigation-acceptance.md": {
+        "size": 9018,
+        "mtime_ns": 1789612167183558800
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/VALIDATION.md": {
+        "size": 136041,
+        "mtime_ns": 1789611473823323600
+      },
+      "project.godot": {
+        "size": 1819,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/main.gd": {
+        "size": 87902,
+        "mtime_ns": 1789605278208781800
+      },
+      "scripts/presentation/race_beams.gd": {
+        "size": 5435,
+        "mtime_ns": 1789205694873239300
+      },
+      "scripts/presentation/session_navigation_beams.gd": {
+        "size": 1303,
+        "mtime_ns": 1789205941854059900
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/racing/session_navigation.gd": {
+        "size": 3174,
+        "mtime_ns": 1789206689008120200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6782,
+        "mtime_ns": 1789319651278760000
+      },
+      "tests/beacon_cost_playtest.gd": {
+        "size": 9916,
+        "mtime_ns": 1789611640471420100
+      },
+      "tests/finish_beam_suite.gd": {
+        "size": 4790,
+        "mtime_ns": 1789205816407314000
+      },
+      "tests/fixtures/finish_beam_800m/race_beam.gdshader": {
+        "size": 2872,
+        "mtime_ns": 1788994301532646700
+      },
+      "tests/fixtures/finish_beam_800m/race_beams.gd": {
+        "size": 4052,
+        "mtime_ns": 1789205640743298200
+      },
+      "tests/session_navigation_checks.gd": {
+        "size": 16012,
+        "mtime_ns": 1789319651729123300
+      },
+      "tests/session_navigation_playtest.gd": {
+        "size": 22974,
+        "mtime_ns": 1789594595896374200
+      },
+      "tests/session_navigation_suite.gd": {
+        "size": 1916,
+        "mtime_ns": 1789594595897478500
+      },
+      "tests/validation_mountain.gd": {
+        "size": 1849,
+        "mtime_ns": 1789320450709333300
+      }
+    }
+  }
+}

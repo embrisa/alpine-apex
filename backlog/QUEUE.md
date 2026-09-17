@@ -31,7 +31,7 @@ status, dependencies, evidence and acceptance live in each stable task record.
 ## Blocked work and resume conditions
 
 - **[Pole feature](blocked/AA-20260911-183812-slope-limited-pole-pushing.md):** resolve the remaining contact and transition gaps within the current backlog-completion goal.
-- **[Finish beam](blocked/AA-20260911-232811-taller-distant-finish-beam.md), [navigation beams](blocked/AA-20260911-232936-session-navigation-beams.md) and [snow boundary](blocked/AA-20260912-005323-subtle-local-snow-boundary.md):** close the documented cost and integration gaps while reusing completed visual checks.
+- **[Snow boundary](blocked/AA-20260912-005323-subtle-local-snow-boundary.md):** reconcile the remaining cost and integration gaps while reusing completed visual checks.
 - **[Scenery snow](blocked/AA-20260911-230603-scenery-snow-material.md):** implemented, with explicitly deferred cost acceptance. [Distant mountain shadows](blocked/AA-20260911-230604-scenery-mountain-shadows.md) waits on that prerequisite.
 - **[Motion blur](blocked/AA-20260912-004402-scene-motion-blur.md):** finish the remaining performance and visual qualification.
 - **[Metal frame floor](blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md):** needs Metal capture/counters or a concrete alternate attribution method; no more blind toggle matrices.

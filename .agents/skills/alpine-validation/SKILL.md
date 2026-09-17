@@ -102,6 +102,10 @@ For beam/navigation acceptance, use the selective
 Capture the current-input note before native execution and preserve historical
 source/engine mismatch receipts. The `counts` follow-up exercises 0/5/32 markers
 without timing; do not run the legacy cost matrix during a functional-only pass.
+For the separately requested near/far beam cost, use `beacon_cost_playtest.gd`
+in that guide: inspect the capture-only views, then reuse their coordinates for
+one capture-free FpsCritical comparison. It uses current metadata and avoids
+repeating the old visual matrix. Stationary scene FPS is not descent FPS.
 
 For ghost selection, use the selector-only native route in
 [ghost producers](../../../docs/VALIDATION.md#crash-recovery-and-ghost-producers).
