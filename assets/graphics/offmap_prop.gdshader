@@ -1,6 +1,7 @@
 shader_type spatial;
 render_mode cull_disabled,diffuse_lambert,specular_disabled,shadows_disabled;
 #include "res://assets/graphics/offmap_fog.gdshaderinc"
+#include "res://assets/graphics/offmap_horizon.gdshaderinc"
 uniform sampler2D rock_texture : source_color,filter_linear_mipmap,repeat_enable;
 uniform sampler2D bark_texture : source_color,filter_linear_mipmap,repeat_enable;
 uniform sampler2D foliage_texture : source_color,filter_linear_mipmap,repeat_disable;
@@ -48,4 +49,4 @@ void fragment() {
  FOG=offmap_fog(prop_world,CAMERA_POSITION_WORLD);
  if(!FRONT_FACING) NORMAL=-NORMAL;
 }
-void light() { DIFFUSE_LIGHT+=LIGHT_COLOR*max(dot(NORMAL,LIGHT),0.0)*cloud_shade/PI; }
+void light() { DIFFUSE_LIGHT+=LIGHT_COLOR*max(dot(NORMAL,LIGHT),0.0)*cloud_shade*(LIGHT_IS_DIRECTIONAL ? offmap_horizon_visibility(prop_world) : 1.0)/PI; }

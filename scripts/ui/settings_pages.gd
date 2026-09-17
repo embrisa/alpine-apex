@@ -152,10 +152,10 @@ func _graphics(col: Control) -> void:
 			parent.add_child(control)
 			graphics_controls[key] = control
 			if key=="terrain_gi": hud.display_controls.terrain_gi = control
-		elif key in ["texture_tier","backdrop_tier","weather_quality","shadow_quality"]:
+		elif key in ["texture_tier","backdrop_tier","weather_quality","shadow_quality","offmap_shadow_quality"]:
 			var field = hud._settings_field(parent,spec[0])
 			var option = OptionButton.new()
-			for label in (["Off","Low","High"] if key=="weather_quality" else ["Hard","Soft · low","Soft · medium","Soft · high","Soft · ultra","Soft · maximum"] if key=="shadow_quality" else ["Low","Balanced","High"]): option.add_item(label)
+			for label in (["Off","Low","High"] if key in ["weather_quality","offmap_shadow_quality"] else ["Hard","Soft · low","Soft · medium","Soft · high","Soft · ultra","Soft · maximum"] if key=="shadow_quality" else ["Low","Balanced","High"]): option.add_item(label)
 			option.item_selected.connect(func(index): queue_change(key,index))
 			field.add_child(option)
 			graphics_controls[key] = option

@@ -18,6 +18,7 @@ func check(ok: bool, label: String) -> void:
 func run() -> void:
 	check_sharpening()
 	check_scenery_snow()
+	check_scenery_shadows()
 	check_foliage()
 	check_track_uploads()
 	print("GRAPHICS_OVERRIDE_RESULTS ",JSON.stringify({"checks":checks,"failures":failures}))
@@ -72,6 +73,32 @@ func check_scenery_snow() -> void:
 	check(not reloaded.profile().offmap_snow_detail,"Preset selection clears enhanced snow override")
 	reloaded.restore({"overrides":{"offmap_snow_detail":"true"}})
 	check(not reloaded.profile().offmap_snow_detail,"Invalid persisted detail type retains cheap default")
+
+func check_scenery_shadows() -> void:
+	var settings=Settings.new()
+	var all_off=true
+	for preset in range(1,11): all_off=all_off and Profile.numbered(preset).offmap_shadow_quality==0
+	check(all_off,"All presets leave distant mountain shadows optional")
+	settings.select_preset(7)
+	var original=settings.profile().snapshot()
+	for value in [1,2,0]:
+		settings.set_graphics_value("offmap_shadow_quality",value)
+		var changed=settings.profile().snapshot()
+		check(changed.offmap_shadow_quality==value,"Distant shadow quality reaches the effective profile")
+		changed.offmap_shadow_quality=original.offmap_shadow_quality
+		check(changed==original,"Distant shadow override preserves all other scenery, snow and gameplay shadow budgets")
+	settings.apply_arguments(["--offmap-shadows=high"])
+	var path="res://artifacts/scenery_mountain_shadows/settings.cfg"
+	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
+	check(settings.save_preferences(path)==OK,"Distant shadow selection saves to isolated preferences")
+	var restored=Settings.new(); restored.load_preferences(path)
+	check(restored.profile().offmap_shadow_quality==2,"Distant shadow quality survives reload")
+	restored.reset_group("Lighting & shadows")
+	check(restored.profile().offmap_shadow_quality==2,"Gameplay shadow reset leaves distant scenery independent")
+	restored.reset_group("Scenery")
+	check(restored.profile().offmap_shadow_quality==0,"Scenery reset restores Off")
+	restored.restore({"overrides":{"offmap_shadow_quality":"high"}})
+	check(restored.profile().offmap_shadow_quality==0,"Invalid persisted shadow type is rejected")
 
 func check_foliage() -> void:
 	var source = StandardMaterial3D.new()

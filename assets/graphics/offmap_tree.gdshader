@@ -1,6 +1,7 @@
 shader_type spatial;
 render_mode cull_disabled,skip_vertex_transform,diffuse_lambert,specular_disabled,shadows_disabled;
 #include "res://assets/graphics/offmap_fog.gdshaderinc"
+#include "res://assets/graphics/offmap_horizon.gdshaderinc"
 uniform sampler2D albedo_texture : source_color,filter_linear_mipmap_anisotropic,repeat_disable;
 uniform float cloud_shade=1.0;
 uniform float range_end=6000.0;
@@ -38,4 +39,4 @@ void fragment() {
  ROUGHNESS=1.0; SPECULAR=0.0;
  FOG=offmap_fog(prop_world,CAMERA_POSITION_WORLD);
 }
-void light() { DIFFUSE_LIGHT+=LIGHT_COLOR*max(dot(NORMAL,LIGHT),0.0)*cloud_shade/PI; }
+void light() { DIFFUSE_LIGHT+=LIGHT_COLOR*max(dot(NORMAL,LIGHT),0.0)*cloud_shade*(LIGHT_IS_DIRECTIONAL ? offmap_horizon_visibility(prop_world) : 1.0)/PI; }

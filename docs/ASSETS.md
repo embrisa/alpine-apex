@@ -23,6 +23,36 @@ duplicating their catalogs. Generated QA/captures belong in `artifacts/`.
 | Audio | `art_source/audio/` source/credit/cut manifests | `assets/audio/`; [Audio](AUDIO.md#source-audio-and-provenance) |
 | Pose/reference images | `art_source/references/`, including `skier_pose_reference_sheets/` | Authoring only; excluded from exports |
 
+## Distant shadow companions
+
+The base `scenery/alpine_valleys_01.res` is unchanged. Optional
+`assets/graphics/scenery/horizons/` resources use `wilderness_horizon_asset.gd`
+payload version 1. Their manifest/embedded provenance record source asset and
+version, footprint revision, actual geometry tier, resolution, directions and
+byte counts. Export includes these ordinary resources via `all_resources` and
+the existing assets JSON rule. They are optional runtime presentation dependencies,
+not physical/scenery cache payloads. Incompatible companions require an explicit
+rebake; generation-export compatibility checks remain intact.
+
+Authoring order, each under an Exclusive guard (never nested):
+
+1. Headless `scripts/authoring/export_wilderness_horizons.gd --
+   --output=res://artifacts/horizon-bake/input` extracts all three mesh tiers and
+   the authored apron without regenerating the mountain.
+2. NumPy Python: `scripts/authoring/bake_wilderness_horizons.py
+   --input artifacts/horizon-bake/input --output artifacts/horizon-bake/baked`.
+   Give this full-scenery bake explicit full-mountain admission. Directional,
+   flat, deterministic and excluded-occluder fixtures run before the six maps.
+3. Headless `scripts/authoring/pack_wilderness_horizons.gd --
+   --input=res://artifacts/horizon-bake/baked
+   --output=res://assets/graphics/scenery/horizons` writes compressed resources
+   and reload-checks image payloads. CPU images are serialized explicitly: a
+   headless Texture2DArray can otherwise serialize empty layers.
+
+Keep producers, companions and the small manifest; intermediates are reproducible
+artifacts. Existing LFS limits apply. [Rendering](RENDERING.md#distant-mountain-shadows)
+owns shading and conservative connector exclusion.
+
 Purchased `TreeDesigner + 400 trees/` stays local and backed up separately;
 do not distribute its generator. Vendor/license notices and generation ledgers
 remain with their sources. A documented old budget/balance is not a new spend

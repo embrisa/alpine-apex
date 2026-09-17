@@ -10,11 +10,12 @@ float sample_cloud_light(vec3 world_position) {
 // attenuation. Cloud shade affects direct sunlight, not blue ambient fill.
 void light() {
 #ifdef ALPINE_OFFMAP
+ float ridge_visibility=LIGHT_IS_DIRECTIONAL ? offmap_horizon_visibility(world_pos) : 1.0;
  if(offmap_blend>.999) {
 #ifdef ALPINE_OFFMAP_V3
-  DIFFUSE_LIGHT+=LIGHT_COLOR*offmap_diffuse(dot(NORMAL,LIGHT),offmap_snow_coverage)*cloud_shade/PI;
+  DIFFUSE_LIGHT+=LIGHT_COLOR*offmap_diffuse(dot(NORMAL,LIGHT),offmap_snow_coverage)*cloud_shade*ridge_visibility/PI;
 #else
-  DIFFUSE_LIGHT+=LIGHT_COLOR*max(dot(NORMAL,LIGHT),0.0)*cloud_shade/PI;
+  DIFFUSE_LIGHT+=LIGHT_COLOR*max(dot(NORMAL,LIGHT),0.0)*cloud_shade*ridge_visibility/PI;
 #endif
  } else {
 #endif
@@ -23,7 +24,7 @@ void light() {
 	float cloud = LIGHT_IS_DIRECTIONAL ? cloud_direct_transmission : 1.0;
 	float visibility = ATTENUATION * cloud;
 #ifdef ALPINE_OFFMAP
- visibility=mix(visibility,cloud_shade,offmap_blend);
+ visibility=mix(visibility,cloud_shade*ridge_visibility,offmap_blend);
 #endif
 	float nl = max(dot(NORMAL,LIGHT),0.0);
 	float nv = max(dot(NORMAL,VIEW),0.0001);

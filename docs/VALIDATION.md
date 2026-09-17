@@ -29,7 +29,7 @@ ordinary-input `--input-trace=PATH`, `--scenario-replay --trial-seconds=15
 `--benchmark-resolution=3840x2160 --graphics-quality=high --render-scale=0.75
 --upscaler=auto --fps-limit=0 --terrain-gi=off --frame-generation=off
 --ui-staged-loading`. This uses the existing native descent producer directly
-because the older outer PC wrapper still performs a blanket source hash scan.
+to share one startup across the three material arms.
 
 All modes share one scene startup. Shader preparation and 240 starting frames
 are outside riding measurements. Exclude the first entire route traversal for
@@ -45,6 +45,36 @@ replays actual controls against the warm current physical fixture; changing an
 origin defines a new workload, never a matched old-route FPS comparison.
 The snow workload starts at (-288, 600), above dense woodland, because the
 existing lower forest route obscures the scenery being measured.
+
+## Distant mountain shadow checks
+
+`offmap_horizon_suite.gd` checks all six saved companions, version/tier/layer
+rejection, active sun/moon mapping, Off release and conservative connector bounds.
+The Python bake checks flat/directional ridges, finite values, determinism and
+unknown occluders. Graphics override and offmap lifecycle suites cover save/reset,
+late binding, same-tier edits, cancellation and reentrant quality changes.
+
+Run `tests/scenery_horizon_compile.gd` natively before loading a world.
+`tests/scenery_horizon_playtest.gd` restores warm Standard and captures matched
+Off/Low/High summit, valley and connector views, dusk/moon/cloud changes and all
+geometry tiers. An explicit `--input-trace=PATH` adds ordinary-input skiing poses.
+Use 1080p/30, High/Auto 0.75, FG/GI off and explicit full-mountain admission.
+Readbacks are visual evidence only; missing physical fixtures fail without baking.
+For the existing two-seed geometry suite, explicitly prepare a missing alternate
+fixture with `tests/prepare_validation_mountain.gd -- --seed=638201943` under
+an Exclusive/full-mountain guard. Omitting `--seed` still prepares Standard.
+
+After the visual gate, `tests/scenery_horizon_cost.gd` uses the capture-free
+native descent loop: matching trace, `--scenario-replay --trial-seconds=15
+--trial-start-seconds=0 --repetitions=4`, a fresh `--benchmark-label`, 3840x2160,
+High/Auto 0.75, uncapped, FG/GI off and `--ui-staged-loading`. Use one FpsCritical
+guard with full-mountain reason. Exclude the first traversal; the next three are
+Off/Low/High. Shader preparation and 240 starting frames stay outside timing.
+Verify exact states, focus, valid GPU samples and `all_shadow_receivers_bound`.
+Atlas load/upload CPU time is separate; shared startup/allocator peaks do not
+isolate cold startup or physical VRAM. The open upper route exposes scenery;
+it does not qualify dense-forest/full-descent FPS. Current economical policy
+supersedes the old automatic three-repeat full-descent matrix.
 
 ## Execution
 

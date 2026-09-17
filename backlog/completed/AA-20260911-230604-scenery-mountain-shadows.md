@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-230604-scenery-mountain-shadows"
 title: "Add time-dependent distant mountain shadows with scalable settings"
-status: ready
+status: done
 priority: P2
 depends_on: ["AA-20260911-230603-scenery-snow-material"]
 created: "2026-09-11T23:06:04Z"
-updated: "2026-09-17T13:14:45+00:00"
+updated: "2026-09-17T16:43:29.069562+00:00"
 source_thread: "01a092b4-c1a2-7d50-a577-a5e08a7f15d8"
 ---
 
@@ -13,11 +13,13 @@ source_thread: "01a092b4-c1a2-7d50-a577-a5e08a7f15d8"
 
 ## Current disposition — 17 September 2026
 
-The scenery-snow cost prerequisite is complete. Its small bounded comparison
-keeps the enhanced deposits optional and all presets cheap. This shadow feature
-is now ready for implementation under the current economical policy: one
-candidate, inspect visuals before one short matched measurement, and preserve a
-saved cheap/off control. Do not revive the older full benchmark/hash recipe.
+Delivered as a saved Off/Low/High scenery setting. All ten presets remain Off.
+Matched native visual review passed; one warmed 15-second dusk comparison measured
+146.19 / 144.72 / 144.82 average FPS for Off/Low/High. High added 0.0647 ms mean
+frame time; Low had worse tails in its single sample. These are optional feature
+costs on the open upper route, not dense-forest acceptance. Human preference stays
+separate. The current economical policy replaces the original repeated full-run
+matrix; the completed checks and limitations are recorded below.
 
 ## Outcome
 
@@ -70,9 +72,9 @@ data; compare with current sun/moon direction at runtime with stable filtering
 and a soft transition. Validate occlusion against actual rendered ridges: overly
 coarse horizons must not create floating, leaking or inverted shadows.
 
-Own offline baking in `scripts/authoring/`, payload/version/provenance in
-`wilderness_asset.gd`, load/cache handling in `wilderness_data.gd`, and evaluation
-in the shared off-map shader. Integrate live direction through the existing
+Own offline baking in `scripts/authoring/`, optional companion payload/version/
+provenance in `wilderness_horizon_asset.gd`, selected load/texture lifecycle in
+`wilderness_horizon.gd`, and evaluation in the shared off-map shader. Integrate live direction through the existing
 weather/cloud interface. Attenuate direct light only, preserve ambient fill, and
 compose existing cloud dimming/fog without double-darkening or night emission.
 
@@ -92,30 +94,30 @@ resource residency where practical; quality changes cannot trigger long rebakes.
 
 ## Acceptance and verification
 
-- [ ] After prerequisite completion, capture matched Off/on summit, valley,
+- [x] After prerequisite completion, capture matched Off/on summit, valley,
   apron and moving skiing views. Broad shadows visibly track changing sun
   azimuth/elevation, agree with blocking ridges and remain stable at low sun,
   night/moon, weather changes and across connector/quality transitions.
-- [ ] Automated directional fixtures cover unobstructed slopes, a known ridge
+- [x] Automated directional fixtures cover unobstructed slopes, a known ridge
   and valley, day/night transitions, finite values, determinism, all asset tiers
   and representative connector seeds. Test changed payload integrity/versioning
   and export dependencies, including bounded loading and cancellation.
-- [ ] Run focused native compilation/rendered checks and relevant suites using
+- [x] Run focused native compilation/rendered checks and relevant suites using
   `./scripts/test_pc_environment.ps1 -Suites
   graphics_suite,pc_graphics_suite,graphics_override_suite,wilderness_suite,offmap_geometry_suite,offmap_atmosphere_suite,offmap_lifecycle_suite,scenery_loading_suite`
   as one command. Add targeted bake/cache tests as needed. This wrapper owns the
   guard; all other engine/bake workloads use `scripts/run_guarded.ps1` serially.
-- [ ] Verify settings persistence, preset/reset behavior, same-tier changes,
+- [x] Verify settings persistence, preset/reset behavior, same-tier changes,
   late-created scenery, cheap Off behavior and unchanged gameplay shadow range.
   Test profiles remain isolated and unranked.
-- [ ] Measure Off versus each quality tier separately from capture, using the
-  current valid ordinary-input full-descent trace and Validation performance
-  method: 4K/High/Auto 75%, FG/GI off, at least three repetitions, identical
-  camera/weather/source/engine. Include shadow-heavy low-sun views as additional
-  cases. Record frame/GPU median and p95/p99, rendered FPS, CPU, memory, bake,
-  cache-load and scene-readiness costs. Apply the opt-in gate above; a capped
-  summit benchmark alone cannot establish acceptable cost.
-- [ ] Record exact reproduction commands, versions, paths, settings and scoped metadata and
+- [x] Under the current economical policy, measure one current 15-second
+  ordinary-input open-route dusk arm per Off/Low/High after an excluded warmup:
+  4K/High/Auto75%, FG/GI off, identical source/camera/weather. Inspect frame/GPU
+  median and p95/p99, rendered FPS, CPU, companion loading, memory and offline
+  bake cost. Keep all presets Off; distinguish shared startup from incremental
+  shadow cost and engine allocation counters from physical VRAM. This replaces
+  the older automatic three-repeat full-descent matrix.
+- [x] Record exact reproduction commands, versions, paths, settings and scoped metadata and
   before/after evidence under `artifacts/scenery_mountain_shadows/`. Update the
   owning Rendering guide and relevant asset/cache contracts without duplicating
   reports. Validate backlog, commit/push owned source and required baked assets.
@@ -131,7 +133,41 @@ None.
 
 ## Completion record
 
-Pending implementation. Record outcome, verification actually performed, quality
-costs/defaults, remaining human acceptance, updated docs and commit/push references.
-If blocked, record the limitation and unfinished work. Link separate next-step
-ideas, or state none were proposed.
+Delivered in Dev100 (the commit containing this record and
+`changes/e4bc3cfb98ed4f90a98550ab6a189a32.json`), after Dev99 scoped benchmark
+metadata. Production terrain, placement, base scenery bytes, UIDs and gameplay
+identities are preserved. Six optional version1 companions match all three
+resident geometry tiers. Variable central-mountain cast shadows are intentionally
+omitted: exclude occluders inside3900m, fade receivers3900-4300m outside the maximum
+3780m connector bound. Direct light only; ambient/cloud/fog ownership retained.
+Off releases CPU images/GPU texture, performs no angle calculation or texture
+sampling, and never bakes. Newest quality wins during staged replacement.
+
+- **Automated:** 354 unique relevant checks passed, plus native shader/harness
+  compile and Python directional/finite/determinism/exclusion fixtures. Both
+  current connector seeds tested. The missing second fixture was explicitly
+  prepared once after the suite safely stopped. Export dependencies refreshed
+  through the maintained producer; no packaged-executable qualification claimed.
+- **Rendered:** 27 matched stills covering day/dusk/moon/cloud, connector and all
+  geometry tiers; 16 camera poses and24 ordinary-input skiing poses per Off/High.
+  No obvious seams/grid sliding in review. These are chronological poses, not
+  real-time/controller acceptance. The down-facing labelled valley shot is weak
+  distant evidence; the outward4050m connector shot supplies valley/prop coverage.
+- **Performance:** one 15-second clear/dusk arm per mode, native RX9070,4KHigh,
+  Auto0.75 FSR4.1.1, FG/GIoff. Off146.19FPS/6.8403ms; Low144.72/6.9101ms;
+  High144.82/6.9050ms. GPU median5.2280/5.1990/5.3285ms. Frame p95/p99:
+  8.750/9.803,9.270/12.274,8.758/9.764ms. No causal claim for the single Low tail
+  regression and no dense-route improvement claim. All presets remain Off.
+- **Loading/memory:** Low0.5MiB/High4MiB raw image payload plus matching GPU
+  texture. Initial selection CPU1.819/9.637ms, six-map offline bake21.020s,
+  compressed companions8.44MB. Shared warm startup and engine allocation
+  counters are recorded separately; cold startup/physical VRAM not isolated.
+- **Evidence/docs:** [compact report](../../artifacts/scenery_mountain_shadows/REPORT.md),
+  summary.json, final_pairs.jpg, motion_pairs.jpg, selected raw final_review
+  captures and native timing under artifacts/pc_environment/scenery_horizon_cost_final/.
+  Scoped size/mtime inputs remained stable, exact states matched and focus loss0.
+  Rendering/Assets/World/Validation and both affected skills updated.
+
+Human scenery preference and controller comfort remain pending separately.
+No new follow-up idea was required. Reproducible intermediates are retired after
+push; useful compact evidence and final source assets remain.

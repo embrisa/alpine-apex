@@ -289,6 +289,9 @@ blocks of the 4 m grid, without changing physical terrain/zone/obstacles. Partia
 edge chunks retain exact triangles; preview uses the same outline. Scenery
 identity/cache validation covers this retained layout. The authored, nonphysical
 outer background and its adaptive connector are in [Rendering](RENDERING.md#background).
+Optional [horizon shadows](RENDERING.md#distant-mountain-shadows) omit the variable
+central mountain and fade outside its connector. They do not change physical
+heights, collision, placement, race identity or terrain cache payloads.
 
 ## Terrain grass
 

@@ -553,7 +553,7 @@ to the physical/race contracts.
 
 ## Background
 
-`assets/graphics/scenery/alpine_valleys_01.res` is authored once and reused by v15
+`assets/graphics/scenery/alpine_valleys_01.res` is authored once and reused by current
 mountains. `scripts/authoring/bake_wilderness.gd` is an explicit authoring command,
 never startup/cache-repair/quality-switch generation. Three baked tiers include
 terrain, masks, props, triangle anchors and source receipts.
@@ -568,7 +568,7 @@ random placement or BVH. Each tier uses its matching baked triangulation.
 Near conifers use 256 m batches; distant cards/rocks use 1,024 m MultiMeshes.
 Bounds cover all billboard orientations and add half the batch diagonal to
 distance-culling allowances. Near geometry/impostors use complementary dither;
-all background collision, shadow and GI contributions remain off. Own material
+all background collision, shadow casting and GI contributions remain off. Own material
 copies rather than modifying imported resources.
 
 Distant snow is owned by `offmap_surface.gdshaderinc` for both ridges and
@@ -601,7 +601,39 @@ expanded shader snapshot restores the original material while keeping independen
 updated cloud includes current. Record revision, paths and sizes; no hash audit.
 [The compact report](../artifacts/scenery_snow_cost/REPORT.md) retains exact
 results, actual settings, visual coverage, startup/memory limits and commands.
-Large mountain shadows remain a separate ready backlog task.
+### Distant mountain shadows
+
+`Distant mountain shadows` (`offmap_shadow_quality`, Off/Low/High) is a saved
+Scenery override, independent of gameplay shadow distance, GI and snow deposits.
+All ten presets default Off; `--offmap-shadows=off|low|high` selects the same
+consumer for diagnostics. Settings changes load a companion, never bake.
+
+`wilderness_horizon.gd` owns one atlas matching the resident geometry tier.
+Low is 128x128 with 16 azimuths (0.5 MiB); High is 256x256 with 32 (4 MiB).
+CPU image bytes plus the GPU texture are resident while enabled; these are
+payload sizes, not process/physical VRAM measurements. Off unbinds/releases both.
+Two filtered angular samples compare precomputed obstruction with the active
+sun or opposite moon direction. Only direct lighting is attenuated; ambient,
+fog and cloud composition retain their owners. Ridges, apron and background
+tree/rock materials share the lookup. No extra draw, shadow-map pass or runtime
+terrain analysis occurs.
+
+All occluders inside 3,900 m are omitted, and receiver strength fades between
+3,900 and 4,300 m. This conservatively contains every seed's irregular footprint,
+join and 640 m connector deformation. The variable central mountain's cast
+shadows are deliberately absent; its reference-seed shadow is never stamped
+onto other seeds. Physical heights, placement, base asset bytes and UIDs stay
+unchanged. During staged replacement the atlas matches resident geometry;
+publication selects the latest override, including a concurrent Off request.
+Missing/incompatible companions report an explicit rebake error and disable
+shadow evaluation. See [authoring](ASSETS.md#distant-shadow-companions) and
+[verification](VALIDATION.md#distant-mountain-shadow-checks).
+
+The bounded RX9070 4K High/Auto0.75 dusk check measured Off/Low/High at
+146.19/144.72/144.82 average FPS. High added 0.065 ms mean frame time; Low had
+worse tails in its single sample. Both remain opt-in. This open upper route
+is separate from dense-forest acceptance; [the compact report](../artifacts/scenery_mountain_shadows/REPORT.md)
+owns exact cost, memory/loading, visual coverage and limitations.
 
 Additional valley haze starts beyond 1 km/outside the protected collar and
 follows weather/time. A custom `FOG` output replaces automatic material fog,

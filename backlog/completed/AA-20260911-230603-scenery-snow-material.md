@@ -51,7 +51,7 @@ weather behavior; consume its current interface without depending on its deliver
   the exact connector collar, terrain silhouette, props and physical data.
 - Presentation only: no solver, 4 m support, replay, race, placement or weather
   behavior changes. Large-scale ridge shadows belong to
-  [the dependent task](../tasks/AA-20260911-230604-scenery-mountain-shadows.md).
+  [the dependent task](AA-20260911-230604-scenery-mountain-shadows.md).
 - Preserve a cheap mode. Any costly extra detail must be independently reducible
   or disabled through saved graphics settings, without reducing scenery coverage
   or playable snow quality. Use the existing settings/preset system, not a new UI.

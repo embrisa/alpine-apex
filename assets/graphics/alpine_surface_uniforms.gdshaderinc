@@ -1,6 +1,11 @@
 #include "res://assets/graphics/snow_crystals.gdshaderinc"
 #define ALPINE_SNOW_TRANSMISSION
 varying vec3 snow_transmission;
+varying vec3 world_pos;
+varying vec3 world_n;
+#ifdef ALPINE_OFFMAP
+#include "res://assets/graphics/offmap_horizon.gdshaderinc"
+#endif
 #include "res://assets/cloud_light.gdshaderinc"
 #include "res://assets/graphics/snow_readability.gdshaderinc"
 #include "res://assets/graphics/powder_surface.gdshaderinc"
@@ -26,8 +31,6 @@ uniform bool use_feature_exposure = false;
 uniform sampler2D feature_exposure : filter_linear, repeat_disable;
 uniform vec2 feature_origin;
 uniform vec2 feature_size = vec2(1);
-varying vec3 world_pos;
-varying vec3 world_n;
 #include "res://assets/graphics/terrain_sampling.gdshaderinc"
 float value_noise(vec2 p) {
  vec2 i=floor(p); vec2 f=fract(p); f=f*f*(3.0-2.0*f);

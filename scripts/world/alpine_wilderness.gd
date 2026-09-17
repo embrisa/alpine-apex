@@ -4,6 +4,7 @@ const Data = preload("res://scripts/world/wilderness_data.gd")
 const Placement = preload("res://scripts/world/wilderness_instances.gd")
 const Props = preload("res://scripts/world/wilderness_props.gd")
 const Fog = preload("res://scripts/world/wilderness_atmosphere.gd")
+const Horizon = preload("res://scripts/world/wilderness_horizon.gd")
 const FAR_M = 32000.0
 const TRIANGLE_LIMITS = [20000,40000,80000]
 var data = Data.new()
@@ -25,6 +26,8 @@ var last_weather
 var weather_values: Array = []
 var build_revision = 0
 var requested_level = -1
+var shadow_quality = 0
+var horizon = Horizon.new()
 var source_arrays: Array = []
 
 func prepare(field, mountain) -> void:
@@ -48,6 +51,9 @@ func apply_quality(profile, checkpoint: Callable = Callable()) -> void:
 	if not enabled:
 		data.clear_cache()
 		return
+	shadow_quality=profile.offmap_shadow_quality
+	# Keep the resident atlas matched to the resident geometry during async builds.
+	apply_horizons()
 	# Material-only overrides must reach both resident and late-bound apron
 	# materials even when geometry tier is unchanged or a build is pending.
 	material.set_shader_parameter("offmap_snow_detail",profile.offmap_snow_detail)
@@ -90,6 +96,7 @@ func apply_quality(profile, checkpoint: Callable = Callable()) -> void:
 		remove_child(terrain_root); terrain_root.queue_free()
 	terrain_root = staging; props = candidate_props; placement = candidate
 	level = profile.backdrop_tier
+	apply_horizons()
 	staging.visible = true
 	source_arrays.clear()
 	data.clear_cache()
@@ -130,10 +137,22 @@ func update_weather(state) -> void:
 	var values = [state.enabled,state.cloud_coverage,state.fog_color,state.fog_density,state.sun_color,state.sun_energy,state.sun_direction]
 	if values==weather_values: return
 	weather_values = values
+	horizon.set_light(state.sun_direction)
+	if horizon.payload: bind_horizons()
 	Fog.apply(material,state)
 	if apron_material: Fog.apply(apron_material,state)
 	if props:
 		for receiver in props.materials: Fog.apply(receiver,state)
+
+func apply_horizons() -> void:
+	horizon.select(shadow_quality,level,data.asset)
+	bind_horizons()
+
+func bind_horizons() -> void:
+	horizon.bind(material)
+	if apron_material: horizon.bind(apron_material)
+	if props:
+		for receiver in props.materials: horizon.bind(receiver)
 
 func report() -> Dictionary:
 	return {"version":Data.VERSION,"seed":data.seed_value,"enabled":visible,"triangles":triangles,

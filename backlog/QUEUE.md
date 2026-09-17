@@ -4,10 +4,6 @@ Focus: `tasks/`, `blocked/` and `ideas/`, as requested on 17 September 2026.
 Finish active and blocked work before implementing ideas. This is an index;
 status, dependencies, evidence and acceptance live in each stable task record.
 
-## Player features and art
-
-- **[Distant mountain shadows](tasks/AA-20260911-230604-scenery-mountain-shadows.md):** ready after the scenery-snow cost gate. Retain optional quality and measure one visually accepted candidate.
-
 ## Blocked work and resume conditions
 
 - **[Grouped distant stands](blocked/AA-20260914-094136-render-distant-forest-stands.md):** user approved timing; both the pictured patch and complete-cell test show no FPS gain. Resume with a different representation that lowers total GPU/frame cost.

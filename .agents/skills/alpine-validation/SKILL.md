@@ -144,6 +144,13 @@ the specific missing fixture, conflict or failure when a check cannot complete.
 Follow [skill maintenance](../../../docs/DEVELOPMENT.md#agent-skill-maintenance)
 when runner behavior, fixtures, check selection or evidence meanings change.
 
+For optional distant mountain shadows, use the [bounded shadow checks](../../../docs/VALIDATION.md#distant-mountain-shadow-checks).
+Compile natively before loading the warm Standard fixture, reject poor visuals
+before capture-free Off/Low/High timing, and keep quality, loading and memory
+limits explicit. Never rebake companions during startup or settings changes.
+The explicit physical-fixture producer accepts `--seed=N`; leave it omitted for
+Standard, and prepare another seed only when the selected check requires it.
+
 ## Internal development identity
 
 For distant snow, use the [material comparison](../../../docs/VALIDATION.md#scenery-snow-material-comparison).

@@ -154,6 +154,11 @@ Follow [skill maintenance](../../../docs/DEVELOPMENT.md#agent-skill-maintenance)
 when benchmark contracts, trace identities, runtime selection, profiling or policy
 assumptions change.
 
+For optional distant mountain shadows, use the [bounded shadow checks](../../../docs/VALIDATION.md#distant-mountain-shadow-checks).
+Compile natively before loading the warm Standard fixture, reject poor visuals
+before capture-free Off/Low/High timing, and keep quality, loading and memory
+limits explicit. Never rebake companions during startup or settings changes.
+
 ## Internal development identity
 
 For the distant-snow cost gate, follow the [three-mode comparison](../../../docs/VALIDATION.md#scenery-snow-material-comparison).

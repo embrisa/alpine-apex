@@ -1,0 +1,64 @@
+{
+	"asset_id": "alpine_valleys_01",
+	"connector": "Exclude all occluders within 3900 m; receiver fade 3900-4300 m. Variable mountain cast shadows are deliberately omitted.",
+	"ownership": "Optional presentation only. No runtime bake or gameplay cache payload.",
+	"schema": 1,
+	"source": "assets/graphics/scenery/alpine_valleys_01.res",
+	"source_version": 3,
+	"variants": [
+		{
+			"directions": 16,
+			"file_bytes": 317036,
+			"geometry_tier": 0,
+			"path": "assets/graphics/scenery/horizons/alpine_valleys_01_t0_q1.res",
+			"payload_bytes": 524288,
+			"quality": 1,
+			"size": 128
+		},
+		{
+			"directions": 32,
+			"file_bytes": 2490565,
+			"geometry_tier": 0,
+			"path": "assets/graphics/scenery/horizons/alpine_valleys_01_t0_q2.res",
+			"payload_bytes": 4194304,
+			"quality": 2,
+			"size": 256
+		},
+		{
+			"directions": 16,
+			"file_bytes": 317383,
+			"geometry_tier": 1,
+			"path": "assets/graphics/scenery/horizons/alpine_valleys_01_t1_q1.res",
+			"payload_bytes": 524288,
+			"quality": 1,
+			"size": 128
+		},
+		{
+			"directions": 32,
+			"file_bytes": 2495454,
+			"geometry_tier": 1,
+			"path": "assets/graphics/scenery/horizons/alpine_valleys_01_t1_q2.res",
+			"payload_bytes": 4194304,
+			"quality": 2,
+			"size": 256
+		},
+		{
+			"directions": 16,
+			"file_bytes": 318307,
+			"geometry_tier": 2,
+			"path": "assets/graphics/scenery/horizons/alpine_valleys_01_t2_q1.res",
+			"payload_bytes": 524288,
+			"quality": 1,
+			"size": 128
+		},
+		{
+			"directions": 32,
+			"file_bytes": 2502941,
+			"geometry_tier": 2,
+			"path": "assets/graphics/scenery/horizons/alpine_valleys_01_t2_q2.res",
+			"payload_bytes": 4194304,
+			"quality": 2,
+			"size": 256
+		}
+	]
+}

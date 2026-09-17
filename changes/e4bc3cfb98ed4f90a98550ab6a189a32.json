@@ -1,0 +1,412 @@
+{
+  "schema": 1,
+  "id": "e4bc3cfb98ed4f90a98550ab6a189a32",
+  "summary": "Add optional precomputed distant mountain shadows",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Distant scenery light",
+    "Optional shadow quality",
+    "Offline horizon companions"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "assets/cloud_light.gdshaderinc",
+    "assets/graphics/alpine_surface_uniforms.gdshaderinc",
+    "assets/graphics/alpine_wilderness.gdshader",
+    "assets/graphics/offmap_horizon.gdshaderinc",
+    "assets/graphics/offmap_prop.gdshader",
+    "assets/graphics/offmap_tree.gdshader",
+    "assets/graphics/scenery/horizons/alpine_valleys_01_t0_q1.res",
+    "assets/graphics/scenery/horizons/alpine_valleys_01_t0_q2.res",
+    "assets/graphics/scenery/horizons/alpine_valleys_01_t1_q1.res",
+    "assets/graphics/scenery/horizons/alpine_valleys_01_t1_q2.res",
+    "assets/graphics/scenery/horizons/alpine_valleys_01_t2_q1.res",
+    "assets/graphics/scenery/horizons/alpine_valleys_01_t2_q2.res",
+    "assets/graphics/scenery/horizons/manifest.json",
+    "backlog/QUEUE.md",
+    "backlog/completed/AA-20260911-230603-scenery-snow-material.md",
+    "backlog/completed/AA-20260911-230604-scenery-mountain-shadows.md",
+    "backlog/tasks/AA-20260911-230604-scenery-mountain-shadows.md",
+    "config/generation_dependencies.json",
+    "docs/ASSETS.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "docs/WORLD.md",
+    "scripts/authoring/bake_wilderness_horizons.py",
+    "scripts/authoring/export_wilderness_horizons.gd",
+    "scripts/authoring/export_wilderness_horizons.gd.uid",
+    "scripts/authoring/pack_wilderness_horizons.gd",
+    "scripts/authoring/pack_wilderness_horizons.gd.uid",
+    "scripts/presentation/graphics_presets.gd",
+    "scripts/presentation/graphics_quality.gd",
+    "scripts/presentation/pc_graphics_settings.gd",
+    "scripts/ui/settings_pages.gd",
+    "scripts/world/alpine_wilderness.gd",
+    "scripts/world/wilderness_horizon.gd",
+    "scripts/world/wilderness_horizon.gd.uid",
+    "scripts/world/wilderness_horizon_asset.gd",
+    "scripts/world/wilderness_horizon_asset.gd.uid",
+    "tests/fixtures/test_maps.json",
+    "tests/graphics_override_suite.gd",
+    "tests/offmap_horizon_suite.gd",
+    "tests/offmap_horizon_suite.gd.uid",
+    "tests/offmap_lifecycle_suite.gd",
+    "tests/prepare_validation_mountain.gd",
+    "tests/scenery_horizon_compile.gd",
+    "tests/scenery_horizon_compile.gd.uid",
+    "tests/scenery_horizon_cost.gd",
+    "tests/scenery_horizon_cost.gd.uid",
+    "tests/scenery_horizon_playtest.gd",
+    "tests/scenery_horizon_playtest.gd.uid"
+  ],
+  "read_paths": [
+    "scripts/world/wilderness_data.gd",
+    "scripts/world/wilderness_asset.gd",
+    "scripts/world/mountain_footprint.gd",
+    "tests/scenery_snow_playtest.gd",
+    "tests/performance_descent.gd",
+    "export_presets.cfg"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "world": {
+        "effect": "preserved",
+        "reason": "Optional presentation-only horizon companions and lighting. Physical terrain, placement and world17 are unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Optional runtime-loaded presentation resource, outside gameplay/cache payloads. Existing scenery source dependency checks remain authoritative."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Optional runtime-loaded presentation resource, outside gameplay/cache payloads. Existing scenery source dependency checks remain authoritative."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Optional runtime-loaded presentation resource, outside gameplay/cache payloads. Existing scenery source dependency checks remain authoritative."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Optional runtime-loaded presentation resource, outside gameplay/cache payloads. Existing scenery source dependency checks remain authoritative."
+      },
+      "caches": {
+        "effect": "regenerate",
+        "reason": "Physical cache and world17 are preserved. The existing scenery source key changes with graphics profile sources; it regenerates presentation preparation once under normal compatibility checks. Optional companions are independently versioned runtime resources."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "test_pc_environment.ps1 targeted graphics/offmap suites; see regression, regression_remaining and off_path_check under artifacts/scenery_mountain_shadows",
+      "result": "passed",
+      "details": "354 unique final checks. Missing second physical fixture stopped geometry safely, explicitly prepared once, then remaining checks passed. Only affected horizon/lifecycle/atmosphere rerun after final Off-path optimization."
+    },
+    {
+      "kind": "automated",
+      "command": "Native scenery_horizon_compile.gd; bake_wilderness_horizons.py fixtures; prepare_generation_export.gd",
+      "result": "passed",
+      "details": "Five native shaders and both full-scene harnesses compile; directional/flat/excluded/finite/deterministic bake fixtures pass; serialized image companions reload and export manifest refreshed. No actual packaged executable claim."
+    },
+    {
+      "kind": "rendered",
+      "command": "scenery_horizon_playtest.gd, guard scenery-horizon-final-review, 1080p/30 High Auto0.75 with current upper trace",
+      "result": "passed",
+      "details": "27 matched stills; 16 camera and24 ordinary-input skiing poses per Off/High. Day/dusk/moon/cloud, connector/props and all geometry tiers coherent. Outward4050m connector qualifies valley background; labelled down-facing valley image is weak. Pose sequence is not real-time/controller acceptance."
+    },
+    {
+      "kind": "performance",
+      "command": "scenery_horizon_cost.gd, guard scenery-horizon-final-timing: current upper trace, one excluded traversal then15s Off/Low/High, clear dusk,4KHigh Auto0.75 FG/GIoff",
+      "result": "passed",
+      "details": "146.19/144.72/144.82 averageFPS. High +0.0647ms mean frame/+0.1005ms medianGPU. Low tails worsened in one sample; all presets Off. All11 receivers bound, exact states, focus0, positiveGPU, warmcache, stable scoped metadata. Open-route cost only; no dense-FPS/cold-start/physical-VRAM claim. Report artifacts/scenery_mountain_shadows/REPORT.md."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human scenery preference remains separate."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T16:43:29.620443+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "a0a0011a4d642140aa792a8c5e946ef33fc4d507",
+      "dev": 99,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": {
+        "size": 13292,
+        "mtime_ns": 1789662324982064700
+      },
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 14448,
+        "mtime_ns": 1789662406267874500
+      },
+      "assets/cloud_light.gdshaderinc": {
+        "size": 3699,
+        "mtime_ns": 1789660729303129800
+      },
+      "assets/graphics/alpine_surface_uniforms.gdshaderinc": {
+        "size": 2018,
+        "mtime_ns": 1789660729303129800
+      },
+      "assets/graphics/alpine_wilderness.gdshader": {
+        "size": 1205,
+        "mtime_ns": 1789660729302117200
+      },
+      "assets/graphics/offmap_horizon.gdshaderinc": {
+        "size": 1017,
+        "mtime_ns": 1789660729299103800
+      },
+      "assets/graphics/offmap_prop.gdshader": {
+        "size": 2318,
+        "mtime_ns": 1789660729306770200
+      },
+      "assets/graphics/offmap_tree.gdshader": {
+        "size": 2279,
+        "mtime_ns": 1789660729304264800
+      },
+      "assets/graphics/scenery/horizons/alpine_valleys_01_t0_q1.res": {
+        "size": 317036,
+        "mtime_ns": 1789661746614497100
+      },
+      "assets/graphics/scenery/horizons/alpine_valleys_01_t0_q2.res": {
+        "size": 2490565,
+        "mtime_ns": 1789661746646954000
+      },
+      "assets/graphics/scenery/horizons/alpine_valleys_01_t1_q1.res": {
+        "size": 317383,
+        "mtime_ns": 1789661746664659500
+      },
+      "assets/graphics/scenery/horizons/alpine_valleys_01_t1_q2.res": {
+        "size": 2495454,
+        "mtime_ns": 1789661746695543900
+      },
+      "assets/graphics/scenery/horizons/alpine_valleys_01_t2_q1.res": {
+        "size": 318307,
+        "mtime_ns": 1789661746713289100
+      },
+      "assets/graphics/scenery/horizons/alpine_valleys_01_t2_q2.res": {
+        "size": 2502941,
+        "mtime_ns": 1789661746743598500
+      },
+      "assets/graphics/scenery/horizons/manifest.json": {
+        "size": 1661,
+        "mtime_ns": 1789661746756524700
+      },
+      "backlog/QUEUE.md": {
+        "size": 2261,
+        "mtime_ns": 1789663409071572000
+      },
+      "backlog/completed/AA-20260911-230603-scenery-snow-material.md": {
+        "size": 9305,
+        "mtime_ns": 1789663409071572000
+      },
+      "backlog/completed/AA-20260911-230604-scenery-mountain-shadows.md": {
+        "size": 10672,
+        "mtime_ns": 1789663409070567200
+      },
+      "backlog/tasks/AA-20260911-230604-scenery-mountain-shadows.md": null,
+      "config/generation_dependencies.json": {
+        "size": 84115,
+        "mtime_ns": 1789663077283282000
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ASSETS.md": {
+        "size": 23367,
+        "mtime_ns": 1789662324665021500
+      },
+      "docs/RENDERING.md": {
+        "size": 51287,
+        "mtime_ns": 1789663409072825800
+      },
+      "docs/VALIDATION.md": {
+        "size": 151084,
+        "mtime_ns": 1789662406261465800
+      },
+      "docs/WORLD.md": {
+        "size": 26904,
+        "mtime_ns": 1789662324665021500
+      },
+      "export_presets.cfg": {
+        "size": 1220,
+        "mtime_ns": 1789155917110778500
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/authoring/bake_wilderness_horizons.py": {
+        "size": 6494,
+        "mtime_ns": 1789660809692718600
+      },
+      "scripts/authoring/export_wilderness_horizons.gd": {
+        "size": 1660,
+        "mtime_ns": 1789660809692718600
+      },
+      "scripts/authoring/export_wilderness_horizons.gd.uid": {
+        "size": 19,
+        "mtime_ns": 1789662101645519400
+      },
+      "scripts/authoring/pack_wilderness_horizons.gd": {
+        "size": 3251,
+        "mtime_ns": 1789661744571370100
+      },
+      "scripts/authoring/pack_wilderness_horizons.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789662101645519400
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/graphics_presets.gd": {
+        "size": 5649,
+        "mtime_ns": 1789660729309239800
+      },
+      "scripts/presentation/graphics_quality.gd": {
+        "size": 3387,
+        "mtime_ns": 1789660729309239800
+      },
+      "scripts/presentation/pc_graphics_settings.gd": {
+        "size": 8616,
+        "mtime_ns": 1789660729311241900
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/ui/settings_pages.gd": {
+        "size": 16623,
+        "mtime_ns": 1789660729312242400
+      },
+      "scripts/world/alpine_wilderness.gd": {
+        "size": 9102,
+        "mtime_ns": 1789662625152661400
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789641931263320900
+      },
+      "scripts/world/mountain_footprint.gd": {
+        "size": 1447,
+        "mtime_ns": 1789641931264323100
+      },
+      "scripts/world/wilderness_asset.gd": {
+        "size": 495,
+        "mtime_ns": 1789126789775664100
+      },
+      "scripts/world/wilderness_data.gd": {
+        "size": 3273,
+        "mtime_ns": 1789134883813266700
+      },
+      "scripts/world/wilderness_horizon.gd": {
+        "size": 2548,
+        "mtime_ns": 1789662625151596900
+      },
+      "scripts/world/wilderness_horizon.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789662101644508100
+      },
+      "scripts/world/wilderness_horizon_asset.gd": {
+        "size": 1562,
+        "mtime_ns": 1789661744569284700
+      },
+      "scripts/world/wilderness_horizon_asset.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789662101644508100
+      },
+      "tests/fixtures/test_maps.json": {
+        "size": 65231,
+        "mtime_ns": 1789662099700087400
+      },
+      "tests/graphics_override_suite.gd": {
+        "size": 11491,
+        "mtime_ns": 1789661892478268800
+      },
+      "tests/offmap_horizon_suite.gd": {
+        "size": 4764,
+        "mtime_ns": 1789662625152661400
+      },
+      "tests/offmap_horizon_suite.gd.uid": {
+        "size": 19,
+        "mtime_ns": 1789662101646690100
+      },
+      "tests/offmap_lifecycle_suite.gd": {
+        "size": 5553,
+        "mtime_ns": 1789661892478268800
+      },
+      "tests/performance_descent.gd": {
+        "size": 19684,
+        "mtime_ns": 1789637986647196000
+      },
+      "tests/prepare_validation_mountain.gd": {
+        "size": 1329,
+        "mtime_ns": 1789662363540010100
+      },
+      "tests/scenery_horizon_compile.gd": {
+        "size": 736,
+        "mtime_ns": 1789662655016243500
+      },
+      "tests/scenery_horizon_compile.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789662101646690100
+      },
+      "tests/scenery_horizon_cost.gd": {
+        "size": 1423,
+        "mtime_ns": 1789662044455634000
+      },
+      "tests/scenery_horizon_cost.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789662101647693200
+      },
+      "tests/scenery_horizon_playtest.gd": {
+        "size": 4566,
+        "mtime_ns": 1789662044455634000
+      },
+      "tests/scenery_horizon_playtest.gd.uid": {
+        "size": 19,
+        "mtime_ns": 1789662101647693200
+      },
+      "tests/scenery_snow_playtest.gd": {
+        "size": 7976,
+        "mtime_ns": 1789650324327778900
+      }
+    }
+  }
+}

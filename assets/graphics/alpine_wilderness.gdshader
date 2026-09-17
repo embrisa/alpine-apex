@@ -2,6 +2,7 @@ shader_type spatial;
 render_mode diffuse_lambert, specular_disabled, shadows_disabled;
 #include "res://assets/graphics/offmap_surface.gdshaderinc"
 #include "res://assets/graphics/offmap_fog.gdshaderinc"
+#include "res://assets/graphics/offmap_horizon.gdshaderinc"
 varying vec3 landscape_pos;
 varying vec3 landscape_normal;
 
@@ -24,5 +25,5 @@ void fragment() {
 }
 
 void light() {
-	DIFFUSE_LIGHT += LIGHT_COLOR * offmap_diffuse(dot(NORMAL,LIGHT),offmap_snow_coverage) * cloud_shade / PI;
+	DIFFUSE_LIGHT += LIGHT_COLOR * offmap_diffuse(dot(NORMAL,LIGHT),offmap_snow_coverage) * cloud_shade * (LIGHT_IS_DIRECTIONAL ? offmap_horizon_visibility(landscape_pos) : 1.0) / PI;
 }

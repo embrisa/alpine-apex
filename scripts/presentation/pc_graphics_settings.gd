@@ -114,6 +114,7 @@ func apply_arguments(args: PackedStringArray) -> void:
 		elif arg.begins_with("--fps-limit=") and value.is_valid_int(): fps_limit = int(value)
 		elif arg.begins_with("--terrain-gi=") and value in ["on","off"]: terrain_gi = value=="on"
 		elif arg.begins_with("--offmap-snow-detail=") and value in ["on","off"]: set_graphics_value("offmap_snow_detail",value=="on")
+		elif arg.begins_with("--offmap-shadows=") and value in ["off","low","high"]: set_graphics_value("offmap_shadow_quality",["off","low","high"].find(value))
 	restore(snapshot())
 
 func viewport_sharpness() -> float:

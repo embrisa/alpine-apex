@@ -1844,6 +1844,10 @@
       "full_mountain": false,
       "coverage": "Recipe-only two-seed opening sightlines and full/narrow powder-query agreement; no physical mountain bake."
     },
+    "tests/offmap_horizon_suite.gd": {"maps": [], "full_mountain": false, "coverage": "Authored payload, light direction and connector exclusion fixtures; no mountain generation."},
+    "tests/scenery_horizon_compile.gd": {"maps": [], "full_mountain": false, "coverage": "Native compilation of production off-map and playable terrain shaders; no mountain."},
+    "tests/scenery_horizon_playtest.gd": {"maps": [], "full_mountain": true, "coverage": "Current warm Standard, matched optional shadow modes at summit, valley, connector and ordinary-input skiing poses; capture only."},
+    "tests/scenery_horizon_cost.gd": {"maps": [], "full_mountain": true, "coverage": "Current warm Standard, excluded residency traversal then one capture-free Off/Low/High arm on a matched bounded input trace."},
     "tests/scenery_snow_cost.gd": {
       "maps": [],
       "full_mountain": true,

@@ -582,8 +582,8 @@
 		"res://scripts/presentation/density_forest.gd": "b83f7729839d0ef77dd2c810c7c1840bd46b9a17cb8c67ae1b377df21d641fae",
 		"res://scripts/presentation/foliage_sight.gd": "749fc5513a591763a219c4a4949ab10495a56bbe6f6d1bd7832bda65e25ad41f",
 		"res://scripts/presentation/forest_placement.gd": "fb77da4243855ccf50b1e1eb22481b5106d0f482625a426257ad0f74cb82feae",
-		"res://scripts/presentation/graphics_presets.gd": "d05fc4b596d034dd7191132c1c1c32438bd46652fccc1dce9e9fe1458f3b0f8d",
-		"res://scripts/presentation/graphics_quality.gd": "251a1005b1d946e16b2cf101cfe68c0287b5235e9e4dfe70785b4fde74e6100a",
+		"res://scripts/presentation/graphics_presets.gd": "39ca7d4dc3fd827776979b9ddea83973831af4449eccd467f2e5d7aeebd40c1f",
+		"res://scripts/presentation/graphics_quality.gd": "ceec732fc7f32708eacb73fc219896c364cbabf67bd63655cb0884929980da73",
 		"res://scripts/presentation/grass_motion.gd": "ffe558fa8a522f214e50d2336abbd5b23d9aba5c8884515c688dcb813a140526",
 		"res://scripts/presentation/grass_placement.gd": "a6daeca0257d6cd7246695573e589b48c056a80312b1d1ec9ad15be38c1bd4e5",
 		"res://scripts/presentation/mineral_scenery.gd": "fbfa0229211f66d5c0bdec08161ae2b891188b20bd0d7fd58bcb06fcc975d94a",
@@ -612,6 +612,6 @@
 		"res://scripts/world/scenery_cache.gd": "22b806f1a4d5d4ae42e877e3f84b3f6f65c506f6f0e648f998197650622e6762",
 		"res://scripts/world/terrain_preparation.gd": "5802dad2701c5f5ecd476bed27d55de89536b6351800493c12cd8d5d126f1f9f"
 	},
-	"scenery_sha256": "3f590b65fab818755a1ffdfd45769561b88e272657519d1d362c2edb34db37e9",
+	"scenery_sha256": "8f4fd08f9927ed6462c116b724d1f8e9493dbe3b621fee97c14f25f26b91cf91",
 	"schema": 1
 }
