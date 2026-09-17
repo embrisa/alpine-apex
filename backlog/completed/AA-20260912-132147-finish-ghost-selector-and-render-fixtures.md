@@ -28,7 +28,7 @@ Make Records selection reliable at 4K, let the player choose Automatic fastest 1
 
 Native-v2 has 600 checks with only two 4K selector failures: mouse row toggling and keyboard restoration of an empty manual set. The15-second chronology and other lifecycle/opacity checks pass. Focused-native-v1 has 231 checks with four failed shadow probes; all six real motion/contact cases pass, including180-degree switch landing, one-ski drop, rock and jump track breaks. Inspected stage images lack useful ground/shadow context.
 
-Originating tasks: [AA-20260911-220556-animated-ghost-snow-tracks](../blocked/AA-20260911-220556-animated-ghost-snow-tracks.md). Evidence: `artifacts/ghost/native-v2/`, `artifacts/ghost/focused-native-v1/`, and `artifacts/orchestration_20260912/ghost/native_v3_fix/`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
+Originating tasks: [AA-20260911-220556-animated-ghost-snow-tracks](AA-20260911-220556-animated-ghost-snow-tracks.md). Evidence: `artifacts/ghost/native-v2/`, `artifacts/ghost/focused-native-v1/`, and `artifacts/orchestration_20260912/ghost/native_v3_fix/`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
 
 ## Agreed decisions and scope
 

@@ -1695,6 +1695,17 @@ checks validated reuse, corruption, identity changes and roster pruning. Its
 `--maximum-only --reuse-maximum=PATH` mode reads an existing isolated maximum
 manifest without recreating it; the fixture must still match current identity.
 
+The 17 September replay-7 maximum fixture passes 172 archive checks: ten
+600-second recordings at 30 Hz stress density, 255,615,110 declared raw bytes,
+3,119,802 compressed disk bytes, 1,027.747 ms initial selection and 284,566,964
+bytes of decoded static-memory increase. A separate process reuses those exact
+payloads: seven checks pass, empty-cache loading is 1,003.795 ms and cached
+retry is 8.263 ms with ten hits, zero new decodes and 7,636 added bytes. This
+simple bounds fixture compresses unusually well; use the varied 150-second
+fixture for comparative loading work. Neither controls the OS disk cache or
+proves a total-process memory bound. Compact receipts are in
+`artifacts/ghost_integration_20260917/{maximum.json,maximum-reuse.json}`.
+
 Current Windows replay 7 loading was measured on 17 September with ten varied
 150-second synthetic recordings at 30 Hz stress density (production records at
 20 Hz). Empty decoded-cache selection improved from **3,340.649 to 261.554 ms**
@@ -1759,6 +1770,19 @@ counts and frozen active rosters. It does not establish animation or FPS quality
 Injected main-window mouse coordinates use the root's final transform; popup
 events target the popup's host window ID. Mouse coordinates include the panel
 offset and, for an embedded popup, its position within the transformed host.
+
+For lifecycle-only integration, use `--lifecycle-only` with a fresh output and
+`--fps-limit=60`. It captures actual production poses, then checks opacity across
+the former near/far cutoffs, independent finishes/replacement, pause, hide/show,
+time reversal, overlap and material isolation. It skips the already-covered
+selector and full animation chronology. This is rendered functional evidence,
+not a new FPS sample; use the focused lineup for actual light/cyan outfits.
+Add `--with-chronology` only when a current 15-second ten-ghost playback sequence
+is missing; it captures that sequence before the lifecycle checks.
+For a material-only overlap change, `--overlap-only` captures just the actual
+production starting pose plus 0.1 seconds and the four chase/first-person outfit
+pairs. Pair it with the focused palette producer for normal-distance appearance.
+It does not claim action chronology, independent finish or loading performance.
 
 `tests/ghost_focused_native.gd -- --output=artifacts/<unique-label>
 --fps-limit=60` covers the six actual-solver contact cases and all ten colors

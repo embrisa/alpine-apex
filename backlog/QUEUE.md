@@ -1,9 +1,8 @@
 # Current backlog
 
-Groomed against **Dev75 / c53c28e6**, 16 September 2026. This is an index;
+Focus: `tasks/`, `blocked/` and `ideas/`, as requested on 17 September 2026.
+Finish active and blocked work before implementing ideas. This is an index;
 status, dependencies, evidence and acceptance live in each stable task record.
-User-requested archival updated on 17 September 2026.
-No workers or game benchmarks were started by grooming.
 
 ## Performance and integration
 
@@ -31,28 +30,16 @@ No workers or game benchmarks were started by grooming.
 
 ## Blocked work and resume conditions
 
-- **[Pole feature](blocked/AA-20260911-183812-slope-limited-pole-pushing.md):** existing contact/visual gaps remain; its transition follow-up was archived by the user. Resume only with an explicit scope and retry decision.
-- **[Ghost parent](blocked/AA-20260911-220556-animated-ghost-snow-tracks.md):** selector/render fixtures, cold loading and playback optimization are complete; reconcile the original remaining maximum-duration and integration checks.
-- **[Finish beam](blocked/AA-20260911-232811-taller-distant-finish-beam.md), [navigation beams](blocked/AA-20260911-232936-session-navigation-beams.md) and [snow boundary](blocked/AA-20260912-005323-subtle-local-snow-boundary.md):** retain their documented acceptance gaps. Their former integration-closure task was archived; resumption needs an explicit scope and retry decision.
+- **[Pole feature](blocked/AA-20260911-183812-slope-limited-pole-pushing.md):** resolve the remaining contact and transition gaps within the current backlog-completion goal.
+- **[Finish beam](blocked/AA-20260911-232811-taller-distant-finish-beam.md), [navigation beams](blocked/AA-20260911-232936-session-navigation-beams.md) and [snow boundary](blocked/AA-20260912-005323-subtle-local-snow-boundary.md):** close the documented cost and integration gaps while reusing completed visual checks.
 - **[Scenery snow](blocked/AA-20260911-230603-scenery-snow-material.md):** implemented, with explicitly deferred cost acceptance. [Distant mountain shadows](blocked/AA-20260911-230604-scenery-mountain-shadows.md) waits on that prerequisite.
-- **[Motion blur](blocked/AA-20260912-004402-scene-motion-blur.md):** shipped provisionally; remaining performance/visual qualification needs explicit resumption.
+- **[Motion blur](blocked/AA-20260912-004402-scene-motion-blur.md):** finish the remaining performance and visual qualification.
 - **[Metal frame floor](blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md):** needs Metal capture/counters or a concrete alternate attribution method; no more blind toggle matrices.
 
-## Completed and abandoned
+## Ideas for the final phase
 
-[Completed](completed/) contains delivered work and finished investigations,
-including pelvis/native fitting, terrain queries and Fable's closed tasks.
-[Ghost selector and rendered fixtures](completed/AA-20260912-132147-finish-ghost-selector-and-render-fixtures.md) completed on 17 September: Automatic fastest 1–10 and native input/contact/colour checks pass.
-[Cold ghost loading](completed/AA-20260912-132147-reduce-cold-ghost-archive-load.md) now uses native numeric validation on Windows; the matched ten-run load fell 92.17%.
-[Ten-ghost playback](completed/AA-20260912-132147-reduce-ten-ghost-presentation-cost.md) completed with a bounded decoded-frame cache: matched lab FPS 78.73 → 89.45.
-[Abandoned](abandoned/) contains the existing retired records plus the superseded
-repeatability-prerequisite campaign. Retirement is not success; history and
-replacement links remain in the records.
-
-On 17 September the user also archived crash-location respawn, raised-ski tracks,
-forest transparency, integration closure, pole-transition validation, CPU forest
-LOD selection and the broad dense-GPU investigation. Their records and unresolved
-findings remain in `abandoned/`; active narrow tasks retain their own scope.
+- [Load only the requested ghost count](ideas/IDEA-20260917-011800-load-only-requested-ghost-count.md).
+- [Skip unchanged ghost material parameters](ideas/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md).
 
 ## Rules for the next task
 

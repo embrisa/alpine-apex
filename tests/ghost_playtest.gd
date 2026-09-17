@@ -24,6 +24,8 @@ var framebuffer_checks: Array = []
 var capture_us = 0
 var review_only = false
 var selector_only = false
+var lifecycle_only = false
+var overlap_only = false
 var production_coverage: Array = []
 var profile_ghost_count = -1
 var profile_seconds = 20.0
@@ -41,6 +43,8 @@ func run() -> void:
 	profiling = "--profile" in OS.get_cmdline_user_args()
 	review_only = "--review-only" in OS.get_cmdline_user_args()
 	selector_only = "--selector-only" in OS.get_cmdline_user_args()
+	lifecycle_only = "--lifecycle-only" in OS.get_cmdline_user_args()
+	overlap_only = "--overlap-only" in OS.get_cmdline_user_args()
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--profile-ghosts="): profile_ghost_count=clampi(arg.trim_prefix("--profile-ghosts=").to_int(),0,10)
 		if arg.begins_with("--profile-seconds="): profile_seconds=clampf(arg.trim_prefix("--profile-seconds=").to_float(),5.0,20.0)
@@ -105,6 +109,11 @@ func run() -> void:
 	rows.sort_custom(Records.ordered)
 	if selector_only:
 		await _selector()
+	elif overlap_only:
+		await _overlap_views()
+	elif lifecycle_only:
+		if "--with-chronology" in OS.get_cmdline_user_args(): await _scenario(10,true,15.0)
+		await _lifecycle_and_opacity()
 	elif profiling:
 		_pose_cpu_probe()
 		var configurations = [[profile_ghost_count,"--profile-no-tracks" not in OS.get_cmdline_user_args()]] if profile_ghost_count>=0 else [[0,true],[1,true],[10,true],[10,false]]
@@ -194,7 +203,7 @@ func _capture_production(variant: int):
 	var observed = {"variant":variant,"phases":{},"switch_samples":0,"turn_left_samples":0,"turn_right_samples":0,"hard_turn_samples":0,"air_rotation_samples":0,"takeoffs":0,"landings":0,"was_grounded":true,"previous_heading":sim.heading,"snow_samples":[0,0],"unsupported_samples":[0,0],"one_ski_samples":0,"rock_samples":0,"pose_comparisons":0,"max_joint_error_m":0.0,"max_equipment_error_m":0.0,"max_basis_error":0.0}
 	var replay = Replay.new(); replay.begin(sim,Replay.key(game.session.course_id))
 	visual.pose(sim,1.0); replay.capture_presentation(0.0,Pose.capture(visual,sim,game.field))
-	var limit = 2400-variant*24
+	var limit = 12 if overlap_only else 2400-variant*24
 	var crash_until = -1
 	for tick in range(1,limit+1):
 		var time = tick*DT
@@ -337,6 +346,9 @@ func _lifecycle_and_opacity() -> void:
 	ghost.replay = other.replay
 	check(ghost.last_time<0 and ghost.snow_tracks.written==0 and other.snow_tracks.written==other_count,"Replay replacement resets only that ghost")
 	ghost.replay = replaced
+	await _overlap_views()
+
+func _overlap_views() -> void:
 	# Outfit shots must actually return camera, rider and all ghosts to overlap.
 	game.restart(); game.session.mark_practice("Isolated overlap review"); game.active = false
 	_install(10); game.skier.pose(game.sim,1.0)

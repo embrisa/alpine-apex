@@ -238,6 +238,8 @@ func _runtime_checks(winning_time: float) -> void:
 	key(KEY_ESCAPE)
 	check(game.hud.menu.visible and game.hud.menu_mode=="paused" and not game.active,"Closing history returns to pause without advancing the run")
 	key(KEY_ESCAPE)
+	check(game.hud.menu_tabs.current_tab==0 and not game.active and game.session.elapsed==elapsed,"Back from Records returns to the pause home before resuming")
+	key(KEY_ESCAPE)
 	check(game.active and game.session.previous_elapsed==game.session.elapsed,"Resume aligns player and ghost interpolation clocks")
 	key(KEY_F2)
 	key(KEY_F6)
@@ -310,7 +312,7 @@ func _runtime_checks(winning_time: float) -> void:
 	game.active = false
 	game.hud.toast_time = 0
 	game.hud.show_result(game.session,game.sim.peak_speed*3.6)
-	check(game.session.new_best and game.hud.menu_title.text=="PERSONAL\nBEST.","A faster completed run celebrates the new PB with the previous-best delta")
+	check(game.session.new_best and game.hud.menu_title.text=="Personal best!","A faster completed run celebrates the new PB with the previous-best delta")
 	game._process(0.016)
 	await _capture("finish")
 	game.open_competition()

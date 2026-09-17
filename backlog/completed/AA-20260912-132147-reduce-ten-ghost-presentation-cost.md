@@ -32,7 +32,7 @@ Make ten selected animated ghosts cheaper while preserving their visible motion,
 
 A single contended20-second lab comparison at 4K High/Auto75/FGoff measured frame means11.798/11.616/17.862/16.648 ms for0/1/10/10-without-tracks. Ten ghosts add4.221 ms presentation CPU and3.491 ms GPU mean versus zero; removing their tracks saves1.175 ms presentation CPU. These are scoped measurements, not a full-mountain baseline.
 
-Originating tasks: [AA-20260911-220556-animated-ghost-snow-tracks](../blocked/AA-20260911-220556-animated-ghost-snow-tracks.md). Evidence: `artifacts/ghost/profile-v1/profile_results.json` and `artifacts/orchestration_20260912/ghost/PROFILE_REVIEW.md`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
+Originating tasks: [AA-20260911-220556-animated-ghost-snow-tracks](AA-20260911-220556-animated-ghost-snow-tracks.md). Evidence: `artifacts/ghost/profile-v1/profile_results.json` and `artifacts/orchestration_20260912/ghost/PROFILE_REVIEW.md`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
 
 ## Agreed decisions and scope
 

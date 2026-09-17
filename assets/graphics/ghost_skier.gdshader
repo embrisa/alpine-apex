@@ -23,6 +23,15 @@ void vertex() {
  cloud_direct_transmission=sample_cloud_light((MODEL_MATRIX*vec4(VERTEX,1)).xyz);
 }
 void fragment() {
+ float opacity=clamp(ghost_opacity,.15,.72);
+ float coverage=1.0;
+ // Shared screen coverage keeps coincident near ghosts from accumulating
+ // almost-opaque interior layers. Fade smoothly into ordinary alpha blending.
+ if(opacity<.30) {
+  coverage=mix(opacity,1.0,smoothstep(.15,.30,opacity));
+  float threshold=fract(52.9829189*fract(dot(FRAGCOORD.xy,vec2(.06711056,.00583715))));
+  if(threshold>coverage) { discard; }
+ }
  vec3 texel=has_albedo?texture(albedo_texture,UV).rgb:base_color.rgb;
  // Retain the actual fabric/equipment detail, replacing atlas hue so cyan
  // clothing remains cyan instead of multiplying a red atlas into near-black.
@@ -33,6 +42,7 @@ void fragment() {
  if(has_orm) { vec3 orm=texture(orm_texture,UV).rgb; AO=orm.r; ROUGHNESS=orm.g; METALLIC=orm.b; }
  if(has_normal) { NORMAL_MAP=texture(normal_texture,UV).rgb; NORMAL_MAP_DEPTH=normal_strength; }
  SPECULAR=material_specular;
- // One final alpha, independent of texture alpha or GeometryInstance fade.
- ALPHA=clamp(ghost_opacity,.15,.72);
+ // Coverage times surviving alpha preserves the requested apparent opacity.
+ // Texture alpha and GeometryInstance fade never multiply it below the floor.
+ ALPHA=opacity/coverage;
 }

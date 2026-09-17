@@ -30,7 +30,7 @@ Load selected long recordings without the measured long first-attempt stall whil
 
 The historical replay 6/archive3 maximum of ten 600-second payloads took47.6 seconds cold versus 17.2 ms cached. This is not a current replay 7/archive4 timing claim. Current format small-cache 37 and exact-clock/archive/crash checks pass; cache hits rehash compressed content and share validated immutable data.
 
-Originating tasks: [AA-20260911-220556-animated-ghost-snow-tracks](../blocked/AA-20260911-220556-animated-ghost-snow-tracks.md). Evidence: `artifacts/orchestration_20260912/ghost/RETRY_CACHE_HANDOFF.md`, `ghost/STATUS.md`, and `artifacts/ghost/retry_cache_results.json`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
+Originating tasks: [AA-20260911-220556-animated-ghost-snow-tracks](AA-20260911-220556-animated-ghost-snow-tracks.md). Evidence: `artifacts/orchestration_20260912/ghost/RETRY_CACHE_HANDOFF.md`, `ghost/STATUS.md`, and `artifacts/ghost/retry_cache_results.json`. Measurements are from2026-09-12; private proposals and frozen captures are local, ignored evidence, not shipped dependencies. Recheck live source before applying a candidate.
 
 ## Agreed decisions and scope
 

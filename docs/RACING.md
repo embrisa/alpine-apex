@@ -279,9 +279,12 @@ a staging buffer and old active references add memory beyond compressed disk.
 The cache bound is raw payload accounting, not total heap or process memory.
 Windows cold decoded-cache loading for ten varied 150-second recordings fell from
 3,340.649 to 261.554 ms with native validation; cached retry was 13.214 ms.
-This is a synthetic 30 Hz stress fixture, not maximum-duration or disk-cold
-acceptance. Maximum-duration latency and other platforms remain unmeasured with
-this helper. Measurements and the separate completed-pose
+This is a synthetic 30 Hz stress fixture, not disk-cold acceptance. A separate
+ten-by-600-second 30 Hz bounds fixture uses 255,615,110 raw bytes, loads in
+1,027.747 ms and adds 284,566,964 bytes of static memory; an unchanged retry
+takes 8.263 ms with zero new decodes. Its simple channels compress to 3,119,802
+disk bytes, which is not a representative recording-size estimate. macOS
+acceleration remains unmeasured. Measurements and the separate completed-pose
 capture/native cost limits are in [Validation](VALIDATION.md#crash-recovery-and-ghost-producers).
 
 Custom manifests use

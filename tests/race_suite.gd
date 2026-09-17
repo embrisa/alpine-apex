@@ -99,7 +99,11 @@ func run() -> void:
 		var previous_clipboard = DisplayServer.clipboard_get()
 		workshop.copy_selected()
 		check(DisplayServer.clipboard_get()==code,"Copy to share places the complete mountain and race on the clipboard")
+		# Windows clipboard listeners can briefly own the clipboard after copy.
+		# Let their notification finish before restoring the user's contents.
+		await create_timer(0.2).timeout
 		DisplayServer.clipboard_set(previous_clipboard)
+		check(DisplayServer.clipboard_get()==previous_clipboard,"Copy fixture restores the previous clipboard contents")
 	workshop.store.directory = test_dir.path_join("recipient")
 	check(workshop.import_text(code) and workshop.races.size()==1,"A recipient can paste, validate and save a shared race")
 	check(workshop.import_text(code) and workshop.races.size()==1,"Importing the same race twice does not duplicate it")
