@@ -323,26 +323,21 @@ not overlap. Distant decorative background casts no shadows or GI.
 
 ## Animated race ghosts
 
-`ghost_assets.gd` shares immutable production meshes/textures while isolating
-materials through `ghost_skier.gdshader`. Recoloring retains fabric/equipment
-luminance, normal/roughness response, world lighting and depth occlusion. Stable
-run IDs and the current player's outfit tint/atlas average choose the palette;
-Records swatches share it. Textual identity supplements color. Ten-way contrast
-in actual lighting and overlap remains a rendered review requirement.
+`ghost_assets.gd` shares immutable production meshes/textures and keeps private
+materials. Replay skiers are solid; only the jacket fabric receives the run's
+palette color. The `SkierV7Clothing` surface includes trousers, so the opaque
+`ghost_skier.gdshader` replaces warm saturated orange atlas texels while leaving
+charcoal cloth, seams and dark panels intact. Other surfaces retain their normal
+production shaders, textures and material response, including skin, helmet,
+goggles, gloves, boots, skis and poles. There is no ghost alpha/dither or distance
+fade. Jacket uniforms update only when the palette color actually changes;
+new private materials receive the current color at creation.
 
-Apparent opacity is clamped to .15–.72 for every body/equipment surface, smoothly
-rising from overlap to 18 m separation. Below .30 opacity, a shared screen-pixel
-pattern changes coverage from the requested opacity to full coverage; surviving
-fragments use opacity divided by coverage. This preserves mean opacity while
-preventing coincident near ghosts from stacking nearly opaque helmet interiors
-over the first-person view. At .30 and above, the existing smooth alpha blend is
-unchanged. Close ghosts can show a fine screen pattern; all-distance object-space
-alpha hashing was rejected because it broke up normal-distance silhouettes.
-Texture alpha and instance fading cannot multiply away the floor. Distance never
-hides an active ghost, including past
-750 m; ordinary camera clipping and terrain occlusion still apply. Instances
-cast no shadows or GI. [Racing](RACING.md#recording-and-ghosts) owns lifecycle and
-recording; independent marks use the shared snow path below.
+Stable run IDs and the player's outfit choose the palette; Records swatches
+share it and textual identity supplements color. Distance never hides an active
+model; camera clipping and terrain occlusion still apply. Replay skiers cast no
+shadows or GI and remain presentation-only. [Racing](RACING.md#recording-and-ghosts)
+owns lifecycle and recording; independent marks use the snow path below.
 
 ## Snow presentation
 

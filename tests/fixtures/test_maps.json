@@ -1836,6 +1836,11 @@
       "full_mountain": false,
       "coverage": "Production rider and mixed scenery; 6s ordinary forward input from rest, excluded warmup then whole-feature Off/On with private tuning. Exact per-arm final position/velocity, direct actuator and animation CPU scopes. Native 4K or separate capture; propulsion changes travel."
     },
+    "tests/ghost_material_updates.gd": {
+      "maps": ["perf-slopes"],
+      "full_mountain": false,
+      "coverage": "Solid jacket-only ghost colors, unchanged equipment, native front/back views and direct setter CPU cost; no full-frame FPS claim."
+    },
     "tests/sun_lens_flare_playtest.gd": {
       "maps": ["perf-slopes"],
       "full_mountain": false,

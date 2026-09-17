@@ -24,7 +24,6 @@ var last_time = -1.0
 var last_segment = -1
 var enabled = true
 var emitting = false
-var opacity = .15
 var responses: Array = [Response.new(),Response.new()]
 
 func _ready() -> void:
@@ -69,9 +68,6 @@ func apply_quality(value) -> void:
 		bounded.snow_track_capacity = Stack.GHOST_CAPACITY
 		snow_tracks.apply_quality(bounded)
 
-static func opacity_at(distance: float) -> float:
-	return clampf(lerpf(.15,.72,smoothstep(0.0,18.0,maxf(distance,0.0))),.15,.72)
-
 func reset_history() -> void:
 	last_time = -1.0; last_segment = -1; emitting = false
 	if snow_tracks: snow_tracks.reset()
@@ -81,7 +77,7 @@ func break_tracks() -> void:
 	snow_tracks.foot_history.fill(Vector3.INF)
 	for i in 2: snow_tracks._hide_live(i)
 
-func update_ghost(time: float, rider_position: Vector3, show_in_world: bool, paused: bool = false, track_emission: bool = true) -> void:
+func update_ghost(time: float, _rider_position: Vector3, show_in_world: bool, paused: bool = false, track_emission: bool = true) -> void:
 	if replay==null or not enabled or not show_in_world:
 		if last_time>=0: reset_history()
 		return
@@ -96,8 +92,7 @@ func update_ghost(time: float, rider_position: Vector3, show_in_world: bool, pau
 	if data.segment!=last_segment or (last_time>=0 and time-last_time>.12): break_tracks()
 	if advanced or not visual.visible:
 		Pose.apply(visual,data.a,data.b,data.weight,responses)
-	opacity = opacity_at(visual.global_position.distance_to(rider_position))
-	ghost_assets.tint(color,opacity)
+	ghost_assets.tint(color)
 	visual.visible = time<=replay.duration
 	var crossed_finish = last_time>=0 and last_time<replay.duration and time>replay.duration and time-last_time<=.12
 	emitting = track_emission and not paused and advanced and (time<=replay.duration or crossed_finish)

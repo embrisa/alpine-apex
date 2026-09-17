@@ -125,8 +125,6 @@ func run() -> void:
 	preload("res://tests/test_report.gd").write(directory.path_join("blocked"),"fixture")
 	var error = Records.save(directory.path_join("blocked/race.json"),identity,best,[-1.0,-1.0,-1.0],history,loaded.runs,selection)
 	check(not error.is_empty() and FileAccess.get_sha256(Records.path_for(path))==before,"Failed write leaves the committed manifest intact")
-	for distance in [0.0,1.199,1.2,1.201,3.999,4.0,4.001,749.9,750.0,750.1,2000.0]:
-		check(Ghost.opacity_at(distance)>=.15 and Ghost.opacity_at(distance)<=.72,"Opacity floor at %.3f m" % distance)
 	for player in [Color.WHITE,Color.BLACK,Color("22c6de"),Color("c34741")]:
 		var colors = Palette.assignment(loaded.runs,player)
 		var unique: Array = []

@@ -113,7 +113,7 @@ func run() -> void:
 		await _overlap_views()
 	elif lifecycle_only:
 		if "--with-chronology" in OS.get_cmdline_user_args(): await _scenario(10,true,15.0)
-		await _lifecycle_and_opacity()
+		await _lifecycle_and_materials()
 	elif profiling:
 		_pose_cpu_probe()
 		var configurations = [[profile_ghost_count,"--profile-no-tracks" not in OS.get_cmdline_user_args()]] if profile_ghost_count>=0 else [[0,true],[1,true],[10,true],[10,false]]
@@ -123,7 +123,7 @@ func run() -> void:
 	else:
 		if not review_only: await _scenario(10,true,15.0)
 		# Independent probes still run if screenshot I/O exhausts chronology time.
-		await _lifecycle_and_opacity()
+		await _lifecycle_and_materials()
 		await _animation_views()
 		await _selector()
 	_check_isolation("finish")
@@ -309,17 +309,17 @@ func _pose_cpu_probe() -> void:
 			if not data.is_empty(): Pose.apply(ghost.visual,data.a,data.b,data.weight,ghost.responses)
 	pose_cpu_ms_per_ten=(Time.get_ticks_usec()-started)/1000.0/steps
 
-func _lifecycle_and_opacity() -> void:
+func _lifecycle_and_materials() -> void:
 	_install(10)
 	var ghost = game.ghost.ghosts[0]
 	var time = 2.0
 	var point: Vector3 = Pose.transform_at(ghost.replay.presentation_at(time).a,0).origin
 	for distance in [0.0,1.19,1.21,3.99,4.01,749.9,750.1]:
 		ghost.update_ghost(time,point+Vector3.RIGHT*distance,true)
-		check(ghost.visual.visible and ghost.opacity>=.15,"Distance %.2f never hides active model/equipment" % distance)
+		check(ghost.visual.visible,"Distance %.2f never hides active model/equipment" % distance)
 		game.camera.global_position = point+Vector3(3,2,-4); game.camera.look_at(point+Vector3.UP)
-		# Fixed camera isolates rider-distance opacity, including old far thresholds.
-		await _capture("opacity_%07.2f" % distance)
+		# Fixed camera checks that distance does not change the solid skier.
+		await _capture("distance_%07.2f" % distance)
 	var saved_fov: float = game.camera.fov
 	var saved_far: float = game.camera.far
 	game.camera.far = maxf(saved_far,1600.0); game.camera.fov = 3.0
@@ -363,7 +363,7 @@ func _overlap_views() -> void:
 		game.camera.close_view = true; game.camera.reset(); game._process(0.0)
 		for item in game.ghost.ghosts:
 			item.update_ghost(0.0,game.sim.position,true)
-			for mat in item.ghost_assets.materials.values(): check(float(mat.get_shader_parameter("ghost_opacity"))>=.15,"First-person body/equipment material alpha floor")
+			check(item.ghost_assets.jacket_materials.size()==1,"One jacket material per solid ghost")
 		await _capture("first_person_overlap_"+tint.to_html())
 		game.camera.close_view = false; game.camera.reset(); game._process(0.0)
 	game.skier.appearance.change("Clothing","tint",original,false)
@@ -534,7 +534,7 @@ func _capture(label: String) -> void:
 		framebuffer_checks[-1].camera_fov = game.camera.fov
 		framebuffer_checks[-1].ghosts = []
 		for ghost in game.ghost.ghosts:
-			framebuffer_checks[-1].ghosts.append({"id":ghost.run_id,"time":ghost.last_time,"visible":ghost.visual.is_visible_in_tree(),"color":ghost.color.to_html(),"opacity":ghost.opacity,"live_skis":ghost.snow_tracks.live_active.duplicate(),"retained_stamps":ghost.snow_tracks.written})
+			framebuffer_checks[-1].ghosts.append({"id":ghost.run_id,"time":ghost.last_time,"visible":ghost.visual.is_visible_in_tree(),"color":ghost.color.to_html(),"live_skis":ghost.snow_tracks.live_active.duplicate(),"retained_stamps":ghost.snow_tracks.written})
 	capture_us += Time.get_ticks_usec()-started
 
 static func _distribution(values: Array[float]) -> Dictionary:

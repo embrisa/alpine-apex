@@ -118,13 +118,16 @@ It uses synthetic recordings solely for Records input/selection. Use the focused
 actual-solver producer for contact and palette images; verify receiving geometry
 and real shadow darkening before accepting its visual evidence.
 For ghost lifecycle integration, select `--lifecycle-only` on the native
-producer to check opacity, pause/toggle, independent finish and replacement
+producer to check jacket materials, pause/toggle, independent finish and replacement
 without repeating the full chronology or selector matrix. Keep it capped and
 separate from FPS timing; maximum-duration storage uses the explicit archive
 producer and reuses its isolated payloads for the retry check.
+For ghost material submission changes, use `ghost_material_updates.gd` on its
+explicit `perf-slopes` fixture. Inspect the capped native jacket front/back captures
+before the separate `--timing` FpsCritical CPU probe. It measures setters only.
 For material-only overlap changes, use `--overlap-only` and the focused palette
-producer. Inspect the camera's actual sightline as well as the numerical alpha
-floor; several individually translucent bodies can still obscure the whole view.
+producer. Inspect the camera's actual sightline and solid-material occlusion.
+The user requested solid skiers with jacket-only colors; do not restore alpha fading.
 For ghost playback cost, select the needed `--profile-ghosts` case and bounded
 `--profile-seconds` interval in that producer, with capture-free FpsCritical
 timing after visual review. Keep the separate pose CPU probe distinct from frame

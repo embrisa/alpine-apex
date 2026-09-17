@@ -170,9 +170,10 @@ PB comparison stays frozen independently of the selected competitors.
 `ghost_field.gd` snapshots the selected roster at start/retry. Each
 `personal_best_ghost.gd` owns a fully equipped production visual, private materials
 and an independent bounded track history over shared immutable meshes. Ghosts
-have no collision, input, force, ragdoll, audio, spray, shadow or GI. Distance
-opacity remains .15–.72, never zero solely because of overlap or distance; depth
-occlusion still applies. Each hides at its own finish while retained marks remain.
+have no collision, input, force, ragdoll, audio, spray, shadow or GI. They render
+as solid skiers with a distinct jacket color; their remaining materials retain
+the normal appearance. No distance fade is applied; depth occlusion still applies.
+Each hides at its own finish while retained marks remain.
 Pause, visibility, backward time, gaps and recovery prevent connecting strokes
 across discontinuities. Track composition belongs to [Rendering](RENDERING.md#snow-presentation),
 selection controls to [Presentation](PRESENTATION.md#ghost-selection).

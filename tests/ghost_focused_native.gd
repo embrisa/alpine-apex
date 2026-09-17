@@ -551,7 +551,7 @@ func _palette_lineup() -> void:
 			labels[i].visible = true; labels[i].text = "#%d %s\n%s"%[i+1,ghost.run_id,ghost.color.to_html()]
 			labels[i].modulate = ghost.color; labels[i].position = observer.unproject_position(ghost.visual.global_position+Vector3.UP*2.2)-Vector2(95,0)
 			var rect = _screen_bounds(ghost.visual); projected.append(rect)
-			entries.append({"id":ghost.run_id,"color":ghost.color.to_html(),"display_position":_v(ghost.visual.global_position),"recorded_position":_v(Pose.transform_at(reusable_replay.presentation_at(0).a,0).origin),"opacity":ghost.opacity,"projected_rect":[rect.position.x,rect.position.y,rect.size.x,rect.size.y]})
+			entries.append({"id":ghost.run_id,"color":ghost.color.to_html(),"display_position":_v(ghost.visual.global_position),"recorded_position":_v(Pose.transform_at(reusable_replay.presentation_at(0).a,0).origin),"projected_rect":[rect.position.x,rect.position.y,rect.size.x,rect.size.y]})
 		projected.append(_screen_bounds(game.skier))
 		var framed = true; var separated = true
 		for i in projected.size():

@@ -2012,6 +2012,14 @@ independent finishes, pause/hide/reenable and crash discontinuities. Codec fixtu
 are not animation-quality evidence. The native crash result above and ghost's separate review do not establish
 natural-mountain placement usefulness, full-route behavior or human comfort.
 
+For unchanged-parameter submission work, use `tests/ghost_material_updates.gd`
+with an explicit `perf-slopes` map. The default capped native run checks exact
+jacket colors, unchanged other materials, late material creation, disposal and
+solid visibility at all distances. Inspect the front/back/close captures before
+the separate `--timing` FpsCritical run. Timing compares an unconditional jacket
+setter with skipping unchanged colors on the same ten skiers; microseconds per
+ten-skier update are CPU scope evidence, not frame time or mountain FPS.
+
 For Records-only edits, use `tests/ghost_playtest.gd -- --selector-only
 --output=artifacts/<unique-label> --fps-limit=60` under a Shared guard. This
 isolated synthetic recording fixture checks mouse, keyboard and controller
@@ -2022,7 +2030,7 @@ events target the popup's host window ID. Mouse coordinates include the panel
 offset and, for an embedded popup, its position within the transformed host.
 
 For lifecycle-only integration, use `--lifecycle-only` with a fresh output and
-`--fps-limit=60`. It captures actual production poses, then checks opacity across
+`--fps-limit=60`. It captures actual production poses, then checks solid visibility across
 the former near/far cutoffs, independent finishes/replacement, pause, hide/show,
 time reversal, overlap and material isolation. It skips the already-covered
 selector and full animation chronology. This is rendered functional evidence,

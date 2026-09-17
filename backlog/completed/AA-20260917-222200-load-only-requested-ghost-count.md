@@ -1,7 +1,7 @@
 ---
 id: "AA-20260917-222200-load-only-requested-ghost-count"
 title: "Load only the requested automatic ghost count"
-status: completed
+status: done
 priority: P2
 depends_on: []
 created: "2026-09-17T22:22:33Z"

@@ -12,13 +12,14 @@ status, dependencies, evidence and acceptance live in each stable task record.
 
 ## Approved ideas in progress
 
-- [Skip unchanged ghost material parameters](tasks/AA-20260917-222200-skip-unchanged-ghost-material-updates.md).
 - [Separate scenery bake inputs from render-only updates](tasks/AA-20260917-222200-separate-scenery-bake-dependencies.md).
 - [Share far-tree material submissions](tasks/AA-20260917-222200-share-far-tree-material-submissions.md).
 
-## Latest completed improvement
+## Latest completed improvements
 
 [Requested ghost-count loading](completed/AA-20260917-222200-load-only-requested-ghost-count.md) avoids decoding unused automatic selections; qualified loading and retry gains, 611 regression checks passed.
+
+[Solid replay skiers](completed/AA-20260917-222200-skip-unchanged-ghost-material-updates.md) now change only jacket colors, keep normal equipment and skip unchanged tint submissions.
 
 ## Rules for the next task
 

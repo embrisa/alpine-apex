@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "id": "9928c9e519c14db58e8de427dd2758b1",
+  "summary": "Render solid replay skiers with jacket-only colors",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "ghost appearance",
+    "jacket material submission",
+    "targeted native review"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/tasks/AA-20260917-222200-skip-unchanged-ghost-material-updates.md",
+    "docs/VALIDATION.md",
+    "scripts/presentation/ghost_assets.gd",
+    "tests/fixtures/test_maps.json",
+    "tests/ghost_material_updates.gd",
+    "scripts/presentation/personal_best_ghost.gd",
+    "assets/graphics/ghost_skier.gdshader",
+    "tests/ghost_archive_suite.gd",
+    "tests/ghost_playtest.gd",
+    "tests/ghost_focused_native.gd",
+    "docs/RENDERING.md",
+    "docs/RACING.md",
+    "backlog/completed/AA-20260917-222200-skip-unchanged-ghost-material-updates.md",
+    "backlog/completed/AA-20260917-222200-load-only-requested-ghost-count.md"
+  ],
+  "read_paths": [
+    "assets/graphics/ghost_skier.gdshader",
+    "scripts/presentation/ghost_field.gd",
+    "scripts/presentation/ghost_pose.gd",
+    "scripts/presentation/personal_best_ghost.gd",
+    "scripts/presentation/skier_visual.gd",
+    "scripts/racing/run_replay.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Presentation materials and their updates only; no simulation, replay, world or storage-format change."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Presentation materials and their updates only; no simulation, replay, world or storage-format change."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Presentation materials and their updates only; no simulation, replay, world or storage-format change."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Recorded poses, identities and archive formats are unchanged."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Recorded poses, identities and archive formats are unchanged."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Recorded poses, identities and archive formats are unchanged."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Recorded poses, identities and archive formats are unchanged."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Recorded poses, identities and archive formats are unchanged."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "rendered",
+      "command": "guarded ghost_material_updates.gd on perf-slopes; inspect jackets_front.webp, jackets_back.webp and jacket_close.webp",
+      "result": "passed",
+      "details": "1220 functional assertions passed. Solid normal-material skiers; only warm jacket fabric recolored. Native 1920x1080/60 cap, no full mountain. artifacts/ghost_material_root_20260918/jackets/report.json"
+    },
+    {
+      "kind": "automated",
+      "command": "test_pc_environment.ps1 -Suites ghost_archive_suite,ghost_pose_cache_suite,ghost_capture_reuse_suite; guarded --check-only for ghost_playtest.gd and ghost_focused_native.gd",
+      "result": "passed",
+      "details": "5496 regression checks. Both maintained producer scripts compile; no broad laboratory execution."
+    },
+    {
+      "kind": "performance",
+      "command": "ghost_material_updates.gd --timing under ghost-jacket-root-cost FpsCritical guard",
+      "result": "passed",
+      "details": "Equivalent unconditional jacket setter vs cached: steady 11.65625 to 6.95667 us per ten-skier update. Alternating color 12.13833 to 10.63958 us. Native shader/geometry unchanged between probe arms; no FPS/GPU claim."
+    },
+    {
+      "kind": "automated",
+      "command": "backlog.py validate; installed alpine-validation quick_validate.py; git diff --check",
+      "result": "passed",
+      "details": "Full backlog validation passed. Corrected both completed task records to the accepted done status; no preserve-dirty skip for owned records. Owning guides, fixture registration and skill validated."
+    }
+  ],
+  "outstanding_acceptance": [
+    "User judgment of the shown jacket colors; not a shipping gate."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T23:04:21.429082+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "867cb39662a41ea123af83d283d1d1fdaa48d8ae",
+      "dev": 109,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 15980,
+        "mtime_ns": 1789685971941725200
+      },
+      "assets/graphics/ghost_skier.gdshader": {
+        "size": 1913,
+        "mtime_ns": 1789685766777700500
+      },
+      "backlog/QUEUE.md": {
+        "size": 2321,
+        "mtime_ns": 1789686223291050100
+      },
+      "backlog/completed/AA-20260917-222200-load-only-requested-ghost-count.md": {
+        "size": 2362,
+        "mtime_ns": 1789686260708521100
+      },
+      "backlog/completed/AA-20260917-222200-skip-unchanged-ghost-material-updates.md": {
+        "size": 2686,
+        "mtime_ns": 1789686260708521100
+      },
+      "backlog/tasks/AA-20260917-222200-skip-unchanged-ghost-material-updates.md": null,
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/RACING.md": {
+        "size": 22565,
+        "mtime_ns": 1789685971912502700
+      },
+      "docs/RENDERING.md": {
+        "size": 51677,
+        "mtime_ns": 1789685971911494100
+      },
+      "docs/VALIDATION.md": {
+        "size": 158029,
+        "mtime_ns": 1789685971920368300
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/ghost_assets.gd": {
+        "size": 1897,
+        "mtime_ns": 1789685753917185800
+      },
+      "scripts/presentation/ghost_field.gd": {
+        "size": 3531,
+        "mtime_ns": 1789207383991993200
+      },
+      "scripts/presentation/ghost_pose.gd": {
+        "size": 8536,
+        "mtime_ns": 1789608312493699900
+      },
+      "scripts/presentation/personal_best_ghost.gd": {
+        "size": 4312,
+        "mtime_ns": 1789685753918199700
+      },
+      "scripts/presentation/skier_visual.gd": {
+        "size": 19256,
+        "mtime_ns": 1789670864098434300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "tests/fixtures/test_maps.json": {
+        "size": 66103,
+        "mtime_ns": 1789685971943228700
+      },
+      "tests/ghost_archive_suite.gd": {
+        "size": 11593,
+        "mtime_ns": 1789685766821897700
+      },
+      "tests/ghost_focused_native.gd": {
+        "size": 42708,
+        "mtime_ns": 1789685766873293600
+      },
+      "tests/ghost_material_updates.gd": {
+        "size": 9186,
+        "mtime_ns": 1789685853845467000
+      },
+      "tests/ghost_playtest.gd": {
+        "size": 32548,
+        "mtime_ns": 1789685766917930300
+      }
+    }
+  }
+}
