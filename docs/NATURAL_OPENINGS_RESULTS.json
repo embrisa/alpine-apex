@@ -1,0 +1,668 @@
+{
+  "scope": "Connected winding forest corridors, short links between local glades, rare boulder route choices and fuller sheltered groups near 3500 m; fixed 170000 Standard total.",
+  "world_version": 17,
+  "physics_model": 35,
+  "physics_hz": 120,
+  "terrain_cell_m": 4,
+  "seeds": [
+    {
+      "seed": 849205174,
+      "old_openings": {
+        "axis_max_m": 488.347351074219,
+        "axis_mean_m": 406.187234560649,
+        "floor_samples": 13110,
+        "generator": 16,
+        "passages": 96,
+        "seed": 849205174,
+        "straight_clear_run_max_m": 1272,
+        "straight_clear_run_p50_m": 924,
+        "straight_clear_run_p95_m": 1060
+      },
+      "current_openings": {
+        "axis_max_m": 420.092834472656,
+        "axis_mean_m": 336.925727208455,
+        "corridor_samples": 14022,
+        "floor_samples": 13110,
+        "forks": 30,
+        "generator": 17,
+        "link_max_m": 374.645843505859,
+        "link_median_m": 118.704124450684,
+        "linked_samples": 6336,
+        "passages": 96,
+        "seed": 849205174,
+        "small_links": 192,
+        "straight_clear_run_max_m": 304,
+        "straight_clear_run_p50_m": 60,
+        "straight_clear_run_p95_m": 272
+      },
+      "population": {
+        "mineral_saturated": false,
+        "minerals": 16022,
+        "requested_minerals": 16022,
+        "requested_trees": 170000,
+        "snow_features": 1368,
+        "tree_saturated": false,
+        "trees": 170000
+      },
+      "highest_tree_m": 4234.08203125,
+      "altitude_comparison": [
+        {
+          "at_or_above_m": 3400,
+          "dev94_count": 1264,
+          "current_count": 3308,
+          "change_percent": 161.7088607594937
+        },
+        {
+          "at_or_above_m": 3500,
+          "dev94_count": 244,
+          "current_count": 240,
+          "change_percent": -1.6393442622950838
+        },
+        {
+          "at_or_above_m": 4000,
+          "dev94_count": 36,
+          "current_count": 24,
+          "change_percent": -33.333333333333336
+        }
+      ],
+      "trees_3400_3500": 3068,
+      "cold_generation_ms": 138970.439,
+      "world_checks": 24,
+      "routes": [
+        {
+          "connected": true,
+          "exit_separation_m": 594.0,
+          "face": 0,
+          "refinement": 1,
+          "safe_samples": 4179,
+          "wide_exit_target_500m": true
+        },
+        {
+          "connected": true,
+          "exit_separation_m": 1206.0,
+          "face": 1,
+          "refinement": 1,
+          "safe_samples": 11568,
+          "wide_exit_target_500m": true
+        },
+        {
+          "connected": true,
+          "exit_separation_m": 642.0,
+          "face": 2,
+          "refinement": 1,
+          "safe_samples": 2739,
+          "wide_exit_target_500m": true
+        },
+        {
+          "connected": true,
+          "exit_separation_m": 1050.0,
+          "face": 3,
+          "refinement": 1,
+          "safe_samples": 9320,
+          "wide_exit_target_500m": true
+        },
+        {
+          "connected": true,
+          "exit_separation_m": 1494.0,
+          "face": 4,
+          "refinement": 1,
+          "safe_samples": 6443,
+          "wide_exit_target_500m": true
+        },
+        {
+          "connected": true,
+          "exit_separation_m": 870.0,
+          "face": 5,
+          "refinement": 1,
+          "safe_samples": 5071,
+          "wide_exit_target_500m": true
+        }
+      ],
+      "corridor_clearance": {
+        "acceptance": "Rare centreline boulders allowed; per-face alternative downhill paths checked separately",
+        "blocked_by_trees": 0,
+        "boulder_samples": 16,
+        "clearance_m": 1.5,
+        "local_link_samples": 3622,
+        "mineral_bounds_overlaps": 36,
+        "mineral_hits": [
+          {
+            "face": 1,
+            "id": 8165,
+            "kind": "local",
+            "position": [
+              1708.88745117188,
+              2617.70581054688,
+              1403.36254882812
+            ]
+          },
+          {
+            "face": 1,
+            "id": 8165,
+            "kind": "local",
+            "position": [
+              1712.89038085938,
+              2618.275390625,
+              1396.42944335938
+            ]
+          },
+          {
+            "face": 1,
+            "id": 8165,
+            "kind": "local",
+            "position": [
+              1716.78125,
+              2619.10009765625,
+              1389.41674804688
+            ]
+          },
+          {
+            "face": 1,
+            "id": 8165,
+            "kind": "local",
+            "position": [
+              1724.28210449219,
+              2617.93139648438,
+              1375.19226074219
+            ]
+          },
+          {
+            "face": 1,
+            "id": 8165,
+            "kind": "local",
+            "position": [
+              1727.92175292969,
+              2617.03637695312,
+              1368.00158691406
+            ]
+          },
+          {
+            "face": 1,
+            "id": 8165,
+            "kind": "local",
+            "position": [
+              1735.05383300781,
+              2617.9208984375,
+              1353.515625
+            ]
+          },
+          {
+            "face": 1,
+            "id": 9445,
+            "kind": "local",
+            "position": [
+              1664.22094726562,
+              2413.2861328125,
+              2013.841796875
+            ]
+          },
+          {
+            "face": 1,
+            "id": 9445,
+            "kind": "local",
+            "position": [
+              1661.03771972656,
+              2411.33813476562,
+              2021.07299804688
+            ]
+          },
+          {
+            "face": 2,
+            "id": 14566,
+            "kind": "local",
+            "position": [
+              2269.7724609375,
+              2440.591796875,
+              -1150.8720703125
+            ]
+          },
+          {
+            "face": 2,
+            "id": 14566,
+            "kind": "local",
+            "position": [
+              2277.10107421875,
+              2437.27685546875,
+              -1153.88854980469
+            ]
+          },
+          {
+            "face": 2,
+            "id": 14566,
+            "kind": "local",
+            "position": [
+              2284.30297851562,
+              2434.06372070312,
+              -1157.11767578125
+            ]
+          },
+          {
+            "face": 2,
+            "id": 14566,
+            "kind": "local",
+            "position": [
+              2291.37866210938,
+              2431.06787109375,
+              -1160.56066894531
+            ]
+          },
+          {
+            "face": 2,
+            "id": 14566,
+            "kind": "local",
+            "position": [
+              2298.3291015625,
+              2428.10986328125,
+              -1164.21520996094
+            ]
+          },
+          {
+            "face": 5,
+            "id": 174,
+            "kind": "main",
+            "position": [
+              -1817.62585449219,
+              2684.07861328125,
+              1139.97875976562
+            ]
+          },
+          {
+            "face": 5,
+            "id": 174,
+            "kind": "main",
+            "position": [
+              -1834.41821289062,
+              2644.90673828125,
+              1138.24536132812
+            ]
+          },
+          {
+            "face": 5,
+            "id": 174,
+            "kind": "main",
+            "position": [
+              -1850.79919433594,
+              2633.51782226562,
+              1137.23034667969
+            ]
+          }
+        ],
+        "mineral_test": "production convex hulls, 3 x 1.6 x 3 m upright box above terrain",
+        "samples": 5631
+      },
+      "tree_clearance": {
+        "invalid": 0,
+        "minimum_margin_m": 0.000804233551025213,
+        "protected_samples": 1753
+      },
+      "mineral_seating": {
+        "floating_samples": 0,
+        "greatest_gap_m": 0.0
+      }
+    },
+    {
+      "seed": 638201943,
+      "old_openings": {
+        "axis_max_m": 479.14013671875,
+        "axis_mean_m": 404.637535413106,
+        "floor_samples": 13110,
+        "generator": 16,
+        "passages": 96,
+        "seed": 638201943,
+        "straight_clear_run_max_m": 1112,
+        "straight_clear_run_p50_m": 920,
+        "straight_clear_run_p95_m": 1004
+      },
+      "current_openings": {
+        "axis_max_m": 410.869232177734,
+        "axis_mean_m": 335.165770848592,
+        "corridor_samples": 14022,
+        "floor_samples": 13110,
+        "forks": 30,
+        "generator": 17,
+        "link_max_m": 376.143035888672,
+        "link_median_m": 117.296089172363,
+        "linked_samples": 6336,
+        "passages": 96,
+        "seed": 638201943,
+        "small_links": 192,
+        "straight_clear_run_max_m": 320,
+        "straight_clear_run_p50_m": 52,
+        "straight_clear_run_p95_m": 272
+      },
+      "population": {
+        "mineral_saturated": false,
+        "minerals": 16022,
+        "requested_minerals": 16022,
+        "requested_trees": 170000,
+        "snow_features": 1368,
+        "tree_saturated": false,
+        "trees": 170000
+      },
+      "highest_tree_m": 4149.9609375,
+      "altitude_comparison": [
+        {
+          "at_or_above_m": 3400,
+          "dev94_count": 1258,
+          "current_count": 2978,
+          "change_percent": 136.72496025437204
+        },
+        {
+          "at_or_above_m": 3500,
+          "dev94_count": 211,
+          "current_count": 255,
+          "change_percent": 20.853080568720372
+        },
+        {
+          "at_or_above_m": 4000,
+          "dev94_count": 32,
+          "current_count": 23,
+          "change_percent": -28.125
+        }
+      ],
+      "trees_3400_3500": 2723,
+      "cold_generation_ms": 143460.778,
+      "world_checks": 23,
+      "routes": [
+        {
+          "connected": true,
+          "exit_separation_m": 1374.0,
+          "face": 0,
+          "refinement": 1,
+          "safe_samples": 55149,
+          "wide_exit_target_500m": true
+        },
+        {
+          "connected": true,
+          "exit_separation_m": 1356.0,
+          "face": 1,
+          "refinement": 1,
+          "safe_samples": 53373,
+          "wide_exit_target_500m": true
+        },
+        {
+          "connected": true,
+          "exit_separation_m": 1152.0,
+          "face": 2,
+          "refinement": 1,
+          "safe_samples": 9935,
+          "wide_exit_target_500m": true
+        },
+        {
+          "connected": true,
+          "exit_separation_m": 504.0,
+          "face": 3,
+          "refinement": 1,
+          "safe_samples": 2378,
+          "wide_exit_target_500m": true
+        },
+        {
+          "connected": true,
+          "exit_separation_m": 516.0,
+          "face": 4,
+          "refinement": 1,
+          "safe_samples": 1931,
+          "wide_exit_target_500m": true
+        },
+        {
+          "connected": true,
+          "exit_separation_m": 516.0,
+          "face": 5,
+          "refinement": 1,
+          "safe_samples": 1412,
+          "wide_exit_target_500m": true
+        }
+      ],
+      "corridor_clearance": {
+        "acceptance": "Rare centreline boulders allowed; per-face alternative downhill paths checked separately",
+        "blocked_by_trees": 0,
+        "boulder_samples": 11,
+        "clearance_m": 1.5,
+        "local_link_samples": 3715,
+        "mineral_bounds_overlaps": 40,
+        "mineral_hits": [
+          {
+            "face": 1,
+            "id": 68,
+            "kind": "main",
+            "position": [
+              616.7197265625,
+              2716.13745117188,
+              1793.48999023438
+            ]
+          },
+          {
+            "face": 1,
+            "id": 68,
+            "kind": "main",
+            "position": [
+              629.73876953125,
+              2716.33056640625,
+              1798.57104492188
+            ]
+          },
+          {
+            "face": 1,
+            "id": 68,
+            "kind": "main",
+            "position": [
+              641.702758789062,
+              2714.35375976562,
+              1804.28125
+            ]
+          },
+          {
+            "face": 1,
+            "id": 68,
+            "kind": "main",
+            "position": [
+              652.588134765625,
+              2711.4033203125,
+              1810.63464355469
+            ]
+          },
+          {
+            "face": 1,
+            "id": 68,
+            "kind": "main",
+            "position": [
+              662.39794921875,
+              2708.4130859375,
+              1817.62976074219
+            ]
+          },
+          {
+            "face": 3,
+            "id": 110,
+            "kind": "main",
+            "position": [
+              1171.01647949219,
+              2700.44580078125,
+              -1756.09606933594
+            ]
+          },
+          {
+            "face": 3,
+            "id": 110,
+            "kind": "main",
+            "position": [
+              1167.42993164062,
+              2693.140625,
+              -1770.91564941406
+            ]
+          },
+          {
+            "face": 3,
+            "id": 110,
+            "kind": "main",
+            "position": [
+              1164.30017089844,
+              2686.5869140625,
+              -1785.47998046875
+            ]
+          },
+          {
+            "face": 3,
+            "id": 110,
+            "kind": "main",
+            "position": [
+              1161.7587890625,
+              2677.92529296875,
+              -1799.71569824219
+            ]
+          },
+          {
+            "face": 3,
+            "id": 110,
+            "kind": "main",
+            "position": [
+              1159.92297363281,
+              2669.16528320312,
+              -1813.55725097656
+            ]
+          },
+          {
+            "face": 5,
+            "id": 29584,
+            "kind": "local",
+            "position": [
+              -1743.59655761719,
+              2769.3203125,
+              -705.8046875
+            ]
+          }
+        ],
+        "mineral_test": "production convex hulls, 3 x 1.6 x 3 m upright box above terrain",
+        "samples": 5765
+      },
+      "tree_clearance": {
+        "invalid": 0,
+        "minimum_margin_m": 0.0025418281555174,
+        "protected_samples": 1753
+      },
+      "mineral_seating": {
+        "floating_samples": 0,
+        "greatest_gap_m": 0.0
+      }
+    }
+  ],
+  "checks": [
+    {
+      "suite": "physics_suite",
+      "seconds": 39.1484549,
+      "exit": 0
+    },
+    {
+      "suite": "runtime_suite",
+      "seconds": 10.7256041,
+      "exit": 0
+    },
+    {
+      "seconds": 0.5602754,
+      "exit": 0,
+      "suite": "density_spatial_suite"
+    },
+    {
+      "seconds": 11.844615,
+      "exit": 0,
+      "suite": "mountain_footprint_suite"
+    },
+    {
+      "seconds": 3.7927583,
+      "exit": 0,
+      "suite": "tick_terrain_queries_suite"
+    },
+    {
+      "seconds": 14.3349016,
+      "exit": 0,
+      "suite": "terrain_query_suite"
+    },
+    {
+      "seconds": 5.2108338,
+      "exit": 0,
+      "suite": "snow_coverage_suite"
+    },
+    {
+      "seconds": 13.5426822,
+      "exit": 0,
+      "suite": "generation_v17_contract_suite"
+    },
+    {
+      "seconds": 9.0321633,
+      "suite": "natural_openings_suite",
+      "exit": 0
+    },
+    {
+      "seconds": 36.1910777,
+      "suite": "natural_forest_ecology_suite",
+      "exit": 0
+    },
+    {
+      "seconds": 7.5922166,
+      "suite": "natural_forest_trace",
+      "exit": 0
+    },
+    {
+      "seconds": 30.4018605,
+      "suite": "generation_v17_world_suite:standard",
+      "exit": 0
+    },
+    {
+      "seconds": 51.9111868,
+      "suite": "generation_v17_world_suite:alternate_standard",
+      "exit": 0
+    },
+    {
+      "suite": "performance_trace_contract_suite",
+      "exit": 0,
+      "checks": 17,
+      "guard": "natural-openings-trace-contract-final-20260917"
+    }
+  ],
+  "rendered": {
+    "receipt": "artifacts\\natural_openings_20260917\\new_849205174\\views.json",
+    "views": 8,
+    "comparison": "Identical survey transforms; same terrain-following production chase profile.",
+    "feature_receipt": "artifacts\\natural_openings_20260917\\features_849205174\\views.json",
+    "feature_views": 6,
+    "settings": "Native DX12 RX 9070; 4K High, Auto 75 percent, frame generation/GI off, capped 60 FPS.",
+    "assessment": "Inspected all eight matched views and six feature views. Lower forest retains winding connections and upper woodland forms sheltered groups with a sparse higher fade. Two survey views establish visible corridor boulders; their chase views are occluded by vegetation and do not establish approach quality.",
+    "limits": "Static reset poses are not animation evidence. Human skiing feel and individual boulder bypasses remain unverified."
+  },
+  "ordinary_route": {
+    "ticks": 1800,
+    "seconds": 15,
+    "travelled_m": 112.487600166816,
+    "obstacle_contacts": 0,
+    "comparison": {
+      "endpoint_delta_m": 5.11727809906006,
+      "inputs_preserved": false,
+      "old_endpoint": [
+        1694.05590820312,
+        2605.30688476562,
+        1466.84692382812
+      ],
+      "old_origin": [
+        1608.0,
+        1424.0
+      ],
+      "preserved_input_failure": {
+        "crash": "",
+        "obstacle_contact": "{ \"normal\": (-0.92775, 0.0, 0.373203), \"closing_speed_mps\": 3.92064523696899, \"reason\": \"TREE IMPACT\" }",
+        "position": "(1619.051, 2635.218, 1441.786)",
+        "tick": 736
+      },
+      "source": "res://artifacts/natural_openings_20260917/old_traces/lower.json"
+    }
+  },
+  "limits": [
+    "No new FPS measurement or performance gain claim. Dev94 timings describe older physical worlds.",
+    "The initial uncommitted design reduced corridor continuity too far and was superseded after user clarification.",
+    "The initial mixed-route search failed; it is not qualified for current benchmarking. Latest acceptance selects the lower route.",
+    "Graph connectivity and a bounded ordinary-input route do not establish complete-descent difficulty or human skiing acceptance.",
+    "Altitude numbers are approximate visual guidance, not fixed quotas; groups follow slope, exposure and coherent patches.",
+    "Final delivery restores four feature-label separators and refreshes export dependencies; verified world geometry and placement are unchanged."
+  ],
+  "boulder_acceptance": "Rare centreline rocks are intentional. Per-face paths establish downhill alternatives; human judgement of individual boulder approaches remains pending.",
+  "compatibility": "Generator 16 worlds/races/records/ghosts are incompatible with 17; original personal files remain intact."
+}

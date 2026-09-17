@@ -2,7 +2,7 @@ extends SceneTree
 ## Bounded offline survey of the actual Standard surface; never changes habitat.
 const Grass=preload("res://scripts/presentation/terrain_grass.gd")
 const Placement=preload("res://scripts/presentation/grass_placement.gd")
-const Cache=preload("res://scripts/world/mountain_cache_v16.gd")
+const Cache=preload("res://scripts/world/mountain_cache_v17.gd")
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	var seed_number=849205174

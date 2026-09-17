@@ -1,7 +1,7 @@
 extends RefCounted
 ## Exact queries shared only during one synchronous solver step. Production V15
 ## terrain is immutable within that step; mutable/unknown adapters bypass this.
-const Massif = preload("res://scripts/world/generators/alpine_massif_v16.gd")
+const Massif = preload("res://scripts/world/generators/alpine_massif_v17.gd")
 const Props = preload("res://scripts/world/prop_collision_surface.gd")
 var source
 var samples: Dictionary = {}

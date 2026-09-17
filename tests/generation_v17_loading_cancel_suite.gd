@@ -1,12 +1,12 @@
 extends SceneTree
 ## Exercise the real startup Cancel button, including partial GPU construction.
-const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v17.gd")
 var failures: Array = []
 var samples: Array = []
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	if "--ui-staged-loading" not in OS.get_cmdline_user_args(): quit(2); return
-	DirAccess.make_dir_recursive_absolute("res://artifacts/generation_v16")
+	DirAccess.make_dir_recursive_absolute("res://artifacts/generation_v17")
 	var physical_path = Cache.path_for(849205174)
 	var original_cache = FileAccess.get_sha256(physical_path)
 	for phase in ["physical_cache_read","terrain_upload","background_preparation","background_upload","rider_and_interface","ready"]:
@@ -48,11 +48,11 @@ func run() -> void:
 		samples.append({"stage":phase,"cancel_ms":joined_ms,"partial_world_released":good})
 		if DisplayServer.get_name()!="headless":
 			await RenderingServer.frame_post_draw
-			root.get_texture().get_image().save_png("res://artifacts/generation_v16/cancel_"+phase+".png")
+			root.get_texture().get_image().save_png("res://artifacts/generation_v17/cancel_"+phase+".png")
 		if phase!="physical_cache_read" and not has_meta("mountain_retry_recipe"): failures.append("Retry lost the selected mountain recipe")
 		game.queue_free(); await process_frame
 		remove_meta("mountain_retry_recipe")
 	if FileAccess.get_sha256(physical_path)!=original_cache: failures.append("Startup cancellation changed the existing physical cache")
 	var report = {"samples":samples,"failures":failures,"native":DisplayServer.get_name()!="headless"}
-	preload("res://tests/test_report.gd").write("res://artifacts/generation_v16/loading_cancellation.json",JSON.stringify(report,"\t"))
-	print("V16_LOADING_CANCELLATION ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v17/loading_cancellation.json",JSON.stringify(report,"\t"))
+	print("V17_LOADING_CANCELLATION ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)

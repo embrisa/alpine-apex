@@ -19,5 +19,5 @@ func run() -> void:
 	check(Fixture.Cache.Archive.write(wrong,"stale".sha256_text(),[{"name":"meta","value":{"schema":1}}]),"Stale fixture prepared outside user caches")
 	check(Fixture.load_standard([wrong]) == null,"Source/engine cache-key mismatch rejected")
 	var field = Fixture.load_standard()
-	check(field != null and field.cache_hit and field.GENERATOR_VERSION == 16,"Current Standard fixture restores through validated production reader")
+	check(field != null and field.cache_hit and field.GENERATOR_VERSION == 17,"Current Standard fixture restores through validated production reader")
 	quit(0 if failures.is_empty() else 1)

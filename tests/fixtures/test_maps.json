@@ -209,7 +209,7 @@
       "full_mountain": true,
       "coverage": "Mountain-specific integration."
     },
-    "tests/alpine_v16_route_audit.gd": {
+    "tests/alpine_v17_route_audit.gd": {
       "maps": [],
       "full_mountain": true,
       "coverage": "Mountain-specific integration."
@@ -538,57 +538,57 @@
       "full_mountain": false,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v16_baseline.gd": {
+    "tests/generation_v17_baseline.gd": {
       "maps": [],
       "full_mountain": true,
       "coverage": "Explicit production mountain generation, restoration, loading or performance coverage."
     },
-    "tests/generation_v16_cache_profile.gd": {
+    "tests/generation_v17_cache_profile.gd": {
       "maps": [],
       "full_mountain": false,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v16_cancellation_suite.gd": {
+    "tests/generation_v17_cancellation_suite.gd": {
       "maps": [],
       "full_mountain": true,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v16_capacity_suite.gd": {
+    "tests/generation_v17_capacity_suite.gd": {
       "maps": [],
       "full_mountain": true,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v16_contract_suite.gd": {
+    "tests/generation_v17_contract_suite.gd": {
       "maps": [],
       "full_mountain": true,
       "coverage": "Mountain-specific integration."
     },
-    "tests/generation_v16_estimate_suite.gd": {
+    "tests/generation_v17_estimate_suite.gd": {
       "maps": [],
       "full_mountain": false,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v16_loading_cancel_suite.gd": {
+    "tests/generation_v17_loading_cancel_suite.gd": {
       "maps": [],
       "full_mountain": true,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v16_probe.gd": {
+    "tests/generation_v17_probe.gd": {
       "maps": [],
       "full_mountain": false,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v16_scenery_integrity_suite.gd": {
+    "tests/generation_v17_scenery_integrity_suite.gd": {
       "maps": [],
       "full_mountain": true,
       "coverage": "Mountain-specific integration."
     },
-    "tests/generation_v16_smoke.gd": {
+    "tests/generation_v17_smoke.gd": {
       "maps": [],
       "full_mountain": false,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v16_world_suite.gd": {
+    "tests/generation_v17_world_suite.gd": {
       "maps": [],
       "full_mountain": true,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
@@ -1593,7 +1593,7 @@
       "coverage": "Explicit production mountain generation, restoration, loading or performance coverage.",
       "additional_surfaces": [
         {
-          "id": "v16-standard",
+          "id": "v17-standard",
           "width_m": 6144,
           "length_m": 6144,
           "cell_m": 4,
@@ -1626,7 +1626,7 @@
       "coverage": "Explicit single Standard physical bake and archive publication.",
       "additional_surfaces": [
         {
-          "id": "v16-standard",
+          "id": "v17-standard",
           "width_m": 6144,
           "length_m": 6144,
           "cell_m": 4,
@@ -1690,7 +1690,7 @@
       "coverage": "Actual Standard habitat and unchanged physical output across six sectors; no implicit preparation or timing.",
       "additional_surfaces": [
         {
-          "id": "v16-standard",
+          "id": "v17-standard",
           "width_m": 6144,
           "length_m": 6144,
           "cell_m": 4,
@@ -1706,7 +1706,7 @@
       "coverage": "Explicit alternate Standard seed 638201943 physical cache preparation.",
       "additional_surfaces": [
         {
-          "id": "v16-standard",
+          "id": "v17-standard",
           "width_m": 6144,
           "length_m": 6144,
           "cell_m": 4,
@@ -1818,6 +1818,21 @@
       "maps": [],
       "full_mountain": true,
       "coverage": "Explicit prepared two-revision forest population, ecology, route or rendered comparison; missing archives require separate Exclusive preparation."
+    },
+    "tests/natural_openings_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit current Standard world preparation or matched capped opening review; no implicit cold bake or FPS claim."
+    },
+    "tests/natural_openings_prepare.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit current Standard world preparation or matched capped opening review; no implicit cold bake or FPS claim."
+    },
+    "tests/natural_openings_suite.gd": {
+      "maps": [],
+      "full_mountain": false,
+      "coverage": "Recipe-only two-seed opening sightlines and full/narrow powder-query agreement; no physical mountain bake."
     }
   }
 }

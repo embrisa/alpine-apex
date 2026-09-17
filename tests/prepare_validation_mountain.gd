@@ -1,6 +1,6 @@
 extends SceneTree
 ## Explicit one-bake preparation. Missing validation caches never invoke this implicitly.
-const Cache=preload("res://scripts/world/mountain_cache_v16.gd")
+const Cache=preload("res://scripts/world/mountain_cache_v17.gd")
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	if not preload("res://scripts/diagnostics/test_world_policy.gd").require_full("Explicit Standard fixture preparation"): quit(2); return

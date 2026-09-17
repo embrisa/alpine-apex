@@ -1,9 +1,9 @@
 extends RefCounted
 ## Broad initial ranges, calibrated only by completed local runs of this code.
 const Settings = preload("res://scripts/world/generation_settings.gd")
-const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v17.gd")
 const Sources = preload("res://scripts/world/generation_sources.gd")
-const PATH = "user://generation_measurements_v16.json"
+const PATH = "user://generation_measurements_v17.json"
 const SCENERY_STAGES = ["preparation_cache_read","scenery_maps","terrain_arrays","snow_readability","tree_scenery_preparation","mineral_batches","preparation_cache_write"]
 static var mutex = Mutex.new()
 static var estimate_source: String = ""
@@ -32,9 +32,9 @@ static func estimate(seed_number: int, settings: Dictionary, use_cache_hints: bo
 	var bundle_directory = OS.get_executable_path().get_base_dir().path_join("data")
 	var bundled_recipe = seed_number==Cache.Terrain.DEFAULT_SEED and values==Settings.preset() and not OS.has_feature("editor")
 	if use_cache_hints and bundled_recipe and not cache_expected:
-		cache_expected = _header_matches(bundle_directory.path_join("default_mountain_v16.physical"),expected_key)
+		cache_expected = _header_matches(bundle_directory.path_join("default_mountain_v17.physical"),expected_key)
 	var prep_found = FileAccess.file_exists(Cache.DIRECTORY.path_join(Cache.recipe_key(seed_number,values)+".scenery"))
-	if bundled_recipe: prep_found = prep_found or FileAccess.file_exists(bundle_directory.path_join("default_mountain_v16.scenery"))
+	if bundled_recipe: prep_found = prep_found or FileAccess.file_exists(bundle_directory.path_join("default_mountain_v17.scenery"))
 	var prep_expected = prep_found and cache_expected
 	var cold = 220.0*(.40+.25*values.tree_population+.15*values.mineral_density+.20*values.landform_complexity)
 	var submission_units = .25+.25*values.tree_population+.50*values.mineral_density
@@ -159,7 +159,7 @@ static func _read() -> Dictionary:
 static func _header_matches(path: String, key: String) -> bool:
 	if key.is_empty() or not FileAccess.file_exists(path): return false
 	var file = FileAccess.open(path,FileAccess.READ)
-	return file!=null and file.get_length()>=80 and file.get_buffer(8).get_string_from_ascii()=="APEXV16\n" and file.get_32()==1 and file.get_buffer(64).get_string_from_ascii()==key
+	return file!=null and file.get_length()>=80 and file.get_buffer(8).get_string_from_ascii()=="APEXV17\n" and file.get_32()==1 and file.get_buffer(64).get_string_from_ascii()==key
 
 static func label(value: Dictionary) -> String:
 	return "%s estimates · generation %s · additional time to ski %s · broad peak RAM %.1f–%.1f GiB\n%s · %s" % ["Locally calibrated" if value.calibrated else "Broad initial",_range(value.generation_s),_range(value.additional_s),value.peak_memory_gib.x,value.peak_memory_gib.y,

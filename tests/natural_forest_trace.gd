@@ -2,19 +2,25 @@ extends SceneTree
 ## Bounded ordinary-input routes, refreshed by actual solver replay after generation changes.
 const Trace=preload("res://tests/performance_trace.gd")
 const Definition=preload("res://scripts/world/mountain_definition.gd")
-const OUT="res://artifacts/natural_forest_20260917"
+const OUT="res://artifacts/natural_openings_20260917"
 var baseline=false
 var last_failure={}
 func _initialize()->void:run.call_deferred()
 func run()->void:
 	baseline="--baseline" in OS.get_cmdline_user_args()
+	var habitats=["lower","upper","mixed"]
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--habitat="):
+			var habitat=arg.get_slice("=",1)
+			assert(habitat in habitats)
+			habitats=[habitat]
 	var field=Definition.Cache.generate(Definition.DEFAULT_SEED)
 	if field==null:quit(2);return
 	field.build_material_map()
 	var surface=preload("res://scripts/world/prop_collision_surface.gd").new(field)
 	var output=OUT+("/old_traces" if baseline else "/new_traces")
 	DirAccess.make_dir_recursive_absolute(output)
-	for habitat in ["lower","upper","mixed"]:
+	for habitat in habitats:
 		var source=OUT+"/old_traces/"+habitat+".json"
 		if baseline and habitat=="lower":source="res://artifacts/collision_heightfield_20260917/forest.json"
 		var accepted={}

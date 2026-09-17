@@ -1,5 +1,5 @@
 extends RefCounted
-## V16 retains indexed landforms and adds a sparse upper woodland transition.
+## V17 keeps local openings short and softens continuous channel clearances.
 ## These describe terrain, never a route to follow or a force on the rider.
 const CELL = 4.0
 const REGION_CELL = 192.0
@@ -137,9 +137,48 @@ func _build_forests() -> void:
 		# A local opening enters and leaves this stand. Other woods and terrain
 		# determine the next choice; this is never a mountain-length cleared lane.
 		var direction = Vector2(sin(angle),cos(angle))
-		forest_passages.append({"start":centre-direction*200+Vector2(rng.randf_range(-65,65),0),"finish":centre+direction*200+Vector2(rng.randf_range(-65,65),0),"width":rng.randf_range(9,17),"bend":rng.randf_range(-35,35)})
+		forest_passages.append({"start":centre-direction*165+Vector2(rng.randf_range(-65,65),0),"finish":centre+direction*165+Vector2(rng.randf_range(-65,65),0),"width":rng.randf_range(9,16),"bend":rng.randf_range(-55,55)})
 
+	_link_forest_passages()
 	_index_ecology()
+
+func _passage_centre(passage: Dictionary,t: float) -> Vector2:
+	var delta: Vector2=passage.finish-passage.start
+	return passage.start.lerp(passage.finish,t)+delta.orthogonal().normalized()*passage.bend*(sin(t*PI)+.3*sin(t*TAU))
+
+func _link_forest_passages() -> void:
+	# Connect both ends of each local glade into the already connected network.
+	# Earlier glades provide short cross-links instead of long parallel lanes.
+	var network: Array[Vector2]=[]
+	# The treeless apron is also a valid outlet for the lowest woodland.
+	for across in range(-16,17): network.append(Vector2(across*100.0,2800.0))
+	for channel in channels:
+		for step in 41:
+			var t=float(step)/40
+			network.append(Vector2(_channel_centre(channel,t),lerpf(channel.start.y,channel.finish.y,t)))
+	var glades=forest_passages.duplicate()
+	glades.sort_custom(func(a,b):return a.start.y+a.finish.y<b.start.y+b.finish.y)
+	for glade in glades:
+		var additions: Array[Vector2]=[]
+		for end in 2:
+			var at=_passage_centre(glade,.16 if end==0 else .76)
+			var target=network[0]; var best=INF
+			for candidate in network:
+				# Upstream entrance and downstream exit avoid a spur ending in trees.
+				if (candidate.y-at.y)*(1 if end else -1)<24:continue
+				var distance=at.distance_squared_to(candidate)
+				if distance<best:best=distance;target=candidate
+			if best==INF:
+				for candidate in network:
+					var distance=at.distance_squared_to(candidate)
+					if distance<best:best=distance;target=candidate
+			if best>16:
+				var length_m=sqrt(best)
+				var link={"start":at,"finish":target,"width":6.5+float(forest_passages.size()%3),"bend":minf(25,length_m*.16)*(-1 if end else 1),"link":true}
+				forest_passages.append(link)
+				for step in 17:additions.append(_passage_centre(link,float(step)/16))
+		for step in 17:additions.append(_passage_centre(glade,lerpf(.16,.76,float(step)/16)))
+		network.append_array(additions)
 
 func _forest_height(q: Vector2) -> float:
 	var foundation = _base_height(q.x,q.y)
@@ -147,14 +186,13 @@ func _forest_height(q: Vector2) -> float:
 
 func _index_ecology() -> void:
 	ecology_grid.clear()
-	for kind in ["stands","clearings","passages","connections"]:
+	for kind in ["stands","clearings","passages"]:
 		var records: Array = stands if kind=="stands" else (clearings if kind=="clearings" else forest_passages)
 		for id in records.size():
 			var item: Dictionary = records[id]
 			var bounds: Rect2
-			if kind in ["passages","connections"]:
-				var extension: Vector2=(item.finish-item.start).normalized()*(250 if kind=="connections" else 0)
-				bounds=Rect2(item.start-extension,Vector2.ZERO).expand(item.finish+extension).grow(absf(item.bend)+item.width+7)
+			if kind=="passages":
+				bounds=Rect2(item.start,Vector2.ZERO).expand(item.finish).grow(absf(item.bend)*1.3+item.width+7)
 			else:
 				var extent: float=maxf(item.radius.x,item.radius.y)*1.5
 				bounds=Rect2(item.position-Vector2.ONE*extent,Vector2.ONE*extent*2)
@@ -175,15 +213,22 @@ func drop_protected(q: Vector2, radius: float) -> bool:
 
 func woodland_opening(q: Vector2) -> bool:
 	var ecology: Dictionary=ecology_grid.get(Vector2i(floori(q.x/REGION_CELL),floori(q.y/REGION_CELL)),{})
-	for id in ecology.get("connections",[]):
-		var passage: Dictionary=forest_passages[id]
-		var axis: Vector2=(passage.finish-passage.start).normalized()
-		var a: Vector2=passage.start-axis*250
-		var b: Vector2=passage.finish+axis*250
-		var t=clampf((q-a).dot(b-a)/(b-a).length_squared(),0,1)
-		var centre: Vector2=a.lerp(b,t)+(b-a).orthogonal().normalized()*sin(t*PI)*passage.bend
-		if q.distance_to(centre)<passage.width+7: return true
+	for id in ecology.get("passages",[]):
+		if _passage_weight(q,forest_passages[id])>.6: return true
 	return false
+
+func _passage_weight(q: Vector2,passage: Dictionary) -> float:
+	var delta: Vector2=passage.finish-passage.start
+	var t=(q-passage.start).dot(delta)/delta.length_squared()
+	var linked: bool=passage.get("link",false)
+	if not linked and (t<=0 or t>=1): return 0.0
+	t=clampf(t,0,1)
+	# Finite glades blend back into woods; no extended connection corridor.
+	var bend: float=passage.bend*(sin(t*PI)+.3*sin(t*TAU))
+	var centre: Vector2=passage.start.lerp(passage.finish,t)+delta.orthogonal().normalized()*bend
+	var width: float=passage.width*(.85+.2*sin(t*TAU+passage.bend*.1))
+	var envelope=1.0 if linked else smoothstep(0,.18,t)*(1-smoothstep(.72,1,t))
+	return (1-smoothstep(width*.65,width+7,q.distance_to(centre)))*envelope
 
 func natural_opening(q: Vector2, radius: float = 0.0) -> bool:
 	if _opening_at(q): return true
@@ -194,13 +239,15 @@ func natural_opening(q: Vector2, radius: float = 0.0) -> bool:
 
 func _opening_at(q: Vector2) -> bool:
 	if woodland_opening(q) or snow_gap(q.x,q.y)>.25: return true
-	# Terrain cuts taper at junctions; snow and obstacle clearance continue
-	# through their shared basin. These are the existing branching tributaries.
+	# Keep a connected, branching corridor through the woodland belt. Clearance
+	# follows bent, varying-width tributaries, including their shared junctions.
+	# Only the wider terrain cut tapers out; its core remains open for skiing.
 	for id in channel_grid.get(Vector2i(floori(q.x/REGION_CELL),floori(q.y/REGION_CELL)),[]):
-		var channel: Dictionary = channels[id]
-		var t = clampf((q.y-channel.start.y)/(channel.finish.y-channel.start.y),0,1)
-		var centre = Vector2(lerpf(channel.start.x,channel.finish.x,t)+channel.bend*sin(t*PI)*sin(t*PI+channel.phase),lerpf(channel.start.y,channel.finish.y,t))
-		if q.distance_squared_to(centre)<pow(channel.width*.55+12,2): return true
+		var channel: Dictionary=channels[id]
+		var t=clampf((q.y-channel.start.y)/(channel.finish.y-channel.start.y),0,1)
+		var centre=Vector2(_channel_centre(channel,t),lerpf(channel.start.y,channel.finish.y,t))
+		var width=_channel_width(channel,t)*.28+8
+		if q.distance_squared_to(centre)<width*width: return true
 	return false
 
 func scattered_density(x: float,z: float) -> float:
@@ -212,6 +259,14 @@ func scattered_density(x: float,z: float) -> float:
 	var density=lerpf(.12,.82,smoothstep(-.35,.30,patch))
 	return clampf(2.6*density*edge*(1-smoothstep(2630,2800,z))*lerpf(.65,1.0,smoothstep(-.3,.35,grain))*(1-channel_values(x,z).y)*(1-snow_gap(x,z)),0,1)
 
+func upper_woodland_density(x: float,z: float,altitude: float) -> float:
+	# Sheltered groves near 3,500 m, with a ragged edge rather than an altitude ring.
+	var patch=forest_noise.get_noise_2d(x*1.3+5147,z*1.3-3167)
+	var edge=smoothstep(3250,3370,altitude)*(1-smoothstep(3440,3510+patch*70,altitude))
+	if edge<=0:return 0.0
+	var density=lerpf(.12,.92,smoothstep(-.25,.25,patch))
+	return density*edge*(1-channel_values(x,z).y)*(1-snow_gap(x,z))
+
 func sparse_upper_density(x: float,z: float,altitude: float) -> float:
 	# Coherent small groups fade into isolated trees; no new random stream changes landforms.
 	var treeline = treeline_height+forest_noise.get_noise_2d(x*.6+317,z*.6)*210
@@ -220,7 +275,7 @@ func sparse_upper_density(x: float,z: float,altitude: float) -> float:
 	if edge<=0: return 0.0
 	var patch = forest_noise.get_noise_2d(x*.85-2137,z*.85+6311)
 	var grain = forest_noise.get_noise_2d(x*3.7+1337,z*3.7-5371)
-	var density = lerpf(.006,.085,smoothstep(-.10,.42,patch))
+	var density = .75*lerpf(.006,.085,smoothstep(-.10,.42,patch))
 	density *= lerpf(1.0,.35,smoothstep(treeline+120,treeline+650,altitude))
 	return density*edge*lerpf(.6,1.0,smoothstep(-.35,.35,grain))*(1-channel_values(x,z).y)*(1-snow_gap(x,z))
 
@@ -245,10 +300,12 @@ func _build_channels(rng: RandomNumberGenerator) -> void:
 				_add_channel(start,tiers[tier+1][mini(target+1,tiers[tier+1].size()-1)],rng)
 
 func _add_channel(start: Vector2, finish: Vector2, rng: RandomNumberGenerator) -> void:
-	var channel = {"start":start,"finish":finish,"width":rng.randf_range(32,76),"depth":rng.randf_range(6,17),"bend":rng.randf_range(-32,32),"phase":rng.randf_range(-PI,PI)}
+	var channel = {"start":start,"finish":finish,"width":rng.randf_range(32,76),"depth":rng.randf_range(4,12),"bend":rng.randf_range(-80,80),"phase":rng.randf_range(-PI,PI)}
+	# Avoid almost straight successive legs while preserving this random stream.
+	channel.bend=(1.0 if channel.bend>=0 else -1.0)*(80+absf(channel.bend)*.5)
 	var id = channels.size()
 	channels.append(channel)
-	var extent: float = channel.width+absf(channel.bend)+16
+	var extent: float = channel.width*1.45+absf(channel.bend)+16
 	_index_region(channel_grid,id,Rect2(start.min(finish)-Vector2.ONE*extent,(finish-start).abs()+Vector2.ONE*extent*2))
 
 func _index_region(grid: Dictionary, id: int, rect: Rect2) -> void:
@@ -272,6 +329,15 @@ func render_normal(x: float,z: float) -> Vector3:
 	var across = to_local(Vector2(n.x,n.z))
 	return Vector3(across.x,n.y,across.y)
 
+func _channel_centre(channel: Dictionary,t: float) -> float:
+	return lerpf(channel.start.x,channel.finish.x,t)+channel.bend*sin(t*PI)*sin(t*PI+channel.phase)
+
+func _channel_width(channel: Dictionary,t: float) -> float:
+	return channel.width*lerpf(.75,1.15,t)*(1+.22*sin(t*TAU+channel.phase))
+
+func _channel_envelope(t: float) -> float:
+	return smoothstep(.04,.30,t)*(1-smoothstep(.62,.96,t))
+
 func channel_values(x: float,z: float) -> Vector2:
 	var cut = 0.0
 	var floor_weight = 0.0
@@ -279,10 +345,10 @@ func channel_values(x: float,z: float) -> Vector2:
 		var channel = channels[id]
 		var t = (z-channel.start.y)/(channel.finish.y-channel.start.y)
 		if t<0 or t>1: continue
-		var centre = lerpf(channel.start.x,channel.finish.x,t)+channel.bend*sin(t*PI)*sin(t*PI+channel.phase)
-		var width: float = channel.width*lerpf(.75,1.15,t)
+		var centre = _channel_centre(channel,t)
+		var width: float = _channel_width(channel,t)
 		var across = absf(x-centre)/width
-		var envelope = smoothstep(0,.13,t)*(1-smoothstep(.84,1,t))
+		var envelope = _channel_envelope(t)
 		cut = maxf(cut,channel.depth*(1-smoothstep(.10,1,across))*envelope)
 		floor_weight = maxf(floor_weight,(1-smoothstep(.16,.48,across))*envelope)
 	return Vector2(cut,floor_weight)
@@ -407,12 +473,7 @@ func stand_density(x: float,z: float) -> float:
 		var q: Vector2 = (Vector2(x,z)-clearing.position).rotated(clearing.angle)/clearing.radius
 		clearing_weight = maxf(clearing_weight,1-smoothstep(.50,1.05,q.length()+patch*.3))
 	for id in ecology.get("passages",[]):
-		var passage: Dictionary = forest_passages[id]
-		var delta: Vector2 = passage.finish-passage.start
-		var t = clampf((Vector2(x,z)-passage.start).dot(delta)/delta.length_squared(),0,1)
-		var centre: Vector2 = passage.start.lerp(passage.finish,t)+delta.orthogonal().normalized()*sin(t*PI)*passage.bend
-		var distance_m = Vector2(x,z).distance_to(centre)
-		clearing_weight = maxf(clearing_weight,1-smoothstep(passage.width,passage.width+7,distance_m))
+		clearing_weight = maxf(clearing_weight,_passage_weight(Vector2(x,z),forest_passages[id]))
 	var altitude = _base_height(x,z)
 	var treeline = treeline_height+forest_noise.get_noise_2d(x*.6+317,z*.6)*210
 	var edge = 1-smoothstep(treeline-180,treeline+90,altitude)
@@ -429,11 +490,11 @@ func channel_floor_weight(x: float,z: float) -> float:
 		var finish: Vector2 = channel.finish
 		var t = (z-start.y)/(finish.y-start.y)
 		if t<0 or t>1: continue
-		var centre: float = lerpf(start.x,finish.x,t)+channel.bend*sin(t*PI)*sin(t*PI+channel.phase)
-		var width: float = channel.width*lerpf(.75,1.15,t)
+		var centre: float = _channel_centre(channel,t)
+		var width: float = _channel_width(channel,t)
 		var across = absf(x-centre)/width
 		if across>=.48: continue
-		var envelope = smoothstep(0,.13,t)*(1-smoothstep(.84,1,t))
+		var envelope = _channel_envelope(t)
 		floor_weight = maxf(floor_weight,(1-smoothstep(.16,.48,across))*envelope)
 	# channel_values returns Vector2: retain its float32 rounding at the API edge.
 	return Vector2(0.0,floor_weight).y
@@ -489,7 +550,7 @@ func gully_x(z: float,side: int) -> float:
 		var cost = absf(p.y-z)+absf(p.x-side*.20*z)*.3
 		if cost<nearest:
 			nearest = cost
-			chosen = p.x+channel.bend*sin(t*PI)*sin(t*PI+channel.phase)
+			chosen = _channel_centre(channel,t)
 	return chosen
 func glade_x(z: float,side: int) -> float: return gully_x(z,side)
 

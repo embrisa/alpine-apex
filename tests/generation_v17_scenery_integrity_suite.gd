@@ -1,6 +1,6 @@
 extends SceneTree
 ## A valid section checksum does not excuse a structurally invalid preparation.
-const Physical = preload("res://scripts/world/mountain_cache_v16.gd")
+const Physical = preload("res://scripts/world/mountain_cache_v17.gd")
 const Cache = preload("res://scripts/world/scenery_cache.gd")
 const Preparation = preload("res://scripts/world/mountain_preparation.gd")
 const Quality = preload("res://scripts/presentation/graphics_quality.gd")
@@ -24,7 +24,7 @@ func run() -> void:
 	data["forest_regions/count"] = -1
 	var sections: Array = []
 	for name in data: sections.append({"name":name,"value":data[name]})
-	var path = "res://artifacts/generation_v16/invalid_scenery_structure.scenery"
+	var path = "res://artifacts/generation_v17/invalid_scenery_structure.scenery"
 	check(Physical.Archive.write(path,key,sections),"Malformed structure retains valid bounded section checksums")
 	check(not Cache.load_into(prepared,field,quality,job,path),"Structural corruption is rejected")
 	check(previous==[prepared.mountain,prepared.terrain,prepared.forest,prepared.readability,prepared.minerals],"Rejected preparation leaves all previously published data intact")
@@ -50,5 +50,5 @@ func run() -> void:
 	check(previous==[prepared.mountain,prepared.terrain,prepared.forest,prepared.readability,prepared.minerals],"Invalid footprint caches never replace published preparation")
 	DirAccess.remove_absolute(path)
 	var result = {"checks":checks,"failures":failures}
-	preload("res://tests/test_report.gd").write("res://artifacts/generation_v16/scenery_integrity.json",JSON.stringify(result,"\t"))
-	print("V16_SCENERY_INTEGRITY ",JSON.stringify(result)); quit(0 if failures.is_empty() else 1)
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v17/scenery_integrity.json",JSON.stringify(result,"\t"))
+	print("V17_SCENERY_INTEGRITY ",JSON.stringify(result)); quit(0 if failures.is_empty() else 1)

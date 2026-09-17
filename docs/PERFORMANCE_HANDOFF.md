@@ -14,7 +14,7 @@ historical attribution. Reuse the current reference for matching future work;
 see [the baseline policy](VALIDATION.md#reusable-baselines-and-experiment-budget).
 
 Generator 16 changes the physical forest to 170,000 trees with sparse trees near
-4,200 m. Its current route references and comparison limits are in
+4,200 m. Its historical route references and comparison limits are in
 [Natural forest results](NATURAL_FOREST_RESULTS.json). The Dev78 average above
 remains a v15 reference; regenerated lower/mixed routes cannot establish a matched
 gain against it. Use the actual current trace, not a relabeled old recording.
@@ -884,3 +884,5 @@ view/arm, 15 s per arm across two views, captures/readbacks outside measurements
 Camera/residency matched, no focus loss. These are not dense skiing route FPS or
 a new reusable baseline. Production unchanged; blocker is rendering cost.
 Receipts and producers: `artifacts/far_stands_timing_20260917/REVIEW.md`.
+
+Generator 17 changes physical openings/channel shape. Dev94 forest route timings remain historical, with no current matched FPS gain claim. Do not rerun a baseline solely for this world-design change.

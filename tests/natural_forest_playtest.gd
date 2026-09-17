@@ -1,7 +1,7 @@
 extends SceneTree
 ## Matched production-camera review, separate from capture-free route timings.
 const Definition=preload("res://scripts/world/mountain_definition.gd")
-const OUT="res://artifacts/natural_forest_20260917"
+var output_root="res://artifacts/natural_forest_20260917"
 var baseline=false
 var seed_number=849205174
 var game
@@ -10,15 +10,21 @@ var output:String
 var views=[]
 var motion_only=false
 var motion_trace={}
+var motion_habitat="upper"
 func _initialize()->void:run.call_deferred()
 func run()->void:
 	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--output-root="):output_root=arg.get_slice("=",1)
 		if arg=="--baseline":baseline=true
 		if arg=="--motion":motion_only=true
+		if arg.begins_with("--motion-habitat="):
+			motion_habitat=arg.get_slice("=",1)
+			assert(motion_habitat in ["lower","upper","mixed"])
 		if arg.begins_with("--seed="):seed_number=int(arg.get_slice("=",1))
+	if Definition.CURRENT_VERSION!=16 and output_root=="res://artifacts/natural_forest_20260917":printerr("Use --output-root for current generator review; Dev94 evidence is retained.");quit(2);return
 	field=Definition.Cache.generate(seed_number)
 	if field==null:quit(2);return
-	output=OUT+("/old_views_" if baseline else "/new_views_")+str(seed_number)
+	output=output_root+("/old_views_" if baseline else "/new_views_")+str(seed_number)
 	DirAccess.make_dir_recursive_absolute(output)
 	set_meta("mountain_to_load",{"definition":Definition.from_field(field,"Natural forest review"),"field":field})
 	game=load("res://main.tscn").instantiate();game.automated=true;root.add_child(game);current_scene=game
@@ -35,7 +41,7 @@ func run()->void:
 	if baseline:
 		if seed_number==Definition.DEFAULT_SEED:
 			for habitat in ["lower","upper","mixed"]:
-				var trace=JSON.parse_string(FileAccess.get_file_as_string(OUT+"/old_traces/"+habitat+".json"))
+				var trace=JSON.parse_string(FileAccess.get_file_as_string(output_root+"/old_traces/"+habitat+".json"))
 				assert(preload("res://tests/performance_trace.gd").Inputs.expand(trace).is_empty())
 				sites.append({"id":habitat,"origin":trace.scenario_origin,"heading":trace.heading})
 		else:sites.append({"id":"lower","origin":[1608,1416],"heading":1.8})
@@ -52,9 +58,9 @@ func run()->void:
 			var downhill=Vector3.DOWN.slide(field.contact_normal(at.x,at.y))
 			sites.append({"id":"upper_face"+str(face_id),"origin":[at.x,at.y],"heading":atan2(downhill.x,downhill.z)})
 	else:
-		var old=JSON.parse_string(FileAccess.get_file_as_string(OUT+"/old_views_"+str(seed_number)+"/views.json"))
+		var old=JSON.parse_string(FileAccess.get_file_as_string(output_root+"/old_views_"+str(seed_number)+"/views.json"))
 		sites=old.sites.duplicate(true);old_views=old.views
-		var old_survey=JSON.parse_string(FileAccess.get_file_as_string(OUT+"/old_"+str(seed_number)+".json"))
+		var old_survey=JSON.parse_string(FileAccess.get_file_as_string(output_root+"/old_"+str(seed_number)+".json"))
 		var high_sites={}
 		for tree in field.tree_data.positions:
 			if tree.y<old_survey.elevation.max+40:continue
@@ -90,7 +96,7 @@ func run()->void:
 	game.effects.stop_audio();game.queue_free();await process_frame;quit()
 func capture_motion()->void:
 	var trace_tools=preload("res://tests/performance_trace.gd")
-	motion_trace=JSON.parse_string(FileAccess.get_file_as_string(OUT+"/new_traces/upper.json"))
+	motion_trace=JSON.parse_string(FileAccess.get_file_as_string(output_root+"/new_traces/"+motion_habitat+".json"))
 	assert(trace_tools.preflight_error(motion_trace,Definition.CURRENT_VERSION,false).is_empty())
 	assert(trace_tools.matches(field,motion_trace.identity))
 	game.start_run(false);game.set_physics_process(false);game.set_process(false)
@@ -103,7 +109,7 @@ func capture_motion()->void:
 	game.camera.close_view=false;game.camera.reset();game.camera.make_current()
 	game.hud.hide_menu();game.hud.root.hide();game._process(0)
 	for frame in 120:await process_frame
-	var folder=OUT+"/motion_frames";DirAccess.make_dir_recursive_absolute(folder)
+	var folder=output_root+"/motion_frames";DirAccess.make_dir_recursive_absolute(folder)
 	var samples=[]
 	for frame in 900:
 		game._physics_process(1.0/120);game._physics_process(1.0/120);game._process(1.0/60)
@@ -116,7 +122,7 @@ func capture_motion()->void:
 		assert(not game.sim.crashed)
 	var end=motion_trace.result.position
 	assert(game.sim.ticks==1800 and game.sim.position==Vector3(end[0],end[1],end[2]))
-	FileAccess.open(OUT+"/motion.json",FileAccess.WRITE).store_string(JSON.stringify({"scope":"15 seconds ordinary upper-transition input; fixed 120 Hz simulation/60 Hz presentation; 15 fps capture; no performance claim","ticks":game.sim.ticks,"frames":225,"samples":samples,"exact_trace":true},"\t"))
+	FileAccess.open(output_root+"/motion.json",FileAccess.WRITE).store_string(JSON.stringify({"scope":"15 seconds ordinary "+motion_habitat+" input; fixed 120 Hz simulation/60 Hz presentation; 15 fps capture; no performance claim","ticks":game.sim.ticks,"frames":225,"samples":samples,"exact_trace":true},"\t"))
 	print("NATURAL_FOREST_MOTION_COMPLETE ticks=",game.sim.ticks)
 func motion_input(tick:int)->RiderInput:
 	return preload("res://tests/performance_trace.gd").Inputs.decode(motion_trace.commands[mini(tick/int(motion_trace.command_ticks),motion_trace.commands.size()-1)])

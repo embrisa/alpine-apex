@@ -1,6 +1,6 @@
 extends RefCounted
-const Terrain = preload("res://scripts/world/generators/alpine_massif_v16.gd")
-const Face = preload("res://scripts/world/generators/alpine_face_v16.gd")
+const Terrain = preload("res://scripts/world/generators/alpine_massif_v17.gd")
+const Face = preload("res://scripts/world/generators/alpine_face_v17.gd")
 const Settings = preload("res://scripts/world/generation_settings.gd")
 const Job = preload("res://scripts/world/generation_job.gd")
 const Archive = preload("res://scripts/world/mountain_archive.gd")
@@ -9,7 +9,7 @@ const DIRECTORY = Archive.DIRECTORY
 const FACE_FIELDS = ["landforms","bowls","shelves","channels","channel_grid","stands","clearings","ecology_grid","forest_passages","debris_pockets","crags","ribs","rib_grid","powder_deposits","geology_angle","ruggedness","forest_cover","wind_angle","treeline_height","snow_forms","snow_grid","bowl_grid","shelf_grid","crag_grid"]
 
 static func recipe_key(seed_number: int, settings: Dictionary = {}) -> String:
-	return ("v16|%d|%s" % [seed_number,Settings.identity(settings)]).sha256_text()
+	return ("v17|%d|%s" % [seed_number,Settings.identity(settings)]).sha256_text()
 
 static func cache_key(seed_number: int, settings: Dictionary = {}, job = null) -> String:
 	var signature = Sources.signature(false,job)
@@ -27,7 +27,7 @@ static func generate(seed_number: int, settings: Dictionary = {}, context = null
 	var key = cache_key(seed_number,canonical,job); var path = path_for(seed_number,canonical)
 	var paths = [path]
 	if seed_number==Terrain.DEFAULT_SEED and canonical==Settings.preset() and not OS.has_feature("editor"):
-		paths.append(OS.get_executable_path().get_base_dir().path_join("data/default_mountain_v16.physical"))
+		paths.append(OS.get_executable_path().get_base_dir().path_join("data/default_mountain_v17.physical"))
 	for candidate in paths:
 		var begin = Time.get_ticks_usec(); job.begin_stage("physical_cache_read")
 		var data = Archive.read(candidate,key,job)

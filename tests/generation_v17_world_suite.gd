@@ -1,5 +1,5 @@
 extends SceneTree
-const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v17.gd")
 const Settings = preload("res://scripts/world/generation_settings.gd")
 const Job = preload("res://scripts/world/generation_job.gd")
 const Definition = preload("res://scripts/world/mountain_definition.gd")
@@ -33,7 +33,7 @@ func run() -> void:
 		"spacing": settings.tree_spacing = .5
 	var job = Job.new(); var field = Cache.generate(seed_number,settings,job)
 	if field==null: quit(2); return
-	print("V16_WORLD_POPULATION ",JSON.stringify(field.population))
+	print("V17_WORLD_POPULATION ",JSON.stringify(field.population))
 	var report = {"case":case_name,"seed":seed_number,"settings":settings,"cold_or_load_ms":field.generation_ms,"cache_hit":field.cache_hit,"population":field.population,"stages":field.generation_stages,"snow":field.tree_snow_statistics,"route_clearance":{"node_m":.6 if physical_clearance else 1.8,"edge_m":.5 if physical_clearance else 1.5,"solver_trunk_expansion_m":.35},"routes":[]}
 	check(field.NX==1537 and field.NZ==1537 and field.CELL==4 and field.faces.size()==6,"Dimensions and authority retained")
 	check(field.obstacles.is_empty() and field.tree_data.valid(),"One packed tree population")
@@ -79,6 +79,41 @@ func run() -> void:
 			if gap>.002: mineral_seats = false; floating += 1
 	check(mineral_seats,"Every mineral foundation remains seated after final snow")
 	report.mineral_seating = {"floating_samples":floating,"greatest_gap_m":greatest_gap}
+	var corridor_samples = 0; var blocked_trees = 0; var blocked_minerals = 0
+	var mineral_bounds_overlaps = 0; var mineral_hits: Array = []; var samples: Array=[]
+	var local_link_samples=0
+	for face in field.faces:
+		for channel in face.channels:
+			if channel.start.y<1400: continue
+			for step in 41:
+				var t = float(step)/40
+				samples.append({"face":face.index,"kind":"main","at":face.to_world(Vector2(face._channel_centre(channel,t),lerpf(channel.start.y,channel.finish.y,t)))})
+		for passage in face.forest_passages:
+			if not passage.get("link",false):continue
+			var steps=ceili(passage.start.distance_to(passage.finish)/8.0)
+			for step in steps+1:
+				samples.append({"face":face.index,"kind":"local","at":face.to_world(face._passage_centre(passage,float(step)/steps))})
+				local_link_samples+=1
+	for sample in samples:
+		var at: Vector2=sample.at
+		var p = Vector3(at.x,field.height_at(at.x,at.y),at.y)
+		corridor_samples += 1
+		for id in field.tree_data.nearby(p,8):
+			var tree: Vector3 = field.tree_data.positions[id]
+			if Vector2(tree.x-p.x,tree.z-p.z).length()<field.tree_data.dimensions[id].x+1.5:
+				blocked_trees+=1; break
+		# Whole-asset bounds include empty corners and buried foundations. Use
+		# the production convex collision pieces to identify real corridor rocks.
+		if not field.geology.clear(p,1.5): mineral_bounds_overlaps+=1
+		var hit: Dictionary = field.geology.collision.sweep(p,p,Vector3(1.5,.8,1.5))
+		if not hit.is_empty():
+			blocked_minerals+=1
+			mineral_hits.append({"face":sample.face,"kind":sample.kind,"position":[p.x,p.y,p.z],"id":hit.id})
+	check(corridor_samples>1000 and blocked_trees==0,"Main and linked corridor cores retain physical trunk clearance")
+	# Rare boulders are intentional route-choice features, per user direction.
+	# Retain locations; six-face downhill checks establish alternative routes.
+	check(blocked_minerals<maxi(1,ceili(corridor_samples*.01)),"Boulders crossing corridor centres remain rare")
+	report.corridors = {"samples":corridor_samples,"local_link_samples":local_link_samples,"blocked_by_trees":blocked_trees,"boulder_samples":blocked_minerals,"clearance_m":1.5,"mineral_bounds_overlaps":mineral_bounds_overlaps,"mineral_hits":mineral_hits,"mineral_test":"production convex hulls, 3 x 1.6 x 3 m upright box above terrain","acceptance":"Rare centreline boulders allowed; per-face alternative downhill paths checked separately"}
 	var material_agrees = true
 	for z in range(0,field.NZ,41):
 		for x in range(0,field.NX,41):
@@ -102,5 +137,5 @@ func run() -> void:
 	report.recipe_warm_ms = (Time.get_ticks_usec()-warm_started)/1000.0
 	check(reconstructed.has("field") and reconstructed.field.cache_hit and reconstructed.field.height_checksum==field.height_checksum and reconstructed.field.obstacle_checksum==field.obstacle_checksum and reconstructed.field.tree_data.positions==field.tree_data.positions and reconstructed.field.material_image.get_data()==field.material_image.get_data(),"Custom cache reconstructs exact physical identity and packed data")
 	report.checks = checks; report.failures = failures; report.memory_peak = OS.get_static_memory_peak_usage()
-	preload("res://tests/test_report.gd").write("res://artifacts/generation_v16/world_"+case_name+("_physical" if physical_clearance else "")+".json",JSON.stringify(report,"\t"))
-	print("V16_WORLD ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v17/world_"+case_name+("_physical" if physical_clearance else "")+".json",JSON.stringify(report,"\t"))
+	print("V17_WORLD ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)

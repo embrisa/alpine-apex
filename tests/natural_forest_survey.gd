@@ -11,6 +11,7 @@ func _initialize()->void:run.call_deferred()
 func check(value:bool,message:String)->void:
 	if not value:failures.append(message);printerr("FAIL ",message)
 func run()->void:
+	if Definition.CURRENT_VERSION!=16:printerr("This v15/v16 comparison requires checkout Dev94; use current opening/world producers for later generators.");quit(2);return
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--seed="):seed_number=int(arg.get_slice("=",1))
 		if arg=="--baseline":baseline=true

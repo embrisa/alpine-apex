@@ -1,6 +1,6 @@
 extends SceneTree
 ## Explicit alternate seed fixture for grass habitat and scenery-material checks.
-const Cache=preload("res://scripts/world/mountain_cache_v16.gd")
+const Cache=preload("res://scripts/world/mountain_cache_v17.gd")
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	if OS.get_environment("ALPINE_VALIDATION_MODE")!="Exclusive": quit(2); return

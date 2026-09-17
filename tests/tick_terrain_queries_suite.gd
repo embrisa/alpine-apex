@@ -1,6 +1,6 @@
 extends SceneTree
 const Queries=preload("res://scripts/core/tick_terrain_queries.gd")
-const Massif=preload("res://scripts/world/generators/alpine_massif_v16.gd")
+const Massif=preload("res://scripts/world/generators/alpine_massif_v17.gd")
 const Props=preload("res://scripts/world/prop_collision_surface.gd")
 var checks=0
 var failures=[]

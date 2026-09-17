@@ -13,7 +13,7 @@ $alpineProfiles = @{
     core = @('physics_suite','runtime_suite')
     input = @('controller_input_suite','haptics_suite','physics_suite','runtime_suite')
     graphics = @('graphics_suite','pc_graphics_suite')
-    generation = @('generation_v16_estimate_suite','generation_v16_contract_suite','generation_v16_scenery_integrity_suite')
+    generation = @('generation_v17_estimate_suite','generation_v17_contract_suite','generation_v17_scenery_integrity_suite')
 }
 if ($PSBoundParameters.ContainsKey('Suites') -and $PSBoundParameters.ContainsKey('Profile')) { throw 'Choose either -Profile or -Suites.' }
 $alpineSelected = @(if ($PSBoundParameters.ContainsKey('Suites')) { $Suites | ForEach-Object { $_ -split ',' | ForEach-Object { $_.Trim() } } } else { $alpineProfiles[$Profile] })

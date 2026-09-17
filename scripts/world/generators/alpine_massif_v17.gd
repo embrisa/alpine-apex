@@ -1,11 +1,11 @@
 extends "res://scripts/world/heightfield_surface.gd"
-## V16: a thinner forest with a sparse sheltered transition above the treeline.
+## V17: a thinner forest with a sparse sheltered transition above the treeline.
 ## One immutable support grid. Generation has
 ## no Nodes, rider state, rendering quality, or preferred player racing line.
-const Face = preload("res://scripts/world/generators/alpine_face_v16.gd")
+const Face = preload("res://scripts/world/generators/alpine_face_v17.gd")
 const TreeSnow = preload("res://scripts/world/generators/tree_snow_v15.gd")
 const GENERATOR_ID = "alpine-drainage"
-const GENERATOR_VERSION = 16
+const GENERATOR_VERSION = 17
 const SNOW_REVISION = 2 # smaller tree piles, all-face relief and deep snow cover
 const DEFAULT_SEED = 849205174
 const FACE_COUNT = 6
@@ -44,7 +44,7 @@ var geology = preload("res://scripts/world/mountain_geology_v15.gd").new()
 
 func _init(mountain_seed: int = DEFAULT_SEED,bake_surface: bool = true,settings: Dictionary = {},context = null,restore_only: bool = false) -> void:
 	if bake_surface and not preload("res://scripts/diagnostics/test_world_policy.gd").require_full("Full mountain generator"): return
-	_height_query_script = load("res://scripts/world/generators/alpine_massif_v16.gd")
+	_height_query_script = load("res://scripts/world/generators/alpine_massif_v17.gd")
 	var begin = Time.get_ticks_usec()
 	generation_settings = Settings.canonical(settings)
 	job = context if context else Job.new()
@@ -353,9 +353,13 @@ func _ecology_rows(first: int, last: int) -> PackedVector2Array:
 			if pair[1].sector_weight(other.x,other.y)>face.sector_weight(q.x,q.y): face = pair[1]; q = other
 			var woodland: float = face.stand_density(q.x,q.y)*face.sector_weight(q.x,q.y) if p.length_squared()>=950*950 else 0.0
 			var scattered: float = face.scattered_density(q.x,q.y) if woodland<.25 and p.length_squared()>=950*950 else 0.0
-			# Actual shaped altitude and exposure bound the sparse extension; dense stands retain their old fade.
+			var altitude=height_at(p.x,p.y)
+			var grove: float=face.upper_woodland_density(q.x,q.y,altitude)
+			grove *= smoothstep(.70,.86,render_normal(p.x,p.y).y)*(1-smoothstep(.10,.35,rock_fraction_at(p.x,p.y)))
+			woodland=maxf(woodland,grove)
+			# Small sheltered groves give way to sparse trees toward the summit.
 			if woodland<.25:
-				var upper: float = face.sparse_upper_density(q.x,q.y,height_at(p.x,p.y))
+				var upper: float = face.sparse_upper_density(q.x,q.y,altitude)
 				upper *= smoothstep(120,280,p.length())*smoothstep(.78,.91,render_normal(p.x,p.y).y)
 				upper *= 1-smoothstep(.10,.28,rock_fraction_at(p.x,p.y))
 				scattered = maxf(scattered,upper)

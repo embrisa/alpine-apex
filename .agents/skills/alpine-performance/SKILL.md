@@ -172,9 +172,9 @@ Select `-Map gravel`; isolate `-Gravel off|dense|sparse|all` while keeping grass
 and physical minerals unchanged. Frozen local and Standard comparisons have
 separate scopes; reject measured cache misses and underground review cameras.
 
-For the current physical forest distribution, follow
-[natural forest generation](../../../docs/VALIDATION.md#natural-forest-generation).
-Use generator 16 fixtures and current ordinary traces. The preserved v15 dense
-average cannot certify a v16 route whose placement, support or inputs changed.
-Keep matched upper-route timing, changed mixed-route timing and the fresh lower
-reference separate; inspect both seeds and the transition clip for world edits.
+For physical forest and opening changes, follow
+[natural opening checks](../../../docs/VALIDATION.md#natural-opening-checks).
+Current generator 17 fixtures require fresh actual traces. Dev94 generator 16
+forest receipts and the older dense-route averages are historical; changed
+placement, support and controls cannot certify a matched FPS gain. Inspect
+matched world views and keep graph connectivity separate from human skiing.

@@ -1,10 +1,10 @@
 extends RefCounted
 ## Compact, data-only recipe. Unsupported versions fail instead of silently
 ## changing a saved mountain. Name is metadata, never part of terrain identity.
-const CurrentTerrain = preload("res://scripts/world/generators/alpine_massif_v16.gd")
-const CURRENT_VERSION = 16
+const CurrentTerrain = preload("res://scripts/world/generators/alpine_massif_v17.gd")
+const CURRENT_VERSION = 17
 const DEFAULT_SEED = CurrentTerrain.DEFAULT_SEED
-const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v17.gd")
 const Settings = preload("res://scripts/world/generation_settings.gd")
 const Scenery = preload("res://scripts/world/mountain_data.gd")
 const SCHEMA = 2

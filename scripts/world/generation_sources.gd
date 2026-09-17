@@ -6,9 +6,9 @@ static var executable_digest: String = ""
 const PHYSICAL = [
 	"res://scripts/world/generation_sources.gd",
 	"res://scripts/world/generation_settings.gd","res://scripts/world/generation_job.gd","res://scripts/world/packed_trees.gd",
-	"res://scripts/world/heightfield_surface.gd","res://scripts/world/generators/alpine_massif_v16.gd","res://scripts/world/generators/alpine_face_v16.gd",
+	"res://scripts/world/heightfield_surface.gd","res://scripts/world/generators/alpine_massif_v17.gd","res://scripts/world/generators/alpine_face_v17.gd",
 	"res://scripts/world/generators/tree_snow_v15.gd","res://scripts/world/mountain_geology_v15.gd","res://scripts/world/mineral_catalog.gd",
-	"res://scripts/world/mineral_catalog_data.gd","res://scripts/world/mineral_collision.gd","res://scripts/world/mountain_cache_v16.gd","res://scripts/world/mountain_archive.gd",
+	"res://scripts/world/mineral_catalog_data.gd","res://scripts/world/mineral_collision.gd","res://scripts/world/mountain_cache_v17.gd","res://scripts/world/mountain_archive.gd",
 	"res://assets/graphics/geology_v11/catalog.json","res://assets/graphics/geology_v11/catalog.res"]
 const SCENERY = [
 	"res://scripts/presentation/terrain_grass.gd","res://scripts/presentation/grass_placement.gd","res://scripts/presentation/grass_motion.gd",

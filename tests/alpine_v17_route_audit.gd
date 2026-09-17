@@ -1,21 +1,21 @@
 extends SceneTree
 ## Default-seed evidence only. Reuses the retained, version-independent test
-## planner/pilot against a validated v16 field; never changes production state.
+## planner/pilot against a validated v17 field; never changes production state.
 const Definition = preload("res://scripts/world/mountain_definition.gd")
-const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v17.gd")
 const Sources = preload("res://scripts/world/generation_sources.gd")
 const Simulation = preload("res://scripts/core/ski_simulation.gd")
 const Survey = preload("res://tests/alpine_v13_route_survey.gd")
 const Pilot = preload("res://tests/alpine_v13_pilot.gd")
 const Stress = preload("res://tests/performance_stress.gd")
 const SEED = 849205174
-const VERSION = 16
+const VERSION = 17
 const DT = 1.0 / 120.0
 const PROBE_SECONDS = 15
 const PROBE_TICKS = PROBE_SECONDS * 120
 const PROBE_REPETITIONS = 3
 const STRESS_SPEED_KMH = 170.0
-const OUTPUT = "res://artifacts/current_v16_bounded_route_audit"
+const OUTPUT = "res://artifacts/current_v17_bounded_route_audit"
 var report: Dictionary = {}
 var failures: Array = []
 var checks = 0
@@ -44,7 +44,7 @@ func source_hashes() -> Dictionary:
 		for name in DirAccess.get_files_at(folder):
 			if name.ends_with(".gd"):
 				paths.append(folder.path_join(name))
-	paths.append_array(["res://tests/alpine_v16_route_audit.gd",
+	paths.append_array(["res://tests/alpine_v17_route_audit.gd",
 		"res://tests/alpine_v13_route_survey.gd", "res://tests/alpine_v13_pilot.gd",
 		"res://tests/performance_stress.gd",
 		"res://config/ski_default.tres", "res://project.godot"])
@@ -84,16 +84,16 @@ func run() -> void:
 		report.faces.append({"face_index": face_index, "face_label": face_index + 1,
 			"survey_status": "pending", "probes": []})
 	checkpoint()
-	print("V16_AUDIT_GENERATE seed=", SEED, " Standard")
+	print("V17_AUDIT_GENERATE seed=", SEED, " Standard")
 	var field = Definition.generate(SEED, VERSION)
-	check(field != null, "Default v16 field exists")
+	check(field != null, "Default v17 field exists")
 	if field == null:
 		report.status = "harness_failed"
 		checkpoint()
 		quit(1)
 		return
 	check(field.valid and field.GENERATOR_VERSION == VERSION and field.seed_value == SEED,
-		"Valid current v16 default seed")
+		"Valid current v17 default seed")
 	check(field.faces.size() == 6 and field.CELL == 4.0, "Six faces on 4 m support")
 	check(field.generation_settings == Cache.Settings.preset(), "Standard settings")
 	report.identity.merge(Definition.from_field(field).to_reference())
@@ -107,9 +107,9 @@ func run() -> void:
 	# the mineral collision implementation memoizes projection spans lazily.
 	var job = Cache.Job.new()
 	var surveys = job.map_tiles(6, func(i):
-		print("V16_AUDIT_SURVEY_START face_index=", i)
+		print("V17_AUDIT_SURVEY_START face_index=", i)
 		var result = Survey.survey(field, i)
-		print("V16_AUDIT_SURVEY_END face_index=", i, " safe_samples=", result.safe_samples)
+		print("V17_AUDIT_SURVEY_END face_index=", i, " safe_samples=", result.safe_samples)
 		return result)
 	check(surveys.size() == 6, "All six surveys returned")
 	for i in surveys.size():
@@ -165,7 +165,7 @@ func run() -> void:
 	report.status = "complete" if failures.is_empty() else "harness_failed"
 	report.finished_utc = Time.get_datetime_string_from_system(true)
 	checkpoint()
-	print("CURRENT_V16_BOUNDED_ROUTE_AUDIT status=", report.status, " checks=", checks, " failures=", failures)
+	print("CURRENT_V17_BOUNDED_ROUTE_AUDIT status=", report.status, " checks=", checks, " failures=", failures)
 	quit(0 if failures.is_empty() else 1)
 
 func inspect_path(field, face_index: int, path: Array) -> Dictionary:
@@ -216,7 +216,7 @@ func run_probe(field, face_index: int, path: Array, chosen: int, repetition: int
 	var status = "bounded_complete"
 	var ticks = 0
 	var maximum_radius = Vector2(sim.position.x, sim.position.z).length()
-	print("CURRENT_V16_ROUTE_PROBE_START face_index=", face_index, " path=", chosen, " repetition=", repetition)
+	print("CURRENT_V17_ROUTE_PROBE_START face_index=", face_index, " path=", chosen, " repetition=", repetition)
 	for tick in PROBE_TICKS:
 		if tick % 12 == 0:
 			intent = Pilot.intent(sim, field, face_index, path)
@@ -247,5 +247,5 @@ func run_probe(field, face_index: int, path: Array, chosen: int, repetition: int
 		"base_progress_percent": maximum_radius / field.FOOT_RADIUS * 100.0, "crash_reason": sim.crash_reason,
 		"position": [sim.position.x, sim.position.y, sim.position.z], "speed_kmh": sim.speed_kmh(),
 		"stress": sim.report(), "evidence": evidence_path, "evidence_sha256": FileAccess.get_sha256(evidence_path)}
-	print("CURRENT_V16_ROUTE_PROBE_END ", JSON.stringify(result))
+	print("CURRENT_V17_ROUTE_PROBE_END ", JSON.stringify(result))
 	return result

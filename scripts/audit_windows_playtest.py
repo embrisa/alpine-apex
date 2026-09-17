@@ -29,7 +29,7 @@ with (build / "AlpineApex.pck").open("rb") as stream:
     forbidden = ("art_source/", "artifacts/", "tests/", "builds/", ".tools/", ".agents/", "addons/godot_mcp_toolkit/", "addons/generation_export/", "TreeDesigner + 400 trees/")
     unexpected = [p for p in entries if p.startswith(forbidden)]
     assert not unexpected, unexpected
-    required = ["main.tscn.remap", "scripts/world/mountain_cache_v16.gd", "config/generation_dependencies.json", "scripts/core/ski_simulation.gd", "assets/graphics/geology_v11/catalog.json"]
+    required = ["main.tscn.remap", "scripts/world/mountain_cache_v17.gd", "config/generation_dependencies.json", "scripts/core/ski_simulation.gd", "assets/graphics/geology_v11/catalog.json"]
     assert all(p in entries for p in required)
     assert not any(p.startswith('assets/graphics/trees/density_v13/') for p in entries)
     def read_entry(path):
@@ -80,7 +80,7 @@ with (build / "AlpineApex.pck").open("rb") as stream:
 
 selection = json.loads((root / ".tools/fidelityfx-runtime.json").read_text(encoding="utf-8-sig"))
 assert hashlib.sha256((build / "AlpineApex.exe").read_bytes()).hexdigest() == selection["engine_sha256"]
-assert (build / "data/default_mountain_v16.physical").is_file()
-assert (build / "data/default_mountain_v16.scenery").is_file()
+assert (build / "data/default_mountain_v17.physical").is_file()
+assert (build / "data/default_mountain_v17.scenery").is_file()
 assert manifest["engine_sha256"] == selection["engine_sha256"]
 print(json.dumps(dict(dependency_manifest_verified=True, pack_files=count, current_scripts_verified=checked, foliage_meshes_verified=foliage_meshes, foliage_quality_textures=6, development_content_excluded=True, validated_engine=True)))

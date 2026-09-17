@@ -1,6 +1,6 @@
 extends "res://tests/camera_playtest.gd"
 ## Unranked real-solver v15 motion, with isolated default and close-low settings.
-## ./godotw.ps1 --script tests/camera_pitch_playtest.gd '--' --views --version=16 --benchmark-label=camera_pitch --ui-staged-loading
+## ./godotw.ps1 --script tests/camera_pitch_playtest.gd '--' --views --version=17 --benchmark-label=camera_pitch --ui-staged-loading
 var pitch_clips: Array = []
 
 func inspect_massif() -> void:
@@ -9,7 +9,7 @@ func inspect_massif() -> void:
 	game.hud.hide_menu()
 	game.summit_ready = false
 	game.active = true
-	if version != 16: camera_failures.append("Camera motion review requires generator v16")
+	if version != 17: camera_failures.append("Camera motion review requires generator v17")
 	if game.preferences_enabled: camera_failures.append("Scripted review can write personal preferences")
 	for custom in [false,true]:
 		game.camera_settings.reset()

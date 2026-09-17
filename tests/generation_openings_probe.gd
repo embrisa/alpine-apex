@@ -1,22 +1,13 @@
 extends SceneTree
 ## Diagnostic only: preserve existing natural openings without retaining routes.
-const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v17.gd")
 const Search = preload("res://tests/generation_route_search.gd")
 func _initialize() -> void: call_deferred("run")
 static func opening(field, p: Vector2, radius: float = 0) -> bool:
 	for face in field.adjacent_faces(p):
 		var q: Vector2 = face.to_local(p)
 		if face.sector_weight(q.x,q.y)<.01: continue
-		for offset in [Vector2.ZERO,Vector2(radius,0),Vector2(-radius,0),Vector2(0,radius),Vector2(0,-radius)]:
-			var at = q+offset
-			if face.woodland_opening(at) or face.snow_gap(at.x,at.y)>.25: return true
-			# Drainage protection reaches the shared junction, even where the
-			# height cut tapers to avoid sharp seams.
-			for channel_id in face.channel_grid.get(Vector2i(floori(at.x/face.REGION_CELL),floori(at.y/face.REGION_CELL)),[]):
-				var channel = face.channels[channel_id]
-				var t = clampf((at.y-channel.start.y)/(channel.finish.y-channel.start.y),0,1)
-				var centre = Vector2(lerpf(channel.start.x,channel.finish.x,t)+channel.bend*sin(t*PI)*sin(t*PI+channel.phase),lerpf(channel.start.y,channel.finish.y,t))
-				if at.distance_to(centre)<channel.width*.55+12: return true
+		if face.natural_opening(q,radius): return true
 	return false
 func run() -> void:
 	var settings = Cache.Settings.preset(3); settings.tree_spacing = .5
@@ -54,5 +45,5 @@ func run() -> void:
 		success = success and connected and spread>=500
 		rows.append({"face":route.face,"connected":connected,"spread_m":spread,"visited":route.safe_samples,"refinement":route.refinement,"reachable_rows":route.get("reachable_columns",[])})
 	var report = {"diagnostic_only":true,"trees":trees.size(),"minerals":mineral_count,"routes":rows,"pass":success}
-	preload("res://tests/test_report.gd").write("res://artifacts/generation_v16/openings_probe.json",JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v17/openings_probe.json",JSON.stringify(report,"\t"))
 	print("OPENINGS_ROUTES ",JSON.stringify(report)); quit(0 if success else 1)

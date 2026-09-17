@@ -17,4 +17,4 @@ func _initialize() -> void:
 	var rich = settings.duplicate(); rich.tree_population = 5; rich.mineral_density = 5
 	var extreme = Estimates.estimate(849205174,rich,false)
 	check(extreme.peak_memory_gib.y>cold.peak_memory_gib.y and extreme.peak_memory_gib.y<cold.peak_memory_gib.y*2,"Population memory grows without multiplying fixed assets")
-	print("V16_ESTIMATES 5 checks; failures=",failures); quit(0 if failures.is_empty() else 1)
+	print("V17_ESTIMATES 5 checks; failures=",failures); quit(0 if failures.is_empty() else 1)

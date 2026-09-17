@@ -1,6 +1,6 @@
-"""Publish a compact current receipt after the guarded bounded v16 audit.
+"""Publish a compact current receipt after the guarded bounded v17 audit.
 
-Run from the repository root: python tests/report_v16_route_audit.py
+Run from the repository root: python tests/report_v17_route_audit.py
 Detailed paths/commands/logs remain in ignored artifacts; the receipt is tracked.
 """
 
@@ -13,9 +13,9 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-AUDIT = ROOT / "artifacts/current_v16_bounded_route_audit/audit.json"
-GUARD = ROOT / "artifacts/guarded/current-v16-bounded-route-audit"
-OUTPUT = ROOT / "docs/CURRENT_V16_BOUNDED_ROUTE_RESULTS.json"
+AUDIT = ROOT / "artifacts/current_v17_bounded_route_audit/audit.json"
+GUARD = ROOT / "artifacts/guarded/current-v17-bounded-route-audit"
+OUTPUT = ROOT / "docs/CURRENT_V17_BOUNDED_ROUTE_RESULTS.json"
 TERMINAL = {"bounded_complete"}
 
 
@@ -53,14 +53,14 @@ def main():
     guard = json.loads((GUARD / "guard.json").read_text(encoding="utf-8-sig"))
     require(guard["exit_code"] == 0 and not guard["stop_reason"] and guard["workload_launched"], "Guard failed")
     require(guard["full_mountain"] and guard["full_mountain_reason"].strip(), "Missing recorded full-mountain coverage reason")
-    require("tests/alpine_v16_route_audit.gd" in guard["arguments"], "Wrong guarded script")
+    require("tests/alpine_v17_route_audit.gd" in guard["arguments"], "Wrong guarded script")
     logs = (GUARD / "stdout.log").read_text() + (GUARD / "stderr.log").read_text()
     require(not re.search(r"^(ERROR:|SCRIPT ERROR:|FAIL )", logs, re.M), "Engine/test errors")
-    require("CURRENT_V16_BOUNDED_ROUTE_AUDIT status=complete" in logs, "Missing completion marker")
+    require("CURRENT_V17_BOUNDED_ROUTE_AUDIT status=complete" in logs, "Missing completion marker")
     require(audit["status"] == "complete" and not audit["harness_failures"], "Audit failed")
     require(audit["classification"] == "current_source_hashed_bounded_route_scenario", "Wrong audit classification")
     identity = audit["identity"]
-    require(identity["version"] == 16 and identity["seed"] == 849205174, "Wrong recipe")
+    require(identity["version"] == 17 and identity["seed"] == 849205174, "Wrong recipe")
     require(set(identity["settings"].values()) == {1.0}, "Not Standard settings")
     for source, expected in identity["source_sha256"].items():
         require(digest(ROOT / source.removeprefix("res://")) == expected, f"Source drift: {source}")
@@ -102,15 +102,15 @@ def main():
             math.dist(*crossings) if len(crossings) == 2 else None
         )
     receipt["evidence"] = {
-        "audit": "artifacts/current_v16_bounded_route_audit/audit.json",
+        "audit": "artifacts/current_v17_bounded_route_audit/audit.json",
         "audit_sha256": digest(AUDIT),
-        "guard": "artifacts/guarded/current-v16-bounded-route-audit/guard.json",
+        "guard": "artifacts/guarded/current-v17-bounded-route-audit/guard.json",
         "guard_sha256": digest(GUARD / "guard.json"),
         "stdout_sha256": digest(GUARD / "stdout.log"),
         "stderr_sha256": digest(GUARD / "stderr.log"),
         "guard_exit_code": guard["exit_code"],
-        "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/alpine_v16_route_audit.gd') -Label current-v16-bounded-route-audit -TimeoutSeconds 900 -FullMountain -FullMountainReason 'Current default-v16 route geometry and bounded speed-controlled probe evidence'",
-        "receipt_command": "python tests/report_v16_route_audit.py",
+        "command": "./scripts/run_guarded.ps1 -FilePath ./godotw.ps1 -Arguments @('--headless','--script','tests/alpine_v17_route_audit.gd') -Label current-v17-bounded-route-audit -TimeoutSeconds 900 -FullMountain -FullMountainReason 'Current default-v17 route geometry and bounded speed-controlled probe evidence'",
+        "receipt_command": "python tests/report_v17_route_audit.py",
         "receipt_producer_sha256": digest(Path(__file__)),
         "checkout_head_at_receipt": subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True

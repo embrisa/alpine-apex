@@ -2,7 +2,7 @@ extends RefCounted
 ## Two reusable per-ski response samples. No Nodes, RNG or writes to physics.
 const Condition = preload("res://scripts/presentation/snow_condition.gd")
 # Bound applies only to the V15 analytic snow implementation below.
-const TrackMountain = preload("res://scripts/world/generators/alpine_massif_v16.gd")
+const TrackMountain = preload("res://scripts/world/generators/alpine_massif_v17.gd")
 const TrackTreeSnow = preload("res://scripts/world/generators/tree_snow_v15.gd")
 static var bounded_track_queries = true
 static var audit_certificates = false

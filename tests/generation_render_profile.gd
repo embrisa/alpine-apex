@@ -1,6 +1,6 @@
 extends SceneTree
 ## Real main-scene readiness and static dense-area samples; never saves records.
-var version = 16
+var version = 17
 var preset_index = 1
 var repetitions = 3
 var spacing = 1.0
@@ -18,7 +18,7 @@ func run() -> void:
 	root.borderless = true; root.position = DisplayServer.screen_get_position(root.current_screen); root.size = Vector2i(3840,2160); root.content_scale_size = Vector2i(3840,2160)
 	root.title = "Alpine Apex | Generation loading profile"
 	Engine.max_fps = 120
-	DirAccess.make_dir_recursive_absolute("res://artifacts/generation_v16")
+	DirAccess.make_dir_recursive_absolute("res://artifacts/generation_v17")
 	report = {"version":version,"preset":preset_index,"engine":Engine.get_version_info().string,"unranked":true,"tree_spacing":spacing,"runs":[],"output_pixels":[3840,2160],"camera_fixture":"ground_clamped_dense48_v2"}
 	RenderingServer.viewport_set_measure_render_time(root.get_viewport_rid(),true)
 	for repetition in repetitions:
@@ -30,7 +30,7 @@ func run() -> void:
 		if version==14: work = load("res://scripts/world/mountain_cache_v14.gd").generate.bind(849205174)
 		else:
 			var settings = load("res://scripts/world/generation_settings.gd").preset(preset_index); settings.tree_spacing = spacing
-			work = load("res://scripts/world/mountain_cache_v16.gd").generate.bind(849205174,settings)
+			work = load("res://scripts/world/mountain_cache_v17.gd").generate.bind(849205174,settings)
 		worker.start(work)
 		while worker.is_alive(): await process_frame
 		var field = worker.wait_to_finish()
@@ -52,19 +52,19 @@ func run() -> void:
 		row.internal_pixels = [roundi(actual_pixels.x*root.scaling_3d_scale),roundi(actual_pixels.y*root.scaling_3d_scale)]
 		row.height_sha256 = field.height_checksum; row.obstacle_sha256 = field.obstacle_checksum
 		print("GENERATION_RENDER_READY ",JSON.stringify(row))
-		if version==16 and preset_index==1 and repetition==0:
+		if version==17 and preset_index==1 and repetition==0:
 			await game.mountain_library.open()
 			var library = game.mountain_library
 			library.advanced_toggle.button_pressed = false
 			await process_frame; await RenderingServer.frame_post_draw
-			root.get_texture().get_image().save_png("res://artifacts/generation_v16/controls_standard.png")
+			root.get_texture().get_image().save_png("res://artifacts/generation_v17/controls_standard.png")
 			library._preset_changed(4); library.settings_controls.tree_population.value = 1.01; library.settings_controls.tree_spacing.value = .67
 			await process_frame; await RenderingServer.frame_post_draw
-			root.get_texture().get_image().save_png("res://artifacts/generation_v16/controls_custom.png")
+			root.get_texture().get_image().save_png("res://artifacts/generation_v17/controls_custom.png")
 			var scroll = library.tabs.get_current_tab_control()
 			scroll.ensure_control_visible(library.estimates_label)
 			await process_frame; await RenderingServer.frame_post_draw
-			root.get_texture().get_image().save_png("res://artifacts/generation_v16/controls_estimates.png")
+			root.get_texture().get_image().save_png("res://artifacts/generation_v17/controls_estimates.png")
 			row.controls = {"form_height":scroll.size.y,"custom_values":library.generation_settings(),"advanced_visible":library.advanced_panel.visible}
 			library._apply_settings(field.generation_settings); library.advanced_toggle.button_pressed = false
 			library.close()
@@ -74,7 +74,7 @@ func run() -> void:
 		camera.far = 16000
 		if repetition==0:
 			await process_frame; await RenderingServer.frame_post_draw
-			root.get_texture().get_image().save_png("res://artifacts/generation_v16/v%d_p%d%s_summit.png" % [version,preset_index,suffix])
+			root.get_texture().get_image().save_png("res://artifacts/generation_v17/v%d_p%d%s_summit.png" % [version,preset_index,suffix])
 		var dense: Array = []
 		for face_index in [0,2,4]:
 			var face = field.faces[face_index]
@@ -111,10 +111,10 @@ func run() -> void:
 				"camera_traversal":{"distance_m":90,"frame_ms":distribution(moving),"gpu_ms":distribution(moving_gpu),"render_cpu_ms":distribution(moving_cpu)}})
 			if repetition==0:
 				await RenderingServer.frame_post_draw
-				root.get_texture().get_image().save_png("res://artifacts/generation_v16/v%d_p%d%s_face%d.png" % [version,preset_index,suffix,face_index])
+				root.get_texture().get_image().save_png("res://artifacts/generation_v17/v%d_p%d%s_face%d.png" % [version,preset_index,suffix,face_index])
 		row.dense = dense
 		report.runs.append(row)
-		preload("res://tests/test_report.gd").write("res://artifacts/generation_v16/render_v%d_p%d%s.json" % [version,preset_index,suffix],JSON.stringify(report,"\t"))
+		preload("res://tests/test_report.gd").write("res://artifacts/generation_v17/render_v%d_p%d%s.json" % [version,preset_index,suffix],JSON.stringify(report,"\t"))
 		game.queue_free(); field = null; definition = null
 		for frame in 12: await process_frame
 	print("GENERATION_RENDER_COMPLETE")

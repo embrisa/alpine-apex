@@ -2,7 +2,7 @@ extends SceneTree
 ## Native evidence runner. Parent MUST hold the serial validation guard.
 ## No personal preferences, ranked records, captures or readbacks in samples.
 const Definition = preload("res://scripts/world/mountain_definition.gd")
-const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v17.gd")
 const Sources = preload("res://scripts/world/generation_sources.gd")
 const Trace = preload("res://tests/performance_trace.gd")
 const Survey = preload("res://tests/alpine_v13_route_survey.gd")
@@ -79,7 +79,7 @@ func run() -> void:
 	original_window = Output.capture_window(root)
 	original_cap = Engine.max_fps
 	source_metadata = collect_sources()
-	print("INTERFACE_PERFORMANCE_LOAD seed=849205174 version=16 settings=Standard")
+	print("INTERFACE_PERFORMANCE_LOAD seed=849205174 version=17 settings=Standard")
 	var load_start = Time.get_ticks_usec()
 	# The same validated Standard cache path as normal gameplay, never a lab.
 	field = preload("res://tests/validation_mountain.gd").load_standard()

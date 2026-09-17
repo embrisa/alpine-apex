@@ -77,7 +77,7 @@ func run() -> void:
 	game.display_settings.frame_generation = false
 	if followup!=null: game.display_settings.fps_limit = 60
 	game.display_settings.apply_viewport(root)
-	audit.check(field.cache_hit and field.GENERATOR_VERSION==16,"Native navigation uses a validated warm v16 Standard fixture")
+	audit.check(field.cache_hit and field.GENERATOR_VERSION==17,"Native navigation uses a validated warm v17 Standard fixture")
 	if followup!=null:
 		followup_evidence = await followup.run(self,followup_tasks)
 		finish()
