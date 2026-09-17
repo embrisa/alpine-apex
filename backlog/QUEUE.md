@@ -8,7 +8,6 @@ status, dependencies, evidence and acceptance live in each stable task record.
 
 | Task | Remaining outcome |
 |---|---|
-| [Natural forest distribution](tasks/AA-20260913-232221-natural-forest-generation.md) | The separately agreed 15% thinning/high-altitude distribution change; never mix it into a frozen FPS comparison. |
 | [Sun-facing lens flare](tasks/AA-20260913-221134-sun-facing-lens-flare.md) | The agreed occlusion-aware optional visual feature. |
 
 ## Blocked work and resume conditions
@@ -25,6 +24,8 @@ status, dependencies, evidence and acceptance live in each stable task record.
 - [Skip unchanged ghost material parameters](ideas/IDEA-20260917-013000-skip-unchanged-ghost-material-updates.md).
 - [Separate scenery bake inputs from render-only updates](ideas/IDEA-20260917-082200-separate-scenery-bake-dependencies.md).
 - [Share far-tree material submissions](ideas/IDEA-20260917-090000-share-far-tree-material-submissions.md).
+
+- [Use scoped benchmark metadata](ideas/IDEA-20260917-110000-use-scoped-benchmark-metadata.md).
 
 ## Rules for the next task
 

@@ -1,5 +1,5 @@
 extends SceneTree
-const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	var job = Cache.Job.new(); var worker = Thread.new()

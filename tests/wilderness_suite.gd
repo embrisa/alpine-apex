@@ -15,7 +15,7 @@ func check(value: bool, label: String) -> void:
 
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
-	var field = preload("res://scripts/world/mountain_definition.gd").generate(849205174,15)
+	var field = preload("res://scripts/world/mountain_definition.gd").generate(849205174)
 	var source = preload("res://scripts/world/mountain_data.gd").new()
 	source.generate(field,field.seed_value)
 	var world = Wilderness.new()

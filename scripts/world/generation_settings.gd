@@ -3,7 +3,7 @@ extends RefCounted
 const KEYS = ["tree_population","mineral_density","snow_feature_density","landform_complexity","tree_spacing"]
 const PRESETS = ["Light","Standard","Rich","Extreme","Custom"]
 const MULTIPLIERS = [.5,1.0,2.0,5.0]
-const TREE_BASELINE = 200000
+const TREE_BASELINE = 170000
 const MINERAL_BASELINE = 16022
 
 static func preset(index: int = 1) -> Dictionary:

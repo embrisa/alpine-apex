@@ -4,12 +4,12 @@
 
 The [internal Dev identity](DEVELOPMENT.md#internal-development-versions) identifies
 committed milestones and modified checkout state; it is not a compatibility key.
-Source identities inspected on 2026-09-13; numeric identities are independent.
+Source identities inspected on 2026-09-17; numeric identities are independent.
 Their declarations, not an old report title, determine compatibility.
 
 | Identity | Current value | Source |
 |---|---|---|
-| Default mountain | Seed 849205174, generator 15, Standard | [startup](../scripts/main.gd), [definition](../scripts/world/mountain_definition.gd), [settings](../scripts/world/generation_settings.gd) |
+| Default mountain | Seed 849205174, generator 16, Standard | [startup](../scripts/main.gd), [definition](../scripts/world/mountain_definition.gd), [settings](../scripts/world/generation_settings.gd) |
 | Ski physics | Model 35, 120 Hz | [simulation](../scripts/core/ski_simulation.gd), [project settings](../project.godot) |
 | Replay | Format 7, nine tick-input fields (including jump_held), lossless clocks | [replay](../scripts/racing/run_replay.gd) |
 | Race | Schema 6, recovery rules 1, weather rules 1 | [race definition](../scripts/racing/race_definition.gd) |
@@ -31,7 +31,7 @@ Paths below are under `scripts/`.
 | `core/ski_simulation.gd`, `ski_contact.gd`, `rider_body.gd`, `ski_tuning.gd` | Completed fixed-tick translation, two ski contacts, pressure/edge/slip, body mass/COM, support and rotation; no Nodes or render-frame timing |
 | `world/heightfield_surface.gd` | Authoritative triangulated support, normals/material queries and obstacle contract |
 | `world/mountain_definition.gd`, `generation_settings.gd`, `generation_job.gd` | Canonical physical recipe, deterministic jobs and immutable preparation inputs |
-| `world/mountain_cache_v15.gd`, `mountain_preparation.gd` | Validated physical/scenery preparation; main thread owns publication and GPU submission |
+| `world/mountain_cache_v16.gd`, `mountain_preparation.gd` | Validated physical/scenery preparation; main thread owns publication and GPU submission |
 | `world/alpine_world.gd`, `presentation/*` | Render meshes, pose, camera, tracks, particles, weather and audio derived from state |
 | `presentation/skier_pose_writer.gd` | Single final skeleton writer; composed pose can seed a crash but cannot modify skiing forces or replay state |
 | `presentation/skier_ragdoll.gd`, `world/crash_collision.gd` | Crash-only Jolt skeleton, equipment and nearby shared-grid terrain/obstacle collision |

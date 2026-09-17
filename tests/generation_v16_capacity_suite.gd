@@ -1,6 +1,6 @@
 extends SceneTree
 ## Synthetic capacity, deliberately independent of natural placement saturation.
-const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
 const Trees = preload("res://scripts/world/packed_trees.gd")
 const Forest = preload("res://scripts/presentation/forest_placement.gd")
 const Scenery = preload("res://scripts/world/alpine_scenery.gd")
@@ -35,7 +35,7 @@ func run() -> void:
 	field.population.trees = 1000000; field.population.requested_trees = 1000000
 	field.generation_settings = Cache.Settings.preset(3)
 	field.obstacle_checksum = "SYNTHETIC-CAPACITY-1M".sha256_text()
-	var path = "res://artifacts/generation_v15/synthetic_capacity.physical"
+	var path = "res://artifacts/generation_v16/synthetic_capacity.physical"
 	var key = "SYNTHETIC-CAPACITY-ARCHIVE".sha256_text(); var job = Cache.Job.new()
 	start = Time.get_ticks_usec()
 	check(Cache.Archive.write(path,key,Cache.sections(field),job),"Million-tree physical archive publishes")
@@ -65,7 +65,7 @@ func run() -> void:
 		while worker.is_alive(): await process_frame
 		worker.wait_to_finish()
 		var scenery_cache = preload("res://scripts/world/scenery_cache.gd")
-		var scenery_path = "res://artifacts/generation_v15/synthetic_capacity.scenery"
+		var scenery_path = "res://artifacts/generation_v16/synthetic_capacity.scenery"
 		start = Time.get_ticks_usec()
 		check(scenery_cache.save(prep,field,host.quality,job,scenery_path),"Million-tree scenery archive publishes outside production caches")
 		report.scenery_cache_write_ms = (Time.get_ticks_usec()-start)/1000.0
@@ -104,6 +104,6 @@ func run() -> void:
 		for id in [0,100100,500500,999999]: check(prepared.pose_at(id).origin==prepared.positions[id],"Shared pose indexed access %d" % id)
 		host.queue_free(); camera.queue_free(); await process_frame
 	report.checks = checks; report.failures = failures; report.memory_peak = OS.get_static_memory_peak_usage()
-	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/capacity_"+("headless" if DisplayServer.get_name()=="headless" else "native")+".json",JSON.stringify(report,"\t"))
-	print("V15_CAPACITY ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v16/capacity_"+("headless" if DisplayServer.get_name()=="headless" else "native")+".json",JSON.stringify(report,"\t"))
+	print("V16_CAPACITY ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)
 func checkpoint(_message: String, _progress: float) -> void: await process_frame

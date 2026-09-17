@@ -1,5 +1,5 @@
 extends SceneTree
-const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
 var failures = 0
 
 func check(ok: bool, label: String) -> void:

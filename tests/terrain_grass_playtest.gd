@@ -1,6 +1,6 @@
 extends SceneTree
 ## Functional captures only: fixed pixels/cap, no frame-time/GPU/CPU statistics.
-const Cache=preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache=preload("res://scripts/world/mountain_cache_v16.gd")
 const Quality=preload("res://scripts/presentation/graphics_quality.gd")
 var output="res://artifacts/terrain_grass_20260913/local"
 var game

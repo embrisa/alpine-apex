@@ -1,0 +1,762 @@
+{
+  "schema": 1,
+  "id": "49a053e57adb49ad97e223763b12e061",
+  "summary": "Thin Standard forests by 15 percent and add sparse higher trees with generator 16",
+  "categories": [
+    "World"
+  ],
+  "areas": [
+    "Physical forest ecology",
+    "Current generation fixtures and cache identity",
+    "Two-seed visual and route validation"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/completed/AA-20260913-232221-natural-forest-generation.md",
+    "backlog/ideas/IDEA-20260917-110000-use-scoped-benchmark-metadata.md",
+    "backlog/tasks/AA-20260913-232221-natural-forest-generation.md",
+    "config/generation_dependencies.json",
+    "docs/ARCHITECTURE.md",
+    "docs/DENSE_FOREST_BASELINE.json",
+    "docs/DEVELOPMENT.md",
+    "docs/NATURAL_FOREST_RESULTS.json",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/VALIDATION.md",
+    "docs/WORLD.md",
+    "scripts/audit_windows_playtest.py",
+    "scripts/authoring/bake_wilderness.gd",
+    "scripts/benchmark_pc.ps1",
+    "scripts/check_offmap_v3.ps1",
+    "scripts/core/tick_terrain_queries.gd",
+    "scripts/prepare_generation_export.gd",
+    "scripts/prepare_playtest_bake.gd",
+    "scripts/presentation/snow_response.gd",
+    "scripts/test_pc_environment.ps1",
+    "scripts/world/generation_estimates.gd",
+    "scripts/world/generation_settings.gd",
+    "scripts/world/generation_sources.gd",
+    "scripts/world/generators/alpine_face_v15.gd",
+    "scripts/world/generators/alpine_face_v15.gd.uid",
+    "scripts/world/generators/alpine_face_v16.gd",
+    "scripts/world/generators/alpine_face_v16.gd.uid",
+    "scripts/world/generators/alpine_massif_v15.gd",
+    "scripts/world/generators/alpine_massif_v15.gd.uid",
+    "scripts/world/generators/alpine_massif_v16.gd",
+    "scripts/world/generators/alpine_massif_v16.gd.uid",
+    "scripts/world/mountain_archive.gd",
+    "scripts/world/mountain_cache_v15.gd",
+    "scripts/world/mountain_cache_v15.gd.uid",
+    "scripts/world/mountain_cache_v16.gd",
+    "scripts/world/mountain_cache_v16.gd.uid",
+    "scripts/world/mountain_definition.gd",
+    "scripts/world/mountain_footprint.gd",
+    "scripts/world/scenery_cache.gd",
+    "tests/alpine_v15_route_audit.gd",
+    "tests/alpine_v15_route_audit.gd.uid",
+    "tests/alpine_v16_route_audit.gd",
+    "tests/alpine_v16_route_audit.gd.uid",
+    "tests/camera_pitch_playtest.gd",
+    "tests/colorful_forest_playtest.gd",
+    "tests/density_spatial_suite.gd",
+    "tests/fixtures/test_maps.json",
+    "tests/generation_job_lifetime_probe.gd",
+    "tests/generation_openings_probe.gd",
+    "tests/generation_render_profile.gd",
+    "tests/generation_route_probe.gd",
+    "tests/generation_v15_baseline.gd",
+    "tests/generation_v15_baseline.gd.uid",
+    "tests/generation_v15_cache_profile.gd",
+    "tests/generation_v15_cache_profile.gd.uid",
+    "tests/generation_v15_cancellation_suite.gd",
+    "tests/generation_v15_cancellation_suite.gd.uid",
+    "tests/generation_v15_capacity_suite.gd",
+    "tests/generation_v15_capacity_suite.gd.uid",
+    "tests/generation_v15_contract_suite.gd",
+    "tests/generation_v15_contract_suite.gd.uid",
+    "tests/generation_v15_estimate_suite.gd",
+    "tests/generation_v15_estimate_suite.gd.uid",
+    "tests/generation_v15_loading_cancel_suite.gd",
+    "tests/generation_v15_loading_cancel_suite.gd.uid",
+    "tests/generation_v15_probe.gd",
+    "tests/generation_v15_probe.gd.uid",
+    "tests/generation_v15_scenery_integrity_suite.gd",
+    "tests/generation_v15_scenery_integrity_suite.gd.uid",
+    "tests/generation_v15_smoke.gd",
+    "tests/generation_v15_smoke.gd.uid",
+    "tests/generation_v15_world_suite.gd",
+    "tests/generation_v15_world_suite.gd.uid",
+    "tests/generation_v16_baseline.gd",
+    "tests/generation_v16_baseline.gd.uid",
+    "tests/generation_v16_cache_profile.gd",
+    "tests/generation_v16_cache_profile.gd.uid",
+    "tests/generation_v16_cancellation_suite.gd",
+    "tests/generation_v16_cancellation_suite.gd.uid",
+    "tests/generation_v16_capacity_suite.gd",
+    "tests/generation_v16_capacity_suite.gd.uid",
+    "tests/generation_v16_contract_suite.gd",
+    "tests/generation_v16_contract_suite.gd.uid",
+    "tests/generation_v16_estimate_suite.gd",
+    "tests/generation_v16_estimate_suite.gd.uid",
+    "tests/generation_v16_loading_cancel_suite.gd",
+    "tests/generation_v16_loading_cancel_suite.gd.uid",
+    "tests/generation_v16_probe.gd",
+    "tests/generation_v16_probe.gd.uid",
+    "tests/generation_v16_scenery_integrity_suite.gd",
+    "tests/generation_v16_scenery_integrity_suite.gd.uid",
+    "tests/generation_v16_smoke.gd",
+    "tests/generation_v16_smoke.gd.uid",
+    "tests/generation_v16_world_suite.gd",
+    "tests/generation_v16_world_suite.gd.uid",
+    "tests/interface_performance_suite.gd",
+    "tests/mountain_footprint_suite.gd",
+    "tests/natural_forest_ecology_suite.gd",
+    "tests/natural_forest_ecology_suite.gd.uid",
+    "tests/natural_forest_playtest.gd",
+    "tests/natural_forest_playtest.gd.uid",
+    "tests/natural_forest_survey.gd",
+    "tests/natural_forest_survey.gd.uid",
+    "tests/natural_forest_trace.gd",
+    "tests/natural_forest_trace.gd.uid",
+    "tests/offmap_boundary_motion.gd",
+    "tests/offmap_geometry_suite.gd",
+    "tests/performance_descent.gd",
+    "tests/performance_trace.gd",
+    "tests/performance_trace_contract_suite.gd",
+    "tests/playtest_bake_suite.gd",
+    "tests/prepare_validation_mountain.gd",
+    "tests/report_v15_route_audit.py",
+    "tests/report_v16_route_audit.py",
+    "tests/session_navigation_followup.gd",
+    "tests/session_navigation_playtest.gd",
+    "tests/snow_contact_playtest.gd",
+    "tests/snow_coverage_suite.gd",
+    "tests/snow_readability_suite.gd",
+    "tests/terrain_grass_playtest.gd",
+    "tests/terrain_grass_prepare_second.gd",
+    "tests/terrain_grass_survey.gd",
+    "tests/terrain_query_suite.gd",
+    "tests/tick_terrain_queries_suite.gd",
+    "tests/validation_mountain.gd",
+    "tests/validation_mountain_suite.gd",
+    "tests/wilderness_fingerprint_suite.gd",
+    "tests/wilderness_suite.gd",
+    "tests/windows_playtest_smoke.gd"
+  ],
+  "read_paths": [
+    "artifacts/fps_baseline_20260917/route.gd",
+    "scripts/core/ski_simulation.gd",
+    "scripts/presentation/density_forest.gd",
+    "scripts/presentation/forest_placement.gd",
+    "scripts/world/generation_job.gd",
+    "scripts/world/generators/tree_snow_v15.gd",
+    "scripts/world/mountain_geology_v15.gd",
+    "scripts/world/mountain_preparation.gd",
+    "scripts/world/packed_trees.gd",
+    "scripts/world/prop_collision_surface.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 15,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 16,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only the terrain owner preload changes; solver model 35, tuning and 120 Hz remain unchanged. Tree-local snow changes with physical generation."
+      },
+      "world": {
+        "effect": "changed",
+        "reason": "Generator 15 to 16: 170000 Standard trees and sparse upper ecology; candidate order, tree-local snow and seating change. Landform/mineral foundation remains unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Replay/race/archive schemas remain unchanged; existing generation identity checks reject incompatible worlds and traces."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "incompatible",
+        "reason": "Generator 15 recipes are rejected; regenerate generator 16 worlds."
+      },
+      "races": {
+        "effect": "incompatible",
+        "reason": "Races remain tied to their physical mountain identity; generate current-world races."
+      },
+      "records": {
+        "effect": "incompatible",
+        "reason": "Old mountain/race identities cannot compete against generator 16 worlds; original personal record bytes remain untouched."
+      },
+      "ghosts": {
+        "effect": "incompatible",
+        "reason": "Old-world ghosts cannot be applied to changed terrain/tree identity; original recordings remain untouched."
+      },
+      "caches": {
+        "effect": "regenerate",
+        "reason": "Generator 16 archive namespace, source manifest and scenery identity require freshly prepared fixtures."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "Guarded natural-forest-v16-regressions-20260917, regressions-contracts and regressions-current-fixtures; ./godotw --headless --script selected suites",
+      "result": "passed",
+      "details": "56 physics,192 runtime,384 density LOD,34 spatial,474 tree grounding,30 snow contracts,5 estimates,80 generation contracts,8 scenery integrity; trace/footprint/fixture/terrain-query/snow/offmap checks passed. Missing historical snow comparison resolved by supported --contracts; stale v15 fixture corrected. See initial_upper_band/regressions.json. Unchanged compact behavior evidence reused after upper ecology tuning."
+    },
+    {
+      "kind": "automated",
+      "command": "Exclusive natural-forest-v16-high-default-20260917 and high-alternate; tests/natural_forest_survey.gd --prepare",
+      "result": "passed",
+      "details": "Both seeds have 170,000 trees and 16,022 minerals; highest roots 4,234.082 / 4,194.361 m. Foundation excluding tree snow differs by less than 1 mm; mineral placement unchanged. Every root and 10,000 sampled clearances per seed pass; warm positions/support reconstruct exactly."
+    },
+    {
+      "kind": "automated",
+      "command": "Exclusive natural-forest-v16-high-checks-20260917; high_checks.ps1",
+      "result": "passed",
+      "details": "Final export manifest, actual ordinary traces, 14 worker/preset/identity checks, 22 + 21 full-world checks, six connected route graphs per seed, and recipe/tree-snow/cache/scenery cancellation passed. See high_checks.json and artifacts/generation_v16/."
+    },
+    {
+      "kind": "rendered",
+      "command": "Exclusive natural-forest-v16-high-views-SEED-20260917 and high-motion",
+      "result": "passed",
+      "details": "Matched old/new production chase/first-person across two seeds and several faces, plus highest-tree views and15second225frame chronology inspected. Dense forest stays layered, upper slopes sparse; all sampled streaming queues drained;1800ticks/exact endpoint. Capped captures have no performance claim."
+    },
+    {
+      "kind": "performance",
+      "command": "FpsCritical high_time_routes.ps1; native timed-recording harness, repetitions2 per route",
+      "result": "passed",
+      "details": "upper: 144.03FPS / 6.943ms, GPU5.300ms; mixed: 139.59FPS / 7.164ms, GPU5.749ms; lower: 127.40FPS / 7.849ms, GPU6.535ms. Each one warmed15second sample,4KHigh/Auto75/FGGIoff,1800ticks/301poses,focus0,capture-free. Only upper retains old inputs and endpoint; lower/mixed are fresh current references. No whole-descent or matched old lower-route gain claimed."
+    },
+    {
+      "kind": "automated",
+      "command": "python -m py_compile affected Python producers; git -c core.whitespace=cr-at-eol diff --check; python scripts/backlog.py validate --preserve-dirty; scoped versioning check",
+      "result": "passed",
+      "details": "Run before commit; preserved existing source line endings, skipped hash audits and staged only owned paths."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human visual and skiing review of openness, species grouping and upper-tree placement remains separately pending.",
+    "Bounded routes do not establish complete-descent or all-seed performance."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T10:38:38.683635+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "5037ca52a96d745494d6fe227deb75b3305a48d8",
+      "dev": 93,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": {
+        "size": 11975,
+        "mtime_ns": 1789639328082720800
+      },
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 13538,
+        "mtime_ns": 1789639328083222600
+      },
+      "artifacts/fps_baseline_20260917/route.gd": {
+        "size": 1449,
+        "mtime_ns": 1789604371020189200
+      },
+      "backlog/QUEUE.md": {
+        "size": 2800,
+        "mtime_ns": 1789641097943526300
+      },
+      "backlog/completed/AA-20260913-232221-natural-forest-generation.md": {
+        "size": 12252,
+        "mtime_ns": 1789641097942422900
+      },
+      "backlog/ideas/IDEA-20260917-110000-use-scoped-benchmark-metadata.md": {
+        "size": 1417,
+        "mtime_ns": 1789638529996299700
+      },
+      "backlog/tasks/AA-20260913-232221-natural-forest-generation.md": null,
+      "config/generation_dependencies.json": {
+        "size": 84115,
+        "mtime_ns": 1789640454576711800
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ARCHITECTURE.md": {
+        "size": 8474,
+        "mtime_ns": 1789638529929665500
+      },
+      "docs/DENSE_FOREST_BASELINE.json": {
+        "size": 14510,
+        "mtime_ns": 1789640647357504000
+      },
+      "docs/DEVELOPMENT.md": {
+        "size": 21283,
+        "mtime_ns": 1789637986589772800
+      },
+      "docs/NATURAL_FOREST_RESULTS.json": {
+        "size": 71629,
+        "mtime_ns": 1789641518051290000
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 61279,
+        "mtime_ns": 1789640647357504000
+      },
+      "docs/VALIDATION.md": {
+        "size": 141487,
+        "mtime_ns": 1789640568837320300
+      },
+      "docs/WORLD.md": {
+        "size": 25344,
+        "mtime_ns": 1789640203929756100
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/audit_windows_playtest.py": {
+        "size": 4888,
+        "mtime_ns": 1789637986424360200
+      },
+      "scripts/authoring/bake_wilderness.gd": {
+        "size": 4219,
+        "mtime_ns": 1789638186719168500
+      },
+      "scripts/benchmark_pc.ps1": {
+        "size": 16218,
+        "mtime_ns": 1789637986648200000
+      },
+      "scripts/check_offmap_v3.ps1": {
+        "size": 3807,
+        "mtime_ns": 1789638186722533800
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/core/tick_terrain_queries.gd": {
+        "size": 1873,
+        "mtime_ns": 1789637986447795300
+      },
+      "scripts/prepare_generation_export.gd": {
+        "size": 1336,
+        "mtime_ns": 1789637986428621400
+      },
+      "scripts/prepare_playtest_bake.gd": {
+        "size": 1946,
+        "mtime_ns": 1789639764877423200
+      },
+      "scripts/presentation/density_forest.gd": {
+        "size": 9889,
+        "mtime_ns": 1789567353867450300
+      },
+      "scripts/presentation/forest_placement.gd": {
+        "size": 8152,
+        "mtime_ns": 1789341389124249000
+      },
+      "scripts/presentation/snow_response.gd": {
+        "size": 12608,
+        "mtime_ns": 1789637986509437600
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/test_pc_environment.ps1": {
+        "size": 10819,
+        "mtime_ns": 1789637986432750400
+      },
+      "scripts/world/generation_estimates.gd": {
+        "size": 12042,
+        "mtime_ns": 1789637986636698600
+      },
+      "scripts/world/generation_job.gd": {
+        "size": 3789,
+        "mtime_ns": 1789045154044110200
+      },
+      "scripts/world/generation_settings.gd": {
+        "size": 2288,
+        "mtime_ns": 1789637986590774500
+      },
+      "scripts/world/generation_sources.gd": {
+        "size": 5123,
+        "mtime_ns": 1789637986518723200
+      },
+      "scripts/world/generators/alpine_face_v15.gd": null,
+      "scripts/world/generators/alpine_face_v15.gd.uid": null,
+      "scripts/world/generators/alpine_face_v16.gd": {
+        "size": 29359,
+        "mtime_ns": 1789640083701075200
+      },
+      "scripts/world/generators/alpine_face_v16.gd.uid": {
+        "size": 19,
+        "mtime_ns": 1789062131738241100
+      },
+      "scripts/world/generators/alpine_massif_v15.gd": null,
+      "scripts/world/generators/alpine_massif_v15.gd.uid": null,
+      "scripts/world/generators/alpine_massif_v16.gd": {
+        "size": 23889,
+        "mtime_ns": 1789640083701075200
+      },
+      "scripts/world/generators/alpine_massif_v16.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789062131761059500
+      },
+      "scripts/world/generators/tree_snow_v15.gd": {
+        "size": 9421,
+        "mtime_ns": 1789049072836835600
+      },
+      "scripts/world/mountain_archive.gd": {
+        "size": 5984,
+        "mtime_ns": 1789637986628541700
+      },
+      "scripts/world/mountain_cache_v15.gd": null,
+      "scripts/world/mountain_cache_v15.gd.uid": null,
+      "scripts/world/mountain_cache_v16.gd": {
+        "size": 9281,
+        "mtime_ns": 1789637986620526300
+      },
+      "scripts/world/mountain_cache_v16.gd.uid": {
+        "size": 19,
+        "mtime_ns": 1789062131870769800
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789637986611179600
+      },
+      "scripts/world/mountain_footprint.gd": {
+        "size": 1447,
+        "mtime_ns": 1789637986645715000
+      },
+      "scripts/world/mountain_geology_v15.gd": {
+        "size": 17581,
+        "mtime_ns": 1789049072835817000
+      },
+      "scripts/world/mountain_preparation.gd": {
+        "size": 3646,
+        "mtime_ns": 1789045154049156000
+      },
+      "scripts/world/packed_trees.gd": {
+        "size": 4385,
+        "mtime_ns": 1789045154045121100
+      },
+      "scripts/world/prop_collision_surface.gd": {
+        "size": 4830,
+        "mtime_ns": 1789594595782518200
+      },
+      "scripts/world/scenery_cache.gd": {
+        "size": 8833,
+        "mtime_ns": 1789637986645715000
+      },
+      "tests/alpine_v15_route_audit.gd": null,
+      "tests/alpine_v15_route_audit.gd.uid": null,
+      "tests/alpine_v16_route_audit.gd": {
+        "size": 13327,
+        "mtime_ns": 1789638900621001500
+      },
+      "tests/alpine_v16_route_audit.gd.uid": {
+        "size": 19,
+        "mtime_ns": 1789160849280621100
+      },
+      "tests/camera_pitch_playtest.gd": {
+        "size": 4305,
+        "mtime_ns": 1789638186723537300
+      },
+      "tests/colorful_forest_playtest.gd": {
+        "size": 11768,
+        "mtime_ns": 1789637986532343600
+      },
+      "tests/density_spatial_suite.gd": {
+        "size": 2746,
+        "mtime_ns": 1789638186716674700
+      },
+      "tests/fixtures/test_maps.json": {
+        "size": 63061,
+        "mtime_ns": 1789638900627679300
+      },
+      "tests/generation_job_lifetime_probe.gd": {
+        "size": 747,
+        "mtime_ns": 1789637986538344800
+      },
+      "tests/generation_openings_probe.gd": {
+        "size": 3839,
+        "mtime_ns": 1789639541378572400
+      },
+      "tests/generation_render_profile.gd": {
+        "size": 10409,
+        "mtime_ns": 1789638186722533800
+      },
+      "tests/generation_route_probe.gd": {
+        "size": 1838,
+        "mtime_ns": 1789639541378572400
+      },
+      "tests/generation_v15_baseline.gd": null,
+      "tests/generation_v15_baseline.gd.uid": null,
+      "tests/generation_v15_cache_profile.gd": null,
+      "tests/generation_v15_cache_profile.gd.uid": null,
+      "tests/generation_v15_cancellation_suite.gd": null,
+      "tests/generation_v15_cancellation_suite.gd.uid": null,
+      "tests/generation_v15_capacity_suite.gd": null,
+      "tests/generation_v15_capacity_suite.gd.uid": null,
+      "tests/generation_v15_contract_suite.gd": null,
+      "tests/generation_v15_contract_suite.gd.uid": null,
+      "tests/generation_v15_estimate_suite.gd": null,
+      "tests/generation_v15_estimate_suite.gd.uid": null,
+      "tests/generation_v15_loading_cancel_suite.gd": null,
+      "tests/generation_v15_loading_cancel_suite.gd.uid": null,
+      "tests/generation_v15_probe.gd": null,
+      "tests/generation_v15_probe.gd.uid": null,
+      "tests/generation_v15_scenery_integrity_suite.gd": null,
+      "tests/generation_v15_scenery_integrity_suite.gd.uid": null,
+      "tests/generation_v15_smoke.gd": null,
+      "tests/generation_v15_smoke.gd.uid": null,
+      "tests/generation_v15_world_suite.gd": null,
+      "tests/generation_v15_world_suite.gd.uid": null,
+      "tests/generation_v16_baseline.gd": {
+        "size": 2459,
+        "mtime_ns": 1789638072495712500
+      },
+      "tests/generation_v16_baseline.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789062132099030600
+      },
+      "tests/generation_v16_cache_profile.gd": {
+        "size": 1163,
+        "mtime_ns": 1789638072496715700
+      },
+      "tests/generation_v16_cache_profile.gd.uid": {
+        "size": 19,
+        "mtime_ns": 1789062132105345600
+      },
+      "tests/generation_v16_cancellation_suite.gd": {
+        "size": 3284,
+        "mtime_ns": 1789638072496715700
+      },
+      "tests/generation_v16_cancellation_suite.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789062132112049600
+      },
+      "tests/generation_v16_capacity_suite.gd": {
+        "size": 8216,
+        "mtime_ns": 1789638072497716000
+      },
+      "tests/generation_v16_capacity_suite.gd.uid": {
+        "size": 19,
+        "mtime_ns": 1789062132119823500
+      },
+      "tests/generation_v16_contract_suite.gd": {
+        "size": 7647,
+        "mtime_ns": 1789638186716674700
+      },
+      "tests/generation_v16_contract_suite.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789062132126465200
+      },
+      "tests/generation_v16_estimate_suite.gd": {
+        "size": 1514,
+        "mtime_ns": 1789638072497716000
+      },
+      "tests/generation_v16_estimate_suite.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789062132134089000
+      },
+      "tests/generation_v16_loading_cancel_suite.gd": {
+        "size": 4092,
+        "mtime_ns": 1789638072498716000
+      },
+      "tests/generation_v16_loading_cancel_suite.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789062132139311800
+      },
+      "tests/generation_v16_probe.gd": {
+        "size": 1761,
+        "mtime_ns": 1789638072498716000
+      },
+      "tests/generation_v16_probe.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789062132145891500
+      },
+      "tests/generation_v16_scenery_integrity_suite.gd": {
+        "size": 3171,
+        "mtime_ns": 1789638072498716000
+      },
+      "tests/generation_v16_scenery_integrity_suite.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789062132151907200
+      },
+      "tests/generation_v16_smoke.gd": {
+        "size": 1046,
+        "mtime_ns": 1789638072500187100
+      },
+      "tests/generation_v16_smoke.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789062132157458900
+      },
+      "tests/generation_v16_world_suite.gd": {
+        "size": 8249,
+        "mtime_ns": 1789638900627679300
+      },
+      "tests/generation_v16_world_suite.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789062132165243200
+      },
+      "tests/interface_performance_suite.gd": {
+        "size": 29284,
+        "mtime_ns": 1789638186721179500
+      },
+      "tests/mountain_footprint_suite.gd": {
+        "size": 3268,
+        "mtime_ns": 1789639764873402100
+      },
+      "tests/natural_forest_ecology_suite.gd": {
+        "size": 2601,
+        "mtime_ns": 1789638186407303400
+      },
+      "tests/natural_forest_ecology_suite.gd.uid": {
+        "size": 19,
+        "mtime_ns": 1789639362214012900
+      },
+      "tests/natural_forest_playtest.gd": {
+        "size": 7955,
+        "mtime_ns": 1789640288495361900
+      },
+      "tests/natural_forest_playtest.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789639362213005200
+      },
+      "tests/natural_forest_survey.gd": {
+        "size": 9310,
+        "mtime_ns": 1789640083702078400
+      },
+      "tests/natural_forest_survey.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789639362212447200
+      },
+      "tests/natural_forest_trace.gd": {
+        "size": 6285,
+        "mtime_ns": 1789638682138831100
+      },
+      "tests/natural_forest_trace.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789639362213005200
+      },
+      "tests/offmap_boundary_motion.gd": {
+        "size": 1727,
+        "mtime_ns": 1789638186721179500
+      },
+      "tests/offmap_geometry_suite.gd": {
+        "size": 7852,
+        "mtime_ns": 1789639764875422900
+      },
+      "tests/performance_descent.gd": {
+        "size": 19684,
+        "mtime_ns": 1789637986647196000
+      },
+      "tests/performance_trace.gd": {
+        "size": 8555,
+        "mtime_ns": 1789637986647196000
+      },
+      "tests/performance_trace_contract_suite.gd": {
+        "size": 3121,
+        "mtime_ns": 1789638186723537300
+      },
+      "tests/playtest_bake_suite.gd": {
+        "size": 1269,
+        "mtime_ns": 1789637986558869200
+      },
+      "tests/prepare_validation_mountain.gd": {
+        "size": 1026,
+        "mtime_ns": 1789637986560970900
+      },
+      "tests/report_v15_route_audit.py": null,
+      "tests/report_v16_route_audit.py": {
+        "size": 7165,
+        "mtime_ns": 1789638900622169500
+      },
+      "tests/session_navigation_followup.gd": {
+        "size": 16585,
+        "mtime_ns": 1789637986566000600
+      },
+      "tests/session_navigation_playtest.gd": {
+        "size": 22974,
+        "mtime_ns": 1789638186719168500
+      },
+      "tests/snow_contact_playtest.gd": {
+        "size": 7734,
+        "mtime_ns": 1789639764878424200
+      },
+      "tests/snow_coverage_suite.gd": {
+        "size": 2240,
+        "mtime_ns": 1789639764876422800
+      },
+      "tests/snow_readability_suite.gd": {
+        "size": 5124,
+        "mtime_ns": 1789638186720172700
+      },
+      "tests/terrain_grass_playtest.gd": {
+        "size": 12425,
+        "mtime_ns": 1789637986576343500
+      },
+      "tests/terrain_grass_prepare_second.gd": {
+        "size": 920,
+        "mtime_ns": 1789637986576343500
+      },
+      "tests/terrain_grass_survey.gd": {
+        "size": 3195,
+        "mtime_ns": 1789637986577345700
+      },
+      "tests/terrain_query_suite.gd": {
+        "size": 7882,
+        "mtime_ns": 1789637986577345700
+      },
+      "tests/tick_terrain_queries_suite.gd": {
+        "size": 3214,
+        "mtime_ns": 1789637986579353900
+      },
+      "tests/validation_mountain.gd": {
+        "size": 1849,
+        "mtime_ns": 1789637986582372700
+      },
+      "tests/validation_mountain_suite.gd": {
+        "size": 1480,
+        "mtime_ns": 1789638186718153700
+      },
+      "tests/wilderness_fingerprint_suite.gd": {
+        "size": 2532,
+        "mtime_ns": 1789639764874422400
+      },
+      "tests/wilderness_suite.gd": {
+        "size": 5994,
+        "mtime_ns": 1789638186720172700
+      },
+      "tests/windows_playtest_smoke.gd": {
+        "size": 5496,
+        "mtime_ns": 1789638186719168500
+      }
+    }
+  }
+}

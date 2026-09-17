@@ -21,7 +21,7 @@ func run() -> void:
 	output = OUTPUT+("/mountain" if mountain else "/lab")+("_before" if reference else "_after")+("_timing" if timing else "")
 	DirAccess.make_dir_recursive_absolute(output)
 	if mountain:
-		field = Definition.generate(849205174,15)
+		field = Definition.generate(849205174)
 		set_meta("mountain_to_load",{"definition":Definition.from_field(field,"Snow contact review"),"field":field})
 	else: set_meta("test_lab_fixture",true)
 	game = load("res://main.tscn").instantiate()

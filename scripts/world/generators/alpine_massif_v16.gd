@@ -1,15 +1,14 @@
 extends "res://scripts/world/heightfield_surface.gd"
-## V15: deterministic spatial jobs, independent richness and packed populations.
+## V16: a thinner forest with a sparse sheltered transition above the treeline.
 ## One immutable support grid. Generation has
 ## no Nodes, rider state, rendering quality, or preferred player racing line.
-const Face = preload("res://scripts/world/generators/alpine_face_v15.gd")
+const Face = preload("res://scripts/world/generators/alpine_face_v16.gd")
 const TreeSnow = preload("res://scripts/world/generators/tree_snow_v15.gd")
 const GENERATOR_ID = "alpine-drainage"
-const GENERATOR_VERSION = 15
+const GENERATOR_VERSION = 16
 const SNOW_REVISION = 2 # smaller tree piles, all-face relief and deep snow cover
 const DEFAULT_SEED = 849205174
 const FACE_COUNT = 6
-const TREE_TARGET = 200000
 const FOOT_RADIUS = 2850.0
 const MASK_ORIGIN = Vector2(-3072,-3072)
 const MASK_SIZE = Vector2i(1537,1537)
@@ -45,7 +44,7 @@ var geology = preload("res://scripts/world/mountain_geology_v15.gd").new()
 
 func _init(mountain_seed: int = DEFAULT_SEED,bake_surface: bool = true,settings: Dictionary = {},context = null,restore_only: bool = false) -> void:
 	if bake_surface and not preload("res://scripts/diagnostics/test_world_policy.gd").require_full("Full mountain generator"): return
-	_height_query_script = load("res://scripts/world/generators/alpine_massif_v15.gd")
+	_height_query_script = load("res://scripts/world/generators/alpine_massif_v16.gd")
 	var begin = Time.get_ticks_usec()
 	generation_settings = Settings.canonical(settings)
 	job = context if context else Job.new()
@@ -346,14 +345,20 @@ func _ecology_rows(first: int, last: int) -> PackedVector2Array:
 		if job.is_cancelled(): return values
 		for x in ECOLOGY_SIDE:
 			var p = Vector2(X_MIN+x*ECOLOGY_CELL,Z_MIN+z*ECOLOGY_CELL)
-			if p.length_squared()<900*900 or p.length_squared()>2800*2800: continue
+			if p.length_squared()<120*120 or p.length_squared()>2800*2800: continue
 			if render_normal(p.x,p.y).y<.64 or rock_fraction_at(p.x,p.y)>.45: continue
 			var pair = adjacent_faces(p)
 			var face = pair[0]; var q: Vector2 = face.to_local(p)
 			var other: Vector2 = pair[1].to_local(p)
 			if pair[1].sector_weight(other.x,other.y)>face.sector_weight(q.x,q.y): face = pair[1]; q = other
-			var woodland: float = face.stand_density(q.x,q.y)*face.sector_weight(q.x,q.y)
-			var scattered: float = face.scattered_density(q.x,q.y) if woodland<.25 else 0.0
+			var woodland: float = face.stand_density(q.x,q.y)*face.sector_weight(q.x,q.y) if p.length_squared()>=950*950 else 0.0
+			var scattered: float = face.scattered_density(q.x,q.y) if woodland<.25 and p.length_squared()>=950*950 else 0.0
+			# Actual shaped altitude and exposure bound the sparse extension; dense stands retain their old fade.
+			if woodland<.25:
+				var upper: float = face.sparse_upper_density(q.x,q.y,height_at(p.x,p.y))
+				upper *= smoothstep(120,280,p.length())*smoothstep(.78,.91,render_normal(p.x,p.y).y)
+				upper *= 1-smoothstep(.10,.28,rock_fraction_at(p.x,p.y))
+				scattered = maxf(scattered,upper)
 			values[(z-first)*ECOLOGY_SIDE+x] = Vector2(woodland,scattered)
 		job.advance(ECOLOGY_SIDE)
 	return values
@@ -377,7 +382,7 @@ func _candidate_rows(first: int, last: int) -> Dictionary:
 			var id = z*_candidate_side+x
 			rng.seed = Settings.stream(seed_value,37,id)
 			var p = Vector2(-2780+x*_candidate_spacing,-2780+z*_candidate_spacing)+Vector2(rng.randf_range(-.24,.24),rng.randf_range(-.24,.24))*_candidate_spacing
-			if p.length_squared()<950*950 or p.length_squared()>2780*2780: continue
+			if p.length_squared()<120*120 or p.length_squared()>2780*2780: continue
 			var density = _ecology_at(p)
 			var woodland = density.x>=density.y
 			if rng.randf()>maxf(density.x,density.y): continue

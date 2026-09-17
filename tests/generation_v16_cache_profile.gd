@@ -1,6 +1,6 @@
 extends SceneTree
 ## Match v14's complete Cache.generate boundary, including dependency checks.
-const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	var rows: Array = []
@@ -14,5 +14,5 @@ func run() -> void:
 		failed = failed or (not rows.is_empty() and (row.height!=rows[0].height or row.obstacles!=rows[0].obstacles))
 		rows.append(row); field = null
 	var result = {"source":Cache.Sources.signature(),"engine_sha256":Cache.Sources.engine_identity(),"runs":rows,"failed":failed}
-	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/v15_cache_wall_baseline.json",JSON.stringify(result,"\t"))
-	print("V15_FULL_CACHE_PROFILE ",JSON.stringify(result)); quit(1 if failed else 0)
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v16/v16_cache_wall_baseline.json",JSON.stringify(result,"\t"))
+	print("V16_FULL_CACHE_PROFILE ",JSON.stringify(result)); quit(1 if failed else 0)

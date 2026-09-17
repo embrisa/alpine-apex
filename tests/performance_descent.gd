@@ -63,7 +63,7 @@ func run() -> void:
 	if not preflight.is_empty(): printerr(preflight); quit(2); return
 	trace = decoded
 	var physical_started = Time.get_ticks_usec()
-	field = preload("res://tests/validation_mountain.gd").load_standard() if version == 15 else Definition.generate(849205174,version)
+	field = preload("res://tests/validation_mountain.gd").load_standard() if version == Definition.CURRENT_VERSION else Definition.generate(849205174,version)
 	if field == null: quit(2); return
 	var physical_seconds = (Time.get_ticks_usec()-physical_started)/1000000.0
 	if not Trace.matches(field,trace.identity):

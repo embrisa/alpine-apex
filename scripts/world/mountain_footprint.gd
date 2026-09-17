@@ -8,7 +8,7 @@ const JOIN_MARGIN_M = 24.0
 const BOUNDS = Rect2(-3072,-3072,6144,6144)
 
 static func enabled(field) -> bool:
-	return field.has_method("is_summit_mountain") and field.is_summit_mountain() and field.GENERATOR_VERSION==15
+	return field.has_method("is_summit_mountain") and field.is_summit_mountain() and field.GENERATOR_VERSION==16
 
 static func radius(p: Vector2) -> float:
 	var angle = atan2(p.x,p.y)

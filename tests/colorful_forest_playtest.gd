@@ -1,6 +1,6 @@
 extends SceneTree
 ## Actual production scenery and materials; capped captures, no timing acceptance.
-const Cache=preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache=preload("res://scripts/world/mountain_cache_v16.gd")
 const Quality=preload("res://scripts/presentation/graphics_quality.gd")
 var output="res://artifacts/colorful_forest_variety/render_local"
 var game

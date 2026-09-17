@@ -1,0 +1,2351 @@
+{
+  "schema": 1,
+  "date": "2026-09-17",
+  "source_base_commit": "5037ca52a96d745494d6fe227deb75b3305a48d8",
+  "milestone_note": "changes/49a053e57adb49ad97e223763b12e061.json",
+  "world_version": 16,
+  "physics_model": 35,
+  "scope": "170,000 Standard physical trees with sparse extension around 4,200 m; two seeds and bounded ordinary-input routes, not complete-descent acceptance.",
+  "user_revision": "User selected around 4,200 m after reviewing the first candidate reaching3,680-3,730 m. Initial results are preliminary and not final performance evidence.",
+  "runtime": ".tools/godot-fsr/bin/godot.windows.template_debug.x86_64.console.exe; Godot4.7.2 ed1daf0bf; DX12/RX9070",
+  "seeds": {
+    "849205174": {
+      "old": {
+        "count": 200000,
+        "requested": 200000,
+        "saturated": false,
+        "minerals": 16022,
+        "elevation": {
+          "max": 3569.24780273438,
+          "min": 2381.35693359375,
+          "p50": 2502.73388671875,
+          "p95": 3225.38623046875,
+          "p99": 3375.08251953125
+        },
+        "by_face": [
+          28732,
+          38909,
+          34504,
+          29522,
+          36391,
+          31942
+        ],
+        "by_100m_altitude": {
+          "2300": 33149,
+          "2400": 65870,
+          "2500": 30762,
+          "2600": 22468,
+          "2700": 10891,
+          "2800": 7985,
+          "2900": 5848,
+          "3000": 5453,
+          "3100": 5863,
+          "3200": 6264,
+          "3300": 4210,
+          "3400": 1153,
+          "3500": 84
+        },
+        "by_50m_relative_treeline": {
+          "-100": 2920,
+          "-1000": 23464,
+          "-1050": 16929,
+          "-1100": 9397,
+          "-1150": 3152,
+          "-1200": 392,
+          "-150": 3282,
+          "-200": 3610,
+          "-250": 2570,
+          "-300": 2920,
+          "-350": 3411,
+          "-400": 2872,
+          "-450": 2988,
+          "-50": 1995,
+          "-500": 3204,
+          "-550": 3621,
+          "-600": 4897,
+          "-650": 6843,
+          "-700": 7237,
+          "-750": 10511,
+          "-800": 16942,
+          "-850": 19046,
+          "-900": 20831,
+          "-950": 26055,
+          "0": 820,
+          "50": 91
+        },
+        "minimum_radius_m": 950.182800292969,
+        "scattered": 104309,
+        "max_root_error_m": 0.0001220703125,
+        "sampled_exclusions": {
+          "mineral": 0,
+          "opening": 0,
+          "rock": 0,
+          "samples": 11765,
+          "slope": 0,
+          "spacing": 0
+        },
+        "nearest_32m_sample": {
+          "count": 11761,
+          "min": 4.20012903213501,
+          "p50": 4.79383850097656,
+          "p95": 6.70418071746826
+        }
+      },
+      "candidate": {
+        "count": 170000,
+        "requested": 170000,
+        "saturated": false,
+        "minerals": 16022,
+        "elevation": {
+          "max": 4234.08203125,
+          "min": 2381.50073242188,
+          "p50": 2502.90405273438,
+          "p95": 3227.85571289062,
+          "p99": 3381.98120117188
+        },
+        "by_face": [
+          24577,
+          33055,
+          29350,
+          25003,
+          30855,
+          27160
+        ],
+        "by_100m_altitude": {
+          "2300": 28176,
+          "2400": 55945,
+          "2500": 26083,
+          "2600": 19122,
+          "2700": 9184,
+          "2800": 6758,
+          "2900": 4958,
+          "3000": 4662,
+          "3100": 4990,
+          "3200": 5318,
+          "3300": 3540,
+          "3400": 1020,
+          "3500": 93,
+          "3600": 67,
+          "3700": 27,
+          "3800": 9,
+          "3900": 12,
+          "4000": 17,
+          "4100": 16,
+          "4200": 3
+        },
+        "by_50m_relative_treeline": {
+          "-100": 2460,
+          "-1000": 19844,
+          "-1050": 14404,
+          "-1100": 8000,
+          "-1150": 2649,
+          "-1200": 330,
+          "-150": 2780,
+          "-200": 3076,
+          "-250": 2194,
+          "-300": 2486,
+          "-350": 2907,
+          "-400": 2417,
+          "-450": 2527,
+          "-50": 1684,
+          "-500": 2729,
+          "-550": 3026,
+          "-600": 4170,
+          "-650": 5764,
+          "-700": 6167,
+          "-750": 8965,
+          "-800": 14359,
+          "-850": 16185,
+          "-900": 17678,
+          "-950": 22183,
+          "0": 723,
+          "100": 21,
+          "150": 43,
+          "200": 32,
+          "250": 24,
+          "300": 18,
+          "350": 12,
+          "400": 8,
+          "450": 6,
+          "50": 85,
+          "500": 2,
+          "550": 2,
+          "600": 12,
+          "650": 10,
+          "700": 4,
+          "750": 4,
+          "800": 3,
+          "850": 3,
+          "900": 3,
+          "950": 1
+        },
+        "minimum_radius_m": 164.329025268555,
+        "scattered": 88766,
+        "max_root_error_m": 0.000217603519558907,
+        "sampled_exclusions": {
+          "mineral": 0,
+          "opening": 0,
+          "rock": 0,
+          "samples": 10000,
+          "slope": 0,
+          "spacing": 0
+        },
+        "nearest_32m_sample": {
+          "count": 9994,
+          "min": 4.20012283325195,
+          "p50": 4.8829231262207,
+          "p95": 7.5351037979126
+        }
+      },
+      "tree_reduction_percent": 15.0,
+      "highest_tree_increase_m": 664.83422851562,
+      "trees_above4000m": 36,
+      "maximum_base_difference_m": 0.000342905521392822,
+      "mineral_changed": 0,
+      "cold_generation_ms": 119651.136,
+      "generation_stages_ms": {
+        "collision_preparation": 2422.808,
+        "ecology_filters": 3809.895,
+        "exposure_before_snow": 17878.303,
+        "exposure_before_trees": 18211.339,
+        "final_normals": 420.83,
+        "final_seating": 4272.918,
+        "geology_foundations": 742.609,
+        "geology_placement": 16880.353,
+        "hashing": 116.068,
+        "normals_before_snow": 409.96,
+        "normals_before_trees": 433.838,
+        "recipe": 1784.406,
+        "snow_shaping": 3953.469,
+        "terrain_shaping": 14975.544,
+        "tree_candidates": 18932.289,
+        "tree_filtering": 3096.042,
+        "tree_snow": 11308.046
+      },
+      "old_cached_bake_ms": 119317.513,
+      "loading_comparison_limit": "Old bake duration is historical cache metadata, not a new controlled cold-generation comparison."
+    },
+    "638201943": {
+      "old": {
+        "count": 200000,
+        "requested": 200000,
+        "saturated": false,
+        "minerals": 16022,
+        "elevation": {
+          "max": 3568.16967773438,
+          "min": 2376.36669921875,
+          "p50": 2504.72705078125,
+          "p95": 3209.388671875,
+          "p99": 3370.56469726562
+        },
+        "by_face": [
+          29152,
+          38993,
+          29423,
+          31215,
+          38022,
+          33195
+        ],
+        "by_100m_altitude": {
+          "2300": 40183,
+          "2400": 58108,
+          "2500": 28595,
+          "2600": 24479,
+          "2700": 14265,
+          "2800": 7128,
+          "2900": 5111,
+          "3000": 5635,
+          "3100": 5898,
+          "3200": 5988,
+          "3300": 3357,
+          "3400": 1218,
+          "3500": 35
+        },
+        "by_50m_relative_treeline": {
+          "-100": 2743,
+          "-1000": 21698,
+          "-1050": 17698,
+          "-1100": 9313,
+          "-1150": 1974,
+          "-1200": 297,
+          "-150": 3542,
+          "-200": 3556,
+          "-250": 3701,
+          "-300": 2761,
+          "-350": 1880,
+          "-400": 2010,
+          "-450": 3301,
+          "-50": 2193,
+          "-500": 3543,
+          "-550": 3926,
+          "-600": 5510,
+          "-650": 7011,
+          "-700": 9094,
+          "-750": 11870,
+          "-800": 16212,
+          "-850": 19546,
+          "-900": 21867,
+          "-950": 23619,
+          "0": 1010,
+          "100": 6,
+          "200": 2,
+          "50": 117
+        },
+        "minimum_radius_m": 950.091247558594,
+        "scattered": 100577,
+        "max_root_error_m": 0.0001220703125,
+        "sampled_exclusions": {
+          "mineral": 0,
+          "opening": 0,
+          "rock": 0,
+          "samples": 11765,
+          "slope": 0,
+          "spacing": 0
+        },
+        "nearest_32m_sample": {
+          "count": 11765,
+          "min": 4.20000123977661,
+          "p50": 4.80754947662354,
+          "p95": 6.76823997497559
+        }
+      },
+      "candidate": {
+        "count": 170000,
+        "requested": 170000,
+        "saturated": false,
+        "minerals": 16022,
+        "elevation": {
+          "max": 4194.361328125,
+          "min": 2376.4609375,
+          "p50": 2504.90014648438,
+          "p95": 3212.5810546875,
+          "p99": 3379.27319335938
+        },
+        "by_face": [
+          24853,
+          33099,
+          25044,
+          26523,
+          32268,
+          28213
+        ],
+        "by_100m_altitude": {
+          "2300": 34184,
+          "2400": 49286,
+          "2500": 24294,
+          "2600": 20665,
+          "2700": 12108,
+          "2800": 6040,
+          "2900": 4399,
+          "3000": 4780,
+          "3100": 5054,
+          "3200": 5069,
+          "3300": 2863,
+          "3400": 1047,
+          "3500": 101,
+          "3600": 42,
+          "3700": 11,
+          "3800": 4,
+          "3900": 21,
+          "4000": 12,
+          "4100": 20
+        },
+        "by_50m_relative_treeline": {
+          "-100": 2301,
+          "-1000": 18452,
+          "-1050": 15014,
+          "-1100": 7889,
+          "-1150": 1647,
+          "-1200": 251,
+          "-150": 3021,
+          "-200": 3043,
+          "-250": 3134,
+          "-300": 2358,
+          "-350": 1600,
+          "-400": 1688,
+          "-450": 2852,
+          "-50": 1856,
+          "-500": 3047,
+          "-550": 3338,
+          "-600": 4690,
+          "-650": 5943,
+          "-700": 7690,
+          "-750": 9958,
+          "-800": 13705,
+          "-850": 16560,
+          "-900": 18647,
+          "-950": 20128,
+          "0": 852,
+          "100": 27,
+          "150": 45,
+          "200": 34,
+          "250": 17,
+          "300": 27,
+          "350": 10,
+          "400": 9,
+          "450": 2,
+          "50": 112,
+          "500": 5,
+          "550": 10,
+          "600": 5,
+          "650": 6,
+          "700": 7,
+          "750": 9,
+          "800": 9,
+          "900": 2
+        },
+        "minimum_radius_m": 230.368408203125,
+        "scattered": 85720,
+        "max_root_error_m": 0.000203415751457214,
+        "sampled_exclusions": {
+          "mineral": 0,
+          "opening": 0,
+          "rock": 0,
+          "samples": 10000,
+          "slope": 0,
+          "spacing": 0
+        },
+        "nearest_32m_sample": {
+          "count": 9993,
+          "min": 4.20014047622681,
+          "p50": 4.93069648742676,
+          "p95": 7.79346609115601
+        }
+      },
+      "tree_reduction_percent": 15.0,
+      "highest_tree_increase_m": 626.19165039062,
+      "trees_above4000m": 32,
+      "maximum_base_difference_m": 0.000362308695912361,
+      "mineral_changed": 0,
+      "cold_generation_ms": 121090.544,
+      "generation_stages_ms": {
+        "collision_preparation": 2487.563,
+        "ecology_filters": 3854.446,
+        "exposure_before_snow": 18287.767,
+        "exposure_before_trees": 18393.223,
+        "final_normals": 415.836,
+        "final_seating": 4208.693,
+        "geology_foundations": 1019.061,
+        "geology_placement": 17312.306,
+        "hashing": 114.857,
+        "normals_before_snow": 420.318,
+        "normals_before_trees": 433.409,
+        "recipe": 1739.712,
+        "snow_shaping": 3941.419,
+        "terrain_shaping": 15022.204,
+        "tree_candidates": 18664.866,
+        "tree_filtering": 3308.28,
+        "tree_snow": 11464.022
+      },
+      "old_cached_bake_ms": 198993.487,
+      "loading_comparison_limit": "Old bake duration is historical cache metadata, not a new controlled cold-generation comparison."
+    }
+  },
+  "performance": {
+    "upper": {
+      "candidate": {
+        "receipt": "artifacts/pc_environment/natural-forest-v16-high-upper-20260917/production.json",
+        "frame_ms": {
+          "average_fps": 144.029929392631,
+          "count": 2158,
+          "max": 22.704,
+          "mean": 6.94300139017609,
+          "median_fps": 142.075726362151,
+          "p50": 7.0385,
+          "p95": 8.872,
+          "p99": 11.35,
+          "slowest_one_percent_fps": 68.9100004071955
+        },
+        "gpu_ms": {
+          "count": 2158,
+          "max": 6.20100021362305,
+          "mean": 5.29958572743445,
+          "p95": 5.93300008773804,
+          "p99": 6.06500005722046
+        },
+        "render_cpu_ms": {
+          "count": 2158,
+          "max": 3.46000003814697,
+          "mean": 1.1447001854726,
+          "p95": 1.60000002384186,
+          "p99": 1.92299997806549
+        },
+        "submitted_primitives": {
+          "count": 2158,
+          "max": 2033219.0,
+          "mean": 1779631.38137164,
+          "p95": 2029859.0,
+          "p99": 2030373.0
+        },
+        "draw_calls": {
+          "count": 2158,
+          "max": 860.0,
+          "mean": 816.158943466172,
+          "p95": 857.0,
+          "p99": 859.0
+        },
+        "loading": {
+          "job_stages_ms": {
+            "distant_scenery": 7052.019,
+            "flavor": 325.795,
+            "forest_uploads": 4649.556,
+            "material_uploads": 118.283,
+            "mineral_uploads": 3317.194,
+            "preparation_cache_read": 4346.825,
+            "rider_and_interface": 4185.886,
+            "scene_submission": 15608.273,
+            "terrain_meshes_uploads": 145.456
+          },
+          "physical_cache_hit": true,
+          "physical_load_or_generation_seconds": 3.761385,
+          "physical_stages_ms": {
+            "cache_source": "user",
+            "original_bake_ms": 119651.136,
+            "physical_cache_read": 2277.839
+          },
+          "scene_build_ms": {
+            "distant_scenery_ms": 7052.014,
+            "flavor_ms": 325.794,
+            "forest_uploads_ms": 4649.549,
+            "material_uploads_ms": 118.275,
+            "mineral_uploads_ms": 3317.187,
+            "terrain_meshes_uploads_ms": 145.454
+          },
+          "scene_ready_seconds": 27.994478,
+          "scenery_cache_hit": true,
+          "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+        },
+        "validity": {
+          "exact_trace": true,
+          "unfocused_frames": 0,
+          "recording_ticks": 1800,
+          "pose_samples": 301,
+          "generated_frames": 0
+        },
+        "camera": {
+          "presets": {
+            "chase": {},
+            "first_person": {}
+          },
+          "profiles": {
+            "chase": {
+              "acceleration_time": 0.4,
+              "bank_strength": 35.0,
+              "blur_strength": 50.0,
+              "boom_response": 7.5,
+              "carve_strength": 50.0,
+              "chatter_strength": 0.0,
+              "compression_strength": 50.0,
+              "deceleration_time": 0.4,
+              "eye_height": 1.45,
+              "fast_distance": 5.0,
+              "fast_fov": 68.0,
+              "fast_height": 3.0,
+              "fast_tilt": -12.0,
+              "heading_response": 5.5,
+              "motion_blur_enabled": false,
+              "motion_blur_strength": 50.0,
+              "rest_distance": 5.0,
+              "rest_fov": 68.0,
+              "rest_height": 3.0,
+              "rest_tilt": -12.0,
+              "slope_follow": 0.0,
+              "slope_smoothing": 0.35,
+              "speed_exponent": 1.6,
+              "speed_full": 200.0,
+              "speed_start": 0.0,
+              "streak_strength": 50.0,
+              "tuck_lowering": 0.35,
+              "tuck_strength": 50.0,
+              "vertical_smoothing": 50.0
+            },
+            "first_person": {
+              "acceleration_time": 0.4,
+              "bank_strength": 35.0,
+              "blur_strength": 50.0,
+              "boom_response": 7.5,
+              "carve_strength": 50.0,
+              "chatter_strength": 0.0,
+              "compression_strength": 50.0,
+              "deceleration_time": 0.4,
+              "eye_height": 1.45,
+              "fast_distance": 4.5,
+              "fast_fov": 75.0,
+              "fast_height": 3.5,
+              "fast_tilt": -25.0,
+              "heading_response": 5.5,
+              "motion_blur_enabled": false,
+              "motion_blur_strength": 50.0,
+              "rest_distance": 3.0,
+              "rest_fov": 55.0,
+              "rest_height": 3.0,
+              "rest_tilt": -25.0,
+              "slope_follow": 100.0,
+              "slope_smoothing": 0.35,
+              "speed_exponent": 1.6,
+              "speed_full": 200.0,
+              "speed_start": 0.0,
+              "streak_strength": 50.0,
+              "tuck_lowering": 0.35,
+              "tuck_strength": 50.0,
+              "vertical_smoothing": 50.0
+            }
+          },
+          "selected": {
+            "chase": "Custom",
+            "first_person": "Connected"
+          },
+          "shared": {
+            "auto_recenter": true,
+            "forest_visibility": 60.0,
+            "forest_visibility_strength": 100.0,
+            "invert_y": false,
+            "mouse_sensitivity": 0.1,
+            "recenter_delay": 0.8,
+            "recenter_time": 0.35,
+            "stick_deadzone": 0.18,
+            "stick_exponent": 2.0,
+            "stick_pitch_speed": 100.0,
+            "stick_yaw_speed": 150.0
+          },
+          "version": 2
+        },
+        "weather": "clear",
+        "display": {
+          "fidelityfx": {
+            "active_upscaler_version": "4.1.1",
+            "capabilities_queried": true,
+            "dxgi_present_count": 4706,
+            "engine_integration": true,
+            "error": "",
+            "frame_generation_active": false,
+            "frame_generation_capabilities_queried": true,
+            "frame_generation_supported": true,
+            "frame_generation_version": "",
+            "fsr3_supported": true,
+            "fsr4_supported": true,
+            "generated_frames": 0,
+            "present_counter_available": true,
+            "rendered_present_calls": 4707,
+            "upscale_dispatches": 4706
+          },
+          "fps_limit": 0,
+          "internal_pixels_from_viewport_scale": [
+            2880,
+            1620
+          ],
+          "msaa": 0,
+          "output_pixels": [
+            3840,
+            2160
+          ],
+          "preferences": {
+            "anisotropic": 2,
+            "custom": true,
+            "display_mode": "fullscreen",
+            "fps_limit": 0,
+            "frame_generation": false,
+            "monitor": -1,
+            "msaa": 1,
+            "overrides": {
+              "weather_quality": 2
+            },
+            "quality": 7,
+            "render_scale": 0.75,
+            "resolution": "(0, 0)",
+            "sharpness": 0.825,
+            "terrain_gi": false,
+            "upscaler": "auto",
+            "vsync": 0
+          },
+          "viewport_scale": 0.75
+        },
+        "forest": {
+          "pending_regions": 0,
+          "prepared_bytes": 13728096,
+          "regions": 13118,
+          "render_batches": 5091,
+          "resident_regions": 58
+        }
+      },
+      "trace": "artifacts/natural_forest_20260917/new_traces/upper.json",
+      "comparison": {
+        "endpoint_delta_m": 0.0,
+        "inputs_preserved": true,
+        "old_endpoint": [
+          -667.766357421875,
+          3333.3232421875,
+          1296.98913574219
+        ],
+        "old_origin": [
+          -576.0,
+          1200.0
+        ],
+        "preserved_input_failure": {},
+        "source": "res://artifacts/natural_forest_20260917/old_traces/upper.json"
+      },
+      "travelled_m": 165.654500672594,
+      "coverage": [
+        {
+          "position": [
+            -577.499450683594,
+            3428.71215820312,
+            1201.59265136719
+          ],
+          "speed_kmh": 17.0221755981445,
+          "tick": 120,
+          "trees_175m": 99
+        },
+        {
+          "position": [
+            -581.600524902344,
+            3425.51513671875,
+            1205.95751953125
+          ],
+          "speed_kmh": 31.4104820251465,
+          "tick": 240,
+          "trees_175m": 108
+        },
+        {
+          "position": [
+            -587.867431640625,
+            3419.82739257812,
+            1212.39196777344
+          ],
+          "speed_kmh": 42.8365139007568,
+          "tick": 360,
+          "trees_175m": 120
+        },
+        {
+          "position": [
+            -594.538635253906,
+            3413.06005859375,
+            1219.74353027344
+          ],
+          "speed_kmh": 42.9167278289795,
+          "tick": 480,
+          "trees_175m": 138
+        },
+        {
+          "position": [
+            -601.306213378906,
+            3405.54223632812,
+            1226.62390136719
+          ],
+          "speed_kmh": 44.2305004119873,
+          "tick": 600,
+          "trees_175m": 167
+        },
+        {
+          "position": [
+            -607.85791015625,
+            3398.04516601562,
+            1233.65014648438
+          ],
+          "speed_kmh": 43.6665515899658,
+          "tick": 720,
+          "trees_175m": 196
+        },
+        {
+          "position": [
+            -614.694274902344,
+            3390.919921875,
+            1240.75964355469
+          ],
+          "speed_kmh": 43.8080211639404,
+          "tick": 840,
+          "trees_175m": 210
+        },
+        {
+          "position": [
+            -621.368896484375,
+            3383.84375,
+            1247.85522460938
+          ],
+          "speed_kmh": 43.6028343200684,
+          "tick": 960,
+          "trees_175m": 224
+        },
+        {
+          "position": [
+            -627.76806640625,
+            3376.75170898438,
+            1255.14379882812
+          ],
+          "speed_kmh": 42.6791072845459,
+          "tick": 1080,
+          "trees_175m": 228
+        },
+        {
+          "position": [
+            -634.68994140625,
+            3370.01831054688,
+            1262.22937011719
+          ],
+          "speed_kmh": 43.9800224304199,
+          "tick": 1200,
+          "trees_175m": 240
+        },
+        {
+          "position": [
+            -641.624084472656,
+            3363.16015625,
+            1269.52416992188
+          ],
+          "speed_kmh": 43.4215358734131,
+          "tick": 1320,
+          "trees_175m": 255
+        },
+        {
+          "position": [
+            -648.585754394531,
+            3356.57348632812,
+            1276.58959960938
+          ],
+          "speed_kmh": 42.9441867828369,
+          "tick": 1440,
+          "trees_175m": 269
+        },
+        {
+          "position": [
+            -655.228759765625,
+            3348.91259765625,
+            1283.13525390625
+          ],
+          "speed_kmh": 43.9977447509766,
+          "tick": 1560,
+          "trees_175m": 287
+        },
+        {
+          "position": [
+            -661.494934082031,
+            3341.0576171875,
+            1290.07543945312
+          ],
+          "speed_kmh": 43.5993976593018,
+          "tick": 1680,
+          "trees_175m": 306
+        },
+        {
+          "position": [
+            -667.766357421875,
+            3333.3232421875,
+            1296.98913574219
+          ],
+          "speed_kmh": 43.6335479736328,
+          "tick": 1800,
+          "trees_175m": 337
+        }
+      ],
+      "scope": "One warmed15-second candidate sample after one route warmup. Current reference, not a multi-run average.",
+      "old": {
+        "receipt": "artifacts/pc_environment/natural-forest-old-upper-20260917/production.json",
+        "frame_ms": {
+          "average_fps": 147.834294300721,
+          "count": 2216,
+          "max": 14.918,
+          "mean": 6.76433032490975,
+          "median_fps": 143.905597927759,
+          "p50": 6.949,
+          "p95": 8.684,
+          "p99": 9.966,
+          "slowest_one_percent_fps": 89.5429416802928
+        },
+        "gpu_ms": {
+          "count": 2216,
+          "max": 6.19899988174438,
+          "mean": 5.17101985850919,
+          "p95": 5.86700010299683,
+          "p99": 6.0479998588562
+        },
+        "render_cpu_ms": {
+          "count": 2216,
+          "max": 2.32399988174438,
+          "mean": 1.13457445800304,
+          "p95": 1.53299999237061,
+          "p99": 1.82299995422363
+        },
+        "submitted_primitives": {
+          "count": 2216,
+          "max": 2002140.0,
+          "mean": 1786999.70081227,
+          "p95": 2000282.0,
+          "p99": 2000556.0
+        },
+        "draw_calls": {
+          "count": 2216,
+          "max": 861.0,
+          "mean": 819.07536101083,
+          "p95": 856.0,
+          "p99": 858.0
+        },
+        "loading": {
+          "job_stages_ms": {
+            "distant_scenery": 6909.736,
+            "flavor": 249.731,
+            "forest_uploads": 4947.73,
+            "material_uploads": 79.4,
+            "mineral_uploads": 2743.974,
+            "preparation_cache_read": 3964.864,
+            "rider_and_interface": 4098.336,
+            "scene_submission": 15074.285,
+            "terrain_meshes_uploads": 143.748
+          },
+          "physical_cache_hit": true,
+          "physical_load_or_generation_seconds": 3.820607,
+          "physical_stages_ms": {
+            "cache_source": "user",
+            "original_bake_ms": 119317.513,
+            "physical_cache_read": 2331.309
+          },
+          "scene_build_ms": {
+            "distant_scenery_ms": 6909.731,
+            "flavor_ms": 249.729,
+            "forest_uploads_ms": 4947.726,
+            "material_uploads_ms": 79.393,
+            "mineral_uploads_ms": 2743.972,
+            "terrain_meshes_uploads_ms": 143.734
+          },
+          "scene_ready_seconds": 26.799652,
+          "scenery_cache_hit": true,
+          "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+        },
+        "validity": {
+          "exact_trace": true,
+          "unfocused_frames": 0,
+          "recording_ticks": 1800,
+          "pose_samples": 301,
+          "generated_frames": 0
+        },
+        "camera": {
+          "presets": {
+            "chase": {},
+            "first_person": {}
+          },
+          "profiles": {
+            "chase": {
+              "acceleration_time": 0.4,
+              "bank_strength": 35.0,
+              "blur_strength": 50.0,
+              "boom_response": 7.5,
+              "carve_strength": 50.0,
+              "chatter_strength": 0.0,
+              "compression_strength": 50.0,
+              "deceleration_time": 0.4,
+              "eye_height": 1.45,
+              "fast_distance": 5.0,
+              "fast_fov": 68.0,
+              "fast_height": 3.0,
+              "fast_tilt": -12.0,
+              "heading_response": 5.5,
+              "motion_blur_enabled": false,
+              "motion_blur_strength": 50.0,
+              "rest_distance": 5.0,
+              "rest_fov": 68.0,
+              "rest_height": 3.0,
+              "rest_tilt": -12.0,
+              "slope_follow": 0.0,
+              "slope_smoothing": 0.35,
+              "speed_exponent": 1.6,
+              "speed_full": 200.0,
+              "speed_start": 0.0,
+              "streak_strength": 50.0,
+              "tuck_lowering": 0.35,
+              "tuck_strength": 50.0,
+              "vertical_smoothing": 50.0
+            },
+            "first_person": {
+              "acceleration_time": 0.4,
+              "bank_strength": 35.0,
+              "blur_strength": 50.0,
+              "boom_response": 7.5,
+              "carve_strength": 50.0,
+              "chatter_strength": 0.0,
+              "compression_strength": 50.0,
+              "deceleration_time": 0.4,
+              "eye_height": 1.45,
+              "fast_distance": 4.5,
+              "fast_fov": 75.0,
+              "fast_height": 3.5,
+              "fast_tilt": -25.0,
+              "heading_response": 5.5,
+              "motion_blur_enabled": false,
+              "motion_blur_strength": 50.0,
+              "rest_distance": 3.0,
+              "rest_fov": 55.0,
+              "rest_height": 3.0,
+              "rest_tilt": -25.0,
+              "slope_follow": 100.0,
+              "slope_smoothing": 0.35,
+              "speed_exponent": 1.6,
+              "speed_full": 200.0,
+              "speed_start": 0.0,
+              "streak_strength": 50.0,
+              "tuck_lowering": 0.35,
+              "tuck_strength": 50.0,
+              "vertical_smoothing": 50.0
+            }
+          },
+          "selected": {
+            "chase": "Custom",
+            "first_person": "Connected"
+          },
+          "shared": {
+            "auto_recenter": true,
+            "forest_visibility": 60.0,
+            "forest_visibility_strength": 100.0,
+            "invert_y": false,
+            "mouse_sensitivity": 0.1,
+            "recenter_delay": 0.8,
+            "recenter_time": 0.35,
+            "stick_deadzone": 0.18,
+            "stick_exponent": 2.0,
+            "stick_pitch_speed": 100.0,
+            "stick_yaw_speed": 150.0
+          },
+          "version": 2
+        },
+        "weather": "clear",
+        "display": {
+          "fidelityfx": {
+            "active_upscaler_version": "4.1.1",
+            "capabilities_queried": true,
+            "dxgi_present_count": 4882,
+            "engine_integration": true,
+            "error": "",
+            "frame_generation_active": false,
+            "frame_generation_capabilities_queried": true,
+            "frame_generation_supported": true,
+            "frame_generation_version": "",
+            "fsr3_supported": true,
+            "fsr4_supported": true,
+            "generated_frames": 0,
+            "present_counter_available": true,
+            "rendered_present_calls": 4883,
+            "upscale_dispatches": 4882
+          },
+          "fps_limit": 0,
+          "internal_pixels_from_viewport_scale": [
+            2880,
+            1620
+          ],
+          "msaa": 0,
+          "output_pixels": [
+            3840,
+            2160
+          ],
+          "preferences": {
+            "anisotropic": 2,
+            "custom": true,
+            "display_mode": "fullscreen",
+            "fps_limit": 0,
+            "frame_generation": false,
+            "monitor": -1,
+            "msaa": 1,
+            "overrides": {
+              "weather_quality": 2
+            },
+            "quality": 7,
+            "render_scale": 0.75,
+            "resolution": "(0, 0)",
+            "sharpness": 0.825,
+            "terrain_gi": false,
+            "upscaler": "auto",
+            "vsync": 0
+          },
+          "viewport_scale": 0.75
+        },
+        "forest": {
+          "pending_regions": 0,
+          "prepared_bytes": 16467504,
+          "regions": 13074,
+          "render_batches": 5090,
+          "resident_regions": 57
+        }
+      },
+      "frame_mean_change_percent": 2.6413710845607508,
+      "gpu_mean_change_percent": 2.486276835964918,
+      "matched_settings": true
+    },
+    "mixed": {
+      "candidate": {
+        "receipt": "artifacts/pc_environment/natural-forest-v16-high-mixed-20260917/production.json",
+        "frame_ms": {
+          "average_fps": 139.58781911206,
+          "count": 2093,
+          "max": 14.459,
+          "mean": 7.16394887720975,
+          "median_fps": 138.561729250381,
+          "p50": 7.217,
+          "p95": 9.518,
+          "p99": 10.948,
+          "slowest_one_percent_fps": 80.7446968036635
+        },
+        "gpu_ms": {
+          "count": 2093,
+          "max": 7.9060001373291,
+          "mean": 5.74866555264505,
+          "p95": 7.07000017166138,
+          "p99": 7.42199993133545
+        },
+        "render_cpu_ms": {
+          "count": 2093,
+          "max": 3.14599990844727,
+          "mean": 1.50944433708369,
+          "p95": 2.15799999237061,
+          "p99": 2.63299989700317
+        },
+        "submitted_primitives": {
+          "count": 2093,
+          "max": 6103035.0,
+          "mean": 4384144.83994267,
+          "p95": 5854272.0,
+          "p99": 6058406.0
+        },
+        "draw_calls": {
+          "count": 2093,
+          "max": 1638.0,
+          "mean": 1314.20640229336,
+          "p95": 1604.0,
+          "p99": 1620.0
+        },
+        "loading": {
+          "job_stages_ms": {
+            "distant_scenery": 7016.98,
+            "flavor": 324.645,
+            "forest_uploads": 4674.412,
+            "material_uploads": 133.652,
+            "mineral_uploads": 3281.695,
+            "preparation_cache_read": 4191.541,
+            "rider_and_interface": 4116.409,
+            "scene_submission": 15573.754,
+            "terrain_meshes_uploads": 142.398
+          },
+          "physical_cache_hit": true,
+          "physical_load_or_generation_seconds": 3.853148,
+          "physical_stages_ms": {
+            "cache_source": "user",
+            "original_bake_ms": 119651.136,
+            "physical_cache_read": 2377.474
+          },
+          "scene_build_ms": {
+            "distant_scenery_ms": 7016.971,
+            "flavor_ms": 324.643,
+            "forest_uploads_ms": 4674.407,
+            "material_uploads_ms": 133.644,
+            "mineral_uploads_ms": 3281.69,
+            "terrain_meshes_uploads_ms": 142.399
+          },
+          "scene_ready_seconds": 27.587594,
+          "scenery_cache_hit": true,
+          "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+        },
+        "validity": {
+          "exact_trace": true,
+          "unfocused_frames": 0,
+          "recording_ticks": 1800,
+          "pose_samples": 301,
+          "generated_frames": 0
+        },
+        "camera": {
+          "presets": {
+            "chase": {},
+            "first_person": {}
+          },
+          "profiles": {
+            "chase": {
+              "acceleration_time": 0.4,
+              "bank_strength": 35.0,
+              "blur_strength": 50.0,
+              "boom_response": 7.5,
+              "carve_strength": 50.0,
+              "chatter_strength": 0.0,
+              "compression_strength": 50.0,
+              "deceleration_time": 0.4,
+              "eye_height": 1.45,
+              "fast_distance": 5.0,
+              "fast_fov": 68.0,
+              "fast_height": 3.0,
+              "fast_tilt": -12.0,
+              "heading_response": 5.5,
+              "motion_blur_enabled": false,
+              "motion_blur_strength": 50.0,
+              "rest_distance": 5.0,
+              "rest_fov": 68.0,
+              "rest_height": 3.0,
+              "rest_tilt": -12.0,
+              "slope_follow": 0.0,
+              "slope_smoothing": 0.35,
+              "speed_exponent": 1.6,
+              "speed_full": 200.0,
+              "speed_start": 0.0,
+              "streak_strength": 50.0,
+              "tuck_lowering": 0.35,
+              "tuck_strength": 50.0,
+              "vertical_smoothing": 50.0
+            },
+            "first_person": {
+              "acceleration_time": 0.4,
+              "bank_strength": 35.0,
+              "blur_strength": 50.0,
+              "boom_response": 7.5,
+              "carve_strength": 50.0,
+              "chatter_strength": 0.0,
+              "compression_strength": 50.0,
+              "deceleration_time": 0.4,
+              "eye_height": 1.45,
+              "fast_distance": 4.5,
+              "fast_fov": 75.0,
+              "fast_height": 3.5,
+              "fast_tilt": -25.0,
+              "heading_response": 5.5,
+              "motion_blur_enabled": false,
+              "motion_blur_strength": 50.0,
+              "rest_distance": 3.0,
+              "rest_fov": 55.0,
+              "rest_height": 3.0,
+              "rest_tilt": -25.0,
+              "slope_follow": 100.0,
+              "slope_smoothing": 0.35,
+              "speed_exponent": 1.6,
+              "speed_full": 200.0,
+              "speed_start": 0.0,
+              "streak_strength": 50.0,
+              "tuck_lowering": 0.35,
+              "tuck_strength": 50.0,
+              "vertical_smoothing": 50.0
+            }
+          },
+          "selected": {
+            "chase": "Custom",
+            "first_person": "Connected"
+          },
+          "shared": {
+            "auto_recenter": true,
+            "forest_visibility": 60.0,
+            "forest_visibility_strength": 100.0,
+            "invert_y": false,
+            "mouse_sensitivity": 0.1,
+            "recenter_delay": 0.8,
+            "recenter_time": 0.35,
+            "stick_deadzone": 0.18,
+            "stick_exponent": 2.0,
+            "stick_pitch_speed": 100.0,
+            "stick_yaw_speed": 150.0
+          },
+          "version": 2
+        },
+        "weather": "clear",
+        "display": {
+          "fidelityfx": {
+            "active_upscaler_version": "4.1.1",
+            "capabilities_queried": true,
+            "dxgi_present_count": 4501,
+            "engine_integration": true,
+            "error": "",
+            "frame_generation_active": false,
+            "frame_generation_capabilities_queried": true,
+            "frame_generation_supported": true,
+            "frame_generation_version": "",
+            "fsr3_supported": true,
+            "fsr4_supported": true,
+            "generated_frames": 0,
+            "present_counter_available": true,
+            "rendered_present_calls": 4502,
+            "upscale_dispatches": 4501
+          },
+          "fps_limit": 0,
+          "internal_pixels_from_viewport_scale": [
+            2880,
+            1620
+          ],
+          "msaa": 0,
+          "output_pixels": [
+            3840,
+            2160
+          ],
+          "preferences": {
+            "anisotropic": 2,
+            "custom": true,
+            "display_mode": "fullscreen",
+            "fps_limit": 0,
+            "frame_generation": false,
+            "monitor": -1,
+            "msaa": 1,
+            "overrides": {
+              "weather_quality": 2
+            },
+            "quality": 7,
+            "render_scale": 0.75,
+            "resolution": "(0, 0)",
+            "sharpness": 0.825,
+            "terrain_gi": false,
+            "upscaler": "auto",
+            "vsync": 0
+          },
+          "viewport_scale": 0.75
+        },
+        "forest": {
+          "pending_regions": 0,
+          "prepared_bytes": 13728096,
+          "regions": 13118,
+          "render_batches": 5261,
+          "resident_regions": 43
+        }
+      },
+      "trace": "artifacts/natural_forest_20260917/new_traces/mixed.json",
+      "comparison": {
+        "endpoint_delta_m": 0.208695620298386,
+        "inputs_preserved": false,
+        "old_endpoint": [
+          -1712.99548339844,
+          2690.34130859375,
+          -897.133605957031
+        ],
+        "old_origin": [
+          -1680.0,
+          -816.0
+        ],
+        "preserved_input_failure": {
+          "crash": "",
+          "obstacle_contact": "{ \"normal\": (-0.276694, 0.0, 0.960958), \"closing_speed_mps\": 8.08611488342285, \"reason\": \"TREE IMPACT\" }",
+          "position": "(-1709.813, 2692.861, -892.8907)",
+          "tick": 1714
+        },
+        "source": "res://artifacts/natural_forest_20260917/old_traces/mixed.json"
+      },
+      "travelled_m": 101.511659154668,
+      "coverage": [
+        {
+          "position": [
+            -1680.78491210938,
+            2715.26611328125,
+            -817.367248535156
+          ],
+          "speed_kmh": 10.5450991630554,
+          "tick": 120,
+          "trees_175m": 345
+        },
+        {
+          "position": [
+            -1683.43115234375,
+            2713.7099609375,
+            -820.48486328125
+          ],
+          "speed_kmh": 20.5675512313843,
+          "tick": 240,
+          "trees_175m": 345
+        },
+        {
+          "position": [
+            -1687.66564941406,
+            2712.33715820312,
+            -825.163391113281
+          ],
+          "speed_kmh": 24.367064666748,
+          "tick": 360,
+          "trees_175m": 350
+        },
+        {
+          "position": [
+            -1692.76159667969,
+            2711.64038085938,
+            -829.353881835938
+          ],
+          "speed_kmh": 23.0125757217407,
+          "tick": 480,
+          "trees_175m": 347
+        },
+        {
+          "position": [
+            -1697.94458007812,
+            2710.80053710938,
+            -833.068481445312
+          ],
+          "speed_kmh": 23.0839508056641,
+          "tick": 600,
+          "trees_175m": 351
+        },
+        {
+          "position": [
+            -1703.1416015625,
+            2710.09814453125,
+            -836.767517089844
+          ],
+          "speed_kmh": 22.4654874801636,
+          "tick": 720,
+          "trees_175m": 352
+        },
+        {
+          "position": [
+            -1706.00622558594,
+            2709.54443359375,
+            -841.439392089844
+          ],
+          "speed_kmh": 18.5799974441528,
+          "tick": 840,
+          "trees_175m": 355
+        },
+        {
+          "position": [
+            -1705.29528808594,
+            2708.76098632812,
+            -846.446411132812
+          ],
+          "speed_kmh": 18.2554613113403,
+          "tick": 960,
+          "trees_175m": 367
+        },
+        {
+          "position": [
+            -1703.14636230469,
+            2707.87451171875,
+            -851.118713378906
+          ],
+          "speed_kmh": 19.7782024383545,
+          "tick": 1080,
+          "trees_175m": 372
+        },
+        {
+          "position": [
+            -1701.02270507812,
+            2706.52807617188,
+            -856.950317382812
+          ],
+          "speed_kmh": 26.0340253829956,
+          "tick": 1200,
+          "trees_175m": 388
+        },
+        {
+          "position": [
+            -1700.06909179688,
+            2704.64892578125,
+            -864.023193359375
+          ],
+          "speed_kmh": 28.5162368774414,
+          "tick": 1320,
+          "trees_175m": 407
+        },
+        {
+          "position": [
+            -1702.07263183594,
+            2701.63940429688,
+            -871.9619140625
+          ],
+          "speed_kmh": 35.2496406555176,
+          "tick": 1440,
+          "trees_175m": 427
+        },
+        {
+          "position": [
+            -1706.44653320312,
+            2698.43994140625,
+            -880.040222167969
+          ],
+          "speed_kmh": 34.6903163909912,
+          "tick": 1560,
+          "trees_175m": 447
+        },
+        {
+          "position": [
+            -1709.47204589844,
+            2694.14672851562,
+            -888.886535644531
+          ],
+          "speed_kmh": 36.5375129699707,
+          "tick": 1680,
+          "trees_175m": 476
+        },
+        {
+          "position": [
+            -1712.98559570312,
+            2690.31591796875,
+            -897.340515136719
+          ],
+          "speed_kmh": 36.2491355895996,
+          "tick": 1800,
+          "trees_175m": 496
+        }
+      ],
+      "scope": "One warmed15-second candidate sample after one route warmup. Current reference, not a multi-run average.",
+      "old": {
+        "receipt": "artifacts/pc_environment/natural-forest-old-mixed-20260917/production.json",
+        "frame_ms": {
+          "average_fps": 136.158737204765,
+          "count": 2041,
+          "max": 13.603,
+          "mean": 7.34436893679568,
+          "median_fps": 134.480903711673,
+          "p50": 7.436,
+          "p95": 9.372,
+          "p99": 10.85,
+          "slowest_one_percent_fps": 85.2317695332952
+        },
+        "gpu_ms": {
+          "count": 2041,
+          "max": 7.88199996948242,
+          "mean": 5.97432875972002,
+          "p95": 7.15399980545044,
+          "p99": 7.53700017929077
+        },
+        "render_cpu_ms": {
+          "count": 2041,
+          "max": 3.37299990653992,
+          "mean": 1.56379519739553,
+          "p95": 2.17300009727478,
+          "p99": 2.76300001144409
+        },
+        "submitted_primitives": {
+          "count": 2041,
+          "max": 6276809.0,
+          "mean": 4540124.79470848,
+          "p95": 6006907.0,
+          "p99": 6208797.0
+        },
+        "draw_calls": {
+          "count": 2041,
+          "max": 1657.0,
+          "mean": 1338.10289073983,
+          "p95": 1625.0,
+          "p99": 1642.0
+        },
+        "loading": {
+          "job_stages_ms": {
+            "distant_scenery": 7051.45,
+            "flavor": 306.62,
+            "forest_uploads": 5106.416,
+            "material_uploads": 114.621,
+            "mineral_uploads": 3146.173,
+            "preparation_cache_read": 4086.07,
+            "rider_and_interface": 4077.268,
+            "scene_submission": 15870.9,
+            "terrain_meshes_uploads": 145.651
+          },
+          "physical_cache_hit": true,
+          "physical_load_or_generation_seconds": 3.760083,
+          "physical_stages_ms": {
+            "cache_source": "user",
+            "original_bake_ms": 119317.513,
+            "physical_cache_read": 2325.491
+          },
+          "scene_build_ms": {
+            "distant_scenery_ms": 7051.444,
+            "flavor_ms": 306.618,
+            "forest_uploads_ms": 5106.411,
+            "material_uploads_ms": 114.613,
+            "mineral_uploads_ms": 3146.17,
+            "terrain_meshes_uploads_ms": 145.644
+          },
+          "scene_ready_seconds": 27.461883,
+          "scenery_cache_hit": true,
+          "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+        },
+        "validity": {
+          "exact_trace": true,
+          "unfocused_frames": 0,
+          "recording_ticks": 1800,
+          "pose_samples": 301,
+          "generated_frames": 0
+        },
+        "camera": {
+          "presets": {
+            "chase": {},
+            "first_person": {}
+          },
+          "profiles": {
+            "chase": {
+              "acceleration_time": 0.4,
+              "bank_strength": 35.0,
+              "blur_strength": 50.0,
+              "boom_response": 7.5,
+              "carve_strength": 50.0,
+              "chatter_strength": 0.0,
+              "compression_strength": 50.0,
+              "deceleration_time": 0.4,
+              "eye_height": 1.45,
+              "fast_distance": 5.0,
+              "fast_fov": 68.0,
+              "fast_height": 3.0,
+              "fast_tilt": -12.0,
+              "heading_response": 5.5,
+              "motion_blur_enabled": false,
+              "motion_blur_strength": 50.0,
+              "rest_distance": 5.0,
+              "rest_fov": 68.0,
+              "rest_height": 3.0,
+              "rest_tilt": -12.0,
+              "slope_follow": 0.0,
+              "slope_smoothing": 0.35,
+              "speed_exponent": 1.6,
+              "speed_full": 200.0,
+              "speed_start": 0.0,
+              "streak_strength": 50.0,
+              "tuck_lowering": 0.35,
+              "tuck_strength": 50.0,
+              "vertical_smoothing": 50.0
+            },
+            "first_person": {
+              "acceleration_time": 0.4,
+              "bank_strength": 35.0,
+              "blur_strength": 50.0,
+              "boom_response": 7.5,
+              "carve_strength": 50.0,
+              "chatter_strength": 0.0,
+              "compression_strength": 50.0,
+              "deceleration_time": 0.4,
+              "eye_height": 1.45,
+              "fast_distance": 4.5,
+              "fast_fov": 75.0,
+              "fast_height": 3.5,
+              "fast_tilt": -25.0,
+              "heading_response": 5.5,
+              "motion_blur_enabled": false,
+              "motion_blur_strength": 50.0,
+              "rest_distance": 3.0,
+              "rest_fov": 55.0,
+              "rest_height": 3.0,
+              "rest_tilt": -25.0,
+              "slope_follow": 100.0,
+              "slope_smoothing": 0.35,
+              "speed_exponent": 1.6,
+              "speed_full": 200.0,
+              "speed_start": 0.0,
+              "streak_strength": 50.0,
+              "tuck_lowering": 0.35,
+              "tuck_strength": 50.0,
+              "vertical_smoothing": 50.0
+            }
+          },
+          "selected": {
+            "chase": "Custom",
+            "first_person": "Connected"
+          },
+          "shared": {
+            "auto_recenter": true,
+            "forest_visibility": 60.0,
+            "forest_visibility_strength": 100.0,
+            "invert_y": false,
+            "mouse_sensitivity": 0.1,
+            "recenter_delay": 0.8,
+            "recenter_time": 0.35,
+            "stick_deadzone": 0.18,
+            "stick_exponent": 2.0,
+            "stick_pitch_speed": 100.0,
+            "stick_yaw_speed": 150.0
+          },
+          "version": 2
+        },
+        "weather": "clear",
+        "display": {
+          "fidelityfx": {
+            "active_upscaler_version": "4.1.1",
+            "capabilities_queried": true,
+            "dxgi_present_count": 4539,
+            "engine_integration": true,
+            "error": "",
+            "frame_generation_active": false,
+            "frame_generation_capabilities_queried": true,
+            "frame_generation_supported": true,
+            "frame_generation_version": "",
+            "fsr3_supported": true,
+            "fsr4_supported": true,
+            "generated_frames": 0,
+            "present_counter_available": true,
+            "rendered_present_calls": 4540,
+            "upscale_dispatches": 4539
+          },
+          "fps_limit": 0,
+          "internal_pixels_from_viewport_scale": [
+            2880,
+            1620
+          ],
+          "msaa": 0,
+          "output_pixels": [
+            3840,
+            2160
+          ],
+          "preferences": {
+            "anisotropic": 2,
+            "custom": true,
+            "display_mode": "fullscreen",
+            "fps_limit": 0,
+            "frame_generation": false,
+            "monitor": -1,
+            "msaa": 1,
+            "overrides": {
+              "weather_quality": 2
+            },
+            "quality": 7,
+            "render_scale": 0.75,
+            "resolution": "(0, 0)",
+            "sharpness": 0.825,
+            "terrain_gi": false,
+            "upscaler": "auto",
+            "vsync": 0
+          },
+          "viewport_scale": 0.75
+        },
+        "forest": {
+          "pending_regions": 0,
+          "prepared_bytes": 16467504,
+          "regions": 13074,
+          "render_batches": 5259,
+          "resident_regions": 45
+        }
+      },
+      "frame_mean_change_percent": -2.4565767479628686,
+      "gpu_mean_change_percent": -3.7772144143862985,
+      "matched_settings": true
+    },
+    "lower": {
+      "candidate": {
+        "receipt": "artifacts/pc_environment/natural-forest-v16-high-lower-20260917/production.json",
+        "frame_ms": {
+          "average_fps": 127.40136209951,
+          "count": 1908,
+          "max": 16.806,
+          "mean": 7.84920964360588,
+          "median_fps": 129.324280633689,
+          "p50": 7.7325,
+          "p95": 10.026,
+          "p99": 13.1,
+          "slowest_one_percent_fps": 70.2762912390062
+        },
+        "gpu_ms": {
+          "count": 1908,
+          "max": 8.35000038146973,
+          "mean": 6.53452883051626,
+          "p95": 7.39400005340576,
+          "p99": 7.90799999237061
+        },
+        "render_cpu_ms": {
+          "count": 1908,
+          "max": 3.0460000038147,
+          "mean": 1.45778039910009,
+          "p95": 1.98199999332428,
+          "p99": 2.40300011634827
+        },
+        "submitted_primitives": {
+          "count": 1908,
+          "max": 8027284.0,
+          "mean": 6123706.83542977,
+          "p95": 7877404.0,
+          "p99": 7976519.0
+        },
+        "draw_calls": {
+          "count": 1908,
+          "max": 1617.0,
+          "mean": 1260.69339622642,
+          "p95": 1583.0,
+          "p99": 1614.0
+        },
+        "loading": {
+          "job_stages_ms": {
+            "distant_scenery": 7041.406,
+            "flavor": 321.64,
+            "forest_uploads": 4603.175,
+            "material_uploads": 98.642,
+            "mineral_uploads": 3257.247,
+            "preparation_cache_read": 4116.371,
+            "rider_and_interface": 4160.985,
+            "scene_submission": 15466.104,
+            "terrain_meshes_uploads": 144.031
+          },
+          "physical_cache_hit": true,
+          "physical_load_or_generation_seconds": 3.792441,
+          "physical_stages_ms": {
+            "cache_source": "user",
+            "original_bake_ms": 119651.136,
+            "physical_cache_read": 2315.406
+          },
+          "scene_build_ms": {
+            "distant_scenery_ms": 7041.398,
+            "flavor_ms": 321.639,
+            "forest_uploads_ms": 4603.169,
+            "material_uploads_ms": 98.634,
+            "mineral_uploads_ms": 3257.244,
+            "terrain_meshes_uploads_ms": 144.02
+          },
+          "scene_ready_seconds": 27.539145,
+          "scenery_cache_hit": true,
+          "scope": "one startup shared by all repetitions; excludes process launch, trace generation and trial warmups"
+        },
+        "validity": {
+          "exact_trace": true,
+          "unfocused_frames": 0,
+          "recording_ticks": 1800,
+          "pose_samples": 301,
+          "generated_frames": 0
+        },
+        "camera": {
+          "presets": {
+            "chase": {},
+            "first_person": {}
+          },
+          "profiles": {
+            "chase": {
+              "acceleration_time": 0.4,
+              "bank_strength": 35.0,
+              "blur_strength": 50.0,
+              "boom_response": 7.5,
+              "carve_strength": 50.0,
+              "chatter_strength": 0.0,
+              "compression_strength": 50.0,
+              "deceleration_time": 0.4,
+              "eye_height": 1.45,
+              "fast_distance": 5.0,
+              "fast_fov": 68.0,
+              "fast_height": 3.0,
+              "fast_tilt": -12.0,
+              "heading_response": 5.5,
+              "motion_blur_enabled": false,
+              "motion_blur_strength": 50.0,
+              "rest_distance": 5.0,
+              "rest_fov": 68.0,
+              "rest_height": 3.0,
+              "rest_tilt": -12.0,
+              "slope_follow": 0.0,
+              "slope_smoothing": 0.35,
+              "speed_exponent": 1.6,
+              "speed_full": 200.0,
+              "speed_start": 0.0,
+              "streak_strength": 50.0,
+              "tuck_lowering": 0.35,
+              "tuck_strength": 50.0,
+              "vertical_smoothing": 50.0
+            },
+            "first_person": {
+              "acceleration_time": 0.4,
+              "bank_strength": 35.0,
+              "blur_strength": 50.0,
+              "boom_response": 7.5,
+              "carve_strength": 50.0,
+              "chatter_strength": 0.0,
+              "compression_strength": 50.0,
+              "deceleration_time": 0.4,
+              "eye_height": 1.45,
+              "fast_distance": 4.5,
+              "fast_fov": 75.0,
+              "fast_height": 3.5,
+              "fast_tilt": -25.0,
+              "heading_response": 5.5,
+              "motion_blur_enabled": false,
+              "motion_blur_strength": 50.0,
+              "rest_distance": 3.0,
+              "rest_fov": 55.0,
+              "rest_height": 3.0,
+              "rest_tilt": -25.0,
+              "slope_follow": 100.0,
+              "slope_smoothing": 0.35,
+              "speed_exponent": 1.6,
+              "speed_full": 200.0,
+              "speed_start": 0.0,
+              "streak_strength": 50.0,
+              "tuck_lowering": 0.35,
+              "tuck_strength": 50.0,
+              "vertical_smoothing": 50.0
+            }
+          },
+          "selected": {
+            "chase": "Custom",
+            "first_person": "Connected"
+          },
+          "shared": {
+            "auto_recenter": true,
+            "forest_visibility": 60.0,
+            "forest_visibility_strength": 100.0,
+            "invert_y": false,
+            "mouse_sensitivity": 0.1,
+            "recenter_delay": 0.8,
+            "recenter_time": 0.35,
+            "stick_deadzone": 0.18,
+            "stick_exponent": 2.0,
+            "stick_pitch_speed": 100.0,
+            "stick_yaw_speed": 150.0
+          },
+          "version": 2
+        },
+        "weather": "clear",
+        "display": {
+          "fidelityfx": {
+            "active_upscaler_version": "4.1.1",
+            "capabilities_queried": true,
+            "dxgi_present_count": 4207,
+            "engine_integration": true,
+            "error": "",
+            "frame_generation_active": false,
+            "frame_generation_capabilities_queried": true,
+            "frame_generation_supported": true,
+            "frame_generation_version": "",
+            "fsr3_supported": true,
+            "fsr4_supported": true,
+            "generated_frames": 0,
+            "present_counter_available": true,
+            "rendered_present_calls": 4208,
+            "upscale_dispatches": 4207
+          },
+          "fps_limit": 0,
+          "internal_pixels_from_viewport_scale": [
+            2880,
+            1620
+          ],
+          "msaa": 0,
+          "output_pixels": [
+            3840,
+            2160
+          ],
+          "preferences": {
+            "anisotropic": 2,
+            "custom": true,
+            "display_mode": "fullscreen",
+            "fps_limit": 0,
+            "frame_generation": false,
+            "monitor": -1,
+            "msaa": 1,
+            "overrides": {
+              "weather_quality": 2
+            },
+            "quality": 7,
+            "render_scale": 0.75,
+            "resolution": "(0, 0)",
+            "sharpness": 0.825,
+            "terrain_gi": false,
+            "upscaler": "auto",
+            "vsync": 0
+          },
+          "viewport_scale": 0.75
+        },
+        "forest": {
+          "pending_regions": 0,
+          "prepared_bytes": 13728096,
+          "regions": 13118,
+          "render_batches": 6599,
+          "resident_regions": 84
+        }
+      },
+      "trace": "artifacts/natural_forest_20260917/new_traces/lower.json",
+      "comparison": {
+        "endpoint_delta_m": 52.1724586486816,
+        "inputs_preserved": false,
+        "old_endpoint": [
+          1671.72119140625,
+          2624.013671875,
+          1423.56665039062
+        ],
+        "old_origin": [
+          1608.0,
+          1416.0
+        ],
+        "preserved_input_failure": {
+          "crash": "",
+          "obstacle_contact": "{ \"normal\": (-0.551663, 0.0, -0.834067), \"closing_speed_mps\": 1.01830613613129, \"reason\": \"TREE IMPACT\" }",
+          "position": "(1619.786, 2641.614, 1407.835)",
+          "tick": 1082
+        },
+        "source": "res://artifacts/natural_forest_20260917/old_traces/lower.json"
+      },
+      "travelled_m": 111.318120465614,
+      "coverage": [
+        {
+          "position": [
+            1608.56237792969,
+            2641.908203125,
+            1425.05310058594
+          ],
+          "speed_kmh": 6.79809737205505,
+          "tick": 120,
+          "trees_175m": 1195
+        },
+        {
+          "position": [
+            1609.44458007812,
+            2641.40551757812,
+            1427.07312011719
+          ],
+          "speed_kmh": 9.16464471817017,
+          "tick": 240,
+          "trees_175m": 1190
+        },
+        {
+          "position": [
+            1610.96545410156,
+            2640.47827148438,
+            1429.72082519531
+          ],
+          "speed_kmh": 14.9464530944824,
+          "tick": 360,
+          "trees_175m": 1183
+        },
+        {
+          "position": [
+            1613.53796386719,
+            2638.54809570312,
+            1434.06481933594
+          ],
+          "speed_kmh": 23.0555683135986,
+          "tick": 480,
+          "trees_175m": 1184
+        },
+        {
+          "position": [
+            1617.31799316406,
+            2636.20678710938,
+            1439.02600097656
+          ],
+          "speed_kmh": 25.860013961792,
+          "tick": 600,
+          "trees_175m": 1187
+        },
+        {
+          "position": [
+            1620.59118652344,
+            2634.0634765625,
+            1444.27880859375
+          ],
+          "speed_kmh": 23.7429039001465,
+          "tick": 720,
+          "trees_175m": 1189
+        },
+        {
+          "position": [
+            1627.15283203125,
+            2632.10180664062,
+            1445.17993164062
+          ],
+          "speed_kmh": 26.4485927581787,
+          "tick": 840,
+          "trees_175m": 1199
+        },
+        {
+          "position": [
+            1634.79541015625,
+            2629.31689453125,
+            1445.05822753906
+          ],
+          "speed_kmh": 32.7191425323486,
+          "tick": 960,
+          "trees_175m": 1210
+        },
+        {
+          "position": [
+            1644.02526855469,
+            2626.27783203125,
+            1443.89990234375
+          ],
+          "speed_kmh": 35.2834991455078,
+          "tick": 1080,
+          "trees_175m": 1233
+        },
+        {
+          "position": [
+            1651.85131835938,
+            2623.3974609375,
+            1446.78942871094
+          ],
+          "speed_kmh": 34.0501602172852,
+          "tick": 1200,
+          "trees_175m": 1232
+        },
+        {
+          "position": [
+            1658.92370605469,
+            2619.39697265625,
+            1452.16174316406
+          ],
+          "speed_kmh": 34.9831638336182,
+          "tick": 1320,
+          "trees_175m": 1217
+        },
+        {
+          "position": [
+            1665.75305175781,
+            2615.55200195312,
+            1457.29614257812
+          ],
+          "speed_kmh": 32.850700378418,
+          "tick": 1440,
+          "trees_175m": 1211
+        },
+        {
+          "position": [
+            1673.98754882812,
+            2611.77490234375,
+            1460.94970703125
+          ],
+          "speed_kmh": 37.3305473327637,
+          "tick": 1560,
+          "trees_175m": 1205
+        },
+        {
+          "position": [
+            1684.01098632812,
+            2608.70727539062,
+            1463.55993652344
+          ],
+          "speed_kmh": 39.3829616546631,
+          "tick": 1680,
+          "trees_175m": 1211
+        },
+        {
+          "position": [
+            1694.05590820312,
+            2605.30688476562,
+            1466.84692382812
+          ],
+          "speed_kmh": 41.5216941833496,
+          "tick": 1800,
+          "trees_175m": 1204
+        }
+      ],
+      "scope": "One warmed15-second candidate sample after one route warmup. Current reference, not a multi-run average.",
+      "old_reference_limit": "Dev78 v15 dense average108.93FPS cannot be compared as a gain if current origin/inputs/path differ."
+    }
+  },
+  "initial_candidate": {
+    "upper": {
+      "receipt": "artifacts/pc_environment/natural-forest-v16-upper-20260917/production.json",
+      "frame_ms": {
+        "average_fps": 148.860433330719,
+        "count": 2230,
+        "max": 13.6,
+        "mean": 6.71770179372198,
+        "median_fps": 145.391102064554,
+        "p50": 6.878,
+        "p95": 8.773,
+        "p99": 9.954,
+        "slowest_one_percent_fps": 92.2183731075186
+      },
+      "gpu_ms": {
+        "count": 2230,
+        "max": 6.20800018310547,
+        "mean": 5.1409403579652,
+        "p95": 5.92199993133545,
+        "p99": 6.08599996566772
+      },
+      "render_cpu_ms": {
+        "count": 2230,
+        "max": 2.13899993896484,
+        "mean": 1.10532466317506,
+        "p95": 1.4889999628067,
+        "p99": 1.74100005626678
+      }
+    },
+    "mixed": {
+      "receipt": "artifacts/pc_environment/natural-forest-v16-mixed-20260917/production.json",
+      "frame_ms": {
+        "average_fps": 141.23384045582,
+        "count": 2116,
+        "max": 15.15,
+        "mean": 7.08045604914933,
+        "median_fps": 140.291806958474,
+        "p50": 7.128,
+        "p95": 9.384,
+        "p99": 11.509,
+        "slowest_one_percent_fps": 75.8210210334405
+      },
+      "gpu_ms": {
+        "count": 2116,
+        "max": 8.17599964141846,
+        "mean": 5.67615264327404,
+        "p95": 6.76599979400635,
+        "p99": 7.67500019073486
+      },
+      "render_cpu_ms": {
+        "count": 2116,
+        "max": 4.44000005722046,
+        "mean": 1.49846880994244,
+        "p95": 2.22000002861023,
+        "p99": 2.85199999809265
+      }
+    },
+    "lower": {
+      "receipt": "artifacts/pc_environment/natural-forest-v16-lower-20260917/production.json",
+      "frame_ms": {
+        "average_fps": 126.342489059161,
+        "count": 1893,
+        "max": 18.252,
+        "mean": 7.91499366085579,
+        "median_fps": 127.567291746396,
+        "p50": 7.839,
+        "p95": 9.915,
+        "p99": 12.19,
+        "slowest_one_percent_fps": 72.34622619238
+      },
+      "gpu_ms": {
+        "count": 1893,
+        "max": 8.06700038909912,
+        "mean": 6.67102271315287,
+        "p95": 7.45800018310547,
+        "p99": 7.72499990463257
+      },
+      "render_cpu_ms": {
+        "count": 1893,
+        "max": 3.00200009346008,
+        "mean": 1.46066666650697,
+        "p95": 2.02699995040894,
+        "p99": 2.38000011444092
+      }
+    }
+  },
+  "visual": {
+    "folder": "artifacts/natural_forest_20260917",
+    "clip": "artifacts/natural_forest_20260917/upper_transition.mp4",
+    "human_acceptance": "Pending separately; automated/rendered evidence is not human skiing acceptance."
+  },
+  "checks": {
+    "initial_regressions": "artifacts/natural_forest_20260917/initial_upper_band/regressions.json",
+    "revised_generation": [
+      {
+        "script": "scripts/prepare_generation_export.gd",
+        "args": [],
+        "exit": 0,
+        "seconds": 5.234199
+      },
+      {
+        "script": "tests/natural_forest_trace.gd",
+        "args": [],
+        "exit": 0,
+        "seconds": 18.3797116
+      },
+      {
+        "script": "tests/natural_forest_ecology_suite.gd",
+        "args": [],
+        "exit": 0,
+        "seconds": 28.0312187
+      },
+      {
+        "script": "tests/generation_v16_world_suite.gd",
+        "args": [
+          "--case=standard"
+        ],
+        "exit": 0,
+        "seconds": 32.0582753
+      },
+      {
+        "script": "tests/generation_v16_world_suite.gd",
+        "args": [
+          "--case=alternate_standard"
+        ],
+        "exit": 0,
+        "seconds": 31.305114
+      },
+      {
+        "script": "tests/generation_v16_cancellation_suite.gd",
+        "args": [],
+        "exit": 0,
+        "seconds": 112.2572072
+      }
+    ],
+    "ecology": {
+      "candidate_count": 28051,
+      "candidate_rows": 128,
+      "checks": 14,
+      "ecology_rows": 96,
+      "failures": [],
+      "workers": [
+        1,
+        2,
+        6
+      ]
+    },
+    "motion": {
+      "exact_trace": true,
+      "frames": 225,
+      "samples": [
+        {
+          "pending_regions": 0,
+          "position": "(-576.0193, 3429.974, 1200.02)",
+          "tick": 2,
+          "trees_175m": 98
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-577.5472, 3428.673, 1201.643)",
+          "tick": 122,
+          "trees_175m": 99
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-581.6891, 3425.446, 1206.051)",
+          "tick": 242,
+          "trees_175m": 108
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-587.9796, 3419.715, 1212.511)",
+          "tick": 362,
+          "trees_175m": 120
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-594.65, 3412.949, 1219.865)",
+          "tick": 482,
+          "trees_175m": 138
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-601.4162, 3405.411, 1226.736)",
+          "tick": 602,
+          "trees_175m": 168
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-607.9702, 3397.926, 1233.768)",
+          "tick": 722,
+          "trees_175m": 196
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-614.8087, 3390.801, 1240.878)",
+          "tick": 842,
+          "trees_175m": 211
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-621.4791, 3383.726, 1247.976)",
+          "tick": 962,
+          "trees_175m": 224
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-627.879, 3376.638, 1255.261)",
+          "tick": 1082,
+          "trees_175m": 229
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-634.8051, 3369.902, 1262.35)",
+          "tick": 1202,
+          "trees_175m": 240
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-641.7388, 3363.053, 1269.649)",
+          "tick": 1322,
+          "trees_175m": 255
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-648.7, 3356.456, 1276.702)",
+          "tick": 1442,
+          "trees_175m": 269
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-655.3367, 3348.778, 1283.244)",
+          "tick": 1562,
+          "trees_175m": 287
+        },
+        {
+          "pending_regions": 0,
+          "position": "(-661.5958, 3340.929, 1290.194)",
+          "tick": 1682,
+          "trees_175m": 307
+        }
+      ],
+      "scope": "15 seconds ordinary upper-transition input; fixed 120 Hz simulation/60 Hz presentation; 15 fps capture; no performance claim",
+      "ticks": 1800
+    }
+  },
+  "conclusion": "User-requested forest distribution delivered. Matched upper frame mean worsened by 2.64 percent in the single warmed sample; no FPS gain established. Lower and mixed routes are new current-world references, not matched old-route gains."
+}

@@ -2,7 +2,7 @@ extends SceneTree
 ## Native evidence runner. Parent MUST hold the serial validation guard.
 ## No personal preferences, ranked records, captures or readbacks in samples.
 const Definition = preload("res://scripts/world/mountain_definition.gd")
-const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
 const Sources = preload("res://scripts/world/generation_sources.gd")
 const Trace = preload("res://tests/performance_trace.gd")
 const Survey = preload("res://tests/alpine_v13_route_survey.gd")
@@ -79,7 +79,7 @@ func run() -> void:
 	original_window = Output.capture_window(root)
 	original_cap = Engine.max_fps
 	source_metadata = collect_sources()
-	print("INTERFACE_PERFORMANCE_LOAD seed=849205174 version=15 settings=Standard")
+	print("INTERFACE_PERFORMANCE_LOAD seed=849205174 version=16 settings=Standard")
 	var load_start = Time.get_ticks_usec()
 	# The same validated Standard cache path as normal gameplay, never a lab.
 	field = preload("res://tests/validation_mountain.gd").load_standard()
@@ -119,7 +119,7 @@ func run() -> void:
 	game.set_graphics_preset(7)
 	game.display_settings.apply_display(root,PIXELS)
 	RenderingServer.viewport_set_measure_render_time(root.get_viewport_rid(),true)
-	manifest = {"schema":1,"phase":phase,"seed":SEED,"generator":15,"generation_settings":game.current_mountain.generation_settings,
+	manifest = {"schema":1,"phase":phase,"seed":SEED,"generator":game.field.GENERATOR_VERSION,"generation_settings":game.current_mountain.generation_settings,
 		"recipe_key":Cache.recipe_key(SEED),"cache_key":Cache.cache_key(SEED),"physical_cache_path":Cache.path_for(SEED),
 		"physical_cache_hit":field.cache_hit,"physical_stages":field.generation_stages,"physical_load_ms":physical_ms,
 		"scene_ready_ms":(Time.get_ticks_usec()-load_start)/1000.0-physical_ms,"scene_build_timings":game.world.build_timings,

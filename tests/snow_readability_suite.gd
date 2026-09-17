@@ -66,7 +66,7 @@ func run() -> void:
 	check(shared and shading.builds==1,"Terrain, powder and tracks share one upload and identical world mapping")
 	check(shading.report().texture_bytes<65*65*1.34,"Texture and mip memory stays within the single-channel budget")
 	if "--mountain" in OS.get_cmdline_user_args():
-		var field = preload("res://scripts/world/mountain_definition.gd").generate(849205174,15)
+		var field = preload("res://scripts/world/mountain_definition.gd").generate(849205174)
 		var identity = [field.height_checksum,field.obstacle_checksum,hash(field.heights),hash(field.tree_data.positions)]
 		var full_map = Readability.new()
 		full_map.prepare(field)

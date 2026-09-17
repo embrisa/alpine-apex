@@ -1,6 +1,6 @@
 extends SceneTree
 ## Diagnostic only: preserve existing natural openings without retaining routes.
-const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
 const Search = preload("res://tests/generation_route_search.gd")
 func _initialize() -> void: call_deferred("run")
 static func opening(field, p: Vector2, radius: float = 0) -> bool:
@@ -54,5 +54,5 @@ func run() -> void:
 		success = success and connected and spread>=500
 		rows.append({"face":route.face,"connected":connected,"spread_m":spread,"visited":route.safe_samples,"refinement":route.refinement,"reachable_rows":route.get("reachable_columns",[])})
 	var report = {"diagnostic_only":true,"trees":trees.size(),"minerals":mineral_count,"routes":rows,"pass":success}
-	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/openings_probe.json",JSON.stringify(report,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v16/openings_probe.json",JSON.stringify(report,"\t"))
 	print("OPENINGS_ROUTES ",JSON.stringify(report)); quit(0 if success else 1)

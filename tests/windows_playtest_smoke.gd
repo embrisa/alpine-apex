@@ -15,11 +15,11 @@ func _initialize() -> void:
 func run() -> void:
 	var out = OS.get_environment("ALPINE_SMOKE_OUT")
 	if not require(not out.is_empty(),"Set ALPINE_SMOKE_OUT"): return
-	var cache = load("res://scripts/world/mountain_cache_v15.gd")
+	var cache = load("res://scripts/world/mountain_cache_v16.gd")
 	if not require(not FileAccess.file_exists(cache.path_for(849205174)),"Test requires an empty user mountain cache"): return
-	if not require(FileAccess.file_exists(OS.get_executable_path().get_base_dir().path_join("data/default_mountain_v15.physical")),"Bundled bake missing"): return
+	if not require(FileAccess.file_exists(OS.get_executable_path().get_base_dir().path_join("data/default_mountain_v16.physical")),"Bundled bake missing"): return
 	if not require(not ProjectSettings.has_setting("autoload/MCPRuntimeServer"),"Development autoload was not stripped"): return
-	if not require(not cache.Archive.read(OS.get_executable_path().get_base_dir().path_join("data/default_mountain_v15.physical"),cache.cache_key(849205174)).is_empty(),"Bundled bake does not match the exported engine and source data"): return
+	if not require(not cache.Archive.read(OS.get_executable_path().get_base_dir().path_join("data/default_mountain_v16.physical"),cache.cache_key(849205174)).is_empty(),"Bundled bake does not match the exported engine and source data"): return
 	started_ms = Time.get_ticks_msec()
 	print("PLAYTEST_FIRST_LAUNCH_BEGIN ",OS.get_user_data_dir())
 	var game = load("res://main.tscn").instantiate()
@@ -30,7 +30,7 @@ func run() -> void:
 	var ready_ms = Time.get_ticks_msec()-started_ms
 	if not require(game.field.cache_hit and game.field.generation_stages.get("cache_source")=="bundled","First launch must use the validated bundled bake"): return
 	if not require(game.world.preparation!=null and game.world.preparation.cache_hit,"Bundled scenery preparation must be reused"): return
-	if not require(game.field.GENERATOR_VERSION==15 and game.effects.wind.available,"World version or native audio incorrect"): return
+	if not require(game.field.GENERATOR_VERSION==16 and game.effects.wind.available,"World version or native audio incorrect"): return
 	var estimates = load("res://scripts/world/generation_estimates.gd")
 	var standard_estimate = estimates.estimate(game.field.seed_value,game.field.generation_settings)
 	if not require(standard_estimate.physical_cache_expected and standard_estimate.preparation_cache_expected,"Default estimates must recognize both bundled caches"): return

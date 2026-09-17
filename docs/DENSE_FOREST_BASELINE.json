@@ -467,5 +467,11 @@
     "No whole-mountain, multi-ghost, storm or sustained 120 FPS acceptance. Median run p95 exceeds the 11.1 ms target.",
     "The former 71.94 FPS reference used Dev40 and a different diagnostic runtime; it is historical, not a matched A/B control for this baseline.",
     "Preserve the compact trace, harness and raw timing receipts for future matching comparisons."
-  ]
+  ],
+  "current_applicability": {
+    "world_version": 15,
+    "status": "Retained v15 reference; generator16 uses different physical tree placement and tree-local snow.",
+    "replacement_reference": "docs/NATURAL_FOREST_RESULTS.json",
+    "limit": "Do not claim a gain by comparing a regenerated lower route against this108.93FPS average."
+  }
 }

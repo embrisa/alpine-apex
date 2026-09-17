@@ -23,7 +23,7 @@ func inspect_massif() -> void:
 			await capture("boundary_motion_%s_%03d" % ["before" if baseline else "after",frame],4)
 	motion=false
 	fixture.select(game.world,false); fixture.dispose()
-	var report={"frames":48,"version":15,"seed":field.seed_value,"camera_height_m":1.8,"radii_m":[2670,2835],"capture_overhead":true,"unranked":true,"geometry":game.world.wilderness.report()}
+	var report={"frames":48,"version":field.GENERATOR_VERSION,"seed":field.seed_value,"camera_height_m":1.8,"radii_m":[2670,2835],"capture_overhead":true,"unranked":true,"geometry":game.world.wilderness.report()}
 	report.script_sha256=FileAccess.get_sha256("res://tests/offmap_boundary_motion.gd")
 	preload("res://tests/test_report.gd").write(OUTPUT+"/boundary_motion.json",JSON.stringify(report,"\t"))
 	observer.queue_free()

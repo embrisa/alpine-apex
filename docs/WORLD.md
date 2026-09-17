@@ -4,8 +4,8 @@
 
 [MountainDefinition](../scripts/world/mountain_definition.gd) owns portable
 recipes and field reconstruction. Routine mountain work uses
-`MountainDefinition.generate(849205174, 15)` or
-`mountain_cache_v15.gd.generate(849205174)`; explicit older generators remain
+`MountainDefinition.generate(849205174)` or
+`mountain_cache_v16.gd.generate(849205174)`; explicit older generators remain
 test/comparison entrypoints, not the normal startup path.
 
 [GenerationSettings](../scripts/world/generation_settings.gd) canonicalizes five
@@ -23,22 +23,25 @@ shared support grid is 4 m. Local complexity must retain route branching and
 protected openings; no feature applies a racing-line force. Seeded ecology
 varies slope/elevation/exposure and preserves mineral/tree non-overlap.
 
-Standard requests 200,000 trees and 16,022 minerals; Extreme requests 1,000,000
-and 80,110. Report achieved counts separately: spacing/protected terrain can
-saturate placement. The user accepts roughly 600,000 trees where natural space
-limits the million-tree request. Synthetic capacity tests do not prove natural
-placement feasibility or skiable routes.
+Generator 16 requests 85,000 / 170,000 / 340,000 / 850,000 trees for Light /
+Standard / Rich / Extreme. Custom retains the same factor semantics. Mineral
+targets remain 8,011 / 16,022 / 32,044 / 80,110. Report achieved counts separately:
+spacing and protected terrain can saturate placement. Synthetic capacity tests
+do not prove natural placement feasibility or skiable routes.
 
-## Current bounded default-v15 route evidence
+## Previous bounded default-v15 route evidence
+
+These version-15 measurements do not certify generator 16. The new generation
+change uses the bounded forest routes and two-seed evidence linked below.
 
 The current source-hashed route scenario is produced by
-[`alpine_v15_route_audit.gd`](../tests/alpine_v15_route_audit.gd), using
-`MountainDefinition.generate(849205174, 15)` with Standard settings and the
+the then-current `alpine_v15_route_audit.gd` (now maintained as [`alpine_v16_route_audit.gd`](../tests/alpine_v16_route_audit.gd)), using
+`MountainDefinition.generate(849205174)` with Standard settings and the
 source/engine-validated physical cache. It surveys all six faces, then performs
 three matched **15-second**, 170 km/h, full-tuck/no-brake speed-controlled
 probes on each face. The retained v13-named planner supplies test-only steering
 over the current field; it never loads a historical bake or saved route. The
-[current bounded receipt](CURRENT_V15_BOUNDED_ROUTE_RESULTS.json) records its
+[historical bounded receipt](CURRENT_V15_BOUNDED_ROUTE_RESULTS.json) records its
 model, generator, source/engine/terrain hashes and every probe.
 
 The 2026-09-13 receipt captured model 35 on generator 15: all 18 probes ran
@@ -127,7 +130,7 @@ stage and stable candidate ID; conflicts/thinning resolve in candidate order.
 Cancellation joins every worker. Face records hold weak owner references.
 
 [PackedTrees](../scripts/world/packed_trees.gd) owns packed positions, dimensions,
-yaw, candidate/ecology metadata and a linked spatial index. Production v15 does
+yaw, candidate/ecology metadata and a linked spatial index. Production v16 does
 not populate the old dictionary obstacle list. Collision, snow, previews,
 forest preparation and motion use indexed access; returned dictionaries are
 bounded query results.
@@ -140,8 +143,18 @@ variant plus minority per-tree silhouettes avoids repeated neighboring crowns.
 These rules consume position/seed without advancing physical random streams.
 Changing the art or visual assignment refreshes scenery preparation only; physical
 tree positions, dimensions, candidate/ecology IDs and the 4 m support grid remain
-unchanged. The separately queued 15% population reduction and sparse upper trees
-require a future physical generator revision and regenerated fixtures.
+unchanged by visual assignment. Generator 16 separately reduces the physical
+Standard target by 15% and adds sparse upper trees within that total. Dense stands
+retain their previous treeline fade. A coherent sparse band uses actual shaped
+altitude, thins toward isolated trees above the local treeline, and fades from
+4,080 m to a noise-varied ceiling near 4,250 m. The user selected trees reaching
+around 4,200 m, with very sparse coverage closer to the summit. Gentle, low-rock
+support is preferred. A 120-280 m radial fade protects the summit centre; existing slope, mineral,
+trunk-spacing, drop and natural-opening exclusions still apply. Foundation terrain
+and mineral streams remain unchanged; tree-local snow and final seating may differ.
+Old version-15 recipes and their race/record/ghost references are incompatible;
+regenerate worlds and input fixtures rather than changing recorded identities.
+Personal files remain untouched. Current verification: [natural forest review](../artifacts/natural_forest_20260917/REVIEW.md).
 
 Indexed landforms and an 8 m ecology filter narrow candidates before exact
 surface/material/protection checks. Rebuild normals after support mutations;
@@ -321,7 +334,7 @@ generator/model versions and physical outputs; regenerate rather than bypass it.
 
 ## Caches and export
 
-`user://mountain_cache_v15/<recipe SHA>.physical` stores final heights, snow,
+`user://mountain_cache_v16/<recipe SHA>.physical` stores final heights, snow,
 material, normals, packed trees/index, face recipes, seated minerals and collision.
 The paired `.scenery` stores maps, terrain arrays/templates, seated transforms
 and regional batches. Scenery identity also pins physical fingerprints,

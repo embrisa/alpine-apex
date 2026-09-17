@@ -1,5 +1,5 @@
 extends SceneTree
-const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
 const Settings = preload("res://scripts/world/generation_settings.gd")
 const Job = preload("res://scripts/world/generation_job.gd")
 const Definition = preload("res://scripts/world/mountain_definition.gd")
@@ -19,6 +19,7 @@ func run() -> void:
 		if arg=="--physical-clearance": physical_clearance = true
 	var settings = Settings.preset(); var seed_number = 849205174
 	match case_name:
+		"alternate_standard": seed_number = 638201943
 		"alternate_light": seed_number = 42; settings = Settings.preset(0)
 		"alternate_rich": seed_number = 927461; settings = Settings.preset(2)
 		"extreme": settings = Settings.preset(3)
@@ -32,11 +33,11 @@ func run() -> void:
 		"spacing": settings.tree_spacing = .5
 	var job = Job.new(); var field = Cache.generate(seed_number,settings,job)
 	if field==null: quit(2); return
-	print("V15_WORLD_POPULATION ",JSON.stringify(field.population))
+	print("V16_WORLD_POPULATION ",JSON.stringify(field.population))
 	var report = {"case":case_name,"seed":seed_number,"settings":settings,"cold_or_load_ms":field.generation_ms,"cache_hit":field.cache_hit,"population":field.population,"stages":field.generation_stages,"snow":field.tree_snow_statistics,"route_clearance":{"node_m":.6 if physical_clearance else 1.8,"edge_m":.5 if physical_clearance else 1.5,"solver_trunk_expansion_m":.35},"routes":[]}
 	check(field.NX==1537 and field.NZ==1537 and field.CELL==4 and field.faces.size()==6,"Dimensions and authority retained")
 	check(field.obstacles.is_empty() and field.tree_data.valid(),"One packed tree population")
-	check(field.population.requested_trees==roundi(200000*settings.tree_population) and field.population.trees<=field.population.requested_trees,"Requested and achieved trees honest")
+	check(field.population.requested_trees==roundi(Settings.TREE_BASELINE*settings.tree_population) and field.population.trees<=field.population.requested_trees,"Requested and achieved trees honest")
 	check(field.population.requested_minerals==roundi(Settings.MINERAL_BASELINE*settings.mineral_density),"Requested minerals follow independent density")
 	check(field.population.tree_saturated==(field.population.trees<field.population.requested_trees),"Saturation flag matches achieved count")
 	var target_snow = Settings.targets(settings).snow_features; var actual_snow = 0
@@ -101,5 +102,5 @@ func run() -> void:
 	report.recipe_warm_ms = (Time.get_ticks_usec()-warm_started)/1000.0
 	check(reconstructed.has("field") and reconstructed.field.cache_hit and reconstructed.field.height_checksum==field.height_checksum and reconstructed.field.obstacle_checksum==field.obstacle_checksum and reconstructed.field.tree_data.positions==field.tree_data.positions and reconstructed.field.material_image.get_data()==field.material_image.get_data(),"Custom cache reconstructs exact physical identity and packed data")
 	report.checks = checks; report.failures = failures; report.memory_peak = OS.get_static_memory_peak_usage()
-	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/world_"+case_name+("_physical" if physical_clearance else "")+".json",JSON.stringify(report,"\t"))
-	print("V15_WORLD ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v16/world_"+case_name+("_physical" if physical_clearance else "")+".json",JSON.stringify(report,"\t"))
+	print("V16_WORLD ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)

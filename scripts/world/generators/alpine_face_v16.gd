@@ -1,5 +1,5 @@
 extends RefCounted
-## V15 indexed landforms and independently configurable physical snow features.
+## V16 retains indexed landforms and adds a sparse upper woodland transition.
 ## These describe terrain, never a route to follow or a force on the rider.
 const CELL = 4.0
 const REGION_CELL = 192.0
@@ -211,6 +211,18 @@ func scattered_density(x: float,z: float) -> float:
 	var edge=1-smoothstep(treeline-180,treeline+90,_base_height(x,z))
 	var density=lerpf(.12,.82,smoothstep(-.35,.30,patch))
 	return clampf(2.6*density*edge*(1-smoothstep(2630,2800,z))*lerpf(.65,1.0,smoothstep(-.3,.35,grain))*(1-channel_values(x,z).y)*(1-snow_gap(x,z)),0,1)
+
+func sparse_upper_density(x: float,z: float,altitude: float) -> float:
+	# Coherent small groups fade into isolated trees; no new random stream changes landforms.
+	var treeline = treeline_height+forest_noise.get_noise_2d(x*.6+317,z*.6)*210
+	var upper_limit = 4250+forest_noise.get_noise_2d(x*.4-531,z*.4+2719)*50
+	var edge = smoothstep(treeline-100,treeline+30,altitude)*(1-smoothstep(4080,upper_limit,altitude))
+	if edge<=0: return 0.0
+	var patch = forest_noise.get_noise_2d(x*.85-2137,z*.85+6311)
+	var grain = forest_noise.get_noise_2d(x*3.7+1337,z*3.7-5371)
+	var density = lerpf(.006,.085,smoothstep(-.10,.42,patch))
+	density *= lerpf(1.0,.35,smoothstep(treeline+120,treeline+650,altitude))
+	return density*edge*lerpf(.6,1.0,smoothstep(-.35,.35,grain))*(1-channel_values(x,z).y)*(1-snow_gap(x,z))
 
 func _build_channels(rng: RandomNumberGenerator) -> void:
 	# Tributaries join neighbouring basins, sometimes splitting around a shoulder.

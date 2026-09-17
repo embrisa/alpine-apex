@@ -35,7 +35,7 @@ func run() -> void:
 	var authored_buffer: PackedFloat32Array=shared_asset.levels[2].groups[0].buffer.duplicate()
 	for seed in [849205174,638201943]:
 		stages = 0
-		var field = Definition.generate(seed,15)
+		var field = Definition.generate(seed)
 		var source = preload("res://scripts/world/mountain_data.gd").new()
 		source.generate(field,seed)
 		field.build_material_map()

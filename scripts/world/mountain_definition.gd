@@ -1,10 +1,10 @@
 extends RefCounted
 ## Compact, data-only recipe. Unsupported versions fail instead of silently
 ## changing a saved mountain. Name is metadata, never part of terrain identity.
-const CurrentTerrain = preload("res://scripts/world/generators/alpine_massif_v15.gd")
-const CURRENT_VERSION = 15
+const CurrentTerrain = preload("res://scripts/world/generators/alpine_massif_v16.gd")
+const CURRENT_VERSION = 16
 const DEFAULT_SEED = CurrentTerrain.DEFAULT_SEED
-const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
 const Settings = preload("res://scripts/world/generation_settings.gd")
 const Scenery = preload("res://scripts/world/mountain_data.gd")
 const SCHEMA = 2
@@ -34,13 +34,13 @@ static func parse_seed(value: String) -> Dictionary:
 		return {"error":"Enter a whole seed from 0 to 2147483647."}
 	var version = CURRENT_VERSION
 	if parts.size()>1:
-		if parts.size()!=2 or parts[1]!="15": return {"error":"That mountain seed uses an unsupported generator version."}
+		if parts.size()!=2 or parts[1]!=str(CURRENT_VERSION): return {"error":"That mountain seed uses an unsupported generator version."}
 	return {"seed":int(trimmed),"version":version,"error":""}
 
 static func generate(seed_number: int, version: int = CURRENT_VERSION, settings: Dictionary = {}, job = null):
 	if not preload("res://scripts/diagnostics/test_world_policy.gd").require_full("Mountain generation/restoration"): return null
 	if seed_number<0 or seed_number>MAX_SEED: return null
-	if version==15: return Cache.generate(seed_number,settings,job)
+	if version==CURRENT_VERSION: return Cache.generate(seed_number,settings,job)
 	# Explicit comparison fixtures are loaded only when requested.
 	if version==14 and settings.is_empty() and job==null: return load("res://scripts/world/mountain_cache_v14.gd").generate(seed_number)
 	if version==13 and settings.is_empty() and job==null: return load("res://scripts/world/mountain_cache_v13.gd").generate(seed_number)

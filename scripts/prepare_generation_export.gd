@@ -1,7 +1,7 @@
 extends SceneTree
 ## Run with the target runtime before exporting. Compiled exports use this receipt.
 const Sources = preload("res://scripts/world/generation_sources.gd")
-const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
 func _initialize() -> void:
 	if OS.has_feature("generation_export"):
 		var physical = Sources.signature(); var scenery = Sources.signature(true)

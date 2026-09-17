@@ -209,7 +209,7 @@
       "full_mountain": true,
       "coverage": "Mountain-specific integration."
     },
-    "tests/alpine_v15_route_audit.gd": {
+    "tests/alpine_v16_route_audit.gd": {
       "maps": [],
       "full_mountain": true,
       "coverage": "Mountain-specific integration."
@@ -538,59 +538,59 @@
       "full_mountain": false,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v15_baseline.gd": {
+    "tests/generation_v16_baseline.gd": {
       "maps": [],
       "full_mountain": true,
       "coverage": "Explicit production mountain generation, restoration, loading or performance coverage."
     },
-    "tests/generation_v15_cache_profile.gd": {
+    "tests/generation_v16_cache_profile.gd": {
       "maps": [],
       "full_mountain": false,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v15_cancellation_suite.gd": {
+    "tests/generation_v16_cancellation_suite.gd": {
       "maps": [],
-      "full_mountain": false,
+      "full_mountain": true,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v15_capacity_suite.gd": {
+    "tests/generation_v16_capacity_suite.gd": {
       "maps": [],
-      "full_mountain": false,
+      "full_mountain": true,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v15_contract_suite.gd": {
+    "tests/generation_v16_contract_suite.gd": {
       "maps": [],
       "full_mountain": true,
       "coverage": "Mountain-specific integration."
     },
-    "tests/generation_v15_estimate_suite.gd": {
+    "tests/generation_v16_estimate_suite.gd": {
       "maps": [],
       "full_mountain": false,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v15_loading_cancel_suite.gd": {
+    "tests/generation_v16_loading_cancel_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
+    },
+    "tests/generation_v16_probe.gd": {
       "maps": [],
       "full_mountain": false,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v15_probe.gd": {
-      "maps": [],
-      "full_mountain": false,
-      "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
-    },
-    "tests/generation_v15_scenery_integrity_suite.gd": {
+    "tests/generation_v16_scenery_integrity_suite.gd": {
       "maps": [],
       "full_mountain": true,
       "coverage": "Mountain-specific integration."
     },
-    "tests/generation_v15_smoke.gd": {
+    "tests/generation_v16_smoke.gd": {
       "maps": [],
       "full_mountain": false,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
-    "tests/generation_v15_world_suite.gd": {
+    "tests/generation_v16_world_suite.gd": {
       "maps": [],
-      "full_mountain": false,
+      "full_mountain": true,
       "coverage": "Producer-owned inline fixtures; runtime mountain gate enforced."
     },
     "tests/geology_asset_suite.gd": {
@@ -1593,11 +1593,11 @@
       "coverage": "Explicit production mountain generation, restoration, loading or performance coverage.",
       "additional_surfaces": [
         {
-          "id": "v15-standard",
+          "id": "v16-standard",
           "width_m": 6144,
           "length_m": 6144,
           "cell_m": 4,
-          "tree_target": 200000,
+          "tree_target": 170000,
           "objects": "Recipe-dependent trees and geological placements",
           "full_mountain": true
         }
@@ -1626,11 +1626,11 @@
       "coverage": "Explicit single Standard physical bake and archive publication.",
       "additional_surfaces": [
         {
-          "id": "v15-standard",
+          "id": "v16-standard",
           "width_m": 6144,
           "length_m": 6144,
           "cell_m": 4,
-          "tree_target": 200000,
+          "tree_target": 170000,
           "objects": "Recipe-dependent trees and geological placements",
           "full_mountain": true
         }
@@ -1690,11 +1690,11 @@
       "coverage": "Actual Standard habitat and unchanged physical output across six sectors; no implicit preparation or timing.",
       "additional_surfaces": [
         {
-          "id": "v15-standard",
+          "id": "v16-standard",
           "width_m": 6144,
           "length_m": 6144,
           "cell_m": 4,
-          "tree_target": 200000,
+          "tree_target": 170000,
           "objects": "Recipe-dependent trees and geological placements",
           "full_mountain": true
         }
@@ -1706,11 +1706,11 @@
       "coverage": "Explicit alternate Standard seed 638201943 physical cache preparation.",
       "additional_surfaces": [
         {
-          "id": "v15-standard",
+          "id": "v16-standard",
           "width_m": 6144,
           "length_m": 6144,
           "cell_m": 4,
-          "tree_target": 200000,
+          "tree_target": 170000,
           "objects": "Recipe-dependent trees and geological placements",
           "full_mountain": true
         }
@@ -1798,6 +1798,26 @@
       "maps": [],
       "full_mountain": true,
       "coverage": "Explicit warm Standard terrain attribution; sampled solver channels and crash status, not rendered FPS or all-state equivalence."
+    },
+    "tests/natural_forest_survey.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit prepared two-revision forest population, ecology, route or rendered comparison; missing archives require separate Exclusive preparation."
+    },
+    "tests/natural_forest_trace.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit prepared two-revision forest population, ecology, route or rendered comparison; missing archives require separate Exclusive preparation."
+    },
+    "tests/natural_forest_playtest.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit prepared two-revision forest population, ecology, route or rendered comparison; missing archives require separate Exclusive preparation."
+    },
+    "tests/natural_forest_ecology_suite.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Explicit prepared two-revision forest population, ecology, route or rendered comparison; missing archives require separate Exclusive preparation."
     }
   }
 }

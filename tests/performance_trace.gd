@@ -81,7 +81,7 @@ func run() -> void:
 	print("TRACE_OUTPUT ",trace_output)
 	var output_error = DirAccess.make_dir_recursive_absolute(trace_output.get_base_dir())
 	if output_error!=OK: printerr("Cannot create trace directory: ",trace_output," error=",output_error); quit(2); return
-	var field = preload("res://tests/validation_mountain.gd").load_standard() if version == 15 else Definition.generate(849205174,version)
+	var field = preload("res://tests/validation_mountain.gd").load_standard() if version == Definition.CURRENT_VERSION else Definition.generate(849205174,version)
 	if field == null: quit(2); return
 	field.build_material_map()
 	var attempts = []

@@ -1,12 +1,12 @@
 extends SceneTree
-const Terrain = preload("res://scripts/world/generators/alpine_massif_v15.gd")
-const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
+const Terrain = preload("res://scripts/world/generators/alpine_massif_v16.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
 const Archive = preload("res://scripts/world/mountain_archive.gd")
 const Job = preload("res://scripts/world/generation_job.gd")
 const Estimates = preload("res://scripts/world/generation_estimates.gd")
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
-	var report = {"engine":Engine.get_version_info(),"unranked":true,"version":15,"seed":849205174,"physical_source_sha256":Cache.Sources.signature(),"settings":Cache.Settings.preset(),"runs":[]}
+	var report = {"engine":Engine.get_version_info(),"unranked":true,"version":16,"seed":849205174,"physical_source_sha256":Cache.Sources.signature(),"settings":Cache.Settings.preset(),"runs":[]}
 	var failed = false
 	for repetition in 4:
 		var job = Job.new(); job.worker_count = 6 if repetition<3 else 1
@@ -27,8 +27,8 @@ func run() -> void:
 		row.matches_first = repetition==0 or (row.height_sha256==report.runs[0].height_sha256 and row.obstacle_sha256==report.runs[0].obstacle_sha256)
 		failed = failed or not wrote or not row.cache_hit or not row.cache_matches or not row.matches_first
 		report.runs.append(row)
-		DirAccess.make_dir_recursive_absolute("res://artifacts/generation_v15")
-		preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/v15_baseline.json",JSON.stringify(report,"\t"))
-		print("V15_PROFILE_RUN ",JSON.stringify(row))
-	print("V15_PROFILE_COMPLETE failed=",failed)
+		DirAccess.make_dir_recursive_absolute("res://artifacts/generation_v16")
+		preload("res://tests/test_report.gd").write("res://artifacts/generation_v16/v16_baseline.json",JSON.stringify(report,"\t"))
+		print("V16_PROFILE_RUN ",JSON.stringify(row))
+	print("V16_PROFILE_COMPLETE failed=",failed)
 	quit(1 if failed else 0)

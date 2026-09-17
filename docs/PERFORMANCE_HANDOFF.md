@@ -13,6 +13,12 @@ median run p95/p99 **12.247 / 14.289 ms**. The old Windows results below are
 historical attribution. Reuse the current reference for matching future work;
 see [the baseline policy](VALIDATION.md#reusable-baselines-and-experiment-budget).
 
+Generator 16 changes the physical forest to 170,000 trees with sparse trees near
+4,200 m. Its current route references and comparison limits are in
+[Natural forest results](NATURAL_FOREST_RESULTS.json). The Dev78 average above
+remains a v15 reference; regenerated lower/mixed routes cannot establish a matched
+gain against it. Use the actual current trace, not a relabeled old recording.
+
 ## Enabled in this milestone
 
 - Native physical hip fitting, presentation pelvis fitting and joint limits;

@@ -94,7 +94,7 @@ unrun suites establish a pass. The whole suite list is checked before launch.
 | `core` (default) | Physics, runtime |
 | `input` | Controller input, haptics, then physics/runtime |
 | `graphics` | Graphics settings, PC graphics settings |
-| `generation` | Current v15 estimates, archive/recipe contracts, scenery integrity |
+| `generation` | Current v16 estimates, archive/recipe contracts, scenery integrity |
 
 These are focused selections, not universal acceptance gates. Explicit `-Suites`
 accepts a PowerShell array or comma-separated names, including with `pwsh -File`.
@@ -116,7 +116,7 @@ Runtime retained its real scene construction/reload and passed 192 checks.
 Evidence: `artifacts/validation_turnaround/comparison.json`, `baseline/` and
 `optimized/`. This is one diagnostic pair, not a guaranteed latency bound.
 
-Warm v15 contracts, scenery-integrity checks, trace generation and production
+Warm v16 contracts, scenery-integrity checks, trace generation and production
 descent playback use `tests/validation_mountain.gd`. It reuses the production
 source/engine key, archive checksums and structural restore validation, and fails
 on a missing/incompatible Standard fixture without starting a cold bake. Prepare
@@ -442,8 +442,8 @@ Paths in this table are under `tests/` unless noted.
 | Pole propulsion | [Force/pose/authoring producers](#pole-propulsion-and-animation-producers), shared physics/runtime and final shaft/clothing review |
 | Animation/fitting | Animation skill's Regression stages; anatomy, attachment, motion, relevant flight/landing and full clothing audit; chronological rendered review |
 | Pose-review tools | `pose_review_tools_test.py`, affected real-capture commands, `pose_review_state.test.cjs` for feedback state; native smoke if rendering changes |
-| Generation/cache | Existing v15 generation/cache/recipe/cancellation/export suites; cold/worker determinism and actual requested/achieved populations |
-| Default-v15 routes | `alpine_v15_route_audit.gd`, then `python tests/report_v15_route_audit.py`; six surveys and one bounded ordinary-input pilot per face; human/multiple-seed acceptance separate |
+| Generation/cache | Current v16 generation/cache/recipe/cancellation/export suites; cold/worker determinism and actual requested/achieved populations |
+| Current mountain routes | `alpine_v16_route_audit.gd`, then `python tests/report_v16_route_audit.py`; six surveys and one bounded ordinary-input pilot per face; human/multiple-seed acceptance separate |
 | Geology/assets | `geology_asset_suite.gd`, collision/seating/proxy checks as affected; source hashes plus native gallery/gameplay |
 | Trees | `density_lod_suite.gd`, `foliage_sight_suite.gd`, native mask/settings/stand review, actual near/mid/far transition and bounded dense-route cost |
 | Camera/UI | Camera/profile/menu-camera, interface/settings/retained-screen/HUD suites; native `hud_dial_suite.gd` paint/retention checks and multi-size/controller/popup/display matrix |
@@ -502,14 +502,17 @@ ordinary riding cost. Fable's reported minimum-pass Mac figures are retained as
 attribution; use the normal warmed-sample policy below for new acceptance work.
 
 Reuse a saved baseline instead of rerunning the original setup for every change.
-The current dense-forest reference is
+The preserved v15 dense-forest reference is
 [DENSE_FOREST_BASELINE.json](DENSE_FOREST_BASELINE.json): **Dev78 / fb625ab3**, three
 15-second warmed trials recorded on 17 September with the installed Windows DX12
 runtime, 4K High / Auto 75% FSR 4.1.1 / FG off / uncapped, and normal 20 Hz ghost
 recording. The first route traversal is retained but excluded. Mean **9.180 ms /
 108.93 FPS**, GPU **7.517 ms**; individual runs **107.82-109.52 FPS**. Median run
 p95/p99 are **12.247 / 14.289 ms**. This replaces the historical Dev40 / 71.94 FPS
-reference for current matching work; it does not establish whole-descent FPS.
+reference for matching v15 work; it does not establish whole-descent FPS.
+Generator 16 changes physical placement and tree-local snow. Use the current
+[Natural forest evidence](#natural-forest-generation) for v16 routes; the old
+dense trace and its 108.93 FPS average are not a matched v16 baseline.
 Scenery rebuilt before warmup; this receipt provides no startup comparison.
 
 Preserve the compact trace, timed-recording harness, repeat command and environment
@@ -583,7 +586,7 @@ measurement.
 while preserving full logs; the outer guard no longer hides this second layer.
 
 ```powershell
-./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','current-v15','-Version','15','-InputTrace','artifacts/current/input.json','-Upscaler','auto','-TerrainGI','off','-FrameGeneration','off','-FrameCap','0','-Repetitions','3','-ProfileFrameCosts') -Label current-v15 -TimeoutSeconds 2400 -CollectGpuMemory -FullMountain -FullMountainReason 'Representative production mountain timing and exact route inputs'
+./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','current-v16','-Version','16','-InputTrace','artifacts/current/input.json','-Upscaler','auto','-TerrainGI','off','-FrameGeneration','off','-FrameCap','0','-Repetitions','3','-ProfileFrameCosts') -Label current-v16 -TimeoutSeconds 2400 -CollectGpuMemory -FullMountain -FullMountainReason 'Representative production mountain timing and exact route inputs'
 ```
 
 The example requires a separately prepared matching complete trace. Follow with
@@ -942,7 +945,7 @@ point bytes; point bytes exclude Jolt's native allocations. Keep render captures
 separate from these timing runs.
 
 Use `./scripts/record_run.ps1` when a player can demonstrate a faster route or a
-specific event. The guarded launch opens current default v15 Standard with normal
+specific event. The guarded launch opens current default v16 Standard with normal
 riding input, High/Auto .75/120 FPS/FG off/GI off and read-only saved camera settings.
 At the summit, choose a face and drop in to start recording. **Triangle / R**
 restarts with a fresh input stream; **D-pad Right / F8** or **Save clip** ends early.
@@ -999,7 +1002,7 @@ record files stayed unchanged. Detailed receipts are in
 not a full-descent FPS baseline or physical-controller comfort.
 
 `tests/interface_performance_suite.gd` is the bounded native UI/graphics protocol.
-It uses actual v15 Standard main-scene handoff and validated caches; physical
+It uses actual v16 Standard main-scene handoff and validated caches; physical
 cache misses invalidate comparisons. Run via the resolved DX12 engine with
 `--ui-staged-loading --benchmark-no-captures --graphics-quality=high
 --upscaler=auto --render-scale=0.75 --fps-limit=120 --frame-generation=off
@@ -1086,6 +1089,42 @@ pole/clothing clearance audit remains failing, with more intersecting frames
 in the faster-turn clips; equipment attachment checks and controller acceptance
 do not establish clean clothing clearance.
 
+## Natural forest generation
+
+Generator 16 uses 170,000 Standard trees and a sparse upper ecology extension.
+Physical generation, cache namespace, terrain preparation and ordinary traces
+must share the current identity. Old v15 mountain/trace data is incompatible;
+do not relabel its inputs as a current result.
+
+`tests/natural_forest_survey.gd --prepare --seed=849205174` and seed `638201943`
+prepare the two explicit full-world fixtures. Use Exclusive admission plus
+`-FullMountain -FullMountainReason` for those preparations. Without `--prepare`
+the survey requires a warm fixture. Before/after foundation and population
+evidence is preserved in `artifacts/natural_forest_20260917/`.
+`natural_forest_ecology_suite.gd` checks compact worker/preset/cancellation
+contracts; `generation_v16_world_suite.gd --case=standard` and
+`--case=alternate_standard` check the prepared worlds and route graph.
+
+`natural_forest_trace.gd` replays ordinary inputs against the actual current
+solver and regenerates a route if the old inputs no longer produce a useful
+descent. Read each trace's comparison record: upper inputs/end state match,
+mixed and lower use fresh controls after old inputs encounter changed trees.
+`natural_forest_playtest.gd` captures matched chase/first-person views;
+`--seed=638201943` selects the second seed and `--motion` records the default
+15-second upper transition. These capped captures are not performance evidence.
+The `--baseline` modes were used before migration; they cannot recreate v15
+from current source.
+
+Capture-free measurements use the preserved timed-recording harness
+`artifacts/fps_baseline_20260917/route.gd` with an explicit new trace,
+`--scenario-replay --repetitions=2`, native 4K High / Auto .75 / FG and GI off.
+The first traversal warms the route; the second supplies one candidate sample.
+Use FpsCritical full-mountain admission. This direct maintained-harness route
+avoids the benchmark wrapper's pending blanket metadata-audit cleanup.
+Results, comparison limits and reproduction commands belong in
+[NATURAL_FOREST_RESULTS.json](NATURAL_FOREST_RESULTS.json) and the compact
+`artifacts/natural_forest_20260917/REVIEW.md`; no whole-descent claim follows.
+
 ## Mountain evidence
 
 2026-09-10 v15 matched Standard work established deterministic outputs across
@@ -1094,11 +1133,11 @@ Initial means: cold generation 422.634 s v14 →135.579 s v15, physical-cache
 loading 10.349→5.402 s, cached rendered readiness 144.683→64.324 s. A later
 dependency-hash optimization brought v15 cold mean to 130.843 s. These retain
 their original workloads; readiness includes scene submission and is not FPS.
-Producers/receipts are the v15 generation suites and `artifacts/generation_v15/`.
+Those historical receipts are in `artifacts/generation_v15/`; maintained producers now use `generation_v16_*`.
 
-Current default-v15 route scenario coverage, source identity and reproduction
-commands are in [World's bounded route evidence](WORLD.md#current-bounded-default-v15-route-evidence)
-and its [current source-hashed receipt](CURRENT_V15_BOUNDED_ROUTE_RESULTS.json).
+Historical default-v15 route scenario coverage, source identity and reproduction
+commands are in [World's bounded route evidence](WORLD.md#previous-bounded-default-v15-route-evidence)
+and its [historical source-hashed receipt](CURRENT_V15_BOUNDED_ROUTE_RESULTS.json).
 It contains six graph surveys and three matched 15-second 170 km/h
 speed-controlled probes per face. This is automated bounded scenario evidence,
 not route acceptance: ordinary player handling, rendered inspection, frame

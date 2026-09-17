@@ -1,7 +1,7 @@
 extends SceneTree
 ## Differential tests against the authoritative sample and retained full channel query.
 const Surface = preload("res://scripts/world/heightfield_surface.gd")
-const Massif = preload("res://scripts/world/generators/alpine_massif_v15.gd")
+const Massif = preload("res://scripts/world/generators/alpine_massif_v16.gd")
 const Crush = preload("res://scripts/core/snow_crush_contact.gd")
 var checks = 0
 var failures: Array = []
@@ -16,7 +16,7 @@ class MutableAdapter extends "res://scripts/world/heightfield_surface.gd":
 class InheritedAdapter extends MutableAdapter:
 	pass
 
-class MassifAdapter extends "res://scripts/world/generators/alpine_massif_v15.gd":
+class MassifAdapter extends "res://scripts/world/generators/alpine_massif_v16.gd":
 	var rise = 7.0
 	func _init() -> void: super(849205174,false)
 	func sample(x: float,z: float) -> Dictionary:

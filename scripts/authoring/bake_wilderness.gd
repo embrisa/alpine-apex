@@ -12,7 +12,7 @@ class Assets:
 	func terrain_material(_bias: float = 0.0,_scale: float = .075) -> ShaderMaterial: return ShaderMaterial.new()
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
-	var field = preload("res://scripts/world/mountain_definition.gd").generate(849205174,15)
+	var field = preload("res://scripts/world/mountain_definition.gd").generate(849205174)
 	# Match MountainPreparation and normal startup, including its scenery RNG.
 	var mountain = preload("res://scripts/world/mountain_data.gd").new(); mountain.generate(field,field.seed_value)
 	var recipe = Recipe.new(); recipe.configure(mountain,field)

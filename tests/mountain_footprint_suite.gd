@@ -11,7 +11,9 @@ func check(value: bool, label: String) -> void:
 	if not value: failures.append(label)
 	print("PASS: " if value else "FAIL: ",label)
 func run() -> void:
-	var field=Definition.generate(849205174,15)
+	var field=Definition.generate(849205174)
+	if field==null: quit(2); return
+	var physical=[field.heights.duplicate(),field.tree_data.positions.duplicate(),field.tree_data.dimensions.duplicate()]
 	var zone=Zone.new(field)
 	var riding_retained=true; var minimum_margin=INF
 	for i in 3600:
@@ -34,9 +36,9 @@ func run() -> void:
 				indexed_support=indexed_support and absf(v.y-field.sample(v.x,v.z).height)<.001
 	check(triangles>3000000 and triangles<4000000 and terrain.chunks.size()<576,"Trimming reduces terrain triangles and submitted sections")
 	check(partial>0 and indexed_support,"Partial perimeter chunks retain exact 4 m support and seam vertices")
-	check(field.height_checksum=="e12569ae88d5c3c564e66ad6e3e5ed3744baa71398a914db6c954c6eba24e40e" and field.obstacle_checksum=="b84df994471e299e83aebbb114ad3d156f6f6a0306dbf44d8f8e08824c0d4159","Physical v15 heights and obstacle fingerprints remain unchanged")
+	check(physical==[field.heights,field.tree_data.positions,field.tree_data.dimensions],"Footprint preparation preserves current physical heights and packed trees")
 	var reference=Definition.from_field(field).to_reference()
-	check(reference.scenery_version==3 and reference.version==15,"Mountain identity advances scenery independently of the physical generator")
+	check(reference.scenery_version==3 and reference.version==16,"Mountain identity advances scenery independently of the physical generator")
 	var legacy=reference.duplicate(); legacy.scenery_version=2
 	check(not Definition.reference_error(legacy).is_empty(),"Old scenery identities are rejected instead of mixed into current maps")
 	var preview=preload("res://scripts/ui/mountain_preview.gd").build_image(field)

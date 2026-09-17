@@ -1,7 +1,7 @@
 extends SceneTree
 const Settings = preload("res://scripts/world/generation_settings.gd")
 const Job = preload("res://scripts/world/generation_job.gd")
-const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
 const Archive = preload("res://scripts/world/mountain_archive.gd")
 const Definition = preload("res://scripts/world/mountain_definition.gd")
 const Race = preload("res://scripts/racing/race_definition.gd")
@@ -30,8 +30,8 @@ func run() -> void:
 	for bad in [NAN,INF,0,5.01,1.001,true,"1"]:
 		var s = original.duplicate(); s.tree_population = bad
 		check(not Settings.error(s).is_empty(),"Reject invalid setting "+str(bad))
-	check(Definition.parse_seed("849205174").version==15,"Bare seed uses current Standard")
-	check(not Definition.parse_seed("849205174 / v14").has("seed"),"Reject obsolete seed versions")
+	check(Definition.parse_seed("849205174").version==Definition.CURRENT_VERSION,"Bare seed uses current Standard")
+	check(not Definition.parse_seed("849205174 / v15").has("seed"),"Reject obsolete seed versions")
 	var hashes: Array = []
 	for workers in [1,2,6]:
 		var job = Job.new(); job.worker_count = workers; job.begin_stage("determinism",997)
@@ -44,7 +44,7 @@ func run() -> void:
 	await create_timer(.025).timeout; cancelled.cancel(); var then = Time.get_ticks_usec()
 	while worker.is_alive(): await process_frame
 	check(worker.wait_to_finish().is_empty() and Time.get_ticks_usec()-then<1000000,"Cancellation joins all bounded workers")
-	var directory = "res://artifacts/generation_v15/contracts_%d" % Time.get_ticks_usec()
+	var directory = "res://artifacts/generation_v16/contracts_%d" % Time.get_ticks_usec()
 	DirAccess.make_dir_recursive_absolute(directory)
 	var path = directory.path_join("atomic.physical"); var key = "verified".sha256_text()
 	var sections = [{"name":"metadata","value":{"test":1}},{"name":"packed","value":PackedVector3Array([Vector3.ONE,Vector3(2,3,4)])}]
@@ -58,7 +58,7 @@ func run() -> void:
 	check(Archive.read(path,"different".sha256_text()).is_empty(),"Source/engine/key invalidation")
 	var file = FileAccess.open(path,FileAccess.READ_WRITE); file.seek(file.get_length()-1); var value = file.get_8(); file.seek(file.get_length()-1); file.store_8(value^1); file.close()
 	check(Archive.read(path,key).is_empty(),"Corrupted section rejected before decoding")
-	file = preload("res://tests/test_report.gd").open_write(path); file.store_string("APEXV15"); file.close()
+	file = preload("res://tests/test_report.gd").open_write(path); file.store_string("APEXV16"); file.close()
 	check(Archive.read(path,key).is_empty(),"Truncated archive rejected")
 	var protected_key = "protected".sha256_text(); var old_key = "old".sha256_text(); var new_key = "new".sha256_text()
 	for recipe in [old_key,new_key,protected_key]:
@@ -78,7 +78,7 @@ func run() -> void:
 	check(rebuilt.has("field") and rebuilt.field.tree_data.positions==field.tree_data.positions and rebuilt.field.material_image.get_data()==field.material_image.get_data(),"Warm recipe restores final packed trees and material")
 	var custom = definition.to_reference(); custom.settings.tree_population = 2.35
 	check(Definition.reference_error(custom).is_empty() and JSON.stringify(custom).sha256_text()!=definition.identity(),"Custom settings carried in references")
-	var race = Race.new(); race.mountain = definition.to_reference(); race.title = "V15 sharing"; race.start = Vector3(0,100,20); race.finish = Vector3(0,0,200)
+	var race = Race.new(); race.mountain = definition.to_reference(); race.title = "V16 sharing"; race.start = Vector3(0,100,20); race.finish = Vector3(0,0,200)
 	var shared = Race.decode(race.share_text())
 	check(shared.has("race") and shared.race.mountain.settings==field.generation_settings,"Race sharing retains canonical settings")
 	var old = JSON.parse_string(definition.share_text()); old.schema = 1
@@ -88,5 +88,5 @@ func run() -> void:
 	for name in DirAccess.get_files_at(directory): DirAccess.remove_absolute(directory.path_join(name))
 	DirAccess.remove_absolute(directory)
 	var result = {"checks":checks,"failures":failures}
-	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/contracts.json",JSON.stringify(result,"\t"))
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v16/contracts.json",JSON.stringify(result,"\t"))
 	print("GENERATION_CONTRACTS ",JSON.stringify(result)); quit(0 if failures.is_empty() else 1)

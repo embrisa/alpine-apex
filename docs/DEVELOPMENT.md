@@ -238,7 +238,7 @@ An ordinary collaboration build generates its mountain on first launch. To ship
 prepared Standard data, first complete a current High rendered preparation, then:
 
 ```powershell
-$env:ALPINE_BAKE_OUTPUT = 'C:\absolute\new-build\data\default_mountain_v15.physical'
+$env:ALPINE_BAKE_OUTPUT = 'C:\absolute\new-build\data\default_mountain_v16.physical'
 ./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','godotw.ps1','--headless','--script','scripts/prepare_playtest_bake.gd') -Label playtest-bake -TimeoutSeconds 1200
 ./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','godotw.ps1','--headless','--script','tests/playtest_bake_suite.gd') -Label playtest-bake-check -TimeoutSeconds 120
 Remove-Item Env:ALPINE_BAKE_OUTPUT

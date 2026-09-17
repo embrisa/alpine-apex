@@ -6,7 +6,7 @@ func _initialize() -> void: call_deferred("run")
 func check(ok: bool, message: String) -> void:
 	if not ok: failures.append(message); printerr("FAIL: ",message)
 func run() -> void:
-	var field = Definition.generate(849205174,15)
+	var field = Definition.generate(849205174)
 	var rows: Array = []
 	for face in field.faces:
 		for band in 3:

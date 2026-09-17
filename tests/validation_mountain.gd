@@ -1,7 +1,7 @@
 extends RefCounted
 ## Warm Standard fixture using production archive/source/restore validation.
 ## A missing fixture is a setup failure, never an implicit multi-minute bake.
-const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
 
 static func load_standard(candidates: Array[String] = []):
 	if not preload("res://scripts/diagnostics/test_world_policy.gd").require_full("Standard mountain fixture restoration"): return null
@@ -14,7 +14,7 @@ static func load_standard(candidates: Array[String] = []):
 	if paths.is_empty():
 		paths.append(Cache.path_for(seed_number,settings))
 		if not OS.has_feature("editor"):
-			paths.append(OS.get_executable_path().get_base_dir().path_join("data/default_mountain_v15.physical"))
+			paths.append(OS.get_executable_path().get_base_dir().path_join("data/default_mountain_v16.physical"))
 	for path in paths:
 		job.begin_stage("physical_cache_read")
 		var data: Dictionary = Cache.Archive.read(path,key,job)

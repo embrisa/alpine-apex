@@ -1,12 +1,12 @@
 extends RefCounted
 ## Bounded independent sections. Integrity is checked on bytes before decoding.
 ## Writers never replace the live file until the complete archive is flushed.
-const MAGIC = "APEXV15\n"
+const MAGIC = "APEXV16\n"
 const FORMAT = 1
 const MAX_SECTION = 16*1024*1024
 const MAX_FILE = 1536*1024*1024
 const MAX_SECTIONS = 65536
-const DIRECTORY = "user://mountain_cache_v15"
+const DIRECTORY = "user://mountain_cache_v16"
 const DEFAULT_BUDGET = 2*1024*1024*1024
 static var mutex = Mutex.new()
 

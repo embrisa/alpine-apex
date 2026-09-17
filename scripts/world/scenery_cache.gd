@@ -1,5 +1,5 @@
 extends RefCounted
-const Physical = preload("res://scripts/world/mountain_cache_v15.gd")
+const Physical = preload("res://scripts/world/mountain_cache_v16.gd")
 const Archive = preload("res://scripts/world/mountain_archive.gd")
 const Sources = preload("res://scripts/world/generation_sources.gd")
 const Terrain = preload("res://scripts/world/terrain_preparation.gd")
@@ -53,7 +53,7 @@ static func load_into(prepared, field, quality, job, archive_path: String = "") 
 
 static func _decode_into(prepared, field, quality, job, archive_path: String = "") -> bool:
 	var local_path = path_for(field) if archive_path.is_empty() else archive_path
-	var bundled_path = OS.get_executable_path().get_base_dir().path_join("data/default_mountain_v15.scenery")
+	var bundled_path = OS.get_executable_path().get_base_dir().path_join("data/default_mountain_v16.scenery")
 	var bundled = archive_path.is_empty() and field.seed_value==Physical.Terrain.DEFAULT_SEED and field.generation_settings==Physical.Settings.preset() and FileAccess.file_exists(bundled_path)
 	if not FileAccess.file_exists(local_path) and not bundled: return false
 	var cache_key = key(field,quality,job)
@@ -68,7 +68,7 @@ static func _decode_into(prepared, field, quality, job, archive_path: String = "
 	var readability = Archive.unpack(data,"readability",PackedByteArray(),1537*1537*2)
 	if height==null or environment==null or readability==null or height.size()!=2048*2048*4 or environment.size()!=257*257*4: return false
 	prepared.mountain.ORIGIN = meta.origin; prepared.mountain.seed_value = field.seed_value
-	prepared.mountain.physics_authority = "alpine-drainage-v15"
+	prepared.mountain.physics_authority = "alpine-drainage-v16"
 	prepared.mountain.height_image = Image.create_from_data(2048,2048,false,Image.FORMAT_RF,height)
 	prepared.mountain.environment_image = Image.create_from_data(257,257,false,Image.FORMAT_RGBA8,environment)
 	prepared.mountain.height_checksum = meta.scenery_height; prepared.mountain.environment_checksum = meta.scenery_environment

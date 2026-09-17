@@ -1,5 +1,5 @@
 extends SceneTree
-const Cache = preload("res://scripts/world/mountain_cache_v15.gd")
+const Cache = preload("res://scripts/world/mountain_cache_v16.gd")
 const Prep = preload("res://scripts/world/mountain_preparation.gd")
 const Quality = preload("res://scripts/presentation/graphics_quality.gd")
 var failures: Array = []
@@ -39,5 +39,5 @@ func run() -> void:
 	if prep.ready or duration>2000: failures.append("Scenery cancellation exceeded checkpoint bound")
 	samples.append({"stage":"scenery_maps","join_ms":duration}); prep = null
 	var report = {"samples":samples,"failures":failures}
-	preload("res://tests/test_report.gd").write("res://artifacts/generation_v15/cancellation.json",JSON.stringify(report,"\t"))
-	print("V15_CANCELLATION ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)
+	preload("res://tests/test_report.gd").write("res://artifacts/generation_v16/cancellation.json",JSON.stringify(report,"\t"))
+	print("V16_CANCELLATION ",JSON.stringify(report)); quit(0 if failures.is_empty() else 1)

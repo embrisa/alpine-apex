@@ -1,9 +1,9 @@
 param(
-    [ValidatePattern('^[a-zA-Z0-9_-]+$')][string]$Label = 'v15_high_clear',
+    [ValidatePattern('^[a-zA-Z0-9_-]+$')][string]$Label = 'v16_high_clear',
     [ValidateSet(-1,1)][int]$Side = -1,
     [ValidateSet('clear','cloudy','snowfall','rain','snowstorm','thunderstorm')][string]$Weather = 'clear',
     [ValidateSet('dawn','day','dusk','night')][string]$TimeOfDay = 'day',
-    [ValidateSet(6,7,8,9,10,11,12,13,14,15)][int]$Version = 15,
+    [ValidateSet(6,7,8,9,10,11,12,13,14,16)][int]$Version = 16,
     [ValidateRange(0,5)][int]$Face = 0,
     [ValidateRange(0,2147483647)][int]$Seed = 849205174,
     [string]$RenderScale = '0.75',
