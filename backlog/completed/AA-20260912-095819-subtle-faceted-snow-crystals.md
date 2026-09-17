@@ -42,7 +42,7 @@ Read-only inspection on 2026-09-12 at HEAD
   harness patterns. Their historical snapshots/interfaces are not a current
   baseline or proof they still run unchanged.
 - No duplicate crystal task was found in tasks, archives or ideas.
-  [Distant snow](../blocked/AA-20260911-230603-scenery-snow-material.md) and
+  [Distant snow](AA-20260911-230603-scenery-snow-material.md) and
   [local snow boundary](../blocked/AA-20260912-005323-subtle-local-snow-boundary.md) have
   different outcomes. Coordinate shared receiver edits, preserving worker-owned
   and concurrent changes; neither is a functional prerequisite.

@@ -6,14 +6,12 @@ status, dependencies, evidence and acceptance live in each stable task record.
 
 ## Player features and art
 
-No ready player-feature tasks remain. Continue the remaining work below before
-starting the ideas phase.
+- **[Distant mountain shadows](tasks/AA-20260911-230604-scenery-mountain-shadows.md):** ready after the scenery-snow cost gate. Retain optional quality and measure one visually accepted candidate.
 
 ## Blocked work and resume conditions
 
 - **[Grouped distant stands](blocked/AA-20260914-094136-render-distant-forest-stands.md):** user approved timing; both the pictured patch and complete-cell test show no FPS gain. Resume with a different representation that lowers total GPU/frame cost.
 - **[Pole feature](blocked/AA-20260911-183812-slope-limited-pole-pushing.md):** resolve the remaining contact and transition gaps within the current backlog-completion goal.
-- **[Scenery snow](blocked/AA-20260911-230603-scenery-snow-material.md):** implemented, with explicitly deferred cost acceptance. [Distant mountain shadows](blocked/AA-20260911-230604-scenery-mountain-shadows.md) waits on that prerequisite.
 - **[Motion blur](blocked/AA-20260912-004402-scene-motion-blur.md):** finish the remaining performance and visual qualification.
 - **[Metal frame floor](blocked/AA-20260916-181500-reduce-mac-metal-frame-floor.md):** MacBook unavailable, confirmed by the user on 17 September. Resume with machine access and Metal counters or a concrete alternate attribution method.
 

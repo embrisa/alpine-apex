@@ -1,5 +1,51 @@
 # Validation and acceptance
 
+## Scenery snow material comparison
+
+`tests/scenery_snow_snapshot.py OUTPUT --ref REVISION` expands the original
+material into two small text files. It records Git revision, source paths and
+sizes, with no hash audit. Repeat `--current-include PATH` for shared includes
+that changed independently of snow; the manifest identifies those checkout
+inputs. The September cost comparison restores material at `742fcb3262` while
+keeping `assets/cloud_light.gdshaderinc` and `assets/cloud_field.gdshaderinc`
+current. Geometry, placement and other materials stay current in every arm.
+
+Run `tests/scenery_snow_playtest.gd -- --quick-review
+--snow-baseline=artifacts/scenery_snow_cost/baseline_shared
+--output=artifacts/scenery_snow_cost/review` with a 1080p/30 cap for the five
+matched summit, riding and apron triplets. Its own entry restores only the
+current warm Standard fixture; missing fixtures fail without starting a bake.
+The full visual/weather/tier matrix remains explicit by omitting `--quick-review`.
+Use `--input-trace=PATH` to add the actual route framing, or `--route-only`
+to inspect only that view after the matrix has passed. Route preflight rejects
+stale sources before scene construction. Keep captured views separate from
+performance evidence.
+
+For cost, invoke `tests/scenery_snow_cost.gd` directly under `run_guarded.ps1`
+with `-WorkloadMode FpsCritical`, `-FullMountain` and a reason identifying the
+current mountain's distant ridge/apron coverage. Use an identity-compatible
+ordinary-input `--input-trace=PATH`, `--scenario-replay --trial-seconds=15
+--repetitions=4`, the same `--snow-baseline`, a fresh `--benchmark-label`, and
+`--benchmark-resolution=3840x2160 --graphics-quality=high --render-scale=0.75
+--upscaler=auto --fps-limit=0 --terrain-gi=off --frame-generation=off
+--ui-staged-loading`. This uses the existing native descent producer directly
+because the older outer PC wrapper still performs a blanket source hash scan.
+
+All modes share one scene startup. Shader preparation and 240 starting frames
+are outside riding measurements. Exclude the first entire route traversal for
+residency warmup, then compare the original, cheap and enhanced material rows.
+The producer records actual material bindings, frame/GPU distributions, focus,
+exact recorded outcome, shared loading and engine allocation telemetry. No
+capture occurs during measured riding. These short-route results do not certify
+an entire descent, worst-case scenery coverage or physical VRAM occupancy.
+Keep deposits optional when the small comparison cannot establish a safe default.
+The route helper `tests/natural_forest_trace.gd` accepts one `--habitat`,
+`--source-trace=PATH`, `--output=DIRECTORY` and optional `--origin=X,Z`. It
+replays actual controls against the warm current physical fixture; changing an
+origin defines a new workload, never a matched old-route FPS comparison.
+The snow workload starts at (-288, 600), above dense woodland, because the
+existing lower forest route obscures the scenery being measured.
+
 ## Execution
 
 Follow [internal development versioning](DEVELOPMENT.md#internal-development-versions)

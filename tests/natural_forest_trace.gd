@@ -9,25 +9,38 @@ func _initialize()->void:run.call_deferred()
 func run()->void:
 	baseline="--baseline" in OS.get_cmdline_user_args()
 	var habitats=["lower","upper","mixed"]
+	var source_override=""
+	var origin_override=Vector2.INF
+	var output=OUT+("/old_traces" if baseline else "/new_traces")
 	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--source-trace="):source_override=arg.get_slice("=",1)
+		if arg.begins_with("--origin="):
+			var xy=arg.get_slice("=",1).split(",")
+			assert(xy.size()==2 and xy[0].is_valid_float() and xy[1].is_valid_float())
+			origin_override=Vector2(float(xy[0]),float(xy[1]))
+		if arg.begins_with("--output="):output="res://"+arg.get_slice("=",1)
 		if arg.begins_with("--habitat="):
 			var habitat=arg.get_slice("=",1)
 			assert(habitat in habitats)
 			habitats=[habitat]
-	var field=Definition.Cache.generate(Definition.DEFAULT_SEED)
+	assert(source_override.is_empty() or habitats.size()==1,"Select one habitat when replaying a specific source trace")
+	assert(origin_override==Vector2.INF or (origin_override.is_finite() and habitats.size()==1 and not source_override.is_empty()))
+	var field=preload("res://tests/validation_mountain.gd").load_standard()
 	if field==null:quit(2);return
 	field.build_material_map()
 	var surface=preload("res://scripts/world/prop_collision_surface.gd").new(field)
-	var output=OUT+("/old_traces" if baseline else "/new_traces")
 	DirAccess.make_dir_recursive_absolute(output)
 	for habitat in habitats:
 		var source=OUT+"/old_traces/"+habitat+".json"
 		if baseline and habitat=="lower":source="res://artifacts/collision_heightfield_20260917/forest.json"
+		if not source_override.is_empty():source=source_override
 		var accepted={}
 		if not baseline or habitat=="lower":
 			var old=JSON.parse_string(FileAccess.get_file_as_string(source))
 			assert(Trace.Inputs.expand(old).is_empty())
-			accepted=ride(field,surface,Vector2(old.scenario_origin[0],old.scenario_origin[1]),old.heading,old.commands,int(old.command_ticks))
+			var origin=Vector2(old.scenario_origin[0],old.scenario_origin[1]) if origin_override==Vector2.INF else origin_override
+			assert(field.bounds().has_point(origin))
+			accepted=ride(field,surface,origin,old.heading,old.commands,int(old.command_ticks))
 			var preserved_inputs=true
 			var preserved_failure=last_failure.duplicate(true)
 			if accepted.is_empty() and not baseline:
@@ -35,7 +48,7 @@ func run()->void:
 				# actual ordinary controls through the same area; never relabel old states.
 				preserved_inputs=false
 				for offset in [Vector2.ZERO,Vector2(8,0),Vector2(-8,0),Vector2(0,8),Vector2(0,-8)]:
-					accepted=ride(field,surface,Vector2(old.scenario_origin[0],old.scenario_origin[1])+offset,old.heading)
+					accepted=ride(field,surface,origin+offset,old.heading)
 					if not accepted.is_empty():break
 			if not accepted.is_empty():
 				accepted.presentation=old.presentation

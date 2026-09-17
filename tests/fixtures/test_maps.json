@@ -1843,6 +1843,11 @@
       "maps": [],
       "full_mountain": false,
       "coverage": "Recipe-only two-seed opening sightlines and full/narrow powder-query agreement; no physical mountain bake."
+    },
+    "tests/scenery_snow_cost.gd": {
+      "maps": [],
+      "full_mountain": true,
+      "coverage": "Current warm Standard, identical recorded ordinary-input route, excluded residency traversal and three material-only modes; capture-free timing."
     }
   }
 }

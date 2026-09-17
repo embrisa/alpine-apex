@@ -149,6 +149,12 @@ assumptions change.
 
 ## Internal development identity
 
+For the distant-snow cost gate, follow the [three-mode comparison](../../../docs/VALIDATION.md#scenery-snow-material-comparison).
+It reuses the native descent loop directly, avoiding the old wrapper's blanket
+hash audit. Exclude its first residency traversal, compare matched material
+bindings, and keep shared startup/allocation telemetry distinct from incremental
+feature cost. Bounded route acceptance does not establish full-descent tails.
+
 Follow [development versioning](../../../docs/DEVELOPMENT.md#internal-development-versions)
 for each committed milestone, including documentation/backlog authoring. Use
 `python scripts/versioning.py identity --json` to identify the current checkout;

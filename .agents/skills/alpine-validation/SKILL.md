@@ -146,6 +146,12 @@ when runner behavior, fixtures, check selection or evidence meanings change.
 
 ## Internal development identity
 
+For distant snow, use the [material comparison](../../../docs/VALIDATION.md#scenery-snow-material-comparison).
+Restore the current warm fixture, inspect matched material-only captures first,
+and use the separate bounded cost producer for timing. Keep shared cloud includes
+current when restoring the original snow material. Snapshot metadata uses paths
+and sizes; do not revive the legacy source/capture hash recipe.
+
 Follow [development versioning](../../../docs/DEVELOPMENT.md#internal-development-versions)
 for each committed milestone, including documentation/backlog authoring. Use
 `python scripts/versioning.py identity --json` to identify the current checkout;

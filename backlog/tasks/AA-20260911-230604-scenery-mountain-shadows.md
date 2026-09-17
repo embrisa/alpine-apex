@@ -1,22 +1,23 @@
 ---
 id: "AA-20260911-230604-scenery-mountain-shadows"
 title: "Add time-dependent distant mountain shadows with scalable settings"
-status: blocked
+status: ready
 priority: P2
 depends_on: ["AA-20260911-230603-scenery-snow-material"]
 created: "2026-09-11T23:06:04Z"
-updated: "2026-09-16T21:59:44Z"
+updated: "2026-09-17T13:14:45+00:00"
 source_thread: "01a092b4-c1a2-7d50-a577-a5e08a7f15d8"
 ---
 
 # Add time-dependent distant mountain shadows with scalable settings
 
-## Current disposition — 16 September 2026
+## Current disposition — 17 September 2026
 
-The agreed feature is blocked on completion of the scenery-snow cost
-gate. It is optional visual work after the performance/correctness groups in the
-queue index. Resume when that prerequisite is delivered or its cost gate is explicitly waived. Do not turn the blocked prerequisite into a full benchmark campaign;
-its older repetition/hash recipe is superseded by the economical policy.
+The scenery-snow cost prerequisite is complete. Its small bounded comparison
+keeps the enhanced deposits optional and all presets cheap. This shadow feature
+is now ready for implementation under the current economical policy: one
+candidate, inspect visuals before one short matched measurement, and preserve a
+saved cheap/off control. Do not revive the older full benchmark/hash recipe.
 
 ## Outcome
 
@@ -40,7 +41,7 @@ of ordinary gameplay shadow maps an unsuitable default approach. These are
 source findings; no shadow solution or cost has yet been measured.
 Read [Rendering](../../docs/RENDERING.md), [World](../../docs/WORLD.md),
 [Assets](../../docs/ASSETS.md), [Validation](../../docs/VALIDATION.md) and the
-[prerequisite](AA-20260911-230603-scenery-snow-material.md).
+[prerequisite](../completed/AA-20260911-230603-scenery-snow-material.md).
 Coordinate current interfaces with the independent
 [weather task](../abandoned/AA-20260911-160307-weather-upgrade-storm-races.md); do not implement
 its weather/race design here.
@@ -114,7 +115,7 @@ resource residency where practical; quality changes cannot trigger long rebakes.
   cases. Record frame/GPU median and p95/p99, rendered FPS, CPU, memory, bake,
   cache-load and scene-readiness costs. Apply the opt-in gate above; a capped
   summit benchmark alone cannot establish acceptable cost.
-- [ ] Record exact reproduction commands, source/asset/runtime hashes and
+- [ ] Record exact reproduction commands, versions, paths, settings and scoped metadata and
   before/after evidence under `artifacts/scenery_mountain_shadows/`. Update the
   owning Rendering guide and relevant asset/cache contracts without duplicating
   reports. Validate backlog, commit/push owned source and required baked assets.

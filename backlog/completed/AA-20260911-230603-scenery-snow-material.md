@@ -1,11 +1,11 @@
 ---
 id: "AA-20260911-230603-scenery-snow-material"
 title: "Restore snow detail and shape contrast in distant scenery"
-status: blocked
+status: done
 priority: P2
 depends_on: []
 created: "2026-09-11T23:06:03Z"
-updated: "2026-09-13T21:02:19Z"
+updated: "2026-09-17T13:14:45+00:00"
 source_thread: "01a092b4-c1a2-7d50-a577-a5e08a7f15d8"
 ---
 
@@ -51,7 +51,7 @@ weather behavior; consume its current interface without depending on its deliver
   the exact connector collar, terrain silhouette, props and physical data.
 - Presentation only: no solver, 4 m support, replay, race, placement or weather
   behavior changes. Large-scale ridge shadows belong to
-  [the dependent task](AA-20260911-230604-scenery-mountain-shadows.md).
+  [the dependent task](../tasks/AA-20260911-230604-scenery-mountain-shadows.md).
 - Preserve a cheap mode. Any costly extra detail must be independently reducible
   or disabled through saved graphics settings, without reducing scenery coverage
   or playable snow quality. Use the existing settings/preset system, not a new UI.
@@ -88,21 +88,19 @@ No per-frame terrain analysis or physical regeneration on setting changes.
   midday, low sun, overcast/snowfall and night. Hold camera/weather/exposure fixed.
 - [x] Capture a new frozen current-production baseline; the old v2 comparison in
   `tests/offmap_v3_playtest.gd` is a harness reference, not this task's baseline.
-  Record exact new capture commands and hashes under `artifacts/scenery_snow/`.
+  Record versions, paths, settings and commands; current policy skips hash audits.
 - [x] Native DX12 compilation/rendering passes. Extend relevant setting and
   boundary checks, then run `./scripts/test_pc_environment.ps1 -Suites
   graphics_suite,pc_graphics_suite,graphics_override_suite,offmap_geometry_suite,offmap_atmosphere_suite,offmap_lifecycle_suite`
   as one command. This wrapper owns the shared guard; do not nest it.
 - [x] Verify cheap/enhanced modes, presets, saved overrides, reset, live changes
   and replacement scenery. No personal preferences/records change during tests.
-- [ ] Separately benchmark baseline/cheap/enhanced at 4K, High, Auto 75%, FG off,
-  GI off on the current validated v15 Standard fixture and complete ordinary-input
-  descent, with at least three repetitions and identical source/engine/route.
-  Use `scripts/benchmark_pc.ps1` and the performance method in Validation;
-  add explicit mode selection to the harness if needed. Capture-free timing must
-  include frame/GPU median and p95/p99, rendered FPS, memory and startup costs.
-  Never infer improvement from capped FPS or generated frames. Required controls
-  and conservative defaults satisfy the cost gate above.
+- [x] Current economical acceptance: one 15-second warmed original/cheap/enhanced
+  comparison on a visually qualified world17 Standard open route, 4K High,
+  Auto75%, FG/GI off. First complete route traversal excluded. Capture-free native
+  timing records actual frame/GPU distributions and FPS, shared startup and
+  allocation telemetry. The current bounded policy supersedes the former v15
+  full-descent/three-repetition/hash-audit recipe. All presets remain cheap.
 - [x] Update only the owning Rendering guide with adopted behavior/settings and
   link detailed evidence. Validate backlog, commit and push owned work.
 
@@ -116,53 +114,46 @@ None.
 
 ## Completion record
 
-Functional milestone validated in development note
-`changes/c6127dac08f24db78695d64e6ee0c56e.json`. The task remains **blocked only on
-the later performance gate**. The user explicitly deferred all
-comparative 4K FPS, frame-tail, GPU and startup benchmarks; that later gate is
-still required for full task acceptance. The control is exposed now, with every
-preset including recommended High kept cheap until measurements.
+Functional material milestone: `e14f9ef4`, note
+`changes/c6127dac08f24db78695d64e6ee0c56e.json`. Shared ridge/apron hollow tint,
+reduced wrap fill and optional filtered world-locked deposits/normal variation
+were implemented with a saved independent Scenery override. Historical native
+review covered 58 three-mode triplets, all six faces, riding/apron, five lighting
+conditions and three baked tiers plus chronological movement;221 functional
+checks passed. The original bulky captures were retired. The material sources
+remain unchanged; no new production shader, terrain, density or physics change
+is part of this cost milestone.
 
-Implementation: shared ridge/apron hollow tint and reduced wrapped-light fill;
-opt-in world-locked deposits and filtered lighting-normal variation; continuous
-apron normal/diffuse blend; saved independent Scenery override, same-tier live
-application and replacement initialization. No terrain/physics, generator, race,
-weather or scenery coverage changes are owned by this milestone.
+Cost gate completed 17 September 2026, note
+`changes/c993558af368434d9b2e2a39a57b2073.json`. Current seven view groups were
+inspected separately from timing; native DX12 comparison and 152 focused settings,
+atmosphere and lifecycle checks passed. The initial lower route was rejected for
+cost coverage because its trees hide the distant scenery. The final open route
+covers 275.33 m from approximately 3868 to 3690 m altitude using ordinary controls,
+with identical trajectory in every material arm. This is not dense-forest or
+whole-descent performance acceptance.
 
-Evidence, commands, source/capture hashes and current verification outcomes:
-`artifacts/scenery_snow/REPORT.md`. Owning behavior is in Rendering / Background.
-The frozen baseline is production material at `742fcb326210240a180a145d6cf93d41deeb2993`,
-not the old v2 geometry comparison. Same-scene baseline/cheap/enhanced comparisons
-hold geometry, camera, time/weather and exposure fixed.
+| Material | Average FPS | Mean frame ms | GPU median ms | Frame p95 / p99 ms |
+|---|---:|---:|---:|---:|
+| Original material |147.26|6.7908|5.2770|8.943 /9.947|
+| Current cheap |148.71|6.7244|5.2240|8.895 /10.111|
+| Enhanced |148.24|6.7459|5.2275|8.884 /10.002|
 
-Later performance gate (not run or inferred here): baseline/cheap/enhanced at
-3840x2160, High, Auto 75%, frame generation off, GI off, current validated v15
-Standard, identical ordinary-input complete descent, source and engine, at least
-three repetitions each through `scripts/benchmark_pc.ps1`. Keep timing capture-free;
-record rendered FPS, frame and GPU medians/p95/p99, memory and startup costs.
-Wire explicit mode selection into that benchmark harness (PCGraphicsSettings now
-accepts `--offmap-snow-detail=on|off`); use the frozen production material baseline
-with identical current geometry. Evaluate +0.5 ms median GPU or +5% frame p95/p99
-versus cheap, plus material startup/memory costs, then decide defaults. Existing
-failing tail targets remain unresolved. No separate new task was proposed.
+Enhanced adds an observed 0.0215 ms mean frame and 0.0147 ms mean GPU versus cheap;
+median GPU changes 0.0035 ms. Such small single-arm differences are inconclusive,
+not a proven gain or fixed penalty. **All ten presets remain cheap; enhancement
+stays optional.** The conservative 0.5 ms / 5% trigger is not shown here.
 
-Functional verification: native DX12 matrix passed at 1920x1080 High, Auto 75%,
-FG/GI off and an actual 30 FPS cap. Reviewed 58 baseline/cheap/enhanced triplets
-(174 stills): all six summit faces, two paused riding-camera positions and three
-apron bearings across clear midday, dusk, overcast, snowfall and night, plus all
-three baked tiers. Chronological camera samples support restrained, stable detail;
-paused riding poses are not simulated/ordinary-input descent evidence and their
-framing emphasizes foreground snow. No human/controller acceptance is claimed.
+One shared startup: physical cache 3.93 s, scene-ready 56.70 s, both cache hits;
+shader preparation 0.74 s outside measurement. Peak engine video allocation was
+3585.02MiB original and 3711.02 MiB for both current modes. This is shared-process
+allocator telemetry, not physical VRAM or an isolated 126 MiB feature attribution.
+Enhanced introduces no new textures/meshes; per-mode cold startup was not isolated.
+The optional control and unchanged conservative defaults retain the cheap choice.
 
-The required single-command six-suite batch passed **221 checks** (28 graphics,
-16 PC graphics, 104 overrides, 25 geometry, 10 atmosphere, 38 lifecycle), with
-`stable_build_sources=true`. Guarded static shader include/Python checks, explicit
-test-map admission, owned whitespace and backlog validation also passed. Native
-capture used Exclusive admission for the source-keyed scenery cache refresh;
-ordinary regression/static checks used Shared. Existing player-only deformation
-allocation assertions in the affected override suite were corrected to the current
-aggregate ghost allocation; runtime deformation behavior was not changed.
-
-Human scenery preference and skiing comfort remain pending, separately from
-worker-rendered inspection. Rendering owns the adopted contract; the development
-note and retained report identify verification inputs and delivery scope.
+Compact current report and complete measurement limits:
+`artifacts/scenery_snow_cost/REPORT.md`; raw production distributions:
+`artifacts/pc_environment/scenery_snow_cost_20260917/`. Owning behavior remains in
+Rendering; reusable comparison commands are in Validation. Snapshot records
+Git revision/paths/sizes and retains current cloud includes. No manual hash audit.
+Human scenery preference and skiing comfort remain separately pending.

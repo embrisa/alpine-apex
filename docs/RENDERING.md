@@ -582,24 +582,26 @@ shadow pass, fog change or per-frame terrain analysis is introduced. The apron
 blends color, lighting normal and diffuse response into the same distant owner;
 its protected collar, silhouette and all physical data remain unchanged.
 
-All ten presets, including recommended High, leave deposits **off** until the
-separate performance gate. Saved overrides, same-tier live edits, Scenery reset
-and replacement scenery apply to both materials. Playable snow quality and
-scenery coverage are independent. Diagnostics can explicitly select
-`--offmap-snow-detail=on` or `off` through PCGraphicsSettings.
+All ten presets, including recommended High, leave deposits **off**. Saved
+independent overrides, same-tier live edits, Scenery reset and replacement
+scenery apply to both materials. Playable snow quality and scenery coverage
+are independent; diagnostics support `--offmap-snow-detail=on|off`.
 
-Material review uses `tests/scenery_snow_snapshot.py` to freeze the current
-production shaders before edits, then `tests/scenery_snow_playtest.gd` for matched
-baseline/cheap/enhanced captures. This does not reuse historical v2 geometry.
-Run the producer with explicit FullMountain admission and the current cached
-Standard fixture. Use Shared for read-only captures; use Exclusive when source
-changes require scenery preparation/cache refresh. Source/capture hashes, exact
-commands and acceptance limits are in
-[the functional evidence](../artifacts/scenery_snow/REPORT.md).
-Capture readbacks and the 1080p/30 cap are visual evidence only. Comparative 4K
-frame/GPU distributions, full descent, memory and startup cost remain a separate
-required gate before recommending enhanced defaults; large mountain shadows
-remain owned by their separate backlog task.
+The bounded current-world cost gate is complete. On the qualified open upper
+route at 4K High / Auto 75%, cheap/enhanced averaged 148.71/148.24 FPS, with an observed
++0.0215 ms mean frame and +0.0147 ms mean GPU for enhancement. This single short
+comparison cannot resolve such small differences from noise and does not cover
+whole-descent or dense-forest performance. The restrained extra detail remains
+opt-in; conservative defaults are unchanged. Shared-process allocation peaks
+and startup do not isolate per-mode cold cost or physical VRAM occupancy.
+
+Use the maintained [material comparison](VALIDATION.md#scenery-snow-material-comparison)
+for warm current-fixture captures and separate capture-free timing. A tiny
+expanded shader snapshot restores the original material while keeping independently
+updated cloud includes current. Record revision, paths and sizes; no hash audit.
+[The compact report](../artifacts/scenery_snow_cost/REPORT.md) retains exact
+results, actual settings, visual coverage, startup/memory limits and commands.
+Large mountain shadows remain a separate ready backlog task.
 
 Additional valley haze starts beyond 1 km/outside the protected collar and
 follows weather/time. A custom `FOG` output replaces automatic material fog,

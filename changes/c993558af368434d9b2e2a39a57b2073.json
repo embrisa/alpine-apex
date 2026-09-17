@@ -1,0 +1,298 @@
+{
+  "schema": 1,
+  "id": "c993558af368434d9b2e2a39a57b2073",
+  "summary": "Complete bounded distant-snow material cost acceptance",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Distant snow cost acceptance",
+    "Material-only native comparisons",
+    "Backlog dependency readiness"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/blocked/AA-20260911-230603-scenery-snow-material.md",
+    "backlog/blocked/AA-20260911-230604-scenery-mountain-shadows.md",
+    "backlog/completed/AA-20260911-230603-scenery-snow-material.md",
+    "backlog/tasks/AA-20260911-230604-scenery-mountain-shadows.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "tests/fixtures/test_maps.json",
+    "tests/scenery_snow_cost.gd",
+    "tests/scenery_snow_cost.gd.uid",
+    "tests/scenery_snow_modes.gd",
+    "tests/scenery_snow_modes.gd.uid",
+    "tests/scenery_snow_playtest.gd",
+    "tests/scenery_snow_snapshot.py",
+    "tests/natural_forest_trace.gd",
+    "backlog/QUEUE.md",
+    "backlog/completed/AA-20260912-095819-subtle-faceted-snow-crystals.md"
+  ],
+  "read_paths": [
+    "assets/graphics/alpine_apron.gdshader",
+    "assets/graphics/alpine_surface_fragment.gdshaderinc",
+    "assets/graphics/alpine_wilderness.gdshader",
+    "assets/graphics/offmap_surface.gdshaderinc",
+    "scripts/presentation/graphics_quality.gd",
+    "scripts/presentation/pc_graphics_settings.gd",
+    "tests/performance_descent.gd",
+    "tests/performance_trace.gd",
+    "tests/validation_mountain.gd",
+    "assets/cloud_light.gdshaderinc",
+    "assets/cloud_field.gdshaderinc",
+    "scripts/presentation/graphics_presets.gd",
+    "tests/graphics_override_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 17,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Diagnostic material binding and acceptance documentation only; production assets, model35, world17 and 120 Hz stay unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Diagnostic material binding and acceptance documentation only; production assets, model35, world17 and 120 Hz stay unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Diagnostic material binding and acceptance documentation only; production assets, model35, world17 and 120 Hz stay unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No gameplay schema or production content change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No gameplay schema or production content change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No gameplay schema or production content change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No gameplay schema or production content change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No gameplay schema or production content change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "rendered",
+      "command": "Guarded scenery-snow-final-review and scenery-snow-open-review; native scenery_snow_playtest.gd",
+      "result": "passed",
+      "details": "Seven matched three-mode view groups across summit, riding, apron and actual open route. No new seams or distracting pattern. Dense lower route was rejected for timing because it hides the scenery. Current trace preflight and decoding occur before scene construction. See artifacts/scenery_snow_cost/REPORT.md."
+    },
+    {
+      "kind": "performance",
+      "command": "Guarded scenery-snow-native-cost; scenery_snow_cost.gd; open_trace/upper.json, 4K High Auto0.75, 15 seconds, four trials",
+      "result": "passed",
+      "details": "First traversal excluded; original/cheap/enhanced 147.26/148.71/148.24 FPS. Enhanced observed cost +0.0215 ms frame and +0.0147 ms mean GPU, median GPU +0.0035 ms. Exact states, positive finite GPU queries, zero focus loss, correct bindings, both cache hits and 4K/FSR4.1.1/FGoff verified. Tiny differences inconclusive; defaults stay cheap. Shared startup and allocator peaks have explicit attribution limits; no whole-descent or dense-forest acceptance."
+    },
+    {
+      "kind": "automated",
+      "command": "test_pc_environment.ps1 -Suites graphics_override_suite,offmap_atmosphere_suite,offmap_lifecycle_suite -OutputDirectory artifacts/scenery_snow_cost/regression",
+      "result": "passed",
+      "details": "152 checks passed: 104 overrides, 10 atmosphere, 38 lifecycle. No production material, geometry or physics changes; earlier full functional matrix is historical evidence."
+    },
+    {
+      "kind": "automated",
+      "command": "Guarded scenery-snow-open-route; natural_forest_trace.gd --habitat=upper --source-trace=artifacts/scenery_snow_cost/trace/upper.json --origin=-288,600 --output=artifacts/scenery_snow_cost/open_trace",
+      "result": "passed",
+      "details": "Actual 1800-tick ordinary-input simulation, 275.33 m, no crash or obstacle contacts. Explicit origin defines a new workload, not an FPS comparison to the previous woodland route."
+    },
+    {
+      "kind": "automated",
+      "command": "python compilation; backlog validate; git diff --check; scoped versioning checks",
+      "result": "passed",
+      "details": "Static checks passed after final documentation and task updates. Native-tested source files stayed unchanged while recording results. No manual hash audit."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human scenery preference and skiing comfort remain separate from native inspection and bounded cost acceptance."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T15:34:44.852674+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "cf8f8e3a4c9b3cdfe5657ab943abc0a67c48fb0f",
+      "dev": 97,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": {
+        "size": 12388,
+        "mtime_ns": 1789649819617466000
+      },
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 13924,
+        "mtime_ns": 1789649819616418900
+      },
+      "assets/cloud_field.gdshaderinc": {
+        "size": 1570,
+        "mtime_ns": 1789594595744656500
+      },
+      "assets/cloud_light.gdshaderinc": {
+        "size": 3557,
+        "mtime_ns": 1789330911383388900
+      },
+      "assets/graphics/alpine_apron.gdshader": {
+        "size": 565,
+        "mtime_ns": 1789135745016866900
+      },
+      "assets/graphics/alpine_surface_fragment.gdshaderinc": {
+        "size": 8305,
+        "mtime_ns": 1789330911382388000
+      },
+      "assets/graphics/alpine_wilderness.gdshader": {
+        "size": 1071,
+        "mtime_ns": 1789330911367667600
+      },
+      "assets/graphics/offmap_surface.gdshaderinc": {
+        "size": 3864,
+        "mtime_ns": 1789330911366667900
+      },
+      "backlog/QUEUE.md": {
+        "size": 2584,
+        "mtime_ns": 1789650918378839700
+      },
+      "backlog/blocked/AA-20260911-230603-scenery-snow-material.md": null,
+      "backlog/blocked/AA-20260911-230604-scenery-mountain-shadows.md": null,
+      "backlog/completed/AA-20260911-230603-scenery-snow-material.md": {
+        "size": 9314,
+        "mtime_ns": 1789659284195161700
+      },
+      "backlog/completed/AA-20260912-095819-subtle-faceted-snow-crystals.md": {
+        "size": 10789,
+        "mtime_ns": 1789650885891654300
+      },
+      "backlog/tasks/AA-20260911-230604-scenery-mountain-shadows.md": {
+        "size": 7939,
+        "mtime_ns": 1789659284217440400
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/RENDERING.md": {
+        "size": 49190,
+        "mtime_ns": 1789659284212240100
+      },
+      "docs/VALIDATION.md": {
+        "size": 147090,
+        "mtime_ns": 1789650484819807600
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/graphics_presets.gd": {
+        "size": 5553,
+        "mtime_ns": 1789570808370875100
+      },
+      "scripts/presentation/graphics_quality.gd": {
+        "size": 3345,
+        "mtime_ns": 1789330911395634000
+      },
+      "scripts/presentation/pc_graphics_settings.gd": {
+        "size": 8460,
+        "mtime_ns": 1789574923749548200
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789641931263320900
+      },
+      "tests/fixtures/test_maps.json": {
+        "size": 64436,
+        "mtime_ns": 1789650134987315100
+      },
+      "tests/graphics_override_suite.gd": {
+        "size": 9868,
+        "mtime_ns": 1789332704998625700
+      },
+      "tests/natural_forest_trace.gd": {
+        "size": 7276,
+        "mtime_ns": 1789650383313576700
+      },
+      "tests/performance_descent.gd": {
+        "size": 19684,
+        "mtime_ns": 1789637986647196000
+      },
+      "tests/performance_trace.gd": {
+        "size": 8555,
+        "mtime_ns": 1789637986647196000
+      },
+      "tests/scenery_snow_cost.gd": {
+        "size": 1401,
+        "mtime_ns": 1789649627280371800
+      },
+      "tests/scenery_snow_cost.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789649679485515600
+      },
+      "tests/scenery_snow_modes.gd": {
+        "size": 1664,
+        "mtime_ns": 1789649627279369100
+      },
+      "tests/scenery_snow_modes.gd.uid": {
+        "size": 20,
+        "mtime_ns": 1789649679485515600
+      },
+      "tests/scenery_snow_playtest.gd": {
+        "size": 7976,
+        "mtime_ns": 1789650324327778900
+      },
+      "tests/scenery_snow_snapshot.py": {
+        "size": 2203,
+        "mtime_ns": 1789649726315098300
+      },
+      "tests/validation_mountain.gd": {
+        "size": 1849,
+        "mtime_ns": 1789641931405809100
+      }
+    }
+  }
+}
