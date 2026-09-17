@@ -1805,51 +1805,39 @@ Its `runtime_pose_accepted` remains false: that export receipt is
 provenance, not a runtime acceptance record. Source export does not clear contact,
 shaft/clothing, mechanical, timing or human acceptance.
 
-`pole_push_cost.gd` is prepared for the remaining bounded local measurement,
-but has only received a parse check. Run with fresh `--output=artifacts/...`,
-High/Auto 0.75, 3840x2160 and frame generation off through FpsCritical admission
-after inspecting its `--capture-map` views. It uses the production `perf-mixed`
-fixture, one excluded six-second traversal and one clearance Off/On pair.
-It records rendered frame/GPU tails, memory and pose/contact CPU scopes. That
-pair isolates unloaded clearance, not the whole pole feature or the ten-to-one
-arm-solve change; it is not a dense-mountain FPS comparison. Measurements remain
-deferred during the user's gaming session.
+`pole_push_cost.gd` qualifies the current pole feature on the production local
+`perf-mixed` fixture at High/Auto 0.75, 3840x2160 with frame generation off.
+Inspect its separate `--capture-map` views; add `--feature-off` for the no-push
+visual control. Then use a fresh `--output=artifacts/...` under FpsCritical.
+One excluded six-second traversal precedes feature Off/On arms from rest with
+the same ordinary forward inputs. The supported tuning switch is changed only
+on a private test copy. Each arm must reach its own exact reference end state;
+Off must have zero thrust, and On must have more than 20 powered render frames.
 
-The committed-but-unvalidated 2026-09-13 model-32 recovery WIP snapshot reproduces the current
-D failures, then passes existing contact 87/87 and pose 36/36 with the unchanged
-14 cm bound. Worst brake/landing, steep10 and steep5 steps improve from
-15.18/14.20/14.13 cm to 13.54/13.20/13.64 cm. Paired solver/phase, torso/legs,
-fixed-grip, wrist-limit and both loaded-stroke checks pass in those fixtures.
+A test-only subclass times the unchanged production pole actuator, with one
+sample required for each fixed tick. The full-motion CPU scopes join the game
+collector; simulation/animation tick, pose/contact cost, frame/GPU tails and
+memory are retained. Nested scopes are not additive. Clearance searches and
+nonzero corrections are observations, not the feature switch: this rare path
+was too sparsely exercised by the earlier clearance-only comparison.
 
-The expanded native eleven-case matrix captures 900 frames per case (9,900
-total), including 38 airborne frames and actual landing. All-frame maximum
-joint step is 13.75 cm. Actual skinned-clothing audit fails in 89 frames:
-cutoff 15-19 and 84 downhill frames, including cancellation 179-181. The other
-86 intersections occur with pole fitting inactive. This wider matrix has no
-matched full-mesh D baseline, so it does not establish a clipping regression
-count. The previous 720-frame smoke does not clear this broader coverage.
+The enabled feature intentionally changes travel, pose and camera views. Treat
+Off/On as a bounded gameplay-workload comparison, not isolated GPU/whole-feature
+milliseconds or a dense-mountain FPS improvement. Absolute actuator and pose
+scope costs establish where CPU time is spent in each arm.
 
-The retained downhill reproducer also fails four existing limits: 23.89 cm tip
-height (4 cm gate), 76.92 cm anchor residual (18 cm), 52.46 cm loaded tip step
-(10 cm), and 3.64 cm minimum loaded wrist sweep (12 cm). Presentation begins
-cancelling while the completed solver still has tiny positive thrust near the
-speed cap. Merely retaining contact until zero force fixes height but leaves
-anchor/step/stroke failures; that trial was rejected and restored. The task
-remains blocked; the recovery candidate is preserved as an explicit WIP snapshot and is not shipped.
-Affected anatomy/compact/attachment/landing/flight/settle checks pass; the full
-seven-suite set is 344/345. The sole failure is the previously baseline-reproduced
-120 Hz tuck hand-easing check. No assertion was relaxed.
+The user-approved Dev103 action completed eleven 15-second native cases
+(9,900 poses), with maximum arm step 13.164 cm below 14 cm. The final actual-clothing
+audit flags 90 frames: 88 ordinary tuck/preparation and two brief release frames;
+none are powered or state-active pushing. Actual flagged images were inspected.
+Keep the approved motion with those recorded limits; this is not a zero-contact
+audit. Current contact 123/123 and affected pose/equipment regressions pass.
 
-Detailed source/engine/authoring hashes, old/new neighbors, rejected patch,
-reproducer and regression receipts are in `artifacts/pole_transitions_20260913/`.
-`artifacts/pose_review/revisions/20260913-poles-final/` contains the candidate's
-native chronology, videos, selected pixel neighborhoods, full mesh report and
-frozen 181-source snapshot; its directory name is not an acceptance claim.
-Contact fitting averages 0.517-0.610 ms and total final fitting 1.426-1.539 ms
-in the earlier paired diagnostic sample. These scopes overlap and are not
-summed; they establish neither an FPS gain nor uncontended performance acceptance.
-Controller feel, listening and subjective user approval remain separate. No
-physics/input/session owner or editable asset changed.
+The completed native local feature comparison and every acceptance boundary
+are in `artifacts/pole_feature_closure/CLOSURE.md`. It supersedes the old model 32
+recovery WIP and sparse clearance-cost attempts. The latter are retained as
+rejected evidence, not performance acceptance. Controller feel remains human
+review. No whole-mountain FPS improvement is claimed by this local fixture.
 
 ## Audio evidence
 

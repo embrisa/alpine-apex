@@ -1,0 +1,212 @@
+{
+  "schema": 1,
+  "id": "057d6abfbc22445dac66c460e56115e6",
+  "summary": "Qualify approved pole gameplay with native feature cost and complete visual review",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "pole feature qualification",
+    "native performance tooling",
+    "backlog completion"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    "backlog/QUEUE.md",
+    "backlog/blocked/AA-20260911-183812-slope-limited-pole-pushing.md",
+    "backlog/completed/AA-20260911-183812-slope-limited-pole-pushing.md",
+    "docs/VALIDATION.md",
+    "tests/pole_push_cost.gd"
+  ],
+  "read_paths": [
+    "config/ski_default.tres",
+    "scripts/core/pole_propulsion.gd",
+    "scripts/core/ski_simulation.gd",
+    "scripts/diagnostics/frame_costs.gd",
+    "scripts/presentation/pole_push_pose.gd",
+    "scripts/presentation/skier_animation.gd",
+    "scripts/presentation/skier_full_motion.gd",
+    "scripts/presentation/skier_visual.gd",
+    "tests/fixtures/performance_maps.json",
+    "tests/targeted_performance.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Only diagnostic tooling and records change; the existing production actuator, animation, settings and assets are unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Only diagnostic tooling and records change; the existing production actuator, animation, settings and assets are unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Only diagnostic tooling and records change; the existing production actuator, animation, settings and assets are unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No production formats or compatibility identities change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No production formats or compatibility identities change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No production formats or compatibility identities change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No production formats or compatibility identities change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No production formats or compatibility identities change."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "Guard pole-feature-cost-parse; backlog.py validate --preserve-dirty; skill quick_validate.py; scoped documentation-link and whitespace checks",
+      "result": "passed",
+      "details": "The final native producer parses. Documentation/queue/static checks run after the closure record update; no production source edits."
+    },
+    {
+      "kind": "automated",
+      "command": "Retained current-source propulsion/contact/pose and required physics/runtime receipts; compare captured runtime input metadata with live files",
+      "result": "passed",
+      "details": "Propulsion108, contact123, physics56/runtime192; current anatomy84/pose36/ghost5122/compact36/attachments20/motion19/landing21. Read actual receipts and unchanged source metadata; no repeated slope matrix."
+    },
+    {
+      "kind": "rendered",
+      "command": "Native cost_visual and cost_feature_off_visual; completed review_chronology captures/videos and terminal mesh-audit classification",
+      "result": "passed",
+      "details": "Inspected local On/Off preflights and flagged native frames. All9900 poses retained; maximum joint step13.164cm. User-approved motion kept. Audit flags88 unrelated tuck/preparation poses plus2 brief release frames; this is visual acceptance with disclosed limits, not zero mesh intersections."
+    },
+    {
+      "kind": "performance",
+      "command": "Guard pole-feature-cost; tests/pole_push_cost.gd at4K High Auto0.75 FGoff, excluded warmup then6s Off/On",
+      "result": "passed",
+      "details": "cost_feature/results.json: no failures/drift/focus loss, exact720-tick reference in each arm. Off186.13FPS/5.373ms; On188.49FPS/5.305ms; enabled actuator23.88us/tick. Direct instrumentation calls the unchanged production method. Travel differs intentionally; no isolated FPS gain or full-mountain claim. Failed sparse-clearance attempts remain rejected."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Actual controller feel and subjective uphill tuning remain human follow-ups. Visual approval was supplied. Two brief release contacts remain documented and accepted under the small-visual-difference policy."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-17T22:00:47.529798+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "ecfbea1f5564e1818e1f05d154a6023354277ffa",
+      "dev": 106,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": {
+        "size": 14409,
+        "mtime_ns": 1789682067384917000
+      },
+      "backlog/QUEUE.md": {
+        "size": 1971,
+        "mtime_ns": 1789682375300575600
+      },
+      "backlog/blocked/AA-20260911-183812-slope-limited-pole-pushing.md": null,
+      "backlog/completed/AA-20260911-183812-slope-limited-pole-pushing.md": {
+        "size": 8255,
+        "mtime_ns": 1789682375299567200
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/VALIDATION.md": {
+        "size": 157150,
+        "mtime_ns": 1789682375301583200
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/pole_propulsion.gd": {
+        "size": 6491,
+        "mtime_ns": 1789207831044152200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/diagnostics/frame_costs.gd": {
+        "size": 1278,
+        "mtime_ns": 1789220306164959700
+      },
+      "scripts/presentation/pole_push_pose.gd": {
+        "size": 16248,
+        "mtime_ns": 1789670527600403000
+      },
+      "scripts/presentation/skier_animation.gd": {
+        "size": 20962,
+        "mtime_ns": 1789594595769749100
+      },
+      "scripts/presentation/skier_full_motion.gd": {
+        "size": 48919,
+        "mtime_ns": 1789671830155795200
+      },
+      "scripts/presentation/skier_visual.gd": {
+        "size": 19256,
+        "mtime_ns": 1789670864098434300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17247,
+        "mtime_ns": 1789605278206470600
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "tests/fixtures/performance_maps.json": {
+        "size": 162678,
+        "mtime_ns": 1789347422509029000
+      },
+      "tests/pole_push_cost.gd": {
+        "size": 8170,
+        "mtime_ns": 1789682067021830700
+      },
+      "tests/targeted_performance.gd": {
+        "size": 14112,
+        "mtime_ns": 1789680544636709000
+      }
+    }
+  }
+}

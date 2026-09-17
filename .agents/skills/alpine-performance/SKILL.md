@@ -201,3 +201,10 @@ placement, support and controls cannot certify a matched FPS gain. Inspect
 matched world views and keep graph connectivity separate from human skiing.
 
 Scene-motion-blur qualification uses the [bounded cost producer](../../../docs/VALIDATION.md#scene-motion-blur-checks) after full-resolution visual review. Warm lazy pipelines and scratch outside timing; verify each arm actually dispatches or bypasses and keep its route scope explicit.
+
+For pole-feature qualification, use the [pole cost producer](../../../docs/VALIDATION.md#pole-propulsion-and-animation-producers).
+Require actual thrust in On, none in Off, and each arm's exact reference state.
+The test-only timing subclass calls the unchanged actuator and reports one
+sample per fixed tick; full-motion scopes share the game collector. Travel and
+camera views intentionally differ with propulsion, so the frame-time delta is
+a gameplay-workload observation, not isolated feature or mountain FPS cost.
