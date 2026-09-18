@@ -6,6 +6,9 @@ signal transients_cleared
 const State = preload("res://scripts/presentation/weather_state.gd")
 const Preset = preload("res://scripts/presentation/weather_preset.gd")
 const Rules = preload("res://scripts/presentation/weather_rules.gd")
+# Cloud-field displacement is a visual mapping of the integrated wind, not
+# precipitation velocity or the front clock. Every cloud receiver shares it.
+const CLOUD_DRIFT_SCALE = 0.08
 const PRESETS = {
 	"clear":preload("res://config/weather/clear.tres"),"cloudy":preload("res://config/weather/cloudy.tres"),
 	"snowfall":preload("res://config/weather/snowfall.tres"),"rain":preload("res://config/weather/rain.tres"),
@@ -199,7 +202,7 @@ func _sample() -> void:
 	var previous_time: String = state.time_label
 	state.enabled = quality!=Quality.OFF
 	state.visual_time = visual_time; state.active_seconds = active_seconds
-	cloud_offset = Vector2(cloud_x,cloud_z)
+	cloud_offset = Vector2(cloud_x,cloud_z)*CLOUD_DRIFT_SCALE
 	state.cloud_offset = cloud_offset; state.variation_seed = variation_seed
 	state.lightning_flash = 0.0
 	if not state.enabled:

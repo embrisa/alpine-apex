@@ -48,6 +48,13 @@ func run() -> void:
 	check(world.environment.sky==world.original_sky,"Weather-off selects original sky")
 	weather.state.enabled=true; await settle()
 	check(world.environment.sky==world.weather_sky,"Weather-on restores weather sky")
+	weather.set_preset("clear"); weather.set_time_of_day("night"); await settle()
+	var night=panorama()
+	check(night!=low_cover,"Night retains its own ambient colors")
+	for yaw in [-60.0,30.0,120.0]:
+		camera.rotation.y=deg_to_rad(yaw); camera.position+=Vector3(80,10,150)
+		weather.state.cloud_offset+=Vector2(100,200); await settle()
+		check(panorama()==night,"Night stars do not alter radiance with camera or cloud motion")
 	preload("res://tests/test_report.gd").write(output,JSON.stringify({"checks":checks,"failures":failures,"scope":"Native radiance content on camera/displacement/coverage/color/weather transitions; no FPS claim"},"\t"))
 	print("SKY_RADIANCE_CHECKS ",checks," failures=",failures)
 	world.queue_free(); weather.queue_free(); camera.queue_free(); await process_frame

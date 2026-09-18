@@ -2080,6 +2080,8 @@ with a native renderer (`Shared`). Pass `-- --output=res://artifacts/FRESH/resul
 for isolated evidence. Its small environment fixture reads native irradiance:
 camera/cloud displacement must preserve it; coverage-only and colour changes
 must refresh it; weather off/on must select the proper sky. These readbacks are
+also repeated at night across camera rotations/translations with stars enabled.
+Stars must never contribute to the ambient approximation. These are
 correctness checks, never timing. Inspect separate matched cloudy, moved-camera
 and dusk views before measuring `Setup Sky` in a capture-free native profile.
 Keep this component interval separate from full-mountain frame-time evidence.
@@ -2099,6 +2101,27 @@ graphics/FX/lightning/reduced-motion combinations. `weather_sky_review.gd` captu
 lightning sequences. `storm_audio_capture.gd` records the actual native mixer,
 including delayed thunder with lightning Off, mute and pause/resume. Use native
 DX12 for these checks; screenshots/audio captures are excluded from performance.
+
+For focused cloud/precipitation/star changes, run `weather_presentation_suite`
+with the weather/lifecycle and runtime suites. `weather_cloud_motion_review.gd`
+accepts `--suite=clouds|snow|sky --output=artifacts/FRESH`: clouds uses six-second
+1080p Native clips looking up 30 degrees in both views; `--cloud-reference`
+isolates the old unscaled displacement without editing the live controller.
+Snow uses the `perf-slopes` crest at 90/140 km/h
+in both views; sky looks upward while turning through day/dusk/night/dawn and
+heavy cloud. Snow/sky assert actual 3840×2160 output at Auto 0.75. Clear-night
+captures retain every frame for temporal review. Run these capped at 30 under
+`Shared`, allowing 180 seconds for capture overhead; they are not FPS evidence.
+
+`weather_presentation_cost.gd` extends the existing targeted performance producer
+with `--weather-case=day|night|storm`, always on `--map=perf-slopes`. Run under
+`FpsCritical` with `--seconds=6 --benchmark-resolution=3840x2160
+--graphics-quality=high --upscaler=auto --render-scale=0.75 --fps-limit=0
+--terrain-gi=off --frame-generation=off --benchmark-no-captures --scenery-camera`
+and a fresh output directory. Day/night look up to include the sky; storm retains
+the riding view. Reuse matching controls and report observed unchanged-run
+variation separately from any candidate delta. This isolates production weather
+on a small terrain fixture, not full-mountain FPS or human/controller acceptance.
 
 2026-09-12 evidence is retained under `artifacts/weather_upgrade/`: regression
 receipts, 48 condition clips, 54 quality clips, native interfaces, lightning and

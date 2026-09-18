@@ -1,0 +1,301 @@
+{
+  "schema": 1,
+  "id": "d3b202fea1354b0f83b02fea1310cda6",
+  "summary": "Calm cloud motion, concentrate falling snow and add a stable night star field",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Cloud motion",
+    "Weather precipitation",
+    "Night sky"
+  ],
+  "owned_paths": [
+    "assets/weather_particle_draw.gdshader",
+    "assets/weather_particles.gdshader",
+    "assets/weather_sky.gdshader",
+    "backlog/QUEUE.md",
+    "backlog/completed/AA-20260918-092102-give-the-night-sky-stars.md",
+    "backlog/tasks/AA-20260918-092100-make-falling-snow-visible-in-weather.md",
+    "backlog/tasks/AA-20260918-092102-give-the-night-sky-stars.md",
+    "backlog/tasks/AA-20260918-092843-slow-visible-cloud-motion.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "scripts/presentation/weather_controller.gd",
+    "scripts/presentation/weather_effects.gd",
+    "tests/runtime_suite.gd",
+    "tests/sky_radiance_suite.gd",
+    "tests/weather_cloud_motion_review.gd",
+    "tests/weather_presentation_cost.gd",
+    "tests/weather_presentation_suite.gd",
+    "tests/weather_suite.gd"
+  ],
+  "read_paths": [
+    "assets/cloud_field.gdshaderinc",
+    "config/weather/clear.tres",
+    "config/weather/cloudy.tres",
+    "config/weather/rain.tres",
+    "config/weather/snowfall.tres",
+    "config/weather/snowstorm.tres",
+    "config/weather/thunderstorm.tres",
+    "scripts/main.gd",
+    "scripts/presentation/cloud_lighting.gd",
+    "scripts/presentation/daylight_cycle.gd",
+    "scripts/world/alpine_world.gd",
+    "tests/targeted_performance.gd",
+    "tests/weather_lifecycle_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Presentation-only weather motion, precipitation distribution and sky detail. No physical terrain, solver, input, race identity or schema changes."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Presentation-only weather motion, precipitation distribution and sky detail. No physical terrain, solver, input, race identity or schema changes."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Presentation-only weather motion, precipitation distribution and sky detail. No physical terrain, solver, input, race identity or schema changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Presentation-only changes; retained physical, race, replay and cache formats."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Presentation-only changes; retained physical, race, replay and cache formats."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Presentation-only changes; retained physical, race, replay and cache formats."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Presentation-only changes; retained physical, race, replay and cache formats."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Presentation-only changes; retained physical, race, replay and cache formats."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "scripts/test_pc_environment.ps1 -Suites weather_suite,weather_lifecycle_suite,weather_presentation_suite,runtime_suite; final focused rerun weather_presentation_suite,runtime_suite",
+      "details": "Weather44/lifecycle32 unchanged inputs passed in regression; presentation48/runtime192 passed in regression-final after replacing the obsolete >1m/s cloud-drift assertion.316 headless checks total."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "Shared native tests/sky_radiance_suite.gd --output=res://artifacts/weather_presentation_20260918/radiance.json",
+      "details": "25 native readback checks including night camera rotations/translations and cloud displacement; ambient/radiance remain unchanged."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "Shared native tests/weather_cloud_motion_review.gd --suite=sky|snow|clouds; paired clouds --cloud-reference",
+      "details": "Actual4K High Auto.75 sky9clips/170frames and snow16clips/112frames;1080pNative cloud look-up8clips/152frames per mapping. Clear-night90consecutiveframes; one star projects within0.222pxRMS/0.431pxmax over38fullyvisibleframes. Snow90/140kmh bothviews; allclipsno crashes. User cloud/storm gates remain."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "FpsCritical native tests/weather_presentation_cost.gd --map=perf-slopes --weather-case=day|night|storm --seconds=6 --benchmark-resolution=3840x2160 --graphics-quality=high --upscaler=auto --render-scale=.75 --fps-limit=0 --benchmark-no-captures --scenery-camera",
+      "details": "Valid measured comparison; no zero-cost acceptance. All eight before/after receipts focused,stable scopedmetadata,exact720ticks/outcome,4KHighAuto.75FG/GIoff. Night288.27->293.59FPS;day253.88->250.67. Storm controls242.91/229.73,candidates220.51/227.43FPS;average frame+0.231ms vs0.236ms observed control variation,GPU+0.032ms vs0.086ms variation. Worse initial candidate tails retained. No speedup,zero-cost or full-mountain claim. artifacts/weather_presentation_20260918/REVIEW.md."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "git diff --check; python scripts/backlog.py validate --preserve-dirty; python scripts/versioning.py check --note changes/d3b202fea1354b0f83b02fea1310cda6.json --staged",
+      "details": "Diff and backlog validation passed, including star completion move and incoming link repair. Runtime/test/shader inputs remain those verified above; final capture updates task/guide records only. Staged milestone validation is the final commit gate."
+    }
+  ],
+  "outstanding_acceptance": [
+    "User weather motion and storm readability review remain completion gates; star density/brightness are an art follow-up."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-18T13:43:56.965295+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "d229c45fefbbd8b7f9afa7c64c667f6ba07e8395",
+      "dev": 123,
+      "modified": true
+    },
+    "inputs": {
+      "assets/cloud_field.gdshaderinc": {
+        "size": 1570,
+        "mtime_ns": 1789594595744656500
+      },
+      "assets/weather_particle_draw.gdshader": {
+        "size": 1832,
+        "mtime_ns": 1789737970242344500
+      },
+      "assets/weather_particles.gdshader": {
+        "size": 1207,
+        "mtime_ns": 1789176744062531300
+      },
+      "assets/weather_sky.gdshader": {
+        "size": 4131,
+        "mtime_ns": 1789737970242344500
+      },
+      "backlog/QUEUE.md": {
+        "size": 7155,
+        "mtime_ns": 1789739008573239600
+      },
+      "backlog/completed/AA-20260918-092102-give-the-night-sky-stars.md": {
+        "size": 6351,
+        "mtime_ns": 1789739008592551300
+      },
+      "backlog/tasks/AA-20260918-092100-make-falling-snow-visible-in-weather.md": {
+        "size": 8237,
+        "mtime_ns": 1789739008580388600
+      },
+      "backlog/tasks/AA-20260918-092102-give-the-night-sky-stars.md": null,
+      "backlog/tasks/AA-20260918-092843-slow-visible-cloud-motion.md": {
+        "size": 6953,
+        "mtime_ns": 1789739008587067000
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "config/weather/clear.tres": {
+        "size": 195,
+        "mtime_ns": 1788729251590563000
+      },
+      "config/weather/cloudy.tres": {
+        "size": 482,
+        "mtime_ns": 1788745386199823200
+      },
+      "config/weather/rain.tres": {
+        "size": 546,
+        "mtime_ns": 1788729251590563000
+      },
+      "config/weather/snowfall.tres": {
+        "size": 553,
+        "mtime_ns": 1788729251591571000
+      },
+      "config/weather/snowstorm.tres": {
+        "size": 587,
+        "mtime_ns": 1789175951568930600
+      },
+      "config/weather/thunderstorm.tres": {
+        "size": 603,
+        "mtime_ns": 1789175951576098200
+      },
+      "docs/RENDERING.md": {
+        "size": 58376,
+        "mtime_ns": 1789738047609952900
+      },
+      "docs/VALIDATION.md": {
+        "size": 163043,
+        "mtime_ns": 1789738470407743100
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/main.gd": {
+        "size": 89048,
+        "mtime_ns": 1789727093162942500
+      },
+      "scripts/presentation/cloud_lighting.gd": {
+        "size": 2063,
+        "mtime_ns": 1789594595766379900
+      },
+      "scripts/presentation/daylight_cycle.gd": {
+        "size": 2305,
+        "mtime_ns": 1789176744523599100
+      },
+      "scripts/presentation/weather_controller.gd": {
+        "size": 10470,
+        "mtime_ns": 1789737970240344000
+      },
+      "scripts/presentation/weather_effects.gd": {
+        "size": 7183,
+        "mtime_ns": 1789737970241344300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 27514,
+        "mtime_ns": 1789632514513603600
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41201,
+        "mtime_ns": 1789738047608949300
+      },
+      "tests/sky_radiance_suite.gd": {
+        "size": 3896,
+        "mtime_ns": 1789737970243345000
+      },
+      "tests/targeted_performance.gd": {
+        "size": 14193,
+        "mtime_ns": 1789727615520138200
+      },
+      "tests/weather_cloud_motion_review.gd": {
+        "size": 5617,
+        "mtime_ns": 1789738470406738000
+      },
+      "tests/weather_lifecycle_suite.gd": {
+        "size": 7950,
+        "mtime_ns": 1789594595951207200
+      },
+      "tests/weather_presentation_cost.gd": {
+        "size": 1587,
+        "mtime_ns": 1789736537751151300
+      },
+      "tests/weather_presentation_suite.gd": {
+        "size": 3845,
+        "mtime_ns": 1789738047609952900
+      },
+      "tests/weather_suite.gd": {
+        "size": 11096,
+        "mtime_ns": 1789594595953451200
+      }
+    }
+  }
+}

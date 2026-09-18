@@ -2,6 +2,7 @@ extends Node3D
 ## A bounded allocation: 600 snow + 900 rain + two 100-particle drifts.
 ## Local precipitation volumes translate with the camera but never rotate.
 const HIGH_VOLUME_COUNTS = [600,900]
+const VOLUME_HALF_EXTENTS = [Vector3(8,5,10),Vector3(15,10,22)]
 var volumes: Array[GPUParticles3D] = []
 var drifts: Array[GPUParticles3D] = []
 var quality: int = -1
@@ -34,9 +35,11 @@ func _ready() -> void:
 		particle.preprocess = 0.0
 		particle.fixed_fps = 0
 		particle.local_coords = true
-		particle.visibility_aabb = AABB(Vector3(-16,-11,-23),Vector3(32,22,46))
+		var bounds: Vector3 = VOLUME_HALF_EXTENTS[kind]+Vector3.ONE
+		particle.visibility_aabb = AABB(-bounds,bounds*2.0)
 		var process = ShaderMaterial.new()
 		process.shader = preload("res://assets/weather_particles.gdshader")
+		process.set_shader_parameter("half_extents",VOLUME_HALF_EXTENTS[kind])
 		particle.process_material = process
 		_prepare_draw(particle,kind)
 		add_child(particle)
@@ -132,6 +135,9 @@ func update_weather(state, camera: Camera3D, rider_position: Vector3, field, dt:
 		material.set_shader_parameter("flow",flow)
 		material.set_shader_parameter("stretch",stretch)
 		material.set_shader_parameter("opacity",strength*(0.82 if i==0 else 0.60))
+		# Stable particle identities reveal more flakes as a storm builds without
+		# resizing or restarting the retained, camera-translated volume.
+		material.set_shader_parameter("density",clampf(strength,0.0,1.0)*lerpf(.35,1.0,clampf(state.storm,0.0,1.0)) if i==0 else 1.0)
 		_set_emission(particle,enabled,animate)
 	var right: Vector3 = camera.global_basis.x.slide(Vector3.UP).normalized()
 	for i in range(drifts.size()):

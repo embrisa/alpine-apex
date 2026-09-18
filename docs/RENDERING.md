@@ -536,6 +536,10 @@ bounded measurements and human visual acceptance remain separate.
 The controller owns complete snapshots: seeded RNG state, front endpoints/phase,
 active clocks, daylight, storm cooldown and double-precision integrated cloud
 displacement. World only submits this state to the shared sky/shadow field.
+The published displacement maps integrated wind by `CLOUD_DRIFT_SCALE = 0.08`:
+sky silhouettes, high wisps and receiver lighting move together at a calm
+visual rate. Raw integration, front clocks and precipitation/foliage wind retain
+their own units and timing; lengthening front holds would not slow this drift.
 Ordinary fronts hold 240–420 active seconds and blend over 45–75; rain and snow
 branches pass through Cloudy. Bounded gusts modulate wind and precipitation.
 Daylight wraps in **3,600 active-skiing seconds**. Menus, pause, survey, preview,
@@ -576,6 +580,13 @@ also refresh it. Cloud displacement alone leaves ambient/reflection content
 unchanged. This shares the existing single active weather-world ownership of
 cloud globals; it does not provide independent weather for multiple viewports.
 
+Clear nights add a fixed direction-space procedural star field in the existing
+full-resolution sky branch. Sparse inset cube-face cells and a pixel-footprint
+filter keep stars stable through camera rotation and production upscaling.
+The moon's daylight gate fades stars at dawn/dusk; heavy cloud coverage suppresses
+them, and the half-resolution cloud layer occludes the remainder. Day skips the
+star work. Stars introduce no textures, passes, animation clock or radiance work.
+
 The main cloud silhouette and receiver attenuation share the same noise field.
 Its three octaves stay independent; domain warping would serialize this cost
 across lit surfaces. Broader low-frequency weighting supplies the main shape.
@@ -590,7 +601,12 @@ camera translation exactly once, wrapping and retained particle state. Reset
 history on teleports, camera transitions and quality/lifecycle changes. Bounded
 ground samples replace per-particle CPU collision. Apply budget then quality
 at creation and live changes, capped at 1,700 High / 850 Low particles. Snow uses
-varied flake sizes/fall/flutter and gust-driven drifts. Quality zero disables precipitation/drift without
+varied flake sizes/fall/flutter and gust-driven drifts. Snow's retained volume is
+16 × 10 × 20 m, concentrating the same 600 High / 300 Low allocation nearby;
+rain retains its 30 × 20 × 44 m volume. A stable per-particle selection reveals
+`snow × lerp(0.35, 1.0, storm)` of the snow pool, so storm peaks increase density
+without allocation churn or particle restarts. Near/route-centre fades preserve
+the line ahead. Quality zero disables precipitation/drift without
 erasing selected weather, wind, cloud lighting or weather audio.
 
 There is no precipitation accumulation, wet-grip model, physical wind force,

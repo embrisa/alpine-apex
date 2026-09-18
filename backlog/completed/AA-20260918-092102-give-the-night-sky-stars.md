@@ -1,11 +1,11 @@
 ---
 id: "AA-20260918-092102-give-the-night-sky-stars"
 title: "Give the night sky stars"
-status: ready
+status: done
 priority: P3
 depends_on: []
 created: "2026-09-18T09:21:02Z"
-updated: "2026-09-18T09:21:02Z"
+updated: "2026-09-18T13:42:23.237536Z"
 source_thread: null
 ---
 
@@ -74,17 +74,17 @@ Rendered macOS probe captures on 2026-09-18 at `main` `a94b93b`, using `scripts/
 
 ## Acceptance and verification
 
-- [ ] Night captures with sky in frame show a believable star field; day captures
+- [x] Night captures with sky in frame show a believable star field; day captures
   are unchanged.
-- [ ] Stars fade correctly through dusk and dawn and are suppressed by heavy
+- [x] Stars fade correctly through dusk and dawn and are suppressed by heavy
   cloud coverage and during storms.
-- [ ] No swimming, crawling or aliasing while the camera turns at speed, checked
+- [x] No swimming, crawling or aliasing while the camera turns at speed, checked
   with production upscaling active, not only in stills.
-- [ ] Ambient, reflection and the radiance refresh contract are unchanged; camera
+- [x] Ambient, reflection and the radiance refresh contract are unchanged; camera
   movement does not dirty the radiance map.
-- [ ] Bounded warmed before/after frame comparison at night and by day, confirming
+- [x] Bounded warmed before/after frame comparison at night and by day, confirming
   the day path is unaffected.
-- [ ] Update [Rendering](../../docs/RENDERING.md#weather) and validate the backlog.
+- [x] Update [Rendering](../../docs/RENDERING.md#weather) and validate the backlog.
 
 Human acceptance: star density and brightness are an art call and need the user's
 visual review as a follow-up, not a completion gate.
@@ -95,4 +95,23 @@ None.
 
 ## Completion record
 
-Pending implementation.
+Delivered in the milestone containing
+[`d3b202fea1354b0f83b02fea1310cda6`](../../changes/d3b202fea1354b0f83b02fea1310cda6.json).
+The visible sky now has sparse direction-space stars with pixel-footprint
+filtering, the existing moon/daylight gate and cloud suppression. No new texture,
+mesh, pass, radiance contribution or ambient refresh. Moon behavior is retained.
+
+Native radiance 25 passed, including night camera rotations/translations and cloud
+displacement. Weather 44/lifecycle 32/presentation 48/runtime 192 passed. Matched actual
+4K High Auto .75 captures cover day/dusk/night/dawn, heavy cloud and storm; the clear
+night retains 90 consecutive camera-turn frames. A visible star follows its fixed
+world projection with 0.222 px RMS / 0.431 px maximum centroid error over 38 fully
+visible frames. No obvious swimming/trailing in reviewed crops; this is finite
+rendered evidence, not an all-camera aliasing guarantee.
+
+Bounded perf-slopes native DX12 costs: night 288.27â†’293.59 FPS (mean3.469â†’3.406ms),
+day 253.88â†’250.67 FPS (3.939â†’3.989ms). Differences are within observed run variation;
+no speedup, zero-cost or whole-mountain FPS claim. Controls, all frame tails and
+limitations are in `artifacts/weather_presentation_20260918/REVIEW.md` and
+`performance.json`. Rendering/Validation document ownership and reproducible
+commands. User review of density/brightness remains an art follow-up.

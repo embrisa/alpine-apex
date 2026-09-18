@@ -1,16 +1,15 @@
 # Current backlog
 
-Focus: `tasks/`, `blocked/` and `ideas/`, as requested on 17 September 2026.
-On18September the user authorized implementing the four prepared ideas while
-the remaining forest and Mac tasks stay blocked. This is an index;
+On18September the user authorized implementing all records in `tasks/`, starting
+with the Meshy forest and maintaining measured game/FPS standards. Existing blocked
+records retain their explicit resume conditions. This is an index;
 status, dependencies, evidence and acceptance live in each stable task record.
 
 ## Visual improvement queue
 
 Authored on 18 September 2026 after a rendering review of the current build,
-with deterministic macOS probe captures. All fifteen records in this group are
-`ready`; the three product decisions in them were settled with the user on
-18 September. Ordered by the reviewer's judgement of visible impact, not by
+with deterministic macOS probe captures. The product decisions in these records were settled with the user on
+18 September; current delivery and acceptance are recorded below. Ordered by the reviewer's judgement of visible impact, not by
 dependency. Later records came from second and third passes over dusk, night,
 the precipitation presets and the first-person view, which the first pass had
 not reviewed. Dawn and rain were reviewed and produced no new record.
@@ -26,10 +25,11 @@ not reviewed. Dawn and rain were reviewed and produced no new record.
 - **[Ridge-crest spindrift](tasks/AA-20260918-011208-add-ridge-crest-spindrift-plumes.md)** (P3, ready): the spindrift field is rider-local only. Approved on 18 September for every weather including Clear as a first implementation; the one idea here that adds an effect rather than improving one.
 - **[Distant ski tracks](tasks/AA-20260918-011209-keep-ski-tracks-visible-at-distance.md)** (P3, ready): ribbons discard at 380 m, so a finished descent looks untouched from above. Must not give back the Dev 75 saving.
 - **[Sun shadow penumbra](tasks/AA-20260918-011210-soften-sun-shadow-edges-with-distance.md)** (P3, ready): no angular light size, so every shadow edge is uniformly hard.
-- **[Visible falling snow](tasks/AA-20260918-092100-make-falling-snow-visible-in-weather.md)** (P1, ready): Snowfall and Snowstorm read as fog. 600 flakes fill a 32,384 cubic metre volume, one per 3.8 m cube, and storm intensity drives opacity rather than density.
+- **[Visible falling snow](tasks/AA-20260918-092100-make-falling-snow-visible-in-weather.md)** (P1, in progress): nearby retained flakes and storm-driven density are implemented and measured within the existing allocation; user storm/readability acceptance remains.
 - **[Sky-lit shaded snow](tasks/AA-20260918-092101-light-shaded-snow-from-the-actual-sky.md)** (P1, ready): shaded snow takes one flat ambient colour, so at dusk the peaks catch pink alpenglow while the slope under the skis stays neutral grey.
 - **[First-person body](tasks/AA-20260918-093800-give-the-first-person-view-a-body.md)** (P1, ready): selecting the close view hides `body_pivot` outright, so a 140 km/h tuck shows two ski tips and nothing else. No hands, forearms or poles.
-- **[Night sky stars](tasks/AA-20260918-092102-give-the-night-sky-stars.md)** (P3, ready): the 48-line sky shader has a moon disc and glow and no stars at all.
+- **[Night sky stars](completed/AA-20260918-092102-give-the-night-sky-stars.md)** (P3, done): filtered direction-space stars, native radiance checks, 4K temporal review and bounded day/night measurements delivered. Density/brightness remain an art follow-up.
+- **[Calmer clouds](tasks/AA-20260918-092843-slow-visible-cloud-motion.md)** (P2, in progress): shared displacement is slowed while wind/front clocks retain their owners; user comfort review remains.
 
 ## Blocked work and resume conditions
 

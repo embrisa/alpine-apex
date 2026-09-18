@@ -1,11 +1,11 @@
 ---
 id: "AA-20260918-092100-make-falling-snow-visible-in-weather"
 title: "Make snowfall and snowstorm look like falling snow rather than fog"
-status: ready
+status: in_progress
 priority: P1
 depends_on: []
 created: "2026-09-18T09:21:00Z"
-updated: "2026-09-18T09:21:00Z"
+updated: "2026-09-18T13:42:23.237536Z"
 source_thread: null
 ---
 
@@ -93,15 +93,15 @@ Rendered macOS probe captures on 2026-09-18 at `main` `a94b93b`, using `scripts/
   Cloudy.
 - [ ] The line ahead stays readable at 90 and at 140 km/h, in chase and
   first-person, with the rider able to see terrain in time to react.
-- [ ] Particle counts stay within the 1,700 High and 850 Low caps; report the
+- [x] Particle counts stay within the 1,700 High and 850 Low caps; report the
   actual counts per condition.
-- [ ] `weather_quality` zero, Low preset, `weather_budget` and Reduced Motion all
+- [x] `weather_quality` zero, Low preset, `weather_budget` and Reduced Motion all
   behave correctly and remain fully removable.
-- [ ] Teleport, retry, crash, pause, camera transition and quality change reset
+- [x] Teleport, retry, crash, pause, camera transition and quality change reset
   particle state cleanly, matching the existing rules.
-- [ ] Bounded warmed before/after frame comparison in Snowstorm, the worst case,
+- [x] Bounded warmed before/after frame comparison in Snowstorm, the worst case,
   with the noise floor stated.
-- [ ] Run the weather suites and update
+- [x] Run the weather suites and update
   [Rendering](../../docs/RENDERING.md#weather).
 
 Human acceptance: how heavy a storm should feel, and how much visibility a
@@ -113,4 +113,28 @@ None.
 
 ## Completion record
 
-Pending implementation.
+Implementation delivered in the milestone containing
+[`d3b202fea1354b0f83b02fea1310cda6`](../../changes/d3b202fea1354b0f83b02fea1310cda6.json).
+Snow's retained volume is now 16Ã—10Ã—20m; rain remains 30Ã—20Ã—44m. Stable particle
+selection follows snowÃ—lerp(.35,1,storm), so storm reveals over three times the
+ordinary snowfall fraction without resetting/reallocating the pool. Flake lighting,
+fog, ski spray, rider-local drifts and the route-centre fade retain their owners.
+
+High allocation remains snow 600/rain 900/drifts 200=1700; Low 300/450/100=850, scaled
+by weather_budget. Clear/Cloudy hide snow/rain; Snowfall/Storm show the snow pool
+and their existing drift layer. The selected snow fraction is about 26â€“30% in
+Snowfall and 88â€“100% in Storm, before camera/alpha culling. Effects Off removes it.
+Weather 44/lifecycle 32/presentation 48/runtime 192 pass, including quality/budget,
+Reduced Motion stretch, frozen pause, teleport and camera transition behavior.
+
+Matched actual 4K High Auto .75,90/140km/h,chase/first-person captures show more
+visible flakes and a denser storm with the route still readable on perf-slopes.
+This is rendered review, not player acceptance. Bounded 6-second/720-tick native
+storm controls were 242.91/229.73FPS; candidates 220.51/227.43FPS. Average frame
+cost rose 0.231ms, near the unchanged control pair's 0.236ms variation; average GPU
+rose 0.032ms versus 0.086ms control variation. Both candidate results and worse
+first-sample tails are retained. No zero-cost, improvement or mountain-FPS claim.
+Detailed clips, timings and limitations: `artifacts/weather_presentation_20260918/REVIEW.md`.
+
+Remaining completion gate: the user's storm severity and terrain-readability
+judgment in controller play. The first two checkboxes stay open for that decision.
