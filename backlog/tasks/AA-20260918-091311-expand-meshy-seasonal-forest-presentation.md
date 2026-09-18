@@ -160,6 +160,9 @@ None
 
 Implementation delivered in the milestone containing
 [`723f475619884a51bd3fca2038694c1f`](../../changes/723f475619884a51bd3fca2038694c1f.json).
+Its final documentation check used the unsupported evidence category `static`;
+the following corrective milestone restates the checks with supported categories
+without changing the runtime or rewriting the original note.
 All three catalogues now cover all 30 visible tree slots and their three LODs,
 including the same seasonal pool in distant scenery. Winter remains default,
 mixing retained heavy Meshy snow crowns with lighter new ones. Birch, maple,

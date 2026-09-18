@@ -1,0 +1,1944 @@
+{
+  "schema": 1,
+  "id": "35241fb5d08340e784215bef8dfd5a01",
+  "summary": "Correct the seasonal forest validation category and preserve its verified evidence",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Forest validation record correction"
+  ],
+  "owned_paths": [
+    "art_source/trees/meshy_seasons_v1/README.md",
+    "backlog/tasks/AA-20260918-091311-expand-meshy-seasonal-forest-presentation.md"
+  ],
+  "read_paths": [
+    ".agents/skills/alpine-performance/SKILL.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "art_source/trees/meshy_seasons_v1/.gdignore",
+    "art_source/trees/meshy_seasons_v1/birch_bare/generation.json",
+    "art_source/trees/meshy_seasons_v1/birch_bare/reference.png",
+    "art_source/trees/meshy_seasons_v1/birch_bare/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/birch_bare/source.glb",
+    "art_source/trees/meshy_seasons_v1/birch_summer/generation.json",
+    "art_source/trees/meshy_seasons_v1/birch_summer/reference.png",
+    "art_source/trees/meshy_seasons_v1/birch_summer/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/birch_summer/source.glb",
+    "art_source/trees/meshy_seasons_v1/birch_summer_full/generation.json",
+    "art_source/trees/meshy_seasons_v1/birch_summer_full/source.glb",
+    "art_source/trees/meshy_seasons_v1/birch_summer_v2/generation.json",
+    "art_source/trees/meshy_seasons_v1/birch_summer_v2/reference.png",
+    "art_source/trees/meshy_seasons_v1/birch_summer_v2/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/birch_summer_v2/source.glb",
+    "art_source/trees/meshy_seasons_v1/broken_tree/generation.json",
+    "art_source/trees/meshy_seasons_v1/broken_tree/reference.png",
+    "art_source/trees/meshy_seasons_v1/broken_tree/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/broken_tree/source.glb",
+    "art_source/trees/meshy_seasons_v1/build_sources.ps1",
+    "art_source/trees/meshy_seasons_v1/compose_leaf_lods.py",
+    "art_source/trees/meshy_seasons_v1/credits.json",
+    "art_source/trees/meshy_seasons_v1/dead_snag/generation.json",
+    "art_source/trees/meshy_seasons_v1/dead_snag/reference.png",
+    "art_source/trees/meshy_seasons_v1/dead_snag/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/dead_snag/source.glb",
+    "art_source/trees/meshy_seasons_v1/export.gd",
+    "art_source/trees/meshy_seasons_v1/fir_bough/generation.json",
+    "art_source/trees/meshy_seasons_v1/fir_bough/reference.png",
+    "art_source/trees/meshy_seasons_v1/fir_bough/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/fir_bough/source.glb",
+    "art_source/trees/meshy_seasons_v1/fir_bough_full/generation.json",
+    "art_source/trees/meshy_seasons_v1/fir_bough_full/source.glb",
+    "art_source/trees/meshy_seasons_v1/fir_bough_v2/generation.json",
+    "art_source/trees/meshy_seasons_v1/fir_bough_v2/reference.png",
+    "art_source/trees/meshy_seasons_v1/fir_bough_v2/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/fir_bough_v2/source.glb",
+    "art_source/trees/meshy_seasons_v1/maple_bare/generation.json",
+    "art_source/trees/meshy_seasons_v1/maple_bare/reference.png",
+    "art_source/trees/meshy_seasons_v1/maple_bare/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/maple_bare/source.glb",
+    "art_source/trees/meshy_seasons_v1/maple_summer/generation.json",
+    "art_source/trees/meshy_seasons_v1/maple_summer/reference.png",
+    "art_source/trees/meshy_seasons_v1/maple_summer/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/maple_summer/source.glb",
+    "art_source/trees/meshy_seasons_v1/maple_summer_full/generation.json",
+    "art_source/trees/meshy_seasons_v1/maple_summer_full/source.glb",
+    "art_source/trees/meshy_seasons_v1/maple_summer_v2/generation.json",
+    "art_source/trees/meshy_seasons_v1/maple_summer_v2/reference.png",
+    "art_source/trees/meshy_seasons_v1/maple_summer_v2/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/maple_summer_v2/source.glb",
+    "art_source/trees/meshy_seasons_v1/package.gd",
+    "art_source/trees/meshy_seasons_v1/pine_bough/generation.json",
+    "art_source/trees/meshy_seasons_v1/pine_bough/reference.png",
+    "art_source/trees/meshy_seasons_v1/pine_bough/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/pine_bough/source.glb",
+    "art_source/trees/meshy_seasons_v1/pine_bough_full/generation.json",
+    "art_source/trees/meshy_seasons_v1/pine_bough_full/source.glb",
+    "art_source/trees/meshy_seasons_v1/pine_bough_v2/generation.json",
+    "art_source/trees/meshy_seasons_v1/pine_bough_v2/reference.png",
+    "art_source/trees/meshy_seasons_v1/pine_bough_v2/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/pine_bough_v2/source.glb",
+    "art_source/trees/meshy_seasons_v1/prepare.gd",
+    "art_source/trees/meshy_seasons_v1/prepare_whole.py",
+    "art_source/trees/meshy_seasons_v1/project_bough.py",
+    "art_source/trees/meshy_seasons_v1/requests.json",
+    "art_source/trees/meshy_seasons_v1/spruce_bough/generation.json",
+    "art_source/trees/meshy_seasons_v1/spruce_bough/reference.png",
+    "art_source/trees/meshy_seasons_v1/spruce_bough/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/spruce_bough/source.glb",
+    "art_source/trees/meshy_seasons_v1/spruce_bough_full/generation.json",
+    "art_source/trees/meshy_seasons_v1/spruce_bough_full/source.glb",
+    "art_source/trees/meshy_seasons_v1/spruce_bough_retopology/generation.json",
+    "art_source/trees/meshy_seasons_v1/spruce_bough_retopology/source.glb",
+    "art_source/trees/meshy_seasons_v1/spruce_bough_v2/generation.json",
+    "art_source/trees/meshy_seasons_v1/spruce_bough_v2/reference.png",
+    "art_source/trees/meshy_seasons_v1/spruce_bough_v2/reference_request.json",
+    "art_source/trees/meshy_seasons_v1/spruce_bough_v2/source.glb",
+    "art_source/trees/meshy_snow_v1/README.md",
+    "art_source/trees/meshy_snow_v1/assemble_bough.py",
+    "assets/graphics/offmap_prop.gdshader",
+    "assets/graphics/offmap_tree.gdshader",
+    "assets/graphics/pc_forest_vertex.gdshaderinc",
+    "assets/graphics/pc_lod.gdshaderinc",
+    "assets/graphics/pc_season_color.gdshaderinc",
+    "assets/graphics/pc_season_fragment.gdshaderinc",
+    "assets/graphics/pc_season_tree_0.gdshader",
+    "assets/graphics/pc_season_tree_1.gdshader",
+    "assets/graphics/pc_tree_impostor.gdshader",
+    "assets/graphics/trees/seasons/manifest.json",
+    "assets/graphics/trees/seasons/models/forest_birch_01_birch_autumn_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_birch_01_birch_bare_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_birch_01_birch_bare_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_birch_01_birch_bare_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_birch_01_birch_summer_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_birch_01_birch_summer_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_birch_01_birch_summer_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_birch_02_birch_autumn_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_birch_02_birch_bare_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_birch_02_birch_bare_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_birch_02_birch_bare_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_birch_02_birch_summer_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_birch_02_birch_summer_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_birch_02_birch_summer_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_birch_03_birch_autumn_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_birch_03_birch_bare_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_birch_03_birch_bare_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_birch_03_birch_bare_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_birch_03_birch_summer_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_birch_03_birch_summer_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_birch_03_birch_summer_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_birch_04_birch_autumn_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_birch_04_birch_bare_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_birch_04_birch_bare_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_birch_04_birch_bare_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_birch_04_birch_summer_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_birch_04_birch_summer_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_birch_04_birch_summer_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_broken_01_broken_tree_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_broken_01_broken_tree_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_broken_01_broken_tree_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_broken_02_broken_tree_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_broken_02_broken_tree_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_broken_02_broken_tree_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_broken_03_broken_tree_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_broken_03_broken_tree_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_broken_03_broken_tree_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_broken_04_broken_tree_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_broken_04_broken_tree_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_broken_04_broken_tree_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_dead_01_dead_snag_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_dead_01_dead_snag_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_dead_01_dead_snag_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_dead_02_dead_snag_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_dead_02_dead_snag_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_dead_02_dead_snag_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_dead_03_dead_snag_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_dead_03_dead_snag_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_dead_03_dead_snag_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_dead_04_dead_snag_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_dead_04_dead_snag_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_dead_04_dead_snag_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_fir_01_fir_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_fir_01_fir_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_fir_01_fir_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_fir_02_fir_light_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_fir_02_fir_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_fir_02_fir_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_fir_02_fir_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_fir_03_fir_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_fir_03_fir_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_fir_03_fir_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_fir_04_fir_light_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_fir_04_fir_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_fir_04_fir_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_fir_04_fir_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_golden_01_birch_autumn_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_golden_01_birch_bare_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_golden_01_birch_bare_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_golden_01_birch_bare_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_golden_01_birch_summer_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_golden_01_birch_summer_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_golden_01_birch_summer_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_golden_02_birch_autumn_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_golden_02_birch_bare_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_golden_02_birch_bare_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_golden_02_birch_bare_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_golden_02_birch_summer_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_golden_02_birch_summer_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_golden_02_birch_summer_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_golden_03_birch_autumn_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_golden_03_birch_bare_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_golden_03_birch_bare_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_golden_03_birch_bare_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_golden_03_birch_summer_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_golden_03_birch_summer_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_golden_03_birch_summer_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_maple_01_maple_autumn_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_maple_01_maple_bare_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_maple_01_maple_bare_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_maple_01_maple_bare_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_maple_01_maple_summer_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_maple_01_maple_summer_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_maple_01_maple_summer_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_maple_02_maple_autumn_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_maple_02_maple_bare_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_maple_02_maple_bare_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_maple_02_maple_bare_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_maple_02_maple_summer_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_maple_02_maple_summer_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_maple_02_maple_summer_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_maple_03_maple_autumn_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_maple_03_maple_bare_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_maple_03_maple_bare_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_maple_03_maple_bare_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_maple_03_maple_summer_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_maple_03_maple_summer_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_maple_03_maple_summer_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_pine_01_pine_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_pine_01_pine_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_pine_01_pine_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_pine_02_pine_light_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_pine_02_pine_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_pine_02_pine_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_pine_02_pine_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_pine_03_pine_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_pine_03_pine_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_pine_03_pine_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_pine_04_pine_light_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_pine_04_pine_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_pine_04_pine_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_pine_04_pine_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_01_spruce_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_01_spruce_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_01_spruce_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_02_spruce_light_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_02_spruce_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_02_spruce_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_02_spruce_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_03_spruce_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_03_spruce_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_03_spruce_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_04_spruce_light_lod2.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_04_spruce_lod0.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_04_spruce_lod1.res",
+    "assets/graphics/trees/seasons/models/forest_spruce_04_spruce_lod2.res",
+    "assets/graphics/trees/seasons/textures/birch_autumn_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/birch_autumn_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/birch_autumn_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/birch_bare_albedo_balanced.res",
+    "assets/graphics/trees/seasons/textures/birch_bare_albedo_high.res",
+    "assets/graphics/trees/seasons/textures/birch_bare_albedo_low.res",
+    "assets/graphics/trees/seasons/textures/birch_bare_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/birch_bare_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/birch_bare_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/birch_bare_canopy_balanced.res",
+    "assets/graphics/trees/seasons/textures/birch_bare_canopy_high.res",
+    "assets/graphics/trees/seasons/textures/birch_bare_canopy_low.res",
+    "assets/graphics/trees/seasons/textures/birch_summer_albedo_balanced.res",
+    "assets/graphics/trees/seasons/textures/birch_summer_albedo_high.res",
+    "assets/graphics/trees/seasons/textures/birch_summer_albedo_low.res",
+    "assets/graphics/trees/seasons/textures/birch_summer_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/birch_summer_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/birch_summer_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/birch_summer_canopy_balanced.res",
+    "assets/graphics/trees/seasons/textures/birch_summer_canopy_high.res",
+    "assets/graphics/trees/seasons/textures/birch_summer_canopy_low.res",
+    "assets/graphics/trees/seasons/textures/broken_tree_albedo_balanced.res",
+    "assets/graphics/trees/seasons/textures/broken_tree_albedo_high.res",
+    "assets/graphics/trees/seasons/textures/broken_tree_albedo_low.res",
+    "assets/graphics/trees/seasons/textures/broken_tree_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/broken_tree_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/broken_tree_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/broken_tree_canopy_balanced.res",
+    "assets/graphics/trees/seasons/textures/broken_tree_canopy_high.res",
+    "assets/graphics/trees/seasons/textures/broken_tree_canopy_low.res",
+    "assets/graphics/trees/seasons/textures/dead_snag_albedo_balanced.res",
+    "assets/graphics/trees/seasons/textures/dead_snag_albedo_high.res",
+    "assets/graphics/trees/seasons/textures/dead_snag_albedo_low.res",
+    "assets/graphics/trees/seasons/textures/dead_snag_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/dead_snag_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/dead_snag_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/dead_snag_canopy_balanced.res",
+    "assets/graphics/trees/seasons/textures/dead_snag_canopy_high.res",
+    "assets/graphics/trees/seasons/textures/dead_snag_canopy_low.res",
+    "assets/graphics/trees/seasons/textures/fir_albedo_balanced.res",
+    "assets/graphics/trees/seasons/textures/fir_albedo_high.res",
+    "assets/graphics/trees/seasons/textures/fir_albedo_low.res",
+    "assets/graphics/trees/seasons/textures/fir_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/fir_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/fir_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/fir_light_albedo_balanced.res",
+    "assets/graphics/trees/seasons/textures/fir_light_albedo_high.res",
+    "assets/graphics/trees/seasons/textures/fir_light_albedo_low.res",
+    "assets/graphics/trees/seasons/textures/fir_light_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/fir_light_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/fir_light_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/fir_normal_balanced.res",
+    "assets/graphics/trees/seasons/textures/fir_normal_high.res",
+    "assets/graphics/trees/seasons/textures/fir_normal_low.res",
+    "assets/graphics/trees/seasons/textures/maple_autumn_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/maple_autumn_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/maple_autumn_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/maple_bare_albedo_balanced.res",
+    "assets/graphics/trees/seasons/textures/maple_bare_albedo_high.res",
+    "assets/graphics/trees/seasons/textures/maple_bare_albedo_low.res",
+    "assets/graphics/trees/seasons/textures/maple_bare_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/maple_bare_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/maple_bare_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/maple_bare_canopy_balanced.res",
+    "assets/graphics/trees/seasons/textures/maple_bare_canopy_high.res",
+    "assets/graphics/trees/seasons/textures/maple_bare_canopy_low.res",
+    "assets/graphics/trees/seasons/textures/maple_summer_albedo_balanced.res",
+    "assets/graphics/trees/seasons/textures/maple_summer_albedo_high.res",
+    "assets/graphics/trees/seasons/textures/maple_summer_albedo_low.res",
+    "assets/graphics/trees/seasons/textures/maple_summer_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/maple_summer_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/maple_summer_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/maple_summer_canopy_balanced.res",
+    "assets/graphics/trees/seasons/textures/maple_summer_canopy_high.res",
+    "assets/graphics/trees/seasons/textures/maple_summer_canopy_low.res",
+    "assets/graphics/trees/seasons/textures/pine_albedo_balanced.res",
+    "assets/graphics/trees/seasons/textures/pine_albedo_high.res",
+    "assets/graphics/trees/seasons/textures/pine_albedo_low.res",
+    "assets/graphics/trees/seasons/textures/pine_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/pine_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/pine_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/pine_light_albedo_balanced.res",
+    "assets/graphics/trees/seasons/textures/pine_light_albedo_high.res",
+    "assets/graphics/trees/seasons/textures/pine_light_albedo_low.res",
+    "assets/graphics/trees/seasons/textures/pine_light_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/pine_light_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/pine_light_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/pine_normal_balanced.res",
+    "assets/graphics/trees/seasons/textures/pine_normal_high.res",
+    "assets/graphics/trees/seasons/textures/pine_normal_low.res",
+    "assets/graphics/trees/seasons/textures/spruce_albedo_balanced.res",
+    "assets/graphics/trees/seasons/textures/spruce_albedo_high.res",
+    "assets/graphics/trees/seasons/textures/spruce_albedo_low.res",
+    "assets/graphics/trees/seasons/textures/spruce_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/spruce_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/spruce_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/spruce_light_albedo_balanced.res",
+    "assets/graphics/trees/seasons/textures/spruce_light_albedo_high.res",
+    "assets/graphics/trees/seasons/textures/spruce_light_albedo_low.res",
+    "assets/graphics/trees/seasons/textures/spruce_light_atlas_balanced.res",
+    "assets/graphics/trees/seasons/textures/spruce_light_atlas_high.res",
+    "assets/graphics/trees/seasons/textures/spruce_light_atlas_low.res",
+    "assets/graphics/trees/seasons/textures/spruce_normal_balanced.res",
+    "assets/graphics/trees/seasons/textures/spruce_normal_high.res",
+    "assets/graphics/trees/seasons/textures/spruce_normal_low.res",
+    "assets/graphics/trees/winter/manifest.json",
+    "docs/ASSETS.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "scripts/benchmark_targeted.ps1",
+    "scripts/core/ski_simulation.gd",
+    "scripts/core/tree_dynamics.gd",
+    "scripts/main.gd",
+    "scripts/presentation/alpine_assets.gd",
+    "scripts/presentation/forest_appearance.gd",
+    "scripts/presentation/tree_motion.gd",
+    "scripts/presentation/weather_preferences.gd",
+    "scripts/ui/settings_pages.gd",
+    "scripts/world/alpine_wilderness.gd",
+    "scripts/world/wilderness_props.gd",
+    "tests/colorful_forest_suite.gd",
+    "tests/forest_appearance_cost.gd",
+    "tests/forest_appearance_playtest.gd",
+    "tests/forest_appearance_suite.gd",
+    "tests/physics_suite.gd",
+    "tests/runtime_suite.gd",
+    "tests/seasonal_forest_review.gd",
+    "tests/targeted_performance.gd",
+    "tests/weather_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Presentation meshes, materials and receiver routing only; solver, trunk collision records, branch dynamics and 120 Hz input remain unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "The original physical catalogue, terrain, placements, root transforms and shadow proxies are retained. Seasonal render geometry is fitted offline."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Forest style remains a presentation preference; existing winter value 1 stays the default. No race, record, replay or mountain schema changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Seasonal forest presentation does not change the physical generator, solver or racing compatibility identity."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Seasonal forest presentation does not change the physical generator, solver or racing compatibility identity."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Seasonal forest presentation does not change the physical generator, solver or racing compatibility identity."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Seasonal forest presentation does not change the physical generator, solver or racing compatibility identity."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Seasonal forest presentation does not change the physical generator, solver or racing compatibility identity."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "scripts/test_pc_environment.ps1 -Suites physics_suite,runtime_suite,forest_appearance_suite,weather_suite -OutputDirectory artifacts/meshy_seasons_20260918/regression-final",
+      "details": "Physics56/runtime192/weather44 passed before final source-art revisions; their owners remain unchanged. Latest forest evidence follows."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "scripts/test_pc_environment.ps1 -Suites forest_appearance_suite,colorful_forest_suite -OutputDirectory artifacts/meshy_seasons_20260918/regression-slices",
+      "details": "1763 checks passed on final packaged depth-slice assets; retained physics and placements, all catalogue LODs, shadows, contacts and texture tiers."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "run_guarded.ps1 Shared FullMountain: tests/forest_appearance_playtest.gd --review-output=artifacts/meshy_seasons_20260918/integration-slices",
+      "details": "Native 4K High Auto .75 cap30:105520 batch checks,16 stills,33 chronological frames. Seasonal/off-map pool and Low/High changes pass. Close branch repetition/crossed twigs remain for user review; not human acceptance."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "scripts/benchmark_targeted.ps1 -Map vegetation -ForestStyle summer -Repetitions 1 -Seconds 6 -Output artifacts/meshy_seasons_20260918/local-summer-slices",
+      "details": "384 trees,256x512m,8385 height samples.217.99 rendered FPS,p95/p99 6.36/7.51ms. Exact720 ticks,stable inputs,no focus loss. Local scope only."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "FpsCritical FullMountain: artifacts/meshy_seasons_20260918/measure.ps1 -Style winter|summer -Label seasonal-winter-slices|seasonal-summer-slices",
+      "details": "One excluded traversal then15s/1800tick warmed sample per style,4K High Auto.75 DX12 FG/GIoff.Winter133.55FPS,p95/p99 9.44/11.94ms;summer125.66FPS,10.38/12.78ms.Exact trace,stable scoped inputs,focused.Older winter118.16FPS control predates wind-drift shading;not an isolated forest gain or universal stable120FPS."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "git diff --check; python scripts/backlog.py validate --preserve-dirty; python scripts/versioning.py check --note changes/723f475619884a51bd3fca2038694c1f.json",
+      "details": "Diff/backlog validation passed. Dev122 accidentally used unsupported kind static for this entry; this append-only correction uses automated. No runtime or source-art changes; passing functional, rendered and measured evidence is retained."
+    }
+  ],
+  "outstanding_acceptance": [
+    "User appearance/controller review of summer, autumn, heavy-snow winter and light-snow winter remains separate from the implementation milestone; the backlog task stays open until that completion gate is met."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-18T12:58:45.465691+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "30fccba3044b7251362ab24092bff8021b138069",
+      "dev": 122,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-performance/SKILL.md": {
+        "size": 14622,
+        "mtime_ns": 1789728297284761400
+      },
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 16788,
+        "mtime_ns": 1789728215019499200
+      },
+      "art_source/trees/meshy_seasons_v1/.gdignore": {
+        "size": 1,
+        "mtime_ns": 1789725538105025400
+      },
+      "art_source/trees/meshy_seasons_v1/README.md": {
+        "size": 6416,
+        "mtime_ns": 1789736323004354000
+      },
+      "art_source/trees/meshy_seasons_v1/birch_bare/generation.json": {
+        "size": 788,
+        "mtime_ns": 1789725719255504200
+      },
+      "art_source/trees/meshy_seasons_v1/birch_bare/reference.png": {
+        "size": 1978028,
+        "mtime_ns": 1789725639388885100
+      },
+      "art_source/trees/meshy_seasons_v1/birch_bare/reference_request.json": {
+        "size": 563,
+        "mtime_ns": 1789725600879016900
+      },
+      "art_source/trees/meshy_seasons_v1/birch_bare/source.glb": {
+        "size": 14364476,
+        "mtime_ns": 1789725885548592000
+      },
+      "art_source/trees/meshy_seasons_v1/birch_summer/generation.json": {
+        "size": 790,
+        "mtime_ns": 1789725712235345400
+      },
+      "art_source/trees/meshy_seasons_v1/birch_summer/reference.png": {
+        "size": 2373573,
+        "mtime_ns": 1789725638446545200
+      },
+      "art_source/trees/meshy_seasons_v1/birch_summer/reference_request.json": {
+        "size": 563,
+        "mtime_ns": 1789725596158673500
+      },
+      "art_source/trees/meshy_seasons_v1/birch_summer/source.glb": {
+        "size": 15051092,
+        "mtime_ns": 1789726092548026700
+      },
+      "art_source/trees/meshy_seasons_v1/birch_summer_full/generation.json": {
+        "size": 853,
+        "mtime_ns": 1789727517295536600
+      },
+      "art_source/trees/meshy_seasons_v1/birch_summer_full/source.glb": {
+        "size": 343738128,
+        "mtime_ns": 1789728286675106800
+      },
+      "art_source/trees/meshy_seasons_v1/birch_summer_v2/generation.json": {
+        "size": 793,
+        "mtime_ns": 1789726999013766000
+      },
+      "art_source/trees/meshy_seasons_v1/birch_summer_v2/reference.png": {
+        "size": 2669212,
+        "mtime_ns": 1789726966120800400
+      },
+      "art_source/trees/meshy_seasons_v1/birch_summer_v2/reference_request.json": {
+        "size": 919,
+        "mtime_ns": 1789726851135638900
+      },
+      "art_source/trees/meshy_seasons_v1/birch_summer_v2/source.glb": {
+        "size": 5538332,
+        "mtime_ns": 1789727432269482300
+      },
+      "art_source/trees/meshy_seasons_v1/broken_tree/generation.json": {
+        "size": 789,
+        "mtime_ns": 1789725724505916500
+      },
+      "art_source/trees/meshy_seasons_v1/broken_tree/reference.png": {
+        "size": 1467436,
+        "mtime_ns": 1789725640306109600
+      },
+      "art_source/trees/meshy_seasons_v1/broken_tree/reference_request.json": {
+        "size": 563,
+        "mtime_ns": 1789725605207298300
+      },
+      "art_source/trees/meshy_seasons_v1/broken_tree/source.glb": {
+        "size": 12655668,
+        "mtime_ns": 1789725887728400800
+      },
+      "art_source/trees/meshy_seasons_v1/build_sources.ps1": {
+        "size": 2549,
+        "mtime_ns": 1789734858314848100
+      },
+      "art_source/trees/meshy_seasons_v1/compose_leaf_lods.py": {
+        "size": 6890,
+        "mtime_ns": 1789729735381961400
+      },
+      "art_source/trees/meshy_seasons_v1/credits.json": {
+        "size": 5445,
+        "mtime_ns": 1789734355012735300
+      },
+      "art_source/trees/meshy_seasons_v1/dead_snag/generation.json": {
+        "size": 787,
+        "mtime_ns": 1789725721853059800
+      },
+      "art_source/trees/meshy_seasons_v1/dead_snag/reference.png": {
+        "size": 1330236,
+        "mtime_ns": 1789725639871734800
+      },
+      "art_source/trees/meshy_seasons_v1/dead_snag/reference_request.json": {
+        "size": 563,
+        "mtime_ns": 1789725603153561000
+      },
+      "art_source/trees/meshy_seasons_v1/dead_snag/source.glb": {
+        "size": 12751748,
+        "mtime_ns": 1789725886600002900
+      },
+      "art_source/trees/meshy_seasons_v1/export.gd": {
+        "size": 5230,
+        "mtime_ns": 1789734858317293700
+      },
+      "art_source/trees/meshy_seasons_v1/fir_bough/generation.json": {
+        "size": 787,
+        "mtime_ns": 1789725705370605100
+      },
+      "art_source/trees/meshy_seasons_v1/fir_bough/reference.png": {
+        "size": 1913396,
+        "mtime_ns": 1789725637222470100
+      },
+      "art_source/trees/meshy_seasons_v1/fir_bough/reference_request.json": {
+        "size": 563,
+        "mtime_ns": 1789725578041324000
+      },
+      "art_source/trees/meshy_seasons_v1/fir_bough/source.glb": {
+        "size": 15801684,
+        "mtime_ns": 1789726089829409200
+      },
+      "art_source/trees/meshy_seasons_v1/fir_bough_full/generation.json": {
+        "size": 850,
+        "mtime_ns": 1789731513405393900
+      },
+      "art_source/trees/meshy_seasons_v1/fir_bough_full/source.glb": {
+        "size": 243987212,
+        "mtime_ns": 1789732086607547900
+      },
+      "art_source/trees/meshy_seasons_v1/fir_bough_v2/generation.json": {
+        "size": 790,
+        "mtime_ns": 1789726991216166400
+      },
+      "art_source/trees/meshy_seasons_v1/fir_bough_v2/reference.png": {
+        "size": 2017373,
+        "mtime_ns": 1789726964933546600
+      },
+      "art_source/trees/meshy_seasons_v1/fir_bough_v2/reference_request.json": {
+        "size": 897,
+        "mtime_ns": 1789726846418234800
+      },
+      "art_source/trees/meshy_seasons_v1/fir_bough_v2/source.glb": {
+        "size": 16838604,
+        "mtime_ns": 1789727429487046300
+      },
+      "art_source/trees/meshy_seasons_v1/maple_bare/generation.json": {
+        "size": 460,
+        "mtime_ns": 1789726180027588400
+      },
+      "art_source/trees/meshy_seasons_v1/maple_bare/reference.png": {
+        "size": 2298590,
+        "mtime_ns": 1789726145235211700
+      },
+      "art_source/trees/meshy_seasons_v1/maple_bare/reference_request.json": {
+        "size": 747,
+        "mtime_ns": 1789726043619537100
+      },
+      "art_source/trees/meshy_seasons_v1/maple_bare/source.glb": {
+        "size": 14640704,
+        "mtime_ns": 1789726571662832700
+      },
+      "art_source/trees/meshy_seasons_v1/maple_summer/generation.json": {
+        "size": 790,
+        "mtime_ns": 1789725715847869600
+      },
+      "art_source/trees/meshy_seasons_v1/maple_summer/reference.png": {
+        "size": 2519631,
+        "mtime_ns": 1789725638942843700
+      },
+      "art_source/trees/meshy_seasons_v1/maple_summer/reference_request.json": {
+        "size": 563,
+        "mtime_ns": 1789725598213941600
+      },
+      "art_source/trees/meshy_seasons_v1/maple_summer/source.glb": {
+        "size": 12386344,
+        "mtime_ns": 1789726480773642000
+      },
+      "art_source/trees/meshy_seasons_v1/maple_summer_full/generation.json": {
+        "size": 853,
+        "mtime_ns": 1789727521146058400
+      },
+      "art_source/trees/meshy_seasons_v1/maple_summer_full/source.glb": {
+        "size": 351625592,
+        "mtime_ns": 1789728356602672900
+      },
+      "art_source/trees/meshy_seasons_v1/maple_summer_v2/generation.json": {
+        "size": 793,
+        "mtime_ns": 1789727002657447400
+      },
+      "art_source/trees/meshy_seasons_v1/maple_summer_v2/reference.png": {
+        "size": 2607645,
+        "mtime_ns": 1789726966900128700
+      },
+      "art_source/trees/meshy_seasons_v1/maple_summer_v2/reference_request.json": {
+        "size": 925,
+        "mtime_ns": 1789726853135256200
+      },
+      "art_source/trees/meshy_seasons_v1/maple_summer_v2/source.glb": {
+        "size": 10601944,
+        "mtime_ns": 1789727977817316500
+      },
+      "art_source/trees/meshy_seasons_v1/package.gd": {
+        "size": 1101,
+        "mtime_ns": 1789735337613817600
+      },
+      "art_source/trees/meshy_seasons_v1/pine_bough/generation.json": {
+        "size": 788,
+        "mtime_ns": 1789725708707241100
+      },
+      "art_source/trees/meshy_seasons_v1/pine_bough/reference.png": {
+        "size": 2083986,
+        "mtime_ns": 1789725637942258700
+      },
+      "art_source/trees/meshy_seasons_v1/pine_bough/reference_request.json": {
+        "size": 563,
+        "mtime_ns": 1789725580134599000
+      },
+      "art_source/trees/meshy_seasons_v1/pine_bough/source.glb": {
+        "size": 13729200,
+        "mtime_ns": 1789726090858185900
+      },
+      "art_source/trees/meshy_seasons_v1/pine_bough_full/generation.json": {
+        "size": 851,
+        "mtime_ns": 1789731516582278600
+      },
+      "art_source/trees/meshy_seasons_v1/pine_bough_full/source.glb": {
+        "size": 317768204,
+        "mtime_ns": 1789732306966090700
+      },
+      "art_source/trees/meshy_seasons_v1/pine_bough_v2/generation.json": {
+        "size": 791,
+        "mtime_ns": 1789726995269612400
+      },
+      "art_source/trees/meshy_seasons_v1/pine_bough_v2/reference.png": {
+        "size": 2693446,
+        "mtime_ns": 1789726965488887900
+      },
+      "art_source/trees/meshy_seasons_v1/pine_bough_v2/reference_request.json": {
+        "size": 899,
+        "mtime_ns": 1789726849093019800
+      },
+      "art_source/trees/meshy_seasons_v1/pine_bough_v2/source.glb": {
+        "size": 16206768,
+        "mtime_ns": 1789727430852105900
+      },
+      "art_source/trees/meshy_seasons_v1/prepare.gd": {
+        "size": 9274,
+        "mtime_ns": 1789734858315848600
+      },
+      "art_source/trees/meshy_seasons_v1/prepare_whole.py": {
+        "size": 4264,
+        "mtime_ns": 1789728817157619900
+      },
+      "art_source/trees/meshy_seasons_v1/project_bough.py": {
+        "size": 7168,
+        "mtime_ns": 1789735304526031900
+      },
+      "art_source/trees/meshy_seasons_v1/requests.json": {
+        "size": 4888,
+        "mtime_ns": 1789726233094026900
+      },
+      "art_source/trees/meshy_seasons_v1/spruce_bough/generation.json": {
+        "size": 790,
+        "mtime_ns": 1789725702226092400
+      },
+      "art_source/trees/meshy_seasons_v1/spruce_bough/reference.png": {
+        "size": 2125102,
+        "mtime_ns": 1789725636734707400
+      },
+      "art_source/trees/meshy_seasons_v1/spruce_bough/reference_request.json": {
+        "size": 563,
+        "mtime_ns": 1789725575988151800
+      },
+      "art_source/trees/meshy_seasons_v1/spruce_bough/source.glb": {
+        "size": 14410484,
+        "mtime_ns": 1789726088362721700
+      },
+      "art_source/trees/meshy_seasons_v1/spruce_bough_full/generation.json": {
+        "size": 853,
+        "mtime_ns": 1789731510701963100
+      },
+      "art_source/trees/meshy_seasons_v1/spruce_bough_full/source.glb": {
+        "size": 314238908,
+        "mtime_ns": 1789732206872109100
+      },
+      "art_source/trees/meshy_seasons_v1/spruce_bough_retopology/generation.json": {
+        "size": 517,
+        "mtime_ns": 1789733639517803000
+      },
+      "art_source/trees/meshy_seasons_v1/spruce_bough_retopology/source.glb": {
+        "size": 20605828,
+        "mtime_ns": 1789733952344141200
+      },
+      "art_source/trees/meshy_seasons_v1/spruce_bough_v2/generation.json": {
+        "size": 793,
+        "mtime_ns": 1789726987924819300
+      },
+      "art_source/trees/meshy_seasons_v1/spruce_bough_v2/reference.png": {
+        "size": 2546471,
+        "mtime_ns": 1789726964117111100
+      },
+      "art_source/trees/meshy_seasons_v1/spruce_bough_v2/reference_request.json": {
+        "size": 913,
+        "mtime_ns": 1789726844489069200
+      },
+      "art_source/trees/meshy_seasons_v1/spruce_bough_v2/source.glb": {
+        "size": 16103924,
+        "mtime_ns": 1789727428504092500
+      },
+      "art_source/trees/meshy_snow_v1/README.md": {
+        "size": 17354,
+        "mtime_ns": 1789731199849839500
+      },
+      "art_source/trees/meshy_snow_v1/assemble_bough.py": {
+        "size": 9601,
+        "mtime_ns": 1789734577908286900
+      },
+      "assets/graphics/offmap_prop.gdshader": {
+        "size": 3031,
+        "mtime_ns": 1789734891930522500
+      },
+      "assets/graphics/offmap_tree.gdshader": {
+        "size": 2412,
+        "mtime_ns": 1789727154422989100
+      },
+      "assets/graphics/pc_forest_vertex.gdshaderinc": {
+        "size": 4544,
+        "mtime_ns": 1789734661755543100
+      },
+      "assets/graphics/pc_lod.gdshaderinc": {
+        "size": 1756,
+        "mtime_ns": 1789567353807814500
+      },
+      "assets/graphics/pc_season_color.gdshaderinc": {
+        "size": 565,
+        "mtime_ns": 1789729735383409400
+      },
+      "assets/graphics/pc_season_fragment.gdshaderinc": {
+        "size": 1325,
+        "mtime_ns": 1789734661754539900
+      },
+      "assets/graphics/pc_season_tree_0.gdshader": {
+        "size": 174,
+        "mtime_ns": 1789726634952507200
+      },
+      "assets/graphics/pc_season_tree_1.gdshader": {
+        "size": 229,
+        "mtime_ns": 1789734661755543100
+      },
+      "assets/graphics/pc_tree_impostor.gdshader": {
+        "size": 3615,
+        "mtime_ns": 1789594595746728500
+      },
+      "assets/graphics/trees/seasons/manifest.json": {
+        "size": 318930,
+        "mtime_ns": 1789735419167202200
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_01_birch_autumn_lod2.res": {
+        "size": 465,
+        "mtime_ns": 1789735418141933600
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_01_birch_bare_lod0.res": {
+        "size": 560487,
+        "mtime_ns": 1789735418960134400
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_01_birch_bare_lod1.res": {
+        "size": 132612,
+        "mtime_ns": 1789735418965696900
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_01_birch_bare_lod2.res": {
+        "size": 466,
+        "mtime_ns": 1789735418965696900
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_01_birch_summer_lod0.res": {
+        "size": 2792952,
+        "mtime_ns": 1789735418127736000
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_01_birch_summer_lod1.res": {
+        "size": 681189,
+        "mtime_ns": 1789735418140933300
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_01_birch_summer_lod2.res": {
+        "size": 464,
+        "mtime_ns": 1789735419152071700
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_02_birch_autumn_lod2.res": {
+        "size": 465,
+        "mtime_ns": 1789735418224087300
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_02_birch_bare_lod0.res": {
+        "size": 560068,
+        "mtime_ns": 1789735418981785500
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_02_birch_bare_lod1.res": {
+        "size": 132542,
+        "mtime_ns": 1789735418986003100
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_02_birch_bare_lod2.res": {
+        "size": 465,
+        "mtime_ns": 1789735418987064700
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_02_birch_summer_lod0.res": {
+        "size": 2792550,
+        "mtime_ns": 1789735418206917100
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_02_birch_summer_lod1.res": {
+        "size": 681172,
+        "mtime_ns": 1789735418222750600
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_02_birch_summer_lod2.res": {
+        "size": 464,
+        "mtime_ns": 1789735419153081700
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_03_birch_autumn_lod2.res": {
+        "size": 467,
+        "mtime_ns": 1789735418304178000
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_03_birch_bare_lod0.res": {
+        "size": 560179,
+        "mtime_ns": 1789735419005405900
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_03_birch_bare_lod1.res": {
+        "size": 132619,
+        "mtime_ns": 1789735419013481400
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_03_birch_bare_lod2.res": {
+        "size": 465,
+        "mtime_ns": 1789735419014485500
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_03_birch_summer_lod0.res": {
+        "size": 2794028,
+        "mtime_ns": 1789735418289523000
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_03_birch_summer_lod1.res": {
+        "size": 681560,
+        "mtime_ns": 1789735418303177600
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_03_birch_summer_lod2.res": {
+        "size": 468,
+        "mtime_ns": 1789735419153081700
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_04_birch_autumn_lod2.res": {
+        "size": 465,
+        "mtime_ns": 1789735418383627000
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_04_birch_bare_lod0.res": {
+        "size": 560126,
+        "mtime_ns": 1789735419030569300
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_04_birch_bare_lod1.res": {
+        "size": 132559,
+        "mtime_ns": 1789735419034843700
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_04_birch_bare_lod2.res": {
+        "size": 462,
+        "mtime_ns": 1789735419036084800
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_04_birch_summer_lod0.res": {
+        "size": 2791506,
+        "mtime_ns": 1789735418367550300
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_04_birch_summer_lod1.res": {
+        "size": 680901,
+        "mtime_ns": 1789735418382626000
+      },
+      "assets/graphics/trees/seasons/models/forest_birch_04_birch_summer_lod2.res": {
+        "size": 467,
+        "mtime_ns": 1789735419154092100
+      },
+      "assets/graphics/trees/seasons/models/forest_broken_01_broken_tree_lod0.res": {
+        "size": 194783,
+        "mtime_ns": 1789735418442728400
+      },
+      "assets/graphics/trees/seasons/models/forest_broken_01_broken_tree_lod1.res": {
+        "size": 49302,
+        "mtime_ns": 1789735418444764100
+      },
+      "assets/graphics/trees/seasons/models/forest_broken_01_broken_tree_lod2.res": {
+        "size": 468,
+        "mtime_ns": 1789735418445767200
+      },
+      "assets/graphics/trees/seasons/models/forest_broken_02_broken_tree_lod0.res": {
+        "size": 194822,
+        "mtime_ns": 1789735418453920800
+      },
+      "assets/graphics/trees/seasons/models/forest_broken_02_broken_tree_lod1.res": {
+        "size": 49314,
+        "mtime_ns": 1789735418456015100
+      },
+      "assets/graphics/trees/seasons/models/forest_broken_02_broken_tree_lod2.res": {
+        "size": 465,
+        "mtime_ns": 1789735418456015100
+      },
+      "assets/graphics/trees/seasons/models/forest_broken_03_broken_tree_lod0.res": {
+        "size": 194644,
+        "mtime_ns": 1789735418465054900
+      },
+      "assets/graphics/trees/seasons/models/forest_broken_03_broken_tree_lod1.res": {
+        "size": 49309,
+        "mtime_ns": 1789735418467445700
+      },
+      "assets/graphics/trees/seasons/models/forest_broken_03_broken_tree_lod2.res": {
+        "size": 466,
+        "mtime_ns": 1789735418468540700
+      },
+      "assets/graphics/trees/seasons/models/forest_broken_04_broken_tree_lod0.res": {
+        "size": 194671,
+        "mtime_ns": 1789735418476941200
+      },
+      "assets/graphics/trees/seasons/models/forest_broken_04_broken_tree_lod1.res": {
+        "size": 49306,
+        "mtime_ns": 1789735418478207300
+      },
+      "assets/graphics/trees/seasons/models/forest_broken_04_broken_tree_lod2.res": {
+        "size": 469,
+        "mtime_ns": 1789735418479649700
+      },
+      "assets/graphics/trees/seasons/models/forest_dead_01_dead_snag_lod0.res": {
+        "size": 219018,
+        "mtime_ns": 1789735418392547800
+      },
+      "assets/graphics/trees/seasons/models/forest_dead_01_dead_snag_lod1.res": {
+        "size": 50860,
+        "mtime_ns": 1789735418394858400
+      },
+      "assets/graphics/trees/seasons/models/forest_dead_01_dead_snag_lod2.res": {
+        "size": 467,
+        "mtime_ns": 1789735418394858400
+      },
+      "assets/graphics/trees/seasons/models/forest_dead_02_dead_snag_lod0.res": {
+        "size": 219063,
+        "mtime_ns": 1789735418404832000
+      },
+      "assets/graphics/trees/seasons/models/forest_dead_02_dead_snag_lod1.res": {
+        "size": 50878,
+        "mtime_ns": 1789735418407159800
+      },
+      "assets/graphics/trees/seasons/models/forest_dead_02_dead_snag_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789735418407159800
+      },
+      "assets/graphics/trees/seasons/models/forest_dead_03_dead_snag_lod0.res": {
+        "size": 219027,
+        "mtime_ns": 1789735418416055700
+      },
+      "assets/graphics/trees/seasons/models/forest_dead_03_dead_snag_lod1.res": {
+        "size": 50880,
+        "mtime_ns": 1789735418418262900
+      },
+      "assets/graphics/trees/seasons/models/forest_dead_03_dead_snag_lod2.res": {
+        "size": 465,
+        "mtime_ns": 1789735418419611000
+      },
+      "assets/graphics/trees/seasons/models/forest_dead_04_dead_snag_lod0.res": {
+        "size": 219073,
+        "mtime_ns": 1789735418430211700
+      },
+      "assets/graphics/trees/seasons/models/forest_dead_04_dead_snag_lod1.res": {
+        "size": 50876,
+        "mtime_ns": 1789735418433708300
+      },
+      "assets/graphics/trees/seasons/models/forest_dead_04_dead_snag_lod2.res": {
+        "size": 462,
+        "mtime_ns": 1789735418433708300
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_01_fir_lod0.res": {
+        "size": 166314,
+        "mtime_ns": 1789735417868353300
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_01_fir_lod1.res": {
+        "size": 166314,
+        "mtime_ns": 1789735417879476400
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_01_fir_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789735417879476400
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_02_fir_light_lod2.res": {
+        "size": 462,
+        "mtime_ns": 1789735418940773600
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_02_fir_lod0.res": {
+        "size": 166123,
+        "mtime_ns": 1789735417895828500
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_02_fir_lod1.res": {
+        "size": 166124,
+        "mtime_ns": 1789735417906211100
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_02_fir_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789735417906211100
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_03_fir_lod0.res": {
+        "size": 166158,
+        "mtime_ns": 1789735417923007900
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_03_fir_lod1.res": {
+        "size": 166158,
+        "mtime_ns": 1789735417934282000
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_03_fir_lod2.res": {
+        "size": 467,
+        "mtime_ns": 1789735417934282000
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_04_fir_light_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789735418941776300
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_04_fir_lod0.res": {
+        "size": 166374,
+        "mtime_ns": 1789735417948958800
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_04_fir_lod1.res": {
+        "size": 166374,
+        "mtime_ns": 1789735417959809800
+      },
+      "assets/graphics/trees/seasons/models/forest_fir_04_fir_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789735417960854600
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_01_birch_autumn_lod2.res": {
+        "size": 466,
+        "mtime_ns": 1789735418782798300
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_01_birch_bare_lod0.res": {
+        "size": 559851,
+        "mtime_ns": 1789735419105923400
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_01_birch_bare_lod1.res": {
+        "size": 132476,
+        "mtime_ns": 1789735419110034800
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_01_birch_bare_lod2.res": {
+        "size": 466,
+        "mtime_ns": 1789735419111039700
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_01_birch_summer_lod0.res": {
+        "size": 2787178,
+        "mtime_ns": 1789735418769180300
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_01_birch_summer_lod1.res": {
+        "size": 679819,
+        "mtime_ns": 1789735418782798300
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_01_birch_summer_lod2.res": {
+        "size": 468,
+        "mtime_ns": 1789735419157113200
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_02_birch_autumn_lod2.res": {
+        "size": 467,
+        "mtime_ns": 1789735418860609700
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_02_birch_bare_lod0.res": {
+        "size": 560086,
+        "mtime_ns": 1789735419126434200
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_02_birch_bare_lod1.res": {
+        "size": 132573,
+        "mtime_ns": 1789735419130477500
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_02_birch_bare_lod2.res": {
+        "size": 468,
+        "mtime_ns": 1789735419131482900
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_02_birch_summer_lod0.res": {
+        "size": 2792886,
+        "mtime_ns": 1789735418846382600
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_02_birch_summer_lod1.res": {
+        "size": 681309,
+        "mtime_ns": 1789735418860609700
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_02_birch_summer_lod2.res": {
+        "size": 469,
+        "mtime_ns": 1789735419158119200
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_03_birch_autumn_lod2.res": {
+        "size": 464,
+        "mtime_ns": 1789735418938148800
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_03_birch_bare_lod0.res": {
+        "size": 560249,
+        "mtime_ns": 1789735419146667500
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_03_birch_bare_lod1.res": {
+        "size": 132603,
+        "mtime_ns": 1789735419151065700
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_03_birch_bare_lod2.res": {
+        "size": 466,
+        "mtime_ns": 1789735419151065700
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_03_birch_summer_lod0.res": {
+        "size": 2793740,
+        "mtime_ns": 1789735418924502900
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_03_birch_summer_lod1.res": {
+        "size": 681568,
+        "mtime_ns": 1789735418938148800
+      },
+      "assets/graphics/trees/seasons/models/forest_golden_03_birch_summer_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789735419158119200
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_01_maple_autumn_lod2.res": {
+        "size": 465,
+        "mtime_ns": 1789735418561524000
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_01_maple_bare_lod0.res": {
+        "size": 490253,
+        "mtime_ns": 1789735419049342400
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_01_maple_bare_lod1.res": {
+        "size": 150885,
+        "mtime_ns": 1789735419053708600
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_01_maple_bare_lod2.res": {
+        "size": 467,
+        "mtime_ns": 1789735419054720600
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_01_maple_summer_lod0.res": {
+        "size": 2412168,
+        "mtime_ns": 1789735418543643700
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_01_maple_summer_lod1.res": {
+        "size": 616338,
+        "mtime_ns": 1789735418560402300
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_01_maple_summer_lod2.res": {
+        "size": 465,
+        "mtime_ns": 1789735419155095700
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_02_maple_autumn_lod2.res": {
+        "size": 467,
+        "mtime_ns": 1789735418631844900
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_02_maple_bare_lod0.res": {
+        "size": 490978,
+        "mtime_ns": 1789735419068055100
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_02_maple_bare_lod1.res": {
+        "size": 151164,
+        "mtime_ns": 1789735419072425200
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_02_maple_bare_lod2.res": {
+        "size": 467,
+        "mtime_ns": 1789735419073491300
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_02_maple_summer_lod0.res": {
+        "size": 2415843,
+        "mtime_ns": 1789735418618151900
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_02_maple_summer_lod1.res": {
+        "size": 617241,
+        "mtime_ns": 1789735418630815600
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_02_maple_summer_lod2.res": {
+        "size": 467,
+        "mtime_ns": 1789735419156108200
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_03_maple_autumn_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789735418704759100
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_03_maple_bare_lod0.res": {
+        "size": 490812,
+        "mtime_ns": 1789735419086634200
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_03_maple_bare_lod1.res": {
+        "size": 151071,
+        "mtime_ns": 1789735419090771400
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_03_maple_bare_lod2.res": {
+        "size": 464,
+        "mtime_ns": 1789735419090771400
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_03_maple_summer_lod0.res": {
+        "size": 2415712,
+        "mtime_ns": 1789735418690495400
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_03_maple_summer_lod1.res": {
+        "size": 617120,
+        "mtime_ns": 1789735418704759100
+      },
+      "assets/graphics/trees/seasons/models/forest_maple_03_maple_summer_lod2.res": {
+        "size": 464,
+        "mtime_ns": 1789735419156108200
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_01_pine_lod0.res": {
+        "size": 143145,
+        "mtime_ns": 1789735417976438600
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_01_pine_lod1.res": {
+        "size": 143144,
+        "mtime_ns": 1789735417985986700
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_01_pine_lod2.res": {
+        "size": 465,
+        "mtime_ns": 1789735417985986700
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_02_pine_light_lod2.res": {
+        "size": 467,
+        "mtime_ns": 1789735418941776300
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_02_pine_lod0.res": {
+        "size": 143366,
+        "mtime_ns": 1789735418002746500
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_02_pine_lod1.res": {
+        "size": 143365,
+        "mtime_ns": 1789735418014826700
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_02_pine_lod2.res": {
+        "size": 467,
+        "mtime_ns": 1789735418015829500
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_03_pine_lod0.res": {
+        "size": 143327,
+        "mtime_ns": 1789735418028922400
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_03_pine_lod1.res": {
+        "size": 143328,
+        "mtime_ns": 1789735418039086000
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_03_pine_lod2.res": {
+        "size": 462,
+        "mtime_ns": 1789735418039086000
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_04_pine_light_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789735418943023500
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_04_pine_lod0.res": {
+        "size": 143413,
+        "mtime_ns": 1789735418053478500
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_04_pine_lod1.res": {
+        "size": 143414,
+        "mtime_ns": 1789735418063063300
+      },
+      "assets/graphics/trees/seasons/models/forest_pine_04_pine_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789735418064066300
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_01_spruce_lod0.res": {
+        "size": 168887,
+        "mtime_ns": 1789735417757210500
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_01_spruce_lod1.res": {
+        "size": 168886,
+        "mtime_ns": 1789735417767664800
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_01_spruce_lod2.res": {
+        "size": 468,
+        "mtime_ns": 1789735417767664800
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_02_spruce_light_lod2.res": {
+        "size": 464,
+        "mtime_ns": 1789735418939372400
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_02_spruce_lod0.res": {
+        "size": 168884,
+        "mtime_ns": 1789735417785026400
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_02_spruce_lod1.res": {
+        "size": 168884,
+        "mtime_ns": 1789735417795688800
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_02_spruce_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789735417795688800
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_03_spruce_lod0.res": {
+        "size": 168838,
+        "mtime_ns": 1789735417812711900
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_03_spruce_lod1.res": {
+        "size": 168838,
+        "mtime_ns": 1789735417824813500
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_03_spruce_lod2.res": {
+        "size": 465,
+        "mtime_ns": 1789735417824813500
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_04_spruce_light_lod2.res": {
+        "size": 467,
+        "mtime_ns": 1789735418939372400
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_04_spruce_lod0.res": {
+        "size": 168989,
+        "mtime_ns": 1789735417841092500
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_04_spruce_lod1.res": {
+        "size": 168988,
+        "mtime_ns": 1789735417851341300
+      },
+      "assets/graphics/trees/seasons/models/forest_spruce_04_spruce_lod2.res": {
+        "size": 469,
+        "mtime_ns": 1789735417852436800
+      },
+      "assets/graphics/trees/seasons/textures/birch_autumn_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735353457501600
+      },
+      "assets/graphics/trees/seasons/textures/birch_autumn_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735353674976900
+      },
+      "assets/graphics/trees/seasons/textures/birch_autumn_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735353359235700
+      },
+      "assets/graphics/trees/seasons/textures/birch_bare_albedo_balanced.res": {
+        "size": 1398598,
+        "mtime_ns": 1789735354392708400
+      },
+      "assets/graphics/trees/seasons/textures/birch_bare_albedo_high.res": {
+        "size": 5592902,
+        "mtime_ns": 1789735355894013100
+      },
+      "assets/graphics/trees/seasons/textures/birch_bare_albedo_low.res": {
+        "size": 350022,
+        "mtime_ns": 1789735353904071200
+      },
+      "assets/graphics/trees/seasons/textures/birch_bare_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735356087233200
+      },
+      "assets/graphics/trees/seasons/textures/birch_bare_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735356259423900
+      },
+      "assets/graphics/trees/seasons/textures/birch_bare_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735355974922600
+      },
+      "assets/graphics/trees/seasons/textures/birch_bare_canopy_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735356429612500
+      },
+      "assets/graphics/trees/seasons/textures/birch_bare_canopy_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735356592760400
+      },
+      "assets/graphics/trees/seasons/textures/birch_bare_canopy_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735356335499600
+      },
+      "assets/graphics/trees/seasons/textures/birch_summer_albedo_balanced.res": {
+        "size": 2796710,
+        "mtime_ns": 1789735358011686300
+      },
+      "assets/graphics/trees/seasons/textures/birch_summer_albedo_high.res": {
+        "size": 11185318,
+        "mtime_ns": 1789735360778186700
+      },
+      "assets/graphics/trees/seasons/textures/birch_summer_albedo_low.res": {
+        "size": 699558,
+        "mtime_ns": 1789735357093316700
+      },
+      "assets/graphics/trees/seasons/textures/birch_summer_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735360959839900
+      },
+      "assets/graphics/trees/seasons/textures/birch_summer_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735361178373400
+      },
+      "assets/graphics/trees/seasons/textures/birch_summer_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735360859226000
+      },
+      "assets/graphics/trees/seasons/textures/birch_summer_canopy_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735361350574300
+      },
+      "assets/graphics/trees/seasons/textures/birch_summer_canopy_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735361570714300
+      },
+      "assets/graphics/trees/seasons/textures/birch_summer_canopy_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735361252877500
+      },
+      "assets/graphics/trees/seasons/textures/broken_tree_albedo_balanced.res": {
+        "size": 1398598,
+        "mtime_ns": 1789735362320176700
+      },
+      "assets/graphics/trees/seasons/textures/broken_tree_albedo_high.res": {
+        "size": 5592902,
+        "mtime_ns": 1789735363791108900
+      },
+      "assets/graphics/trees/seasons/textures/broken_tree_albedo_low.res": {
+        "size": 350022,
+        "mtime_ns": 1789735361822949800
+      },
+      "assets/graphics/trees/seasons/textures/broken_tree_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735364006158500
+      },
+      "assets/graphics/trees/seasons/textures/broken_tree_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735364172332400
+      },
+      "assets/graphics/trees/seasons/textures/broken_tree_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735363884174700
+      },
+      "assets/graphics/trees/seasons/textures/broken_tree_canopy_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735364377091200
+      },
+      "assets/graphics/trees/seasons/textures/broken_tree_canopy_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735364553900800
+      },
+      "assets/graphics/trees/seasons/textures/broken_tree_canopy_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735364261274500
+      },
+      "assets/graphics/trees/seasons/textures/dead_snag_albedo_balanced.res": {
+        "size": 1398598,
+        "mtime_ns": 1789735365304346300
+      },
+      "assets/graphics/trees/seasons/textures/dead_snag_albedo_high.res": {
+        "size": 5592902,
+        "mtime_ns": 1789735366694269000
+      },
+      "assets/graphics/trees/seasons/textures/dead_snag_albedo_low.res": {
+        "size": 350022,
+        "mtime_ns": 1789735364782750700
+      },
+      "assets/graphics/trees/seasons/textures/dead_snag_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735366891476700
+      },
+      "assets/graphics/trees/seasons/textures/dead_snag_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735367057178100
+      },
+      "assets/graphics/trees/seasons/textures/dead_snag_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735366784048300
+      },
+      "assets/graphics/trees/seasons/textures/dead_snag_canopy_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735367252609800
+      },
+      "assets/graphics/trees/seasons/textures/dead_snag_canopy_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735367419216600
+      },
+      "assets/graphics/trees/seasons/textures/dead_snag_canopy_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735367144834400
+      },
+      "assets/graphics/trees/seasons/textures/fir_albedo_balanced.res": {
+        "size": 4194822,
+        "mtime_ns": 1789735368813112700
+      },
+      "assets/graphics/trees/seasons/textures/fir_albedo_high.res": {
+        "size": 16777734,
+        "mtime_ns": 1789735370718427700
+      },
+      "assets/graphics/trees/seasons/textures/fir_albedo_low.res": {
+        "size": 1049094,
+        "mtime_ns": 1789735367973880400
+      },
+      "assets/graphics/trees/seasons/textures/fir_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735370931996700
+      },
+      "assets/graphics/trees/seasons/textures/fir_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735371205283100
+      },
+      "assets/graphics/trees/seasons/textures/fir_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735370809932500
+      },
+      "assets/graphics/trees/seasons/textures/fir_light_albedo_balanced.res": {
+        "size": 4194822,
+        "mtime_ns": 1789735372563284300
+      },
+      "assets/graphics/trees/seasons/textures/fir_light_albedo_high.res": {
+        "size": 16777734,
+        "mtime_ns": 1789735374307224200
+      },
+      "assets/graphics/trees/seasons/textures/fir_light_albedo_low.res": {
+        "size": 1049094,
+        "mtime_ns": 1789735371760337200
+      },
+      "assets/graphics/trees/seasons/textures/fir_light_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735374534900900
+      },
+      "assets/graphics/trees/seasons/textures/fir_light_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735374782248500
+      },
+      "assets/graphics/trees/seasons/textures/fir_light_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735374400471600
+      },
+      "assets/graphics/trees/seasons/textures/fir_normal_balanced.res": {
+        "size": 4194822,
+        "mtime_ns": 1789735376837010800
+      },
+      "assets/graphics/trees/seasons/textures/fir_normal_high.res": {
+        "size": 16777734,
+        "mtime_ns": 1789735381009951000
+      },
+      "assets/graphics/trees/seasons/textures/fir_normal_low.res": {
+        "size": 1049094,
+        "mtime_ns": 1789735375456495900
+      },
+      "assets/graphics/trees/seasons/textures/maple_autumn_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735381225505600
+      },
+      "assets/graphics/trees/seasons/textures/maple_autumn_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735381541527800
+      },
+      "assets/graphics/trees/seasons/textures/maple_autumn_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735381100143000
+      },
+      "assets/graphics/trees/seasons/textures/maple_bare_albedo_balanced.res": {
+        "size": 1398598,
+        "mtime_ns": 1789735382245055700
+      },
+      "assets/graphics/trees/seasons/textures/maple_bare_albedo_high.res": {
+        "size": 5592902,
+        "mtime_ns": 1789735383851764400
+      },
+      "assets/graphics/trees/seasons/textures/maple_bare_albedo_low.res": {
+        "size": 350022,
+        "mtime_ns": 1789735381778109100
+      },
+      "assets/graphics/trees/seasons/textures/maple_bare_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735384044491200
+      },
+      "assets/graphics/trees/seasons/textures/maple_bare_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735384282408000
+      },
+      "assets/graphics/trees/seasons/textures/maple_bare_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735383935788100
+      },
+      "assets/graphics/trees/seasons/textures/maple_bare_canopy_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735384472515000
+      },
+      "assets/graphics/trees/seasons/textures/maple_bare_canopy_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735384789462000
+      },
+      "assets/graphics/trees/seasons/textures/maple_bare_canopy_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735384362763500
+      },
+      "assets/graphics/trees/seasons/textures/maple_summer_albedo_balanced.res": {
+        "size": 2796710,
+        "mtime_ns": 1789735386188491300
+      },
+      "assets/graphics/trees/seasons/textures/maple_summer_albedo_high.res": {
+        "size": 11185318,
+        "mtime_ns": 1789735388985062000
+      },
+      "assets/graphics/trees/seasons/textures/maple_summer_albedo_low.res": {
+        "size": 699558,
+        "mtime_ns": 1789735385280860700
+      },
+      "assets/graphics/trees/seasons/textures/maple_summer_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735389189061400
+      },
+      "assets/graphics/trees/seasons/textures/maple_summer_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735389488903600
+      },
+      "assets/graphics/trees/seasons/textures/maple_summer_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735389072592400
+      },
+      "assets/graphics/trees/seasons/textures/maple_summer_canopy_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735389702539600
+      },
+      "assets/graphics/trees/seasons/textures/maple_summer_canopy_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735390022292200
+      },
+      "assets/graphics/trees/seasons/textures/maple_summer_canopy_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735389570962300
+      },
+      "assets/graphics/trees/seasons/textures/pine_albedo_balanced.res": {
+        "size": 4194822,
+        "mtime_ns": 1789735391309994600
+      },
+      "assets/graphics/trees/seasons/textures/pine_albedo_high.res": {
+        "size": 16777734,
+        "mtime_ns": 1789735392686576500
+      },
+      "assets/graphics/trees/seasons/textures/pine_albedo_low.res": {
+        "size": 1049094,
+        "mtime_ns": 1789735390608280800
+      },
+      "assets/graphics/trees/seasons/textures/pine_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735392945454100
+      },
+      "assets/graphics/trees/seasons/textures/pine_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735393255113000
+      },
+      "assets/graphics/trees/seasons/textures/pine_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735392791555200
+      },
+      "assets/graphics/trees/seasons/textures/pine_light_albedo_balanced.res": {
+        "size": 4194822,
+        "mtime_ns": 1789735394520153500
+      },
+      "assets/graphics/trees/seasons/textures/pine_light_albedo_high.res": {
+        "size": 16777734,
+        "mtime_ns": 1789735395987021700
+      },
+      "assets/graphics/trees/seasons/textures/pine_light_albedo_low.res": {
+        "size": 1049094,
+        "mtime_ns": 1789735393800532100
+      },
+      "assets/graphics/trees/seasons/textures/pine_light_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735396243037600
+      },
+      "assets/graphics/trees/seasons/textures/pine_light_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735396590254600
+      },
+      "assets/graphics/trees/seasons/textures/pine_light_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735396091955200
+      },
+      "assets/graphics/trees/seasons/textures/pine_normal_balanced.res": {
+        "size": 4194822,
+        "mtime_ns": 1789735398669958900
+      },
+      "assets/graphics/trees/seasons/textures/pine_normal_high.res": {
+        "size": 16777734,
+        "mtime_ns": 1789735402885127600
+      },
+      "assets/graphics/trees/seasons/textures/pine_normal_low.res": {
+        "size": 1049094,
+        "mtime_ns": 1789735397248272700
+      },
+      "assets/graphics/trees/seasons/textures/spruce_albedo_balanced.res": {
+        "size": 4194822,
+        "mtime_ns": 1789735404342892200
+      },
+      "assets/graphics/trees/seasons/textures/spruce_albedo_high.res": {
+        "size": 16777734,
+        "mtime_ns": 1789735406305209700
+      },
+      "assets/graphics/trees/seasons/textures/spruce_albedo_low.res": {
+        "size": 1049094,
+        "mtime_ns": 1789735403466040600
+      },
+      "assets/graphics/trees/seasons/textures/spruce_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735406514471600
+      },
+      "assets/graphics/trees/seasons/textures/spruce_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735406745939300
+      },
+      "assets/graphics/trees/seasons/textures/spruce_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735406396064800
+      },
+      "assets/graphics/trees/seasons/textures/spruce_light_albedo_balanced.res": {
+        "size": 4194822,
+        "mtime_ns": 1789735408271680600
+      },
+      "assets/graphics/trees/seasons/textures/spruce_light_albedo_high.res": {
+        "size": 16777734,
+        "mtime_ns": 1789735410278525900
+      },
+      "assets/graphics/trees/seasons/textures/spruce_light_albedo_low.res": {
+        "size": 1049094,
+        "mtime_ns": 1789735407323499600
+      },
+      "assets/graphics/trees/seasons/textures/spruce_light_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789735410485584400
+      },
+      "assets/graphics/trees/seasons/textures/spruce_light_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789735410732795900
+      },
+      "assets/graphics/trees/seasons/textures/spruce_light_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789735410366594000
+      },
+      "assets/graphics/trees/seasons/textures/spruce_normal_balanced.res": {
+        "size": 4194822,
+        "mtime_ns": 1789735412864530900
+      },
+      "assets/graphics/trees/seasons/textures/spruce_normal_high.res": {
+        "size": 16777734,
+        "mtime_ns": 1789735417146464100
+      },
+      "assets/graphics/trees/seasons/textures/spruce_normal_low.res": {
+        "size": 1049094,
+        "mtime_ns": 1789735411390565400
+      },
+      "assets/graphics/trees/winter/manifest.json": {
+        "size": 8188,
+        "mtime_ns": 1789701483771984700
+      },
+      "backlog/tasks/AA-20260918-091311-expand-meshy-seasonal-forest-presentation.md": {
+        "size": 11660,
+        "mtime_ns": 1789736323004354000
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ASSETS.md": {
+        "size": 24492,
+        "mtime_ns": 1789728214959040900
+      },
+      "docs/RENDERING.md": {
+        "size": 57218,
+        "mtime_ns": 1789735304525025400
+      },
+      "docs/VALIDATION.md": {
+        "size": 161432,
+        "mtime_ns": 1789735337612815600
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/benchmark_targeted.ps1": {
+        "size": 7640,
+        "mtime_ns": 1789728495450408100
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/core/tree_dynamics.gd": {
+        "size": 3233,
+        "mtime_ns": 1789579594342601200
+      },
+      "scripts/main.gd": {
+        "size": 89048,
+        "mtime_ns": 1789727093162942500
+      },
+      "scripts/presentation/alpine_assets.gd": {
+        "size": 22620,
+        "mtime_ns": 1789732255006205000
+      },
+      "scripts/presentation/forest_appearance.gd": {
+        "size": 5972,
+        "mtime_ns": 1789732255006205000
+      },
+      "scripts/presentation/tree_motion.gd": {
+        "size": 5196,
+        "mtime_ns": 1789699840648632300
+      },
+      "scripts/presentation/weather_preferences.gd": {
+        "size": 5280,
+        "mtime_ns": 1789727093163947400
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/ui/settings_pages.gd": {
+        "size": 16993,
+        "mtime_ns": 1789727093163947400
+      },
+      "scripts/world/alpine_wilderness.gd": {
+        "size": 9381,
+        "mtime_ns": 1789727093164952700
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "scripts/world/wilderness_props.gd": {
+        "size": 9544,
+        "mtime_ns": 1789734891931522600
+      },
+      "tests/colorful_forest_suite.gd": {
+        "size": 7803,
+        "mtime_ns": 1789731744761233400
+      },
+      "tests/forest_appearance_cost.gd": {
+        "size": 632,
+        "mtime_ns": 1789727285075402900
+      },
+      "tests/forest_appearance_playtest.gd": {
+        "size": 6156,
+        "mtime_ns": 1789731199319073900
+      },
+      "tests/forest_appearance_suite.gd": {
+        "size": 4430,
+        "mtime_ns": 1789729964385290800
+      },
+      "tests/physics_suite.gd": {
+        "size": 18435,
+        "mtime_ns": 1789594595873594000
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41141,
+        "mtime_ns": 1789594595889425300
+      },
+      "tests/seasonal_forest_review.gd": {
+        "size": 3505,
+        "mtime_ns": 1789727285074400200
+      },
+      "tests/targeted_performance.gd": {
+        "size": 14193,
+        "mtime_ns": 1789727615520138200
+      },
+      "tests/weather_suite.gd": {
+        "size": 11096,
+        "mtime_ns": 1789594595953451200
+      }
+    }
+  }
+}

@@ -86,6 +86,11 @@ was 118.16 FPS but predates wind-drift snow shading, so the difference cannot be
 attributed solely to this forest. Detailed evidence and rejected candidates are
 in `artifacts/meshy_seasons_20260918/REVIEW.md`.
 
+Validation-record correction: Dev122 (`30fccba3`) used an unsupported `static`
+category for its final documentation check. The following development note
+records that check as `automated` and restates the passing forest evidence;
+the original append-only note and tested runtime assets remain unchanged.
+
 The task still requires the user's appearance and controller review of summer,
 autumn, heavy-snow winter and lighter-snow winter. Repeated branch structures
 and occasional crossed twigs remain visible close up; distant card aliasing is
