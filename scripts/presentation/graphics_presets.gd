@@ -31,6 +31,7 @@ const CONTROLS = {
 	"snow_sparkle":["Crystal sparkle", "Snow & particles",0.0,12.0,.5],
 	"snow_crystal_density":["Crystal density", "Snow & particles",0.0,2.5,.05],
 	"snow_sheen":["Snow sheen", "Snow & particles",0.0,.25,.01],
+	"snow_drift":["Wind-drift relief", "Snow & particles",0.0,1.5,.05],
 	"snow_track_capacity":["Track segments", "Snow & particles",400,MAX_TRACK_HISTORY,128],
 	"snow_track_relief":["Track relief", "Snow & particles",false,true,1],
 	"snow_local_deformation":["Local snow deformation", "Snow & particles",false,true,1],
@@ -64,6 +65,7 @@ static func values(id: int) -> Dictionary:
 		"contact_shading":id>=8,"contact_intensity":.20,"indirect_lighting":id>=8,"indirect_intensity":.55,
 		"offmap_snow_detail":false,"offmap_shadow_quality":0,"terrain_gi":false,"volumetric_shafts":id>=7,"shaft_strength":1.0,"fog_strength":1.0,
 		"highlight_glow":id>1,"snow_track_relief":id>=3,"snow_local_deformation":id>=7,
+		"snow_drift":[.40,.50,.65,.80,.88,.94,1.0,1.07,1.14,1.20][id-1],
 		"weather_quality":1 if id<4 else 2,"weather_budget":.5 if id<4 else (1.0 if id<8 else 1.0+(id-7)*.15)}
 	for i in COLUMNS.size(): result[COLUMNS[i]] = TABLE[id-1][i]
 	return sanitize(result)

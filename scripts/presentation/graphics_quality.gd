@@ -22,6 +22,7 @@ extends Resource
 @export var snow_sparkle: float = 6.0
 @export var snow_crystal_density: float = 1.35
 @export var snow_sheen: float = .1008
+@export var snow_drift: float = 1.0
 @export var snow_local_deformation: bool = false
 @export var offmap_snow_detail: bool = false
 @export var offmap_shadow_quality: int = 0
@@ -75,3 +76,4 @@ func apply_snow_material(material: ShaderMaterial, sparkle_scale: float = 1.0) -
 	material.set_shader_parameter("snow_sparkle_strength",snow_sparkle*sparkle_scale)
 	material.set_shader_parameter("snow_crystal_density",snow_crystal_density)
 	material.set_shader_parameter("snow_sheen_strength",snow_sheen)
+	material.set_shader_parameter("snow_drift_relief",snow_drift)

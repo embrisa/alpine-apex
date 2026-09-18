@@ -489,6 +489,21 @@ native hip/pelvis/knee/tracking kernels. Windows keeps its existing DLL; Intel
 Macs and other platforms retain the script reference. Immutable body names,
 offsets and limb lengths are cached on both paths. No solver cadence/model change.
 
+`tests/mac_frame_probe.gd` also accepts `--probe-hold=KMH` and
+`--probe-immortal`, which install the existing `scripts/diagnostics/case_policy.gd`
+test-case policy through `test_cases.start_recording()` and drive it once per
+solver tick without starting an `.apexcase` recorder, and `--probe-at-tick=N`,
+which warms up by solver tick instead of frame count and captures exactly there.
+A held-speed pair reaches the same ground whatever the frame rate, which is what
+makes matched rendered stills comparable on this machine; five
+identical-configuration 18 s held-speed runs measured 24.05-24.46 ms, so the
+run-to-run noise floor is about +/-0.2 ms. The diagnostic simulation and locked
+speed are not the ordinary solver workload: use them for visual comparison and
+for deltas between two runs that both carry them, never as an absolute frame
+cost. Probes need a prepared fixture; a stale `mountain_cache_v*` directory
+fails with `VALIDATION_CACHE_MISS` and is rebaked with
+`tests/prepare_validation_mountain.gd` under an Exclusive guard.
+
 Mac frame-floor attribution (Fable, `tests/mac_frame_probe.gd` via
 `scripts/mac_frame_probe.sh`, Auto = bilinear 0.75 + MSAA 2x, 20 s runs, noise
 about +/-1.5 ms): reference 26.3-27.5 ms. The local powder patch is the only

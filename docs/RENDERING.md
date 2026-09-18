@@ -491,6 +491,30 @@ the original strength for comparison; `--production-check` captures the adopted
 shader directly. Receipts/captures live in `artifacts/snow_bump_comparison_20260911/`.
 Motion/readability benefit and performance improvement are not established.
 
+Wind-drift relief adds broad, mid and fine deposit bands to the snow lighting
+normal, owned by `alpine_surface_fragment.gdshaderinc` and shared by terrain,
+the replacement powder patch and the apron, so the 13.5 m handover stays
+continuous. `value_noise_slope` returns a value and its analytic gradient from
+the same four corner hashes, so the broad and mid bands reuse the fields already
+sampled for colour and only the fine band adds a tap. Deposit depths are
+`DRIFT_BROAD_M` 5.0, `DRIFT_MID_M` 1.25 and `DRIFT_FINE_M` .19 metres over
+wavelengths near 77, 9-15 and 2-3.5 m, giving about 4.2 degrees mean tilt and
+7.5 degrees at p90. Each band is removed by the world-space pixel footprint
+`max(length(dFdx(world_pos)),length(dFdy(world_pos)))` rather than by a fixed
+distance, so deposits dissolve with distance and grazing angle at any render
+scale instead of aliasing. Exposed rock, mineral ice and slopes steeper than
+about 65 degrees shed the deposits. This is the lighting normal only: the
+support surface, crash collision and the 4 m terrain authority never read it,
+and the existing near ripple, scanned detail and readability hollows keep their
+separate contributions. `snow_drift` is a Snow & particles preset control
+applied through `GraphicsQuality.apply_snow_material`, ramping .40 at preset 1
+to 1.0 at 7 and 1.20 at 10. The measured Apple M4 cost is about +0.35 ms mean
+frame time against a +/-0.2 ms run-to-run noise floor at roughly 24 ms/frame,
+which is near that machine's resolution limit and is not a Windows target
+measurement. Lee-side shading, which would hold the shape on bright sunlit
+faces where tone mapping compresses the tilt, is not implemented; it is
+`backlog/tasks/AA-20260918-011207-shade-wind-drift-lee-sides.md`.
+
 Ground crystals use the shared `snow_crystals.gdshaderinc` compact hexagonal
 mask. Footprint widening is bounded by each grain's radius; the coarse layer
 uses a smaller radius and restrained coverage so it reads as small facets
