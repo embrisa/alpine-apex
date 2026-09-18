@@ -18,6 +18,10 @@ parser=argparse.ArgumentParser()
 parser.add_argument('source',type=Path)
 parser.add_argument('output',type=Path)
 parser.add_argument('--flip',action='store_true')
+parser.add_argument('--species',choices=['spruce','fir','stone_pine'],default='spruce')
+parser.add_argument('--seed',type=int,default=18241)
+parser.add_argument('--mid-outer',type=int,default=320)
+parser.add_argument('--mid-inner',type=int,default=96)
 args=parser.parse_args(sys.argv[sys.argv.index('--')+1:])
 args.output.mkdir(parents=True,exist_ok=True)
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -60,43 +64,34 @@ for v in source.data.vertices: v.co=(v.co-root)/(hi-lo)
 source.data.update()
 original_triangles=sum(len(p.vertices)-2 for p in source.data.polygons)
 
-# Retain a bark sample at the attachment end for the small visible stem.
-uv=source.data.uv_layers.active.data
-bark_face=min(source.data.polygons,key=lambda p:(p.center-Vector((.06,0,0))).length_squared)
-bark_uv=sum((uv[i].uv for i in bark_face.loop_indices),Vector((0,0)))/len(bark_face.loop_indices)
-base=material.node_tree.nodes.get('Principled BSDF').inputs['Base Color']
-if base.is_linked and base.links[0].from_node.type=='TEX_IMAGE':
-    image=base.links[0].from_node.image
-    pixels=list(image.pixels[:]); width,height=image.size
-    best=-1
-    for loop in source.data.loops:
-        if source.data.vertices[loop.vertex_index].co.x>.20: continue
-        point=uv[loop.index].uv
-        px=min(width-1,max(0,int(point.x*width))); py=min(height-1,max(0,int(point.y*height)))
-        r,g,b=pixels[(py*width+px)*4:(py*width+px)*4+3]
-        score=r-g+g-b if r>g and g>b and .025<r<.35 else -1
-        if score>best: best=score; bark_uv=point.copy()
-    del pixels
-
-rng=random.Random(18241)
+# Crown recipes share the repaired snowy bough, but retain distinct proportions
+# and branch distributions. Both LODs use the exact same placement recipe.
+recipes={
+    'spruce':dict(outer=36,inner=48,base=1.7,radius=3.1,taper=.68,pitch=(-.13,.08),width=(1.15,1.55)),
+    'fir':dict(outer=40,inner=42,base=1.15,radius=3.45,taper=.88,pitch=(-.02,.16),width=(1.3,1.7)),
+    'stone_pine':dict(outer=30,inner=42,base=3.5,radius=3.9,taper=.40,pitch=(-.25,-.03),width=(1.2,1.65)),
+}
+recipe=recipes[args.species]
+rng=random.Random(args.seed)
 placements=[]
-for kind,count in [('outer',36),('inner',48)]:
+for kind,count in [('outer',recipe['outer']),('inner',recipe['inner'])]:
     for index in range(count):
         t=index/(count-1)
-        y=1.7+10.1*(1-(1-t)**1.4)
-        length=3.1*max(.015,(12-y)/10.3)**.68
+        y=recipe['base']+(11.8-recipe['base'])*(1-(1-t)**1.4)
+        length=recipe['radius']*max(.015,(12-y)/(12-recipe['base']))**recipe['taper']
         placements.append(dict(height=y+rng.uniform(-.16,.16)*(1-t),
             length=length*rng.uniform(.90,1.09)*(1 if kind=='outer' else rng.uniform(.55,.78)),
             angle=index*2.399963+rng.uniform(-.24,.24)+(1.2 if kind=='inner' else 0),
-            pitch=rng.uniform(-.13,.08),width=rng.uniform(1.15,1.55),group=index%12,kind=kind))
+            pitch=rng.uniform(*recipe['pitch']),width=rng.uniform(*recipe['width']),group=index%12,kind=kind,
+            shade=rng.uniform(.92,1.0)))
 
 report={'source':str(args.source),'source_triangles':original_triangles,
-        'branch_count':len(placements),'seed':18241,'placements':placements,'lods':[],
+        'branch_count':len(placements),'seed':args.seed,'species':args.species,'recipe':recipe,'placements':placements,'lods':[],
         'scope':'Source assembly only; visual, wind, game and FPS gates remain.'}
 for lod in [0,1]:
     bpy.ops.object.select_all(action='DESELECT')
     templates={}; branch_triangles={}
-    for kind,target in {'outer':800 if lod==0 else 160,'inner':240 if lod==0 else 48}.items():
+    for kind,target in {'outer':800 if lod==0 else args.mid_outer,'inner':240 if lod==0 else args.mid_inner}.items():
         branch=source.copy(); branch.data=source.data.copy(); bpy.context.collection.objects.link(branch)
         bpy.context.view_layer.objects.active=branch; branch.select_set(True)
         bm=bmesh.new(); bm.from_mesh(branch.data)
@@ -123,12 +118,25 @@ for lod in [0,1]:
         tags=obj.data.uv_layers.new(name='BranchPivot')
         # glTF flips Blender's V coordinate during export/import.
         for loop in tags.data: loop.uv=(item['group']/16,1-item['height']/32)
+        colors=obj.data.color_attributes.new(name='Role',type='FLOAT_COLOR',domain='CORNER')
+        for value in colors.data: value.color=(item['shade'],item['shade'],item['shade'],.55)
         parts.append(obj)
     for branch in templates.values(): bpy.data.objects.remove(branch,do_unlink=True)
     bpy.ops.mesh.primitive_cone_add(vertices=12,radius1=.18,radius2=.008,depth=12,location=(0,0,6))
     trunk=bpy.context.object; trunk.data.materials.append(material)
     trunk.data.uv_layers.active.name=source.data.uv_layers.active.name
-    for loop in trunk.data.uv_layers.active.data: loop.uv=bark_uv
+    # Cylindrical meters: production bark repeats vertically without a seam
+    # across triangles. The role alpha routes the same opaque material to bark.
+    for poly in trunk.data.polygons:
+        angles=[math.atan2(trunk.data.vertices[trunk.data.loops[i].vertex_index].co.y,
+                           trunk.data.vertices[trunk.data.loops[i].vertex_index].co.x)/math.tau for i in poly.loop_indices]
+        wraps=max(angles)-min(angles)>.5
+        for i,u in zip(poly.loop_indices,angles):
+            if wraps and u<0: u+=1
+            v=trunk.data.vertices[trunk.data.loops[i].vertex_index].co
+            trunk.data.uv_layers.active.data[i].uv=(u*2,(v.z+6)*.75)
+    colors=trunk.data.color_attributes.new(name='Role',type='FLOAT_COLOR',domain='CORNER')
+    for value in colors.data: value.color=(.85,.87,.89,0)
     tags=trunk.data.uv_layers.new(name='BranchPivot')
     for loop in tags.data: loop.uv=(0,1)
     for p in trunk.data.polygons: p.use_smooth=True
@@ -143,9 +151,10 @@ for lod in [0,1]:
     bpy.ops.object.modifier_apply(modifier=triangulate.name)
     output=args.output/('tree_lod'+str(lod)+'.glb')
     bpy.ops.export_scene.gltf(filepath=str(output.resolve()),export_format='GLB',use_selection=True,
-        export_normals=True,export_tangents=True,export_materials='EXPORT',export_animations=False)
+        export_normals=True,export_tangents=True,export_materials='EXPORT',export_animations=False,
+        export_vertex_color='NAME',export_vertex_color_name='Role',export_all_vertex_colors=False)
     report['lods'].append(dict(lod=lod,branch_triangles=branch_triangles,
         triangles=sum(len(p.vertices)-2 for p in tree.data.polygons),path=str(output)))
     bpy.data.objects.remove(tree,do_unlink=True)
 (args.output/'assembly.json').write_text(json.dumps(report,indent=2)+'\n')
-print('BOUGH_ASSEMBLY',json.dumps(report),flush=True)
+print('BOUGH_ASSEMBLY',json.dumps({k:v for k,v in report.items() if k!='placements'}),flush=True)

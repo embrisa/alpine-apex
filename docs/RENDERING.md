@@ -201,6 +201,13 @@ Controls/defaults are owned by [Presentation](PRESENTATION.md#look-and-motion).
 
 ## Terrain, forests and lighting
 
+Forest batch identity comes from its catalogue mesh `forest_asset` metadata.
+Custom seasonal shader filenames must retain the same individual LOD ranges and
+separate shadow proxies. `tests/forest_material_identity_suite.gd` covers newly
+created batches with an unrelated shader name; checking only existing batches
+misses later streaming errors.
+
+
 The built-in mesh renderer is the sole terrain path. Prepared chunks and shared
 LOD templates consume [World](WORLD.md)'s support surface; nearby cosmetic relief
 does not become collision. Keep chunk bounds conservative and distinguish

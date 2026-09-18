@@ -78,6 +78,11 @@ func check_material_publication() -> void:
 	library.named_materials.FC_Tree_Mid = late
 	motion._upload()
 	check(late.get_shader_parameter("contact_angles")==motion.angles and late.get_shader_parameter("contact_anchors")==motion.anchors and late.get_shader_parameter("contact_active")==true,"Late material receives current moving state")
+	var seasonal = contact_material()
+	library.named_materials.FC_Winter_spruce_0 = seasonal
+	motion.material_ids.append("FC_Winter_spruce_0")
+	motion._upload()
+	check(seasonal.get_shader_parameter("contact_angles")==motion.angles and seasonal.get_shader_parameter("contact_active")==true,"Registered seasonal material inherits active contact")
 	var replacement = contact_material()
 	library.named_materials.FC_Tree = replacement
 	motion._upload()

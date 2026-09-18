@@ -11,8 +11,13 @@ func detail(id:String,record:Dictionary,species:String,lod:int,scale_m:Vector3,b
 	var centers={};var mapped={}
 	for i in v.size():
 		v[i]=v[i]*scale_m+Vector3(0,bottom,0)
-		if not centers.has(tags[i]):centers[tags[i]]={"sum":Vector3.ZERO,"count":0}
-		centers[tags[i]].sum+=v[i];centers[tags[i]].count+=1
+	# Both LODs map contacts from the same detailed bough centers. Simplification
+	# changes vertex distribution and must not pick a different physical spring.
+	var reference:Array=source[species].lods[0].mesh.surface_get_arrays(0)
+	var rv:PackedVector3Array=reference[Mesh.ARRAY_VERTEX];var rt:PackedVector2Array=reference[Mesh.ARRAY_TEX_UV2]
+	for i in rv.size():
+		if not centers.has(rt[i]):centers[rt[i]]={"sum":Vector3.ZERO,"count":0}
+		centers[rt[i]].sum+=rv[i]*scale_m+Vector3(0,bottom,0);centers[rt[i]].count+=1
 	for tag in centers:
 		var center:Vector3=centers[tag].sum/centers[tag].count
 		var best=INF;var branch=0

@@ -215,3 +215,36 @@ Results are under `artifacts/meshy_snow_20260918/near_compare/`.
 Prepared resources are reproducible outputs under `artifacts/`, not production
 dependencies. Source/receipt preservation does not integrate this forest into
 normal play, change personal preferences or imply human acceptance of movement.
+
+## Branch-built winter family (qualified source milestone)
+
+`family_library.gd` supersedes the original whole-tree Meshy candidate for the
+current winter direction. Four authored crowns (two spruce shapes, fir and stone
+pine) reuse the repaired snowy Meshy bough with irregular placements and restrained
+shade variation. The existing bare birches remain; golden/maple slots use scaled
+bare birches. Dead/broken trees and background wilderness remain original here.
+Near conifers have 33,224–40,924 triangles; middle detail has 13,676–16,876.
+The rejected coarser middle boughs lost the rounded snow shape. Both levels map
+whole-bough contact tags from the same detailed reference; matching eight-view
+far atlases retain the two-triangle card path.
+
+Build each crown with `assemble_bough.py SOURCE OUTPUT --species SPECIES --seed N
+--flip --mid-outer 320 --mid-inner 96`. Seeds: spruce 18241, spruce_open 29533
+(using species spruce), fir 63127, stone_pine 74151. Current SOURCE is the repaired
+`artifacts/meshy_snow_20260918/bough_textured.glb`; OUTPUT is each named directory
+under `artifacts/meshy_snow_20260918/winter_family`. Run `family_prepare.gd` with
+the native renderer, then `family_compress.gd` with the official editor as above.
+Use `--no-bake` only when near geometry/colours have not changed. The native
+`family_game_review.gd` adds moving transitions and synthetic contact publication.
+`family_cost.gd` uses two traversals: exclude the first, measure the second, and
+reuse the saved matching original control. No repeated control run is required.
+
+Qualified result: **118.39 FPS / 8.446 ms frame / 6.573 ms GPU**, compared with
+87.18 FPS / 11.470 ms / 7.457 ms for the saved original on the same 15-second route.
+Frame p95/p99: 11.262/14.358 ms versus 15.926/21.335 ms. Same settings, exact final
+state, no focus loss or scoped drift. These are bounded route observations, not
+120 FPS everywhere; LOD1 depth work was not separately counted. `family_review.json`
+retains compact evidence. An earlier 94.17 FPS attempt is invalid because newly
+streamed candidate materials used the wrong LOD/shadow policy. The corrected
+catalogue-identity classification is regression-tested with an unrelated shader
+name. Normal play still uses the original forest until seasonal integration.

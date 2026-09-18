@@ -227,9 +227,12 @@ func _batch(mesh: Mesh, transforms: Array, lod: int, height_m: float = 19.0, pre
 	instance.gi_mode = GeometryInstance3D.GI_MODE_STATIC if lod==3 else GeometryInstance3D.GI_MODE_DISABLED
 	instance.set_meta("art_lod",lod)
 	var material = mesh.surface_get_material(0)
-	var pc_tree = (lod<3 or lod==5) and material is ShaderMaterial and "pc_" in material.shader.resource_path
+	# Catalogue identity owns forest ranges and shadow participation. Seasonal
+	# shader names must not silently turn streamed trees into generic props.
+	var forest_tree = (lod<3 or lod==5) and not forest_asset.is_empty() and material is ShaderMaterial
+	var pc_tree = (lod<3 or lod==5) and material is ShaderMaterial and (forest_tree or "pc_" in material.shader.resource_path)
 	instance.set_meta("pc_tree",pc_tree)
-	instance.set_meta("forest_tree",pc_tree and ("pc_forest_tree" in material.shader.resource_path or material.resource_name.begins_with("FC_Impostor")))
+	instance.set_meta("forest_tree",forest_tree or (pc_tree and ("pc_forest_tree" in material.shader.resource_path or material.resource_name.begins_with("FC_Impostor"))))
 	# Shader trees use their prepared envelope and the default zero margin.
 	# Other cards need their rotated width included in culling bounds.
 	if not pc_tree: instance.extra_cull_margin = 10.0 if lod==2 else .2

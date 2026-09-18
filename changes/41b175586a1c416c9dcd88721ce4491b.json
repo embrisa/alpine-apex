@@ -1,0 +1,223 @@
+{
+  "schema": 1,
+  "id": "41b175586a1c416c9dcd88721ce4491b",
+  "summary": "Prepare varied snowy tree family with matching far cards and shared contact motion",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Forest appearance",
+    "Forest material classification"
+  ],
+  "owned_paths": [
+    "art_source/trees/meshy_snow_v1/README.md",
+    "art_source/trees/meshy_snow_v1/assemble_bough.py",
+    "art_source/trees/meshy_snow_v1/family_compress.gd",
+    "art_source/trees/meshy_snow_v1/family_cost.gd",
+    "art_source/trees/meshy_snow_v1/family_fragment.gdshaderinc",
+    "art_source/trees/meshy_snow_v1/family_game_review.gd",
+    "art_source/trees/meshy_snow_v1/family_library.gd",
+    "art_source/trees/meshy_snow_v1/family_prepare.gd",
+    "scripts/presentation/tree_motion.gd",
+    "tests/tree_dynamics_suite.gd",
+    "art_source/trees/meshy_snow_v1/bough_library.gd",
+    "scripts/world/alpine_scenery.gd",
+    "tests/forest_material_identity_suite.gd",
+    "art_source/trees/meshy_snow_v1/family_review.json",
+    "docs/RENDERING.md"
+  ],
+  "read_paths": [
+    "art_source/trees/meshy_snow_v1/library.gd",
+    "assets/graphics/pc_forest_tree_common.gdshaderinc",
+    "assets/graphics/pc_tree_impostor.gdshader",
+    "tests/foliage_sight_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "world": {
+        "effect": "preserved",
+        "reason": "Catalogue identity controls rendering LOD/shadow classification only; placement and physical generation unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Presentation and isolated source preparation only."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Presentation and isolated source preparation only."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Presentation and isolated source preparation only."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Presentation and isolated source preparation only."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Presentation and isolated source preparation only."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "guarded tests/tree_dynamics_suite.gd; tests/foliage_sight_suite.gd; tests/forest_material_identity_suite.gd",
+      "result": "passed",
+      "details": "30 contact, 307 foliage sight and 17 catalogue material identity checks. Final relevant code unchanged since checks."
+    },
+    {
+      "kind": "rendered",
+      "command": "guarded family_game_review.gd, meshy-family-round-mid-review",
+      "result": "passed",
+      "details": "15 actual game views, moving 6–85m transition and synthetic contact response. 4133 forest batches retain original LOD/shadow policy. Current rounded middle detail inspected."
+    },
+    {
+      "kind": "performance",
+      "command": "guarded family_cost.gd, meshy-family-qualified-fps",
+      "result": "passed",
+      "details": "Warm traversal excluded; one 15s candidate. 118.3929 FPS, 8.44646ms frame, 6.57315ms GPU; reused matched 87.1819 FPS original. Exact trace, no focus loss, stable scoped inputs; 4345 batches verified. See family_review.json."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human play review of the branch-built winter family. Production seasonal selection is the next milestone."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-18T03:16:12.520970+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "b6eb5d4963f7ae18656f6f5993d1646e242191c9",
+      "dev": 115,
+      "modified": true
+    },
+    "inputs": {
+      "art_source/trees/meshy_snow_v1/README.md": {
+        "size": 14924,
+        "mtime_ns": 1789701371853418900
+      },
+      "art_source/trees/meshy_snow_v1/assemble_bough.py": {
+        "size": 8698,
+        "mtime_ns": 1789700661810119900
+      },
+      "art_source/trees/meshy_snow_v1/bough_library.gd": {
+        "size": 2062,
+        "mtime_ns": 1789699733773864000
+      },
+      "art_source/trees/meshy_snow_v1/family_compress.gd": {
+        "size": 667,
+        "mtime_ns": 1789699127829252100
+      },
+      "art_source/trees/meshy_snow_v1/family_cost.gd": {
+        "size": 859,
+        "mtime_ns": 1789700302996220300
+      },
+      "art_source/trees/meshy_snow_v1/family_fragment.gdshaderinc": {
+        "size": 888,
+        "mtime_ns": 1789699011374304400
+      },
+      "art_source/trees/meshy_snow_v1/family_game_review.gd": {
+        "size": 4450,
+        "mtime_ns": 1789700661811467200
+      },
+      "art_source/trees/meshy_snow_v1/family_library.gd": {
+        "size": 5461,
+        "mtime_ns": 1789700302995217000
+      },
+      "art_source/trees/meshy_snow_v1/family_prepare.gd": {
+        "size": 6381,
+        "mtime_ns": 1789700697150999800
+      },
+      "art_source/trees/meshy_snow_v1/family_review.json": {
+        "size": 5721,
+        "mtime_ns": 1789701334705208000
+      },
+      "art_source/trees/meshy_snow_v1/library.gd": {
+        "size": 6899,
+        "mtime_ns": 1789691338875832800
+      },
+      "assets/graphics/pc_forest_tree_common.gdshaderinc": {
+        "size": 6368,
+        "mtime_ns": 1789594595745728300
+      },
+      "assets/graphics/pc_tree_impostor.gdshader": {
+        "size": 3615,
+        "mtime_ns": 1789594595746728500
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/RENDERING.md": {
+        "size": 52716,
+        "mtime_ns": 1789701371908271400
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/tree_motion.gd": {
+        "size": 5196,
+        "mtime_ns": 1789699840648632300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/alpine_scenery.gd": {
+        "size": 20175,
+        "mtime_ns": 1789700302994201800
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "tests/foliage_sight_suite.gd": {
+        "size": 8756,
+        "mtime_ns": 1789548647178931700
+      },
+      "tests/forest_material_identity_suite.gd": {
+        "size": 1865,
+        "mtime_ns": 1789700458061095800
+      },
+      "tests/tree_dynamics_suite.gd": {
+        "size": 5191,
+        "mtime_ns": 1789699446429563600
+      }
+    }
+  }
+}

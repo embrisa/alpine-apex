@@ -1,0 +1,200 @@
+{
+  "scope": "One warmed 15-second current Standard dense route, generator 18/model 35. Reused matching original control; not whole-mountain acceptance.",
+  "control": {
+    "frame_ms": {
+      "average_fps": 87.1819459864155,
+      "count": 1307,
+      "max": 26.501,
+      "mean": 11.4702647283856,
+      "median_fps": 91.1826388255676,
+      "p50": 10.967,
+      "p95": 15.926,
+      "p99": 21.335,
+      "slowest_one_percent_fps": 43.502038381227
+    },
+    "gpu_ms": {
+      "count": 1307,
+      "max": 10.6780004501343,
+      "mean": 7.45686916002538,
+      "p95": 9.32900047302246,
+      "p99": 10.2170000076294
+    },
+    "render_cpu_ms": {
+      "count": 1307,
+      "max": 4.51100015640259,
+      "mean": 2.07659908251263,
+      "p95": 2.80900001525879,
+      "p99": 3.37700009346008
+    },
+    "draw_calls": {
+      "count": 1307,
+      "max": 1574.0,
+      "mean": 1228.99387911247,
+      "p95": 1485.0,
+      "p99": 1565.0
+    },
+    "submitted_primitives": {
+      "count": 1307,
+      "max": 7793426.0,
+      "mean": 5924611.82555471,
+      "p95": 7305420.0,
+      "p99": 7686695.0
+    },
+    "forest": {
+      "pending_regions": 0,
+      "prepared_bytes": 13404912,
+      "regions": 15257,
+      "render_batches": 6723,
+      "resident_regions": 93
+    },
+    "exact_trace": true,
+    "unfocused_frames": 0,
+    "final_state": [
+      1800,
+      1699.1357421875,
+      2599.48071289062,
+      1478.84069824219,
+      10.0839767456055,
+      -4.1990818977356,
+      2.59044218063354,
+      1.31658364436015
+    ],
+    "verified_forest_batches": null
+  },
+  "winter": {
+    "frame_ms": {
+      "average_fps": 118.392861263977,
+      "count": 1775,
+      "max": 19.854,
+      "mean": 8.44645521126761,
+      "median_fps": 122.010736944851,
+      "p50": 8.196,
+      "p95": 11.262,
+      "p99": 14.358,
+      "slowest_one_percent_fps": 61.80024102094
+    },
+    "gpu_ms": {
+      "count": 1775,
+      "max": 8.44600009918213,
+      "mean": 6.57315042065902,
+      "p95": 7.80700016021729,
+      "p99": 8.23400020599365
+    },
+    "render_cpu_ms": {
+      "count": 1775,
+      "max": 3.16499996185303,
+      "mean": 1.55843098674022,
+      "p95": 2.15100002288818,
+      "p99": 2.55100011825562
+    },
+    "draw_calls": {
+      "count": 1775,
+      "max": 1575.0,
+      "mean": 1231.76957746479,
+      "p95": 1491.0,
+      "p99": 1567.0
+    },
+    "submitted_primitives": {
+      "count": 1775,
+      "max": 9791562.0,
+      "mean": 7322387.52901408,
+      "p95": 9388437.0,
+      "p99": 9671155.0
+    },
+    "forest": {
+      "pending_regions": 0,
+      "prepared_bytes": 13404912,
+      "regions": 15257,
+      "render_batches": 6723,
+      "resident_regions": 93
+    },
+    "exact_trace": true,
+    "unfocused_frames": 0,
+    "final_state": [
+      1800,
+      1699.1357421875,
+      2599.48071289062,
+      1478.84069824219,
+      10.0839767456055,
+      -4.1990818977356,
+      2.59044218063354,
+      1.31658364436015
+    ],
+    "verified_forest_batches": 4345
+  },
+  "settings": {
+    "actual_pixels": [
+      3840,
+      2160
+    ],
+    "device": "AMD Radeon RX 9070",
+    "engine": {
+      "build": "custom_build",
+      "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+      "hex": 263938,
+      "major": 4,
+      "minor": 7,
+      "patch": 2,
+      "status": "stable",
+      "string": "4.7.2-stable (custom_build)",
+      "timestamp": 1786929518
+    },
+    "graphics_profile": {
+      "backdrop_tier": 2,
+      "contact_intensity": 0.2,
+      "contact_shading": false,
+      "fog_strength": 1.0,
+      "grain_budget": 256,
+      "highlight_glow": true,
+      "highlight_glow_intensity": 0.385,
+      "indirect_intensity": 0.55,
+      "indirect_lighting": false,
+      "mesh_lod_bias": 1.0,
+      "mist_budget": 128,
+      "normal_strength": 0.42,
+      "offmap_prop_density": 1.0,
+      "offmap_shadow_quality": 0,
+      "offmap_snow_detail": false,
+      "offmap_tree_distance_m": 6000.0,
+      "scrub_density": 1.0,
+      "scrub_distance_m": 130.0,
+      "shadow_distance_m": 220.0,
+      "shadow_quality": 2,
+      "shaft_strength": 1.0,
+      "snow_crystal_density": 1.75,
+      "snow_local_deformation": true,
+      "snow_sheen": 0.1584,
+      "snow_sparkle": 9.0,
+      "snow_track_capacity": 4096,
+      "snow_track_relief": true,
+      "spray_budget": 384,
+      "terrain_gi": false,
+      "texture_tier": 2,
+      "tree_far_m": 1300.0,
+      "tree_mid_m": 280.0,
+      "tree_near_m": 95.0,
+      "volumetric_shafts": true,
+      "weather_budget": 1.0,
+      "weather_quality": 2
+    },
+    "renderer": "forward_plus",
+    "rendering_driver": "d3d12",
+    "sdfgi": false,
+    "weather": "clear"
+  },
+  "inputs_stable": true,
+  "lod1_depth_work": "Not separately measured",
+  "visuals": "Native 15 views, moving 6-85m transitions and contact response inspected. 4133 batches verified in visual check; 4345 in measured route. Human play acceptance pending.",
+  "rejected": [
+    "Generated winter birch with folded branches; retained existing bare birches instead.",
+    "160/54-triangle bough middle detail; refined to 320/96 before timing.",
+    "Earlier meshy-bough-family timing invalid: shader-name classification changed streamed LOD ranges and shadows."
+  ],
+  "sources": {
+    "control": "artifacts/pc_environment/meshy-snow-v18/production.json row 2",
+    "winter": "artifacts/pc_environment/meshy-family-qualified/production.json row 2",
+    "visual": "artifacts/meshy_snow_20260918/winter_family/game_round_mid/report.json"
+  },
+  "credit_spend": 445,
+  "credit_budget": 2250
+}

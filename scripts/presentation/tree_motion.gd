@@ -20,6 +20,7 @@ var uploaded_anchors = PackedVector4Array()
 var uploaded_angles = PackedVector4Array()
 var uploaded_materials: Dictionary = {}
 var uploaded_active = false
+var material_ids: Array[String] = ["TD_Conifer","FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"]
 
 func _init(library = null, definition_path: String = "res://assets/graphics/treedesigner_branches.json") -> void:
 	assets = library
@@ -108,7 +109,7 @@ func _upload() -> void:
 			if value!=Vector4.ZERO:
 				uploaded_active = true
 				break
-	for id in ["TD_Conifer","FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"]:
+	for id in material_ids:
 		if not assets.named_materials.has(id):
 			uploaded_materials.erase(id)
 			continue
