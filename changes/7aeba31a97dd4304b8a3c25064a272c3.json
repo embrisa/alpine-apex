@@ -1,0 +1,294 @@
+{
+  "schema": 1,
+  "id": "7aeba31a97dd4304b8a3c25064a272c3",
+  "summary": "Author eleven ready visual-improvement backlog tasks from a rendering review, and group them in the queue",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Backlog authoring",
+    "Visual improvement queue"
+  ],
+  "owned_paths": [
+    "backlog/QUEUE.md",
+    "backlog/tasks/AA-20260918-011200-resolve-distant-forest-card-aliasing.md",
+    "backlog/tasks/AA-20260918-011201-restore-snow-highlight-headroom.md",
+    "backlog/tasks/AA-20260918-011202-shade-snow-beyond-the-shadow-map.md",
+    "backlog/tasks/AA-20260918-011203-add-aerial-perspective-to-distance.md",
+    "backlog/tasks/AA-20260918-011204-light-backlit-snow-spray.md",
+    "backlog/tasks/AA-20260918-011205-seat-scenery-with-affordable-contact-shading.md",
+    "backlog/tasks/AA-20260918-011206-show-wind-packed-and-scoured-snow.md",
+    "backlog/tasks/AA-20260918-011207-shade-wind-drift-lee-sides.md",
+    "backlog/tasks/AA-20260918-011208-add-ridge-crest-spindrift-plumes.md",
+    "backlog/tasks/AA-20260918-011209-keep-ski-tracks-visible-at-distance.md",
+    "backlog/tasks/AA-20260918-011210-soften-sun-shadow-edges-with-distance.md"
+  ],
+  "read_paths": [
+    "assets/graphics/alpine_surface_fragment.gdshaderinc",
+    "assets/graphics/alpine_surface_uniforms.gdshaderinc",
+    "assets/graphics/offmap_fog.gdshaderinc",
+    "assets/graphics/pc_tree_impostor.gdshader",
+    "assets/graphics/ski_track.gdshader",
+    "assets/graphics/snow_spray.gdshader",
+    "backlog/README.md",
+    "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "scripts/presentation/alpine_atmosphere.gd",
+    "scripts/presentation/forest_placement.gd",
+    "scripts/presentation/graphics_presets.gd",
+    "scripts/presentation/graphics_quality.gd",
+    "scripts/presentation/snow_readability.gd",
+    "scripts/presentation/weather_effects.gd",
+    "scripts/presentation/weather_preset.gd",
+    "scripts/world/alpine_world.gd",
+    "scripts/world/wilderness_horizon.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "python3 scripts/backlog.py validate",
+      "result": "passed",
+      "details": "status ok, no unavailable tasks. All eleven records parse, sit in tasks/ with ready status, and the single depends_on edge (lee shading on the exposure task) resolves; ten are eligible and one waits on its dependency."
+    },
+    {
+      "kind": "automated",
+      "command": "grep -c '^## Completion record' backlog/tasks/*.md",
+      "result": "passed",
+      "details": "Every record carries the template's metadata plus outcome, evidence, scope, approach, acceptance, open-questions and completion sections. Three files initially lacked the completion section and were corrected before commit; the validator does not check sections."
+    },
+    {
+      "kind": "human",
+      "command": "Conversation with the user on 18 September 2026",
+      "result": "passed",
+      "details": "The three records that carried product decisions were explained and settled: readable snow over dazzling glare with one fixed look, lee-side drift shading approved at the authored strength ramp following the existing snow_drift control, and ridge-crest spindrift wanted in every weather including Clear as a first implementation. All eleven are now ready."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Authoring only. No task here is implemented, dispatched or scheduled, and every record's own human acceptance remains pending with its work.",
+    "Evidence in the records was gathered at 7c2d049 on an Apple M4 and is cited as such. The distant-forest record notes that the c6aa92c winter forest adds a second seasonal appearance its evidence does not cover.",
+    "Night, dusk and non-Clear weather were not reviewed during the rendering pass, so ideas specific to those conditions may be missing from the queue."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-18T09:03:39.357325+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "a94b93bd546d23d9809c0207d1a861456aa31e21",
+      "dev": 118,
+      "modified": true
+    },
+    "inputs": {
+      "assets/graphics/alpine_surface_fragment.gdshaderinc": {
+        "size": 9483,
+        "mtime_ns": 1789692962243458754
+      },
+      "assets/graphics/alpine_surface_uniforms.gdshaderinc": {
+        "size": 2934,
+        "mtime_ns": 1789692485527038081
+      },
+      "assets/graphics/offmap_fog.gdshaderinc": {
+        "size": 1448,
+        "mtime_ns": 1789511896994040700
+      },
+      "assets/graphics/pc_tree_impostor.gdshader": {
+        "size": 3615,
+        "mtime_ns": 1789589993728936883
+      },
+      "assets/graphics/ski_track.gdshader": {
+        "size": 5762,
+        "mtime_ns": 1789582526858278444
+      },
+      "assets/graphics/snow_spray.gdshader": {
+        "size": 1728,
+        "mtime_ns": 1789511896998216866
+      },
+      "backlog/QUEUE.md": {
+        "size": 5682,
+        "mtime_ns": 1789720698203720067
+      },
+      "backlog/README.md": {
+        "size": 3434,
+        "mtime_ns": 1789636537451224174
+      },
+      "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md": {
+        "size": 13875,
+        "mtime_ns": 1789691017548538456
+      },
+      "backlog/tasks/AA-20260918-011200-resolve-distant-forest-card-aliasing.md": {
+        "size": 6367,
+        "mtime_ns": 1789722196361671427
+      },
+      "backlog/tasks/AA-20260918-011201-restore-snow-highlight-headroom.md": {
+        "size": 6085,
+        "mtime_ns": 1789720686350579698
+      },
+      "backlog/tasks/AA-20260918-011202-shade-snow-beyond-the-shadow-map.md": {
+        "size": 5832,
+        "mtime_ns": 1789694097582399300
+      },
+      "backlog/tasks/AA-20260918-011203-add-aerial-perspective-to-distance.md": {
+        "size": 4947,
+        "mtime_ns": 1789694148805475700
+      },
+      "backlog/tasks/AA-20260918-011204-light-backlit-snow-spray.md": {
+        "size": 5008,
+        "mtime_ns": 1789694148805640744
+      },
+      "backlog/tasks/AA-20260918-011205-seat-scenery-with-affordable-contact-shading.md": {
+        "size": 5094,
+        "mtime_ns": 1789694206142559045
+      },
+      "backlog/tasks/AA-20260918-011206-show-wind-packed-and-scoured-snow.md": {
+        "size": 5291,
+        "mtime_ns": 1789694206142726255
+      },
+      "backlog/tasks/AA-20260918-011207-shade-wind-drift-lee-sides.md": {
+        "size": 6169,
+        "mtime_ns": 1789720686351007652
+      },
+      "backlog/tasks/AA-20260918-011208-add-ridge-crest-spindrift-plumes.md": {
+        "size": 5756,
+        "mtime_ns": 1789720686351330106
+      },
+      "backlog/tasks/AA-20260918-011209-keep-ski-tracks-visible-at-distance.md": {
+        "size": 5231,
+        "mtime_ns": 1789694313034459945
+      },
+      "backlog/tasks/AA-20260918-011210-soften-sun-shadow-edges-with-distance.md": {
+        "size": 4700,
+        "mtime_ns": 1789694313034601864
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 62522,
+        "mtime_ns": 1789722104577591410
+      },
+      "docs/RENDERING.md": {
+        "size": 55694,
+        "mtime_ns": 1789722104577259497
+      },
+      "docs/VALIDATION.md": {
+        "size": 160350,
+        "mtime_ns": 1789721870848462239
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789636537476764212
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789591161009132679
+      },
+      "scripts/presentation/alpine_atmosphere.gd": {
+        "size": 4123,
+        "mtime_ns": 1789511897122900633
+      },
+      "scripts/presentation/forest_placement.gd": {
+        "size": 8152,
+        "mtime_ns": 1789511897125237930
+      },
+      "scripts/presentation/graphics_presets.gd": {
+        "size": 5787,
+        "mtime_ns": 1789691699248487899
+      },
+      "scripts/presentation/graphics_quality.gd": {
+        "size": 3488,
+        "mtime_ns": 1789691699248185484
+      },
+      "scripts/presentation/snow_readability.gd": {
+        "size": 3847,
+        "mtime_ns": 1789511897132356612
+      },
+      "scripts/presentation/weather_effects.gd": {
+        "size": 6738,
+        "mtime_ns": 1789588761958672998
+      },
+      "scripts/presentation/weather_preset.gd": {
+        "size": 849,
+        "mtime_ns": 1789511897135533551
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789691017568563345
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789636537480390991
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 27514,
+        "mtime_ns": 1789636537481551958
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789691017571670161
+      },
+      "scripts/world/wilderness_horizon.gd": {
+        "size": 2548,
+        "mtime_ns": 1789691017572235491
+      }
+    }
+  }
+}
