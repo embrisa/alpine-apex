@@ -1,0 +1,28 @@
+{
+  "ai_model": "meshy-7",
+  "model_type": "standard",
+  "file_path": "C:/Users/hp/Downloads/alpine-apex/art_source/trees/meshy_snow_v1/spruce/reference.png",
+  "target_formats": [
+    "glb"
+  ],
+  "should_texture": true,
+  "enable_pbr": true,
+  "texture_resolution": "2k",
+  "should_remesh": true,
+  "topology": "triangle",
+  "target_polycount": 80000,
+  "save_pre_remeshed_model": true,
+  "symmetry_mode": "off",
+  "origin_at": "bottom",
+  "image_enhancement": false,
+  "ultra_mode": true,
+  "texture_prompt": "Realistic snow-laden Norway spruce. Smooth rounded snow cushions resting on upper branch surfaces, deep desaturated green fine needles underneath, irregular distinct drooping boughs and continuous rough gray-brown trunk. Preserve curved branch volumes and natural needle fringes. No sharp sheet-like folded snow, no faceted paper or artificial crystal spikes. Neutral diffuse PBR colors without baked lighting.",
+  "response_format": "json",
+  "submission": {
+    "task_id": "01a0b1fe-1c7d-77ff-ade8-5cea5a9f7ac8",
+    "status": "PENDING",
+    "message": "3D generation task created successfully. Task ID: 01a0b1fe-1c7d-77ff-ade8-5cea5a9f7ac8",
+    "estimated_time": "2-3 minutes"
+  },
+  "credits": 35
+}

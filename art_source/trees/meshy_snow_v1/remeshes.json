@@ -1,0 +1,98 @@
+{
+  "spruce_mid": {
+    "input_task_id": "01a0b1ba-97c2-7340-b203-a50abb37af97",
+    "target_polycount": 5500,
+    "topology": "triangle",
+    "target_formats": [
+      "glb"
+    ],
+    "response_format": "json",
+    "submission": {
+      "task_id": "01a0b1c4-6844-7657-be1e-7885c769933b",
+      "status": "PENDING",
+      "message": "Remesh task created successfully. Task ID: 01a0b1c4-6844-7657-be1e-7885c769933b",
+      "estimated_time": "1-2 minutes"
+    },
+    "credits": 5
+  },
+  "fir_mid": {
+    "input_task_id": "01a0b1ba-ac41-7772-8ab0-dbe05577ab3f",
+    "target_polycount": 5500,
+    "topology": "triangle",
+    "target_formats": [
+      "glb"
+    ],
+    "response_format": "json",
+    "submission": {
+      "task_id": "01a0b1c4-6923-77ec-89fe-62a01b0488a6",
+      "status": "PENDING",
+      "message": "Remesh task created successfully. Task ID: 01a0b1c4-6923-77ec-89fe-62a01b0488a6",
+      "estimated_time": "1-2 minutes"
+    },
+    "credits": 5
+  },
+  "stone_pine_mid": {
+    "input_task_id": "01a0b1ba-c0ad-726b-bbcd-2bd3f56364c7",
+    "target_polycount": 4500,
+    "topology": "triangle",
+    "target_formats": [
+      "glb"
+    ],
+    "response_format": "json",
+    "submission": {
+      "task_id": "01a0b1c4-6a05-718e-b290-3c4c03b99375",
+      "status": "PENDING",
+      "message": "Remesh task created successfully. Task ID: 01a0b1c4-6a05-718e-b290-3c4c03b99375",
+      "estimated_time": "1-2 minutes"
+    },
+    "credits": 5
+  },
+  "spruce_high": {
+    "input_task_id": "01a0b1ba-97c2-7340-b203-a50abb37af97",
+    "target_polycount": 24000,
+    "topology": "triangle",
+    "target_formats": [
+      "glb"
+    ],
+    "response_format": "json",
+    "submission": {
+      "task_id": "01a0b1c7-360f-7148-bb82-35a2258bfc4f",
+      "status": "PENDING",
+      "message": "Remesh task created successfully. Task ID: 01a0b1c7-360f-7148-bb82-35a2258bfc4f",
+      "estimated_time": "1-2 minutes"
+    },
+    "credits": 5
+  },
+  "fir_high": {
+    "input_task_id": "01a0b1ba-ac41-7772-8ab0-dbe05577ab3f",
+    "target_polycount": 24000,
+    "topology": "triangle",
+    "target_formats": [
+      "glb"
+    ],
+    "response_format": "json",
+    "submission": {
+      "task_id": "01a0b1c7-36f7-7045-ad85-ec1cfbfe8081",
+      "status": "PENDING",
+      "message": "Remesh task created successfully. Task ID: 01a0b1c7-36f7-7045-ad85-ec1cfbfe8081",
+      "estimated_time": "1-2 minutes"
+    },
+    "credits": 5
+  },
+  "stone_pine_high": {
+    "input_task_id": "01a0b1ba-c0ad-726b-bbcd-2bd3f56364c7",
+    "target_polycount": 18000,
+    "topology": "triangle",
+    "target_formats": [
+      "glb"
+    ],
+    "response_format": "json",
+    "submission": {
+      "task_id": "01a0b1c7-37d9-753e-8b57-d0afd02b2f43",
+      "status": "PENDING",
+      "message": "Remesh task created successfully. Task ID: 01a0b1c7-37d9-753e-8b57-d0afd02b2f43",
+      "estimated_time": "1-2 minutes"
+    },
+    "credits": 5
+  }
+}

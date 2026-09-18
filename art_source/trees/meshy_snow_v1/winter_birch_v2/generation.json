@@ -1,0 +1,28 @@
+{
+  "ai_model": "meshy-7",
+  "model_type": "standard",
+  "file_path": "C:/Users/hp/Downloads/alpine-apex/art_source/trees/meshy_snow_v1/winter_birch_v2/reference.png",
+  "target_formats": [
+    "glb"
+  ],
+  "should_texture": true,
+  "enable_pbr": true,
+  "texture_resolution": "2k",
+  "should_remesh": true,
+  "topology": "triangle",
+  "target_polycount": 16000,
+  "save_pre_remeshed_model": true,
+  "symmetry_mode": "off",
+  "origin_at": "bottom",
+  "image_enhancement": false,
+  "ultra_mode": true,
+  "texture_prompt": "Leafless winter silver birch with matte white papery bark and dark scars, dark brown twigs, thick soft white snow on bough tops. Radial natural branching with round deep crown. No leaves, soil, ground or pedestal.",
+  "response_format": "json",
+  "submission": {
+    "task_id": "01a0b1c8-914c-731e-8680-1f6985d58386",
+    "status": "PENDING",
+    "message": "3D generation task created successfully. Task ID: 01a0b1c8-914c-731e-8680-1f6985d58386",
+    "estimated_time": "2-3 minutes"
+  },
+  "credits": 35
+}

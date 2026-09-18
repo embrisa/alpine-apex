@@ -1,0 +1,28 @@
+{
+  "ai_model": "meshy-7",
+  "model_type": "standard",
+  "file_path": "C:/Users/hp/Downloads/alpine-apex/art_source/trees/meshy_snow_v1/winter_birch/reference.png",
+  "target_formats": [
+    "glb"
+  ],
+  "should_texture": true,
+  "enable_pbr": true,
+  "texture_resolution": "2k",
+  "should_remesh": true,
+  "topology": "triangle",
+  "target_polycount": 7000,
+  "save_pre_remeshed_model": true,
+  "symmetry_mode": "off",
+  "origin_at": "bottom",
+  "image_enhancement": false,
+  "ultra_mode": true,
+  "texture_prompt": "Completely leafless winter birch with white papery bark, charcoal scars, brown dark twigs and rounded white settled snow along upper surfaces of larger boughs. Open branching, no leaves or green canopy, no ground. Neutral diffuse matte PBR materials without baked lighting.",
+  "response_format": "json",
+  "submission": {
+    "task_id": "01a0b1ba-d593-7609-a10e-2ae3444785a3",
+    "status": "PENDING",
+    "message": "3D generation task created successfully. Task ID: 01a0b1ba-d593-7609-a10e-2ae3444785a3",
+    "estimated_time": "2-3 minutes"
+  },
+  "credit_reservation": 35
+}

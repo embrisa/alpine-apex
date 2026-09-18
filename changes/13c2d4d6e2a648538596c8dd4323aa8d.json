@@ -1,0 +1,489 @@
+{
+  "schema": 1,
+  "id": "13c2d4d6e2a648538596c8dd4323aa8d",
+  "summary": "Preserve snowy Meshy species and matched seasonal forest experiment",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Isolated tree source assets",
+    "Reversible forest experiment"
+  ],
+  "owned_paths": [
+    "docs/ASSETS.md",
+    "art_source/trees/meshy_snow_v1/.gdignore",
+    "art_source/trees/meshy_snow_v1/.gitignore",
+    "art_source/trees/meshy_snow_v1/README.md",
+    "art_source/trees/meshy_snow_v1/close_review.json",
+    "art_source/trees/meshy_snow_v1/community_candidate.json",
+    "art_source/trees/meshy_snow_v1/compress.gd",
+    "art_source/trees/meshy_snow_v1/cost.gd",
+    "art_source/trees/meshy_snow_v1/credits.json",
+    "art_source/trees/meshy_snow_v1/experiment.json",
+    "art_source/trees/meshy_snow_v1/finish_mesh.py",
+    "art_source/trees/meshy_snow_v1/fir/detail_generation.json",
+    "art_source/trees/meshy_snow_v1/fir/generation.json",
+    "art_source/trees/meshy_snow_v1/fir/reference.png",
+    "art_source/trees/meshy_snow_v1/fir/reference_prompt.txt",
+    "art_source/trees/meshy_snow_v1/fir/tree.glb",
+    "art_source/trees/meshy_snow_v1/fir/tree_detail.glb",
+    "art_source/trees/meshy_snow_v1/fragment.gdshaderinc",
+    "art_source/trees/meshy_snow_v1/game_review.gd",
+    "art_source/trees/meshy_snow_v1/inventory.json",
+    "art_source/trees/meshy_snow_v1/library.gd",
+    "art_source/trees/meshy_snow_v1/local_lods.json",
+    "art_source/trees/meshy_snow_v1/near_compare.gd",
+    "art_source/trees/meshy_snow_v1/prepare.gd",
+    "art_source/trees/meshy_snow_v1/quality_review.gd",
+    "art_source/trees/meshy_snow_v1/remeshes.json",
+    "art_source/trees/meshy_snow_v1/simplify.py",
+    "art_source/trees/meshy_snow_v1/spruce/close_generation.json",
+    "art_source/trees/meshy_snow_v1/spruce/close_remeshes.json",
+    "art_source/trees/meshy_snow_v1/spruce/detail_generation.json",
+    "art_source/trees/meshy_snow_v1/spruce/generation.json",
+    "art_source/trees/meshy_snow_v1/spruce/reference.png",
+    "art_source/trees/meshy_snow_v1/spruce/reference_prompt.txt",
+    "art_source/trees/meshy_snow_v1/spruce/tree.glb",
+    "art_source/trees/meshy_snow_v1/spruce/tree_close_20k.glb",
+    "art_source/trees/meshy_snow_v1/spruce/tree_close_40k.glb",
+    "art_source/trees/meshy_snow_v1/spruce/tree_close_80k.glb",
+    "art_source/trees/meshy_snow_v1/spruce/tree_detail.glb",
+    "art_source/trees/meshy_snow_v1/spruce/tree_finish_40k.json",
+    "art_source/trees/meshy_snow_v1/spruce/tree_finish_80k.json",
+    "art_source/trees/meshy_snow_v1/spruce/tree_finish_detail.json",
+    "art_source/trees/meshy_snow_v1/spruce_green/generation.json",
+    "art_source/trees/meshy_snow_v1/spruce_green/reference.png",
+    "art_source/trees/meshy_snow_v1/spruce_green/reference_prompt.txt",
+    "art_source/trees/meshy_snow_v1/spruce_green/tree.glb",
+    "art_source/trees/meshy_snow_v1/stone_pine/detail_generation.json",
+    "art_source/trees/meshy_snow_v1/stone_pine/generation.json",
+    "art_source/trees/meshy_snow_v1/stone_pine/reference.png",
+    "art_source/trees/meshy_snow_v1/stone_pine/reference_prompt.txt",
+    "art_source/trees/meshy_snow_v1/stone_pine/tree.glb",
+    "art_source/trees/meshy_snow_v1/stone_pine/tree_detail.glb",
+    "art_source/trees/meshy_snow_v1/winter_birch/generation.json",
+    "art_source/trees/meshy_snow_v1/winter_birch/reference.png",
+    "art_source/trees/meshy_snow_v1/winter_birch/reference_prompt.txt",
+    "art_source/trees/meshy_snow_v1/winter_birch/remesh.json",
+    "art_source/trees/meshy_snow_v1/winter_birch/tree.glb",
+    "art_source/trees/meshy_snow_v1/winter_birch_v2/generation.json",
+    "art_source/trees/meshy_snow_v1/winter_birch_v2/reference.png",
+    "art_source/trees/meshy_snow_v1/winter_birch_v2/reference_prompt.txt",
+    "art_source/trees/meshy_snow_v1/winter_birch_v2/tree.glb"
+  ],
+  "read_paths": [
+    "assets/graphics/pc_forest_tree_common.gdshaderinc",
+    "assets/graphics/pc_lod.gdshaderinc",
+    "assets/graphics/pc_tree_impostor.gdshader",
+    "scripts/presentation/alpine_assets.gd",
+    "scripts/presentation/density_forest.gd",
+    "scripts/world/alpine_scenery.gd",
+    "tests/performance_descent.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Authoring-only pack and reversible in-memory visual experiment; no production runtime or simulation changes."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Authoring-only pack and reversible in-memory visual experiment; no production runtime or simulation changes."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Authoring-only pack and reversible in-memory visual experiment; no production runtime or simulation changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Authoring-only pack and reversible in-memory visual experiment; no production runtime or simulation changes."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Authoring-only pack and reversible in-memory visual experiment; no production runtime or simulation changes."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Authoring-only pack and reversible in-memory visual experiment; no production runtime or simulation changes."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Authoring-only pack and reversible in-memory visual experiment; no production runtime or simulation changes."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Authoring-only pack and reversible in-memory visual experiment; no production runtime or simulation changes."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "GLB accessor/material/embedded-resource inventory and source-pack static verification",
+      "result": "passed",
+      "details": "19 local self-contained GLBs inventoried, including ignored reproducible outputs; all triangle primitives, one opaque surface and embedded images/buffers. Actual counts preserved. No production runtime changes."
+    },
+    {
+      "kind": "automated",
+      "command": "Guarded Blender simplify.py, native prepare.gd --candidate --smooth --bake and editor compress.gd",
+      "result": "passed",
+      "details": "Final local LODs 5540/5628/4868/3244 triangles; eight-view atlases and offline BC7 resources generated. Guard receipts under artifacts/guarded/meshy-snow-*."
+    },
+    {
+      "kind": "rendered",
+      "command": "Guarded full-mountain game_review.gd, label meshy-snow-game-review-r2",
+      "result": "passed",
+      "details": "Review producer completed 30 matched actual 4K images, zero pending forest uploads. Static overview and exact spruce 6/12/32/64/85 m plus other species. Winter direction retained; sharp near/mid branch surfaces are an unresolved art limitation, not accepted production visuals."
+    },
+    {
+      "kind": "performance",
+      "command": "Guarded FpsCritical cost.gd, label meshy-snow-v18, 15 seconds x 3 with row 1 excluded",
+      "result": "passed",
+      "details": "User explicitly requested timing after close visual concerns. Current matched control 87.1819 FPS/11.4703 ms versus candidate 86.8610 FPS/11.5126 ms. Mean GPU 7.4569 to 7.0018 ms. Exact traces, zero focus loss, zero scoped input drift; no meaningful whole-frame FPS gain. See experiment.json and retained raw receipts."
+    },
+    {
+      "kind": "human",
+      "command": "User review in this conversation",
+      "result": "passed",
+      "details": "User likes both autumn and winter atmosphere and authorized continued integration work. Close-detail art, moving transitions and controller acceptance remain unfinished."
+    },
+    {
+      "kind": "rendered",
+      "command": "Guarded quality_review.gd and near_compare.gd, label meshy-near-counts",
+      "result": "passed",
+      "details": "Review producers completed successfully; 10 matched actual-game close/transition images plus raw textured/clay source views. 20k/40k and cleaned 73k are visually rejected for production. No follow-up timing. See close_review.json."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Integration goal remains active. This milestone preserves source assets and results only. Close/mid shape repair, variety, moving LOD/wind/contact review and candidate FPS acceptance still remain."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-18T01:27:56.710796+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "7c2d0493ed163a70314b3e1ba3d9518e651b5d47",
+      "dev": 112,
+      "modified": true
+    },
+    "inputs": {
+      "art_source/trees/meshy_snow_v1/.gdignore": {
+        "size": 0,
+        "mtime_ns": 1789688162133598500
+      },
+      "art_source/trees/meshy_snow_v1/.gitignore": {
+        "size": 117,
+        "mtime_ns": 1789694783898128800
+      },
+      "art_source/trees/meshy_snow_v1/README.md": {
+        "size": 8808,
+        "mtime_ns": 1789694783899141000
+      },
+      "art_source/trees/meshy_snow_v1/close_review.json": {
+        "size": 1422,
+        "mtime_ns": 1789694875858401400
+      },
+      "art_source/trees/meshy_snow_v1/community_candidate.json": {
+        "size": 1251,
+        "mtime_ns": 1789694875858401400
+      },
+      "art_source/trees/meshy_snow_v1/compress.gd": {
+        "size": 1049,
+        "mtime_ns": 1789691338875832800
+      },
+      "art_source/trees/meshy_snow_v1/cost.gd": {
+        "size": 905,
+        "mtime_ns": 1789689783211342700
+      },
+      "art_source/trees/meshy_snow_v1/credits.json": {
+        "size": 2768,
+        "mtime_ns": 1789693329865705300
+      },
+      "art_source/trees/meshy_snow_v1/experiment.json": {
+        "size": 3438,
+        "mtime_ns": 1789692072294773100
+      },
+      "art_source/trees/meshy_snow_v1/finish_mesh.py": {
+        "size": 5426,
+        "mtime_ns": 1789693898359461000
+      },
+      "art_source/trees/meshy_snow_v1/fir/detail_generation.json": {
+        "size": 1087,
+        "mtime_ns": 1789689434211633100
+      },
+      "art_source/trees/meshy_snow_v1/fir/generation.json": {
+        "size": 1097,
+        "mtime_ns": 1789688237908591200
+      },
+      "art_source/trees/meshy_snow_v1/fir/reference.png": {
+        "size": 2369129,
+        "mtime_ns": 1789688021671708700
+      },
+      "art_source/trees/meshy_snow_v1/fir/reference_prompt.txt": {
+        "size": 1499,
+        "mtime_ns": 1789688162241337600
+      },
+      "art_source/trees/meshy_snow_v1/fir/tree.glb": {
+        "size": 14053208,
+        "mtime_ns": 1789688791303912900
+      },
+      "art_source/trees/meshy_snow_v1/fir/tree_detail.glb": {
+        "size": 18429088,
+        "mtime_ns": 1789689885137270700
+      },
+      "art_source/trees/meshy_snow_v1/fragment.gdshaderinc": {
+        "size": 1133,
+        "mtime_ns": 1789689535176647300
+      },
+      "art_source/trees/meshy_snow_v1/game_review.gd": {
+        "size": 4535,
+        "mtime_ns": 1789690990137183500
+      },
+      "art_source/trees/meshy_snow_v1/inventory.json": {
+        "size": 6514,
+        "mtime_ns": 1789694875857390800
+      },
+      "art_source/trees/meshy_snow_v1/library.gd": {
+        "size": 6899,
+        "mtime_ns": 1789691338875832800
+      },
+      "art_source/trees/meshy_snow_v1/local_lods.json": {
+        "size": 1731,
+        "mtime_ns": 1789690902087814900
+      },
+      "art_source/trees/meshy_snow_v1/near_compare.gd": {
+        "size": 5124,
+        "mtime_ns": 1789694166239800200
+      },
+      "art_source/trees/meshy_snow_v1/prepare.gd": {
+        "size": 8715,
+        "mtime_ns": 1789690922086795800
+      },
+      "art_source/trees/meshy_snow_v1/quality_review.gd": {
+        "size": 3894,
+        "mtime_ns": 1789693705430359900
+      },
+      "art_source/trees/meshy_snow_v1/remeshes.json": {
+        "size": 2903,
+        "mtime_ns": 1789689055401050400
+      },
+      "art_source/trees/meshy_snow_v1/simplify.py": {
+        "size": 3577,
+        "mtime_ns": 1789690893416437000
+      },
+      "art_source/trees/meshy_snow_v1/spruce/close_generation.json": {
+        "size": 1217,
+        "mtime_ns": 1789692638456696800
+      },
+      "art_source/trees/meshy_snow_v1/spruce/close_remeshes.json": {
+        "size": 1001,
+        "mtime_ns": 1789693302744906500
+      },
+      "art_source/trees/meshy_snow_v1/spruce/detail_generation.json": {
+        "size": 1079,
+        "mtime_ns": 1789689431205833500
+      },
+      "art_source/trees/meshy_snow_v1/spruce/generation.json": {
+        "size": 1089,
+        "mtime_ns": 1789688237897287200
+      },
+      "art_source/trees/meshy_snow_v1/spruce/reference.png": {
+        "size": 2117968,
+        "mtime_ns": 1789687999415646400
+      },
+      "art_source/trees/meshy_snow_v1/spruce/reference_prompt.txt": {
+        "size": 1454,
+        "mtime_ns": 1789688162229151100
+      },
+      "art_source/trees/meshy_snow_v1/spruce/tree.glb": {
+        "size": 17369036,
+        "mtime_ns": 1789688788475635700
+      },
+      "art_source/trees/meshy_snow_v1/spruce/tree_close_20k.glb": {
+        "size": 25011876,
+        "mtime_ns": 1789693579889390600
+      },
+      "art_source/trees/meshy_snow_v1/spruce/tree_close_40k.glb": {
+        "size": 27835876,
+        "mtime_ns": 1789693581209486000
+      },
+      "art_source/trees/meshy_snow_v1/spruce/tree_close_80k.glb": {
+        "size": 23878540,
+        "mtime_ns": 1789693303820638900
+      },
+      "art_source/trees/meshy_snow_v1/spruce/tree_detail.glb": {
+        "size": 19107876,
+        "mtime_ns": 1789689833390933400
+      },
+      "art_source/trees/meshy_snow_v1/spruce/tree_finish_40k.json": {
+        "size": 423,
+        "mtime_ns": 1789693901701798400
+      },
+      "art_source/trees/meshy_snow_v1/spruce/tree_finish_80k.json": {
+        "size": 424,
+        "mtime_ns": 1789693984708716700
+      },
+      "art_source/trees/meshy_snow_v1/spruce/tree_finish_detail.json": {
+        "size": 423,
+        "mtime_ns": 1789693980386418700
+      },
+      "art_source/trees/meshy_snow_v1/spruce_green/generation.json": {
+        "size": 1314,
+        "mtime_ns": 1789692806636346400
+      },
+      "art_source/trees/meshy_snow_v1/spruce_green/reference.png": {
+        "size": 2303065,
+        "mtime_ns": 1789692679878929200
+      },
+      "art_source/trees/meshy_snow_v1/spruce_green/reference_prompt.txt": {
+        "size": 1391,
+        "mtime_ns": 1789692782075664200
+      },
+      "art_source/trees/meshy_snow_v1/spruce_green/tree.glb": {
+        "size": 21374488,
+        "mtime_ns": 1789693582307221200
+      },
+      "art_source/trees/meshy_snow_v1/stone_pine/detail_generation.json": {
+        "size": 1085,
+        "mtime_ns": 1789689437301730800
+      },
+      "art_source/trees/meshy_snow_v1/stone_pine/generation.json": {
+        "size": 1095,
+        "mtime_ns": 1789688237930902200
+      },
+      "art_source/trees/meshy_snow_v1/stone_pine/reference.png": {
+        "size": 2594282,
+        "mtime_ns": 1789688109156025800
+      },
+      "art_source/trees/meshy_snow_v1/stone_pine/reference_prompt.txt": {
+        "size": 1167,
+        "mtime_ns": 1789688162251866400
+      },
+      "art_source/trees/meshy_snow_v1/stone_pine/tree.glb": {
+        "size": 16924560,
+        "mtime_ns": 1789688793778046700
+      },
+      "art_source/trees/meshy_snow_v1/stone_pine/tree_detail.glb": {
+        "size": 18452440,
+        "mtime_ns": 1789689835351781600
+      },
+      "art_source/trees/meshy_snow_v1/winter_birch/generation.json": {
+        "size": 1096,
+        "mtime_ns": 1789688237940348100
+      },
+      "art_source/trees/meshy_snow_v1/winter_birch/reference.png": {
+        "size": 2364756,
+        "mtime_ns": 1789688124367754600
+      },
+      "art_source/trees/meshy_snow_v1/winter_birch/reference_prompt.txt": {
+        "size": 1154,
+        "mtime_ns": 1789688162262331800
+      },
+      "art_source/trees/meshy_snow_v1/winter_birch/remesh.json": {
+        "size": 165,
+        "mtime_ns": 1789688833496304900
+      },
+      "art_source/trees/meshy_snow_v1/winter_birch/tree.glb": {
+        "size": 13231524,
+        "mtime_ns": 1789688415640129000
+      },
+      "art_source/trees/meshy_snow_v1/winter_birch_v2/generation.json": {
+        "size": 1029,
+        "mtime_ns": 1789689111711951200
+      },
+      "art_source/trees/meshy_snow_v1/winter_birch_v2/reference.png": {
+        "size": 2639814,
+        "mtime_ns": 1789689060602253200
+      },
+      "art_source/trees/meshy_snow_v1/winter_birch_v2/reference_prompt.txt": {
+        "size": 1168,
+        "mtime_ns": 1789689111713455800
+      },
+      "art_source/trees/meshy_snow_v1/winter_birch_v2/tree.glb": {
+        "size": 16063068,
+        "mtime_ns": 1789689618176479000
+      },
+      "assets/graphics/pc_forest_tree_common.gdshaderinc": {
+        "size": 6368,
+        "mtime_ns": 1789594595745728300
+      },
+      "assets/graphics/pc_lod.gdshaderinc": {
+        "size": 1756,
+        "mtime_ns": 1789567353807814500
+      },
+      "assets/graphics/pc_tree_impostor.gdshader": {
+        "size": 3615,
+        "mtime_ns": 1789594595746728500
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ASSETS.md": {
+        "size": 24111,
+        "mtime_ns": 1789692122976364000
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/alpine_assets.gd": {
+        "size": 21073,
+        "mtime_ns": 1789564235675198500
+      },
+      "scripts/presentation/density_forest.gd": {
+        "size": 9889,
+        "mtime_ns": 1789567353867450300
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/alpine_scenery.gd": {
+        "size": 19893,
+        "mtime_ns": 1789575393302352500
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "tests/performance_descent.gd": {
+        "size": 19684,
+        "mtime_ns": 1789637986647196000
+      }
+    }
+  }
+}

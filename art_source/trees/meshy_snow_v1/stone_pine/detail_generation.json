@@ -1,0 +1,28 @@
+{
+  "ai_model": "meshy-7",
+  "model_type": "standard",
+  "file_path": "C:/Users/hp/Downloads/alpine-apex/art_source/trees/meshy_snow_v1/stone_pine/reference.png",
+  "target_formats": [
+    "glb"
+  ],
+  "should_texture": true,
+  "enable_pbr": true,
+  "texture_resolution": "2k",
+  "should_remesh": true,
+  "topology": "triangle",
+  "target_polycount": 22000,
+  "save_pre_remeshed_model": false,
+  "symmetry_mode": "off",
+  "origin_at": "bottom",
+  "image_enhancement": false,
+  "ultra_mode": true,
+  "texture_prompt": "Swiss stone pine with broad irregular crown. Long dark muted green needles in clustered clumps around thick upturned boughs, substantial soft white snow cushions on top. Weathered rugged brown-gray bark, natural open branching. Neutral matte PBR colors, no ground or props.",
+  "response_format": "json",
+  "submission": {
+    "task_id": "01a0b1cd-90de-7187-b965-ea375bee6682",
+    "status": "PENDING",
+    "message": "3D generation task created successfully. Task ID: 01a0b1cd-90de-7187-b965-ea375bee6682",
+    "estimated_time": "2-3 minutes"
+  },
+  "credits": 35
+}

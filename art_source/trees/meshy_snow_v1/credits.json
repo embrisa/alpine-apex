@@ -1,0 +1,111 @@
+{
+  "authorized_limit": 2250,
+  "starting_balance": 3675,
+  "spent": 395,
+  "reserved": 0,
+  "tasks": [
+    {
+      "species": "fir",
+      "task_id": "01a0b1ba-ac41-7772-8ab0-dbe05577ab3f",
+      "credits": 35
+    },
+    {
+      "species": "spruce",
+      "task_id": "01a0b1ba-97c2-7340-b203-a50abb37af97",
+      "credits": 35
+    },
+    {
+      "species": "stone_pine",
+      "task_id": "01a0b1ba-c0ad-726b-bbcd-2bd3f56364c7",
+      "credits": 35
+    },
+    {
+      "species": "winter_birch",
+      "task_id": "01a0b1ba-d593-7609-a10e-2ae3444785a3",
+      "credits": 35
+    },
+    {
+      "species": "winter_birch",
+      "stage": "mid",
+      "task_id": "01a0b1bf-d16a-71b8-8df3-ae94d1b86092",
+      "credits": 5
+    },
+    {
+      "species": "spruce_mid",
+      "task_id": "01a0b1c4-6844-7657-be1e-7885c769933b",
+      "credits": 5
+    },
+    {
+      "species": "fir_mid",
+      "task_id": "01a0b1c4-6923-77ec-89fe-62a01b0488a6",
+      "credits": 5
+    },
+    {
+      "species": "stone_pine_mid",
+      "task_id": "01a0b1c4-6a05-718e-b290-3c4c03b99375",
+      "credits": 5
+    },
+    {
+      "species": "spruce_high",
+      "task_id": "01a0b1c7-360f-7148-bb82-35a2258bfc4f",
+      "credits": 5
+    },
+    {
+      "species": "fir_high",
+      "task_id": "01a0b1c7-36f7-7045-ad85-ec1cfbfe8081",
+      "credits": 5
+    },
+    {
+      "species": "stone_pine_high",
+      "task_id": "01a0b1c7-37d9-753e-8b57-d0afd02b2f43",
+      "credits": 5
+    },
+    {
+      "species": "winter_birch_v2",
+      "task_id": "01a0b1c8-914c-731e-8680-1f6985d58386",
+      "credits": 35
+    },
+    {
+      "species": "fir",
+      "stage": "detail_generation",
+      "task_id": "01a0b1cd-8526-74c0-afdf-f5f7f80a6bc8",
+      "credits": 35
+    },
+    {
+      "species": "spruce",
+      "stage": "detail_generation",
+      "task_id": "01a0b1cd-79e6-7070-9390-5402a375838b",
+      "credits": 35
+    },
+    {
+      "species": "stone_pine",
+      "stage": "detail_generation",
+      "task_id": "01a0b1cd-90de-7187-b965-ea375bee6682",
+      "credits": 35
+    },
+    {
+      "species": "spruce",
+      "stage": "close_80k_generation",
+      "task_id": "01a0b1fe-1c7d-77ff-ade8-5cea5a9f7ac8",
+      "credits": 35
+    },
+    {
+      "species": "spruce_green",
+      "stage": "80k_generation",
+      "task_id": "01a0b200-a7cb-73ce-9758-ad4df56de714",
+      "credits": 35
+    },
+    {
+      "species": "spruce",
+      "stage": "close_remesh_20000",
+      "task_id": "01a0b208-968d-776d-9350-310f71010d0d",
+      "credits": 5
+    },
+    {
+      "species": "spruce",
+      "stage": "close_remesh_40000",
+      "task_id": "01a0b208-9764-7718-8cb6-ea04b7c21682",
+      "credits": 5
+    }
+  ]
+}

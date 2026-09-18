@@ -151,6 +151,15 @@ acceptance. Verify generated files and receipts before claiming authoring comple
 
 ## Trees
 
+The isolated snowy Meshy species pack is
+[`art_source/trees/meshy_snow_v1/`](../art_source/trees/meshy_snow_v1/README.md).
+It retains spruce, fir, stone pine and winter birch sources, local distance meshes,
+credit/provenance receipts and reversible review producers. The user likes the
+winter atmosphere alongside the existing autumn palette; production integration
+and close-branch refinement remain separate. The pack is excluded from imports
+and does not replace the live forest. Its README owns rebuild steps and the
+compact matched performance result.
+
 The complete prepared replacement family is
 [`art_source/trees/premium_lod_v1/`](../art_source/trees/premium_lod_v1/README.md).
 It contains original seeded recipes, editable near/mid/far and shadow sources,

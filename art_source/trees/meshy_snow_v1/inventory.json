@@ -1,0 +1,260 @@
+{
+  "models": [
+    {
+      "path": "fir/tree.glb",
+      "triangles": 8419,
+      "vertices": 20036,
+      "surfaces": 1,
+      "bytes": 14053208,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
+    },
+    {
+      "path": "fir/tree_detail.glb",
+      "triangles": 19320,
+      "vertices": 45617,
+      "surfaces": 1,
+      "bytes": 18429088,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
+    },
+    {
+      "path": "fir/tree_local_mid.glb",
+      "triangles": 5628,
+      "vertices": 15724,
+      "surfaces": 1,
+      "bytes": 17642084,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": true
+    },
+    {
+      "path": "spruce/tree.glb",
+      "triangles": 7686,
+      "vertices": 18837,
+      "surfaces": 1,
+      "bytes": 17369036,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
+    },
+    {
+      "path": "spruce/tree_close_20k.glb",
+      "triangles": 17945,
+      "vertices": 35275,
+      "surfaces": 1,
+      "bytes": 25011876,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
+    },
+    {
+      "path": "spruce/tree_close_40k.glb",
+      "triangles": 38916,
+      "vertices": 70116,
+      "surfaces": 1,
+      "bytes": 27835876,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
+    },
+    {
+      "path": "spruce/tree_close_80k.glb",
+      "triangles": 72864,
+      "vertices": 162507,
+      "surfaces": 1,
+      "bytes": 23878540,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
+    },
+    {
+      "path": "spruce/tree_detail.glb",
+      "triangles": 21407,
+      "vertices": 50396,
+      "surfaces": 1,
+      "bytes": 19107876,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
+    },
+    {
+      "path": "spruce/tree_finish_40k.glb",
+      "triangles": 38916,
+      "vertices": 70116,
+      "surfaces": 1,
+      "bytes": 27835876,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": true
+    },
+    {
+      "path": "spruce/tree_finish_80k.glb",
+      "triangles": 72864,
+      "vertices": 162507,
+      "surfaces": 1,
+      "bytes": 23878540,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": true
+    },
+    {
+      "path": "spruce/tree_finish_detail.glb",
+      "triangles": 21407,
+      "vertices": 50396,
+      "surfaces": 1,
+      "bytes": 19107876,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": true
+    },
+    {
+      "path": "spruce/tree_local_mid.glb",
+      "triangles": 5540,
+      "vertices": 15321,
+      "surfaces": 1,
+      "bytes": 18135548,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": true
+    },
+    {
+      "path": "spruce_green/tree.glb",
+      "triangles": 61993,
+      "vertices": 144969,
+      "surfaces": 1,
+      "bytes": 21374488,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
+    },
+    {
+      "path": "stone_pine/tree.glb",
+      "triangles": 7063,
+      "vertices": 16402,
+      "surfaces": 1,
+      "bytes": 16924560,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
+    },
+    {
+      "path": "stone_pine/tree_detail.glb",
+      "triangles": 16246,
+      "vertices": 37722,
+      "surfaces": 1,
+      "bytes": 18452440,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
+    },
+    {
+      "path": "stone_pine/tree_local_mid.glb",
+      "triangles": 4868,
+      "vertices": 13494,
+      "surfaces": 1,
+      "bytes": 17824924,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": true
+    },
+    {
+      "path": "winter_birch/tree.glb",
+      "triangles": 4055,
+      "vertices": 8750,
+      "surfaces": 1,
+      "bytes": 13231524,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
+    },
+    {
+      "path": "winter_birch_v2/tree.glb",
+      "triangles": 8570,
+      "vertices": 19245,
+      "surfaces": 1,
+      "bytes": 16063068,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
+    },
+    {
+      "path": "winter_birch_v2/tree_local_mid.glb",
+      "triangles": 3244,
+      "vertices": 8540,
+      "surfaces": 1,
+      "bytes": 15825332,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": true
+    }
+  ],
+  "retired_derived_models": [
+    {
+      "path": "fir/tree_high.glb",
+      "triangles": 6984,
+      "vertices": 12914,
+      "surfaces": 1,
+      "bytes": 20103056,
+      "embedded_images": 3,
+      "opaque": true
+    },
+    {
+      "path": "fir/tree_mid.glb",
+      "triangles": 4794,
+      "vertices": 9411,
+      "surfaces": 1,
+      "bytes": 9085024,
+      "embedded_images": 3,
+      "opaque": true
+    },
+    {
+      "path": "spruce/tree_high.glb",
+      "triangles": 5317,
+      "vertices": 10436,
+      "surfaces": 1,
+      "bytes": 17677724,
+      "embedded_images": 3,
+      "opaque": true
+    },
+    {
+      "path": "spruce/tree_mid.glb",
+      "triangles": 4286,
+      "vertices": 8830,
+      "surfaces": 1,
+      "bytes": 6862768,
+      "embedded_images": 3,
+      "opaque": true
+    },
+    {
+      "path": "stone_pine/tree_high.glb",
+      "triangles": 6483,
+      "vertices": 11915,
+      "surfaces": 1,
+      "bytes": 19568588,
+      "embedded_images": 3,
+      "opaque": true
+    },
+    {
+      "path": "stone_pine/tree_mid.glb",
+      "triangles": 4091,
+      "vertices": 8240,
+      "surfaces": 1,
+      "bytes": 2891440,
+      "embedded_images": 3,
+      "opaque": true
+    },
+    {
+      "path": "winter_birch/tree_mid.glb",
+      "triangles": 1378,
+      "vertices": 2151,
+      "surfaces": 1,
+      "bytes": 17174916,
+      "embedded_images": 3,
+      "opaque": true
+    }
+  ],
+  "note": "GLB accessor counts, no hash audit. Local middle and finishing derivatives are ignored and rebuilt using simplify.py / finish_mesh.py. Rejected remote remesh receipts retained separately."
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "args": {
+      "input_task_id": "01a0b1fe-1c7d-77ff-ade8-5cea5a9f7ac8",
+      "target_polycount": 20000,
+      "topology": "triangle",
+      "target_formats": [
+        "glb"
+      ],
+      "response_format": "json"
+    },
+    "result": {
+      "task_id": "01a0b208-968d-776d-9350-310f71010d0d",
+      "status": "PENDING",
+      "message": "Remesh task created successfully. Task ID: 01a0b208-968d-776d-9350-310f71010d0d",
+      "estimated_time": "1-2 minutes"
+    },
+    "credits": 5
+  },
+  {
+    "args": {
+      "input_task_id": "01a0b1fe-1c7d-77ff-ade8-5cea5a9f7ac8",
+      "target_polycount": 40000,
+      "topology": "triangle",
+      "target_formats": [
+        "glb"
+      ],
+      "response_format": "json"
+    },
+    "result": {
+      "task_id": "01a0b208-9764-7718-8cb6-ea04b7c21682",
+      "status": "PENDING",
+      "message": "Remesh task created successfully. Task ID: 01a0b208-9764-7718-8cb6-ea04b7c21682",
+      "estimated_time": "1-2 minutes"
+    },
+    "credits": 5
+  }
+]

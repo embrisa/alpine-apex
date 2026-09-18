@@ -1,0 +1,46 @@
+{
+  "verdict": "Visually unacceptable close-tree candidates; no timing",
+  "setting": "Current actual game, 4K High, 0.75 Auto FSR 4.1.1, capped 30 FPS, clear/day, GI/FG off",
+  "scope": "Only spruce LOD0 swapped; middle and far retain initial winter prototype",
+  "counts": [
+    {
+      "variant": "current_21k",
+      "triangles": 21407,
+      "vertices": 50396
+    },
+    {
+      "variant": "target_20k",
+      "triangles": 17945,
+      "vertices": 35275
+    },
+    {
+      "variant": "target_40k",
+      "triangles": 38916,
+      "vertices": 70116
+    },
+    {
+      "variant": "cleaned_40k",
+      "triangles": 38916,
+      "vertices": 70116
+    },
+    {
+      "variant": "cleaned_73k",
+      "triangles": 72864,
+      "vertices": 162507
+    }
+  ],
+  "captures": 10,
+  "crown_distances_m": [
+    6,
+    12
+  ],
+  "findings": [
+    "20k/40k same-source remeshes remain folded and angular.",
+    "Snow relaxation and seam-normal smoothing soften shading but leave pointed foliage and source silhouette defects.",
+    "Cleaned 73k retains a fuller crown; it does not meet close-tree quality acceptance.",
+    "Raw textured and clay source views show defects before game wind; branch tagging still needs separate motion review."
+  ],
+  "evidence": "artifacts/meshy_snow_20260918/near_compare/report.json",
+  "performance_measured": false,
+  "production_integrated": false
+}

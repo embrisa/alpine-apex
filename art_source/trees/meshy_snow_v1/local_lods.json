@@ -1,0 +1,50 @@
+[
+  {
+    "species": "spruce",
+    "source": "tree_detail.glb",
+    "output": "tree_local_mid.glb",
+    "target_triangles": 6000,
+    "source_triangles": 21407,
+    "triangles": 5540,
+    "split_nonmanifold_edges": 3418,
+    "collapse_cleanup": true,
+    "height_scale_to_preserve_root_and_tip": 1.0246059873886382,
+    "method": "UV-preserving topology join, split nonmanifold fans, local collapse, smooth normals"
+  },
+  {
+    "species": "fir",
+    "source": "tree_detail.glb",
+    "output": "tree_local_mid.glb",
+    "target_triangles": 6000,
+    "source_triangles": 19320,
+    "triangles": 5628,
+    "split_nonmanifold_edges": 4428,
+    "collapse_cleanup": true,
+    "height_scale_to_preserve_root_and_tip": 1.0162172901098145,
+    "method": "UV-preserving topology join, split nonmanifold fans, local collapse, smooth normals"
+  },
+  {
+    "species": "stone_pine",
+    "source": "tree_detail.glb",
+    "output": "tree_local_mid.glb",
+    "target_triangles": 5000,
+    "source_triangles": 16246,
+    "triangles": 4868,
+    "split_nonmanifold_edges": 3427,
+    "collapse_cleanup": true,
+    "height_scale_to_preserve_root_and_tip": 1.0100427717134206,
+    "method": "UV-preserving topology join, split nonmanifold fans, local collapse, smooth normals"
+  },
+  {
+    "species": "winter_birch_v2",
+    "source": "tree.glb",
+    "output": "tree_local_mid.glb",
+    "target_triangles": 3500,
+    "source_triangles": 8570,
+    "triangles": 3244,
+    "split_nonmanifold_edges": 1025,
+    "collapse_cleanup": true,
+    "height_scale_to_preserve_root_and_tip": 1.0068437334260476,
+    "method": "UV-preserving topology join, split nonmanifold fans, local collapse, smooth normals"
+  }
+]

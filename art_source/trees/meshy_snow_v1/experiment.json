@@ -1,0 +1,123 @@
+{
+  "decision": "Seasonal art prototype retained; no meaningful whole-frame FPS difference; no production integration.",
+  "user_visual_feedback": "User likes both original autumn/summer and snowy winter forest atmospheres. Close branch faceting remains a refinement issue.",
+  "timing_authorization": "User explicitly requested FPS after close/mid visual flaws were reported.",
+  "scope": "15-second current generator-18 lower dense-forest ordinary-input route, one excluded traversal, one warmed original, one candidate; not whole-mountain general acceptance.",
+  "control": {
+    "frame_ms": {
+      "average_fps": 87.1819459864155,
+      "count": 1307,
+      "max": 26.501,
+      "mean": 11.4702647283856,
+      "median_fps": 91.1826388255676,
+      "p50": 10.967,
+      "p95": 15.926,
+      "p99": 21.335,
+      "slowest_one_percent_fps": 43.502038381227
+    },
+    "gpu_ms": {
+      "count": 1307,
+      "max": 10.6780004501343,
+      "mean": 7.45686916002538,
+      "p95": 9.32900047302246,
+      "p99": 10.2170000076294
+    },
+    "render_cpu_ms": {
+      "count": 1307,
+      "max": 4.51100015640259,
+      "mean": 2.07659908251263,
+      "p95": 2.80900001525879,
+      "p99": 3.37700009346008
+    },
+    "submitted_primitives": {
+      "count": 1307,
+      "max": 7793426.0,
+      "mean": 5924611.82555471,
+      "p95": 7305420.0,
+      "p99": 7686695.0
+    },
+    "unfocused_frames": 0,
+    "exact_trace": true
+  },
+  "candidate": {
+    "frame_ms": {
+      "average_fps": 86.8609822002367,
+      "count": 1302,
+      "max": 26.716,
+      "mean": 11.5126490015361,
+      "median_fps": 90.2079292769834,
+      "p50": 11.0855,
+      "p95": 15.55,
+      "p99": 20.971,
+      "slowest_one_percent_fps": 43.4758305436342
+    },
+    "gpu_ms": {
+      "count": 1302,
+      "max": 9.04199981689453,
+      "mean": 7.00182718981613,
+      "p95": 8.43299961090088,
+      "p99": 8.76500034332275
+    },
+    "render_cpu_ms": {
+      "count": 1302,
+      "max": 4.43200016021729,
+      "mean": 2.07437711267427,
+      "p95": 2.82399988174438,
+      "p99": 3.26399993896484
+    },
+    "submitted_primitives": {
+      "count": 1302,
+      "max": 7589418.0,
+      "mean": 5699023.23425499,
+      "p95": 7095671.0,
+      "p99": 7499259.0
+    },
+    "unfocused_frames": 0,
+    "exact_trace": true
+  },
+  "delta": {
+    "fps": -0.32096378617879395,
+    "frame_ms": 0.04238427315050153,
+    "gpu_ms": -0.4550419702092494,
+    "gpu_percent": -6.10231935741381
+  },
+  "settings": {
+    "output": [
+      3840,
+      2160
+    ],
+    "internal": [
+      2880,
+      1620
+    ],
+    "quality": "High",
+    "upscaler": "Auto FSR 4.1.1",
+    "frame_generation": false,
+    "cap": 0,
+    "weather": "clear/day",
+    "terrain_gi": false
+  },
+  "validity": {
+    "focus_lost_frames": 0,
+    "exact_route": true,
+    "scoped_input_changes": [],
+    "screenshots_during_timing": false,
+    "candidate_rows": [
+      3
+    ],
+    "control_rows": [
+      2
+    ],
+    "excluded_rows": [
+      1
+    ]
+  },
+  "credits": {
+    "spent": 315,
+    "authorized": 1500,
+    "remaining_authorization": 1185
+  },
+  "raw_report": "artifacts/pc_environment/meshy-snow-v18/production.json",
+  "visual_report": "artifacts/meshy_snow_20260918/game_review/report.json",
+  "lod1_depth_work": "Not isolated or measured; no LOD-specific depth-work claim."
+}

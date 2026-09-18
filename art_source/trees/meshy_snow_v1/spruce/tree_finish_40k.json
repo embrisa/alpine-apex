@@ -1,0 +1,10 @@
+{
+  "source": "art_source\\trees\\meshy_snow_v1\\spruce\\tree_close_40k.glb",
+  "output": "art_source\\trees\\meshy_snow_v1\\spruce\\tree_finish_40k.glb",
+  "triangles": 38916,
+  "vertices": 70116,
+  "relax_height_fraction": 0.0125,
+  "max_displacement_at_12m": 0.11442780494689941,
+  "method": "Snow-only bounded Taubin relaxation; same-hemisphere area-weighted seam normals",
+  "production_acceptance": false
+}

@@ -1,0 +1,28 @@
+{
+  "ai_model": "meshy-7",
+  "model_type": "standard",
+  "file_path": "C:/Users/hp/Downloads/alpine-apex/art_source/trees/meshy_snow_v1/spruce_green/reference.png",
+  "target_formats": [
+    "glb"
+  ],
+  "should_texture": true,
+  "enable_pbr": true,
+  "texture_resolution": "2k",
+  "should_remesh": true,
+  "topology": "triangle",
+  "target_polycount": 80000,
+  "save_pre_remeshed_model": false,
+  "symmetry_mode": "off",
+  "origin_at": "bottom",
+  "image_enhancement": false,
+  "ultra_mode": true,
+  "texture_prompt": "Mature asymmetric alpine Norway spruce in mid-winter, primarily desaturated deep green needles and gray-brown bark. Moderate uneven snow: small smooth rounded snow cushions resting on upper surfaces of selected branches only, 25-35 percent crown coverage, lower sheltered branches mostly dark green. Keep natural soft curved bough masses, drooping needle fringes, continuous branches, no folded planar snow shards or crystalline spikes. Neutral diffuse PBR material without baked directional shading.",
+  "response_format": "json",
+  "submission": {
+    "task_id": "01a0b200-a7cb-73ce-9758-ad4df56de714",
+    "status": "PENDING",
+    "message": "3D generation task created successfully. Task ID: 01a0b200-a7cb-73ce-9758-ad4df56de714",
+    "estimated_time": "2-3 minutes"
+  },
+  "credits": 35
+}
