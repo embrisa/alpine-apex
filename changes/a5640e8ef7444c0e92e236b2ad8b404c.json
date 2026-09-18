@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "id": "a5640e8ef7444c0e92e236b2ad8b404c",
+  "summary": "Author seasonal Meshy forest backlog task after read-only tree investigation",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Seasonal Meshy forest backlog authoring",
+    "WWW ghost contact and audio-stutter investigation"
+  ],
+  "owned_paths": [
+    "backlog/tasks/AA-20260918-091311-expand-meshy-seasonal-forest-presentation.md"
+  ],
+  "read_paths": [
+    "art_source/trees/meshy_snow_v1/README.md",
+    "assets/graphics/trees/manifest.json",
+    "assets/graphics/trees/winter/manifest.json",
+    "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md",
+    "backlog/completed/AA-20260912-094935-colorful-forest-variety.md",
+    "backlog/completed/AA-20260917-222200-share-far-tree-material-submissions.md",
+    "docs/RENDERING.md",
+    "scripts/presentation/forest_appearance.gd",
+    "scripts/presentation/weather_preferences.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Investigation and backlog authoring only; no solver, tuning, input, contact, or tick behavior changes."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "The task records a future presentation change only; terrain generation, placement authority, and the shared 4 m world remain unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No mountain definitions or generated terrain caches were changed; the future task must preserve physical scenery authority."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No race definitions or course identity changed."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No records were rewritten or invalidated."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "The existing WWW ghost was read-only evidence; it was not edited, trimmed, or regenerated."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No imports, generated scenery, replay payloads, or runtime caches were changed."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "./scripts/backlog.ps1 validate",
+      "result": "passed",
+      "details": "The seasonal Meshy forest task validates as ready and eligible. The investigation changed no production source, asset, runtime, replay, or benchmark files."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-18T09:18:32.290414+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "c6aa92c909b36b7e7b35cd65f2eada90e81d3766",
+      "dev": 117,
+      "modified": true
+    },
+    "inputs": {
+      "art_source/trees/meshy_snow_v1/README.md": {
+        "size": 17064,
+        "mtime_ns": 1789702557053919300
+      },
+      "assets/graphics/trees/manifest.json": {
+        "size": 185318,
+        "mtime_ns": 1789482663058721300
+      },
+      "assets/graphics/trees/winter/manifest.json": {
+        "size": 8188,
+        "mtime_ns": 1789701483771984700
+      },
+      "backlog/blocked/AA-20260914-094136-render-distant-forest-stands.md": {
+        "size": 13875,
+        "mtime_ns": 1789684931988162000
+      },
+      "backlog/completed/AA-20260912-094935-colorful-forest-variety.md": {
+        "size": 21562,
+        "mtime_ns": 1789604108994905900
+      },
+      "backlog/completed/AA-20260917-222200-share-far-tree-material-submissions.md": {
+        "size": 3569,
+        "mtime_ns": 1789687811281975200
+      },
+      "backlog/tasks/AA-20260918-091311-expand-meshy-seasonal-forest-presentation.md": {
+        "size": 7936,
+        "mtime_ns": 1789723108014401000
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/RENDERING.md": {
+        "size": 53942,
+        "mtime_ns": 1789701924505288000
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/forest_appearance.gd": {
+        "size": 3789,
+        "mtime_ns": 1789701654706076800
+      },
+      "scripts/presentation/weather_preferences.gd": {
+        "size": 5280,
+        "mtime_ns": 1789701611569607500
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      }
+    }
+  }
+}
