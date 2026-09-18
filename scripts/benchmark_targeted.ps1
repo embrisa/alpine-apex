@@ -9,6 +9,7 @@ param(
     [ValidateSet(0,60,120)][int]$FrameCap=0,
     [ValidateSet('riding','scenery')][string]$Camera='scenery',
     [ValidateSet('all','off','dense','sparse')][string]$Gravel='all',
+    [ValidateSet('winter','autumn','summer')][string]$ForestStyle='winter',
     [switch]$Capture,
     [switch]$PlanOnly,
     [string]$Output=''
@@ -22,11 +23,11 @@ if ($Capture) { $Repetitions=1 }
 if (-not $Output) { $Output="artifacts/targeted_performance/$Map-$([DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss'))-$([guid]::NewGuid().ToString('N').Substring(0,8))" }
 $destination=[IO.Path]::GetFullPath($Output,$taskRoot)
 $mode='FpsCritical' # Native capture runs also reserve the GPU exclusively.
-$plan=@{map="perf-$Map";width_m=$spec.width_m;length_m=$spec.length_m;cell_m=4;height_samples=8385;objects=@($spec.objects).Count;trees=@($spec.objects | Where-Object tree).Count;rocks=@($spec.objects | Where-Object kind -eq 'mineral').Count;design=$spec.design;full_mountain=$false;seconds=$Seconds;repetitions=$Repetitions;warmup_seconds=3;workload_mode=$mode;resolution=$Resolution;quality='High';render_scale=$RenderScale;upscaler=$Upscaler;frame_cap=$FrameCap;capture=[bool]$Capture;camera=$Camera;gravel=$Gravel;output=$destination;source_verification='scoped_file_metadata';metadata_scope='config/benchmark_metadata_scope.json'}
+$plan=@{map="perf-$Map";width_m=$spec.width_m;length_m=$spec.length_m;cell_m=4;height_samples=8385;objects=@($spec.objects).Count;trees=@($spec.objects | Where-Object tree).Count;rocks=@($spec.objects | Where-Object kind -eq 'mineral').Count;design=$spec.design;full_mountain=$false;seconds=$Seconds;repetitions=$Repetitions;warmup_seconds=3;workload_mode=$mode;resolution=$Resolution;quality='High';render_scale=$RenderScale;upscaler=$Upscaler;frame_cap=$FrameCap;capture=[bool]$Capture;camera=$Camera;gravel=$Gravel;forest_style=$ForestStyle;output=$destination;source_verification='scoped_file_metadata';metadata_scope='config/benchmark_metadata_scope.json'}
 if ($PlanOnly) { $plan | ConvertTo-Json -Depth 6; exit 0 }
 if (Test-Path -LiteralPath $destination) { throw 'Choose a fresh output directory; existing evidence is preserved.' }
 if ($env:ALPINE_VALIDATION_ROOT -ne $taskRoot) {
-    $child=@('-NoProfile','-File',(Join-Path $PSScriptRoot 'benchmark_targeted.ps1'),'-Map',$Map,'-Seconds',"$Seconds",'-Repetitions',"$Repetitions",'-Resolution',$Resolution,'-Upscaler',$Upscaler,'-RenderScale',$RenderScale,'-FrameCap',"$FrameCap",'-Camera',$Camera,'-Gravel',$Gravel,'-Output',$destination)
+    $child=@('-NoProfile','-File',(Join-Path $PSScriptRoot 'benchmark_targeted.ps1'),'-Map',$Map,'-Seconds',"$Seconds",'-Repetitions',"$Repetitions",'-Resolution',$Resolution,'-Upscaler',$Upscaler,'-RenderScale',$RenderScale,'-FrameCap',"$FrameCap",'-Camera',$Camera,'-Gravel',$Gravel,'-ForestStyle',$ForestStyle,'-Output',$destination)
     if ($Capture) { $child+='-Capture' }
     & (Join-Path $PSScriptRoot 'run_guarded.ps1') -FilePath pwsh -Arguments $child -Label ([IO.Path]::GetFileName($destination) -replace '[^a-zA-Z0-9_-]','_') -WorkloadMode $mode -ResourceKeys @("output:$destination") -TimeoutSeconds 1200
     exit $LASTEXITCODE
@@ -41,7 +42,7 @@ $metadataHelper=Join-Path $PSScriptRoot 'benchmark_metadata.py'
 $allStarted=[Diagnostics.Stopwatch]::StartNew()
 for ($trial=1;$trial -le $Repetitions;$trial++) {
     $trialOutput=Join-Path $destination "trial-$trial"
-    $arguments=@('--script','tests/targeted_performance.gd','--',"--map=perf-$Map","--output=$trialOutput","--seconds=$Seconds","--benchmark-resolution=$Resolution",'--graphics-quality=high',"--render-scale=$RenderScale","--upscaler=$Upscaler","--fps-limit=$FrameCap",'--terrain-gi=off','--frame-generation=off','--benchmark-no-captures',"--gravel=$Gravel")
+    $arguments=@('--script','tests/targeted_performance.gd','--',"--map=perf-$Map","--output=$trialOutput","--seconds=$Seconds","--benchmark-resolution=$Resolution",'--graphics-quality=high',"--render-scale=$RenderScale","--upscaler=$Upscaler","--fps-limit=$FrameCap",'--terrain-gi=off','--frame-generation=off','--benchmark-no-captures',"--gravel=$Gravel","--forest-style=$ForestStyle")
     if ($Capture) { $arguments+='--capture-map' }
     if ($Camera -eq 'scenery') { $arguments+='--scenery-camera' }
     $trialStarted=[Diagnostics.Stopwatch]::StartNew()

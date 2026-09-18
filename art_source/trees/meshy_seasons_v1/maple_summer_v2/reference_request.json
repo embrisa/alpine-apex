@@ -1,0 +1,15 @@
+{
+  "request": {
+    "ai_model": "gpt-image-2",
+    "aspect_ratio": "2:3",
+    "prompt": "Realistic 3D videogame asset of one mature mountain maple, whole 10m tree visible. Broad full dense summer crown made of thick rounded overlapping green foliage clusters, substantial opaque leafy masses covering every outer branch, small natural gaps between clusters. NOT sparse, NOT leafless. Detailed maple leaf texture on rounded foliage volumes; forked gray brown bark trunk. Natural asymmetry, full lush crown, softly rounded surfaces. Soft diffuse light, neutral gray background. No ground, pedestal, rocks, roots or snow.",
+    "response_format": "json"
+  },
+  "response": {
+    "task_id": "01a0b408-80ed-772c-917f-8e6889d3d311",
+    "status": "PENDING",
+    "message": "Text-to-image task created successfully. Task ID: 01a0b408-80ed-772c-917f-8e6889d3d311",
+    "estimated_time": "~30 seconds"
+  },
+  "authorized_cost": 9
+}

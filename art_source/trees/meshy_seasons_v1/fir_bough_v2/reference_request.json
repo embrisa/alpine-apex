@@ -1,0 +1,15 @@
+{
+  "request": {
+    "ai_model": "gpt-image-2",
+    "aspect_ratio": "3:2",
+    "prompt": "A realistic videogame 3D asset, single silver fir bough, horizontal cut base left and tip right. Dense broad overlapping rounded cushions of deep green needles, thick opaque foliage volumes with small gaps between layered side shoots. Foliage forms substantial three dimensional masses, no separate hairlike needles. Natural upward sweep, softly rounded detailed surfaces, no flat planes or sharp facets. Neutral gray background, whole branch visible, no snow, no ground, no rocks. Three-quarter view.",
+    "response_format": "json"
+  },
+  "response": {
+    "task_id": "01a0b408-66f6-714e-9b74-6a75c5256a8c",
+    "status": "PENDING",
+    "message": "Text-to-image task created successfully. Task ID: 01a0b408-66f6-714e-9b74-6a75c5256a8c",
+    "estimated_time": "~30 seconds"
+  },
+  "authorized_cost": 9
+}

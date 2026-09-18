@@ -22,7 +22,7 @@ func _valid(key: String, value: Variant) -> bool:
 	if not DEFAULTS.has(key) or typeof(value)!=typeof(DEFAULTS[key]): return false
 	if key=="manual_weather": return value in Rules.PRESETS
 	if key=="manual_time": return value in Rules.TIMES
-	if key=="forest_style": return value>=0 and value<=1
+	if key=="forest_style": return value>=0 and value<=2
 	if key in ["quality","lightning"]: return value>=0 and value<=2
 	return true
 

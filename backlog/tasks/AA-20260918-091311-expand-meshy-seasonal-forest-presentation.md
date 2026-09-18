@@ -1,11 +1,11 @@
 ---
 id: "AA-20260918-091311-expand-meshy-seasonal-forest-presentation"
 title: "Expand Meshy trees across seasonal forest presentation"
-status: ready
+status: in_progress
 priority: P2
 depends_on: []
 created: "2026-09-18T09:13:11Z"
-updated: "2026-09-18T09:18:30Z"
+updated: "2026-09-18T12:58:00Z"
 source_thread: null
 ---
 
@@ -19,9 +19,12 @@ winter Meshy/conifer experiment with legacy generator/TreeDesigner presentation
 assets. Keep the current snowy look as one option, add summer and autumn
 options, and include lighter-snow winter variation so every winter tree is not
 fully buried. The result should improve visual fit, variety and performance
-while keeping the physical mountain and racing experience coherent. Preserve
-those systems by default, but use judgment if a nearby change is genuinely
-needed for a better result.
+while keeping the physical mountain and racing experience coherent. Mountain
+trees and scenery trees should belong to the same seasonal asset family/pool;
+distance-optimized or pre-rendered representations may differ technically but
+should not look like a separate season or legacy forest. Preserve physical
+systems by default, but use judgment if a nearby change is genuinely needed
+for a better result.
 
 This is a direction-setting task for GPT-6 Astra, not a prescriptive recipe.
 Use the evidence below to understand the goal and the current risks, then use
@@ -79,8 +82,9 @@ tree was clean and no source, asset, runtime or benchmark files were changed.
   default.
 - Expand the Meshy collection beyond the current winter conifers so the whole
   visible tree language feels intentional: spruce, fir, pine, birch, dead,
-  broken, golden and maple families, plus the distant and off-map scenery that
-  players actually see.
+  broken, golden and maple families. The same seasonal family/pool should feed
+  trees on the mountain and scenery trees, including any baked, pre-rendered,
+  billboard or impostor representation that players actually see.
 - Give the collection convincing summer, autumn and winter identities. Keep
   winter variation, including some trees with less snow, so the mountain does
   not look copied and fully buried everywhere.
@@ -90,8 +94,18 @@ tree was clean and no source, asset, runtime or benchmark files were changed.
 - Aim for a presentation-only migration and keep racing and physical-world
   behavior stable unless Astra finds a nearby contract that genuinely needs a
   better solution. Do not introduce rocks or terrain as part of tree assets.
-- Preserve asset provenance and stay within the authorized generation budget;
-  surface a decision if that budget is insufficient.
+- The user authorizes up to 2,000 Meshy credits for this collection. Generate
+  the core tree collection first so its style, seasonal language and expected
+  performance are under the project's control. Use suitable already-made
+  community Meshy trees only as a second option for gaps or cases where they
+  clearly fit better; the later worker may use the signed-in external browser
+  or an available Meshy/MCP route to find and download them. Record source,
+  license/usage terms, creator attribution where applicable, download route,
+  generation prompt/variant context where relevant, and credit spend for every
+  adopted or generated asset.
+- Do not spend credits or download assets as part of backlog authoring; those
+  are implementation-stage options for the later worker. Surface a decision if
+  the authorized budget or community licensing is insufficient.
 - This task does not investigate or change the separate reported snow-friction
   audio stutter/frame-drop symptom. That finding needs its own reproduction
   and evidence because ghosts do not contain rendered frame times or audio
@@ -112,7 +126,8 @@ project's normal validation safeguards.
 ## What success looks like
 
 - [ ] The forest reads as one intentional Meshy-led collection across the
-  playable view and scenery, with recognizable summer, autumn and winter
+  playable view and scenery. Mountain and scenery representations share the
+  same seasonal family/pool, with recognizable summer, autumn and winter
   moods, including lighter-snow winter variety.
 - [ ] Birch no longer has an unexplained white-trunk/dark-branch material split,
   and the chosen solution holds together across the distances players see.
@@ -120,12 +135,17 @@ project's normal validation safeguards.
   game's dense alpine character for a misleading benchmark gain. Performance
   should be measured fairly enough to tell whether the improvement generalizes
   beyond the original winter reference.
-- [ ] The implementation respects the project's physical/racing boundaries,
+- [x] The implementation respects the project's physical/racing boundaries,
   or clearly records why a nearby boundary needed to change. Automated,
   rendered, performance and human/controller evidence remain distinguishable.
-- [ ] The task's documentation and development record explain what Astra chose,
+- [x] The task's documentation and development record explain what Astra chose,
   what was accepted or rejected, and what still needs the user's visual and
   controller review.
+- [x] The core collection is generated first or the worker records why a
+      specific community asset was chosen instead; every external or generated
+      tree asset has retained provenance and licensing/usage evidence, and Meshy
+      spend stays within the authorized 2,000 credits unless the user
+      explicitly expands that authorization.
 
 Human acceptance: the user must visually review the seasonal selector and
 play a short controller descent in summer, autumn, heavy-snow winter and
@@ -138,8 +158,38 @@ None
 
 ## Completion record
 
-Pending implementation. The worker should record the outcome, verification
-actually performed, remaining human acceptance, updated documentation and
-commit/push references. No separate task was authored for the audio stutter
-investigation; it remains an independent finding until the user requests that
-follow-up.
+Implementation delivered in the milestone containing
+[`723f475619884a51bd3fca2038694c1f`](../../changes/723f475619884a51bd3fca2038694c1f.json).
+All three catalogues now cover all 30 visible tree slots and their three LODs,
+including the same seasonal pool in distant scenery. Winter remains default,
+mixing retained heavy Meshy snow crowns with lighter new ones. Birch, maple,
+dead and broken stems use coherent Meshy bark; summer/autumn share prepared
+leaf geometry. Physical placements, shadows, branch dynamics and model35 /
+generator18 / race6 / replay7 remain unchanged.
+
+Full-topology source leaves and twelve shallow conifer bough depth slices retain
+detail at a bounded cost; closed conifer volumes, coarse whole-branch cards and
+several retopology candidates were rejected visually. Raw sources, prompts,
+usage evidence and all completed jobs are retained under
+[`meshy_seasons_v1`](../../art_source/trees/meshy_seasons_v1/README.md).
+Balance-verified spend: 796 of 2,000 authorized credits.
+
+Automated: physics56, runtime192 and weather44 passed; final forest1516 and
+colorful-forest247 passed. Native 4K High Auto .75 capped review passed 105,520
+batch checks and covered selectors, texture tiers, off-map pools, 16 stills and
+33 chronological transition captures. Repeated close branch structures and
+occasional crossed twigs remain an appearance-review limitation.
+
+Performance: local summer vegetation 217.99 rendered FPS, p95/p99 6.36/7.51 ms.
+Warmed 15-second Standard winter: 133.55 FPS, p95/p99 9.44/11.94 ms; summer:
+125.66 FPS, 10.38/12.78 ms. Both completed all 1,800 ticks with exact recorded
+outcome, no focus loss, stable scoped inputs, 4K High Auto .75 and no frame
+generation. The older winter control was 118.16 FPS but predates wind-drift snow
+shading; no isolated forest-only percentage gain or stable 120 FPS everywhere
+is claimed. Detailed receipts: `artifacts/meshy_seasons_20260918/REVIEW.md` and
+`artifacts/pc_environment/seasonal-{winter,summer}-slices/production.json`.
+
+Remaining completion gate: user's seasonal appearance/transition review and
+short controller descents in summer, autumn and both winter snow weights.
+Task stays open for that gate. Distant aliasing and the separately requested
+WWW audio/frame stutter investigation retain their own backlog records.

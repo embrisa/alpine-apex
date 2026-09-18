@@ -6,8 +6,11 @@ uniform sampler2D rock_texture : source_color,filter_linear_mipmap,repeat_enable
 uniform sampler2D bark_texture : source_color,filter_linear_mipmap,repeat_enable;
 uniform sampler2D foliage_texture : source_color,filter_linear_mipmap,repeat_disable;
 uniform bool tree_geometry = false;
-uniform bool winter_geometry = false;
+uniform bool seasonal_geometry = false;
+#include "res://assets/graphics/pc_season_color.gdshaderinc"
 uniform sampler2D mesh_albedo : source_color,filter_linear_mipmap_anisotropic,repeat_disable;
+uniform sampler2D mesh_normal : hint_normal,filter_linear_mipmap,repeat_disable;
+uniform bool has_mesh_normal=false;
 uniform float cloud_shade = 1.0;
 uniform float range_end = 6000.0;
 uniform float tree_near_end = 600.0;
@@ -33,14 +36,19 @@ void fragment() {
   // The normal forest's LOD1 encodes wood, needles and modeled snow in
   // vertex alpha. Retain that asset contract rather than tinting the trunk.
   base=COLOR.rgb;
-  if(COLOR.a<.4) base*=texture(bark_texture,UV).rgb;
-  if(winter_geometry && COLOR.a>=.4) base*=texture(mesh_albedo,UV).rgb;
-  if(!winter_geometry && COLOR.a>.65 && COLOR.a<.8) {
+  if(seasonal_geometry) {
+   vec4 sample_color=texture(mesh_albedo,UV);
+   if(COLOR.a>=.4 && sample_color.a<.35) discard;
+   vec3 tex=(source_textured || COLOR.a>=.4)?sample_color.rgb:texture(bark_texture,UV).rgb;
+   base*=season_color(tex,n);
+   if(COLOR.a>=.4 && has_mesh_normal) { NORMAL_MAP=texture(mesh_normal,UV).rgb; NORMAL_MAP_DEPTH=1.0; }
+  } else if(COLOR.a<.4) base*=texture(bark_texture,UV).rgb;
+  if(!seasonal_geometry && COLOR.a>.65 && COLOR.a<.8) {
    vec4 needles=texture(foliage_texture,UV);
    if(needles.a<.5) discard;
    base*=needles.rgb*vec3(.62,.72,.88);
   }
-  snow=COLOR.a>.9?1.0:smoothstep(.72,.97,n.y)*.035*prop_data.x;
+  snow=seasonal_geometry?0.0:(COLOR.a>.9?1.0:smoothstep(.72,.97,n.y)*.035*prop_data.x);
  } else {
   vec3 rock=texture(rock_texture,(prop_world.xz+vec2(prop_world.y*.43,-prop_world.y*.29))*.08).rgb;
   float gray=dot(rock,vec3(.2126,.7152,.0722));

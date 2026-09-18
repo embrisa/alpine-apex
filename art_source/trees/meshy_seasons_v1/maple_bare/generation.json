@@ -1,0 +1,18 @@
+{
+  "request": {
+    "reference": "maple_bare/reference.png",
+    "ai_model": "meshy-7",
+    "target_formats": [
+      "glb"
+    ],
+    "target_polycount": 20000,
+    "ultra_mode": true
+  },
+  "response": {
+    "task_id": "01a0b3fe-3524-72c0-9503-34cf4be35161",
+    "status": "PENDING",
+    "message": "3D generation task created successfully. Task ID: 01a0b3fe-3524-72c0-9503-34cf4be35161",
+    "estimated_time": "2-3 minutes"
+  },
+  "authorized_cost": 35
+}

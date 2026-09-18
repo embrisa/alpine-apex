@@ -1,0 +1,19 @@
+{
+  "request": {
+    "input_task_id": "01a0b44f-8d81-7196-946f-13051b6cd43c",
+    "target_formats": [
+      "glb"
+    ],
+    "topology": "quad",
+    "target_polycount": 3000,
+    "response_format": "json"
+  },
+  "response": {
+    "task_id": "01a0b46f-9574-70ca-8584-e6def1e1d0fd",
+    "status": "PENDING",
+    "message": "Remesh task created successfully. Task ID: 01a0b46f-9574-70ca-8584-e6def1e1d0fd",
+    "estimated_time": "1-2 minutes"
+  },
+  "authorized_cost": 5,
+  "source": "../spruce_bough_full/source.glb"
+}

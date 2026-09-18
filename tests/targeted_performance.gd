@@ -85,6 +85,7 @@ func run() -> void:
 	report.actual_pixels=[pixels.x,pixels.y]
 	report.display=game.display_settings.report(root,pixels)
 	report.graphics=game.graphics.snapshot()
+	report.forest_style=game.forest_appearance.STYLES[game.forest_appearance.active]
 	report.camera_profile="scenery" if scenery_camera else "riding"
 	report.camera=game.camera_settings.snapshot()
 	report.warmup_seconds=(Time.get_ticks_usec()-warm_started)/1000000.0

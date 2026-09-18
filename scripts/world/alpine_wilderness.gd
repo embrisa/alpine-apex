@@ -19,8 +19,8 @@ var apron_build_ms: float = 0.0
 var apron_sources: Array = []
 var terrain_root: Node3D
 var props
-var winter_models:Dictionary={}
-var winter_forest=false
+var forest_models:Dictionary={}
+var forest_style=1
 var placement
 var worker = Callable()
 var job
@@ -96,7 +96,7 @@ func apply_quality(profile, checkpoint: Callable = Callable()) -> void:
 	if _cancelled(revision): _abort(staging,revision); return
 	if terrain_root:
 		remove_child(terrain_root); terrain_root.queue_free()
-	candidate_props.apply_forest_appearance(winter_models,winter_forest)
+	candidate_props.apply_forest_appearance(forest_models,forest_style)
 	terrain_root = staging; props = candidate_props; placement = candidate
 	level = profile.backdrop_tier
 	apply_horizons()
@@ -107,9 +107,9 @@ func apply_quality(profile, checkpoint: Callable = Callable()) -> void:
 	if last_weather: update_weather(last_weather)
 	build_ms = (Time.get_ticks_usec()-begin)/1000.0
 
-func set_forest_appearance(models:Dictionary,winter:bool)->void:
-	winter_models=models;winter_forest=winter
-	if props:props.apply_forest_appearance(models,winter)
+func set_forest_appearance(models:Dictionary,style:int)->void:
+	forest_models=models;forest_style=style
+	if props:props.apply_forest_appearance(models,style)
 
 func _cancelled(revision: int) -> bool:
 	return revision!=build_revision or (job and job.is_cancelled())

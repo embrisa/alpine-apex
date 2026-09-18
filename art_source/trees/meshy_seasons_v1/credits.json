@@ -1,0 +1,214 @@
+{
+  "authorized_limit": 2000,
+  "starting_balance": 3230,
+  "committed_credits": 796,
+  "verified_balance_after_generation": 2434,
+  "verified_spend": 796,
+  "balance_verified_date": "2026-09-18",
+  "tasks": [
+    {
+      "asset": "spruce_bough",
+      "stage": "reference",
+      "task_id": "01a0b3f5-03a7-71e7-8ffd-53a74c4c852e",
+      "credits": 9
+    },
+    {
+      "asset": "spruce_bough",
+      "stage": "source",
+      "task_id": "01a0b3f6-eba4-751d-8e73-33263ed4c38e",
+      "credits": 35
+    },
+    {
+      "asset": "fir_bough",
+      "stage": "reference",
+      "task_id": "01a0b3f5-0c16-7692-9036-b4dd9501f48d",
+      "credits": 9
+    },
+    {
+      "asset": "fir_bough",
+      "stage": "source",
+      "task_id": "01a0b3f6-f8e7-768e-a327-62fe080ff220",
+      "credits": 35
+    },
+    {
+      "asset": "pine_bough",
+      "stage": "reference",
+      "task_id": "01a0b3f5-140e-73a1-9f30-0cb177c202d0",
+      "credits": 9
+    },
+    {
+      "asset": "pine_bough",
+      "stage": "source",
+      "task_id": "01a0b3f7-052d-7327-9e58-fdfe4db7af1c",
+      "credits": 35
+    },
+    {
+      "asset": "birch_summer",
+      "stage": "reference",
+      "task_id": "01a0b3f5-51de-76e5-b8cb-84d194357dbe",
+      "credits": 9
+    },
+    {
+      "asset": "birch_summer",
+      "stage": "source",
+      "task_id": "01a0b3f7-1236-70ea-a366-746beab0e1c6",
+      "credits": 35
+    },
+    {
+      "asset": "maple_summer",
+      "stage": "reference",
+      "task_id": "01a0b3f5-5ad5-712f-992d-3bae0d88babf",
+      "credits": 9
+    },
+    {
+      "asset": "maple_summer",
+      "stage": "source",
+      "task_id": "01a0b3f7-2005-752a-b9d3-2d50721cadbb",
+      "credits": 35
+    },
+    {
+      "asset": "birch_bare",
+      "stage": "reference",
+      "task_id": "01a0b3f5-62d9-7592-a4f7-1b6e2d06a2a2",
+      "credits": 9
+    },
+    {
+      "asset": "birch_bare",
+      "stage": "source",
+      "task_id": "01a0b3f7-2e1b-70be-b9d0-bd157c1829f0",
+      "credits": 35
+    },
+    {
+      "asset": "dead_snag",
+      "stage": "reference",
+      "task_id": "01a0b3f5-6d43-768e-a6cd-1d35179ce69b",
+      "credits": 9
+    },
+    {
+      "asset": "dead_snag",
+      "stage": "source",
+      "task_id": "01a0b3f7-3b6d-7166-807d-e22a9dcb27dd",
+      "credits": 35
+    },
+    {
+      "asset": "broken_tree",
+      "stage": "reference",
+      "task_id": "01a0b3f5-7628-701f-8a75-46f09d2be3e7",
+      "credits": 9
+    },
+    {
+      "asset": "broken_tree",
+      "stage": "source",
+      "task_id": "01a0b3f7-458f-70b6-85d4-cb41ff04d7f2",
+      "credits": 35
+    },
+    {
+      "asset": "maple_bare",
+      "stage": "reference",
+      "task_id": "01a0b3fc-27d5-725c-85ae-2e515d489850",
+      "credits": 9
+    },
+    {
+      "asset": "maple_bare",
+      "stage": "source",
+      "task_id": "01a0b3fe-3524-72c0-9503-34cf4be35161",
+      "credits": 35
+    },
+    {
+      "task_id": "01a0b408-5fd4-7419-a560-53525612f3fe",
+      "credits": 9,
+      "stage": "reference",
+      "asset": "spruce_bough_v2"
+    },
+    {
+      "task_id": "01a0b408-66f6-714e-9b74-6a75c5256a8c",
+      "stage": "reference",
+      "asset": "fir_bough_v2",
+      "credits": 9
+    },
+    {
+      "task_id": "01a0b408-6e7c-74e9-b8fb-d609406d1695",
+      "credits": 9,
+      "stage": "reference",
+      "asset": "pine_bough_v2"
+    },
+    {
+      "credits": 9,
+      "task_id": "01a0b408-790a-73fe-a223-0075ae1986c7",
+      "asset": "birch_summer_v2",
+      "stage": "reference"
+    },
+    {
+      "task_id": "01a0b408-80ed-772c-917f-8e6889d3d311",
+      "credits": 9,
+      "asset": "maple_summer_v2",
+      "stage": "reference"
+    },
+    {
+      "credits": 35,
+      "asset": "spruce_bough_v2",
+      "stage": "source",
+      "task_id": "01a0b40a-883f-7006-aef8-0d7c86008942"
+    },
+    {
+      "credits": 35,
+      "stage": "source",
+      "asset": "fir_bough_v2",
+      "task_id": "01a0b40a-974b-7400-b69a-c714889c35df"
+    },
+    {
+      "stage": "source",
+      "task_id": "01a0b40a-a426-77e8-9645-135642c1932b",
+      "credits": 35,
+      "asset": "pine_bough_v2"
+    },
+    {
+      "stage": "source",
+      "task_id": "01a0b40a-b3f9-726c-852f-89e0e3300daa",
+      "asset": "birch_summer_v2",
+      "credits": 35
+    },
+    {
+      "task_id": "01a0b40a-c2a0-7733-93f4-3cf4d2afdba9",
+      "credits": 35,
+      "asset": "maple_summer_v2",
+      "stage": "source"
+    },
+    {
+      "credits": 35,
+      "task_id": "01a0b412-9bc4-7293-923e-fc7b28ff7af2",
+      "stage": "source",
+      "asset": "birch_summer_full"
+    },
+    {
+      "asset": "maple_summer_full",
+      "credits": 35,
+      "stage": "source",
+      "task_id": "01a0b412-ab22-713b-8a4a-711a236dbc70"
+    },
+    {
+      "asset": "spruce_bough_full",
+      "stage": "source",
+      "task_id": "01a0b44f-8d81-7196-946f-13051b6cd43c",
+      "credits": 35
+    },
+    {
+      "asset": "fir_bough_full",
+      "stage": "source",
+      "task_id": "01a0b44f-9a13-757c-a5f0-c28d75cab432",
+      "credits": 35
+    },
+    {
+      "asset": "pine_bough_full",
+      "stage": "source",
+      "task_id": "01a0b44f-a4a7-73f6-a505-9676b54c41e8",
+      "credits": 35
+    },
+    {
+      "asset": "spruce_bough_retopology",
+      "stage": "remesh",
+      "task_id": "01a0b46f-9574-70ca-8584-e6def1e1d0fd",
+      "credits": 5
+    }
+  ]
+}

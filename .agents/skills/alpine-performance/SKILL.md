@@ -49,13 +49,15 @@ archives require explicit preparation rather than an implicit cold bake.
 
 For local slopes, rocks, vegetation or combined rendering, use the
 [targeted FPS maps](../../../docs/VALIDATION.md#targeted-rendering-and-fps-maps):
-`scripts/benchmark_targeted.ps1 -Map vegetation -PlanOnly`, then a fresh output
+`scripts/benchmark_targeted.ps1 -Map vegetation -ForestStyle winter -PlanOnly`, then a fresh output
 for measurement. Select the corresponding component map; `mixed` combines the
 same placements. The wrapper owns FpsCritical admission and three independent
 short trials by default. Capture separately with `-Capture`; inspect detail and
 overview images. The targeted wrapper defaults to its explicitly recorded
 `-Camera scenery` profile; compare it only with the same framing. Use `-Camera riding`
 to inspect the existing riding configuration. Neither profile writes preferences.
+Record the explicit `-ForestStyle winter|autumn|summer`; compare matching seasonal
+workloads and retain population/quality. A cheaper missing canopy is not a win.
 Read actual population, pixels, complete duration, source/focus
 validity and per-trial frame tails. Follow the targeted guide's schema-2 scoped
 metadata contract: retain and compare the original Python sidecars, including

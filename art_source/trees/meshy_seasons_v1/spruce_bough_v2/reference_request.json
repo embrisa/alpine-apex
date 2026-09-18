@@ -1,0 +1,15 @@
+{
+  "request": {
+    "ai_model": "gpt-image-2",
+    "aspect_ratio": "3:2",
+    "prompt": "A realistic videogame 3D asset, single Norway spruce bough, horizontal cut base left and tip right. Dense thick overlapping rounded cushions of dark green needles, compact opaque foliage volumes with small gaps between side shoots. Foliage forms substantial three dimensional masses, no separate hairlike needles. Natural drooping taper, layered texture, softly rounded detailed surfaces, no flat planes or sharp facets. Neutral gray background, whole branch visible, no snow, no ground, no rocks. Three-quarter view.",
+    "response_format": "json"
+  },
+  "response": {
+    "task_id": "01a0b408-5fd4-7419-a560-53525612f3fe",
+    "status": "PENDING",
+    "message": "Text-to-image task created successfully. Task ID: 01a0b408-5fd4-7419-a560-53525612f3fe",
+    "estimated_time": "~30 seconds"
+  },
+  "authorized_cost": 9
+}

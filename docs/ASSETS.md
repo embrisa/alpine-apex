@@ -151,15 +151,18 @@ acceptance. Verify generated files and receipts before claiming authoring comple
 
 ## Trees
 
-The selectable snowy forest uses `assets/graphics/trees/winter/manifest.json`.
-Its 54 catalogue-sized meshes and 15 compressed texture resources are built from
-[`art_source/trees/meshy_snow_v1/`](../art_source/trees/meshy_snow_v1/README.md):
-one repaired Meshy bough assembled into two spruce crowns, fir and stone pine,
-plus scaled existing bare birches for leafless winter variety. Original production
-assets remain the Autumn colours option. The source pack owns paid-job provenance,
-rebuild commands and compact experiment receipts; it remains excluded from game
-exports. No runtime resource references ignored source or artifact directories.
-
+The three seasonal catalogues use `assets/graphics/trees/seasons/manifest.json`.
+Every visible slot is Meshy-derived, including bare birch, maple, dead and broken
+trees. The retained heavy-snow conifers reference the accepted winter resources;
+new evergreen, lighter-snow and broadleaf sources are owned by
+[`art_source/trees/meshy_seasons_v1/`](../art_source/trees/meshy_seasons_v1/README.md).
+That source pack retains original inputs, generated GLBs, the credit ledger,
+usage terms, rejected candidates and offline rebuild commands. The earlier
+[`meshy_snow_v1`](../art_source/trees/meshy_snow_v1/README.md) pack retains the
+heavy-snow provenance and historical performance receipts. Neither source pack
+is included in game exports. Runtime resources never refer to ignored artifacts.
+The legacy catalogue still owns physical records, placement identities and
+separate shadow proxies; it is no longer a player-selectable visible season.
 The complete prepared replacement family is
 [`art_source/trees/premium_lod_v1/`](../art_source/trees/premium_lod_v1/README.md).
 It contains original seeded recipes, editable near/mid/far and shadow sources,

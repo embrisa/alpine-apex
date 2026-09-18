@@ -1,0 +1,4 @@
+shader_type spatial;
+render_mode cull_disabled;
+#include "res://assets/graphics/pc_forest_vertex.gdshaderinc"
+#include "res://assets/graphics/pc_season_fragment.gdshaderinc"

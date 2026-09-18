@@ -295,10 +295,10 @@ func _ready() -> void:
 	else: world.build(field)
 	if generation_job.is_cancelled(): _cancel_startup(); return
 	forest_appearance.setup(world)
-	var winter_forest:bool=preferences_enabled and weather_preferences.values.forest_style==1
+	var forest_style:int=weather_preferences.values.forest_style if preferences_enabled else 1
 	for argument in OS.get_cmdline_user_args():
-		if argument.begins_with("--forest-style="):winter_forest=argument.get_slice("=",1)=="winter"
-	forest_appearance.select(winter_forest)
+		if argument.begins_with("--forest-style="):forest_style=forest_appearance.STYLES.find(argument.get_slice("=",1))
+	forest_appearance.select(forest_style)
 	generation_job.begin_stage("rider_and_interface",4)
 	generation_job.mutex.lock(); generation_job.expected_stages.rider_and_interface = 6000.0; generation_job.mutex.unlock()
 	crash_collision = preload("res://scripts/world/crash_collision.gd").new()
@@ -1762,7 +1762,7 @@ func _weather_choice(key: String, value: Variant) -> void:
 
 func _set_weather_option(key: String, value: Variant) -> void:
 	weather_preferences.set_value(key,value)
-	if key=="forest_style":forest_appearance.select(weather_preferences.values.forest_style==1)
+	if key=="forest_style":forest_appearance.select(weather_preferences.values.forest_style)
 	if key=="lightning":
 		weather.lightning = weather_preferences.values.lightning
 		_clear_storm_effects()

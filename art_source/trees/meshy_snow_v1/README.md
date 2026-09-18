@@ -251,6 +251,11 @@ name. Normal play still uses the original forest until seasonal integration.
 
 ## Production winter appearance
 
+The following records the original winter milestone. The current three-season
+collection and rebuild route are owned by
+[`../meshy_seasons_v1/README.md`](../meshy_seasons_v1/README.md). This pack remains
+the source of its heavy-snow conifers; the measurements below are retained controls.
+
 The branch-built family is now packaged separately under
 `assets/graphics/trees/winter/`. `scripts/presentation/forest_appearance.gd` owns
 selection; Settings > Weather > Forest appearance preserves the original Autumn

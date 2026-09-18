@@ -1,0 +1,27 @@
+{
+  "request": {
+    "file_path": "C:/Users/hp/Downloads/alpine-apex/art_source/trees/meshy_seasons_v1/birch_summer_v2/reference.png",
+    "ai_model": "meshy-7",
+    "model_type": "standard",
+    "target_formats": [
+      "glb"
+    ],
+    "topology": "triangle",
+    "target_polycount": 32000,
+    "should_remesh": true,
+    "should_texture": true,
+    "enable_pbr": true,
+    "texture_resolution": "2k",
+    "ultra_mode": true,
+    "symmetry_mode": "off",
+    "image_enhancement": false,
+    "response_format": "json"
+  },
+  "response": {
+    "task_id": "01a0b40a-b3f9-726c-852f-89e0e3300daa",
+    "status": "PENDING",
+    "message": "3D generation task created successfully. Task ID: 01a0b40a-b3f9-726c-852f-89e0e3300daa",
+    "estimated_time": "2-3 minutes"
+  },
+  "authorized_cost": 35
+}

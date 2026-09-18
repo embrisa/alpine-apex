@@ -1,0 +1,27 @@
+{
+  "request": {
+    "file_path": "C:/Users/hp/Downloads/alpine-apex/art_source/trees/meshy_seasons_v1/pine_bough_v2/reference.png",
+    "ai_model": "meshy-7",
+    "model_type": "standard",
+    "target_formats": [
+      "glb"
+    ],
+    "topology": "triangle",
+    "target_polycount": 18000,
+    "should_remesh": true,
+    "should_texture": true,
+    "enable_pbr": true,
+    "texture_resolution": "2k",
+    "ultra_mode": true,
+    "symmetry_mode": "off",
+    "image_enhancement": false,
+    "response_format": "json"
+  },
+  "response": {
+    "task_id": "01a0b40a-a426-77e8-9645-135642c1932b",
+    "status": "PENDING",
+    "message": "3D generation task created successfully. Task ID: 01a0b40a-a426-77e8-9645-135642c1932b",
+    "estimated_time": "2-3 minutes"
+  },
+  "authorized_cost": 35
+}

@@ -1,0 +1,15 @@
+{
+  "request": {
+    "ai_model": "gpt-image-2",
+    "aspect_ratio": "2:3",
+    "prompt": "Realistic 3D videogame asset of one mature silver birch, whole 12m tree visible. Full dense green summer crown made of thick rounded overlapping foliage clusters, substantial opaque leafy masses covering every outer branch, small natural gaps between clusters. NOT sparse, NOT leafless. Detailed green leaf texture on rounded foliage volumes; branching ivory bark with charcoal scars. Natural asymmetry, slender trunk, full lush crown. Soft diffuse light, neutral gray background. No ground, pedestal, rocks, roots or snow.",
+    "response_format": "json"
+  },
+  "response": {
+    "task_id": "01a0b408-790a-73fe-a223-0075ae1986c7",
+    "status": "PENDING",
+    "message": "Text-to-image task created successfully. Task ID: 01a0b408-790a-73fe-a223-0075ae1986c7",
+    "estimated_time": "~30 seconds"
+  },
+  "authorized_cost": 9
+}

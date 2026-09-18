@@ -17,6 +17,10 @@ uniform float snow_coverage : hint_range(0.0,1.0)=1.0;
 uniform vec4 contact_anchors[4];
 uniform vec4 contact_angles[48];
 uniform bool contact_active=true;
+// Connected Meshy crowns need a continuous field across shared branch joints.
+// Authored separate boughs retain their exact existing spring/pivot path.
+uniform bool continuous_crown=false;
+uniform vec3 branch_centers[12];
 varying flat float lod_coverage;
 varying flat vec3 leaf_variation;
 varying vec3 world_normal;
@@ -48,14 +52,24 @@ void vertex() {
  leaf_variation=tree_leaf_variation(MODEL_MATRIX[3].xz);
  vec3 anchor=MODEL_MATRIX[3].xyz;
  int cluster=clamp(int(round(UV2.x*16.0)),0,11);
- float pivot_y=UV2.y*32.0;
+ float pivot_y=continuous_crown?0.0:UV2.y*32.0;
  float flex=smoothstep(.12,1.1,length(VERTEX.xz))*smoothstep(.3,1.8,VERTEX.y);
  float nearby=1.0-smoothstep(75.0,170.0,distance(MAIN_CAM_INV_VIEW_MATRIX[3].xyz,anchor));
  vec2 local_wind=vec2(dot(vec3(wind_direction.x,0.0,wind_direction.y),normalize(MODEL_MATRIX[0].xyz)),dot(vec3(wind_direction.x,0.0,wind_direction.y),normalize(MODEL_MATRIX[2].xyz)));
- float phase=wind_time*1.6+float(cluster)*1.83+anchor.x*.13+anchor.z*.19;
+ float phase=wind_time*1.6+(continuous_crown?VERTEX.y*.4:float(cluster)*1.83)+anchor.x*.13+anchor.z*.19;
  vec3 angle=vec3(local_wind.y,0.0,-local_wind.x)*wind_strength*.005*(sin(phase)+.35*sin(phase*.47));
  if(contact_active) for(int slot=0;slot<4;slot++) {
-  if(contact_anchors[slot].w>.5 && dot(anchor-contact_anchors[slot].xyz,anchor-contact_anchors[slot].xyz)<.0025) angle+=contact_angles[slot*12+cluster].xyz;
+  if(contact_anchors[slot].w>.5 && dot(anchor-contact_anchors[slot].xyz,anchor-contact_anchors[slot].xyz)<.0025) {
+   if(continuous_crown) {
+    vec3 response=vec3(0.0); float total=0.0;
+    for(int branch=0;branch<12;branch++) {
+     vec3 delta=VERTEX-branch_centers[branch];
+     float weight=1.0/pow(.2+dot(delta,delta),2.0);
+     response+=contact_angles[slot*12+branch].xyz*weight; total+=weight;
+    }
+    angle+=response/max(total,.00001);
+   } else angle+=contact_angles[slot*12+cluster].xyz;
+  }
  }
  // Dead stems remain stiff; their fine branches retain a little motion.
  float stiffness=((COLOR.a>.05 && COLOR.a<.16) || (COLOR.a>.25 && COLOR.a<.36)) ? .28 : 1.0;
@@ -65,7 +79,7 @@ void vertex() {
  vec3 s=sin(angle),c=cos(angle);
  offset=bend(offset,s,c);
  NORMAL=bend(NORMAL,s,c);
-#ifndef ALPINE_FOREST_MID
+#if !defined(ALPINE_FOREST_MID) || defined(ALPINE_MESHY_NORMALS)
  TANGENT=bend(TANGENT,s,c); BINORMAL=bend(BINORMAL,s,c);
 #endif
  VERTEX=offset+vec3(0.0,pivot_y,0.0);

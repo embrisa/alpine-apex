@@ -2313,22 +2313,37 @@ small fixtures do not establish full-mountain placement or FPS acceptance.
 
 ## Seasonal forest checks
 
-Run `forest_appearance_suite` and `weather_suite` through the usual headless batch.
-The compact suite covers material-free packaged meshes, shared contacts, texture
-tiers, invalid preferences and reversible selection. Main/session integration also
+Run `forest_appearance_suite`, `colorful_forest_suite` and `weather_suite` through the usual headless batch.
+The compact suite covers all 90 visible slots in each of three catalogues, retained
+shadow proxies, shared contacts, texture tiers, background caching and invalid
+preferences. `tests/seasonal_forest_review.gd` captures forced near/mid/far views
+at matched framing without a mountain; pass `--forest-style=summer|autumn|winter`
+and a fresh `--output=artifacts/...` for each. Inspect heavy and lighter conifers,
+birch bark and bare broadleaf branches. Forced catalogue views do not prove LOD
+transitions in motion. Main/session integration also
 requires the unchanged physics/runtime suites. Use the native
 `tests/forest_appearance_playtest.gd` with `--forest-style=winter`, High, Auto .75,
 FG/GI off, cap 30 and staged loading. Explicit FullMountain admission is required
 because it uses retained Standard review cameras in
 `art_source/trees/meshy_snow_v1/game_views.json`; it checks actual startup, switching,
 new streamed batches, background materials and Low-to-High texture changes.
-Read `artifacts/winter_integration/review.json` and inspect the images.
+Use `--review-output=artifacts/...` for a fresh output; inspect its `review.json`
+and images. The producer switches through all three seasons and checks the same
+texture/atlas source on mountain and background trees. Its chronological 6–85 m
+camera sweep captures wind and near/middle/card transitions for each season;
+inspect the close views as well as the broad forest silhouettes.
+
+Use the selected local vegetation FPS map first, with explicit
+`scripts/benchmark_targeted.ps1 -Map vegetation -ForestStyle winter` (or autumn,
+summer). The wrapper records the season and keeps the same population, camera,
+quality and output settings. Use one warmed candidate measurement by default;
+additional season coverage must answer a specific geometry/material cost question.
 
 After visual acceptance, `tests/forest_appearance_cost.gd` uses the same uncapped
 settings, `--scenario-replay --trial-seconds=15 --repetitions=2`, an explicit
 compatible trace and fresh benchmark label, with `--benchmark-no-captures` and
 FpsCritical admission. Exclude row 1 as warm traversal; row 2 is the candidate.
-Include `assets/graphics/trees/winter` and the chosen producer/trace in scoped
-metadata. Reuse the matching saved original control; background integration makes
-this a distinct candidate from the earlier source-only family. These measurements
+Include `assets/graphics/trees/seasons`, its referenced winter assets and the
+chosen producer/trace in scoped metadata. Reuse the matching saved winter control
+when the route/settings remain comparable. These measurements
 are bounded route evidence, not whole-mountain or human skiing acceptance.

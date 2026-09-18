@@ -18,8 +18,12 @@ parser=argparse.ArgumentParser()
 parser.add_argument('source',type=Path)
 parser.add_argument('output',type=Path)
 parser.add_argument('--flip',action='store_true')
+parser.add_argument('--keep-root',action='store_true',help='Keep the authored minimum-X root; use for symmetric projection bounds')
 parser.add_argument('--species',choices=['spruce','fir','stone_pine'],default='spruce')
 parser.add_argument('--seed',type=int,default=18241)
+parser.add_argument('--near-outer',type=int,default=800)
+parser.add_argument('--near-inner',type=int,default=240)
+parser.add_argument('--relax-tips',type=float,default=0.0)
 parser.add_argument('--mid-outer',type=int,default=320)
 parser.add_argument('--mid-inner',type=int,default=96)
 args=parser.parse_args(sys.argv[sys.argv.index('--')+1:])
@@ -53,7 +57,7 @@ for side in [False,True]:
     points=[v for v in coords if (v.x>hi-(hi-lo)*.05 if side else v.x<lo+(hi-lo)*.05)]
     center=sum(points,Vector())/len(points)
     ends.append((sum((v-center).length_squared for v in points)/len(points),center))
-if not args.flip and ends[1][0]<ends[0][0]:
+if not args.flip and not args.keep_root and ends[1][0]<ends[0][0]:
     source.data.transform(Matrix.Rotation(math.pi,4,'Z'))
 coords=[v.co.copy() for v in source.data.vertices]
 lo=min(v.x for v in coords); hi=max(v.x for v in coords)
@@ -86,12 +90,13 @@ for kind,count in [('outer',recipe['outer']),('inner',recipe['inner'])]:
             shade=rng.uniform(.92,1.0)))
 
 report={'source':str(args.source),'source_triangles':original_triangles,
+        'alignment':dict(flip=args.flip,keep_root=args.keep_root,ends=[{'variance':float(e[0]),'center':list(e[1])} for e in ends],root=list(root)),
         'branch_count':len(placements),'seed':args.seed,'species':args.species,'recipe':recipe,'placements':placements,'lods':[],
         'scope':'Source assembly only; visual, wind, game and FPS gates remain.'}
 for lod in [0,1]:
     bpy.ops.object.select_all(action='DESELECT')
     templates={}; branch_triangles={}
-    for kind,target in {'outer':800 if lod==0 else args.mid_outer,'inner':240 if lod==0 else args.mid_inner}.items():
+    for kind,target in {'outer':args.near_outer if lod==0 else args.mid_outer,'inner':args.near_inner if lod==0 else args.mid_inner}.items():
         branch=source.copy(); branch.data=source.data.copy(); bpy.context.collection.objects.link(branch)
         bpy.context.view_layer.objects.active=branch; branch.select_set(True)
         bm=bmesh.new(); bm.from_mesh(branch.data)
@@ -102,6 +107,12 @@ for lod in [0,1]:
         collapse=branch.modifiers.new('Per-bough triangle budget','DECIMATE')
         collapse.ratio=min(1,target/original_triangles); collapse.use_collapse_triangulate=True
         bpy.ops.object.modifier_apply(modifier=collapse.name)
+        if args.relax_tips>0:
+            # Collapse can leave sharp needle wedges even on a closed source.
+            # Relax the final LOD, after its reduction rather than only before it.
+            rounding=branch.modifiers.new('Round reduced bough tips','SMOOTH')
+            rounding.factor=args.relax_tips;rounding.iterations=2
+            bpy.ops.object.modifier_apply(modifier=rounding.name)
         branch.data.validate(clean_customdata=False)
         for p in branch.data.polygons: p.use_smooth=True
         branch_triangles[kind]=sum(len(p.vertices)-2 for p in branch.data.polygons)

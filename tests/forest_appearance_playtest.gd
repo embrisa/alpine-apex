@@ -1,19 +1,21 @@
 extends SceneTree
 ## Actual production startup/selector/streaming, with capped visual captures only.
-const OUT="res://artifacts/winter_integration"
+var OUT="res://artifacts/meshy_seasons_20260918/integration"
 var game
 var camera:Camera3D
 var checked=0
 func _initialize():call_deferred("run")
 func run():
 	assert(OS.get_environment("ALPINE_VALIDATION_MODE")=="Shared")
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--review-output="):OUT="res://"+arg.get_slice("=",1)
 	DirAccess.make_dir_recursive_absolute(OUT)
 	var field=preload("res://tests/validation_mountain.gd").load_standard()
 	assert(field!=null)
 	set_meta("mountain_to_load",{"definition":preload("res://scripts/world/mountain_definition.gd").from_field(field,"Winter integration"),"field":field})
 	game=load("res://main.tscn").instantiate();game.automated=true;root.add_child(game);current_scene=game
 	while not game.initialized or (game.loading and game.loading.busy):await process_frame
-	assert(game.forest_appearance.active,"Explicit winter launch must reach production startup")
+	assert(game.forest_appearance.active==1,"Explicit winter launch must reach production startup")
 	game.set_physics_process(false);game.set_process(false);game.effects.stop_audio()
 	game.hud.hide_menu();game.hud.root.hide();game.skier.hide()
 	game.weather.set_preset("clear");game.weather.set_time_of_day("day");game.world.update_weather(game.weather.state,0,true)
@@ -28,10 +30,31 @@ func run():
 		camera.transform=str_to_var(view.camera)
 		await settle()
 		captures.append(await capture(view.id))
-		if view.id in ["forest_overview_snow","spruce_32m_snow"]:
-			game._set_weather_option("forest_style",0);assert(not game.forest_appearance.active)
-			await settle();captures.append(await capture(view.id.replace("_snow","_autumn")))
-			game._set_weather_option("forest_style",1);assert(game.forest_appearance.active)
+		if view.id in ["forest_overview_snow","spruce_6m_snow","spruce_32m_snow"]:
+			for style in [0,2]:
+				game._set_weather_option("forest_style",style);assert(game.forest_appearance.active==style)
+				await settle();captures.append(await capture(view.id.replace("_snow","_"+game.forest_appearance.STYLES[style])))
+			game._set_weather_option("forest_style",1);assert(game.forest_appearance.active==1)
+	var moving=[]
+	if not overview_only:
+		var near_pose:Transform3D
+		var far_pose:Transform3D
+		for view in views:
+			if view.id=="spruce_6m_snow":near_pose=str_to_var(view.camera)
+			if view.id=="spruce_85m_snow":far_pose=str_to_var(view.camera)
+		for style in [1,2,0]:
+			game._set_weather_option("forest_style",style)
+			camera.transform=near_pose;await settle()
+			for step in 180:
+				camera.transform=near_pose.interpolate_with(far_pose,float(step)/179.0)
+				game.world.assets.update_wind({"wind_velocity":Vector3(4,0,2),"enabled":true},1.0/30.0,true)
+				await process_frame
+				if step%18==0 or step==179:
+					await RenderingServer.frame_post_draw
+					var image=root.get_texture().get_image();image.resize(1920,1080)
+					var path=OUT+"/move_%s_%03d.webp"%[game.forest_appearance.STYLES[style],step]
+					assert(image.save_webp(path,true)==OK);moving.append(path)
+		game._set_weather_option("forest_style",1);await settle()
 	# Texture tier changes reuse the same geometry and restore High for review.
 	var selected=game.world.assets.mesh("forest_spruce_01_lod1")
 	game.set_graphics_quality(0)
@@ -44,7 +67,7 @@ func run():
 	game.hud.root.show();game.hud.open_settings();game.hud.settings_tabs.current_tab=6;game._sync_weather_ui()
 	for frame in 6:await process_frame
 	captures.append(await capture("forest_settings"))
-	var report={"captures":captures,"verified_batches":checked,"production_startup":true,"selector_restore":true,"quality_switch":true,"scope":"Capped production integration views; no FPS or human/controller acceptance"}
+	var report={"captures":captures,"moving_frames":moving,"verified_batches":checked,"production_startup":true,"selector_restore":true,"quality_switch":true,"scope":"Capped production integration views; no FPS or human/controller acceptance"}
 	FileAccess.open(OUT+("/overview_review.json" if overview_only else "/review.json"),FileAccess.WRITE).store_string(JSON.stringify(report,"\t"))
 	print("WINTER_INTEGRATION_OK ",checked)
 	game.queue_free();await process_frame;quit()
@@ -59,7 +82,7 @@ func settle():
 		if lod<0 or lod>2:continue
 		var id=str(node.multimesh.mesh.get_meta("forest_asset",""));var key=id+"_lod"+str(lod)
 		if not game.forest_appearance.replacement.has(key):continue
-		assert(node.multimesh.mesh==(game.forest_appearance.replacement if game.forest_appearance.active else game.forest_appearance.original)[key])
+		assert(node.multimesh.mesh==game.forest_appearance.replacement[key])
 		assert(node.get_meta("forest_tree") and node.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_OFF)
 		checked+=1
 	if game.world.wilderness and game.world.wilderness.props:
@@ -67,8 +90,8 @@ func settle():
 			var key:String=node.get_meta("forest_key","")
 			if key.is_empty():continue
 			var material:ShaderMaterial=node.multimesh.mesh.surface_get_material(0)
-			if game.forest_appearance.active:
-				assert("winter/textures" in material.get_shader_parameter("albedo_texture" if key.ends_with("lod2") else "mesh_albedo").resource_path)
+			var source=game.forest_appearance.replacement[key].surface_get_material(0)
+			assert(material.get_shader_parameter("albedo_texture" if key.ends_with("lod2") else "mesh_albedo").resource_path==str(source.get_meta("forest_texture"))+"_low.res")
 func capture(label:String)->String:
 	await RenderingServer.frame_post_draw
 	var path=OUT+"/"+label+".webp"

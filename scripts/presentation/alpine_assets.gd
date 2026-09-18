@@ -11,6 +11,7 @@ var mountain
 var environment_texture: Texture2D
 var quality
 var meshes: Dictionary = {}
+var tree_shadow_meshes: Dictionary = {}
 var named_materials: Dictionary = {}
 var imported_materials: Dictionary = {}
 var surface_materials: Array[ShaderMaterial] = []
@@ -77,7 +78,9 @@ func apply_quality(profile) -> void:
 		if named_materials.has(id):
 			named_materials[id].set_shader_parameter("albedo_texture",load("res://assets/graphics/textures/spruce_impostor_%d%s.png" % [i,quality.texture_suffix]))
 	for id in named_materials:
-		if named_materials[id].has_meta("winter_texture"):
+		if named_materials[id].has_meta("forest_texture"):
+			set_forest_textures(named_materials[id])
+		elif named_materials[id].has_meta("winter_texture"):
 			set_winter_textures(named_materials[id])
 		elif id in ["PC_Conifer","TD_Conifer","FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"]:
 			named_materials[id].set_shader_parameter("bark_texture",texture("bark","albedo"))
@@ -95,6 +98,17 @@ func apply_quality(profile) -> void:
 			_set_impostor(named_materials[id],id)
 		elif id.begins_with("Tree_"):
 			_set_tree(named_materials[id],id.trim_prefix("Tree_"))
+
+func set_forest_textures(mat:ShaderMaterial)->void:
+	var tier:String=["low","balanced","high"][quality.texture_tier]
+	mat.set_shader_parameter(mat.get_meta("forest_texture_parameter"),load(str(mat.get_meta("forest_texture"))+"_"+tier+".res"))
+	if mat.has_meta("forest_canopy_texture"):
+		mat.set_shader_parameter("canopy_texture",load(str(mat.get_meta("forest_canopy_texture"))+"_"+tier+".res"))
+	if mat.has_meta("forest_normal_texture"):
+		mat.set_shader_parameter("mesh_normal",load(str(mat.get_meta("forest_normal_texture"))+"_"+tier+".res"))
+	if mat.get_meta("forest_texture_parameter")=="mesh_albedo":
+		mat.set_shader_parameter("bark_texture",texture("bark","albedo"))
+		mat.set_shader_parameter("bark_normal",texture("bark","normal"))
 
 func set_winter_textures(mat:ShaderMaterial)->void:
 	var stem:String=mat.get_meta("winter_texture")
@@ -345,7 +359,8 @@ func _set_collection_impostor(mat: ShaderMaterial,id: String) -> void:
 		mat.set_shader_parameter("canopy_texture",load("res://assets/graphics/trees/textures/%s_canopy%s.res" % [stem,suffix]))
 
 func tree_shadow(id: String) -> Mesh:
-	return mesh(id+"_shadow") if tree_record(id).has("shadow") else mesh(id+"_lod1")
+	if not tree_shadow_meshes.has(id):tree_shadow_meshes[id]=mesh(id+"_shadow") if tree_record(id).has("shadow") else mesh(id+"_lod1")
+	return tree_shadow_meshes[id]
 
 func tree_render_bounds(id: String) -> AABB:
 	var box: AABB = mesh(id+"_lod0").get_aabb().merge(mesh(id+"_lod1").get_aabb())

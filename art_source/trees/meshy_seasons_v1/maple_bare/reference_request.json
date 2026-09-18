@@ -1,0 +1,11 @@
+{
+  "request": {
+    "prompt": "Realistic alpine game asset. Isolated full silhouette on pale gray, soft diffuse light. One mature upright LEAFLESS mountain sycamore maple tree, 10 metre proportions. Gray brown textured bark, forked trunk and a broad irregular rounded network of gracefully branching limbs and fine twigs. Very sparse snow rests on upper surfaces of thicker branches. Winter, absolutely no leaves or foliage. Natural asymmetry. No ground, roots, rocks, debris, pedestal, or text."
+  },
+  "response": {
+    "task_id": "01a0b3fc-27d5-725c-85ae-2e515d489850",
+    "status": "PENDING",
+    "message": "Text-to-image task created successfully. Task ID: 01a0b3fc-27d5-725c-85ae-2e515d489850",
+    "estimated_time": "~30 seconds"
+  }
+}

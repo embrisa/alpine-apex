@@ -1,0 +1,27 @@
+{
+  "request": {
+    "file_path": "C:/Users/hp/Downloads/alpine-apex/art_source/trees/meshy_seasons_v1/birch_bare/reference.png",
+    "ai_model": "meshy-7",
+    "model_type": "standard",
+    "target_formats": [
+      "glb"
+    ],
+    "topology": "triangle",
+    "target_polycount": 20000,
+    "should_remesh": true,
+    "should_texture": true,
+    "enable_pbr": true,
+    "texture_resolution": "2k",
+    "ultra_mode": true,
+    "symmetry_mode": "off",
+    "image_enhancement": false,
+    "response_format": "json"
+  },
+  "response": {
+    "task_id": "01a0b3f7-2e1b-70be-b9d0-bd157c1829f0",
+    "status": "PENDING",
+    "message": "3D generation task created successfully. Task ID: 01a0b3f7-2e1b-70be-b9d0-bd157c1829f0",
+    "estimated_time": "2-3 minutes"
+  },
+  "authorized_cost": 35
+}

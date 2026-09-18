@@ -241,7 +241,7 @@ func _sync_output_choices() -> void:
 func _weather(col: Control) -> void:
 	col.add_child(hud._label("Forest appearance",20,hud.WHITE))
 	var forest_style=OptionButton.new()
-	for label in ["Autumn colours","Snowy winter"]:forest_style.add_item(label)
+	for label in ["Autumn colours","Snowy winter","Summer green"]:forest_style.add_item(label)
 	forest_style.item_selected.connect(func(index):hud.weather_option_requested.emit("forest_style",index))
 	col.add_child(forest_style);hud.weather_options.forest_style=forest_style
 	col.add_child(hud._label("Conditions",20,hud.WHITE))

@@ -23,6 +23,11 @@ func check(ok: bool,label: String) -> void:
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	var library=Assets.new(preload("res://scripts/presentation/cloud_lighting.gd").new(),Quality.numbered(7))
+	var scenery=preload("res://scripts/world/alpine_scenery.gd").new();root.add_child(scenery)
+	scenery.assets=library;scenery.quality=Quality.numbered(7)
+	scenery.tree_motion=preload("res://scripts/presentation/tree_motion.gd").new(library,"")
+	var appearance=preload("res://scripts/presentation/forest_appearance.gd").new()
+	appearance.setup({"assets":library,"scenery":scenery,"wilderness":null});appearance.select(0)
 	var metadata=Placement.metadata(library)
 	check(metadata.size()==30,"All catalog assets enter packed metadata")
 	var rows=[]
@@ -66,7 +71,9 @@ func run() -> void:
 			var near: ShaderMaterial=library.mesh(id+"_lod0").surface_get_material(0)
 			var far: ShaderMaterial=library.mesh(id+"_lod2").surface_get_material(0)
 			check(near in library.wind_receivers and near in library.sight_receivers and far in library.sight_receivers,"New material receives wind and canopy sight state")
-			check(near==library.mesh(id+"_lod1").surface_get_material(0),"Detail levels share the broadleaf material")
+			var mid:ShaderMaterial=library.mesh(id+"_lod1").surface_get_material(0)
+			check(near!=mid and mid in library.wind_receivers and mid in library.sight_receivers,"Near and middle retain their distinct shader cost and active publication")
+			check(near.get_shader_parameter("mesh_albedo")==mid.get_shader_parameter("mesh_albedo") and near.get_shader_parameter("autumn_color")==mid.get_shader_parameter("autumn_color"),"Detail levels share source bark, leaves and autumn grading")
 			check(far.get_shader_parameter("authored_canopy")==true,"Far visibility uses an authored canopy mask")
 			var shadow=library.tree_shadow(id)
 			check(shadow.get_faces().size()/3<2000,"Bounded dedicated broadleaf shadow proxy")
@@ -75,18 +82,20 @@ func run() -> void:
 				for strength in [0.0,50.0,100.0]:
 					library.update_foliage_sight(camera,Vector3.ZERO,.1,true,60,strength)
 					check(far.get_shader_parameter("foliage_sight_parameters")==near.get_shader_parameter("foliage_sight_parameters"),"Quality and strength propagate to geometry and cards")
-				for parameter in ["foliage_texture","foliage_normal_ao","leaf_roughness"]:
-					var texture: Texture2D=near.get_shader_parameter(parameter)
-					check(texture!=null and texture.get_width()==[256,512,1024][level] and texture.get_image().has_mipmaps(),"Leaf surface maps retain every quality tier")
+				var texture:Texture2D=near.get_shader_parameter("mesh_albedo")
+				check(texture!=null and texture.get_width()==[1024,2048,4096][level] and texture.get_image().has_mipmaps(),"Source bark and leaves retain every quality tier")
+				check(texture==mid.get_shader_parameter("mesh_albedo"),"Quality changes keep near and middle source textures shared")
 				for parameter in ["albedo_texture","canopy_texture"]:
-					var texture: Texture2D=far.get_shader_parameter(parameter)
-					check(texture!=null and texture.get_width()==[1024,2048,4096][level] and texture.get_image().has_mipmaps(),"Eight-view atlas and canopy mips exist")
-	var motion=preload("res://scripts/presentation/tree_motion.gd").new(library,"res://assets/graphics/trees/branches.json")
+					var atlas: Texture2D=far.get_shader_parameter(parameter)
+					check(atlas!=null and atlas.get_width()==[1024,2048,4096][level] and atlas.get_image().has_mipmaps(),"Eight-view atlas and canopy mips exist")
+	var motion=scenery.tree_motion
 	motion.anchors.fill(Vector4(1,2,3,1)); motion._upload()
-	check(library.named_materials.FC_Broadleaf.get_shader_parameter("contact_anchors")==motion.anchors,"Cosmetic branch contact reaches broadleaf receiver")
+	for id in library.tree_ids():
+		for lod in 2:
+			check(library.mesh(id+"_lod%d"%lod).surface_get_material(0).get_shader_parameter("contact_anchors")==motion.anchors,"Cosmetic branch contact reaches each active seasonal receiver")
 	check(preload("res://scripts/world/generation_sources.gd").dependencies(true).has("res://assets/graphics/trees/models/forest_maple_01_lod0.res"),"New resources participate in scenery identity")
 	check(not preload("res://scripts/world/generation_sources.gd").dependencies(false).has("res://assets/graphics/trees/models/forest_maple_01_lod0.res"),"New artwork stays outside physical identity")
 	var result={"checks":checks,"failures":failures,"seed_samples":rows}
 	DirAccess.make_dir_recursive_absolute("res://artifacts/colorful_forest_variety")
 	preload("res://tests/test_report.gd").write("res://artifacts/colorful_forest_variety/suite.json",JSON.stringify(result,"\t"))
-	print("COLORFUL_FOREST_RESULTS ",JSON.stringify(result)); camera.free(); quit(0 if failures.is_empty() else 1)
+	print("COLORFUL_FOREST_RESULTS ",JSON.stringify(result)); camera.free();scenery.free(); quit(0 if failures.is_empty() else 1)

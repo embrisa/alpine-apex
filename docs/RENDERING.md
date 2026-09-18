@@ -799,19 +799,44 @@ current acceptance receipt.
 
 ## Seasonal forest appearance
 
-`forest_appearance.gd` replaces catalogue render meshes in the asset library,
-resident batches and prepared streaming caches. It leaves physical tree records,
-instance transforms, LOD ranges and separate shadow proxies unchanged. The winter
-family uses opaque modeled snow/needles near and mid, plus matching eight-view
-cards. Both forest detail materials share `pc_forest_vertex.gdshaderinc` for LOD,
-wind, contact motion, sight assistance and cloud lighting. Complete boughs share
-contact tags across near/middle geometry. Quality changes update the winter
-texture tier and bark bindings without rebuilding meshes.
+`forest_appearance.gd` owns three complete presentation catalogues from
+`assets/graphics/trees/seasons/manifest.json`: Autumn colours (0), Snowy winter
+(1), Summer green (2). Winter remains the personal and diagnostic default;
+producers select another season with `--forest-style=autumn|summer`. Preferences
+stay outside the physical mountain, weather/race identity and solver.
 
-The Weather settings Forest appearance selector saves Autumn colours / Snowy
-winter through presentation preferences, outside race/weather identity. Personal
-play defaults to winter; automated producers default to original unless they
-explicitly pass `--forest-style=winter`. Background wilderness retains its own
-fog/horizon/distance shaders while swapping to the same winter crowns and atlases;
-late quality rebuilds inherit the selected appearance. Model and generator versions
-are unchanged. Validation commands live in [Validation](VALIDATION.md#seasonal-forest-checks).
+Every season replaces all 30 visible tree slots at three LODs in the asset
+library, resident batches and prepared streaming caches. Physical tree records,
+instance transforms, density and LOD ranges stay unchanged. Separate shadow
+proxies are retained explicitly, including bare-tree fallback proxies used by
+later streamed batches. Cached inactive seasons receive no per-frame wind,
+contact or foliage-sight publication.
+
+Near/mid crowns use Meshy-derived geometry. New evergreen boughs use twelve
+shallow depth slices with original needle colour, coverage and normals; uncovered
+needle texels are discarded using the existing albedo sample. Both LODs sample
+the needle normal map; middle detail omits close bark detail. Lighter snow is
+baked from original needle normals so it does not reveal the supporting slices.
+Far cards use eight views baked from the same source and seasonal colour function.
+Authored canopy masks retain the foliage-sight aid when green leaves turn red.
+One horizontal scale
+and root/height frame serve all three LODs. Atlas cropping removes empty margins
+without changing silhouette size. Summer/autumn share geometry and source
+textures. Whole-tree materials retain the generated bark; assembled conifers
+use the existing bark texture only on their authored central stem. Odd winter
+conifer variants retain the accepted heavy-snow pack, while even variants expose
+more green foliage beneath lighter upward-facing snow. Winter broadleaves use
+Meshy bare crowns, not differently scaled legacy birches.
+
+`pc_forest_vertex.gdshaderinc` retains the authored whole-bough spring/pivot path.
+Connected whole-tree crowns use a continuous spatial blend of the same physical
+branch responses so adjacent vertices cannot split at discrete contact labels.
+This extra blend executes only for an active contact on the matching nearby
+tree. Texture quality changes bind the corresponding compressed tier without
+rebuilding geometry. All preparation, normalisation and atlas baking are offline.
+
+Background wilderness uses the same selected crowns, atlas crop and seasonal
+colours with its own fog/horizon/distance shaders. New quality rebuilds inherit
+the selected catalogue. Source provenance belongs to
+[Assets](ASSETS.md#trees); checks and acceptance boundaries belong to
+[Validation](VALIDATION.md#seasonal-forest-checks).

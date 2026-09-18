@@ -5,7 +5,7 @@ const Fog = preload("res://scripts/world/wilderness_atmosphere.gd")
 var materials: Array[ShaderMaterial] = []
 var meshes: Dictionary = {}
 var original_forest:Dictionary={}
-var winter_forest:Dictionary={}
+var seasonal_forest:Dictionary={}
 var current_profile
 var triangles = 0
 var instances = 0
@@ -118,34 +118,45 @@ func apply_quality(profile) -> void:
 		var material = node.multimesh.mesh.surface_get_material(0)
 		material.set_shader_parameter("range_end",distance)
 
-func apply_forest_appearance(models:Dictionary,winter:bool)->void:
+func apply_forest_appearance(models:Dictionary,style:int)->void:
 	triangles=0
 	for node in get_children():
 		if not node is MultiMeshInstance3D:continue
 		var key:String=node.get_meta("forest_key","")
 		if models.has(key):
 			if not original_forest.has(key):original_forest[key]=node.multimesh.mesh
-			if winter and not winter_forest.has(key):
+			var cache_key=str(style)+":"+key
+			if not seasonal_forest.has(cache_key):
 				var mesh:Mesh=models[key].duplicate()
 				var mat:ShaderMaterial=original_forest[key].surface_get_material(0).duplicate()
 				var source:ShaderMaterial=models[key].surface_get_material(0)
-				var stem:String=source.get_meta("winter_texture")
+				var config:Dictionary=source.get_meta("forest_appearance")
 				var parameter="albedo_texture" if key.ends_with("lod2") else "mesh_albedo"
-				mat.set_shader_parameter(parameter,load("res://assets/graphics/trees/winter/textures/"+stem+"_low.res"))
-				if parameter=="mesh_albedo":mat.set_shader_parameter("winter_geometry",true)
-				mesh.surface_set_material(0,mat);winter_forest[key]=mesh;materials.append(mat)
-			node.multimesh.mesh=winter_forest[key] if winter else original_forest[key]
+				mat.set_shader_parameter(parameter,load(str(source.get_meta("forest_texture"))+"_low.res"))
+				mat.set_shader_parameter("seasonal_geometry",true)
+				if parameter=="mesh_albedo":
+					if source.has_meta("forest_normal_texture"):
+						mat.set_shader_parameter("mesh_normal",load(str(source.get_meta("forest_normal_texture"))+"_low.res"))
+						mat.set_shader_parameter("has_mesh_normal",true)
+					mat.set_shader_parameter("source_textured",config.get("source_textured",false))
+					mat.set_shader_parameter("autumn_amount",config.get("autumn_amount",0))
+					mat.set_shader_parameter("snow_dusting",config.get("snow_dusting",0))
+					if config.has("autumn_color"):mat.set_shader_parameter("autumn_color",Color(config.autumn_color[0],config.autumn_color[1],config.autumn_color[2]))
+				else:mat.set_shader_parameter("card_crop",config.card_crop)
+				mesh.surface_set_material(0,mat);seasonal_forest[cache_key]=mesh;materials.append(mat)
+			node.multimesh.mesh=seasonal_forest[cache_key]
 			# Union with the old bound covers both crowns and every card bearing.
 			var local=node.multimesh.mesh.get_aabb()
 			if key.ends_with("lod2"):
-				var radius=maxf(absf(local.position.x),absf(local.end.x))*.64
+				var crop=float(node.multimesh.mesh.surface_get_material(0).get_shader_parameter("card_crop"))
+				var radius=maxf(absf(local.position.x),absf(local.end.x))*crop
 				local=AABB(Vector3(-radius,local.position.y,-radius),Vector3(radius*2,local.size.y,radius*2))
 			if not node.has_meta("original_forest_bound"):node.set_meta("original_forest_bound",node.multimesh.custom_aabb)
 			var box:AABB=node.get_meta("original_forest_bound")
 			var buffer:PackedFloat32Array=node.multimesh.buffer
 			# The headless dummy server cannot return uploaded MultiMesh buffers.
 			assert(buffer.size()==node.multimesh.instance_count*16 or DisplayServer.get_name()=="headless")
-			if winter and not buffer.is_empty():
+			if not buffer.is_empty():
 				for i in node.multimesh.instance_count:box=box.merge(pose_at(buffer,i*16)*local)
 			node.multimesh.custom_aabb=box
 		var mesh:Mesh=node.multimesh.mesh
