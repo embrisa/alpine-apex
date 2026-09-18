@@ -1,4 +1,5 @@
 #include "res://assets/graphics/snow_crystals.gdshaderinc"
+#include "res://assets/graphics/snow_ambient.gdshaderinc"
 #define ALPINE_SNOW_TRANSMISSION
 varying vec3 snow_transmission;
 varying vec3 world_pos;

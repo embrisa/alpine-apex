@@ -1,4 +1,5 @@
 void fragment() {
+ IRRADIANCE=vec4(0.0);
 #ifdef ALPINE_OFFMAP
  FOG=offmap_fog(world_pos,CAMERA_POSITION_WORLD);
  vec3 distant_normal=normalize(world_n);
@@ -126,34 +127,44 @@ void fragment() {
  float footprint_m=max(length(dx),length(dy));
  // Deposits settle on open slopes; steep faces and exposed rock shed them.
  float deposit=(1.0-rock)*(1.0-mineral_ice)*snow_drift_relief*smoothstep(.42,.76,n.y);
+ float mid_weight=1.0-smoothstep(1.6,4.6,footprint_m);
+ // Reuse the relief heights for shallow lee tint. Real terrain hollows remain
+ // substantially stronger. No extra field, texture tap, setting or displacement.
+ float lee=(1.0-smoothstep(.25,.65,broad_field.x))*.35;
+ lee+=(1.0-smoothstep(.25,.65,drift_field.x))*.45*mid_weight;
  vec2 drift_slope=broad_field.yz*.013*DRIFT_BROAD_M;
- drift_slope+=drift_field.yz*DRIFT_MID_FREQ*DRIFT_MID_M*(1.0-smoothstep(1.6,4.6,footprint_m));
+ drift_slope+=drift_field.yz*DRIFT_MID_FREQ*DRIFT_MID_M*mid_weight;
  float fine_weight=1.0-smoothstep(.34,1.05,footprint_m);
  if(deposit*fine_weight>.002) {
   vec3 fine_field=value_noise_slope(world_pos.xz*DRIFT_FINE_FREQ+warp*1.7);
   drift_slope+=fine_field.yz*DRIFT_FINE_FREQ*DRIFT_FINE_M*fine_weight;
+  lee+=(1.0-smoothstep(.25,.65,fine_field.x))*.20*fine_weight;
  }
+ lee*=clamp(deposit,0.0,1.0)*smoothstep(0.0,.16,cloud_sun_direction.y)*(1.0-smoothstep(80.0,160.0,distance_m));
+ ALBEDO*=mix(vec3(1.0),vec3(.94,.968,.99),lee);
  drift_slope*=deposit;
  vec3 relief=vec3(.34,0,.94)*ripple*close_snow+vec3(-drift_slope.x,0,-drift_slope.y);
  vec3 final_n=normalize(n+(bump-n*dot(bump,n))*detail*mix(.468,1.0,rock)+relief-n*dot(relief,n));
  AO*=1.0-close_snow*(.5+.5*cos(ripple_phase))*.03375;
+ AO=min(AO,1.0-lee*.035);
  NORMAL=normalize((VIEW_MATRIX*vec4(final_n,0.0)).xyz);
+ IRRADIANCE=snow_sky_ambient(final_n,(1.0-rock)*(1.0-mineral_ice));
  // World-locked crystal facets. Filter subpixel grains instead of animating
  // noise: shimmer comes from the view/sun angle and obeys real/cloud shadows.
  float wind_pack=smoothstep(.45,.9,environment.a);
- float density=mix(1.0,.55,wind_pack)*mix(.85,1.0,drift);
+ float density=mix(1.0,.32,wind_pack)*mix(.85,1.0,drift);
  vec4 crystals=sample_crystals(world_pos,final_n,density,distance_m);
  snow_glints=crystals.w*close_snow;
  snow_facet_normal=normalize((VIEW_MATRIX*vec4(crystals.xyz,0)).xyz);
  vec4 large_crystals=sample_large_crystals(world_pos,final_n,density,distance_m);
  snow_large_glints=large_crystals.w*(1.0-rock)*(1.0-mineral_ice);
  snow_large_facet_normal=normalize((VIEW_MATRIX*vec4(large_crystals.xyz,0)).xyz);
- snow_sheen=(1.0-rock)*(1.0-mineral_ice)*mix(.80,1.0,wind_pack);
+ snow_sheen=(1.0-rock)*(1.0-mineral_ice)*mix(.65,1.4,wind_pack);
  if(powder_local_surface) snow_sheen*=mix(1.0,1.20,powder_compaction);
  // Fine clumps add roughness rather than painting grey dots onto bright snow.
  float grain_filter=1.0-smoothstep(.025,.09,max(length(dx),length(dy)));
  float clumps=value_noise(world_pos.xz*19.0);
- ROUGHNESS=clamp(ROUGHNESS+(clumps-.5)*.05*close_snow*grain_filter-wind_pack*.035*(1.0-rock),.58,1.0);
+ ROUGHNESS=clamp(ROUGHNESS+(clumps-.5)*.05*close_snow*grain_filter-wind_pack*.12*(1.0-rock),.58,1.0);
  if(snow_geometry_debug) {
   ALBEDO=vec3(.45,.50,.56); ROUGHNESS=.9; SPECULAR=0.0;
   NORMAL=normalize((VIEW_MATRIX*vec4(n,0)).xyz); snow_glints=0.0; snow_transmission=vec3(0);
@@ -164,6 +175,7 @@ void fragment() {
  NORMAL=normalize(mix(NORMAL,distant_view_normal,offmap_blend));
  ROUGHNESS=mix(ROUGHNESS,1.0,offmap_blend);
  SPECULAR*=1.0-offmap_blend;
+ IRRADIANCE.a*=1.0-offmap_blend;
  snow_transmission*=1.0-offmap_blend; snow_glints*=1.0-offmap_blend;
  snow_large_glints*=1.0-offmap_blend; snow_sheen*=1.0-offmap_blend;
  }

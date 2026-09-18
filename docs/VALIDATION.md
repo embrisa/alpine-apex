@@ -1559,6 +1559,34 @@ exposes checks for an already-loaded isolated main scene. It changes fixture
 state and must not run on a user's active descent. Batch shared menu, interface,
 race, prompts and physics/runtime checks once, rather than per marker feature.
 
+### Snow tone, sky ambient and wind appearance
+
+`snow_appearance_suite` checks weather/daylight tone bounds, retained environment
+ownership and directional-colour inputs on an environment-only fixture. Pair it
+with graphics overrides, PC graphics, snow readability and native sky radiance
+checks when changing these owners.
+
+`tests/snow_appearance_review.gd` explicitly restores the warm Standard physical
+fixture to sample its actual environment-alpha range and fixed near/mid/far
+lighting. It requires `Exclusive`, `-FullMountain` and a recorded
+`-FullMountainReason`: presentation-source changes can invalidate and refresh
+the scenery preparation cache even when physical terrain is warm. No missing
+physical fixture is generated. Pass a fresh `--output=artifacts/...`; it asserts
+actual 3840×2160, High Auto .75, capped 30 FPS and isolated records/preferences.
+`--tone-study` compares exposure-only with an exposure/white-point alternative;
+`--motion` adds two-second, 240-tick rides at the three sampled wind sites.
+`--supplement` checks initial riding framing, ambient on/off, and lee on/off at
+Auto .75 and native scale. The lee comparison changes only a diagnostic shader
+copy, retaining production relief. Read its recorded camera/tick/weather values
+and inspect the images; these captures are never performance evidence.
+
+Use the matching capture-free `benchmark_targeted.ps1 -Map mixed` route for
+local production-component cost, keeping resolution, upscaler, population and
+forest style fixed. The 256×512 m fixture contains 384 trees, 48 rocks and 8,385
+authoritative heights. Reuse the recorded control average; add a repeat only
+when an unresolved cost/noise question requires it. Separate this result from
+whole-mountain FPS and user snow-look acceptance.
+
 ### Snow contact and local boundary producers
 
 Batch `snow_response_suite.gd`, `snow_contact_visual_suite.gd` and the existing

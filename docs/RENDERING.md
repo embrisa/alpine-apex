@@ -511,9 +511,40 @@ applied through `GraphicsQuality.apply_snow_material`, ramping .40 at preset 1
 to 1.0 at 7 and 1.20 at 10. The measured Apple M4 cost is about +0.35 ms mean
 frame time against a +/-0.2 ms run-to-run noise floor at roughly 24 ms/frame,
 which is near that machine's resolution limit and is not a Windows target
-measurement. Lee-side shading, which would hold the shape on bright sunlit
-faces where tone mapping compresses the tilt, is not implemented; it is
-`backlog/tasks/AA-20260918-011207-shade-wind-drift-lee-sides.md`.
+measurement. The accepted relief now also reuses those three field heights for
+secondary lee shading. Its maximum tint is `(.94,.968,.99)` in linear light,
+well below the real hollow cue; material AO combines with a maximum .035 lee
+reduction by minimum. Mid/fine footprint weights match their relief bands, and
+the whole tint uses the hollow shading's daylight and 80–160 m gates. The
+existing `snow_drift` control governs both normal relief and lee shading.
+
+Daylight tone mapping remains Filmic. `alpine_atmosphere.gd` ramps exposure from
+.90 overcast to .80 clear, paired with white points 1.35 to 2.4; both fade back
+to the existing 1.0/1.0 night values with sun elevation. This moves snow off the
+compressed shoulder without changing source albedo, direct light or adding a
+post pass. Human acceptance of the resulting look remains pending.
+
+Godot's sky ambient is already normal-directed; the environment blends it with
+58% uniform fill. `Atmosphere.snow_ambient` uses the current linear zenith,
+horizon and cloud colours, normalized to the approximate existing fill energy.
+The shared `snow_ambient.gdshaderinc` blends 35% of the result into `IRRADIANCE`
+using the snow normal. This replaces part of ambient rather than adding emission
+or a second light. Terrain, replacement powder, caps and tracks share it. Rock,
+trees and equipment retain the environment's .42 sky contribution; the off-map
+handover fades the snow treatment out with its existing blend. Two shader globals
+are submitted only when the weather colours/energy change, under the existing
+single active-world ownership; there is no new texture, probe, pass or setting.
+
+Wind packing uses the existing environment-mask alpha: the sampled Standard
+skiable snow range is .191–.820, rather than a constant field. Its existing
+`smoothstep(.45,.9,alpha)` now blends crystal density 1.0 to .32, sheen .65 to 1.4,
+and up to .12 roughness reduction (still clamped at .58). No new world mask or
+per-frame terrain work is introduced. Fresh powder caps and compacted tracks
+retain their own material response; they are not consumers of the terrain wind
+mask. The terrain and replacement patch share the wind/lee include and mapping.
+Current paired appearance/cost evidence is in
+`artifacts/snow_appearance_20260918/REVIEW.md`; source appearance and controller
+acceptance remain separate from the bounded measurements.
 
 Ground crystals use the shared `snow_crystals.gdshaderinc` compact hexagonal
 mask. Footprint widening is bounded by each grain's radius; the coarse layer

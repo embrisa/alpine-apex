@@ -1,11 +1,11 @@
 ---
 id: "AA-20260918-092101-light-shaded-snow-from-the-actual-sky"
 title: "Let shaded snow take its colour from the sky it actually faces"
-status: ready
+status: in_progress
 priority: P1
 depends_on: []
 created: "2026-09-18T09:21:01Z"
-updated: "2026-09-18T09:21:01Z"
+updated: "2026-09-18T14:15:00Z"
 source_thread: null
 ---
 
@@ -97,19 +97,19 @@ Rendered macOS probe captures on 2026-09-18 at `main` `a94b93b`, using `scripts/
 
 ## Acceptance and verification
 
-- [ ] Matched dawn, dusk, noon, night, overcast and storm captures show shaded
+- [x] Matched dawn, dusk, noon, night, overcast and storm captures show shaded
   snow taking colour from the sky, with sampled before and after values recorded
   for each.
 - [ ] The dusk disconnect is resolved: the foreground relates to the lit peaks
   instead of reading as neutral grey beside them.
 - [ ] Snow still reads as snow in every condition; no colour cast that looks like
   a filter.
-- [ ] Readability hollows, wind-drift relief, crystals and sheen remain legible
+- [x] Readability hollows, wind-drift relief, crystals and sheen remain legible
   and are captured alongside.
-- [ ] Rock, forest, equipment and the rider do not visually detach from the snow.
-- [ ] Bounded warmed before/after frame comparison; arithmetic only is expected
+- [x] Rock, forest, equipment and the rider do not visually detach from the snow.
+- [x] Bounded warmed before/after frame comparison; arithmetic only is expected
   but confirmed with the noise floor stated.
-- [ ] Update [Rendering](../../docs/RENDERING.md#snow-presentation) and validate
+- [x] Update [Rendering](../../docs/RENDERING.md#snow-presentation) and validate
   the backlog.
 
 Human acceptance: the resulting colour of shaded snow is an art call and is a
@@ -121,4 +121,17 @@ None.
 
 ## Completion record
 
-Pending implementation.
+Shared normal-driven sky ambient implemented. Godot already has directional sky convolution; the improvement targets the dominant uniform-fill blend.
+
+Implemented and measured in the shared snow milestone. Evidence and limitations:
+`artifacts/snow_appearance_20260918/REVIEW.md`. 242 focused headless checks and
+25 native radiance checks pass. At matching 4K High Auto .75, the local mixed
+fixture measured 192.05 FPS; mean frame +.033ms versus the control average,
+within the observed .150ms control spread. This is not whole-mountain acceptance.
+
+The record remains in progress for the user look gate. In particular, isolated
+lee contrast improves in first person but is nearly unchanged in chase Auto;
+soft-snow sheen is intentionally reduced, and the amount of visual variety needs
+user judgement. Initial summit-framed riding stills are superseded by the
+corrected supplement; motion pairs match physical ticks but have camera
+interpolation differences. No human/controller acceptance is claimed.

@@ -1,6 +1,7 @@
 shader_type spatial;
 render_mode cull_back;
 #include "res://assets/graphics/snow_crystals.gdshaderinc"
+#include "res://assets/graphics/snow_ambient.gdshaderinc"
 #define ALPINE_SNOW_TRANSMISSION
 varying vec3 snow_transmission;
 #include "res://assets/cloud_light.gdshaderinc"
@@ -22,6 +23,7 @@ void fragment() {
  vec3 bump=vec3(grain.x,0,grain.y)*.02925*detail*fine;
  n=normalize(n+bump-n*dot(n,bump));
  NORMAL=normalize((VIEW_MATRIX*vec4(n,0)).xyz);
+ IRRADIANCE=snow_sky_ambient(n,1.0);
  ALBEDO=mix(vec3(.74,.84,.93),vec3(.93,.965,.99),smoothstep(-.2,.7,n.y));
  ROUGHNESS=.83+grain.x*.0175*fine;
  SPECULAR=.38;

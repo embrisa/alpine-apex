@@ -1,11 +1,11 @@
 ---
 id: "AA-20260918-011206-show-wind-packed-and-scoured-snow"
 title: "Make wind-packed and scoured snow look different from soft snow"
-status: ready
+status: in_progress
 priority: P2
 depends_on: []
 created: "2026-09-18T01:12:06Z"
-updated: "2026-09-18T01:12:06Z"
+updated: "2026-09-18T14:15:00Z"
 source_thread: null
 ---
 
@@ -78,12 +78,12 @@ Read-only inspection and bounded rendered macOS probes on 2026-09-18 at `main` `
   first-person views.
 - [ ] No false obstacle, false rock or false track reading at speed; check
   specifically against the readability hollows and the ski-track overlay.
-- [ ] Transitions between surface types are gradual, world-locked and stable
+- [x] Transitions between surface types are gradual, world-locked and stable
   under production upscaling; confirm no crawling at grazing angles.
-- [ ] Terrain, local powder patch, powder caps and tracks stay consistent with
+- [x] Terrain, local powder patch, powder caps and tracks stay consistent with
   each other where they meet, since they share the snow material family.
-- [ ] Bounded warmed before/after frame comparison, with the noise floor stated.
-- [ ] Update [Rendering](../../docs/RENDERING.md#snow-presentation) and validate
+- [x] Bounded warmed before/after frame comparison, with the noise floor stated.
+- [x] Update [Rendering](../../docs/RENDERING.md#snow-presentation) and validate
   the backlog.
 
 Human acceptance: the user's judgement of how much variety is right, and whether
@@ -95,4 +95,17 @@ None.
 
 ## Completion record
 
-Pending implementation.
+Existing Standard mask verified (.191–.820); crystal density, sheen and roughness responses strengthened without new data or shader samples.
+
+Implemented and measured in the shared snow milestone. Evidence and limitations:
+`artifacts/snow_appearance_20260918/REVIEW.md`. 242 focused headless checks and
+25 native radiance checks pass. At matching 4K High Auto .75, the local mixed
+fixture measured 192.05 FPS; mean frame +.033ms versus the control average,
+within the observed .150ms control spread. This is not whole-mountain acceptance.
+
+The record remains in progress for the user look gate. In particular, isolated
+lee contrast improves in first person but is nearly unchanged in chase Auto;
+soft-snow sheen is intentionally reduced, and the amount of visual variety needs
+user judgement. Initial summit-framed riding stills are superseded by the
+corrected supplement; motion pairs match physical ticks but have camera
+interpolation differences. No human/controller acceptance is claimed.

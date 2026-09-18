@@ -1,11 +1,11 @@
 ---
 id: "AA-20260918-011207-shade-wind-drift-lee-sides"
 title: "Shade the lee sides of wind drifts so their shape survives bright sun"
-status: ready
+status: in_progress
 priority: P2
 depends_on: ["AA-20260918-011201-restore-snow-highlight-headroom"]
 created: "2026-09-18T01:12:07Z"
-updated: "2026-09-18T08:40:00Z"
+updated: "2026-09-18T14:15:00Z"
 source_thread: null
 ---
 
@@ -87,17 +87,17 @@ Read-only inspection and bounded rendered macOS probes on 2026-09-18 at `main` `
 
 - [ ] Matched deterministic captures at the same solver tick show drift shape
   holding on a bright sunlit face, with recorded local contrast before and after.
-- [ ] Readability hollows remain the dominant terrain cue; capture a location
+- [x] Readability hollows remain the dominant terrain cue; capture a location
   where both are active and confirm the real concavity still reads first.
 - [ ] No dirt, rock or false-shadow reading at any distance, at chase and
   first-person views, under production upscaling.
-- [ ] Night, dusk and overcast behave correctly; the term fades exactly as the
+- [x] Night, dusk and overcast behave correctly; the term fades exactly as the
   readability tint does.
-- [ ] Terrain, local powder patch, powder caps and tracks agree at their
+- [x] Terrain, local powder patch, powder caps and tracks agree at their
   boundaries, since they share the snow material family.
-- [ ] Bounded warmed before/after frame comparison; expected to be arithmetic
+- [x] Bounded warmed before/after frame comparison; expected to be arithmetic
   only, but confirmed with the noise floor stated.
-- [ ] Update [Rendering](../../docs/RENDERING.md#snow-presentation) and validate
+- [x] Update [Rendering](../../docs/RENDERING.md#snow-presentation) and validate
   the backlog.
 
 Human acceptance: a completion gate, since this is a further step in a look the
@@ -108,5 +108,18 @@ user has not yet accepted.
 None.
 ## Completion record
 
-Pending implementation.
+Accepted relief from a94b93bd now reuses its heights for restrained lee tint/minimum AO, following snow_drift and existing gates.
+
+Implemented and measured in the shared snow milestone. Evidence and limitations:
+`artifacts/snow_appearance_20260918/REVIEW.md`. 242 focused headless checks and
+25 native radiance checks pass. At matching 4K High Auto .75, the local mixed
+fixture measured 192.05 FPS; mean frame +.033ms versus the control average,
+within the observed .150ms control spread. This is not whole-mountain acceptance.
+
+The record remains in progress for the user look gate. In particular, isolated
+lee contrast improves in first person but is nearly unchanged in chase Auto;
+soft-snow sheen is intentionally reduced, and the amount of visual variety needs
+user judgement. Initial summit-framed riding stills are superseded by the
+corrected supplement; motion pairs match physical ticks but have camera
+interpolation differences. No human/controller acceptance is claimed.
 

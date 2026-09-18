@@ -1,6 +1,7 @@
 shader_type spatial;
 render_mode blend_mix, depth_draw_never, cull_disabled;
 #include "res://assets/graphics/snow_crystals.gdshaderinc"
+#include "res://assets/graphics/snow_ambient.gdshaderinc"
 #include "res://assets/cloud_light.gdshaderinc"
 #include "res://assets/graphics/snow_readability.gdshaderinc"
 #include "res://assets/graphics/powder_surface.gdshaderinc"
@@ -85,6 +86,7 @@ void fragment() {
  wall+=grain*(.025+imprint_slip*.14);
  vec3 n=normalize(track_up+track_across*wall);
  NORMAL=normalize((VIEW_MATRIX*vec4(n,0)).xyz);
+ IRRADIANCE=snow_sky_ambient(n,1.0);
  // Keep a cheap packed line visible behind the racer; fine relief fades first.
  ALPHA=(1.0-smoothstep(.72,.98,abs(x)))*(1.0-smoothstep(220.0,380.0,track_distance))*.94;
  // The filtered High surface already carries loaded grooves and rounded

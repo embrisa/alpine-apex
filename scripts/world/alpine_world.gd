@@ -264,6 +264,7 @@ func update_weather(state, dt: float, animate: bool) -> void:
 		render_state.assign(moon,&"visible",state.moon_energy>0.001)
 		render_state.assign(environment,&"ambient_light_color",state.ambient_color)
 		render_state.assign(environment,&"ambient_light_energy",state.ambient_energy)
+		_publish_snow_ambient(state)
 		render_state.assign(environment,&"fog_light_color",state.fog_color)
 		render_state.assign(environment,&"fog_density",state.fog_density*quality.fog_strength)
 		render_state.assign(environment,&"fog_sky_affect",0.07 if state.enabled else 0.25)
@@ -290,6 +291,14 @@ func update_weather(state, dt: float, animate: bool) -> void:
 	if camera:
 		if render_state.changed(weather_material,&"cloud_camera_position",camera.global_position):
 			RenderingServer.global_shader_parameter_set(&"cloud_camera_position",camera.global_position)
+
+
+func _publish_snow_ambient(state) -> void:
+	var values = Atmosphere.snow_ambient(state)
+	for i in 2:
+		var key = [&"snow_ambient_top",&"snow_ambient_horizon"][i]
+		if render_state.changed(environment,key,values[i]):
+			RenderingServer.global_shader_parameter_set(key,values[i])
 
 
 func _terrain(checkpoint: Callable = Callable()) -> void:

@@ -1,11 +1,11 @@
 ---
 id: "AA-20260918-011201-restore-snow-highlight-headroom"
 title: "Give sunlit snow tonal headroom so its existing detail survives tone mapping"
-status: ready
+status: in_progress
 priority: P1
 depends_on: []
 created: "2026-09-18T01:12:01Z"
-updated: "2026-09-18T08:40:00Z"
+updated: "2026-09-18T14:15:00Z"
 source_thread: null
 ---
 
@@ -88,14 +88,14 @@ Read-only inspection and bounded rendered macOS probes on 2026-09-18 at `main` `
 
 - [ ] Matched stills across clear noon, low sun, overcast and night show more
   legible snow form with no loss of altitude brightness and no crushed shadows.
-- [ ] Recorded snowfield mean luminance and local contrast before and after, at
+- [x] Recorded snowfield mean luminance and local contrast before and after, at
   the same solver tick and camera, for every lighting condition above.
 - [ ] Crystals, sheen, scanned normal detail and readability hollows are
   demonstrably more visible; each captured in isolation.
-- [ ] Skier, equipment, rock, forest and interface readability are unharmed;
+- [x] Skier, equipment, rock, forest and interface readability are unharmed;
   check the HUD over bright snow explicitly.
-- [ ] Frame cost is expected to be negligible; confirm it rather than assume it.
-- [ ] Update [Rendering](../../docs/RENDERING.md#graphics-and-display), validate
+- [x] Frame cost is expected to be negligible; confirm it rather than assume it.
+- [x] Update [Rendering](../../docs/RENDERING.md#graphics-and-display), validate
   the backlog and push owned changes.
 
 Human acceptance: this changes the look of every frame. The user's approval of
@@ -106,5 +106,18 @@ the resulting exposure is a completion gate.
 None.
 ## Completion record
 
-Pending implementation.
+Paired Filmic daylight exposure/white ramp implemented; night tone preserved.
+
+Implemented and measured in the shared snow milestone. Evidence and limitations:
+`artifacts/snow_appearance_20260918/REVIEW.md`. 242 focused headless checks and
+25 native radiance checks pass. At matching 4K High Auto .75, the local mixed
+fixture measured 192.05 FPS; mean frame +.033ms versus the control average,
+within the observed .150ms control spread. This is not whole-mountain acceptance.
+
+The record remains in progress for the user look gate. In particular, isolated
+lee contrast improves in first person but is nearly unchanged in chase Auto;
+soft-snow sheen is intentionally reduced, and the amount of visual variety needs
+user judgement. Initial summit-framed riding stills are superseded by the
+corrected supplement; motion pairs match physical ticks but have camera
+interpolation differences. No human/controller acceptance is claimed.
 

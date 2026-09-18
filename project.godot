@@ -72,6 +72,15 @@ cloud_sun_direction={
 "value": Vector3(-0.775, 0.407, 0.484)
 }
 
+snow_ambient_top={
+"type": "vec4",
+"value": Vector4(0, 0, 0, 0)
+}
+snow_ambient_horizon={
+"type": "vec4",
+"value": Vector4(0, 0, 0, 0)
+}
+
 [rendering]
 
 rendering_device/driver.windows="d3d12"

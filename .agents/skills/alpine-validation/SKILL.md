@@ -67,6 +67,11 @@ under Exclusive admission, never retry hoping for an automatic bake. Fixture
 boundaries cannot silently shorten required coverage. Report selected dimensions,
 object counts and setup versus execution time with the evidence.
 
+For coupled snow tone, sky ambient and wind appearance, use the focused
+[snow appearance checks](../../../docs/VALIDATION.md#snow-tone-sky-ambient-and-wind-appearance).
+Its capped Standard review requires Exclusive admission because display-source
+edits can refresh scenery preparation; local FPS uses the separate mixed map.
+
 For local scenery/FPS work, use the explicitly selected
 [targeted rendering maps](../../../docs/VALIDATION.md#targeted-rendering-and-fps-maps)
 through `scripts/benchmark_targeted.ps1 -Map rocks -PlanOnly`. Slopes, rocks,
