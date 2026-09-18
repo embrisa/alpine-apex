@@ -2398,3 +2398,30 @@ Include `assets/graphics/trees/seasons`, its referenced winter assets and the
 chosen producer/trace in scoped metadata. Reuse the matching saved winter control
 when the route/settings remain comparable. These measurements
 are bounded route evidence, not whole-mountain or human skiing acceptance.
+
+
+## Directional shadow penumbra
+
+Run `shadow_softness_suite`, `graphics_override_suite` and `pc_graphics_suite`
+through `test_pc_environment.ps1`. The compact environment checks quality
+transitions and custom filtering overrides on both sun and moon.
+
+`tests/shadow_softness_review.gd` extends the targeted FPS producer. Native Shared
+capture: `--map=perf-mixed --output=artifacts/<fresh> --capture-map
+--benchmark-resolution=3840x2160 --graphics-quality=high --upscaler=auto
+--render-scale=0.75 --fps-limit=30 --terrain-gi=off --frame-generation=off
+--forest-style=winter --scenery-camera --benchmark-no-captures`.
+Its default still review compares 0 and 0.53 degrees at presets 4/7/10,
+day/dawn and High moonlight; two capture-only posts distinguish contact from
+caster-separated shadow edges. Add `--shadow-motion --shadow-angle=-1` for
+reference/production moving-camera sequences. Check actual contacts, temporal
+noise and cascade transitions in the images, not just successful dispatch.
+The 256×512 m map retains production trees and rocks; no FullMountain is needed.
+
+For timing omit `--capture-map`, set `--fps-limit=0`, select
+`--shadow-preset=4|7|10 --shadow-angle=0|0.53` and use FpsCritical admission.
+`--shadow-angle=-1` selects the shipped policy, including zero angular size on
+preset4. Six seconds is the default bounded ordinary-input measurement after
+warmup; there are no diagnostic posts or screenshots. Reuse matching controls;
+report frame/GPU costs and tails separately by preset. This is local rendering
+evidence, not full-mountain performance or human art acceptance.

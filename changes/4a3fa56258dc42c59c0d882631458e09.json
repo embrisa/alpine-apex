@@ -1,0 +1,203 @@
+{
+  "schema": 1,
+  "id": "4a3fa56258dc42c59c0d882631458e09",
+  "summary": "Add restrained sun and moon penumbra within High and Ultra shadow budgets",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Directional shadows"
+  ],
+  "owned_paths": [
+    "backlog/QUEUE.md",
+    "backlog/tasks/AA-20260918-011210-soften-sun-shadow-edges-with-distance.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "scripts/world/alpine_world.gd",
+    "tests/shadow_softness_review.gd",
+    "tests/shadow_softness_suite.gd",
+    "backlog/completed/AA-20260918-011210-soften-sun-shadow-edges-with-distance.md"
+  ],
+  "read_paths": [
+    "config/benchmark_metadata_scope.json",
+    "scripts/presentation/graphics_presets.gd",
+    "scripts/presentation/graphics_quality.gd",
+    "tests/scenery_camera.gd",
+    "tests/targeted_performance.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Presentation-only directional angular size; physical terrain, solver, input, race and replay schemas unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Presentation-only directional angular size; physical terrain, solver, input, race and replay schemas unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Presentation-only directional angular size; physical terrain, solver, input, race and replay schemas unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Presentation-only directional angular size; physical terrain, solver, input, race and replay schemas unchanged."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Presentation-only directional angular size; physical terrain, solver, input, race and replay schemas unchanged."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Presentation-only directional angular size; physical terrain, solver, input, race and replay schemas unchanged."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Presentation-only directional angular size; physical terrain, solver, input, race and replay schemas unchanged."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Presentation-only directional angular size; physical terrain, solver, input, race and replay schemas unchanged."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "scripts/test_pc_environment.ps1 -Suites shadow_softness_suite,graphics_override_suite,pc_graphics_suite",
+      "details": "183 checks passed: 45 shadow transitions/custom overrides,116 graphics overrides,22 PC graphics."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "Shared native tests/shadow_softness_review.gd --capture-map; --shadow-motion --shadow-angle=-1",
+      "details": "26 stills and99 moving-camera views at actual4K Auto.75. Presets4/7/10 low/high sun plus High moonlight; original-resolution ski/post crops inspected. 44 matched moving camera pairs. No obvious new contact gaps, acne or cascade seams in finite samples. Report artifacts/shadow_softness_20260918/REVIEW.md."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "FpsCritical tests/shadow_softness_review.gd --map=perf-mixed --seconds=6 --shadow-preset=4|7|10 --shadow-angle=0|0.53; saved Dev125 High control",
+      "details": "Seven new valid runs plus saved High control. 720ticks,exact endpoint,focused,stable metadata. Preset4 candidate rejected:202.30FPS vs212.99/216.20 controls,frame+0.283ms but GPU-0.061ms; causality unproven. High191.78vs192.05FPS,frame+0.007ms/GPU+0.153ms. Ultra153.30vs159.83controlmean,frame+0.267ms/GPU+0.125ms. Preset4/10 A/A frame spread.070/.031ms and GPU.144/.039ms. Explicit visual costs, no zero-cost/stable120FPStails/wholemountain claim."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "git diff --cached --check; python scripts/backlog.py validate --preserve-dirty; python scripts/versioning.py check --note changes/4a3fa56258dc42c59c0d882631458e09.json --staged",
+      "details": "Final owned-scope static and metadata checks form the commit gate."
+    }
+  ],
+  "outstanding_acceptance": [
+    "User review of subjective shadow subtlety is a follow-up; not a task completion gate."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-18T17:20:37.646966+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "0af368b35d70cedde79a07d9af121168609429d3",
+      "dev": 125,
+      "modified": true
+    },
+    "inputs": {
+      "backlog/QUEUE.md": {
+        "size": 6916,
+        "mtime_ns": 1789752022104223600
+      },
+      "backlog/completed/AA-20260918-011210-soften-sun-shadow-edges-with-distance.md": {
+        "size": 6206,
+        "mtime_ns": 1789752022103181000
+      },
+      "backlog/tasks/AA-20260918-011210-soften-sun-shadow-edges-with-distance.md": null,
+      "config/benchmark_metadata_scope.json": {
+        "size": 882,
+        "mtime_ns": 1789661534754346200
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/RENDERING.md": {
+        "size": 61160,
+        "mtime_ns": 1789752022085543500
+      },
+      "docs/VALIDATION.md": {
+        "size": 166413,
+        "mtime_ns": 1789752022101871100
+      },
+      "project.godot": {
+        "size": 2024,
+        "mtime_ns": 1789740071656396900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/graphics_presets.gd": {
+        "size": 5787,
+        "mtime_ns": 1789723182212518900
+      },
+      "scripts/presentation/graphics_quality.gd": {
+        "size": 3488,
+        "mtime_ns": 1789723182213520800
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 28208,
+        "mtime_ns": 1789751738915986800
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "tests/scenery_camera.gd": {
+        "size": 340,
+        "mtime_ns": 1789340198320119000
+      },
+      "tests/shadow_softness_review.gd": {
+        "size": 5777,
+        "mtime_ns": 1789751738916999700
+      },
+      "tests/shadow_softness_suite.gd": {
+        "size": 1776,
+        "mtime_ns": 1789751753717577300
+      },
+      "tests/targeted_performance.gd": {
+        "size": 14193,
+        "mtime_ns": 1789727615520138200
+      }
+    }
+  }
+}

@@ -32,6 +32,9 @@ const terrain_renderer: String = "legacy"
 ## Existing 16/32 m interior LODs retain every 4 m chunk edge. The lower bias
 ## selects them sooner without changing the base mesh or physical terrain.
 const TERRAIN_LOD_BIAS: float = 0.25
+# Existing High+ filtering can resolve this small blocker-dependent penumbra.
+# Lower filtering budgets retain PCF; no extra shadow map, cascade or distance.
+const DIRECTIONAL_ANGULAR_SIZE_DEG: float = 0.53
 var terrain_chunks: Array[MeshInstance3D] = []
 var benchmark_markers: Array[Node3D] = []
 var environment: Environment
@@ -414,6 +417,9 @@ func apply_graphics(profile) -> void:
 	if scenery:
 		scenery.apply_quality(profile)
 	if sun:
+		var angular_size = DIRECTIONAL_ANGULAR_SIZE_DEG if profile.shadow_quality>=2 else 0.0
+		sun.light_angular_distance = angular_size
+		moon.light_angular_distance = angular_size
 		sun.directional_shadow_max_distance = profile.shadow_distance_m
 		moon.directional_shadow_max_distance = profile.shadow_distance_m
 

@@ -337,6 +337,15 @@ response and geometry shadows remain per pixel. Additional directional lights
 would require their own projection contract. Sun/moon active shadow ranges do
 not overlap. Distant decorative background casts no shadows or GI.
 
+Directional penumbra is owned by `alpine_world.apply_graphics`: sun and moon use
+0.53 degrees only when `shadow_quality >= 2` (default presets 7–10). Lower
+filtering retains PCF. User filtering overrides follow the same gate; lowering
+quality clears the angular size again. Godot's blocker search makes contact
+edges crisp and increases penumbra with caster separation, using the existing
+filter budget. Bias 0.035, four cascades, shadow reach and light energy remain
+unchanged. This has a measured GPU cost; it is not free filtering. See
+[directional shadow checks](VALIDATION.md#directional-shadow-penumbra).
+
 ## Animated race ghosts
 
 `ghost_assets.gd` shares immutable production meshes/textures and keeps private

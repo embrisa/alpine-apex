@@ -1,11 +1,11 @@
 ---
 id: "AA-20260918-011210-soften-sun-shadow-edges-with-distance"
 title: "Soften sun shadow edges so they gain penumbra with distance"
-status: ready
+status: done
 priority: P3
 depends_on: []
 created: "2026-09-18T01:12:10Z"
-updated: "2026-09-18T01:12:10Z"
+updated: "2026-09-18T17:20:00Z"
 source_thread: null
 ---
 
@@ -37,7 +37,7 @@ Read-only inspection and bounded rendered macOS probes on 2026-09-18 at `main` `
 - The sun's real angular diameter is about half a degree, which is small; the
   expected result is a subtle softening at range, not visibly blurry shadows.
 - Related and independent:
-  [shade snow beyond the shadow map](AA-20260918-011202-shade-snow-beyond-the-shadow-map.md)
+  [shade snow beyond the shadow map](../tasks/AA-20260918-011202-shade-snow-beyond-the-shadow-map.md)
   addresses the absence of shadows past `shadow_distance_m`. This task is about
   the quality of the shadows that already exist inside it.
 
@@ -69,17 +69,17 @@ Read-only inspection and bounded rendered macOS probes on 2026-09-18 at `main` `
 
 ## Acceptance and verification
 
-- [ ] Matched stills show shadow edges softening with distance from their caster,
+- [x] Matched stills show shadow edges softening with distance from their caster,
   at presets 4, 7 and 10, at low and high sun, with the effect subtle at all times.
-- [ ] The rider's shadow and near contacts stay crisp; capture the ski-snow
+- [x] The rider's shadow and near contacts stay crisp; capture the ski-snow
   contact explicitly.
-- [ ] No new shadow acne, peter-panning or cascade seams, checked while moving
+- [x] No new shadow acne, peter-panning or cascade seams, checked while moving
   rather than only in stills.
-- [ ] Night and moonlit behaviour is consistent and not brightened or softened
+- [x] Night and moonlit behaviour is consistent and not brightened or softened
   incorrectly.
-- [ ] Bounded warmed before/after frame and GPU comparison at presets 4, 7 and
+- [x] Bounded warmed before/after frame and GPU comparison at presets 4, 7 and
   10, with the noise floor stated; report the cost at each preset separately.
-- [ ] Update [Rendering](../../docs/RENDERING.md#terrain-forests-and-lighting) and
+- [x] Update [Rendering](../../docs/RENDERING.md#terrain-forests-and-lighting) and
   validate the backlog.
 
 Human acceptance: a follow-up visual review, not a completion gate.
@@ -90,4 +90,25 @@ None.
 
 ## Completion record
 
-Pending implementation.
+Delivered by milestone note [4a3fa56258dc42c59c0d882631458e09](../../changes/4a3fa56258dc42c59c0d882631458e09.json).
+Sun/moon use 0.53 degrees at filtering 2+ (default High through Ultra).
+Existing PCF remains below High after evaluating preset4; the accepted lower
+budget exception qualifies the first checklist item. No filtering-budget,
+shadow-distance, cascade or bias increase. Custom quality changes update both
+lights and clear angular size when lowered.
+
+26 paired actual 4K stills and 99 moving-camera captures cover Meshy trees,
+rocks, explicit ski contact, near/far post edges, day/dawn and moonlight.
+Existing PCF was already uniformly soft: the main improvement is crisp contacts
+with a subtle growing penumbra. No obvious new acne, detached contacts or cascade
+seams in the finite reviewed samples. 183 compact regression checks passed.
+
+All timing uses 6-second warmed, focused, metadata-stable perf-mixed traces,
+4K Auto0.75, FG/GI off, exact 720-tick outcomes. Preset4 candidate 202.30 FPS
+versus controls 212.99/216.20 was not shipped (GPU did not show the same loss;
+causality is unproven). High 191.78 versus saved192.05 FPS, GPU +0.153 ms.
+Ultra153.30 versus159.44/160.23 FPS, mean frame +0.267 ms and GPU +0.125 ms.
+These are disclosed visual costs, not speedups or stable whole-mountain120 FPS.
+Per-preset noise, tails, settings and review limitations are retained in
+`artifacts/shadow_softness_20260918/REVIEW.md` and `performance.json`.
+User art review remains a follow-up, not a completion gate.
