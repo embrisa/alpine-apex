@@ -1,0 +1,173 @@
+{
+  "scope": "One warmed capture-free 15-second current Standard dense route; not whole-mountain acceptance.",
+  "control_source": "artifacts/pc_environment/meshy-snow-v18/production.json row 2",
+  "candidate_source": "artifacts/pc_environment/winter-production/production.json row 2",
+  "original": {
+    "frame_ms": {
+      "average_fps": 87.1819459864155,
+      "count": 1307,
+      "max": 26.501,
+      "mean": 11.4702647283856,
+      "median_fps": 91.1826388255676,
+      "p50": 10.967,
+      "p95": 15.926,
+      "p99": 21.335,
+      "slowest_one_percent_fps": 43.502038381227
+    },
+    "gpu_ms": {
+      "count": 1307,
+      "max": 10.6780004501343,
+      "mean": 7.45686916002538,
+      "p95": 9.32900047302246,
+      "p99": 10.2170000076294
+    },
+    "render_cpu_ms": {
+      "count": 1307,
+      "max": 4.51100015640259,
+      "mean": 2.07659908251263,
+      "p95": 2.80900001525879,
+      "p99": 3.37700009346008
+    },
+    "draw_calls": {
+      "count": 1307,
+      "max": 1574.0,
+      "mean": 1228.99387911247,
+      "p95": 1485.0,
+      "p99": 1565.0
+    },
+    "submitted_primitives": {
+      "count": 1307,
+      "max": 7793426.0,
+      "mean": 5924611.82555471,
+      "p95": 7305420.0,
+      "p99": 7686695.0
+    },
+    "forest": {
+      "pending_regions": 0,
+      "prepared_bytes": 13404912,
+      "regions": 15257,
+      "render_batches": 6723,
+      "resident_regions": 93
+    },
+    "exact_trace": true,
+    "unfocused_frames": 0,
+    "final_state": [
+      1800,
+      1699.1357421875,
+      2599.48071289062,
+      1478.84069824219,
+      10.0839767456055,
+      -4.1990818977356,
+      2.59044218063354,
+      1.31658364436015
+    ]
+  },
+  "winter": {
+    "frame_ms": {
+      "average_fps": 118.158939528191,
+      "count": 1770,
+      "max": 18.571,
+      "mean": 8.46317683615819,
+      "median_fps": 123.031496062992,
+      "p50": 8.128,
+      "p95": 11.527,
+      "p99": 14.976,
+      "slowest_one_percent_fps": 61.6731937463381
+    },
+    "gpu_ms": {
+      "count": 1770,
+      "max": 8.4379997253418,
+      "mean": 6.5990259876359,
+      "p95": 7.59200000762939,
+      "p99": 8.13000011444092
+    },
+    "render_cpu_ms": {
+      "count": 1770,
+      "max": 3.90199995040894,
+      "mean": 1.59864124261727,
+      "p95": 2.38800001144409,
+      "p99": 2.86100006103516
+    },
+    "draw_calls": {
+      "count": 1770,
+      "max": 1574.0,
+      "mean": 1231.12768361582,
+      "p95": 1486.0,
+      "p99": 1564.0
+    },
+    "submitted_primitives": {
+      "count": 1770,
+      "max": 9760571.0,
+      "mean": 7315811.45310734,
+      "p95": 9350243.0,
+      "p99": 9644907.0
+    },
+    "forest": {
+      "pending_regions": 0,
+      "prepared_bytes": 13404912,
+      "regions": 15257,
+      "render_batches": 6723,
+      "resident_regions": 93
+    },
+    "exact_trace": true,
+    "unfocused_frames": 0,
+    "final_state": [
+      1800,
+      1699.1357421875,
+      2599.48071289062,
+      1478.84069824219,
+      10.0839767456055,
+      -4.1990818977356,
+      2.59044218063354,
+      1.31658364436015
+    ]
+  },
+  "fps_change_percent": 35.531431641365586,
+  "frame_ms_saved": 3.0070878922274087,
+  "gpu_ms_saved": 0.8578431723894795,
+  "settings": {
+    "output_pixels": [
+      3840,
+      2160
+    ],
+    "internal_pixels": [
+      2880,
+      1620
+    ],
+    "quality": "High",
+    "upscaler": "Auto FSR 4.1.1",
+    "frame_generation": false,
+    "terrain_gi": false,
+    "weather": "clear/day",
+    "device": "AMD Radeon RX 9070",
+    "renderer": "DX12 Forward+"
+  },
+  "validity": {
+    "scoped_inputs_stable": true,
+    "matching_route_camera_settings_identity": true,
+    "same_final_state": true,
+    "focus_lost_frames": 0,
+    "warm_traversal_excluded": true,
+    "original_control_reused": true,
+    "winter_background_included": true
+  },
+  "limits": [
+    "One final candidate sample; saved matching original control.",
+    "LOD1 depth work not separately counted.",
+    "No claim of constant 120 FPS across the mountain; frame p99 remains 14.976 ms.",
+    "Human art and controller acceptance remain separate."
+  ],
+  "automated": {
+    "forest_appearance_assertions": 184,
+    "weather_checks": 44,
+    "physics_checks": 56,
+    "runtime_checks": 192
+  },
+  "visuals": [
+    "artifacts/winter_integration/review.json",
+    "artifacts/winter_integration/overview_review.json",
+    "artifacts/meshy_snow_20260918/winter_family/game_round_mid/report.json"
+  ],
+  "credits_spent_total": 445,
+  "credits_authorized_total": 2250
+}

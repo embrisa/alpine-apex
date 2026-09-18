@@ -239,6 +239,11 @@ func _sync_output_choices() -> void:
 		control.select(maxi(0,control.get_meta("values").find(draft.get(key))))
 
 func _weather(col: Control) -> void:
+	col.add_child(hud._label("Forest appearance",20,hud.WHITE))
+	var forest_style=OptionButton.new()
+	for label in ["Autumn colours","Snowy winter"]:forest_style.add_item(label)
+	forest_style.item_selected.connect(func(index):hud.weather_option_requested.emit("forest_style",index))
+	col.add_child(forest_style);hud.weather_options.forest_style=forest_style
 	col.add_child(hud._label("Conditions",20,hud.WHITE))
 	hud.weather_preset = OptionButton.new()
 	for label in ["Clear","Cloudy","Snowfall","Rain","Snowstorm","Thunderstorm"]: hud.weather_preset.add_item(label)

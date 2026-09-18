@@ -2310,3 +2310,25 @@ and real sculpt, normal and material stages. It checks local bank prominence,
 bounded relief and preservation of snow on changed normal stencils. Retain native
 before/after views and contact reproductions for sharp rock/snow steps; these
 small fixtures do not establish full-mountain placement or FPS acceptance.
+
+## Seasonal forest checks
+
+Run `forest_appearance_suite` and `weather_suite` through the usual headless batch.
+The compact suite covers material-free packaged meshes, shared contacts, texture
+tiers, invalid preferences and reversible selection. Main/session integration also
+requires the unchanged physics/runtime suites. Use the native
+`tests/forest_appearance_playtest.gd` with `--forest-style=winter`, High, Auto .75,
+FG/GI off, cap 30 and staged loading. Explicit FullMountain admission is required
+because it uses retained Standard review cameras in
+`art_source/trees/meshy_snow_v1/game_views.json`; it checks actual startup, switching,
+new streamed batches, background materials and Low-to-High texture changes.
+Read `artifacts/winter_integration/review.json` and inspect the images.
+
+After visual acceptance, `tests/forest_appearance_cost.gd` uses the same uncapped
+settings, `--scenario-replay --trial-seconds=15 --repetitions=2`, an explicit
+compatible trace and fresh benchmark label, with `--benchmark-no-captures` and
+FpsCritical admission. Exclude row 1 as warm traversal; row 2 is the candidate.
+Include `assets/graphics/trees/winter` and the chosen producer/trace in scoped
+metadata. Reuse the matching saved original control; background integration makes
+this a distinct candidate from the earlier source-only family. These measurements
+are bounded route evidence, not whole-mountain or human skiing acceptance.

@@ -5,7 +5,7 @@ const Store = preload("res://scripts/ui/preference_store.gd")
 const Rules = preload("res://scripts/presentation/weather_rules.gd")
 const PATH = "user://weather_v1.cfg"
 const DEFAULTS = {"automatic":true,"time_cycle":true,"random_weather":true,"random_time":true,
-	"rare_storms":true,"quality":2,"lightning":2,"manual_weather":"clear","manual_time":"day"}
+	"forest_style":1,"rare_storms":true,"quality":2,"lightning":2,"manual_weather":"clear","manual_time":"day"}
 var values: Dictionary = DEFAULTS.duplicate()
 var last_weather = ""
 var last_band = ""
@@ -22,6 +22,7 @@ func _valid(key: String, value: Variant) -> bool:
 	if not DEFAULTS.has(key) or typeof(value)!=typeof(DEFAULTS[key]): return false
 	if key=="manual_weather": return value in Rules.PRESETS
 	if key=="manual_time": return value in Rules.TIMES
+	if key=="forest_style": return value>=0 and value<=1
 	if key in ["quality","lightning"]: return value>=0 and value<=2
 	return true
 

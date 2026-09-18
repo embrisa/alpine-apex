@@ -772,3 +772,22 @@ placement and solver boundaries belong to [World](WORLD.md#cosmetic-rock-gravel)
 Use [cosmetic gravel checks](VALIDATION.md#cosmetic-gravel-checks) for matched
 off/dense/sparse/all measurements, separate local and mountain scopes, and the
 current acceptance receipt.
+
+## Seasonal forest appearance
+
+`forest_appearance.gd` replaces catalogue render meshes in the asset library,
+resident batches and prepared streaming caches. It leaves physical tree records,
+instance transforms, LOD ranges and separate shadow proxies unchanged. The winter
+family uses opaque modeled snow/needles near and mid, plus matching eight-view
+cards. Both forest detail materials share `pc_forest_vertex.gdshaderinc` for LOD,
+wind, contact motion, sight assistance and cloud lighting. Complete boughs share
+contact tags across near/middle geometry. Quality changes update the winter
+texture tier and bark bindings without rebuilding meshes.
+
+The Weather settings Forest appearance selector saves Autumn colours / Snowy
+winter through presentation preferences, outside race/weather identity. Personal
+play defaults to winter; automated producers default to original unless they
+explicitly pass `--forest-style=winter`. Background wilderness retains its own
+fog/horizon/distance shaders while swapping to the same winter crowns and atlases;
+late quality rebuilds inherit the selected appearance. Model and generator versions
+are unchanged. Validation commands live in [Validation](VALIDATION.md#seasonal-forest-checks).

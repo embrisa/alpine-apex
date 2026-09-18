@@ -245,3 +245,7 @@ For generated snow banks and terrain joins, use the compact
 [production-stage check](../../../docs/VALIDATION.md#terrain-snow-banks-and-rounded-joins)
 and matched native views. Validate local prominence rather than added grid height
 alone, and preserve snow material after rebuilding the changed surface normals.
+
+For selectable forest appearances, follow [seasonal forest checks](../../../docs/VALIDATION.md#seasonal-forest-checks).
+Use explicit `--forest-style=winter` for automated winter validation; personal
+preferences must not silently change retained original-forest fixtures.

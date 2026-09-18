@@ -151,14 +151,14 @@ acceptance. Verify generated files and receipts before claiming authoring comple
 
 ## Trees
 
-The isolated snowy Meshy species pack is
-[`art_source/trees/meshy_snow_v1/`](../art_source/trees/meshy_snow_v1/README.md).
-It retains spruce, fir, stone pine and winter birch sources, local distance meshes,
-credit/provenance receipts and reversible review producers. The user likes the
-winter atmosphere alongside the existing autumn palette; production integration
-and close-branch refinement remain separate. The pack is excluded from imports
-and does not replace the live forest. Its README owns rebuild steps and the
-compact matched performance result.
+The selectable snowy forest uses `assets/graphics/trees/winter/manifest.json`.
+Its 54 catalogue-sized meshes and 15 compressed texture resources are built from
+[`art_source/trees/meshy_snow_v1/`](../art_source/trees/meshy_snow_v1/README.md):
+one repaired Meshy bough assembled into two spruce crowns, fir and stone pine,
+plus scaled existing bare birches for leafless winter variety. Original production
+assets remain the Autumn colours option. The source pack owns paid-job provenance,
+rebuild commands and compact experiment receipts; it remains excluded from game
+exports. No runtime resource references ignored source or artifact directories.
 
 The complete prepared replacement family is
 [`art_source/trees/premium_lod_v1/`](../art_source/trees/premium_lod_v1/README.md).

@@ -4,6 +4,9 @@ const Placement = preload("res://scripts/world/wilderness_instances.gd")
 const Fog = preload("res://scripts/world/wilderness_atmosphere.gd")
 var materials: Array[ShaderMaterial] = []
 var meshes: Dictionary = {}
+var original_forest:Dictionary={}
+var winter_forest:Dictionary={}
+var current_profile
 var triangles = 0
 var instances = 0
 var upload_ms = 0.0
@@ -76,6 +79,7 @@ func build(placement, landscape, profile, checkpoint: Callable = Callable(), job
 		var node = MultiMeshInstance3D.new()
 		node.name = "Batch_%s_%d" % [key,index]; node.multimesh = multi
 		node.set_meta("kind",group.kind)
+		if group.kind!="rock":node.set_meta("forest_key",Placement.TREE_IDS[group.asset]+("_lod1" if group.kind=="near" else "_lod2"))
 		node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
 		# Node culling is deliberately conservative; per-instance shader ranges
@@ -103,6 +107,7 @@ func _find_mesh(node: Node) -> MeshInstance3D:
 	return null
 
 func apply_quality(profile) -> void:
+	current_profile=profile
 	# Reuse uploaded geometry for same-tier changes; no ridge rebuild or seating.
 	for node in get_children():
 		if not node is MultiMeshInstance3D: continue
@@ -112,3 +117,37 @@ func apply_quality(profile) -> void:
 		node.multimesh.visible_instance_count = roundi(node.multimesh.instance_count*profile.offmap_prop_density)
 		var material = node.multimesh.mesh.surface_get_material(0)
 		material.set_shader_parameter("range_end",distance)
+
+func apply_forest_appearance(models:Dictionary,winter:bool)->void:
+	triangles=0
+	for node in get_children():
+		if not node is MultiMeshInstance3D:continue
+		var key:String=node.get_meta("forest_key","")
+		if models.has(key):
+			if not original_forest.has(key):original_forest[key]=node.multimesh.mesh
+			if winter and not winter_forest.has(key):
+				var mesh:Mesh=models[key].duplicate()
+				var mat:ShaderMaterial=original_forest[key].surface_get_material(0).duplicate()
+				var source:ShaderMaterial=models[key].surface_get_material(0)
+				var stem:String=source.get_meta("winter_texture")
+				var parameter="albedo_texture" if key.ends_with("lod2") else "mesh_albedo"
+				mat.set_shader_parameter(parameter,load("res://assets/graphics/trees/winter/textures/"+stem+"_low.res"))
+				if parameter=="mesh_albedo":mat.set_shader_parameter("winter_geometry",true)
+				mesh.surface_set_material(0,mat);winter_forest[key]=mesh;materials.append(mat)
+			node.multimesh.mesh=winter_forest[key] if winter else original_forest[key]
+			# Union with the old bound covers both crowns and every card bearing.
+			var local=node.multimesh.mesh.get_aabb()
+			if key.ends_with("lod2"):
+				var radius=maxf(absf(local.position.x),absf(local.end.x))*.64
+				local=AABB(Vector3(-radius,local.position.y,-radius),Vector3(radius*2,local.size.y,radius*2))
+			if not node.has_meta("original_forest_bound"):node.set_meta("original_forest_bound",node.multimesh.custom_aabb)
+			var box:AABB=node.get_meta("original_forest_bound")
+			var buffer:PackedFloat32Array=node.multimesh.buffer
+			# The headless dummy server cannot return uploaded MultiMesh buffers.
+			assert(buffer.size()==node.multimesh.instance_count*16 or DisplayServer.get_name()=="headless")
+			if winter and not buffer.is_empty():
+				for i in node.multimesh.instance_count:box=box.merge(pose_at(buffer,i*16)*local)
+			node.multimesh.custom_aabb=box
+		var mesh:Mesh=node.multimesh.mesh
+		for surface in mesh.get_surface_count():triangles+=mesh.surface_get_array_index_len(surface)/3*node.multimesh.instance_count
+	if current_profile:apply_quality(current_profile)

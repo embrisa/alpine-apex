@@ -6,6 +6,8 @@ uniform sampler2D rock_texture : source_color,filter_linear_mipmap,repeat_enable
 uniform sampler2D bark_texture : source_color,filter_linear_mipmap,repeat_enable;
 uniform sampler2D foliage_texture : source_color,filter_linear_mipmap,repeat_disable;
 uniform bool tree_geometry = false;
+uniform bool winter_geometry = false;
+uniform sampler2D mesh_albedo : source_color,filter_linear_mipmap_anisotropic,repeat_disable;
 uniform float cloud_shade = 1.0;
 uniform float range_end = 6000.0;
 uniform float tree_near_end = 600.0;
@@ -32,7 +34,8 @@ void fragment() {
   // vertex alpha. Retain that asset contract rather than tinting the trunk.
   base=COLOR.rgb;
   if(COLOR.a<.4) base*=texture(bark_texture,UV).rgb;
-  if(COLOR.a>.65 && COLOR.a<.8) {
+  if(winter_geometry && COLOR.a>=.4) base*=texture(mesh_albedo,UV).rgb;
+  if(!winter_geometry && COLOR.a>.65 && COLOR.a<.8) {
    vec4 needles=texture(foliage_texture,UV);
    if(needles.a<.5) discard;
    base*=needles.rgb*vec3(.62,.72,.88);

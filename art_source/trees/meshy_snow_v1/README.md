@@ -248,3 +248,37 @@ retains compact evidence. An earlier 94.17 FPS attempt is invalid because newly
 streamed candidate materials used the wrong LOD/shadow policy. The corrected
 catalogue-identity classification is regression-tested with an unrelated shader
 name. Normal play still uses the original forest until seasonal integration.
+
+## Production winter appearance
+
+The branch-built family is now packaged separately under
+`assets/graphics/trees/winter/`. `scripts/presentation/forest_appearance.gd` owns
+selection; Settings > Weather > Forest appearance preserves the original Autumn
+colours option. Personal play defaults to Snowy winter. Automated runs retain the
+original forest unless explicitly launched with `--forest-style=winter`.
+The model/physics/catalogue remain the original authority in both appearances.
+The whole-tree experiments above are historical source comparisons.
+
+`bough/repaired.glb` preserves the repaired, textured 770-triangle source used by
+the family, independently of ignored artifacts. Rebuild the four assemblies and
+textures as above, then run `export_family.gd` headless under Exclusive admission.
+It writes 54 material-free catalogue-sized meshes and 15 shared texture resources;
+no runtime geometry processing or art_source/artifacts dependency is required.
+The game shares its original vertex shader include with the new opaque winter
+fragment path. Distant wilderness geometry/cards use the same packaged crowns,
+with the existing off-map fog, lighting, fade, density and placement.
+
+`tests/forest_appearance_suite.gd` checks restoration, materials, quality and
+packaged mesh metadata. `tests/forest_appearance_playtest.gd` uses retained
+`game_views.json` in the current Standard mountain; launch with explicit winter
+style, capped native High/Auto settings and a FullMountain reason.
+`tests/forest_appearance_cost.gd` qualifies the production package plus winter
+background using two 15-second traversals (first excluded), the retained exact
+trace and capture-free FpsCritical admission. This extra candidate measurement
+is warranted because the background and runtime startup now differ from Dev116.
+
+Final packaged result (including snowy wilderness): **118.16 FPS**,
+8.463 ms mean frame, 6.599 ms GPU.
+The reused matching original is 87.18 FPS / 11.470 ms / 7.457 ms.
+Frame p95/p99 are 11.527/14.976 ms. See `production_review.json` for compact
+qualification and limits. Total Meshy spend remains 445 of 2250 authorized credits.

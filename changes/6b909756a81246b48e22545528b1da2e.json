@@ -1,0 +1,656 @@
+{
+  "schema": 1,
+  "id": "6b909756a81246b48e22545528b1da2e",
+  "summary": "Add selectable snowy winter forest with matching distant trees",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Seasonal forest selection",
+    "Winter tree assets",
+    "Background tree rendering"
+  ],
+  "owned_paths": [
+    "art_source/trees/meshy_snow_v1/bough/repaired.glb",
+    "art_source/trees/meshy_snow_v1/export_family.gd",
+    "art_source/trees/meshy_snow_v1/game_views.json",
+    "assets/graphics/offmap_prop.gdshader",
+    "assets/graphics/pc_forest_tree_common.gdshaderinc",
+    "assets/graphics/pc_forest_vertex.gdshaderinc",
+    "assets/graphics/pc_winter_fragment.gdshaderinc",
+    "assets/graphics/pc_winter_tree_0.gdshader",
+    "assets/graphics/pc_winter_tree_1.gdshader",
+    "assets/graphics/trees/winter/manifest.json",
+    "assets/graphics/trees/winter/models/forest_fir_01_lod0.res",
+    "assets/graphics/trees/winter/models/forest_fir_01_lod1.res",
+    "assets/graphics/trees/winter/models/forest_fir_01_lod2.res",
+    "assets/graphics/trees/winter/models/forest_fir_02_lod0.res",
+    "assets/graphics/trees/winter/models/forest_fir_02_lod1.res",
+    "assets/graphics/trees/winter/models/forest_fir_02_lod2.res",
+    "assets/graphics/trees/winter/models/forest_fir_03_lod0.res",
+    "assets/graphics/trees/winter/models/forest_fir_03_lod1.res",
+    "assets/graphics/trees/winter/models/forest_fir_03_lod2.res",
+    "assets/graphics/trees/winter/models/forest_fir_04_lod0.res",
+    "assets/graphics/trees/winter/models/forest_fir_04_lod1.res",
+    "assets/graphics/trees/winter/models/forest_fir_04_lod2.res",
+    "assets/graphics/trees/winter/models/forest_golden_01_lod0.res",
+    "assets/graphics/trees/winter/models/forest_golden_01_lod1.res",
+    "assets/graphics/trees/winter/models/forest_golden_01_lod2.res",
+    "assets/graphics/trees/winter/models/forest_golden_02_lod0.res",
+    "assets/graphics/trees/winter/models/forest_golden_02_lod1.res",
+    "assets/graphics/trees/winter/models/forest_golden_02_lod2.res",
+    "assets/graphics/trees/winter/models/forest_golden_03_lod0.res",
+    "assets/graphics/trees/winter/models/forest_golden_03_lod1.res",
+    "assets/graphics/trees/winter/models/forest_golden_03_lod2.res",
+    "assets/graphics/trees/winter/models/forest_maple_01_lod0.res",
+    "assets/graphics/trees/winter/models/forest_maple_01_lod1.res",
+    "assets/graphics/trees/winter/models/forest_maple_01_lod2.res",
+    "assets/graphics/trees/winter/models/forest_maple_02_lod0.res",
+    "assets/graphics/trees/winter/models/forest_maple_02_lod1.res",
+    "assets/graphics/trees/winter/models/forest_maple_02_lod2.res",
+    "assets/graphics/trees/winter/models/forest_maple_03_lod0.res",
+    "assets/graphics/trees/winter/models/forest_maple_03_lod1.res",
+    "assets/graphics/trees/winter/models/forest_maple_03_lod2.res",
+    "assets/graphics/trees/winter/models/forest_pine_01_lod0.res",
+    "assets/graphics/trees/winter/models/forest_pine_01_lod1.res",
+    "assets/graphics/trees/winter/models/forest_pine_01_lod2.res",
+    "assets/graphics/trees/winter/models/forest_pine_02_lod0.res",
+    "assets/graphics/trees/winter/models/forest_pine_02_lod1.res",
+    "assets/graphics/trees/winter/models/forest_pine_02_lod2.res",
+    "assets/graphics/trees/winter/models/forest_pine_03_lod0.res",
+    "assets/graphics/trees/winter/models/forest_pine_03_lod1.res",
+    "assets/graphics/trees/winter/models/forest_pine_03_lod2.res",
+    "assets/graphics/trees/winter/models/forest_pine_04_lod0.res",
+    "assets/graphics/trees/winter/models/forest_pine_04_lod1.res",
+    "assets/graphics/trees/winter/models/forest_pine_04_lod2.res",
+    "assets/graphics/trees/winter/models/forest_spruce_01_lod0.res",
+    "assets/graphics/trees/winter/models/forest_spruce_01_lod1.res",
+    "assets/graphics/trees/winter/models/forest_spruce_01_lod2.res",
+    "assets/graphics/trees/winter/models/forest_spruce_02_lod0.res",
+    "assets/graphics/trees/winter/models/forest_spruce_02_lod1.res",
+    "assets/graphics/trees/winter/models/forest_spruce_02_lod2.res",
+    "assets/graphics/trees/winter/models/forest_spruce_03_lod0.res",
+    "assets/graphics/trees/winter/models/forest_spruce_03_lod1.res",
+    "assets/graphics/trees/winter/models/forest_spruce_03_lod2.res",
+    "assets/graphics/trees/winter/models/forest_spruce_04_lod0.res",
+    "assets/graphics/trees/winter/models/forest_spruce_04_lod1.res",
+    "assets/graphics/trees/winter/models/forest_spruce_04_lod2.res",
+    "assets/graphics/trees/winter/textures/bough_albedo_balanced.res",
+    "assets/graphics/trees/winter/textures/bough_albedo_high.res",
+    "assets/graphics/trees/winter/textures/bough_albedo_low.res",
+    "assets/graphics/trees/winter/textures/fir_atlas_balanced.res",
+    "assets/graphics/trees/winter/textures/fir_atlas_high.res",
+    "assets/graphics/trees/winter/textures/fir_atlas_low.res",
+    "assets/graphics/trees/winter/textures/spruce_atlas_balanced.res",
+    "assets/graphics/trees/winter/textures/spruce_atlas_high.res",
+    "assets/graphics/trees/winter/textures/spruce_atlas_low.res",
+    "assets/graphics/trees/winter/textures/spruce_open_atlas_balanced.res",
+    "assets/graphics/trees/winter/textures/spruce_open_atlas_high.res",
+    "assets/graphics/trees/winter/textures/spruce_open_atlas_low.res",
+    "assets/graphics/trees/winter/textures/stone_pine_atlas_balanced.res",
+    "assets/graphics/trees/winter/textures/stone_pine_atlas_high.res",
+    "assets/graphics/trees/winter/textures/stone_pine_atlas_low.res",
+    "scripts/main.gd",
+    "scripts/presentation/alpine_assets.gd",
+    "scripts/presentation/forest_appearance.gd",
+    "scripts/presentation/weather_preferences.gd",
+    "scripts/ui/settings_pages.gd",
+    "scripts/world/alpine_wilderness.gd",
+    "scripts/world/wilderness_props.gd",
+    "tests/forest_appearance_cost.gd",
+    "tests/forest_appearance_playtest.gd",
+    "tests/forest_appearance_suite.gd",
+    "art_source/trees/meshy_snow_v1/README.md",
+    "docs/ASSETS.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "art_source/trees/meshy_snow_v1/family_prepare.gd",
+    "art_source/trees/meshy_snow_v1/family_fragment.gdshaderinc",
+    "art_source/trees/meshy_snow_v1/production_review.json"
+  ],
+  "read_paths": [
+    "assets/graphics/pc_tree_impostor.gdshader",
+    "scripts/presentation/tree_motion.gd",
+    "tests/physics_suite.gd",
+    "tests/runtime_suite.gd",
+    "tests/weather_suite.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Appearance selection changes render meshes/materials only. The 120Hz solver, physical catalogue/placement and race rules remain unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Appearance selection changes render meshes/materials only. The 120Hz solver, physical catalogue/placement and race rules remain unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Appearance selection changes render meshes/materials only. The 120Hz solver, physical catalogue/placement and race rules remain unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Presentation preference is outside gameplay identity. Existing scenery dependency checks may rebuild render preparation."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Presentation preference is outside gameplay identity. Existing scenery dependency checks may rebuild render preparation."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Presentation preference is outside gameplay identity. Existing scenery dependency checks may rebuild render preparation."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Presentation preference is outside gameplay identity. Existing scenery dependency checks may rebuild render preparation."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Presentation preference is outside gameplay identity. Existing scenery dependency checks may rebuild render preparation."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "scripts/test_pc_environment.ps1 -Suites forest_appearance_suite,runtime_suite -OutputDirectory artifacts/winter_integration/final_runtime",
+      "result": "passed",
+      "details": "184 appearance assertions and 192 runtime checks. Stable final batch. Checks include original bound/range restoration after quality change. Earlier compile/dummy-renderer errors were fixed before this final run."
+    },
+    {
+      "kind": "automated",
+      "command": "scripts/test_pc_environment.ps1 -Suites forest_appearance_suite,weather_suite,physics_suite,runtime_suite -OutputDirectory artifacts/winter_integration/regression",
+      "result": "passed",
+      "details": "Retain only the 44 weather and 56 physics suite passes, whose inputs were unchanged. The enclosing initial batch was rejected for concurrent background-render code drift; affected appearance/runtime suites were rerun separately under final_runtime. No performance claim from these checks."
+    },
+    {
+      "kind": "rendered",
+      "command": "guarded tests/forest_appearance_playtest.gd; winter-integration-visual and winter-integration-overview",
+      "result": "passed",
+      "details": "Actual production startup, near/mid/far and both transitions, original restoration, snowy background, Low/High texture changes, cloudy view and visible Weather selector inspected. 33152 plus 16428 cumulative batch assertions. Reused unchanged whole-bough moving/contact review from Dev116."
+    },
+    {
+      "kind": "performance",
+      "command": "guarded tests/forest_appearance_cost.gd; winter-production-fps",
+      "result": "passed",
+      "details": "Final package including background, one excluded warm traversal and one 15s measured route: 118.15894 FPS, 8.46318ms frame, 6.59903ms GPU. Reused matched 87.18195 FPS / 11.47026 / 7.45687 original. No scoped drift, focus loss, crash or trace mismatch. production_review.json retains evidence."
+    },
+    {
+      "kind": "automated",
+      "command": "Static packaged asset/source dependency and metadata review; versioning check",
+      "result": "passed",
+      "details": "54 material-free catalogue meshes, 15 shared textures, 43.58 MiB package plus 4.68 MiB useful repaired source. Runtime loads packaged assets only; export includes JSON. Source baker now reads the shared production fragment. No new paid jobs."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Human skiing/art acceptance of the new winter appearance."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-18T03:35:57.756277+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "a26cc08316f36d830bd42dad614583d5ff054482",
+      "dev": 116,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 16632,
+        "mtime_ns": 1789701924513031000
+      },
+      "art_source/trees/meshy_snow_v1/README.md": {
+        "size": 17064,
+        "mtime_ns": 1789702557053919300
+      },
+      "art_source/trees/meshy_snow_v1/bough/repaired.glb": {
+        "size": 4905692,
+        "mtime_ns": 1789701655299491700
+      },
+      "art_source/trees/meshy_snow_v1/export_family.gd": {
+        "size": 1743,
+        "mtime_ns": 1789701476009100600
+      },
+      "art_source/trees/meshy_snow_v1/family_fragment.gdshaderinc": null,
+      "art_source/trees/meshy_snow_v1/family_prepare.gd": {
+        "size": 6398,
+        "mtime_ns": 1789702274216709800
+      },
+      "art_source/trees/meshy_snow_v1/game_views.json": {
+        "size": 2959,
+        "mtime_ns": 1789701726078566400
+      },
+      "art_source/trees/meshy_snow_v1/production_review.json": {
+        "size": 4470,
+        "mtime_ns": 1789702557052917100
+      },
+      "assets/graphics/offmap_prop.gdshader": {
+        "size": 2542,
+        "mtime_ns": 1789701611627478400
+      },
+      "assets/graphics/pc_forest_tree_common.gdshaderinc": {
+        "size": 2544,
+        "mtime_ns": 1789701611544686700
+      },
+      "assets/graphics/pc_forest_vertex.gdshaderinc": {
+        "size": 3886,
+        "mtime_ns": 1789701611543682200
+      },
+      "assets/graphics/pc_tree_impostor.gdshader": {
+        "size": 3615,
+        "mtime_ns": 1789594595746728500
+      },
+      "assets/graphics/pc_winter_fragment.gdshaderinc": {
+        "size": 888,
+        "mtime_ns": 1789701611544686700
+      },
+      "assets/graphics/pc_winter_tree_0.gdshader": {
+        "size": 174,
+        "mtime_ns": 1789701611545690400
+      },
+      "assets/graphics/pc_winter_tree_1.gdshader": {
+        "size": 200,
+        "mtime_ns": 1789701611545690400
+      },
+      "assets/graphics/trees/winter/manifest.json": {
+        "size": 8188,
+        "mtime_ns": 1789701483771984700
+      },
+      "assets/graphics/trees/winter/models/forest_fir_01_lod0.res": {
+        "size": 1363740,
+        "mtime_ns": 1789701483527702600
+      },
+      "assets/graphics/trees/winter/models/forest_fir_01_lod1.res": {
+        "size": 627489,
+        "mtime_ns": 1789701483535704900
+      },
+      "assets/graphics/trees/winter/models/forest_fir_01_lod2.res": {
+        "size": 466,
+        "mtime_ns": 1789701483535704900
+      },
+      "assets/graphics/trees/winter/models/forest_fir_02_lod0.res": {
+        "size": 1363898,
+        "mtime_ns": 1789701483554753600
+      },
+      "assets/graphics/trees/winter/models/forest_fir_02_lod1.res": {
+        "size": 627629,
+        "mtime_ns": 1789701483563195900
+      },
+      "assets/graphics/trees/winter/models/forest_fir_02_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789701483563195900
+      },
+      "assets/graphics/trees/winter/models/forest_fir_03_lod0.res": {
+        "size": 1363740,
+        "mtime_ns": 1789701483581962600
+      },
+      "assets/graphics/trees/winter/models/forest_fir_03_lod1.res": {
+        "size": 627503,
+        "mtime_ns": 1789701483591419800
+      },
+      "assets/graphics/trees/winter/models/forest_fir_03_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789701483591419800
+      },
+      "assets/graphics/trees/winter/models/forest_fir_04_lod0.res": {
+        "size": 1363741,
+        "mtime_ns": 1789701483610456000
+      },
+      "assets/graphics/trees/winter/models/forest_fir_04_lod1.res": {
+        "size": 627431,
+        "mtime_ns": 1789701483618881400
+      },
+      "assets/graphics/trees/winter/models/forest_fir_04_lod2.res": {
+        "size": 464,
+        "mtime_ns": 1789701483618881400
+      },
+      "assets/graphics/trees/winter/models/forest_golden_01_lod0.res": {
+        "size": 166783,
+        "mtime_ns": 1789701483728806800
+      },
+      "assets/graphics/trees/winter/models/forest_golden_01_lod1.res": {
+        "size": 90174,
+        "mtime_ns": 1789701483730930700
+      },
+      "assets/graphics/trees/winter/models/forest_golden_01_lod2.res": {
+        "size": 492,
+        "mtime_ns": 1789701483730930700
+      },
+      "assets/graphics/trees/winter/models/forest_golden_02_lod0.res": {
+        "size": 163013,
+        "mtime_ns": 1789701483734317900
+      },
+      "assets/graphics/trees/winter/models/forest_golden_02_lod1.res": {
+        "size": 91752,
+        "mtime_ns": 1789701483736327700
+      },
+      "assets/graphics/trees/winter/models/forest_golden_02_lod2.res": {
+        "size": 488,
+        "mtime_ns": 1789701483736327700
+      },
+      "assets/graphics/trees/winter/models/forest_golden_03_lod0.res": {
+        "size": 149831,
+        "mtime_ns": 1789701483738348800
+      },
+      "assets/graphics/trees/winter/models/forest_golden_03_lod1.res": {
+        "size": 84655,
+        "mtime_ns": 1789701483740529400
+      },
+      "assets/graphics/trees/winter/models/forest_golden_03_lod2.res": {
+        "size": 489,
+        "mtime_ns": 1789701483741533300
+      },
+      "assets/graphics/trees/winter/models/forest_maple_01_lod0.res": {
+        "size": 166695,
+        "mtime_ns": 1789701483713013700
+      },
+      "assets/graphics/trees/winter/models/forest_maple_01_lod1.res": {
+        "size": 90095,
+        "mtime_ns": 1789701483715021300
+      },
+      "assets/graphics/trees/winter/models/forest_maple_01_lod2.res": {
+        "size": 485,
+        "mtime_ns": 1789701483715021300
+      },
+      "assets/graphics/trees/winter/models/forest_maple_02_lod0.res": {
+        "size": 163129,
+        "mtime_ns": 1789701483718023800
+      },
+      "assets/graphics/trees/winter/models/forest_maple_02_lod1.res": {
+        "size": 91747,
+        "mtime_ns": 1789701483720024200
+      },
+      "assets/graphics/trees/winter/models/forest_maple_02_lod2.res": {
+        "size": 488,
+        "mtime_ns": 1789701483721024400
+      },
+      "assets/graphics/trees/winter/models/forest_maple_03_lod0.res": {
+        "size": 149719,
+        "mtime_ns": 1789701483723508600
+      },
+      "assets/graphics/trees/winter/models/forest_maple_03_lod1.res": {
+        "size": 84690,
+        "mtime_ns": 1789701483725518100
+      },
+      "assets/graphics/trees/winter/models/forest_maple_03_lod2.res": {
+        "size": 490,
+        "mtime_ns": 1789701483725518100
+      },
+      "assets/graphics/trees/winter/models/forest_pine_01_lod0.res": {
+        "size": 1111129,
+        "mtime_ns": 1789701483635911000
+      },
+      "assets/graphics/trees/winter/models/forest_pine_01_lod1.res": {
+        "size": 513118,
+        "mtime_ns": 1789701483641912800
+      },
+      "assets/graphics/trees/winter/models/forest_pine_01_lod2.res": {
+        "size": 466,
+        "mtime_ns": 1789701483642913200
+      },
+      "assets/graphics/trees/winter/models/forest_pine_02_lod0.res": {
+        "size": 1111254,
+        "mtime_ns": 1789701483657632200
+      },
+      "assets/graphics/trees/winter/models/forest_pine_02_lod1.res": {
+        "size": 513150,
+        "mtime_ns": 1789701483664065900
+      },
+      "assets/graphics/trees/winter/models/forest_pine_02_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789701483665066100
+      },
+      "assets/graphics/trees/winter/models/forest_pine_03_lod0.res": {
+        "size": 1111142,
+        "mtime_ns": 1789701483679770400
+      },
+      "assets/graphics/trees/winter/models/forest_pine_03_lod1.res": {
+        "size": 513181,
+        "mtime_ns": 1789701483687974900
+      },
+      "assets/graphics/trees/winter/models/forest_pine_03_lod2.res": {
+        "size": 461,
+        "mtime_ns": 1789701483688975300
+      },
+      "assets/graphics/trees/winter/models/forest_pine_04_lod0.res": {
+        "size": 1111484,
+        "mtime_ns": 1789701483702518300
+      },
+      "assets/graphics/trees/winter/models/forest_pine_04_lod1.res": {
+        "size": 513294,
+        "mtime_ns": 1789701483709570600
+      },
+      "assets/graphics/trees/winter/models/forest_pine_04_lod2.res": {
+        "size": 463,
+        "mtime_ns": 1789701483710574700
+      },
+      "assets/graphics/trees/winter/models/forest_spruce_01_lod0.res": {
+        "size": 1319451,
+        "mtime_ns": 1789701483413539800
+      },
+      "assets/graphics/trees/winter/models/forest_spruce_01_lod1.res": {
+        "size": 605525,
+        "mtime_ns": 1789701483420636700
+      },
+      "assets/graphics/trees/winter/models/forest_spruce_01_lod2.res": {
+        "size": 469,
+        "mtime_ns": 1789701483421636700
+      },
+      "assets/graphics/trees/winter/models/forest_spruce_02_lod0.res": {
+        "size": 1319953,
+        "mtime_ns": 1789701483441398300
+      },
+      "assets/graphics/trees/winter/models/forest_spruce_02_lod1.res": {
+        "size": 605746,
+        "mtime_ns": 1789701483450501900
+      },
+      "assets/graphics/trees/winter/models/forest_spruce_02_lod2.res": {
+        "size": 461,
+        "mtime_ns": 1789701483450501900
+      },
+      "assets/graphics/trees/winter/models/forest_spruce_03_lod0.res": {
+        "size": 1319865,
+        "mtime_ns": 1789701483469490500
+      },
+      "assets/graphics/trees/winter/models/forest_spruce_03_lod1.res": {
+        "size": 605677,
+        "mtime_ns": 1789701483477179700
+      },
+      "assets/graphics/trees/winter/models/forest_spruce_03_lod2.res": {
+        "size": 465,
+        "mtime_ns": 1789701483478682100
+      },
+      "assets/graphics/trees/winter/models/forest_spruce_04_lod0.res": {
+        "size": 1319867,
+        "mtime_ns": 1789701483499142700
+      },
+      "assets/graphics/trees/winter/models/forest_spruce_04_lod1.res": {
+        "size": 605716,
+        "mtime_ns": 1789701483507461300
+      },
+      "assets/graphics/trees/winter/models/forest_spruce_04_lod2.res": {
+        "size": 468,
+        "mtime_ns": 1789701483507461300
+      },
+      "assets/graphics/trees/winter/textures/bough_albedo_balanced.res": {
+        "size": 1398598,
+        "mtime_ns": 1789701483744579300
+      },
+      "assets/graphics/trees/winter/textures/bough_albedo_high.res": {
+        "size": 5592902,
+        "mtime_ns": 1789701483748892400
+      },
+      "assets/graphics/trees/winter/textures/bough_albedo_low.res": {
+        "size": 350022,
+        "mtime_ns": 1789701483742539800
+      },
+      "assets/graphics/trees/winter/textures/fir_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789701483762952800
+      },
+      "assets/graphics/trees/winter/textures/fir_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789701483764953000
+      },
+      "assets/graphics/trees/winter/textures/fir_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789701483761952900
+      },
+      "assets/graphics/trees/winter/textures/spruce_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789701483752263000
+      },
+      "assets/graphics/trees/winter/textures/spruce_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789701483755418300
+      },
+      "assets/graphics/trees/winter/textures/spruce_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789701483749911000
+      },
+      "assets/graphics/trees/winter/textures/spruce_open_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789701483757929600
+      },
+      "assets/graphics/trees/winter/textures/spruce_open_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789701483760944100
+      },
+      "assets/graphics/trees/winter/textures/spruce_open_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789701483756443300
+      },
+      "assets/graphics/trees/winter/textures/stone_pine_atlas_balanced.res": {
+        "size": 699622,
+        "mtime_ns": 1789701483768542500
+      },
+      "assets/graphics/trees/winter/textures/stone_pine_atlas_high.res": {
+        "size": 2796774,
+        "mtime_ns": 1789701483770981900
+      },
+      "assets/graphics/trees/winter/textures/stone_pine_atlas_low.res": {
+        "size": 175334,
+        "mtime_ns": 1789701483767366900
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/ASSETS.md": {
+        "size": 24201,
+        "mtime_ns": 1789701924496452800
+      },
+      "docs/RENDERING.md": {
+        "size": 53942,
+        "mtime_ns": 1789701924505288000
+      },
+      "docs/VALIDATION.md": {
+        "size": 160350,
+        "mtime_ns": 1789701924513031000
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/main.gd": {
+        "size": 89032,
+        "mtime_ns": 1789701655290150600
+      },
+      "scripts/presentation/alpine_assets.gd": {
+        "size": 21660,
+        "mtime_ns": 1789701611558423700
+      },
+      "scripts/presentation/forest_appearance.gd": {
+        "size": 3789,
+        "mtime_ns": 1789701654706076800
+      },
+      "scripts/presentation/tree_motion.gd": {
+        "size": 5196,
+        "mtime_ns": 1789699840648632300
+      },
+      "scripts/presentation/weather_preferences.gd": {
+        "size": 5280,
+        "mtime_ns": 1789701611569607500
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/ui/settings_pages.gd": {
+        "size": 16978,
+        "mtime_ns": 1789701611601550400
+      },
+      "scripts/world/alpine_wilderness.gd": {
+        "size": 9394,
+        "mtime_ns": 1789701611621156300
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "scripts/world/wilderness_props.gd": {
+        "size": 8773,
+        "mtime_ns": 1789702149503733800
+      },
+      "tests/forest_appearance_cost.gd": {
+        "size": 579,
+        "mtime_ns": 1789701793887441600
+      },
+      "tests/forest_appearance_playtest.gd": {
+        "size": 4986,
+        "mtime_ns": 1789701988134872500
+      },
+      "tests/forest_appearance_suite.gd": {
+        "size": 3974,
+        "mtime_ns": 1789702149503733800
+      },
+      "tests/physics_suite.gd": {
+        "size": 18435,
+        "mtime_ns": 1789594595873594000
+      },
+      "tests/runtime_suite.gd": {
+        "size": 41141,
+        "mtime_ns": 1789594595889425300
+      },
+      "tests/weather_suite.gd": {
+        "size": 11096,
+        "mtime_ns": 1789594595953451200
+      }
+    }
+  }
+}

@@ -77,7 +77,9 @@ func apply_quality(profile) -> void:
 		if named_materials.has(id):
 			named_materials[id].set_shader_parameter("albedo_texture",load("res://assets/graphics/textures/spruce_impostor_%d%s.png" % [i,quality.texture_suffix]))
 	for id in named_materials:
-		if id in ["PC_Conifer","TD_Conifer","FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"]:
+		if named_materials[id].has_meta("winter_texture"):
+			set_winter_textures(named_materials[id])
+		elif id in ["PC_Conifer","TD_Conifer","FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"]:
 			named_materials[id].set_shader_parameter("bark_texture",texture("bark","albedo"))
 			if id in ["FC_Tree","FC_Broadleaf","FC_Tree_Mid","FC_Broadleaf_Mid"]:
 				named_materials[id].set_shader_parameter("bark_normal",texture("bark","normal"))
@@ -93,6 +95,14 @@ func apply_quality(profile) -> void:
 			_set_impostor(named_materials[id],id)
 		elif id.begins_with("Tree_"):
 			_set_tree(named_materials[id],id.trim_prefix("Tree_"))
+
+func set_winter_textures(mat:ShaderMaterial)->void:
+	var stem:String=mat.get_meta("winter_texture")
+	var tier:String=["low","balanced","high"][quality.texture_tier]
+	mat.set_shader_parameter("mesh_albedo" if stem=="bough_albedo" else "albedo_texture",load("res://assets/graphics/trees/winter/textures/%s_%s.res"%[stem,tier]))
+	if stem=="bough_albedo":
+		mat.set_shader_parameter("bark_texture",texture("bark","albedo"))
+		mat.set_shader_parameter("bark_normal",texture("bark","normal"))
 
 func _set_impostor(mat: ShaderMaterial, id: String) -> void:
 	mat.set_shader_parameter("albedo_texture",load("res://assets/graphics/textures/impostor_%s%s.png" % [id.trim_prefix("Impostor_"),quality.texture_suffix]))

@@ -7,7 +7,7 @@ func run():
 	DirAccess.make_dir_recursive_absolute(DEST+"/review")
 	var common=FileAccess.get_file_as_string("res://assets/graphics/pc_forest_tree_common.gdshaderinc")
 	var vertex=common.substr(0,common.find("void fragment()"))
-	var fragment=FileAccess.get_file_as_string(SOURCE+"/family_fragment.gdshaderinc")
+	var fragment=FileAccess.get_file_as_string("res://assets/graphics/pc_winter_fragment.gdshaderinc")
 	for lod in 2:
 		FileAccess.open(DEST+"/tree_"+str(lod)+".gdshader",FileAccess.WRITE).store_string("shader_type spatial;\nrender_mode cull_disabled;\n"+("#define ALPINE_FOREST_MID\n" if lod==1 else "")+vertex+fragment)
 	root.size=Vector2i(2560,1440);Engine.max_fps=30

@@ -1,0 +1,222 @@
+{
+	"models": {
+		"forest_fir_01_lod0": {
+			"material": "FC_Winter_fir_0",
+			"path": "res://assets/graphics/trees/winter/models/forest_fir_01_lod0.res"
+		},
+		"forest_fir_01_lod1": {
+			"material": "FC_Winter_fir_1",
+			"path": "res://assets/graphics/trees/winter/models/forest_fir_01_lod1.res"
+		},
+		"forest_fir_01_lod2": {
+			"material": "FC_Impostor_Winter_fir",
+			"path": "res://assets/graphics/trees/winter/models/forest_fir_01_lod2.res"
+		},
+		"forest_fir_02_lod0": {
+			"material": "FC_Winter_fir_0",
+			"path": "res://assets/graphics/trees/winter/models/forest_fir_02_lod0.res"
+		},
+		"forest_fir_02_lod1": {
+			"material": "FC_Winter_fir_1",
+			"path": "res://assets/graphics/trees/winter/models/forest_fir_02_lod1.res"
+		},
+		"forest_fir_02_lod2": {
+			"material": "FC_Impostor_Winter_fir",
+			"path": "res://assets/graphics/trees/winter/models/forest_fir_02_lod2.res"
+		},
+		"forest_fir_03_lod0": {
+			"material": "FC_Winter_fir_0",
+			"path": "res://assets/graphics/trees/winter/models/forest_fir_03_lod0.res"
+		},
+		"forest_fir_03_lod1": {
+			"material": "FC_Winter_fir_1",
+			"path": "res://assets/graphics/trees/winter/models/forest_fir_03_lod1.res"
+		},
+		"forest_fir_03_lod2": {
+			"material": "FC_Impostor_Winter_fir",
+			"path": "res://assets/graphics/trees/winter/models/forest_fir_03_lod2.res"
+		},
+		"forest_fir_04_lod0": {
+			"material": "FC_Winter_fir_0",
+			"path": "res://assets/graphics/trees/winter/models/forest_fir_04_lod0.res"
+		},
+		"forest_fir_04_lod1": {
+			"material": "FC_Winter_fir_1",
+			"path": "res://assets/graphics/trees/winter/models/forest_fir_04_lod1.res"
+		},
+		"forest_fir_04_lod2": {
+			"material": "FC_Impostor_Winter_fir",
+			"path": "res://assets/graphics/trees/winter/models/forest_fir_04_lod2.res"
+		},
+		"forest_golden_01_lod0": {
+			"material": "FC_Tree",
+			"path": "res://assets/graphics/trees/winter/models/forest_golden_01_lod0.res"
+		},
+		"forest_golden_01_lod1": {
+			"material": "FC_Tree_Mid",
+			"path": "res://assets/graphics/trees/winter/models/forest_golden_01_lod1.res"
+		},
+		"forest_golden_01_lod2": {
+			"material": "FC_Impostor_birch_02",
+			"path": "res://assets/graphics/trees/winter/models/forest_golden_01_lod2.res"
+		},
+		"forest_golden_02_lod0": {
+			"material": "FC_Tree",
+			"path": "res://assets/graphics/trees/winter/models/forest_golden_02_lod0.res"
+		},
+		"forest_golden_02_lod1": {
+			"material": "FC_Tree_Mid",
+			"path": "res://assets/graphics/trees/winter/models/forest_golden_02_lod1.res"
+		},
+		"forest_golden_02_lod2": {
+			"material": "FC_Impostor_birch_03",
+			"path": "res://assets/graphics/trees/winter/models/forest_golden_02_lod2.res"
+		},
+		"forest_golden_03_lod0": {
+			"material": "FC_Tree",
+			"path": "res://assets/graphics/trees/winter/models/forest_golden_03_lod0.res"
+		},
+		"forest_golden_03_lod1": {
+			"material": "FC_Tree_Mid",
+			"path": "res://assets/graphics/trees/winter/models/forest_golden_03_lod1.res"
+		},
+		"forest_golden_03_lod2": {
+			"material": "FC_Impostor_birch_04",
+			"path": "res://assets/graphics/trees/winter/models/forest_golden_03_lod2.res"
+		},
+		"forest_maple_01_lod0": {
+			"material": "FC_Tree",
+			"path": "res://assets/graphics/trees/winter/models/forest_maple_01_lod0.res"
+		},
+		"forest_maple_01_lod1": {
+			"material": "FC_Tree_Mid",
+			"path": "res://assets/graphics/trees/winter/models/forest_maple_01_lod1.res"
+		},
+		"forest_maple_01_lod2": {
+			"material": "FC_Impostor_birch_02",
+			"path": "res://assets/graphics/trees/winter/models/forest_maple_01_lod2.res"
+		},
+		"forest_maple_02_lod0": {
+			"material": "FC_Tree",
+			"path": "res://assets/graphics/trees/winter/models/forest_maple_02_lod0.res"
+		},
+		"forest_maple_02_lod1": {
+			"material": "FC_Tree_Mid",
+			"path": "res://assets/graphics/trees/winter/models/forest_maple_02_lod1.res"
+		},
+		"forest_maple_02_lod2": {
+			"material": "FC_Impostor_birch_03",
+			"path": "res://assets/graphics/trees/winter/models/forest_maple_02_lod2.res"
+		},
+		"forest_maple_03_lod0": {
+			"material": "FC_Tree",
+			"path": "res://assets/graphics/trees/winter/models/forest_maple_03_lod0.res"
+		},
+		"forest_maple_03_lod1": {
+			"material": "FC_Tree_Mid",
+			"path": "res://assets/graphics/trees/winter/models/forest_maple_03_lod1.res"
+		},
+		"forest_maple_03_lod2": {
+			"material": "FC_Impostor_birch_04",
+			"path": "res://assets/graphics/trees/winter/models/forest_maple_03_lod2.res"
+		},
+		"forest_pine_01_lod0": {
+			"material": "FC_Winter_stone_pine_0",
+			"path": "res://assets/graphics/trees/winter/models/forest_pine_01_lod0.res"
+		},
+		"forest_pine_01_lod1": {
+			"material": "FC_Winter_stone_pine_1",
+			"path": "res://assets/graphics/trees/winter/models/forest_pine_01_lod1.res"
+		},
+		"forest_pine_01_lod2": {
+			"material": "FC_Impostor_Winter_stone_pine",
+			"path": "res://assets/graphics/trees/winter/models/forest_pine_01_lod2.res"
+		},
+		"forest_pine_02_lod0": {
+			"material": "FC_Winter_stone_pine_0",
+			"path": "res://assets/graphics/trees/winter/models/forest_pine_02_lod0.res"
+		},
+		"forest_pine_02_lod1": {
+			"material": "FC_Winter_stone_pine_1",
+			"path": "res://assets/graphics/trees/winter/models/forest_pine_02_lod1.res"
+		},
+		"forest_pine_02_lod2": {
+			"material": "FC_Impostor_Winter_stone_pine",
+			"path": "res://assets/graphics/trees/winter/models/forest_pine_02_lod2.res"
+		},
+		"forest_pine_03_lod0": {
+			"material": "FC_Winter_stone_pine_0",
+			"path": "res://assets/graphics/trees/winter/models/forest_pine_03_lod0.res"
+		},
+		"forest_pine_03_lod1": {
+			"material": "FC_Winter_stone_pine_1",
+			"path": "res://assets/graphics/trees/winter/models/forest_pine_03_lod1.res"
+		},
+		"forest_pine_03_lod2": {
+			"material": "FC_Impostor_Winter_stone_pine",
+			"path": "res://assets/graphics/trees/winter/models/forest_pine_03_lod2.res"
+		},
+		"forest_pine_04_lod0": {
+			"material": "FC_Winter_stone_pine_0",
+			"path": "res://assets/graphics/trees/winter/models/forest_pine_04_lod0.res"
+		},
+		"forest_pine_04_lod1": {
+			"material": "FC_Winter_stone_pine_1",
+			"path": "res://assets/graphics/trees/winter/models/forest_pine_04_lod1.res"
+		},
+		"forest_pine_04_lod2": {
+			"material": "FC_Impostor_Winter_stone_pine",
+			"path": "res://assets/graphics/trees/winter/models/forest_pine_04_lod2.res"
+		},
+		"forest_spruce_01_lod0": {
+			"material": "FC_Winter_spruce_0",
+			"path": "res://assets/graphics/trees/winter/models/forest_spruce_01_lod0.res"
+		},
+		"forest_spruce_01_lod1": {
+			"material": "FC_Winter_spruce_1",
+			"path": "res://assets/graphics/trees/winter/models/forest_spruce_01_lod1.res"
+		},
+		"forest_spruce_01_lod2": {
+			"material": "FC_Impostor_Winter_spruce",
+			"path": "res://assets/graphics/trees/winter/models/forest_spruce_01_lod2.res"
+		},
+		"forest_spruce_02_lod0": {
+			"material": "FC_Winter_spruce_open_0",
+			"path": "res://assets/graphics/trees/winter/models/forest_spruce_02_lod0.res"
+		},
+		"forest_spruce_02_lod1": {
+			"material": "FC_Winter_spruce_open_1",
+			"path": "res://assets/graphics/trees/winter/models/forest_spruce_02_lod1.res"
+		},
+		"forest_spruce_02_lod2": {
+			"material": "FC_Impostor_Winter_spruce_open",
+			"path": "res://assets/graphics/trees/winter/models/forest_spruce_02_lod2.res"
+		},
+		"forest_spruce_03_lod0": {
+			"material": "FC_Winter_spruce_0",
+			"path": "res://assets/graphics/trees/winter/models/forest_spruce_03_lod0.res"
+		},
+		"forest_spruce_03_lod1": {
+			"material": "FC_Winter_spruce_1",
+			"path": "res://assets/graphics/trees/winter/models/forest_spruce_03_lod1.res"
+		},
+		"forest_spruce_03_lod2": {
+			"material": "FC_Impostor_Winter_spruce",
+			"path": "res://assets/graphics/trees/winter/models/forest_spruce_03_lod2.res"
+		},
+		"forest_spruce_04_lod0": {
+			"material": "FC_Winter_spruce_open_0",
+			"path": "res://assets/graphics/trees/winter/models/forest_spruce_04_lod0.res"
+		},
+		"forest_spruce_04_lod1": {
+			"material": "FC_Winter_spruce_open_1",
+			"path": "res://assets/graphics/trees/winter/models/forest_spruce_04_lod1.res"
+		},
+		"forest_spruce_04_lod2": {
+			"material": "FC_Impostor_Winter_spruce_open",
+			"path": "res://assets/graphics/trees/winter/models/forest_spruce_04_lod2.res"
+		}
+	},
+	"schema": 1,
+	"source": "art_source/trees/meshy_snow_v1/README.md"
+}
