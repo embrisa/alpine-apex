@@ -1,0 +1,219 @@
+{
+  "schema": 1,
+  "id": "c7f81c96ff554a2e9c16a36a46b628df",
+  "summary": "Author three more visual tasks from a dusk, night and precipitation review: visible falling snow, sky-lit shaded snow and a night star field",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Backlog authoring",
+    "Visual improvement queue"
+  ],
+  "owned_paths": [
+    "backlog/QUEUE.md",
+    "backlog/tasks/AA-20260918-011200-resolve-distant-forest-card-aliasing.md",
+    "backlog/tasks/AA-20260918-092100-make-falling-snow-visible-in-weather.md",
+    "backlog/tasks/AA-20260918-092101-light-shaded-snow-from-the-actual-sky.md",
+    "backlog/tasks/AA-20260918-092102-give-the-night-sky-stars.md"
+  ],
+  "read_paths": [
+    "assets/graphics/alpine_surface_fragment.gdshaderinc",
+    "assets/weather_particle_draw.gdshader",
+    "assets/weather_particles.gdshader",
+    "assets/weather_sky.gdshader",
+    "backlog/README.md",
+    "docs/RENDERING.md",
+    "scripts/presentation/daylight_cycle.gd",
+    "scripts/presentation/weather_effects.gd",
+    "scripts/presentation/weather_preset.gd",
+    "scripts/presentation/weather_rules.gd",
+    "scripts/presentation/weather_state.gd",
+    "scripts/world/alpine_world.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Backlog records only; no engine, presentation or data code is touched."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "rendered",
+      "command": "scripts/mac_frame_probe.sh look_dusk|look_night|look_snowfall|look_storm --probe-capture --probe-hold=90 --probe-immortal --probe-at-tick=3000 --time-of-day=... --weather=...",
+      "result": "passed",
+      "details": "Four deterministic 3600x2260 captures at solver tick 3000 on a94b93b, all the same ground, covering the dusk, night, snowfall and snowstorm conditions the first authoring pass had not reviewed. Retained as artifacts/mac_probe/look_*.png. They are the evidence for the three new records and for the added low-light note on the distant-forest record. Dawn, rain, thunderstorm and first-person remain unreviewed."
+    },
+    {
+      "kind": "automated",
+      "command": "python3 scripts/backlog.py validate",
+      "result": "passed",
+      "details": "status ok, no unavailable tasks. All fourteen records parse, sit in tasks/ with ready status, and the single depends_on edge still resolves."
+    },
+    {
+      "kind": "performance",
+      "command": "Not run",
+      "result": "not_required",
+      "details": "Backlog authoring changes no runtime code. The capture probes were visual, and their frame counters are not offered as a measurement."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Authoring only. Nothing here is implemented or dispatched, and each record's own human acceptance remains pending with its work.",
+    "Dawn, rain and thunderstorm conditions and the first-person view were still not reviewed, so further ideas specific to those may exist.",
+    "The precipitation density figures are derived from HIGH_VOLUME_COUNTS and the visibility_aabb, not from a counted render; treat them as the stated arithmetic."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-18T09:24:04.384592+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "275bbe03a9f31a97203277ec49a095cb93c0b114",
+      "dev": 120,
+      "modified": true
+    },
+    "inputs": {
+      "assets/graphics/alpine_surface_fragment.gdshaderinc": {
+        "size": 9483,
+        "mtime_ns": 1789692962243458754
+      },
+      "assets/weather_particle_draw.gdshader": {
+        "size": 1671,
+        "mtime_ns": 1789511897065113528
+      },
+      "assets/weather_particles.gdshader": {
+        "size": 1207,
+        "mtime_ns": 1789511897065334657
+      },
+      "assets/weather_sky.gdshader": {
+        "size": 2474,
+        "mtime_ns": 1789636537450076623
+      },
+      "backlog/QUEUE.md": {
+        "size": 6514,
+        "mtime_ns": 1789723444152449341
+      },
+      "backlog/README.md": {
+        "size": 3434,
+        "mtime_ns": 1789636537451224174
+      },
+      "backlog/tasks/AA-20260918-011200-resolve-distant-forest-card-aliasing.md": {
+        "size": 6661,
+        "mtime_ns": 1789723425713027315
+      },
+      "backlog/tasks/AA-20260918-092100-make-falling-snow-visible-in-weather.md": {
+        "size": 5891,
+        "mtime_ns": 1789723425713163776
+      },
+      "backlog/tasks/AA-20260918-092101-light-shaded-snow-from-the-actual-sky.md": {
+        "size": 6286,
+        "mtime_ns": 1789723425713345404
+      },
+      "backlog/tasks/AA-20260918-092102-give-the-night-sky-stars.md": {
+        "size": 4941,
+        "mtime_ns": 1789723425713595450
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/RENDERING.md": {
+        "size": 55694,
+        "mtime_ns": 1789722104577259497
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789636537476764212
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789591161009132679
+      },
+      "scripts/presentation/daylight_cycle.gd": {
+        "size": 2305,
+        "mtime_ns": 1789511897124338787
+      },
+      "scripts/presentation/weather_effects.gd": {
+        "size": 6738,
+        "mtime_ns": 1789588761958672998
+      },
+      "scripts/presentation/weather_preset.gd": {
+        "size": 849,
+        "mtime_ns": 1789511897135533551
+      },
+      "scripts/presentation/weather_rules.gd": {
+        "size": 755,
+        "mtime_ns": 1789511897135602885
+      },
+      "scripts/presentation/weather_state.gd": {
+        "size": 2114,
+        "mtime_ns": 1789588761958955166
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789691017568563345
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789636537480390991
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 27514,
+        "mtime_ns": 1789636537481551958
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789691017571670161
+      }
+    }
+  }
+}

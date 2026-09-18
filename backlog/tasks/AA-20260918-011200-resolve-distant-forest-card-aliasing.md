@@ -45,6 +45,10 @@ Read-only inspection and bounded rendered macOS probes on 2026-09-18 at `main` `
   [shared far-tree materials](../completed/AA-20260917-222200-share-far-tree-material-submissions.md),
   a frozen render-CPU prototype that is not installed. Read both first: their
   rejected representations must not be re-proposed unchanged.
+- The defect is worse in low light. `artifacts/mac_probe/look_dusk.png` and
+  `look_night.png`, captured at `a94b93b`, show the far bands as high-contrast
+  dark specks against pale snow, with more of the mountain affected than at noon.
+  Include a dusk or night condition in the reproduction.
 - A snowy winter forest with reversible seasonal selection landed upstream at
   `c6aa92c` after this evidence was gathered, adding
   [`forest_appearance.gd`](../../scripts/presentation/forest_appearance.gd) and a
