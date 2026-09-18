@@ -8,11 +8,12 @@ status, dependencies, evidence and acceptance live in each stable task record.
 ## Visual improvement queue
 
 Authored on 18 September 2026 after a rendering review of the current build,
-with deterministic macOS probe captures. All fourteen records in this group are
+with deterministic macOS probe captures. All fifteen records in this group are
 `ready`; the three product decisions in them were settled with the user on
 18 September. Ordered by the reviewer's judgement of visible impact, not by
-dependency. The last three came from a second pass over dusk, night and the
-precipitation presets, which the first pass had not reviewed.
+dependency. Later records came from second and third passes over dusk, night,
+the precipitation presets and the first-person view, which the first pass had
+not reviewed. Dawn and rain were reviewed and produced no new record.
 
 - **[Distant forest card aliasing](tasks/AA-20260918-011200-resolve-distant-forest-card-aliasing.md)** (P1, ready): sub-pixel impostors scatter into crawling pepper noise across every wide shot. Appearance-scoped; read the blocked grouped-stands record first.
 - **[Snow highlight headroom](tasks/AA-20260918-011201-restore-snow-highlight-headroom.md)** (P1, ready): sunlit snow sits where the filmic curve is flat, compressing away crystals, sheen, scanned normals and hollows that are already paid for. User chose readable form over dazzling glare on 18 September; one fixed look, no new saved setting. Do this first: it changes how every other snow term reads.
@@ -27,6 +28,7 @@ precipitation presets, which the first pass had not reviewed.
 - **[Sun shadow penumbra](tasks/AA-20260918-011210-soften-sun-shadow-edges-with-distance.md)** (P3, ready): no angular light size, so every shadow edge is uniformly hard.
 - **[Visible falling snow](tasks/AA-20260918-092100-make-falling-snow-visible-in-weather.md)** (P1, ready): Snowfall and Snowstorm read as fog. 600 flakes fill a 32,384 cubic metre volume, one per 3.8 m cube, and storm intensity drives opacity rather than density.
 - **[Sky-lit shaded snow](tasks/AA-20260918-092101-light-shaded-snow-from-the-actual-sky.md)** (P1, ready): shaded snow takes one flat ambient colour, so at dusk the peaks catch pink alpenglow while the slope under the skis stays neutral grey.
+- **[First-person body](tasks/AA-20260918-093800-give-the-first-person-view-a-body.md)** (P1, ready): selecting the close view hides `body_pivot` outright, so a 140 km/h tuck shows two ski tips and nothing else. No hands, forearms or poles.
 - **[Night sky stars](tasks/AA-20260918-092102-give-the-night-sky-stars.md)** (P3, ready): the 48-line sky shader has a moon disc and glow and no stars at all.
 
 ## Blocked work and resume conditions

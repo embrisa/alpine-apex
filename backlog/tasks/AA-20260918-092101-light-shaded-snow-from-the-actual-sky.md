@@ -48,6 +48,13 @@ Rendered macOS probe captures on 2026-09-18 at `main` `a94b93b`, using `scripts/
   uses `n.y` for rock and deposit masks.
 - Night shows the same flatness with a different tint: foreground snow is
   85,107,140 and the distant peak 73,96,129 in `look_night.png`.
+- Dawn is the control that isolates the defect. In
+  `artifacts/mac_probe/look_dawn.png`, captured at `d753926`, directly lit snow
+  samples 196,152,149 and 174,141,147, warm and convincing, while shaded snow in
+  the same frame samples 126,130,147 in the mid distance and 133,142,155 on the
+  far massif. Lit snow already works; only the shaded path is flat. The dusk
+  frame is the same pattern with the foreground on the shaded side of the line,
+  which is why it reads as broken there.
 - Distinct from
   [affordable contact shading](AA-20260918-011205-seat-scenery-with-affordable-contact-shading.md),
   which is about local occlusion where objects meet snow, and from

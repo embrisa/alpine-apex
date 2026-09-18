@@ -20,7 +20,7 @@ extends SceneTree
 ## tick instead of frame count and captures exactly there, so an A/B pair
 ## compares the same ground whatever the frame rate. These three are for visual
 ## comparison, not timing: the diagnostic simulation and locked speed are not
-## the ordinary solver workload.
+## the ordinary solver workload. `--first-person` selects the close view here too.
 var game
 var frames = PackedFloat64Array(); var rcpu = PackedFloat64Array(); var draws = PackedFloat64Array(); var prims = PackedFloat64Array()
 var overrides: Dictionary = {}
@@ -78,6 +78,9 @@ func run() -> void:
 		physics_frame.connect(diagnostic_tick)
 	else:
 		game.start_run(false)
+	# start_run() restores the saved view, so honour the ordinary --first-person
+	# game argument afterwards; main.gd only applies it on its benchmark path.
+	game.camera.close_view = "--first-person" in OS.get_cmdline_user_args()
 	game.session.eligible = false
 	warm_left = warm
 	process_frame.connect(measure)

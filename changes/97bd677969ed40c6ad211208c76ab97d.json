@@ -1,0 +1,216 @@
+{
+  "schema": 1,
+  "id": "97bd677969ed40c6ad211208c76ab97d",
+  "summary": "Author the first-person body task, extend the precipitation and sky-ambient records, and let the frame probe honour --first-person",
+  "categories": [
+    "Maintenance"
+  ],
+  "areas": [
+    "Backlog authoring",
+    "Visual improvement queue",
+    "macOS frame probe"
+  ],
+  "owned_paths": [
+    "backlog/QUEUE.md",
+    "backlog/tasks/AA-20260918-092100-make-falling-snow-visible-in-weather.md",
+    "backlog/tasks/AA-20260918-092101-light-shaded-snow-from-the-actual-sky.md",
+    "backlog/tasks/AA-20260918-093800-give-the-first-person-view-a-body.md",
+    "tests/mac_frame_probe.gd"
+  ],
+  "read_paths": [
+    "assets/speed_periphery.gdshader",
+    "backlog/README.md",
+    "docs/PRESENTATION.md",
+    "docs/RENDERING.md",
+    "scripts/main.gd",
+    "scripts/presentation/camera_settings.gd",
+    "scripts/presentation/chase_camera.gd",
+    "scripts/presentation/daylight_cycle.gd",
+    "scripts/presentation/skier_visual.gd",
+    "scripts/presentation/weather_effects.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Backlog records and a test harness option; no engine, presentation or data code is touched."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Backlog records and a test harness option; no engine, presentation or data code is touched."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Backlog records and a test harness option; no engine, presentation or data code is touched."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Backlog records and a test harness option; no engine, presentation or data code is touched."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Backlog records and a test harness option; no engine, presentation or data code is touched."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Backlog records and a test harness option; no engine, presentation or data code is touched."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Backlog records and a test harness option; no engine, presentation or data code is touched."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "rendered",
+      "command": "scripts/mac_frame_probe.sh look_fp_day|look_fp_fast|look_fp_snow|look_dawn|look_thunder --probe-capture --probe-hold=90|140 --probe-immortal --probe-at-tick=3000 [--first-person] --time-of-day=... --weather=...",
+      "result": "passed",
+      "details": "Five deterministic 3600x2260 captures at solver tick 3000 on d753926, covering first person at 90 and 140 km/h, first person in snowfall, dawn and thunderstorm. Retained as artifacts/mac_probe/look_*.png. The first-person set is the evidence for the new record; thunderstorm and the first-person snowfall frame extend the precipitation record; dawn is the lighting control added to the sky-ambient record. Rain was reviewed in the same pass and produced no new record."
+    },
+    {
+      "kind": "rendered",
+      "command": "scripts/mac_frame_probe.sh look_fp_day ... --first-person",
+      "result": "passed",
+      "details": "The probe now applies the ordinary --first-person game argument after start_run, which main.gd only applies on its benchmark path. A first attempt without this produced a chase-view capture, so the option is verified by the close view actually appearing in look_fp_day.png."
+    },
+    {
+      "kind": "automated",
+      "command": "python3 scripts/backlog.py validate",
+      "result": "passed",
+      "details": "status ok, no unavailable tasks, fifteen visual records parse with ready status and the single depends_on edge still resolves."
+    },
+    {
+      "kind": "performance",
+      "command": "Not run",
+      "result": "not_required",
+      "details": "Backlog authoring plus a test-harness option that only selects an existing camera view. No runtime code path changes for players."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Authoring only. Nothing here is implemented or dispatched; each record's own human acceptance remains pending with its work.",
+    "The first-person speed-sensation question is recorded inside the new task as a related but separately owned concern, deliberately not folded into it. It has no record of its own yet.",
+    "Every capture in this pass was a held-speed straight tuck. Turning, jumping, landing and crash handovers in first person were not reviewed."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-18T09:39:28.079069+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "d753926599d01ac3ec3c66c05d2f7c0fd6df5ce8",
+      "dev": 120,
+      "modified": true
+    },
+    "inputs": {
+      "assets/speed_periphery.gdshader": {
+        "size": 2585,
+        "mtime_ns": 1789511897064856898
+      },
+      "backlog/QUEUE.md": {
+        "size": 6844,
+        "mtime_ns": 1789724343401512660
+      },
+      "backlog/README.md": {
+        "size": 3434,
+        "mtime_ns": 1789636537451224174
+      },
+      "backlog/tasks/AA-20260918-092100-make-falling-snow-visible-in-weather.md": {
+        "size": 6423,
+        "mtime_ns": 1789724343401141945
+      },
+      "backlog/tasks/AA-20260918-092101-light-shaded-snow-from-the-actual-sky.md": {
+        "size": 6776,
+        "mtime_ns": 1789724343401328281
+      },
+      "backlog/tasks/AA-20260918-093800-give-the-first-person-view-a-body.md": {
+        "size": 6144,
+        "mtime_ns": 1789724325372907632
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/PRESENTATION.md": {
+        "size": 29747,
+        "mtime_ns": 1789636537473520019
+      },
+      "docs/RENDERING.md": {
+        "size": 55694,
+        "mtime_ns": 1789722104577259497
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789636537476764212
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789591161009132679
+      },
+      "scripts/main.gd": {
+        "size": 89032,
+        "mtime_ns": 1789721870848805735
+      },
+      "scripts/presentation/camera_settings.gd": {
+        "size": 8938,
+        "mtime_ns": 1789511897123388810
+      },
+      "scripts/presentation/chase_camera.gd": {
+        "size": 17631,
+        "mtime_ns": 1789588761956571567
+      },
+      "scripts/presentation/daylight_cycle.gd": {
+        "size": 2305,
+        "mtime_ns": 1789511897124338787
+      },
+      "scripts/presentation/skier_visual.gd": {
+        "size": 19256,
+        "mtime_ns": 1789691017568413596
+      },
+      "scripts/presentation/weather_effects.gd": {
+        "size": 6738,
+        "mtime_ns": 1789588761958672998
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789691017568563345
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789636537480390991
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789691017571670161
+      },
+      "tests/mac_frame_probe.gd": {
+        "size": 10291,
+        "mtime_ns": 1789723946591438675
+      }
+    }
+  }
+}

@@ -36,6 +36,13 @@ Rendered macOS probe captures on 2026-09-18 at `main` `a94b93b`, using `scripts/
   `material.set_shader_parameter("opacity",strength*...)`. `particle.amount`
   comes from quality and `weather_budget` alone at line 96, so a snowstorm and a
   light snowfall emit the same 600 particles and differ only in transparency.
+- Thunderstorm is the same. `artifacts/mac_probe/look_thunder.png`, captured at
+  `d753926`, is visually indistinguishable from Snowstorm despite running the
+  900-particle rain volume: a grey-blue whiteout with no visible precipitation.
+  All three precipitation presets currently read the same.
+- First person makes it starker. `artifacts/mac_probe/look_fp_snow.png` looks
+  directly into falling snow at 90 km/h and shows roughly a dozen faint specks in
+  the whole frame. That is the view where snowfall should be most obvious.
 - [Rendering](../../docs/RENDERING.md#weather) records the existing constraints:
   translation-only local volumes with wrapping and retained particle state,
   bounded ground samples instead of per-particle CPU collision, budgets capped at
