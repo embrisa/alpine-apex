@@ -1,7 +1,7 @@
 {
   "authorized_limit": 2250,
   "starting_balance": 3675,
-  "spent": 395,
+  "spent": 410,
   "reserved": 0,
   "tasks": [
     {
@@ -106,6 +106,12 @@
       "stage": "close_remesh_40000",
       "task_id": "01a0b208-9764-7718-8cb6-ea04b7c21682",
       "credits": 5
+    },
+    {
+      "species": "spruce_smart",
+      "stage": "smart_topology_15k",
+      "task_id": "01a0b233-64f9-7576-a7f1-12f021d6bb4b",
+      "credits": 15
     }
   ]
 }

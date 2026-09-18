@@ -1,0 +1,30 @@
+{
+  "ai_model": "meshy-t2",
+  "model_type": "smart-topology",
+  "file_path": "C:/Users/hp/Downloads/alpine-apex/art_source/trees/meshy_snow_v1/spruce/reference.png",
+  "target_formats": [
+    "glb"
+  ],
+  "should_texture": true,
+  "enable_pbr": true,
+  "texture_resolution": "2k",
+  "target_polycount": 15000,
+  "topology": "triangle",
+  "symmetry_mode": "off",
+  "origin_at": "bottom",
+  "texture_prompt": "Snowy alpine spruce, predominantly white thick snow cushions across branch tops, soft rounded snow and dark desaturated green needle undersides. Continuous bark trunk. Preserve natural layered branches and snow volume. Neutral PBR colors without baked lighting.",
+  "response_format": "json",
+  "submission": {
+    "task_id": "01a0b233-64f9-7576-a7f1-12f021d6bb4b",
+    "status": "PENDING",
+    "message": "3D generation task created successfully. Task ID: 01a0b233-64f9-7576-a7f1-12f021d6bb4b",
+    "estimated_time": "2-3 minutes"
+  },
+  "credits": 15,
+  "outcome": {
+    "status": "SUCCEEDED",
+    "consumed_credits": 15,
+    "visual_verdict": "Rejected close-detail candidate: folded branch surfaces remain",
+    "timed": false
+  }
+}

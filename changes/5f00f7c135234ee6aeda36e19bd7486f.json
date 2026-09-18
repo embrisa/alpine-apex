@@ -1,0 +1,197 @@
+{
+  "schema": 1,
+  "id": "5f00f7c135234ee6aeda36e19bd7486f",
+  "summary": "Record winter tree geometry repairs and smart-topology visual rejection",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Isolated tree art investigation"
+  ],
+  "owned_paths": [
+    "art_source/trees/meshy_snow_v1/README.md",
+    "art_source/trees/meshy_snow_v1/bake_volume.py",
+    "art_source/trees/meshy_snow_v1/community_candidate.json",
+    "art_source/trees/meshy_snow_v1/credits.json",
+    "art_source/trees/meshy_snow_v1/geometry_review.json",
+    "art_source/trees/meshy_snow_v1/inventory.json",
+    "art_source/trees/meshy_snow_v1/reduce_raw.py",
+    "art_source/trees/meshy_snow_v1/spruce_smart/generation.json",
+    "art_source/trees/meshy_snow_v1/spruce_smart/tree.glb",
+    "art_source/trees/meshy_snow_v1/volume_finish.py"
+  ],
+  "read_paths": [
+    "art_source/trees/meshy_snow_v1/prepare.gd",
+    "art_source/trees/meshy_snow_v1/quality_review.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Authoring-only helpers and source receipts excluded from production by .gdignore; no simulation, placement, runtime or gameplay data changes."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Authoring-only helpers and source receipts excluded from production by .gdignore; no simulation, placement, runtime or gameplay data changes."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Authoring-only helpers and source receipts excluded from production by .gdignore; no simulation, placement, runtime or gameplay data changes."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Authoring-only helpers and source receipts excluded from production by .gdignore; no simulation, placement, runtime or gameplay data changes."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Authoring-only helpers and source receipts excluded from production by .gdignore; no simulation, placement, runtime or gameplay data changes."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Authoring-only helpers and source receipts excluded from production by .gdignore; no simulation, placement, runtime or gameplay data changes."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Authoring-only helpers and source receipts excluded from production by .gdignore; no simulation, placement, runtime or gameplay data changes."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Authoring-only helpers and source receipts excluded from production by .gdignore; no simulation, placement, runtime or gameplay data changes."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "Python AST, JSON, GLB accessor/embedding inventory, credit-total and retained-capture checks; git -c core.whitespace=cr-at-eol diff --check",
+      "result": "passed",
+      "details": "Three isolated helpers parse; smart source has 12762 triangles,17584 vertices, one opaque surface and three embedded images. Credits sum410. Referenced review files exist. No production paths edited."
+    },
+    {
+      "kind": "rendered",
+      "command": "Review existing native quality_review.gd outputs for raw_volume_review, rounded_textured_review, smart_review; guarded meshy-liked-source-review",
+      "result": "passed",
+      "details": "Static source inspection completed. Passing this check means review completed, not art acceptance: all new close-tree candidates were visually rejected. Original liked tree also shows sharp sheets at close range without game wind. Compact verdict geometry_review.json; captures under artifacts/meshy_snow_20260918. Earlier guards finished exit0; no render source edits since capture."
+    },
+    {
+      "kind": "performance",
+      "command": "Follow-up FPS gate",
+      "result": "not_required",
+      "details": "No candidate passed the visual gate, so no additional timing was run. Existing initial prototype comparison is historical and does not qualify these assets."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Community GLB download is blocked by Chrome; user manual download pending.",
+    "No follow-up candidate passed the close-tree visual gate.",
+    "Full seasonal forest integration, moving LODs, wind/contact and matched candidate FPS remain unfinished."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-18T01:57:17.469066+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "97f6f74d3179a674e54aceb72bf624349fff3d1e",
+      "dev": 113,
+      "modified": true
+    },
+    "inputs": {
+      "art_source/trees/meshy_snow_v1/README.md": {
+        "size": 10412,
+        "mtime_ns": 1789696636750895300
+      },
+      "art_source/trees/meshy_snow_v1/bake_volume.py": {
+        "size": 2874,
+        "mtime_ns": 1789695923715178400
+      },
+      "art_source/trees/meshy_snow_v1/community_candidate.json": {
+        "size": 1279,
+        "mtime_ns": 1789696569945949400
+      },
+      "art_source/trees/meshy_snow_v1/credits.json": {
+        "size": 2934,
+        "mtime_ns": 1789696134728260000
+      },
+      "art_source/trees/meshy_snow_v1/geometry_review.json": {
+        "size": 1704,
+        "mtime_ns": 1789696569952114700
+      },
+      "art_source/trees/meshy_snow_v1/inventory.json": {
+        "size": 6766,
+        "mtime_ns": 1789696569951108600
+      },
+      "art_source/trees/meshy_snow_v1/prepare.gd": {
+        "size": 8715,
+        "mtime_ns": 1789690922086795800
+      },
+      "art_source/trees/meshy_snow_v1/quality_review.gd": {
+        "size": 3894,
+        "mtime_ns": 1789693705430359900
+      },
+      "art_source/trees/meshy_snow_v1/reduce_raw.py": {
+        "size": 4432,
+        "mtime_ns": 1789695383575867400
+      },
+      "art_source/trees/meshy_snow_v1/spruce_smart/generation.json": {
+        "size": 1175,
+        "mtime_ns": 1789696569946953900
+      },
+      "art_source/trees/meshy_snow_v1/spruce_smart/tree.glb": {
+        "size": 11047068,
+        "mtime_ns": 1789696171203301800
+      },
+      "art_source/trees/meshy_snow_v1/volume_finish.py": {
+        "size": 2305,
+        "mtime_ns": 1789695830079233200
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      }
+    }
+  }
+}

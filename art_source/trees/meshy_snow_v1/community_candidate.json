@@ -7,6 +7,6 @@
   "preview_triangles": 1610743,
   "preview_vertices": 1367583,
   "downloaded": false,
-  "status": "Promising rounded snowy source preview; browser sign-in needed for download. Not reduced, imported, or measured.",
+  "status": "Chrome signed in; GLB download blocked by ERR_BLOCKED_BY_CLIENT. User manual download pending. No local community GLB, reduction, or timing.",
   "credits_spent": 0
 }

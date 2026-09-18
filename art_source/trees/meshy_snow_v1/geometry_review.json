@@ -1,0 +1,45 @@
+{
+  "production_changed": false,
+  "fps_measured": false,
+  "source_task": "01a0b1fe-1c7d-77ff-ade8-5cea5a9f7ac8",
+  "pre_remesh": {
+    "triangles": 7689210,
+    "vertex_records": 9194340,
+    "bytes": 312935740,
+    "textures": false,
+    "finding": "Rounder volumetric snow before reduction; fine irregular twig geometry",
+    "review": "artifacts/meshy_snow_20260918/pre_remesh_review"
+  },
+  "candidates": [
+    {
+      "name": "Exact-position weld and quadric reduction",
+      "triangles": 40000,
+      "vertices": 18805,
+      "verdict": "Rejected: pointed sheet-like branches remain",
+      "review": "raw_volume_review"
+    },
+    {
+      "name": "10 cm voxel reconstruction and diffuse color transfer",
+      "triangles": 39963,
+      "verdict": "Rejected: soft clumps, damaged lower trunk, texture projection smears",
+      "review": "rounded_textured_review"
+    },
+    {
+      "name": "Meshy T2 smart topology 15k target",
+      "triangles": 12762,
+      "vertices": 17584,
+      "verdict": "Rejected: flat folded branch surfaces remain",
+      "review": "smart_review"
+    },
+    {
+      "name": "Original liked September 15 tree, unchanged",
+      "triangles": 10617,
+      "vertices": 25442,
+      "verdict": "Whole-tree silhouette retained; close source view reveals sharp sheets without game wind",
+      "review": "liked_source_review"
+    }
+  ],
+  "review_root": "artifacts/meshy_snow_20260918",
+  "limits": "Static source material inspection only. No new actual-game, moving LOD, wind, human acceptance or FPS claims.",
+  "next": "Try the community fir once manually downloaded; do not repeat count-only variants of rejected sources."
+}

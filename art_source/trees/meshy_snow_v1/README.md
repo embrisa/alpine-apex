@@ -12,7 +12,7 @@ is promising, but this is not a completed production replacement.
 
 Meshy-7 Ultra/PBR, original generated image references, embedded 2K textures.
 Each species folder retains the exact reference, prompt and generation request.
-`credits.json` records 395 credits spent out of 2,250 authorized; no jobs remain
+`credits.json` records 410 credits spent out of 2,250 authorized; no jobs remain
 pending. Submission receipts preserve their original submission status.
 `inventory.json` reads actual saved vertices/indices rather than target counts.
 
@@ -66,8 +66,36 @@ it is too green to dominate. `close_review.json` retains the compact verdict.
 A Meshy community balsam fir by cknight1212 has rounder snow in its web preview,
 but the viewer reports 1,610,743 triangles and 1,367,583 vertices. It is listed
 as Meshy 5 / CC0, not Meshy 7 or a proven game-ready tree. Its GLB download
-currently requires browser sign-in. `community_candidate.json` retains the
+was blocked by Chrome with ERR_BLOCKED_BY_CLIENT after successful sign-in;
+manual download is pending. `community_candidate.json` retains the
 source link and review limits; no community model has been downloaded or timed.
+
+## Geometry follow-up
+
+`geometry_review.json` retains the bounded follow-up and visual rejections.
+The pre-remesh spruce source has 7,689,210 triangles and rounder snow volume.
+Exact-position welding plus quadric reduction to 40k still produces pointed
+sheets. Reconstructing roughly 10 cm volumes at a 12 m tree height softens those
+surfaces but loses branch detail and damages the lower trunk. The 2K color bake
+also smears some surfaces. Both reductions fail the close-tree visual gate.
+
+Meshy T2 smart topology (15k target, 15 credits) produces 12,762 triangles and
+17,584 vertex records. It retains folded-looking branch surfaces. The original
+liked 10,617-triangle September 15 tree has similar sharp sheets in a matched
+source close-up. These static source findings precede wind deformation; they do
+not rule out additional animation issues. None of this follow-up was FPS timed.
+
+Offline experiment helpers, each writing a separate output:
+
+- `reduce_raw.py SOURCE OUTPUT --triangles 40000`: NumPy and
+  fast-simplification 0.1.13; texture-free single-mesh pre-remesh input only.
+- Blender 5.2 `--python volume_finish.py -- SOURCE OUTPUT`: voxel reconstruction,
+  smoothing and 40k reduction; uses the 300k texture-free intermediate.
+- Blender 5.2 `--python bake_volume.py -- TEXTURED_SOURCE NEW_GEOMETRY OUTPUT`:
+  aligned diffuse-color transfer into an embedded 2K texture.
+
+Run these under Exclusive admission. Rejected derivatives remain local;
+these helpers are an art investigation, not an accepted production LOD recipe.
 
 ## Actual game comparison
 

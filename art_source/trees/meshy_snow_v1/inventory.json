@@ -189,6 +189,16 @@
       "embedded_images": 3,
       "opaque": true,
       "reproducible_ignored_output": true
+    },
+    {
+      "path": "spruce_smart/tree.glb",
+      "triangles": 12762,
+      "vertices": 17584,
+      "surfaces": 1,
+      "bytes": 11047068,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
     }
   ],
   "retired_derived_models": [
