@@ -27,8 +27,10 @@ void fragment() {
  // Include elevation so steep cliff faces do not inherit vertical color stripes.
  vec2 broad=world_pos.xz+vec2(world_pos.y*.37,-world_pos.y*.23);
  vec2 warp=vec2(value_noise(broad*.006),value_noise(broad*.006+vec2(41.7,19.3)))-.5;
- float macro=value_noise(broad*.013+warp*2.7);
- float drift=value_noise(world_pos.xz*vec2(.065,.115)+warp*3.1);
+ vec3 broad_field=value_noise_slope(broad*.013+warp*2.7);
+ vec3 drift_field=value_noise_slope(world_pos.xz*DRIFT_MID_FREQ+warp*3.1);
+ float macro=broad_field.x;
+ float drift=drift_field.x;
  float breakup=value_noise(broad*.071+warp*4.3);
  // Gradually expose the decorative mountain faces outside the ski laboratory.
  // Flat shoulders keep snow; this is a material mask, never terrain displacement.
@@ -115,7 +117,24 @@ void fragment() {
  float close_snow=(1.0-rock)*(1.0-smoothstep(12.0,65.0,distance_m));
  float ripple_phase=world_pos.x*.95+world_pos.z*2.6+drift*5.0;
  float ripple=(sin(ripple_phase)*.065+sin(ripple_phase*2.17+macro*8.0)*.023)*.75;
- vec3 relief=vec3(.34,0,.94)*ripple*close_snow;
+ // Wind-drift relief across the whole snowfield. The broad and mid bands reuse
+ // the fields already sampled for colour, so only the fine band adds a tap.
+ // Each band is removed once the pixel footprint stops resolving it, which
+ // dissolves deposits with distance and grazing angle instead of aliasing them,
+ // at any render scale. Lighting normal only: the support surface, collision
+ // and the 4 m terrain authority never read this.
+ float footprint_m=max(length(dx),length(dy));
+ // Deposits settle on open slopes; steep faces and exposed rock shed them.
+ float deposit=(1.0-rock)*(1.0-mineral_ice)*snow_drift_relief*smoothstep(.42,.76,n.y);
+ vec2 drift_slope=broad_field.yz*.013*DRIFT_BROAD_M;
+ drift_slope+=drift_field.yz*DRIFT_MID_FREQ*DRIFT_MID_M*(1.0-smoothstep(1.6,4.6,footprint_m));
+ float fine_weight=1.0-smoothstep(.34,1.05,footprint_m);
+ if(deposit*fine_weight>.002) {
+  vec3 fine_field=value_noise_slope(world_pos.xz*DRIFT_FINE_FREQ+warp*1.7);
+  drift_slope+=fine_field.yz*DRIFT_FINE_FREQ*DRIFT_FINE_M*fine_weight;
+ }
+ drift_slope*=deposit;
+ vec3 relief=vec3(.34,0,.94)*ripple*close_snow+vec3(-drift_slope.x,0,-drift_slope.y);
  vec3 final_n=normalize(n+(bump-n*dot(bump,n))*detail*mix(.468,1.0,rock)+relief-n*dot(relief,n));
  AO*=1.0-close_snow*(.5+.5*cos(ripple_phase))*.03375;
  NORMAL=normalize((VIEW_MATRIX*vec4(final_n,0.0)).xyz);

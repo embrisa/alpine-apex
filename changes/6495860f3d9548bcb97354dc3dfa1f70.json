@@ -1,0 +1,256 @@
+{
+  "schema": 1,
+  "id": "6495860f3d9548bcb97354dc3dfa1f70",
+  "summary": "Shade wind-drift deposits into the snow lighting normal, with a snow_drift preset control and deterministic held-speed probe captures",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Snow surface relief",
+    "Graphics presets",
+    "macOS frame probe"
+  ],
+  "owned_paths": [
+    "assets/graphics/alpine_surface_fragment.gdshaderinc",
+    "assets/graphics/alpine_surface_uniforms.gdshaderinc",
+    "docs/PERFORMANCE_HANDOFF.md",
+    "docs/RENDERING.md",
+    "scripts/presentation/graphics_presets.gd",
+    "scripts/presentation/graphics_quality.gd",
+    "tests/mac_frame_probe.gd"
+  ],
+  "read_paths": [
+    "assets/cloud_light.gdshaderinc",
+    "assets/graphics/alpine_apron.gdshader",
+    "assets/graphics/alpine_surface.gdshader",
+    "assets/graphics/powder_surface.gdshader",
+    "assets/graphics/snow_crystals.gdshaderinc",
+    "assets/graphics/snow_readability.gdshaderinc",
+    "assets/graphics/terrain_sampling.gdshaderinc",
+    "scripts/diagnostics/case_policy.gd",
+    "scripts/diagnostics/case_simulation.gd",
+    "scripts/diagnostics/test_cases.gd",
+    "scripts/presentation/alpine_assets.gd",
+    "scripts/presentation/powder_surface.gd",
+    "scripts/ui/settings_pages.gd",
+    "tests/graphics_override_suite.gd",
+    "tests/interface_settings_suite.gd",
+    "tests/prepare_validation_mountain.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "No solver, tuning or tick change. The probe's optional held-speed and immunity diagnostic reuses the existing scripts/diagnostics/case_policy.gd path and is never installed by ordinary skiing."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Wind-drift deposits enter the lighting normal only; the support surface, crash collision and the 4 m terrain authority never read them."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Presentation shading only; no generation, recording, placement or cache input changes."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Presentation shading only; no generation, recording, placement or cache input changes."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Presentation shading only; no generation, recording, placement or cache input changes."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Presentation shading only; no generation, recording, placement or cache input changes."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Presentation shading only; no generation, recording, placement or cache input changes."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "./godotw --headless --script tests/graphics_override_suite.gd; tests/interface_settings_suite.gd; tests/forest_appearance_suite.gd",
+      "result": "passed",
+      "details": "116, 117 and 184 checks with zero failures on c6aa92c with this change applied. The first two own the new snow_drift preset control and its propagation through GraphicsQuality.apply_snow_material; the third confirms the concurrent winter-forest work is unaffected. Code was unchanged after these ran; only docs/RENDERING.md and docs/PERFORMANCE_HANDOFF.md were written afterwards."
+    },
+    {
+      "kind": "rendered",
+      "command": "./godotw --script <temporary scene instancing alpine_surface.gdshader, powder_surface.gdshader and alpine_apron.gdshader>",
+      "result": "passed",
+      "details": "All three consumers of the shared fragment include compile and render on Metal with no shader errors. Godot's headless dummy renderer does not compile shaders, so this ran windowed. The temporary scene was removed after the check."
+    },
+    {
+      "kind": "rendered",
+      "command": "scripts/mac_frame_probe.sh drift_v117_off|drift_v117_on --probe-capture --probe-hold=90 --probe-immortal --probe-at-tick=3000 --probe-set=snow_drift=0|1.0",
+      "result": "passed",
+      "details": "Matched 3600x2260 stills at solver ticks 3002 and 3000 with identical 90.1 km/h peak speed on c6aa92c. Drift bands read as irregular wind furrows and break up the regular sine corduroy visible at snow_drift=0. Retained as artifacts/mac_probe/drift_v117_{off,on}.png; the equivalent pair and flank crops at 7c2d049 are artifacts/snow_wind_drift/. Clear/Day, recommended High, bilinear 0.75 only: other weather, night, other presets and first-person are not covered."
+    },
+    {
+      "kind": "performance",
+      "command": "scripts/mac_frame_probe.sh --probe-hold=90 --probe-immortal --probe-seconds=18 --probe-set=snow_drift=0|1.0",
+      "result": "passed",
+      "details": "Apple M4: five runs at snow_drift=0 measured 24.05-24.46 ms mean frame time (mean 24.23) and three at 1.0 measured 24.25-24.75 ms (mean 24.58), so +0.35 ms or about 1.4%, against a +/-0.2 ms run-to-run noise floor established from the five identical-configuration runs. That is near this machine's resolution limit and is reported as a direction, not a precise cost. Measured at 7c2d049 and reused under the baseline policy; macOS is not the stated Windows performance target and Metal exposes no viewport GPU timer."
+    }
+  ],
+  "outstanding_acceptance": [
+    "The user accepted the wind-drift look on 18 September 2026 from matched stills at 7c2d049 when approving its lee-shading follow-up. Appearance in other weather, at night, in first-person and at other presets has not been reviewed.",
+    "No Windows or RX 9070 measurement exists for this change; the stated performance policy target is unverified here.",
+    "Drift strength will likely need re-tuning once backlog/tasks/AA-20260918-011201-restore-snow-highlight-headroom.md recovers the compressed highlights, which will make the same bands read more strongly."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-18T09:02:08.292823+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "c6aa92c909b36b7e7b35cd65f2eada90e81d3766",
+      "dev": 117,
+      "modified": true
+    },
+    "inputs": {
+      "assets/cloud_light.gdshaderinc": {
+        "size": 3699,
+        "mtime_ns": 1789691017541340329
+      },
+      "assets/graphics/alpine_apron.gdshader": {
+        "size": 565,
+        "mtime_ns": 1789511896537194089
+      },
+      "assets/graphics/alpine_surface.gdshader": {
+        "size": 352,
+        "mtime_ns": 1788638302763762083
+      },
+      "assets/graphics/alpine_surface_fragment.gdshaderinc": {
+        "size": 9483,
+        "mtime_ns": 1789692962243458754
+      },
+      "assets/graphics/alpine_surface_uniforms.gdshaderinc": {
+        "size": 2934,
+        "mtime_ns": 1789692485527038081
+      },
+      "assets/graphics/powder_surface.gdshader": {
+        "size": 2771,
+        "mtime_ns": 1789511896995948488
+      },
+      "assets/graphics/snow_crystals.gdshaderinc": {
+        "size": 2508,
+        "mtime_ns": 1789511896997704064
+      },
+      "assets/graphics/snow_readability.gdshaderinc": {
+        "size": 1586,
+        "mtime_ns": 1789511896997995903
+      },
+      "assets/graphics/terrain_sampling.gdshaderinc": {
+        "size": 4378,
+        "mtime_ns": 1788642471131370858
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789511897079599024
+      },
+      "docs/PERFORMANCE_HANDOFF.md": {
+        "size": 62522,
+        "mtime_ns": 1789722104577591410
+      },
+      "docs/RENDERING.md": {
+        "size": 55694,
+        "mtime_ns": 1789722104577259497
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789636537476764212
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789591161009132679
+      },
+      "scripts/diagnostics/case_policy.gd": {
+        "size": 3279,
+        "mtime_ns": 1789511897114094083
+      },
+      "scripts/diagnostics/case_simulation.gd": {
+        "size": 1530,
+        "mtime_ns": 1789511897114532342
+      },
+      "scripts/diagnostics/test_cases.gd": {
+        "size": 26062,
+        "mtime_ns": 1789511897116482714
+      },
+      "scripts/presentation/alpine_assets.gd": {
+        "size": 21660,
+        "mtime_ns": 1789721870849065815
+      },
+      "scripts/presentation/graphics_presets.gd": {
+        "size": 5787,
+        "mtime_ns": 1789691699248487899
+      },
+      "scripts/presentation/graphics_quality.gd": {
+        "size": 3488,
+        "mtime_ns": 1789691699248185484
+      },
+      "scripts/presentation/powder_surface.gd": {
+        "size": 18288,
+        "mtime_ns": 1789582526859578720
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789691017568563345
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789511897137033497
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789636537480390991
+      },
+      "scripts/ui/settings_pages.gd": {
+        "size": 16978,
+        "mtime_ns": 1789721870850102762
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789691017571670161
+      },
+      "tests/graphics_override_suite.gd": {
+        "size": 11491,
+        "mtime_ns": 1789691017575347224
+      },
+      "tests/interface_settings_suite.gd": {
+        "size": 10172,
+        "mtime_ns": 1789511897193487701
+      },
+      "tests/mac_frame_probe.gd": {
+        "size": 10014,
+        "mtime_ns": 1789693052689065728
+      },
+      "tests/prepare_validation_mountain.gd": {
+        "size": 1329,
+        "mtime_ns": 1789691017579371660
+      }
+    }
+  }
+}

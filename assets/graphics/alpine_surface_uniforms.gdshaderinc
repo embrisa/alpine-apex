@@ -21,6 +21,14 @@ uniform float snow_scale = 0.23;
 uniform float rock_scale = 0.075;
 uniform float rock_bias = 0.0;
 uniform float detail_strength = 0.36;
+// Wind-drift relief strength. Deposit depths are in metres over three shared
+// noise bands; the presentation profile scales the whole set.
+uniform float snow_drift_relief : hint_range(0.0,1.5) = 1.0;
+const vec2 DRIFT_MID_FREQ = vec2(.065,.115);
+const vec2 DRIFT_FINE_FREQ = vec2(.29,.51);
+const float DRIFT_BROAD_M = 5.0;
+const float DRIFT_MID_M = 1.25;
+const float DRIFT_FINE_M = .19;
 uniform bool snow_geometry_debug = false;
 uniform bool use_environment = false;
 uniform vec2 environment_origin = vec2(-4096,-2048);
@@ -32,7 +40,18 @@ uniform sampler2D feature_exposure : filter_linear, repeat_disable;
 uniform vec2 feature_origin;
 uniform vec2 feature_size = vec2(1);
 #include "res://assets/graphics/terrain_sampling.gdshaderinc"
-float value_noise(vec2 p) {
- vec2 i=floor(p); vec2 f=fract(p); f=f*f*(3.0-2.0*f);
- return mix(mix(terrain_hash(i).x,terrain_hash(i+vec2(1,0)).x,f.x),mix(terrain_hash(i+vec2(0,1)).x,terrain_hash(i+vec2(1,1)).x,f.x),f.y);
+// Value noise with its analytic gradient. The four corner hashes serve the
+// value and both derivatives, so wind-drift slopes cost arithmetic instead of
+// extra taps or finite differences. .x is the value, .yz its noise-domain
+// gradient; callers scale that by their own frequency to reach metres.
+vec3 value_noise_slope(vec2 p) {
+ vec2 i=floor(p); vec2 f=fract(p);
+ vec2 u=f*f*(3.0-2.0*f); vec2 du=6.0*f*(1.0-f);
+ float a=terrain_hash(i).x;
+ float b=terrain_hash(i+vec2(1,0)).x;
+ float c=terrain_hash(i+vec2(0,1)).x;
+ float d=terrain_hash(i+vec2(1,1)).x;
+ float kx=b-a; float ky=c-a; float kxy=a-b-c+d;
+ return vec3(a+kx*u.x+ky*u.y+kxy*u.x*u.y,du.x*(kx+kxy*u.y),du.y*(ky+kxy*u.x));
 }
+float value_noise(vec2 p) { return value_noise_slope(p).x; }
