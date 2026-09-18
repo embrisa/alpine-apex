@@ -47,8 +47,15 @@ static func apply(environment: Environment, sun: DirectionalLight3D, moon: Direc
 	else: environment.tonemap_exposure = exposure
 	if cache: cache.assign(environment,&"tonemap_white",white)
 	else: environment.tonemap_white = white
-	if cache: cache.assign(environment,&"fog_light_energy",lerpf(0.75,0.85,golden))
-	else: environment.fog_light_energy = lerpf(0.75,0.85,golden)
+	var fog = depth_fog(state,quality.fog_strength)
+	if cache:
+		cache.assign(environment,&"fog_light_color",fog.color.linear_to_srgb())
+		cache.assign(environment,&"fog_light_energy",1.0)
+		cache.assign(environment,&"fog_density",fog.density)
+	else:
+		environment.fog_light_color = fog.color.linear_to_srgb()
+		environment.fog_light_energy = 1.0
+		environment.fog_density = fog.density
 	if cache: cache.assign(environment,&"fog_sun_scatter",0.08*golden)
 	else: environment.fog_sun_scatter = 0.08*golden
 	if cache: cache.assign(environment,&"glow_enabled",quality.highlight_glow and state.enabled and day>0.001)
@@ -81,3 +88,16 @@ static func snow_ambient(state) -> Array[Vector4]:
 	var scale: float = Vector3(old_fill.r,old_fill.g,old_fill.b).dot(luma)/maxf(Vector3(mean_sky.r,mean_sky.g,mean_sky.b).dot(luma),.0001)
 	top*=scale; horizon*=scale
 	return [Vector4(top.r,top.g,top.b,.35),Vector4(horizon.r,horizon.g,horizon.b,0)]
+
+
+static func depth_fog(state, strength: float = 1.0) -> Dictionary:
+	# One colour/density owner for automatic playable fog and custom background
+	# FOG. No radiance-texture sampling or second fog layer at their handover.
+	var day = smoothstep(0.0,.16,state.sun_direction.y)
+	var clear = 1.0-smoothstep(.20,.98,state.cloud_coverage)
+	var color: Color = state.fog_color.srgb_to_linear()*lerpf(.75,.85,day*clear)
+	var visible_day = day if state.enabled else 0.0
+	var sky: Color = state.sky_horizon.srgb_to_linear().lerp(state.sky_top.srgb_to_linear(),.55)
+	sky = sky.lerp(state.cloud_color.srgb_to_linear(),state.cloud_coverage*.45)
+	color = color.lerp(sky,.4*visible_day*lerpf(.5,1.0,clear))
+	return {"color":color,"density":state.fog_density*strength*lerpf(1.0,1.3,visible_day*clear)}

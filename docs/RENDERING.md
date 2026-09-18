@@ -655,6 +655,23 @@ to the physical/race contracts.
 
 ## Background
 
+Playable depth fog, the apron, ridges and background props share
+`alpine_atmosphere.depth_fog`. It blends the weather fog colour toward a linear
+45% horizon / 55% zenith sky average, softened by cloud colour. The blend reaches
+40% in clear daylight and 20% under full cloud, fades with daylight and is absent
+with Weather Off. Clear daylight density rises at most 30%; existing weather and
+`fog_strength` still own the optical depth. Both base and valley fog now follow
+live strength overrides, including same-tier changes. The background weather
+cache includes sky colours so time/weather changes reach all receivers.
+
+The existing exponential fog and valley layer remain the only fog owners. The
+192 m collar and the extra valley layer's 1 km camera-distance start are unchanged;
+no new height fog, texture, sampling, pass or geometry is added. Automatic
+`fog_aerial_perspective` stays zero: its sky texture lookup does not affect custom
+background `FOG`, so it cannot alone solve the depth separation. The shared
+palette avoids that split and keeps near skiing views effectively unchanged.
+See [atmospheric depth checks](VALIDATION.md#atmospheric-depth-and-fog-handover).
+
 `assets/graphics/scenery/alpine_valleys_01.res` is authored once and reused by current
 mountains. `scripts/authoring/bake_wilderness.gd` is an explicit authoring command,
 never startup/cache-repair/quality-switch generation. Three baked tiers include

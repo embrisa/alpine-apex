@@ -5,14 +5,15 @@ static func configure(material: ShaderMaterial, data) -> void:
 	material.set_shader_parameter("offmap_bounds",Vector4(data.physical_bounds.position.x,data.physical_bounds.position.y,data.physical_bounds.end.x,data.physical_bounds.end.y))
 	material.set_shader_parameter("offmap_valley_height",data.valley_height)
 
-static func apply(material: ShaderMaterial, state) -> void:
+static func apply(material: ShaderMaterial, state, strength: float = 1.0, depth: Dictionary = {}) -> void:
 	var day = smoothstep(0.0,.16,state.sun_direction.y)
 	var clear = 1.0-smoothstep(.20,.98,state.cloud_coverage)
 	var golden = day*clear
-	var color: Color = state.fog_color.srgb_to_linear()*lerpf(.75,.85,golden)
+	if depth.is_empty(): depth = preload("res://scripts/presentation/alpine_atmosphere.gd").depth_fog(state,strength)
+	var color: Color = depth.color
 	material.set_shader_parameter("offmap_fog_color",Vector3(color.r,color.g,color.b))
-	material.set_shader_parameter("offmap_depth_density",state.fog_density)
-	material.set_shader_parameter("offmap_valley_density",lerpf(.000035,.000085,state.cloud_coverage) if state.enabled else 0.0)
+	material.set_shader_parameter("offmap_depth_density",depth.density)
+	material.set_shader_parameter("offmap_valley_density",lerpf(.000035,.000085,state.cloud_coverage)*strength if state.enabled else 0.0)
 	var sun: Color = state.sun_color.srgb_to_linear()*state.sun_energy
 	material.set_shader_parameter("offmap_sun_color",Vector3(sun.r,sun.g,sun.b))
 	material.set_shader_parameter("offmap_sun_direction",state.sun_direction)

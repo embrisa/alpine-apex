@@ -72,6 +72,10 @@ For coupled snow tone, sky ambient and wind appearance, use the focused
 Its capped Standard review requires Exclusive admission because display-source
 edits can refresh scenery preparation; local FPS uses the separate mixed map.
 
+For fog colour/depth work, use [atmospheric depth checks](../../../docs/VALIDATION.md#atmospheric-depth-and-fog-handover).
+The rendered handover review explicitly needs Standard and Exclusive admission;
+its subsequent FpsCritical fixed-view comparison is not skiing FPS evidence.
+
 For local scenery/FPS work, use the explicitly selected
 [targeted rendering maps](../../../docs/VALIDATION.md#targeted-rendering-and-fps-maps)
 through `scripts/benchmark_targeted.ps1 -Map rocks -PlanOnly`. Slopes, rocks,

@@ -1,11 +1,11 @@
 ---
 id: "AA-20260918-011203-add-aerial-perspective-to-distance"
 title: "Separate the mountain into depth planes with aerial perspective"
-status: ready
+status: done
 priority: P2
 depends_on: []
 created: "2026-09-18T01:12:03Z"
-updated: "2026-09-18T01:12:03Z"
+updated: "2026-09-18T17:37:50Z"
 source_thread: null
 ---
 
@@ -72,15 +72,15 @@ Read-only inspection and bounded rendered macOS probes on 2026-09-18 at `main` `
 
 ## Acceptance and verification
 
-- [ ] Matched wide shots show three distinguishable depth planes, with recorded
+- [x] Matched wide shots show three distinguishable depth planes, with recorded
   before and after value and saturation per plane.
-- [ ] Clear noon retains its clarity; the near 100 m is visually unchanged.
-- [ ] No seam or colour disagreement at the 1 km valley-haze handover or the
+- [x] Clear noon retains its clarity; the near 100 m is visually unchanged.
+- [x] No seam or colour disagreement at the 1 km valley-haze handover or the
   192 m collar, checked at low sun, noon and dusk.
-- [ ] The `fog_strength` control and the weather and daylight ramps still drive
+- [x] The `fog_strength` control and the weather and daylight ramps still drive
   the result across Clear, Cloudy, snow and storm presets.
-- [ ] Bounded warmed frame comparison; negligible cost expected but confirmed.
-- [ ] Update [Rendering](../../docs/RENDERING.md#background) and validate the
+- [x] Bounded warmed frame comparison; negligible cost expected but confirmed.
+- [x] Update [Rendering](../../docs/RENDERING.md#background) and validate the
   backlog.
 
 Human acceptance: the amount of separation is an art call and needs the user's
@@ -92,4 +92,27 @@ None.
 
 ## Completion record
 
-Pending implementation.
+Delivered in milestone note [8197d2fc27f04f5ea56d6960f4b80b09](../../changes/8197d2fc27f04f5ea56d6960f4b80b09.json).
+`alpine_atmosphere.depth_fog` now shares a weather/sky-derived linear colour and
+restrained clear-day optical depth across playable terrain, apron, ridges and
+props. Native aerial perspective was evaluated and rejected because it did not
+reach custom background FOG. No new shader/pass/texture/height layer. Existing
+192m collar and1km valley handover remain; both depth and valley terms now obey
+live fog strength. Night and Weather Off remove the added ramp.
+
+Nine pilot views plus44 final native4K High Auto.75 views cover21 matched camera
+pairs at noon/dawn/dusk/night, cloudy, snowfall and storm, plus strength0.5/1.5.
+No obvious new handover colour seam in reviewed samples. Noon near/mid/far shaded
+patch luma changes .15785/.42445/.59018 to .15861/.45615/.60807; saturation changes
+.17366/.20717/.13738 to .17623/.20833/.15507. Near/middle separation grows while
+middle/far separation narrows slightly. Foreground snow luma changes only.00029.
+The result retains three depth planes; it is not a universal contrast gain.
+723 automated assertions passed, including actual matching receiver colour and
+optical density, same-tier overrides and sky-only cache invalidation.
+
+Fixed-view native FpsCritical control243.72/243.54FPS versus production243.78.
+Mean frame−.00257ms/GPU−.00168ms against control mean; A/A spread.00298/.00627ms.
+No resolved material cost or speedup. This freezes main/physics to inspect the
+fog receiver cost; it is not skiing or whole-run FPS. Full receipts, per-plane
+samples and limits: `artifacts/aerial_perspective_20260918/REVIEW.md`.
+User colour/depth judgment remains a follow-up, not a completion gate.

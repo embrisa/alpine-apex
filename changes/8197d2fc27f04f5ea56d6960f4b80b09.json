@@ -1,0 +1,254 @@
+{
+  "schema": 1,
+  "id": "8197d2fc27f04f5ea56d6960f4b80b09",
+  "summary": "Separate mountain depth planes with shared sky-aware atmospheric fog",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Atmospheric depth",
+    "Background fog handover"
+  ],
+  "owned_paths": [
+    "backlog/QUEUE.md",
+    "backlog/tasks/AA-20260918-011203-add-aerial-perspective-to-distance.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "scripts/presentation/alpine_atmosphere.gd",
+    "scripts/world/alpine_wilderness.gd",
+    "scripts/world/alpine_world.gd",
+    "scripts/world/wilderness_atmosphere.gd",
+    "tests/aerial_perspective_review.gd",
+    "tests/aerial_perspective_suite.gd",
+    "tests/offmap_atmosphere_suite.gd",
+    ".agents/skills/alpine-validation/SKILL.md",
+    "backlog/completed/AA-20260918-011203-add-aerial-perspective-to-distance.md"
+  ],
+  "read_paths": [
+    "assets/graphics/offmap_fog.gdshaderinc",
+    "assets/weather_sky.gdshader",
+    "scripts/presentation/graphics_presets.gd",
+    "scripts/presentation/graphics_quality.gd",
+    "scripts/presentation/weather_state.gd",
+    "tests/validation_mountain.gd",
+    "config/benchmark_metadata_scope.json",
+    "tests/render_efficiency_suite.gd",
+    "tests/snow_appearance_suite.gd",
+    "scripts/diagnostics/frame_costs.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Presentation fog values only; physical terrain, solver, input, race/replay and saved formats retain their identities."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Presentation fog values only; physical terrain, solver, input, race/replay and saved formats retain their identities."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Presentation fog values only; physical terrain, solver, input, race/replay and saved formats retain their identities."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Presentation fog values only; physical terrain, solver, input, race/replay and saved formats retain their identities. Normal presentation-source invalidation can refresh scenery preparation."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Presentation fog values only; physical terrain, solver, input, race/replay and saved formats retain their identities. Normal presentation-source invalidation can refresh scenery preparation."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Presentation fog values only; physical terrain, solver, input, race/replay and saved formats retain their identities. Normal presentation-source invalidation can refresh scenery preparation."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Presentation fog values only; physical terrain, solver, input, race/replay and saved formats retain their identities. Normal presentation-source invalidation can refresh scenery preparation."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Presentation fog values only; physical terrain, solver, input, race/replay and saved formats retain their identities. Normal presentation-source invalidation can refresh scenery preparation."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "scripts/test_pc_environment.ps1 -Suites aerial_perspective_suite,offmap_atmosphere_suite,render_efficiency_suite,snow_appearance_suite",
+      "details": "264+10+361+88=723 checks passed. Render-efficiency log reports361 although older count syntax yields0 in runner count. Same-tier strength/sky cache, matched linear fog and night gates verified on compact fixtures."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "Exclusive FullMountain native tests/aerial_perspective_review.gd --study then default comparison; 4K High Auto.75 cap30",
+      "details": "9 pilot and44 final views,21 exact camera pairs. Warm Standard required for actual near/mid/far planes and protected collar/valley handover. Seven weather/daylight conditions plus strength0.5/1.5. Foreground snow luma delta.00029; near/mid/far values and saturation retained in plane_samples.json. No obvious new seam; middle/far value gap narrows slightly, no universal contrast gain claim."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "FpsCritical FullMountain tests/aerial_perspective_review.gd --measure --fps-limit=0 after warming identical-source scenery",
+      "details": "Fixed mountain view controls243.719/243.542FPS vs production243.783. Meanframe delta-.00257ms/GPU-.00168ms vsA/A spread.00298/.00627ms. Native4KHighAuto.75,FG/GIoff,focused,stablemetadata,matched presents;6sec perwindow,3sec warmup. Main/physics frozen: fog rendering cost, not skiing/full-run120FPS acceptance. Full report artifacts/aerial_perspective_20260918/REVIEW.md."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "git diff --cached --check; python scripts/backlog.py validate --preserve-dirty; python scripts/versioning.py check --note changes/8197d2fc27f04f5ea56d6960f4b80b09.json --staged",
+      "details": "Final owned-scope static and metadata checks are the commit gate; runtime inputs retained from the passing tests and rendered comparison."
+    }
+  ],
+  "outstanding_acceptance": [
+    "User colour/depth preference is an art follow-up, not a task completion gate."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-18T17:37:50.833760+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "2627ad51aed0d988fa0279d9198bb76467258d3b",
+      "dev": 126,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 17396,
+        "mtime_ns": 1789753070053124300
+      },
+      "assets/graphics/offmap_fog.gdshaderinc": {
+        "size": 1448,
+        "mtime_ns": 1789134883290542100
+      },
+      "assets/weather_sky.gdshader": {
+        "size": 4131,
+        "mtime_ns": 1789737970242344500
+      },
+      "backlog/QUEUE.md": {
+        "size": 7004,
+        "mtime_ns": 1789753070055383900
+      },
+      "backlog/completed/AA-20260918-011203-add-aerial-perspective-to-distance.md": {
+        "size": 6682,
+        "mtime_ns": 1789753070054125000
+      },
+      "backlog/tasks/AA-20260918-011203-add-aerial-perspective-to-distance.md": null,
+      "config/benchmark_metadata_scope.json": {
+        "size": 882,
+        "mtime_ns": 1789661534754346200
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/RENDERING.md": {
+        "size": 62336,
+        "mtime_ns": 1789752873027571300
+      },
+      "docs/VALIDATION.md": {
+        "size": 168749,
+        "mtime_ns": 1789752873044116200
+      },
+      "project.godot": {
+        "size": 2024,
+        "mtime_ns": 1789740071656396900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/diagnostics/frame_costs.gd": {
+        "size": 1278,
+        "mtime_ns": 1789220306164959700
+      },
+      "scripts/presentation/alpine_atmosphere.gd": {
+        "size": 6305,
+        "mtime_ns": 1789752508106784000
+      },
+      "scripts/presentation/graphics_presets.gd": {
+        "size": 5787,
+        "mtime_ns": 1789723182212518900
+      },
+      "scripts/presentation/graphics_quality.gd": {
+        "size": 3488,
+        "mtime_ns": 1789723182213520800
+      },
+      "scripts/presentation/weather_state.gd": {
+        "size": 2114,
+        "mtime_ns": 1789594595774260900
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/alpine_wilderness.gd": {
+        "size": 9729,
+        "mtime_ns": 1789752508110774600
+      },
+      "scripts/world/alpine_world.gd": {
+        "size": 28047,
+        "mtime_ns": 1789752508109173000
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "scripts/world/wilderness_atmosphere.gd": {
+        "size": 1592,
+        "mtime_ns": 1789752508109703800
+      },
+      "tests/aerial_perspective_review.gd": {
+        "size": 10361,
+        "mtime_ns": 1789752611799068600
+      },
+      "tests/aerial_perspective_suite.gd": {
+        "size": 3552,
+        "mtime_ns": 1789752508110774600
+      },
+      "tests/offmap_atmosphere_suite.gd": {
+        "size": 2728,
+        "mtime_ns": 1789752508110774600
+      },
+      "tests/render_efficiency_suite.gd": {
+        "size": 10005,
+        "mtime_ns": 1789594595886341500
+      },
+      "tests/snow_appearance_suite.gd": {
+        "size": 3455,
+        "mtime_ns": 1789740415534656900
+      },
+      "tests/validation_mountain.gd": {
+        "size": 1849,
+        "mtime_ns": 1789676671754027800
+      }
+    }
+  }
+}

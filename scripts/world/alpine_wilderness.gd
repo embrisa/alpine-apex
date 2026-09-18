@@ -29,6 +29,7 @@ var weather_values: Array = []
 var build_revision = 0
 var requested_level = -1
 var shadow_quality = 0
+var fog_strength = 1.0
 var horizon = Horizon.new()
 var source_arrays: Array = []
 
@@ -53,6 +54,9 @@ func apply_quality(profile, checkpoint: Callable = Callable()) -> void:
 	if not enabled:
 		data.clear_cache()
 		return
+	fog_strength=profile.fog_strength
+	weather_values.clear()
+	if last_weather: update_weather(last_weather)
 	shadow_quality=profile.offmap_shadow_quality
 	# Keep the resident atlas matched to the resident geometry during async builds.
 	apply_horizons()
@@ -141,15 +145,16 @@ func _upload_ridge(arrays: Array, parent: Node3D) -> void:
 
 func update_weather(state) -> void:
 	last_weather = state
-	var values = [state.enabled,state.cloud_coverage,state.fog_color,state.fog_density,state.sun_color,state.sun_energy,state.sun_direction]
+	var values = [state.enabled,state.cloud_coverage,state.fog_color,state.fog_density,state.sun_color,state.sun_energy,state.sun_direction,state.sky_top,state.sky_horizon,state.cloud_color,fog_strength]
 	if values==weather_values: return
 	weather_values = values
 	horizon.set_light(state.sun_direction)
 	if horizon.payload: bind_horizons()
-	Fog.apply(material,state)
-	if apron_material: Fog.apply(apron_material,state)
+	var depth = preload("res://scripts/presentation/alpine_atmosphere.gd").depth_fog(state,fog_strength)
+	Fog.apply(material,state,fog_strength,depth)
+	if apron_material: Fog.apply(apron_material,state,fog_strength,depth)
 	if props:
-		for receiver in props.materials: Fog.apply(receiver,state)
+		for receiver in props.materials: Fog.apply(receiver,state,fog_strength,depth)
 
 func apply_horizons() -> void:
 	horizon.select(shadow_quality,level,data.asset)

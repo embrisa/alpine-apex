@@ -2425,3 +2425,41 @@ preset4. Six seconds is the default bounded ordinary-input measurement after
 warmup; there are no diagnostic posts or screenshots. Reuse matching controls;
 report frame/GPU costs and tails separately by preset. This is local rendering
 evidence, not full-mountain performance or human art acceptance.
+
+
+## Atmospheric depth and fog handover
+
+Run `aerial_perspective_suite`, `offmap_atmosphere_suite`,
+`render_efficiency_suite` and `snow_appearance_suite` through the headless batch.
+The compact material-only wilderness fixture checks exact matching colour/density
+on both sides, live strength overrides, sky-only invalidation and retained night
+behaviour without generating a mountain.
+
+`tests/aerial_perspective_review.gd` requires an existing current Standard physical
+cache and explicit FullMountain admission: its depth planes, protected collar
+and 1 km valley-fog handover cannot be represented by a small flat map. Use
+Exclusive for captures because presentation source edits can refresh scenery
+preparation. Native arguments: `--output=artifacts/<fresh-label>
+--benchmark-resolution=3840x2160 --graphics-quality=high --upscaler=auto
+--render-scale=0.75 --fps-limit=30 --frame-generation=off --terrain-gi=off
+--forest-style=winter --benchmark-no-captures`.
+
+Default captures compare the experiment's explicit previous fog response with
+production in fixed ride/summit/collar views: clear noon/dawn/dusk/night, cloudy,
+snowfall and storm. Two additional collar views exercise fog strength 0.5/1.5.
+`--study` instead compares the original response, the isolated engine aerial
+setting and the shared-colour prototype at noon. The reference exists solely
+for this current comparison; production contains no legacy switch. Inspect the
+actual image pairs and state/camera metadata. Samples from broad image regions
+must be labelled displayed sRGB; differing terrain/material lighting means they
+are not a pure depth or radiance measurement.
+
+After the same source has warmed scenery preparation, `--measure --fps-limit=0`
+under FpsCritical (with the same explicit FullMountain reason) records two
+6-second reference windows and one production window, each after 3-second
+warmup. This is a fixed wide mountain view with main update/physics frozen,
+normal geometry/materials/quality retained, no image readback inside timing,
+focus/present checks and scoped metadata. It measures rendering cost across all
+fog receivers; it is not skiing FPS, simulation timing or whole-run acceptance.
+Reuse a matching saved baseline for later experiments rather than repeating this
+initial reference pair. Colour strength remains a human art follow-up.

@@ -16,7 +16,7 @@ func run() -> void:
 	check(material.get_shader_parameter("offmap_footprint")==preload("res://scripts/world/mountain_footprint.gd").SHAPE,"Background fog and tree fades share the authored footprint coefficients")
 	Fog.apply(material,state)
 	var clear: float = material.get_shader_parameter("offmap_valley_density")
-	check(material.get_shader_parameter("offmap_depth_density")==state.fog_density,"Custom background fog composes existing depth density")
+	check(is_equal_approx(material.get_shader_parameter("offmap_depth_density"),preload("res://scripts/presentation/alpine_atmosphere.gd").depth_fog(state).density),"Background and playable atmosphere share depth density")
 	state.cloud_coverage=1.0; Fog.apply(material,state)
 	check(material.get_shader_parameter("offmap_valley_density")>clear,"Overcast weather strengthens the distant valley layer")
 	state.enabled=false; Fog.apply(material,state)
