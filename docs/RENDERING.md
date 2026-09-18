@@ -238,7 +238,7 @@ The middle shader keeps authored mesh normals, omits normal-map sampling and
 tangent-frame bending, and uses restrained fixed foliage AO. Both variants share
 `pc_forest_tree_common.gdshaderinc`; geometry, alpha coverage, vertex/normal wind
 bending, color, snow and LOD fades stay shared. Each material participates in
-the same wind, branch-contact and canopy-sight registries. Foliage cutouts
+the same wind, branch-contact and canopy-sight registries. Playable-forest cutouts
 (tree needles, impostor cards, legacy foliage and cards, mineral grass) use one
 explicit `discard` at their threshold immediately after the texture read and
 never write `ALPHA`/`ALPHA_SCISSOR_THRESHOLD`; the wind trigonometry is
@@ -251,6 +251,23 @@ the same tree anchor; wood and snow remain neutral. Keep their grading functions
 identical when editing either shader. No color variation changes tree transforms
 or physics. All quality tiers retain every physical tree and existing distance
 bands; prepared source and conversion limits are in [Assets](ASSETS.md#trees).
+
+Current visible trees come from the Meshy seasonal catalogue selected by
+`forest_appearance.gd`; the original catalogue still supplies physical sizing and
+shadow proxies. Playable cards retain the opaque cutout, LOD and sight-aid path.
+The separate background cards in `offmap_tree.gdshader` integrate mip alpha as
+projected width/height fall from eight to two **internal** pixels. Resolved crowns
+retain their original .35 contour and colour. Tiny cards expand toward a two-pixel
+support, compensate opacity by the area ratio, and cap expansion at 6 m per side.
+`wilderness_props.gd` supplies each mesh's bounds once and pads its static batch
+bound by the same limit. No per-frame compaction, new texture/fullscreen pass, tree removal,
+placement change or distance reduction is introduced. Background cards use the
+transparent depth-tested queue without depth writes; continuous range coverage
+replaces their screen-door fade. This is an explicit exception to the playable
+cutout contract, with transparent overlap cost qualified separately. Alpha-to-
+coverage was evaluated with native 2x MSAA and Auto/MSAA-off; it was insufficient
+as the common production solution. Validation and cost limits are recorded under
+[distant forest coverage](VALIDATION.md#distant-forest-coverage).
 
 `AlpineAssets._remember_material()` assigns render priorities -20 to near tree
 materials, -10 to middle tree materials and -5 to far tree cards. The renderer

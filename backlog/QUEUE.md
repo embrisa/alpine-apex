@@ -14,7 +14,7 @@ dependency. Later records came from second and third passes over dusk, night,
 the precipitation presets and the first-person view, which the first pass had
 not reviewed. Dawn and rain were reviewed and produced no new record.
 
-- **[Distant forest card aliasing](tasks/AA-20260918-011200-resolve-distant-forest-card-aliasing.md)** (P1, ready): sub-pixel impostors scatter into crawling pepper noise across every wide shot. Appearance-scoped; read the blocked grouped-stands record first.
+- **[Distant forest card aliasing](completed/AA-20260918-011200-resolve-distant-forest-card-aliasing.md)** (P1, done): background Meshy coverage filtering reduces motion speckling; native/Auto and seasonal transitions checked, small measured frame cost recorded, appearance accepted by the user.
 - **[Snow highlight headroom](tasks/AA-20260918-011201-restore-snow-highlight-headroom.md)** (in progress): paired daylight exposure/white ramp implemented and measured; user look gate remains.
 - **[Snow beyond the shadow map](tasks/AA-20260918-011202-shade-snow-beyond-the-shadow-map.md)** (P2, ready): nothing casts shadows between `shadow_distance_m` and the 3,900 m backdrop band, flattening the middle distance.
 - **[Aerial perspective](completed/AA-20260918-011203-add-aerial-perspective-to-distance.md)** (P2, done): shared sky-aware fog separates depth planes and respects live strength on both sides of the handover; matched weather views and negligible fixed-view cost recorded.

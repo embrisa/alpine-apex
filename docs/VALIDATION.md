@@ -963,6 +963,42 @@ Example with a validated current short scenario:
 ./scripts/run_guarded.ps1 -FilePath pwsh -Arguments @('-NoProfile','-File','scripts/benchmark_pc.ps1','-Label','gpu-attribution','-InputTrace',$fpsTracePath,'-ScenarioReplay','-TrialStartSeconds','0','-TrialSeconds','15','-Repetitions','1','-FrameCap','0','-ProfileGpuPasses') -Label gpu-attribution -TimeoutSeconds 600 -CollectGpuMemory -FullMountain -FullMountainReason 'Representative production mountain timing and exact route inputs'
 ```
 
+### Distant forest coverage
+
+`tests/distant_forest_review.gd` uses the current Meshy materials on warm Standard,
+with `Exclusive`, `-FullMountain` and an explicit boundary/forest reason. Pass a
+fresh `--output=...`. Default `--forest-variant=reference,production` retains one
+frozen pre-filter shader as an explicit current test fixture. `--acceptance`
+reuses one loaded scene for High/Ultra x native/Auto x clear/overcast winter,
+plus autumn dusk and summer night. It writes native 4K stills, consecutive
+original-pixel moving crops, effective settings and scoped metadata. Use
+`--forest-variant=reference,a2c` with `--forest-upscaler=native|auto` for the
+separate alpha-to-coverage comparison. `no_background` is attribution only.
+Projected widths count anchors in the viewport/range; they do not prove terrain
+visibility. No capture is a performance receipt.
+
+`tests/distant_forest_handover.gd` uses the same guard and output arguments. Its
+6–115 m path crosses current dense-forest LOD boundaries (High64 m, Ultra91.43 m,
+5 m half-fades), includes near detail and 0/100% canopy assistance, and compares
+both background shaders across all three seasonal catalogues. It replaces the
+old TreeGenerator grouping visual for this Meshy appearance change. Keep
+`forest_preparation_suite.gd` native bulk/bound/residency checks, and the compact
+`forest_appearance_suite`, `colorful_forest_suite`, `forest_culling_suite` and
+`offmap_lifecycle_suite` regressions. Historical LOD1 failures are not current
+expected failures.
+
+For cost, `tests/distant_forest_cost.gd` extends the ordinary-input production
+producer: a compatible explicit 15-second dense-forest trace, four repetitions
+(one excluded warm traversal, A/A/B), 4K High Auto.75, winter, FG/GI off and
+`--scenery-camera`. Use FpsCritical/full-mountain admission after warming the
+same sources; capture/compare scoped metadata including the trace and selected
+test dependencies. Review focus, exact1800-tick endpoint, effective settings and
+raw frame/GPU tails. The six-metre culling padding is enabled only for the
+candidate. The retained comparison is
+`artifacts/distant_forest_20260918/REVIEW.md`: mean frame +.088ms/+1.11%, GPU
+within A/A noise. No speedup, VRAM, controller or sustained120FPS claim follows.
+The user accepted the paired forest appearance on18September2026.
+
 ### Forest batch submission
 
 `performance_descent.gd` retains `submitted_primitives` and `submitted_objects`

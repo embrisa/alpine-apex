@@ -255,6 +255,8 @@ For generated snow banks and terrain joins, use the compact
 and matched native views. Validate local prominence rather than added grid height
 alone, and preserve snow material after rebuilding the changed surface normals.
 
+For distant Meshy card coverage, use [distant forest coverage](../../../docs/VALIDATION.md#distant-forest-coverage): separate playable/background attribution, native/Auto moving views, current seasonal LOD/sight checks, and capture-free ordinary-route timing. Do not reuse the old TreeGenerator grouping visual as Meshy appearance acceptance.
+
 For selectable forest appearances, follow [seasonal forest checks](../../../docs/VALIDATION.md#seasonal-forest-checks). Exercise all three catalogues, inactive-season publication, retained shadows and background rebuilds. Select the season explicitly for comparison receipts.
 Use explicit `--forest-style=winter` for automated winter validation; personal
 preferences must not silently change retained original-forest fixtures.

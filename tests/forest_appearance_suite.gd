@@ -58,6 +58,10 @@ func run():
 		var mountain_material=assets.mesh("forest_spruce_01_lod2").surface_get_material(0)
 		check(card_material.get_shader_parameter("albedo_texture").resource_path==str(mountain_material.get_meta("forest_texture"))+"_low.res")
 		check(card_material.get_shader_parameter("card_crop")==mountain_material.get_shader_parameter("card_crop"))
+		var card_box=multi.mesh.get_aabb()
+		check(card_material.get_shader_parameter("card_bounds")==Vector3(card_box.size.x,card_box.size.y,card_box.get_center().y))
+		check(card_material.get_shader_parameter("card_padding_m")==props.CARD_FILTER_PADDING_M)
+		check(multi.custom_aabb==background.get_meta("card_filter_base_bound").grow(props.CARD_FILTER_PADDING_M))
 		if selected.has(season):check(selected[season]==multi.mesh)
 		selected[season]=multi.mesh
 		prefs.set_value("forest_style",season);check(prefs.values.forest_style==season)

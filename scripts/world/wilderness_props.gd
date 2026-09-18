@@ -2,6 +2,8 @@ extends Node3D
 ## A few shared assets in spatially culled batches. No per-object Nodes.
 const Placement = preload("res://scripts/world/wilderness_instances.gd")
 const Fog = preload("res://scripts/world/wilderness_atmosphere.gd")
+# Shader expansion is capped per side; no per-frame bound updates.
+const CARD_FILTER_PADDING_M=6.0
 var materials: Array[ShaderMaterial] = []
 var meshes: Dictionary = {}
 var original_forest:Dictionary={}
@@ -35,6 +37,7 @@ func build(placement, landscape, profile, checkpoint: Callable = Callable(), job
 			mat.set_shader_parameter("tree_near_end",600.0)
 			if group.kind=="tree":
 				mat.set_shader_parameter("albedo_texture",load("res://assets/graphics/trees/textures/%s_atlas_low.png" % id))
+				configure_card(mat,mesh)
 			else:
 				mat.set_shader_parameter("tree_geometry",group.kind=="near")
 				mat.set_shader_parameter("rock_texture",load("res://assets/graphics/textures/rock_albedo_low.jpg"))
@@ -68,7 +71,7 @@ func build(placement, landscape, profile, checkpoint: Callable = Callable(), job
 		var multi = MultiMesh.new()
 		multi.transform_format = MultiMesh.TRANSFORM_3D; multi.use_custom_data = true
 		multi.mesh = mesh; multi.instance_count = count; multi.buffer = buffer
-		multi.custom_aabb = box.grow(2.0)
+		multi.custom_aabb = box.grow(2.0+(CARD_FILTER_PADDING_M if group.kind=="tree" else 0.0))
 		# Verify the actual packed upload, including base offsets. Headless
 		# Godot cannot read transforms back from its dummy RenderingServer.
 		for sample_index in [0,count-1]:
@@ -79,6 +82,7 @@ func build(placement, landscape, profile, checkpoint: Callable = Callable(), job
 		var node = MultiMeshInstance3D.new()
 		node.name = "Batch_%s_%d" % [key,index]; node.multimesh = multi
 		node.set_meta("kind",group.kind)
+		if group.kind=="tree":node.set_meta("original_forest_bound",box.grow(2.0))
 		if group.kind!="rock":node.set_meta("forest_key",Placement.TREE_IDS[group.asset]+("_lod1" if group.kind=="near" else "_lod2"))
 		node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
@@ -142,7 +146,9 @@ func apply_forest_appearance(models:Dictionary,style:int)->void:
 					mat.set_shader_parameter("autumn_amount",config.get("autumn_amount",0))
 					mat.set_shader_parameter("snow_dusting",config.get("snow_dusting",0))
 					if config.has("autumn_color"):mat.set_shader_parameter("autumn_color",Color(config.autumn_color[0],config.autumn_color[1],config.autumn_color[2]))
-				else:mat.set_shader_parameter("card_crop",config.card_crop)
+				else:
+					mat.set_shader_parameter("card_crop",config.card_crop)
+					configure_card(mat,mesh)
 				mesh.surface_set_material(0,mat);seasonal_forest[cache_key]=mesh;materials.append(mat)
 			node.multimesh.mesh=seasonal_forest[cache_key]
 			# Union with the old bound covers both crowns and every card bearing.
@@ -158,7 +164,13 @@ func apply_forest_appearance(models:Dictionary,style:int)->void:
 			assert(buffer.size()==node.multimesh.instance_count*16 or DisplayServer.get_name()=="headless")
 			if not buffer.is_empty():
 				for i in node.multimesh.instance_count:box=box.merge(pose_at(buffer,i*16)*local)
-			node.multimesh.custom_aabb=box
+			node.set_meta("card_filter_base_bound",box)
+			node.multimesh.custom_aabb=box.grow(CARD_FILTER_PADDING_M if key.ends_with("lod2") else 0.0)
 		var mesh:Mesh=node.multimesh.mesh
 		for surface in mesh.get_surface_count():triangles+=mesh.surface_get_array_index_len(surface)/3*node.multimesh.instance_count
 	if current_profile:apply_quality(current_profile)
+
+static func configure_card(material:ShaderMaterial,mesh:Mesh)->void:
+	var box=mesh.get_aabb()
+	material.set_shader_parameter("card_bounds",Vector3(box.size.x,box.size.y,box.get_center().y))
+	material.set_shader_parameter("card_padding_m",CARD_FILTER_PADDING_M)

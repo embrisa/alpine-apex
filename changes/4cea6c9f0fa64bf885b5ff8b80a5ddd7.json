@@ -1,0 +1,246 @@
+{
+  "schema": 1,
+  "id": "4cea6c9f0fa64bf885b5ff8b80a5ddd7",
+  "summary": "Stabilize current Meshy distant forest coverage",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Meshy background foliage coverage",
+    "Conservative static forest bounds"
+  ],
+  "owned_paths": [
+    ".agents/skills/alpine-validation/SKILL.md",
+    "assets/graphics/offmap_tree.gdshader",
+    "assets/graphics/pc_tree_impostor.gdshader",
+    "backlog/QUEUE.md",
+    "backlog/completed/AA-20260918-011200-resolve-distant-forest-card-aliasing.md",
+    "backlog/tasks/AA-20260918-011200-resolve-distant-forest-card-aliasing.md",
+    "docs/RENDERING.md",
+    "docs/VALIDATION.md",
+    "scripts/world/wilderness_props.gd",
+    "tests/distant_forest_cost.gd",
+    "tests/distant_forest_handover.gd",
+    "tests/distant_forest_review.gd",
+    "tests/fixtures/distant_forest_reference.gdshader",
+    "tests/forest_appearance_suite.gd"
+  ],
+  "read_paths": [
+    "config/benchmark_metadata_scope.json",
+    "scripts/presentation/forest_appearance.gd",
+    "scripts/presentation/forest_placement.gd",
+    "scripts/presentation/graphics_presets.gd",
+    "scripts/world/wilderness_props.gd",
+    "tests/aerial_perspective_review.gd",
+    "tests/colorful_forest_suite.gd",
+    "tests/forest_preparation_suite.gd",
+    "tests/performance_descent.gd"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "world": {
+        "effect": "preserved",
+        "reason": "Background presentation shaders and static visual bounds only; physical trees, placement, terrain and generator18 unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "No solver, physical world or saved-data schema change."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "No solver, physical world or saved-data schema change."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "No solver, physical world or saved-data schema change."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "No solver, physical world or saved-data schema change."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "No cache format change; existing presentation dependency invalidation applies. Warm cache hits verified for timing."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "test_pc_environment.ps1 forest_appearance_suite,colorful_forest_suite,forest_culling_suite,offmap_lifecycle_suite; guarded native forest_preparation_suite",
+      "details": "2300 headless plus3845 native checks passed. No historical LOD1 expected failures."
+    },
+    {
+      "kind": "rendered",
+      "result": "passed",
+      "command": "Exclusive FullMountain distant_forest_review --acceptance; distant_forest_handover",
+      "details": "20native4K stills/320consecutive crops, 10preset/reconstruction/lighting/season conditions;192handover images/96matched camera/aid pairs. Source stable. Capped30; no performance claim. Native/Auto alpha-to-coverage separately evaluated. User accepted residual resolved crowns."
+    },
+    {
+      "kind": "performance",
+      "result": "passed",
+      "command": "FpsCritical FullMountain distant_forest_cost ordinary lower.json,15s,one warm traversal plusA/A/B",
+      "details": "Controls126.50/125.32 vs candidate124.53FPS; meanframe+.08819ms/+1.11%,A/Aspread.07433ms; GPU-.02488ms vs.04993ms spread. Exact1800ticks,focused,warm,stablemetadata,4KHighAuto.75winterFG/GIoff,no captures. Small appearance cost,not speedup/free/sustained120FPS. Counter label corrected after timing only; raw misnamed208524count is background props including rocks."
+    },
+    {
+      "kind": "human",
+      "result": "passed",
+      "command": "User reply to paired motion viewer on2026-09-18",
+      "details": "Explicit response: Accept this appearance. Applies to distant forest coherence; not other visual tasks or controller acceptance."
+    },
+    {
+      "kind": "automated",
+      "result": "passed",
+      "command": "git diff --cached --check; backlog.py validate --preserve-dirty; versioning.py check --staged",
+      "details": "Owned-scope milestone gates before commit."
+    }
+  ],
+  "outstanding_acceptance": [],
+  "evidence": {
+    "captured_utc": "2026-09-18T18:26:11.505670+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "ef41e37a3c61fd2b45cb18143500d2b9f12e6e5e",
+      "dev": 127,
+      "modified": true
+    },
+    "inputs": {
+      ".agents/skills/alpine-validation/SKILL.md": {
+        "size": 17740,
+        "mtime_ns": 1789755529416171800
+      },
+      "assets/graphics/offmap_tree.gdshader": {
+        "size": 3454,
+        "mtime_ns": 1789754280352064600
+      },
+      "assets/graphics/pc_tree_impostor.gdshader": {
+        "size": 3615,
+        "mtime_ns": 1789594595746728500
+      },
+      "backlog/QUEUE.md": {
+        "size": 7039,
+        "mtime_ns": 1789755529420575300
+      },
+      "backlog/completed/AA-20260918-011200-resolve-distant-forest-card-aliasing.md": {
+        "size": 9191,
+        "mtime_ns": 1789755621962111200
+      },
+      "backlog/tasks/AA-20260918-011200-resolve-distant-forest-card-aliasing.md": null,
+      "config/benchmark_metadata_scope.json": {
+        "size": 882,
+        "mtime_ns": 1789661534754346200
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "docs/RENDERING.md": {
+        "size": 63627,
+        "mtime_ns": 1789755529419571600
+      },
+      "docs/VALIDATION.md": {
+        "size": 171081,
+        "mtime_ns": 1789755529414882600
+      },
+      "project.godot": {
+        "size": 2024,
+        "mtime_ns": 1789740071656396900
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/presentation/forest_appearance.gd": {
+        "size": 5972,
+        "mtime_ns": 1789732255006205000
+      },
+      "scripts/presentation/forest_placement.gd": {
+        "size": 8152,
+        "mtime_ns": 1789341389124249000
+      },
+      "scripts/presentation/graphics_presets.gd": {
+        "size": 5787,
+        "mtime_ns": 1789723182212518900
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      },
+      "scripts/world/wilderness_props.gd": {
+        "size": 10210,
+        "mtime_ns": 1789754339933131000
+      },
+      "tests/aerial_perspective_review.gd": {
+        "size": 10361,
+        "mtime_ns": 1789752611799068600
+      },
+      "tests/colorful_forest_suite.gd": {
+        "size": 7803,
+        "mtime_ns": 1789731744761233400
+      },
+      "tests/distant_forest_cost.gd": {
+        "size": 1286,
+        "mtime_ns": 1789755970902860100
+      },
+      "tests/distant_forest_handover.gd": {
+        "size": 2612,
+        "mtime_ns": 1789755970902860100
+      },
+      "tests/distant_forest_review.gd": {
+        "size": 9939,
+        "mtime_ns": 1789755970901845000
+      },
+      "tests/fixtures/distant_forest_reference.gdshader": {
+        "size": 2412,
+        "mtime_ns": 1789755970902860100
+      },
+      "tests/forest_appearance_suite.gd": {
+        "size": 4791,
+        "mtime_ns": 1789754339934140200
+      },
+      "tests/forest_preparation_suite.gd": {
+        "size": 7876,
+        "mtime_ns": 1789594595821042000
+      },
+      "tests/performance_descent.gd": {
+        "size": 19684,
+        "mtime_ns": 1789637986647196000
+      }
+    }
+  }
+}
