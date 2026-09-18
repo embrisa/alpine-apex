@@ -2,12 +2,13 @@ extends "res://art_source/trees/meshy_snow_v1/prepare.gd"
 ## Matched close/whole-tree views of explicit GLB files; no forest or FPS claim.
 func run():
 	assert(OS.get_environment("ALPINE_VALIDATION_MODE")=="Shared")
-	var paths=[];var output=OUT+"/quality_review";var smooth=false;var normal_map=true
+	var paths=[];var output=OUT+"/quality_review";var smooth=false;var normal_map=true;var fit_longest=false
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--model="):paths.append(arg.get_slice("=",1))
 		if arg.begins_with("--review-output="):output=arg.get_slice("=",1)
 		if arg=="--smooth":smooth=true
 		if arg=="--no-normal-map":normal_map=false
+		if arg=="--fit-longest":fit_longest=true
 	assert(not paths.is_empty())
 	DirAccess.make_dir_recursive_absolute(output)
 	root.size=Vector2i(2560,1440);Engine.max_fps=30
@@ -31,7 +32,10 @@ func run():
 		for p in v:
 			if p.y<box.position.y+box.size.y*.015:center+=Vector2(p.x,p.z);count+=1
 		center/=maxi(1,count)
-		for i in v.size():v[i]=(v[i]-Vector3(center.x,box.position.y,center.y))*(12.0/box.size.y)
+		if fit_longest:
+			for i in v.size():v[i]=(v[i]-box.get_center())*(12.0/box.size[box.get_longest_axis_index()])+Vector3(0,6,0)
+		else:
+			for i in v.size():v[i]=(v[i]-Vector3(center.x,box.position.y,center.y))*(12.0/box.size.y)
 		a[Mesh.ARRAY_VERTEX]=v
 		if smooth:
 			var n:PackedVector3Array=a[Mesh.ARRAY_NORMAL]
@@ -52,7 +56,7 @@ func run():
 		if not normal_map:mesh.surface_get_material(0).normal_enabled=false
 		node.mesh=mesh;imported.free()
 		var name_value=path.get_base_dir().get_file()+"_"+path.get_file().get_basename()
-		var row={"source":path,"triangles":mesh.surface_get_array_index_len(0)/3,"vertices":mesh.surface_get_array_len(0),"smoothed_normals":smooth,"normal_map":normal_map,"captures":[]}
+		var row={"source":path,"triangles":mesh.surface_get_array_index_len(0)/3,"vertices":mesh.surface_get_array_len(0),"smoothed_normals":smooth,"normal_map":normal_map,"fit_longest":fit_longest,"captures":[]}
 		for mode_value in ["texture","clay"]:
 			node.material_override=clay if mode_value=="clay" else null
 			for view in ["whole","branch"]:

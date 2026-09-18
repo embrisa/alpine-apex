@@ -1,0 +1,257 @@
+{
+  "schema": 1,
+  "id": "f3581ebaf97a41919a1665544ca9d009",
+  "summary": "Build repaired Meshy bough spruce and inspect it in the game",
+  "categories": [
+    "Presentation"
+  ],
+  "areas": [
+    "Winter tree art",
+    "Authored bough pivots",
+    "Source and in-game visual review"
+  ],
+  "owned_paths": [
+    "art_source/trees/meshy_snow_v1/README.md",
+    "art_source/trees/meshy_snow_v1/assemble_bough.py",
+    "art_source/trees/meshy_snow_v1/bough/generation.json",
+    "art_source/trees/meshy_snow_v1/bough/reference.png",
+    "art_source/trees/meshy_snow_v1/bough/reference_prompt.txt",
+    "art_source/trees/meshy_snow_v1/bough/review.json",
+    "art_source/trees/meshy_snow_v1/bough/source.glb",
+    "art_source/trees/meshy_snow_v1/bough_game_review.gd",
+    "art_source/trees/meshy_snow_v1/bough_library.gd",
+    "art_source/trees/meshy_snow_v1/credits.json",
+    "art_source/trees/meshy_snow_v1/inventory.json",
+    "art_source/trees/meshy_snow_v1/quality_review.gd",
+    "art_source/trees/meshy_snow_v1/volume_finish.py"
+  ],
+  "read_paths": [
+    "art_source/trees/meshy_snow_v1/bake_volume.py",
+    "art_source/trees/meshy_snow_v1/fragment.gdshaderinc",
+    "art_source/trees/meshy_snow_v1/library.gd",
+    "art_source/trees/meshy_snow_v1/near_compare.gd",
+    "art_source/trees/meshy_snow_v1/prepare.gd",
+    "artifacts/meshy_snow_20260918/bough_full_assembly/tree_lod0.glb",
+    "artifacts/meshy_snow_20260918/bough_full_assembly/tree_lod1.glb",
+    "assets/graphics/pc_forest_tree_common.gdshaderinc"
+  ],
+  "compatibility": {
+    "before": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "after": {
+      "physics": 35,
+      "world": 18,
+      "replay": 7,
+      "race": 6,
+      "archive": 4,
+      "mountain_file": 2,
+      "tuning_sha256": "96e48c5e32811750b870a083efc2b720f19f7a17ef4a22ae9c6f11ad221806c8",
+      "tick_hz": 120
+    },
+    "decisions": {
+      "physics": {
+        "effect": "preserved",
+        "reason": "Isolated authoring sources and process-local capped visual experiment only; production assets and simulation unchanged."
+      },
+      "world": {
+        "effect": "preserved",
+        "reason": "Isolated authoring sources and process-local capped visual experiment only; production assets and simulation unchanged."
+      },
+      "data": {
+        "effect": "preserved",
+        "reason": "Isolated authoring sources and process-local capped visual experiment only; production assets and simulation unchanged."
+      }
+    },
+    "data": {
+      "mountains": {
+        "effect": "preserved",
+        "reason": "Isolated authoring sources and process-local capped visual experiment only; production assets and simulation unchanged."
+      },
+      "races": {
+        "effect": "preserved",
+        "reason": "Isolated authoring sources and process-local capped visual experiment only; production assets and simulation unchanged."
+      },
+      "records": {
+        "effect": "preserved",
+        "reason": "Isolated authoring sources and process-local capped visual experiment only; production assets and simulation unchanged."
+      },
+      "ghosts": {
+        "effect": "preserved",
+        "reason": "Isolated authoring sources and process-local capped visual experiment only; production assets and simulation unchanged."
+      },
+      "caches": {
+        "effect": "preserved",
+        "reason": "Isolated authoring sources and process-local capped visual experiment only; production assets and simulation unchanged."
+      }
+    }
+  },
+  "checks": [
+    {
+      "kind": "automated",
+      "command": "Final Python AST, credits, embedded GLB inventory and per-triangle UV2 pivot validation",
+      "result": "passed",
+      "details": "Two helpers parse; credits sum445 with no reservations. Final one-surface 12m trees are39284/8396 triangles and66756/19128 vertices. Every triangle has constant authored branch/pivot tags. No production file changed."
+    },
+    {
+      "kind": "automated",
+      "command": "Guarded volume_finish.py, bake_volume.py and assemble_bough.py",
+      "result": "passed",
+      "details": "Exclusive guards completed exit0; repaired770-triangle bough and baked2K color map produce36 outer and48 inner boughs. Direct reduction and faulty initial assembly are retained as rejected evidence, not selected outputs."
+    },
+    {
+      "kind": "rendered",
+      "command": "quality_review.gd and guarded bough_game_review.gd, meshy-bough-game-review",
+      "result": "passed",
+      "details": "Final inspection of retained source and actual-game6/12/32m captures completed. Native guard exit0, no script/parse errors, 4K High Auto0.75, cap30. Rounded snow and denser layered crown are promising; static source/game review only, not final art, wind or moving-transition acceptance."
+    },
+    {
+      "kind": "performance",
+      "command": "Candidate performance gate",
+      "result": "not_required",
+      "details": "No new timing; far representation, variety and moving visual checks remain before capture-free measurement."
+    },
+    {
+      "kind": "human",
+      "command": "User review of branch-built spruce direction",
+      "result": "pending",
+      "details": "Asked whether the new white spruce in the actual-game images is closer to the intended look; no reply yet."
+    }
+  ],
+  "outstanding_acceptance": [
+    "Bark detail, species and snow-load variety remain unfinished.",
+    "Matching far cards, moving transitions and wind/contact review remain required.",
+    "No new FPS measurement; full winter/autumn production selection and integration not completed.",
+    "User direction feedback and optional community GLB download are pending."
+  ],
+  "evidence": {
+    "captured_utc": "2026-09-18T02:27:42.992763+00:00",
+    "verification": "metadata",
+    "build": {
+      "commit": "faf6dae11b2eeda3dd302146e1ca97cee1a2c360",
+      "dev": 114,
+      "modified": true
+    },
+    "inputs": {
+      "art_source/trees/meshy_snow_v1/README.md": {
+        "size": 12632,
+        "mtime_ns": 1789698405950712200
+      },
+      "art_source/trees/meshy_snow_v1/assemble_bough.py": {
+        "size": 7608,
+        "mtime_ns": 1789697897718740500
+      },
+      "art_source/trees/meshy_snow_v1/bake_volume.py": {
+        "size": 2874,
+        "mtime_ns": 1789695923715178400
+      },
+      "art_source/trees/meshy_snow_v1/bough/generation.json": {
+        "size": 1097,
+        "mtime_ns": 1789697247377673500
+      },
+      "art_source/trees/meshy_snow_v1/bough/reference.png": {
+        "size": 1804229,
+        "mtime_ns": 1789696835994465300
+      },
+      "art_source/trees/meshy_snow_v1/bough/reference_prompt.txt": {
+        "size": 1423,
+        "mtime_ns": 1789696895959887700
+      },
+      "art_source/trees/meshy_snow_v1/bough/review.json": {
+        "size": 1630,
+        "mtime_ns": 1789698405938710900
+      },
+      "art_source/trees/meshy_snow_v1/bough/source.glb": {
+        "size": 17948308,
+        "mtime_ns": 1789697246801930500
+      },
+      "art_source/trees/meshy_snow_v1/bough_game_review.gd": {
+        "size": 3794,
+        "mtime_ns": 1789698105182244400
+      },
+      "art_source/trees/meshy_snow_v1/bough_library.gd": {
+        "size": 1679,
+        "mtime_ns": 1789698105181231100
+      },
+      "art_source/trees/meshy_snow_v1/credits.json": {
+        "size": 3092,
+        "mtime_ns": 1789697247376668700
+      },
+      "art_source/trees/meshy_snow_v1/fragment.gdshaderinc": {
+        "size": 1133,
+        "mtime_ns": 1789689535176647300
+      },
+      "art_source/trees/meshy_snow_v1/inventory.json": {
+        "size": 7013,
+        "mtime_ns": 1789698405950712200
+      },
+      "art_source/trees/meshy_snow_v1/library.gd": {
+        "size": 6899,
+        "mtime_ns": 1789691338875832800
+      },
+      "art_source/trees/meshy_snow_v1/near_compare.gd": {
+        "size": 5124,
+        "mtime_ns": 1789694166239800200
+      },
+      "art_source/trees/meshy_snow_v1/prepare.gd": {
+        "size": 8715,
+        "mtime_ns": 1789690922086795800
+      },
+      "art_source/trees/meshy_snow_v1/quality_review.gd": {
+        "size": 4123,
+        "mtime_ns": 1789697447099619500
+      },
+      "art_source/trees/meshy_snow_v1/volume_finish.py": {
+        "size": 2774,
+        "mtime_ns": 1789697570264181100
+      },
+      "artifacts/meshy_snow_20260918/bough_full_assembly/tree_lod0.glb": {
+        "size": 9054356,
+        "mtime_ns": 1789697903152226200
+      },
+      "artifacts/meshy_snow_20260918/bough_full_assembly/tree_lod1.glb": {
+        "size": 5966160,
+        "mtime_ns": 1789697903267593100
+      },
+      "assets/graphics/pc_forest_tree_common.gdshaderinc": {
+        "size": 6368,
+        "mtime_ns": 1789594595745728300
+      },
+      "config/ski_default.tres": {
+        "size": 2471,
+        "mtime_ns": 1789299103072917400
+      },
+      "project.godot": {
+        "size": 1887,
+        "mtime_ns": 1789631101780928200
+      },
+      "scripts/core/ski_simulation.gd": {
+        "size": 42323,
+        "mtime_ns": 1789594595763881000
+      },
+      "scripts/racing/competitive_record.gd": {
+        "size": 17673,
+        "mtime_ns": 1789684931954888800
+      },
+      "scripts/racing/race_definition.gd": {
+        "size": 12419,
+        "mtime_ns": 1789319650654304800
+      },
+      "scripts/racing/run_replay.gd": {
+        "size": 18688,
+        "mtime_ns": 1789607477612477200
+      },
+      "scripts/world/mountain_definition.gd": {
+        "size": 6811,
+        "mtime_ns": 1789676671749488700
+      }
+    }
+  }
+}

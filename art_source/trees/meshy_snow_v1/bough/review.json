@@ -1,0 +1,48 @@
+{
+  "source": "bough/source.glb",
+  "task_id": "01a0b23e-dcc9-72dd-bb38-5da7a638fa93",
+  "credits": 35,
+  "source_triangles": 18090,
+  "source_vertices": 41402,
+  "source_topology": {
+    "connected_components": 1,
+    "edges_with_more_than_two_faces": 2319
+  },
+  "direct_collapse": {
+    "branch_triangles": 899,
+    "near_tree_triangles": 44994,
+    "middle_tree_triangles": 44994,
+    "verdict": "Rejected: needle-edge fragments, faceted snow and failure to reach middle budget."
+  },
+  "repaired_branch": {
+    "triangles": 770,
+    "voxels_per_height": 80,
+    "target_triangles": 800,
+    "texture_size": 2048
+  },
+  "selected_assembly": {
+    "outer_boughs": 36,
+    "inner_boughs": 48,
+    "near_triangles": 39284,
+    "near_vertices": 66756,
+    "middle_triangles": 8396,
+    "middle_vertices": 19128,
+    "material_surfaces": 1,
+    "height_m": 12,
+    "seed": 18241,
+    "pivot_on_every_triangle_is_constant": true
+  },
+  "rendered_review": {
+    "source": "artifacts/meshy_snow_20260918/bough_full_review",
+    "game": "artifacts/meshy_snow_20260918/bough_game_review",
+    "game_cameras_m": [
+      6,
+      12,
+      32
+    ],
+    "verdict": "Promising rounded snow and denser layered crown in game. Continue this isolated direction; not production acceptance.",
+    "limits": "Static spruce near/middle only; original other families, far cards, shadows, placement and physics. Flat trunk texture and species/snow-load variation need work; far LOD, moving transitions, wind/contact and FPS not accepted."
+  },
+  "production_changed": false,
+  "fps_measured": false
+}

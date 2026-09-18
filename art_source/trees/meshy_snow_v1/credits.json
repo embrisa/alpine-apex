@@ -1,7 +1,7 @@
 {
   "authorized_limit": 2250,
   "starting_balance": 3675,
-  "spent": 410,
+  "spent": 445,
   "reserved": 0,
   "tasks": [
     {
@@ -112,6 +112,12 @@
       "stage": "smart_topology_15k",
       "task_id": "01a0b233-64f9-7576-a7f1-12f021d6bb4b",
       "credits": 15
+    },
+    {
+      "species": "bough",
+      "stage": "branch_generation",
+      "task_id": "01a0b23e-dcc9-72dd-bb38-5da7a638fa93",
+      "credits": 35
     }
   ]
 }

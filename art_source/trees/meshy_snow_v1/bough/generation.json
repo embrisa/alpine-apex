@@ -1,0 +1,30 @@
+{
+  "ai_model": "meshy-7",
+  "file_path": "C:/Users/hp/Downloads/alpine-apex/art_source/trees/meshy_snow_v1/bough/reference.png",
+  "target_formats": [
+    "glb"
+  ],
+  "enable_pbr": true,
+  "texture_resolution": "2k",
+  "should_texture": true,
+  "should_remesh": true,
+  "target_polycount": 20000,
+  "topology": "triangle",
+  "symmetry_mode": "off",
+  "origin_at": "center",
+  "ultra_mode": true,
+  "save_pre_remeshed_model": true,
+  "texture_prompt": "A single snow-covered spruce bough. Predominantly white rounded snow cushions above dark desaturated needle tufts and woody support branch. Preserve thick volumetric snow rather than thin paper leaves. Neutral PBR without baked shadows.",
+  "response_format": "json",
+  "submission": {
+    "task_id": "01a0b23e-dcc9-72dd-bb38-5da7a638fa93",
+    "status": "PENDING",
+    "message": "3D generation task created successfully. Task ID: 01a0b23e-dcc9-72dd-bb38-5da7a638fa93",
+    "estimated_time": "2-3 minutes"
+  },
+  "credits_reserved": 35,
+  "outcome": {
+    "status": "SUCCEEDED",
+    "consumed_credits": 35
+  }
+}

@@ -199,6 +199,16 @@
       "embedded_images": 3,
       "opaque": true,
       "reproducible_ignored_output": false
+    },
+    {
+      "path": "bough/source.glb",
+      "triangles": 18090,
+      "vertices": 41402,
+      "surfaces": 1,
+      "bytes": 17948308,
+      "embedded_images": 3,
+      "opaque": true,
+      "reproducible_ignored_output": false
     }
   ],
   "retired_derived_models": [

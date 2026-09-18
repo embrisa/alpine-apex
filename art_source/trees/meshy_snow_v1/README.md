@@ -12,7 +12,7 @@ is promising, but this is not a completed production replacement.
 
 Meshy-7 Ultra/PBR, original generated image references, embedded 2K textures.
 Each species folder retains the exact reference, prompt and generation request.
-`credits.json` records 410 credits spent out of 2,250 authorized; no jobs remain
+`credits.json` records 445 credits spent out of 2,250 authorized; no jobs remain
 pending. Submission receipts preserve their original submission status.
 `inventory.json` reads actual saved vertices/indices rather than target counts.
 
@@ -96,6 +96,43 @@ Offline experiment helpers, each writing a separate output:
 
 Run these under Exclusive admission. Rejected derivatives remain local;
 these helpers are an art investigation, not an accepted production LOD recipe.
+
+## Branch-built follow-up
+
+`bough/` retains a generated snowy spruce-bough reference and its Meshy 7
+source (18,090 triangles; 35 additional credits). Direct collapse bottoms out
+at 899 triangles per bough after nonmanifold-edge splitting and gives poor snow
+shapes. Voxel surface reconstruction at 80 cells per source height, an 800-face
+target and color-only rebaking produce a rounded 770-triangle bough.
+
+`assemble_bough.py` combines 36 detailed outer and 48 simpler inner boughs in an
+irregular spiral, with one material, a separate stem, and identical placements
+at both LODs. Final local counts are 39,284/8,396 triangles and 66,756/19,128
+vertex records. Whole-bough UV2 pivots prevent within-triangle branch changes;
+`bough_library.gd` maps each authored bough to a physical contact group as a unit.
+This is a static metadata contract, not yet a moving wind/contact acceptance.
+
+Native source views and the three retained actual-game 6/12/32 m cameras show
+rounder snow and a denser layered crown. Bark detail, species and snow-load
+variety, matching far representation, moving transitions and performance remain
+unfinished. This capped review replaces spruce near/middle meshes in memory
+only and restores them at exit. Other families, far cards and original production
+assets stay original. `bough/review.json` records the exact boundary. No new FPS
+measurement was run.
+
+Rebuild through separate Exclusive Blender 5.2 guards:
+
+1. `volume_finish.py bough/source.glb OUTPUT/bough_volume.glb --triangles 800 --voxels-per-height 80`.
+2. `bake_volume.py bough/source.glb OUTPUT/bough_volume.glb OUTPUT/bough_textured.glb`.
+3. `assemble_bough.py OUTPUT/bough_textured.glb OUTPUT/bough_full_assembly`.
+
+Paths above are relative to this source pack; choose absolute or repository-relative
+arguments from the checkout. The current OUTPUT is
+`artifacts/meshy_snow_20260918`. `quality_review.gd --fit-longest` centers horizontal
+sources by their longest dimension; omit it for normal whole-tree views.
+`bough_game_review.gd` uses the current output and the same full-mountain capped
+settings as the earlier game review. Final resources remain local rebuildable
+outputs until this direction passes the remaining gates.
 
 ## Actual game comparison
 
